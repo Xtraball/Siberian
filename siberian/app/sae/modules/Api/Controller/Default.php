@@ -105,5 +105,4 @@ class Api_Controller_Default extends Core_Controller_Default {
         ];
         $this->_sendJson($payload);
     }
-
 }
