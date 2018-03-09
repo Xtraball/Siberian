@@ -14,12 +14,14 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
         $server_usage = Siberian_Cache::getDiskUsage();
         $libraries = Siberian_Media::getLibraries();
         $messages = Backoffice_Model_Notification::getMessages();
+        $system_diagnostic = Siberian_Service::getSystemDiagnostic();
 
         $html = array(
             "title" => __("Dashboard"),
             "icon" => "fa-dashboard",
             "services" => $services,
             "external_services" => $external_services,
+            "system_diagnostic" => $system_diagnostic,
             "libraries" => $libraries,
             "extensions" => $extensions,
             "server_usage" => $server_usage,

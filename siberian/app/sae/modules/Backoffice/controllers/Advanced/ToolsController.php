@@ -173,4 +173,31 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
     }
 
+    /**
+     * Testing that HTTP Basic Auth is available!
+     */
+    public function testbasicauthAction () {
+        $request = $this->getRequest();
+
+        $username = $request->getServer('PHP_AUTH_USER');
+        $password = $request->getServer('PHP_AUTH_PW');
+
+        $this->_sendJson([
+            'credentials' => $username . $password
+        ]);
+    }
+
+    /**
+     * Testing that HTTP Bearer Auth is available!
+     */
+    public function testbearerauthAction () {
+        $request = $this->getRequest();
+
+        $bearer = $request->getHeader('Api-Auth-Bearer');
+
+        $this->_sendJson([
+            'credentials' => $bearer
+        ]);
+    }
+
 }

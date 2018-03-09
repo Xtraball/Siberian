@@ -186,6 +186,23 @@
                         </span>
                     </td>
                 </tr>
+                <tr ng-show="system_diagnostic.length !== 0">
+                    <td>
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                    </td>
+                    <td>
+                        <?php echo __("System Diagnostic") ?>
+                    </td>
+                    <td class="extensions">
+                        <span ng-repeat="diagnostic in system_diagnostic">
+                            {{ diagnostic.label }}:
+                            <span ng-class="{
+                                'service-red': !diagnostic.valid,
+                                'service-green': diagnostic.valid }">{{ diagnostic.message }}</span>
+                            <br />
+                        </span>
+                    </td>
+                </tr>
                 <tr ng-show="external_services.length !== 0">
                     <td>
                         <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />

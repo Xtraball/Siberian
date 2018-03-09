@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Class Api_Model_User
+ *
+ * @method $this setUsername(string $username)
+ * @method $this setIsVisible(boolean $isVisible)
+ * @method $this setAcl(string $jsonEncodedAcl)
+ * @method $this setBearerToken(string $bearerToken)
+ * @method integer getId()
+ * @method string getBearerToken()
+ */
 class Api_Model_User extends Core_Model_Default {
 
     /**
@@ -69,6 +79,16 @@ class Api_Model_User extends Core_Model_Default {
      */
     private function _encrypt($password) {
         return sha1($password);
+    }
+
+    /**
+     * @return string
+     */
+    public function _generateBearerToken () {
+        $digest = sprintf("%s:%s:%s", $this->getUsername(), uniqid(), $this->getPassword());
+        $bearer = sha1(base64_encode($digest));
+
+        return $bearer;
     }
 
     /**
