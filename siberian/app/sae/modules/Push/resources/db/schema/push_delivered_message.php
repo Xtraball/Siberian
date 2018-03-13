@@ -23,9 +23,13 @@ $schemas['push_delivered_message'] = array(
         ),
     ),
     'device_uid' => array(
-        'type' => 'text',
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
+        'type' => 'varchar(255)',
+        'index' => array(
+            'key_name' => 'push_delivered_message_device_uid_index',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ),
     ),
     'device_type' => array(
         'type' => 'tinyint(1)',
