@@ -119,14 +119,14 @@ class Siberian_Service {
         // API Diagnostic is not necessary without API Users!
         if ($apiUsers->count() > 0) {
             // Basic Auth
-            $response = Siberian_Request::get(__url('/backoffice/advanced_tools/testbasicauth'), [], null, [
+            $responseBasic = Siberian_Request::get(__url('/backoffice/advanced_tools/testbasicauth'), [], null, [
                 'type' => 'basic',
                 'username' => 'dummy',
                 'password' => 'azerty',
             ]);
 
-            $result = Siberian_Json::decode($response);
-            if ($result['credentials'] !== '!dummyazerty') {
+            $resultBasic = Siberian_Json::decode($responseBasic);
+            if ($resultBasic['credentials'] !== 'dummyazerty') {
                 $systemDiagnostic['basic_auth'] = [
                     'valid' => false,
                     'label' => __('HTTP Basic Auth (API)'),
@@ -141,13 +141,13 @@ class Siberian_Service {
             }
 
             // Bearer Token
-            $response = Siberian_Request::get(__url('/backoffice/advanced_tools/testbearerauth'), [], null, [
+            $responseBearer = Siberian_Request::get(__url('/backoffice/advanced_tools/testbearerauth'), [], null, [
                 'type' => 'bearer',
                 'bearer' => 'dummyazerty',
             ]);
 
-            $result = Siberian_Json::decode($response);
-            if ($result['credentials'] !== 'Bearer dummyazerty') {
+            $resultBearer = Siberian_Json::decode($responseBearer);
+            if ($resultBearer['credentials'] !== 'Bearer dummyazerty') {
                 $systemDiagnostic['bearer_token'] = [
                     'valid' => false,
                     'label' => __('Bearer Token Auth (API)'),

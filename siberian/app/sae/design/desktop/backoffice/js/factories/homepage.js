@@ -1,33 +1,39 @@
-
-App.factory('Backoffice', function($http, Url) {
-
+App.factory('Backoffice', function ($http, Url) {
     var factory = {};
 
-    factory.loadData = function() {
+    factory.loadData = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/index/load"),
+            url: Url.get('backoffice/index/load'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.clearCache = function(cache_type) {
+    factory.clearCache = function (cache_type) {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/index/clearcache", {type: cache_type}),
+            url: Url.get('backoffice/index/clearcache', { type: cache_type }),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.find = function() {
-
+    factory.find = function () {
         return $http({
             method: 'GET',
-            url: Url.get("backoffice/index/find"),
+            url: Url.get('backoffice/index/find'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
+        });
+    };
+
+    factory.sslWarning = function () {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_configuration/sslwarning'),
+            cache: false,
+            responseType: 'json'
         });
     };
 

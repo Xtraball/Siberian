@@ -1,3 +1,18 @@
+<div class="col-md-8 col-md-offset-2 col-sm-12">
+    <span ng-if="!sslLoading">
+        <p class="alert"
+           ng-class="{
+             'alert-info': sslWarning.remainInDays > 5,
+             'alert-danger': sslWarning.remainInDays <= 5
+           }"
+           ng-show="sslWarning && sslWarning.showWarning"
+           ng-bind-html="sslWarning.message"></p>
+        <p class="alert alert-info"
+           ng-show="!sslWarning">
+            <?php echo __('HTTPS is not available on your server.') ?></p>
+    </span>
+</div>
+
 <div class="col-xs-12 col-md-6">
     <sb-section title="'<?php echo __js("New messages", "'"); ?>'" button="button">
         <table class="table table dashboard no-wrap small-padding">

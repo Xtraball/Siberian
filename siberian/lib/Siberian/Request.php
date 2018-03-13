@@ -84,7 +84,7 @@ class Siberian_Request {
 
         $request = curl_init();
 
-        if(strpos($endpoint, "?") === false && !empty($data)) {
+        if (strpos($endpoint, "?") === false && !empty($data)) {
             $endpoint .= "?".http_build_query($data);
         }
 
@@ -110,13 +110,16 @@ class Siberian_Request {
             }
         }
 
-        if($cookie_path != null) {
+        if ($cookie_path != null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
 
         # Call
         $result = curl_exec($request);
+
+        file_put_contents('/tmp/curl.log', print_r($result, true), FILE_APPEND);
+
         $status_code = curl_getinfo($request, CURLINFO_HTTP_CODE);
 
         # Save last status code
@@ -125,7 +128,7 @@ class Siberian_Request {
         # Closing connection
         curl_close($request);
 
-        if(self::$debug) {
+        if (self::$debug) {
             log_debug("[CODE GET] " . $status_code);
         }
 
