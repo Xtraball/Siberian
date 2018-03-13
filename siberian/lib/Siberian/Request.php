@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Siberian_Request
+ */
 class Siberian_Request {
 
     /**
@@ -65,7 +68,7 @@ class Siberian_Request {
         # Closing connection
         curl_close($request);
 
-        if(self::$debug) {
+        if (self::$debug) {
             log_debug("[CODE POST] ".$status_code);
         }
 
@@ -117,8 +120,6 @@ class Siberian_Request {
 
         # Call
         $result = curl_exec($request);
-
-        file_put_contents('/tmp/curl.log', print_r($result, true), FILE_APPEND);
 
         $status_code = curl_getinfo($request, CURLINFO_HTTP_CODE);
 

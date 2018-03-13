@@ -8,18 +8,18 @@ class Core_Model_Session extends Zend_Session_Namespace
     const TYPE_CUSTOMER = 'customer';
     const TYPE_MCOMMERCE = 'mcommerce';
 
-    protected $_types = array();
-    protected $_instanceSingleton = array();
+    protected $_types = [];
+    protected $_instanceSingleton = [];
     protected $_store = null;
     protected $_application = null;
     protected $_cart = null;
 
     public function getTypes() {
         return array(
-            self::TYPE_ADMIN        => "Admin_Model_Session",
-            self::TYPE_BACKOFFICE   => "Backoffice_Model_Session",
-            self::TYPE_CUSTOMER     => "Customer_Model_Session",
-            self::TYPE_MCOMMERCE    => "Core_Model_Default",
+            self::TYPE_ADMIN => "Admin_Model_Session",
+            self::TYPE_BACKOFFICE => "Backoffice_Model_Session",
+            self::TYPE_CUSTOMER => "Customer_Model_Session",
+            self::TYPE_MCOMMERCE => "Core_Model_Default",
         );
     }
 
@@ -27,17 +27,21 @@ class Core_Model_Session extends Zend_Session_Namespace
      * @return $this
      */
     public function resetInstance() {
-        $this->_instanceSingleton = array();
+        $this->_instanceSingleton = [];
         $this->current_type = null;
         $this->object_id = null;
         return $this;
     }
 
+    /**
+     * @return bool|mixed
+     */
     public function getInstance() {
+        if (!array_key_exists($this->current_type, $this->getTypes())) {
+            return false;
+        }
 
-        if(!array_key_exists($this->current_type, $this->getTypes())) return false;
-
-        if(!isset($this->_instanceSingleton[$this->current_type])) {
+        if (!isset($this->_instanceSingleton[$this->current_type])) {
             $params['id'] = $this->object_id;
             $class = $this->_getClassFor($this->current_type);
             $instance = new $class($params);
@@ -56,19 +60,19 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     public function getAccountUri() {
-        if($this->getInstance()) {
+        if ($this->getInstance()) {
             return $this->getInstance()->getAccountUri();
         }
     }
 
     public function getLogoutUri() {
-        if($this->getInstance()) {
+        if ($this->getInstance()) {
             return $this->getInstance()->getLogoutUri();
         }
     }
 
     public function isLoggedIn($type = null) {
-        if((is_null($type) OR $type == $this->loggedAs()) AND $this->getInstance()) {
+        if ((is_null($type) OR $type == $this->loggedAs()) AND $this->getInstance()) {
             return $this->getInstance()->isLoggedIn();
         }
 
@@ -108,9 +112,11 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     public function getMessages($reset = true) {
-        if(!$this->messages instanceof Core_Model_Session_Messages) $this->messages = new Core_Model_Session_Messages();
+        if (!$this->messages instanceof Core_Model_Session_Messages) {
+            $this->messages = new Core_Model_Session_Messages();
+        }
         $messages = $this->messages;
-        if($reset) {
+        if ($reset) {
             $this->messages = null;
         }
         return $messages;
@@ -132,9 +138,9 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     public function getCart() {
-        if(!$this->_cart) {
+        if (!$this->_cart) {
             $this->_cart = new Mcommerce_Model_Cart();
-            if($this->cart_id) {
+            if ($this->cart_id) {
                 $this->_cart->find($this->cart_id);
             }
         }
@@ -167,7 +173,9 @@ class Core_Model_Session extends Zend_Session_Namespace
 
     public function getCustomerId() {
         $id = null;
-        if($this->loggedAs() == self::TYPE_CUSTOMER) $id = $this->object_id;
+        if ($this->loggedAs() == self::TYPE_CUSTOMER) {
+            $id = $this->object_id;
+        }
         return $id;
     }
 
@@ -192,7 +200,9 @@ class Core_Model_Session extends Zend_Session_Namespace
 
     public function getAdminId() {
         $id = null;
-        if($this->loggedAs() == self::TYPE_ADMIN) $id = $this->object_id;
+        if ($this->loggedAs() == self::TYPE_ADMIN) {
+            $id = $this->object_id;
+        }
         return $id;
     }
 
@@ -201,7 +211,7 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     public function getBackofficeUser() {
-        if($this->getInstance() AND $this->loggedAs() == self::TYPE_BACKOFFICE) {
+        if ($this->getInstance() AND ($this->loggedAs() == self::TYPE_BACKOFFICE)) {
             return $this->getInstance()->getObject();
         }
         return new Backoffice_Model_Backoffice();
@@ -218,7 +228,9 @@ class Core_Model_Session extends Zend_Session_Namespace
 
     public function getBackofficeUserId() {
         $id = null;
-        if($this->loggedAs() == self::TYPE_BACKOFFICE) $id = $this->object_id;
+        if ($this->loggedAs() == self::TYPE_BACKOFFICE) {
+            $id = $this->object_id;
+        }
         return $id;
     }
 
@@ -227,8 +239,8 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     public function getApplication() {
-        if($this->getAppId()) {
-            if(!$this->_application) {
+        if ($this->getAppId()) {
+            if (!$this->_application) {
                 $this->_application = new Application_Model_Application();
                 $this->_application->find($this->getAppId());
             }
@@ -244,7 +256,9 @@ class Core_Model_Session extends Zend_Session_Namespace
 
     public function getAppId() {
         $app_id = null;
-        if(in_array($this->loggedAs(), array(self::TYPE_ADMIN, self::TYPE_CUSTOMER))) $app_id = $this->application_id;
+        if (in_array($this->loggedAs(), array(self::TYPE_ADMIN, self::TYPE_CUSTOMER))) {
+            $app_id = $this->application_id;
+        }
         return $app_id;
     }
 
@@ -253,14 +267,11 @@ class Core_Model_Session extends Zend_Session_Namespace
     }
 
     protected function _getClassFor($type) {
-
         $types = $this->getTypes();
-        if(!array_key_exists($type, $types)) {
+        if (!array_key_exists($type, $types)) {
             throw new Exception("An general error occurred. Please, try again later.");
         }
 
         return $types[$type];
-
     }
-
 }

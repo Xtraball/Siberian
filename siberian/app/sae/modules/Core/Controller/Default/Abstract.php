@@ -34,20 +34,18 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     public function init() {
-
-        $this->cache = Zend_Registry::get("cache");
+        $this->cache = Zend_Registry::get('cache');
 
         $this->_initDesign();
         $this->_initSession();
         $this->_initAcl();
-
         $this->_initLanguage();
         $this->_initLocale();
 
         $this->float_validator = new Zend_Validate_Float();
         $this->int_validator = new Zend_Validate_Int();
 
-        if($url = $this->_needToBeRedirected()) {
+        if ($url = $this->_needToBeRedirected()) {
             $this->_redirect($url, $this->getRequest()->getParams());
             return $this;
         }
@@ -55,20 +53,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->_initTranslator();
 
         $this->_layout = $this->_helper->layout->getLayoutInstance();
-
-
-
-        if(preg_match('/(?i)msie \b[5-9]\b/',$this->getRequest()->getHeader('user_agent')) && !preg_match('/(oldbrowser)/', $this->getRequest()->getActionName())) {
-            $message = __("Your browser is too old to view the content of our website.<br />");
-            $message .= __("In order to fully enjoy our features, we encourage you to use at least:.<br />");
-            $message .= '- Internet Explorer 10 ;<br />';
-            $message .= '- Firefox 3.5 ;<br />';
-            $message .= '- Chrome 8 ;<br />';
-            $message .= '- Safari 6 ;<br />';
-
-            $this->getSession()->addWarning($message, 'old_browser');
-
-        }
     }
 
     /**
@@ -216,8 +200,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     public function loadPartials($action = null, $use_base = null) {
-        if(is_null($use_base)) $use_base = true;
-        if(is_null($action)) $action = $this->getFullActionName('_');
+        if (is_null($use_base)) {
+            $use_base = true;
+        }
+        if (is_null($action)) {
+            $action = $this->getFullActionName('_');
+        }
         $this->getLayout()->setAction($action)->load($use_base);
 
         return $this;
@@ -514,78 +502,62 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         Application_Controller_Mobile_Default::setDevice($detect);
 
         if(!$this->getRequest()->isInstalling()) {
-
-            $blocks = array();
+            $blocks = [];
             if ($this->getRequest()->isApplication()) {
                 $blocks = $this->getRequest()->getApplication()->getBlocks();
             } else if(!$this->_isInstanceOfBackoffice()) {
                 $blocks = $this->getRequest()->getWhiteLabelEditor()->getBlocks();
 
-                if($block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
+                if ($block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
                     $icon_color = $block->getData($white_label_blocks[DESIGN_CODE]["color"]);
                     Application_Model_Option_Value::setEditorIconColor($icon_color);
 
-                    if($reverse_color = $white_label_blocks[DESIGN_CODE]["color_reverse"]) {
+                    if ($reverse_color = $white_label_blocks[DESIGN_CODE]["color_reverse"]) {
                         Application_Model_Option_Value::setEditorIconReverseColor($block->getData($reverse_color));
                     }
                 }
-
             }
 
             if (!empty($blocks)) {
                 Core_View_Default::setBlocks($blocks);
             }
-
         }
-
     }
 
     protected function _initSession() {
+        $request = $this->getRequest();
+        if (!Zend_Session::isStarted() && !$request->isInstalling()) {
+            Siberian_Session::init();
 
-        if(Zend_Session::isStarted()) {
-            return $this;
-        }
-        
-        $configSession = new Zend_Config_Ini(APPLICATION_PATH . '/configs/session.ini', APPLICATION_ENV);
-
-        if(!$this->getRequest()->isInstalling()) {
-            Siberian_Session::init($configSession);
-        }
-
-        if(!$this->getRequest()->isInstalling() OR is_writable(Core_Model_Directory::getSessionDirectory(true))) {
-
-            $options = $configSession->toArray();
-
-            if($sid = $this->getRequest()->getParam("sb-token")) {
-                Zend_Session::setId($sid);
+            $sbToken = $request->getParam('sb-token', false);
+            if ($sbToken) {
+                Zend_Session::setId($sbToken);
             }
 
-            Zend_Session::start($options);
+            Zend_Session::start();
 
-            $session_type = 'front';
+            $sessionType = 'front';
 
-            if($this->getRequest()->isApplication()) {
-                if(Siberian_Version::is('sae')) {
-                    $session_type = 'mobile';
+            if ($request->isApplication()) {
+                if (Siberian_Version::is('sae')) {
+                    $sessionType = 'mobile';
                 } else {
-                    $session_type = 'mobile' . $this->getRequest()->getApplication()->getAppId();
+                    $sessionType = 'mobile' . $request->getApplication()->getAppId();
                 }
-            } else if($this->_isInstanceOfBackoffice()) {
-                $session_type = 'backoffice';
+            } else if ($this->_isInstanceOfBackoffice()) {
+                $sessionType = 'backoffice';
             }
 
             defined('SESSION_TYPE')
-                || define('SESSION_TYPE', $session_type);
+                || define('SESSION_TYPE', $sessionType);
 
-            $session = new Core_Model_Session($session_type);
+            $session = new Core_Model_Session($sessionType);
 
             Core_Model_Language::setSession($session);
-            Core_View_Default::setSession($session, $session_type);
-            Core_Model_Default::setSession($session, $session_type);
-            self::setSession($session, $session_type);
-
+            Core_View_Default::setSession($session, $sessionType);
+            Core_Model_Default::setSession($session, $sessionType);
+            self::setSession($session, $sessionType);
         }
-
     }
 
     protected function _initAcl() {

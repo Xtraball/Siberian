@@ -5,20 +5,14 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     static public $crmApiUrl = "http://krypton.siberiancms.com";
 
     public function findallAction() {
-
         $data = $this->_findconfig();
         $this->_sendHtml($data);
-
     }
 
     public function saveAction() {
-
         if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
             try {
-
                 $this->_save($data);
-
                 $data = array(
                     "success" => 1,
                     "message" => __("Info successfully saved")

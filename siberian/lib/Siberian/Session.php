@@ -4,7 +4,7 @@
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.12.20
+ * Release: <package_version>
  */
 
 class Siberian_Session {
