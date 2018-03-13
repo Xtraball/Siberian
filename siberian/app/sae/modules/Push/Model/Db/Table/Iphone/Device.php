@@ -33,7 +33,8 @@ class Push_Model_Db_Table_Iphone_Device extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pm' => 'push_messages'), array('not_read' => new Zend_Db_Expr('COUNT(pad.deliver_id)')))
-            ->join(array('pad' => 'push_delivered_message'), 'pad.message_id = pm.message_id AND pad.is_read = 0', array())
+            ->joinRight(array('pad' => 'push_delivered_message'), 'pad.message_id = pm.message_id', array())
+            ->where('pad.is_read = ?', 0)
             ->where('pad.device_uid = ?', $device_uid)
             ->where('pm.type_id = ?', 1)
             ->group('pad.device_uid')
@@ -70,12 +71,10 @@ class Push_Model_Db_Table_Iphone_Device extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pm' => 'push_messages'), array())
-            ->join(array('pdm' => 'push_delivered_message'), 'pdm.app_id = pm.app_id', array('pm.message_id'))
+            ->joinRight(array('pdm' => 'push_delivered_message'), 'pdm.app_id = pm.app_id', array('pm.message_id'))
             ->where('pm.message_id = ?', $message_id)
             ->where('pdm.device_type = ?', Push_Model_Iphone_Device::DEVICE_TYPE)
         ;
-        Zend_Debug::dump($this->_db->fetchOne($select));
-        die;
         return $this->_db->fetchOne($select);
 
     }
