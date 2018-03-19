@@ -79,7 +79,7 @@ class Event_Application_EventController extends  Application_Controller_Default{
                         if(stripos($website["url"], 'http') === false) $website["url"] = 'http://'.$website["url"];
                         $websites[++$cpt] = $website;
                     }
-                    $datas["websites"] = Zend_Json::encode($websites);
+                    $datas["websites"] = json_encode($websites, JSON_UNESCAPED_UNICODE);
                 } else {
                     $datas["websites"] = null;
                 }
