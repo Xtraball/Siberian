@@ -48,7 +48,7 @@
                                             <label><?php echo Core_Model_Lib_String::truncate($event->getName(), 35)?></label>
                                         </div>
                                         <div class="col-sm-5 start_at">
-                                            <?php echo $event->getFormattedStartAt(__("MM/dd/y \'at\' hh:mm a")); ?>
+                                            <?php echo datetime_to_format($event->getStartAt(), Zend_Date::DATETIME_SHORT, Core_Model_Language::getCurrentLanguage()); ?>
                                         </div>
                                         <div class="col-sm-2 actions">
                                             <a class="edit_event" href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'event_id'=>$event->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true" >

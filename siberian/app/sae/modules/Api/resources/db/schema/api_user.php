@@ -6,48 +6,53 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['api_user'] = array(
-    'user_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['api_user'] = [
+    'user_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'username' => array(
+    ],
+    'username' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'firstname' => array(
-        'type' => 'varchar(50)',
-        'is_null' => true,
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-    ),
-    'lastname' => array(
+    ],
+    'firstname' => [
         'type' => 'varchar(50)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'password' => array(
+    ],
+    'lastname' => [
+        'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'password' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'acl' => array(
+    ],
+    'bearer_token' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'acl' => [
         'type' => 'longtext',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'is_visible' => array(
+    ],
+    'is_visible' => [
         'type' => 'tinyint(1)',
         'default' => '1',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

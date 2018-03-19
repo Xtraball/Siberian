@@ -1,3 +1,18 @@
+<div class="col-md-8 col-md-offset-2 col-sm-12">
+    <span ng-if="!sslLoading">
+        <p class="alert"
+           ng-class="{
+             'alert-info': sslWarning.remainInDays > 5,
+             'alert-danger': sslWarning.remainInDays <= 5
+           }"
+           ng-show="sslWarning && sslWarning.showWarning"
+           ng-bind-html="sslWarning.message"></p>
+        <p class="alert alert-info"
+           ng-show="!sslWarning">
+            <?php echo __('HTTPS is not available on your server.') ?></p>
+    </span>
+</div>
+
 <div class="col-xs-12 col-md-6">
     <sb-section title="'<?php echo __js("New messages", "'"); ?>'" button="button">
         <table class="table table dashboard no-wrap small-padding">
@@ -183,6 +198,23 @@
                             <?php echo __("PNGQuant:") ?>
                             <span ng-show="libraries.pngquant"><span class="service-green"><i class="fa fa-check"></i></span></span>
                             <span ng-show="!libraries.pngquant"><span class="service-blue"><?php echo __("Not found") ?></span></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr ng-show="system_diagnostic.length !== 0">
+                    <td>
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                    </td>
+                    <td>
+                        <?php echo __("System Diagnostic") ?>
+                    </td>
+                    <td class="extensions">
+                        <span ng-repeat="diagnostic in system_diagnostic">
+                            {{ diagnostic.label }}:
+                            <span ng-class="{
+                                'service-red': !diagnostic.valid,
+                                'service-green': diagnostic.valid }">{{ diagnostic.message }}</span>
+                            <br />
                         </span>
                     </td>
                 </tr>

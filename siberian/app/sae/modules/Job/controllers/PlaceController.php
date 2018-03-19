@@ -172,7 +172,7 @@ class Job_PlaceController extends Application_Controller_Default {
 
         $form = new Job_Form_Place_Delete();
         if($form->isValid($values)) {
-            $place = new Job_Model_Company();
+            $place = new Job_Model_Place();
             $place->find($values["place_id"]);
             $place->delete();
 

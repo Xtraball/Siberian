@@ -24,6 +24,8 @@ App.config(function($routeProvider) {
     $scope.show_more_push = false;
     $scope.show_cron_modal = false;
     $scope.cron_error_show = false;
+    $scope.sslLoading = true;
+    $scope.sslWarning = {};
 
     $scope.clear = function(type, message) {
         if(typeof message != "undefined") {
@@ -44,7 +46,7 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.showCronModal = function() {
+    $scope.showCronModal = function () {
         $scope.show_cron_modal = true;
     };
 
@@ -56,10 +58,26 @@ App.config(function($routeProvider) {
         $scope.server_usage = data.server_usage;
         $scope.extensions = data.extensions;
         $scope.external_services = data.external_services;
+        $scope.system_diagnostic = data.system_diagnostic;
         $scope.new_messages = data.unread_messages;
     });
 
-    Backoffice.find().success(function(data) {
+    $scope.sslWarning = function () {
+        $scope.sslLoading = true;
+        Backoffice
+            .sslWarning()
+            .success(function (data) {
+                $scope.sslWarning = data.sslData;
+            })
+            .error(function (data) {
+                $scope.sslWarning = false;
+            })
+            .finally(function () {
+                $scope.sslLoading = false;
+            });
+    };
+
+    Backoffice.find().success(function (data) {
 
         if(data.notif.unread_number > 0) {
             $scope.unread_messages = data.notif.message;
@@ -138,5 +156,7 @@ App.config(function($routeProvider) {
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
+
+    $scope.sslWarning();
 
 });

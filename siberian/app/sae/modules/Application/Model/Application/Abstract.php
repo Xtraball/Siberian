@@ -1371,7 +1371,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         if (Siberian_Version::is('PE')) {
             $salesInvoices = (new Sales_Model_Invoice())
                 ->findAllv2([
-                    'si.app_id = ?' => $appId
+                    [
+                        'filter' => 'si.app_id = ?',
+                        'value' => $appId,
+                    ]
                 ]);
 
             if ($salesInvoices->count() > 0) {

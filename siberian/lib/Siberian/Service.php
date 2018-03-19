@@ -108,6 +108,72 @@ class Siberian_Service {
 		return $services;
 	}
 
+	public static function getSystemDiagnostic() {
+	    // Issues
+        $systemDiagnostic = [];
+
+	    // HTTP Basic Auth / Bearer
+        $apiUsers = (new Api_Model_User())
+            ->findAll();
+
+        // API Diagnostic is not necessary without API Users!
+        if ($apiUsers->count() > 0) {
+            // Basic Auth
+            $responseBasic = Siberian_Request::get(__url('/backoffice/advanced_tools/testbasicauth'), [], null, [
+                'type' => 'basic',
+                'username' => 'dummy',
+                'password' => 'azerty',
+            ]);
+
+            $resultBasic = Siberian_Json::decode($responseBasic);
+            if ($resultBasic['credentials'] !== 'dummyazerty') {
+                $systemDiagnostic['basic_auth'] = [
+                    'valid' => false,
+                    'label' => __('HTTP Basic Auth (API)'),
+                    'message' => __('System was unable to validate any HTTP Basic Auth call.'),
+                ];
+            } else {
+                $systemDiagnostic['basic_auth'] = [
+                    'valid' => true,
+                    'label' => __('HTTP Basic Auth (API)'),
+                    'message' => __('HTTP Basic Auth is valid.'),
+                ];
+            }
+
+            // Bearer Token
+            $responseBearer = Siberian_Request::get(__url('/backoffice/advanced_tools/testbearerauth'), [], null, [
+                'type' => 'bearer',
+                'bearer' => 'dummyazerty',
+            ]);
+
+            $resultBearer = Siberian_Json::decode($responseBearer);
+            if ($resultBearer['credentials'] !== 'Bearer dummyazerty') {
+                $systemDiagnostic['bearer_token'] = [
+                    'valid' => false,
+                    'label' => __('Bearer Token Auth (API)'),
+                    'message' => __('System was unable to validate any Bearer Token Auth call.'),
+                ];
+            } else {
+                $systemDiagnostic['bearer_token'] = [
+                    'valid' => true,
+                    'label' => __('Bearer Token Auth (API)'),
+                    'message' => __('Bearer Token Auth is valid.'),
+                ];
+            }
+
+            // Prod / Dev
+            if (__getConfig('environment') === 'production') {
+                if ($systemDiagnostic['basic_auth']['valid'] || $systemDiagnostic['bearer_token']['valid']) {
+                    // Clear system diagnostics if at least one is valid
+                    $systemDiagnostic = [];
+                }
+            }
+
+        }
+
+        return $systemDiagnostic;
+    }
+
 	/**
 	 * Register a service a command, for backoffice informations
 	 *

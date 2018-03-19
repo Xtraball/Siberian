@@ -24,6 +24,7 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
     protected $_ionic_path = false;
     protected $_is_installing = false;
     protected $_mediaUrl;
+    public $isAllowed;
 
     public function setPathInfo($pathInfo = null) {
 
@@ -154,6 +155,14 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
 
     public function useIonicPath() {
         return !!$this->_ionic_path;
+    }
+
+    public function setIsAllowed($isAllowed) {
+        $this->isAllowed = $isAllowed;
+    }
+
+    public function getIsAllowed() {
+        return $this->isAllowed;
     }
 
     public function isInstalling($isInstalling = null) {
