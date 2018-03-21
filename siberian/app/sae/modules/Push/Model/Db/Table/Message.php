@@ -121,7 +121,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table {
 
         $select = $this->_db->select()
             ->from(array('pdm' => 'push_delivered_message'), array('count' => new Zend_Db_Expr('COUNT(pdm.message_id)')))
-            ->joiLeft(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
+            ->joinLeft(array('pm' => $this->_name), "pm.message_id = pdm.message_id")
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')
             ->where('pdm.is_displayed = ?', '1')
