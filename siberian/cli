@@ -74,12 +74,42 @@ if(isset($argv[1])) {
                     'const VERSION = \'' . $argv[2] . '\';', $versionContent);
                 file_put_contents('./lib/Siberian/Version.php', $versionContent);
             break;
+        case 'user:password':
+            $userEmail = readline('Input backoffice user e-mail to change: ');
+            $backofficeUser = (new Backoffice_Model_User())
+                ->find($userEmail, 'email');
+            if (!$backofficeUser->getId()) {
+                echo 'Sorry this e-mail doesn\'t exists.' . PHP_EOL;
+            } else {
+                $newPassword = null;
+                $testPassword = function () {
+                    $newPassword = readline('Your new password (min 8 characters): ');
+                    if (strlen($newPassword) < 6) {
+                        echo 'Password too short.' . PHP_EOL;
+                        return false;
+                    }
+                    return $newPassword;
+                };
+
+                do {
+                    $newPassword = $testPassword() ;
+                } while (!$newPassword);
+
+                // Then update!
+                $backofficeUser
+                    ->setPassword($newPassword)
+                    ->save();
+
+                echo 'Password successfully changed.' . PHP_EOL;
+            }
+            break;
         case 'dev':
         case 'development':
             $configContent = file_get_contents('./config.php');
             $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
                 '$_config[\'environment\'] = \'development\';', $configContent);
             file_put_contents('./config.php', $configContent);
+            System_Model_Config::setValueFor('environment', 'development');
             break;
         case 'prod':
         case 'production':
@@ -87,6 +117,7 @@ if(isset($argv[1])) {
             $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
                 '$_config[\'environment\'] = \'production\';', $configContent);
             file_put_contents('./config.php', $configContent);
+            System_Model_Config::setValueFor('environment', 'production');
             break;
     }
 }
