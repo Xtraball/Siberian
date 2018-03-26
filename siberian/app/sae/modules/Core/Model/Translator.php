@@ -19,11 +19,13 @@ class Core_Model_Translator
 
     }
 
-    public static function prepare($module_name) {
+    public static function prepare($moduleName) {
 
         $current_language = Core_Model_Language::getCurrentLanguage();
 
-        if(!file_exists(Core_Model_Directory::getBasePathTo("/languages/$current_language/default.csv"))) return;
+        if (!file_exists(Core_Model_Directory::getBasePathTo("/languages/$current_language/default.csv"))) {
+            return;
+        }
 
         self::$_translator = new Zend_Translate(array(
             'adapter' => 'csv',
@@ -47,22 +49,37 @@ class Core_Model_Translator
 
         Zend_Validate_Abstract::setDefaultTranslator($form_translator);
 
-        if($module_name != 'application') {
-            self::addModule('application');
-        }
-        if($module_name != 'whitelabel') {
-            self::addModule('whitelabel');
-        }
+        try {
+            $frontController = Zend_Controller_Front::getInstance();
+            $moduleNames = $frontController->getDispatcher()->getModuleDirectories();
 
-        self::addModule($module_name);
+            foreach ($moduleNames as $moduleName) {
+                $moduleName = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $moduleName));
+                self::addModule($moduleName);
+            }
+        } catch (Exception $e) {
+            if ($moduleName != 'application') {
+                self::addModule('application');
+            }
 
+            if ($moduleName != 'whitelabel') {
+                self::addModule('whitelabel');
+            }
+
+            self::addModule($moduleName);
+        }
         return;
 
     }
 
     public static function addModule($module_name) {
 
+
+
         $current_language = Core_Model_Language::getCurrentLanguage();
+
+        file_put_contents('/tmp/debug.log', "/languages/{$current_language}/{$module_name}.csv\n", FILE_APPEND);
+
         if(file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/{$module_name}.csv"))) {
             self::$_translator->addTranslation(array(
                 'content' => Core_Model_Directory::getBasePathTo("/languages/$current_language/{$module_name}.csv"),
