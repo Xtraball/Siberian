@@ -498,7 +498,7 @@ class Siberian_Cron {
                             }
 
                             // Or compare expiration date (will expire in 5/30 days or less)
-                            if(!$renew) {
+                            if (!$renew) {
 
                                 $diff = $cert_content["validTo_time_t"] - time();
 
@@ -506,7 +506,7 @@ class Siberian_Cron {
                                 $five_days = 432000;
 
                                 # Go with five days for now.
-                                if($diff < $five_days) {
+                                if ($diff < $five_days) {
                                     # Should renew
                                     $renew = true;
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
@@ -518,15 +518,15 @@ class Siberian_Cron {
                         }
 
 
-                        if($renew) {
+                        if ($renew) {
                             $result = false;
-                            if(!$le_is_init) {
+                            if (!$le_is_init) {
                                 $lets_encrypt->initAccount();
                                 $le_is_init = true;
                             }
 
                             # Save back domains
-                            if(sizeof($domains) != sizeof($retain_domains)) {
+                            if (sizeof($domains) != sizeof($retain_domains)) {
                                 $cert
                                     ->setDomains(Siberian_Json::encode($retain_domains))
                                     ->save();
@@ -534,12 +534,12 @@ class Siberian_Cron {
 
                             // Clear log between hostnames.
                             $lets_encrypt->clearLog();
-                            $result = $lets_encrypt->signDomains(Siberian_Json::decode($cert->getDomains()));
+                            $result = $lets_encrypt->signDomains($retain_domains);
                         } else {
                             $result = true;
                         }
 
-                        if($result) {
+                        if ($result) {
                             // Change updated_at date, time()+10 to ensure renew is newer than updated_at
                             $cert
                                 ->setErrorCount(0)
@@ -548,7 +548,7 @@ class Siberian_Cron {
 
                             // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
                             try {
-                                switch($panel_type) {
+                                switch ($panel_type) {
                                     case "plesk":
                                             $siberian_plesk = new Siberian_Plesk();
                                             $siberian_plesk->removeCertificate($cert);
@@ -571,7 +571,7 @@ class Siberian_Cron {
                                             $this->log("Self-managed sync is not available for now.");
                                         break;
                                 }
-                            } catch(Exception $e) {
+                            } catch (Exception $e) {
                                 $this->log(__("[Let's Encrypt] Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup.", $panel_type));
                             }
 
