@@ -57,20 +57,36 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
     /**
      * New version as of 4.12.20 to check paypal payment recurrencies!
      */
-    public static function checkRecurrencies() {
+    public static function checkRecurrencies($cronInstance = null) {
         $subscriptions = (new Subscription_Model_Subscription_Application())
             ->findExpiredSubscriptions('profile_id');
 
         $paypalModel = new Payment_Model_Paypal();
         $saleModel = new Sales_Model_Invoice();
         $year2018 = new Zend_Date('2018-01-01 00:00:00Z');
+        $countSubscription = count($subscriptions);
+        $i = 1;
+        if ($cronInstance) {
+            $cronInstance->log(count($subscriptions)." subscriptions to check");
+        }
         foreach ($subscriptions as $subscription) {
+            if ($cronInstance) {
+                $cronInstance->log($i++."/".$countSubscription.
+                    " : Checking subscription with profile id ".$subscription->getProfileId()
+                );
+            }
             $response = $paypalModel->request(
                 Payment_Model_Paypal::GET_RECURRING_PAYMENTS_PROFILE_DETAILS,
                 [
                     'PROFILEID' => $subscription->getProfileId()
                 ]
             );
+            if ($cronInstance) {
+                $cronInstance->log('('.$subscription->getProfileId().') '.
+                    "status:".
+                    (array_key_exists('STATUS', $response) ? $response['STATUS'] : 'unknow')
+                );
+            }
             $status = $response['STATUS'];
 
             // if we cannot get subscription information we postpone operation
@@ -80,6 +96,10 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
 
             // OUTSTANDINGBALANCE is missing payment amount
             if ($status === "Active" && intval($response['OUTSTANDINGBALANCE']) === 0) {
+
+                if ($cronInstance) {
+                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is active");
+                }
 
                 $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
                 // to fix Zend_Date day shifting we set hour as 12:00pm
@@ -100,6 +120,9 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                                 // indeed some siberian already fix there accounting before
                                 // and we don't want to dupplicated fixed invoices
                                 if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                                    if ($cronInstance) {
+                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub monthly) for date ".$checkingInvoiceDate);
+                                    }
                                     $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                                 }
                             }
@@ -114,6 +137,9 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                                 // indeed some siberian already fix there accounting before
                                 // and we don't want to dupplicated fixed invoices
                                 if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                                    if ($cronInstance) {
+                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub yearly) for date ".$checkingInvoiceDate);
+                                    }
                                     $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                                 }
                             }
@@ -139,6 +165,9 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 unset($frequency);
             } else {
                 // Payment suspended!
+                if ($cronInstance) {
+                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive");
+                }
                 $subscription
                     ->setIsActive(0)
                     ->save();
@@ -146,6 +175,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
         }
 
         // clean the mess
+        unset($i);
         unset($subscriptions);
         unset($paypalModel);
         unset($saleModel);

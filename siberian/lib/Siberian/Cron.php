@@ -713,10 +713,13 @@ class Siberian_Cron {
         # We do really need to lock this thing !
         $this->lock($task->getId());
 
+        if (class_exists("Payment_StripeController")) {
+            Payment_StripeController::checkRecurrencies($this);
+        }
+
         try {
             # This handles paypal only!
-            Payment_PaypalController::checkRecurrencies();
-
+            Payment_PaypalController::checkRecurrencies($this);
         } catch(Exception $e){
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
