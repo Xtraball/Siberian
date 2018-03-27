@@ -19,7 +19,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     const GET_EXPRESS_CHECKOUT_DETAILS = 'GetExpressCheckoutDetails';
     const CREATE_RECURRING_PAYMENTS_PROFILE = 'CreateRecurringPaymentsProfile';
     const MANAGE_RECCURING_PAYMENTS_PROFILE = 'ManageRecurringPaymentsProfileStatus';
-    const GET_RECURRING_EXPRESS_CHECKOUT_DETAILS = 'GetRecurringPaymentsProfileDetails';
+    const GET_RECURRING_PAYMENTS_PROFILE_DETAILS = 'GetRecurringPaymentsProfileDetails';
     const DO_EXPRESS_CHECKOUT_PAYMENT = 'DoExpressCheckoutPayment';
     const CALLBACK_RESPONSE = 'CallbackResponse';
     const SALE_ACTION = 'Sale';
@@ -190,8 +190,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
         if ($this->__isTesting) {
             curl_setopt($curl, CURLOPT_SSLVERSION, 6);
         } else {
-            curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_1 |
-                CURL_SSLVERSION_MAX_DEFAULT);
+            curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_1);
         }
 
         $response = curl_exec($curl);
@@ -709,7 +708,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      */
     public function getSubscriptionInfo($code) {
         $response = $this->request(
-            self::GET_RECURRING_EXPRESS_CHECKOUT_DETAILS,
+            self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS,
             ['PROFILEID' => $code]);
 
         if ($response) {

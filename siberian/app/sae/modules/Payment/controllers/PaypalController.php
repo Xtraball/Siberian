@@ -57,57 +57,128 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
     /**
      * New version as of 4.12.20 to check paypal payment recurrencies!
      */
-    public static function checkRecurrencies() {
+    public static function checkRecurrencies($cronInstance = null) {
         $subscriptions = (new Subscription_Model_Subscription_Application())
             ->findExpiredSubscriptions('profile_id');
 
         $paypalModel = new Payment_Model_Paypal();
+        $saleModel = new Sales_Model_Invoice();
+        $year2018 = new Zend_Date('2018-01-01 00:00:00Z');
+        $countSubscription = count($subscriptions);
+        $i = 1;
+        if ($cronInstance) {
+            $cronInstance->log(count($subscriptions)." subscriptions to check");
+        }
         foreach ($subscriptions as $subscription) {
+            if ($cronInstance) {
+                $cronInstance->log($i++."/".$countSubscription.
+                    " : Checking subscription with profile id ".$subscription->getProfileId()
+                );
+            }
             $response = $paypalModel->request(
-                Payment_Model_Paypal::GET_RECURRING_EXPRESS_CHECKOUT_DETAILS,
+                Payment_Model_Paypal::GET_RECURRING_PAYMENTS_PROFILE_DETAILS,
                 [
                     'PROFILEID' => $subscription->getProfileId()
                 ]
             );
-
-            $status = strtolower($response['STATUS']);
-
-            if (!in_array($status, ['suspended', 'cancelled'])) {
-
-                $failedPayments = intval($response['FAILEDPAYMENTCOUNT']);
-                $paypalDate = new Zend_Date($response['NEXTBILLINGDATE'],
-                    'yyyy-MM-dd"T"HH:mm:ss"Z"'
+            if ($cronInstance) {
+                $cronInstance->log('('.$subscription->getProfileId().') '.
+                    "status:".
+                    (array_key_exists('STATUS', $response) ? $response['STATUS'] : 'unknow')
                 );
+            }
+            $status = $response['STATUS'];
 
-                // Payment OK!
-                if ($failedPayments === 0) {
-                    $expiresAt = new Zend_Date($subscription->getExpireAt());
-                    if ($paypalDate->compare($expiresAt, Zend_Date::DATES) >= 0) {
-                        $lastPaymentDate = new Zend_Date(
-                            $response['LASTPAYMENTDATE'],
-                            'yyyy-MM-dd"T"HH:mm:ss"Z"'
-                        );
-                        $nextBillingDate = new Zend_Date(
-                            $response['NEXTBILLINGDATE'],
-                            'yyyy-MM-dd"T"HH:mm:ss"Z"'
-                        );
-                        $subscription
-                            ->setIsActive(1)
-                            ->update($nextBillingDate)
-                            ->invoice($lastPaymentDate);
-                    }
-                } else {
-                    // Payment error!
-                    $subscription
-                        ->setIsActive(0)
-                        ->save();
+            // if we cannot get subscription information we postpone operation
+            if (!$status) {
+                continue;
+            }
+
+            // OUTSTANDINGBALANCE is missing payment amount
+            if ($status === "Active" && intval($response['OUTSTANDINGBALANCE']) === 0) {
+
+                if ($cronInstance) {
+                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is active");
                 }
+
+                $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
+                // to fix Zend_Date day shifting we set hour as 12:00pm
+                $profileStartDate->setHour('12');
+                $profileStartDate->setMinute('00');
+
+                $checkingInvoiceDate = clone $profileStartDate;
+                $frequency = $subscription->getSubscription()->getPaymentFrequency();
+
+                while($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
+                    switch($frequency) {
+                        case 'Monthly':
+                            if (!$saleModel->isInvoiceExistsForMonth(
+                                $subscription->getAppId(), $checkingInvoiceDate
+                            )) {
+                                // @date 23th Mars 2018
+                                // we created invoices only since 2018-01-01
+                                // indeed some siberian already fix there accounting before
+                                // and we don't want to dupplicated fixed invoices
+                                if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                                    if ($cronInstance) {
+                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub monthly) for date ".$checkingInvoiceDate);
+                                    }
+                                    $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+                                }
+                            }
+                            $checkingInvoiceDate->addMonth(1);
+                            break;
+                        case 'Yearly':
+                            if (!$saleModel->isInvoiceExistsForYear(
+                                $subscription->getAppId(), $checkingInvoiceDate
+                            )) {
+                                // @date 23th Mars 2018
+                                // we created invoices only since 2018-01-01
+                                // indeed some siberian already fix there accounting before
+                                // and we don't want to dupplicated fixed invoices
+                                if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                                    if ($cronInstance) {
+                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub yearly) for date ".$checkingInvoiceDate);
+                                    }
+                                    $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+                                }
+                            }
+                            $checkingInvoiceDate->addYear(1);
+                            break;
+                        default:
+                            throw new Exception('Error: unknow subscription payment frequency for subscription:'.$subscription->getId());
+                    }
+                }
+                // Payment (re-)activated!
+                $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
+                $nextBillingDate->setHour('12');
+                $nextBillingDate->setMinute('00');
+                $subscription
+                    ->setIsActive(1)
+                    ->update($nextBillingDate)
+                    ->save();
+
+                // clean the mess
+                unset($checkingInvoiceDate);
+                unset($profileStartDate);
+                unset($nextBillingDate);
+                unset($frequency);
             } else {
                 // Payment suspended!
+                if ($cronInstance) {
+                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive");
+                }
                 $subscription
                     ->setIsActive(0)
                     ->save();
             }
         }
+
+        // clean the mess
+        unset($i);
+        unset($subscriptions);
+        unset($paypalModel);
+        unset($saleModel);
+        unset($year2018);
     }
 }
