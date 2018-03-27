@@ -25,7 +25,7 @@ class Social_Model_Facebook extends Core_Model_Default {
     /**
      * @var array
      */
-    protected $_list = array();
+    protected $_list = [];
 
     /**
      * @var string
@@ -41,7 +41,7 @@ class Social_Model_Facebook extends Core_Model_Default {
      * Social_Model_Facebook constructor.
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Social_Model_Db_Table_Facebook';
         return $this;
