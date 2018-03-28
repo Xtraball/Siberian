@@ -9,7 +9,7 @@ class Application_Controller_Default extends Admin_Controller_Default {
         parent::init();
 
         $request = $this->getRequest();
-        if($request->getControllerName() == 'privacypolicy') {
+        if ($request->getControllerName() == 'privacypolicy') {
             return $this;
         }
 
