@@ -36,10 +36,8 @@ class Application_Form_Apis extends Siberian_Form_Abstract
         if ($acl->isAllowed("editor_settings_facebook")) {
             $this->addSimpleHtml(
                 'hint_callback_uri',
-                __('Callback URI') . ' : <b style="letter-spacing: 1px;">' .  $this->callbackUri . '</b>',
-                [
-                    "class" => "col-md-12"
-                ]);
+                '<div class="col-md-3">' . __('Callback URIs')
+                . '</div><div class="col-md-7"><p style="letter-spacing: 1px;">' .  $this->callbackUri . ' https://localhost/callback</p></div>');
             $this->addSimpleText("facebook_id", __("App id"));
             $this->addSimpleText("facebook_key", __("Secret Key"));
             $this->groupElements(
