@@ -708,19 +708,24 @@ class Siberian_Cron {
      *
      * @param $task
      */
-	public function checkpayments($task) {
-        include_once Core_Model_Directory::getBasePathTo('/app/sae/modules/Payment/controllers/PaypalController.php');
-        # We do really need to lock this thing !
+	public function checkpayments($task)
+    {
+        // We do really need to lock this thing !
         $this->lock($task->getId());
 
-        if (class_exists("Payment_StripeController")) {
+        if (method_exists('Payment_StripeController', 'checkRecurrencies')) {
             Payment_StripeController::checkRecurrencies($this);
         }
 
         try {
             # This handles paypal only!
-            Payment_PaypalController::checkRecurrencies($this);
-        } catch(Exception $e){
+            include_once Core_Model_Directory::getBasePathTo(
+                '/app/sae/modules/Payment/controllers/PaypalController.php');
+
+            if (method_exists('Payment_PaypalController', 'checkRecurrencies')) {
+                Payment_PaypalController::checkRecurrencies($this);
+            }
+        } catch (Exception $e){
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
