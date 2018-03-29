@@ -95,8 +95,10 @@ class Cron_Model_Cron extends Core_Model_Default {
 	 * @return mixed
 	 */
 	public function saveLastError($message) {
-		return $this->setLastErrorDate(date("Y-m-d H:i:s"))
-				->setLastError($message)->save();
+		return $this
+                ->setLastErrorDate(date("Y-m-d H:i:s"))
+				->setLastError($message)
+                ->save();
 	}
 
 	/**
@@ -108,14 +110,15 @@ class Cron_Model_Cron extends Core_Model_Default {
 		$db = Zend_Db_Table::getDefaultAdapter();
 		$select = $db
 			->select()
-			->from("cron", array("last_success AS time"))
+			->from("cron", [
+                "last_success AS time"
+            ])
 			->where("command = ?", "pushinstant")
 			->order("last_success DESC")
-			->limit(1)
-		;
+			->limit(1);
 
 		$result = $db->fetchRow($select);
-		if(isset($result) && isset($result["time"])) {
+		if (isset($result) && isset($result["time"])) {
             $r = new Zend_Date();
             $r->set($result["time"], 'YYYY-MM-dd HH:mm:ss'); 
             $n = Zend_Date::now();
