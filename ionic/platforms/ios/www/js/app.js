@@ -47,7 +47,8 @@ var lazyLoadResolver = function (code) {
 
             var deferred = $q.defer();
 
-            $ocLazyLoad.load(files)
+            $ocLazyLoad
+                .load(files)
                 .then(function () {
                     $timeout(function () {
                         deferred.resolve(true);
