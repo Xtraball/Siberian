@@ -16,6 +16,7 @@
  * @method $this setFolderCategoryPosition(integer $folderCategoryPosition)
  * @method integer getFolderCategoryId()
  * @method integer getOptionId()
+ * @method $this setIconId(integer $iconId)
  *
  */
 class Application_Model_Option_Value extends Application_Model_Option {

@@ -1,32 +1,67 @@
 <?php
 
+/**
+ * Class Backoffice_Model_User
+ */
 class Backoffice_Model_User extends Core_Model_Default
 {
-
-    public function __construct($datas = array()) {
+    /**
+     * Backoffice_Model_User constructor.
+     * @param array $datas
+     */
+    public function __construct($datas = [])
+    {
         parent::__construct($datas);
         $this->_db_table = 'Backoffice_Model_Db_Table_User';
     }
 
-    public function setPassword($password) {
-        if(strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
+    /**
+     * @param $password
+     * @return $this
+     * @throws Exception
+     */
+    public function setPassword($password)
+    {
+        if(strlen($password) < 6) {
+            throw new Exception(__('The password must be at least 6 characters'));
+        }
         $this->setData('password', $this->_encrypt($password));
         return $this;
     }
 
-    public function isSamePassword($password) {
+    /**
+     * @param $password
+     * @return bool
+     */
+    public function isSamePassword($password)
+    {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
-    public function authenticate($password) {
+    /**
+     * @param $password
+     * @return bool
+     */
+    public function authenticate($password)
+    {
         return $this->_checkPassword($password);
     }
 
-    private function _encrypt($password) {
+    /**
+     * @param $password
+     * @return string
+     */
+    private function _encrypt($password)
+    {
         return sha1($password);
     }
 
-    private function _checkPassword($password) {
+    /**
+     * @param $password
+     * @return bool
+     */
+    private function _checkPassword($password)
+    {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
