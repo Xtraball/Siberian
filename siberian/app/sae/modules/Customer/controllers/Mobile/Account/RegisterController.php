@@ -48,36 +48,11 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     ->save()
                 ;
 
-                //PUSH TO USER ONLY
-                if(Push_Model_Message::hasIndividualPush()) {
-                    if (!empty($data["device_uid"])) {
-                        if (strlen($data["device_uid"]) == 36) {
-                            $device = new Push_Model_Iphone_Device();
-                            $device->find(array(
-                                "device_uid" => $data["device_uid"],
-                                "app_id" => $this->getApplication()->getId(),
-                            ));
-                        } else {
-                            $device = new Push_Model_Android_Device();
-
-                            if($this->getApplication()->useIonicDesign()) {
-                                $device->find(array(
-                                    "device_uid" => $data["device_uid"],
-                                    "app_id" => $this->getApplication()->getId(),
-                                ));
-                            } else {
-                                $device->find(array(
-                                    "registration_id" => $data["device_uid"],
-                                    "app_id" => $this->getApplication()->getId(),
-                                ));
-                            }
-                        }
-
-                        if ($device->getId()) {
-                            $device->setCustomerId($customer->getId())->save();
-                        }
-                    }
-                }
+                // PUSH INDIVIDUAL TO USER ONLY
+                Customer_Model_Customer_Push::registerForIndividualPush(
+                    $customer,
+                    $this->getApplication(),
+                    $data['device_uid']);
 
                 $this->getSession()->setCustomer($customer);
 
