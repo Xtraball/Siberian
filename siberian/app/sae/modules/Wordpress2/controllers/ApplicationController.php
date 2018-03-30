@@ -54,7 +54,6 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         echo '<pre>';
         try {
             $wordpressApi = (new Wordpress2_Model_WordpressApi())
-               
                 ->init('https://korben.info/');
 
             $categories = $wordpressApi->getCategories();
