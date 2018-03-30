@@ -3,8 +3,8 @@
 /**
  * Class Installer_Backoffice_ModuleController
  */
-class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default {
-
+class Installer_Backoffice_ModuleController extends Backoffice_Controller_Default
+{
     /**
      * @var array
      */
@@ -18,7 +18,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     /**
      *
      */
-    public function loadAction() {
+    public function loadAction()
+    {
         if (class_exists('Core_Model_Statistics')) {
             $stats = new Core_Model_Statistics();
             $stats->statistics();
@@ -35,7 +36,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     /**
      *
      */
-    public function downloadupdateAction() {
+    public function downloadupdateAction()
+    {
         try {
             $fatalErrors = false;
             $_errors = [];
@@ -365,40 +367,39 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         # Increase the timelimit to ensure update will finish
         //$this->increase_timelimit = set_time_limit(300);
 
-        $data = array();
-
+        $data = [];
         try {
 
             $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
-            if($cache) {
+            if ($cache) {
                 $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
             }
 
-            $cache_ids = array('js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css');
+            $cache_ids = ['js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css'];
             foreach ($cache_ids as $cache_id) {
-                if(file_exists(Core_Model_Directory::getCacheDirectory(true)."/{$cache_id}")) {
-                    unlink(Core_Model_Directory::getCacheDirectory(true)."/{$cache_id}");
+                if (file_exists(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}")) {
+                    unlink(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}");
                 }
             }
 
             $module_names = Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories();
-            self::$MODULES = array();
-            foreach($module_names as $module_name) {
+            self::$MODULES = [];
+            foreach ($module_names as $module_name) {
                 $module = new Installer_Model_Installer_Module();
                 $module->prepare($module_name);
-                if($module->canUpdate()) {
+                if ($module->canUpdate()) {
                     self::$MODULES[] = $module->getName();
                 }
             }
 
             self::$MODULES = array_unique(self::$MODULES);
 
-            $installers = array();
-            foreach(self::$MODULES as $module) {
+            $installers = [];
+            foreach (self::$MODULES as $module) {
                 $installer = new Installer_Model_Installer();
-                $installer->setModuleName($module)
-                    ->install()
-                ;
+                $installer
+                    ->setModuleName($module)
+                    ->install();
 
                 $installers[] = $installer;
 
@@ -406,7 +407,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $this->_signalRetry();
             }
 
-            foreach($installers as $installer) {
+            foreach ($installers as $installer) {
                 $installer->insertData();
 
                 # Try to increase max execution time (if the set failed)
@@ -415,9 +416,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             /** Try installing fresh template. */
             $installer = new Installer_Model_Installer();
-            $installer->setModuleName("Template")
-                ->install()
-            ;
+            $installer
+                ->setModuleName('Template')
+                ->install();
 
             /** Clear cache */
             Siberian_Cache_Design::clearCache();

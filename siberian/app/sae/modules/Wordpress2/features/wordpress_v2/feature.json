@@ -1,0 +1,45 @@
+{
+    "name": "WordPress (v2)",
+    "code": "wordpress_v2",
+    "version": "1.0.0",
+    "category": "integration",
+    "model": "Wordpress2_Model_Wordpress",
+    "desktop_uri": "wordpress2/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "wordpress2-category-list",
+            "controller": "Wordpress2ListController",
+            "url": "wordpress2/mobile_list/index/value_id/:value_id/category_id/:category_id/layout_id/:layout_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3",
+                "4": "l4",
+                "5": "l5",
+                "6": "l6"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+    ],
+    "icons": [
+        "icons/wordpress1.png",
+        "icons/wordpress2.png"
+    ],
+    "files": [
+        "js/controllers/wordpress_v2.js",
+        "js/factory/wordpress_v2.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

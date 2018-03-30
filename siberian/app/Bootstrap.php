@@ -298,7 +298,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                 foreach ($module_names as $module_name) {
                     $module = new Installer_Model_Installer_Module();
                     $module->prepare($module_name);
-                    if($module->canUpdate()) {
+                    if ($module->canUpdate()) {
                         $module->install();
                         $module->insertData();
                     }
