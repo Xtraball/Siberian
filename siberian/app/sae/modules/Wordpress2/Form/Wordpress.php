@@ -19,7 +19,7 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
 
         $credentialsHelp = '
 <div class="alert alert-info">
-    ' . __('If your WordPress is secured by a login/password you can set here a user to be used to retrieve posts.') . '
+    ' . __('If your WordPress is secured by a login/password, and/or you want to display private posts you can set here a user to be used to retrieve posts.') . '
 </div>
         ';
 
@@ -28,9 +28,11 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
         ]);
         $login = $this->addSimpleText('login', __('Login'));
         $password = $this->addSimplePassword('password', __('Password'));
+        $password->setAttrib('autocomplete', 'new-password');
 
         $this->addSimpleHidden('wordpress2_id');
         $valueId = $this->addSimpleHidden('value_id');
+
 
         $this->addSubmit(__('Save'))
             ->addClass('default_button')

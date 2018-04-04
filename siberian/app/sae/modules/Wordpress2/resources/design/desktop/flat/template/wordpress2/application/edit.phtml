@@ -14,20 +14,27 @@ if (!$wordpress->getId()) {
 
 $formWordpress = new Wordpress2_Form_Wordpress();
 $formWordpress->populate($wordpress->getData());
+$formWordpress
+    ->getElement('password')
+    ->setValue($wordpress->getPassword());
 
 $formQuery = new Wordpress2_Form_Query();
-$formQuery->populate([
-    'value_id' => $optionValue->getId(),
-    'wordpress2_id' => $wordpress->getId()
-]);
+$formQuery->populate(
+    [
+        'value_id' => $optionValue->getId()
+    ]
+);
 
 $formSettings = new Wordpress2_Form_Settings();
 $formSettings->populate($wordpress->getData());
 
 $queries = (new Wordpress2_Model_Query())
-    ->findAll([
-        'wordpress2_id' => $wordpress->getId()
-    ], 'position ASC');
+    ->findAll(
+        [
+            'value_id' => $optionValue->getId()
+        ],
+        'position ASC'
+    );
 
 $formCategories = [];
 try {
@@ -37,16 +44,12 @@ try {
         $wordpress->getData('login'),
         $wordpress->getData('password')
     );
+
     $categories = $wordpressApi->getCategories();
 
-    foreach ($categories as $category) {
-        $idCategory = $category['id'];
-        $formCategories[$idCategory] = sprintf("%s (%s)", $category['name'], $category['slug']);
-    }
-
     $formQuery
-        ->getElement('categories')
-        ->addMultiOptions($formCategories);
+        ->loadCategories($categories)
+        ->createSubmit();
 
     $gotCatgories = true;
 
@@ -93,7 +96,7 @@ try {
             </div>
 
             <?php if ($gotCatgories): ?>
-                <div class="feature-block-create">
+                <div class="feature-block-add">
                     <h3 class="title-editor no-border-radius title-feature-indent">
                         <?php echo __('Add a query'); ?>
                         <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
@@ -128,12 +131,12 @@ try {
                                     <tbody>
                                     <?php foreach($queries as $query) : ?>
                                         <tr id="query_manage_element_<?php echo $query->getId(); ?>" class="query-manage-element sb-pager">
-                                            <td><?php echo $query->getName(); ?></td>
+                                            <td><?php echo $query->getTitle(); ?></td>
                                             <td><?php echo cut(html_entity_decode($query->getSubtitle()), 60); ?></td>
                                             <td></td>
                                             <td class="edit-action open-edit"
                                                 data-id="query_<?php echo $query->getId(); ?>"
-                                                data-form-url="<?php echo __path('/wordpress2/loadqueryform', [
+                                                data-form-url="<?php echo __path('/wordpress2/application/loadqueryform', [
                                                     'query_id' => $query->getId(),
                                                     'value_id' => $optionValue->getId()
                                                 ]); ?>">
