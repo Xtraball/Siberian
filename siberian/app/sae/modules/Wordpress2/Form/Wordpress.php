@@ -17,6 +17,22 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
         $title = $this->addSimpleText('url', __('WordPress URL'));
         $title->setRequired(true);
 
+        $showSearch = $this->addSimpleCheckbox('group_queries', __('Group all queries into a single list'));
+
+        $showCover = $this->addSimpleCheckbox('show_cover', __('Show cover'));
+        $picture = $this->addSimpleImage(
+            'picture',
+            __('Cover'),
+            __('Import a cover image'),
+            [
+                'width' => 960,
+                'height' => 600,
+                'required' => true
+            ]);
+        $picture
+            ->addClass('default_button')
+            ->addClass('form_button');
+
         $credentialsHelp = '
 <div class="alert alert-info">
     ' . __('If your WordPress is secured by a login/password, and/or you want to display private posts you can set here a user to be used to retrieve posts.') . '
@@ -28,7 +44,6 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
         ]);
         $login = $this->addSimpleText('login', __('Login'));
         $password = $this->addSimplePassword('password', __('Password'));
-        $password->setAttrib('autocomplete', 'new-password');
 
         $this->addSimpleHidden('wordpress2_id');
         $valueId = $this->addSimpleHidden('value_id');

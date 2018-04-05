@@ -44,6 +44,16 @@ $schemas['wordpress2'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'picture' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'show_cover' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
     'group_queries' => [
         'type' => 'tinyint(1)',
         'default' => '1',

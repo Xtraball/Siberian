@@ -21,6 +21,43 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
         $title = $this->addSimpleText('title', __('Title'));
         $subtitle = $this->addSimpleText('subtitle', __('Subtitle'));
 
+        $coverHelp = '
+<div class="alert alert-info">
+    ' . __('Cover & Thumbnails are only visible when queries are not grouped.') . '
+</div>
+        ';
+
+        $this->addSimpleHtml('cover_help', $coverHelp, [
+            'class' => 'col-sm-12'
+        ]);
+
+        $showCover = $this->addSimpleCheckbox('show_cover', __('Show cover'));
+        $picture = $this->addSimpleImage(
+            'picture',
+            __('Cover'),
+            __('Import a cover image'),
+            [
+                'width' => 960,
+                'height' => 600,
+                'required' => true
+            ]);
+        $picture
+            ->addClass('default_button')
+            ->addClass('form_button');
+
+        $thumbnail = $this->addSimpleImage(
+            'thumbnail',
+            __('Thumbnail'),
+            __('Import a thumbnail image'),
+            [
+                'width' => 512,
+                'height' => 512,
+                'required' => true
+            ]);
+        $thumbnail
+            ->addClass('default_button')
+            ->addClass('form_button');
+
         $valueId = $this->addSimpleHidden('value_id');
     }
 
@@ -67,7 +104,12 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
                         ],
                         [
                             $currentParent,
-                            sprintf("%s (%s)", $currentCategory['name'], $currentCategory['slug'])
+                            sprintf(
+                                "%s (%s, %s %s)",
+                                $currentCategory['name'],
+                                $currentCategory['slug'],
+                                $currentCategory['count'],
+                                __('posts'))
                         ],
                         $inputHtml);
 
@@ -88,8 +130,10 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
         $markupCategories = '<ul>' . displayRecursive(0, $categoryParentId, $inputHtml) . '</ul>';
 
         $markupCategories = '
-<label for="categories" class="sb-form-line-title col-sm-3 optional">' . __('Categories') . '</label>
-<div class="col-sm-7">
+<label for="categories" 
+       class="sb-form-line-title col-sm-3 optional">' . __('Categories') . '</label>
+<div class="col-sm-7"
+     style="max-height: 400px;overflow-y: scroll;">
     ' . $markupCategories . '
 </div>
 <div class="sb-cb"></div>';

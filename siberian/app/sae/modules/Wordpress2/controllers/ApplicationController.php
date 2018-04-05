@@ -26,6 +26,14 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $wordpress->setData($params);
             $wordpress->save();
 
+            Siberian_Feature::formImageForOption(
+                $this->getCurrentOptionValue(),
+                $wordpress,
+                $params,
+                'picture',
+                true
+            );
+
             /** Update touch date, then never expires (until next touch) */
             $this->getCurrentOptionValue()
                 ->touch()
@@ -66,8 +74,23 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                     'categories' => $params['categories']
                 ]
             );
-
             $wordpressQuery->setQuery($query);
+
+            Siberian_Feature::formImageForOption(
+                $this->getCurrentOptionValue(),
+                $wordpressQuery,
+                $params,
+                'picture',
+                true
+            );
+
+            Siberian_Feature::formImageForOption(
+                $this->getCurrentOptionValue(),
+                $wordpressQuery,
+                $params,
+                'thumbnail',
+                true
+            );
 
             $wordpressQuery->save();
 
@@ -171,6 +194,8 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
     <span class="sb-checkbox-label">#LABEL#</span>
 </label>';
 
+            $inputHtml = '#LABEL#';
+
             // Sub function to recursively compute child categories!
             function displayRecursive ($parent, $categoryParentId, $inputHtml) {
                 if (array_key_exists($parent, $categoryParentId)) {
@@ -187,7 +212,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                             ],
                             [
                                 $currentParent,
-                                sprintf("%s (%s)", $currentCategory['name'], $currentCategory['slug'])
+                                sprintf("<pre>%s</pre>", print_r($currentCategory, true))
                             ],
                             $inputHtml);
 

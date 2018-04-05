@@ -385,10 +385,32 @@ class Siberian_Feature {
         } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $image))) {
             $image_path = $image;
         } else {
-            $image_path = Siberian_Feature::moveUploadedFile($option_value, $image);
+            $image_path = self::moveUploadedFile($option_value, $image);
         }
 
         return $image_path;
+    }
+
+    /**
+     * @param $optionValue
+     * @param $object
+     * @param $params
+     * @param $key
+     * @param bool $delete
+     * @throws exception
+     */
+    public static function formImageForOption($optionValue, $object, $params, $key, $delete = true)
+    {
+        if ($delete && ($params[$key] === '_delete_')) {
+            $object->setData($key, '');
+        } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $params[$key]))) {
+            // Nothing changed, skip!
+        } else {
+            $background = self::moveUploadedFile(
+                $optionValue,
+                Core_Model_Directory::getTmpDirectory() . '/' . $params[$key]);
+            $object->setData($key, $background);
+        }
     }
 
     /**

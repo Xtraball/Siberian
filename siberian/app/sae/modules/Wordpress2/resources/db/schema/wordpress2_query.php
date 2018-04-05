@@ -39,6 +39,22 @@ $schemas['wordpress2_query'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'show_cover' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'picture' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'thumbnail' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'query' => [
         'type' => 'longtext',
         'charset' => 'utf8',
