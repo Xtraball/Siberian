@@ -201,20 +201,14 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
     }
 
     /**
-     * If the request is made from legacy application return "legacy"
-     * If the request is made from current application return "current"
-     * NB: Legacy application saves fields directly to the order, current application saves customer data to seperate customer entity.
+     * Always return current, dropped "legacy" support from 6 April 2018
      *
      * @param $data
      * @return string
      */
-    protected function _getVersion($data) {
-        $validator = new Zend_Validate_Int();
-        if ($validator->isValid($data['form']['customer']['id'])) {
-            return "current";
-        } else {
-            return "legacy";
-        }
+    protected function _getVersion($data)
+    {
+        return 'current';
     }
 
     /**
