@@ -44,25 +44,25 @@ class Core_Model_Lib_Facebook extends Core_Model_Default {
      * @return mixed
      */
     public static function getAppToken() {
-        $app_id         = Core_Model_Lib_Facebook::getAppId();
-        $app_secret     = Core_Model_Lib_Facebook::getSecretKey();
+        $appId = Core_Model_Lib_Facebook::getAppId();
+        $appSecret = Core_Model_Lib_Facebook::getSecretKey();
 
-        $params = array(
-            "grant_type"        => "client_credentials",
-            "client_id"         => $app_id,
-            "client_secret"     => $app_secret
-        );
+        $params = [
+            'grant_type' => 'client_credentials',
+            'client_id' => $appId,
+            'client_secret' => $appSecret
+        ];
 
-        $token_response = Siberian_Request::get("https://graph.facebook.com/v2.7/oauth/access_token", $params);
+        $tokenResponse = Siberian_Request::get('https://graph.facebook.com/v2.7/oauth/access_token', $params);
 
-        if(strpos($token_response, "access_token=") === false) {
-            $result = Siberian_Json::decode($token_response);
-            $access_token = $result["access_token"];
+        if (strpos($tokenResponse, 'access_token=') === false) {
+            $result = Siberian_Json::decode($tokenResponse);
+            $accessToken = $result['access_token'];
         } else {
-            $access_token = str_replace("access_token=", "", $token_response);
+            $accessToken = str_replace('access_token=', '', $tokenResponse);
         }
 
-        return $access_token;
+        return $accessToken;
     }
 
     /**

@@ -44,8 +44,8 @@ class Importer_Model_FacebookParser extends Core_Model_Default
      * @param $page_id
      * @param $token
      * @param null $fields
-     * @return bool|mixed|string
-     * @throws Zend_Json_Exception
+     * @return array|mixed
+     * @throws Siberian_Exception
      */
     public function parsePage($page_id, $token, $fields = null)
     {
@@ -58,6 +58,16 @@ class Importer_Model_FacebookParser extends Core_Model_Default
 
         $response = Siberian_Request::get($url);
         $response = Siberian_Json::decode($response);
+
+        if (array_key_exists('error', $response)) {
+            // Parsing the error
+            $data = $response['error'];
+            if (array_key_exists('message', $data)) {
+                throw new Siberian_Exception($data['message']);
+            } else {
+                throw new Siberian_Exception(__('An unknown error occured with the Facebook API.<br />' . print_r($response, true)));
+            }
+        }
 
         return $response;
     }
