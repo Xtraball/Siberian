@@ -1,18 +1,27 @@
 <?php
 
+/**
+ * Class Social_Application_FacebookController
+ */
 class Social_Application_FacebookController extends Application_Controller_Default
 {
-
-    public function editpostAction() {
-
+    /**
+     *
+     */
+    public function editpostAction()
+    {
         if($datas = $this->getRequest()->getPost()) {
 
             try {
                 $isNew = false;
                 $application = $this->getApplication();
 
+                //https://graph.facebook.com/v2.7/propsfactory?fields=id,about,name,genre,cover,fan_count,likes,talking_about_count&access_token=972458572808643|RFO87sasWNc0AJke8Uk99QhCzqc
+
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                if (empty($datas['value_id'])) {
+                    throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
+                }
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -21,37 +30,55 @@ class Social_Application_FacebookController extends Application_Controller_Defau
                 // Récupère l'objet
                 $facebook = $option_value->getObject();
 
-                if(!empty($datas['id'])) {
+                if (!empty($datas['id'])) {
                     $facebook->find($datas['id']);
-                }
-                else {
+                } else {
                     $datas['value_id'] = $option_value->getId();
                 }
-                if($facebook->getId() AND $facebook->getValueId() != $option_value->getId()) {
-                    throw new Exception("Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement.");
+                if ($facebook->getId() AND $facebook->getValueId() != $option_value->getId()) {
+                    throw new Siberian_Exception("Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement.");
                 }
 
-                $facebook->setData($datas)->save();
+                // Test connection
+                $accessToken = Core_Model_Lib_Facebook::getAppToken();
+                $testResponse = Siberian_Request::get('https://graph.facebook.com/v2.7/' .
+                    $datas['fb_user'] .
+                    '?fields=id,about,name,genre,cover,fan_count,likes,talking_about_count&access_token=' .
+                    $accessToken);
+                $response = Siberian_Json::decode($testResponse);
 
-                $html = array(
+                if (array_key_exists('error', $response)) {
+                    $data = $response['error'];
+                    if (array_key_exists('message', $data)) {
+                        throw new Siberian_Exception($data['message']);
+                    } else {
+                        throw new Siberian_Exception(__('An unknown error occured with the Facebook API.<br />' . print_r($response, true)));
+                    }
+                }
+
+                $facebook
+                    ->setData($datas)
+                    ->save();
+
+                $payload = [
                     'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
+                    'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
-            }
-            catch(Exception $e) {
-                $html = array(
+            } catch (Exception $e) {
+                $payload = [
+                    'success' => false,
                     'message' => $e->getMessage(),
+                    'message_timeout' => 2,
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
-
+            $this->_sendJson($payload);
         }
 
     }
