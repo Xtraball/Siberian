@@ -1,69 +1,74 @@
 <?php
 
-class Mcommerce_Application_Catalog_CategoryController extends Application_Controller_Default_Ajax {
-
-    public function editAction() {
-
+/**
+ * Class Mcommerce_Application_Catalog_CategoryController
+ */
+class Mcommerce_Application_Catalog_CategoryController extends Application_Controller_Default_Ajax
+{
+    /**
+     * @throws Exception
+     */
+    public function editAction()
+    {
         $category = new Folder_Model_Category ();
-        if($id = $this->getRequest()->getParam('category_id')) {
+        if ($id = $this->getRequest()->getParam('category_id')) {
             $category->find($id);
-            if($category->getId() AND $this->getCurrentOptionValue()->getObject()->getRootCategoryId() != $category->getRootCategoryId()) {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
+            if ($category->getId() AND $this->getCurrentOptionValue()->getObject()->getRootCategoryId() != $category->getRootCategoryId()) {
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         }
 
-        $mcommerce = $this->getApplication()->getPage('m_commerce')->getObject();
-
-        $html = $this->getLayout()->addPartial('category_form', 'admin_view_default', 'mcommerce/application/edit/catalog/categories/list/edit.phtml')
-//            ->setCurrentMcommerce($mcommerce)
+        $html = $this->getLayout()
+            ->addPartial('category_form', 'admin_view_default', 'mcommerce/application/edit/catalog/categories/list/edit.phtml')
             ->setOptionValue($this->getCurrentOptionValue())
             ->setParentId($this->getRequest()->getPost('parent_id'))
             ->setCurrentCategory($category)
-            ->toHtml()
-        ;
+            ->toHtml();
 
-        $html = array(
+        $payload = [
             'form_html' => $html,
             'category_id' => $category->getId()
-        );
+        ];
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 
-    public function editpostAction() {
-
-
-        if($datas = $this->getRequest()->getParams()) {
-
+    /**
+     *
+     */
+    public function editpostAction()
+    {
+        if ($datas = $this->getRequest()->getParams()) {
             try {
-
                 $isNew = false;
                 $option = $this->getCurrentOptionValue();
                 $category = new Folder_Model_Category();
-                if(!empty($datas['category_id'])) {
+                if (!empty($datas['category_id'])) {
                     $category->find($datas['category_id']);
-                    if($category->getId() AND $option->getObject()->getRootCategoryId() != $category->getRootCategoryId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    if ($category->getId() AND $option->getObject()->getRootCategoryId() != $category->getRootCategoryId()) {
+                        throw new Exception(__('An error occurred while saving. Please try again later.'));
                     }
                 }
-                if(!$category->getId() AND empty($datas['parent_id'])) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                if (!$category->getId() AND empty($datas['parent_id'])) {
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
-                if(!$category->getId()) {
+                if (!$category->getId()) {
                     $isNew = true;
                 }
 
-                if(!empty($datas['file'])) {
+                if (!empty($datas['file'])) {
                     $application = $this->getApplication();
                     $formated_name = Core_Model_Lib_String::format($application->getName(), true);
                     $relative_path = '/' . $application->getId() . '-' . $formated_name . '/application/mcommerce/category/';
                     $folder = Application_Model_Application::getBaseImagePath() . $relative_path;
                     $path = Application_Model_Application::getBaseImagePath() . $relative_path;
                     $file = Core_Model_Directory::getTmpDirectory(true).'/'.$datas['file'];
-                    if(!is_dir($path)) mkdir($path, 0777, true);
-                    if(!copy($file, $folder.$datas['file'])) {
-                        throw new exception($this->_('An error occurred while saving. Please try again later.'));
+                    if (!is_dir($path)) {
+                        mkdir($path, 0777, true);
+                    }
+                    if (!copy($file, $folder.$datas['file'])) {
+                        throw new exception(__('An error occurred while saving. Please try again later.'));
                     } else {
                         $datas['picture'] = $relative_path.$datas['file'];
                     }
@@ -81,7 +86,7 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
                     'category_id' => $category->getId(),
                     'category_label' => $category->getTitle(),
                     'success' => '1',
-                    'success_message' => $this->_('Category successfully saved.'),
+                    'success_message' => __('Category successfully saved.'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
@@ -95,7 +100,7 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
                 }
 
             }
-            catch(Exception $e) {
+            catch (Exception $e) {
                 $html = array(
                     'error' => 1,
                     'message' => $e->getMessage(),
@@ -110,49 +115,57 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
 
     }
 
+    /**
+     * Update categories for M-Commerce.
+     *
+     * the old version, named 'get' was using GET query parameters to update the categories,
+     * it was resulting in too long uris.
+     */
     public function orderAction() {
+        $request = $this->getRequest();
 
-        if($datas = $this->getRequest()->getParams()) {
+        try {
+            $version = $request->getParam('version', 'get');
+            $categories = $request->getParam('categories', false);
 
-            try {
-
-                // Récupère les positions
-                $positions = $this->getRequest()->getParam('category');
-                // Supprime la root cat en conservant les index
-                reset($positions);
-                $key = key($positions);
-                unset($positions[$key]);
-
-                if(empty($positions)) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-
-                $position = 0;
-                foreach($positions as $index => $parent_category) {
-                    $category = new Folder_Model_Category();
-                    $category->find($index, 'category_id');
-                    $category
-                        ->setParentId($parent_category)
-                        ->setPos($position)
-                        ->save();
-                    $position+=1;
-                }
-
-                // Renvoie OK
-                $html = array('success' => 1);
-
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+            if (!is_array($categories)) {
+                throw new Siberian_Exception(__('Missing categories.'));
             }
 
-            $this->_sendHtml($html);
+            switch ($version) {
+                case 'get': // Legacy old/get method!
+                        throw new Siberian_Exception(__('This method is deprecated, please update!'));
+                    break;
+                case 'post':
+                        $position = 0;
+                        foreach ($categories as $category) {
+                            $tmpCategory = (new Folder_Model_Category())
+                                ->find($category['id'], 'category_id');
 
+                            $parentId = is_numeric($category['parentId']) ? $category['parentId'] : null;
+
+                            $tmpCategory
+                                ->setParentId($parentId)
+                                ->setPos($position)
+                                ->save();
+
+                            $position++;
+                        }
+                    break;
+            }
+
+            $payload = [
+                'success' => true
+            ];
+
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     public function deleteAction() {
@@ -161,14 +174,14 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
 
             try {
                 if(empty($datas['category_id'])) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $category = new Folder_Model_Category();
                 $category->find($datas['category_id']);
 
                 if(!$category->getId() OR $category->getRootCategoryId() != $this->getCurrentOptionValue()->getObject()->getRootCategoryId()) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 $category->delete();
