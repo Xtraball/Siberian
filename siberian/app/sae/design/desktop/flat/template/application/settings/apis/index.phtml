@@ -10,8 +10,7 @@
     $request = $this->getRequest();
 
     $form->setLoginCallbackUri(
-        sprintf('%s://%s/%s?login_fb=true',
-            $request->getScheme(),
+        sprintf('https://%s/%s?login_fb=true',
             $request->getHttpHost(),
             $application->getKey())
     );
