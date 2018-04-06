@@ -141,7 +141,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             }
 
             if (!$this->__user || !$this->__pwd || !$this->__signature) {
-                throw new Siberian_Exception('Error, Paypal is not properly set up.');
+                throw new Siberian_Exception('Error, Paypal is not properly set up.', 100);
             }
         }
 
