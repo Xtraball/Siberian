@@ -1475,18 +1475,18 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
             $payload["platform"] = [
                 "ios" => [
-                    "banner_id"         => System_Model_Config::getValueFor(sprintf($ios_key, "id")),
-                    "interstitial_id"   => System_Model_Config::getValueFor(sprintf($ios_key, "interstitial_id")),
-                    "banner"            => (boolean) in_array("banner", $ios_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $ios_types),
-                    "videos"            => (boolean) in_array("videos", $ios_types), # Prepping the future.
+                    "banner_id" => System_Model_Config::getValueFor(sprintf($ios_key, "id")),
+                    "interstitial_id" => System_Model_Config::getValueFor(sprintf($ios_key, "interstitial_id")),
+                    "banner" => (boolean) in_array("banner", $ios_types),
+                    "interstitial" => (boolean) in_array("interstitial", $ios_types),
+                    "videos" => (boolean) in_array("videos", $ios_types), # Prepping the future.
                 ],
                 "android" => [
-                    "banner_id"         => System_Model_Config::getValueFor(sprintf($android_key, "id")),
-                    "interstitial_id"   => System_Model_Config::getValueFor(sprintf($android_key, "interstitial_id")),
-                    "banner"            => (boolean) in_array("banner", $android_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $android_types),
-                    "videos"            => (boolean) in_array("videos", $android_types), # Prepping the future.
+                    "banner_id" => System_Model_Config::getValueFor(sprintf($android_key, "id")),
+                    "interstitial_id" => System_Model_Config::getValueFor(sprintf($android_key, "interstitial_id")),
+                    "banner" => (boolean) in_array("banner", $android_types),
+                    "interstitial" => (boolean) in_array("interstitial", $android_types),
+                    "videos" => (boolean) in_array("videos", $android_types), # Prepping the future.
                 ],
             ];
 
@@ -1511,18 +1511,18 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
             $payload["app"] = [
                 "ios" => [
-                    "banner_id"         => $ios_device->getAdmobId(),
-                    "interstitial_id"   => $ios_device->getAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $ios_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $ios_types),
-                    "videos"            => (boolean) in_array("videos", $ios_types), # Prepping the future.
+                    "banner_id" => $ios_device->getAdmobId(),
+                    "interstitial_id" => $ios_device->getAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $ios_types),
+                    "interstitial" => (boolean) in_array("interstitial", $ios_types),
+                    "videos" => (boolean) in_array("videos", $ios_types), # Prepping the future.
                 ],
                 "android" => [
-                    "banner_id"         => $android_device->getAdmobId(),
-                    "interstitial_id"   => $android_device->getAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $android_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $android_types),
-                    "videos"            => (boolean) in_array("videos", $android_types), # Prepping the future.
+                    "banner_id" => $android_device->getAdmobId(),
+                    "interstitial_id" => $android_device->getAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $android_types),
+                    "interstitial" => (boolean) in_array("interstitial", $android_types),
+                    "videos" => (boolean) in_array("videos", $android_types), # Prepping the future.
                 ],
             ];
         } else {
