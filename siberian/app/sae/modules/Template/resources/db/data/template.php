@@ -145,6 +145,7 @@ $designs = array(
         "startup_image_iphone_6" => "/../../images/templates/rouse/750x1334.png",
         "startup_image_iphone_6_plus" => "/../../images/templates/rouse/1242x2208.jpg",
         "startup_image_ipad_retina" => "/../../images/templates/rouse/1536x2048.jpg",
+        "startup_image_iphone_x" => "/../../images/templates/rouse/1125x2436.jpg",
     ),
     "bleuc" => array(
         "layout_id" => $layouts["layout_5"]->getId(),
@@ -163,6 +164,7 @@ $designs = array(
         "startup_image_iphone_6" => "/../../images/templates/bleuc/750x1334.png",
         "startup_image_iphone_6_plus" => "/../../images/templates/bleuc/1242x2208.jpg",
         "startup_image_ipad_retina" => "/../../images/templates/bleuc/1536x2048.jpg",
+        "startup_image_iphone_x" => "/../../images/templates/bleuc/1125x2436.jpg",
     ),
     "colors" => array(
         "layout_id" => $layouts["layout_4"]->getId(),
@@ -181,6 +183,7 @@ $designs = array(
         "startup_image_iphone_6" => "/../../images/templates/colors/750x1334.jpg",
         "startup_image_iphone_6_plus" => "/../../images/templates/colors/1242x2208.jpg",
         "startup_image_ipad_retina" => "/../../images/templates/colors/1536x2048.jpg",
+        "startup_image_iphone_x" => "/../../images/templates/colors/1125x2436.jpg",
     ),
     "blank" => array(
         "layout_id" => $layouts["layout_1"]->getId(),
@@ -194,7 +197,8 @@ $designs = array(
         "startup_image_retina" => "/../../images/application/placeholder/no-startupimage-retina.png",
         "startup_image_iphone_6" => "/../../images/application/placeholder/no-startupimage-iphone-6.png",
         "startup_image_iphone_6_plus" => "/../../images/application/placeholder/no-startupimage-iphone-6-plus.png",
-        "startup_image_ipad_retina" => "/../../images/application/placeholder/no-startupimage-tablet.png"
+        "startup_image_ipad_retina" => "/../../images/application/placeholder/no-startupimage-tablet.png",
+        "startup_image_iphone_x" => "/../../images/application/placeholder/no-startupimage-iphone-x.png",
     )
 );
 
