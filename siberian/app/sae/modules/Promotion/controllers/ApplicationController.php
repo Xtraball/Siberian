@@ -1,17 +1,20 @@
 <?php
 
-class Promotion_ApplicationController extends Application_Controller_Default {
-
-
+/**
+ * Class Promotion_ApplicationController
+ */
+class Promotion_ApplicationController extends Application_Controller_Default
+{
     /**
      *
      */
-    public function loadformAction() {
+    public function loadformAction()
+    {
         $promotion_id = $this->getRequest()->getParam('promotion_id');
 
         $promotion = new Promotion_Model_Promotion();
         $promotion->find($promotion_id);
-        if($promotion->getId()) {
+        if ($promotion->getId()) {
             $form = new Promotion_Form_Promotion();
 
             $formData = $promotion->getData();
@@ -183,6 +186,11 @@ class Promotion_ApplicationController extends Application_Controller_Default {
             $size = $request->getParam('size', 200);
             $margin = $request->getParam('margin', 10);
             $code = $request->getParam('code', uniqid());
+            // Support for base64!
+            $base64 = $request->getParam('base64', false);
+            if ($base64 !== false) {
+                $code = base64_decode($code);
+            }
 
             $qrCode = $this->generateQrCode($code, $size, $margin);
 
