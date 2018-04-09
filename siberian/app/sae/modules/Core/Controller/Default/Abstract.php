@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Core_Controller_Default_Abstract
+ *
+ * @method $this setLayoutVisibility(string $visiblity)
+ */
 abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action implements Core_Model_Exporter
 {
     /**
