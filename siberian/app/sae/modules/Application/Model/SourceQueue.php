@@ -287,8 +287,6 @@ class Application_Model_SourceQueue extends Core_Model_Default {
                         ->setData('path', '')
                         ->save();
                 }
-
-
             }
         }
 
