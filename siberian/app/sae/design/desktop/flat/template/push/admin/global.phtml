@@ -1,17 +1,31 @@
 <?php
-$applications = $this->getAdmin()->getPublishedApplicationsForAdmin();
-
-$push_form = new Push_Form_Global();
+$isSae = Siberian_Version::is('SAE');
+$pushForm = new Push_Form_Global();
+if ($isSae) {
+    $columns = 'col-lg-12';
+    $application = Application_Model_Application::getInstance();
+    $devices = $application->getDevices();
+    $isPublished = false;
+    foreach ($devices as $device) {
+        if ($device->getStatusId() === '3') {
+            $isPublished = true;
+            break;
+        }
+    }
+    $pushForm->removeElement('send_to_all');
+} else {
+    $isPublished = true;
+    $columns = 'col-lg-6';
+    $applications = $this->getAdmin()->getPublishedApplicationsForAdmin();
+}
 ?>
-
-
 
 <div class="page-content-wrapper content solo-page">
     <h3 class="title-editor border-blue text-center"><?php echo __("Global push notifications"); ?></h3>
     <div class="subcontent content-color container-fluid">
         <div class="row">
 
-            <?php if(count($applications) <= 0): ?>
+            <?php if(count($applications) <= 0 && !$isSae): ?>
                 <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
                     <h4 class="center"><?php echo __("Push notification"); ?></h4>
                     <div class="subcontent content-color">
@@ -21,17 +35,22 @@ $push_form = new Push_Form_Global();
                     </div>
                     <div style="clear:both"></div>
                 </div>
-
             <?php else: ?>
-            <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
+            <div id="sb-tour-global-push-1" class="<?php echo $columns; ?> sb-tour">
+                <?php if (!$isPublished): ?>
+                    <div class="alert alert-info">
+                        <?php echo __("In order to use global push notifications your app must be published.") ?>
+                    </div>
+                <?php endif; ?>
                 <h4 class="center"><?php echo __("Push notification"); ?></h4>
                 <div id="push-form-bind" class="subcontent content-color">
-                    <?php echo $push_form; ?>
+                    <?php echo $pushForm; ?>
                 </div>
                 <div style="clear:both"></div>
             </div>
             <?php endif; ?>
 
+            <?php if (!$isSae): ?>
             <div id="sb-tour-global-push-select-app" class="col-lg-6 sb-tour">
                 <h4 class="center"><?php echo __("Select target applications"); ?></h4>
                 <span><?php echo __("Only published application are available for global push notifications.") ?></span>
@@ -74,6 +93,7 @@ $push_form = new Push_Form_Global();
                 </div>
                 <div style="clear:both"></div>
             </div>
+            <?php endif; ?>
 
 
         </div>

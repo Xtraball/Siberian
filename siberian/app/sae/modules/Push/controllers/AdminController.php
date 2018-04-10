@@ -10,32 +10,38 @@ class Push_AdminController extends Admin_Controller_Default {
     /**
      * Send a global push message
      */
-    public function sendAction() {
+    public function sendAction()
+    {
         $values = $this->getRequest()->getPost();
 
         $form = new Push_Form_Global();
-        if($form->isValid($values)) {
+        if ($form->isValid($values)) {
 
             # Filter checked applications
-            $values["checked"] = explode(',', $values["checked"]);
+            if (Siberian_Version::is('sae')) {
+                $values["checked"] = [Application_Model_Application::getInstance()->getId()];
+                $values["send_to_all"] = false;
+            } else {
+                $values["checked"] = explode(',', $values["checked"]);
+            }
 
             $values["base_url"] = $this->getRequest()->getBaseUrl();
 
             $push_global = new Push_Model_Message_Global();
             $result = $push_global->createInstance($values);
 
-            $data = array(
+            $data = [
                 "success" => true,
-                "message" => ($result) ? __("Push message is sent.") : __("No message sent, there is no available applications."),
-            );
+                "message" => ($result) ? __("Push message is sent.") :
+                    __("No message sent, there is no available applications."),
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-
-            $data = array(
-                "error"     => 1,
-                "message"   => $form->getTextErrors(),
-                "errors"    => $form->getTextErrors(true),
-            );
+            $data = [
+                "error" => true,
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
+            ];
         }
 
         $this->_sendJson($data);
