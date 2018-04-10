@@ -18,6 +18,11 @@ if(isset($layout_options["form"]) && class_exists($layout_options["form"])) {
 $layout_form_options = new Siberian_Form_Options($layout);
 $layout_form_options->populate($application->getData());
 
+// Count elements (excluding hidden fields)
+$countOptions = array_filter($layout_form_options->getElements(), function ($element) {
+    return get_class($element) !== 'Siberian_Form_Element_Hidden';
+});
+
 $template_design = $application->getDesign();
 $overview_new = $template_design->getOverviewNew();
 
@@ -70,7 +75,7 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
                     <div class="content-options content-white-bkg">
                         <h4><?php echo __("Layout options") ?></h4>
                         <?php echo $layout_form_options; ?>
-                        <?php if(sizeof($layout_form_options->getElements()) > 0): ?>
+                        <?php if(sizeof($countOptions) > 0): ?>
                             <hr class="general" />
                         <?php endif; ?>
                         <?php if($layout_form !== false): ?>
@@ -107,8 +112,8 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
                         <?php echo $layout_form; ?>
                         <?php endif; ?>
 
-                        <?php if(($layout_form === false) && (sizeof($layout_form_options->getElements()) <= 0)): ?>
-                            <p class="preset-title text-center"><?php echo __("No options available.") ?></p>
+                        <?php if(($layout_form === false) && (sizeof($countOptions) <= 0)): ?>
+                            <p class="preset-title text-center"><?php echo __('This layout has no option.') ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
