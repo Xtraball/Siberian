@@ -6,7 +6,7 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
+$schemas = (!isset($schemas)) ? [] : $schemas;
 $schemas['application'] = array(
     'app_id' => array(
         'type' => 'int(11) unsigned',
@@ -255,6 +255,12 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'startup_image_iphone_x' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'homepage_slider_is_visible' => array(
         'type' => 'tinyint(1)',
         'is_null' => true,
