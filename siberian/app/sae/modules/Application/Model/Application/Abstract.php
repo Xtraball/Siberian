@@ -291,6 +291,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setStartupImageIphone6($design->getStartupImageIphone6())
             ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
             ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
+            ->setStartupImageIphoneX($design->getStartupImageIphoneX())
             ->setHomepageBackgroundImageRetinaLink($relative_path.$image_name)
             ->setHomepageBackgroundImageLink($lowres_relative_path.$image_name)
         ;
@@ -826,86 +827,124 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $picto_urls;
     }
 
-    public function getAppStoreIcon($base = false) {
+    /**
+     * @param bool $base
+     * @return string
+     */
+    public function getAppStoreIcon($base = false)
+    {
         return $this->getIcon(1024, 'touch_icon_'.$this->getId(). '_1024', $base);
     }
 
-    public function getGooglePlayIcon($base = false) {
+    /**
+     * @param bool $base
+     * @return string
+     */
+    public function getGooglePlayIcon($base = false)
+    {
         return $this->getIcon(512, 'touch_icon_'.$this->getId(). '_512', $base);
     }
 
-    public function getStartupImageUrl($type = "standard", $base = false) {
-
+    /**
+     * @param string $type
+     * @param bool $base
+     * @return string
+     */
+    public function getStartupImageUrl($type = "standard", $base = false)
+    {
         try {
             $image = '';
 
-            if($type == "standard") $image_name = $this->getData('startup_image');
-            else $image_name = $this->getData('startup_image_'.$type);
+            if ($type == "standard") {
+                $image_name = $this->getData('startup_image');
+            } else {
+                $image_name = $this->getData('startup_image_'.$type);
+            }
 
-            if(!empty($image_name) AND file_exists(self::getBaseImagePath().$image_name)) {
+            if (!empty($image_name) && file_exists(self::getBaseImagePath().$image_name)) {
                 $image = $base ? self::getBaseImagePath().$image_name : self::getImagePath().$image_name;
             }
 
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $image = '';
         }
 
-        if(empty($image)) {
+        if (empty($image)) {
             $image = $this->getNoStartupImageUrl($type, $base);
         }
 
         return $image;
     }
 
-    public function getNoStartupImageUrl($type = 'standard', $base = false) {
-
-        if($type == "standard") $type = "";
-        else $type = "-".str_replace("_", "-", $type);
+    /**
+     * @param string $type
+     * @param bool $base
+     * @return string
+     */
+    public function getNoStartupImageUrl($type = 'standard', $base = false)
+    {
+        if ($type == "standard") {
+            $type = "";
+        } else {
+            $type = "-".str_replace("_", "-", $type);
+        }
 
         $image_name = "no-startupimage{$type}.png";
 
         $path = $base ? self::getBaseImagePath() : self::getImagePath();
+
         return $path."/placeholder/".$image_name;
     }
 
-    public function getShortName() {
-
-        if($name = $this->getName()) {
-            if(mb_strlen($name, 'UTF-8') > 11) $name = trim(mb_substr($name, 0, 10, "UTF-8")) . '...';
+    /**
+     * @return string
+     */
+    public function getShortName()
+    {
+        $name = $this->getName();
+        if ($name && (mb_strlen($name, 'UTF-8') > 11)) {
+            $name = trim(mb_substr($name, 0, 10, "UTF-8")) . '...';
         }
 
         return $name;
-
     }
 
-    public function getFacebookId() {
-
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getFacebookId()
+    {
         $facebook_app_id = $this->getData("facebook_id");
 
-        if(!$facebook_app_id) {
+        if (!$facebook_app_id) {
             $facebook_app_id = Api_Model_Key::findKeysFor('facebook')->getAppId();
         }
 
         return $facebook_app_id;
     }
 
-    public function getFacebookKey() {
-
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getFacebookKey()
+    {
         $facebook_key = $this->getData("facebook_key");
 
-        if(!$facebook_key) {
+        if (!$facebook_key) {
             $facebook_key = Api_Model_Key::findKeysFor('facebook')->getSecretKey();
         }
 
         return $facebook_key;
     }
 
-    public function getInstagramClientId() {
-
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getInstagramClientId()
+    {
         $instagram_client_id = $this->getData("instagram_client_id");
 
-        if(!$instagram_client_id) {
+        if (!$instagram_client_id) {
             $instagram_client_id = Api_Model_Key::findKeysFor('instagram')->getClientId();
         }
 
