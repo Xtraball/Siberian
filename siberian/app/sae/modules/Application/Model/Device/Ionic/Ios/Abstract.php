@@ -188,6 +188,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                     'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-2436h.png'
                 ],
                 [
+                    'width' => 2436,
+                    'height' => 1125,
                     'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-2436h.png'
                 ]
             ]
