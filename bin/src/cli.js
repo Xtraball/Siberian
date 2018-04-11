@@ -1026,12 +1026,12 @@ let switchType = function (type, reinstall, emptydb) {
     }
 
     let appIni = fs.readFileSync(iniPath, 'utf8');
-    appIni = appIni.replace(/dbname = '(.*)'/, 'dbname = "' +
+    appIni = appIni.replace(/dbname = ('|")(.*)('|")/, 'dbname = "' +
         developer.mysql.databasePrefix+type.toLowerCase() + '"');
 
     // Reset the isInstalled var.!
     if (reinstall) {
-        appIni = appIni.replace(/isInstalled = '(.*)'/, 'isInstalled = "0"');
+        appIni = appIni.replace(/isInstalled = ('|")(.*)('|")/, 'isInstalled = "0"');
     }
 
     // Empty database!

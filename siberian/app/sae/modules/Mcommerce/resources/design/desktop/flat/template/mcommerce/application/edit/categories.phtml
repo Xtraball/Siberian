@@ -81,6 +81,7 @@
             $('#category_root').nestedSortable({
                 helper: 'clone',
                 forceHelperSize: true,
+                excludeRoot: true,
                 distance: 5,
                 forcePlaceholderSize: true,
                 tolerance: 'pointer',
@@ -93,13 +94,21 @@
                 protectRoot: true,
                 rootID: 'category_<?php echo $category->getId(); ?>',
                 update: function (e, ui) {
-                    var order = $('#category_root').nestedSortable('serialize');
                     $('#category_root').nestedSortable('refresh');
-                    reload($('.categories_list.sortable'), '<?php echo $this->getUrl('mcommerce/application_catalog_category/order'); ?>?'+order, true, function(datas) {
-                        if(datas.success) {
-                            console.log('success');
-                        }
-                    });
+                    var categories = $('#category_root')
+                        .nestedSortable('toArray')
+                        .map(function (item) {
+                            return {
+                                id: item.id,
+                                parentId: item.parent_id
+                            }
+                        });
+                    $('#category_root').nestedSortable('refresh');
+
+                    var postData = {
+                        'categories': categories
+                    };
+                    formget('/mcommerce/application_catalog_category/order?version=post', postData);
                 }.bind(this)
             });
         },

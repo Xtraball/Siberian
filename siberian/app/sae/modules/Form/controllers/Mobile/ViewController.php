@@ -1,49 +1,53 @@
 <?php
+/**
+ *
+ */
+class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
+{
+    /**
+     *
+     */
+    public function findAction()
+    {
+        if ($value_id = $this->getRequest()->getParam('value_id')) {
 
-class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
-
-    public function findAction() {
-
-        if($value_id = $this->getRequest()->getParam('value_id')) {
-
-            $data = array("sections" => array());
+            $data = [
+                'sections' => []
+            ];
             $option = $this->getCurrentOptionValue();
             $form = $option->getObject();
             $sections = $form->getSections();
 
-            foreach($sections as $section) {
-
-                $section_data = array(
+            foreach ($sections as $section) {
+                $section_data = [
                     "name" => $section->getName(),
-                    "fields" => array()
-                );
+                    "fields" => []
+                ];
 
                 $fields = $section->getFields();
 
-                foreach($fields as $field) {
+                foreach ($fields as $field) {
+                    $field_data = [
+                        'id' => $field->getId(),
+                        'type' => $field->getType(),
+                        'name' => $field->getName(),
+                        'options' => $field->hasOptions() ? $field->getOptions() : []
+                    ];
 
-                    $field_data = array(
-                        "id" => $field->getId(),
-                        "type" => $field->getType(),
-                        "name" => $field->getName(),
-                        "options" => $field->hasOptions() ? $field->getOptions() : array()
-                    );
-
-                    if($field->isRequired()) {
-                        $field_data["name"] .= " *";
+                    if ($field->isRequired()) {
+                        $field_data['name'] .= ' *';
                     }
 
-                    $section_data["fields"][] = $field_data;
+                    $section_data['fields'][] = $field_data;
                 }
 
-                $data["sections"][] = $section_data;
+                $data['sections'][] = $section_data;
             }
 
-            $data["page_title"] = $option->getTabbarName();
+            $data['page_title'] = $option->getTabbarName();
 
             $this->_sendJson($data);
         }
-
     }
 
     /**
@@ -55,7 +59,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
             if ($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
                 $data = $data["form"];
-                $data_image = array();
+                $data_image = [];
                 $errors = '';
                 // Recherche des sections
                 $section = new Form_Model_Section();
@@ -64,7 +68,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                 $field = new Form_Model_Field();
 
                 // Date Validator
-                $dataChanged = array();
+                $dataChanged = [];
 
                 foreach ($sections as $k => $section) {
                     // Load the fields
@@ -159,7 +163,9 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                     $fileName = uniqid() . '.' . $extension;
                                     $relativePath = $this->getCurrentOptionValue()->getImagePathTo();
                                     $fullPath = Application_Model_Application::getBaseImagePath() . $relativePath;
-                                    if (!is_dir($fullPath)) mkdir($fullPath, 0777, true);
+                                    if (!is_dir($fullPath)) {
+                                        mkdir($fullPath, 0777, true);
+                                    }
                                     $filePath = $fullPath . '/' . $fileName;
 
                                     $contents = file_get_contents($image);
@@ -168,12 +174,13 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                     }
 
                                     $res = file_put_contents($filePath, $contents);
-                                    if ($res === FALSE) throw new Exception('Unable to save image');
+                                    if ($res === FALSE) {
+                                        throw new Siberian_Exception('Unable to save image');
+                                    }
 
                                     list($width, $height) = getimagesize($fullPath . DS . $fileName);
 
                                     $max_height = $max_width = 600;
-                                    $image_name = uniqid($max_height);
                                     if ($height > $width) {
                                         $image_width = $max_height * $width / $height;
                                         $image_height = $max_height;
@@ -181,16 +188,11 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default {
                                         $image_width = $max_width;
                                         $image_height = $max_width * $height / $width;
                                     }
+                                    $finalPath = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), $filePath);
 
-                                    $newIcon = new Core_Model_Lib_Image();
-                                    $newIcon->setId($image_name)
-                                        ->setPath($fullPath . DS . $fileName)
-                                        ->setWidth($image_width)
-                                        ->setHeight($image_height)
-                                        ->crop();
-                                    $image_url = $this->getRequest()->getBaseUrl() . $newIcon->getUrl();
+                                    $imageUrl = $this->getRequest()->getBaseUrl() . '/images/application' . $finalPath;
 
-                                    $dataChanged[$field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $image_url . '" alt="' . $field->getName() . '" />';
+                                    $dataChanged[$field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $imageUrl . '" alt="' . $field->getName() . '" />';
                                 } else {
                                     $dataChanged[$field->getName()] = $data[$field->getId()];
                                 }

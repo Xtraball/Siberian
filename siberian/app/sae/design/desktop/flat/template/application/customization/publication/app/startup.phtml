@@ -25,21 +25,21 @@
         <div class="col-lg-12 col-sm-12 col-xs-12 ">
             <div class="form-group">
                 <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                    <p class="recommended_size"><b><?php echo $this->_('Size:'); ?></b> 640x960</p>
+                    <p class="recommended_size"><b><?php echo __('Size:'); ?></b> 640x960</p>
                     <button type="button" class="normal upload_startupimage btn btn-grey btn-full-width" data-type="standard">
-                        <?php echo $this->_("Choose a picture"); ?>
+                        <?php echo __("Choose a picture"); ?>
                     </button>
                 </div>
                 <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                    <p class="recommended_size"><b><?php echo $this->_('iPhone 5 / 5S:'); ?></b> 640x1136</p>
+                    <p class="recommended_size"><b><?php echo __('iPhone 5 / 5S:'); ?></b> 640x1136</p>
                     <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="retina">
-                        <?php echo $this->_("Choose a picture"); ?>
+                        <?php echo __("Choose a picture"); ?>
                     </button>
                 </div>
                 <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                    <p class="recommended_size"><b><?php echo $this->_('iPhone 6:'); ?></b> 750x1334</p>
+                    <p class="recommended_size"><b><?php echo __('iPhone 6:'); ?></b> 750x1334</p>
                     <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="iphone_6">
-                        <?php echo $this->_("Choose a picture"); ?>
+                        <?php echo __("Choose a picture"); ?>
                     </button>
                 </div>
             </div>
@@ -59,20 +59,31 @@
                         <img id="startupimage_ipad_retina" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("ipad_retina") ?>" />
                     </div>
                 </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4">
+                    <div class="img-layout" style="width:100%; overflow:hidden;padding:0">
+                        <img id="startupimage_iphone_x" width="100%" style="display:block; background:black; border-radius: 0;" src="<?php echo $application->getStartupImageUrl("iphone_x") ?>" />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-lg-12 col-sm-12 col-xs-12 ">
             <div class="form-group">
                 <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                    <p class="recommended_size"><b><?php echo $this->_('iPhone 6 Plus:'); ?></b> 1242x2208</p>
+                    <p class="recommended_size"><b><?php echo __('iPhone 6 Plus:'); ?></b> 1242x2208</p>
                     <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="iphone_6_plus">
-                        <?php echo $this->_("Choose a picture"); ?>
+                        <?php echo __("Choose a picture"); ?>
                     </button>
                 </div>
                 <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
-                    <p class="recommended_size"><b><?php echo $this->_('iPad Retina:'); ?></b> 1536x2048</p>
+                    <p class="recommended_size"><b><?php echo __('iPad Retina:'); ?></b> 1536x2048</p>
                     <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="ipad_retina">
-                        <?php echo $this->_("Choose a picture"); ?>
+                        <?php echo __("Choose a picture"); ?>
+                    </button>
+                </div>
+                <div class="col-lg-4 col-sm-4 col-xs-4 startup-bottom-blocks">
+                    <p class="recommended_size"><b><?php echo __('iPhone X:'); ?></b> 1125x2436</p>
+                    <button type="button" class="retina upload_startupimage btn btn-grey btn-full-width" data-type="iphone_x">
+                        <?php echo __("Choose a picture"); ?>
                     </button>
                 </div>
             </div>
@@ -97,6 +108,8 @@
 <input class="fileupload iphone_6" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="750" data-height="1334" data-type="iphone_6" />
 <input class="fileupload iphone_6_plus" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="1242" data-height="2208" data-type="iphone_6_plus" />
 <input class="fileupload ipad_retina" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="1536" data-height="2048" data-type="ipad_retina" />
+<input class="fileupload iphone_x" type="file" style="display:none" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-width="1125" data-height="2436" data-type="iphone_x" />
+
 
 <div id="capture_conteneurs">
     <div class="left" id="crop_startupimage_cont_retina"></div>

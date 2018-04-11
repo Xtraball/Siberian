@@ -4,7 +4,7 @@ angular.module('starter').config(function ($stateProvider) {
             url: BASE_PATH + '/application/mobile_customization_colors/',
             controller: 'ApplicationColorsController',
             templateUrl: 'templates/application/l1/colors/view.html',
-            resolve: lazyLoadResolver('application'),
+            resolve: lazyLoadResolver(['application', 'homepage']),
             cache: false
         })
         .state('tc-view', {

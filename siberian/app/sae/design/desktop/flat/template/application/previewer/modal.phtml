@@ -13,7 +13,8 @@ $urlQrCode = $this->getUrl(
     [
         'size' => 200,
         'margin' => 12,
-        'code' => $urlPreviewer
+        'base64' => 1,
+        'code' => base64_encode($urlPreviewer)
     ]
 );
 

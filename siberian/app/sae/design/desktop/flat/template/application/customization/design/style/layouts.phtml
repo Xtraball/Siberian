@@ -35,9 +35,11 @@
     </ul>
 </div>
 <div class="content-no-padding layouts_content_preview col-md-9 col-xs-9">
-    <?php foreach($layouts as $layout) : ?>
+    <?php foreach($layouts as $layout) :
+        $isCurrent = ($application->getLayoutId() == $layout->getId());
+        ?>
         <?php $with_options = (Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode())); ?>
-        <div class="layout-size col-md-3 col-xs-4 text-center category_<?php echo $layout->getCategoryId(); ?> <?php echo ($with_options) ? "category_withoptions" : "" ?>">
+        <div class="layout-size <?php echo $isCurrent ? 'current' : ''; ?> border-red col-md-3 col-xs-4 text-center category_<?php echo $layout->getCategoryId(); ?> <?php echo ($with_options) ? "category_withoptions" : "" ?>">
             <p class="template_image">
                 <a href="javascript:void(0);" data-uri="<?php echo $this->getUrl("application/customization_design_style/changelayout", array("layout_id" => $layout->getId())); ?>" class="change_layout block relative">
                     <p class="template_title color-red"><?php echo $layout->getName(); ?></p>
@@ -52,9 +54,6 @@
                     ?>
 
                     <img src="<?php echo $this->getImage($new); ?>" class="<?php echo $klass; ?>" width="100%" height="100%" />
-                    <?php if($application->getLayoutId() == $layout->getId()) : ?>
-                        <span class="checked"></span>
-                    <?php endif; ?>
 
                     <input type="hidden" name="layout_id" value="<?php echo $layout->getId(); ?>" />
                     <input type="hidden" name="category_id" value="<?php echo $layout->getCategoryId(); ?>" />
@@ -153,5 +152,15 @@
         left: 0;
         top: 0;
         opacity: 1;
+    }
+
+    /** Fixes for layout modal */
+    #modal_content_modal_layouts {
+        transform: scale(1) !important;
+    }
+
+    .modal_content p {
+        margin-top: 0 !important;
+        padding-top: 7px;
     }
 </style>

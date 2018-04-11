@@ -1,4 +1,4 @@
-angular.module('starter').controller('HomeController', function ($ionicHistory, $injector,
+angular.module('starter').controller('HomeController', function ($ionicHistory, $injector, $ionicNavBarDelegate,
                                                                 $location, $rootScope, $scope, $state, $timeout,
                                                                 $window, Application, Padlock) {
     var HomepageLayout = $injector.get('HomepageLayout');
@@ -92,6 +92,8 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
 
             $scope.is_loading = false;
         });
+
+        $ionicNavBarDelegate.showBar(true);
     };
 
     $scope.loadContent();
