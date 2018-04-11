@@ -20,7 +20,6 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
     public function findAllByAdmin($admin_id, $where = array(), $order = null, $count = null, $offset = null) {
         $select = $this->select()
             ->from(array('a' => $this->_name))
-
             ->setIntegrityCheck(false)
         ;
 
