@@ -7,3 +7,5 @@ rm -f package.json.bck
 
 # Pack resources
 ./ci/pack-resources.sh
+git add -a
+git commit -m "chore: resource archives."
