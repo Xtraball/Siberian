@@ -61,7 +61,27 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
         $subscriptions = (new Subscription_Model_Subscription_Application())
             ->findExpiredSubscriptions('profile_id');
 
-        $paypalModel = new Payment_Model_Paypal();
+        try {
+            $paypalModel = new Payment_Model_Paypal();
+        } catch (Exception $e) {
+            if (Siberian_Version::is('PE')) {
+                $subscriptionsCount = (new Subscription_Model_Subscription_Application())
+                    ->countAll(
+                        [
+                            'payment_method' => 'paypal'
+                        ]
+                    );
+
+                if ($subscriptionsCount && $e->getCode() === 100) {
+                    throw new Siberian_Exception(
+                        __('PayPal is not configured in your Backoffice, recurrencies will not work correctly.'));
+                } else {
+                    $cronInstance->log('PayPal is not configured in your Backoffice, aborting.');
+                }
+            }
+            return;
+        }
+
         $saleModel = new Sales_Model_Invoice();
         $year2018 = new Zend_Date('2018-01-01 00:00:00Z');
         $countSubscription = count($subscriptions);
