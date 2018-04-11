@@ -1315,10 +1315,10 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         $application = $this->getApplication();
 
         $subscription = null;
-        $pe_use_ads = null;
+        $planUseAds = null;
         if($this->isPe()) {
             $subscription = $application->getSubscription()->getSubscription();
-            $pe_use_ads = $subscription->getUseAds();
+            $planUseAds = $subscription->getUseAds();
         }
 
         $device = $this->getDevice()->isIosdevice() ? $application->getDevice(1) : $application->getDevice(2);
@@ -1331,7 +1331,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             );
 
         } else {
-            if($pe_use_ads) {
+            if($planUseAds) {
 
                 $settings = array(
                     "id" => System_Model_Config::getValueFor("application_".$device->getType()->getOsName()."_owner_admob_id"),
@@ -1417,39 +1417,39 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         $application = $this->getApplication();
 
         $subscription = null;
-        $pe_use_ads = false;
-        if($this->isPe()) {
+        $planUseAds = false;
+        if ($this->isPe()) {
             $subscription = $application->getSubscription()->getSubscription();
-            $pe_use_ads = $subscription->getUseAds();
+            $planUseAds = $subscription->getUseAds();
         }
 
         $ios_device = $application->getDevice(1);
         $android_device = $application->getDevice(2);
 
         # Platform/Subscription settings
-        if($application->getOwnerUseAds()) {
+        if ($application->getOwnerUseAds()) {
 
             $ios_types = explode("-", $ios_device->getOwnerAdmobType());
             $ios_weight = (integer) $ios_device->getOwnerAdmobWeight();
             $android_types = explode("-", $android_device->getOwnerAdmobType());
             $android_weight = (integer) $android_device->getOwnerAdmobWeight();
 
-            $payload["platform"] = array(
-                "ios" => array(
-                    "banner_id"         => $ios_device->getOwnerAdmobId(),
-                    "interstitial_id"   => $ios_device->getOwnerAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $ios_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $ios_types),
-                    "videos"            => (boolean) in_array("videos", $ios_types), # Prepping the future.
-                ),
-                "android" => array(
-                    "banner_id"         => $android_device->getOwnerAdmobId(),
-                    "interstitial_id"   => $android_device->getOwnerAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $android_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $android_types),
-                    "videos"            => (boolean) in_array("videos", $android_types), # Prepping the future.
-                ),
-            );
+            $payload["platform"] = [
+                "ios" => [
+                    "banner_id" => $ios_device->getOwnerAdmobId(),
+                    "interstitial_id" => $ios_device->getOwnerAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $ios_types),
+                    "interstitial" => (boolean) in_array("interstitial", $ios_types),
+                    "videos" => (boolean) in_array("videos", $ios_types), # Prepping the future.
+                ],
+                "android" => [
+                    "banner_id" => $android_device->getOwnerAdmobId(),
+                    "interstitial_id" => $android_device->getOwnerAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $android_types),
+                    "interstitial" => (boolean) in_array("interstitial", $android_types),
+                    "videos" => (boolean) in_array("videos", $android_types), # Prepping the future.
+                ],
+            ];
 
             if(($ios_weight >= 0) && ($ios_weight <= 100)) {
                 $weight = ($ios_weight/100);
@@ -1463,8 +1463,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 $payload["android_weight"]["app"] = (1 - $weight);
             }
 
-        } else if(($pe_use_ads && System_Model_Config::getValueFor("application_owner_use_ads")) ||
-            System_Model_Config::getValueFor("application_owner_use_ads")) {
+        } else if (($planUseAds || System_Model_Config::getValueFor("application_owner_use_ads"))) {
 
             $ios_key = "application_" . $ios_device->getType()->getOsName() . "_owner_admob_%s";
             $android_key = "application_" . $android_device->getType()->getOsName() . "_owner_admob_%s";
@@ -1474,30 +1473,30 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             $android_types = explode("-", System_Model_Config::getValueFor(sprintf($android_key, "type")));
             $android_weight = (integer) System_Model_Config::getValueFor(sprintf($android_key, "weight"));
 
-            $payload["platform"] = array(
-                "ios" => array(
-                    "banner_id"         => System_Model_Config::getValueFor(sprintf($ios_key, "id")),
-                    "interstitial_id"   => System_Model_Config::getValueFor(sprintf($ios_key, "interstitial_id")),
-                    "banner"            => (boolean) in_array("banner", $ios_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $ios_types),
-                    "videos"            => (boolean) in_array("videos", $ios_types), # Prepping the future.
-                ),
-                "android" => array(
-                    "banner_id"         => System_Model_Config::getValueFor(sprintf($android_key, "id")),
-                    "interstitial_id"   => System_Model_Config::getValueFor(sprintf($android_key, "interstitial_id")),
-                    "banner"            => (boolean) in_array("banner", $android_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $android_types),
-                    "videos"            => (boolean) in_array("videos", $android_types), # Prepping the future.
-                ),
-            );
+            $payload["platform"] = [
+                "ios" => [
+                    "banner_id" => System_Model_Config::getValueFor(sprintf($ios_key, "id")),
+                    "interstitial_id" => System_Model_Config::getValueFor(sprintf($ios_key, "interstitial_id")),
+                    "banner" => (boolean) in_array("banner", $ios_types),
+                    "interstitial" => (boolean) in_array("interstitial", $ios_types),
+                    "videos" => (boolean) in_array("videos", $ios_types), # Prepping the future.
+                ],
+                "android" => [
+                    "banner_id" => System_Model_Config::getValueFor(sprintf($android_key, "id")),
+                    "interstitial_id" => System_Model_Config::getValueFor(sprintf($android_key, "interstitial_id")),
+                    "banner" => (boolean) in_array("banner", $android_types),
+                    "interstitial" => (boolean) in_array("interstitial", $android_types),
+                    "videos" => (boolean) in_array("videos", $android_types), # Prepping the future.
+                ],
+            ];
 
-            if(($ios_weight >= 0) && ($ios_weight <= 100)) {
+            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
                 $weight = ($ios_weight/100);
                 $payload["ios_weight"]["platform"] = $weight;
                 $payload["ios_weight"]["app"] = (1 - $weight);
             }
 
-            if(($android_weight >= 0) && ($android_weight <= 100)) {
+            if (($android_weight >= 0) && ($android_weight <= 100)) {
                 $weight = ($android_weight/100);
                 $payload["android_weight"]["platform"] = $weight;
                 $payload["android_weight"]["app"] = (1 - $weight);
@@ -1505,28 +1504,27 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         }
 
-        if($application->getUseAds()) {
+        if ($application->getUseAds()) {
 
             $ios_types = explode("-", $ios_device->getAdmobType());
             $android_types = explode("-", $android_device->getAdmobType());
 
-            $payload["app"] = array(
-                "ios" => array(
-                    "banner_id"         => $ios_device->getAdmobId(),
-                    "interstitial_id"   => $ios_device->getAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $ios_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $ios_types),
-                    "videos"            => (boolean) in_array("videos", $ios_types), # Prepping the future.
-                ),
-                "android" => array(
-                    "banner_id"         => $android_device->getAdmobId(),
-                    "interstitial_id"   => $android_device->getAdmobInterstitialId(),
-                    "banner"            => (boolean) in_array("banner", $android_types),
-                    "interstitial"      => (boolean) in_array("interstitial", $android_types),
-                    "videos"            => (boolean) in_array("videos", $android_types), # Prepping the future.
-                ),
-            );
-
+            $payload["app"] = [
+                "ios" => [
+                    "banner_id" => $ios_device->getAdmobId(),
+                    "interstitial_id" => $ios_device->getAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $ios_types),
+                    "interstitial" => (boolean) in_array("interstitial", $ios_types),
+                    "videos" => (boolean) in_array("videos", $ios_types), # Prepping the future.
+                ],
+                "android" => [
+                    "banner_id" => $android_device->getAdmobId(),
+                    "interstitial_id" => $android_device->getAdmobInterstitialId(),
+                    "banner" => (boolean) in_array("banner", $android_types),
+                    "interstitial" => (boolean) in_array("interstitial", $android_types),
+                    "videos" => (boolean) in_array("videos", $android_types), # Prepping the future.
+                ],
+            ];
         } else {
             # If user don't use admob, split revenue is 100% for platform.
             $payload["ios_weight"]["platform"] = 1;
