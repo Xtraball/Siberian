@@ -4,3 +4,8 @@
 LASTVERSION=$(node -e "console.log(require('./package.json').version);");
 sed -i".bck" -e 's/"lastversion": ".*",/"lastversion": "'$LASTVERSION'",/g' package.json
 rm -f package.json.bck
+
+# Pack resources
+./ci/pack-resources.sh
+git add -a
+git commit -m "chore: resource archives."
