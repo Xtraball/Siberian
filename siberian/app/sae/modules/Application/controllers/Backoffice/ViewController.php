@@ -325,14 +325,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             try {
 
                 if(empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
-                    throw new Exception(__("An error occurred while saving. Please try again later."));
+                    throw new Exception('#783-01: ' . __("An error occurred while saving. Please try again later."));
                 }
 
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
                 if(!$application->getId()) {
-                    throw new Exception(__("An error occurred while saving. Please try again later."));
+                    throw new Exception('#783-02: ' . __("An error occurred while saving. Please try again later."));
                 }
 
                 foreach($data["devices"] as $device_data) {

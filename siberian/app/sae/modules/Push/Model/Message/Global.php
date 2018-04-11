@@ -45,13 +45,15 @@ class Push_Model_Message_Global extends Core_Model_Default {
             }
         } else {
             // Get apps that belong to the current admin in case any injection to other apps is tested!
-            $all_for_admin = $application_table->findAllByAdmin(
-                $this->getSession()->getAdminId()
-            )->toArray();
-            $filtered = array_map(function($app) {
-                return $app["app_id"];
-            }, $all_for_admin);
-            $applications = array_intersect($applications, $filtered);
+            if (!Siberian_Version::is('sae')) {
+                $all_for_admin = $application_table->findAllByAdmin(
+                    $this->getSession()->getAdminId()
+                )->toArray();
+                $filtered = array_map(function($app) {
+                    return $app["app_id"];
+                }, $all_for_admin);
+                $applications = array_intersect($applications, $filtered);
+            }
         }
 
         try {
