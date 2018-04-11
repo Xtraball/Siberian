@@ -117,24 +117,35 @@ class Application_Model_ApkQueue extends Core_Model_Default {
      * @return array
      */
     public static function getPackages($application_id) {
-        $table = new self();
-        $results = $table->findAll(array(
-            "app_id" => $application_id,
-            "status IN (?)" => array("success"),
-        ), array("updated_at DESC"));
+        $results = (new self())->findAll(
+            [
+                'app_id' => $application_id,
+                'status IN (?)' => ['success'],
+            ],
+            [
+                'updated_at DESC'
+            ]
+        );
 
-        foreach($results as $result) {
-            # Set is building
-            return array(
-                "path" => str_replace(Core_Model_Directory::getBasePathTo(""), "", $result->getData("path")),
-                "date" => datetime_to_format($result->getUpdatedAt())
-            );
+        foreach ($results as $result) {
+            // Test if the path still exists!
+            if (is_file($result->getData('path'))) {
+                // Fetch the path
+                return [
+                    'path' => str_replace(Core_Model_Directory::getBasePathTo(''), '/', $result->getData('path')),
+                    'date' => datetime_to_format($result->getUpdatedAt())
+                ];
+            } else {
+                $result
+                    ->setData('path', '')
+                    ->save();
+            }
         }
 
-        return array(
-            "path" => false,
-            "date" => false,
-        );
+        return [
+            'path' => false,
+            'date' => false,
+        ];
     }
 
     /**

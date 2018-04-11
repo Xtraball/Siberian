@@ -253,27 +253,40 @@ class Application_Model_SourceQueue extends Core_Model_Default {
     /**
      * Fetch if some apps are done.
      *
-     * @param $application_id
+     * @param $applicationId
      * @return array
      */
-    public static function getPackages($application_id) {
+    public static function getPackages($applicationId)
+    {
         $table = new self();
-        $results = $table->findAll(array(
-            "app_id" => $application_id,
-            "status IN (?)" => array("success"),
-        ), array("updated_at DESC"));
+        $results = $table->findAll(
+            [
+                'app_id' => $applicationId,
+                'status IN (?)' => ['success'],
+            ],
+            [
+                'updated_at DESC'
+            ]
+        );
 
-        $base_path = Core_Model_Directory::getBasePathTo("");
-        $data = array();
+        $basePath = Core_Model_Directory::getBasePathTo('');
+        $data = [];
 
-        foreach($results as $result) {
+        foreach ($results as $result) {
             $type = $result->getType();
-            if(!array_key_exists($type, $data)) {
-                # Set is building
-                $data[$type] = array(
-                    "path" => str_replace($base_path, "", $result->getData("path")), /** Frakking conflict */
-                    "date" => datetime_to_format($result->getUpdatedAt())
-                );
+            if (!array_key_exists($type, $data)) {
+                // Test if the path still exists!
+                if (is_file($result->getData('path'))) {
+                    // Fetch the path
+                    $data[$type] = [
+                        'path' => str_replace($basePath, '/', $result->getData('path')),
+                        'date' => datetime_to_format($result->getUpdatedAt())
+                    ];
+                } else {
+                    $result
+                        ->setData('path', '')
+                        ->save();
+                }
             }
         }
 
