@@ -18,7 +18,7 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
     service.show_popup = null;
 
-    var callbackFromNative = function (data) {
+    service.callbackFromNative = function (data) {
         if (service.isOnline === data.isOnline) {
             return;
         }
@@ -30,10 +30,10 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
             if (!$rootScope.onPause) {
                 Dialog
-                    .alert('Info', 'You have gone offline', 'OK', -1)
-                    .then(function () {
-                        service.show_popup = null;
-                    });
+                .alert('Info', 'You have gone offline', 'OK', -1)
+                .then(function () {
+                    service.show_popup = null;
+                });
             }
         }
 
@@ -41,18 +41,15 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
         if (_isOnline) {
             $log.info('App is now online.');
-            var hexShadedColor = window.shadeRGBColor($window.colors.header.backgroundColor, -10);
-            window.updateStatusBar(hexShadedColor);
         } else {
             $log.info('App is offline.');
-            window.updateStatusBar('#d54c16');
         }
     };
 
     $ionicPlatform.ready(function () {
         if ($rootScope.isNativeApp && $window.OfflineMode) {
             $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/ping.txt');
-            $window.OfflineMode.registerCallback(callbackFromNative);
+            $window.OfflineMode.registerCallback(service.callbackFromNative);
         }
     });
 

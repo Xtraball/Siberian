@@ -236,6 +236,11 @@ $configs = array(
         'label' => 'Redis AUTH KEY',
         'value' => '',
     ],
+    [
+        'code' => 'apk_build_type',
+        'label' => 'APK Build type',
+        'value' => 'release',
+    ],
     array(
         "code" => "privacy_policy",
         "label" => "Default privacy policy",

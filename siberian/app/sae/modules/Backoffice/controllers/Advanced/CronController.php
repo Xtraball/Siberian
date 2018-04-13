@@ -1,51 +1,63 @@
 <?php
 
-class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
+/**
+ * Class Backoffice_Advanced_CronController
+ */
+class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
+{
 
-    public static $system_tasks = array(
-        "agregateanalytics" => "",
-        "androidtools" => "Update Android SDK Tools, run only when necessary, triggered by regular updates.",
-        "apkgenerator" => "",
-        "logrotate" => "Rotate logs every day.",
-        "pushinstant" => "",
-        "sources" => "",
-        "cachebuilder" => "",
-        "letsencrypt" => "",
-        "statistics" => "Send anonymous statistics to improve the platform and help understanding usage of the apps builder.",
-        "quotawatcher" => "Disk quota usage watcher.",
-        "alertswatcher" => "System monitor to send alerts.",
-    );
+    /**
+     * @var array
+     */
+    public static $system_tasks = [
+        'agregateanalytics' => '',
+        'androidtools' => 'Update Android SDK Tools, run only when necessary, triggered by regular updates.',
+        'apkgenerator' => '',
+        'logrotate' => 'Rotate logs every day.',
+        'pushinstant' => '',
+        'sources' => '',
+        'cachebuilder' => '',
+        'letsencrypt' => '',
+        'statistics' =>
+            'Send anonymous statistics to improve the platform and help understanding usage of the apps builder.',
+        'quotawatcher' => 'Disk quota usage watcher.',
+        'alertswatcher' => 'System monitor to send alerts.',
+        'checkpayments' => 'Callback for recurrences.',
+        'diskusage' => 'Disk usage watcher.',
+    ];
 
-    public function loadAction() {
+    public function loadAction()
+    {
+        $payload = [
+            'title' => __('Advanced') . ' > ' . __('Cron'),
+            'icon' => 'fa-clock-o',
+        ];
 
-        $html = array(
-            "title" => __("Advanced")." > ".__("Cron"),
-            "icon" => "fa-clock-o",
-        );
-
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
-
+    /**
+     *
+     */
+    public function findallAction()
+    {
         $cron = new Cron_Model_Cron();
-        $cron_tasks = $cron->findAll(array(), array("name ASC"));
+        $cron_tasks = $cron->findAll([], ['name ASC']);
 
         $apk_model = new Application_Model_ApkQueue();
-        $apk_queue = $apk_model->findAll(array(), array("apk_queue_id DESC"), array("limit" => 50));
+        $apk_queue = $apk_model->findAll([], ['apk_queue_id DESC'], ['limit' => 50]);
 
         $source_model = new Application_Model_SourceQueue();
-        $source_queue = $source_model->findAll(array(), array("source_queue_id DESC"), array("limit" => 50));
+        $source_queue = $source_model->findAll([], ['source_queue_id DESC'], ['limit' => 50]);
 
-        $data = array(
-            "system_tasks" => array(),
-            "tasks" => array(),
-            "apk_queue" => array(),
-            "source_queue" => array(),
-        );
+        $data = [
+            'system_tasks' => [],
+            'tasks' => [],
+            'apk_queue' => [],
+            'source_queue' => [],
+        ];
 
-        foreach($cron_tasks as $cron_task) {
+        foreach ($cron_tasks as $cron_task) {
             $name = $cron_task->getCommand();
             $_data = $cron_task->getData();
             $_data["show_info"] = false;
@@ -53,7 +65,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             $_data["last_trigger"] = ("0000-00-00 00:00:00" != $_data["last_trigger"]) ? datetime_to_format($_data["last_trigger"]) : __("never");
             $_data["last_fail"] = ("0000-00-00 00:00:00" != $_data["last_fail"]) ? datetime_to_format($_data["last_fail"]) : __("never");
 
-            if(in_array($name, array_keys(self::$system_tasks))) {
+            if (in_array($name, array_keys(self::$system_tasks))) {
                 $_data["more_info"] = __(self::$system_tasks[$name]);
 
                 $data["system_tasks"][] = $_data;
@@ -64,7 +76,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
 
         $base = Core_Model_Directory::getBasePathTo("");
 
-        foreach($apk_queue as $apk) {
+        foreach ($apk_queue as $apk) {
             $_data = $apk->getData();
 
             $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? datetime_to_format($_data["created_at"]) : __("never");
@@ -78,7 +90,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             $data["apk_queue"][] = $_data;
         }
 
-        foreach($source_queue as $source) {
+        foreach ($source_queue as $source) {
             $_data = $source->getData();
 
             $_data["created_at"] = ("0000-00-00 00:00:00" != $_data["created_at"]) ? datetime_to_format($_data["created_at"]) : __("never");
@@ -92,8 +104,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default {
             $data["source_queue"][] = $_data;
         }
 
-        $this->_sendHtml($data);
-
+        $this->_sendJson($data);
     }
 
 }

@@ -213,29 +213,10 @@ window.updateStatusBar = function (hex) {
     window.StatusBar.backgroundColorByHexString(hex);
     switch (window.textStyleFromHex(hex)) {
         case 'dark':
-                window.StatusBar.styleLightContent();
+                window.StatusBar.styleDefault();
             break;
         case 'light':
         default:
-            window.StatusBar.styleDefault();
+            window.StatusBar.styleLightContent();
     }
-};
-
-/**
- *
- * @param color {r, g, b}
- * @param percent
- * @returns {string}
- */
-window.shadeRGBColor = function (color, percent) {
-    var t = (percent < 0) ? 0 : 255,
-        p = Math.abs(percent),
-        red = parseInt(color.red, 10),
-        green = parseInt(color.green, 10),
-        blue = parseInt(color.blue, 10);
-    return window.rgbToHex(
-        Math.round((t - red) * p) + red,
-        Math.round((t - green) * p) + green,
-        Math.round((t - blue) * p) + blue
-    );
 };
