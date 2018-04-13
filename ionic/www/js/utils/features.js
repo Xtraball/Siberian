@@ -162,3 +162,80 @@ window.Features = (new (function Features() {
 
     return $this;
 })());
+
+/**
+ * hexToRgb converter
+ */
+window.hexToRgb = function (hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+};
+
+/**
+ *  RGB To HEX color
+ *
+ * @param red
+ * @param green
+ * @param blue
+ * @returns {*}
+ */
+window.rgbToHex = function (red, green, blue) {
+    return '#' + ((1 << 24) + (red << 16) + (green << 8) + blue)
+        .toString(16)
+        .slice(1);
+};
+
+/**
+ * Find statusbar style from RGB Color!
+ * @param hex
+ * @returns {string}
+ */
+window.textStyleFromHex = function (hex) {
+    var statusBarStyle = 'light';
+    var rgbColor = window.hexToRgb(hex);
+    if (rgbColor.r * 0.299 + rgbColor.g * 0.587 + rgbColor.b * 0.114 > 186) {
+        // Black!
+        statusBarStyle = 'dark';
+    }
+
+    return statusBarStyle;
+};
+
+/**
+ * Set statusbar color and take into accounts the text style
+ * @param hex
+ */
+window.updateStatusBar = function (hex) {
+    window.StatusBar.backgroundColorByHexString(hex);
+    switch (window.textStyleFromHex(hex)) {
+        case 'dark':
+                window.StatusBar.styleLightContent();
+            break;
+        case 'light':
+        default:
+            window.StatusBar.styleDefault();
+    }
+};
+
+/**
+ *
+ * @param color {r, g, b}
+ * @param percent
+ * @returns {string}
+ */
+window.shadeRGBColor = function (color, percent) {
+    var t = (percent < 0) ? 0 : 255,
+        p = Math.abs(percent),
+        red = parseInt(color.red, 10),
+        green = parseInt(color.green, 10),
+        blue = parseInt(color.blue, 10);
+    return window.rgbToHex(
+        Math.round((t - red) * p) + red,
+        Math.round((t - green) * p) + green,
+        Math.round((t - blue) * p) + blue
+    );
+};
