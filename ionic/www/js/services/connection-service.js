@@ -29,9 +29,8 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
             service.show_popup = true;
 
             if (!$rootScope.onPause) {
-                Dialog.alert($translate.instant('Info'),
-                    $translate.instant('You have gone offline'),
-                    $translate.instant('OK'), -1)
+                Dialog
+                    .alert('Info', 'You have gone offline', 'OK', -1)
                     .then(function () {
                         service.show_popup = null;
                     });
@@ -42,10 +41,11 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
 
         if (_isOnline) {
             $log.info('App is now online.');
-            $window.StatusBar.backgroundColorByHexString('#000000');
+            var hexShadedColor = window.shadeRGBColor($window.colors.header.backgroundColor, -10);
+            window.updateStatusBar(hexShadedColor);
         } else {
             $log.info('App is offline.');
-            $window.StatusBar.backgroundColorByHexString('#d54c16');
+            window.updateStatusBar('#d54c16');
         }
     };
 
