@@ -1,13 +1,12 @@
 <?php
-$urlPreviewer = urlencode(
-    $this->getUrl(
-        'application/device/check',
-        [
-            'app_id' => 'previewer',
-            'language_code' => Core_Model_Language::DEFAULT_LANGUAGE
-        ]
-    )
+$urlPreviewer = $this->getUrl(
+    'application/device/check',
+    [
+        'app_id' => 'previewer',
+        'language_code' => Core_Model_Language::DEFAULT_LANGUAGE
+    ]
 );
+
 $urlQrCode = $this->getUrl(
     'promotion/application/generateqrcode',
     [
