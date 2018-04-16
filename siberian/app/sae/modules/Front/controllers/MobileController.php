@@ -89,13 +89,16 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             if($progressbar_trail_color->lightness > 80) {
                 $progressbar_trail_color = $progressbar_trail_color->getNew("lightness", $progressbar_color->lightness - 20);
             } else {
-                $progressbar_trail_color = $progressbar_trail_color->getNew("lightness", $progressbar_color->lightness + 20);
+                $progressbar_trail_color = $progressbar_trail_color->getNew("", $progressbar_color->lightness + 20);
             }
 
             $bg_block = $application->getBlock("background");
             $bg_color_hex = $bg_block->getBackgroundColor();
             $bg_color = Siberian_Color::newColor($bg_color_hex, "hex");
             $bg_color->alpha = $bg_block->getBackgroundOpacity() / 100;
+
+            $colorStatusBar = Siberian_Color::newColor($application->getBlock("header")->getBackgroundColor(), 'hex');
+            $colorStatusBarLighten = $colorStatusBar->getNew('lightness', $colorStatusBar->lightness - 10);
 
             $data_load = array(
                 "application" => array(
@@ -105,17 +108,18 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "is_bo_locked"  => (boolean) $application->getIsLocked(),
                     "colors" => array(
                         "header" => array(
-                            "backgroundColor"   => $application->getBlock("header")->getBackgroundColorRGB(),
-                            "color"             => $application->getBlock("header")->getColorRGB()
+                            "statusBarColor" => $colorStatusBarLighten->toCSS("hex"),
+                            "backgroundColor" => $application->getBlock("header")->getBackgroundColorRGB(),
+                            "color" => $application->getBlock("header")->getColorRGB()
                         ),
                         "background" => array(
-                            "backgroundColor"   => $bg_color_hex,
-                            "color"             => $application->getBlock("background")->getColor(),
-                            "rgba"              => $bg_color->toCSS('rgba')
+                            "backgroundColor" => $bg_color_hex,
+                            "color" => $application->getBlock("background")->getColor(),
+                            "rgba" => $bg_color->toCSS('rgba')
                         ),
                         "loader" => array(
-                            "trail"                  => $progressbar_trail_color->toCSS("hex"),
-                            "bar_text"               => $progressbar_color->toCSS("hex"),
+                            "trail" => $progressbar_trail_color->toCSS("hex"),
+                            "bar_text" => $progressbar_color->toCSS("hex"),
                         ),
                         "list_item" => array(
                             "color" => $application->getBlock("list_item")->getColor()

@@ -393,14 +393,23 @@ storePassword={$store_password}";
             unlink($var_log);
         }
 
+        // APK Build type!
+        $buildType = 'cdvBuildRelease';
+        switch (System_Model_Config::getValueFor('apk_build_type')) {
+            case 'debug':
+                    $buildType = 'cdvBuildDebug';
+                break;
+            default:
+                $buildType = 'cdvBuildRelease';
+        }
+
         //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
         $db = Zend_Registry::get('db');
         $db->closeConnection(); 
-    	exec("bash -l gradlew cdvBuildRelease 2>&1", $output);
+    	exec("bash -l gradlew " . $buildType . " 2>&1", $output);
         $db->getConnection(); 
 
-
-        if(!defined("CRON")) {
+        if (!defined("CRON")) {
             if (!in_array('BUILD SUCCESSFUL', $output)) {
                 $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
                 return false;
@@ -408,25 +417,28 @@ storePassword={$store_password}";
             exit('Done ...');
         } else {
             $success = in_array("BUILD SUCCESSFUL", $output);
-            $apk_base_path = "{$this->_dest_source}/build/outputs/apk/{$this->_folder_name}-release.apk";
+            $apkBasePathRelease = "{$this->_dest_source}/build/outputs/apk/{$this->_folder_name}-release.apk";
+            $apkBasePathDebug = "{$this->_dest_source}/build/outputs/apk/{$this->_folder_name}-debug.apk";
 
-            if(is_readable($apk_base_path)) {
-                $target_path = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-release.apk";
-                rename($apk_base_path, $target_path);
+            if (is_readable($apkBasePathRelease)) {
+                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-release.apk";
+                rename($apkBasePathRelease, $targetPath);
+            } else if (is_readable($apkBasePathDebug)) {
+                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-debug.apk";
+                rename($apkBasePathDebug, $targetPath);
             }
 
             # Clean-up dest files.
-            //Core_Model_Directory::delete($this->_dest_source);
             $log_failed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
-            if(!$success) {
+            if (!$success) {
                 file_put_contents($log_failed, implode("\n", $output));
             }
 
-            return array(
-                "success" => $success,
-                "log" => $output,
-                "path" => is_readable($target_path) ? $target_path : false,
-            );
+            return [
+                'success' => $success,
+                'log' => $output,
+                'path' => is_readable($targetPath) ? $targetPath : false,
+            ];
         }
 
     }

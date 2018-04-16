@@ -45,6 +45,16 @@
         </div>
 
         <div class="form-group">
+            <div class="clear col-md-6">
+                <label for="{{ configs.apk_build_type.code }}">{{ configs.apk_build_type.label }}</label>
+                <select id="configs.apk_build_type.code" class="form-control" ng-model="configs.apk_build_type.value">
+                    <option value="release"><?php echo __("Release"); ?></option>
+                    <option value="debug"><?php echo __("Debug"); ?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-12">
                 <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
