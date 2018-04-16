@@ -62,6 +62,10 @@ $schemas['wordpress2'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'cache_lifetime' => [
+        'type' => 'varchar(12)',
+        'default' => '3600',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

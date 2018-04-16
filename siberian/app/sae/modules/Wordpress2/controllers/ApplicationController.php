@@ -20,12 +20,14 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         $form = new Wordpress2_Form_Wordpress();
         if ($form->isValid($params)) {
             // Do whatever you need when form is valid!
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $wordpress = (new Wordpress2_Model_Wordpress())
                 ->find($params['wordpress2_id']);
             $wordpress->setData($params);
 
             Siberian_Feature::formImageForOption(
-                $this->getCurrentOptionValue(),
+                $optionValue,
                 $wordpress,
                 $params,
                 'picture',
@@ -38,6 +40,56 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $this->getCurrentOptionValue()
                 ->touch()
                 ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                'wordpress2',
+                'value_id_' . $valueId,
+            ]);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success.'),
+            ];
+        } else {
+            $payload = [
+                'error' => true,
+                'message' => $form->getTextErrors(),
+                'errors' => $form->getTextErrors(true)
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Edit the default wordpress settings, url, login, password
+     */
+    public function editsettingsAction()
+    {
+        $request = $this->getRequest();
+        $params = $request->getPost();
+
+        $form = new Wordpress2_Form_Settings();
+        if ($form->isValid($params)) {
+            // Do whatever you need when form is valid!
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $wordpress = (new Wordpress2_Model_Wordpress())
+                ->find($valueId, 'value_id');
+            $wordpress->setData($params);
+            $wordpress->save();
+
+            /** Update touch date, then never expires (until next touch) */
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                'wordpress2',
+                'value_id_' . $valueId,
+            ]);
 
             $payload = [
                 'success' => true,
@@ -65,6 +117,8 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         $form = new Wordpress2_Form_Query();
         if ($form->isValid($params)) {
             // Do whatever you need when form is valid!
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $wordpressQuery = (new Wordpress2_Model_Query())
                 ->find($params['wordpress2_id']);
             $wordpressQuery->setData($params);
@@ -77,7 +131,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $wordpressQuery->setQuery($query);
 
             Siberian_Feature::formImageForOption(
-                $this->getCurrentOptionValue(),
+                $optionValue,
                 $wordpressQuery,
                 $params,
                 'picture',
@@ -85,7 +139,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             );
 
             Siberian_Feature::formImageForOption(
-                $this->getCurrentOptionValue(),
+                $optionValue,
                 $wordpressQuery,
                 $params,
                 'thumbnail',
@@ -98,6 +152,12 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $this->getCurrentOptionValue()
                 ->touch()
                 ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                'wordpress2',
+                'value_id_' . $valueId,
+            ]);
 
             $payload = [
                 'success' => true,
@@ -160,81 +220,5 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         }
 
         $this->_sendJson($payload);
-    }
-
-    /**
-     *
-     */
-    public function testAction ()
-    {
-        echo '<pre>';
-        try {
-            $wordpressApi = (new Wordpress2_Model_WordpressApi())
-                ->init('https://korben.info/');
-
-            $categories = $wordpressApi->getCategories();
-
-            $categoryParentId = [];
-            foreach ($categories as $category) {
-                $parent = $category['parent'];
-
-                if (!array_key_exists($parent, $categoryParentId)) {
-                    $categoryParentId[$parent] = [];
-                }
-                $categoryParentId[$parent][] = $category;
-            }
-
-            $inputHtml = '
-<label style="width: 100%;">
-    <input type="checkbox" 
-           name="categories[]" 
-           value="#VALUE#" 
-           color="color-blue" 
-           class="sb-form-checkbox color-blue" />
-    <span class="sb-checkbox-label">#LABEL#</span>
-</label>';
-
-            $inputHtml = '#LABEL#';
-
-            // Sub function to recursively compute child categories!
-            function displayRecursive ($parent, $categoryParentId, $inputHtml) {
-                if (array_key_exists($parent, $categoryParentId)) {
-                    $currentCategories = $categoryParentId[$parent];
-
-                    $html = '';
-                    foreach ($currentCategories as $currentCategory) {
-                        $currentParent = $currentCategory['id'];
-
-                        $inputMarkup = str_replace(
-                            [
-                                '#VALUE#',
-                                '#LABEL#'
-                            ],
-                            [
-                                $currentParent,
-                                sprintf("<pre>%s</pre>", print_r($currentCategory, true))
-                            ],
-                            $inputHtml);
-
-                        $html .= '<li>' . $inputMarkup;
-
-                        $subs = displayRecursive($currentParent, $categoryParentId, $inputHtml);
-                        if (!empty($subs)) {
-                            $subs = '<ul>' . $subs . '</ul>';
-                        }
-                        $html .= $subs . '</li>';
-                    }
-
-                    return $html;
-                }
-                return '';
-            }
-
-            echo '<ul>' . displayRecursive(0, $categoryParentId, $inputHtml) . '</ul>';
-
-        } catch (Exception $e) {
-            print_r($e->getMessage());
-        }
-        die();
     }
 }

@@ -32,11 +32,12 @@ angular.module('starter').factory('Wordpress2', function ($pwaRequest) {
     /**
      *
      */
-    factory.find = function (page) {
+    factory.find = function (page, pullToRefresh) {
         return $pwaRequest.get('wordpress2/mobile_list/find', {
             urlParams: {
                 value_id: factory.value_id,
-                page: page
+                page: page,
+                refresh: pullToRefresh
             }
         });
     };
@@ -44,12 +45,13 @@ angular.module('starter').factory('Wordpress2', function ($pwaRequest) {
     /**
      *
      */
-    factory.loadposts = function (queryId, page) {
+    factory.loadposts = function (queryId, page, pullToRefresh) {
         return $pwaRequest.get('wordpress2/mobile_list/loadposts', {
             urlParams: {
                 value_id: factory.value_id,
                 queryId: queryId,
-                page: page
+                page: page,
+                refresh: pullToRefresh
             }
         });
     };

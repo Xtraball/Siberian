@@ -1,14 +1,14 @@
 <ion-view sb-page-background
-          class="module-wordpress2 wordpress2-layout1">
+          class="module-wordpress2 wordpress2-layout1 wordpress2-list">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-content>
 
         <div class="loader"
-             ng-show="is_loading">
+             ng-show="is_loading && !isPullingToRefresh && !isLoadingMore">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-refresher ng-if="use_pull_to_refresh"
+        <ion-refresher ng-if="!is_loading && use_pull_to_refresh"
                        class="spinner-custom"
                        pulling-text="{{ 'Pull to refresh...' | translate }}"
                        on-refresh="pullToRefresh()">
@@ -20,7 +20,7 @@
             <div class="list"
                  ng-if="(query.showCover || query.showTitle)"
                  ng-class="{'card': cardDesign}"
-                 ng-show="!is_loading">
+                 ng-show="query">
                 <div class="item item-image item-custom"
                      ng-if="query.showCover && query.picture">
                     <img ng-src="{{ imagePath(query.picture) }}" />
@@ -34,8 +34,9 @@
 
             <div class="list"
                  ng-class="{'card': cardDesign}"
-                 ng-show="collection.length && !search.searchValue">
+                 ng-show="collection.length">
                 <a class="item item-custom item-avatar-square"
+                   ng-click="viewPost(item.id)"
                    ng-repeat="item in collection"
                    ng-class="{
                 'item-avatar': item.thumbnail,
@@ -64,7 +65,7 @@
             <div class="list"
                  ng-if="wordpress.showCover"
                  ng-class="{'card': cardDesign}"
-                 ng-show="!is_loading">
+                 ng-show="wordpress">
                 <div class="item item-image item-custom"
                      ng-if="wordpress.picture">
                     <img ng-src="{{ imagePath(wordpress.picture) }}" />
@@ -98,7 +99,7 @@
             </div>
         </div>
 
-        <ion-infinite-scroll ng-if="load_more"
+        <ion-infinite-scroll ng-if="!is_loading && load_more"
                              on-infinite="loadMore()"
                              immediate-check="false"
                              distance="10%">

@@ -100,6 +100,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
             'link',
             'title',
             'subtitle',
+            'content',
             'media',
             'thumbnail',
             'picture',
@@ -108,6 +109,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         foreach ($posts as &$post) {
             $post['title'] = $post['title']['rendered'];
             $post['subtitle'] = $post['excerpt']['rendered'];
+            $post['content'] = $post['content']['rendered'];
 
             try {
                 $media = $this->client->media()->get($post['featured_media']);

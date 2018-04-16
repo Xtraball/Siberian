@@ -21,7 +21,7 @@
             "state": "wordpress2-view",
             "controller": "Wordpress2ViewController",
             "url": "wordpress2/mobile_view/index/value_id/:value_id/post_id/:post_id",
-            "template": "list.html",
+            "template": "view.html",
             "layouts": {
                 "1": "l1"
             },
@@ -37,7 +37,8 @@
     ],
     "files": [
         "js/controllers/wordpress_v2.js",
-        "js/factory/wordpress_v2.js"
+        "js/factory/wordpress_v2.js",
+        "css/wordpress2.scss"
     ],
     "compile": true,
     "use_account": false,
