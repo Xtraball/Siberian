@@ -20,11 +20,9 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         $form = new Wordpress2_Form_Wordpress();
         if ($form->isValid($params)) {
             // Do whatever you need when form is valid!
-            $wordpress = new Wordpress2_Model_Wordpress();
-            $wordpress = $wordpress
+            $wordpress = (new Wordpress2_Model_Wordpress())
                 ->find($params['wordpress2_id']);
             $wordpress->setData($params);
-            $wordpress->save();
 
             Siberian_Feature::formImageForOption(
                 $this->getCurrentOptionValue(),
@@ -33,6 +31,8 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                 'picture',
                 true
             );
+
+            $wordpress->save();
 
             /** Update touch date, then never expires (until next touch) */
             $this->getCurrentOptionValue()

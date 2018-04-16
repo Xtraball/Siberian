@@ -1,10 +1,9 @@
 /**
  * Folder v2 feature
  *
- * @version 4.12.24
+ * @version 0.0.1
  */
-angular.module('starter').controller('Folder2ListController', function ($scope, $stateParams, $ionicNavBarDelegate,
-                                                                      $timeout, SB, Customer, Folder2, Padlock, $filter) {
+angular.module('starter').controller('Wordpress2ListController', function ($scope, $stateParams, $state, Wordpress2) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -12,67 +11,88 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
         showSearch: false,
         searchIndex: [],
         cardDesign: false,
+        currentPage: 1,
+        collection: [],
+        queries: [],
+        load_more: false,
+        use_pull_refresh: true,
+        pull_to_refresh: false,
         imagePath: function (path) {
-            return IMAGE_URL + path;
+            return IMAGE_URL + 'images/application' + path;
         }
     });
 
-    Folder2.setValueId($stateParams.value_id);
-
-    /**
-     * Reset the search item
-     */
-    $scope.resetSearch = function () {
-        $scope.search = {};
-    };
+    Wordpress2.setValueId($stateParams.value_id);
 
     /**
      * Load page payload
      */
     $scope.loadContent = function () {
-        Folder2.findAll()
-            .then(function () {
-                $scope.cardDesign = Folder2.cardDesign;
-                $scope.showSearch = Folder2.showSearch;
-                $scope.searchIndex = Folder2.searchIndex;
+        if ($stateParams.query_id !== '') {
+            Wordpress2.loadposts($stateParams.query_id, $scope.currentPage)
+                .then(function (data) {
+                    $scope.page_title = data.page_title;
+                    $scope.wordpress = data.wordpress;
+                    $scope.cardDesign = $scope.wordpress.cardDesign;
 
-                var categoryId = _.get($stateParams, 'category_id', null);
-                if (_.isEmpty(categoryId)) {
-                    categoryId = null;
-                }
-                var current = Folder2.fetchForParentId(categoryId);
+                    // Enforce query group (it's the list)
+                    $scope.wordpress.groupQueries = true;
 
-                // Page title!
-                $ionicNavBarDelegate.title(current.folder.title);
-                $timeout(function () {
-                    $scope.page_title = current.folder.title;
+                    $scope.collection = $scope.collection.push(angular.copy(data.posts));
+                    $scope.query = angular.copy(data.query);
+
+                    //$scope.chunks2 = $filter('chunk')(angular.copy(current.subfolders), 2);
+                    //$scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
+
+                }).then(function (data) {
+                    $scope.is_loading = false;
                 });
+        } else {
+            Wordpress2.find($scope.currentPage)
+                .then(function (data) {
+                    $scope.page_title = data.page_title;
+                    $scope.wordpress = data.wordpress;
+                    $scope.cardDesign = $scope.wordpress.cardDesign;
 
-                // Folders
-                $scope.current = angular.copy(current.folder);
-                $scope.collection = angular.copy(current.subfolders);
-                $scope.chunks2 = $filter('chunk')(angular.copy(current.subfolders), 2);
-                $scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
-            }).then(function (data) {
-                $scope.is_loading = false;
-            });
+                    $scope.collection = $scope.collection.push(angular.copy(data.posts));
+                    $scope.queries = angular.copy(data.queries);
+
+                    //$scope.chunks2 = $filter('chunk')(angular.copy(current.subfolders), 2);
+                    //$scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
+
+                }).then(function (data) {
+                    $scope.is_loading = false;
+                });
+        }
     };
 
-    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-        $scope.loadContent();
-    });
+    /**
+     *
+     * @param queryId
+     */
+    $scope.loadPosts = function (queryId) {
+        $scope.currentPage = 1;
+        $state.go(
+            'wordpress2-list',
+            {
+                value_id: $stateParams.value_id,
+                query_id: queryId
+            },
+            {
+                reload: true
+            }
+        );
+    };
 
-    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+    $scope.loadMore = function () {
+        $scope.currentPage = $scope.currentPage + 1;
         $scope.loadContent();
-    });
+    };
 
-    $scope.$on(SB.EVENTS.PADLOCK.unlockFeatures, function () {
-        $scope.loadContent();
-    });
-
-    $scope.$on(SB.EVENTS.PADLOCK.lockFeatures, function () {
-        $scope.loadContent();
-    });
+    $scope.pullToRefresh = function () {
+        $scope.collection = [];
+        $scope.currentPage = 1;
+    };
 
     $scope.loadContent();
 });

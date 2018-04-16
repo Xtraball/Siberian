@@ -24,7 +24,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
      * @param null $login
      * @param null $password
      */
-    public function init($endpoint, $login = null, $password = null)
+    public function init ($endpoint, $login = null, $password = null)
     {
         $this->client = new WpClient(new GuzzleAdapter(new GuzzleHttp\Client()), $endpoint);
         if (!empty($login) && !empty($password)) {
@@ -91,7 +91,41 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
             'categories' => $categoryId,
             'page' => $page,
             'per_page' => self::postsPerPage
-        ]);
+        ] + $params);
+
+        $allowedKeys = [
+            'id',
+            'date',
+            'slug',
+            'link',
+            'title',
+            'subtitle',
+            'media',
+            'thumbnail',
+            'picture',
+        ];
+
+        foreach ($posts as &$post) {
+            $post['title'] = $post['title']['rendered'];
+            $post['subtitle'] = $post['excerpt']['rendered'];
+
+            try {
+                $media = $this->client->media()->get($post['featured_media']);
+                $post['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
+                $post['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
+            } catch (Exception $e) {
+                $post['thumbnail'] = null;
+                $post['picture'] = null;
+            }
+
+            $post = array_filter(
+                $post,
+                function ($key) use ($allowedKeys) {
+                    return in_array($key, $allowedKeys);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
+        }
 
         return $posts;
     }

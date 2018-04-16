@@ -21,6 +21,8 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
         $title = $this->addSimpleText('title', __('Title'));
         $subtitle = $this->addSimpleText('subtitle', __('Subtitle'));
 
+        $showTitle = $this->addSimpleCheckbox('show_title', __('Show title & subtitle'));
+
         $coverHelp = '
 <div class="alert alert-info">
     ' . __('Cover & Thumbnails are only visible when queries are not grouped.') . '
@@ -58,7 +60,8 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
             ->addClass('default_button')
             ->addClass('form_button');
 
-        $valueId = $this->addSimpleHidden('value_id');
+        $this->addSimpleHidden('value_id');
+        $this->addSimpleHidden('query_id');
     }
 
     /**
@@ -83,13 +86,14 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
     <input type="checkbox" 
            name="categories[]" 
            value="#VALUE#" 
+           #CHECKED#
            color="color-blue" 
            class="sb-form-checkbox color-blue" />
     <span class="sb-checkbox-label">#LABEL#</span>
 </label>';
 
         // Sub function to recursively compute child categories!
-        function displayRecursive ($parent, $categoryParentId, $inputHtml) {
+        function displayRecursive ($parent, $categoryParentId, $inputHtml, $selectedCategories) {
             if (array_key_exists($parent, $categoryParentId)) {
                 $currentCategories = $categoryParentId[$parent];
 
@@ -100,7 +104,8 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
                     $inputMarkup = str_replace(
                         [
                             '#VALUE#',
-                            '#LABEL#'
+                            '#LABEL#',
+                            '#CHECKED#'
                         ],
                         [
                             $currentParent,
@@ -109,13 +114,14 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
                                 $currentCategory['name'],
                                 $currentCategory['slug'],
                                 $currentCategory['count'],
-                                __('posts'))
+                                __('posts')),
+                            in_array($currentParent, $selectedCategories) ? 'checked="checked"' : ''
                         ],
                         $inputHtml);
 
                     $html .= '<li>' . $inputMarkup;
 
-                    $subs = displayRecursive($currentParent, $categoryParentId, $inputHtml);
+                    $subs = displayRecursive($currentParent, $categoryParentId, $inputHtml, $selectedCategories);
                     if (!empty($subs)) {
                         $subs = '<ul>' . $subs . '</ul>';
                     }
@@ -127,7 +133,7 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
             return '';
         }
 
-        $markupCategories = '<ul>' . displayRecursive(0, $categoryParentId, $inputHtml) . '</ul>';
+        $markupCategories = '<ul>' . displayRecursive(0, $categoryParentId, $inputHtml, $selectedCategories) . '</ul>';
 
         $markupCategories = '
 <label for="categories" 

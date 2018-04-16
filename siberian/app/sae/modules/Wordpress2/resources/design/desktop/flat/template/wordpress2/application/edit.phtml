@@ -122,8 +122,7 @@ try {
                                     <thead>
                                     <tr class="border-grey">
                                         <th class="sortable" style="width:26%;"><?php echo __("Title"); ?></th>
-                                        <th class="sortable" style="width:34%;"><?php echo __("Subtitle"); ?></th>
-                                        <th class="sortable"></th>
+                                        <th class="sortable" style="width:64%;"><?php echo __("Subtitle"); ?></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -133,7 +132,6 @@ try {
                                         <tr id="query_manage_element_<?php echo $query->getId(); ?>" class="query-manage-element sb-pager">
                                             <td><?php echo $query->getTitle(); ?></td>
                                             <td><?php echo cut(html_entity_decode($query->getSubtitle()), 60); ?></td>
-                                            <td></td>
                                             <td class="edit-action open-edit"
                                                 data-id="query_<?php echo $query->getId(); ?>"
                                                 data-form-url="<?php echo __path('/wordpress2/application/loadqueryform', [

@@ -43,6 +43,10 @@ $schemas['wordpress2_query'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'show_title' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
     'picture' => [
         'type' => 'varchar(255)',
         'is_null' => true,

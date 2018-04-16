@@ -5,36 +5,104 @@
 
         <div class="loader"
              ng-show="is_loading">
-            <ion-spinner class="spinner-custom">
-
-            </ion-spinner>
+            <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div class="list"
-             ng-class="{'card': cardDesign}"
-             ng-show="collection.length && !search.searchValue">
-            <a tabbar-items
-               class="item item-custom item-avatar-square"
-               option="item"
-               ng-repeat="item in collection"
-               ng-class="{
+        <ion-refresher ng-if="use_pull_to_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <!-- Grouped queries, instantly show posts -->
+        <div ng-if="wordpress.groupQueries">
+
+            <div class="list"
+                 ng-if="(query.showCover || query.showTitle)"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="!is_loading">
+                <div class="item item-image item-custom"
+                     ng-if="query.showCover && query.picture">
+                    <img ng-src="{{ imagePath(query.picture) }}" />
+                </div>
+                <div ng-if="query.showTitle && (query.title)"
+                     class="item item-custom">
+                    <h2>{{ query.title }}</h2>
+                    <p ng-if="query.subtitle">{{ query.subtitle }}</p>
+                </div>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="collection.length && !search.searchValue">
+                <a class="item item-custom item-avatar-square"
+                   ng-repeat="item in collection"
+                   ng-class="{
                 'item-avatar': item.thumbnail,
                 'item-center': (!item.subtitle && !item.message)}">
 
-                <img ng-src="{{ imagePath(item.thumbnail) }}"
-                     ng-if="item.thumbnail" />
-                <h2>{{ item.title }}</h2>
-                <p ng-if="item.subtitle">{{ item.subtitle }}</p>
-            </a>
-        </div>
+                    <img ng-src="{{ item.thumbnail }}"
+                         ng-if="item.thumbnail" />
+                    <h2 ng-bind-html="item.title | trusted_html"></h2>
+                    <p ng-if="item.subtitle"
+                       ng-bind-html="item.subtitle | trusted_html"></p>
+                </a>
+            </div>
 
-        <div class="list"
-             ng-class="{'card': cardDesign}"
-             ng-if="!is_loading && !collection.length && !cover && !search.searchValue">
-            <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-if="!is_loading && !collection.length && !cover && !search.searchValue">
+                <div class="item text-center item-custom">
+                    {{ "No items found" | translate }}
+                </div>
             </div>
         </div>
+
+        <!-- Grouped queries, instantly show posts -->
+        <div ng-if="!wordpress.groupQueries">
+
+            <div class="list"
+                 ng-if="wordpress.showCover"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="!is_loading">
+                <div class="item item-image item-custom"
+                     ng-if="wordpress.picture">
+                    <img ng-src="{{ imagePath(wordpress.picture) }}" />
+                </div>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="queries.length">
+                <a class="item item-custom item-avatar-square"
+                   ng-click="loadPosts(item.id)"
+                   ng-repeat="item in queries"
+                   ng-class="{
+                'item-avatar': item.thumbnail,
+                'item-center': (!item.subtitle && !item.message)}">
+
+                    <img ng-src="{{ imagePath(item.thumbnail) }}"
+                         ng-if="item.thumbnail" />
+                    <h2 ng-bind-html="item.title | trusted_html"></h2>
+                    <p ng-if="item.subtitle"
+                       ng-bind-html="item.subtitle | trusted_html"></p>
+                </a>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-if="!is_loading && !queries.length">
+                <div class="item text-center item-custom">
+                    {{ "No items found" | translate }}
+                </div>
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%">
+        </ion-infinite-scroll>
 
     </ion-content>
 </ion-view>
