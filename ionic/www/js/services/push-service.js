@@ -309,6 +309,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                         var isInAppMessage = ((messagePayload.type !== undefined) &&
                             (messagePayload.type === 'inapp'));
 
+                        var pushPopupTemplate =
+                            '<img src="#COVER_URI#" class="#KLASS#">' +
+                            '<span>#MESSAGE#</span>';
+
                         var config = {
                             buttons: [
                                 {
@@ -340,15 +344,10 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                             ],
                             cssClass: 'push-popup',
                             title: messagePayload.title,
-                            template:
-                            '<div class="list card">' +
-                                '<div class="item item-image' + (extendedPayload.cover ? '' : ' ng-hide') + '">' +
-                                    '<img src="' + (coverUri) + '">' +
-                                '</div>' +
-                                '<div class="item item-custom">' +
-                                    '<span>' + messagePayload.message + '</span>' +
-                                '</div>' +
-                            '</div>'
+                            template: pushPopupTemplate
+                                .replace('#COVER_URI#', coverUri)
+                                .replace('#KLASS#', (extendedPayload.cover ? '' : ' ng-hide'))
+                                .replace('#MESSAGE#', messagePayload.message)
                         };
 
                         if (messagePayload.config !== undefined) {
@@ -391,6 +390,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 $log.debug(err);
             });
     };
+
+    // Push simulator!
+    window.pushService = service;
 
     return service;
 });

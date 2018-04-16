@@ -675,19 +675,31 @@ li .sub-bar a {
 
 .layouts_content_preview .layout-size {
     height: 320px;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid transparent;
+    margin: 0 15px 15px 0;
     overflow: hidden;
+    width: calc(25% - 15px);
+}
+
+@media screen and (max-width: 800px) {
+    .layouts_content_preview .layout-size {
+        height: 250px;
+        margin: 0 10px 10px 0;
+        overflow: hidden;
+        width: calc(33.33% - 10px);
+    }
 }
 
 .layout-size {
     filter: grayscale(100%);
-    -webkit-filter: grayscale(100%);
+    border-width: 1px !important;
+    border-style: solid !important;
 }
 
-.layout-size:active, .layout-size:focus {
+.layout-size.current,
+.layout-size:active,
+.layout-size:focus,
+.layout-size:hover {
     filter: grayscale(0%);
-    -webkit-filter: grayscale(0%);
 }
 
 .layouts_content_preview {

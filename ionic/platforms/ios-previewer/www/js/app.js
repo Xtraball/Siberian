@@ -47,7 +47,8 @@ var lazyLoadResolver = function (code) {
 
             var deferred = $q.defer();
 
-            $ocLazyLoad.load(files)
+            $ocLazyLoad
+                .load(files)
                 .then(function () {
                     $timeout(function () {
                         deferred.resolve(true);
@@ -317,10 +318,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
                         }
 
-                        if (window.StatusBar) {
-                            StatusBar.styleDefault();
-                        }
-
                         // Configuring PushService
                         try {
                             PushService.configure(load.application.gcm_senderid, load.application.gcm_iconcolor);
@@ -455,6 +452,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 
                         $window.colors = load.application.colors;
+                        if (window.StatusBar !== undefined) {
+                            window.updateStatusBar($window.colors.header.statusBarColor);
+                        }
 
                         if (load.application.facebook.id) {
                             FacebookConnect.permissions = (!Array.isArray(load.application.facebook.scope)) ?

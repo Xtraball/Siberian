@@ -87,8 +87,8 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
     <chcp>
-        <config-file url="http://anders.xtraball.com/var/apps/ionic/android/assets/www/chcp.json" />
-        <native-interface version="5" />
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="7" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

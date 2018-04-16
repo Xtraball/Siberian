@@ -1,6 +1,20 @@
 <?php
+/**
+ * @var Zend_Controller_Request_Http $request
+ * @var Application_Model_Application $application
+ */
+
     $application = $this->getApplication();
     $form = new Application_Form_Apis();
+
+    $request = $this->getRequest();
+
+    $form->setLoginCallbackUri(
+        sprintf('https://%s/%s?login_fb=true',
+            $request->getHttpHost(),
+            $application->getKey())
+    );
+    $form->localInit();
     $form->populate($application->getData());
 ?>
 <div class="row">
@@ -8,7 +22,7 @@
         <div class="page-content-wrapper">
             <div id="apis_content" class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo $this->_('API Keys'); ?>
+                    <?php echo __('API Keys'); ?>
                 </h3>
                 <div class="subcontent content-color">
                     <div class="col-md-12">

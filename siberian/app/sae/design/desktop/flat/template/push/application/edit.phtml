@@ -8,9 +8,14 @@ $messageobj->setMessageTypeByOptionValue($option->getOptionId());
 $messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
 $canSendMessages = $application->isPublished();
 $pntopic = new Topic_Model_Topic();
-$pntopic->find(array("app_id" => $option->getAppId()));
-$customers = array();
-if(Push_Model_Message::hasIndividualPush()){
+$pntopic->find(
+    [
+        "app_id" => $option->getAppId()
+    ]
+);
+$customers = [];
+
+if (Push_Model_Message::hasIndividualPush()){
     $customer = new Customer_Model_Customer();
     $customers = $customer->findAllWithDeviceUid($option->getAppId());
 }
@@ -277,6 +282,7 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                     </div>
                     <div class="use_gmaps">
 
+                        <?php if ($option->getCode() === 'push_notification'): ?>
                         <div class="form-group" id="target_devices">
                             <div class="col-md-12">
                                 <label for="target_devices">
@@ -303,6 +309,11 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                 </label>
                             </div>
                         </div>
+                        <?php else: ?>
+                        <input type="hidden"
+                               name="target_devices"
+                               value="all" />
+                        <?php endif; ?>
 
                         <div class="form-group">
                             <div class="col-md-12">

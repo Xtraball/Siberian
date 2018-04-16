@@ -21,6 +21,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'redis_endpoint',
         'redis_prefix',
         'redis_auth',
+        'apk_build_type',
     ];
 
     /**
@@ -238,6 +239,12 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $ssl_certificate_model = new System_Model_SslCertificates();
 
                 $cert = $ssl_certificate_model->find($cert_id);
+
+                // Prevent some certificates from being un-intentionally removed!
+                if (__getConfig('is_demo') && in_array($cert->getHostname(), __getConfig('hostname'))) {
+                    throw new Siberian_Exception('This certificate is protected.');
+                }
+
                 $cert->delete();
 
                 # Clean-up related CRON Alerts
