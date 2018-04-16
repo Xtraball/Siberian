@@ -73,26 +73,19 @@ class Core_Model_Translator
     }
 
     public static function addModule($module_name) {
-
-
-
         $current_language = Core_Model_Language::getCurrentLanguage();
-
-        file_put_contents('/tmp/debug.log', "/languages/{$current_language}/{$module_name}.csv\n", FILE_APPEND);
-
-        if(file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/{$module_name}.csv"))) {
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/{$module_name}.csv"))) {
             self::$_translator->addTranslation(array(
                 'content' => Core_Model_Directory::getBasePathTo("/languages/$current_language/{$module_name}.csv"),
                 'locale' => $current_language
             ));
         }
-        if(file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"))) {
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"))) {
             self::$_translator->addTranslation(array(
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"),
                 'locale' => $current_language
             ));
         }
-
     }
 
     public static function translate($text, array $args = array()) {
