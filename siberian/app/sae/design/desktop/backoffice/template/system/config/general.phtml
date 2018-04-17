@@ -65,12 +65,57 @@
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.company_phone.code }}">{{ configs.company_phone.label }}</label>
-                <input type="text" id="{{ configs.company_phone.code }}" ng-model="configs.company_phone.value" class="form-control" placeholder="{{ configs.company_phone.label }}" />
+                <input type="text"
+                       id="{{ configs.company_phone.code }}"
+                       ng-model="configs.company_phone.value"
+                       class="form-control"
+                       placeholder="{{ configs.company_phone.label }}" />
             </div>
             <div class="col-md-6">
                 <label for="{{ configs.company_vat_number.code }}">{{ configs.company_vat_number.label }}</label>
-                <input type="text" id="{{ configs.company_vat_number.code }}" ng-model="configs.company_vat_number.value" class="form-control" placeholder="{{ configs.company_vat_number.label }}" />
+                <input type="text"
+                       id="{{ configs.company_vat_number.code }}"
+                       ng-model="configs.company_vat_number.value"
+                       class="form-control"
+                       placeholder="{{ configs.company_vat_number.label }}" />
             </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="form-group"
+             ng-show="configs.gdpr_countries.indexOf(configs.company_country.value) !== -1">
+            <div class="col-md-12">
+                <div class="alert alert-info"><?php echo __('The european <b>General Data Protection Regulation (GDPR)</b> is applicable to your country, you must enable it in the privacy settings below.') ?></div>
+            </div>
+        </div>
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="'<?php echo __js("Privacy Settings","'"); ?>'">
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679"
+                       style="text-decoration: underline;"
+                       target="_blank">
+                        <i class="fa fa-link"></i>
+                        <?php echo __('European <b>General Data Protection Regulation (GDPR)</b>.') ?>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.is_gdpr_enabled.code }}">{{ configs.is_gdpr_enabled.label }}</label>
+                <select class="form-control"
+                        ng-model="configs.is_gdpr_enabled.value">
+                    <option value="1"><?php echo __('Yes') ?></option>
+                    <option value="0"><?php echo __('No') ?></option>
+                </select>
+            </div>
+
         </div>
     </sb-section>
 
@@ -80,7 +125,9 @@
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
-                <select class="form-control" ng-model="configs.system_timezone.value" ng-options="k as v for (k, v) in configs.territories">
+                <select class="form-control"
+                        ng-model="configs.system_timezone.value"
+                        ng-options="k as v for (k, v) in configs.territories">
                     <option value=""></option>
                 </select>
             </div>

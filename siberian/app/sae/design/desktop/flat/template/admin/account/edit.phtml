@@ -28,68 +28,68 @@
             <div class="page-content-wrapper">
                 <div id="information" class="content solo-page sb-tour">
                     <h3 class="title-editor border-blue text-center">
-                        <?php echo $this->_('Information'); ?>
+                        <?php echo __('Information'); ?>
                     </h3>
                     <div class="container-fluid subcontent content-color">
                         <div class="form-group">
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="company" class="col-md-3 control-label"><?php echo $this->_("Company:"); ?></label>
+                                <label for="company" class="col-md-3 control-label"><?php echo __("Company:"); ?></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="company" name="company" class="input-flat" value="<?php echo $admin->getCompany() ?>" placeholder="<?php echo $this->_("Company"); ?>">
+                                    <input type="text" id="company" name="company" class="input-flat" value="<?php echo $admin->getCompany() ?>" placeholder="<?php echo __("Company"); ?>">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="email" class="col-md-3 control-label"><?php echo $this->_("Email:"); ?> <span class="input-required">*</span></label>
+                                <label for="email" class="col-md-3 control-label"><?php echo __("Email:"); ?> <span class="input-required">*</span></label>
                                 <div class="col-md-9">
-                                    <input type="email" id="email" name="email" class="required input-flat" value="<?php echo $admin->getEmail() ?>" placeholder="<?php echo $this->_("Email"); ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="firstname" class="col-md-3 control-label"><?php echo $this->_("Firstname:"); ?></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="firstname" name="firstname" class="input-flat" value="<?php echo $admin->getFirstname() ?>" placeholder="<?php echo $this->_("Firstname"); ?>">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="lastname" class="col-md-3 control-label"><?php echo $this->_("Lastname:"); ?></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="lastname" name="lastname" class="input-flat" value="<?php echo $admin->getLastname() ?>" placeholder="<?php echo $this->_("Lastname"); ?>">
+                                    <input type="email" id="email" name="email" class="required input-flat" value="<?php echo $admin->getEmail() ?>" placeholder="<?php echo __("Email"); ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="address" class="col-md-3 control-label"><?php echo $this->_("Address:"); ?></label>
+                                <label for="firstname" class="col-md-3 control-label"><?php echo __("Firstname:"); ?></label>
                                 <div class="col-md-9">
-                                    <input id="address" name="address" class="input-flat" type="text" value="<?php echo $admin->getAddress() ?>" placeholder="<?php echo $this->_("Address"); ?>" />
+                                    <input type="text" id="firstname" name="firstname" class="input-flat" value="<?php echo $admin->getFirstname() ?>" placeholder="<?php echo __("Firstname"); ?>">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="address2" class="col-md-3 control-label"><?php echo $this->_("Address 2:"); ?></label>
+                                <label for="lastname" class="col-md-3 control-label"><?php echo __("Lastname:"); ?></label>
                                 <div class="col-md-9">
-                                    <input id="address2" name="address2" class="input-flat" type="text" value="<?php echo $admin->getData('address2') ?>" placeholder="<?php echo $this->_("Address"); ?>" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="zip_code" class="col-md-3 control-label"><?php echo $this->_("Zip Code:"); ?></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="zip_code" name="zip_code" class="input-flat" value="<?php echo $admin->getZipCode() ?>" placeholder="<?php echo $this->_("Zip Code"); ?>" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="city" class="col-md-3 control-label"><?php echo $this->_("City:"); ?></label>
-                                <div class="col-md-9">
-                                    <input type="text" id="city" name="city" class="input-flat" value="<?php echo $admin->getCity() ?>" placeholder="<?php echo $this->_("City"); ?>" />
+                                    <input type="text" id="lastname" name="lastname" class="input-flat" value="<?php echo $admin->getLastname() ?>" placeholder="<?php echo __("Lastname"); ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="country_code" class="col-md-3 control-label"><?php echo $this->_("Country:"); ?></label>
+                                <label for="address" class="col-md-3 control-label"><?php echo __("Address:"); ?></label>
+                                <div class="col-md-9">
+                                    <input id="address" name="address" class="input-flat" type="text" value="<?php echo $admin->getAddress() ?>" placeholder="<?php echo __("Address"); ?>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="address2" class="col-md-3 control-label"><?php echo __("Address 2:"); ?></label>
+                                <div class="col-md-9">
+                                    <input id="address2" name="address2" class="input-flat" type="text" value="<?php echo $admin->getData('address2') ?>" placeholder="<?php echo __("Address"); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="zip_code" class="col-md-3 control-label"><?php echo __("Zip Code:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="zip_code" name="zip_code" class="input-flat" value="<?php echo $admin->getZipCode() ?>" placeholder="<?php echo __("Zip Code"); ?>" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="city" class="col-md-3 control-label"><?php echo __("City:"); ?></label>
+                                <div class="col-md-9">
+                                    <input type="text" id="city" name="city" class="input-flat" value="<?php echo $admin->getCity() ?>" placeholder="<?php echo __("City"); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-6 col-sm-12 col-xs-12">
+                                <label for="country_code" class="col-md-3 control-label"><?php echo __("Country:"); ?></label>
                                 <div class="col-md-9">
                                     <select id="country_code" name="country_code" value="<?php echo $admin->getCountry() ?>" class="styled-select color-blue">
                                         <option value=""></option>
@@ -100,7 +100,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="region_code" class="col-md-3 control-label"><?php echo $this->_("State/Province"); ?></label>
+                                <label for="region_code" class="col-md-3 control-label"><?php echo __("State/Province"); ?></label>
                                 <div class="col-md-7 col-md-offset-2">
                                     <select id="region_code" name="region_code" class="styled-select color-blue"></select>
                                 </div>
@@ -108,9 +108,9 @@
                         </div>
                         <div class="form-group">
                             <div class="col-lg-6 col-sm-12 col-xs-12">
-                                <label for="phone" class="col-md-3 control-label"><?php echo $this->_("Phone:"); ?></label>
+                                <label for="phone" class="col-md-3 control-label"><?php echo __("Phone:"); ?></label>
                                 <div class="col-md-9">
-                                    <input type="text" id="phone" name="phone" value="<?php echo $admin->getPhone() ?>" class="input-flat" placeholder="<?php echo $this->_("Phone"); ?>">
+                                    <input type="text" id="phone" name="phone" value="<?php echo $admin->getPhone() ?>" class="input-flat" placeholder="<?php echo __("Phone"); ?>">
                                 </div>
                             </div>
                         </div>
@@ -118,7 +118,7 @@
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <div class="col-md-5 col-md-offset-7">
-                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo __("Save"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -127,17 +127,17 @@
             </div>
         </div>
 
-        <?php if($this->getMode()=="management"):?>
+        <?php if ($this->getMode() == "management"): ?>
         <div class="<?php echo $class_sub_col ?>">
             <div class="page-content-wrapper">
                 <div id="account_role" class="content solo-page sb-tour">
                     <h3 class="title-editor border-blue text-center">
-                        <?php echo $this->_('Account role'); ?>
+                        <?php echo __('Account role'); ?>
                     </h3>
                     <div class="container-fluid subcontent content-color">
                         <div class="form-group">
                             <div class="col-md-3 col-sm-2">
-                                <label for="role_id"><?php echo $this->_('Role'); ?> <span class="input-required">*</span> : </label>
+                                <label for="role_id"><?php echo __('Role'); ?> <span class="input-required">*</span> : </label>
                             </div>
                             <div class="col-md-9 col-sm-4">
                                 <select class="styled-select color-blue required" id="role_id" name="role_id">
@@ -159,14 +159,14 @@
             <div class="page-content-wrapper">
                 <div id="change_password" class="content solo-page sb-tour">
                     <h3 class="title-editor border-blue text-center">
-                        <span id="title_change_password"><?php echo $this->_('Change password'); ?></span>
+                        <span id="title_change_password"><?php echo __('Change password'); ?></span>
                     </h3>
                     <div class="container-fluid subcontent content-color" id="table-change-password">
                         <?php if($admin->getId()) : ?>
                         <div class="form-group">
                             <div class=" control control--checkbox">
                                 <label for="change-password" class="col-md-3">
-                                    <?php echo $this->_('Change password'); ?>
+                                    <?php echo __('Change password'); ?>
                                 </label>
                                 <div class="col-md-9">
                                     <input type="checkbox" name="changepassword" id="change-password" color="color-blue" class="sb-form-checkbox checkbox color-blue"/>
@@ -177,7 +177,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="old_password"><?php echo $this->_('Current password'); ?> <span class="input-required">*</span> :</label>
+                                <label for="old_password"><?php echo __('Current password'); ?> <span class="input-required">*</span> :</label>
                             </div>
                             <div class="col-md-9">
                                 <input type="password" value="" name="old_password" class="toggle-disabled input-flat required" id="old_password" disabled="disabled">
@@ -186,7 +186,7 @@
                         <?php endif; ?>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="password"><?php echo $this->_('New password'); ?> <span class="input-required">*</span> :</label>
+                                <label for="password"><?php echo __('New password'); ?> <span class="input-required">*</span> :</label>
                             </div>
                             <div class="col-md-9">
                                 <input type="password" value="" name="password" class="toggle-disabled input-flat required" id="password"<?php if($admin->getId()) : ?> disabled="disabled"<?php endif; ?>>
@@ -194,19 +194,19 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-3">
-                                <label for="confirm_password"><?php echo $this->_('Confirm new password'); ?> <span class="input-required">*</span> :</label>
+                                <label for="confirm_password"><?php echo __('Confirm new password'); ?> <span class="input-required">*</span> :</label>
                             </div>
                             <div class="col-md-9">
                                 <input type="password" value="" name="confirm_password" class="toggle-disabled input-flat required" id="confirm_password"<?php if($admin->getId()) : ?> disabled="disabled"<?php endif; ?>>
                             </div>
                         </div>
-                        <p class="input-required">* <?php echo $this->_('Required fields'); ?></p>
+                        <p class="input-required">* <?php echo __('Required fields'); ?></p>
 
                         <div class="form-group">
                             <div class="col-md-6"></div>
                             <div class="col-md-6">
                                 <div class="col-md-5 col-md-offset-7">
-                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo $this->_("Save"); ?></button>
+                                    <button class="color-blue btn btn-default send_form pull-right"><?php echo __("Save"); ?></button>
                                 </div>
                             </div>
                         </div>
@@ -219,13 +219,13 @@
         </div>
     </form>
 
-    <?php if($admin->getParentId() AND $this->getMode() == "management") : ?>
+    <?php if ($admin->getParentId() && $this->getMode() === "management") : ?>
         <div class="col-md-6">
             <div class="col-md-12">
                 <div class="page-content-wrapper">
                     <div class="content solo-page">
                         <h3 class="title-editor border-blue no-margin-bottom text-center">
-                            <span id="title_change_password"><?php echo $this->_('Applications'); ?></span>
+                            <span id="title_change_password"><?php echo __('Applications'); ?></span>
                         </h3>
                         <div class="container-fluid subcontent content-color">
                             <table class="table inner_content">
@@ -239,9 +239,9 @@
                                 <tr>
                                     <th class="border-blue"></th>
                                     <th class="border-blue"></th>
-                                    <th class="border-blue"><?php echo $this->_("Name"); ?></th>
-                                    <th class="border-blue"><?php echo $this->_("Bundle Id"); ?></th>
-                                    <th class="text-center border-blue"><?php echo $this->_("Can add pages"); ?></th>
+                                    <th class="border-blue"><?php echo __("Name"); ?></th>
+                                    <th class="border-blue"><?php echo __("Bundle Id"); ?></th>
+                                    <th class="text-center border-blue"><?php echo __("Can add pages"); ?></th>
                                 </tr>
                                 <tbody>
                                 <?php foreach($applications as $key => $application) : ?>
@@ -274,6 +274,30 @@
         </div>
     <?php endif; ?>
 </div>
+
+<?php if (isGdpr()): ?>
+    <!-- RGPD -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-6">
+                <div class="page-content-wrapper">
+                    <div id="general-settings"
+                         class="content solo-page sb-tour">
+                        <h3 class="title-editor border-blue text-center">
+                            <?php echo __('General settings & preferences') ?>
+                        </h3>
+                        <div class="container-fluid subcontent content-color">
+                            <a href=""
+                               style="text-decoration: underline;"><?php echo __('Download a copy of my data.') ?></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /RGPD -->
+<?php endif; ?>
+
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -374,11 +398,6 @@
 
     $('#country_code').change();
 
-//    $("#role_id").change(function() {
-//        if($("#role_id").val() != "") {
-//            reload($("#roleForm"), $("#roleForm").attr("action"), true);
-//        }
-//    });
     $("#toggle_customization_sidebar,#btn-close-sidebarright").click(function(e) {
         e.preventDefault();
         $("#wrapper").toggleClass("right-toggled");

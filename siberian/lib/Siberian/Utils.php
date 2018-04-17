@@ -244,6 +244,15 @@ function formatBytes($bytes, $precision = 2) {
 }
 
 /**
+ * Simple alias for GDPR features
+ *
+ * @return bool
+ */
+function isGdpr () {
+    return System_Model_Config::isGdprEnabled();
+}
+
+/**
  * Classic hook for translations
  *
  * @param $text
