@@ -80,7 +80,6 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
         } else {
             Wordpress2.find($scope.currentPage, $scope.isPullingToRefresh)
                 .then(function (data) {
-                    $scope.queryView = true;
                     if ($scope.isPullingToRefresh) {
                         // Clear collection!
                         $scope.collection = [];
@@ -90,6 +89,8 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                     $scope.wordpress = data.wordpress;
                     $scope.cardDesign = $scope.wordpress.cardDesign;
                     Wordpress2.cardDesign = $scope.cardDesign;
+
+                    $scope.queryView = true && !$scope.wordpress.groupQueries;
 
                     $scope.collection = $scope.collection.concat(angular.copy(data.posts));
                     Wordpress2.collection = $scope.collection;
