@@ -86,10 +86,10 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             $progressbar_color = Siberian_Color::newColor($progressbar_color, "hex");
             $progressbar_trail_color = Siberian_Color::newColor($progressbar_trail_color, "hex");
 
-            if($progressbar_trail_color->lightness > 80) {
+            if ($progressbar_trail_color->lightness > 80) {
                 $progressbar_trail_color = $progressbar_trail_color->getNew("lightness", $progressbar_color->lightness - 20);
             } else {
-                $progressbar_trail_color = $progressbar_trail_color->getNew("", $progressbar_color->lightness + 20);
+                $progressbar_trail_color = $progressbar_trail_color->getNew("lightness", $progressbar_color->lightness + 20);
             }
 
             $bg_block = $application->getBlock("background");

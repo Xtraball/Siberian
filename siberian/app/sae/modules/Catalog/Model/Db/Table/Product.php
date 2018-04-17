@@ -64,27 +64,28 @@ class Catalog_Model_Db_Table_Product extends Core_Model_Db_Table
 
     }
 
-    public function saveCategoryIds($product_id, $category_ids) {
-
+    /**
+     * @param $product_id
+     * @param $category_ids
+     */
+    public function saveCategoryIds($product_id, $category_ids)
+    {
         try {
-
             $this->beginTransaction();
-            $this->_db->delete('catalog_product_folder_category', array('product_id = ?' => $product_id));
-            foreach($category_ids as $category_id) {
-                $datas = array(
+            $this->_db->delete('catalog_product_folder_category', ['product_id = ?' => $product_id]);
+            foreach ($category_ids as $category_id) {
+                $datas = [
                     'product_id' => $product_id,
                     'category_id' => $category_id
-                );
+                ];
                 $this->_db->insert('catalog_product_folder_category', $datas);
             }
-
             $this->commit();
         } catch (Exception $e) {
             $this->rollback();
             Zend_Debug::dump($e);
             die;
         }
-
     }
 
     public function findCategoryIds($product_id) {
