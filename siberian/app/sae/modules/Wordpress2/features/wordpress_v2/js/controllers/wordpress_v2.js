@@ -3,7 +3,8 @@
  *
  * @version 0.0.1
  */
-angular.module('starter').controller('Wordpress2ListController', function ($scope, $stateParams, $state, Wordpress2) {
+angular.module('starter').controller('Wordpress2ListController', function ($scope, $stateParams, $state, $timeout,
+                                                                           Wordpress2) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -17,6 +18,7 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
         use_pull_to_refresh: true,
         pull_to_refresh: false,
         isPullingToRefresh: false,
+        queryView: true,
         imagePath: function (path) {
             return IMAGE_URL + 'images/application' + path;
         }
@@ -30,10 +32,10 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
      * Load page payload
      */
     $scope.loadContent = function () {
-        $scope.is_loading = true;
         if ($stateParams.query_id !== '') {
             Wordpress2.loadposts($stateParams.query_id, $scope.currentPage, $scope.isPullingToRefresh)
                 .then(function (data) {
+                    $scope.queryView = false;
                     if ($scope.isPullingToRefresh) {
                         // Clear collection!
                         $scope.collection = [];
@@ -56,26 +58,32 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                     //$scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
 
                 }).then(function (data) {
-                    $scope.is_loading = false;
-
                     if ($scope.isPullingToRefresh) {
                         $scope.currentPage = $scope.previousPage;
+                        console.log("$scope.$broadcast('scroll.refreshComplete');");
                         $scope.$broadcast('scroll.refreshComplete');
-                        $scope.isPullingToRefresh = false;
+                        $timeout(function () {
+                            $scope.isPullingToRefresh = false;
+                        }, 100);
                     }
 
                     if ($scope.isLoadingMore) {
+                        console.log("$scope.$broadcast('scroll.infiniteScrollComplete');");
                         $scope.$broadcast('scroll.infiniteScrollComplete');
-                        $scope.isLoadingMore = false;
+                        $timeout(function () {
+                            $scope.isLoadingMore = false;
+                        }, 100);
                     }
+
+                    $scope.is_loading = false;
                 });
         } else {
             Wordpress2.find($scope.currentPage, $scope.isPullingToRefresh)
                 .then(function (data) {
+                    $scope.queryView = true;
                     if ($scope.isPullingToRefresh) {
                         // Clear collection!
                         $scope.collection = [];
-                        $scope.$broadcast('scroll.refreshComplete');
                     }
 
                     $scope.page_title = data.page_title;
@@ -92,18 +100,22 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                     //$scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);
 
                 }).then(function (data) {
-                    $scope.is_loading = false;
-
                     if ($scope.isPullingToRefresh) {
                         $scope.currentPage = $scope.previousPage;
                         $scope.$broadcast('scroll.refreshComplete');
-                        $scope.isPullingToRefresh = false;
+                        $timeout(function () {
+                            $scope.isPullingToRefresh = false;
+                        }, 100);
                     }
 
                     if ($scope.isLoadingMore) {
                         $scope.$broadcast('scroll.infiniteScrollComplete');
-                        $scope.isLoadingMore = false;
+                        $timeout(function () {
+                            $scope.isLoadingMore = false;
+                        }, 100);
                     }
+
+                    $scope.is_loading = false;
                 });
         }
     };
@@ -161,6 +173,25 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
             $scope.previousPage = $scope.currentPage;
             $scope.loadContent(true);
         }
+    };
+
+    /**
+     *
+     */
+    $scope.canPullToRefresh = function () {
+        return !$scope.isLoadingMore &&
+            !$scope.is_loading &&
+            $scope.use_pull_to_refresh;
+    };
+
+    /**
+     *
+     */
+    $scope.canLoadMore = function () {
+        return !$scope.queryView &&
+            !$scope.isPullingToRefresh &&
+            !$scope.is_loading &&
+            $scope.load_more;
     };
 
     $scope.loadContent(false);

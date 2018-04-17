@@ -8,7 +8,7 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-refresher ng-if="!is_loading && use_pull_to_refresh"
+        <ion-refresher ng-if="canPullToRefresh()"
                        class="spinner-custom"
                        pulling-text="{{ 'Pull to refresh...' | translate }}"
                        on-refresh="pullToRefresh()">
@@ -99,7 +99,7 @@
             </div>
         </div>
 
-        <ion-infinite-scroll ng-if="!is_loading && load_more"
+        <ion-infinite-scroll ng-if="canLoadMore()"
                              on-infinite="loadMore()"
                              immediate-check="false"
                              distance="10%">
