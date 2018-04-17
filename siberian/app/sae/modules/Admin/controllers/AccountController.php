@@ -293,4 +293,16 @@ class Admin_AccountController extends Admin_Controller_Default
         return $this;
     }
 
+    /**
+     *
+     */
+    public function downloaddataAction ()
+    {
+        $session = $this->getSession();
+        $admin = $session->getAdmin();
+
+        print_r($admin->getData());
+        die;
+    }
+
 }
