@@ -68,9 +68,6 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                     }
                 }
 
-                //if((!$product->getId() AND empty($datas['is_multiple'])) OR ($product->getId() AND $product->getData('type') != 'format' AND isset($datas['option']))) unset($datas['option']);
-//                if(isset($datas['option'])) unset($datas["price"]);
-
                 if($datas['is_multiple']=="0") {
                     $product->setData('type','simple');
                     unset($datas['option']);
@@ -104,14 +101,14 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
 
                 if(!empty($datas['group']) AND !$isDeleted) {
 
-                    $group_ids = array();
+                    $group_ids = [];
                     $groups = $product->getGroups();
                     foreach($datas['group'] as $group_datas) {
                         if(!empty($group_datas['group_id'])) $group_ids[] = $group_datas['group_id'];
                     }
                     // Supprime tous les groups qui ont été décochés
-                    foreach($groups as $group) {
-                        if(!in_array($group->getGroupId(), $group_ids)) $group->delete();
+                    foreach ($groups as $group) {
+                        if (!in_array($group->getGroupId(), $group_ids)) $group->delete();
                     }
 
                     foreach($datas['group'] as $group_datas) {
