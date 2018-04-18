@@ -56,6 +56,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     );
                 $queries = [];
                 $categoryIds = [];
+                $pageIds = [];
                 foreach ($wordpressQueries as $wordpressQuery) {
                     $query = Siberian_Json::decode($wordpressQuery->getData('query'));
                     $queryId = $wordpressQuery->getId();
@@ -71,6 +72,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     ];
 
                     $categoryIds[$queryId] = $query['categories'];
+                    $pageIds[$queryId] = $query['pages'];
                 }
 
                 $wordpressApi = (new Wordpress2_Model_WordpressApi())
@@ -84,14 +86,37 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
 
                 // Immediate fetch 20 first rows 'grouped'
                 if ($wordpressData['groupQueries']) {
-                    $groupIds = [];
+                    // Posts
+                    $groupPostIds = [];
                     foreach ($categoryIds as $queryId => $categories) {
-                        $groupIds += $categories;
+                        $groupPostIds += $categories;
                     }
                     $posts = $wordpressApi->getPosts(
-                        implode(',', array_values($groupIds)),
+                        implode(',', array_values($groupPostIds)),
                         $page
                     );
+
+                    // Pages
+                    $groupPageIds = [];
+                    foreach ($pageIds as $queryId => $pages) {
+                        $groupPageIds += $pages;
+                    }
+                    $pages = $wordpressApi->getPages(
+                        implode(',', array_values($groupPageIds)),
+                        $page
+                    );
+
+                    $posts = array_merge($posts, $pages);
+                    uasort($posts, function ($a, $b) {
+                        $dateA = date_create_from_format('Y-m-d\TH:i:s', $a['date'])
+                            ->getTimestamp();
+                        $dateB = date_create_from_format('Y-m-d\TH:i:s', $b['date'])
+                            ->getTimestamp();
+                        if ($dateA == $dateB) {
+                            return 0;
+                        }
+                        return ($dateA < $dateB) ? -1 : 1;
+                    });
                 }
 
                 $payload = [
@@ -179,6 +204,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
 
                 $query = Siberian_Json::decode($wordpressQuery->getData('query'));
                 $categoryIds = $query['categories'];
+                $pageIds = $query['pages'];
                 $queryData = [
                     'title' => $wordpressQuery->getData('title'),
                     'subtitle' => $wordpressQuery->getData('subtitle'),
@@ -209,6 +235,23 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     implode(',', array_values($categoryIds)),
                     $page
                 );
+
+                $pages = $wordpressApi->getPages(
+                    implode(',', array_values($pageIds)),
+                    $page
+                );
+
+                $posts = array_merge($posts, $pages);
+                uasort($posts, function ($a, $b) {
+                    $dateA = date_create_from_format('Y-m-d\TH:i:s', $a['date'])
+                        ->getTimestamp();
+                    $dateB = date_create_from_format('Y-m-d\TH:i:s', $b['date'])
+                        ->getTimestamp();
+                    if ($dateA == $dateB) {
+                        return 0;
+                    }
+                    return ($dateA < $dateB) ? -1 : 1;
+                });
 
                 $payload = [
                     'success' => true,

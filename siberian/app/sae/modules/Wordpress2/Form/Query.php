@@ -150,6 +150,90 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
     }
 
     /**
+     * @param $pages
+     * @param array $selectedPages
+     * @return $this
+     */
+    public function loadPages ($pages, $selectedPages = [])
+    {
+        $pageParentId = [];
+        foreach ($pages as $page) {
+            $parent = $page['parent'];
+
+            if (!array_key_exists($parent, $pageParentId)) {
+                $pageParentId[$parent] = [];
+            }
+            $pageParentId[$parent][] = $page;
+        }
+
+        $inputHtml = '
+<label style="width: 100%;">
+    <input type="checkbox" 
+           name="pages[]" 
+           value="#VALUE#" 
+           #CHECKED#
+           color="color-blue" 
+           class="sb-form-checkbox color-blue" />
+    <span class="sb-checkbox-label">#LABEL#</span>
+</label>';
+
+        // Sub function to recursively compute child categories!
+        function displayRecursivePage ($parent, $pageParentId, $inputHtml, $selectedPages) {
+            if (array_key_exists($parent, $pageParentId)) {
+                $currentPages = $pageParentId[$parent];
+
+                $html = '';
+                foreach ($currentPages as $currentPage) {
+                    $currentParent = $currentPage['id'];
+
+                    $inputMarkup = str_replace(
+                        [
+                            '#VALUE#',
+                            '#LABEL#',
+                            '#CHECKED#'
+                        ],
+                        [
+                            $currentParent,
+                            sprintf(
+                                "%s (%s)",
+                                $currentPage['title']['rendered'],
+                                $currentPage['slug']
+                            ),
+                            in_array($currentParent, $selectedPages) ? 'checked="checked"' : ''
+                        ],
+                        $inputHtml);
+
+                    $html .= '<li>' . $inputMarkup;
+
+                    $subs = displayRecursivePage($currentParent, $pageParentId, $inputHtml, $selectedPages);
+                    if (!empty($subs)) {
+                        $subs = '<ul>' . $subs . '</ul>';
+                    }
+                    $html .= $subs . '</li>';
+                }
+
+                return $html;
+            }
+            return '';
+        }
+
+        $markupPages = '<ul>' . displayRecursivePage(0, $pageParentId, $inputHtml, $selectedPages) . '</ul>';
+
+        $markupPages = '
+<label for="categories" 
+       class="sb-form-line-title col-sm-3 optional">' . __('Pages') . '</label>
+<div class="col-sm-7"
+     style="max-height: 400px;overflow-y: scroll;">
+    ' . $markupPages . '
+</div>
+<div class="sb-cb"></div>';
+
+        $this->addSimpleHtml('markup_pages', $markupPages);
+
+        return $this;
+    }
+
+    /**
      * @return $this
      * @throws Zend_Form_Exception
      */

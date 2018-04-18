@@ -125,7 +125,8 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
 
             $query = Siberian_Json::encode(
                 [
-                    'categories' => $params['categories']
+                    'categories' => $params['categories'],
+                    'pages' => $params['pages']
                 ]
             );
             $wordpressQuery->setQuery($query);
@@ -196,18 +197,23 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             );
 
             $categories = $wordpressApi->getCategories();
+            $pages = $wordpressApi->getAllPages();
 
             $selectedCategories = Siberian_Json::decode($wordpressQuery->getQuery())['categories'];
+            $selectedPages = Siberian_Json::decode($wordpressQuery->getQuery())['pages'];
 
             $form = new Wordpress2_Form_Query();
             $form->populate($wordpressQuery->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
             $form
                 ->loadCategories($categories, $selectedCategories)
+                ->loadPages($pages, $selectedPages)
                 ->createSubmit();
 
             $payload = [
                 "success" => true,
+                'pages' => $pages,
+                'selectedPages' => $selectedPages,
                 "form" => $form->render(),
                 "message" => __("Success."),
             ];

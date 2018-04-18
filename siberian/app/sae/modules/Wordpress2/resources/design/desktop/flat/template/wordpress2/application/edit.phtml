@@ -36,7 +36,6 @@ $queries = (new Wordpress2_Model_Query())
         'position ASC'
     );
 
-$formCategories = [];
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -55,6 +54,26 @@ try {
 
 } catch (Exception $e) {
     $gotCatgories = false;
+}
+
+try {
+    $wordpressApi = new Wordpress2_Model_WordpressApi();
+    $wordpressApi->init(
+        $wordpress->getData('url'),
+        $wordpress->getData('login'),
+        $wordpress->getData('password')
+    );
+
+    $pages = $wordpressApi->getAllPages();
+
+    $formQuery
+        ->loadPages($pages)
+        ->createSubmit();
+
+    $gotPages = true;
+
+} catch (Exception $e) {
+    $gotPages = false;
 }
 
 ?>
@@ -95,7 +114,7 @@ try {
                 </div>
             </div>
 
-            <?php if ($gotCatgories): ?>
+            <?php if ($gotCatgories || $gotPages): ?>
                 <div class="feature-block-add">
                     <h3 class="title-editor no-border-radius title-feature-indent">
                         <?php echo __('Add a query'); ?>
@@ -108,7 +127,7 @@ try {
                     </div>
                 </div>
 
-                <?php if($queries->count() > 0): ?>
+                <?php if ($queries->count() > 0): ?>
                     <div class="feature-block-list">
                         <div class="margin-top">
                             <h3 class="title-editor no-border-radius title-feature-indent">

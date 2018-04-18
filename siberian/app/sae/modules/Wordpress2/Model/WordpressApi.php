@@ -65,6 +65,34 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
     /**
      * @return array
      */
+    public function getAllPages ()
+    {
+        // Break the loop after this count (could reach 250 categories)
+        $failSafe = 5;
+
+        $page = 1;
+        $perPage = 50;
+        $pages = $this->client->pages()->get(null, [
+            'page' => $page,
+            'per_page' => $perPage
+        ]);
+
+        $allPages = $pages;
+        while (sizeof($pages) === $perPage && $failSafe > $page) {
+            $page = $page + 1;
+            $pages = $this->client->pages()->get(null, [
+                'page' => $page,
+                'per_page' => $perPage
+            ]);
+            $allPages = array_merge($allPages, $pages);
+        }
+
+        return $allPages;
+    }
+
+    /**
+     * @return array
+     */
     public function getPosts ($categoryId, $page = 1, $params = [])
     {
         /**
@@ -111,13 +139,18 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
             $post['subtitle'] = $post['excerpt']['rendered'];
             $post['content'] = $post['content']['rendered'];
 
-            try {
-                $media = $this->client->media()->get($post['featured_media']);
-                $post['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
-                $post['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
-            } catch (Exception $e) {
-                $post['thumbnail'] = null;
-                $post['picture'] = null;
+            if ($page['featured_media'] != 0) {
+                try {
+                    $media = $this->client->media()->get($post['featured_media']);
+                    $post['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
+                    $post['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
+                } catch (Exception $e) {
+                    $post['thumbnail'] = null;
+                    $post['picture'] = null;
+                }
+            } else {
+                $page['thumbnail'] = null;
+                $page['picture'] = null;
             }
 
             $post = array_filter(
@@ -130,5 +163,60 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         }
 
         return $posts;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPages ($pageIds, $page = 1, $params = [])
+    {
+        $pages = $this->client->pages()->get(null, [
+                'include' => $pageIds,
+                'page' => $page,
+                'per_page' => self::postsPerPage
+            ] + $params);
+
+        $allowedKeys = [
+            'id',
+            'date',
+            'slug',
+            'link',
+            'title',
+            'subtitle',
+            'content',
+            'media',
+            'thumbnail',
+            'picture',
+        ];
+
+        foreach ($pages as &$page) {
+            $page['title'] = $page['title']['rendered'];
+            $page['subtitle'] = $page['excerpt']['rendered'];
+            $page['content'] = $page['content']['rendered'];
+
+            if ($page['featured_media'] != 0) {
+                try {
+                    $media = $this->client->media()->get($page['featured_media']);
+                    $page['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
+                    $page['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
+                } catch (Exception $e) {
+                    $page['thumbnail'] = null;
+                    $page['picture'] = null;
+                }
+            } else {
+                $page['thumbnail'] = null;
+                $page['picture'] = null;
+            }
+
+            $page = array_filter(
+                $page,
+                function ($key) use ($allowedKeys) {
+                    return in_array($key, $allowedKeys);
+                },
+                ARRAY_FILTER_USE_KEY
+            );
+        }
+
+        return $pages;
     }
 }
