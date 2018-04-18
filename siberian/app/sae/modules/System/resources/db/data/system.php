@@ -334,6 +334,11 @@ To determine whether any of the third party services it uses honor the &ldquo;Do
 <p><em><strong>Latest update: June 11, 2014.</strong></em></p>
 ",
     ],
+    [
+        'code' => 'privacy_policy_gdpr',
+        'label' => 'Default privacy policy section for GDPR',
+        'value' => '',
+    ],
 ];
 
 foreach($configs as $data) {
