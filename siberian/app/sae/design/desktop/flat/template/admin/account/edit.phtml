@@ -287,8 +287,17 @@
                             <?php echo __('General settings & preferences') ?>
                         </h3>
                         <div class="container-fluid subcontent content-color">
-                            <a href=""
-                               style="text-decoration: underline;"><?php echo __('Download a copy of my data.') ?></a>
+                            <a href="/admin/account/mydata"
+                               target="_blank"
+                               class="color-blue btn btn-default"><?php echo __('View my actual data.') ?></a>
+                            <br /><br />
+                            <a href="/admin/account/mydata?download=true"
+                               class="color-blue btn btn-default"><?php echo __('Download a copy of my data.') ?></a>
+
+                            <br /><br />
+                            <div class="alert alert-danger"><?php echo __('<b>Danger zone</b>: below you can definitively delete your account.'); ?></div>
+                            <a href="/admin/account/deletemydata"
+                               class="color-red btn btn-default"><?php echo __('Delete my account.') ?></a>
                         </div>
                     </div>
                 </div>

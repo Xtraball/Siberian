@@ -45,14 +45,11 @@
         </actions>
     </admin_account_edit>
 
-    <admin_account_downloaddata>
+    <admin_account_mydata>
         <base>
             <title>My personal data</title>
         </base>
-        <views>
-            <content class="admin_view_default" template="admin/account/download-data.phtml" />
-        </views>
-    </admin_account_downloaddata>
+    </admin_account_mydata>
 
     <admin_access_management_list>
         <addLayout name="admin_menu" />
