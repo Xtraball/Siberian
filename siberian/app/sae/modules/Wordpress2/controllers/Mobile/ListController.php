@@ -71,8 +71,13 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         'position' => $wordpressQuery->getData('position'),
                     ];
 
-                    $categoryIds[$queryId] = $query['categories'];
-                    $pageIds[$queryId] = $query['pages'];
+                    if (is_array($query['categories']) && !empty($query['categories'])) {
+                        $categoryIds[$queryId] = $query['categories'];
+                    }
+
+                    if (is_array($query['pages']) && !empty($query['pages'])) {
+                        $pageIds[$queryId] = $query['pages'];
+                    }
                 }
 
                 $wordpressApi = (new Wordpress2_Model_WordpressApi())
@@ -91,20 +96,28 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     foreach ($categoryIds as $queryId => $categories) {
                         $groupPostIds += $categories;
                     }
-                    $posts = $wordpressApi->getPosts(
-                        implode(',', array_values($groupPostIds)),
-                        $page
-                    );
+
+                    $posts = [];
+                    if (!empty($groupPostIds)) {
+                        $posts = $wordpressApi->getPosts(
+                            implode(',', array_values($groupPostIds)),
+                            $page
+                        );
+                    }
 
                     // Pages
                     $groupPageIds = [];
                     foreach ($pageIds as $queryId => $pages) {
                         $groupPageIds += $pages;
                     }
-                    $pages = $wordpressApi->getPages(
-                        implode(',', array_values($groupPageIds)),
-                        $page
-                    );
+
+                    $pages = [];
+                    if (!empty($groupPageIds)) {
+                        $pages = $wordpressApi->getPages(
+                            implode(',', array_values($groupPageIds)),
+                            $page
+                        );
+                    }
 
                     $posts = array_merge($posts, $pages);
                     uasort($posts, function ($a, $b) {
@@ -117,6 +130,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         }
                         return ($dateA < $dateB) ? -1 : 1;
                     });
+                    $posts = array_values($posts);
                 }
 
                 $payload = [
@@ -231,15 +245,22 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         $wordpress->getData('password')
                     );
 
-                $posts = $wordpressApi->getPosts(
-                    implode(',', array_values($categoryIds)),
-                    $page
-                );
+                $posts = [];
+                if (!empty($categoryIds)) {
+                    $posts = $wordpressApi->getPosts(
+                        implode(',', array_values($categoryIds)),
+                        $page
+                    );
+                }
 
-                $pages = $wordpressApi->getPages(
-                    implode(',', array_values($pageIds)),
-                    $page
-                );
+                $pages = [];
+                if (!empty($pageIds)) {
+                    $pages = $wordpressApi->getPages(
+                        implode(',', array_values($pageIds)),
+                        $page
+                    );
+                }
+
 
                 $posts = array_merge($posts, $pages);
                 uasort($posts, function ($a, $b) {
@@ -252,6 +273,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     }
                     return ($dateA < $dateB) ? -1 : 1;
                 });
+                $posts = array_values($posts);
 
                 $payload = [
                     'success' => true,

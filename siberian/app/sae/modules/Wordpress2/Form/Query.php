@@ -62,6 +62,16 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
 
         $this->addSimpleHidden('value_id');
         $this->addSimpleHidden('query_id');
+
+        $queryHelp = '
+<div class="alert alert-info">
+    ' . __('You can mix posts & pages in the queries if needed.') . '
+</div>
+        ';
+
+        $this->addSimpleHtml('query_help', $queryHelp, [
+            'class' => 'col-sm-12'
+        ]);
     }
 
     /**

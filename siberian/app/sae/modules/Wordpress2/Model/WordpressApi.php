@@ -52,10 +52,16 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         $allCategories = $categories;
         while (sizeof($categories) === $perPage && $failSafe > $page) {
             $page = $page + 1;
-            $categories = $this->client->categories()->get(null, [
-                'page' => $page,
-                'per_page' => $perPage
-            ]);
+            try {
+                $categories = $this->client->categories()->get(null, [
+                    'page' => $page,
+                    'per_page' => $perPage
+                ]);
+            } catch (Exception $e) {
+                $page = 5;
+                break;
+            }
+
             $allCategories = array_merge($allCategories, $categories);
         }
 
@@ -80,10 +86,16 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         $allPages = $pages;
         while (sizeof($pages) === $perPage && $failSafe > $page) {
             $page = $page + 1;
-            $pages = $this->client->pages()->get(null, [
-                'page' => $page,
-                'per_page' => $perPage
-            ]);
+            try {
+                $pages = $this->client->pages()->get(null, [
+                    'page' => $page,
+                    'per_page' => $perPage
+                ]);
+            } catch (Exception $e) {
+                $page = 5;
+                break;
+            }
+
             $allPages = array_merge($allPages, $pages);
         }
 
@@ -115,11 +127,15 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
          * tags_exclude	Limit result set to all items except those that have the specified term assigned in the tags taxonomy.
          */
 
-        $posts = $this->client->posts()->get(null, [
-            'categories' => $categoryId,
-            'page' => $page,
-            'per_page' => self::postsPerPage
-        ] + $params);
+        try {
+            $posts = $this->client->posts()->get(null, [
+                    'categories' => $categoryId,
+                    'page' => $page,
+                    'per_page' => self::postsPerPage
+                ] + $params);
+        } catch (Exception $e) {
+            return [];
+        }
 
         $allowedKeys = [
             'id',
@@ -137,7 +153,15 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         foreach ($posts as &$post) {
             $post['title'] = $post['title']['rendered'];
             $post['subtitle'] = $post['excerpt']['rendered'];
-            $post['content'] = $post['content']['rendered'];
+            $post['content'] = str_replace(
+                [
+                    'data-src='
+                ],
+                [
+                    'src='
+                ],
+                $post['content']['rendered']
+            );
 
             if ($page['featured_media'] != 0) {
                 try {
@@ -170,11 +194,15 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
      */
     public function getPages ($pageIds, $page = 1, $params = [])
     {
-        $pages = $this->client->pages()->get(null, [
-                'include' => $pageIds,
-                'page' => $page,
-                'per_page' => self::postsPerPage
-            ] + $params);
+        try {
+            $pages = $this->client->pages()->get(null, [
+                    'include' => $pageIds,
+                    'page' => $page,
+                    'per_page' => self::postsPerPage
+                ] + $params);
+        } catch (Exception $e) {
+            return [];
+        }
 
         $allowedKeys = [
             'id',
@@ -192,7 +220,15 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         foreach ($pages as &$page) {
             $page['title'] = $page['title']['rendered'];
             $page['subtitle'] = $page['excerpt']['rendered'];
-            $page['content'] = $page['content']['rendered'];
+            $page['content'] = str_replace(
+                [
+                    'data-src='
+                ],
+                [
+                    'src='
+                ],
+                $page['content']['rendered']
+            );
 
             if ($page['featured_media'] != 0) {
                 try {

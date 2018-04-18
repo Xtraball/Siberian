@@ -20,7 +20,7 @@
             <div ng-if="post.content"
                  class="post-content">
                 <div class="item item-text-wrap item-description item-custom"
-                     ng-bind-html="post.content"
+                     ng-bind-html="post.content | trusted_html"
                      sb-a-click></div>
             </div>
         </div>
