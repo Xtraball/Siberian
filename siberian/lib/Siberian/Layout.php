@@ -489,8 +489,7 @@ class Siberian_Layout extends Zend_Layout
                 } else {
                     $view->setScriptPath($path);
                 }
-            }
-            elseif (null !== ($path = $this->getViewBasePath())) {
+            } elseif (null !== ($path = $this->getViewBasePath())) {
                 $view->addBasePath($path, $this->_viewBasePrefix);
             }
 

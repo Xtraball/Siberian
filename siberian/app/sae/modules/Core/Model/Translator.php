@@ -54,8 +54,10 @@ class Core_Model_Translator
             $moduleNames = $frontController->getDispatcher()->getModuleDirectories();
 
             foreach ($moduleNames as $moduleName) {
-                $moduleName = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $moduleName));
-                self::addModule($moduleName);
+                $dashName = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $moduleName));
+                self::addModule($dashName);
+                $lowerName = strtolower($moduleName);
+                self::addModule($lowerName);
             }
         } catch (Exception $e) {
             if ($moduleName != 'application') {

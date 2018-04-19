@@ -215,7 +215,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
                         $init($this);
                     }
                     ob_end_clean();
-                } catch(Exception $e) {
+                } catch (Exception $e) {
                     // Silently catch & log malformed init module!
                     trigger_error($e->getMessage());
                 }
@@ -295,10 +295,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
             $module_names = $front->getDispatcher()->getSortedModuleDirectories();
 
             if (APPLICATION_ENV === 'development') {
+                //Siberian_Assets::buildFeatures();
+
                 foreach ($module_names as $module_name) {
                     $module = new Installer_Model_Installer_Module();
                     $module->prepare($module_name);
-                    if($module->canUpdate()) {
+                    if ($module->canUpdate()) {
                         $module->install();
                         $module->insertData();
                     }
