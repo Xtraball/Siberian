@@ -1,5 +1,11 @@
 <?php
     $customer = $this->getCustomer();
+
+    $genders = [
+        'm' => __('Mr'),
+        'mme' => __('Mrs'),
+        'mlle' => __('Miss'),
+    ];
 ?>
 <table>
     <thead>
@@ -11,8 +17,8 @@
     </thead>
     <tbody>
         <tr>
-            <th><?php echo __('Title') ?></th>
-            <td><?php echo empty($customer->getTitle()) ? '-' : $customer->getTitle() ?></td>
+            <th><?php echo __('Civility') ?></th>
+            <td><?php echo empty($customer->getCivility()) ? '-' : $genders[$customer->getCivility()] ?></td>
         </tr>
         <tr>
             <th><?php echo __('Email') ?></th>

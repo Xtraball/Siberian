@@ -1,0 +1,90 @@
+<?php
+$customer = $this->getCustomer();
+$isDownload = $this->getDownload();
+$baseUrl = $this->getBaseUrl();
+$customerId = $customer->getId();
+
+$posts = (new Comment_Model_Comment())
+    ->findAll([
+        'customer_id' => $customerId
+    ]);
+
+$postData = [];
+foreach ($posts as $post) {
+    $answers = $post->getAnswers();
+
+    $answerData = [];
+    foreach ($answers as $answer) {
+        $answerData[] = [
+            'text' => $answer->getText(),
+            'author' => $answer->getCustomerName(),
+            'created_at' => datetime_to_format($answer->getCreatedAt(), Zend_Date::RFC_2822),
+        ];
+    }
+
+    $image = $post->getImage();
+    if ($image) {
+        if (!$isDownload) {
+            $image = $baseUrl . '/images/application' . $post->getImage();
+        } else {
+            $imagePath = Core_Model_Directory::getBasePathTo('/images/application' . $image);
+            if (is_file($imagePath)) {
+                $image = new Siberian_Image($imagePath);
+                $image = $image->inline('jpg', 90);
+            }
+        }
+    }
+
+    $postData[] = [
+        'text' => $post->getText(),
+        'coordinates' => $post->getLatitude() . ',' . $post->getLongitude(),
+        'image' => $image,
+        'created_at' => datetime_to_format($post->getCreatedAt(), Zend_Date::RFC_2822),
+        'answers' => $answerData
+    ];
+}
+
+?>
+
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo ucfirst('Fanwall') ?></h4>
+            </td>
+        </tr>
+    </thead>
+</table>
+
+<?php foreach ($postData as $post): ?>
+<p>
+    <?php echo $post['text']; ?>
+    <br />
+    <br />
+    <?php if ($post['image']): ?>
+        <img src="<?php echo $post['image']; ?>"
+             style="max-width: 80%; border: 4px solid lightgrey; border-radius: 2px;" />
+    <?php endif; ?>
+    <p style="color: #a7a7a7;">
+        <?php echo __('Coordinates') . ': ' . $post['coordinates'] ?>
+    </p>
+</p>
+<h4><?php echo __('Answers'); ?></h4>
+<table>
+    <tbody>
+        <?php foreach ($post['answers'] as $anwser): ?>
+            <tr>
+                <td>
+                    <p>
+                        <b style="color: #0099C7; font-weight: bold;"><?php echo $anwser['author'] ?></b>
+                        <span style="color: #a7a7a7; float: right;"><?php echo $anwser['created_at'] ?></span>
+                    </p>
+                    <p>
+                        <?php echo $anwser['text'] ?>
+                    </p>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+<?php endforeach; ?>
