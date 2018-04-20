@@ -9,11 +9,17 @@
  *
  */
 
-class Siberian_Feature {
+class Siberian_Feature
+{
+    /**
+     * @var array
+     */
+    public static $custom_ratios = [];
 
-    public static $custom_ratios = array();
-
-    public static $layout_options = array();
+    /**
+     * @var array
+     */
+    public static $layout_options = [];
 
     /**
      * Utility method to install icons
@@ -23,7 +29,7 @@ class Siberian_Feature {
      * @param $can_be_colorized
      * @return array()
      */
-    public static function installIcons($name, $icons = array(), $can_be_colorized = true) {
+    public static function installIcons($name, $icons = [], $can_be_colorized = true) {
 
         $library = new Media_Model_Library();
         $library

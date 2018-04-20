@@ -1,43 +1,48 @@
 <?php
 
-class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mobile_Default {
+/**
+ * Class Mcommerce_Mobile_Sales_DeliveryController
+ */
+class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mobile_Default
+{
 
-
-    public function findstoreAction() {
-
-        $option = $this->getCurrentOptionValue();
+    /**
+     *
+     */
+    public function findstoreAction()
+    {
         $cart = $this->getCart();
         $store = $cart->getStore();
 
-        $html = array();
+        $payload = [];
 
-        $storeJson = array(
-            "id" => $store->getId(),
-            "name" => $store->getName(),
-            "deliveryMethods" => array(),
-            "clients_calculate_change" => (boolean) $store->getClientsCalculateChange()
-        );
+        $storeJson = [
+            'id' => $store->getId(),
+            'name' => $store->getName(),
+            'deliveryMethods' => [],
+            'clients_calculate_change' => (boolean) $store->getClientsCalculateChange()
+        ];
 
         foreach ($store->getDeliveryMethods() as $deliveryMethod) {
-
             $deliveryMethod->setCart($this->getCart());
 
-            if($deliveryMethod->isAvailable()) {
-                $storeJson["deliveryMethods"][] = array(
-                    "id" => $deliveryMethod->getId(),
-                    "code" => $deliveryMethod->getCode(),
-                    "name" =>$deliveryMethod->getName(),
-                    "price" => (double) $deliveryMethod->getPrice(),
-                    "formattedPrice" => $deliveryMethod->getPrice() > 0 ? $deliveryMethod->getFormattedPrice() : null
-                );
+            if ($deliveryMethod->isAvailable()) {
+                $storeJson['deliveryMethods'][] = [
+                    'id' => $deliveryMethod->getId(),
+                    'code' => $deliveryMethod->getCode(),
+                    'name' => $deliveryMethod->getName(),
+                    'price' => (double) $deliveryMethod->getPrice(),
+                    'formattedPrice' => $deliveryMethod->getPrice() > 0 ?
+                        $deliveryMethod->getFormattedPrice() : null
+                ];
             }
         }
 
-        $html["store"] = $storeJson;
+        $payload['store'] = $storeJson;
+        $payload['clients_calculate_change'] = (boolean) ($cart->getDeliveryMethod()->getCode() === 'home_delivery' &&
+            $cart->getStore()->getClientsCalculateChange());
 
-        $html["clients_calculate_change"] = (boolean) ($cart->getDeliveryMethod()->getCode() == "home_delivery" && $cart->getStore()->getClientsCalculateChange());
-
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 
     public function updateAction() {
@@ -46,7 +51,7 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
 
             $datas= $data["form"];
 
-            $html = array();
+            $html = [];
 
             try {
 

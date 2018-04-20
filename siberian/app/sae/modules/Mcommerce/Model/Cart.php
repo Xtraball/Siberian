@@ -304,8 +304,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return array
      */
     public function check() {
-        $errors = array();
-        // if (!$this->getCustomerId()) $errors[] = $this->_('You did not login.');
+        $errors = [];
         return $errors;
     }
 
@@ -314,15 +313,14 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      *
      * @return Mcommerce_Model_Store
      */
-    public function getStore() {
-
-        if(!$this->_store) {
+    public function getStore()
+    {
+        if (!$this->_store) {
             $this->_store = new Mcommerce_Model_Store();
             $this->_store->find($this->getStoreId());
         }
 
         return $this->_store;
-
     }
 
     /**

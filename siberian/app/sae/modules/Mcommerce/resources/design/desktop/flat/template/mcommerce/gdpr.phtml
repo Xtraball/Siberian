@@ -1,0 +1,97 @@
+<?php
+$customer = $this->getCustomer();
+$orders = (new Mcommerce_Model_Order())
+    ->findAll($customer->getId(), 'customer_id');
+?>
+
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo ucfirst('M-Commerce') ?></h4>
+            </td>
+        </tr>
+    </thead>
+</table>
+
+<?php foreach ($orders as $order): ?>
+<table>
+    <thead>
+    <tr>
+        <td colspan="2">
+            <h4><?php echo __('Order') . ' - ' . $order->getNumber(); ?></h4>
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><?php echo __('Payment method') ?></th>
+            <td><?php echo $order->getPaymentMethod(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Delivery method') ?></th>
+            <td><?php echo $order->getDeliveryMethod(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Firstname') ?></th>
+            <td><?php echo empty($order->getCustomerFirstname()) ? '-' : $order->getCustomerFirstname(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Lastname') ?></th>
+            <td><?php echo empty($order->getCustomerLastname()) ? '-' : $order->getCustomerLastname(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Email') ?></th>
+            <td><?php echo empty($order->getCustomerEmail()) ? '-' : $order->getCustomerEmail(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Street') ?></th>
+            <td><?php echo empty($order->getCustomerStreet()) ? '-' : $order->getCustomerStreet(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Postcode') ?></th>
+            <td><?php echo empty($order->getCustomerPostcode()) ? '-' : $order->getCustomerPostcode(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('City') ?></th>
+            <td><?php echo empty($order->getCustomerCity()) ? '-' : $order->getCustomerCity(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Phone') ?></th>
+            <td><?php echo empty($order->getCustomerPhone()) ? '-' : $order->getCustomerPhone(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Subtotal Excl. Tax') ?></th>
+            <td><?php echo empty($order->getSubtotalExclTax()) ? '-' : $order->getSubtotalExclTax(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Total Excl. Tax') ?></th>
+            <td><?php echo empty($order->getTotalExclTax()) ? '-' : $order->getTotalExclTax(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Total Tax') ?></th>
+            <td><?php echo empty($order->getTotalTax()) ? '-' : $order->getTotalTax(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Delivery Cost') ?></th>
+            <td><?php echo empty($order->getDeliveryCost()) ? '-' : $order->getDeliveryCost(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Total') ?></th>
+            <td><?php echo empty($order->getTotal()) ? '-' : $order->getTotal(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Paid amount') ?></th>
+            <td><?php echo empty($order->getPaidAmount()) ? '-' : $order->getPaidAmount(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Notes') ?></th>
+            <td><?php echo empty($order->getNotes()) ? '-' : $order->getNotes(); ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Order date') ?></th>
+            <td><?php echo datetime_to_format($customer->getCreatedAt(), Zend_Date::RFC_2822) ?></td>
+        </tr>
+    </tbody>
+</table>
+<?php endforeach; ?>

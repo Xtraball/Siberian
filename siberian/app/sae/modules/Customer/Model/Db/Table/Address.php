@@ -1,8 +1,18 @@
 <?php
 
-class Customer_Model_Db_Table_Customer_Address extends Core_Model_Db_Table {
+/**
+ * Class Customer_Model_Db_Table_Customer_Address
+ */
+class Customer_Model_Db_Table_Address extends Core_Model_Db_Table
+{
+    /**
+     * @var string
+     */
+    protected $_name = 'customer_address';
 
-    protected $_name = "customer_address";
-    protected $_primary = "address_id";
+    /**
+     * @var string
+     */
+    protected $_primary = 'address_id';
 
 }

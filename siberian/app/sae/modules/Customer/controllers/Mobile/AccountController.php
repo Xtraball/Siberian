@@ -463,5 +463,4 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         return Customer_Model_Customer::getCurrent();
     }
 
-
 }
