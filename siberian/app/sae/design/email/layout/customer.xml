@@ -15,4 +15,11 @@
         </views>
     </create_account>
 
+    <gdpr_token>
+        <addLayout name="base_email" />
+        <views>
+            <content_email class="core_view_email_default" template="customer/gdpr/token.phtml" />
+        </views>
+    </gdpr_token>
+
 </layout>

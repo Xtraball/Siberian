@@ -2,6 +2,18 @@
 
 class Customer_AccountController extends Application_Controller_Default
 {
+
+    /**
+     * @var array
+     */
+    public $openActions = [
+        [
+            'module' => 'customer',
+            'controller' => 'account',
+            'action' => 'mydata',
+        ]
+    ];
+
     /**
      *
      */
@@ -9,16 +21,23 @@ class Customer_AccountController extends Application_Controller_Default
     {
         $request = $this->getRequest();
 
-        $customerId = $request->getParam('customer_id', false);
+        $token = $request->getParam('token', false);
         $page = $request->getParam('page', 'profile');
         $download = filter_var($request->getParam('download', false), FILTER_VALIDATE_BOOLEAN);
 
         $customer = (new Customer_Model_Customer())
-            ->find($customerId);
+            ->find($token, 'gdpr_token');
 
-        if (!$customer->getId()) {
-            throw new Siberian_Exception(__('No customer.'));
+        if (empty($token)) {
+            $token = false;
         }
+
+        if (!$token || !$customer->getId()) {
+            $content = $this->getContent($this->getLoginLayout(), [], 'login');
+            echo $content;
+            die;
+        }
+
         $customerId = $customer->getId();
 
         // Fetch module exports!
@@ -26,15 +45,19 @@ class Customer_AccountController extends Application_Controller_Default
             ->find($customer->getAppId());
 
         $baseData = [
-            'download' => $download,
+            'download' => (boolean) $download,
             'base_url' => $request->getBaseUrl(),
             'application' => $application,
             'customer' => $customer,
         ];
 
+        $queryParams = [
+            'token' => $token,
+        ];
+
         $nav = [
             'profile' => [
-                'uri' => '?customer_id=' . $customerId . '&page=profile',
+                'uri' => '?' . http_build_query($queryParams + ['page' => 'profile']),
                 'label' => __('Profile'),
                 'baseData' => $baseData,
                 'data' => [],
@@ -46,7 +69,7 @@ class Customer_AccountController extends Application_Controller_Default
             ->findAll($customerId, 'customer_id');
         if ($addresses->count() > 0) {
             $nav['addresses'] = [
-                'uri' => '?customer_id=' . $customerId . '&page=addresses',
+                'uri' => '?' . http_build_query($queryParams + ['page' => 'addresses']),
                 'label' => __('Addresses'),
                 'baseData' => $baseData,
                 'data' => [
@@ -59,7 +82,7 @@ class Customer_AccountController extends Application_Controller_Default
         $metadata = $customer->getMetadatas();
         if (!empty($metadata)) {
             $nav['metadata'] = [
-                'uri' => '?customer_id=' . $customerId . '&page=metadata',
+                'uri' => '?' . http_build_query($queryParams + ['page' => 'metadata']),
                 'label' => __('Metadata'),
                 'baseData' => $baseData,
                 'data' => [
@@ -80,7 +103,7 @@ class Customer_AccountController extends Application_Controller_Default
         foreach ($remains as $module) {
             $code = $module['code'];
             $nav[$code] = [
-                'uri' => '?customer_id=' . $customerId . '&page=' . $code,
+                'uri' => '?' . http_build_query($queryParams + ['page' => $code]),
                 'label' => $module['label'],
                 'templatePath' => $module['templatePath'],
                 'baseData' => $baseData,
@@ -89,7 +112,7 @@ class Customer_AccountController extends Application_Controller_Default
         }
 
         if (!$download) {
-            $content = $this->getContent($this->getBaseLayout($customer), $nav, $page);
+            $content = $this->getContent($this->getBaseLayout($customer, $baseData), $nav, $page);
             echo $content;
             die;
         } else {
@@ -100,13 +123,13 @@ class Customer_AccountController extends Application_Controller_Default
             mkdir($baseTmp, 0777, true);
 
             foreach ($nav as &$link) {
-                $link['uri'] = preg_replace('#^\?customer_id=[0-9]+\&page=#', '', $link['uri']);
+                $link['uri'] = preg_replace('#^\?token=[0-9a-z]+\&page=#i', '', $link['uri']);
                 $link['uri'] = './' . $link['uri'] . '.html';
             }
 
             foreach ($nav as $activePage => $page) {
                 $filename = $baseTmp . '/' . basename($page['uri']);
-                $content = $this->getContent($this->getBaseLayout($customer), $nav, $activePage);
+                $content = $this->getContent($this->getBaseLayout($customer, $baseData), $nav, $activePage);
                 file_put_contents($filename, $content);
             }
 
@@ -128,7 +151,7 @@ class Customer_AccountController extends Application_Controller_Default
      * @return Siberian_Layout
      * @throws Zend_Layout_Exception
      */
-    public function getBaseLayout ($customer)
+    public function getBaseLayout ($customer, $baseData = [])
     {
         $layout = new Siberian_Layout();
 
@@ -140,7 +163,29 @@ class Customer_AccountController extends Application_Controller_Default
 
         $layout
             ->getBaseRender()
-            ->setCustomer($customer);
+            ->setCustomer($customer)
+            ->addData($baseData);
+
+        return $layout;
+    }
+
+    /**
+     * @param $customer
+     * @return Siberian_Layout
+     * @throws Zend_Layout_Exception
+     */
+    public function getLoginLayout ()
+    {
+        $layout = new Siberian_Layout();
+
+        $layout->setViewBasePath($layout->getViewBasePath() . 'app/sae/modules/Customer/resources/desktop/flat/template/customer/');
+        $layout->setViewScriptPath($layout->getViewBasePath());
+
+        $layout
+            ->setBaseRender('gdpr', 'customer/gdpr/login.phtml', 'core_view_default');
+
+        $layout
+            ->getBaseRender();
 
         return $layout;
     }

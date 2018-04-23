@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo __('Login to access your data') ?></title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: 0 auto;
+            font-family: Arial, Verdana, sans-serif;
+        }
+
+        * {
+            color: #333333;
+            border-radius: 0;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+
+        form {
+            text-align: center;
+        }
+
+        form p {
+            font-weight: bold;
+        }
+
+        input {
+            display: inline-block;
+            border-radius: 2px;
+            border: 1px solid #0099C7;
+            padding: 5px 7px;
+            font-size: 14px;
+            min-width: 300px;
+        }
+
+        button.blue-btn {
+            display: inline-block;
+            border-radius: 2px;
+            background-color: #0099C7;
+            padding: 6px 8px;
+            border: 0;
+            color: white;
+            text-transform: uppercase;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <form method="GET">
+        <p><?php echo __('Enter the token you received by e-mail to access your personal data.') ?></p>
+        <input type="text"
+               name="token"
+               value=""
+               placeholder="<?php echo __('Token') ?>" />
+        <button class="blue-btn"><?php echo __('OK') ?></button>
+    </form>
+</body>
+</html>

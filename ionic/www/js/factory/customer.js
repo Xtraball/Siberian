@@ -389,6 +389,16 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         return promise;
     };
 
+    /**
+     * Request a new token for GDPR Data
+     */
+    factory.requestToken = function () {
+        return $pwaRequest.post('customer/mobile_account/request-token', {
+            cache: false
+        });
+    };
+
+
     factory.find = function () {
         return $pwaRequest.get('customer/mobile_account_edit/find');
     };

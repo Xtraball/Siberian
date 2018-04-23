@@ -3,6 +3,7 @@
     $navActive = $this->getNavActive();
     $customer = $this->getCustomer();
     $baseUrl = $this->getBaseUrl();
+    $download = $this->getDownload();
 
     $avatarPath = Core_Model_Directory::getBasePathTo('images/customer' . $customer->getImage());
     $customerAvatar = false;
@@ -99,9 +100,30 @@
             margin-top: 15px;
             width: 100%;
         }
+
+        a.blue-btn {
+            display: inline-block;
+            border-radius: 2px;
+            background-color: #0099C7;
+            padding: 6px 8px;
+            border: 0;
+            color: white;
+            text-transform: uppercase;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
+    <?php if (!$download): ?>
+    <div style="text-align: right;">
+        <a href="<?php echo $nav['profile']['uri'] . '&download=true'; ?>"
+           class="blue-btn"><?php echo __('Download as zip') ?></a>
+    </div>
+    <?php endif; ?>
     <div class="nav">
         <div class="avatar">
             <?php if ($customerAvatar === false): ?>
