@@ -1,6 +1,7 @@
 <?php
 
-class Module {
+class Module
+{
 
     /**
      * @var string
@@ -60,7 +61,8 @@ class Module {
      *
      * @param $argv
      */
-    public function __construct($argv) {
+    public function __construct($argv)
+    {
         $this->current_dir = __DIR__;
         $this->parseArgv($argv);
     }
@@ -68,12 +70,13 @@ class Module {
     /**
      * Build phase
      */
-    public function build() {
-        if($this->build_all) {
+    public function build()
+    {
+        if ($this->build_all) {
             $this->fetchSchemas();
         }
 
-        switch($this->type) {
+        switch ($this->type) {
             case 'all':
                 $this->buildModel();
                 $this->buildForm();
@@ -96,7 +99,8 @@ class Module {
      *
      * @param $argv
      */
-    public function parseArgv($argv) {
+    public function parseArgv($argv)
+    {
         foreach ($argv as $arg) {
             $parts = explode('=', $arg);
             $key = str_replace('-', '_', str_replace('--', '', $parts[0]));
@@ -112,7 +116,8 @@ class Module {
     /**
      * Fetch all availables schemas
      */
-    public function fetchSchemas() {
+    public function fetchSchemas()
+    {
         $schemas_path = sprintf('%s%s', $this->path, $this->path_to_schema);
         $files = new DirectoryIterator($schemas_path);
 
@@ -129,7 +134,8 @@ class Module {
     /**
      * @throws Exception
      */
-    public function buildModel() {
+    public function buildModel()
+    {
         # Try for multiple models
         $models = explode(',', $this->model);
 
@@ -199,7 +205,8 @@ class Module {
     /**
      * @throws Exception
      */
-    public function buildForm() {
+    public function buildForm()
+    {
         # Try for multiple models
         $models = explode(",", $this->model);
 
@@ -274,7 +281,7 @@ class Module {
                 # Appointment Provider
                 $human_model = str_replace('_', ' ', ucwords($model_shorten, '_'));
                 # Elements
-                $build_elements = implode('\n\n', $build_elements);
+                $build_elements = implode("\n\n", $build_elements);
 
                 // #FORM_SAVE_ACTION#
                 // #FORM_ID#
@@ -477,8 +484,9 @@ class Module {
 
         $values = "";
         foreach($opts as $opt) {
+            $sopt = str_replace("'", "", $opt);
             $values .= '
-            "$opt" => "'.$this->humanize($opt).'",';
+            "'.$sopt.'" => "'.$this->humanize($sopt).'",';
         }
 
         $code = '
