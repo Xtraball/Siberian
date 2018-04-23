@@ -11,25 +11,16 @@
             "state": "wordpress2-list",
             "controller": "Wordpress2ListController",
             "url": "wordpress2/mobile_list/index/value_id/:value_id/query_id/:query_id",
-            "template": "list.html",
-            "layouts": {
-                "1": "l1"
-            },
+            "template": "l1/list.html",
             "cache": false
         },
         {
             "state": "wordpress2-view",
             "controller": "Wordpress2ViewController",
             "url": "wordpress2/mobile_view/index/value_id/:value_id/post_id/:post_id",
-            "template": "view.html",
-            "layouts": {
-                "1": "l1"
-            },
+            "template": "l1/view.html",
             "cache": false
         }
-    ],
-    "layouts": [
-        1
     ],
     "icons": [
         "icons/wordpress1.png",
@@ -40,6 +31,7 @@
         "js/factory/wordpress_v2.js",
         "scss/wordpress2.scss"
     ],
+    "is_ajax": true,
     "compile": true,
     "use_account": false,
     "only_once": false

@@ -441,7 +441,7 @@ class Siberian_Assets
                 );
             }
 
-            $is_ajax = array_key_exists('is_ajax', $feature) ? ($feature['is_ajax'] !== false) : false;
+            $is_ajax = array_key_exists('is_ajax', $feature) ? ($feature['is_ajax'] !== false) : true;
             $social_sharing = array_key_exists('social_sharing', $feature) ? !!$feature['social_sharing'] : false;
             $nickname = array_key_exists('use_nickname', $feature) ? !!$feature['use_nickname'] : false;
             $ranking = array_key_exists('use_ranking', $feature) ? !!$feature['use_ranking'] : false;
@@ -474,7 +474,11 @@ class Siberian_Assets
 
             self::copyAssets($built_file, null, $feature_js_path);
 
-            if (is_array(self::$features_assets["js"][$code]) && !in_array($feature_js_path, self::$features_assets["js"][$code])) {
+            if (!is_array(self::$features_assets["js"][$code])) {
+                self::$features_assets["js"][$code] = [];
+            }
+
+            if (!in_array($feature_js_path, self::$features_assets["js"][$code])) {
                 self::$features_assets["js"][$code][] = $feature_js_path;
             }
 
