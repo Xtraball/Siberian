@@ -1,0 +1,20 @@
+.wordpress2 {
+
+}
+
+.wordpress2 #design .change_layout_handler img {
+    max-height: 210px;
+}
+
+.wordpress2 #markup_categories .col-sm-7 > ul,
+.wordpress2 #markup_pages .col-sm-7 > ul {
+    padding-left: 0;
+}
+
+.wordpress2 #markup_pages .col-sm-7 ul,
+.wordpress2 #markup_pages .col-sm-7 li,
+.wordpress2 #markup_categories .col-sm-7 ul,
+.wordpress2 #markup_categories .col-sm-7 li {
+    list-style-type: none;
+}
+

@@ -530,16 +530,23 @@ class Siberian_Assets
             mkdir($out_dir, 0777, true);
         }
 
-        foreach($feature["files"] as $file) {
+        foreach ($feature["files"] as $file) {
             // Ignore files with ".." for security reasons!
             if (!preg_match("#\.\.#", $file)) {
-                $in_file = $feature["__DIR__"]."/".$file;
+                $inFile = $feature["__DIR__"]."/".$file;
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
-                if (is_readable($in_file) && in_array($ext, array('js', 'css'))) {
+                if (is_file($inFile) && in_array($ext, ['scss'])) {
+                    // SCSS Case
+                    $css = self::compileScss($inFile);
+                    $minifier_css->add($css);
+                    file_put_contents('/tmp/css.lol', $inFile, FILE_APPEND);
+                    file_put_contents('/tmp/css.lol', $css, FILE_APPEND);
+
+                } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
                     if ($ext === "js") {
-                        $minifier_js->add($in_file);
+                        $minifier_js->add($inFile);
                     } elseif ($ext === 'css') {
-                        $minifier_css->add($in_file);
+                        $minifier_css->add($inFile);
                     }
                 }
             }
@@ -583,6 +590,45 @@ class Siberian_Assets
         }
 
         return $output;
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    public static function compileScss ($path) {
+        $compiler = Siberian_Scss::getCompiler();
+        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));
+        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/scss"));
+
+        $content = [];
+        $f = fopen(Core_Model_Directory::getBasePathTo("var/apps/browser/scss/ionic.siberian.variables-opacity.scss"), "r");
+        if ($f) {
+            while (($line = fgets($f)) !== false) {
+                preg_match("/([\$a-zA-Z0-9_-]*)/", $line, $matches);
+                if (!empty($matches[0]) AND !empty($variables[$matches[0]])) {
+                    $line = "{$matches[0]}: {$variables[$matches[0]]} !default;";
+                }
+                $content[] = $line;
+            }
+        }
+        $scss = implode("\n", $content);
+
+
+        // Import custom modules SCSS files!
+        $customScss = file_get_contents($path);
+
+        try {
+            $css = $compiler->compile('
+                @import "_variables.scss";
+                @import "_mixins.scss";
+                ' . $scss .
+                $customScss
+            );
+        } catch (Exception $e) {
+            $css = "/** Error compiling custom module SCSS <" . $e->getMessage() . ">. */";
+        }
+        return $css;
     }
 
     /**

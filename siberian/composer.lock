@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a69a1778ef42ae8ec6b16dd2e460b56b",
-    "content-hash": "7ef0ba84dbfa4caf0b162610dfb3557b",
+    "hash": "da804e3cf3408da79da5d2edbfeed0fb",
+    "content-hash": "37399874bc5953fe1f1c14d38364c0db",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -165,12 +165,12 @@
             "version": "2.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/endroid/QrCode.git",
+                "url": "https://github.com/endroid/qr-code.git",
                 "reference": "a90b4b1453317d1a261104ab9797d612afd929ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/endroid/QrCode/zipball/a90b4b1453317d1a261104ab9797d612afd929ed",
+                "url": "https://api.github.com/repos/endroid/qr-code/zipball/a90b4b1453317d1a261104ab9797d612afd929ed",
                 "reference": "a90b4b1453317d1a261104ab9797d612afd929ed",
                 "shasum": ""
             },
@@ -228,6 +228,7 @@
                 "qrcode",
                 "symfony"
             ],
+            "abandoned": "endroid/qr-code",
             "time": "2017-09-08 14:58:28"
         },
         {
@@ -1768,6 +1769,43 @@
                 "dump"
             ],
             "time": "2017-05-01 14:55:58"
+        },
+        {
+            "name": "vnn/wordpress-rest-api-client",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/varsitynewsnetwork/wordpress-rest-api-client.git",
+                "reference": "504fc29ad71f268b321cd87a8de855838f4e8cbe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/varsitynewsnetwork/wordpress-rest-api-client/zipball/504fc29ad71f268b321cd87a8de855838f4e8cbe",
+                "reference": "504fc29ad71f268b321cd87a8de855838f4e8cbe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.6, <= 8.0",
+                "psr/http-message": "^1.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^6.2",
+                "peridot-php/leo": "^1.5",
+                "peridot-php/peridot": "^1.18",
+                "peridot-php/peridot-prophecy-plugin": "^1.1",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "suggest": {
+                "guzzlehttp/guzzle": "^6.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vnn\\WpApiClient\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2017-04-06 19:41:40"
         }
     ],
     "packages-dev": [],
