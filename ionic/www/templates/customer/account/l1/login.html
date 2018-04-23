@@ -174,10 +174,10 @@
                     {{ "I accept the privacy policy" | translate }}
                 </ion-checkbox>
 
-                <button class="button button-positive button-positive-custom"
-                        ng-click="requestToken();"
-                        ng-class="{'button-block': card_design, 'button-full': !card_design}"
-                        ng-show="!is_loading && is_logged_in && gdprIsEnabled">{{ "Download my personal data." | translate }}</button>
+                <a class="button button-positive button-positive-custom"
+                   ng-click="requestToken();"
+                   ng-class="{'button-block': card_design, 'button-full': !card_design}"
+                   ng-show="is_logged_in && gdpr.isEnabled">{{ "Access my personal data." | translate }}</a>
 
                 <section ng-repeat="cfo in custom_fields track by cf.code">
                     <div class="item item-divider">

@@ -15,23 +15,29 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                                               HomepageLayout) {
 
     angular.extend($scope, {
-        customer: Customer.customer,
-        card: {},
-        is_logged_in: Customer.isLoggedIn(),
-        app_name: Application.app_name,
-        display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
-        display_account_form: ($scope.is_logged_in || Customer.display_account_form),
-        can_connect_with_facebook: !!Customer.can_connect_with_facebook,
-        page_title: $translate.instant("My account"),
-        show_avatar: true,
-        avatar_loaded: false,
-        privacy_policy: Application.privacy_policy
-        gdprIsEnabled: Application.gdprIsEnabled
+        customer                        : Customer.customer,
+        card                            : {},
+        is_logged_in                    : Customer.isLoggedIn(),
+        app_name                        : Application.app_name,
+        display_login_form              : (!$scope.is_logged_in) && (!Customer.display_account_form),
+        display_account_form            : ($scope.is_logged_in || Customer.display_account_form),
+        can_connect_with_facebook       : !!Customer.can_connect_with_facebook,
+        page_title                      : $translate.instant("My account"),
+        show_avatar                     : true,
+        avatar_loaded                   : false,
+        privacy_policy                  : Application.privacy_policy,
+        gdpr: {
+            isEnabled: Application.gdprIsEnabled
+        }
     });
 
     // Alias for the global login modal!
     $scope.login = function() {
         Customer.loginModal($scope);
+    };
+
+    $scope.requestToken = function() {
+        Customer.requestToken();
     };
 
     $scope.loginWithFacebook = function() {
@@ -48,10 +54,6 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     $scope.avatarLoaded = function() {
         $scope.avatar_loaded = true;
         $scope.show_avatar = true;
-    };
-
-    $scope.requestToken = function () {
-
     };
 
     $scope.editAvatar = function() {
@@ -288,27 +290,6 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                 if (data.success) {
                     Customer.hideModal();
                 }
-            });
-    };
-
-    $scope.requestToken = function () {
-        Loader.show();
-
-        Customer.requestToken()
-            .then(function (data) {
-                if (angular.isDefined(data.message)) {
-                    Dialog.alert('', data.message, 'OK', -1);
-                }
-
-                return data;
-            }, function (data) {
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert('Error', data.message, 'OK', -1);
-                }
-
-                return data;
-            }).then(function () {
-                Loader.hide();
             });
     };
 

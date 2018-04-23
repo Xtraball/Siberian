@@ -389,22 +389,42 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         return promise;
     };
 
-    /**
-     * Request a new token for GDPR Data
-     */
-    factory.requestToken = function () {
-        return $pwaRequest.post('customer/mobile_account/request-token', {
-            cache: false
-        });
-    };
-
-
     factory.find = function () {
         return $pwaRequest.get('customer/mobile_account_edit/find');
     };
 
     factory.isLoggedIn = function () {
         return factory.is_logged_in;
+    };
+
+    /**
+     * Request a new token for GDPR Data
+     */
+    factory.requestToken = function () {
+        Loader.show();
+
+        var promise = $pwaRequest.post('customer/mobile_account/request-token', {
+            cache: false
+        });
+
+        promise
+            .then(function (data) {
+                if (angular.isDefined(data.message)) {
+                    Dialog.alert('', data.message, 'OK', -1);
+                }
+
+                return data;
+            }, function (data) {
+                if(data && angular.isDefined(data.message)) {
+                    Dialog.alert('Error', data.message, 'OK', -1);
+                }
+
+                return data;
+            }).then(function () {
+                Loader.hide();
+            });
+
+        return promise;
     };
 
     factory.saveCredentials = function (token) {
