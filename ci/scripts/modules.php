@@ -484,8 +484,9 @@ class Module
 
         $values = "";
         foreach($opts as $opt) {
+            $sopt = str_replace("'", "", $opt);
             $values .= '
-            "$opt" => "'.$this->humanize($opt).'",';
+            "'.$sopt.'" => "'.$this->humanize($sopt).'",';
         }
 
         $code = '
