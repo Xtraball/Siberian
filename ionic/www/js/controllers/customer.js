@@ -25,12 +25,19 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         page_title                      : $translate.instant("My account"),
         show_avatar                     : true,
         avatar_loaded                   : false,
-        privacy_policy                  : Application.privacy_policy
+        privacy_policy                  : Application.privacy_policy,
+        gdpr: {
+            isEnabled: Application.gdprIsEnabled
+        }
     });
 
     // Alias for the global login modal!
     $scope.login = function() {
         Customer.loginModal($scope);
+    };
+
+    $scope.requestToken = function() {
+        Customer.requestToken();
     };
 
     $scope.loginWithFacebook = function() {

@@ -45,6 +45,12 @@
         </actions>
     </admin_account_edit>
 
+    <admin_account_mydata>
+        <base>
+            <title>My personal data</title>
+        </base>
+    </admin_account_mydata>
+
     <admin_access_management_list>
         <addLayout name="admin_menu" />
         <base>

@@ -18,6 +18,7 @@ class Application_PrivacypolicyController extends Application_Controller_Default
             $application_model = new Application_Model_Application();
             $application = $application_model->find($this->getRequest()->getParam("id"), "key");
             $this->view->privacy_policy = str_replace("#APP_NAME", $application->getName(), $application->getPrivacyPolicy());
+            $this->view->privacy_policy_gdpr = str_replace("#APP_NAME", $application->getName(), $application->getPrivacyPolicyGdpr());
 
             $layout = $this->getLayout();
             $content_partial = $layout->getPartial("content");

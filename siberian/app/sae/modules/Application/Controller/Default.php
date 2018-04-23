@@ -1,9 +1,24 @@
 <?php
 
-class Application_Controller_Default extends Admin_Controller_Default {
+/**
+ * Class Application_Controller_Default
+ */
+class Application_Controller_Default extends Admin_Controller_Default
+{
 
+    /**
+     * @var
+     */
     protected $_current_option_value;
 
+    /**
+     * @var array
+     */
+    public $openActions = [];
+
+    /**
+     * @return $this|void
+     */
     public function init() {
 
         parent::init();
@@ -11,6 +26,14 @@ class Application_Controller_Default extends Admin_Controller_Default {
         $request = $this->getRequest();
         if ($request->getControllerName() == 'privacypolicy') {
             return $this;
+        }
+
+        foreach ($this->openActions as $openAction) {
+            if ($request->getModuleName() === $openAction['module'] &&
+                $request->getControllerName() === $openAction['controller'] &&
+                $request->getActionName() === $openAction['action']) {
+                return $this;
+            }
         }
 
         // Options ACL

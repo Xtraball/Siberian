@@ -20,9 +20,11 @@ class Siberian_Request {
      * @param $data
      * @param null $cookie_path
      * @param null $auth
+     * @param null $headers
+     * @param array $options
      * @return mixed
      */
-    public static function post($endpoint, $data, $cookie_path = null, $auth = null) {
+    public static function post($endpoint, $data, $cookie_path = null, $auth = null, $headers = null, $options = []) {
 
         $request = curl_init();
 
@@ -49,14 +51,22 @@ class Siberian_Request {
             }
         }
 
-        if ($cookie_path != null) {
+        if ($cookie_path !== null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
 
+        if ($headers !== null) {
+            curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+        }
+
         # Query string
-        $query_string = http_build_query($data);
-        curl_setopt($request, CURLOPT_POSTFIELDS, $query_string);
+        if (array_key_exists('json_body', $options)) {
+            curl_setopt($request, CURLOPT_POSTFIELDS, $data);
+        } else {
+            $query_string = http_build_query($data);
+            curl_setopt($request, CURLOPT_POSTFIELDS, $query_string);
+        }
 
         # Call
         $result = curl_exec($request);
@@ -81,9 +91,11 @@ class Siberian_Request {
      * @param array $data
      * @param null $cookie_path
      * @param null $auth
+     * @param null $headers
+     * @param array $options
      * @return mixed
      */
-    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null) {
+    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null, $headers = null, $options = []) {
 
         $request = curl_init();
 
@@ -116,6 +128,10 @@ class Siberian_Request {
         if ($cookie_path != null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
+        }
+
+        if ($headers !== null) {
+            curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
         }
 
         # Call

@@ -5,6 +5,11 @@ class Admin_Controller_Default extends Core_Controller_Default {
     protected $_admin;
     protected static $_acl;
 
+    /**
+     * @var array
+     */
+    public $openActions = [];
+
     public function init() {
 
         parent::init();
@@ -13,9 +18,16 @@ class Admin_Controller_Default extends Core_Controller_Default {
 
         $request = $this->getRequest();
 
-
         if($request->getControllerName() == "privacypolicy") {
             return $this;
+        }
+
+        foreach ($this->openActions as $openAction) {
+            if ($request->getModuleName() === $openAction['module'] &&
+                $request->getControllerName() === $openAction['controller'] &&
+                $request->getActionName() === $openAction['action']) {
+                return $this;
+            }
         }
 
         if(!$this->getSession()->isLoggedIn()

@@ -315,18 +315,19 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     }
 
     public function getFeatures($refresh = false) {
-        if($this->_basePath === null)
+        if ($this->_basePath === null) {
             $this->fetch();
+        }
 
-        if($this->_features === null || $refresh) {
-            $this->_features = array();
+        if ($this->_features === null || $refresh) {
+            $this->_features = [];
 
             $featuresGlob = glob($this->_basePath . '/features/*/feature.json');
 
-            foreach($featuresGlob as $feature) {
-                $featureJson = Siberian_Json::decode(file_get_contents($feature), true);
+            foreach ($featuresGlob as $feature) {
+                $featureJson = Siberian_Json::decode(file_get_contents($feature));
 
-                if($featureJson) {
+                if ($featureJson) {
                     $featureJson['__JSON__'] = json_encode($featureJson);
                     $featureJson['__FILE__'] = $feature;
                     $featureJson['__DIR__'] = dirname($feature);
@@ -341,23 +342,24 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                     ];
 
                     $valid = true;
-                    foreach($mandatoryKeys as $k) {
-                        if(!array_key_exists($k, $featureJson)) {
+                    foreach ($mandatoryKeys as $k) {
+                        if (!array_key_exists($k, $featureJson)) {
                             $valid = false;
                             break;
                         }
                     }
 
-                    if($valid) {
+                    if ($valid) {
                         $main_route = array_reduce( // Let's see if we have a mobile_uri
                             $featureJson['routes'],
-                            function($carry, $item) {
-                                return $item['root'] === true ? $item['url'] : $carry;
+                            function ($carry, $item) {
+                                return (array_key_exists('root', $item) && ($item['root'] === true)) ?
+                                    $item['url'] : $carry;
                             },
                             null
                         );
 
-                        if($main_route) { // If we have, it definitely is a feature
+                        if ($main_route) { // If we have, it definitely is a feature
                             $featureJson['mobile_uri'] = 'goto/feature/' . $featureJson['code'];
                             $this->_features[$featureJson['code']] = $featureJson;
                         }

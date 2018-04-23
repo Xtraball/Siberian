@@ -33,11 +33,11 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                 "css" => file_get_contents($css_file)
             );
 
-            $this->cache->save($data_css, $cache_id_css, array(
+            $this->cache->save($data_css, $cache_id_css, [
                 "v3",
                 "front_mobile_load_css",
                 "css_app_".$app_id
-            ));
+            ]);
 
             $data_css["x-cache"] = "MISS";
         } else {
@@ -49,14 +49,14 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
 
         /** ========== Load Cache ========== */
         $cache_id_loadv2 = "v3_front_mobile_load_app_{$app_id}";
-        if(!$result = $this->cache->load($cache_id_loadv2)) {
+        if (!$result = $this->cache->load($cache_id_loadv2)) {
 
             # Compress homepage default
             $homepage_image = Core_Model_Directory::getBasePathTo($this->getApplication()->getHomepageBackgroundImageUrl());
             $homepage_image_b64 = Siberian_Image::open($homepage_image)->cropResize(256)->inline();
 
             $google_maps_key = $application->getGooglemapsKey();
-            if(!empty($google_maps_key)) {
+            if (!empty($google_maps_key)) {
                 $googlemaps_key = $application->getGooglemapsKey();
             } else {
                 $api = Api_Model_Key::findKeysFor("googlemaps");
@@ -64,21 +64,19 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
             }
 
             $privacy_policy = trim($application->getPrivacyPolicy());
-            if(empty($privacy_policy)) {
+            if (empty($privacy_policy)) {
                 $privacy_policy = false;
             }
 
             $privacy_policy_title = trim($application->getPrivacyPolicyTitle());
-            if(empty($privacy_policy_title)) {
+            if (empty($privacy_policy_title)) {
                 $privacy_policy_title = __("Privacy policy");
             }
 
             $icon_color = strtolower($application->getAndroidPushColor());
-            if(!preg_match("/^#[a-f0-9]{6}$/", $icon_color)) {
-
+            if (!preg_match("/^#[a-f0-9]{6}$/", $icon_color)) {
                 # Fallback with a number only color ...
                 $icon_color = "#808080";
-
             }
 
             $progressbar_color = $application->getBlock("dialog_text")->getColor();
@@ -128,18 +126,19 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "admob" => $this->__getAdmobSettings(),
                     "admob_v2" => $this->__getAdmobSettingsV2(),
                     "facebook" => array(
-                        "id"    => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
+                        "id" => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ),
-                    "gcm_senderid"                  => Push_Model_Certificate::getAndroidSenderId(),
-                    "gcm_iconcolor"                 => $icon_color,
-                    "googlemaps_key"                => $googlemaps_key,
-                    "offline_content"               => (boolean) $application->getOfflineContent(),
-                    "ios_status_bar_is_hidden"      => (boolean) $application->getIosStatusBarIsHidden(),
-                    "android_status_bar_is_hidden"  => (boolean) $application->getAndroidStatusBarIsHidden(),
-                    "privacy_policy_title"          => $privacy_policy_title,
-                    "privacy_policy"                => str_replace("#APP_NAME", $application->getName(), $privacy_policy),
-                    "homepage_background"           => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
+                    "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                    "gcm_iconcolor" => $icon_color,
+                    "googlemaps_key" => $googlemaps_key,
+                    "offline_content" => (boolean) $application->getOfflineContent(),
+                    "ios_status_bar_is_hidden" => (boolean) $application->getIosStatusBarIsHidden(),
+                    "android_status_bar_is_hidden" => (boolean) $application->getAndroidStatusBarIsHidden(),
+                    "privacy_policy_title" => $privacy_policy_title,
+                    "privacy_policy" => str_replace("#APP_NAME", $application->getName(), $privacy_policy),
+                    'gdprIsEnabled' => isGdpr(),
+                    "homepage_background" => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                 ),
                 "homepage_image" => $homepage_image_b64
             );
@@ -164,11 +163,11 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
         if(!$result = $this->cache->load($cache_id_homepage)) {
 
             $option_values = $application->getPages(10, true);
-            $data_pages = array();
+            $data_pages = [];
             $color = $application->getBlock("tabbar")->getImageColor();
             $background_color = $application->getBlock("tabbar")->getBackgroundColor();
 
-            $touched_values = array();
+            $touched_values = [];
             foreach ($option_values as $option_value) {
 
                 $touched_values[$option_value->getId()] = array(

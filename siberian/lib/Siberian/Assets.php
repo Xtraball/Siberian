@@ -414,12 +414,12 @@ class Siberian_Assets
 
         $features = [];
 
-        foreach($modules as $module) {
+        foreach ($modules as $module) {
             $module->fetch();
             $features = array_merge($features, $module->getFeatures());
         }
 
-        foreach($features as $feature) {
+        foreach ($features as $feature) {
             $name = $feature["name"];
             $category = $feature["category"];
             $code = $feature["code"];
@@ -431,7 +431,7 @@ class Siberian_Assets
             $layouts = isset($feature["layouts"]) ? $feature["layouts"]: [];
 
             $icons = $feature["icons"];
-            if(is_array($icons)) {
+            if (is_array($icons)) {
                 $basePath = "/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $feature["__DIR__"]);
                 $icons = array_map(
                     function($icon) use ($basePath) {
@@ -441,25 +441,25 @@ class Siberian_Assets
                 );
             }
 
-            $is_ajax = $feature["is_ajax"] !== false;
-            $social_sharing = !!$feature["social_sharing"];
-            $nickname = !!$feature["use_nickname"];
-            $ranking = !!$feature["use_ranking"];
+            $is_ajax = array_key_exists('is_ajax', $feature) ? ($feature['is_ajax'] !== false) : false;
+            $social_sharing = array_key_exists('social_sharing', $feature) ? !!$feature['social_sharing'] : false;
+            $nickname = array_key_exists('use_nickname', $feature) ? !!$feature['use_nickname'] : false;
+            $ranking = array_key_exists('use_ranking', $feature) ? !!$feature['use_ranking'] : false;
 
             $feature_dir = "./features/".$code;
 
             self::destroyAssets($feature_dir);
-            if(is_dir($feature["__DIR__"]."/assets")) {
+            if (is_dir($feature["__DIR__"]."/assets")) {
                 self::copyAssets($feature["__DIR__"]."/assets", null, $feature_dir."/assets");
             }
 
-            if(is_dir($feature["__DIR__"]."/templates")) {
+            if (is_dir($feature["__DIR__"]."/templates")) {
                 self::copyAssets($feature["__DIR__"]."/templates", null, $feature_dir."/templates");
             }
 
             // build index.js here
             $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
-            if(!is_dir($out_dir)) {
+            if (!is_dir($out_dir)) {
                 mkdir($out_dir, 0777, true);
             }
 
@@ -474,11 +474,11 @@ class Siberian_Assets
 
             self::copyAssets($built_file, null, $feature_js_path);
 
-            if(!in_array($feature_js_path, self::$features_assets["js"][$code])) {
+            if (is_array(self::$features_assets["js"][$code]) && !in_array($feature_js_path, self::$features_assets["js"][$code])) {
                 self::$features_assets["js"][$code][] = $feature_js_path;
             }
 
-            $data = array(
+            $data = [
                 "name" => $name,
                 "code" => $code,
                 "model" => $model,
@@ -490,10 +490,10 @@ class Siberian_Assets
                 "social_sharing_is_available" => $social_sharing,
                 "use_nickname" => $nickname,
                 "use_ranking" => $ranking,
-            );
+            ];
 
             $position = intval($feature["position"], 10) || null;
-            if($position) {
+            if ($position) {
                 $data["position"] = $position;
             }
 

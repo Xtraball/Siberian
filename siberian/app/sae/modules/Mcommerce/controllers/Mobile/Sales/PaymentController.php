@@ -3,18 +3,20 @@
 /**
  * Class Mcommerce_Mobile_Sales_PaymentController
  */
-class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default {
+class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobile_Default
+{
 
     /**
      *  Fetch payment url for the select one.
      */
-    public function findonlinepaymenturlAction() {
+    public function findonlinepaymenturlAction()
+    {
         try {
             $method = $this->getCart()->getPaymentMethod();
             $valueId = $this->getCurrentOptionValue()->getId();
 
             $payload = $method->getInstance()->getFormUris($valueId);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -27,11 +29,13 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
     /**
      *
      */
-    public function findpaymentmethodsAction() {
+    public function findpaymentmethodsAction()
+    {
         try {
             $cart = $this->getCart();
             $cartTotal = floatval($cart->getTotal());
             if ($cartTotal > 0) {
+
                 $paymentMethods = $cart->getStore()->getPaymentMethods();
 
                 $payload = [

@@ -69,6 +69,12 @@ $schemas['customer'] = array(
         'type' => 'tinyint(1)',
         'default' => '1',
     ),
+    'gdpr_token' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'created_at' => array(
         'type' => 'datetime',
     ),

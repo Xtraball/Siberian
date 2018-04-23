@@ -1,0 +1,46 @@
+<?php
+    $customer = $this->getCustomer();
+?>
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo $customer->getFirstname() ?> <?php echo $customer->getLastname() ?></h4>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><?php echo __('Title') ?></th>
+            <td><?php echo empty($customer->getTitle()) ? '-' : $customer->getTitle() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Email') ?></th>
+            <td><?php echo empty($customer->getEmail()) ? '-' : $customer->getEmail() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Firstname') ?></th>
+            <td><?php echo empty($customer->getFirstname()) ? '-' : $customer->getFirstname() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Lastname') ?></th>
+            <td><?php echo empty($customer->getLastname()) ? '-' : $customer->getLastname() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Nickname') ?></th>
+            <td><?php echo empty($customer->getNickname()) ? '-' : $customer->getNickname() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Password (hashed)') ?></th>
+            <td><?php echo $customer->getPassword() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Registration date') ?></th>
+            <td><?php echo datetime_to_format($customer->getCreatedAt(), Zend_Date::RFC_2822) ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Last update date') ?></th>
+            <td><?php echo datetime_to_format($customer->getUpdatedAt(), Zend_Date::RFC_2822) ?></td>
+        </tr>
+    </tbody>
+</table>

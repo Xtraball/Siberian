@@ -9,213 +9,213 @@ $editor_design = "flat";
 $disable_cron = (!$module->isInstalled() && Siberian_Version::is("SAE")) ? "1" : "0";
 $environment = "production";
 
-$configs = array(
-    array(
+$configs = [
+    [
         "code" => "platform_name",
         "label" => "Platform Name"
-    ),
-    array(
+    ],
+    [
         "code" => "company_name",
         "label" => "Name"
-    ),
-    array(
+    ],
+    [
         "code" => "company_phone",
         "label" => "Phone"
-    ),
-    array(
+    ],
+    [
         "code" => "company_address",
         "label" => "Address"
-    ),
-    array(
+    ],
+    [
         "code" => "company_country",
         "label" => "Country"
-    ),
-    array(
+    ],
+    [
         "code" => "company_vat_number",
         "label" => "VAT Number"
-    ),
-    array(
+    ],
+    [
         "code" => "system_territory",
         "label" => "Timezone"
-    ),
-    array(
+    ],
+    [
         "code" => "system_timezone",
         "label" => "Timezone"
-    ),
-    array(
+    ],
+    [
         "code" => "system_currency",
         "label" => "Currency"
-    ),
-    array(
+    ],
+    [
         "code" => "system_default_language",
         "label" => "Default Languages"
-    ),
-    array(
+    ],
+    [
         "code" => "app_default_identifier_android",
         "label" => "Application base Package Name (Android)",
         "value" => ""
-    ),
-    array(
+    ],
+    [
         "code" => "app_default_identifier_ios",
         "label" => "Application base Bundle ID (iOS)",
         "value" => ""
-    ),
-    array(
+    ],
+    [
         "code" => "system_publication_access_type",
         "label" => "Publication access type",
         "value" => "sources"
-    ),
-    array(
+    ],
+    [
         "code" => "system_generate_apk",
         "label" => "Users can generate APK",
         "value" => "no"
-    ),
-    array(
+    ],
+    [
         "code" => "support_email",
         "label" => "Support Email Address"
-    ),
-    array(
+    ],
+    [
         "code" => "support_link",
         "label" => "Support Link"
-    ),
-    array(
+    ],
+    [
         "code" => "support_name",
         "label" => "Name"
-    ),
-    array(
+    ],
+    [
         "code" => "support_chat_code",
         "label" => "Online Chat"
-    ),
-    array(
+    ],
+    [
         "code" => "logo",
         "label" => "Logo"
-    ),
-    array(
+    ],
+    [
         "code" => "favicon",
         "label" => "Favicon"
-    ),
-    array(
+    ],
+    [
         "code" => "application_try_apk",
         "label" => "Try to generate the apk when downloading the Android source"
-    ),
-    array(
+    ],
+    [
         "code" => Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE,
         "label" => "Default admin role"
-    ),
-    array(
+    ],
+    [
         "code" => "application_ios_owner_admob_id",
         "label" => "Admob ID for platform owner (Ios)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_ios_owner_admob_interstitial_id",
         "label" => "Admob Interstitial ID for platform owner (Ios)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_ios_owner_admob_type",
         "label" => "Admob type for platform owner (Ios)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_ios_owner_admob_weight",
         "label" => "Admob split revenue for platform owner (Ios)",
         "value" => 100
-    ),
-    array(
+    ],
+    [
         "code" => "application_android_owner_admob_id",
         "label" => "Admob ID for platform owner (Android)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_android_owner_admob_interstitial_id",
         "label" => "Admob Interstitial ID for platform owner (Android)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_android_owner_admob_type",
         "label" => "Admob type for platform owner (Android)"
-    ),
-    array(
+    ],
+    [
         "code" => "application_android_owner_admob_weight",
         "label" => "Admob split revenue for platform owner (Android)",
         "value" => 100
-    ),
-    array(
+    ],
+    [
         "code" => "application_owner_use_ads",
         "label" => "Use ads for platform owner",
         "value" => "0"
-    ),
-    array(
+    ],
+    [
         "code" => "disable_cron",
         "label" => "Disable cron jobs",
         "value" => $disable_cron
-    ),
-    array(
+    ],
+    [
         "code" => "environment",
         "label" => "Environment",
         "value" => $environment
-    ),
-    array(
+    ],
+    [
         "code" => "update_channel",
         "label" => "Update channel",
         "value" => "stable"
-    ),
-    array(
+    ],
+    [
         "code" => "ios_autobuild_key",
         "label" => "Your iOS autobuild License Key",
         "value" => ""
-    ),
-    array(
+    ],
+    [
         "code" => "siberiancms_key",
         "label" => "Your CMS License Key",
         "value" => ""
-    ),
-    array(
+    ],
+    [
         "code" => "cron_interval",
         "label" => "CRON Scheduler interval",
         "value" => "60"
-    ),
-    array(
+    ],
+    [
         "code" => "use_https",
         "label" => "Use HTTPS",
         "value" => "0"
-    ),
-    array(
+    ],
+    [
         "code" => "cpanel_type",
         "label" => "Admin panel type",
         "value" => "-1"
-    ),
-    array(
+    ],
+    [
         "code" => "letsencrypt_env",
         "label" => "Let's Encrypt environment",
         "value" => "staging"
-    ),
-    array(
+    ],
+    [
         "code" => "send_statistics",
         "label" => "Send anonymous statistics to improve the apps builder.",
         "value" => "1"
-    ),
-    array(
+    ],
+    [
         "code" => "campaign_is_active",
         "label" => "",
         "value" => "0"
-    ),
-    array(
+    ],
+    [
         "code" => "global_quota",
         "label" => "Disk usage quota in Mb",
         "value" => "10000"
-    ),
-    array(
+    ],
+    [
         "code" => "enable_custom_smtp",
         "label" => "Enable custom SMTP configuration",
         "value" => "0"
-    ),
-    array(
+    ],
+    [
         "code" => "vat_check_activated",
         "label" => "Vat check activated",
         "value" => "0"
-    ),
-    array(
+    ],
+    [
         "code" => "invoice_footer_message",
         "label" => "Invoices footer message",
         "value" => ""
-    ),
+    ],
     [
         'code' => 'session_handler',
         'label' => 'Session handler',
@@ -241,7 +241,12 @@ $configs = array(
         'label' => 'APK Build type',
         'value' => 'release',
     ],
-    array(
+    [
+        'code' => 'is_gdpr_enabled',
+        'label' => 'Enable GDPR features & rules',
+        'value' => '0',
+    ],
+    [
         "code" => "privacy_policy",
         "label" => "Default privacy policy",
         "value" => "
@@ -328,23 +333,28 @@ To determine whether any of the third party services it uses honor the &ldquo;Do
 <p>Notice to European Users: this privacy statement has been prepared in fulfillment of the obligations under Art. 10 of EC Directive n. 95/46/EC, and under the provisions of Directive 2002/58/EC, as revised by Directive 2009/136/EC, on the subject of Cookies. This privacy policy relates solely to this Application.</p>
 <p><em><strong>Latest update: June 11, 2014.</strong></em></p>
 ",
-    ),
-);
+    ],
+    [
+        'code' => 'privacy_policy_gdpr',
+        'label' => 'Default privacy policy section for GDPR',
+        'value' => '',
+    ],
+];
 
 foreach($configs as $data) {
     $config = new System_Model_Config();
     $config
         ->setData($data)
-        ->insertOnce(array("code"));
+        ->insertOnce(["code"]);
 
 }
 
 # Installing design
-$data = array(
+$data = [
     "code" => "editor_design",
     "label" => "Editor's Design",
     "value" => $editor_design,
-);
+];
 
 $config = new System_Model_Config();
 $config->find($data["code"], "code");
@@ -354,16 +364,16 @@ if(!$config->getId()) {
 }
 
 # Installing app limit for analytics demo mode
-$data = array(
+$data = [
     "code" => "analytic_app_limit",
     "label" => "App limit before real data mode in analytics",
     "value" => 500,
-);
+];
 
 $config = new System_Model_Config();
 $config->find($data["code"], "code");
 
-if(!$config->getId()) {
+if (!$config->getId()) {
     $config->setData($data)->save();
 }
 

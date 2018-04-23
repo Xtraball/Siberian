@@ -471,6 +471,12 @@ $schemas['application'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'privacy_policy_gdpr' => array(
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ),
     'is_locked' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
