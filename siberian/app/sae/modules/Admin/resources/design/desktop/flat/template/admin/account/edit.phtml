@@ -284,20 +284,22 @@
                     <div id="general-settings"
                          class="content solo-page sb-tour">
                         <h3 class="title-editor border-blue text-center">
-                            <?php echo __('General settings & preferences') ?>
+                            <?php echo __('Privacy') ?>
                         </h3>
                         <div class="container-fluid subcontent content-color">
                             <a href="/admin/account/mydata"
                                target="_blank"
-                               class="color-blue btn btn-default"><?php echo __('View my actual data.') ?></a>
+                               class="color-blue btn btn-default"><?php echo __('View my actual data') ?></a>
                             <br /><br />
                             <a href="/admin/account/mydata?download=true"
-                               class="color-blue btn btn-default"><?php echo __('Download a copy of my data.') ?></a>
+                               class="color-blue btn btn-default"><?php echo __('Download a copy of my data') ?></a>
 
+                            <?php if (false): /** @todo delete my account. */ ?>
                             <br /><br />
                             <div class="alert alert-danger"><?php echo __('<b>Danger zone</b>: below you can definitively delete your account.'); ?></div>
                             <a href="/admin/account/deletemydata"
                                class="color-red btn btn-default"><?php echo __('Delete my account.') ?></a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

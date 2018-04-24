@@ -84,7 +84,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             $data['currencies'][$country->getCode()] = $country->getName() . " ({$country->getSymbol()})";
         }
 
-        $countries = $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
+        $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
         asort($countries, SORT_LOCALE_STRING);
         $data["countries"] = $countries;
 

@@ -252,6 +252,9 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         $page
                     );
                 }
+                if (empty($posts)) {
+                    $posts = [];
+                }
 
                 $pages = [];
                 if (!empty($pageIds)) {
@@ -260,7 +263,9 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         $page
                     );
                 }
-
+                if (empty($pages)) {
+                    $pages = [];
+                }
 
                 $posts = array_merge($posts, $pages);
                 uasort($posts, function ($a, $b) {
