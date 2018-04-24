@@ -717,6 +717,27 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         Application.loaded = true;
 
+                        /** Awesome test */
+                        $window.__state = $state;
+                        $window.__location = $location;
+                        $window.loadApp = function (key) {
+                            $window.originalAppKey = APP_KEY;
+                            APP_KEY = key;
+
+                            document.querySelector('body').addEventListener('dblclick', function(){
+                                APP_KEY = $window.originalAppKey;
+                                document.querySelector('body').removeEventListener('dblclick');
+
+                                $state.go('home', {
+                                    reload: true
+                                });
+                            }, false);
+
+                            $state.go('home', {
+                                reload: true
+                            });
+                        }
+
                         networkPromise.promise
                             .then(function (networkPromiseResult) {
                                 // On refresh cache success, refresh pages, then refresh homepage!

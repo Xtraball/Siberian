@@ -15,17 +15,18 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                                               HomepageLayout) {
 
     angular.extend($scope, {
-        customer                        : Customer.customer,
-        card                            : {},
-        is_logged_in                    : Customer.isLoggedIn(),
-        app_name                        : Application.app_name,
-        display_login_form              : (!$scope.is_logged_in) && (!Customer.display_account_form),
-        display_account_form            : ($scope.is_logged_in || Customer.display_account_form),
-        can_connect_with_facebook       : !!Customer.can_connect_with_facebook,
-        page_title                      : $translate.instant("My account"),
-        show_avatar                     : true,
-        avatar_loaded                   : false,
-        privacy_policy                  : Application.privacy_policy,
+        customer: Customer.customer,
+        card: {},
+        is_logged_in: Customer.isLoggedIn(),
+        app_name: Application.app_name,
+        display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
+        display_account_form: ($scope.is_logged_in || Customer.display_account_form),
+        can_connect_with_facebook: !!Customer.can_connect_with_facebook,
+        page_title: $translate.instant('My account'),
+        show_avatar: true,
+        avatar_loaded: false,
+        privacy_policy: Application.privacy_policy,
+        privacyPolicyGdpr: Application.privacy_policy_gdpr,
         gdpr: {
             isEnabled: Application.gdprIsEnabled
         }

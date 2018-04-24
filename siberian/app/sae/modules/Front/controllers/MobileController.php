@@ -137,6 +137,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     "android_status_bar_is_hidden" => (boolean) $application->getAndroidStatusBarIsHidden(),
                     "privacy_policy_title" => $privacy_policy_title,
                     "privacy_policy" => str_replace("#APP_NAME", $application->getName(), $privacy_policy),
+                    'privacy_policy_gdpr' => $application->getPrivacyPolicyGdpr(),
                     'gdprIsEnabled' => isGdpr(),
                     "homepage_background" => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                 ),

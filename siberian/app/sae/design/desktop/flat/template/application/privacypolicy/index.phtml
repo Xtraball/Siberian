@@ -3,9 +3,8 @@
         <div class="col-md-12 col-xs-12">
             <?php echo $this->getPrivacyPolicy(); ?>
 
-            toto
             <?php if (isGdpr()): ?>
-            gdpr
+                <hr />
                 <?php echo $this->getPrivacyPolicyGdpr(); ?>
             <?php endif; ?>
         </div>

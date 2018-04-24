@@ -8,7 +8,7 @@
  * @author Xtraball SAS
  */
 angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $rootScope, $session, $timeout,
-                                                        $injector, Loader, Modal, Dialog, Url, SB) {
+                                                        $injector, Application, Loader, Modal, Dialog, Url, SB) {
     var factory = {
         events: [],
         customer: null,
@@ -21,6 +21,8 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         facebook_login_enabled: false,
         loginScope: null
     };
+
+    console.log('Application', Application);
 
     /**
      * Populate Application service on load

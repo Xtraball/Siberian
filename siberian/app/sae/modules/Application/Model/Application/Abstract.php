@@ -1401,6 +1401,50 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * This will return the Privacy Policy GDPR with fullfilled placeholders.
+     *
+     * @return array|mixed|null|string
+     */
+    public function getPrivacyPolicyGdpr ()
+    {
+        $whitelabel = Siberian::getWhitelabel();
+        if (Siberian::getWhitelabel()) {
+            $companyName = $whitelabel->getCompany();
+            $contactFull = $whitelabel->getCompany() . "\n" .
+                $whitelabel->getAddress() . "\n" .
+                $whitelabel->getPhone() . "\n" .
+                __('Contact e-mail') . ': ' . $whitelabel->getEmail();
+            $platformName = empty($whitelabel->getName()) ? $whitelabel->getHost() : $whitelabel->getName();
+        } else {
+            $companyName = __get('company_name');
+            $contactFull = __get('company_name') . "\n" .
+                __get('company_address') . "\n" .
+                __get('company_country') . "\n" .
+                __get('company_phone') . "\n" .
+                __('Contact e-mail') . ': ' . __get('support_email');
+            $platformName = __get('platform_name');
+        }
+
+        $privacyPolicyGdpr = str_replace(
+            [
+                '#APP_NAME',
+                '#COMPANY.NAME#',
+                '#PLATFORM.NAME#',
+                '#CONTACT.FULL#',
+            ],
+            [
+                '<b>' . $this->getName() . '</b>',
+                '<b>' . $companyName . '</b>',
+                '<b>' . $platformName . '</b>',
+                '<b>' . nl2br($contactFull) . '</b>'
+            ],
+            $this->getData('privacy_policy_gdpr')
+        );
+
+        return $privacyPolicyGdpr;
+    }
+
+    /**
      * This action will completely wipe the Application & all it's content & resources!
      */
     public function wipe() {
