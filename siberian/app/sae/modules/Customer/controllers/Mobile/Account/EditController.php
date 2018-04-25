@@ -59,31 +59,31 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $clearCache = false;
 
                 if(!$customer->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 if(!Zend_Validate::is($data['email'], 'EmailAddress')) {
-                    throw new Exception($this->_('Please enter a valid email address'));
+                    throw new Exception(__('Please enter a valid email address'));
                 }
 
                 $dummy = new Customer_Model_Customer();
                 $dummy->find(array('email' => $data['email'], "app_id" => $this->getApplication()->getId()));
 
                 if($dummy->getId() AND $dummy->getId() != $customer->getId()) {
-                    throw new Exception($this->_('We are sorry but this address is already used.'));
+                    throw new Exception(__('We are sorry but this address is already used.'));
                 }
 
                 if(!empty($data["nickname"])) {
                     $valid_format = preg_match("/^[A-Za-z0-9_]{1,15}$/", $data["nickname"]);
                     if(!$valid_format) {
-                        throw new Exception($this->_('We are sorry but this nickname is not valid. Use only alphanumerical characters and underscores and use 15 characters maximum'));
+                        throw new Exception(__('We are sorry but this nickname is not valid. Use only alphanumerical characters and underscores and use 15 characters maximum'));
                     }
 
                     $dummy = new Customer_Model_Customer();
                     $dummy->find(array('nickname' => $data['nickname'], "app_id" => $this->getApplication()->getId()));
 
                     if($dummy->getId() AND $dummy->getId() != $customer->getId()) {
-                        throw new Exception($this->_('We are sorry but this nickname is already used.'));
+                        throw new Exception(__('We are sorry but this nickname is already used.'));
                     }
                 }
 
@@ -132,23 +132,27 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 }
 
                 $password = "";
-                if(!empty($data['password'])) {
+                if (($data['change_password'] == true) && !empty($data['password'])) {
 
-                    if(empty($data['old_password']) OR (!empty($data['old_password']) AND !$customer->isSamePassword($data['old_password']))) {
-                        throw new Exception($this->_("The old password does not match the entered password."));
+                    if (empty($data['old_password']) OR (!empty($data['old_password']) AND !$customer->isSamePassword($data['old_password']))) {
+                        throw new Exception(__("The old password does not match the entered password."));
                     }
 
                     $password = $data['password'];
                 }
 
                 $customer->setData($data);
-                if(!empty($password)) $customer->setPassword($password);
-                if(!empty($data["metadatas"])) $customer->setMetadatas($data["metadatas"]);
+                if (!empty($password)) {
+                    $customer->setPassword($password);
+                }
+                if (!empty($data["metadatas"])) {
+                    $customer->setMetadatas($data["metadatas"]);
+                }
                 $customer->save();
 
                 $html = array(
                     "success" => 1,
-                    "message" => $this->_("Info successfully saved"),
+                    "message" => __("Info successfully saved"),
                     "clearCache" => $clearCache,
                     "customer" => Customer_Model_Customer::getCurrent()
                 );

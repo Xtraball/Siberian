@@ -453,7 +453,7 @@ let moduleTemplate = function () {
     }
 
     let filteredArgs = process.argv.splice(3).join(' ');
-    let scriptPath = ROOT + '/ci/scripts/modules.php"';
+    let scriptPath = ROOT + '/ci/scripts/modules.php';
     let modulePath = ROOT + '/siberian/app/local/modules/' + module;
 
     // Search for module in local!
@@ -471,6 +471,8 @@ let moduleTemplate = function () {
 
     // Appends full path to module!
     filteredArgs = filteredArgs + ' --path=' + modulePath;
+
+    console.log('php ' + scriptPath + ' ' + filteredArgs);
 
     sh.exec('php ' + scriptPath + ' ' + filteredArgs);
 };

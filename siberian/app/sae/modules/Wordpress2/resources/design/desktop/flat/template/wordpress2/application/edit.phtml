@@ -1,0 +1,224 @@
+<?php
+$optionValue = $this->getOptionValue();
+
+$wordpress = (new Wordpress2_Model_Wordpress())
+    ->find($optionValue->getId(), 'value_id');
+
+// Create the WordPress if it doesn't yet exists.
+if (!$wordpress->getId()) {
+    $wordpress = new Wordpress2_Model_Wordpress();
+    $wordpress
+        ->setValueId($optionValue->getId())
+        ->save();
+}
+
+$formWordpress = new Wordpress2_Form_Wordpress();
+$formWordpress->populate($wordpress->getData());
+$formWordpress
+    ->getElement('password')
+    ->setValue($wordpress->getPassword());
+
+$formQuery = new Wordpress2_Form_Query();
+$formQuery->populate(
+    [
+        'value_id' => $optionValue->getId()
+    ]
+);
+
+$formSettings = new Wordpress2_Form_Settings();
+$formSettings->populate($wordpress->getData());
+
+$queries = (new Wordpress2_Model_Query())
+    ->findAll(
+        [
+            'value_id' => $optionValue->getId()
+        ],
+        'position ASC'
+    );
+
+try {
+    $wordpressApi = new Wordpress2_Model_WordpressApi();
+    $wordpressApi->init(
+        $wordpress->getData('url'),
+        $wordpress->getData('login'),
+        $wordpress->getData('password')
+    );
+
+    $categories = $wordpressApi->getCategories();
+
+    $formQuery
+        ->loadCategories($categories)
+        ->createSubmit();
+
+    $gotCatgories = true;
+
+} catch (Exception $e) {
+    $gotCatgories = false;
+}
+
+try {
+    $wordpressApi = new Wordpress2_Model_WordpressApi();
+    $wordpressApi->init(
+        $wordpress->getData('url'),
+        $wordpress->getData('login'),
+        $wordpress->getData('password')
+    );
+
+    $pages = $wordpressApi->getAllPages();
+
+    $formQuery
+        ->loadPages($pages)
+        ->createSubmit();
+
+    $gotPages = true;
+
+} catch (Exception $e) {
+    $gotPages = false;
+}
+
+?>
+
+<div id="list" class="wordpress2">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#wordpress2" aria-controls="wordpress2" role="tab" data-toggle="tab">
+                <i class="fa fa-folder-open-o"></i>
+                <?php echo __('WordPress') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+                <i class="fa fa-cogs"></i>
+                <?php echo __('Settings') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- START WORDPRESS TAB -->
+        <div role="tabpanel" class="tab-pane active" id="wordpress2">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Manage WordPress'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                        <?php echo $formWordpress; ?>
+                </div>
+            </div>
+
+            <?php if ($gotCatgories || $gotPages): ?>
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Add a query'); ?>
+                        <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="container-fluid subcontent content-feature">
+                        <?php echo $formQuery; ?>
+                    </div>
+                </div>
+
+                <?php if ($queries->count() > 0): ?>
+                    <div class="feature-block-list">
+                        <div class="margin-top">
+                            <h3 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo __('Manage queries'); ?>
+                                <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            </h3>
+                            <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                                <table class="table content-white-bkg sb-pager">
+                                    <thead>
+                                    <tr class="border-grey">
+                                        <th class="sortable" style="width:26%;"><?php echo __("Title"); ?></th>
+                                        <th class="sortable" style="width:64%;"><?php echo __("Subtitle"); ?></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach($queries as $query) : ?>
+                                        <tr id="query_manage_element_<?php echo $query->getId(); ?>" class="query-manage-element sb-pager">
+                                            <td><?php echo $query->getTitle(); ?></td>
+                                            <td><?php echo cut(html_entity_decode($query->getSubtitle()), 60); ?></td>
+                                            <td class="edit-action open-edit"
+                                                data-id="query_<?php echo $query->getId(); ?>"
+                                                data-form-url="<?php echo __path('/wordpress2/application/loadqueryform', [
+                                                    'query_id' => $query->getId(),
+                                                    'value_id' => $optionValue->getId()
+                                                ]); ?>">
+                                                <i class="fa fa-pencil"></i>
+                                            </td>
+                                            <td class="delete-action">
+                                                <?php
+                                                /**$delete_form->setAttrib("data-rowid", "company_manage_element_".$company->getId());
+                                                $delete_form->getElement("company_id")->setValue($company->getId());
+
+                                                echo $delete_form;*/
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr class="edit-form"
+                                            data-id="query_<?php echo $query->getId(); ?>"
+                                            style="display: none;">
+                                            <td colspan="6">
+                                                <p class="close-edit"
+                                                   data-id="query_<?php echo $query->getId(); ?>">
+                                                    <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            <?php endif; ?>
+        </div>
+        <!-- /END WORDPRESS TAB -->
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel" class="tab-pane" id="design">
+            <?php echo $this->importLayout($optionValue, false); ?>
+
+            <?php echo $this->importBackground($optionValue, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+        <!-- START SETTINGS TAB -->
+        <div role="tabpanel" class="tab-pane" id="settings">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo __('Manage WordPress'); ?>
+            </h3>
+            <div class="container-fluid subcontent content-feature">
+                <?php echo $formSettings; ?>
+            </div>
+        </div>
+        <!-- /END SETTINGS TAB -->
+    </div>
+</div>
+
+
+<link href="/app/sae/modules/Wordpress2/resources/design/desktop/flat/template/wordpress2/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css">
+<script type="text/javascript">
+    var valueId = '<?php echo $optionValue->getId() ?>';
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/Wordpress2/resources/design/desktop/flat/template/wordpress2/application/edit.js">
+</script>

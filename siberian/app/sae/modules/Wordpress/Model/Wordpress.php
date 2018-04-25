@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Wordpress_Model_Wordpress
+ */
 class Wordpress_Model_Wordpress extends Core_Model_Default {
 
     const DISPLAYED_PER_PAGE = 15;
@@ -9,7 +12,11 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
     protected $_remote_category_ids;
     protected $_remote_posts;
 
-    public function __construct($params = array()) {
+    /**
+     * Wordpress_Model_Wordpress constructor.
+     * @param array $params
+     */
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Wordpress_Model_Db_Table_Wordpress';
         return $this;
@@ -18,74 +25,88 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
     /**
      * @return array
      */
-    public function getInappStates($value_id) {
+    public function getInappStates($valueId) {
+        $inAppStates = [
+            [
+                'state' => 'wordpress-list',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
+                ],
+            ],
+        ];
 
-        $in_app_states = array(
-            array(
-                "state" => "wordpress-list",
-                "offline" => false,
-                "params" => array(
-                    "value_id" => $value_id,
-                ),
-            ),
-        );
-
-        return $in_app_states;
+        return $inAppStates;
     }
 
+    /**
+     * @return array
+     */
     public function getCategoryIds() {
-
-        if(!$this->_category_ids) {
-            $this->_category_ids = array();
-            if($this->getId()) {
-                $category = new Wordpress_Model_Wordpress_Category();
-                $categories = $category->findAll(array('wp_id' => $this->getId()));
-                foreach($categories as $category) $this->_category_ids[] = $category->getWpCategoryId();
+        if (!$this->_category_ids) {
+            $this->_category_ids = [];
+            if ($this->getId()) {
+                $categories = (new Wordpress_Model_Wordpress_Category())
+                    ->findAll(['wp_id' => $this->getId()]);
+                foreach ($categories as $category) {
+                    $this->_category_ids[] = $category->getWpCategoryId();
+                }
             }
         }
 
         return $this->_category_ids;
-
     }
 
+    /**
+     * @return array
+     */
     public function getRemoteCategoryIds() {
-
-        if(!$this->_remote_category_ids) {
+        if (!$this->_remote_category_ids) {
             $root = $this->getRemoteRootCategory();
             $this->_remote_category_ids = $this->_parseCategoryIds($root);
         }
 
         return $this->_remote_category_ids;
-
     }
 
-    public function getRemoteRootCategory($url = '', $ids = array()) {
+    /**
+     * @param string $url
+     * @param array $ids
+     * @return Wordpress_Model_Wordpress_Category
+     */
+    public function getRemoteRootCategory($url = '', $ids = []) {
+        if (!$this->_remote_root_category) {
+            // Root category instance!
+            $this->_remote_root_category = new Wordpress_Model_Wordpress_Category([
+                'id' => 0
+            ]);
 
-        if(!$this->_remote_root_category) {
-
-            // Instancie la catégorie parent
-            $this->_remote_root_category = new Wordpress_Model_Wordpress_Category(array('id' => 0));
-
-            if(empty($url)) $url = $this->getData('url');
-            if(empty($url)) return $this->_remote_root_category;
+            if (empty($url)) {
+                $url = $this->getData('url');
+            }
+            if (empty($url)) {
+                return $this->_remote_root_category;
+            }
 
             try {
-                // Envoie la requête
-                $datas = $this->_sendRequest($url, array('object' => 'categories'));
-            }
-            catch(Exception $e) {
-                $datas = array('status' => -1);
+                // Send request!
+                $datas = $this->_sendRequest($url, [
+                    'object' => 'categories'
+                ]);
+            } catch (Exception $e) {
+                $datas = [
+                    'status' => -1
+                ];
             }
 
-            // Test si les données sont OK
-            if($datas['status'] == '1') {
-
-                // Parse les catégories
-                foreach($datas['categories'] as $datas) {
+            // Test result payload!
+            if ($datas['status'] == '1') {
+                // Parsing categories!
+                foreach ($datas['categories'] as $datas) {
                     $category = $this->_parseCategories($datas);
                     $categories[] = $category;
                 }
-                if(!empty($categories)) {
+                if (!empty($categories)) {
                     $this->_remote_root_category->setChildren($categories);
                 }
             }
@@ -94,53 +115,55 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
         return $this->_remote_root_category;
     }
 
+    /**
+     * @param bool $showAll
+     * @param string $url
+     * @param bool $useCache
+     * @param int $offset
+     * @return array
+     */
     public function getRemotePosts($showAll = false, $url = '', $useCache = false, $offset = 0) {
-
-
         $cache = Zend_Registry::get('cache');
         $cacheId = 'wordpress_cache_'.sha1($this->getId()).$showAll;
         $showAll = false;
 
-        if(!$this->_remote_posts AND (!$useCache OR ($this->_remote_posts = $cache->load($cacheId)) === false)) {
-            $this->_remote_posts = array();
+        if (!$this->_remote_posts AND (!$useCache OR ($this->_remote_posts = $cache->load($cacheId)) === false)) {
+            $this->_remote_posts = [];
             if ($this->getData('url') OR !empty($url)) {
-
                 $category_ids = $this->getCategoryIds();
-                $params = array('object' => 'posts');
-                if (!$showAll) $params['cat_ids'] = $category_ids;
+                $params = [
+                    'object' => 'posts'
+                ];
+                if (!$showAll) {
+                    $params['cat_ids'] = $category_ids;
+                }
 
-                // Envoie la requête
+                // Send request!
                 $datas = $this->_sendRequest(!empty($url) ? $url : $this->getData('url'), $params);
 
-                // Test si les données sont OK
+                // Test result payload!
                 if ($datas['status'] == '1') {
-
                     foreach ($datas['posts'] as $post_datas) {
-
                         $post_datas['picture'] = !empty($post_datas["featured_image"]) ? $post_datas["featured_image"] : null;
 
                         if ($showAll AND count(array_intersect($category_ids, $post_datas['category_ids'])) == 0) {
                             $post_datas['is_hidden'] = true;
                         }
 
-                        $first_picture = "";
-                        $first_picture_src = "";
+                        $first_picture = '';
+                        $first_picture_src = '';
 
                         if (!empty($post_datas['description'])) {
                             $content = new Dom_SmartDOMDocument();
                             $content->loadHTML($post_datas['description']);
                             $content->encoding = 'utf-8';
-                            //                            $content->removeChild($content->firstChild);
-                            //                            $content->replaceChild($content->firstChild->firstChild, $content->firstChild);
                             $description = $content->documentElement;
 
-                            // Traitement des images
+                            // Process images!
                             $imgs = $description->getElementsByTagName('img');
 
                             if ($imgs->length > 0) {
-
                                 foreach ($imgs as $img) {
-
                                     if ($img->getAttribute('src')) {
                                         if (empty($post_datas['picture']) AND empty($first_picture)) {
                                             $first_picture = $img;
@@ -150,12 +173,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
                                                 'height' => 400
                                             ));
                                         } else {
-//                                            $img->setAttribute('src', $this->getUrl('Front/image/crop', array(
-//                                                'image' => base64_encode($img->getAttribute('src')),
-//                                                'width' => 240,
-//                                                'height' => 180
-//                                            )));
-                                            $img->removeAttribute("height");
+                                            $img->removeAttribute('height');
                                         }
                                     }
                                 }
@@ -164,10 +182,9 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
                                     $first_picture->parentNode->removeChild($first_picture);
                                     $post_datas['picture'] = $first_picture_src;
                                 }
-
                             }
 
-                            if(empty($post_datas['picture'])) {
+                            if (empty($post_datas['picture'])) {
                                 $post_datas['picture'] = $this->getNoImage();
                             }
 
@@ -185,25 +202,12 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
                             $post_datas['description'] = strip_tags($post_datas['description'], '<div><p><a><img><iframe>');
                         }
 
-//                        $featured_image = null;
-//                        if(!empty($post_datas["featured_image"])) {
-//                            $featured_image = $this->getUrl('Front/image/crop', array(
-//                                'image' => base64_encode($post_datas["featured_image"]),
-//                                'width' => 640,
-//                                'height' => 400
-//                            ));
-//                        }
-//                        $post_datas['picture'] = $featured_image;
-
                         $this->_remote_posts[$post_datas['date']] = new Wordpress_Model_Wordpress_Category_Post($post_datas);
                     }
 
                 }
 
                 krsort($this->_remote_posts);
-
-//                $cache->save($this->_remote_posts, $cacheId);
-
             }
         }
 
@@ -211,13 +215,15 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
     }
 
     public function checkModule($url = '') {
-
-        if(!$url) $url = $this->getData('url');
-        if(!$url) return false;
+        if (!$url) {
+            $url = $this->getData('url');
+        }
+        if (!$url) {
+            return false;
+        }
         $isOK = true;
 
         try {
-
             // Récupère le contenu du site Wordpress
             $client = new Zend_Http_Client($url.'?app-creator-api&object=categories', array(
                 'adapter'   => 'Zend_Http_Client_Adapter_Curl',
@@ -235,8 +241,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
             if(!is_array($datas) OR empty($datas['status']) OR empty($datas['categories'])) {
                 throw new Exception('');
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $isOK = false;
         }
 

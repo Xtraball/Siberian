@@ -9,11 +9,17 @@
  *
  */
 
-class Siberian_Feature {
+class Siberian_Feature
+{
+    /**
+     * @var array
+     */
+    public static $custom_ratios = [];
 
-    public static $custom_ratios = array();
-
-    public static $layout_options = array();
+    /**
+     * @var array
+     */
+    public static $layout_options = [];
 
     /**
      * Utility method to install icons
@@ -23,7 +29,7 @@ class Siberian_Feature {
      * @param $can_be_colorized
      * @return array()
      */
-    public static function installIcons($name, $icons = array(), $can_be_colorized = true) {
+    public static function installIcons($name, $icons = [], $can_be_colorized = true) {
 
         $library = new Media_Model_Library();
         $library
@@ -385,10 +391,32 @@ class Siberian_Feature {
         } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $image))) {
             $image_path = $image;
         } else {
-            $image_path = Siberian_Feature::moveUploadedFile($option_value, $image);
+            $image_path = self::moveUploadedFile($option_value, $image);
         }
 
         return $image_path;
+    }
+
+    /**
+     * @param $optionValue
+     * @param $object
+     * @param $params
+     * @param $key
+     * @param bool $delete
+     * @throws exception
+     */
+    public static function formImageForOption($optionValue, $object, $params, $key, $delete = true)
+    {
+        if ($delete && ($params[$key] === '_delete_')) {
+            $object->setData($key, '');
+        } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $params[$key]))) {
+            // Nothing changed, skip!
+        } else {
+            $background = self::moveUploadedFile(
+                $optionValue,
+                Core_Model_Directory::getTmpDirectory() . '/' . $params[$key]);
+            $object->setData($key, $background);
+        }
     }
 
     /**

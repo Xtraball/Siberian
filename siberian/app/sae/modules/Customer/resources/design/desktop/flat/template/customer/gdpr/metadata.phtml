@@ -1,0 +1,46 @@
+<?php
+/**
+ * @param $metas
+ * @return string
+ */
+function recursiveRender ($metas) {
+    $html = '';
+    foreach ($metas as $key => $values) {
+        if (!is_array($values)) {
+            $html .= '
+            <tr>
+                <th valign="top">' . __(ucfirst($key)) . '</th>
+                <td valign="top">' . $values . '</td>
+            </tr>';
+        } else {
+            $html .= '
+            <tr>
+                <th valign="top">' . __(ucfirst($key)) . '</th>
+                <td valign="top">
+                    <table>' . recursiveRender ($values) . ' </table>
+                </td>
+            </tr>
+           ';
+        }
+    }
+    return $html;
+}
+
+$metadata = $this->getMetadata();
+
+?>
+
+<?php foreach ($metadata as $module => $metas): ?>
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo ucfirst($module) ?></h4>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <?php echo recursiveRender($metas); ?>
+    </tbody>
+</table>
+<?php endforeach; ?>

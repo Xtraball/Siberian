@@ -293,4 +293,112 @@ class Admin_AccountController extends Admin_Controller_Default
         return $this;
     }
 
+    /**
+     *
+     */
+    public function mydataAction ()
+    {
+        $session = $this->getSession();
+        $admin = $session->getAdmin();
+        $request = $this->getRequest();
+        $page = $request->getParam('page', 'profile');
+        $download = filter_var($request->getParam('download', false), FILTER_VALIDATE_BOOLEAN);
+
+        if (!$download) {
+            $nav = [
+                'profile' => [
+                    'uri' => '/admin/account/mydata?page=profile',
+                    'label' => __('Profile'),
+                ],
+            ];
+        } else {
+            $nav = [
+                'profile' => [
+                    'uri' => './index.html',
+                    'label' => __('Profile'),
+                ],
+            ];
+        }
+
+        switch ($page) {
+            case 'profile':
+                $content = $this->getProfileContent($this->getBaseLayout($admin), $nav);
+                break;
+        }
+
+
+
+        if (!$download) {
+            echo $content;
+            die;
+        } else {
+            // Create folder tree & files
+            $baseTmp = Core_Model_Directory::getTmpDirectory(true);
+            $baseTmp = $baseTmp . '/export-' . uniqid();
+
+            mkdir($baseTmp, 0777, true);
+
+            $profile = $baseTmp . '/index.html';
+            $profileLayout = $this->getBaseLayout($admin);
+            $profileContent = $this->getProfileContent($profileLayout, $nav);
+            file_put_contents($profile, $profileContent);
+
+            $baseZip = $baseTmp . '.zip';
+
+            $result = Core_Model_Directory::zip($baseTmp, $baseZip);
+
+            // Clean-up folder!
+            Core_Model_Directory::delete($baseTmp);
+
+            $admin = $this->getSession()->getAdmin();
+            $slug = slugify($admin->getFirstname() . ' ' . $admin->getLastname());
+
+            $this->_download($result, 'export-' . $slug . '.zip', 'application/octet-stream');
+        }
+    }
+
+    /**
+     * @return Siberian_Layout
+     */
+    public function getBaseLayout ($admin)
+    {
+        $layout = new Siberian_Layout();
+
+        $layout
+            ->setBaseRender('gdpr', 'admin/account/gdpr/base.phtml', 'core_view_default');
+
+        $layout
+            ->getBaseRender()
+            ->setAdmin($admin);
+
+        return $layout;
+    }
+
+    /**
+     * @param $layout
+     * @param $nav
+     * @return string
+     */
+    private function getProfileContent ($layout, $nav)
+    {
+        $layout->addPartial(
+            'content', 'admin_view_default',
+            'admin/account/gdpr/profile.phtml'
+        );
+
+        $layout
+            ->getBaseRender()
+            ->setNav($nav)
+            ->setNavActive('profile');
+
+        $session = $this->getSession();
+        $admin = $session->getAdmin();
+
+        $layout
+            ->getPartial('content')
+            ->setAdmin($admin);
+
+        return $layout->render();
+    }
+
 }

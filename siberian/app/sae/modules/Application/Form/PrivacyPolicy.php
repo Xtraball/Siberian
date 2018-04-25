@@ -26,6 +26,22 @@ class Application_Form_PrivacyPolicy extends Siberian_Form_Abstract {
 
         $this->groupElements("reset", array("reset_default"));
 
+        if (isGdpr()) {
+            $this->addSimpleHtml('separator', '<br /><br /><h4 style="font-weight: bold;">' . __('Privacy policy section for GDPR') . '</h4>', [
+                'class' => 'col-md-12'
+            ]);
+
+            $privacyPolicyGdpr = $this->addSimpleTextarea('privacy_policy_gdpr', '', false, array('ckeditor' => 'complete'));
+            $privacyPolicyGdpr
+                ->setNewDesignLarge()
+                ->setRichtext();
+
+            $reset = $this->addSubmit(__("Reset to default Privacy Policy GDPR."), "reset_default_gdpr");
+            $reset->addClass("pull-right");
+
+            $this->groupElements("reset_gdpr", ['reset_default_gdpr']);
+        }
+
         $this->addNav("save", "Save", false, true);
     }
 }

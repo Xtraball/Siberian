@@ -1,16 +1,23 @@
 <?php
 $application = $this->getApplication();
 $app_pp = trim($application->getPrivacyPolicy());
-if(empty($app_pp)) {
-    $app_pp = System_Model_Config::getValueFor("privacy_policy");
+if (empty($app_pp)) {
+    $app_pp = __get("privacy_policy");
+}
+
+$ppGdpr = $application->getData('privacy_policy_gdpr');
+if (empty($ppGdpr)) {
+    $ppGdpr = __get('privacy_policy_gdpr');
 }
 
 $form_pp = new Application_Form_PrivacyPolicy();
-$form_pp->populate(array(
-    "privacy_policy" => $app_pp,
-));
+$form_pp->populate([
+    'privacy_policy' => $app_pp,
+    'privacy_policy_gdpr' => $application->getData('privacy_policy_gdpr'),
+]);
 
-$privacy_policy = System_Model_Config::getValueFor('privacy_policy');
+$privacyPolicy = __get('privacy_policy');
+$privacyPolicyGdpr = __get('privacy_policy_gdpr');
 ?>
 <div class="edit_page custom_page">
     <div id="edit_privacy_policy">
@@ -29,15 +36,22 @@ $privacy_policy = System_Model_Config::getValueFor('privacy_policy');
         $(document).ready(function() {
             bindForms("#edit_privacy_policy");
 
-            var default_pp = `<?php echo __js($privacy_policy, "`"); ?>`;
-
+            var default_pp = `<?php echo __js($privacyPolicy, "`"); ?>`;
             $("#privacy_policy").ckeditor(function() {}, ckeditor_config["complete"]);
-
             $("#reset_default").on("click", function(event) {
                 /** Stop default submit */
                 event.preventDefault();
 
                 CKEDITOR.instances["privacy_policy"].setData(default_pp);
+            });
+
+            var default_pp_gdpr = `<?php echo __js($privacyPolicyGdpr, "`"); ?>`;
+            $("#privacy_policy_gdpr").ckeditor(function() {}, ckeditor_config["complete"]);
+            $("#reset_default_gdpr").on("click", function(event) {
+                /** Stop default submit */
+                event.preventDefault();
+
+                CKEDITOR.instances["privacy_policy_gdpr"].setData(default_pp_gdpr);
             });
         });
 

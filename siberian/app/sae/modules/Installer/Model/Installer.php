@@ -1,10 +1,22 @@
 <?php
 
-class Installer_Model_Installer extends Core_Model_Default {
+/**
+ * Class Installer_Model_Installer
+ *
+ * @method $this setModuleName(string $moduleName)
+ */
+class Installer_Model_Installer extends Core_Model_Default
+{
 
-    protected static $_modules = array();
+    protected static $_modules = [];
 
-    public function __construct($params = array()) {
+    /**
+     * Installer_Model_Installer constructor.
+     * @param array $params
+     * @return $this;
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         return $this;
     }
@@ -212,11 +224,17 @@ class Installer_Model_Installer extends Core_Model_Default {
         return $this->_parser->getPackageDetails();
     }
 
-    public function install() {
+    /**
+     * @return $this
+     * @throws Exception
+     */
+    public function install()
+    {
         $module = new Installer_Model_Installer_Module();
-        $module->prepare($this->getModuleName())
-            ->install()
-        ;
+        $module
+            ->prepare($this->getModuleName())
+            ->install();
+
         return $this;
     }
 

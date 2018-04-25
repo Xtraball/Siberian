@@ -76,11 +76,12 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         return version_compare($this->_lastVersion, $this->getVersion(), '>');
     }
 
-    public function install() {
-        if($this->canUpdate()) {
+    public function install()
+    {
+        if ($this->canUpdate()) {
 
             # Syncing DB only if needed
-            $migration_tables = array();
+            $migration_tables = [];
             foreach ($this->_schemaFiles as $table_name => $filename) {
                 $migration_table = new Siberian_Migration_Db_Table($table_name);
                 $migration_table->setSchemaPath($filename);
@@ -92,8 +93,8 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             }
 
             # Dependencies injector (mainly for installation purpose)
-            if(isset($this->_packageInfo["dependencies"]["modules"])) {
-                foreach($this->_packageInfo["dependencies"]["modules"] as $module => $version) {
+            if (isset($this->_packageInfo["dependencies"]["modules"])) {
+                foreach ($this->_packageInfo["dependencies"]["modules"] as $module => $version) {
                     $depModule = new Installer_Model_Installer_Module();
                     $depModule->prepare($module);
                     
@@ -161,11 +162,15 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         return false;
     }
 
-    public function fetch() {
-        if(is_array($this->_data)) {
+    /**
+     *
+     */
+    public function fetch()
+    {
+        if (is_array($this->_data)) {
             $name = $this->_data["name"];
             log_debug($name);
-            if(!empty($name)) {
+            if (!empty($name)) {
                 $this->fetchModule($name);
             }
         }
@@ -308,25 +313,37 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         }
     }
 
-    public function getFeature($feature_code, $refresh = false) {
+    /**
+     * @param $feature_code
+     * @param bool $refresh
+     * @return mixed
+     */
+    public function getFeature($feature_code, $refresh = false)
+    {
         $this->getFeatures($refresh);
 
         return $this->_features[$feature_code];
     }
 
-    public function getFeatures($refresh = false) {
-        if($this->_basePath === null)
+    /**
+     * @param bool $refresh
+     * @return array
+     */
+    public function getFeatures($refresh = false)
+    {
+        if ($this->_basePath === null) {
             $this->fetch();
+        }
 
-        if($this->_features === null || $refresh) {
-            $this->_features = array();
+        if ($this->_features === null || $refresh) {
+            $this->_features = [];
 
             $featuresGlob = glob($this->_basePath . '/features/*/feature.json');
 
-            foreach($featuresGlob as $feature) {
+            foreach ($featuresGlob as $feature) {
                 $featureJson = Siberian_Json::decode(file_get_contents($feature), true);
 
-                if($featureJson) {
+                if ($featureJson) {
                     $featureJson['__JSON__'] = json_encode($featureJson);
                     $featureJson['__FILE__'] = $feature;
                     $featureJson['__DIR__'] = dirname($feature);
@@ -341,23 +358,24 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                     ];
 
                     $valid = true;
-                    foreach($mandatoryKeys as $k) {
-                        if(!array_key_exists($k, $featureJson)) {
+                    foreach ($mandatoryKeys as $k) {
+                        if (!array_key_exists($k, $featureJson)) {
                             $valid = false;
                             break;
                         }
                     }
 
-                    if($valid) {
+                    if ($valid) {
                         $main_route = array_reduce( // Let's see if we have a mobile_uri
                             $featureJson['routes'],
-                            function($carry, $item) {
-                                return $item['root'] === true ? $item['url'] : $carry;
+                            function ($carry, $item) {
+                                return (array_key_exists('root', $item) && ($item['root'] === true)) ?
+                                    $item['url'] : $carry;
                             },
                             null
                         );
 
-                        if($main_route) { // If we have, it definitely is a feature
+                        if ($main_route) { // If we have, it definitely is a feature
                             $featureJson['mobile_uri'] = 'goto/feature/' . $featureJson['code'];
                             $this->_features[$featureJson['code']] = $featureJson;
                         }

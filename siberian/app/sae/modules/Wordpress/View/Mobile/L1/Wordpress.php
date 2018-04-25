@@ -25,5 +25,4 @@ class Wordpress_View_Mobile_L1_Wordpress extends Core_View_Mobile_Default {
             ->toHtml()
         ;
     }
-
 }

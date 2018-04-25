@@ -68,7 +68,10 @@ class Application_Settings_TcController extends Application_Controller_Default {
 
             try {
 
-                $this->getApplication()->setPrivacyPolicy($datas["privacy_policy"])->save();
+                $this->getApplication()
+                    ->setPrivacyPolicy($datas["privacy_policy"])
+                    ->setPrivacyPolicyGdpr($datas["privacy_policy_gdpr"])
+                    ->save();
 
                 $data = array(
                     "success"           => true,

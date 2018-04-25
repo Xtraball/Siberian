@@ -1,0 +1,48 @@
+<?php
+    $whitelabel = $this->getWhitelabel();
+    $smtp = $this->getSmtp();
+?>
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo __('SMTP Credentials (Affiliated to the White-Label %s)',
+                        empty($whitelabel->getHost()) ? __('N.A.') : $whitelabel->getHost()) ?></h4>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><?php echo __('Sender name') ?></th>
+            <td><?php echo $smtp['sender_name']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Sender email') ?></th>
+            <td><?php echo $smtp['sender_email']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Auth type') ?></th>
+            <td><?php echo $smtp['auth']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Server') ?></th>
+            <td><?php echo $smtp['server']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Username') ?></th>
+            <td><?php echo $smtp['username']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Password (clear)') ?></th>
+            <td><?php echo $smtp['password']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('SSL') ?></th>
+            <td><?php echo $smtp['ssl']; ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Port') ?></th>
+            <td><?php echo $smtp['port']; ?></td>
+        </tr>
+    </tbody>
+</table>

@@ -428,6 +428,71 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
     }
 
+    public function requestTokenAction ()
+    {
+        try {
+            $session = $this->getSession();
+            if (!$session->isLoggedIn()) {
+                throw new Siberian_Exception(__('You must be logged-in to request a new token.'));
+            }
+
+            $customer = $session->getCustomer();
+
+            $newToken = uniqid('tk_', true);
+            $customer
+                ->setGdprToken($newToken)
+                ->save();
+
+            $layout = $this
+                ->getLayout()
+                ->loadEmail('customer', 'gdpr_token');
+
+            $whitelabel = Siberian::getWhitelabel();
+            $hostWhitelabel = $whitelabel->getHost();
+            $protocol = explode('://', $this->getRequest()->getBaseUrl())[0];
+            if (empty($protocol)) {
+                $protocol = 'https';
+            }
+
+            $url = sprintf('%s://%s/%s?token=%s', $protocol, $hostWhitelabel, 'customer/account/mydata', $newToken);
+
+            $layout
+                ->getPartial('content_email')
+                ->setCustomer($customer)
+                ->setGdprToken($newToken)
+                ->setData('url', $url)
+                ->setApp($this->getApplication()->getName());
+
+            $content = $layout->render();
+
+            $mail = new Siberian_Mail();
+            $mail->setBodyHtml($content);
+            $mail->addTo($customer->getEmail(), $customer->getName());
+            $mail->setSubject(__('%s - Access to your personal data.', $this->getApplication()->getName()));
+            $mail->send();
+
+            $payload = [
+                'success' => true,
+                'message' => __("We've sent you and e-mail with your access token.")
+            ];
+
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @todo sender is contact if feature exists
+     *
+     * @param $customer
+     * @param $password
+     * @return $this
+     */
     protected function _sendNewAccountEmail($customer, $password) {
 
         $admin_email = null;
@@ -462,6 +527,5 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     private function _getCustomer() {
         return Customer_Model_Customer::getCurrent();
     }
-
 
 }

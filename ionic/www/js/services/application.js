@@ -141,6 +141,8 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
         service.app_id = data.application.id;
         service.app_name = data.application.name;
         service.privacy_policy = data.application.privacy_policy;
+        service.privacyPolicyGdpr = data.application.privacyPolicyGdpr;
+        service.gdprIsEnabled = data.application.gdprIsEnabled;
         service.privacy_policy_title = data.application.privacy_policy_title;
         service.googlemaps_key = data.application.googlemaps_key;
         service.is_locked = data.application.is_locked;

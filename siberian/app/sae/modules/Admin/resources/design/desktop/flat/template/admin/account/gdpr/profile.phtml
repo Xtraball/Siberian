@@ -1,0 +1,75 @@
+<?php
+    $admin = $this->getAdmin();
+    $regions = Siberian_Locale::getRegions();
+    $cc = $admin->getCountryCode();
+    $rc = $admin->getRegionCode();
+    $region = '-';
+    if (array_key_exists($cc, $regions) &&
+        array_key_exists($rc, $regions[$cc])) {
+        $region = $regions[$cc][$rc];
+    }
+?>
+<table>
+    <thead>
+        <tr>
+            <td colspan="2">
+                <h4><?php echo $admin->getFirstname() ?> <?php echo $admin->getLastname() ?></h4>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th><?php echo __('Company') ?></th>
+            <td><?php echo $admin->getCompany() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Email') ?></th>
+            <td><?php echo $admin->getEmail() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Firstname') ?></th>
+            <td><?php echo $admin->getFirstname() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Lastname') ?></th>
+            <td><?php echo $admin->getLastname() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Address') ?></th>
+            <td><?php echo $admin->getAddress() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Address (more)') ?></th>
+            <td><?php echo $admin->getData('address2') ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Zip code') ?></th>
+            <td><?php echo $admin->getZipCode() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Country') ?></th>
+            <td><?php echo $admin->getCountry() . ' (' . $admin->getCountryCode() . ')' ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('State / Province') ?></th>
+            <td><?php echo $region ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Phone') ?></th>
+            <td><?php echo $admin->getPhone() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Password (hashed)') ?></th>
+            <td><?php echo $admin->getPassword() ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Registration date') ?></th>
+            <td><?php echo datetime_to_format($admin->getCreatedAt(), Zend_Date::RFC_2822) ?></td>
+        </tr>
+        <tr>
+            <th><?php echo __('Last update date') ?></th>
+            <td><?php echo datetime_to_format($admin->getUpdatedAt(), Zend_Date::RFC_2822) ?></td>
+        </tr>
+    </tbody>
+</table>
+</div>

@@ -138,23 +138,33 @@ class Siberian_View extends Zend_View
         return parent::__call($method, $args);
     }
 
+    /**
+     * @param $key
+     * @param null $value
+     * @return $this
+     */
     public function addData($key, $value=null)
     {
-        if(is_null($value)) {
+        if (is_null($value)) {
             $values = $key;
-            foreach($values as $key => $value) {
+            foreach ($values as $key => $value) {
                 $this->setData($key, $value);
             }
-        }
-        else {
+        } else {
             $this->$key = $value;
         }
         return $this;
     }
 
-    public function setData($key, $value=null) {
-        if(is_array($key)) {
-            if(isset($this->_data['id'])) {
+    /**
+     * @param $key
+     * @param null $value
+     * @return $this
+     */
+    public function setData($key, $value=null)
+    {
+        if (is_array($key)) {
+            if (isset($this->_data['id'])) {
                 $key['id'] = $this->_data['id'];
             }
             $this->_data = $key;
