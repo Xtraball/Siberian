@@ -99,9 +99,9 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Filter with linky, then unescape, then trust as html
  */
-}).filter("trusted_html", function($sce) {
+}).filter("trusted_html", function ($sce) {
 
-    return function(text) {
+    return function (text) {
         return $sce.trustAsHtml(text);
     };
 
