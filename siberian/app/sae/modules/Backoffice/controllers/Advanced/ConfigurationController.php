@@ -3,8 +3,8 @@
 /**
  * Class Backoffice_Advanced_ConfigurationController
  */
-class Backoffice_Advanced_ConfigurationController extends System_Controller_Backoffice_Default {
-
+class Backoffice_Advanced_ConfigurationController extends System_Controller_Backoffice_Default
+{
     /**
      * @var array
      */
@@ -29,8 +29,11 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
      */
     public $_fake_password_key = '__not_safe_not_saved__';
 
-    public function loadAction() {
-
+    /**
+     *
+     */
+    public function loadAction()
+    {
         $data = [
             'title' => __('Advanced') . ' > ' . __('Configuration'),
             'icon' => 'fa-toggle-on',
@@ -39,25 +42,27 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         $this->_sendJson($data);
     }
 
-    public function findallAction() {
-
+    /**
+     *
+     */
+    public function findallAction()
+    {
         $data = $this->_findconfig();
 
-        $cpanel         = Api_Model_Key::findKeysFor("cpanel");
-        $plesk          = Api_Model_Key::findKeysFor("plesk");
-        $vestacp        = Api_Model_Key::findKeysFor("vestacp");
-        $directadmin    = Api_Model_Key::findKeysFor("directadmin");
+        $cpanel = Api_Model_Key::findKeysFor("cpanel");
+        $plesk = Api_Model_Key::findKeysFor("plesk");
+        $vestacp = Api_Model_Key::findKeysFor("vestacp");
+        $directadmin = Api_Model_Key::findKeysFor("directadmin");
 
-        $data["cpanel"]         = $cpanel->getData();
-        $data["plesk"]          = $plesk->getData();
-        $data["vestacp"]        = $vestacp->getData();
-        $data["directadmin"]    = $directadmin->getData();
+        $data["cpanel"] = $cpanel->getData();
+        $data["plesk"] = $plesk->getData();
+        $data["vestacp"] = $vestacp->getData();
+        $data["directadmin"] = $directadmin->getData();
 
-
-        $data["cpanel"]["password"]         = $this->_fake_password_key;
-        $data["plesk"]["password"]          = $this->_fake_password_key;
-        $data["vestacp"]["password"]        = $this->_fake_password_key;
-        $data["directadmin"]["password"]    = $this->_fake_password_key;
+        $data["cpanel"]["password"] = $this->_fake_password_key;
+        $data["plesk"]["password"] = $this->_fake_password_key;
+        $data["vestacp"]["password"] = $this->_fake_password_key;
+        $data["directadmin"]["password"] = $this->_fake_password_key;
 
         $ssl_certificate_model = new System_Model_SslCertificates();
         $certs = $ssl_certificate_model->findAll();
@@ -66,40 +71,39 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         $data["testssl"] = $result;
 
         $is_pe = Siberian_Version::is("PE");
-        if($is_pe) {
+        if ($is_pe) {
             $whitelabel_model = new Whitelabel_Model_Editor();
         }
 
         $data["current_domain"] = $this->getRequest()->getHttpHost();
 
-        $data["certificates"] = array();
-        foreach($certs as $cert) {
-
-            $wls = array();
-            if($is_pe) {
-                $whitelabels = $whitelabel_model->findAll(array("is_active = ?", "1"));
-                foreach($whitelabels as $whitelabel) {
+        $data["certificates"] = [];
+        foreach ($certs as $cert) {
+            $wls = [];
+            if ($is_pe) {
+                $whitelabels = $whitelabel_model->findAll(["is_active = ?", "1"]);
+                foreach ($whitelabels as $whitelabel) {
                     $wls[] = $whitelabel->getHost();
                 }
             }
 
-            $cert_data = array(
+            $cert_data = [
                 "id" => $cert->getId(),
-                "whitelabels"   => $wls,
-                "domains"       => Siberian_Json::decode($cert->getDomains()),
-                "hostname"      => $cert->getHostname(),
-                "certificate"   => $cert->getCertificate(),
-                "chain"         => $cert->getChain(),
-                "fullchain"     => $cert->getFullchain(),
-                "last"          => $cert->getLast(),
-                "private"       => $cert->getPrivate(),
-                "public"        => $cert->getPublic(),
-                "source"        => __($cert->getSource()),
-                "created_at"    => datetime_to_format($cert->getCreatedAt()),
-                "updated_at"    => datetime_to_format($cert->getUpdatedAt()),
-                "show_info"     => false,
-                "more_info"     => __("-")
-            );
+                "whitelabels" => $wls,
+                "domains" => Siberian_Json::decode($cert->getDomains()),
+                "hostname" => $cert->getHostname(),
+                "certificate" => $cert->getCertificate(),
+                "chain" => $cert->getChain(),
+                "fullchain" => $cert->getFullchain(),
+                "last" => $cert->getLast(),
+                "private" => $cert->getPrivate(),
+                "public" => $cert->getPublic(),
+                "source" => __($cert->getSource()),
+                "created_at" => datetime_to_format($cert->getCreatedAt()),
+                "updated_at" => datetime_to_format($cert->getUpdatedAt()),
+                "show_info" => false,
+                "more_info" => __("-")
+            ];
 
             $cert_data = array_merge($cert_data, $cert->extractInformation());
 
@@ -107,52 +111,54 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         }
 
         $this->_sendJson($data);
-
     }
 
-    public function submitreportAction() {
+    /**
+     *
+     */
+    public function submitreportAction()
+    {
         try {
             $request = $this->getRequest();
 
-            if($params = Siberian_Json::decode($request->getRawBody())) {
+            if ($params = Siberian_Json::decode($request->getRawBody())) {
 
                 ob_start();
                 phpinfo();
                 $phpinfo = ob_get_clean();
 
-                $bug_report = array(
-                    "secret"    => Core_Model_Secret::SECRET,
-                    "data"      => array(
+                $bug_report = [
+                    "secret" => Core_Model_Secret::SECRET,
+                    "data" => [
                         "host"      => $request->getHttpHost(),
                         "type"      => Siberian_Version::TYPE,
                         "version"   => Siberian_Version::VERSION,
                         "canal"     => System_Model_Config::getValueFor("update_channel"),
                         "message"   => base64_encode($params["message"]),
                         "phpinfo"   => base64_encode($phpinfo)
-                    )
-                );
+                    ]
+                ];
 
                 $request = new Siberian_Request();
                 $request->post(sprintf("http://stats.xtraball.com/report.php?type=%s", Siberian_Version::TYPE), $bug_report);
 
-                $payload = array(
+                $payload = [
                     "success" => true,
                     "message" => __("Thanks for your report."),
-                );
+                ];
 
             } else {
                 throw new Siberian_Exception(__("Message is required."));
             }
 
-        } catch(Exception $e) {
-            $payload = array(
+        } catch (Exception $e) {
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage(),
-            );
+            ];
         }
 
         $this->_sendJson($payload);
-
     }
 
     /**
@@ -160,9 +166,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
      * &
      * cpanel/plesk credentials
      */
-    public function saveAction() {
-
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+    public function saveAction()
+    {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
                 if (__getConfig('is_demo')) {
@@ -173,11 +179,11 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
                 $message = __("Configuration successfully saved");
 
-                if(isset($data["environment"]) && in_array($data["environment"]["value"], array("production", "development"))) {
-                    $config_file = Core_Model_Directory::getBasePathTo("config.php");
-                    if(is_writable($config_file)) {
+                if (isset($data['environment']) && in_array($data['environment']['value'], ['production', 'development'])) {
+                    $config_file = Core_Model_Directory::getBasePathTo('config.php');
+                    if (is_writable($config_file)) {
                         $contents = file_get_contents($config_file);
-                        $contents = preg_replace('/"(development|production)"/im', '"'.$data["environment"]["value"].'"', $contents);
+                        $contents = preg_replace('/("|\')(development|production)("|\')/im', '"'.$data["environment"]["value"].'"', $contents);
                         file_put_contents($config_file, $contents);
                     } else {
                         $message = __("Configuration partially saved")."<br />".__("Error: unable to write Environment in config.php");
