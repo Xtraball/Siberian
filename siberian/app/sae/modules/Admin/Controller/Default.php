@@ -11,7 +11,6 @@ class Admin_Controller_Default extends Core_Controller_Default {
     public $openActions = [];
 
     public function init() {
-
         parent::init();
 
         $this->_admin = $this->getSession()->getAdmin();
