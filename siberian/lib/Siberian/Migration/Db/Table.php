@@ -457,20 +457,18 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $keys = array_keys($this->schemaFields);
         $after_index = array_search($column_name, $keys) - 1;
         $after = "";
-        if (isset($keys[$after_index])) {
+        if (array_key_exists($after_index, $keys)) {
             $column = $keys[$after_index];
             $after = "AFTER `{$column}`";
         }
         $index = "";
-        if (isset($col['index'])) {
+        if (array_key_exists('index', $col)) {
             $upper_name = strtoupper($column_name);
-            $index = ", ADD INDEX `INDEX_{$upper_name}` (`{$column_name}`)";
+            $index = "ALTER TABLE `{$this->tableName}` ADD INDEX `INDEX_{$upper_name}` (`{$column_name}`);";
         }
 
         /** Index/Unique on multiple columns */
-        # ALTER TABLE `siberiancms_mae`.`application` ADD UNIQUE `UNIQUE_TADAM` (`domain`, `subdomain`);
-
-        $alter = "ALTER TABLE `{$this->tableName}` ADD `{$column_name}` {$type} {$collate} {$null} {$default} {$auto_increment} {$after} {$index};";
+        $alter = "ALTER TABLE `{$this->tableName}` ADD `{$column_name}` {$type} {$collate} {$null} {$default} {$auto_increment} {$after}; {$index}";
 
         return $alter;
     }

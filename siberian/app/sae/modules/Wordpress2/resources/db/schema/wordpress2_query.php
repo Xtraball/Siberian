@@ -15,13 +15,6 @@ $schemas['wordpress2_query'] = [
     ],
     'value_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => [
-            'table' => 'wordpress2',
-            'column' => 'value_id',
-            'name' => 'wordpress2_value_id_query',
-            'on_update' => 'CASCADE',
-            'on_delete' => 'CASCADE',
-        ],
         'index' => [
             'key_name' => 'KEY_QUERY_ID',
             'index_type' => 'BTREE',
