@@ -2,11 +2,11 @@
 /**
  * Automatically download the Android SDK
  */
-if (is_file('./config.php')) {
-    require './config.php';
+if (is_file(__DIR__ . '/config.php')) {
+    require __DIR__ . '/config.php';
 
     if (isset($config) && array_key_exists('disabled', $config)) {
-        die('SDK Updater is disabled in ./config.php');
+        die('SDK Updater is disabled in ./config.php' . PHP_EOL);
     }
 }
 
