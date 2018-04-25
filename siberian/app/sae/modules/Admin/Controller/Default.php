@@ -12,6 +12,13 @@ class Admin_Controller_Default extends Core_Controller_Default {
 
     public function init() {
 
+        // Fix for cached files!
+        if (__get('admin_4.13.14_cache') !== 'done') {
+            Siberian_Cache::clearCache();
+            Siberian_Cache::init();
+            __set('admin_4.13.14_cache', 'done');
+        }
+
         parent::init();
 
         $this->_admin = $this->getSession()->getAdmin();
