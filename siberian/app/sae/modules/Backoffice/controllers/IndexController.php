@@ -134,6 +134,8 @@ class Backoffice_IndexController extends Backoffice_Controller_Default
                     case "app_manifest":
                         $message = __("Rebuilding application manifest files.");
 
+                        Siberian_Cache::__clearCache();
+
                         $default_cache = Zend_Registry::get("cache");
                         $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
 
