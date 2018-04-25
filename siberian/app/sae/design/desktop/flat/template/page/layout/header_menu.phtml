@@ -1,12 +1,12 @@
 <?php $current_link = $this->getCurrentLink(); ?>
 <?php $editor = $this->getAdmin()->getWhiteLabelEditor(); ?>
-<?php if(APPLICATION_ENV != "production"): ?>
+<?php if (APPLICATION_ENV !== 'production'): ?>
     <div class="alert alert-warning development-responsive">
         <i class="fa fa-exclamation-triangle"></i>
-    <span>
-        <?php echo __("Be careful you are working in"); ?>
-    </span>
-        <b><?php echo __("Development") ?></b>
+        <span>
+            <?php echo __('You current working environment is set to '); ?>
+        </span>
+        <b><?php echo __('Development') ?></b>, <?php echo __('be careful or set it back to ') ?><b><?php echo __('Production') ?></b>
     </div>
 <?php endif; ?>
 <nav class="navbar navbar-default content-white-bkg">

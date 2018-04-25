@@ -25,13 +25,13 @@
     <body class="<?php echo $this->default_class_name ?> general">
 
         <div ng-app="Siberian-Backoffice">
-            <?php if(APPLICATION_ENV != "production"): ?>
+            <?php if (APPLICATION_ENV !== 'production'): ?>
                 <div class="alert alert-warning development-responsive">
                     <i class="fa fa-exclamation-triangle"></i>
                     <span>
-                        <?php echo __("Be careful you are working in"); ?>
+                        <?php echo __('You current working environment is '); ?>
                     </span>
-                    <b><?php echo __("Development") ?></b>
+                    <b><?php echo __('Development') ?></b>, <?php echo __('be careful or set it back to') ?>&nbsp;<b><?php echo __('Production') ?></b>
                 </div>
             <?php endif; ?>
             <div class="top">

@@ -357,3 +357,5 @@
 "per page"
 "see Settings > Advanced > Configuration > Cron to edit options."
 "values are refreshed once a day only!"
+"The default setting to run your production server."
+"Errors are displayed on page, outputs are more verbose, this is an option for debug purpose, use with care as it may output some critical informations about your server."
