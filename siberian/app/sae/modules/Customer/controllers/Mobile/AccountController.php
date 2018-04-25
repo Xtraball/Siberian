@@ -447,7 +447,14 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 ->getLayout()
                 ->loadEmail('customer', 'gdpr_token');
 
-            $url = $this->getUrl('/customer/account/mydata', ['token' => $newToken]);
+            $whitelabel = Siberian::getWhitelabel();
+            $hostWhitelabel = $whitelabel->getHost();
+            $protocol = explode('://', $this->getRequest()->getBaseUrl())[0];
+            if (empty($protocol)) {
+                $protocol = 'https';
+            }
+
+            $url = sprintf('%s://%s/%s?token=%s', $protocol, $hostWhitelabel, 'customer/account/mydata', $newToken);
 
             $layout
                 ->getPartial('content_email')

@@ -333,9 +333,9 @@ To determine whether any of the third party services it uses honor the &ldquo;Do
 <p><em><strong>Latest update: April 24, 2018.</strong></em></p>';
 
 $privacyPolicyGdpr = '<h1>Extended&nbsp;policy&nbsp;concerning the application of the European GDPR.</h1>
-<p><strong>In accordance with the&nbsp; obligations of the</strong>&nbsp;<em><span style="color:rgb(68, 68, 68); font-family:lucida grande,lucida sans unicode,lucida sans,arial,sans-serif; font-size:12.8px">Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (Text with EEA relevance)</span></em></p>
-<h1>Data controller</h1>
-<p>#COMPANY.NAME# owns any of the client data stored or processed via the service #PLATFORM.NAME#.</p>
+<p><strong>In accordance with the obligations of the</strong>&nbsp;<em><span style="color:rgb(68, 68, 68); font-family:lucida grande,lucida sans unicode,lucida sans,arial,sans-serif; font-size:12.8px">Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 on the protection of natural persons with regard to the processing of personal data and on the free movement of such data, and repealing Directive 95/46/EC (General Data Protection Regulation) (Text with EEA relevance)</span></em></p>
+<h1>Data processor</h1>
+<p>#COMPANY.NAME# does not own any of the client data stored or processed via the service #PLATFORM.NAME#.</p>
 <p>#COMPANY.NAME# is not responsible for the content of the personal data contained in the client data or other information stored on its servers.</p>
 <p>At the discretion of the client or user nor is #COMPANY.NAME# responsible for the manner in which the client or user collects, handles disclosure, distributes or otherwise processes such information.</p>
 <h1>Contact to access, correct, delete any data information</h1>
@@ -375,8 +375,9 @@ $configs[] = [
     'value' => $privacyPolicyGdpr,
 ];
 
-foreach($configs as $data) {
-    (new System_Model_Config())
+foreach ($configs as $index => $data) {
+    $config = new System_Model_Config();
+    $config
         ->setData($data)
         ->insertOnce(['code']);
 }

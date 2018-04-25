@@ -2,50 +2,56 @@
 /**
  * Automatically download the Android SDK
  */
-$log = array();
+if (is_file(__DIR__ . '/config.php')) {
+    require __DIR__ . '/config.php';
 
-$tools_path = dirname(__FILE__);
-chmod($tools_path, 0777);
-if (!@file_exists($tools_path)) {
-    mkdir($tools_path, 0777, true);
+    if (isset($config) && array_key_exists('disabled', $config)) {
+        die('SDK Updater is disabled in ./config.php' . PHP_EOL);
+    }
 }
 
-$android_sdk_path = $tools_path . '/android-sdk';
+$toolsPath = dirname(__FILE__);
+chmod($toolsPath, 0777);
+if (!@file_exists($toolsPath)) {
+    mkdir($toolsPath, 0777, true);
+}
+
+$androidSdkPath = $toolsPath . '/android-sdk';
 
 /** Test if the SDK is correctly installed */
-function shouldupdate($android_sdk_path) {
+function shouldupdate($androidSdkPath) {
     $required_folders = [
-        $android_sdk_path . '/build-tools/23.0.2',
-        $android_sdk_path . '/platforms/android-25',
-        $android_sdk_path . '/extras/android/support',
-        $android_sdk_path . '/extras/android/m2repository',
-        $android_sdk_path . '/extras/google/m2repository',
-        $android_sdk_path . '/extras/google/google_play_services',
+        $androidSdkPath . '/build-tools/23.0.2',
+        $androidSdkPath . '/platforms/android-25',
+        $androidSdkPath . '/extras/android/support',
+        $androidSdkPath . '/extras/android/m2repository',
+        $androidSdkPath . '/extras/google/m2repository',
+        $androidSdkPath . '/extras/google/google_play_services',
     ];
 
-    foreach($required_folders as $folder) {
-        if(!file_exists($folder)) {
+    foreach ($required_folders as $folder) {
+        if (!file_exists($folder)) {
             return true;
         }
     }
     return false;
 }
 
-$download_urls = [
+$downloadUrls = [
     'http://updates02.siberiancms.com/tools/android-sdk.tar'
 ];
 
-$size = sizeof($download_urls) - 1;
+$size = sizeof($downloadUrls) - 1;
 $rand = rand(0, $size);
-$download_url = $download_urls[$rand];
+$downloadUrl = $downloadUrls[$rand];
 
-if (shouldupdate($android_sdk_path)) {
-    rmdir($android_sdk_path);
-    chdir($tools_path);
+if (shouldupdate($androidSdkPath)) {
+    rmdir($androidSdkPath);
+    chdir($toolsPath);
     /** Clean-up  */
     exec('rm -rf ./android-sdk');
     exec('rm -rf ./android-sdk.t*');
-    exec('wget -O android-sdk.tar ' . $download_url . ' && tar --overwrite -xf android-sdk.tar && rm android-sdk.tar');
+    exec('wget -O android-sdk.tar ' . $downloadUrl . ' && tar --overwrite -xf android-sdk.tar && rm android-sdk.tar');
 }
 
-exec('chmod -R 777 ' . $android_sdk_path);
+exec('chmod -R 777 ' . $androidSdkPath);
