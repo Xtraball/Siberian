@@ -134,15 +134,16 @@
             <p>{{ 'Privacy' | translate }}:</p>
         </div>
         <label class="button button-calm button-calm-custom"
-           ng-click="requestToken();"
-           ng-class="{'button-block': card_design, 'button-full': !card_design}"
-           ng-if="is_logged_in && gdpr.isEnabled">
+               style="margin: 0;"
+               ng-click="requestToken();"
+               ng-class="{'button-block': card_design, 'button-full': !card_design}"
+               ng-if="is_logged_in && gdpr.isEnabled">
             <i class="ion-android-download"></i> {{ "Access my personal data" | translate }}</label>
     </div>
 
     <div ng-class="{'padding': card_design}">
         <button type="submit"
-                class="button button-positive button-positive-custom item-icon-left"
+                class="button button-light button-light-custom item-icon-left"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
                 ng-show="!is_loading">{{ "Send" | translate }}</button>
     </div>
