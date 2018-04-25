@@ -375,8 +375,9 @@ $configs[] = [
     'value' => $privacyPolicyGdpr,
 ];
 
-foreach($configs as $data) {
-    (new System_Model_Config())
+foreach ($configs as $index => $data) {
+    $config = new System_Model_Config();
+    $config
         ->setData($data)
         ->insertOnce(['code']);
 }
