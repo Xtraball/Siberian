@@ -40,7 +40,10 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
 
                 $wordpressData = [
                     'url' => $wordpress->getData('url'),
+                    'title' => $wordpress->getData('title'),
+                    'subtitle' => $wordpress->getData('subtitle'),
                     'picture' => $wordpress->getData('picture'),
+                    'showTitle' => (boolean) $wordpress->getData('show_title'),
                     'showCover' => (boolean) $wordpress->getData('show_cover'),
                     'groupQueries' => (boolean) $wordpress->getData('group_queries'),
                     'cardDesign' => (boolean) $wordpress->getData('card_design'),
@@ -224,18 +227,21 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     'subtitle' => $wordpressQuery->getData('subtitle'),
                     'picture' => $wordpressQuery->getData('picture'),
                     'thumbnail' => $wordpressQuery->getData('thumbnail'),
-                    'showCover' => (boolean)$wordpressQuery->getData('show_cover'),
-                    'showTitle' => (boolean)$wordpressQuery->getData('show_title'),
+                    'showCover' => (boolean) $wordpressQuery->getData('show_cover'),
+                    'showTitle' => (boolean) $wordpressQuery->getData('show_title'),
                     'query' => $query,
                     'position' => $wordpressQuery->getData('position'),
                 ];
 
                 $wordpressData = [
                     'url' => $wordpress->getData('url'),
+                    'title' => $wordpress->getData('title'),
+                    'subtitle' => $wordpress->getData('subtitle'),
                     'picture' => $wordpress->getData('picture'),
-                    'showCover' => (boolean)$wordpress->getData('show_cover'),
-                    'groupQueries' => (boolean)$wordpress->getData('group_queries'),
-                    'cardDesign' => (boolean)$wordpress->getData('card_design'),
+                    'showTitle' => (boolean) $wordpress->getData('show_title'),
+                    'showCover' => (boolean) $wordpress->getData('show_cover'),
+                    'groupQueries' => (boolean) $wordpress->getData('group_queries'),
+                    'cardDesign' => (boolean) $wordpress->getData('card_design'),
                 ];
 
                 $wordpressApi = (new Wordpress2_Model_WordpressApi())

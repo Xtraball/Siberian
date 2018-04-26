@@ -205,6 +205,11 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $form = new Wordpress2_Form_Query();
             $form->populate($wordpressQuery->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
+
+            if ($wordpress->getData('group_queries') !== '1') {
+                $form->addSortFields();
+            }
+
             $form
                 ->loadCategories($categories, $selectedCategories)
                 ->loadPages($pages, $selectedPages)

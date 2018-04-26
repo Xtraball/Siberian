@@ -14,10 +14,28 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
 
         self::addClass('create', $this);
 
-        $title = $this->addSimpleText('url', __('WordPress URL'));
-        $title->setRequired(true);
+        $url = $this->addSimpleText('url', __('WordPress URL'));
+        $url->setRequired(true);
 
-        $showSearch = $this->addSimpleCheckbox('group_queries', __('Group all queries into a single list'));
+        $showTitle = $this->addSimpleCheckbox('show_title', __('Show title & subtitle'));
+
+        $title = $this->addSimpleText('title', __('Title'));
+        $subtitle = $this->addSimpleText('subtitle', __('Subtitle'));
+
+        $groupQueries = $this->addSimpleCheckbox('group_queries', __('Group all queries into a single list'));
+
+        $sortType = $this->addSimpleSelect('sort_type', __('Sort by'), [
+            'date' => __('Date'),
+            'author' => __('Author'),
+            'id' => __('ID'),
+            'relevance' => __('Relevance'),
+            'title' => __('Title'),
+        ]);
+
+        $sortOrder = $this->addSimpleSelect('sort_order', __('Sort order'), [
+            'ASC' => __('Ascending'),
+            'DESC' => __('Descending'),
+        ]);
 
         $showCover = $this->addSimpleCheckbox('show_cover', __('Show cover'));
         $picture = $this->addSimpleImage(

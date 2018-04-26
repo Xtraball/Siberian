@@ -75,6 +75,25 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
     }
 
     /**
+     * @throws Zend_Form_Exception
+     */
+    public function addSortFields ()
+    {
+        $sortType = $this->addSimpleSelect('sort_type', __('Sort by'), [
+            'date' => __('Date'),
+            'author' => __('Author'),
+            'id' => __('ID'),
+            'relevance' => __('Relevance'),
+            'title' => __('Title'),
+        ]);
+
+        $sortOrder = $this->addSimpleSelect('sort_order', __('Sort order'), [
+            'ASC' => __('Ascending'),
+            'DESC' => __('Descending'),
+        ]);
+    }
+
+    /**
      * @param $categories
      * @param array $selectedCategories
      * @return $this

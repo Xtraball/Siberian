@@ -22,6 +22,16 @@ $schemas['wordpress2'] = [
             'is_unique' => false,
         ],
     ],
+    'title' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'subtitle' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'url' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
@@ -44,6 +54,10 @@ $schemas['wordpress2'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'show_cover' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'show_title' => [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
