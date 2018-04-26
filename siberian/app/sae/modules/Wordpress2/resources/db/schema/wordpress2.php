@@ -73,6 +73,10 @@ $schemas['wordpress2'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'strip_shortcode' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'group_queries' => [
         'type' => 'tinyint(1)',
         'default' => '1',

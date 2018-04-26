@@ -92,6 +92,9 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         $wordpress->getData('password')
                     );
 
+                $stripShortcode = filter_var($wordpress->getData('strip_shortcode'), FILTER_VALIDATE_BOOLEAN);
+                $wordpressApi->setStripShortcodes($stripShortcode);
+
                 $posts = [];
 
                 // Immediate fetch 20 first rows 'grouped'
@@ -251,6 +254,9 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                         $wordpress->getData('login'),
                         $wordpress->getData('password')
                     );
+
+                $stripShortcode = filter_var($wordpress->getData('strip_shortcode'), FILTER_VALIDATE_BOOLEAN);
+                $wordpressApi->setStripShortcodes($stripShortcode);
 
                 $posts = [];
                 if (!empty($categoryIds)) {

@@ -20,6 +20,11 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
     public $client;
 
     /**
+     * @var bool
+     */
+    private $stripShortcodes = false;
+
+    /**
      * @param $endpoint
      * @param null $login
      * @param null $password
@@ -32,6 +37,22 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         }
 
         return $this;
+    }
+
+    /**
+     * @param $strip
+     */
+    public function setStripShortcodes ($strip)
+    {
+        $this->stripShortcodes = $strip;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getStripShortcodes ()
+    {
+        return $this->stripShortcodes;
     }
 
     /**
@@ -78,10 +99,14 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
         $page = 1;
         $perPage = 50;
-        $pages = $this->client->pages()->get(null, [
-            'page' => $page,
-            'per_page' => $perPage
-        ]);
+        try {
+            $pages = $this->client->pages()->get(null, [
+                'page' => $page,
+                'per_page' => $perPage
+            ]);
+        } catch (Exception $e) {
+            return [];
+        }
 
         $allPages = $pages;
         while (sizeof($pages) === $perPage && $failSafe > $page) {
@@ -152,8 +177,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
         foreach ($posts as &$post) {
             $post['title'] = $post['title']['rendered'];
-            $post['subtitle'] = $post['excerpt']['rendered'];
-            $post['content'] = str_replace(
+            $post['subtitle'] = $this->process($post['excerpt']['rendered']);
+            $post['content'] = $this->process(str_replace(
                 [
                     'data-src='
                 ],
@@ -161,7 +186,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                     'src='
                 ],
                 $post['content']['rendered']
-            );
+            ));
 
             if ($page['featured_media'] != 0) {
                 try {
@@ -219,8 +244,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
         foreach ($pages as &$page) {
             $page['title'] = $page['title']['rendered'];
-            $page['subtitle'] = $page['excerpt']['rendered'];
-            $page['content'] = str_replace(
+            $page['subtitle'] = $this->process($page['excerpt']['rendered']);
+            $page['content'] = $this->process(str_replace(
                 [
                     'data-src='
                 ],
@@ -228,7 +253,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                     'src='
                 ],
                 $page['content']['rendered']
-            );
+            ));
 
             if ($page['featured_media'] != 0) {
                 try {
@@ -254,5 +279,17 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         }
 
         return $pages;
+    }
+
+    /**
+     * @param $text
+     * @return null|string|string[]
+     */
+    private function process ($text)
+    {
+        if ($this->stripShortcodes === true) {
+            return preg_replace('/\[(.*?)\]/im', '', $text);
+        }
+        return $text;
     }
 }
