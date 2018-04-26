@@ -12,6 +12,8 @@ if (!$wordpress->getId()) {
         ->save();
 }
 
+$wordpressHasUrl = !empty(trim($wordpress->getData('url')));
+
 $formWordpress = new Wordpress2_Form_Wordpress();
 $formWordpress->populate($wordpress->getData());
 $formWordpress
@@ -41,6 +43,7 @@ if ($wordpress->getData('group_queries') !== '1') {
     $formQuery->addSortFields();
 }
 
+$gotCategories = false;
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -54,12 +57,13 @@ try {
     $formQuery
         ->loadCategories($categories);
 
-    $gotCatgories = true;
+    $gotCategories = (sizeof($categories) > 0);
 
 } catch (Exception $e) {
-    $gotCatgories = false;
+    $gotCategories = false;
 }
 
+$gotPages = false;
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -73,7 +77,7 @@ try {
     $formQuery
         ->loadPages($pages);
 
-    $gotPages = true;
+    $gotPages = (sizeof($pages) > 0);
 
 } catch (Exception $e) {
     $gotPages = false;
@@ -119,7 +123,7 @@ $formQuery->createSubmit();
                 </div>
             </div>
 
-            <?php if ($gotCatgories || $gotPages): ?>
+            <?php if ($gotCategories || $gotPages): ?>
                 <div class="feature-block-add">
                     <h3 class="title-editor no-border-radius title-feature-indent">
                         <?php echo __('Add a query'); ?>
@@ -191,6 +195,15 @@ $formQuery->createSubmit();
                         </div>
                     </div>
                 <?php endif; ?>
+            <?php elseif ($wordpressHasUrl): ?>
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Error'); ?>
+                    </h3>
+                    <div class="container-fluid subcontent content-feature">
+                        <div class="alert alert-danger"><?php echo __('Sorry, we are unable to fetch any category or post from your WordPress.') ?></div>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
         <!-- /END WORDPRESS TAB -->
