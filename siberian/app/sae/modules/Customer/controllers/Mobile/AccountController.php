@@ -1,23 +1,31 @@
 <?php
 
+/**
+ * Class Customer_Mobile_AccountController
+ */
 class Customer_Mobile_AccountController extends Application_Controller_Mobile_Default
 {
-
-    public function viewAction() {
-
+    /**
+     *
+     */
+    public function viewAction()
+    {
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
-        $html = array(
+        $payload = [
             'html' => $this->getLayout()->render(),
             'title' => __('Log-in'),
             'next_button_title' => __('Validate'),
             'next_button_arrow_is_visible' => 1
-        );
+        ];
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
-
+        $this->_sendJson($payload);
     }
 
-    public function avatarAction() {
+    /**
+     *
+     */
+    public function avatarAction()
+    {
         $customer_id = $this->getRequest()->getParam("customer");
         $ignore_stored = $this->getRequest()->getParam("ignore_stored") == "true";
         if ($customer_id) {
@@ -49,7 +57,11 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         exit();
     }
 
-    public function editAction() {
+    /**
+     *
+     */
+    public function editAction()
+    {
         $title = __("Create");
         if($this->getSession()->isLoggedIn('customer')) {
             $title = __("My Account");
@@ -65,8 +77,11 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
-    public function forgotpasswordAction() {
-
+    /**
+     *
+     */
+    public function forgotpasswordAction()
+    {
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
         $html = array(
             'html' => $this->getLayout()->render(),
@@ -77,12 +92,13 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
-    public function loginpostAction() {
-
-        if($datas = $this->getRequest()->getPost()) {
-
+    /**
+     *
+     */
+    public function loginpostAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
             try {
-
                 if((empty($datas['email']) OR empty($datas['password']))) {
                     throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
@@ -102,22 +118,18 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
                 $html = array('success' => 1, 'customer_id' => $customer->getId());
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }
-
             $this->_sendJson($html);
         }
-
     }
 
     // Not sure if used anywhere
-    public function loginwithfacebookAction() {
+    public function loginwithfacebookAction()
+    {
         if($access_token = $this->getRequest()->getParam('token')) {
-
             try {
-
                 // Réinitialise la connexion
                 $this->getSession()->resetInstance();
 
@@ -447,14 +459,20 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 ->getLayout()
                 ->loadEmail('customer', 'gdpr_token');
 
+            $request = $this->getRequest();
             $whitelabel = Siberian::getWhitelabel();
-            $hostWhitelabel = $whitelabel->getHost();
-            $protocol = explode('://', $this->getRequest()->getBaseUrl())[0];
+            if ($whitelabel !== false) {
+                $host = $whitelabel->getHost();
+            } else {
+                $host = $request->getHttpHost();
+            }
+
+            $protocol = explode('://', $request->getBaseUrl())[0];
             if (empty($protocol)) {
                 $protocol = 'https';
             }
 
-            $url = sprintf('%s://%s/%s?token=%s', $protocol, $hostWhitelabel, 'customer/account/mydata', $newToken);
+            $url = sprintf('%s://%s/%s?token=%s', $protocol, $host, 'customer/account/mydata', $newToken);
 
             $layout
                 ->getPartial('content_email')

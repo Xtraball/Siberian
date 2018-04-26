@@ -58,6 +58,7 @@ class Customer_AccountController extends Application_Controller_Default
         $nav = [
             'profile' => [
                 'uri' => '?' . http_build_query($queryParams + ['page' => 'profile']),
+                'filename' => './profile.html',
                 'label' => __('Profile'),
                 'baseData' => $baseData,
                 'data' => [],
@@ -70,6 +71,7 @@ class Customer_AccountController extends Application_Controller_Default
         if ($addresses->count() > 0) {
             $nav['addresses'] = [
                 'uri' => '?' . http_build_query($queryParams + ['page' => 'addresses']),
+                'filename' => './addresses.html',
                 'label' => __('Addresses'),
                 'baseData' => $baseData,
                 'data' => [
@@ -83,6 +85,7 @@ class Customer_AccountController extends Application_Controller_Default
         if (!empty($metadata)) {
             $nav['metadata'] = [
                 'uri' => '?' . http_build_query($queryParams + ['page' => 'metadata']),
+                'filename' => './metadata.html',
                 'label' => __('Metadata'),
                 'baseData' => $baseData,
                 'data' => [
@@ -104,6 +107,7 @@ class Customer_AccountController extends Application_Controller_Default
             $code = $module['code'];
             $nav[$code] = [
                 'uri' => '?' . http_build_query($queryParams + ['page' => $code]),
+                'filename' => './' . $code . '.html',
                 'label' => $module['label'],
                 'templatePath' => $module['templatePath'],
                 'baseData' => $baseData,
@@ -123,8 +127,7 @@ class Customer_AccountController extends Application_Controller_Default
             mkdir($baseTmp, 0777, true);
 
             foreach ($nav as &$link) {
-                $link['uri'] = preg_replace('#^\?token=[0-9a-z]+\&page=#i', '', $link['uri']);
-                $link['uri'] = './' . $link['uri'] . '.html';
+                $link['uri'] = $link['filename'];
             }
 
             foreach ($nav as $activePage => $page) {
