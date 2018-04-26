@@ -47,6 +47,8 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     'showCover' => (boolean) $wordpress->getData('show_cover'),
                     'groupQueries' => (boolean) $wordpress->getData('group_queries'),
                     'cardDesign' => (boolean) $wordpress->getData('card_design'),
+                    'sortType' => $wordpress->getData('sort_type'),
+                    'sortOrder' => $wordpress->getData('sort_order'),
                 ];
 
                 // Fetch queries!
@@ -104,7 +106,11 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     if (!empty($groupPostIds)) {
                         $posts = $wordpressApi->getPosts(
                             implode(',', array_values($groupPostIds)),
-                            $page
+                            $page,
+                            [
+                                'orderby' => $wordpressData['sortType'],
+                                'order' => $wordpressData['sortOrder'],
+                            ]
                         );
                     }
 
@@ -118,22 +124,15 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     if (!empty($groupPageIds)) {
                         $pages = $wordpressApi->getPages(
                             implode(',', array_values($groupPageIds)),
-                            $page
+                            $page,
+                            [
+                                'orderby' => $wordpressData['sortType'],
+                                'order' => $wordpressData['sortOrder'],
+                            ]
                         );
                     }
 
-                    $posts = array_merge($posts, $pages);
-                    uasort($posts, function ($a, $b) {
-                        $dateA = date_create_from_format('Y-m-d\TH:i:s', $a['date'])
-                            ->getTimestamp();
-                        $dateB = date_create_from_format('Y-m-d\TH:i:s', $b['date'])
-                            ->getTimestamp();
-                        if ($dateA == $dateB) {
-                            return 0;
-                        }
-                        return ($dateA < $dateB) ? -1 : 1;
-                    });
-                    $posts = array_values($posts);
+                    $posts = array_values(array_merge($posts, $pages));
                 }
 
                 $payload = [
@@ -231,6 +230,8 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     'showTitle' => (boolean) $wordpressQuery->getData('show_title'),
                     'query' => $query,
                     'position' => $wordpressQuery->getData('position'),
+                    'sortType' => $wordpressQuery->getData('sort_type'),
+                    'sortOrder' => $wordpressQuery->getData('sort_order'),
                 ];
 
                 $wordpressData = [
@@ -255,7 +256,11 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                 if (!empty($categoryIds)) {
                     $posts = $wordpressApi->getPosts(
                         implode(',', array_values($categoryIds)),
-                        $page
+                        $page,
+                        [
+                            'orderby' => $queryData['sortType'],
+                            'order' => $queryData['sortOrder'],
+                        ]
                     );
                 }
                 if (empty($posts)) {
@@ -266,25 +271,18 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                 if (!empty($pageIds)) {
                     $pages = $wordpressApi->getPages(
                         implode(',', array_values($pageIds)),
-                        $page
+                        $page,
+                        [
+                            'orderby' => $queryData['sortType'],
+                            'order' => $queryData['sortOrder'],
+                        ]
                     );
                 }
                 if (empty($pages)) {
                     $pages = [];
                 }
 
-                $posts = array_merge($posts, $pages);
-                uasort($posts, function ($a, $b) {
-                    $dateA = date_create_from_format('Y-m-d\TH:i:s', $a['date'])
-                        ->getTimestamp();
-                    $dateB = date_create_from_format('Y-m-d\TH:i:s', $b['date'])
-                        ->getTimestamp();
-                    if ($dateA == $dateB) {
-                        return 0;
-                    }
-                    return ($dateA < $dateB) ? -1 : 1;
-                });
-                $posts = array_values($posts);
+                $posts = array_values(array_merge($posts, $pages));
 
                 $payload = [
                     'success' => true,

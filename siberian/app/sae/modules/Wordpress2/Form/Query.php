@@ -65,7 +65,7 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
 
         $queryHelp = '
 <div class="alert alert-info">
-    ' . __('You can mix posts & pages in the queries if needed.') . '
+    ' . __("You can mix posts & pages in the queries if needed, however it's not recommended and can lead to random sorting.") . '
 </div>
         ';
 
@@ -88,8 +88,8 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
         ]);
 
         $sortOrder = $this->addSimpleSelect('sort_order', __('Sort order'), [
-            'ASC' => __('Ascending'),
-            'DESC' => __('Descending'),
+            'desc' => __('Descending'),
+            'asc' => __('Ascending'),
         ]);
     }
 

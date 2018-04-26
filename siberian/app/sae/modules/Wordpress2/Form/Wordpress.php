@@ -33,8 +33,8 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
         ]);
 
         $sortOrder = $this->addSimpleSelect('sort_order', __('Sort order'), [
-            'ASC' => __('Ascending'),
-            'DESC' => __('Descending'),
+            'desc' => __('Descending'),
+            'asc' => __('Ascending'),
         ]);
 
         $showCover = $this->addSimpleCheckbox('show_cover', __('Show cover'));

@@ -53,6 +53,18 @@ $schemas['wordpress2'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'sort_type' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'date',
+    ],
+    'sort_order' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'desc',
+    ],
     'show_cover' => [
         'type' => 'tinyint(1)',
         'default' => '1',
