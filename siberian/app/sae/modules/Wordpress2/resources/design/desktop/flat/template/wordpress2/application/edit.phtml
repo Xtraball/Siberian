@@ -36,6 +36,11 @@ $queries = (new Wordpress2_Model_Query())
         'position ASC'
     );
 
+// Display sort fields only if queries are not grouped!
+if ($wordpress->getData('group_queries') !== '1') {
+    $formQuery->addSortFields();
+}
+
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -47,8 +52,7 @@ try {
     $categories = $wordpressApi->getCategories();
 
     $formQuery
-        ->loadCategories($categories)
-        ->createSubmit();
+        ->loadCategories($categories);
 
     $gotCatgories = true;
 
@@ -67,14 +71,15 @@ try {
     $pages = $wordpressApi->getAllPages();
 
     $formQuery
-        ->loadPages($pages)
-        ->createSubmit();
+        ->loadPages($pages);
 
     $gotPages = true;
 
 } catch (Exception $e) {
     $gotPages = false;
 }
+
+$formQuery->createSubmit();
 
 ?>
 
