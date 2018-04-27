@@ -17,6 +17,8 @@ class Wordpress2_Form_Settings extends Siberian_Form_Abstract {
 
         $this->addSimpleCheckbox('card_design', __('Use card design'));
 
+        $stripShortcode = $this->addSimpleCheckbox('strip_shortcode', __('Strip shortcodes'));
+
         $this->addSimpleHtml('note_cache_refresh',
             '<div class="alert alert-info">' .
             __('Note: cache is automatically refreshed on any user pull to refresh action whatever the lifetime set.') .

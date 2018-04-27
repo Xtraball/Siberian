@@ -18,44 +18,65 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
         $params = $request->getPost();
 
         $form = new Wordpress2_Form_Wordpress();
-        if ($form->isValid($params)) {
-            // Do whatever you need when form is valid!
-            $optionValue = $this->getCurrentOptionValue();
-            $valueId = $optionValue->getId();
-            $wordpress = (new Wordpress2_Model_Wordpress())
-                ->find($params['wordpress2_id']);
-            $wordpress->setData($params);
+        try {
+            if ($form->isValid($params)) {
 
-            Siberian_Feature::formImageForOption(
-                $optionValue,
-                $wordpress,
-                $params,
-                'picture',
-                true
-            );
+                // Test wp-json
+                try {
+                    $urlParts = parse_url($form->getValue('url'));
+                    $url = $urlParts['scheme'] . '://' . $urlParts['host'] . '/wp-json/';
+                    $response = Siberian_Request::get($url);
 
-            $wordpress->save();
+                    if (Siberian_Request::$statusCode != 200) {
+                        throw new Siberian_Exception(__('Unable to find your WordPress or /wp-json/ endpoint.'));
+                    }
+                } catch (Exception $e) {
+                    throw new Siberian_Exception(__('Unable to find your WordPress or /wp-json/ endpoint.'));
+                }
 
-            /** Update touch date, then never expires (until next touch) */
-            $this->getCurrentOptionValue()
-                ->touch()
-                ->expires(-1);
+                // Do whatever you need when form is valid!
+                $optionValue = $this->getCurrentOptionValue();
+                $valueId = $optionValue->getId();
+                $wordpress = (new Wordpress2_Model_Wordpress())
+                    ->find($params['wordpress2_id']);
+                $wordpress->setData($params);
 
-            // Clear cache on save!
-            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
-                'wordpress2',
-                'value_id_' . $valueId,
-            ]);
+                Siberian_Feature::formImageForOption(
+                    $optionValue,
+                    $wordpress,
+                    $params,
+                    'picture',
+                    true
+                );
 
-            $payload = [
-                'success' => true,
-                'message' => __('Success.'),
-            ];
-        } else {
+                $wordpress->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    'wordpress2',
+                    'value_id_' . $valueId,
+                ]);
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
+                ];
+            }
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true)
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -205,6 +226,11 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $form = new Wordpress2_Form_Query();
             $form->populate($wordpressQuery->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
+
+            if ($wordpress->getData('group_queries') !== '1') {
+                $form->addSortFields();
+            }
+
             $form
                 ->loadCategories($categories, $selectedCategories)
                 ->loadPages($pages, $selectedPages)

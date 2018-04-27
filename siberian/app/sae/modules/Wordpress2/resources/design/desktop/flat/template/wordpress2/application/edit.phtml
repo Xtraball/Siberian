@@ -12,6 +12,8 @@ if (!$wordpress->getId()) {
         ->save();
 }
 
+$wordpressHasUrl = !empty(trim($wordpress->getData('url')));
+
 $formWordpress = new Wordpress2_Form_Wordpress();
 $formWordpress->populate($wordpress->getData());
 $formWordpress
@@ -36,6 +38,12 @@ $queries = (new Wordpress2_Model_Query())
         'position ASC'
     );
 
+// Display sort fields only if queries are not grouped!
+if ($wordpress->getData('group_queries') !== '1') {
+    $formQuery->addSortFields();
+}
+
+$gotCategories = false;
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -47,15 +55,15 @@ try {
     $categories = $wordpressApi->getCategories();
 
     $formQuery
-        ->loadCategories($categories)
-        ->createSubmit();
+        ->loadCategories($categories);
 
-    $gotCatgories = true;
+    $gotCategories = (sizeof($categories) > 0);
 
 } catch (Exception $e) {
-    $gotCatgories = false;
+    $gotCategories = false;
 }
 
+$gotPages = false;
 try {
     $wordpressApi = new Wordpress2_Model_WordpressApi();
     $wordpressApi->init(
@@ -67,14 +75,15 @@ try {
     $pages = $wordpressApi->getAllPages();
 
     $formQuery
-        ->loadPages($pages)
-        ->createSubmit();
+        ->loadPages($pages);
 
-    $gotPages = true;
+    $gotPages = (sizeof($pages) > 0);
 
 } catch (Exception $e) {
     $gotPages = false;
 }
+
+$formQuery->createSubmit();
 
 ?>
 
@@ -114,7 +123,7 @@ try {
                 </div>
             </div>
 
-            <?php if ($gotCatgories || $gotPages): ?>
+            <?php if ($gotCategories || $gotPages): ?>
                 <div class="feature-block-add">
                     <h3 class="title-editor no-border-radius title-feature-indent">
                         <?php echo __('Add a query'); ?>
@@ -186,6 +195,15 @@ try {
                         </div>
                     </div>
                 <?php endif; ?>
+            <?php elseif ($wordpressHasUrl): ?>
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Error'); ?>
+                    </h3>
+                    <div class="container-fluid subcontent content-feature">
+                        <div class="alert alert-danger"><?php echo __('Sorry, we are unable to fetch any category or post from your WordPress.') ?></div>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
         <!-- /END WORDPRESS TAB -->

@@ -70,6 +70,11 @@
                      ng-if="wordpress.picture">
                     <img ng-src="{{ imagePath(wordpress.picture) }}" />
                 </div>
+                <div ng-if="wordpress.showTitle && (wordpress.title)"
+                     class="item item-custom">
+                    <h2>{{ wordpress.title }}</h2>
+                    <p ng-if="wordpress.subtitle">{{ wordpress.subtitle }}</p>
+                </div>
             </div>
 
             <div class="list"

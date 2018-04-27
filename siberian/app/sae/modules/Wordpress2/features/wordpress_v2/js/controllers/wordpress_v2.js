@@ -60,7 +60,6 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                 }).then(function (data) {
                     if ($scope.isPullingToRefresh) {
                         $scope.currentPage = $scope.previousPage;
-                        console.log("$scope.$broadcast('scroll.refreshComplete');");
                         $scope.$broadcast('scroll.refreshComplete');
                         $timeout(function () {
                             $scope.isPullingToRefresh = false;
@@ -68,7 +67,6 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                     }
 
                     if ($scope.isLoadingMore) {
-                        console.log("$scope.$broadcast('scroll.infiniteScrollComplete');");
                         $scope.$broadcast('scroll.infiniteScrollComplete');
                         $timeout(function () {
                             $scope.isLoadingMore = false;
@@ -96,6 +94,7 @@ angular.module('starter').controller('Wordpress2ListController', function ($scop
                     Wordpress2.collection = $scope.collection;
 
                     $scope.queries = angular.copy(data.queries);
+                    $scope.query = $scope.wordpress;
 
                     //$scope.chunks2 = $filter('chunk')(angular.copy(current.subfolders), 2);
                     //$scope.chunks3 = $filter('chunk')(angular.copy(current.subfolders), 3);

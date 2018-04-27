@@ -65,12 +65,31 @@ class Wordpress2_Form_Query extends Siberian_Form_Abstract
 
         $queryHelp = '
 <div class="alert alert-info">
-    ' . __('You can mix posts & pages in the queries if needed.') . '
+    ' . __("You can mix posts & pages in the queries if needed, however it's not recommended and can lead to random sorting.") . '
 </div>
         ';
 
         $this->addSimpleHtml('query_help', $queryHelp, [
             'class' => 'col-sm-12'
+        ]);
+    }
+
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function addSortFields ()
+    {
+        $sortType = $this->addSimpleSelect('sort_type', __('Sort by'), [
+            'date' => __('Date'),
+            'author' => __('Author'),
+            'id' => __('ID'),
+            'relevance' => __('Relevance'),
+            'title' => __('Title'),
+        ]);
+
+        $sortOrder = $this->addSimpleSelect('sort_order', __('Sort order'), [
+            'desc' => __('Descending'),
+            'asc' => __('Ascending'),
         ]);
     }
 
