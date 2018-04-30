@@ -417,64 +417,15 @@ let cleanLang = function () {
  */
 let exportDb = function () {
     sh.cd(ROOT + '/siberian');
-    sh.exec('php -f cli.php export-db');
+    sh.exec('php -f cli export-database');
 };
 
 /**
- * Model, Forms & Controllers boilerplate helper
+ * Alias for Module, CRUD Generator!
  */
 let moduleTemplate = function () {
-    let module = false,
-        model = false,
-        buildAll = false;
-
-    process.argv.forEach(function (arg) {
-        if (arg.indexOf('--module') === 0) {
-            module = arg.split('=')[1];
-        }
-
-        if (arg.indexOf('--model') === 0) {
-            model = arg.split('=')[1];
-        }
-
-        if (arg.indexOf('--build-all') === 0) {
-            buildAll = true;
-        }
-    });
-
-    if (!module) {
-        sprint(clc.red('--module is required.'));
-        return;
-    }
-
-    if (!buildAll && !model) {
-        sprint(clc.red('--model is required whithout --build-all.'));
-        return;
-    }
-
-    let filteredArgs = process.argv.splice(3).join(' ');
-    let scriptPath = ROOT + '/ci/scripts/modules.php';
-    let modulePath = ROOT + '/siberian/app/local/modules/' + module;
-
-    // Search for module in local!
-    if (fs.existsSync(modulePath)) {
-        sprint(clc.green('Module found !'));
-    } else {
-        sprint(clc.blue('Module not found ! Trying to link it'));
-        if (linkModule(module.toLowerCase())) {
-            sprint(clc.green('Module linked, continuing !'));
-        } else {
-            sprint(clc.red('Something went wrong while trying to link the module, aborting !'));
-            return;
-        }
-    }
-
-    // Appends full path to module!
-    filteredArgs = filteredArgs + ' --path=' + modulePath;
-
-    console.log('php ' + scriptPath + ' ' + filteredArgs);
-
-    sh.exec('php ' + scriptPath + ' ' + filteredArgs);
+    sh.cd(ROOT + '/ci/scripts');
+    sh.exec('php -f Module.php');
 };
 
 /**

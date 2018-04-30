@@ -15,8 +15,7 @@ class #MODULE#_Form_#MODEL# extends Siberian_Form_Abstract
         $this
             ->setAction(__path("#FORM_SAVE_ACTION#"))
             ->setAttrib("id", "form-#FORM_ID#")
-            ->addNav("nav-#FORM_ID#")
-        ;
+            ->addNav("nav-#FORM_ID#");
 
         // Bind as a create form!
         self::addClass("create", $this);
@@ -25,7 +24,6 @@ class #MODULE#_Form_#MODEL# extends Siberian_Form_Abstract
 
         // Builds the default form from schema!
         #ELEMENTS#
-
     }
 
     /**
