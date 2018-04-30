@@ -469,23 +469,25 @@ class Siberian_Feature
      * @param int $priority
      * @param bool $standalone
      */
-    public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1, $week_day = -1, $is_active = true, $priority = 5, $standalone = false, $module_id = null) {
+    public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1,
+                                          $week_day = -1, $is_active = true, $priority = 5, $standalone = false,
+                                          $module_id = null) {
         $job = new Cron_Model_Cron();
-        $job->setData(array(
-            "name"          => $name,
-            "command"       => $command,
-            "minute"        => $minute,
-            "hour"          => $hour,
-            "month_day"     => $month_day,
-            "month"         => $month,
-            "week_day"      => $week_day,
-            "is_active"     => $is_active,
-            "priority"      => $priority,
-            "standalone"    => $standalone,
-            "module_id"     => $module_id
-        ));
+        $job->setData([
+            'name' => $name,
+            'command' => $command,
+            'minute' => $minute,
+            'hour' => $hour,
+            'month_day' => $month_day,
+            'month' => $month,
+            'week_day' => $week_day,
+            'is_active' => $is_active,
+            'priority' => $priority,
+            'standalone' => $standalone,
+            'module_id' => $module_id
+        ]);
 
-        $job->insertOrUpdate(array("command"));
+        $job->insertOrUpdate(['command']);
     }
 
     /**

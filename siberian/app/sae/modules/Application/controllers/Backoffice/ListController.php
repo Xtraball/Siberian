@@ -5,7 +5,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
     public function loadAction() {
 
-        $html = array(
+        $html = [
             "title" => __("Applications"),
             "icon" => "fa-mobile",
             "words" => [
@@ -14,7 +14,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 "deleteTitle" => __("Confirmation required"),
                 "deleteMessage" => __("<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel.")
             ],
-        );
+        ];
 
         $this->_sendHtml($html);
 
@@ -23,23 +23,23 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
     public function findallAction() {
         $application = new Application_Model_Application();
 
-        $offset = $this->getRequest()->getParam("offset", null);
+        $offset = $this->getRequest()->getParam('offset', null);
         $limit = Application_Model_Application::BO_DISPLAYED_PER_PAGE;
 
         $request = $this->getRequest();
-        if($range = $request->getHeader("Range")) {
-            $parts = explode("-", $range);
+        if ($range = $request->getHeader('Range')) {
+            $parts = explode('-', $range);
             $offset = $parts[0];
             $limit = ($parts[1] - $parts[0]) + 1;
         }
 
 
-        $params = array(
-            "offset" => $offset,
-            "limit" => $limit
-        );
+        $params = [
+            'offset' => $offset,
+            'limit' => $limit
+        ];
 
-        $filters = array();
+        $filters = [];
         if($_filter = $this->getRequest()->getParam("filter", false)) {
             $filters["(name LIKE ? OR app_id LIKE ? OR bundle_id LIKE ? OR package_name LIKE ?)"] = "%{$_filter}%";
         }
@@ -79,7 +79,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $total = $application->countAll($filters);
 
-        if($range = $request->getHeader("Range")) {
+        if ($range = $request->getHeader('Range')) {
             $start = $parts[0];
             $end = ($total <= $parts[1]) ? $total : $parts[1];
 
@@ -89,24 +89,24 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $applications = $application->findAll($filters, $order, $params);
 
-        $data = array(
-            "display_per_page"=> $limit,
-            "collection" => array()
-        );
+        $data = [
+            'display_per_page'=> $limit,
+            'collection' => []
+        ];
 
-        foreach($applications as $application) {
-            $data["collection"][] = array(
-                "id" => $application->getId(),
-                "can_be_published" => in_array($application->getId(), $app_ids),
-                "name" => mb_convert_encoding($application->getName(), 'UTF-8', 'UTF-8'),
-                "bundle_id" => $application->getBundleId(),
-                "package_name" => $application->getPackageName(),
-                "icon" => $application->getIcon(128)
-            );
+        foreach ($applications as $application) {
+            $data['collection'][] = [
+                'id' => $application->getId(),
+                'can_be_published' => in_array($application->getId(), $app_ids),
+                'name' => mb_convert_encoding($application->getName(), 'UTF-8', 'UTF-8'),
+                'bundle_id' => $application->getBundleId(),
+                'package_name' => $application->getPackageName(),
+                'icon' => $application->getIcon(128),
+                'size_on_disk' => formatBytes($application->getData('size_on_disk'))
+            ];
         }
 
-        $this->_sendHtml($data["collection"]);
-
+        $this->_sendJson($data['collection']);
     }
 
     public function findbyadminAction() {
@@ -120,7 +120,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $admin_id = $this->getRequest()->getParam("admin_id");
 
-        $filters = array();
+        $filters = [];
         if($_filter = $this->getRequest()->getParam("filter", false)) {
             $filters["(a.name LIKE ? OR a.app_id LIKE ? OR a.bundle_id LIKE ? OR a.package_name LIKE ?)"] = "%{$_filter}%";
         }
@@ -142,7 +142,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
             $total = $total_applications->count();
         } else {
-            $applications = array(Application_Model_Application::getInstance());
+            $applications = [Application_Model_Application::getInstance()];
             $total = 1;
         }
 
@@ -156,15 +156,15 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $application_admin = new Application_Model_Admin();
 
-        $apps = array();
+        $apps = [];
         foreach($applications as $application) {
-            $result = $application_admin->findAll(array(
+            $result = $application_admin->findAll([
                 "app_id" => $application->getId(),
                 "admin_id" => $admin_id
-            ));
+            ]);
             $is_allowed = ($result->count() >= 1) ? true : false;
 
-            $apps[] = array(
+            $apps[] = [
                 "id" => $application->getId(),
                 "app_id" => $application->getId(),
                 "icon" => $application->getIcon(128),
@@ -172,7 +172,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 "bundle_id" => $application->getBundleId(),
                 "package_name" => $application->getPackageName(),
                 "is_allowed_to_add_pages" => $is_allowed,
-            );
+            ];
         }
 
         $this->_sendHtml($apps);
