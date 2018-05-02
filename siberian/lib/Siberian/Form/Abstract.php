@@ -1,6 +1,9 @@
 <?php
 /**
  * Class Siberian_Form_Abstract
+ *
+ * @method $this setAction(string $action)
+ * @method $this setAttrib(string $key, mixed $value)
  */
 abstract class Siberian_Form_Abstract extends Zend_Form {
 
@@ -80,7 +83,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     }
 
     /**
-     * @param $delete_text
+     * @param $confirm_text
      */
     public function setConfirmText($confirm_text) {
         $this->confirm_text = __($confirm_text);
@@ -114,9 +117,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return null|Zend_Form_DisplayGroup
      * @throws Zend_Form_Exception
      */
-    public function addNav($name, $save_text = "OK", $display_back_button = true, $with_label = false) {
-
-        $elements = array();
+    public function addNav($name, $save_text = "OK", $display_back_button = true, $with_label = false)
+    {
+        $elements = [];
 
         $back_button = new Siberian_Form_Element_Button("sb-back");
         $back_button->setAttrib("escape", false);
@@ -125,7 +128,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $back_button->setColor($this->color);
         $back_button->setBackDesign();
 
-        if($display_back_button) {
+        if ($display_back_button) {
             $elements[] = $back_button;
         }
 
@@ -134,7 +137,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $submit_button->setColor($this->color);
         $submit_button->setNewDesign();
 
-        if($with_label) {
+        if ($with_label) {
             $submit_button->setLabel(__($save_text));
             $submit_button->setValue($name);
         }

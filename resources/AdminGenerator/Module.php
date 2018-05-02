@@ -32,7 +32,8 @@ class Module
         'layout_xml' => '/templates/resources/design/desktop/flat/layout/layout.xml',
         'edit_css' => '/templates/resources/design/desktop/flat/template/module/application/edit.css',
         'edit_js' => '/templates/resources/design/desktop/flat/template/module/application/edit.js',
-        'edit_html' => '/templates/resources/design/desktop/flat/template/module/application/edit.phtml',
+        'edit_phtml' => '/templates/resources/design/desktop/flat/template/module/application/edit.phtml',
+        'edit_tabs' => '/templates/resources/design/desktop/flat/template/module/application/_tabs.phtml',
     ];
 
     /**
@@ -278,9 +279,6 @@ class Module
         switch (intval($action)) {
             case 1:
                 $this->buildAll();
-                /**$this->buildModel();
-                 * $this->buildForm();
-                 * $this->buildControllerView();*/
                 break;
             case 2:
                 $this->buildModel();
@@ -356,6 +354,8 @@ class Module
             $this->buildModel($model);
             $this->buildForm($model);
         }
+
+        $this->buildControllerView($this->models);
     }
 
     /**
@@ -440,6 +440,7 @@ class Module
 
             $model['placeholders'] = [
                 '#MODULE#' => $this->module['name'],
+                '#MODULE_ACTION#' => $moduleAction,
                 '#HUMAN#' => $this->humanize($modelShort),
                 '#MODEL#' => $modelCamelized,
                 '#MODEL_SHORT#' => $modelShort,
@@ -448,12 +449,15 @@ class Module
                 '#PRIMARY_KEY_CAMEL#' => $this->camelize($primaryKey),
                 '#FORM_SAVE_ACTION#' => sprintf('/%s/%s/editpost', $moduleAction, $modelController),
                 '#FORM_DELETE_ACTION#' => sprintf('/%s/%s/deletepost', $moduleAction, $modelController),
+                '#FORM_LOAD_ACTION#' => sprintf('/%s/%s/loadform', $moduleAction, $modelController),
                 '#MODULE_LOWER#' => $modelName,
                 '#FORM_ID#' => str_replace('_', '-', strtolower($modelName)),
             ];
 
             $model['columns'] = $columns;
         }
+
+        $this->module['action'] = strtolower($this->module['name']);
     }
 
     /**
@@ -555,7 +559,7 @@ class Module
             }
         }
 
-        if (!$primaryKey) {
+        if (empty($primaryKey)) {
             throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model['name']));
         }
 
@@ -609,150 +613,284 @@ class Module
     }
 
     /**
+     * @param $models
      * @throws \Exception
      */
-    public function buildControllerView() {
-        # Try for multiple models
-        $models = explode(',', $this->model);
+    public function buildControllerView($models) {
+        $cloneModels = [];
+        $sentence = PHP_EOL . color('== Available Models ==', 'blue') . PHP_EOL;
 
+        $keys = [];
+        $index = 0;
         foreach ($models as $model) {
-            $model_shorten = trim(str_replace(strtolower($this->module . '_'), '', $model));
-            if (empty($model_shorten)) {
-                $model_shorten = $model;
-            }
+            $index++;
+            $cloneModels[$index] = $model;
+            $keys[] = $index;
+        }
 
-            $schema_file = sprintf('%s%s/%s.php', $this->path, $this->path_to_schema, $model);
-            if (!is_readable($schema_file)) {
-                throw new \Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
-            } else {
-                require $schema_file;
-
-                # Fetch values
-                $columns = $schemas[$model];
-                $primary_key = false;
-                foreach ($columns as $name => $options) {
-                    if (isset($options['primary'])) {
-                        $primary_key = $name;
-                        break;
-                    }
-                }
-
-                if (!$primary_key) {
-                    throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
-                }
-
-                # Opts
-                # appointment
-                $module_action = strtolower($this->module);
-                # appointmentprovider
-                $model_controller = strtolower(str_replace('_', '', $model_shorten));
-                # Appointmentprovider
-                $model_controller_class = ucfirst($model_controller);
-                # AppointmentProvider
-                $camelized_model = str_replace('_', '', ucwords($model_shorten, '_'));
-                # Appointment Provider
-                $human_model = str_replace('_', ' ', ucwords($model_shorten, '_'));
-                # appointment-provider
-                $model_id = str_replace('_', '-', $model_shorten);
-                # ProviderId
-                $primary_key_camelized = str_replace('_', '', ucwords($primary_key, '_'));
-
-
-                # Form file
-                $form_file = sprintf('%s%s', $this->currentDir, $this->templatePaths['crud_controller']);
-                $controller_content = file_get_contents($form_file);
-                $controller_content = str_replace('#MODULE#', $this->module, $controller_content);
-                $controller_content = str_replace('#MODEL_CONTROLLER_CLASS#', $model_controller_class, $controller_content);
-                $controller_content = str_replace('#MODEL_CAMEL#', $camelized_model, $controller_content);
-                $controller_content = str_replace('#MODEL#', $model, $controller_content);
-                $controller_content = str_replace('#FORM_ID#', $model_id, $controller_content);
-                $controller_content = str_replace('#PRIMARY_KEY#', $primary_key, $controller_content);
-                $controller_content = str_replace('#PRIMARY_KEY_CAMEL#', $primary_key_camelized, $controller_content);
-                $controller_content = str_replace('#HUMAN_MODEL#', $human_model, $controller_content);
-
-                $target_controller_file = sprintf('%s/controllers/%sController.php', $this->path, $model_controller_class);
-                if (!file_exists($target_controller_file) || $this->force) {
-                    @mkdir(dirname($target_controller_file), 0777, true);
-                    file_put_contents($target_controller_file, $controller_content);
-                } else {
-                    throw new \Exception(sprintf('Unable to create \'%s\' controller, file exists. Use --force if you want to replace it.', $target_controller_file));
-                }
-
-                # Editor files
-                $layoutXmlFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['layout_xml']);
-                $layoutXmlContent = file_get_contents($layoutXmlFile);
-                $layoutXmlContent = str_replace('#MODULE_ACTION#', $module_action, $layoutXmlContent);
-
-                $targetLayoutXmlFile = sprintf('%s/resources/design/desktop/flat/layout/%s.xml', $this->path, $module_action);
-                if (!file_exists($targetLayoutXmlFile) || $this->force) {
-                    @mkdir(dirname($targetLayoutXmlFile), 0777, true);
-                    file_put_contents($targetLayoutXmlFile, $layoutXmlContent);
-                } else {
-                    throw new \Exception(sprintf('Unable to create \'%s\' layout, file exists. Use --force if you want to replace it.', $layoutXmlContent));
-                }
-
-                $editCssFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_css']);
-                $editCssContent = file_get_contents($editCssFile);
-                $editCssContent = str_replace('#MODULE_ACTION#', $module_action, $editCssContent);
-
-                $targetEditCssFile = sprintf('%s/resources/design/desktop/flat/template/%s/application/edit.css', $this->path, $module_action);
-                if (!file_exists($targetEditCssFile) || $this->force) {
-                    @mkdir(dirname($targetEditCssFile), 0777, true);
-                    file_put_contents($targetEditCssFile, $editCssContent);
-                } else {
-                    throw new \Exception(sprintf('Unable to create \'%s\' css, file exists. Use --force if you want to replace it.', $targetEditCssFile));
-                }
-
-                $editJsFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_js']);
-                $editJsContent = file_get_contents($editJsFile);
-                $editJsContent = str_replace('#MODULE_ACTION#', $module_action, $editJsContent);
-
-                $targetEditJsFile = sprintf('%s/resources/design/desktop/flat/template/%s/application/edit.js', $this->path, $module_action);
-                if (!file_exists($targetEditJsFile) || $this->force) {
-                    @mkdir(dirname($targetEditJsFile), 0777, true);
-                    file_put_contents($targetEditJsFile, $editJsContent);
-                } else {
-                    throw new \Exception(sprintf('Unable to create \'%s\' js, file exists. Use --force if you want to replace it.', $targetEditJsFile));
-                }
-
-                $editHtmlFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_html']);
-                $editHtmlContent = file_get_contents($editHtmlFile);
-                $editHtmlContent = str_replace('#MODULE_ACTION#', $module_action, $editHtmlContent);
-                $editHtmlContent = str_replace('#MODULE#', $this->module, $editHtmlContent);
-                $editHtmlContent = str_replace('#PRIMARY_KEY#', $primary_key, $editHtmlContent);
-
-
-                $head = '';
-                $body = '';
-                foreach ($columns as $name => $options) {
-                    if (isset($options['primary'])) {
-
-
-                    }
-                }
-
-                /**
-                 *
-                #FIELDS_HEAD#
-                <th class="sortable" style="width:26%;"><?php echo __("Title"); ?></th>
-                <th class="sortable" style="width:64%;"><?php echo __("Subtitle"); ?></th>
-                 */
-
-                /**
-                #FIELDS_BODY#
-                <td><?php echo $item->getTitle(); ?></td>
-                <td><?php echo cut(html_entity_decode($item->getSubtitle()), 60); ?></td>
-                 */
-
-                $targetEditHtmlFile = sprintf('%s/resources/design/desktop/flat/template/%s/application/edit.phtml', $this->path, $module_action);
-                if (!file_exists($targetEditHtmlFile) || $this->force) {
-                    @mkdir(dirname($targetEditHtmlFile), 0777, true);
-                    file_put_contents($targetEditHtmlFile, $editHtmlContent);
-                } else {
-                    throw new \Exception(sprintf('Unable to create \'%s\' phtml, file exists. Use --force if you want to replace it.', $targetEditHtmlFile));
-                }
+        function printRemaining ($models, $sentence)
+        {
+            echo $sentence;
+            foreach ($models as $index => $module) {
+                echo color(str_pad($index . ')', 5) . str_pad($module['name'], 30),
+                        'light_gray') . PHP_EOL;
             }
         }
+
+        $range = '1-' . $index;
+
+        $selected = [];
+        $selectedName = [];
+        do {
+            if (sizeof($selected) > 0) {
+                echo PHP_EOL . color('Selected models: ' . implode(', ', $selectedName), 'light_gray');
+            }
+            printRemaining ($cloneModels, $sentence);
+            $moduleIndex = readline(color('Select models to be editable as tabs in the Editor (' . $range . ', done or all): ', 'blue'));
+            if ($moduleIndex === 'done') {
+                break;
+            } else if ($moduleIndex === 'all') {
+                $selected = $keys;
+                break;
+            } else if (!in_array(intval($moduleIndex), $keys)) {
+                echo color('Invalid index.', 'red') . PHP_EOL;
+            } else {
+                $current = intval($moduleIndex);
+                $selected[] = $cloneModels[$current];
+                $selectedName[] = $cloneModels[$current]['name'];
+                unset($cloneModels[$current]);
+            }
+            $sentence = PHP_EOL . color('== Remaining Models ==', 'blue') . PHP_EOL;
+        } while ($moduleIndex !== 'done' && $moduleIndex !== 'all');
+
+        // Base files for ALL models
+        # Layout XML
+        $layoutXmlFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['layout_xml']);
+        $layoutXmlContent = str_replace(
+            [
+                '#MODULE_ACTION#'
+            ],
+            [
+                $this->module['action']
+            ],
+            file_get_contents($layoutXmlFile));
+
+        $targetLayoutXmlFile = sprintf('%s/modules/%s/resources/design/desktop/flat/layout/%s.xml',
+            $this->projectRoot,
+            $this->module['root'],
+            $this->module['action']);
+
+        if (!file_exists($targetLayoutXmlFile) || $this->force) {
+            @mkdir(dirname($targetLayoutXmlFile), 0777, true);
+            file_put_contents($targetLayoutXmlFile, $layoutXmlContent);
+        } else {
+            echo color(sprintf('Will not create \'%s\' layout.xml, file exists. Use force option if you want to replace it.',
+                    $targetLayoutXmlFile), 'brown') . PHP_EOL;
+        }
+
+        # Edit CSS
+        $editCssFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_css']);
+        $editCssContent = str_replace(
+            [
+                '#MODULE_ACTION#'
+            ],
+            [
+                $this->module['action']
+            ],
+            file_get_contents($editCssFile));
+
+        $targetEditCssFile = sprintf('%s/modules/%s/resources/design/desktop/flat/template/%s/application/edit.css',
+            $this->projectRoot,
+            $this->module['root'],
+            $this->module['action']);
+
+        if (!file_exists($targetEditCssFile) || $this->force) {
+            @mkdir(dirname($targetEditCssFile), 0777, true);
+            file_put_contents($targetEditCssFile, $editCssContent);
+        } else {
+            echo color(sprintf('Will not create \'%s\' edit.css, file exists. Use force option if you want to replace it.',
+                    $targetEditCssFile), 'brown') . PHP_EOL;
+        }
+
+        # Edit JS
+        $editJsFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_js']);
+        $editJsContent = str_replace(
+            [
+                '#MODULE_ACTION#'
+            ],
+            [
+                $this->module['action']
+            ],
+            file_get_contents($editJsFile));
+
+        $targetEditJsFile = sprintf('%s/modules/%s/resources/design/desktop/flat/template/%s/application/edit.js',
+            $this->projectRoot,
+            $this->module['root'],
+            $this->module['action']);
+
+        if (!file_exists($targetEditJsFile) || $this->force) {
+            @mkdir(dirname($targetEditJsFile), 0777, true);
+            file_put_contents($targetEditJsFile, $editJsContent);
+        } else {
+            echo color(sprintf('Will not create \'%s\' edit.js, file exists. Use force option if you want to replace it.',
+                    $targetEditJsFile), 'brown') . PHP_EOL;
+        }
+
+        # Edit Tab
+        $tabFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_tabs']);
+        $tabFileContent = file_get_contents($tabFile);
+
+        $tabHeads = [];
+        $tabContents = [];
+        foreach ($selected as $model) {
+
+            $placeholders = $model['placeholders'];
+            $columns = $model['columns'];
+            $primaryKey = $placeholders['#PRIMARY_KEY#'];
+            if (empty($primaryKey)) {
+                throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model['name']));
+            }
+
+            # Controller
+            $controllerFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['crud_controller']);
+            $controllerContent = str_replace(
+                array_keys($placeholders),
+                array_values($placeholders),
+                file_get_contents($controllerFile));
+
+            $targetControllerFile = sprintf('%s/modules/%s/controllers/%sController.php',
+                $this->projectRoot,
+                $this->module['root'],
+                $placeholders['#MODEL#']);
+
+            if (!file_exists($targetControllerFile) || $this->force) {
+                @mkdir(dirname($targetControllerFile), 0777, true);
+                file_put_contents($targetControllerFile, $controllerContent);
+            } else {
+                echo color(sprintf('Will not create \'%s\' controller, file exists. Use force option if you want to replace it.',
+                        $targetControllerFile), 'brown') . PHP_EOL;
+            }
+
+            # Head & Body lines
+            $headElements = [];
+            $bodyElements = [];
+            foreach ($columns as $name => $options) {
+                if (!isset($options['primary'])) {
+                    if (in_array($name, ['created_at', 'updated_at'])) {
+                        continue;
+                    }
+                    if (isset($options['type'])) {
+                        $type = strtolower($options['type']);
+                        $sortable = 'sortable';
+
+                        if (strpos($type, 'tinyint(1)') !== false || strpos($type, 'boolean') !== false) {
+
+                            $headElements[] = '<th class="' . $sortable . '"><?php echo __("' .
+                                $this->humanize($name) . '"); ?></th>';
+                            $bodyElements[] = '<td><?php echo filter_var($item->getData(\'' .
+                                $name . '\'), FILTER_VALIDATE_BOOLEAN) ? __("Yes") : __("No"); ?></td>';
+
+                        } else if (strpos($type, 'int') !== false ||
+                            strpos($type, 'float') !== false ||
+                            strpos($type, 'double') !== false ||
+                            strpos($type, 'decimal') !== false ||
+                            strpos($type, 'real') !== false ||
+                            strpos($type, 'numeric') !== false ||
+                            strpos($type, 'char') !== false ||
+                            strpos($type, 'text') !== false ||
+                            strpos($type, 'enum') !== false ||
+                            strpos($type, 'char') !== false) {
+
+                            $headElements[] = '<th class="' . $sortable . '"><?php echo __("' .
+                                $this->humanize($name) . '"); ?></th>';
+                            $bodyElements[] = '<td><?php echo $item->getData(\'' . $name . '\'); ?></td>';
+
+                        } else if (strpos($type, 'date') !== false ||
+                            strpos($type, 'time') !== false ||
+                            strpos($type, 'datetime') !== false ||
+                            strpos($type, 'timestamp') !== false) {
+
+                            $sortable = 'sortable date';
+
+                            $headElements[] = '<th class="' . $sortable . '"><?php echo __("' .
+                                $this->humanize($name) . '"); ?></th>';
+                            $bodyElements[] = '<td><?php echo $item->getData(\'' . $name . '\'); ?></td>';
+                        }
+
+                    }
+
+                }
+            }
+
+            # Tab Content
+            $tabContent = str_replace(
+                array_keys($placeholders),
+                array_values($placeholders),
+                $tabFileContent);
+
+            $tabContent = str_replace(
+                [
+                    '#FIELDS_HEAD#',
+                    '#FIELDS_BODY#',
+                ],
+                [
+                    implode("\n\t\t\t\t\t\t\t\t\t", $headElements),
+                    implode("\n\t\t\t\t\t\t\t\t\t\t", $bodyElements),
+                ],
+                $tabContent);
+
+            $tabContents[] = $tabContent;
+
+            $tabHead = '<li role="presentation"
+            class="active">
+            <a href="##MODEL_SHORT#"
+               aria-controls="#MODEL_SHORT#"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-folder-open-o"></i> <?php echo __(\'#HUMAN#\'); ?>
+            </a>
+        </li>';
+
+            $tabHead = str_replace(
+                array_keys($placeholders),
+                array_values($placeholders),
+                $tabHead);
+
+            $tabHeads[] = $tabHead;
+        }
+
+        # Edit HTML
+        $editHtmlFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_phtml']);
+        $editHtmlContent = str_replace(
+            array_keys($placeholders),
+            array_values($placeholders),
+            file_get_contents($editHtmlFile));
+
+        $editHtmlContent = str_replace(
+            [
+                '#TAB_HEADS#',
+                '#TAB_CONTENTS#',
+            ],
+            [
+                implode("\n\t\t", $tabHeads),
+                implode("\n", $tabContents),
+            ],
+            $editHtmlContent);
+
+        $targetEditHtmlFile = sprintf('%s/modules/%s/resources/design/desktop/flat/template/%s/application/edit.phtml',
+            $this->projectRoot,
+            $this->module['root'],
+            $this->module['action']);
+
+        if (!file_exists($targetEditHtmlFile) || $this->force) {
+            @mkdir(dirname($targetEditHtmlFile), 0777, true);
+            file_put_contents($targetEditHtmlFile, $editHtmlContent);
+        } else {
+            echo color(sprintf('Will not create \'%s\' edit.phtml, file exists. Use force option if you want to replace it.',
+                    $targetEditHtmlFile), 'brown') . PHP_EOL;
+        }
+
+
     }
 }
 

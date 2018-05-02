@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller
+ * Class #MODULE#_#MODEL#Controller
  */
-class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller_Default
+class #MODULE#_#MODEL#Controller extends Application_Controller_Default
 {
 
     /**
@@ -13,10 +13,10 @@ class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller
     {
         $#PRIMARY_KEY# = $this->getRequest()->getParam("#PRIMARY_KEY#");
 
-        $#MODEL# = new #MODULE#_Model_#MODEL_CAMEL#();
+        $#MODEL# = new #MODULE#_Model_#MODEL#();
         $#MODEL#->find($#PRIMARY_KEY#);
         if ($#MODEL#->getId()) {
-            $form = new #MODULE#_Form_#MODEL_CAMEL#();
+            $form = new #MODULE#_Form_#MODEL#();
 
             $form->populate($#MODEL#->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -33,7 +33,7 @@ class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller
             // Do whatever you need when form is not valid!
             $payload = [
                 'error' => true,
-                'message' => __('The #HUMAN_MODEL# you are trying to edit doesn\'t exists.'),
+                'message' => __('The #HUMAN# you are trying to edit doesn\'t exists.'),
             ];
         }
 
@@ -41,7 +41,7 @@ class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller
     }
 
     /**
-     * Create/Edit #HUMAN_MODEL#
+     * Create/Edit #HUMAN#
      *
      * @throws exception
      */
@@ -49,10 +49,10 @@ class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new #MODULE#_Form_#MODEL_CAMEL#();
+        $form = new #MODULE#_Form_#MODEL#();
         if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
-            $#MODEL# = new #MODULE#_Model_#MODEL_CAMEL#();
+            $#MODEL# = new #MODULE#_Model_#MODEL#();
             $#MODEL#->addData($values);
             $#MODEL#->save();
 
@@ -73,21 +73,21 @@ class #MODULE#_#MODEL_CONTROLLER_CLASS#Controller extends Application_Controller
     }
 
     /**
-     * Delete #HUMAN_MODEL#
+     * Delete #HUMAN#
      */
     public function deletepostAction()
     {
         $values = $this->getRequest()->getPost();
 
-        $form = new #MODULE#_Form_#MODEL_CAMEL#_Delete();
+        $form = new #MODULE#_Form_#MODEL#_Delete();
         if ($form->isValid($values)) {
-            $#MODEL# = new #MODULE#_Model_#MODEL_CAMEL#();
+            $#MODEL# = new #MODULE#_Model_#MODEL#();
             $#MODEL#->find($values["#PRIMARY_KEY#"]);
             $#MODEL#->delete();
 
             $payload = [
                 'success' => true,
-                'success_message' => __('#HUMAN_MODEL# successfully deleted.'),
+                'success_message' => __('#HUMAN# successfully deleted.'),
                 'message_loader' => 0,
                 'message_button' => 0,
                 'message_timeout' => 2

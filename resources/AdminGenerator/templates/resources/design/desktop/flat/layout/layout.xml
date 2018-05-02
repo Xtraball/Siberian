@@ -7,5 +7,5 @@
             <content_editor class="core_view_default"
                             template="#MODULE_ACTION#/application/edit.phtml" />
         </views>
-    </wordpress2_application_edit>
+    </#MODULE_ACTION#_application_edit>
 </layout>
