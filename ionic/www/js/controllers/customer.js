@@ -26,7 +26,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         show_avatar: true,
         avatar_loaded: false,
         privacy_policy: Application.privacy_policy,
-        privacyPolicyGdpr: Application.privacy_policy_gdpr,
+        privacy_policy_gdpr: Application.privacy_policy_gdpr,
         gdpr: {
             isEnabled: Application.gdprIsEnabled
         }
