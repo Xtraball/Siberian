@@ -1572,10 +1572,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 $appId = $appId['app_id'];
                 $assetsDirectory = Core_Model_Directory::getBasePathTo('/images/application/' . $appId . '/');
                 if (!empty($appId) && is_dir($assetsDirectory)) {
-                    $assetsSize = dirSize($assetsDirectory);
+                    try {
+                        $assetsSize = dirSize($assetsDirectory);
+                    } catch (Exception $e) {
+                        $assetsSize = 0;
+                    }
+
                     $db->query('UPDATE application SET size_on_disk = ' . $assetsSize .
                         ' WHERE app_id = ' . $appId . ';');
                 }
+                usleep(10);
             }
         } catch (Exception $e){
             $cron->log($e->getMessage());
