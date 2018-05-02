@@ -101,33 +101,36 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
 
         $data['gdpr_countries'] = System_Model_Config::gdprCountries();
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
-    public function saveAction() {
-
-        if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
-
+    /**
+     *
+     */
+    public function saveAction()
+    {
+        $request = $this->getRequest();
+        $data = Siberian_Json::decode($request->getRawBody());
+        if (sizeof($data) > 0) {
             try {
-
-                if(!empty($data["application_free_trial"]["value"]) AND !is_numeric($data["application_free_trial"]["value"])) {
-                    throw new Exception("Free trial period duration must be a numeric value.");
+                if(!empty($data['application_free_trial']['value']) AND !is_numeric($data['application_free_trial']['value'])) {
+                    throw new Siberian_Exception(__('Free trial period duration must be a numeric value.'));
                 }
 
                 $this->_save($data);
 
-                $data = array(
-                    "success" => 1,
-                    "message" => __("Info successfully saved")
-                );
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+                $payload = [
+                    'success' => true,
+                    'message' => __('Info successfully saved')
+                ];
+            } catch (Exception $e) {
+                $payload = [
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($payload);
 
         }
 
