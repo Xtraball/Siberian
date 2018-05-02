@@ -1,44 +1,57 @@
 <?php
 
-$icons = array(
+Siberian_Feature::installCronjob(
+    'Application size',
+    'Application_Model_Application::getSizeOnDisk',
+    30,
+    10,
+    -1,
+    -1,
+    -1,
+    true,
+    100,
+    1
+);
+
+$icons = [
     '/tabbar/user_account.png',
     '/tabbar/user_account-flat.png',
     '/tabbar/user_account1-flat.png',
     '/tabbar/user_account2-flat.png',
-);
+];
 Siberian_Feature::installIcons("customer_account", $icons);
 
-$icons = array(
+$icons = [
     '/tabbar/more_items.png',
     '/tabbar/more_items-flat.png',
-);
+];
 Siberian_Feature::installIcons("more_items", $icons);
 
 
 /** Categories for Layouts */
-$layout_categories = array(
-    array(
+$layout_categories = [
+    [
         "code" => "default",
         "name" => "Default",
-    ),
-    array(
+    ],
+    [
         "code" => "custom",
         "name" => "Custom",
-    )
-);
+    ]
+];
 
 foreach($layout_categories as $category_data) {
     $layout_category = new Application_Model_Layout_Category();
     $layout_category
         ->setData($category_data)
-        ->insertOnce(array("code"));
+        ->insertOnce(["code"]);
 }
 
 $layout_category = new Application_Model_Layout_Category();
 $default_layout_category = $layout_category->find("default", "code");
 
-$datas = array(
-    array(
+$datas = [
+    [
         'name' => 'Layout 1',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_ALWAYS,
@@ -52,11 +65,11 @@ $datas = array(
         "order" => 10,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "shadow" => "shadow",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 2',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -70,11 +83,11 @@ $datas = array(
         "order" => 20,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "shadow" => "shadow",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 3',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -88,11 +101,11 @@ $datas = array(
         "order" => 30,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "title" => "titlevisible",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 4',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -106,11 +119,11 @@ $datas = array(
         "order" => 40,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "title" => "titlevisible",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 5',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -124,12 +137,12 @@ $datas = array(
         "order" => 50,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "textTransform" => "title-lowcase",
             "title" => "titlevisible",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 6',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -143,12 +156,12 @@ $datas = array(
         "order" => 60,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "label" => "label-left",
             "textTransform" => "title-lowcase",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 7',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -162,16 +175,16 @@ $datas = array(
         "order" => 70,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
-            "borders" => array(
+        "options" => Siberian_Json::encode([
+            "borders" => [
                 "border-right",
                 "border-bottom",
-            ),
+            ],
             "textTransform" => "title-lowcase",
             "title" => "titlevisible",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 8',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -184,8 +197,8 @@ $datas = array(
         'position' => "bottom",
         "order" => 80,
         "is_active" => 0,
-    ),
-    array(
+    ],
+    [
         'name' => 'Layout 9',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_TOGGLE,
@@ -199,16 +212,16 @@ $datas = array(
         "order" => 90,
         "is_active" => 1,
         "use_homepage_slider" => 0,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "background" => "no-background",
             "textTransform" => "title-lowcase",
             "title" => "titlevisible",
             "sidebarWidthUnit" => "pixel",
             "sidebarWidth" => 10,
             "sidebarWidthPixel" => 120,
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 10',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -222,12 +235,12 @@ $datas = array(
         "order" => 100,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "shadow" => "shadow",
             "border" => "visible",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 3 - Horizontal',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -241,11 +254,11 @@ $datas = array(
         "order" => 35,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "colorizePager" => "0",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 4 - Horizontal',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -259,11 +272,11 @@ $datas = array(
         "order" => 45,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "colorizePager" => "0",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 5 - Horizontal',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -277,11 +290,11 @@ $datas = array(
         "order" => 55,
         "is_active" => 1,
         "use_homepage_slider" => 1,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "colorizePager" => "0",
-        )),
-    ),
-    array(
+        ]),
+    ],
+    [
         'name' => 'Layout 3 - Full',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -295,8 +308,8 @@ $datas = array(
         "order" => 38,
         "is_active" => 1,
         "use_homepage_slider" => 0,
-    ),
-    array(
+    ],
+    [
         'name' => 'Layout 5 - Full',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -310,8 +323,8 @@ $datas = array(
         "order" => 58,
         "is_active" => 1,
         "use_homepage_slider" => 0,
-    ),
-    array(
+    ],
+    [
         'name' => 'Layout 11 - Fullscreen',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -325,8 +338,8 @@ $datas = array(
         "order" => 110,
         "is_active" => 1,
         "use_homepage_slider" => 0,
-    ),
-    array(
+    ],
+    [
         'name' => 'Layout 12 - Metro',
         'category_id' => $default_layout_category->getId(),
         'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -340,18 +353,18 @@ $datas = array(
         "order" => 120,
         "is_active" => 1,
         "use_homepage_slider" => 0,
-        "options" => Siberian_Json::encode(array(
+        "options" => Siberian_Json::encode([
             "icons" => "default",
             "visible" => "1",
-        )),
-    )
-);
+        ]),
+    ]
+];
 
 foreach($datas as $data) {
     $layout = new Application_Model_Layout_Homepage();
     $layout
         ->setData($data)
-        ->insertOrUpdate(array("code"));
+        ->insertOrUpdate(["code"]);
 }
 
 $layout_category = new Application_Model_Layout_Category();
@@ -365,62 +378,62 @@ foreach($layouts as $layout) {
     }
 }
 
-$categories = array(
-    array(
+$categories = [
+    [
         "code" => "social",
         "name" => "Social",
         "icon" => "icon-share",
         "position" => 10
-    ),
-    array(
+    ],
+    [
         "code" => "media",
         "name" => "Media",
         "icon" => "icon-play",
         "position" => 20
-    ),
-    array(
+    ],
+    [
         "code" => "contact",
         "name" => "Contact",
         "icon" => "icon-phone",
         "position" => 30
-    ),
-    array(
+    ],
+    [
         "code" => "monetization",
         "name" => "Monetization",
         "icon" => "icon-money",
         "position" => 40
-    ),
-    array(
+    ],
+    [
         "code" => "customization",
         "name" => "Customization",
         "icon" => "icon-edit",
         "position" => 50
-    ),
-    array(
+    ],
+    [
         "code" => "integration",
         "name" => "Integration",
         "icon" => "icon-globe",
         "position" => 60
-    ),
-    array(
+    ],
+    [
         "code" => "events",
         "name" => "Events",
         "icon" => "icon-calendar",
         "position" => 70
-    ),
-    array(
+    ],
+    [
         "code" => "misc",
         "name" => "Misc",
         "icon" => "icon-code",
         "position" => 80
-    )
-);
+    ]
+];
 
 foreach($categories as $category_data) {
     $category = new Application_Model_Option_Category();
     $category
         ->setData($category_data)
-        ->insertOnce(array("code"));
+        ->insertOnce(["code"]);
 }
 
 
