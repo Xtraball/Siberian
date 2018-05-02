@@ -162,7 +162,6 @@ let cli = function (inputArgs) {
             'syncmodule': Boolean,
             'type': Boolean,
             'test': Boolean,
-            'templates': Boolean,
             'unlinkmodule': Boolean,
             'version': Boolean,
             'exportdb': Boolean
@@ -181,7 +180,6 @@ let cli = function (inputArgs) {
             'r': '--rebuild',
             'sm': '--syncmodule',
             't': '--type',
-            'tpl': '--templates',
             'mver': '--moduleversion',
             'v': '--version'
         };
@@ -283,8 +281,6 @@ let cli = function (inputArgs) {
             syncModule(EXTERNAL);
         } else if (args.manifest) {
             rebuildManifest();
-        } else if (args.templates) {
-            moduleTemplate();
         } else if (args.type) {
             let type = '';
             if (remain.length >= 1) {
@@ -418,14 +414,6 @@ let cleanLang = function () {
 let exportDb = function () {
     sh.cd(ROOT + '/siberian');
     sh.exec('php -f cli export-database');
-};
-
-/**
- * Alias for Module, CRUD Generator!
- */
-let moduleTemplate = function () {
-    sh.cd(ROOT + '/ci/scripts');
-    sh.exec('php -f Module.php');
 };
 
 /**

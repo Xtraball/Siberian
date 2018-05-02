@@ -1,5 +1,7 @@
 <?php
 
+namespace AdminGenerator;
+
 /**
  * Class Render
  */

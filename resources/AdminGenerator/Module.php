@@ -1,5 +1,7 @@
 <?php
 
+namespace AdminGenerator;
+
 require __DIR__ . '/Render.php';
 require __DIR__ . '/Colors.php';
 
@@ -22,15 +24,15 @@ class Module
      * @var string
      */
     public $templatePaths = [
-        'model' => '/modules_templates/Model/Model.php',
-        'table' => '/modules_templates/Model/Db/Table/Table.php',
-        'form' => '/modules_templates/Form/Form.php',
-        'form_delete' => '/modules_templates/Form/FormDelete.php',
-        'crud_controller' => '/modules_templates/controllers/CrudController.php',
-        'layout_xml' => '/modules_templates/resources/design/desktop/flat/layout/layout.xml',
-        'edit_css' => '/modules_templates/resources/design/desktop/flat/template/module/application/edit.css',
-        'edit_js' => '/modules_templates/resources/design/desktop/flat/template/module/application/edit.js',
-        'edit_html' => '/modules_templates/resources/design/desktop/flat/template/module/application/edit.phtml',
+        'model' => '/templates/Model/Model.php',
+        'table' => '/templates/Model/Db/Table/Table.php',
+        'form' => '/templates/Form/Form.php',
+        'form_delete' => '/templates/Form/FormDelete.php',
+        'crud_controller' => '/templates/controllers/CrudController.php',
+        'layout_xml' => '/templates/resources/design/desktop/flat/layout/layout.xml',
+        'edit_css' => '/templates/resources/design/desktop/flat/template/module/application/edit.css',
+        'edit_js' => '/templates/resources/design/desktop/flat/template/module/application/edit.js',
+        'edit_html' => '/templates/resources/design/desktop/flat/template/module/application/edit.phtml',
     ];
 
     /**
@@ -189,14 +191,16 @@ class Module
     {
         $this->availableModules = [];
 
-        $modules = new DirectoryIterator($this->projectRoot . '/modules/');
+        $modules = new \DirectoryIterator($this->projectRoot . '/modules/');
         $index = 1;
         foreach ($modules as $module) {
-            $packageJson = $module->getPathname() . '/package.json';
-            if (is_file($packageJson)) {
-                $packageContent = json_decode(file_get_contents($packageJson), true);
-                $packageContent['root'] = $module->getFilename();
-                $this->availableModules[$index++] = $packageContent;
+            if (!$module->isDot()) {
+                $packageJson = $module->getPathname() . '/package.json';
+                if (is_file($packageJson)) {
+                    $packageContent = json_decode(file_get_contents($packageJson), true);
+                    $packageContent['root'] = $module->getFilename();
+                    $this->availableModules[$index++] = $packageContent;
+                }
             }
         }
     }
@@ -204,13 +208,13 @@ class Module
     /**
      * Initialize a new module
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function initModule ()
     {
         $moduleName = readline(color('Module name: ', 'blue'));
         if (empty($moduleName)) {
-            throw new Exception('Module name is required.');
+            throw new \Exception('Module name is required.');
         }
 
         $moduleDir = $this->currentDir . '/../../modules/' . $moduleName;
@@ -218,7 +222,7 @@ class Module
             $force = readline(color('A module with this name ' . $moduleName .
                 ' already exists, would you like to overwrite it? (Y/n): ', 'red'));
             if ($force !== 'Y') {
-                throw new Exception('Aborting.');
+                throw new \Exception('Aborting.');
             }
         }
 
@@ -249,7 +253,7 @@ class Module
     /**
      * Build a complete Module from schema
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildModule ()
     {
@@ -291,7 +295,7 @@ class Module
                 // xxx
                 break;
             default:
-                throw new Exception('No choice, aborting.');
+                throw new \Exception('No choice, aborting.');
         }
     }
 
@@ -300,7 +304,7 @@ class Module
      *
      * @param array $arguments
      * @param array $required
-     * @throws Exception
+     * @throws \Exception
      */
     public function readArguments ($arguments, $required)
     {
@@ -309,7 +313,7 @@ class Module
             if (property_exists($this, $argKey) && empty($this->{$argKey})) {
                 $value = readline(color($argument['label'] . ' :', 'blue'));
                 if (empty($value) && array_key_exists($argKey, $required)) {
-                    throw new Exception('Empty value, aborting.');
+                    throw new \Exception('Empty value, aborting.');
                 }
                 $this->{$argKey} = trim($value);
             }
@@ -319,7 +323,7 @@ class Module
     /**
      * Wraps all builders
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildAll ()
     {
@@ -332,7 +336,7 @@ class Module
         $moduleIndex = readline(color('Select a module within the list (' . $range . '): ', 'blue'));
 
         if (!isset($this->availableModules[$moduleIndex])) {
-            throw new Exception('No module selected, aborting.');
+            throw new \Exception('No module selected, aborting.');
         }
 
         $this->module = $this->availableModules[$moduleIndex];
@@ -357,7 +361,7 @@ class Module
     /**
      * Fetch all availables schemas
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function fetchSchemas()
     {
@@ -366,7 +370,7 @@ class Module
             $this->module['root'],
             $this->schemaPath);
 
-        $files = new DirectoryIterator($schemaPaths);
+        $files = new \DirectoryIterator($schemaPaths);
 
         foreach ($files as $file) {
             if ($file->isFile() && !$file->isDot()) {
@@ -379,7 +383,7 @@ class Module
         }
 
         if (empty($this->models)) {
-            throw new Exception('Unable to find any db/schema file, are you sure you have created them?');
+            throw new \Exception('Unable to find any db/schema file, are you sure you have created them?');
         }
 
         echo color('Found the following schemas: ', 'blue') . PHP_EOL;
@@ -393,7 +397,7 @@ class Module
     }
 
     /**
-     *
+     * @throws \Exception
      */
     public function generatePlaceholders()
     {
@@ -402,7 +406,7 @@ class Module
             $modelPath = $model['path'];
 
             if (!is_file($modelPath)) {
-                throw new Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $modelName));
+                throw new \Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $modelName));
             }
 
             /**
@@ -413,7 +417,7 @@ class Module
             // Building the model placeholders
             $modelShort = trim(str_replace(strtolower($this->module['name'] . '_'), '', $modelName));
             if (!array_key_exists($modelName, $schemas)) {
-                throw new Exception(sprintf('Unable to read corresponding model from the file \'%s\'.', $modelName));
+                throw new \Exception(sprintf('Unable to read corresponding model from the file \'%s\'.', $modelName));
             }
 
             $columns = $schemas[$modelName];
@@ -426,7 +430,7 @@ class Module
             }
 
             if (!$primaryKey) {
-                throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $modelName));
+                throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $modelName));
             }
 
             # Opts
@@ -454,7 +458,7 @@ class Module
 
     /**
      * @param $model
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildModel($model)
     {
@@ -503,7 +507,7 @@ class Module
 
     /**
      * @param $model
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildForm($model)
     {
@@ -552,7 +556,7 @@ class Module
         }
 
         if (!$primaryKey) {
-            throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model['name']));
+            throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model['name']));
         }
 
         # Elements
@@ -605,7 +609,7 @@ class Module
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function buildControllerView() {
         # Try for multiple models
@@ -619,7 +623,7 @@ class Module
 
             $schema_file = sprintf('%s%s/%s.php', $this->path, $this->path_to_schema, $model);
             if (!is_readable($schema_file)) {
-                throw new Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
+                throw new \Exception(sprintf('Unable to read corresponding schema file for \'%s\' model.', $model));
             } else {
                 require $schema_file;
 
@@ -634,7 +638,7 @@ class Module
                 }
 
                 if (!$primary_key) {
-                    throw new Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
+                    throw new \Exception(sprintf('Unable to find a primary_key for \'%s\' model.', $model));
                 }
 
                 # Opts
@@ -671,7 +675,7 @@ class Module
                     @mkdir(dirname($target_controller_file), 0777, true);
                     file_put_contents($target_controller_file, $controller_content);
                 } else {
-                    throw new Exception(sprintf('Unable to create \'%s\' controller, file exists. Use --force if you want to replace it.', $target_controller_file));
+                    throw new \Exception(sprintf('Unable to create \'%s\' controller, file exists. Use --force if you want to replace it.', $target_controller_file));
                 }
 
                 # Editor files
@@ -684,7 +688,7 @@ class Module
                     @mkdir(dirname($targetLayoutXmlFile), 0777, true);
                     file_put_contents($targetLayoutXmlFile, $layoutXmlContent);
                 } else {
-                    throw new Exception(sprintf('Unable to create \'%s\' layout, file exists. Use --force if you want to replace it.', $layoutXmlContent));
+                    throw new \Exception(sprintf('Unable to create \'%s\' layout, file exists. Use --force if you want to replace it.', $layoutXmlContent));
                 }
 
                 $editCssFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_css']);
@@ -696,7 +700,7 @@ class Module
                     @mkdir(dirname($targetEditCssFile), 0777, true);
                     file_put_contents($targetEditCssFile, $editCssContent);
                 } else {
-                    throw new Exception(sprintf('Unable to create \'%s\' css, file exists. Use --force if you want to replace it.', $targetEditCssFile));
+                    throw new \Exception(sprintf('Unable to create \'%s\' css, file exists. Use --force if you want to replace it.', $targetEditCssFile));
                 }
 
                 $editJsFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_js']);
@@ -708,7 +712,7 @@ class Module
                     @mkdir(dirname($targetEditJsFile), 0777, true);
                     file_put_contents($targetEditJsFile, $editJsContent);
                 } else {
-                    throw new Exception(sprintf('Unable to create \'%s\' js, file exists. Use --force if you want to replace it.', $targetEditJsFile));
+                    throw new \Exception(sprintf('Unable to create \'%s\' js, file exists. Use --force if you want to replace it.', $targetEditJsFile));
                 }
 
                 $editHtmlFile = sprintf('%s%s', $this->currentDir, $this->templatePaths['edit_html']);
@@ -745,7 +749,7 @@ class Module
                     @mkdir(dirname($targetEditHtmlFile), 0777, true);
                     file_put_contents($targetEditHtmlFile, $editHtmlContent);
                 } else {
-                    throw new Exception(sprintf('Unable to create \'%s\' phtml, file exists. Use --force if you want to replace it.', $targetEditHtmlFile));
+                    throw new \Exception(sprintf('Unable to create \'%s\' phtml, file exists. Use --force if you want to replace it.', $targetEditHtmlFile));
                 }
             }
         }
