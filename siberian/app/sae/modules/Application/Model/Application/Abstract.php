@@ -1552,4 +1552,43 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         // 5. Delete the Application itself
         $this->delete();
     }
+
+    /**
+     * Watch application disk size
+     *
+     * @param Siberian_Cron $cron
+     * @param Cron_Model_Cron $task
+     */
+    public static function getSizeOnDisk ($cron, $task)
+    {
+        // We do really need to lock this thing!
+        $cron->lock($task->getId());
+
+        try {
+            $db = Zend_Db_Table::getDefaultAdapter();
+            $appIds = $db->fetchAssoc('SELECT app_id FROM application;');
+
+            foreach ($appIds as $appId) {
+                $appId = $appId['app_id'];
+                $assetsDirectory = Core_Model_Directory::getBasePathTo('/images/application/' . $appId . '/');
+                if (!empty($appId) && is_dir($assetsDirectory)) {
+                    try {
+                        $assetsSize = dirSize($assetsDirectory);
+                    } catch (Exception $e) {
+                        $assetsSize = 0;
+                    }
+
+                    $db->query('UPDATE application SET size_on_disk = ' . $assetsSize .
+                        ' WHERE app_id = ' . $appId . ';');
+                }
+                usleep(10);
+            }
+        } catch (Exception $e){
+            $cron->log($e->getMessage());
+            $task->saveLastError($e->getMessage());
+        }
+
+        // Releasing!
+        $cron->unlock($task->getId());
+    }
 }
