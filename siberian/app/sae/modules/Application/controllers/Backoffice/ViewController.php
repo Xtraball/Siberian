@@ -4,25 +4,25 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "save" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "switchtoionic" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-        "saveadvertising" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-    );
+    public $cache_triggers = [
+        "save" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "switchtoionic" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "saveadvertising" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+    ];
 
     public function loadAction() {
 
-        $html = array(
+        $html = [
             "title" => __("Application"),
             "icon" => "fa-mobile",
             "ionic_message" => __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken.")
-        );
+        ];
 
         $this->_sendHtml($html);
 
@@ -43,21 +43,21 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $admin_owner = $application->getOwner();
         }
 
-        $admin_list = array();
+        $admin_list = [];
         foreach($admins as $admin) {
             $admin_list[] = $admin;
         }
 
-        $admin = array(
+        $admin = [
             "name" => $admin_owner->getFirstname() . " " . $admin_owner->getLastname(),
             "email" => $admin_owner->getEmail(),
             "company" => $admin_owner->getCompany(),
             "phone" => $admin_owner->getPhone()
-        );
+        ];
 
 
         $store_categories = Application_Model_Device_Ionic_Ios::getStoreCategeories();
-        $devices = array();
+        $devices = [];
         foreach($application->getDevices() as $device) {
             $device->setName($device->getName());
             $device->setBrandName($device->getBrandName());
@@ -73,7 +73,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $devices[] = $data;
         }
 
-        $data = array(
+        $data = [
             'admin' => $admin,
             'admin_list' => $admin_list,
             'app_store_icon' => $application->getAppStoreIcon(),
@@ -82,7 +82,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'url' => $application->getUrl(),
             'has_ios_certificate' => Push_Model_Certificate::getiOSCertificat(),
             'pem_infos' => Push_Model_Certificate::getInfos(),
-        );
+        ];
 
         foreach($store_categories as $name => $store_category) {
             if($store_category->getId() == $application->getMainCategoryId()) $data['main_category_name'] = $name;
@@ -107,11 +107,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
         $application->addData($data);
 
-        $data = array(
+        $data = [
             "application" => $application->getData(),
             'statuses' => Application_Model_Device::getStatuses(),
             'design_codes' => Application_Model_Application::getDesignCodes()
-        );
+        ];
 
         //Set ios Autopublish informations
 
@@ -129,14 +129,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
 
         //sanetize vars
-        if(is_null($data['infos']["want_to_autopublish"])) $data['infos']["want_to_autopublish"] = false;
-        if(is_null($data['infos']["itunes_login"])) $data['infos']["itunes_login"] = "";
-        if(is_null($data['infos']["itunes_password"])) $data['infos']["itunes_password"] = "";
+        if (is_null($data['infos']["want_to_autopublish"])) $data['infos']["want_to_autopublish"] = false;
+        if (is_null($data['infos']["itunes_login"])) $data['infos']["itunes_login"] = "";
+        if (is_null($data['infos']["itunes_password"])) $data['infos']["itunes_password"] = "";
 
-        $data["ios_publish_informations"] = array(
+        $data["ios_publish_informations"] = [
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
             "itunes_login" => $appIosAutopublish->getItunesLogin(),
-            "itunes_password" => $appIosAutopublish->getItunesPassword(),
+            "itunes_password" => Application_Backoffice_IosautopublishController::$fakePassword,
             "has_ads" => (bool)$appIosAutopublish->getHasAds() ,
             "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),
             "has_audio" => (bool)$appIosAutopublish->getHasAudio(),
@@ -148,9 +148,10 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             "last_builded_version" => $appIosAutopublish->getLastBuildedVersion(),
             "last_builded_ipa_link" => $appIosAutopublish->getLastBuildedIpaLink(),
             "error_message" => $appIosAutopublish->getErrorMessage(),
-        );
+            'teams' => $appIosAutopublish->getTeamsArray(),
+        ];
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 
@@ -198,9 +199,9 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 if(!empty($data["domain"])) {
 
-                    $data["domain"] = str_replace(array("http://", "https://"), "", $data["domain"]);
+                    $data["domain"] = str_replace(["http://", "https://"], "", $data["domain"]);
 
-                    $tmp_url = str_replace(array("http://", "https://"), "", $this->getRequest()->getBaseUrl());
+                    $tmp_url = str_replace(["http://", "https://"], "", $this->getRequest()->getBaseUrl());
                     $tmp_url = current(explode("/", $tmp_url));
 
                     $tmp_domain = explode("/", $data["domain"]);
@@ -244,19 +245,19 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $application->addData($data)->save();
 
-                $data = array(
+                $data = [
                     "success"   => 1,
                     "message"   => __("Info successfully saved"),
                     "bundle_id" => $application->getBundleId(),
                     "package_name" => $application->getPackageName(),
                     "url"       => $application->getUrl(),
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -300,17 +301,17 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $application->save();
 
-                $data = array(
+                $data = [
                     "success"   => 1,
                     "message"   => __("Your application is now switched to Ionic"),
                     "design_code" => "ionic",
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -355,16 +356,16 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $device->addData($device_data)->save();
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => __("Info successfully saved")
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -389,33 +390,33 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
-                $data_app_to_save = array(
+                $data_app_to_save = [
                     "owner_use_ads" => $data["owner_use_ads"]
-                );
+                ];
 
                 $application->addData($data_app_to_save)->save();
 
                 foreach($data["devices"] as $device_data) {
                     $device = $application->getDevice($device_data["type_id"]);
-                    $data_device_to_save = array(
+                    $data_device_to_save = [
                         "owner_admob_id" => $device_data["owner_admob_id"],
                         "owner_admob_interstitial_id" => $device_data["owner_admob_interstitial_id"],
                         "owner_admob_type" => $device_data["owner_admob_type"],
                         "owner_admob_weight" => $device_data["owner_admob_weight"]
-                    );
+                    ];
                     $device->addData($data_device_to_save)->save();
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => __("Info successfully saved")
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -439,33 +440,33 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
-                $data_app_to_save = array(
+                $data_app_to_save = [
                     "banner_title" => $data["banner_title"],
                     "banner_author" => $data["banner_author"],
                     "banner_button_label" => $data["banner_button_label"]
-                );
+                ];
 
                 $application->addData($data_app_to_save)->save();
 
                 foreach($data["devices"] as $device_data) {
                     $device = $application->getDevice($device_data["type_id"]);
-                    $data_device_to_save = array(
+                    $data_device_to_save = [
                         "banner_store_label" => $device_data["banner_store_label"],
                         "banner_store_price" => $device_data["banner_store_price"]
-                    );
+                    ];
                     $device->addData($data_device_to_save)->save();
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => __("Info successfully saved")
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -532,18 +533,18 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
             $more["queued"] = Application_Model_Queue::getPosition($application_id);
 
-            $data = array(
+            $data = [
                 "success" => 1,
                 "message" => __("Application successfully queued for generation."),
                 "more" => $more,
                 "reload" => $reload,
-            );
+            ];
 
         } else {
-            $data = array(
+            $data = [
                 "error" => 1,
                 "message" => __("Missing parameters for generation."),
-            );
+            ];
         }
 
         $this->_sendHtml($data);
@@ -564,23 +565,23 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
                 $more["queued"] = Application_Model_Queue::getPosition($application_id);
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => __("Generation cancelled."),
                     "more" => $more,
-                );
+                ];
 
             } else {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => __("Missing parameters for cancellation."),
-                );
+                ];
             }
         } catch(Exception $e) {
-            $data = array(
+            $data = [
                 "error" => 1,
                 "message" => $e->getMessage(),
-            );
+            ];
         }
 
 
@@ -611,7 +612,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     $file = $adapter->getFileInfo();
 
                     $certificat = new Push_Model_Certificate();
-                    $certificat->find(array('type' => 'ios', 'app_id' => $app_id));
+                    $certificat->find(['type' => 'ios', 'app_id' => $app_id]);
 
                     if(!$certificat->getId()) {
                         $certificat->setType("ios")
@@ -628,11 +629,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                         ->save()
                     ;
 
-                    $data = array(
+                    $data = [
                         "success" => 1,
                         "pem_infos" => Push_Model_Certificate::getInfos($app_id),
                         "message" => __("The file has been successfully uploaded")
-                    );
+                    ];
 
                 } else {
                     $messages = $adapter->getMessages();
@@ -645,10 +646,10 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                     throw new Exception($message);
                 }
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);

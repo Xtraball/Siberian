@@ -28,10 +28,12 @@ class Siberian_Request {
 
         $request = curl_init();
 
+        $timeout = (array_key_exists('timeout', $options)) ? intval($options['options']) : 3;
+
         # Setting options
         curl_setopt($request, CURLOPT_URL, $endpoint);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($request, CURLOPT_TIMEOUT, 3);
+        curl_setopt($request, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_POST, true);
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);

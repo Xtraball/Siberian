@@ -524,7 +524,6 @@
 
 </sb-section>
 <sb-section title="'<?php echo addslashes(__("Generate and publish iOS Application")); ?>'">
-    <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -565,20 +564,37 @@
             </div>
         </div>
         -->
+    <form ng-submit="saveCredentialsAutopublish()"
+          autocomplete="off">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectLogin"><?php echo __("iTunes Connect Login");?></label>
-                    <input type="text" value="" ng-model="ios_publish_informations.itunes_login" class="form-control" id="iTunesConnectLogin" autocomplete="new-password">
+                    <label class="control-label"
+                           for="iTunesConnectLogin"><?php echo __("iTunes Connect Login");?></label>
+                    <input type="text"
+                           value=""
+                           ng-model="ios_publish_informations.itunes_login"
+                           class="form-control"
+                           id="iTunesConnectLogin"
+                           autocomplete="new-password">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectPassword"><?php echo __("iTunes Connect Password");?></label>
-                    <input type="password" value="" ng-model="ios_publish_informations.itunes_password" class="form-control" id="iTunesConnectPassword" autocomplete="new-password">
+                    <label class="control-label"
+                           for="iTunesConnectPassword"><?php echo __("iTunes Connect Password");?></label>
+                    <input type="password"
+                           value=""
+                           ng-model="ios_publish_informations.itunes_password"
+                           class="form-control"
+                           id="iTunesConnectPassword"
+                           autocomplete="new-password">
                 </div>
             </div>
         </div>
+    </form>
+
+    <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
         <div class="row">
             <div class="col-md-4">
                 <label for="{{ device.id }}_status"><?php echo __('Languages'); ?></label>

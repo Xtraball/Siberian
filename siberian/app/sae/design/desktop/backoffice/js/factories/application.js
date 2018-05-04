@@ -64,6 +64,42 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    /**
+     *
+     * @param login
+     * @param password
+     * @returns {*}
+     */
+    factory.saveCredentialsAutopublish = function (app_id, login, password) {
+        return $http({
+            method: 'POST',
+            data: {
+                app_id: app_id,
+                login: login,
+                password: password
+            },
+            url: Url.get('application/backoffice_iosautopublish/savecredentials'),
+            responseType: 'json'
+        });
+    };
+
+    /**
+     *
+     * @param login
+     * @param password
+     * @returns {*}
+     */
+    factory.refreshTeams = function (app_id) {
+        return $http({
+            method: 'POST',
+            data: {
+                app_id: app_id
+            },
+            url: Url.get('application/backoffice_iosautopublish/refreshteams'),
+            responseType: 'json'
+        });
+    };
+
     factory.saveInfoIosAutopublish = function(app_id, ios_infos) {
 
         return $http({

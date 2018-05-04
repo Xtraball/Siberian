@@ -28,28 +28,28 @@ class Siberian_Json extends Zend_Json {
 
         if($json === false && (json_last_error() == JSON_ERROR_UTF8)) {
             /** Trying to convert data to utf8 if array is buggy */
-            $logger->err(implode("\n", array("Siberian_Json::encode(), trying to force UTF-8", json_last_error_msg())), "json_error_", false);
+            $logger->err(implode("\n", ["Siberian_Json::encode(), trying to force UTF-8", json_last_error_msg()]), "json_error_", false);
 
             try {
                 $data = data_to_utf8($data);
                 $json = json_encode($data, $options);
             } catch(Exception $e) {
                 /** Catching any exception, the request should always ends ! */
-                $json = array(
+                $json = json_encode([
                     "error" => 1,
                     "message" => "Siberian_Json::encode() UTF-8 failed",
-                );
+                ]);
 
-                $logger->err(implode("\n", array("Siberian_Json::encode() UTF-8 failed", $e->getMessage())), "json_error_", false);
+                $logger->err(implode("\n", ["Siberian_Json::encode() UTF-8 failed", $e->getMessage()]), "json_error_", false);
             }
         } else if($json === false && (json_last_error() != JSON_ERROR_UTF8)) {
             /** Generic error (not utf-8) */
-            $json = array(
+            $json = json_encode([
                 "error" => 1,
                 "message" => "Siberian_Json::encode() UTF-8 failed",
-            );
+            ]);
 
-            $logger->err(implode("\n", array("Siberian_Json::encode(), unhandeld error", json_last_error_msg())), "json_error_", false);
+            $logger->err(implode("\n", ["Siberian_Json::encode(), unhandeld error", json_last_error_msg()]), "json_error_", false);
         }
 
         return $json;

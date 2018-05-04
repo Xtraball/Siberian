@@ -631,12 +631,12 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             }
 
             // Ios specific, run push.rb to patch push notifications!
-            if (!prepare) {
-                if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
-                    sprint(clc.green('Patching platform project ...'));
-                    sh.exec(ROOT + '/ionic/patch/push.rb ' + ROOT + '/ionic/platforms/' + platform + '/');
-                }
-            }
+            //if (!prepare) {
+            //    if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
+            //        sprint(clc.green('Patching platform project ...'));
+            //        sh.exec(ROOT + '/ionic/patch/push.rb ' + ROOT + '/ionic/platforms/' + platform + '/');
+            //    }
+            //}
 
             // Cleaning up build files!
             if (copy) {

@@ -1,133 +1,246 @@
 <?php
+
+/**
+ * Class Application_Backoffice_IosautopublishController
+ */
 class Application_Backoffice_IosautopublishController extends Backoffice_Controller_Default
 {
+    /**
+     * Check iTunes credentials validity and returns teams on success!
+     *
+     * - On success also saves cypheredCredentials on database!
+     * - On failure doesn't save credentials!
+     */
+    public function savecredentialsAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = Siberian_Json::decode($request->getRawBody());
 
-    public function saveinfoiosautopublishAction() {
+            if (empty($params)) {
+                throw new Siberian_Exception('#325-01: ' . __('Missing parameters.'));
+            }
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-            try {
-                if(empty($data["app_id"])) {
-                    throw new Exception(__("An error occurred while saving. Please try again later."));
+            if (empty($params['app_id'])) {
+                throw new Siberian_Exception('#325-02: ' . __('App Id is required!'));
+            }
+
+            if (empty($params['login']) || empty($params['password'])) {
+                throw new Siberian_Exception('#325-03: ' . __('Please fill iTunes Connect Credentials.'));
+            }
+
+            if ($params['password'] === Application_Model_IosAutopublish::$fakePassword) {
+                // Abort!
+                throw new Siberian_Exception('#325-04: ' . __('Password not changed!'));
+            }
+
+            $payload = (new Application_Model_IosAutopublish)
+                ->getTeams($params['login'], $params['password']);
+
+            // Save if success!
+            if (array_key_exists('success', $payload) && array_key_exists('cypheredCredentials', $payload)) {
+                $appIosAutopublish = (new Application_Model_IosAutopublish())
+                    ->find($params['app_id'],'app_id');
+
+                $selectedTeamId = '';
+                $selectedTeamName = '';
+                if (sizeof($payload['teams']) === 1) {
+                    $selectedTeamId = $payload['teams'][0]['teamId'];
+                    $selectedTeamName = $payload['teams'][0]['name'];
                 }
-
-                if(strlen($data['infos']["itunes_login"]) == 0 || strlen($data['infos']["itunes_password"]) == 0) {
-                    throw new Exception(__("Please fill iTunes Connect Credentials."));
-                }
-
-                if(empty($data['infos']["languages"])) {
-                    throw new Exception(__("Please select at least one language."));
-                }
-
-                $application = new Application_Model_Application();
-                $application->find($data["app_id"]);
-
-                if(!$application->getId()) {
-                    throw new Exception(__("An error occurred while saving. Please try again later."));
-                }
-
-                $appIosAutopublish = new Application_Model_IosAutopublish();
-                $appIosAutopublish->find($data["app_id"],"app_id");
 
                 $appIosAutopublish
-                    ->setAppId($data["app_id"])
-                    ->setWantToAutopublish(1)
-                    // ->setWantToAutopublish($data['infos']["want_to_autopublish"])
-                    ->setItunesLogin($data['infos']["itunes_login"])
-                    ->setItunesPassword($data['infos']["itunes_password"])
-                    ->setHasAds($data['infos']["has_ads"])
-                    ->setHasBgLocate($data['infos']["has_bg_locate"])
-                    ->setHasAudio($data['infos']["has_audio"])
-                    ->setLanguages(Zend_Json::encode(array($data['infos']["languages"] => true)));
+                    ->setAppId($params['app_id'])
+                    ->setCypheredCredentials($payload['cypheredCredentials'])
+                    ->setTeams(Siberian_Json::encode($payload['teams']))
+                    ->setTeamId($selectedTeamId)
+                    ->setTeamName($selectedTeamName)
+                    ->setItunesLogin($params['login'])
+                    ->setItunesPassword('') // Clear old "clear" login
+                    ->save();
 
-                if(!$appIosAutopublish->getToken()) {
-                    $appIosAutopublish->setToken(md5(
-                        $data['infos']["itunes_login"].
-                        $data['infos']["itunes_password"].
-                        $data["app_id"].
-                        time().
-                        "saltystring!"
-                    ));
-                }
-
-                $appIosAutopublish->save();
-
-                $data = array(
-                    "success"   => 1,
-                    "message"   => __("Info successfully saved")
-                );
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+                $payload['message'] = __('Credentials successfully saved!');
+                $payload['teams'] = $appIosAutopublish->getTeamsArray();
+                $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
             }
 
-            $this->_sendHtml($data);
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
-    public function generateiosautopublishAction() {
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-            try {
-                if(empty($data["app_id"]) ) {
-                    throw new Exception(__("An error occurred while generating. Please try again later."));
-                }
+    /**
+     * Refresh the Teams list with current credentials!
+     */
+    public function refreshteamsAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = Siberian_Json::decode($request->getRawBody());
 
-                $application = new Application_Model_Application();
-                $application->find($data["app_id"]);
-
-                if(!$application->getId()) {
-                    throw new Exception(__("An error occurred while generating. Please try again later."));
-                }
-
-                $appIosAutopublish = new Application_Model_IosAutopublish();
-                $appIosAutopublish->find($data["app_id"],"app_id");
-
-                $noads = ($appIosAutopublish->getHasAds() == 1) ? "" : "noads";
-
-                $design_code = $application->getData("design_code");
-
-                $queue = new Application_Model_SourceQueue();
-
-                $queue->setAppId($data["app_id"]);
-                $queue->setName($application->getName());
-                $queue->setType("ios".$noads);
-                $queue->setDesignCode($design_code);
-                $queue->setIsAutopublish("1");
-
-                $queue->setHost($this->getRequest()->getHttpHost());
-                $queue->setUserId($this->getSession()->getBackofficeUserId());
-                $queue->save();
-
-                $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
-                $more["queued"] = Application_Model_Queue::getPosition($application_id);
-
-                $data = array(
-                    "success"   => 1,
-                    "message"   => __("Generation successfully queued."),
-                    "more" => $more,
-                );
-
-                $appIosAutopublish->setData("last_build_status","pending");
-                $appIosAutopublish->save();
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+            if (empty($params)) {
+                throw new Siberian_Exception('#329-01: ' . __('Missing parameters.'));
             }
-        } else {
-            $data = array(
-                "error" => 1,
-                "message" => __("Cannot get parameters.")
-            );
+
+            if (empty($params['app_id'])) {
+                throw new Siberian_Exception('#329-02: ' . __('App Id is required!'));
+            }
+
+            $appIosAutopublish = (new Application_Model_IosAutopublish())
+                ->find($params['app_id'],'app_id');
+
+            if (!$appIosAutopublish->getId()) {
+                throw new Siberian_Exception('#329-03: ' . __('No credentials found!'));
+            }
+
+            $payload = (new Application_Model_IosAutopublish)
+                ->getTeams($appIosAutopublish->getCypheredCredentials());
+
+            // Save if success!
+            if (array_key_exists('success', $payload) && array_key_exists('cypheredCredentials', $payload)) {
+                $selectedTeamId = '';
+                $selectedTeamName = '';
+                if (sizeof($payload['teams']) === 1) {
+                    $selectedTeamId = $payload['teams'][0]['teamId'];
+                    $selectedTeamName = $payload['teams'][0]['name'];
+                }
+
+                $appIosAutopublish
+                    ->setTeams(Siberian_Json::encode($payload['teams']))
+                    ->setTeamId($selectedTeamId)
+                    ->setTeamName($selectedTeamName)
+                    ->save();
+
+                $payload['message'] = __('Teams successfully refreshed!');
+                $payload['teams'] = $appIosAutopublish->getTeamsArray();
+                $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
+            }
+
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
+
+    /**
+     * saving ios autopublish settings!
+     */
+    public function saveinfoiosautopublishAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = Siberian_Json::decode($request->getRawBody());
+
+            if (empty($params)) {
+                throw new Siberian_Exception('#330-01: ' . __('Missing parameters.'));
+            }
+
+            if (empty($params['app_id'])) {
+                throw new Siberian_Exception('#330-02: ' . __('App Id is required!'));
+            }
+
+            $appIosAutopublish = (new Application_Model_IosAutopublish())
+                ->find($params['app_id'],'app_id');
+
+            if (!$appIosAutopublish->getId()) {
+                throw new Siberian_Exception('#330-03: ' . __('No credentials found!'));
+            }
+
+            if (empty($params['infos']['languages'])) {
+                throw new Siberian_Exception('#330-04: ' . __('Please select at least one language.'));
+            }
+
+            $application = (new Application_Model_Application())
+                ->find($params['app_id']);
+
+            if (!$application->getId()) {
+                throw new Siberian_Exception('#330-05: ' . __('Application not found!'));
+            }
+
+            // Find selected team!
+            $selectedTeamId = $params['infos']['selected_team'];
+            $selectedTeamName = '';
+            $teams = $appIosAutopublish->getTeamsArray();
+            foreach ($teams as $team) {
+                if ($team['teamId'] === $selectedTeamId) {
+                    $selectedTeamName = $team['name'];
+                    break;
+                }
+            }
+
+            $appIosAutopublish
+                ->setAppId($params['app_id'])
+                ->setWantToAutopublish(1)
+                ->setHasAds($params['infos']['has_ads'])
+                ->setHasBgLocate($params['infos']['has_bg_locate'])
+                ->setHasAudio($params['infos']['has_audio'])
+                ->setTeamId($selectedTeamId)
+                ->setTeamName($selectedTeamName)
+                ->setLanguages(Siberian_Json::encode([
+                    $params['infos']["languages"] => true
+                ]));
+
+            // Salting token!
+            if (!$appIosAutopublish->getToken()) {
+                $string = sprintf("%s%s%s%s",
+                    $params['app_id'],
+                    time(),
+                    $appIosAutopublish->getCypheredCredentials(),
+                    'mySaltIsTasty!');
+
+                $appIosAutopublish->setToken(sha1($string));
+            }
+
+            $appIosAutopublish->save();
+
+            // Build phase!
+            $noads = ($appIosAutopublish->getHasAds() == 1) ? '' : 'noads';
+
+            $designCode = $application->getData('design_code');
+
+            $queue = new Application_Model_SourceQueue();
+
+            $queue
+                ->setAppId($application->getId())
+                ->setName($application->getName())
+                ->setType('ios' . $noads)
+                ->setDesignCode($designCode)
+                ->setIsAutopublish('1')
+                ->setHost($request->getHttpHost())
+                ->setUserId($this->getSession()->getBackofficeUserId())
+                ->save();
+
+            $more['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
+            $more['queued'] = Application_Model_Queue::getPosition($application->getId());
+
+            $appIosAutopublish->setData('last_build_status', 'pending');
+            $appIosAutopublish->save();
+
+            $payload = [
+                'success' => true,
+                'message' => 'Generation successfully queued.',
+                'more' => $more
+            ];
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /// To clean after me
 
 
     public function updatejobstatusAction() {

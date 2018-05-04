@@ -194,6 +194,35 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.saveCredentialsAutopublish = function () {
+        $scope.application_form_loader_is_visible = true;
+
+        Application
+            .saveCredentialsAutopublish(
+                $scope.ios_publish_informations.itunes_login,
+                $scope.ios_publish_informations.itunes_password)
+            .success(function (data) {
+                if (angular.isObject(data)) {
+                    if (!!cb) {
+                        cb();
+                    }
+                } else {
+                    $scope.message
+                        .setText(Label.save.error)
+                        .isError(true)
+                        .show();
+                }
+
+            }).error(function (data) {
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show();
+
+            }).finally(function () {
+                $scope.application_form_loader_is_visible = false;
+            });
+    };
+
     $scope.saveInfoIosAutopublish = function(cb) {
 
         $scope.application_form_loader_is_visible = true;
