@@ -47,6 +47,11 @@ $schemas['application_ios_autobuild_information'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'itc_provider' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'teams' => [
         'type' => 'text',
         'charset' => 'utf8',

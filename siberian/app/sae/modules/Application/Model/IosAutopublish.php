@@ -25,6 +25,8 @@
  * @method boolean getWantToAutopublish()
  * @method boolean getHasBgLocate()
  * @method boolean getHasAudio()
+ * @method $this setItcProvider(string $itcProvider)
+ * @method string getItcProvider()
  */
 class Application_Model_IosAutopublish extends Core_Model_Default
 {
@@ -69,7 +71,7 @@ class Application_Model_IosAutopublish extends Core_Model_Default
             null,
             null,
             [
-                'timeout' => 15
+                'timeout' => 30
             ]);
 
         $response = Siberian_Json::decode($result);
@@ -80,6 +82,37 @@ class Application_Model_IosAutopublish extends Core_Model_Default
         }
 
         return $response;
+    }
+
+    /**
+     * @param $teamId
+     * @param $providerId
+     * @return $this
+     */
+    public function selectTeam ($teamId, $providerId)
+    {
+        $teams = Siberian_Json::decode($this->getData('teams'));
+
+        $selectedTeamId = '';
+        $selectedTeamName = '';
+
+        if (is_array($teams)) {
+            foreach ($teams['teams'] as $team) {
+                if ($team['teamId'] == $teamId) {
+                    $selectedTeamId = $team['teamId'];
+                    $selectedTeamName = $team['name'];
+
+                    break;
+                }
+            }
+        }
+
+        $this
+            ->setTeamId($selectedTeamId)
+            ->setTeamName($selectedTeamName)
+            ->setItcProvider($providerId);
+
+        return $this;
     }
 
     /**
@@ -109,7 +142,7 @@ class Application_Model_IosAutopublish extends Core_Model_Default
         $dataTeams = [];
         if (!empty($teams)) {
             $teams = Siberian_Json::decode($teams);
-            foreach ($teams as $team) {
+            foreach ($teams['teams'] as $team) {
                 $dataTeams[] = [
                     'teamId' => $team['teamId'],
                     'type' => $team['type'],
@@ -118,5 +151,24 @@ class Application_Model_IosAutopublish extends Core_Model_Default
             }
         }
         return $dataTeams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getItcProvidersArray ()
+    {
+        $teams = $this->getData('teams');
+        $dataProviders = [];
+        if (!empty($teams)) {
+            $teams = Siberian_Json::decode($teams);
+            foreach ($teams['itcTeams'] as $provider) {
+                $dataProviders[] = [
+                    'providerId' => $provider['contentProvider']['contentProviderId'],
+                    'name' => $provider['contentProvider']['name'],
+                ];
+            }
+        }
+        return $dataProviders;
     }
 }

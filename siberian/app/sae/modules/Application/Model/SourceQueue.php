@@ -172,6 +172,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             'credentials' => $appIosAutopublish->getCypheredCredentials(),
             'team_id' => $appIosAutopublish->getTeamId(),
             'team_name' => $appIosAutopublish->getTeamName(),
+            'itc_provider' => $appIosAutopublish->getItcProvider(),
             'has_bg_locate' => $appIosAutopublish->getHasBgLocate(),
             'has_audio' => $appIosAutopublish->getHasAudio(),
             'languages' => $fastlane_languages,

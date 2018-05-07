@@ -38,30 +38,27 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 ->getTeams($params['login'], $params['password']);
 
             // Save if success!
-            if (array_key_exists('success', $payload) && array_key_exists('cypheredCredentials', $payload)) {
+            if (array_key_exists('success', $payload) &&
+                array_key_exists('cypheredCredentials', $payload)) {
                 $appIosAutopublish = (new Application_Model_IosAutopublish())
                     ->find($params['app_id'],'app_id');
-
-                $selectedTeamId = '';
-                $selectedTeamName = '';
-                if (sizeof($payload['teams']) === 1) {
-                    $selectedTeamId = $payload['teams'][0]['teamId'];
-                    $selectedTeamName = $payload['teams'][0]['name'];
-                }
 
                 $appIosAutopublish
                     ->setAppId($params['app_id'])
                     ->setCypheredCredentials($payload['cypheredCredentials'])
-                    ->setTeams(Siberian_Json::encode($payload['teams']))
-                    ->setTeamId($selectedTeamId)
-                    ->setTeamName($selectedTeamName)
+                    ->setTeams(Siberian_Json::encode([
+                        'teams' => $payload['teams'],
+                        'itcTeams' => $payload['itcTeams']
+                    ]))
                     ->setItunesLogin($params['login'])
                     ->setItunesPassword('') // Clear old "clear" login
                     ->save();
 
                 $payload['message'] = __('Credentials successfully saved!');
                 $payload['teams'] = $appIosAutopublish->getTeamsArray();
+                $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
+                $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
             }
 
         } catch (Exception $e) {
@@ -98,27 +95,46 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 throw new Siberian_Exception('#329-03: ' . __('No credentials found!'));
             }
 
-            $payload = (new Application_Model_IosAutopublish)
-                ->getTeams($appIosAutopublish->getCypheredCredentials());
+            $cypheredCredentials = $appIosAutopublish->getCypheredCredentials();
+            $itcLogin = $appIosAutopublish->getItunesLogin();
+            $itcPassword = $appIosAutopublish->getItunesPassword();
+
+            // In case user didn't saved/repurposed his credentials!
+            if (!empty($cypheredCredentials)) {
+                $payload = (new Application_Model_IosAutopublish)
+                    ->getTeams($appIosAutopublish->getCypheredCredentials());
+            } else if (!empty($itcLogin) && !empty($itcPassword)) {
+                $payload = (new Application_Model_IosAutopublish)
+                    ->getTeams($itcLogin, $itcPassword);
+
+                // Save if success!
+                if (array_key_exists('success', $payload) &&
+                    array_key_exists('cypheredCredentials', $payload)) {
+
+                    $appIosAutopublish
+                        ->setCypheredCredentials($payload['cypheredCredentials'])
+                        ->setItunesLogin($itcLogin)
+                        ->setItunesPassword('')// Clear old "clear" login
+                        ->save();
+                }
+            }
+
 
             // Save if success!
-            if (array_key_exists('success', $payload) && array_key_exists('cypheredCredentials', $payload)) {
-                $selectedTeamId = '';
-                $selectedTeamName = '';
-                if (sizeof($payload['teams']) === 1) {
-                    $selectedTeamId = $payload['teams'][0]['teamId'];
-                    $selectedTeamName = $payload['teams'][0]['name'];
-                }
-
+            if (array_key_exists('success', $payload) &&
+                array_key_exists('cypheredCredentials', $payload)) {
                 $appIosAutopublish
-                    ->setTeams(Siberian_Json::encode($payload['teams']))
-                    ->setTeamId($selectedTeamId)
-                    ->setTeamName($selectedTeamName)
+                    ->setTeams(Siberian_Json::encode([
+                        'teams' => $payload['teams'],
+                        'itcTeams' => $payload['itcTeams']
+                    ]))
                     ->save();
 
                 $payload['message'] = __('Teams successfully refreshed!');
                 $payload['teams'] = $appIosAutopublish->getTeamsArray();
+                $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
+                $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
             }
 
         } catch (Exception $e) {
@@ -168,23 +184,15 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
             // Find selected team!
             $selectedTeamId = $params['infos']['selected_team'];
-            $selectedTeamName = '';
-            $teams = $appIosAutopublish->getTeamsArray();
-            foreach ($teams as $team) {
-                if ($team['teamId'] === $selectedTeamId) {
-                    $selectedTeamName = $team['name'];
-                    break;
-                }
-            }
+            $selectedProviderId = $params['infos']['selected_provider'];
 
             $appIosAutopublish
+                ->selectTeam($selectedTeamId, $selectedProviderId)
                 ->setAppId($params['app_id'])
                 ->setWantToAutopublish(1)
                 ->setHasAds($params['infos']['has_ads'])
                 ->setHasBgLocate($params['infos']['has_bg_locate'])
                 ->setHasAudio($params['infos']['has_audio'])
-                ->setTeamId($selectedTeamId)
-                ->setTeamName($selectedTeamName)
                 ->setLanguages(Siberian_Json::encode([
                     $params['infos']["languages"] => true
                 ]));
