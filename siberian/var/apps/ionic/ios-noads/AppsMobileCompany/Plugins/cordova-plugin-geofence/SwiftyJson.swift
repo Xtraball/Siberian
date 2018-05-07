@@ -19,6 +19,7 @@
 //  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
+
 import Foundation
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
@@ -32,6 +33,7 @@ import Foundation
 //    return false
 //  }
 //}
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 //fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -42,6 +44,7 @@ import Foundation
 //    return !(rhs < lhs)
 //  }
 //}
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 //fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -52,6 +55,7 @@ import Foundation
 //    return !(lhs < rhs)
 //  }
 //}
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 //fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -63,7 +67,9 @@ import Foundation
 //  }
 //}
 
+
 // MARK: - Error
+
 ///Error domain
 public let ErrorDomain: String! = "SwiftyJSONErrorDomain"
 
@@ -75,8 +81,10 @@ public let ErrorNotExist: Int! = 500
 public let ErrorInvalidJSON: Int! = 490
 
 // MARK: - JSON Type
+
 /**
 JSON's type definitions.
+
 See http://tools.ietf.org/html/rfc7231#section-4.3
 */
 public enum Type :Int{
@@ -91,13 +99,16 @@ public enum Type :Int{
 }
 
 // MARK: - JSON Base
+
 public struct JSON {
 
     /**
     Creates a JSON using the data.
+
     - parameter data:  The NSData used to convert to json.Top level object in data is an NSArray or NSDictionary
     - parameter opt:   The JSON serialization reading options. `.AllowFragments` by default.
     - parameter error: error The NSErrorPointer used to return the error. `nil` by default.
+
     - returns: The created JSON
     */
     public init(data:Data, options opt: JSONSerialization.ReadingOptions = .allowFragments, error: NSErrorPointer? = nil) {
@@ -134,7 +145,9 @@ public struct JSON {
 
     /**
     Creates a JSON from a [JSON]
+
     - parameter jsonArray: A Swift array of JSON objects
+
     - returns: The created JSON
     */
     public init(_ jsonArray:[JSON]) {
@@ -143,7 +156,9 @@ public struct JSON {
 
     /**
     Creates a JSON from a [String: JSON]
+
     - parameter jsonDictionary: A Swift dictionary of JSON objects
+
     - returns: The created JSON
     */
     public init(_ jsonDictionary:[String: JSON]) {
@@ -303,6 +318,7 @@ extension JSON : Swift.Collection {
 
     /**
     If `type` is `.Array` or `.Dictionary`, return a generator over the elements like `Array` or `Dictionary`, otherwise return a generator over empty.
+
     - returns: Return a *generator* over the elements of JSON.
     */
     public func makeIterator() -> JSON.Iterator {
@@ -453,6 +469,7 @@ public struct JSONGenerator : IteratorProtocol {
 }
 
 // MARK: - Subscript
+
 /**
 *  To mark both String and Int can be used in subscript.
 */
@@ -543,11 +560,15 @@ extension JSON {
 
     /**
     Find a json in the complex data structuresby using the Int/String's array.
+
     - parameter path: The target json's path. Example:
+
     let json = JSON[data]
     let path = [9,"list","person","name"]
     let name = json[path]
+
     The same as: let name = json[9]["list"]["person"]["name"]
+
     - returns: Return a json found by the path or a null json with error
     */
     public subscript(path: [JSONSubscriptType]) -> JSON {
@@ -571,9 +592,13 @@ extension JSON {
 
     /**
     Find a json in the complex data structuresby using the Int/String's array.
+
     - parameter path: The target json's path. Example:
+
     let name = json[9,"list","person","name"]
+
     The same as: let name = json[9]["list"]["person"]["name"]
+
     - returns: Return a json found by the path or a null json with error
     */
     public subscript(path: JSONSubscriptType...) -> JSON {
@@ -587,6 +612,7 @@ extension JSON {
 }
 
 // MARK: - LiteralConvertible
+
 extension JSON: Swift.ExpressibleByStringLiteral {
 
     public init(stringLiteral value: StringLiteralType) {
@@ -649,6 +675,7 @@ extension JSON: Swift.ExpressibleByNilLiteral {
 }
 
 // MARK: - Raw
+
 extension JSON: Swift.RawRepresentable {
 
     public init?(rawValue: AnyObject) {
@@ -695,6 +722,7 @@ extension JSON: Swift.RawRepresentable {
 }
 
 // MARK: - Printable, DebugPrintable
+
 extension JSON: Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
 
     public var description: String {
@@ -711,6 +739,7 @@ extension JSON: Swift.CustomStringConvertible, Swift.CustomDebugStringConvertibl
 }
 
 // MARK: - Array
+
 extension JSON {
 
     //Optional [JSON]
@@ -752,6 +781,7 @@ extension JSON {
 }
 
 // MARK: - Dictionary
+
 extension JSON {
 
     //Optional [String : JSON]
@@ -793,6 +823,7 @@ extension JSON {
 }
 
 // MARK: - Bool
+
 extension JSON {
 
     //Optional bool
@@ -831,6 +862,7 @@ extension JSON {
 }
 
 // MARK: - String
+
 extension JSON {
 
     //Optional string
@@ -960,6 +992,7 @@ extension JSON {
 }
 
 // MARK: - Int, Double, Float, Int8, Int16, Int32, Int64
+
 extension JSON {
 
     public var double: Double? {
@@ -1320,6 +1353,7 @@ private let trueObjCType = String(cString: trueNumber.objCType)
 private let falseObjCType = String(cString: falseNumber.objCType)
 
 // MARK: - NSNumber: Comparable
+
 extension NSNumber {
     var isBool:Bool {
         get {
