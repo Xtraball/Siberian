@@ -1,4 +1,5 @@
 <?php
+
 class Application_Backoffice_ViewController extends Backoffice_Controller_Default
 {
     /**
@@ -17,15 +18,13 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     ];
 
     public function loadAction() {
-
-        $html = [
+        $payload = [
             "title" => __("Application"),
             "icon" => "fa-mobile",
             "ionic_message" => __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken.")
         ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
     public function findAction() {
@@ -84,7 +83,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'pem_infos' => Push_Model_Certificate::getInfos(),
         ];
 
-        foreach($store_categories as $name => $store_category) {
+        foreach ($store_categories as $name => $store_category) {
             if($store_category->getId() == $application->getMainCategoryId()) $data['main_category_name'] = $name;
             else if($store_category->getId() == $application->getSecondaryCategoryId()) $data['secondary_category_name'] = $name;
         }
@@ -96,7 +95,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $data["can_be_published"] = $application->canBePublished();
         $data["owner_use_ads"] = !!$application->getOwnerUseAds();
 
-        if($application->getFreeUntil()) {
+        if ($application->getFreeUntil()) {
             $data["free_until"] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
         }
         $data["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
@@ -136,7 +135,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $data["ios_publish_informations"] = [
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
             "itunes_login" => $appIosAutopublish->getItunesLogin(),
-            "itunes_password" => Application_Backoffice_IosautopublishController::$fakePassword,
+            "itunes_password" => Application_Model_IosAutopublish::$fakePassword,
             "has_ads" => (bool)$appIosAutopublish->getHasAds() ,
             "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),
             "has_audio" => (bool)$appIosAutopublish->getHasAudio(),
@@ -149,6 +148,9 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             "last_builded_ipa_link" => $appIosAutopublish->getLastBuildedIpaLink(),
             "error_message" => $appIosAutopublish->getErrorMessage(),
             'teams' => $appIosAutopublish->getTeamsArray(),
+            'itcProviders' => $appIosAutopublish->getItcProvidersArray(),
+            'selected_team' => $appIosAutopublish->getTeamId(),
+            'selected_provider' => $appIosAutopublish->getItcProvider(),
         ];
 
         $this->_sendJson($data);

@@ -624,7 +624,7 @@
                         <option ng-value=""
                                 ng-selected="ios_publish_informations.selected_provider == ''"><?php echo __('Select an iTunes Connect provider') ?></option>
                         <option ng-repeat="itcProvider in ios_publish_informations.itcProviders"
-                                ng-selected="itcProvider.providerId == ios_publish_informations.selected_provider"
+                                ng-selected="itcProvider.name == ios_publish_informations.selected_provider"
                                 value="{{ itcProvider.name }}">{{ itcProvider.name }} ({{ itcProvider.providerId }})</option>
                     </select>
                 </div>
@@ -734,7 +734,7 @@
         </div>
     </form>
 
-    <form ng-submit="requestPemCertificate()">
+    <!--form ng-submit="requestPemCertificate()">
         <div class="row">
             <div class="col-md-12 form-group">
                 <button type="submit"
@@ -748,7 +748,7 @@
                            class="form_loader"></sb-loader>
             </div>
         </div>
-    </form>
+    </form-->
 </sb-section>
 
 <sb-section title="'<?php echo addslashes(__("Certificate")); ?>'" class="upload_area">

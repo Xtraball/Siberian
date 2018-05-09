@@ -30,8 +30,8 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             }
 
             if ($params['password'] === Application_Model_IosAutopublish::$fakePassword) {
-                // Abort!
-                throw new Siberian_Exception('#325-04: ' . __('Password not changed!'));
+                // Forward to refresh teams!
+                $this->forward('refreshteams');
             }
 
             $payload = (new Application_Model_IosAutopublish)
@@ -57,7 +57,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['message'] = __('Credentials successfully saved!');
                 $payload['teams'] = $appIosAutopublish->getTeamsArray();
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
-                $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
+                $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
             }
 
@@ -133,7 +133,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['message'] = __('Teams successfully refreshed!');
                 $payload['teams'] = $appIosAutopublish->getTeamsArray();
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
-                $payload['selected_team'] = $appIosAutopublish->getSelectedTeam();
+                $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
             }
 
@@ -185,6 +185,11 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             // Find selected team!
             $selectedTeamId = $params['infos']['selected_team'];
             $selectedProviderId = $params['infos']['selected_provider'];
+
+            if (empty($selectedTeamId) || empty($selectedProviderId)) {
+                throw new Siberian_Exception('#330-06: ' .
+                    __('You must select both a Development Team & an iTunes Connect provider!'));
+            }
 
             $appIosAutopublish
                 ->selectTeam($selectedTeamId, $selectedProviderId)
