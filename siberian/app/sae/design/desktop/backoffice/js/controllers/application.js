@@ -21,7 +21,9 @@ App.config(function($routeProvider) {
     $scope.content_loader_is_visible = true;
 
     $scope.tmp_application = {};
-    $scope.mobile_source = {design_code: null};
+    $scope.mobile_source = {
+        design_code: null
+    };
     $scope.application_banner = {};
     $scope.application_admob = {};
     $scope.iosBuildLicenceError = '';
@@ -29,13 +31,13 @@ App.config(function($routeProvider) {
 
     $scope.datepicker_visible = false;
 
-    Application.loadViewData().success(function(data) {
+    Application.loadViewData().success(function (data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
         $scope.ionic_confirm_message = data.ionic_message;
     });
 
-    Application.find($routeParams.app_id).success(function(data) {
+    Application.find($routeParams.app_id).success(function (data) {
         $scope.application = data.application;
         $scope.statuses = data.statuses;
         $scope.design_codes = data.design_codes;
@@ -46,7 +48,7 @@ App.config(function($routeProvider) {
         angular.extend($scope.application_admob, data.application);
         $scope.mobile_source.design_code = $scope.application.design_code;
         $scope.confirm_message_domain = data.application.confirm_message_domain;
-    }).finally(function() {
+    }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
 
@@ -194,86 +196,85 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.refreshCredentialsLoader = false;
     $scope.saveCredentialsAutopublish = function () {
-        $scope.application_form_loader_is_visible = true;
+        $scope.refreshCredentialsLoader = true;
 
         Application
             .saveCredentialsAutopublish(
+                $scope.application.id,
                 $scope.ios_publish_informations.itunes_login,
                 $scope.ios_publish_informations.itunes_password)
             .success(function (data) {
-                if (angular.isObject(data)) {
-                    if (!!cb) {
-                        cb();
-                    }
-                } else {
-                    $scope.message
-                        .setText(Label.save.error)
-                        .isError(true)
-                        .show();
-                }
+                $scope.ios_publish_informations.teams = data.teams;
+                $scope.ios_publish_informations.selected_team = data.selected_team;
+                $scope.ios_publish_informations.itcProviders = data.itcProviders;
+                $scope.ios_publish_informations.selected_provider = data.selected_provider;
 
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show();
             }).error(function (data) {
                 $scope.message.setText(data.message)
                     .isError(true)
                     .show();
 
             }).finally(function () {
-                $scope.application_form_loader_is_visible = false;
+                $scope.refreshCredentialsLoader = false;
             });
     };
 
-    $scope.saveInfoIosAutopublish = function(cb) {
+    $scope.refreshTeamsLoader = false;
+    $scope.refreshTeams = function () {
+        $scope.refreshTeamsLoader = true;
 
-        $scope.application_form_loader_is_visible = true;
-
-        Application.saveInfoIosAutopublish($scope.application.id,$scope.ios_publish_informations).success(function(data) {
-
-            if(angular.isObject(data)) {
-                if(!!cb) {
-                    cb();
-                }
-            } else {
-                $scope.message.setText(Label.save.error)
-                    .isError(true)
-                    .show()
-                ;
-            }
-
-        }).error(function(data) {
+        Application
+        .refreshTeams($scope.application.id)
+        .success(function (data) {
+            $scope.ios_publish_informations.teams = data.teams;
+            $scope.ios_publish_informations.selected_team = data.selected_team;
+            $scope.ios_publish_informations.itcProviders = data.itcProviders;
+            $scope.ios_publish_informations.selected_provider = data.selected_provider;
 
             $scope.message.setText(data.message)
+                .isError(false)
+                .show();
+        }).error(function (data) {
+            $scope.message.setText(data.message)
                 .isError(true)
-                .show()
-            ;
-
-        }).finally(function() {
-            $scope.application_form_loader_is_visible = false;
+                .show();
+        }).finally(function () {
+            $scope.refreshTeamsLoader = false;
         });
-
     };
 
-    $scope.saveInfoIosAutopublishAndGenerate = function() {
+    $scope.refreshPublish = false;
+    $scope.saveInfoIosAutopublish = function () {
+        $scope.refreshPublish = true;
 
-        $scope.saveInfoIosAutopublish(function(){
-            Application.generateIosAutopublish($scope.application.id)
-                .success(function(data) {
-                    $scope.message.setText(data.message)
-                        .isError(false)
-                        .show()
-                    window.location.reload();
-                })
-                .error(function(data, code) {
-                    $scope.message.setText(data.message)
-                        .isError(true)
-                        .show()
-                    ;
-                });
-        });
+        Application
+            .saveInfoIosAutopublish(
+                $scope.application.id,
+                $scope.ios_publish_informations)
+            .success(function (data) {
+
+                $scope.application.zip = data.more.zip;
+                $scope.application.queued = data.more.queued;
+
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show();
+            }).error(function (data) {
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show();
+            }).finally(function () {
+                $scope.refreshPublish = false;
+            });
+
     };
 
     $scope.saveInfo = function() {
-
         $scope.application_form_loader_is_visible = true;
 
         if(($scope.tmp_application.key != $scope.application.key) || ($scope.tmp_application.domain != $scope.application.domain)) {

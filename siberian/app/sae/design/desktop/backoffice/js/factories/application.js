@@ -85,8 +85,7 @@ App.factory('Application', function($http, Url, DataLoader) {
 
     /**
      *
-     * @param login
-     * @param password
+     * @param app_id
      * @returns {*}
      */
     factory.refreshTeams = function (app_id) {
@@ -100,7 +99,7 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
-    factory.saveInfoIosAutopublish = function(app_id, ios_infos) {
+    factory.saveInfoIosAutopublish = function (app_id, ios_infos) {
 
         return $http({
             method: 'POST',

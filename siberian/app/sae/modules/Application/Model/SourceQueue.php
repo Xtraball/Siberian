@@ -215,7 +215,6 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         Siberian_Request::get(
             "https://jenkins-prod02.xtraball.com/job/ios-autopublish/buildWithParameters",
             [
-                //'token' => '2a66b48d4a926a23ee92195d73251c22',
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
             ],
