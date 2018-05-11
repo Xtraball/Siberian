@@ -31,7 +31,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
             if ($params['password'] === Application_Model_IosAutopublish::$fakePassword) {
                 // Forward to refresh teams!
-                $this->forward('refreshteams');
+                return $this->forward('refreshteams');
             }
 
             $payload = (new Application_Model_IosAutopublish)
