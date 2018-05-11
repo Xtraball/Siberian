@@ -5,6 +5,7 @@
 //  Created by tomasz on 07/10/14.
 //
 //
+
 import Foundation
 import AudioToolbox
 import WebKit
@@ -48,6 +49,7 @@ func log(_ messages: [String]) {
         log("Plugin initialization")
         //let faker = GeofenceFaker(manager: geoNotificationManager)
         //faker.start()
+
         if iOS8 {
             promptForNotificationPermission()
         }
@@ -139,7 +141,7 @@ func log(_ messages: [String]) {
         }
     }
 
-    func didReceiveTransition (_ notification: Notification) {
+    @objc func didReceiveTransition (_ notification: Notification) {
         log("didReceiveTransition")
         if let geoNotificationString = notification.object as? String {
 
@@ -149,7 +151,7 @@ func log(_ messages: [String]) {
         }
     }
 
-    func didReceiveLocalNotification (_ notification: Notification) {
+    @objc func didReceiveLocalNotification (_ notification: Notification) {
         log("didReceiveLocalNotification")
         if UIApplication.shared.applicationState != UIApplicationState.active {
             var data = "undefined"
@@ -225,9 +227,6 @@ class GeofenceFaker {
 class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     let store = GeoNotificationStore()
-    let remoteServerURLName = "remoteServerURL"
-    let remoteServerPostStringName = "remoteServerPostString"
-    let remoteServerAccessTokenName = "remoteServerAccessToken"
 
     override init() {
         log("GeoNotificationManager init")
@@ -336,7 +335,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
         store.remove(id)
         let region = getMonitoredRegion(id)
         if (region != nil) {
-            log("Stopping monitoring region \(id)")
+            log("Stoping monitoring region \(id)")
             locationManager.stopMonitoring(for: region!)
         }
     }
@@ -345,7 +344,7 @@ class GeoNotificationManager : NSObject, CLLocationManagerDelegate {
         store.clear()
         for object in locationManager.monitoredRegions {
             let region = object
-            log("Stopping monitoring region \(region.identifier)")
+            log("Stoping monitoring region \(region.identifier)")
             locationManager.stopMonitoring(for: region)
         }
     }
