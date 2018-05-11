@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'xcodeproj'
+
+load './Loggy'
+load './Settings'
+
+begin
+  Settings.alterProject(ARGV[0])
+rescue => error
+  Loggy.error("CAUGHT ERROR", error.message)
+end
+
