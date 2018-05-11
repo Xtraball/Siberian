@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'colorize'
-
 module Loggy
   def Loggy.info(titles, values, isWrapped = false)
     if isWrapped

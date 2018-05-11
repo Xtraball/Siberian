@@ -639,6 +639,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
             // Ios specific, run push.rb to patch push notifications!
             if (!prepare) {
+                patchIos(platform);
                 if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
                     sprint(clc.green('Patching platform project for Push entitlements ...'));
                     sh.exec(ROOT + '/bin/scripts/Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
@@ -667,12 +668,14 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 };
 
 let patchIos = function (platform) {
+    sh.cd(ROOT + '/bin/scripts/');
     if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
         sprint(clc.green('Patching platform project for Push entitlements ...'));
-        sh.exec(ROOT + '/bin/scripts/Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
+        sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
     } else {
         sprint(clc.green('Only ios platforms, aborting.'));
     }
+    sh.cd(ROOT+'/ionic/');
 };
 
 /**

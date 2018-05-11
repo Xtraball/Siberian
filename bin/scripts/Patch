@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require 'xcodeproj'
+require 'bundler'
+Bundler.require(:default)
 
 load './Loggy'
 load './Settings'
