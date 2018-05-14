@@ -27,6 +27,7 @@
  * @method boolean getHasAudio()
  * @method $this setItcProvider(string $itcProvider)
  * @method string getItcProvider()
+ * @method $this setRefreshPem(boolean $refreshPem)
  */
 class Application_Model_IosAutopublish extends Core_Model_Default
 {
@@ -170,5 +171,62 @@ class Application_Model_IosAutopublish extends Core_Model_Default
             }
         }
         return $dataProviders;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStats ()
+    {
+        try {
+            /**
+             * Example response
+             * {
+             *   "averageBuildtime":725,
+             *   "itemsCount":11,
+             *   "estimatedTime":10875
+             * }
+             */
+            $response = Siberian_Request::get('https://autopublish-api.siberiancms.com/stats');
+            $values = Siberian_Json::decode($response);
+
+            $load = __('low');
+            $loadColor = 'alert alert-success';
+            if ($values['itemsCount'] > 10) {
+                $load = __('average');
+                $loadColor = 'alert alert-warning';
+            }
+            if ($values['itemsCount'] > 20) {
+                $load = __('high');
+                $loadColor = 'alert alert-danger';
+            }
+
+            $moment = (new \MomentPHP\MomentPHP())
+                ->add($values['estimatedTime'], 'seconds');
+            $fromNow = $moment->fromNow();
+
+            $payload = [
+                'isOnline' => $values['isOnline'],
+                'offlineStatus' => $values['isOnline'] ? __('online') : __('maintenance'),
+                'offlineMessage' => $values['offlineMessage'],
+                'load' => $load,
+                'loadColor' => $loadColor,
+                'itemsCount' => $values['itemsCount'],
+                'fromNow' => $fromNow,
+            ];
+
+        } catch (Exception $e) {
+            $payload = [
+                'isOnline' => false,
+                'offlineStatus' => __('unreachable'),
+                'offlineMessage' => __('iOS-Autopublish service is unreachable.'),
+                'load' => __('N.A.'),
+                'loadColor' => 'alert alert-info',
+                'itemsCount' => 0,
+                'fromNow' => 'N.A.',
+            ];
+        }
+
+        return $payload;
     }
 }

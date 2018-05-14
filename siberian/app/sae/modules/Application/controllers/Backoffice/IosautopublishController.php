@@ -59,6 +59,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
+                $payload['stats'] = $appIosAutopublish->getStats();
             }
 
         } catch (Exception $e) {
@@ -135,6 +136,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
+                $payload['stats'] = $appIosAutopublish->getStats();
             }
 
         } catch (Exception $e) {
@@ -191,10 +193,13 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     __('You must select both a Development Team & an iTunes Connect provider!'));
             }
 
+            $refreshPem = array_key_exists('refresh_pem', $params['infos']);
+
             $appIosAutopublish
                 ->selectTeam($selectedTeamId, $selectedProviderId)
                 ->setAppId($params['app_id'])
                 ->setWantToAutopublish(1)
+                ->setRefreshPem($refreshPem)
                 ->setHasAds($params['infos']['has_ads'])
                 ->setHasBgLocate($params['infos']['has_bg_locate'])
                 ->setHasAudio($params['infos']['has_audio'])
@@ -228,6 +233,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 ->setType('ios' . $noads)
                 ->setDesignCode($designCode)
                 ->setIsAutopublish('1')
+                ->setIsRefreshPem($refreshPem)
                 ->setHost($request->getHttpHost())
                 ->setUserId($this->getSession()->getBackofficeUserId())
                 ->save();
