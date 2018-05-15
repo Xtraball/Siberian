@@ -85,6 +85,9 @@ try {
 
 $formQuery->createSubmit();
 
+$deleteForm = new Wordpress2_Form_Query_Delete();
+$deleteForm->setValueId($optionValue->getId());
+
 ?>
 
 <div id="list" class="wordpress2">
@@ -170,10 +173,10 @@ $formQuery->createSubmit();
                                             </td>
                                             <td class="delete-action">
                                                 <?php
-                                                /**$delete_form->setAttrib("data-rowid", "company_manage_element_".$company->getId());
-                                                $delete_form->getElement("company_id")->setValue($company->getId());
+                                                    $deleteForm->setAttrib('data-rowid', 'query_manage_element_' . $query->getId());
+                                                    $deleteForm->getElement('query_id')->setValue($query->getId());
 
-                                                echo $delete_form;*/
+                                                    echo $deleteForm;
                                                 ?>
                                             </td>
                                         </tr>
