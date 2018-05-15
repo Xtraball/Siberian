@@ -8,8 +8,8 @@ class Core_Model_Language {
     protected static $_countries_list;
     protected static $_current_currency;
     protected static $__session = null;
-    protected static $_languages = array();
-    protected static $_language_codes = array();
+    protected static $_languages = [];
+    protected static $_language_codes = [];
 
     public static function prepare() {
 
@@ -19,19 +19,19 @@ class Core_Model_Language {
             $dir_name = $directory->getFileName();
             if(!$directory->isDot() AND isset($territories[$dir_name])) {
                 $locale = Zend_Locale::getLocaleToTerritory($dir_name);
-                self::$_languages[$directory->getFileName()] = new Core_Model_Default(array(
+                self::$_languages[$directory->getFileName()] = new Core_Model_Default([
                     'code' => $directory->getFileName(),
                     'name' => ucfirst($territories[$dir_name]),
                     'locale' => $locale,
-                ));
+                ]);
                 self::$_language_codes[] = $directory->getFileName();
             }
         }
-        self::$_languages[self::DEFAULT_LANGUAGE] = new Core_Model_Default(array(
+        self::$_languages[self::DEFAULT_LANGUAGE] = new Core_Model_Default([
             'code' => self::DEFAULT_LANGUAGE,
             'name' => ucfirst($territories[self::DEFAULT_LANGUAGE]),
             'locale' => self::DEFAULT_LOCALE
-        ));
+        ]);
 
         self::$_language_codes[] = self::DEFAULT_LANGUAGE;
 
@@ -126,41 +126,46 @@ class Core_Model_Language {
         return $price;
     }
 
-    public static function getCountriesList() {
-
-        if(is_null(self::$_countries_list)) {
-
-            self::$_countries_list = array();
+    /**
+     * @return array
+     * @throws Zend_Currency_Exception
+     */
+    public static function getCountriesList()
+    {
+        if (is_null(self::$_countries_list)) {
+            self::$_countries_list = [];
             $currency = self::$_current_currency ? self::$_current_currency : new Zend_Currency();
 
-            foreach(Zend_Locale::getTranslationList('Territory', self::getCurrentLocale(), 2) as $ter => $name) {
+            $language = Core_Model_Language::getSession()->current_language;
+            $locale = new Zend_Locale($language);
+
+            foreach (Zend_Locale::getTranslationList('Territory', $locale, 2) as $ter => $name) {
                 $country_code = Zend_Locale::getLocaleToTerritory($ter);
 
-                if(!is_null($country_code)) {
+                if (!is_null($country_code)) {
                     try {
                         $symbol = $currency->getSymbol($country_code);
-                        if($ter == "RS") {
+                        if ($ter == "RS") {
                             $country_code = "sr_RS";
                             $symbol = $currency->getSymbol($country_code);
                         }
-                        if(!empty($symbol)) {
-                            $countries[$country_code] = array(
+                        if (!empty($symbol)) {
+                            $countries[$country_code] = [
                                 'code' => $country_code,
                                 'name' => $name,
                                 'symbol' => $symbol
-                            );
+                            ];
                         }
+                    } catch (Exception $e) {
+                        // Do nothing!
                     }
-                    catch(Exception $e) {}
-
                 }
             }
 
             uasort($countries, 'cmp');
-            foreach($countries as $currency) {
+            foreach ($countries as $currency) {
                 self::$_countries_list[] = new Core_Model_Default($currency);
             }
-
         }
 
         return self::$_countries_list;
