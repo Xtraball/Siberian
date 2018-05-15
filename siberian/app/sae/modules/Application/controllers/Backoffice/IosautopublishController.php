@@ -241,12 +241,15 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $more['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
             $more['queued'] = Application_Model_Queue::getPosition($application->getId());
 
-            $appIosAutopublish->setData('last_build_status', 'pending');
-            $appIosAutopublish->save();
-
+            # Update status only for builds.
+            if (!$refreshPem) {
+                $appIosAutopublish->setData('last_build_status', 'pending');
+                $appIosAutopublish->save();
+            }
+#
             $payload = [
                 'success' => true,
-                'message' => 'Generation successfully queued.',
+                'message' => __('Generation successfully queued.'),
                 'more' => $more
             ];
         } catch (Exception $e) {

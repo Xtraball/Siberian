@@ -328,9 +328,9 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $jobUrlEncoded = base64_encode('http://'.$this->getHost().'/var/tmp/jobs/'.$jobCode.'.tgz');
 
         Siberian_Request::get(
-            "https://jenkins-prod02.xtraball.com/job/ios-autopublish/buildWithParameters",
+            "https://jenkins-prod02.xtraball.com/job/generate-pem/buildWithParameters",
             [
-                'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
+                'token' => '6EJQwGkCLzTTvSWUfY19a3QshNvk8RXK',
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
             ],
             null,
