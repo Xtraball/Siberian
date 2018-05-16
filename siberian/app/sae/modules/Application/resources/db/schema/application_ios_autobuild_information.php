@@ -26,6 +26,10 @@ $schemas['application_ios_autobuild_information'] = [
     'want_to_autopublish' => [
         'type' => 'boolean',
     ],
+    'refresh_pem' => [
+        'type' => 'boolean',
+        'default' => '0'
+    ],
     'itunes_login' => [
         'type' => 'varchar(255)',
     ],

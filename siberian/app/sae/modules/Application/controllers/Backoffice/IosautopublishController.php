@@ -59,6 +59,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
+                $payload['stats'] = $appIosAutopublish->getStats();
             }
 
         } catch (Exception $e) {
@@ -135,6 +136,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $payload['itcProviders'] = $appIosAutopublish->getItcProvidersArray();
                 $payload['selected_team'] = $appIosAutopublish->getTeamId();
                 $payload['selected_provider'] = $appIosAutopublish->getItcProvider();
+                $payload['stats'] = $appIosAutopublish->getStats();
             }
 
         } catch (Exception $e) {
@@ -191,10 +193,13 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     __('You must select both a Development Team & an iTunes Connect provider!'));
             }
 
+            $refreshPem = array_key_exists('refresh_pem', $params['infos']);
+
             $appIosAutopublish
                 ->selectTeam($selectedTeamId, $selectedProviderId)
                 ->setAppId($params['app_id'])
                 ->setWantToAutopublish(1)
+                ->setRefreshPem($refreshPem)
                 ->setHasAds($params['infos']['has_ads'])
                 ->setHasBgLocate($params['infos']['has_bg_locate'])
                 ->setHasAudio($params['infos']['has_audio'])
@@ -228,6 +233,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 ->setType('ios' . $noads)
                 ->setDesignCode($designCode)
                 ->setIsAutopublish('1')
+                ->setIsRefreshPem($refreshPem)
                 ->setHost($request->getHttpHost())
                 ->setUserId($this->getSession()->getBackofficeUserId())
                 ->save();
@@ -235,12 +241,15 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $more['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
             $more['queued'] = Application_Model_Queue::getPosition($application->getId());
 
-            $appIosAutopublish->setData('last_build_status', 'pending');
-            $appIosAutopublish->save();
-
+            # Update status only for builds.
+            if (!$refreshPem) {
+                $appIosAutopublish->setData('last_build_status', 'pending');
+                $appIosAutopublish->save();
+            }
+#
             $payload = [
                 'success' => true,
-                'message' => 'Generation successfully queued.',
+                'message' => __('Generation successfully queued.'),
                 'more' => $more
             ];
         } catch (Exception $e) {
@@ -259,44 +268,52 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
     public function updatejobstatusAction() {
 
         try {
+            $request = $this->getRequest();
 
-            $token = $this->getRequest()->getParam("token",null);
-            $status = $this->getRequest()->getParam("status",null);
-            $error_message = $this->getRequest()->getParam("error_message",null);
-            $last_builded_ipa_link = $this->getRequest()->getParam("last_builded_ipa_link",null);
+            $token = $request->getParam('token',null);
+            $status = $request->getParam('status',null);
+            $error_message = $request->getParam('error_message',null);
+            $last_builded_ipa_link = $request->getParam('last_builded_ipa_link',null);
 
 
-            if(is_null($token) || is_null($status)) {
-                throw new Exception("Wrong params.");
+            if (is_null($token) || is_null($status)) {
+                throw new Siberian_Exception(__('Missing token and/or status.'));
             }
 
-            if(!in_array($status, array("pending","queued","building","success","failed"))) {
-                throw new Exception("Wrong params.");
+            $availableStatuses = [
+                'pending',
+                'queued',
+                'building',
+                'success',
+                'faile',
+            ];
+            if (!in_array($status, $availableStatuses)) {
+                throw new Siberian_Exception(__('Invalid status `%s`.', $status));
             }
 
-            $appIosAutopublish = new Application_Model_IosAutopublish();
-            $appIosAutopublish->find($token,"token");
+            $appIosAutopublish = (new Application_Model_IosAutopublish())
+                ->find($token,'token');
 
-            if(!is_numeric($appIosAutopublish->getId())) {
-                throw new Exception("Wrong params.");
+            if (!$appIosAutopublish->getId()) {
+                throw new Siberian_Exception(__('Unable to find the corresponding build.'));
             }
 
             switch ($status) {
                 case 'success':
-                    $appIosAutopublish->setData("last_success",time());
-                    $appIosAutopublish->setData("last_finish",time());
+                    $appIosAutopublish->setData('last_success', time());
+                    $appIosAutopublish->setData('last_finish', time());
 
-                    $application = new Application_Model_Application();
-                    $application->find($appIosAutopublish->getId());
-                    if(!$application->getId()) {
-                        throw new Exception("Cannot get application from token.");
+                    $application = (new Application_Model_Application())
+                        ->find($appIosAutopublish->getId());
+                    if (!$application->getId()) {
+                        throw new Siberian_Exception(__('Cannot find application from token.'));
                     }
                     //1 is iOS
                     $device = $application->getDevice(1);
-                    $device->setData("status_id",3)->save();
+                    $device->setData('status_id', 3)->save();
                     break;
                 case 'failed':
-                    $appIosAutopublish->setData("last_finish",time());
+                    $appIosAutopublish->setData('last_finish', time());
                     break;
             }
 

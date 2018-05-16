@@ -229,23 +229,23 @@ App.config(function($routeProvider) {
         $scope.refreshTeamsLoader = true;
 
         Application
-        .refreshTeams($scope.application.id)
-        .success(function (data) {
-            $scope.ios_publish_informations.teams = data.teams;
-            $scope.ios_publish_informations.selected_team = data.selected_team;
-            $scope.ios_publish_informations.itcProviders = data.itcProviders;
-            $scope.ios_publish_informations.selected_provider = data.selected_provider;
+            .refreshTeams($scope.application.id)
+            .success(function (data) {
+                $scope.ios_publish_informations.teams = data.teams;
+                $scope.ios_publish_informations.selected_team = data.selected_team;
+                $scope.ios_publish_informations.itcProviders = data.itcProviders;
+                $scope.ios_publish_informations.selected_provider = data.selected_provider;
 
-            $scope.message.setText(data.message)
-                .isError(false)
-                .show();
-        }).error(function (data) {
-            $scope.message.setText(data.message)
-                .isError(true)
-                .show();
-        }).finally(function () {
-            $scope.refreshTeamsLoader = false;
-        });
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show();
+            }).error(function (data) {
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show();
+            }).finally(function () {
+                $scope.refreshTeamsLoader = false;
+            });
     };
 
     $scope.refreshPublish = false;
@@ -271,7 +271,36 @@ App.config(function($routeProvider) {
             }).finally(function () {
                 $scope.refreshPublish = false;
             });
+    };
 
+    $scope.requestPem = false;
+    $scope.requestPemCertificate = function () {
+        $scope.requestPem = true;
+
+        $scope.ios_publish_informations.refresh_pem = true;
+
+        Application
+            .saveInfoIosAutopublish(
+                $scope.application.id,
+                $scope.ios_publish_informations)
+            .success(function (data) {
+
+                $scope.application.zip = data.more.zip;
+                $scope.application.queued = data.more.queued;
+
+                $scope.message.setText(data.message)
+                .isError(false)
+                .show();
+
+            }).error(function (data) {
+                $scope.message.setText(data.message)
+                .isError(true)
+                .show();
+
+            }).finally(function () {
+                $scope.requestPem = false;
+                $scope.ios_publish_informations.refresh_pem = false;
+            });
     };
 
     $scope.saveInfo = function() {

@@ -141,7 +141,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $wordpressQuery = (new Wordpress2_Model_Query())
-                ->find($params['wordpress2_id']);
+                ->find($params['query_id']);
             $wordpressQuery->setData($params);
 
             $query = Siberian_Json::encode(
@@ -190,6 +190,52 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                 'error' => true,
                 'message' => $form->getTextErrors(),
                 'errors' => $form->getTextErrors(true)
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Delete company
+     */
+    public function deletequeryAction()
+    {
+        $request = $this->getRequest();
+        $params = $request->getPost();
+
+        $form = new Wordpress2_Form_Query_Delete();
+        if ($form->isValid($params)) {
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $wordpressQuery = (new Wordpress2_Model_Query())
+                ->find($params['query_id']);
+
+            $wordpressQuery->delete();
+
+            // Update touch date, then never expires (until next touch)!
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                'wordpress2',
+                'value_id_' . $valueId,
+            ]);
+
+            $payload = [
+                'success' => true,
+                'success_message' => __('Query successfully deleted.'),
+                'message_loader' => 0,
+                'message_button' => 0,
+                'message_timeout' => 2
+            ];
+        } else {
+            $payload = [
+                'error' => true,
+                'message' => $form->getTextErrors(),
+                'errors' => $form->getTextErrors(true),
             ];
         }
 

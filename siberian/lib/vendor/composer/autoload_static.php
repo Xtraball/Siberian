@@ -187,6 +187,13 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixesPsr0 = array (
+        'M' => 
+        array (
+            'MomentPHP' => 
+            array (
+                0 => __DIR__ . '/..' . '/lawondyss/moment-php/src',
+            ),
+        ),
         'G' => 
         array (
             'Gregwar\\Image' => 

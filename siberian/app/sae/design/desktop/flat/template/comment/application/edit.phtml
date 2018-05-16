@@ -9,22 +9,22 @@
             <?php $radius->find($value->getId(), 'value_id'); ?>
             <div>
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Near me settings'); ?>
+                    <?php echo __('Near me settings'); ?>
                 </h3>
                 <div class="container-fluid first-row-feature content-feature">
                     <form id="near_radius" action="<?php echo $this->getUrl('comment/application/saveradius'); ?>" class="form-horizontal">
                         <div class="form-group">
                             <div class="col-sm-4">
-                                <label for="near_me_radius"><?php echo $this->_('\'Near me\' radius (in km):'); ?></label>
+                                <label for="near_me_radius"><?php echo __('\'Near me\' radius (in km):'); ?></label>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" class="required input-flat" name="radius" id="near_me_radius" placeholder="<?php echo $this->_('Radius'); ?>" value="<?php echo $radius->getRadius(); ?>"/>
+                                <input type="text" class="required input-flat" name="radius" id="near_me_radius" placeholder="<?php echo __('Radius'); ?>" value="<?php echo $radius->getRadius(); ?>"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-2 col-sm-offset-10">
                                 <button type="submit" class="btn color-blue pull-right" id="save_radius">
-                                    <?php echo $this->_('Save'); ?>
+                                    <?php echo __('Save'); ?>
                                 </button>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
 
         <div class="margin-bkg">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_(('Add content')); ?>
+            <?php echo __(('Add content')); ?>
             <button class="new_menu color-blue pull-right bt-header-right btn" onclick="feature.edit();" id="add_item" type="button">
                 <i class="fa fa-plus"></i>
             </button>
@@ -47,7 +47,7 @@
         <?php if ($comments->count()) : ?>
             <div class="margin-top">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_(('Manage content')); ?>
+                    <?php echo __(('Manage content')); ?>
                     <button type="button" id="toggle_existing_items" class="color-blue pull-right bt-header-right btn">
                         <i class="fa fa-angle-down"></i>
                     </button>
@@ -81,25 +81,25 @@
                                             <i class="fa fa-comment"></i>
                                         </a>
                                         <?php if ($comment->getisVisible() == '1') : ?>
-                                            <a href="javascript:void(0)" title="<?php echo $this->_('Hide this info') ?>" class="hide_comment" rel="<?php echo $comment->getId() ?>">
+                                            <a href="javascript:void(0)" title="<?php echo __('Hide this info') ?>" class="hide_comment" rel="<?php echo $comment->getId() ?>">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         <?php else : ?>
-                                            <a href="javascript:void(0)" title="<?php echo $this->_('Show this info') ?>" class="show_comment" rel="<?php echo $comment->getId() ?>">
+                                            <a href="javascript:void(0)" title="<?php echo __('Show this info') ?>" class="show_comment" rel="<?php echo $comment->getId() ?>">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         <?php endif; ?>
-                                        <a href="javascript:void(0)" title="<?php echo $this->_('Delete this info') ?>" class="delete_comment" rel="<?php echo $comment->getId() ?>">
+                                        <a href="javascript:void(0)" title="<?php echo __('Delete this info') ?>" class="delete_comment" rel="<?php echo $comment->getId() ?>">
                                             <i class="fa fa-remove"></i>
                                         </a>
-                                        <a href="javascript:void(0)" class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo $this->_('Was flagged as inappropriate') ?>">
+                                        <a href="javascript:void(0)" class="<?php if ($comment->getFlag() == 0) echo 'hidden'; ?> show_details" title="<?php echo __('Was flagged as inappropriate') ?>">
                                             <i class="fa fa-flag"></i>
                                         </a>
                                     </div>
                                 </div>
                                 <div id="details_news_<?php echo $comment->getId(); ?>" class="news_details" style="display: none;">
                                     <div class="row">
-                                        <div class="col-md-4"><label><?php echo $this->_('Publishing date'); ?> :</label></div>
+                                        <div class="col-md-4"><label><?php echo __('Publishing date'); ?> :</label></div>
                                         <div class="col-md-8"><?php echo $comment->getFormattedCreatedAt('dd MMMM y') ?></div>
                                     </div>
                                     <div class="row">
@@ -119,26 +119,26 @@
                                             <input type="hidden" name="id" value="<?php echo $comment->getId(); ?>" />
                                             <div class="form-group">
                                                 <div class="col-md-6">
-                                                    <label for="news_update_title"><?php echo $this->_("Title"); ?></label>
+                                                    <label for="news_update_title"><?php echo __("Title"); ?></label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="news_update_subtitle"><?php echo $this->_("Date"); ?></label>
+                                                    <label for="news_update_subtitle"><?php echo __("Date"); ?></label>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-6">
-                                                    <input type="text" class="input-flat new_update_title" name="title" placeholder="<?php echo $this->_("Title"); ?>" value="<?php echo $comment->getTitle(); ?>"/>
+                                                    <input type="text" class="input-flat new_update_title" name="title" placeholder="<?php echo __("Title"); ?>" value="<?php echo $comment->getTitle(); ?>"/>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="input-flat news_update_date" name="date" placeholder="<?php echo $this->_("Date"); ?>" value="<?php echo $comment->getDate(); ?>"/>
+                                                    <input type="text" class="input-flat news_update_date" name="date" placeholder="<?php echo __("Date"); ?>" value="<?php echo $comment->getDate(); ?>"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <div class="col-md-12">
-                                                    <label for="news_update_subtitle"><?php echo $this->_("Subtitle"); ?></label>
+                                                    <label for="news_update_subtitle"><?php echo __("Subtitle"); ?></label>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <input type="text"  class="input-flat news_update_subtitle" name="subtitle" placeholder="<?php echo $this->_("Subtitle"); ?>" value="<?php echo $comment->getSubtitle(); ?>"/>
+                                                    <input type="text"  class="input-flat news_update_subtitle" name="subtitle" placeholder="<?php echo __("Subtitle"); ?>" value="<?php echo $comment->getSubtitle(); ?>"/>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -153,8 +153,8 @@
                                                     <!--[if gte IE 10]><!-->
                                                     <button  type="button" class="upload_update_comment_picture btn color-blue image_left" rel="<?php echo $comment->getId() ?>">
                                                         <i class="fa fa-camera-retro"></i>
-                                                        <?php echo $this->_('Insert a'); ?><br>
-                                                        <span class="bold"><?php echo $this->_('picture'); ?></span>
+                                                        <?php echo __('Insert a'); ?><br>
+                                                        <span class="bold"><?php echo __('picture'); ?></span>
                                                     </button>
                                                     <!--<![endif]-->
                                                     <input id="uploader_update_comment_<?php echo $comment->getId() ?>" class="uploader_comment" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -189,7 +189,7 @@
     </div>
     <div id="edit" style="display: none;">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Create a news'); ?>
+            <?php echo __('Create a news'); ?>
         </h3>
         <div class="container-fluid content-feature">
             <form id="newsCreateForm" action="<?php echo $this->getUrl('comment/application/editpost') ?>" method="post" class="form-horizontal">
@@ -202,26 +202,26 @@
                 <input type="hidden" name="value_id" value="<?php echo $value->getId(); ?>" />
                 <div class="form-group">
                     <div class="col-md-6">
-                        <label for="news_title"><?php echo $this->_("Title"); ?></label>
+                        <label for="news_title"><?php echo __("Title"); ?></label>
                     </div>
                     <div class="col-md-6">
-                        <label for="news_subtitle"><?php echo $this->_("Date"); ?></label>
+                        <label for="news_subtitle"><?php echo __("Date"); ?></label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        <input type="text" id="news_title" class="input-flat" name="title" placeholder="<?php echo $this->_("Title"); ?>" />
+                        <input type="text" id="news_title" class="input-flat" name="title" placeholder="<?php echo __("Title"); ?>" />
                     </div>
                     <div class="col-md-6">
-                        <input type="text" id="news_date" class="input-flat" name="date" placeholder="<?php echo $this->_("Date"); ?>" />
+                        <input type="text" id="news_date" class="input-flat" name="date" placeholder="<?php echo __("Date"); ?>" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <label for="news_subtitle"><?php echo $this->_("Subtitle"); ?></label>
+                        <label for="news_subtitle"><?php echo __("Subtitle"); ?></label>
                     </div>
                     <div class="col-md-12">
-                        <input type="text" id="news_subtitle" class="input-flat" name="subtitle" placeholder="<?php echo $this->_("Subtitle"); ?>" />
+                        <input type="text" id="news_subtitle" class="input-flat" name="subtitle" placeholder="<?php echo __("Subtitle"); ?>" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -255,7 +255,7 @@
     <div id="logo_edit">
         <button type="button" id="cancel_crop" class="delete pull-left"><i class="fa fa-angle-left"></i></button>
         <button type="button" id="validate_crop" class="btn pull-right">OK</button>
-        <p><?php echo $this->_('Resize your picture:'); ?></p>
+        <p><?php echo __('Resize your picture:'); ?></p>
         <div id="logo_cont"></div>
     </div>
     <script type="text/javascript">
@@ -322,13 +322,15 @@
                 $.datepicker.setDefaults($.datepicker.regional['en']);
             }
 
-            $('#news_date').datepicker({
+            $('#news_date').datetimepicker({
                 showAnim: 'clip',
-                dateFormat: 'yy-mm-dd'
+                dateFormat: 'yy-mm-dd',
+                format: 'HH:mm'
             });
-            $('.news_update_date').datepicker({
+            $('.news_update_date').datetimepicker({
                 showAnim: 'clip',
-                dateFormat: 'yy-mm-dd'
+                dateFormat: 'yy-mm-dd',
+                format: 'HH:mm'
             });
 
             $('#toggle_existing_items').click(function () {
