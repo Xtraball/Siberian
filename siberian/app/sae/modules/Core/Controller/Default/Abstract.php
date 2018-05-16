@@ -706,14 +706,21 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     /**
-     * @param $html
+     * @param $payload
+     * @param int $options
      */
-    public function _sendJson($html, $options = JSON_PRETTY_PRINT) {
-        if(isset($html["error"]) && !empty($html["error"])) {
-            $this->getResponse()->setHttpResponseCode(400);
+    public function _sendJson($payload, $options = JSON_PRETTY_PRINT)
+    {
+        if (array_key_exists('error', $payload) &&
+            $payload['error'] == true) {
+            try {
+                $this->getResponse()->setHttpResponseCode(400);
+            } catch (Exception $e) {
+                // Code is valid!
+            }
         }
 
-        $json = Siberian_Json::encode($html, $options);
+        $json = Siberian_Json::encode($payload, $options);
 
         Siberian_Debug::sendDataInHeaders();
 

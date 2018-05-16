@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+module Loggy
+  def Loggy.info(titles, values, isWrapped = false)
+    if isWrapped
+      puts "============================ INFO ==============================".yellow
+    end
+
+    Loggy.print(titles, values)
+
+    if isWrapped
+      puts "============================ INFO ==============================".yellow
+    end
+  end
+
+  def Loggy.error(titles, values, isWrapped = false)
+    if isWrapped
+      puts "============================ ERROR =============================".red
+    end
+
+    Loggy.print(titles, values)
+
+    if isWrapped
+      puts "============================ ERROR =============================".red
+    end
+  end
+
+  def Loggy.print(titles, values)
+    # Prepare values
+    if !titles.kind_of?(Array) && !values.kind_of?(Array)
+      titles = [titles]
+      values = [values]
+    end
+
+    # Supports multi-lines
+    titles.each_with_index do |title, index|
+      puts '%-48.48s' % title.red + values[index].blue
+    end
+  end
+end

@@ -24,7 +24,7 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                 if(!empty($events[$event_id])) {
 
                     $event = $events[$event_id];
-                    $data = array('event' => array());
+                    $data = ['event' => []];
 
                     $start_at->set($event->getStartAt(), $format);
                     $end_at->set($event->getEndAt(), $format);
@@ -42,36 +42,36 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                     $picture = $event->getPicture() ? $this->getRequest()->getBaseUrl().$event->getPicture() : null;
                     if($event->getType() == "facebook") $picture = $event->getPicture();
 
-                    $data['event'] = array(
-                        "id"                        => $event_id,
-                        "title"                     => $event->getName(),
-                        "description"               => nl2br($event->getDescription()),
-                        "address"                   => $event->getAddress(),
-                        "weekday_name"              => $start_at->toString(Zend_Date::WEEKDAY_NAME),
-                        "start_at"                  => $formatted_start_at,
-                        "end_at"                    => $formatted_end_at,
-                        "ticket_shop_url"           => $event->getTicketShopUrl(),
-                        "rsvp"                      => $event->getRsvp(),
-                        "websites"                  => $event->getWebsites(),
-                        "in_app_page_path"          => $in_app_page_path,
-                        "social_sharing_active"     => (boolean) $option->getSocialSharingIsActive()
-                    );
+                    $data['event'] = [
+                        "id" => $event_id,
+                        "title" => $event->getName(),
+                        "description" => nl2br($event->getDescription()),
+                        "address" => $event->getAddress(),
+                        "weekday_name" => $start_at->toString(Zend_Date::WEEKDAY_NAME),
+                        "start_at" => $formatted_start_at,
+                        "end_at" => $formatted_end_at,
+                        "ticket_shop_url" => $event->getTicketShopUrl(),
+                        "rsvp" => $event->getRsvp(),
+                        "websites" => $event->getWebsites(),
+                        "in_app_page_path" => $in_app_page_path,
+                        "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
+                    ];
 
-                    $data["cover"] = array(
+                    $data["cover"] = [
                         "title" => $event->getName(),
                         "subtitle" => $event->getSubtitle(),
                         "title2" => $formatted_start_at,
-                        "subtitle2" => array(
+                        "subtitle2" => [
                             "time" => $event->getStartTimeAt(),
-                            "location" => array(
+                            "location" => [
                                 "label" => $event->getLocationLabel(),
                                 "url" => $event->getLocationUrl()
-                            )
-                        ),
+                            ]
+                        ],
                         "title3" => $formatted_end_at,
                         "subtitle3" => $end_at->toString($this->_("hh:mm a")),
                         "picture" => $picture
-                    );
+                    ];
 
                     $data['page_title'] = $event->getName();
 
@@ -82,10 +82,10 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
             }
             catch(Exception $e) {
 
-                $data = array(
+                $data = [
                     "error"     => true,
                     "message"   => $e->getMessage()
-                );
+                ];
 
                 if($e->getCode() === 410) {
                     $data["gone"] = true;

@@ -56,7 +56,11 @@ $schemas['source_queue'] = array(
         'type' => 'int(11) unsigned',
     ),
     'is_autopublish' => array(
-        'type' => 'int(1) unsigned',
+        'type' => 'tinyint(1) unsigned',
+    ),
+    'is_refresh_pem' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     ),
     'log' => array(
         'type' => 'longtext',

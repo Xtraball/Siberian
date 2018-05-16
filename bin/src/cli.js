@@ -156,6 +156,7 @@ let cli = function (inputArgs) {
             'packall': Boolean,
             'prod': Boolean,
             'prepare': Boolean,
+            'patchios': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
             'prepall': Boolean,
@@ -247,6 +248,12 @@ let cli = function (inputArgs) {
         } else if (args.prepare) {
             if (remain.length >= 1) {
                 rebuild(remain[0], COPY, true, SKIP_REBUILD);
+            } else {
+                sprint(clc.red('Missing required argument <platform>'));
+            }
+        } else if (args.patchios) {
+            if (remain.length >= 1) {
+                patchIos(remain[0], COPY);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
@@ -571,9 +578,10 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
             // Ios specific, run push.rb to patch push notifications!
             if (!prepare) {
+                patchIos(platform);
                 if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
-                    sprint(clc.green('Patching platform project ...'));
-                    sh.exec(ROOT + '/ionic/patch/push.rb ' + ROOT + '/ionic/platforms/' + platform + '/');
+                    sprint(clc.green('Patching platform project for Push entitlements ...'));
+                    sh.exec(ROOT + '/bin/scripts/Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
                 }
             }
 
@@ -596,6 +604,17 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             originalIndexContent = null;
         }
     }
+};
+
+let patchIos = function (platform) {
+    sh.cd(ROOT + '/bin/scripts/');
+    if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
+        sprint(clc.green('Patching platform project for Push entitlements ...'));
+        sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
+    } else {
+        sprint(clc.green('Only ios platforms, aborting.'));
+    }
+    sh.cd(ROOT+'/ionic/');
 };
 
 /**

@@ -326,7 +326,7 @@ function __jsd($string) {
  * @param null $locale
  * @return array|mixed|string
  */
-function __url($url = "", array $params = array(), $locale = null) {
+function __url($url = "", array $params = [], $locale = null) {
 	return Core_Model_Url::create($url, $params, $locale);
 }
 
@@ -336,7 +336,7 @@ function __url($url = "", array $params = array(), $locale = null) {
  * @param null $locale
  * @return array|mixed|string
  */
-function __path($url = "", array $params = array(), $locale = null) {
+function __path($url = "", array $params = [], $locale = null) {
 	return Core_Model_Url::createPath($url, $params, $locale);
 }
 

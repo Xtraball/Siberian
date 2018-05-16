@@ -530,18 +530,24 @@ class Folder_Model_Folder extends Core_Model_Default {
         }
     }
 
+    /**
+     * @deprecated folders are not duplicated anymore due to a wide range of issues.
+     *
+     * @param $option
+     * @return $this
+     */
     public function copyTo($option) {
 
-        $root_category = new Folder_Model_Category();
-        $root_category->find($this->getRootCategoryId());
-
-        $this->copyCategoryTo($option, $root_category);
-
-        $this->setId(null)
-            ->setValueId($option->getId())
-            ->setRootCategoryId($root_category->getId())
-            ->save()
-        ;
+        #$root_category = new Folder_Model_Category();
+        #$root_category->find($this->getRootCategoryId());
+#
+        #$this->copyCategoryTo($option, $root_category);
+#
+        #$this->setId(null)
+        #    ->setValueId($option->getId())
+        #    ->setRootCategoryId($root_category->getId())
+        #    ->save()
+        #;
 
         return $this;
     }

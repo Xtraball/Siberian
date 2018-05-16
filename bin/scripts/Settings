@@ -1,0 +1,43 @@
+#!/usr/bin/env ruby
+
+require 'xcodeproj'
+
+module Settings
+  def Settings.alterProject(platformPath)
+    projectPath = "#{platformPath}AppsMobileCompany.xcodeproj"
+
+    Loggy.info("OPENING PROJECT", projectPath, true)
+
+    proj = Xcodeproj::Project.open(projectPath)
+    entitlementPath = "AppsMobileCompany/Entitlements-$(CONFIGURATION).plist"
+
+    groupName = proj.root_object.main_group.name
+
+    file = proj.new_file(entitlementPath.gsub("$(CONFIGURATION)", "Debug"))
+    fileRelease = proj.new_file(entitlementPath.gsub("$(CONFIGURATION)", "Release"))
+
+    attributes = {}
+    proj.targets.each do |target|
+      attributes[target.uuid] = {
+          "ProvisioningStyle" => "Manual",
+          "SystemCapabilities" => {
+              "com.apple.Push" => {
+                  "enabled" => 1
+              }
+          }
+      }
+      target.add_file_references([file, fileRelease])
+      Loggy.info("ADDED PUSH TO TARGET", target.uuid, true)
+    end
+    proj.root_object.attributes['TargetAttributes'] = attributes
+
+    proj.build_configurations.each do |config|
+      config.build_settings.store("CODE_SIGN_ENTITLEMENTS", entitlementPath.gsub("$(CONFIGURATION)", config.name))
+      config.build_settings.store("CODE_SIGN_ENTITLEMENTS[sdk*]", entitlementPath.gsub("$(CONFIGURATION)", config.name))
+    end
+
+    proj.save
+  end
+end
+
+

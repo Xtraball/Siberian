@@ -524,66 +524,136 @@
 
 </sb-section>
 <sb-section title="'<?php echo addslashes(__("Generate and publish iOS Application")); ?>'">
-    <form ng-submit="saveInfoIosAutopublish()" autocomplete="off">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("Remaining build");?></label>
-                    <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
-                    <div>
-                        <div ng-if="iosBuildActivationRemain === false" style="display">
-                            <div class="cssloader-small"></div>
-                        </div>
-                        <div ng-if="iosBuildActivationRemain !== false">
-                            <strong>{{ iosBuildActivationRemain }}</strong>
-                        </div>
-                        <?php echo __("You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: builds are only consumed if they're successful.</em>");?>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("Remaining build");?></label>
+                <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
+                <div>
+                    <div ng-if="iosBuildActivationRemain === false" style="display">
+                        <div class="cssloader-small"></div>
                     </div>
+                    <div ng-if="iosBuildActivationRemain !== false">
+                        <strong>{{ iosBuildActivationRemain }}</strong>
+                    </div>
+                    <?php echo __("You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: builds are only consumed if they're successful.</em>");?>
                 </div>
             </div>
         </div>
-        <!-- Not yet implemented
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __("Publish automatically to iTunes Connect");?></label>
-                </div>
-            </div>
-            <div class="col-md-12 form-group">
-                <div class="form-group">
-                    <div class="col-md-1">
-                        <label for="ios-autobuild-want-to-autopublish">
-                            <input type="radio" id="ios-autobuild-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="1" ng-value="1" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo __('Yes'); ?>
-                        </label>
-                    </div>
-                    <div class="col-md-1">
-                        <label for="ios-autobuild-dont-want-to-autopublish">
-                            <input type="radio" id="ios-autobuild-dont-want-to-autopublish" name="ios-autobuild-want-to-autopublish" value="0" ng-value="0" ng-model="ios_publish_informations.want_to_autopublish"> <?php echo __('No'); ?>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        -->
+    </div>
+
+    <form ng-submit="saveCredentialsAutopublish()"
+          autocomplete="off">
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectLogin"><?php echo __("iTunes Connect Login");?></label>
-                    <input type="text" value="" ng-model="ios_publish_informations.itunes_login" class="form-control" id="iTunesConnectLogin" autocomplete="new-password">
+                    <label class="control-label"
+                           for="iTunesConnectLogin"><?php echo __("iTunes Connect Login");?></label>
+                    <input type="text"
+                           value=""
+                           ng-model="ios_publish_informations.itunes_login"
+                           class="form-control"
+                           id="iTunesConnectLogin"
+                           autocomplete="new-password">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectPassword"><?php echo __("iTunes Connect Password");?></label>
-                    <input type="password" value="" ng-model="ios_publish_informations.itunes_password" class="form-control" id="iTunesConnectPassword" autocomplete="new-password">
+                    <label class="control-label"
+                           for="iTunesConnectPassword"><?php echo __("iTunes Connect Password");?></label>
+                    <input type="password"
+                           value=""
+                           ng-model="ios_publish_informations.itunes_password"
+                           class="form-control"
+                           id="iTunesConnectPassword"
+                           autocomplete="new-password">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group"
+                     style="margin-top: 25px;">
+                    <button type="submit"
+                            class="btn btn-primary left"><?php echo __('Save iTunes credentials'); ?></button>
+                    <sb-loader is_visible="refreshCredentialsLoader"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'no'"
+                               class="form_loader"></sb-loader>
                 </div>
             </div>
         </div>
+    </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label"><?php echo __('Publication settings');?></label>
+            </div>
+        </div>
+    </div>
+
+    <form ng-submit="refreshTeams()"
+          autocomplete="off">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label"
+                           for="iTunesTeams"><?php echo __('Apple Development teams');?></label>
+                    <select class="form-control"
+                            id="iTunesTeams"
+                            required
+                            ng-model="ios_publish_informations.selected_team">
+                        <option ng-value=""
+                                ng-selected="ios_publish_informations.selected_team == ''"><?php echo __('Select a Development team') ?></option>
+                        <option ng-repeat="team in ios_publish_informations.teams"
+                                ng-selected="team.teamId == ios_publish_informations.selected_team"
+                                value="{{ team.teamId }}">{{ team.name }} - {{ team.teamId }} - ({{ team.type }})</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label"
+                           for="iTunesTeams"><?php echo __('iTunes Connect providers');?></label>
+                    <select class="form-control"
+                            id="iTunesProvider"
+                            required
+                            ng-model="ios_publish_informations.selected_provider">
+                        <option ng-value=""
+                                ng-selected="ios_publish_informations.selected_provider == ''"><?php echo __('Select an iTunes Connect provider') ?></option>
+                        <option ng-repeat="itcProvider in ios_publish_informations.itcProviders"
+                                ng-selected="itcProvider.name == ios_publish_informations.selected_provider"
+                                value="{{ itcProvider.name }}">{{ itcProvider.name }} ({{ itcProvider.providerId }})</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group"
+                     style="margin-top: 25px;">
+                    <button type="submit"
+                            class="btn btn-primary left"><?php echo __('Refresh available Teams & Providers'); ?></button>
+                    <sb-loader is_visible="refreshTeamsLoader"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'no'"
+                               class="form_loader"></sb-loader>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form ng-submit="saveInfoIosAutopublish()"
+          autocomplete="off">
+
         <div class="row">
             <div class="col-md-4">
                 <label for="{{ device.id }}_status"><?php echo __('Languages'); ?></label>
                 <div class="form-group">
-                    <select name="languages" class="form-control" ng-model="ios_publish_informations.languages">
+                    <select name="languages"
+                            class="form-control"
+                            ng-model="ios_publish_informations.languages">
                         <?php foreach(Application_Model_Languages::getSupportedLanguages() as $code => $language) :?>
                         <option value="<?php echo $code;?>"><?php echo __($language); ?></option>
                         <?php endforeach; ?>
@@ -597,7 +667,11 @@
                 <div class="row checkbox">
                     <div class="col-md-3">
                         <label for="ios-autobuild-has-ads">
-                            <input type="checkbox" id="ios-autobuild-has-ads" name="ios-autobuild-has-ads" ng-checked="ios_publish_informations.has_ads" ng-model="ios_publish_informations.has_ads"> <?php echo __('With ads functionality'); ?>
+                            <input type="checkbox"
+                                   id="ios-autobuild-has-ads"
+                                   name="ios-autobuild-has-ads"
+                                   ng-checked="ios_publish_informations.has_ads"
+                                   ng-model="ios_publish_informations.has_ads"> <?php echo __('With ads functionality'); ?>
                         </label>
                     </div>
                     <div class="col-md-9">
@@ -607,59 +681,120 @@
                 <div class="row checkbox">
                     <div class="col-md-3">
                         <label for="ios-autobuild-has-audio">
-                            <input type="checkbox" id="ios-autobuild-has-audio" name="ios-autobuild-has-audio" ng-checked="ios_publish_informations.has_audio" ng-model="ios_publish_informations.has_audio"> <?php echo __('With background audio playing'); ?>
+                            <input type="checkbox"
+                                   id="ios-autobuild-has-audio"
+                                   name="ios-autobuild-has-audio"
+                                   ng-checked="ios_publish_informations.has_audio"
+                                   ng-model="ios_publish_informations.has_audio"> <?php echo __('With background audio playing'); ?>
                         </label>
                     </div>
                     <div class="col-md-9">
                         <?php echo __('* You have to justify why you need this background audio playing to Apple.'); ?>
                     </div>
                 </div>
-                <!-- not yet implemented
-                <div class="row checkbox">
-                    <div class="col-md-3">
-                        <label for="ios-autobuild-has-location">
-                            <input type="checkbox" id="ios-autobuild-has-location" name="ios-autobuild-has-location" ng-checked="ios_publish_informations.has_bg_locate" ng-model="ios_publish_informations.has_bg_locate"> <?php echo __('With background geolocation'); ?>
-                        </label>
-                    </div>
-                    <div class="col-md-9">
-                        <?php echo __('* You have to justify why you need this background geolocation to Apple.'); ?>
-                    </div>
-                </div>-->
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo __('Save publication settings'); ?></button><sb-loader is_visible="application_form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label" for="iTunesConnectIdentifier"><?php echo __('Build information'); ?></label>
-                    <div class="row">
-                        <div ng-if="ios_publish_informations.last_build_status === 'failed'" class="alert alert-danger bs-alert-old-docs">
-                            <strong><?php echo __('Error!'); ?></strong> {{ios_publish_informations.error_message}}</a>
-                        </div>
-                        <div class="col-md-12 form-group">
-                            <em><?php echo __('Status'); ?></em> : <strong>{{ios_publish_informations.last_build_status}}</strong>
-                        </div>
-                        <div ng-if="ios_publish_informations.last_builded_ipa_link.length > 0" class="col-md-12 form-group">
-                            <button class="btn btn-success text-left">
-                                <i class="fa fa-download"></i> <?php echo __('Download last build'); ?><br/>
-                                <?php echo __('Version'); ?>: <strong>{{ios_publish_informations.last_builded_version}}</strong><br/>
-                                <?php echo __('Build date'); ?>: <strong>{{ios_publish_informations.last_success}}</strong>
-                            </button>
+                    <label class="control-label"
+                           for="iTunesConnectIdentifier"><?php echo __('Build information'); ?></label>
+                    <div>
+                        <div class="alert"
+                             ng-class="{
+                                'alert-danger': ios_publish_informations.last_build_status === 'failed',
+                                'alert-info': ios_publish_informations.last_build_status !== 'failed'}">
+                            <b><?php echo __('Status'); ?></b>:
+                                <span ng-if="ios_publish_informations.last_build_status">{{ios_publish_informations.last_build_status}}</span>
+                                <span ng-if="!ios_publish_informations.last_build_status"><?php echo __('idle') ?></span>
+                            <p ng-if="ios_publish_informations.last_build_status === 'failed'">
+                                <b><?php echo __('Last error'); ?></b>: {{ios_publish_informations.error_message}}
+                            </p>
                         </div>
                     </div>
                 </div>
+
+                <button ng-disabled="!ios_publish_informations.stats.isOnline"
+                        type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-send"></i> <?php echo __('Save settings & Publish'); ?>
+                </button>
+                <sb-loader is_visible="refreshPublish"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
             </div>
+
+            <div class="col-md-6 form-group">
+
+                <label class="control-label"
+                       for="iTunesConnectIdentifier"><?php echo __('Service status / load'); ?></label>
+
+                <div ng-if="ios_publish_informations.stats.isOnline"
+                     ng-class="ios_publish_informations.stats.loadColor">
+                    <?php echo __('Current load is') ?> <b>{{ ios_publish_informations.stats.load }}</b>
+                    <br />
+                    <?php echo __('Your build should be ready') ?> <b>{{ ios_publish_informations.stats.fromNow }}</b>
+                </div>
+
+                <div ng-if="!ios_publish_informations.stats.isOnline"
+                     class="alert alert-danger">
+                    <?php echo __('Current status is') ?> <b>{{ ios_publish_informations.stats.offlineStatus }}</b>
+                    <br />
+                    <?php echo __('Message') ?>:
+                    <br />
+                    <b>{{ ios_publish_informations.stats.offlineMessage }}</b>
+                </div>
+
+            </div>
+
         </div>
+
+        <div class="clear"></div>
+
+        <br />
+        <br />
+
         <div class="row">
+
             <div class="col-md-12 form-group">
-                <button ng-click="saveInfoIosAutopublishAndGenerate()" type="button" ng-click="calculateQuantity()" class="btn btn-primary left"><i class="fa fa-send"></i> <?php echo __('Generate and Publish'); ?></button>
+
+                <label ng-if="ios_publish_informations.stats.messages.length"
+                       class="control-label"
+                       for="iTunesConnectIdentifier"><?php echo __('Service notes'); ?></label>
+
+                <div ng-repeat="message in ios_publish_informations.stats.messages"
+                     ng-class="message.colors">
+                    <b>{{ message.title }}</b>
+                    <br />
+                    {{ message.message }}
+                </div>
             </div>
         </div>
     </form>
+
+    <!-- disabled until i am sure it's safe -->
+    <!--form ng-submit="requestPemCertificate()">
+        <div class="row">
+            <div class="col-md-12 form-group">
+
+                <div class="alert alert-info">
+                    <?php echo __('PEM Request generally takes 1 minute to complete.') ?>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-send"></i> <?php echo __('Request a new PEM certificate.'); ?>
+                </button>
+                <sb-loader is_visible="requestPem"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+        </div>
+    </form-->
 </sb-section>
 
 <sb-section title="'<?php echo addslashes(__("Certificate")); ?>'" class="upload_area">

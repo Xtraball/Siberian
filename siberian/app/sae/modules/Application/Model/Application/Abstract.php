@@ -28,9 +28,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_devices;
     protected $_design;
     protected $_design_blocks;
-    protected $_admin_ids = array();
+    protected $_admin_ids = [];
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Application_Model_Db_Table_Application';
     }
@@ -46,7 +46,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function valueIdBelongsTo($value_id) {
 
         # Handle special cases.
-        if(in_array($value_id, array("home"))) {
+        if(in_array($value_id, ["home"])) {
             return true;
         }
 
@@ -81,7 +81,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         if(!$this->getId()) {
 
-            if(!in_array($host[0], array('www'))) {
+            if(!in_array($host[0], ['www'])) {
                 $this->find($host, 'domain');
             }
         }
@@ -90,7 +90,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function findAllByAdmin($admin_id, $where = array(), $order = null, $count = null, $offset = null) {
+    public function findAllByAdmin($admin_id, $where = [], $order = null, $count = null, $offset = null) {
         return $this->getTable()->findAllByAdmin($admin_id, $where, $order, $count, $offset);
     }
 
@@ -321,7 +321,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $design = is_null($design) ? $this->getDesign() : $design;
         $design_content = new Template_Model_Design_Content();
-        $design_contents = $design_content->findAll(array('design_id' => $design->getDesignId()));
+        $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
 
         foreach($design_contents as $content) {
             $option_value = new Application_Model_Option_Value();
@@ -353,7 +353,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $block = new Template_Model_Block();
         if(empty($this->_design_blocks)) {
-            $this->_design_blocks = $block->findAll(array('app_id' => $this->getId(), 'type_id' => $type_id), 'position ASC');
+            $this->_design_blocks = $block->findAll(['app_id' => $this->getId(), 'type_id' => $type_id], 'position ASC');
 
             if(!empty($this->_design_blocks)) {
                 foreach($this->_design_blocks as $block) {
@@ -578,7 +578,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         if(is_null($this->_customers)) {
             $customer = new Customer_Model_Customer();
-            $this->_customers = $customer->findAll(array("app_id" => $this->getId()));
+            $this->_customers = $customer->findAll(["app_id" => $this->getId()]);
         }
 
         return $this->_customers;
@@ -589,7 +589,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         if(empty($this->_options)) {
             $option = new Application_Model_Option_Value();
-            $this->_options = $option->findAll(array("a.app_id" => $this->getId(), "is_visible" => 1));
+            $this->_options = $option->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
         }
 
         return $this->_options;
@@ -598,12 +598,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function getUsedOptions() {
         $option = new Application_Model_Option_Value();
-        return $option->findAllWithOptionsInfos(array("a.app_id" => $this->getId(), "a.is_visible" => 1));
+        return $option->findAllWithOptionsInfos(["a.app_id" => $this->getId(), "a.is_visible" => 1]);
     }
 
     public function getOptionIds() {
 
-        $option_ids = array();
+        $option_ids = [];
         $options = $this->getOptions();
         foreach($options as $option) {
             $option_ids[] = $option->getOptionId();
@@ -632,11 +632,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getPages($samples = 0, $with_folder = false) {
 
-        $options = array(
+        $options = [
             "a.app_id"      => $this->getId(),
             "remove_folder" => new Zend_Db_Expr("folder_category_id IS NULL"),
             "is_visible"    => 1
-        );
+        ];
 
         if($with_folder) {
             unset($options["remove_folder"]);
@@ -664,7 +664,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $dummy->find($code, 'code');
 
         $page_sought = new Application_Model_Option_Value();
-        return $page_sought->find(array('app_id' => $this->getId(), 'option_id' => $dummy->getId()));
+        return $page_sought->find(['app_id' => $this->getId(), 'option_id' => $dummy->getId()]);
 
     }
 
@@ -726,14 +726,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getQrcode($uri = null, $params = array()) {
+    public function getQrcode($uri = null, $params = []) {
         $qrcode = new Core_Model_Lib_Qrcode();
         $url = "";
         if(filter_var($uri, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
             $url = $uri;
         } else {
             //$url = $this->getUrl($uri);
-            $url = $this->getBaseUrl() . $this->getPath("application/device/check", array("app_id" => $this->getAppId()));
+            $url = $this->getBaseUrl() . $this->getPath("application/device/check", ["app_id" => $this->getAppId()]);
         }
 
         return $qrcode->getImage($this->getName(), $url, $params);
@@ -753,10 +753,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return Core_Model_Directory::getBasePathTo(self::PATH_TEMPLATES);
     }
     public static function getDesignCodes() {
-        return array(
+        return [
             self::DESIGN_CODE_ANGULAR => ucfirst(self::DESIGN_CODE_ANGULAR),
             self::DESIGN_CODE_IONIC => ucfirst(self::DESIGN_CODE_IONIC)
-        );
+        ];
     }
 
     public static function hasModuleInstalled($code) {
@@ -812,7 +812,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     public function getAllPictos() {
-        $picto_urls = array();
+        $picto_urls = [];
         foreach($this->getBlocks() as $block) {
             $dir = Core_Model_Directory::getDesignPath(true, "/images/pictos/", "mobile");
             $pictos = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, 4096), RecursiveIteratorIterator::SELF_FIRST);
@@ -983,7 +983,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     public function isAvailableForPublishing($check_sources_access_type) {
-        $errors = array();
+        $errors = [];
         if($this->getPages()->count() < 3) $errors[] = __("At least, 4 pages in the application");
         if(!$this->getData('background_image')) $errors[] = __("The homepage image");
         if(!$this->getStartupImage()) $errors[] = __("The startup image");
@@ -1095,7 +1095,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $images = $library->find($this->getApplication()->getHomepageSliderLibraryId())->getImages();
 
         } catch(Exception $e) {
-            $images = array();
+            $images = [];
         }
 
         return $images;
@@ -1113,7 +1113,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return self::getImagePath()."/placeholder/$image_name";
     }
 
-    public function getUrl($url = '', array $params = array(), $locale = null, $forceKey = false) {
+    public function getUrl($url = '', array $params = [], $locale = null, $forceKey = false) {
 
         $is_ionic_url = false;
         if(!empty($params["use_ionic"])) {
@@ -1145,7 +1145,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getIonicUrl($url = '', array $params = array(), $locale = null, $forceKey = false) {
+    public function getIonicUrl($url = '', array $params = [], $locale = null, $forceKey = false) {
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $params["use_ionic"] = true;
@@ -1164,7 +1164,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $url;
     }
 
-    public function getPath($uri = '', array $params = array(), $locale = null) {
+    public function getPath($uri = '', array $params = [], $locale = null) {
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $useKey = (bool) $request->useApplicationKey();
@@ -1191,21 +1191,21 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         // Retrieve all the accounts
         $admins = $this->getAdmins();
-        $admin_ids = array();
-        foreach($admins as $admin) {
+        $admin_ids = [];
+        foreach ($admins as $admin) {
             $admin_ids[] = $admin;
         }
 
-        // Retrieve the design
-        $blocks = array();
-        foreach($this->getBlocks() as $block) {
+        // Duplicate the design blocks
+        $blocks = [];
+        foreach ($this->getBlocks() as $block) {
             $blocks[] = $block->getData();
         }
         $layout_id = $this->getLayoutId();
 
         // Load the options
         $option_values = $this->getOptions();
-        $value_ids = array();
+        $value_ids = [];
 
         // Save the new application
         $old_app_id = $this->getId();
@@ -1241,34 +1241,35 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         // Copy all the features but folders
         foreach($option_values as $option_value) {
-            if($option_value->getCode() != 'folder') {
+            if (!in_array($option_value->getCode(), ['folder', 'folder_v2'])) {
                 $option_value->copyTo($this);
                 $value_ids[$option_value->getOldValueId()] = $option_value->getId();
             }
         }
 
+        // @deprecated, disabled until it's fixed/replaced with new duplication system.
         // Copy the folders
-        foreach($option_values as $option_value) {
-            if($option_value->getCode() == 'folder') {
-                $option_value->copyTo($this);
-                $value_ids[$option_value->getOldValueId()] = $option_value->getId();
-            }
-        }
+        //foreach($option_values as $option_value) {
+        //    if($option_value->getCode() == 'folder') {
+        //        $option_value->copyTo($this);
+        //        $value_ids[$option_value->getOldValueId()] = $option_value->getId();
+        //    }
+        //}
 
         // Lock the features
         $locker = new Padlock_Model_Padlock();
         $old_locked_value_ids = $locker->getValueIds($old_app_id);
-        $locked_value_ids = array();
-        foreach($old_locked_value_ids as $old_locked_value_id) {
-            if(!empty($value_ids[$old_locked_value_id])) {
+        $locked_value_ids = [];
+        foreach ($old_locked_value_ids as $old_locked_value_id) {
+            if (!empty($value_ids[$old_locked_value_id])) {
                 $locked_value_ids[] = $value_ids[$old_locked_value_id];
             }
         }
 
-        if(!empty($locked_value_ids)) {
-            $locker->setValueIds($locked_value_ids)
-                ->saveValueIds($this->getId())
-            ;
+        if (!empty($locked_value_ids)) {
+            $locker
+                ->setValueIds($locked_value_ids)
+                ->saveValueIds($this->getId());
         }
 
         // Set the accounts to the application
@@ -1276,7 +1277,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $this->save();
 
         //copy slideshow if needed
-        if($this->getHomepageSliderIsVisible()) {
+        if ($this->getHomepageSliderIsVisible()) {
             $app_id = $this->getId();
             //create new lib
             $library = new Media_Model_Library();
@@ -1287,9 +1288,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             //duplicate current images
             $library_image = new Media_Model_Library_Image();
             $images = $library_image->findAll(
-                array("library_id" => $this->getHomepageSliderLibraryId())
+                ["library_id" => $this->getHomepageSliderLibraryId()]
             );
-            foreach($images as $image) {
+            foreach ($images as $image) {
                 $oldLink = $image->getLink();
                 $explodedLink = explode("/", $oldLink);
                 $explodedLink[3] = $app_id;
@@ -1377,11 +1378,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         /** Colors */
         $template_block_app_model = new Template_Model_Block_App();
-        $tbas = $template_block_app_model->findAll(array(
+        $tbas = $template_block_app_model->findAll([
             "app_id = ?" => $this->getId(),
-        ));
+        ]);
 
-        $dataset_tbas = array();
+        $dataset_tbas = [];
         foreach($tbas as $tba) {
             $tba_data = $tba->getData();
             $tba_data["created_at"] = null;
@@ -1390,10 +1391,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $dataset_tbas[] = $tba_data;
         }
 
-        $dataset = array(
+        $dataset = [
             "application" => $data,
             "colors" => $dataset_tbas,
-        );
+        ];
 
         $dataset = Siberian_Yaml::encode($dataset);
 
