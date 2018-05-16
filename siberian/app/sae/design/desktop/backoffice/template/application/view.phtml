@@ -695,7 +695,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label class="control-label"
                            for="iTunesConnectIdentifier"><?php echo __('Build information'); ?></label>
@@ -713,10 +713,20 @@
                         </div>
                     </div>
                 </div>
+
+                <button ng-disabled="!ios_publish_informations.stats.isOnline"
+                        type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-send"></i> <?php echo __('Save settings & Publish'); ?>
+                </button>
+                <sb-loader is_visible="refreshPublish"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 form-group">
+
+            <div class="col-md-6 form-group">
 
                 <label class="control-label"
                        for="iTunesConnectIdentifier"><?php echo __('Service status / load'); ?></label>
@@ -737,16 +747,29 @@
                     <b>{{ ios_publish_informations.stats.offlineMessage }}</b>
                 </div>
 
-                <button ng-disabled="!ios_publish_informations.stats.isOnline"
-                        type="submit"
-                        class="btn btn-primary left">
-                    <i class="fa fa-send"></i> <?php echo __('Save settings & Publish'); ?>
-                </button>
-                <sb-loader is_visible="refreshPublish"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
+            </div>
+
+        </div>
+
+        <div class="clear"></div>
+
+        <br />
+        <br />
+
+        <div class="row">
+
+            <div class="col-md-12 form-group">
+
+                <label ng-if="ios_publish_informations.stats.messages.length"
+                       class="control-label"
+                       for="iTunesConnectIdentifier"><?php echo __('Service notes'); ?></label>
+
+                <div ng-repeat="message in ios_publish_informations.stats.messages"
+                     ng-class="message.colors">
+                    <b>{{ message.title }}</b>
+                    <br />
+                    {{ message.message }}
+                </div>
             </div>
         </div>
     </form>
