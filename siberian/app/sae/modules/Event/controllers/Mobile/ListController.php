@@ -42,11 +42,11 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     $picture_b64 = null;
                     if ($event->getPicture()) {
                         $picture = Core_Model_Directory::getBasePathTo($event->getPicture());
-                        $picture_b64 = Siberian_Image::open($picture)->inline("png");
+                        $picture_b64 = Siberian_Image::open($picture)->inline('jpg');
                     }
 
                     if ($event->getType() == "facebook") {
-                        $picture_b64 = Siberian_Image::open($event->getPicture())->inline("png");
+                        $picture_b64 = Siberian_Image::open($event->getPicture())->inline('jpg');
                     }
 
                     $weekDayName = datetime_to_format($event->getStartAt(), Zend_Date::WEEKDAY_NAME);
