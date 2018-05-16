@@ -213,6 +213,7 @@ class Application_Model_IosAutopublish extends Core_Model_Default
                 'loadColor' => $loadColor,
                 'itemsCount' => $values['itemsCount'],
                 'fromNow' => $fromNow,
+                'messages' => $values['messages'],
             ];
 
         } catch (Exception $e) {
@@ -224,6 +225,7 @@ class Application_Model_IosAutopublish extends Core_Model_Default
                 'loadColor' => 'alert alert-info',
                 'itemsCount' => 0,
                 'fromNow' => 'N.A.',
+                'messages' => [],
             ];
         }
 
