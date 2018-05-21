@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class #MODULE#_Model_Db_Table_#NAME#
+ * Class #MODULE#_Model_Db_Table_#MODEL#
  */
-class #MODULE#_Model_Db_Table_#NAME# extends Core_Model_Db_Table
+class #MODULE#_Model_Db_Table_#MODEL# extends Core_Model_Db_Table
 {
     /**
      * @var string

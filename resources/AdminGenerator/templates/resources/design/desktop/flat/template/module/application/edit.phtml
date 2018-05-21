@@ -1,0 +1,139 @@
+<?php
+$optionValue = $this->getOptionValue();
+
+$formDefault = new Siberian_Form_Options();
+
+$deleteForm = new Siberian_Form_Options();
+
+$collection = [];
+
+/**$wordpress = (new Wordpress2_Model_Wordpress())
+    ->find($optionValue->getId(), 'value_id');
+
+// Create the WordPress if it doesn't yet exists.
+if (!$wordpress->getId()) {
+    $wordpress = new Wordpress2_Model_Wordpress();
+    $wordpress
+        ->setValueId($optionValue->getId())
+        ->save();
+}
+
+$wordpressHasUrl = !empty(trim($wordpress->getData('url')));
+
+$formWordpress = new Wordpress2_Form_Wordpress();
+$formWordpress->populate($wordpress->getData());
+$formWordpress
+    ->getElement('password')
+    ->setValue($wordpress->getPassword());
+
+$formQuery = new Wordpress2_Form_Query();
+$formQuery->populate(
+    [
+        'value_id' => $optionValue->getId()
+    ]
+);
+
+$formSettings = new Wordpress2_Form_Settings();
+$formSettings->populate($wordpress->getData());
+
+$queries = (new Wordpress2_Model_Query())
+    ->findAll(
+        [
+            'value_id' => $optionValue->getId()
+        ],
+        'position ASC'
+    );
+
+// Display sort fields only if queries are not grouped!
+if ($wordpress->getData('group_queries') !== '1') {
+    $formQuery->addSortFields();
+}
+
+$gotCategories = false;
+try {
+    $wordpressApi = new Wordpress2_Model_WordpressApi();
+    $wordpressApi->init(
+        $wordpress->getData('url'),
+        $wordpress->getData('login'),
+        $wordpress->getData('password')
+    );
+
+    $categories = $wordpressApi->getCategories();
+
+    $formQuery
+        ->loadCategories($categories);
+
+    $gotCategories = (sizeof($categories) > 0);
+
+} catch (Exception $e) {
+    $gotCategories = false;
+}
+
+$gotPages = false;
+try {
+    $wordpressApi = new Wordpress2_Model_WordpressApi();
+    $wordpressApi->init(
+        $wordpress->getData('url'),
+        $wordpress->getData('login'),
+        $wordpress->getData('password')
+    );
+
+    $pages = $wordpressApi->getAllPages();
+
+    $formQuery
+        ->loadPages($pages);
+
+    $gotPages = (sizeof($pages) > 0);
+
+} catch (Exception $e) {
+    $gotPages = false;
+}
+
+$formQuery->createSubmit();*/
+
+?>
+
+<div id="list"
+     class="#MODULE#">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+        #TAB_HEADS#
+        <li role="presentation">
+            <a href="#design"
+               aria-controls="design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        #TAB_CONTENTS#
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="design">
+            <?php echo $this->importLayout($optionValue, false); ?>
+
+            <?php echo $this->importBackground($optionValue, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+    </div>
+</div>
+
+
+<link href="/app/sae/modules/#MODULE#/resources/design/desktop/flat/template/#MODULE_ACTION#/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css" />
+<script type="text/javascript">
+    var valueId = '<?php echo $optionValue->getId() ?>';
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/#MODULE#/resources/design/desktop/flat/template/#MODULE_ACTION#/application/edit.js">
+</script>

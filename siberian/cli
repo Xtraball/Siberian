@@ -10,11 +10,14 @@
 
 global $_config;
 
+date_default_timezone_set('Europe/London');
+
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
 
 require_once './config.php';
+require_once './Colors.php';
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
@@ -61,9 +64,9 @@ session_cache_limiter(false);
 
 $application->bootstrap();
 
-
-if (isset($argv[1])) {
-    switch($argv[1]) {
+try {
+    $action = isset($argv[1]) ? $argv[1] : '';
+    switch ($action) {
         case 'export-schemas':
             (new Siberian_Migration_Db())
                 ->exportAll();
@@ -88,10 +91,10 @@ if (isset($argv[1])) {
             echo 'Export done.' . PHP_EOL;
             break;
         case 'version':
-                $versionContent = file_get_contents('./lib/Siberian/Version.php');
-                $versionContent = preg_replace("#const VERSION = '([0-9a-z\.\-]+)';#im",
-                    'const VERSION = \'' . $argv[2] . '\';', $versionContent);
-                file_put_contents('./lib/Siberian/Version.php', $versionContent);
+            $versionContent = file_get_contents('./lib/Siberian/Version.php');
+            $versionContent = preg_replace("#const VERSION = '([0-9a-z\.\-]+)';#im",
+                'const VERSION = \'' . $argv[2] . '\';', $versionContent);
+            file_put_contents('./lib/Siberian/Version.php', $versionContent);
             break;
         case 'user:update-password':
             $userEmail = readline('Input backoffice user e-mail to change: ');
@@ -111,7 +114,7 @@ if (isset($argv[1])) {
                 };
 
                 do {
-                    $newPassword = $testPassword() ;
+                    $newPassword = $testPassword();
                 } while (!$newPassword);
 
                 // Then update!
@@ -143,7 +146,7 @@ if (isset($argv[1])) {
             };
 
             do {
-                $newPassword = $testPassword() ;
+                $newPassword = $testPassword();
             } while (!$newPassword);
 
             $backofficeUser
@@ -170,5 +173,36 @@ if (isset($argv[1])) {
             file_put_contents('./config.php', $configContent);
             System_Model_Config::setValueFor('environment', 'production');
             break;
+        case 'help':
+        default:
+            echo color('== Siberian CLI Help ==', 'blue') . "
+            
+" . color('export-schemas', 'brown') . "
+    Export current tables schema to /var/schema/%VERSION%/ to php files.
+    
+" . color('export-database', 'brown') . "
+    Export complete database.
+    
+" . color('version <version>', 'brown') . "
+    Changes the current version to <version>.
+
+" . color('user:update-password', 'brown') . "
+    Change / Reset a backoffice user password.
+
+" . color('user:create', 'brown') . "
+    Create a new backoffice user.
+
+" . color('development|dev', 'brown') . "
+    Set environment to 'development'.
+
+" . color('production|prod', 'brown') . "
+    Set environment to 'production'.
+
+" . color('help', 'brown') . "
+    Prints the current help message.    
+
+";
     }
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
 }

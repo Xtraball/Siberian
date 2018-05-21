@@ -29,6 +29,6 @@ class #MODULE#_Form_#MODEL#_Delete extends Siberian_Form_Abstract
         $#PRIMARY_KEY#->addValidator("Db_RecordExists", true, $select);
         $#PRIMARY_KEY#->setMinimalDecorator();
 
-        $mini_submit = $this->addMiniSubmit();
+        $miniSubmit = $this->addMiniSubmit();
     }
 }
