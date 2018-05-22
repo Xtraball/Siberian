@@ -232,7 +232,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             ]);
 
         if (Siberian_Request::$statusCode != 200) {
-            throw new Siberian_Exception(__('Cannot send build to service.'));
+            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 
@@ -341,7 +341,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             ]);
 
         if (Siberian_Request::$statusCode != 200) {
-            throw new Siberian_Exception(__('Cannot send build to service.'));
+            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 
