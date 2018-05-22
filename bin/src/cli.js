@@ -23,10 +23,8 @@ const notifier = require('node-notifier'),
 
 let platforms = [
     'android',
-    'android-previewer',
     'ios',
     'ios-noads',
-    'ios-previewer',
     'browser'
 ];
 
@@ -518,21 +516,24 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
         }
 
         if (platform === 'android' ||
-            platform === 'android-previewer' ||
             platform === 'ios' ||
             platform === 'ios-noads' ||
-            platform === 'ios-previewer' ||
             platform === 'browser') {
             let silent = '--silent';
             if (DEBUG) {
                 silent = '';
             }
 
-            let platformPath = ROOT + '/platforms/cdv-siberian-' + platform;
+            let platformFolder = platform.replace(/-([a-z])/g, function (c) {
+                return c[1].toUpperCase();
+            });
+            platformFolder = platformFolder[0].toUpperCase() + platformFolder.substring(1);
+
+            let platformPath = ROOT + '/platforms/' + platformFolder;
             let installPath = ROOT + '/ionic/platforms/' + platform;
 
             // Ensure the script is in the good directory Cordova is serious!
-            sh.cd(ROOT+'/ionic/');
+            sh.cd(ROOT + '/ionic/');
 
             if (localPrepare) {
                 sprint(clc.blue('Prepping: ') + clc.green(platform + ' ...'));
@@ -540,10 +541,25 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             } else {
                 sprint(clc.blue('Rebuilding: ') + clc.green(platform + ' ...'));
 
-                // Delete only if not preparring!
-                sh.rm('-rf', ROOT + '/ionic/platforms/' + platform);
+                // Delete only if not preparing!
+                try {
+                    sh.exec('cordova ' + silent + ' platform remove ' + platform + ' --nosave');
+                } catch (e) {
+                    // nothing to do!
+                }
+                try {
+                    sh.rm('-rf', ROOT + '/ionic/platforms/' + platform);
+                } catch (e) {
+                    // nothing to do!
+                }
 
-                sh.exec('cordova ' + silent + ' platform add ' + platformPath);
+                try {
+                    sh.exec('cordova ' + silent + ' platform add ' + platformPath + ' --nosave');
+                } catch (e) {
+                    console.log(e.message);
+                    console.log('aborting');
+                    process.exit(1);
+                }
 
                 // tmp object for the rebuild all, otherwise this will extends upon each platform!
                 let localPlugins = require(ROOT + '/ionic/plugins.json');
@@ -556,14 +572,14 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 });
 
                 // Before building, copying json platform!
-                if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'android-previewer') {
+                if (platform === 'ios-noads') {
                     sh.mv('-f', installPath + '/' +
                         platform.split('-')[0] + '.json', installPath+'/' + platform + '.json');
                 }
 
                 switch (platform.split('-')[0]) {
                     case 'android':
-                        sh.cp('-f', installPath + '/res/xml/config.xml', installPath + '/config.bck.xml');
+                        sh.cp('-f', installPath + '/app/src/main/res/xml/config.xml', installPath + '/config.bck.xml');
                         break;
                     case 'ios':
                         sh.cp('-f', installPath + '/AppsMobileCompany/config.xml', installPath + '/config.bck.xml');
@@ -572,6 +588,13 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
                 let type = BUILD_TYPE;
 
+                if (platform === 'ios') {
+                    // Install cocoapods
+                    sh.cd(ROOT + '/ionic/platforms/' + platform);
+                    sh.exec('pod install');
+                    sh.cd(ROOT + '/ionic/');
+                }
+
                 sprint('cordova ' + silent + ' build ' + type + ' ' + platform);
                 sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform);
             }
@@ -579,9 +602,12 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             // Ios specific, run push.rb to patch push notifications!
             if (!prepare) {
                 patchIos(platform);
-                if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
+                if (platform === 'ios-noads' || platform === 'ios') {
                     sprint(clc.green('Patching platform project for Push entitlements ...'));
-                    sh.exec(ROOT + '/bin/scripts/Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
+
+                    sh.cd(ROOT + '/bin/scripts/');
+                    sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
+                    sh.cd(ROOT + '/ionic/');
                 }
             }
 
@@ -608,7 +634,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
 let patchIos = function (platform) {
     sh.cd(ROOT + '/bin/scripts/');
-    if (platform === 'ios-noads' || platform === 'ios-previewer' || platform === 'ios') {
+    if (platform === 'ios-noads' || platform === 'ios') {
         sprint(clc.green('Patching platform project for Push entitlements ...'));
         sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
     } else {
@@ -647,7 +673,8 @@ let installPlugin = function (pluginName, platform, opts) {
     }
 
     if (skipPlugin) {
-        sprint(clc.black('Skipping: ' + pluginName + '...'));
+        msg = clc.xterm(253);
+        sprint(msg('Skipping: ' + pluginName + '...'));
     } else {
         sprint(clc.blue('Installing: ') + clc.red(pluginName + '...'));
 
@@ -715,8 +742,7 @@ let copyPlatform = function (platform) {
     sprint('Copying ' + platform + ' ...');
 
     let ionicPlatformPath = ROOT + '/ionic/platforms/' + platform,
-        siberianPlatformPath = ROOT + '/siberian/var/apps/ionic/' + platform,
-        wwwPreviewerPlatformPath = ROOT + '/siberian/var/apps/ionic/previewer/' + platform.split('-')[0];
+        siberianPlatformPath = ROOT + '/siberian/var/apps/ionic/' + platform;
 
     switch (platform) {
         case 'android':
@@ -771,40 +797,6 @@ let copyPlatform = function (platform) {
             cleanupWww(siberianPlatformPath + '/www/');
 
         break;
-
-        case 'android-previewer':
-            sh.rm('-rf', ionicPlatformPath + '/build');
-            sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
-            sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
-            sh.rm('-rf', ionicPlatformPath + '/assets/www/modules/*');
-
-            // Clean-up!
-            sh.rm('-rf', wwwPreviewerPlatformPath);
-
-            // Copy to local !
-            sh.rm('-rf', wwwPreviewerPlatformPath + '/');
-            sh.cp('-rf', ionicPlatformPath + '/', wwwPreviewerPlatformPath + '/');
-            sh.rm('-rf', wwwPreviewerPlatformPath + '/platform_www');
-            cleanupWww(wwwPreviewerPlatformPath + '/assets/www/');
-
-            break;
-
-        case 'ios-previewer':
-            sh.rm('-rf', ionicPlatformPath + '/build');
-            sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
-            sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
-            sh.rm('-rf', ionicPlatformPath + '/www/modules/*');
-
-            // Clean-up!
-            sh.rm('-rf', wwwPreviewerPlatformPath);
-
-            // Copy to local !
-            sh.rm('-rf', wwwPreviewerPlatformPath + '/');
-            sh.cp('-rf', ionicPlatformPath + '/', wwwPreviewerPlatformPath + '/');
-            sh.rm('-rf', wwwPreviewerPlatformPath + '/platform_www');
-            cleanupWww(wwwPreviewerPlatformPath + '/www/');
-
-            break;
     }
 
     sprint('Copy done');
@@ -1489,7 +1481,6 @@ let archiveSources = function () {
     sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
     sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
     sh.exec('tar ' + excludes + ' -czf ./ios-noads.tgz ./ios-noads');
-    sh.exec('tar ' + excludes + ' -czf ./previewer.tgz ./previewer');
 
     sh.cd(ROOT + '/siberian/var/apps');
     sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');

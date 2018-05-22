@@ -104,13 +104,21 @@ class Core_Model_Directory
         self::$_design_path = $path;
     }
 
-    public static function delete($src) {
+    /**
+     * @param $src
+     */
+    public static function delete($src)
+    {
         # TG-196, protect eventual path with spaces
         exec("rm -Rf '{$src}'", $output);
     }
 
-    public static function move($src, $dst) {
-
+    /**
+     * @param $src
+     * @param $dst
+     */
+    public static function move($src, $dst)
+    {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($src), RecursiveIteratorIterator::SELF_FIRST);
 
         foreach($files as $file) {
@@ -129,7 +137,6 @@ class Core_Model_Directory
         }
 
         self::delete($src);
-
     }
 
     public static function duplicate($src, $dst, $permission = 0777) {

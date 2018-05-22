@@ -1,11 +1,4 @@
 {
-  "ios-previewer": {
-    "hostos": ["darwin"],
-    "parser_file": "../cordova/metadata/ios_parser",
-    "handler_file": "../plugman/platforms/ios",
-    "url": "git@gitlab.xtraball.com:xtraball/cdv-siberian-ios-previewer.git",
-    "version": "siberian"
-  },
   "ios-noads": {
     "hostos": ["darwin"],
     "parser_file": "../cordova/metadata/ios_parser",
@@ -26,12 +19,6 @@
     "handler_file": "../plugman/platforms/ios",
     "url": "https://git-wip-us.apache.org/repos/asf?p=cordova-osx.git",
     "version": "~4.0.0"
-  },
-  "android-previewer": {
-    "parser_file": "../cordova/metadata/android_parser",
-    "handler_file": "../plugman/platforms/android",
-    "url": "git@gitlab.xtraball.com:xtraball/cdv-siberian-android-previewer.git",
-    "version": "siberian"
   },
   "android": {
     "parser_file": "../cordova/metadata/android_parser",

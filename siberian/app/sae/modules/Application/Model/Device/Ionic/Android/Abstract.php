@@ -7,21 +7,31 @@
  *
  * @method integer getId()
  */
-abstract class Application_Model_Device_Ionic_Android_Abstract extends Application_Model_Device_Abstract {
+abstract class Application_Model_Device_Ionic_Android_Abstract extends Application_Model_Device_Abstract
+{
+    /**
+     * @var string
+     */
+    protected $_default_bundle_name = 'com.appsmobilecompany.base';
 
-    protected $_default_bundle_name = "com.appsmobilecompany.base";
-    protected $_default_bundle_path = "com/appsmobilecompany/base";
+    /**
+     * @var string
+     */
+    protected $_default_bundle_path = 'com/appsmobilecompany/base';
 
+    /**
+     * @return mixed
+     */
     abstract public function prepareResources();
 
     /**
      * @param $application Application_Model_Application|Previewer_Model_Previewer
      * @throws Exception
      */
-    protected function ionicResources($application) {
-
+    protected function ionicResources($application)
+    {
         /** Checking paths */
-        $resource_folders = array(
+        $resource_folders = [
             $this->_dest_source_res.'/drawable',
             $this->_dest_source_res.'/drawable-ldpi',
             $this->_dest_source_res.'/drawable-mdpi',
@@ -35,10 +45,10 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res.'/mipmap-xhdpi',
             $this->_dest_source_res.'/mipmap-xxhdpi',
             $this->_dest_source_res.'/mipmap-xxxhdpi',
-        );
+        ];
 
-        foreach($resource_folders as $folder) {
-            if(!file_exists($folder)) {
+        foreach ($resource_folders as $folder) {
+            if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
             }
         }
@@ -46,7 +56,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $push_icon = Core_Model_Directory::getBasePathTo("/images/application".$application->getAndroidPushIcon());
 
         /** icon/push_icon */
-        $icons = array(
+        $icons = [
             $this->_dest_source_res.'/drawable-ldpi/icon.png'               => $application->getIcon(36, null, true),
             $this->_dest_source_res.'/drawable-mdpi/icon.png'               => $application->getIcon(48, null, true),
             $this->_dest_source_res.'/drawable-hdpi/icon.png'               => $application->getIcon(72, null, true),
@@ -86,33 +96,33 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res.'/mipmap-xhdpi/launcher_icon.png'       => $application->getIcon(96, null, true),
             $this->_dest_source_res.'/mipmap-xxhdpi/launcher_icon.png'      => $application->getIcon(144, null, true),
             $this->_dest_source_res.'/mipmap-xxxhdpi/launcher_icon.png'     => $application->getIcon(192, null, true),
-        );
+        ];
 
         /** Associating screen image resolution to various landscape/portrait-resolution */
-        $orientation_resolution_image = array(
-            'land' => array(
+        $orientation_resolution_image = [
+            'land' => [
                 'ldpi' => 'standard',
                 'mdpi' => 'standard',
                 'hdpi' => 'standard',
                 'xhdpi' => 'iphone_6',
                 'xxhdpi' => 'iphone_6_plus',
                 'xxxhdpi' => 'ipad_retina',
-            ),
-            'port' => array(
+            ],
+            'port' => [
                 'ldpi' => 'standard',
                 'mdpi' => 'standard',
                 'hdpi' => 'standard',
                 'xhdpi' => 'iphone_6',
                 'xxhdpi' => 'iphone_6_plus',
                 'xxxhdpi' => 'ipad_retina',
-            )
-        );
+            ]
+        ];
 
         /** Clean up screen.xxx */
         array_map('unlink', glob("{$this->_dest_source_res}/drawable*/screen*"));
 
-        foreach($orientation_resolution_image as $orientation => $resolution_image) {
-            foreach($resolution_image as $resolution => $image) {
+        foreach ($orientation_resolution_image as $orientation => $resolution_image) {
+            foreach ($resolution_image as $resolution => $image) {
                 $_file = $application->getStartupImageUrl($image, "base");
                 $extension = pathinfo($_file, PATHINFO_EXTENSION);
                 $icons[$this->_dest_source_res."/drawable-{$orientation}-{$resolution}/screen.$extension"] = $_file;
@@ -120,8 +130,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
         }
 
-        foreach($icons as $icon_dst => $icon_src) {
-            if(Core_Model_Lib_Image::getMimeType($icon_src) != 'image/png') {
+        foreach ($icons as $icon_dst => $icon_src) {
+            if (Core_Model_Lib_Image::getMimeType($icon_src) != 'image/png') {
                 list($width, $height) = getimagesize($icon_src);
                 $newStartupImage = imagecreatetruecolor($width, $height);
                 $startupSrc = imagecreatefromstring(file_get_contents($icon_src));
@@ -144,43 +154,46 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
     }
 
-    /** @TODO rename ${applicationId} >> XXX */
-    protected function androidManifest() {
+    /**
+     * @throws Exception
+     */
+    protected function androidManifest()
+    {
         /** Checking if the _application_id is a valid AndroidManifest id. */
         $tmp_application_id = $this->_application_id;
-        if(!preg_match("#^[a-z]+#", $this->_application_id)) {
+        if (!preg_match("#^[a-z]+#", $this->_application_id)) {
             $tmp_application_id = $this->_package_name.$tmp_application_id;
         }
 
-        $replacements = array(
+        $replacements = [
             $this->_default_bundle_name => $this->_package_name,
             '${applicationId}'          => $tmp_application_id,
-        );
+        ];
 
         /** App Only */
-        if(isset($this->_previewer)) {
+        if (isset($this->_previewer)) {
             $version_name = $this->_previewer->getAndroidVersion();
             $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
             if(($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
-                $replacements = array_merge($replacements, array(
+                $replacements = array_merge($replacements, [
                     "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
                     "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
-                ));
+                ]);
             }
-        } elseif($this->getDevice()) {
+        } elseif ($this->getDevice()) {
             $version_name = $this->getDevice()->getVersion();
             $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
             if(($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
-                $replacements = array_merge($replacements, array(
+                $replacements = array_merge($replacements, [
                     "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
                     "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
-                ));
+                ]);
             }
         }
 
-        $this->__replace($replacements, "{$this->_dest_source}/AndroidManifest.xml");
+        $this->__replace($replacements, "{$this->_dest_source}/app/src/main/AndroidManifest.xml");
     }
 
     /**
@@ -188,14 +201,20 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
      *
      * @throws Exception
      */
-    protected function renameMainPackage() {
-        $replacements = array(
+    protected function renameMainPackage()
+    {
+        $replacements = [
             $this->_default_bundle_name => $this->_package_name,
-        );
+        ];
 
-        $links = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->_dest_source_src, 4096), RecursiveIteratorIterator::SELF_FIRST);
-        foreach($links as $link) {
-            if($link->isDir()) continue;
+        $links = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($this->_dest_source_src, 4096),
+            RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($links as $link) {
+            if ($link->isDir()) {
+                continue;
+            }
             $this->__replace($replacements, $link->getRealPath());
         }
     }
@@ -203,27 +222,29 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
     /**
      * Editing gradle configurations
      *
+     * @deprecated
+     *
      * @throws Exception
      */
-    protected function gradleConfig() {
-
-        $searchAndroid = "android {";
-        $replaceAndroid = "android {
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
- 	";
-
-        $replacements = array(
-            "com.android.tools.build:gradle:1.0.0+" => "com.android.tools.build:gradle:1.2.0+",
-            $searchAndroid => $replaceAndroid,
-        );
-
-        $replacementsBase = $replacements;
-
-        $this->__replace($replacementsBase, "{$this->_dest_source}/build.gradle");
-        $this->__replace($replacements, "{$this->_dest_source}/CordovaLib/build.gradle");
+    protected function gradleConfig()
+    {
+//        $searchAndroid = "android {";
+//        $replaceAndroid = "android {
+//    lintOptions {
+//        checkReleaseBuilds false
+//        abortOnError false
+//    }
+// 	";
+//
+//        $replacements = [
+//            "com.android.tools.build:gradle:1.0.0+" => "com.android.tools.build:gradle:1.2.0+",
+//            $searchAndroid => $replaceAndroid,
+//        ];
+//
+//        $replacementsBase = $replacements;
+//
+//        $this->__replace($replacementsBase, "{$this->_dest_source}/build.gradle");
+//        $this->__replace($replacements, "{$this->_dest_source}/CordovaLib/build.gradle");
     }
 
     /**
@@ -232,17 +253,18 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
      * @param array $replacements
      * @throws Exception
      */
-    protected function setStrings($replacements = array()) {
+    protected function setStrings($replacements = [])
+    {
         $application_name = str_replace("'", "\\'", $this->_application_name);
 
         $replacements = array_merge($replacements,
-            array("#<string name=\"app_name\">(.*)</string>#mi" => "<string name=\"app_name\"><![CDATA[{$application_name}]]></string>"));
+            ["#<string name=\"app_name\">(.*)</string>#mi" => "<string name=\"app_name\"><![CDATA[{$application_name}]]></string>"]);
 
-        $replacements_config = array(
+        $replacements_config = [
             "#<name>AppsMobileCompany</name>#mi"    => "<name><![CDATA[{$application_name}]]></name>",
             "#<description>(.*)</description>#mi"   => "<description><![CDATA[{$application_name} app source code]]></description>",
             "#<author>(.*)</author>#mi"             => "<author><![CDATA[{$application_name} Dev Team]]></author>",
-        );
+        ];
 
         $this->__replace($replacements, "{$this->_dest_source_res}/values/strings.xml", true);
 
@@ -250,24 +272,24 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $languages = Core_Model_Language::getLanguageCodes();
 
         // Check if all the available languages exist in the Android source
-        foreach($languages as $lang) {
+        foreach ($languages as $lang) {
 
-            if(stripos($lang, "_") !== false) {
+            if (stripos($lang, "_") !== false) {
                 $lang = explode("_", $lang);
-                if(count($lang) == 2) {
+                if (count($lang) == 2) {
                     $lang[1] = "r".$lang[1];
                 }
                 $lang = implode("-", $lang);
             }
 
             /** Specific case */
-            if($lang == "es-r419") {
+            if ($lang == "es-r419") {
                 $lang = "es-rUS";
             }
-            if($lang == "zh-rHant") {
+            if ($lang == "zh-rHant") {
                 $lang = "zh-rTW";
             }
-            if($lang == "zh-rHans") {
+            if ($lang == "zh-rHans") {
                 $lang = "zh-rCN";
             }
 
@@ -282,7 +304,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
 
         $this->__replace($replacements_config, $this->_dest_source_res.'/xml/config.xml', true);
-        $this->__replace(array($this->_default_bundle_name => $this->_package_name), $this->_dest_source_res.'/xml/config.xml');
+        $this->__replace([$this->_default_bundle_name => $this->_package_name], $this->_dest_source_res.'/xml/config.xml');
     }
 
 }
