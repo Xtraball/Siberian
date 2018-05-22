@@ -1,6 +1,4 @@
 cordova.define("cordova-plugin-x-socialsharing.SocialSharing", function(require, exports, module) {
-var cordova = require('cordova');
-
 function SocialSharing() {
 }
 
@@ -24,6 +22,28 @@ SocialSharing.prototype.available = function (callback) {
   cordova.exec(function (avail) {
     callback(avail ? true : false);
   }, null, "SocialSharing", "available", []);
+};
+
+// this is the recommended way to share as it is the most feature-rich with respect to what you pass in and get back
+SocialSharing.prototype.shareWithOptions = function (options, successCallback, errorCallback) {
+  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareWithOptions"), "SocialSharing", "shareWithOptions", [options]);
+};
+
+SocialSharing.prototype.shareW3C = function (sharedata) {
+  return new Promise(function(resolve, reject) {
+    var options = {
+      subject: sharedata.title,
+      message: sharedata.text,
+      url: sharedata.url
+    };
+    if(sharedata.hasOwnProperty('title') ||
+        sharedata.hasOwnProperty('text') ||
+        sharedata.hasOwnProperty('url')) {
+          cordova.exec(resolve, reject, "SocialSharing", "shareWithOptions", [options]);
+    } else {
+      reject();
+    }
+  });
 };
 
 SocialSharing.prototype.share = function (message, subject, fileOrFileArray, url, successCallback, errorCallback) {
@@ -50,16 +70,20 @@ SocialSharing.prototype.shareViaFacebookWithPasteMessageHint = function (message
 };
 
 SocialSharing.prototype.shareViaWhatsApp = function (message, fileOrFileArray, url, successCallback, errorCallback) {
-  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaWhatsApp"), "SocialSharing", "shareViaWhatsApp", [message, null, this._asArray(fileOrFileArray), url, null]);
+  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaWhatsApp"), "SocialSharing", "shareViaWhatsApp", [message, null, this._asArray(fileOrFileArray), url, null, null]);
 };
 
 SocialSharing.prototype.shareViaWhatsAppToReceiver = function (receiver, message, fileOrFileArray, url, successCallback, errorCallback) {
-  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaWhatsAppToReceiver"), "SocialSharing", "shareViaWhatsApp", [message, null, this._asArray(fileOrFileArray), url, receiver]);
+  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaWhatsAppToReceiver"), "SocialSharing", "shareViaWhatsApp", [message, null, this._asArray(fileOrFileArray), url, receiver, null]);
+};
+
+SocialSharing.prototype.shareViaWhatsAppToPhone = function (phone, message, fileOrFileArray, url, successCallback, errorCallback) {
+  cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaWhatsAppToPhone"), "SocialSharing", "shareViaWhatsApp", [message, null, this._asArray(fileOrFileArray), url, null, phone]);
 };
 
 SocialSharing.prototype.shareViaSMS = function (options, phonenumbers, successCallback, errorCallback) {
   var opts = options;
-  if (typeof options == "string") {
+  if (typeof options === "string") {
     opts = {"message":options}; // for backward compatibility as the options param used to be the message
   }
   cordova.exec(successCallback, this._getErrorCallback(errorCallback, "shareViaSMS"), "SocialSharing", "shareViaSMS", [opts, phonenumbers]);
@@ -114,6 +138,7 @@ SocialSharing.install = function () {
   }
 
   window.plugins.socialsharing = new SocialSharing();
+  navigator.share = window.plugins.socialsharing.shareW3C;
   return window.plugins.socialsharing;
 };
 

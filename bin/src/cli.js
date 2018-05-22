@@ -602,13 +602,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             // Ios specific, run push.rb to patch push notifications!
             if (!prepare) {
                 patchIos(platform);
-                if (platform === 'ios-noads' || platform === 'ios') {
-                    sprint(clc.green('Patching platform project for Push entitlements ...'));
-
-                    sh.cd(ROOT + '/bin/scripts/');
-                    sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
-                    sh.cd(ROOT + '/ionic/');
-                }
             }
 
             // Cleaning up build files!
@@ -637,10 +630,8 @@ let patchIos = function (platform) {
     if (platform === 'ios-noads' || platform === 'ios') {
         sprint(clc.green('Patching platform project for Push entitlements ...'));
         sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
-    } else {
-        sprint(clc.green('Only ios platforms, aborting.'));
     }
-    sh.cd(ROOT+'/ionic/');
+    sh.cd(ROOT + '/ionic/');
 };
 
 /**
@@ -691,8 +682,6 @@ let installPlugin = function (pluginName, platform, opts) {
             silent = '';
         }
 
-        console.log('plugman install --platform ' + platformBase +
-            ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
         sh.exec('plugman install --platform ' + platformBase +
             ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
     }

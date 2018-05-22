@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
   {
-    "id": "cordova-plugin-admobpro.AdMob",
-    "file": "plugins/cordova-plugin-admobpro/www/AdMob.js",
-    "pluginId": "cordova-plugin-admobpro",
-    "clobbers": [
-      "window.AdMob"
-    ]
-  },
-  {
     "id": "cordova-hot-code-push-plugin.chcp",
     "file": "plugins/cordova-hot-code-push-plugin/www/chcp.js",
     "pluginId": "cordova-hot-code-push-plugin",
@@ -31,6 +23,20 @@ module.exports = [
     "clobbers": [
       "PushNotification"
     ]
+  },
+  {
+    "id": "cordova-plugin-previewer-webview.webview",
+    "file": "plugins/cordova-plugin-previewer-webview/www/webViewPlugin.js",
+    "pluginId": "cordova-plugin-previewer-webview",
+    "clobbers": [
+      "webview"
+    ]
+  },
+  {
+    "id": "es6-promise-plugin.Promise",
+    "file": "plugins/es6-promise-plugin/www/promise.js",
+    "pluginId": "es6-promise-plugin",
+    "runs": true
   },
   {
     "id": "cordova-plugin-app-version.AppVersionPlugin",
@@ -270,12 +276,6 @@ module.exports = [
     "runs": true
   },
   {
-    "id": "es6-promise-plugin.Promise",
-    "file": "plugins/es6-promise-plugin/www/promise.js",
-    "pluginId": "es6-promise-plugin",
-    "runs": true
-  },
-  {
     "id": "cordova-plugin-geofence.TransitionType",
     "file": "plugins/cordova-plugin-geofence/www/TransitionType.js",
     "pluginId": "cordova-plugin-geofence",
@@ -411,29 +411,28 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-  "cordova-plugin-admobpro": "2.30.1",
   "cordova-hot-code-push-plugin": "1.5.2",
-  "cordova-plugin-splashscreen": "4.0.0",
+  "cordova-plugin-splashscreen": "5.0.2",
   "cordova-plugin-extension": "1.5.4",
   "phonegap-plugin-push": "1.10.0",
+  "cordova-plugin-previewer-webview": "1.0.0",
+  "es6-promise-plugin": "4.2.2",
   "cordova-plugin-app-version": "0.1.8",
   "cordova-plugin-app-event": "1.2.0",
-  "phonegap-plugin-barcodescanner": "6.0.6",
-  "cordova-plugin-compat": "1.2.0",
-  "cordova-plugin-camera": "2.3.1-dev",
+  "phonegap-plugin-barcodescanner": "7.1.2",
+  "cordova-plugin-camera": "4.0.2",
   "com.verso.cordova.clipboard": "0.1.0",
-  "cordova-plugin-device": "1.1.6-dev",
-  "cordova-plugin-file": "4.3.3-dev",
-  "es6-promise-plugin": "4.2.2",
+  "cordova-plugin-device": "2.0.2",
+  "cordova-plugin-file": "6.0.1",
   "cordova-plugin-geofence": "0.6.0",
-  "cordova-plugin-geolocation": "2.1.0",
-  "cordova-plugin-inappbrowser": "1.7.1-dev",
+  "cordova-plugin-geolocation": "4.0.1",
+  "cordova-plugin-inappbrowser": "3.0.0",
   "ionic-plugin-keyboard": "2.2.1",
-  "cordova-plugin-x-socialsharing": "5.0.12-dev",
+  "cordova-plugin-x-socialsharing": "5.4.0",
   "cordova-plugin-statusbar": "2.4.1",
   "de.appplant.cordova.plugin.local-notification": "0.8.4.1",
   "siberian-plugin-offlinemode": "1.0.0",
-  "cordova-plugin-insomnia": "4.2.0",
+  "cordova-plugin-insomnia": "4.3.0",
   "cordova-plugin-music-controls": "2.1.4",
   "siberian": "1.0.0"
 };

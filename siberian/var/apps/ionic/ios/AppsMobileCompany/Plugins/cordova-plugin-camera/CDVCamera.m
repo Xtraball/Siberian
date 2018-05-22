@@ -42,7 +42,7 @@ static NSString* toBase64(NSData* data) {
     SEL s1 = NSSelectorFromString(@"cdv_base64EncodedString");
     SEL s2 = NSSelectorFromString(@"base64EncodedString");
     SEL s3 = NSSelectorFromString(@"base64EncodedStringWithOptions:");
-    
+
     if ([data respondsToSelector:s1]) {
         NSString* (*func)(id, SEL) = (void *)[data methodForSelector:s1];
         return func(data, s1);
@@ -66,7 +66,7 @@ static NSString* toBase64(NSData* data) {
     pictureOptions.quality = [command argumentAtIndex:0 withDefault:@(50)];
     pictureOptions.destinationType = [[command argumentAtIndex:1 withDefault:@(DestinationTypeFileUri)] unsignedIntegerValue];
     pictureOptions.sourceType = [[command argumentAtIndex:2 withDefault:@(UIImagePickerControllerSourceTypeCamera)] unsignedIntegerValue];
-    
+
     NSNumber* targetWidth = [command argumentAtIndex:3 withDefault:nil];
     NSNumber* targetHeight = [command argumentAtIndex:4 withDefault:nil];
     pictureOptions.targetSize = CGSizeMake(0, 0);
@@ -81,10 +81,10 @@ static NSString* toBase64(NSData* data) {
     pictureOptions.saveToPhotoAlbum = [[command argumentAtIndex:9 withDefault:@(NO)] boolValue];
     pictureOptions.popoverOptions = [command argumentAtIndex:10 withDefault:nil];
     pictureOptions.cameraDirection = [[command argumentAtIndex:11 withDefault:@(UIImagePickerControllerCameraDeviceRear)] unsignedIntegerValue];
-    
+
     pictureOptions.popoverSupported = NO;
     pictureOptions.usesGeolocation = NO;
-    
+
     return pictureOptions;
 }
 
@@ -109,7 +109,7 @@ static NSString* toBase64(NSData* data) {
 - (NSURL*) urlTransformer:(NSURL*)url
 {
     NSURL* urlToTransform = url;
-    
+
     // for backwards compatibility - we check if this property is there
     SEL sel = NSSelectorFromString(@"urlTransformer");
     if ([self.commandDelegate respondsToSelector:sel]) {
@@ -120,7 +120,7 @@ static NSString* toBase64(NSData* data) {
             urlToTransform = urlTransformer(url);
         }
     }
-    
+
     return urlToTransform;
 }
 
@@ -139,16 +139,16 @@ static NSString* toBase64(NSData* data) {
 - (void)takePicture:(CDVInvokedUrlCommand*)command
 {
     self.hasPendingOperation = YES;
-    
+
     __weak CDVCamera* weakSelf = self;
 
     [self.commandDelegate runInBackground:^{
-        
+
         CDVPictureOptions* pictureOptions = [CDVPictureOptions createFromTakePictureArguments:command];
         pictureOptions.popoverSupported = [weakSelf popoverSupported];
         pictureOptions.usesGeolocation = [weakSelf usesGeolocation];
         pictureOptions.cropToSize = NO;
-        
+
         BOOL hasCamera = [UIImagePickerController isSourceTypeAvailable:pictureOptions.sourceType];
         if (!hasCamera) {
             NSLog(@"Camera.getPicture: source type %lu not available.", (unsigned long)pictureOptions.sourceType);
@@ -184,12 +184,12 @@ static NSString* toBase64(NSData* data) {
 
         CDVCameraPicker* cameraPicker = [CDVCameraPicker createFromPictureOptions:pictureOptions];
         weakSelf.pickerController = cameraPicker;
-        
+
         cameraPicker.delegate = weakSelf;
         cameraPicker.callbackId = command.callbackId;
         // we need to capture this state for memory warnings that dealloc this object
         cameraPicker.webView = weakSelf.webView;
-        
+
         // Perform UI operations on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             // If a popover is already open, close it; we only want one at a time.
@@ -564,10 +564,12 @@ static NSString* toBase64(NSData* data) {
     
     dispatch_block_t invoke = ^ (void) {
         CDVPluginResult* result;
-        if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusAuthorized) {
-            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"no image selected"];
-        } else {
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera && [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo] != ALAuthorizationStatusAuthorized) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to camera"];
+        } else if (picker.sourceType != UIImagePickerControllerSourceTypeCamera && [ALAssetsLibrary authorizationStatus] != ALAuthorizationStatusAuthorized) {
             result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"has no access to assets"];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"No Image Selected"];
         }
 
         

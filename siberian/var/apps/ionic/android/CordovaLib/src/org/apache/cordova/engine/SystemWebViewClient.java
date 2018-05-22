@@ -59,6 +59,11 @@ public class SystemWebViewClient extends WebViewClient {
     private boolean doClearHistory = false;
     boolean isCurrentlyLoading;
 
+    /** Previewer part */
+    public static Boolean isPreview = false;
+    public static String appDomain = "";
+    public static String appKey = "";
+
     /** The authorization tokens. */
     private Hashtable<String, AuthenticationToken> authenticationTokens = new Hashtable<String, AuthenticationToken>();
 
@@ -112,7 +117,7 @@ public class SystemWebViewClient extends WebViewClient {
      * @param request
      */
     @Override
-    @TargetApi(21)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void onReceivedClientCertRequest (WebView view, ClientCertRequest request)
     {
 
@@ -138,6 +143,16 @@ public class SystemWebViewClient extends WebViewClient {
      */
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        // If the page is a previewer!
+        if (isPreview) {
+            view.loadUrl("javascript:IS_PREVIEW = true;");
+            view.loadUrl("javascript:DOMAIN = '" + appDomain + "';");
+            view.loadUrl("javascript:APP_KEY = '" + appKey + "';");
+            view.loadUrl("javascript:BASE_PATH = '/' + APP_KEY;");
+        } else {
+            view.loadUrl("javascript:IS_PREVIEW = false;");
+        }
+
         super.onPageStarted(view, url, favicon);
         isCurrentlyLoading = true;
         // Flush stale messages & reset plugins.
@@ -219,7 +234,6 @@ public class SystemWebViewClient extends WebViewClient {
      * @param handler       An SslErrorHandler object that will handle the user's response.
      * @param error         The SSL error object.
      */
-    @TargetApi(8)
     @Override
     public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 
@@ -316,7 +330,6 @@ public class SystemWebViewClient extends WebViewClient {
         this.authenticationTokens.clear();
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
         try {
@@ -349,7 +362,7 @@ public class SystemWebViewClient extends WebViewClient {
     }
 
     private static boolean needsKitKatContentUrlFix(Uri uri) {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT && "content".equals(uri.getScheme());
+        return "content".equals(uri.getScheme());
     }
 
     private static boolean needsSpecialsInAssetUrlFix(Uri uri) {
@@ -364,11 +377,6 @@ public class SystemWebViewClient extends WebViewClient {
             return false;
         }
 
-        switch(android.os.Build.VERSION.SDK_INT){
-            case android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH:
-            case android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1:
-                return true;
-        }
         return false;
     }
 }

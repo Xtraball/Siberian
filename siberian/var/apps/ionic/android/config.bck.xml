@@ -42,21 +42,15 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="500" />
-    <feature name="AdMob">
-        <param name="android-package" value="com.rjfun.cordova.admob.AdMobPlugin" />
-        <param name="onload" value="true" />
-    </feature>
-    <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="android-package" value="com.nordnetab.chcp.main.HotCodePushPlugin" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
@@ -64,6 +58,9 @@
     </feature>
     <feature name="PushNotification">
         <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="android-package" value="com.webview.WebViewPlugin" />
     </feature>
     <feature name="AppVersion">
         <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />

@@ -22,7 +22,7 @@ cordova.define("cordova-plugin-geolocation.Position", function(require, exports,
 
 var Coordinates = require('./Coordinates');
 
-var Position = function(coords, timestamp) {
+var Position = function (coords, timestamp) {
     if (coords) {
         this.coords = new Coordinates(coords.latitude, coords.longitude, coords.altitude, coords.accuracy, coords.heading, coords.velocity, coords.altitudeAccuracy);
     } else {

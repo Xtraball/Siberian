@@ -19,15 +19,14 @@ cordova.define("cordova-plugin-file.iosFileSystem", function(require, exports, m
  * under the License.
  *
 */
-
-FILESYSTEM_PROTOCOL = "cdvfile";
+/* eslint no-undef : 0 */
+FILESYSTEM_PROTOCOL = 'cdvfile';
 
 module.exports = {
-    __format__: function(fullPath) {
-        var path = ('/'+this.name+(fullPath[0]==='/'?'':'/')+FileSystem.encodeURIPath(fullPath)).replace('//','/');
+    __format__: function (fullPath) {
+        var path = ('/' + this.name + (fullPath[0] === '/' ? '' : '/') + FileSystem.encodeURIPath(fullPath)).replace('//', '/');
         return FILESYSTEM_PROTOCOL + '://localhost' + path;
     }
 };
-
 
 });

@@ -19,13 +19,8 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="AdMob">
-        <param name="ios-package" value="CDVAdMobPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
@@ -33,6 +28,9 @@
     </feature>
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="ios-package" value="WebViewPlugin" />
     </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
@@ -102,7 +100,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
     <chcp>
-        <config-file url="http://anders.xtraball.com/var/apps/ionic/ios/www/chcp.json" />
+        <config-file url="PLATFORM_URL" />
         <native-interface version="7" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
@@ -154,8 +152,8 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />

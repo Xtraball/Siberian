@@ -1,5 +1,5 @@
 #import "SocialSharing.h"
-#import "NSString+URLEncoding.h"
+#import "NSString+SSURLEncoding.h"
 #import <Cordova/CDV.h>
 #import <Social/Social.h>
 #import <Foundation/NSException.h>
@@ -7,15 +7,22 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+static NSString *const kShareOptionMessage = @"message";
+static NSString *const kShareOptionSubject = @"subject";
+static NSString *const kShareOptionFiles = @"files";
+static NSString *const kShareOptionUrl = @"url";
+
 @implementation SocialSharing {
   UIPopoverController *_popover;
   NSString *_popupCoordinates;
 }
 
 - (void)pluginInitialize {
-  if ([self isEmailAvailable]) {
-    [self cycleTheGlobalMailComposer];
-  }
+    [self.commandDelegate runInBackground:^{
+        if ([self isEmailAvailable]) {
+            [self cycleTheGlobalMailComposer];
+        }
+    }];
 }
 
 - (void)available:(CDVInvokedUrlCommand*)command {
@@ -52,6 +59,26 @@
 }
 
 - (void)share:(CDVInvokedUrlCommand*)command {
+  [self shareInternal:command
+          withOptions:@{
+                        kShareOptionMessage: [command.arguments objectAtIndex:0],
+                        kShareOptionSubject: [command.arguments objectAtIndex:1],
+                        kShareOptionFiles: [command.arguments objectAtIndex:2],
+                        kShareOptionUrl: [command.arguments objectAtIndex:3]
+                      }
+    isBooleanResponse:YES
+];
+}
+
+- (void)shareWithOptions:(CDVInvokedUrlCommand*)command {
+  NSDictionary* options = [command.arguments objectAtIndex:0];
+  [self shareInternal:command
+          withOptions:options
+    isBooleanResponse:NO
+   ];
+}
+
+- (void)shareInternal:(CDVInvokedUrlCommand*)command withOptions:(NSDictionary*)options isBooleanResponse:(BOOL)boolResponse {
   [self.commandDelegate runInBackground:^{ //avoid main thread block  especially if sharing big files from url
     if (!NSClassFromString(@"UIActivityViewController")) {
       CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
@@ -59,16 +86,19 @@
       return;
     }
 
-    NSString *message   = [command.arguments objectAtIndex:0];
-    NSString *subject   = [command.arguments objectAtIndex:1];
-    NSArray  *filenames = [command.arguments objectAtIndex:2];
-    NSString *urlString = [command.arguments objectAtIndex:3];
+    NSString *message   = options[kShareOptionMessage];
+    NSString *subject   = options[kShareOptionSubject];
+    NSArray  *filenames = options[kShareOptionFiles];
+    NSString *urlString = options[kShareOptionUrl];
 
     NSMutableArray *activityItems = [[NSMutableArray alloc] init];
-    [activityItems addObject:message];
 
-    NSMutableArray *files = [[NSMutableArray alloc] init];
-    if (filenames != (id)[NSNull null] && filenames.count > 0) {
+    if (message != (id)[NSNull null] && message != nil) {
+    [activityItems addObject:message];
+    }
+
+    if (filenames != (id)[NSNull null] && filenames != nil && filenames.count > 0) {
+      NSMutableArray *files = [[NSMutableArray alloc] init];
       for (NSString* filename in filenames) {
         NSObject *file = [self getImage:filename];
         if (file == nil) {
@@ -81,33 +111,38 @@
       [activityItems addObjectsFromArray:files];
     }
 
-    if (urlString != (id)[NSNull null]) {
+    if (urlString != (id)[NSNull null] && urlString != nil) {
         [activityItems addObject:[NSURL URLWithString:[urlString URLEncodedString]]];
     }
 
     UIActivity *activity = [[UIActivity alloc] init];
     NSArray *applicationActivities = [[NSArray alloc] initWithObjects:activity, nil];
     UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-    if (subject != (id)[NSNull null]) {
+    if (subject != (id)[NSNull null] && subject != nil) {
       [activityVC setValue:subject forKey:@"subject"];
     }
 
     if ([activityVC respondsToSelector:(@selector(setCompletionWithItemsHandler:))]) {
-        [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray * __nullable returnedItems, NSError * __nullable activityError) {
-            [self cleanupStoredFiles];
-            NSLog(@"SocialSharing app selected: %@", activityType);
-            CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed];
-            [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-        }];
-      }else{
+      [activityVC setCompletionWithItemsHandler:^(NSString *activityType, BOOL completed, NSArray * returnedItems, NSError * activityError) {
+        [self cleanupStoredFiles];
+        if (boolResponse) {
+          [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed]
+                                      callbackId:command.callbackId];
+        } else {
+          NSDictionary * result = @{@"completed":@(completed), @"app":activityType == nil ? @"" : activityType};
+          [self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result]
+                                      callbackId:command.callbackId];
+        }
+      }];
+    } else {
       // let's suppress this warning otherwise folks will start opening issues while it's not relevant
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-          [activityVC setCompletionHandler:^(NSString *activityType, BOOL completed) {
-              [self cleanupStoredFiles];
-              NSLog(@"SocialSharing app selected: %@", activityType);
-              CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:completed];
-              [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-          }];
+        [activityVC setCompletionHandler:^(NSString *activityType, BOOL completed) {
+          [self cleanupStoredFiles];
+          NSDictionary * result = @{@"completed":@(completed), @"app":activityType == nil ? @"" : activityType};
+          CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:result];
+          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+        }];
 #pragma GCC diagnostic warning "-Wdeprecated-declarations"
       }
 
@@ -170,7 +205,7 @@
       BOOL fbAppInstalled = [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]; // requires whitelisting on iOS9
       if (fbAppInstalled) {
         UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-        [pasteboard setValue:message forPasteboardType:@"public.text"];
+        [pasteboard setValue:message forPasteboardType:@"public.utf8-plain-text"];
         NSString *hint = [command.arguments objectAtIndex:4];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:hint delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -198,6 +233,8 @@
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   } else if ([@"instagram" caseInsensitiveCompare:via] == NSOrderedSame && [self canShareViaInstagram]) {
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  } else if ([@"com.apple.social.facebook" caseInsensitiveCompare:via] == NSOrderedSame && [self canShareViaFacebook]) {
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   } else if ([self isAvailableForSharing:command type:via]) {
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   } else {
@@ -223,6 +260,7 @@
 
 - (bool)isAvailableForSharing:(CDVInvokedUrlCommand*)command
                          type:(NSString *) type {
+
   // isAvailableForServiceType returns true if you pass it a type that is not
   // in the defined constants, this is probably a bug on apples part
   if(!([type isEqualToString:SLServiceTypeFacebook]
@@ -295,6 +333,8 @@
       return;
     }
 
+    [self cycleTheGlobalMailComposer];
+
     self.globalMailComposer.mailComposeDelegate = self;
 
     if ([command.arguments objectAtIndex:0] != (id)[NSNull null]) {
@@ -326,21 +366,43 @@
         NSURL *file = [self getFile:path];
         NSData* data = [fileManager contentsAtPath:file.path];
 
+        if (!data) {
+          CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"invalid attachment"];
+          [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+          return;
+        }
+
         NSString* fileName;
         NSString* mimeType;
         NSString* basename = [self getBasenameFromAttachmentPath:path];
 
-        if ([basename hasPrefix:@"data:"]) {
-          mimeType = (NSString*)[[[basename substringFromIndex:5] componentsSeparatedByString: @";"] objectAtIndex:0];
-          fileName = @"attachment.";
-          fileName = [fileName stringByAppendingString:(NSString*)[[mimeType componentsSeparatedByString: @"/"] lastObject]];
-          NSString *base64content = (NSString*)[[basename componentsSeparatedByString: @","] lastObject];
-          data = [SocialSharing dataFromBase64String:base64content];
-        } else {
-          fileName = [basename pathComponents].lastObject;
-          mimeType = [self getMimeTypeFromFileExtension:[basename pathExtension]];
-        }
-        [self.globalMailComposer addAttachmentData:data mimeType:mimeType fileName:fileName];
+          //Find data anywhere in string
+          NSRange rangeData = [basename rangeOfString:@"data:"];
+          if (rangeData.location == NSNotFound)
+          {
+              fileName = [basename pathComponents].lastObject;
+              mimeType = [self getMimeTypeFromFileExtension:[basename pathExtension]];
+          }
+          else
+          {
+              mimeType = (NSString*)[[[basename substringFromIndex:rangeData.location+rangeData.length] componentsSeparatedByString: @";"] objectAtIndex:0];
+
+              //Find df anywhere in string
+              NSRange rangeDF = [basename rangeOfString:@"df:"];
+              //If not found fallback to default name
+              if (rangeDF.location == NSNotFound) {
+                  fileName = @"attachment.";
+                  fileName = [fileName stringByAppendingString:(NSString*)[[mimeType componentsSeparatedByString: @"/"] lastObject]];
+              } else {
+                  //Found, apply name
+                  fileName = (NSString*)[[[basename substringFromIndex:rangeDF.location+rangeDF.length] componentsSeparatedByString: @";"] objectAtIndex:0];
+              }
+
+
+              NSString *base64content = (NSString*)[[basename componentsSeparatedByString: @","] lastObject];
+              data = [SocialSharing dataFromBase64String:base64content];
+          }
+          [self.globalMailComposer addAttachmentData:data mimeType:mimeType fileName:fileName];
       }
     }
 
@@ -358,7 +420,7 @@
 }
 
 - (UIViewController*) getTopMostViewController {
-  UIViewController *presentingViewController = [[[UIApplication sharedApplication] delegate] window].rootViewController;
+  UIViewController *presentingViewController = [[UIApplication sharedApplication] keyWindow].rootViewController;
   while (presentingViewController.presentedViewController != nil) {
     presentingViewController = presentingViewController.presentedViewController;
   }
@@ -370,7 +432,7 @@
     NSString* pathWithoutPrefix = [path stringByReplacingOccurrencesOfString:@"base64:" withString:@""];
     return [pathWithoutPrefix substringToIndex:[pathWithoutPrefix rangeOfString:@"//"].location];
   }
-  return path;
+  return [path componentsSeparatedByString: @"?"][0];
 }
 
 - (NSString*) getMimeTypeFromFileExtension:(NSString*)extension {
@@ -444,7 +506,7 @@
     _command = command;
     [self.commandDelegate runInBackground:^{
       picker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-      [[self getTopMostViewController] presentViewController:picker animated:YES completion:nil];
+      [[self getTopMostViewController] presentViewController:picker animated:NO completion:nil];
     }];
   } else {
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
@@ -466,6 +528,10 @@
 
 - (bool)canShareViaWhatsApp {
   return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"whatsapp://app"]]; // requires whitelisting on iOS9
+}
+
+- (bool)canShareViaFacebook {
+  return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"fb://"]]; // requires whitelisting on iOS9
 }
 
 // this is only an internal test method for now, can be used to open a share sheet with 'Open in xx' links for tumblr, drive, dropbox, ..
@@ -520,7 +586,7 @@
 
     // .. we put the message on the clipboard (you app can prompt the user to paste it)
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    [pasteboard setValue:message forPasteboardType:@"public.text"];
+    [pasteboard setValue:message forPasteboardType:@"public.utf8-plain-text"];
   }
 
   // remember the command for the delegate method
@@ -540,7 +606,7 @@
   // Tradeoff: on iOS9 this method will always return true, so make sure to whitelist it and call canShareVia('whatsapp'..)
   if (!IsAtLeastiOSVersion(@"9.0")) {
     if (![self canShareViaWhatsApp]) {
-      CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
+      CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
       return;
     }
@@ -548,20 +614,21 @@
 
   NSString *message   = [command.arguments objectAtIndex:0];
   // subject is not supported by the SLComposeViewController
-  NSArray  *filenames = [command.arguments objectAtIndex:2];
+  NSArray *filenames = [command.arguments objectAtIndex:2];
   NSString *urlString = [command.arguments objectAtIndex:3];
   NSString *abid = [command.arguments objectAtIndex:4];
+  NSString *phone = [command.arguments objectAtIndex:5];
 
   // only use the first image (for now.. maybe we can share in a loop?)
-  UIImage* image = nil;
-  for (NSString* filename in filenames) {
+  UIImage *image = nil;
+  for (NSString *filename in filenames) {
     image = [self getImage:filename];
     break;
   }
 
   // with WhatsApp, we can share an image OR text+url.. image wins if set
   if (image != nil) {
-    NSString * savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/whatsAppTmp.wai"];
+    NSString *savePath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents/whatsAppTmp.jpg"];
     [UIImageJPEGRepresentation(image, 1.0) writeToFile:savePath atomically:YES];
     _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:savePath]];
     _documentInteractionController.UTI = @"net.whatsapp.image";
@@ -570,7 +637,7 @@
     [_documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.viewController.view animated: YES];
   } else {
     // append an url to a message, if both are passed
-    NSString * shareString = @"";
+    NSString *shareString = @"";
     if (message != (id)[NSNull null]) {
       shareString = message;
     }
@@ -581,19 +648,23 @@
         shareString = [NSString stringWithFormat:@"%@ %@", shareString, [urlString URLEncodedString]];
       }
     }
-    NSString * encodedShareString = [shareString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedShareString = [shareString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     // also encode the '=' character
     encodedShareString = [encodedShareString stringByReplacingOccurrencesOfString:@"=" withString:@"%3D"];
     encodedShareString = [encodedShareString stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-    NSString * abidString = @"";
+    NSString *abidString = @"";
     if (abid != (id)[NSNull null]) {
       abidString = [NSString stringWithFormat:@"abid=%@&", abid];
     }
-    NSString * encodedShareStringForWhatsApp = [NSString stringWithFormat:@"whatsapp://send?%@text=%@", abidString, encodedShareString];
+    NSString *phoneString = @"";
+    if (phone != (id)[NSNull null]) {
+      phoneString = [NSString stringWithFormat:@"phone=%@&", phone];
+    }
+    NSString *encodedShareStringForWhatsApp = [NSString stringWithFormat:@"whatsapp://send?%@%@text=%@", abidString, phoneString, encodedShareString];
 
     NSURL *whatsappURL = [NSURL URLWithString:encodedShareStringForWhatsApp];
     [[UIApplication sharedApplication] openURL: whatsappURL];
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }
 }
@@ -659,10 +730,12 @@
 -(NSURL*)getFile: (NSString *)fileName {
   NSURL *file = nil;
   if (fileName != (id)[NSNull null]) {
+    NSRange rangeData = [fileName rangeOfString:@"data:"];
     if ([fileName hasPrefix:@"http"]) {
       NSURL *url = [NSURL URLWithString:fileName];
       NSData *fileData = [NSData dataWithContentsOfURL:url];
-      file = [NSURL fileURLWithPath:[self storeInFile:(NSString*)[[fileName componentsSeparatedByString: @"/"] lastObject] fileData:fileData]];
+      NSString *name = (NSString*)[[fileName componentsSeparatedByString: @"/"] lastObject];
+      file = [NSURL fileURLWithPath:[self storeInFile:[name componentsSeparatedByString: @"?"][0] fileData:fileData]];
     } else if ([fileName hasPrefix:@"www/"]) {
       NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
       NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];
@@ -670,14 +743,27 @@
     } else if ([fileName hasPrefix:@"file://"]) {
       // stripping the first 6 chars, because the path should start with / instead of file://
       file = [NSURL fileURLWithPath:[fileName substringFromIndex:6]];
-    } else if ([fileName hasPrefix:@"data:"]) {
-      // using a base64 encoded string
-      // extract some info from the 'fileName', which is for example: data:text/calendar;base64,<encoded stuff here>
-      NSString *fileType = (NSString*)[[[fileName substringFromIndex:5] componentsSeparatedByString: @";"] objectAtIndex:0];
-      fileType = (NSString*)[[fileType componentsSeparatedByString: @"/"] lastObject];
-      NSString *base64content = (NSString*)[[fileName componentsSeparatedByString: @","] lastObject];
-      NSData *fileData = [SocialSharing dataFromBase64String:base64content];
-      file = [NSURL fileURLWithPath:[self storeInFile:[NSString stringWithFormat:@"%@.%@", @"file", fileType] fileData:fileData]];
+     } else if (rangeData.location != NSNotFound ){
+        //If found "data:"
+        NSString *fileType  = (NSString*)[[[fileName substringFromIndex:rangeData.location+rangeData.length] componentsSeparatedByString: @";"] objectAtIndex:0];
+
+        NSString* attachmentName;
+        //Find df anywhere in string
+        NSRange rangeDF = [fileName rangeOfString:@"df:"];
+        //If not found fallback to default name
+        if (rangeDF.location == NSNotFound) {
+            attachmentName = @"attachment.";
+            attachmentName = [attachmentName stringByAppendingString:(NSString*)[[fileType componentsSeparatedByString: @"/"] lastObject]];
+        } else {
+            //Found, apply name
+            attachmentName = (NSString*)[[[fileName substringFromIndex:rangeDF.location+rangeDF.length] componentsSeparatedByString: @";"] objectAtIndex:0];
+        }
+
+
+        NSString *base64content = (NSString*)[[fileName componentsSeparatedByString: @","] lastObject];
+        NSData* data = [SocialSharing dataFromBase64String:base64content];
+        file = [NSURL fileURLWithPath:[self storeInFile:attachmentName fileData:data]];
+
     } else {
       // assume anywhere else, on the local filesystem
       file = [NSURL fileURLWithPath:fileName];

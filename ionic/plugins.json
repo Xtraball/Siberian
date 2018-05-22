@@ -98,6 +98,10 @@
       "variables": {
         "SENDER_ID": "01234567890"
       }
+    },
+    "WebView": {
+      "version": "latest",
+      "variables": {}
     }
   },
   "ios-noads": {
@@ -113,6 +117,10 @@
       "variables": {
         "SENDER_ID": "01234567890"
       }
+    },
+    "WebView": {
+      "version": "latest",
+      "variables": {}
     }
   },
   "android": {
@@ -132,6 +140,10 @@
       "variables": {
         "SENDER_ID": "01234567890"
       }
+    },
+    "WebView": {
+      "version": "latest",
+      "variables": {}
     }
   },
   "browser": {
