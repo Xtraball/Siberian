@@ -491,7 +491,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
             $payload = [
                 'success' => true,
-                'message' => __("We've sent you and e-mail with your access token.")
+                'message' => __("We've sent you an e-mail with your access token.")
             ];
 
         } catch (Exception $e) {

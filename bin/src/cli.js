@@ -163,7 +163,6 @@ let cli = function (inputArgs) {
             'syncmodule': Boolean,
             'type': Boolean,
             'test': Boolean,
-            'templates': Boolean,
             'unlinkmodule': Boolean,
             'version': Boolean,
             'exportdb': Boolean
@@ -182,7 +181,6 @@ let cli = function (inputArgs) {
             'r': '--rebuild',
             'sm': '--syncmodule',
             't': '--type',
-            'tpl': '--templates',
             'mver': '--moduleversion',
             'v': '--version'
         };
@@ -290,8 +288,6 @@ let cli = function (inputArgs) {
             syncModule(EXTERNAL);
         } else if (args.manifest) {
             rebuildManifest();
-        } else if (args.templates) {
-            moduleTemplate();
         } else if (args.type) {
             let type = '';
             if (remain.length >= 1) {
@@ -424,64 +420,7 @@ let cleanLang = function () {
  */
 let exportDb = function () {
     sh.cd(ROOT + '/siberian');
-    sh.exec('php -f cli.php export-db');
-};
-
-/**
- * Model, Forms & Controllers boilerplate helper
- */
-let moduleTemplate = function () {
-    let module = false,
-        model = false,
-        buildAll = false;
-
-    process.argv.forEach(function (arg) {
-        if (arg.indexOf('--module') === 0) {
-            module = arg.split('=')[1];
-        }
-
-        if (arg.indexOf('--model') === 0) {
-            model = arg.split('=')[1];
-        }
-
-        if (arg.indexOf('--build-all') === 0) {
-            buildAll = true;
-        }
-    });
-
-    if (!module) {
-        sprint(clc.red('--module is required.'));
-        return;
-    }
-
-    if (!buildAll && !model) {
-        sprint(clc.red('--model is required whithout --build-all.'));
-        return;
-    }
-
-    let filteredArgs = process.argv.splice(3).join(' ');
-    let scriptPath = ROOT + '/ci/scripts/modules.php';
-    let modulePath = ROOT + '/siberian/app/local/modules/' + module;
-
-    // Search for module in local!
-    if (fs.existsSync(modulePath)) {
-        sprint(clc.green('Module found !'));
-    } else {
-        sprint(clc.blue('Module not found ! Trying to link it'));
-        if (linkModule(module.toLowerCase())) {
-            sprint(clc.green('Module linked, continuing !'));
-        } else {
-            sprint(clc.red('Something went wrong while trying to link the module, aborting !'));
-            return;
-        }
-    }
-
-    // Appends full path to module!
-    filteredArgs = filteredArgs + ' --path=' + modulePath;
-
-    console.log('php ' + scriptPath + ' ' + filteredArgs);
-
-    sh.exec('php ' + scriptPath + ' ' + filteredArgs);
+    sh.exec('php -f cli export-database');
 };
 
 /**

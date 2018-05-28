@@ -1,7 +1,9 @@
 <?php
 $customer = $this->getCustomer();
 $orders = (new Mcommerce_Model_Order())
-    ->findAll($customer->getId(), 'customer_id');
+    ->findAll([
+        'customer_id' => $customer->getId()
+    ], 'customer_id');
 ?>
 
 <table>
