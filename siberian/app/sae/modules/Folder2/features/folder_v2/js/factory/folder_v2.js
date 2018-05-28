@@ -48,6 +48,9 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         var compute = function (collection) {
             var destination = [];
             angular.forEach(collection, function (folderItem) {
+                if (!folderItem.is_active) {
+                    return;
+                }
                 if (unlocked || !folderItem.is_locked || (folderItem.code === 'padlock')) {
                     if (unlocked && (folderItem.code === 'padlock')) {
                         return;
@@ -62,6 +65,9 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         var computeIndex = function (collection) {
             var destination = [];
             angular.forEach(collection, function (folderItem) {
+                if (!folderItem.is_active) {
+                    return;
+                }
                 if (unlocked || !folderItem.feature.is_locked || (folderItem.feature.code === 'padlock')) {
                     if (unlocked && (folderItem.feature.code === 'padlock')) {
                         return;

@@ -27,7 +27,28 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         $payload = [
             'title' => __('Modules'),
-            'icon' => 'fa-cloud-download'
+            'icon' => 'fa-cloud-download',
+            'words' => [
+                'titleMajor' => __('Major update disclaimer, confirmation required!'),
+                'confirmDelete' => __('Yes, Proceed to update!'),
+                'cancelDelete' => __('No, go back!'),
+                'mismatch' => __('The entered text mismatch'),
+                'confirmKey' => 'yes-proceed-to-update-#VERSION#',
+                'majorMessage' =>
+                    "<b class=\"delete-warning\">" .
+                    __("You are about to update to version %s, this version introduces breaking changes in the platform,", "#VERSION#") .
+                    "<br />" .
+                    __("before updating we strongly advise you to read the release note and the following document.") .
+                    "</b>" .
+                    "<br />" .
+                    "<br />" .
+                    "<a class=\"btn btn-primary\" href=\"https://updates02.siberiancms.com/release-notes/major/#VERSION#.html\">Version #VERSION# technical notes.</a>" .
+                    "<br />" .
+                    "<br />" .
+                    __( "To prevent accidental actions we ask you to confirm your intention.") .
+                    "<br />" .
+                    "Please type <code style=\"user-select: none;\">yes-proceed-to-update-#VERSION#</code> to continue or close this modal to cancel."
+                            ],
         ];
 
         $this->_sendJson($payload);

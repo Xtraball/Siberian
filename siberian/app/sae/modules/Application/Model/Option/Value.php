@@ -19,30 +19,72 @@
  * @method $this setIconId(integer $iconId)
  *
  */
-class Application_Model_Option_Value extends Application_Model_Option {
-
-    protected $_design_colors = array(
+class Application_Model_Option_Value extends Application_Model_Option
+{
+    /**
+     * @var array
+     */
+    protected $_design_colors = [
         "angular" => "#FFFFFF", // Fallback value
         "flat" => "#0099C7",
         "siberian" => "#FFFFFF"
-    );
+    ];
+
+    /**
+     * @var
+     */
     protected $_metadata;
+
+    /**
+     * @var mixed|null
+     */
     protected static $_editor_icon_color = null;
+
+    /**
+     * @var null|string
+     */
     protected static $_editor_icon_reverse_color = null;
 
+    /**
+     * @var
+     */
     protected $_background_image_url;
+
+    /**
+     * @var
+     */
     protected $_background_landscape_image_url;
+
+    /**
+     * Application_Model_Option_Value constructor.
+     * @param array $datas
+     */
+    public function __construct($datas = [])
+    {
+        parent::__construct($datas);
+        $this->_db_table = 'Application_Model_Db_Table_Option_Value';
+
+        if (!self::$_editor_icon_color) {
+            if (array_key_exists(DESIGN_CODE, $this->_design_colors)) {
+                self::$_editor_icon_color = $this->_design_colors[DESIGN_CODE];
+            }
+        }
+
+        if (!self::$_editor_icon_reverse_color) {
+            self::$_editor_icon_reverse_color = "#ffffff";
+        }
+    }
 
     /**
      * @param bool $base
      * @return string
      */
-    public function getIconUrl($base = false) {
-        if(empty($this->_icon_url) AND $this->getIconId()) {
-            if($this->getIcon() AND !$base) {
+    public function getIconUrl($base = false)
+    {
+        if (empty($this->_icon_url) AND $this->getIconId()) {
+            if ($this->getIcon() AND !$base) {
                 $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
-            }
-            else {
+            } else {
                 $icon = new Media_Model_Library_Image();
                 $icon->find($this->getIconId());
                 $this->_icon_url = $icon->getUrl();
@@ -60,7 +102,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param Application_Model_Option_Value $option
      * @return string
      */
-    public static function sGetIconUrl($option) {
+    public static function sGetIconUrl($option)
+    {
         $application = (new Application_Model_Application())
             ->find($option->getAppId());
         $iconId = null;
@@ -101,33 +144,26 @@ class Application_Model_Option_Value extends Application_Model_Option {
         return $iconUrl;
     }
 
-    protected function _initIconColor() {
-
+    /**
+     * @return $this
+     */
+    protected function _initIconColor()
+    {
         $this->_icon_color = "#FFFFFF";
-        if(Siberian_Version::is('PE')) {
+        if (Siberian_Version::is('PE')) {
             $this->_icon_color = $this->getBlock("area")->getColor();
         }
 
         return $this;
-
     }
 
-    public function __construct($datas = array()) {
-        parent::__construct($datas);
-        $this->_db_table = 'Application_Model_Db_Table_Option_Value';
-
-        if(!self::$_editor_icon_color) {
-            if (array_key_exists(DESIGN_CODE, $this->_design_colors)) {
-                self::$_editor_icon_color = $this->_design_colors[DESIGN_CODE];
-            }
-        }
-
-        if(!self::$_editor_icon_reverse_color) {
-            self::$_editor_icon_reverse_color = "#ffffff";
-        }
-    }
-
-    public function find($id, $field = null) {
+    /**
+     * @param $id
+     * @param null $field
+     * @return $this|null
+     */
+    public function find($id, $field = null)
+    {
         parent::find($id, $field);
 
         $this->addOptionDatas();
@@ -141,25 +177,47 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param $app_id
      * @return bool
      */
-    public function valueIdBelongsTo($value_id, $app_id) {
+    public function valueIdBelongsTo($value_id, $app_id)
+    {
         return $this->getTable()->valueIdBelongsTo($value_id, $app_id);
     }
 
-    public function findAllWithOptionsInfos($values = array(), $order = null, $params = array()) {
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return mixed
+     */
+    public function findAllWithOptionsInfos($values = [], $order = null, $params = [])
+    {
         return $this->getTable()->findAllWithOptionsInfos($values, $order, $params);
     }
 
-    public function getFeaturesByApplication() {
+    /**
+     * @return mixed
+     */
+    public function getFeaturesByApplication()
+    {
         return $this->getTable()->getFeaturesByApplication();
     }
 
-    public function findFolderValues($app_id, $option_id) {
+    /**
+     * @param $app_id
+     * @param $option_id
+     * @return mixed
+     */
+    public function findFolderValues($app_id, $option_id)
+    {
         $folderValues = $this->getTable()->getFolderValues($app_id, $option_id);
         return $folderValues;
     }
 
-    public function getDummy() {
-        if((isset($this) && get_class($this) == __CLASS__)) {
+    /**
+     * @return Application_Model_Option_Value
+     */
+    public function getDummy()
+    {
+        if ((isset($this) && get_class($this) == __CLASS__)) {
             $this->getApplication();
 
             $color = str_replace('#', '', $this->getApplication()->getBlock('tabbar')->getImageColor());
@@ -171,9 +229,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
                 ->setTabbarName(__("Sample"))
                 ->setIsDummy(1)
                 ->setIsActive(1)
-                ->setIconUrl(Core_Model_Url::create("template/block/colorize", array('id' => $dummy->getIconId(), 'color' => $color)))
-                ->setId(0)
-            ;
+                ->setIconUrl(Core_Model_Url::create("template/block/colorize", ['id' => $dummy->getIconId(), 'color' => $color]))
+                ->setId(0);
 
         } else {
             $option = new Application_Model_Option();
@@ -183,51 +240,77 @@ class Application_Model_Option_Value extends Application_Model_Option {
                 ->setTabbarName(__("Sample"))
                 ->setIsDummy(1)
                 ->setIsActive(1)
-                ->setIconUrl(Core_Model_Url::create("template/block/colorize", array('id' => $dummy->getIconId(), 'color' => '000000')))
-                ->setId(0)
-            ;
+                ->setIconUrl(Core_Model_Url::create("template/block/colorize", ['id' => $dummy->getIconId(), 'color' => '000000']))
+                ->setId(0);
         }
 
         return $dummy;
     }
 
-    public function save() {
-
-        if(!$this->getId()) {
+    /**
+     * @return $this
+     */
+    public function save()
+    {
+        if (!$this->getId()) {
             $this->setNextPosition();
             $this->setLayoutId(1)->setIsActive(1);
         }
         return parent::save();
-
     }
 
-    public function delete() {
+    /**
+     * @return $this|void
+     */
+    public function delete()
+    {
         $this->getObject()->deleteFeature($this->getOptionId());
 
         parent::delete();
     }
 
-    public function getIconColor() {
+    /**
+     * @return mixed|null
+     */
+    public function getIconColor()
+    {
         return self::$_editor_icon_color;
     }
 
-    public function getIconReverseColor() {
+    /**
+     * @return null|string
+     */
+    public function getIconReverseColor()
+    {
         return self::$_editor_icon_reverse_color;
     }
 
-    public function isActive() {
+    /**
+     * @return array|bool|mixed|null|string
+     */
+    public function isActive()
+    {
         return $this->getIsActive();
     }
 
-    public function getImagePathTo($folder = "") {
-        $path = '/'.$this->getAppId().'/features/'.$this->getCode().'/'.$this->getId();
-        if(!empty($folder)) {
-            $path .= '/'.$folder;
+    /**
+     * @param string $folder
+     * @return string
+     */
+    public function getImagePathTo($folder = "")
+    {
+        $path = '/' . $this->getAppId() . '/features/' . $this->getCode() . '/' . $this->getId();
+        if (!empty($folder)) {
+            $path .= '/' . $folder;
         }
         return $path;
     }
 
-    public function getBackgroundImageUrl() {
+    /**
+     * @return string
+     */
+    public function getBackgroundImageUrl()
+    {
         if (!$this->_background_image_url) {
             if ($this->getBackgroundImage() AND $this->getBackgroundImage() != 'no-image') {
                 $this->_background_image_url = Application_Model_Application::getImagePath() . $this->getBackgroundImage();
@@ -237,7 +320,11 @@ class Application_Model_Option_Value extends Application_Model_Option {
         return $this->_background_image_url;
     }
 
-    public function getBackgroundLandscapeImageUrl() {
+    /**
+     * @return string
+     */
+    public function getBackgroundLandscapeImageUrl()
+    {
         if (!$this->_background_landscape_image_url) {
             if ($this->getBackgroundLandscapeImage() AND $this->getBackgroundLandscapeImage() != 'no-image') {
                 $this->_background_landscape_image_url = Application_Model_Application::getImagePath() . $this->getBackgroundLandscapeImage();
@@ -247,7 +334,11 @@ class Application_Model_Option_Value extends Application_Model_Option {
         return $this->_background_landscape_image_url;
     }
 
-    public function addOptionDatas() {
+    /**
+     * @return $this
+     */
+    public function addOptionDatas()
+    {
         if (is_numeric($this->getId())) {
             $datas = $this->getTable()->getOptionDatas($this->getOptionId());
             foreach ($datas as $key => $value) {
@@ -258,33 +349,42 @@ class Application_Model_Option_Value extends Application_Model_Option {
         return $this;
     }
 
-    public static function setEditorIconColor($icon_color) {
+    /**
+     * @param $icon_color
+     */
+    public static function setEditorIconColor($icon_color)
+    {
         self::$_editor_icon_color = $icon_color;
     }
 
-    public static function setEditorIconReverseColor($icon_color) {
+    /**
+     * @param $icon_color
+     */
+    public static function setEditorIconReverseColor($icon_color)
+    {
         self::$_editor_icon_reverse_color = $icon_color;
     }
 
-
-    public function copyTo($application) {
-
+    /**
+     * @param $application
+     * @return $this
+     */
+    public function copyTo($application)
+    {
         $old_value_id = $this->getId();
         $old_app_id = $this->getAppId();
         $object = $this->getObject();
 
         $this->setId(null)
             ->setAppId($application->getId())
-            ->save()
-        ;
+            ->save();
 
         $this->setOldValueId($old_value_id)
-            ->setOldAppId($old_app_id)
-        ;
+            ->setOldAppId($old_app_id);
 
-        if($object->getId()) {
-            $collection = $object->findAll(array('value_id' => $this->getOldValueId()));
-            foreach($collection as $object) {
+        if ($object->getId()) {
+            $collection = $object->findAll(['value_id' => $this->getOldValueId()]);
+            foreach ($collection as $object) {
                 $object->copyTo($this);
             }
         }
@@ -292,23 +392,35 @@ class Application_Model_Option_Value extends Application_Model_Option {
         return $this;
     }
 
-    protected function setNextPosition() {
-
+    /**
+     * @return $this
+     */
+    protected function setNextPosition()
+    {
         $lastPosition = $this->getTable()->getLastPosition($this->getApplication()->getId());
-        if(!$lastPosition) $lastPosition = 0;
+        if (!$lastPosition) $lastPosition = 0;
         $this->setPosition(++$lastPosition);
 
         return $this;
     }
 
-    public function getNextFolderCategoryPosition($category_id) {
+    /**
+     * @param $category_id
+     * @return int
+     */
+    public function getNextFolderCategoryPosition($category_id)
+    {
         $lastPosition = $this->getTable()->getLastFolderCategoryPosition($category_id);
-        if(!$lastPosition) $lastPosition = 0;
+        if (!$lastPosition) $lastPosition = 0;
 
         return ++$lastPosition;
     }
 
-    public function isLocked() {
+    /**
+     * @return array|mixed|null|string
+     */
+    public function isLocked()
+    {
         return $this->getData('is_locked');
     }
 
@@ -328,7 +440,7 @@ class Application_Model_Option_Value extends Application_Model_Option {
      */
     public function getTagNames($object)
     {
-        $tag_names = array();
+        $tag_names = [];
         foreach ($this->getOwnTags($object) as $tag) {
             $tag_names[] = trim($tag->getName());
         }
@@ -448,11 +560,11 @@ class Application_Model_Option_Value extends Application_Model_Option {
     {
         $table = new Application_Model_Db_Table_TagOption();
         $model_name = method_exists($object, "getModelClass") ? $object->getModelClass() : get_class($object);
-        $where = array(
+        $where = [
             $table->getAdapter()->quoteInto('value_id = ?', $this->getValueId()),
             $table->getAdapter()->quoteInto('object_id = ?', $object->getId()),
             $table->getAdapter()->quoteInto('model = ?', $model_name)
-        );
+        ];
         $table->delete($where);
         return $this;
     }
@@ -465,8 +577,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
     public function getMetadatas()
     {
         $matadata = new Application_Model_Option_Value_Metadata();
-        $results = $matadata->findAll(array('value_id' => $this->getValueId()));
-        $this->_metadata = array();
+        $results = $matadata->findAll(['value_id' => $this->getValueId()]);
+        $this->_metadata = [];
         foreach ($results as $result) {
             $this->_metadata[$result->getCode()] = $result;
         }
@@ -482,7 +594,7 @@ class Application_Model_Option_Value extends Application_Model_Option {
     public function getMetadata($code)
     {
         $metadata = new Application_Model_Option_Value_Metadata();
-        $metadata->find(array('value_id' => $this->getValueId(), 'code' => $code));
+        $metadata->find(['value_id' => $this->getValueId(), 'code' => $code]);
         return $metadata;
     }
 
@@ -545,7 +657,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param bool $base64
      * @return string
      */
-    public function _getBackground() {
+    public function _getBackground()
+    {
         return $this->__getBase64Image($this->getBackground());
     }
 
@@ -554,7 +667,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param $option
      * @return $this
      */
-    public function _setBackground($base64, $option) {
+    public function _setBackground($base64, $option)
+    {
         $background_path = $this->__setImageFromBase64($base64, $option, 1080, 1920);
         $this->setBackground($background_path);
 
@@ -580,10 +694,11 @@ class Application_Model_Option_Value extends Application_Model_Option {
      *
      * @param $valueId
      */
-    public static function extractFromFolder ($valueId) {
+    public static function extractFromFolder($valueId)
+    {
         $features = (new self)
             ->findAll([
-                'folder_id = ?' =>  $valueId
+                'folder_id = ?' => $valueId
             ]);
 
         foreach ($features as $feature) {
@@ -599,16 +714,17 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param $path
      * @throws Exception
      */
-    public function readOption($path) {
+    public function readOption($path)
+    {
         $content = file_get_contents($path);
 
         try {
             $dataset = Siberian_Yaml::decode($content);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("#043-01: An error occured while importing YAML dataset '$path'.");
         }
 
-        if(isset($dataset["option"])) {
+        if (isset($dataset["option"])) {
             return $this->setData($dataset["option"]);
         } else {
             throw new Exception("#087-02: Missing option, unable to import data.");
@@ -620,7 +736,8 @@ class Application_Model_Option_Value extends Application_Model_Option {
      *
      * @return array|mixed|null|string
      */
-    public function forYaml() {
+    public function forYaml()
+    {
         $data = $this->getData();
 
         if ($this->getBackground()) {
@@ -637,12 +754,13 @@ class Application_Model_Option_Value extends Application_Model_Option {
      *
      * @return Application_Model_Option_Value
      */
-    public function touch() {
+    public function touch()
+    {
         $this->setTouchedAt(time())->save();
 
         # Refresh corresponding cache
-        $tag = "homepage_app_".$this->getApplication()->getId();
-        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($tag));
+        $tag = "homepage_app_" . $this->getApplication()->getId();
+        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, [$tag]);
 
         return $this;
     }
@@ -657,17 +775,18 @@ class Application_Model_Option_Value extends Application_Model_Option {
      * @param null|int $time -1 will never expire.
      * @return Application_Model_Option_Value
      */
-    public function expires($time = null) {
+    public function expires($time = null)
+    {
         /** Default expires in a week. */
-        if($time === null) {
+        if ($time === null) {
             $time = time() + 604800;
         }
 
         $this->setExpiresAt($time)->save();
 
         # Refresh corresponding cache
-        $tag = "homepage_app_".$this->getApplication()->getId();
-        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array($tag));
+        $tag = "homepage_app_" . $this->getApplication()->getId();
+        $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, [$tag]);
 
         return $this;
     }

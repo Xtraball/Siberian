@@ -1,0 +1,12 @@
+{
+  "name": "#MODULE_NAME#",
+  "decription": "#DESCRIPTION#",
+  "version": "#VERSION#",
+  "type": "module",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.13.16"
+    }
+  }
+}
