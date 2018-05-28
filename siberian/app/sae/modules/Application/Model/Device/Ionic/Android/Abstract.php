@@ -220,34 +220,6 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
     }
 
     /**
-     * Editing gradle configurations
-     *
-     * @deprecated
-     *
-     * @throws Exception
-     */
-    protected function gradleConfig()
-    {
-//        $searchAndroid = "android {";
-//        $replaceAndroid = "android {
-//    lintOptions {
-//        checkReleaseBuilds false
-//        abortOnError false
-//    }
-// 	";
-//
-//        $replacements = [
-//            "com.android.tools.build:gradle:1.0.0+" => "com.android.tools.build:gradle:1.2.0+",
-//            $searchAndroid => $replaceAndroid,
-//        ];
-//
-//        $replacementsBase = $replacements;
-//
-//        $this->__replace($replacementsBase, "{$this->_dest_source}/build.gradle");
-//        $this->__replace($replacements, "{$this->_dest_source}/CordovaLib/build.gradle");
-    }
-
-    /**
      * Duplicate missing languages, replace Custom values
      *
      * @param array $replacements

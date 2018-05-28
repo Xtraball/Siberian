@@ -117,6 +117,28 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     /**
+     * @param $googleServices
+     * @return $this
+     */
+    public function setGoogleServices ($googleServices)
+    {
+        return $this->setData(Siberian_Json::encode($googleServices));
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getGoogleServices ()
+    {
+        $googleServices = $this->getData('google_services');
+
+        if (!empty($googleServices)) {
+            return Siberian_Json::decode($googleServices);
+        }
+        return [];
+    }
+
+    /**
      * @return string
      */
     public function getCurrentVersion()
@@ -167,6 +189,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->setStrings();
 
         $this->_prepareUrl();
+        $this->_copyGoogleService();
         $this->_prepareLanguages();
         $this->_prepareGoogleAppId();
 
@@ -317,7 +340,9 @@ var DEVICE_TYPE = 1;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
 
-if (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW === false) {
+// WebView
+if (typeof IS_PREVIEW === 'undefined' ||
+    (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW !== true)) {
     PROTOCOL = '{$protocol}';
     DOMAIN = '{$protocol}{$domain}';
     APP_KEY = '{$app_key}';
@@ -328,6 +353,17 @@ var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
         file_put_contents($this->_dest_source . '/app/src/main/assets/www/js/utils/url.js', $url_js_content);
+    }
+
+    /**
+     *
+     */
+    protected function _copyGoogleService ()
+    {
+        $device = $this->getDevice();
+        $jsonConfig = Siberian_Json::encode($device->getGoogleServices(), JSON_PRETTY_PRINT);
+
+        file_put_contents($this->_dest_source . '/app/google-services.json', $jsonConfig);
     }
 
     /**

@@ -1,0 +1,96 @@
+<sb-section title="'<?php echo __js('Firebase Cloud Messaging', "'") ?>'">
+    <form ng-submit="saveFirebaseCredentials()"
+          autocomplete="off">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="Email"><?php echo __('E-mail') ?></label>
+                <input type="text"
+                       id="Email"
+                       ng-model="firebase.email"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('E-mail', "'") ?>"/>
+            </div>
+            <div class="col-md-4">
+                <label for="Passwd"><?php echo __('Password') ?></label>
+                <input type="password"
+                       id="Passwd"
+                       ng-model="firebase.password"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Password', "'") ?>"/>
+            </div>
+            <div class="col-md-4"
+                 style="padding-top: 24px;">
+                <button type="submit"
+                        class="btn btn-primary left"><?php echo __('Save Firebase credentials'); ?></button>
+                <sb-loader is_visible="credentialsLoader"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+
+    <form ng-submit="saveFirebaseProject()">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="DefaultProject"><?php echo __('Project Number (default)') ?></label>
+                <select id="DefaultProject"
+                        ng-model="firebase.projectNumber"
+                        class="form-control">
+                    <option value=""
+                            ng-selected="!firebase.projectNumber"><?php echo __('Select a project') ?></option>
+                    <option ng-repeat="project in projects"
+                            ng-selected="firebase.projectNumber == project.projectNumber"
+                            value="{{ project.projectNumber }}">{{ project.displayName }} ({{ project.projectId }} - {{ project.projectNumber }})</option>
+                </select>
+            </div>
+            <div class="col-md-4"
+                 style="padding-top: 24px;">
+                <button type="submit"
+                        class="btn btn-primary left"><?php echo __('Save default project'); ?></button>
+                <sb-loader is_visible="projectLoader"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+
+            </div>
+        </div>
+    </form>
+</sb-section>
+
+
+<form ng-submit="saveKeys()">
+    <sb-section title="push.title">
+        <div class="form-group">
+            <div class="col-md-6"
+                 ng-repeat="key in push.keys">
+                <label for="{{ key.name }}">{{ key.title }}</label>
+                <input type="text"
+                       id="{{ key.name }}"
+                       ng-model="key.value"
+                       class="form-control"
+                       placeholder="{{ key.title }}"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+        </div>
+    </sb-section>
+</form>

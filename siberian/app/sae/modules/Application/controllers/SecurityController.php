@@ -19,16 +19,46 @@ class Application_SecurityController extends Core_Controller_Default_Abstract {
         $old_tab = $app_id != $this->getSession()->getApplication()->getAppId();
 
         if (false /**$is_editor && $is_ajax && $app_id && $old_tab*/) {
-            $this->_sendJson(array(
+            $this->_sendJson([
                 "error" => true,
                 "refresh" => true
-            ));
+            ]);
         } else {
-            $this->_sendJson(array(
+            $this->_sendJson([
                 "succes" => true,
                 "refresh" => false
-            ));
+            ]);
         }
+    }
+
+    /**
+     * @throws Siberian_Exception
+     */
+    public function firebaseAction ()
+    {
+        $firebase = new \Siberian\Firebase\Api();
+        $firebase->login('contact@net-reflect.com', 'NHGgtt51');
+
+        echo '<pre>';
+        print_r($firebase->getClients());
+        die;
+
+        echo '<pre>';
+        foreach ($firebase->getProjects() as $project) {
+            echo $project['displayName'] . PHP_EOL;
+            print_r($firebase->getApplications($project['projectId']));
+        }
+        die();
+    }
+
+    public function cypherAction ()
+    {
+        $publicKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials.pub');
+        $cyphered = \Siberian\Cypher::cypher($publicKeyPath, 'my password is awesome & salty!');
+
+        $privateKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials');
+        $clear = \Siberian\Cypher::decypher($privateKeyPath, $cyphered, 'f1r3B45315my541t');
+
     }
 
     public function plistAction () {

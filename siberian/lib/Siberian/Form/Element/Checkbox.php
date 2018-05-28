@@ -37,14 +37,16 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
     /**
      * @param $boolean
      */
-    public function setIsFormHorizontal($boolean) {
+    public function setIsFormHorizontal($boolean)
+    {
         $this->is_form_horizontal = $boolean;
     }
 
     /**
      * @param $color
      */
-    public function setColor($color) {
+    public function setColor($color)
+    {
         $this->color = $color;
     }
 
@@ -55,7 +57,8 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
      * @param null $error
      * @return $this
      */
-    public function setCols($label, $input, $offset, $error = null) {
+    public function setCols($label, $input, $offset, $error = null)
+    {
         $this->label_cols = $label;
         $this->input_cols = $input;
         $this->offset_cols = $offset;
@@ -67,43 +70,44 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 	/**
 	 * @throws Zend_Form_Exception
 	 */
-	public function init() {
+	public function init()
+    {
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->addFilters(array('StringTrim', 'StripTags'));
-		$this->setDecorators(array(
+		$this->addFilters(['StringTrim', 'StripTags']);
+		$this->setDecorators([
 	  		'ViewHelper',
-            array(
+            [
 				'Description',
-				array(
+				[
 					'placement' => Zend_Form_Decorator_Abstract::APPEND,
 					'class' => 'checkbox-label',
 					'tag' => 'span',
 					'escape' => false
-            	)
-			),
-			array(
-				array('html_label' => 'HtmlTag'),
-				array(
+                ]
+            ],
+			[
+				['html_label' => 'HtmlTag'],
+				[
 					'tag' => 'label',
 					'class' => 'checkbox',
 					'for' => $this->getName()
-            	),
-			),
-           	array(
+                ],
+            ],
+           	[
 				'Errors',
-				array(
+				[
            			'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
            			'class'=>'alert alert-error form-error',
-				)
-          	),
-            array(
-				array('controls' => 'HtmlTag'),
-				array(
+                ]
+            ],
+            [
+				['controls' => 'HtmlTag'],
+				[
                 	'tag' => 'div',
-            	)
-			),
-            array('ControlGroup'),
-	  	));
+                ]
+            ],
+            ['ControlGroup'],
+        ]);
 	  	
 	}
 
@@ -124,34 +128,34 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
             $error_class = "";
         }
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-			array(array('style' => 'HtmlTag'), array(
+			[['style' => 'HtmlTag'], [
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'tag'   => 'div',
 				'class' => $this->color,
-			)),
-			array(array('wrapper' => 'HtmlTag'),array(
+            ]],
+			[['wrapper' => 'HtmlTag'], [
 				'class' => ' '.$element_class
-			)),
-            array('Description', array(
+            ]],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
                 'class' => 'sb-form-line-complement sb-form-description '.$error_class,
                 'escape' => false
-            )),
-			array('Label', array(
+            ]],
+			['Label', [
 				'class' => 'sb-form-line-title '.$label_class,
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-			)),
-			array('Errors',array(
+            ]],
+			['Errors', [
            		'placement'	=> Zend_Form_Decorator_Abstract::PREPEND,
            		'class'		=> 'alert alert-error'
-          	)),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line form-group-checkbox'
-            ))
-		));
+            ]]
+        ]);
 	}
 
 	/**
@@ -179,27 +183,27 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 	 *
 	 */
 	public function simpleDesign(){
-		$this->setDecorators(array(
+		$this->setDecorators([
 			'ViewHelper',
-			array('Errors',array(
+			['Errors', [
 				'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
-				'class'=>'alert alert-error form-error')
-			),
-			array('Description', array(
+				'class'=>'alert alert-error form-error']
+            ],
+			['Description', [
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'class' => 'help-inline'
-			)),
-			array(array('controls' => 'HtmlTag'), array(
+            ]],
+			[['controls' => 'HtmlTag'], [
 				'tag'   => 'div',
 				'class' => 'controls',
-			)),
-			array('Label', array(
+            ]],
+			['Label', [
 				'class' => 'control-label control',
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND
-			)),
-			array('ControlGroup')
-		));
+            ]],
+			['ControlGroup']
+        ]);
 	}
 
 }

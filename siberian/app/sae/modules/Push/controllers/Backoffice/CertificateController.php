@@ -5,10 +5,10 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
 
     public function loadAction() {
 
-        $html = array(
+        $html = [
             "title" => $this->_("Push Notifications"),
             "icon" => "fa-comment-o",
-        );
+        ];
 
         $this->_sendHtml($html);
 
@@ -16,20 +16,20 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
 
     public function findallAction() {
 
-        $data = array(
+        $data = [
             "title" => '<i class="fa fa-android"></i> Android',
-            "keys" => array(
-                array(
+            "keys" => [
+                [
                     "title" => "GCM Key",
                     "name" => "android_key",
                     "value" => Push_Model_Certificate::getAndroidKey()
-                ), array(
+                ], [
                     "title" => "Sender ID",
                     "name" => "android_sender_id",
                     "value" => Push_Model_Certificate::getAndroidSenderId()
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
 
         $this->_sendHtml($data);
@@ -58,16 +58,16 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
                     ;
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => $this->_("Keys successfully saved")
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);

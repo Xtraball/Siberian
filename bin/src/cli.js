@@ -595,8 +595,13 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sh.cd(ROOT + '/ionic/');
                 }
 
-                sprint('cordova ' + silent + ' build ' + type + ' ' + platform);
-                sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform);
+                var gradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
+                if (type === '--release') {
+                    gradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
+                }
+
+                sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
             }
 
             // Ios specific, run push.rb to patch push notifications!

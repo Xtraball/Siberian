@@ -110,8 +110,8 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
-        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+        //curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
         if ($auth !== null && is_array($auth)) {
             switch ($auth['type']) {

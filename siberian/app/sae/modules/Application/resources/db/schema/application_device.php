@@ -151,6 +151,12 @@ $schemas['application_device'] = array(
         'type' => 'blob',
         'is_null' => true,
     ),
+    'google_services' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'ns_camera_ud' => [
         'type' => 'varchar(256)',
         'is_null' => true,

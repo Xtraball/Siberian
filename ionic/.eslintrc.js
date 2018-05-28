@@ -41,6 +41,7 @@ module.exports = {
         'isNativeApp': true,
         'CURRENT_LANGUAGE': true,
         'AVAILABLE_LANGUAGES': true,
+        'IS_PREVIEW': true,
         '_': true
     },
     'extends': 'eslint:recommended',

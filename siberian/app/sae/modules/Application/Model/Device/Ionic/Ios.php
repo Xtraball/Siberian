@@ -167,7 +167,9 @@ var DEVICE_TYPE = 2;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
 
-if (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW === false) {
+// WebView
+if (typeof IS_PREVIEW === 'undefined' ||
+    (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW !== true)) {
     PROTOCOL = '{$protocol}';
     DOMAIN = '{$protocol}{$domain}';
     APP_KEY = '{$app_key}';
@@ -176,6 +178,8 @@ if (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW === false) {
 
 var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
+
+
 
         file_put_contents($this->_dest_source."/www/js/utils/url.js", $url_js_content);
     }
