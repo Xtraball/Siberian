@@ -129,6 +129,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'thumbnail' => (string) '/images/application' . $category->getThumbnail(),
                     'url' => $url,
                     'path' => $url,
+                    'is_active' => true,
                     'is_locked' => false,
                     'is_subfolder' => (boolean) $category->getParentId(),
                     'is_feature' => false
@@ -187,6 +188,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_link' => !(boolean) $feature->getIsAjax(),
                     'has_parent_folder' => true,
                     'is_feature' => true,
+                    'is_active' => (boolean) $feature->isActive(),
                     'is_locked' => (boolean) $feature->isLocked(),
                 ];
             }
