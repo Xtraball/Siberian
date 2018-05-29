@@ -903,7 +903,7 @@ let createOrSyncGit = function (gitPath, url, branch) {
     sprint(clc.blue('Git sync: ') + clc.red(url + '@' + branch));
     if (fs.existsSync(gitPath)) {
         sh.cd(gitPath);
-        sh.exec('git fetch', { silent: true });
+        sh.exec('git fetch', { silent: false });
         let localStatus;
         try {
             localStatus = sh.exec('git status', { silent: true }).output.trim();
@@ -912,9 +912,11 @@ let createOrSyncGit = function (gitPath, url, branch) {
         }
 
         if (localStatus.indexOf('branch is up-to-date') === -1) {
-            sh.exec('git checkout ' + branch + '; git pull origin ' + branch);
+            sh.exec('git checkout ' + branch);
+            sh.exec('git pull origin ' + branch);
         } else {
-            sh.exec('git config core.fileMode false; git status');
+            sh.exec('git config core.fileMode false');
+            sh.exec('git status')
         }
     } else {
         sh.exec('git clone -b ' + branch + ' ' + url + ' ' + gitPath);
