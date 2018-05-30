@@ -134,9 +134,15 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
 
         //sanetize vars
-        if (is_null($data['infos']["want_to_autopublish"])) $data['infos']["want_to_autopublish"] = false;
-        if (is_null($data['infos']["itunes_login"])) $data['infos']["itunes_login"] = "";
-        if (is_null($data['infos']["itunes_password"])) $data['infos']["itunes_password"] = "";
+        if (is_null($data['infos']["want_to_autopublish"])) {
+            $data['infos']["want_to_autopublish"] = false;
+        }
+        if (is_null($data['infos']["itunes_login"])) {
+            $data['infos']["itunes_login"] = "";
+        }
+        if (is_null($data['infos']["itunes_password"])) {
+            $data['infos']["itunes_password"] = "";
+        }
 
         $data["ios_publish_informations"] = [
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
@@ -166,7 +172,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
     public function saveAction()
     {
-
+        $request = $this->getRequest();
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {

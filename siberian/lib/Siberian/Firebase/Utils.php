@@ -88,7 +88,7 @@ class Utils
 
     /**
      * @param $adminIdCredentials
-     * @param $application
+     * @param \Application_Model_Application $application
      * @throws \Siberian_Exception
      */
     public static function configureForFirebase ($adminIdCredentials, $application)
@@ -101,7 +101,7 @@ class Utils
                 __('You must set your Firebase credentials in order to generate Android applications'));
         }
 
-        $device = $application->getDevice(2);
+        $device = $application->getAndroidDevice();
         $appName = $application->getName();
         $packageName = $application->getPackageName();
         $projectNumber = $credentials->getProjectNumber();
@@ -123,7 +123,7 @@ class Utils
             $googleServiceShort = self::extractSingleConfig($googleServiceConfig, $packageName);
 
             $device
-                ->setGoogleServices($googleServiceShort)
+                ->setData('google_services', json_encode($googleServiceShort))
                 ->save();
 
             $configuration['projectNumber'] = $result['projectNumber'];
@@ -140,7 +140,7 @@ class Utils
             $googleServiceShort = self::extractSingleConfig($googleServiceConfig, $packageName);
 
             $device
-                ->setGoogleServices($googleServiceShort)
+                ->setData('google_services', json_encode($googleServiceShort))
                 ->save();
 
             $configuration['projectNumber'] = $clientResponse['client']['projectNumber'];

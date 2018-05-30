@@ -1,16 +1,30 @@
 <?php
 
-class Application_Model_SourceQueue extends Core_Model_Default {
-
+/**
+ * Class Application_Model_SourceQueue
+ */
+class Application_Model_SourceQueue extends Core_Model_Default
+{
+    /**
+     * @var string
+     */
     const ARCHIVE_FOLDER = "/var/tmp/jobs/";
 
-    public $_devices = array(
-        "ios" => 1,
-        "iosnoads" => 1,
-        "android" => 2,
-    );
+    /**
+     * @var array
+     */
+    public $_devices = [
+        'ios' => 1,
+        'iosnoads' => 1,
+        'android' => 2,
+    ];
 
-    public function __construct($data = array()) {
+    /**
+     * Application_Model_SourceQueue constructor.
+     * @param array $data
+     */
+    public function __construct($data = [])
+    {
         parent::__construct($data);
         $this->_db_table = "Application_Model_Db_Table_SourceQueue";
     }
@@ -19,13 +33,14 @@ class Application_Model_SourceQueue extends Core_Model_Default {
      * @param $status
      * @return mixed
      */
-    public function changeStatus($status) {
-        switch($status) {
-            case "building":
+    public function changeStatus($status)
+    {
+        switch ($status) {
+            case 'building':
                 $this->setBuildTime(time());
                 $this->setBuildStartTime(time());
                 break;
-            case "success":
+            case 'success':
                 $this->setBuildTime(time() - $this->getBuildTime());
                 break;
             default:
@@ -39,66 +54,67 @@ class Application_Model_SourceQueue extends Core_Model_Default {
      * @return mixed
      * @throws Exception
      */
-    public function generate() {
+    public function generate()
+    {
         $application = new Application_Model_Application();
         $application = $application->find($this->getAppId());
 
-        if(!$application->getId()) {
+        if (!$application->getId()) {
             throw new Exception(__("#500-02: This application does not exist"));
         }
 
         # Refresh PEM
-        if ($this->getIsRefreshPem()) {
-            $this->sendPemToAutoPublishServer($application);
-            return true;
-        }
+        # Disabled action.
+        //if ($this->getIsRefreshPem()) {
+            //$this->sendPemToAutoPublishServer($application);
+            //return true;
+        //}
 
-        $design_code = (in_array($this->getDesignCode(), array("angular", "ionic"))) ? $this->getDesignCode() : "ionic";
+        $design_code = (in_array($this->getDesignCode(), ["angular", "ionic"])) ? $this->getDesignCode() : "ionic";
 
         $application->setDesignCode($design_code);
         $device = $application->getDevice($this->_devices[$this->getType()]);
         $device->setApplication($application);
-        $device->setExcludeAds(($this->getType()=="iosnoads"));
+        $device->setExcludeAds(($this->getType() == "iosnoads"));
         $device->setDownloadType("zip");
         $device->setHost($this->getHost());
 
         // FAST
         $result = $device->getResources();
 
-        $recipients = array();
-        switch($this->getUserType()) {
+        $recipients = [];
+        switch ($this->getUserType()) {
             case "backoffice":
                 $backoffice = new Backoffice_Model_User();
                 $backoffice_user = $backoffice->find($this->getUserId());
-                if($backoffice_user->getId()) {
+                if ($backoffice_user->getId()) {
                     $recipients[] = $backoffice_user;
                 }
                 break;
             case "admin":
                 $admin = new Admin_Model_Admin();
                 $admin_user = $admin->find($this->getUserId());
-                if($admin_user->getId()) {
+                if ($admin_user->getId()) {
                     $recipients[] = $admin_user;
                 }
                 break;
         }
 
-
         $type = ($this->getType() == "android") ? __("Android Source") : __("iOS Source");
-        if(file_exists($result)) {
+        if (file_exists($result)) {
             $this->changeStatus("success");
             $this->setPath($result);
             $this->save();
 
             /** Success email */
             $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
-            $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
+            $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
-            $values = array(
+            $values = [
                 "type" => $type,
                 "application_name" => $this->getName(),
                 "link" => $url,
-            );
+            ];
 
             # @version 4.8.7 - SMTP
             $mail = new Siberian_Mail();
@@ -110,10 +126,10 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             $this->save();
 
             /** Failed email */
-            $values = array(
+            $values = [
                 "type" => $type,
                 "application_name" => $this->getName(),
-            );
+            ];
 
             # @version 4.8.7 - SMTP
             $mail = new Siberian_Mail();
@@ -191,7 +207,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $jobCode = time() . '-' . $appIosAutopublish->getToken();
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
-        if (!mkdir($jobFolder,0777,true)) {
+        if (!mkdir($jobFolder, 0777, true)) {
             throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
         }
 
@@ -216,7 +232,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             throw new Siberian_Exception('Cannot create zip job file');
         }
 
-        $jobUrlEncoded = base64_encode('http://'.$this->getHost().'/var/tmp/jobs/'.$jobCode.'.tgz');
+        $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
 
         Siberian_Request::get(
             "https://jenkins-prod02.xtraball.com/job/ios-autopublish/buildWithParameters",
@@ -299,7 +315,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
         $jobCode = time() . '-' . $appIosAutopublish->getToken();
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
-        if (!mkdir($jobFolder,0777,true)) {
+        if (!mkdir($jobFolder, 0777, true)) {
             throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
         }
 
@@ -325,7 +341,7 @@ class Application_Model_SourceQueue extends Core_Model_Default {
             throw new Siberian_Exception('Cannot create zip job file');
         }
 
-        $jobUrlEncoded = base64_encode('http://'.$this->getHost().'/var/tmp/jobs/'.$jobCode.'.tgz');
+        $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
 
         Siberian_Request::get(
             "https://jenkins-prod02.xtraball.com/job/generate-pem/buildWithParameters",
@@ -351,22 +367,23 @@ class Application_Model_SourceQueue extends Core_Model_Default {
      * @param $application_id
      * @return array
      */
-    public static function getStatus($application_id) {
+    public static function getStatus($application_id)
+    {
         $table = new self();
-        $results = $table->findAll(array(
+        $results = $table->findAll([
             "app_id" => $application_id,
-            "status IN (?)" => array("queued", "building"),
-        ));
+            "status IN (?)" => ["queued", "building"],
+        ]);
 
-        $data = array(
+        $data = [
             "ios" => false,
             "iosnoads" => false,
             "android" => false,
-        );
-        
-        foreach($results as $result) {
+        ];
+
+        foreach ($results as $result) {
             $type = $result->getType();
-            if(array_key_exists($type, $data)) {
+            if (array_key_exists($type, $data)) {
                 # Set is building
                 $data[$type] = true;
             }
@@ -421,11 +438,12 @@ class Application_Model_SourceQueue extends Core_Model_Default {
     /**
      * @return Application_Model_SourceQueue[]
      */
-    public static function getQueue() {
+    public static function getQueue()
+    {
         $table = new self();
         $results = $table->findAll(
-            array("status IN (?)" => array("queued")),
-            array("created_at ASC")
+            ["status IN (?)" => ["queued"]],
+            ["created_at ASC"]
         );
 
         return $results;
@@ -437,15 +455,16 @@ class Application_Model_SourceQueue extends Core_Model_Default {
      * @param $current_time
      * @return Push_Model_Message[]
      */
-    public static function getStuck($current_time) {
+    public static function getStuck($current_time)
+    {
         $table = new self();
 
         $results = $table->findAll(
-            array(
+            [
                 "status = ?" => "building",
                 "(build_start_time + 3600) < ?" => $current_time
-            ),
-            array("created_at ASC")
+            ],
+            ["created_at ASC"]
         );
 
         return $results;
@@ -454,9 +473,10 @@ class Application_Model_SourceQueue extends Core_Model_Default {
     /**
      * Clear old pathts when clearing tmp cache in backoffice
      */
-    public static function clearPaths() {
+    public static function clearPaths()
+    {
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->query("UPDATE source_queue SET path = '' WHERE status != 'building';");
     }
-    
+
 }

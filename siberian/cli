@@ -173,6 +173,54 @@ try {
             file_put_contents('./config.php', $configContent);
             System_Model_Config::setValueFor('environment', 'production');
             break;
+        case 'firebase':
+
+            $cyphered = 'TGcBA/YycwzVkGh1WYB95dEbrFGDgThkagwWvGY4CxTsFo2cd86bymjPCfgpP1fEqemhMxJzKVaE9jRHeXH3A6ztzaKEd9IemuJ5pLIyU/jirxjYBaU5uB6DVsFnJxL8OUVoxXwy1ODrShygSr/VYUbFLrMo5Ktk6ZbxSPML0ovvghBVVcrcV6f6r9EkevC8LJ4jJNv272oeg7+0mHPHuGjpM16szbatk2J6LWrIZbojGz/FIfodocqa+PO8xKDrH9+bM0tUkv4aa0+rAbSbedO/q5rHQtxR0ikrzKlvWio0Ux3fFtznDHNzICiV4AQiLhAFUdHovIv2wf9+L47gsEhiyDIiVTQGL9tMWQMwv20Y6qvY8pcei2/eWwnIiyDbTx8yPYCTZaSJY8G0roHEJj5Wbk+nb7Q2g2I5y/6I9OEENhT9vJdxYbhB6sbPJP3864YoLNkRsc4YMLm4jtGXk/I6IrAdMnouigc4t9d4PZ6bmX0FOAUNRkgZk4i/0eBTOOOn+nR5m/MXjKsUmGKLn4JHfgln5tYBd49t+Ov2FqlPxO7KdzqY9BW0N0/vRPd1GAYP12k0vU2ZMhldcLkDvSH6Yz057lOcMRqNdyQU8hGOYbr9nDAOxSVuQzZ2IwtfteNYZ6ed/MM80isY3ImVirnj273VidOgUlVI5pE/VZ4=';
+            $privateKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials');
+            $clear = \Siberian\Cypher::decypher($privateKeyPath, $cyphered, 'f1r3B45315my541t');
+            $parts = explode(':', $clear);
+            $creds = [
+                'email' => $parts[0],
+                'password' => $parts[1],
+            ];
+
+            $projectNumber = '825760444411';
+            $packageName = 'dev.siberiancms.www.android584bee1f1ae91';
+
+            $firebase = new \Siberian\Firebase\Api();
+            $firebase->login($creds['email'], $creds['password']);
+
+            // Download the configuration
+            $result = $firebase->packageNameExists($packageName);
+            print_r($result);
+
+            $configuration = [];
+
+            if ($result !== false) {
+                $googleServiceConfig = $firebase->downloadConfig(
+                    $result['projectNumber'],
+                    $result['clientId']);
+                $googleServiceShort = \Siberian\Firebase\Utils::extractSingleConfig($googleServiceConfig, $packageName);
+
+                $configuration['projectNumber'] = $result['projectNumber'];
+                $configuration['clientId'] = $result['clientId'];
+                $configuration['googleService'] = $googleServiceShort;
+            } else {
+                // Create the application!
+                $addClientResponse = $firebase->addClient($projectNumber, $appName, $packageName);
+                $clientResponse = \Siberian_Json::decode($addClientResponse);
+
+                $googleServiceConfig = $firebase->downloadConfig(
+                    $clientResponse['client']['projectNumber'],
+                    $clientResponse['client']['clientId']);
+                $googleServiceShort = \Siberian\Firebase\Utils::extractSingleConfig($googleServiceConfig, $packageName);
+
+                $configuration['projectNumber'] = $clientResponse['client']['projectNumber'];
+                $configuration['clientId'] = $clientResponse['client']['clientId'];
+                $configuration['googleService'] = $googleServiceShort;
+            }
+
+            print_r($configuration);
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "

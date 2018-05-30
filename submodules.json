@@ -121,6 +121,10 @@
     "Whitelist": {
       "git": "git@github.com:Xtraball/cordova-plugin-whitelist.git",
       "branch": "siberian"
+    },
+    "WebView": {
+      "git": "git@github.com:Xtraball/cordova-second-webview.git",
+      "branch": "siberian"
     }
   }
 }

@@ -37,6 +37,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     const ARCHIVE_FOLDER = "/var/tmp/applications/ionic";
 
     /**
+     * @var Application_Model_Application
+     */
+    public $app;
+
+    /**
      * @var string
      */
     protected $_current_version = '1.0';
@@ -117,28 +122,6 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     /**
-     * @param $googleServices
-     * @return $this
-     */
-    public function setGoogleServices ($googleServices)
-    {
-        return $this->setData(Siberian_Json::encode($googleServices));
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getGoogleServices ()
-    {
-        $googleServices = $this->getData('google_services');
-
-        if (!empty($googleServices)) {
-            return Siberian_Json::decode($googleServices);
-        }
-        return [];
-    }
-
-    /**
      * @return string
      */
     public function getCurrentVersion()
@@ -169,11 +152,12 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
      */
     public function prepareResources()
     {
-        $this->_application = $this->getApplication();
+        $this->app = $this->getApplication();
 
-        $this->_package_name = $this->_application->getPackageName();
-        $this->_application_id = Core_Model_Lib_String::format($this->_application->getName()."_".$this->_application->getId(), true);
-        $this->_application_name = $this->_application->getName();
+        $this->_package_name = $this->app->getPackageName();
+        $this->_application_id = Core_Model_Lib_String::format(
+            $this->app->getName() . '_' . $this->app->getId(), true);
+        $this->_application_name = $this->app->getName();
 
         // Prepping paths!
         $this->_generatePasswords();
@@ -182,10 +166,9 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_cpFolder();
 
         // Shared method!
-        $this->ionicResources($this->_application);
+        $this->ionicResources($this->app);
         $this->androidManifest();
         $this->renameMainPackage();
-        $this->gradleConfig();
         $this->setStrings();
 
         $this->_prepareUrl();
@@ -228,7 +211,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_zipname = sprintf(
             "%s_%s_%s",
             $this->getDevice()->getAlias(),
-            $this->_application->getId(),
+            $this->app->getId(),
             'android_source');
     }
 
@@ -258,8 +241,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
             $save = true;
         }
         if (empty($passwords['alias'])) {
-            $alias = Core_Model_Lib_String::format($this->_application->getName(), true);
-            if(!$alias) $alias = $this->_application->getId();
+            $alias = Core_Model_Lib_String::format($this->app->getName(), true);
+            if(!$alias) $alias = $this->app->getId();
 
             $device->setAlias($alias);
             $passwords['alias'] = $alias;
@@ -287,7 +270,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     protected function _prepareRequest()
     {
         if (!defined('CRON')) {
-            $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
+            $request = new Siberian_Controller_Request_Http($this->app->getUrl());
             $request->setPathInfo();
             $this->_request = $request;
         }
@@ -361,7 +344,7 @@ var IMAGE_URL = DOMAIN + '/';";
     protected function _copyGoogleService ()
     {
         $device = $this->getDevice();
-        $jsonConfig = Siberian_Json::encode($device->getGoogleServices(), JSON_PRETTY_PRINT);
+        $jsonConfig = $device->getData('google_services');
 
         file_put_contents($this->_dest_source . '/app/google-services.json', $jsonConfig);
     }
@@ -465,7 +448,7 @@ if(navigator.language) {
         }
 
     	$alias = $this->getDevice()->getAlias();
-    	$app_id = $this->_application->getId();
+    	$app_id = $this->app->getId();
 
     	$store_password = $this->getDevice()->getStorePass();
     	$key_password = $this->getDevice()->getKeyPass();
@@ -540,9 +523,9 @@ storePassword={$store_password}";
 
         /** DEBUG OSX: it doesn't find "which java" with php, also the given path is generic and symlink to the latest version.  */
         $is_darwin = exec("uname");
-        if(strpos($is_darwin, "arwin") !== false) {
+        if (strpos($is_darwin, "arwin") !== false) {
             $java_home = getenv("JAVA_HOME");
-            if(empty($java_home)) {
+            if (empty($java_home)) {
                 putenv("JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home");
             }
         }
