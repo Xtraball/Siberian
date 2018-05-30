@@ -1,27 +1,28 @@
 /**
  * Calculate distance between two coordinates.
  *
- * @param lat1
- * @param lon1
- * @param lat2
- * @param lon2
+ * @param latitude_a
+ * @param longitude_a
+ * @param latitude_b
+ * @param longitude_b
  * @param unit
  * @returns {number}
  */
-window.calculateDistance = function(latitude_a, longitude_a, latitude_b, longitude_b, unit) {
-    var rad_latitude_a  = Math.PI * latitude_a / 180;
-    var rad_latitude_b  = Math.PI * latitude_b / 180;
-    var theta           = longitude_a - longitude_b;
-    var rad_theta       = Math.PI * theta/180;
-    var dist            = Math.sin(rad_latitude_a) * Math.sin(rad_latitude_b) + Math.cos(rad_latitude_a) * Math.cos(rad_latitude_b) * Math.cos(rad_theta);
-    dist                = Math.acos(dist);
-    dist                = dist * 180 / Math.PI;
-    dist                = dist * 60 * 1.1515;
+window.calculateDistance = function (latitude_a, longitude_a, latitude_b, longitude_b, unit) {
+    var radLatitudeA = Math.PI * latitude_a / 180;
+    var radLatitudeB = Math.PI * latitude_b / 180;
+    var theta = longitude_a - longitude_b;
+    var radTheta = Math.PI * theta/180;
+    var dist = Math.sin(radLatitudeA) * Math.sin(radLatitudeB) +
+        Math.cos(radLatitudeA) * Math.cos(radLatitudeB) * Math.cos(radTheta);
+    dist = Math.acos(dist);
+    dist = dist * 180 / Math.PI;
+    dist = dist * 60 * 1.1515;
 
-    if (unit==="K") {
-        dist = dist * 1.609344;
-    } else if (unit==="N") {
-        dist = dist * 0.8684;
+    if (unit === 'K') {
+        dist *= 1.609344;
+    } else if (unit === 'N') {
+        dist *= 0.8684;
     }
 
     return dist;

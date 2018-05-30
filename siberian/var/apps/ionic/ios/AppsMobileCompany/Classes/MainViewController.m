@@ -93,7 +93,7 @@
                     NSLog(@"appDomain: %@", appDomain);
                     NSLog(@"appKey: %@", appKey);
 
-                    NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"IS_PREVIEW = true; DOMAIN = '%@'; APP_KEY = '%@'; BASE_PATH = '/' + APP_KEY;", appDomain, appKey];
+                    NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"setTimeout(function () { IS_PREVIEW = true; DOMAIN = '%@'; APP_KEY = '%@'; BASE_PATH = '/' + APP_KEY; }, 1);", appDomain, appKey];
 
                     [theWebView stringByEvaluatingJavaScriptFromString:jsSetIdentifier];
 

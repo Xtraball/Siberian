@@ -47,7 +47,7 @@ angular.module('starter').service('ConnectionService', function ($ionicPlatform,
     };
 
     $ionicPlatform.ready(function () {
-        if ($rootScope.isNativeApp && $window.OfflineMode) {
+        if ($rootScope.isNativeApp && $window.OfflineMode && !IS_PREVIEW) {
             $window.OfflineMode.setCheckConnectionURL(DOMAIN + '/ping.txt');
             $window.OfflineMode.registerCallback(service.callbackFromNative);
         }

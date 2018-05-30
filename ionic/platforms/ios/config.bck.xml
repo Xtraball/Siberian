@@ -35,7 +35,7 @@
     <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="7" />
+        <native-interface version="8" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -102,6 +102,10 @@
     <feature name="WebViewPlugin">
         <param name="ios-package" value="WebViewPlugin" />
     </feature>
+    <feature name="AdMob">
+        <param name="ios-package" value="CDVAdMobPlugin" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
@@ -136,7 +140,6 @@
     </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" />
