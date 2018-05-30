@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "00000000001",
+    "firebase_url": "https://appsmobilecompany.firebaseio.com",
+    "project_id": "appsmobilecompany",
+    "storage_bucket": "appsmobilecompany.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:00000000001:android:00000000001",
+        "android_client_info": {
+          "package_name": "com.appsmobilecompany.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "00000000001.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "00000000001"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -31,7 +31,21 @@ public class WebViewActivity extends CordovaActivity {
 
         activity2 = this;
 
-        loadUrl(launchUrl);
+        // Use the default cordova launchUrl in config.xml
+        String startUrl = launchUrl;
+        try {
+            // Or open a complete custom page inside the webview!
+            Bundle b = getIntent().getExtras();
+            String url = b.getString("url");
+            Boolean shouldShowLoading = b.getBoolean("shouldShowLoading");
+            if (!"".equals(url)) {
+                startUrl = url;
+            }
+        } catch(Exception e) {
+            // Do nothing more!
+        }
+
+        loadUrl(startUrl);
 
         // WeakReference to avoid looped pointers
         WebViewPlugin.webViewActivity = new WeakReference<WebViewActivity>(this);
