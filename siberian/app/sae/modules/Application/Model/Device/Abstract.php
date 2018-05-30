@@ -24,7 +24,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
     protected function __replace($replacements, $file, $regex = false) {
         $contents = file_get_contents($file);
         if(!$contents) {
-            throw new Exception(__('An error occurred while editing file (%s).', $file));
+            throw new Siberian_Exception(__('An error occurred while editing file (%s).', $file));
         }
 
         foreach($replacements as $search => $replace) {

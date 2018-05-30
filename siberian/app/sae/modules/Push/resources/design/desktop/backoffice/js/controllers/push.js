@@ -27,8 +27,8 @@ App.config(function ($routeProvider) {
 
     Push
         .findAll()
-        .success(function (push) {
-            $scope.push = push;
+        .success(function (data) {
+            $scope.gcm = data.gcm;
         }).finally(function () {
             $scope.content_loader_is_visible = false;
         });
@@ -45,7 +45,7 @@ App.config(function ($routeProvider) {
         $scope.form_loader_is_visible = true;
 
         Push
-            .save($scope.push.keys)
+            .save($scope.gcm.android_key, $scope.gcm.android_sender_id)
             .success(function (data) {
                 $scope.message.setText(data.message)
                     .isError(false)

@@ -71,26 +71,36 @@
 
 
 <form ng-submit="saveKeys()">
-    <sb-section title="push.title">
+    <sb-section title="'<?php echo __js('Google Cloud Messaging (GCM, Deprecated)', "'") ?>'">
         <div class="form-group">
-            <div class="col-md-6"
-                 ng-repeat="key in push.keys">
-                <label for="{{ key.name }}">{{ key.title }}</label>
+            <div class="col-md-4">
+                <label for="Key"><?php echo __('GCM Key') ?></label>
                 <input type="text"
-                       id="{{ key.name }}"
-                       ng-model="key.value"
+                       id="Key"
+                       ng-model="gcm.android_key"
                        class="form-control"
-                       placeholder="{{ key.title }}"/>
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('GCM Key', "'") ?>"/>
             </div>
-            <div class="clear"></div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'"
+            <div class="col-md-4">
+                <label for="SenderId"><?php echo __('Sender ID') ?></label>
+                <input type="text"
+                       id="SenderId"
+                       ng-model="gcm.android_sender_id"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Sender ID', "'") ?>"/>
+            </div>
+            <div class="col-md-4"
+                 style="padding-top: 24px;">
+                <button type="submit"
+                        class="btn btn-primary left"><?php echo __('Save GCM settings'); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
                            class="form_loader"></sb-loader>
             </div>
-        </div>
+            <div class="clear"></div>
     </sb-section>
 </form>

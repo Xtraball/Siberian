@@ -24,10 +24,13 @@ App.factory('Push', function ($http, Url) {
         });
     };
 
-    factory.save = function (keys) {
+    factory.save = function (android_key, android_sender_id) {
         return $http({
             method: 'POST',
-            data: keys,
+            data: {
+                android_key: android_key,
+                android_sender_id: android_sender_id
+            },
             url: Url.get('push/backoffice_certificate/save'),
             responseType: 'json'
         });
