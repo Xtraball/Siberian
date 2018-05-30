@@ -4,6 +4,10 @@
       "version": "latest",
       "variables": {}
     },
+    "AdmobPro": {
+      "version": "latest",
+      "variables": {}
+    },
     "AppVersion": {
       "version": "latest",
       "variables": {}
@@ -82,29 +86,6 @@
     }
   },
   "ios": {
-    "Chcp": {
-      "version": "latest"
-    },
-    "SplashScreen": {
-      "version": "latest",
-      "variables": {}
-    },
-    "Extension": {
-      "version": "latest",
-      "variables": {}
-    },
-    "Push": {
-      "version": "latest",
-      "variables": {
-        "SENDER_ID": "01234567890"
-      }
-    },
-    "WebView": {
-      "version": "latest",
-      "variables": {}
-    }
-  },
-  "ios-noads": {
     "Chcp": {
       "version": "latest"
     },

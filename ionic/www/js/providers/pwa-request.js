@@ -9,7 +9,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("FallbackPromise", function($q) {
+angular.module("starter").factory("FallbackPromise", function ($q) {
     return {
         resolved: false,
         decorate: function(promise) {
@@ -76,9 +76,9 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                     var cachedResponse = {
-                        expires_at  : options.expires_at,
-                        touched_at  : options.touched_at,
-                        data        : angular.copy(response.data)
+                        expires_at: options.expires_at,
+                        touched_at: options.touched_at,
+                        data: angular.copy(response.data)
                     };
 
                     provider.defaultCache.setItem(options.cacheKey, cachedResponse);
@@ -95,8 +95,8 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     $log.debug("response error", response);
 
                     var data = {
-                        error       : true,
-                        message     : $translate.instant("The request returned a 400 HTTP Code, with no message.")
+                        error: true,
+                        message: $translate.instant("The request returned a 400 HTTP Code, with no message.")
                     };
 
                     if(_.isObject(response) && _.isObject(response.data)) {
@@ -129,10 +129,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
             if(provider.queue === null) {
                 provider.queue = $queue.queue(provider.handleRequest, {
-                    delay           : 100,
-                    paused          : false,
-                    persistent      : true,
-                    max_concurrent  : 5
+                    delay: 100,
+                    paused: false,
+                    persistent: true,
+                    max_concurrent: 5
                 });
                 provider.queue.start();
             }
@@ -145,25 +145,24 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                     /** Normalizing options */
                     var options = _.extend(requestOptions, {
-                        method              : _.upperCase(_.trim(_.get(requestOptions, "method", "GET"))),
-                        cache               : !!_.get(requestOptions, "cache", true),
-                        url                 : _.trim(_.get(requestOptions, "url")),
-                        pullToRefresh       : !!_.get(requestOptions, "refresh", false),
-                        imageProxy          : !!_.get(requestOptions, "imageProxy", false),
-                        requestData         : _.get(requestOptions, "data", {}),
-                        expires_at          : _.get(requestOptions, "expires_at", (current + 3600)),
-                        touched_at          : _.get(requestOptions, "touched_at", (current)),
-                        network_promise     : _.get(requestOptions, "network_promise", $q.defer()),
-                        timeout             : _.get(requestOptions, "timeout", 30000),
-                        deferred_promise    : FallbackPromise.defer()
+                        method: _.upperCase(_.trim(_.get(requestOptions, "method", "GET"))),
+                        cache: !!_.get(requestOptions, "cache", true),
+                        url: _.trim(_.get(requestOptions, "url")),
+                        pullToRefresh: !!_.get(requestOptions, "refresh", false),
+                        imageProxy: !!_.get(requestOptions, "imageProxy", false),
+                        requestData: _.get(requestOptions, "data", {}),
+                        expires_at: _.get(requestOptions, "expires_at", (current + 3600)),
+                        touched_at: _.get(requestOptions, "touched_at", (current)),
+                        network_promise: _.get(requestOptions, "network_promise", $q.defer()),
+                        timeout: _.get(requestOptions, "timeout", 30000),
+                        deferred_promise: FallbackPromise.defer()
                     });
 
                     options.deferred_promise.promise.__name__ = "pwa-" + Math.random();
 
                     /** Return direct request when cache is not active */
-                    if(!provider.cacheIsEnabled || !options.cache) {
-
-                        if($rootScope.isOnline) {
+                    if (!provider.cacheIsEnabled || !options.cache) {
+                        if ($rootScope.isOnline) {
                             $log.debug("direct request, no cache.", options.url);
 
                             $http(requestOptions)

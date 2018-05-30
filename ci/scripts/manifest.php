@@ -45,7 +45,6 @@ class Manifest
         "^var/apps/browser.tgz",
         "^var/apps/ionic/android.tgz",
         "^var/apps/ionic/ios.tgz",
-        "^var/apps/ionic/ios-noads.tgz",
         "^var/apps/ionic/previewer.tgz",
         "favicon\."
     ];

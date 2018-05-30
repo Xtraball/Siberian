@@ -24,7 +24,6 @@ const notifier = require('node-notifier'),
 let platforms = [
     'android',
     'ios',
-    'ios-noads',
     'browser'
 ];
 
@@ -517,7 +516,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
         if (platform === 'android' ||
             platform === 'ios' ||
-            platform === 'ios-noads' ||
             platform === 'browser') {
             let silent = '--silent';
             if (DEBUG) {
@@ -570,12 +568,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 Object.keys(requiredPlugins).forEach(function (pluginName) {
                     installPlugin(pluginName, platform, requiredPlugins[pluginName]);
                 });
-
-                // Before building, copying json platform!
-                if (platform === 'ios-noads') {
-                    sh.mv('-f', installPath + '/' +
-                        platform.split('-')[0] + '.json', installPath+'/' + platform + '.json');
-                }
 
                 switch (platform.split('-')[0]) {
                     case 'android':
@@ -632,7 +624,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
 let patchIos = function (platform) {
     sh.cd(ROOT + '/bin/scripts/');
-    if (platform === 'ios-noads' || platform === 'ios') {
+    if (platform === 'ios') {
         sprint(clc.green('Patching platform project for Push entitlements ...'));
         sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
     }
@@ -740,7 +732,7 @@ let copyPlatform = function (platform) {
 
     switch (platform) {
         case 'android':
-            sh.rm('-rf', ionicPlatformPath + '/build');
+            sh.rm('-rf', ionicPlatformPath + '/app/build');
             sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
             sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
             sh.rm('-rf', ionicPlatformPath + '/assets/www/modules/*');
@@ -776,7 +768,7 @@ let copyPlatform = function (platform) {
 
             break;
 
-        case 'ios': case 'ios-noads':
+        case 'ios':
             sh.rm('-rf', ionicPlatformPath + '/build');
             sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
             sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
@@ -1476,7 +1468,6 @@ let archiveSources = function () {
     sh.cd(ROOT + '/siberian/var/apps/ionic');
     sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
     sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
-    sh.exec('tar ' + excludes + ' -czf ./ios-noads.tgz ./ios-noads');
 
     sh.cd(ROOT + '/siberian/var/apps');
     sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
