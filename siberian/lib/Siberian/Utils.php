@@ -391,8 +391,8 @@ function __get($code) {
  * @param $value
  * @return System_Model_Config
  */
-function __set($code, $value) {
-    return System_Model_Config::setValueFor($code, $value);
+function __set($code, $value, $label = null) {
+    return System_Model_Config::setValueFor($code, $value, $label);
 }
 
 /**
