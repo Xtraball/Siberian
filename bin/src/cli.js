@@ -1019,7 +1019,8 @@ let setProd = function () {
 let clearcache = function () {
     let cachePath = ROOT + '/siberian/var/cache/*';
 
-    sh.rm('-rf', cachePath);
+    sh.rm('-rf', ROOT + '/siberian/var/cache/*');
+    sh.rm('-f', ROOT + '/siberian/app/local/design/design-cache.json');
 
     sprint(clc.blue('Cache has been cleared.'));
 };

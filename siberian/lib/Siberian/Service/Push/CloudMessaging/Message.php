@@ -1,19 +1,21 @@
 <?php
 
-use PHP_GCM\Message as Message;
+namespace Siberian\Service\Push\CloudMessaging;
+
+use Siberian\CloudMessaging\Message as BaseMessage;
 
 /**
- * Class Siberian_Service_Push_Gcm_Message
- *
- * Custom GCM Message, with specific values from SiberianCMS
+ * Class Message
+ * @package Siberian\Service\Push\CloudMessaging
  */
-class Siberian_Service_Push_Gcm_Message extends Message {
-
+class Message extends BaseMessage
+{
     /**
      * @param $iMessageId
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setMessageId($iMessageId) {
+    public function setMessageId($iMessageId)
+    {
         $this->addData("message_id", $iMessageId);
 
         return $this;
@@ -21,19 +23,21 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $sTitle
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setTitle($sTitle) {
+    public function setTitle($sTitle)
+    {
         $this->addData("title", $sTitle);
 
         return $this;
     }
 
     /**
-     * @param $sTitle
-     * @return Siberian_Service_Push_Gcm_Message
+     * @param $sImage
+     * @return $this
      */
-    public function setImage($sImage) {
+    public function setImage($sImage)
+    {
         $this->addData("image", $sImage);
 
         return $this;
@@ -41,9 +45,10 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $sMessage
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setMessage($sMessage) {
+    public function setMessage($sMessage)
+    {
         $this->addData("message", $sMessage);
 
         return $this;
@@ -51,9 +56,10 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $iValueID
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setValueId($iValueID) {
+    public function setValueId($iValueID)
+    {
         $this->addData("value_id", $iValueID);
 
         return $this;
@@ -61,9 +67,10 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $iTimeToLive
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setTimeToLive($iTimeToLive) {
+    public function setTimeToLive($iTimeToLive)
+    {
         $this->timeToLive($iTimeToLive);
 
         return $this;
@@ -71,41 +78,51 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param bool $bDelayWithIdle
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setDelayWithIdle($bDelayWithIdle = false) {
+    public function setDelayWithIdle($bDelayWithIdle = false)
+    {
         $this->delayWhileIdle($bDelayWithIdle);
 
         return $this;
     }
 
-    public function setGeolocation($sLatitude, $sLongitude, $sRadius) {
+    /**
+     * @param $sLatitude
+     * @param $sLongitude
+     * @param $sRadius
+     * @return $this
+     */
+    public function setGeolocation($sLatitude, $sLongitude, $sRadius)
+    {
         $this
             ->addData("latitude", $sLatitude)
             ->addData("longitude", $sLongitude)
-            ->addData("radius", $sRadius)
-        ;
+            ->addData("radius", $sRadius);
 
         return $this;
     }
 
     /**
      * @param int $dSendUntil
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setSendUntil($dSendUntil = 0) {
+    public function setSendUntil($dSendUntil = 0)
+    {
         $this->addData("send_until", $dSendUntil);
 
         return $this;
     }
 
-
     /**
      * @param $sCover
-     * @return Siberian_Service_Push_Gcm_Message
+     * @param $sPicture
+     * @param $sSummaryText
+     * @return $this
      */
-    public function setCover($sCover, $sPicture, $sSummaryText) {
-        if(!empty($sCover)) {
+    public function setCover($sCover, $sPicture, $sSummaryText)
+    {
+        if (!empty($sCover)) {
             $this->addData("cover", $sCover);
 
             $this->addData("style", "picture");
@@ -118,9 +135,10 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $sActionValue
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setActionValue($sActionValue) {
+    public function setActionValue($sActionValue)
+    {
         $this->addData("action_value", $sActionValue);
 
         return $this;
@@ -128,9 +146,10 @@ class Siberian_Service_Push_Gcm_Message extends Message {
 
     /**
      * @param $bOpenWebview
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return $this
      */
-    public function setOpenWebview($bOpenWebview) {
+    public function setOpenWebview($bOpenWebview)
+    {
         $this->addData("open_webview", $bOpenWebview);
 
         return $this;

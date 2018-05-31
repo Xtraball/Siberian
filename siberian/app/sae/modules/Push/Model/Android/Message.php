@@ -1,24 +1,20 @@
 <?php
 
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Log.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Constants.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Sender.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Message.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/AggregateResult.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/InvalidRequestException.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/MulticastResult.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Notification.php');
-require_once Core_Model_Directory::getBasePathTo('lib/PHP_GCM/Result.php');
-
 /**
  * Class Push_Model_Android_Message
  */
-class Push_Model_Android_Message {
+class Push_Model_Android_Message
+{
 
     /**
-     * @var null|Siberian_Service_Push_Apns
+     * @var \Siberian\CloudMessaging\Sender\Gcm
      */
-    private $service_apns = null;
+    private $service_gcm = null;
+
+    /**
+     * @var \Siberian\CloudMessaging\Sender\Fcm
+     */
+    private $service_fcm = null;
 
     /**
      * @var null|Push_Model_Message
@@ -31,46 +27,49 @@ class Push_Model_Android_Message {
     private $logger = null;
 
     /**
-     * Push_Model_Ios_Message constructor.
-     * @param Siberian_Service_Push_Apns $service_apns
+     * Push_Model_Android_Message constructor.
+     * @param \Siberian\CloudMessaging\Sender\Fcm $serviceFcm
+     * @param \Siberian\CloudMessaging\Sender\Gcm $serviceGcm
+     * @throws Zend_Exception
      */
-    public function __construct($service_gcm) {
-        $this->service_gcm = $service_gcm;
+    public function __construct($serviceFcm, $serviceGcm)
+    {
+        $this->service_gcm = $serviceGcm;
+        $this->service_fcm = $serviceFcm;
         $this->logger = Zend_Registry::get("logger");
     }
 
     /**
-     * Binder for CA 
-     * 
+     * Binder for CA
+     *
      * @param $path
      */
-    public function certificatePath($path) {
+    public function certificatePath($path)
+    {
         $this->service_gcm->certificatePath($path);
     }
 
     /**
      * @param Push_Model_Message $message
      */
-    public function setMessage(Push_Model_Message $message) {
+    public function setMessage(Push_Model_Message $message)
+    {
         $this->message = $message;
     }
 
     /**
      * @return Push_Model_Message
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
     /**
-     * Push GCm Messages
-     *
-     * This gets called automatically by _fetchMessages.  This is what actually deliveres the message.
-     *
-     * @access public
+     * @throws Exception
      */
-    public function push() {
-
+    public function push()
+    {
         $error = null;
         $device = new Push_Model_Android_Device();
         $app_id = $this->getMessage()->getAppId();
@@ -84,7 +83,7 @@ class Push_Model_Android_Message {
 
         # Individual push, push to user(s)
         $selected_users = null;
-        if(Push_Model_Message::hasIndividualPush()) {
+        if (Push_Model_Message::hasIndividualPush()) {
             if ($this->getMessage()->getSendToSpecificCustomer() == 1) {
                 $customer_message = new Push_Model_Customer_Message();
                 $selected_users = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
@@ -93,120 +92,159 @@ class Push_Model_Android_Message {
 
         $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
 
-        $gcm_message = $this->buildMessage();
+        $messagePayload = $this->buildMessage();
 
-        $app = new Application_Model_Application();
-        $app->find($app_id);
-        $app_use_ionic = ($app->useIonicDesign());
-
-        $device_by_token = array();
-        $registration_tokens = array();
+        // Split devices by provider!
+        $deviceByTokenGcm = [];
+        $registrationTokensGcm = [];
         foreach ($devices as $device) {
-            $device_by_token[$device->getRegistrationId()] = $device;
-            $registration_tokens[] = $device->getRegistrationId();
+            if ($device->getProvider() === 'gcm') {
+                $deviceByTokenGcm[$device->getRegistrationId()] = $device;
+                $registrationTokensGcm[] = $device->getRegistrationId();
+            }
         }
 
-        if(empty($registration_tokens)) {
-            $this->service_gcm->logger->log("No Android devices registered, done.");
+        $deviceByTokenFcm = [];
+        $registrationTokensFcm = [];
+        foreach ($devices as $device) {
+            if ($device->getProvider() === 'fcm') {
+                $deviceByTokenFcm[$device->getRegistrationId()] = $device;
+                $registrationTokensFcm[] = $device->getRegistrationId();
+            }
+        }
+
+        // If both lists are empty ... aborting!
+        if (empty($registrationTokensGcm) && empty($registrationTokensFcm)) {
+            $this->service_fcm->logger->log('No Android devices registered, done.');
             return;
         }
 
-        # Send message.
+        // Handler GCM (deprecated)
+        $messagePayload->setTitle('GCM');
         try {
-            $aggregate_result = $this->service_gcm->send($gcm_message, $registration_tokens);
+            $this->_pushToProvider($this->service_gcm,
+                $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
+        } catch (Exception $e) {
+            // Ignore
+            $this->service_gcm->logger->log($e->getMessage());
+        }
 
-            foreach($aggregate_result->getResults() as $result) {
 
+        // Handler FCM, from 4.14.0
+        $messagePayload->setTitle('Firebase');
+        try {
+            $this->_pushToProvider($this->service_fcm,
+                $messagePayload, $registrationTokensFcm, $deviceByTokenFcm);
+        } catch (Exception $e) {
+            // Ignore
+            $this->service_fcm->logger->log($e->getMessage());
+            // Rethrow exception!
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $provider
+     * @param $message
+     * @param $tokens
+     * @param $deviceByToken
+     * @throws Siberian_Exception
+     */
+    private function _pushToProvider ($provider, $message, $tokens, $deviceByToken)
+    {
+        // Send message!
+        $error = '';
+        try {
+            $aggregateResult = $provider->send($message, $tokens);
+
+            foreach ($aggregateResult->getResults() as $result) {
                 try {
-
                     # Fetch the device
-                    $registration_id = $result->getRegistrationId();
-                    if(isset($device_by_token[$registration_id])) {
-                        $device = $device_by_token[$registration_id];
+                    $registrationId = $result->getRegistrationId();
+                    if (isset($deviceByTokenGcm[$registrationId])) {
+                        $device = $deviceByToken[$registrationId];
                     } else {
                         continue;
                     }
 
                     $messageId = $result->getMessageId();
                     $errorCode = $result->getErrorCode();
-                    if(!empty($messageId)) {
+                    if (!empty($messageId)) {
+                        $registrationId = $device->getDeviceUid() ?
+                            $device->getDeviceUid() : $device->getRegistrationId();
 
-                        if($app_use_ionic) {
-                            $registration_id = $device->getDeviceUid() ? $device->getDeviceUid() : $device->getRegistrationId();
-                        } else {
-                            $registration_id = $device->getRegistrationId();
-                        }
-
-                        /** Very important code, this links push message to user/device */
-                        $this->getMessage()->createLog($device, 1, $registration_id);
-
-                    } else if(!empty($errorCode)) {
-
-                        # Handle error
-                        $error_count = $device->getErrorCount();
-                        if($error_count >= 2) {
+                        // Very important code, this links push message to user/device!
+                        $this->getMessage()->createLog($device, 1, $registrationId);
+                    } else if (!empty($errorCode)) {
+                        // Handle error!
+                        $errorCount = $device->getErrorCount();
+                        if ($errorCount >= 10000) {
                             # Remove device from list
-                            $device->delete();
+                            //$device->delete();
 
-                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.", $device->getId(), $registration_id);
+                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.",
+                                $device->getId(), $registrationId);
                             $this->logger->info($msg, "push_android", false);
                         } else {
-                            $device->setErrorCount(++$error_count)->save();
+                            $device->setErrorCount(++$errorCount)->save();
 
-                            $msg = sprintf("#810-02: Android Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $registration_id, $error_count);
+                            $msg = sprintf("#810-02: Android Device with ID: %s, Token: %s, failed push ! Errors count: %s.",
+                                $device->getId(), $registrationId, $errorCount);
                             $this->logger->info($msg, "push_android", false);
                         }
 
                     }
-                } catch(Exception $e) {
-                    $msg = sprintf("#810-06: Android Device with ID: %s, Token: %s failed ! Error message: %s.", $device->getId(), $registration_id, $e->getMessage());
+                } catch (Exception $e) {
+                    $msg = sprintf("#810-06: Android Device with ID: %s, Token: %s failed ! Error message: %s.",
+                        $device->getId(), $registrationId, $e->getMessage());
                     $this->logger->info($msg, "push_android", false);
                 }
             }
 
         } catch (InvalidArgumentException $e) { # $deviceRegistrationId was null
             $error = sprintf("#810-03: PushGCM InvalidArgumentException with error: %s.", $e->getMessage());
-        } catch (PHP_GCM\InvalidRequestException $e) { # server returned HTTP code other than 200 or 503
+        } catch (\Siberian\CloudMessaging\InvalidRequestException $e) { # server returned HTTP code other than 200 or 503
             $error = sprintf("#810-04: PushGCM InvalidRequestException with error: %s.", $e->getMessage());
         } catch (Exception $e) { # message could not be sent
             $error = sprintf("#810-05: PushGCM Exception with error: %s.", $e->getMessage());
         }
 
-        if(!empty($error)) {
-            $this->service_gcm->logger->log($error);
-
-            # Throw exception up to notify the push failed
+        if (!empty($error)) {
             throw new Siberian_Exception($error);
         }
-
     }
 
     /**
-     * @return Siberian_Service_Push_Gcm_Message
+     * @return \Siberian\Service\Push\CloudMessaging\Message
      */
-    public function buildMessage() {
-        $gcm_message = new Siberian_Service_Push_Gcm_Message();
+    public function buildMessage()
+    {
+        $messagePayload = new \Siberian\Service\Push\CloudMessaging\Message();
 
         $message = $this->getMessage();
 
         $application = new Application_Model_Application();
         $application->find($message->getAppId());
 
-        if(is_numeric($message->getActionValue())) {
+        if (is_numeric($message->getActionValue())) {
             $option_value = new Application_Model_Option_Value();
             $option_value->find($message->getActionValue());
 
-            $action_url = sprintf("/%s/%sindex/value_id/%s", $application->getKey(), $option_value->getMobileUri(), $option_value->getId());
+            $action_url = sprintf("/%s/%sindex/value_id/%s",
+                $application->getKey(),
+                $option_value->getMobileUri(),
+                $option_value->getId());
         } else {
             $action_url = $message->getActionValue();
         }
 
-        $gcm_message
+        $messagePayload
             ->setMessageId($message->getMessageId())
             ->setTitle($message->getTitle())
             ->setMessage($message->getText())
             ->setGeolocation($message->getLatitude(), $message->getLongitude(), $message->getRadius())
-            ->setCover($message->getCoverUrl(), $message->getData("base_url").$message->getCoverUrl(), $message->getText())
+            ->setCover($message->getCoverUrl(),
+                $message->getData("base_url") . $message->getCoverUrl(), $message->getText())
             ->setDelayWithIdle(false)
             ->setTimeToLive(0)
             ->setSendUntil($message->getSendUntil() ? $message->getSendUntil() : "0")
@@ -215,22 +253,23 @@ class Push_Model_Android_Message {
 
         # Priority to custom image
         $custom_image = $message->getCustomImage();
-        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application".$custom_image);
-        if(is_readable($path_custom_image) && !is_dir($path_custom_image)) {
-            $gcm_message->setImage($message->getData("base_url")."/images/application".$custom_image);
+        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application" . $custom_image);
+        if (is_readable($path_custom_image) && !is_dir($path_custom_image)) {
+            $messagePayload->setImage($message->getData("base_url") . "/images/application" . $custom_image);
         } else {
             # Default application image
             $application_image = $application->getAndroidPushImage();
-            if(!empty($application_image)) {
-                $gcm_message->setImage($message->getData("base_url")."/images/application".$application_image);
+            if (!empty($application_image)) {
+                $messagePayload->setImage($message->getData("base_url") .
+                    "/images/application" . $application_image);
             }
         }
 
         if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
-            $gcm_message->contentAvailable(true);
+            $messagePayload->contentAvailable(true);
         }
 
-        return $gcm_message;
+        return $messagePayload;
     }
 
 

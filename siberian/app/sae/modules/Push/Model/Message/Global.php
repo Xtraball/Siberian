@@ -1,8 +1,16 @@
 <?php
 
-class Push_Model_Message_Global extends Core_Model_Default {
-
-    public function __construct($datas = array()) {
+/**
+ * Class Push_Model_Message_Global
+ */
+class Push_Model_Message_Global extends Core_Model_Default
+{
+    /**
+     * Push_Model_Message_Global constructor.
+     * @param array $datas
+     */
+    public function __construct($datas = [])
+    {
         parent::__construct($datas);
         $this->_db_table = 'Push_Model_Db_Table_Message_Global';
     }
@@ -12,20 +20,21 @@ class Push_Model_Message_Global extends Core_Model_Default {
      *
      * @param $params
      */
-    public function createInstance($params, $backoffice = false) {
+    public function createInstance($params, $backoffice = false)
+    {
 
         $this->setTitle($params["title"]);
         $this->setMessage($params["message"]);
         $this->setSendToAll(!!$params["send_to_all"]);
         $this->setTargetApps(Siberian_Json::encode($params["checked"]));
         $this->setTargetDevices($params["devices"]);
-        if(!!$params["open_url"]) {
+        if (!!$params["open_url"]) {
             $this->setUrl($params["url"]);
         }
 
         $applications = Siberian_Json::decode($this->getTargetApps());
         $application_table = new Application_Model_Db_Table_Application();
-        if(!!$this->getSendToAll()) {
+        if (!!$this->getSendToAll()) {
             $all_applications = $application_table->findAllForGlobalPush();
 
             // Get apps that belong to the current admin!
@@ -33,12 +42,12 @@ class Push_Model_Message_Global extends Core_Model_Default {
                 $this->getSession()->getAdminId()
             )->toArray();
 
-            $filtered = array_map(function($app) {
+            $filtered = array_map(function ($app) {
                 return $app["app_id"];
             }, $all_for_admin);
 
             // We keep only apps that belongs to the admin!
-            if(!$backoffice) {
+            if (!$backoffice) {
                 $applications = array_intersect($all_applications, $filtered);
             } else {
                 $applications = $all_applications;
@@ -49,7 +58,7 @@ class Push_Model_Message_Global extends Core_Model_Default {
                 $all_for_admin = $application_table->findAllByAdmin(
                     $this->getSession()->getAdminId()
                 )->toArray();
-                $filtered = array_map(function($app) {
+                $filtered = array_map(function ($app) {
                     return $app["app_id"];
                 }, $all_for_admin);
                 $applications = array_intersect($applications, $filtered);
@@ -57,10 +66,10 @@ class Push_Model_Message_Global extends Core_Model_Default {
         }
 
         try {
-            if(!empty($applications)) {
+            if (!empty($applications)) {
                 $this->save();
 
-                foreach($applications as $application_id) {
+                foreach ($applications as $application_id) {
                     $application_id = intval($application_id);
 
                     $push_message = new Push_Model_Message();
@@ -74,8 +83,8 @@ class Push_Model_Message_Global extends Core_Model_Default {
                     $push_message->setSendUntil(null);
                     $push_message->setBaseUrl($params["base_url"]);
 
-                    if(!empty($this->getUrl())) {
-                        $url = file_get_contents("https://tinyurl.com/api-create.php?url=".urlencode($this->getData("url")));
+                    if (!empty($this->getUrl())) {
+                        $url = file_get_contents("https://tinyurl.com/api-create.php?url=" . urlencode($this->getData("url")));
                         $push_message->setActionValue($url);
                     }
 
@@ -89,7 +98,7 @@ class Push_Model_Message_Global extends Core_Model_Default {
                 return false;
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
 
             # Add a log.
 
@@ -98,30 +107,48 @@ class Push_Model_Message_Global extends Core_Model_Default {
 
     }
 
-    public function getTitle() {
+    /**
+     * @return array|bool|mixed|null|string
+     */
+    public function getTitle()
+    {
         return !!$this->getData("base64") ? base64_decode($this->getData("title")) : $this->getData("title");
     }
 
-    public function getMessage() {
-      return !!$this->getData("base64") ? base64_decode($this->getData("message")) : $this->getData('message');
+    /**
+     * @return array|bool|mixed|null|string
+     */
+    public function getMessage()
+    {
+        return !!$this->getData("base64") ? base64_decode($this->getData("message")) : $this->getData('message');
     }
 
-    public function setTitle($title) {
+    /**
+     * @param $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
         $text = $this->getText();
-        return $this->addData(array(
+        return $this->addData([
             "base64" => 1,
             "title" => base64_encode($title),
             "message" => base64_encode($text)
-        ));
+        ]);
     }
 
-    public function setMessage($text) {
+    /**
+     * @param $text
+     * @return $this
+     */
+    public function setMessage($text)
+    {
         $title = $this->getTitle();
-        return $this->addData(array(
+        return $this->addData([
             "base64" => 1,
             "title" => base64_encode($title),
             "message" => base64_encode($text)
-        ));
+        ]);
     }
 
 }

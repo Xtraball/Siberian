@@ -1,10 +1,23 @@
 <?php
 
-namespace PHP_GCM;
+namespace Siberian\CloudMessaging\Sender;
 
-class SenderFcm
+use Siberian\CloudMessaging\InvalidRequestException as InvalidRequestException;
+use Siberian\CloudMessaging\Message as Message;
+use Siberian\CloudMessaging\MulticastResult as MulticastResult;
+use Siberian\CloudMessaging\AggregateResult as AggregateResult;
+use Siberian\CloudMessaging\Result as Result;
+use Siberian\CloudMessaging\Log as Log;
+use Siberian\CloudMessaging\Constants as Constants;
+
+/**
+ * Class Gcm
+ * @package Siberian\CloudMessaging\Sender
+ */
+class Gcm
 {
-    const SEND_ENDPOINT = 'https://fcm.googleapis.com/fcm/send';
+
+    const GCM_ENDPOINT = 'https://gcm-http.googleapis.com/gcm/send';
     const BACKOFF_INITIAL_DELAY = 1000;
     const MAX_BACKOFF_DELAY = 1024000;
     const SUCCESS = 'success';
@@ -45,7 +58,7 @@ class SenderFcm
         $this->key = $key;
         $this->retries = 3;
         $this->certificatePath = null;
-        $this->logger = new \PHP_GCM\Log();
+        $this->logger = new \Siberian\CloudMessaging\Log('Gcm');
     }
 
     /**
@@ -53,7 +66,7 @@ class SenderFcm
      * with Google APIs.
      *
      * @param string $certificatePath full qualified path to a certificate store.
-     * @return Sender Returns the instance of this Sender for method chaining.
+     * @return Gcm Returns the instance of this Sender for method chaining.
      */
     public function certificatePath($certificatePath)
     {
@@ -68,7 +81,7 @@ class SenderFcm
      * could block the calling thread for many seconds.
      *
      * @param int $retries number of retries in case of service unavailability errors.
-     * @return Sender Returns the instance of this Sender for method chaining.
+     * @return Gcm Returns the instance of this Sender for method chaining.
      */
     public function retries($retries)
     {
@@ -96,19 +109,19 @@ class SenderFcm
         }
 
         if (!is_array($registrationIds)) {
-            $registrationIds = array($registrationIds);
+            $registrationIds = [$registrationIds];
         }
 
         $chunks = array_chunk($registrationIds, 1000);
 
-        $multicastResults = array();
-        $this->logger->log("INFO: Connecting to " . self::SEND_ENDPOINT . "...");
+        $multicastResults = [];
+        $this->logger->log("INFO: Connecting to " . self::GCM_ENDPOINT . "...");
         foreach ($chunks as $chunk) {
             $attempt = 0;
             $backoff = self::BACKOFF_INITIAL_DELAY;
-            $results = array();
+            $results = [];
             $unsentRegistrationIds = array_values($chunk);
-            $multicastIds = array();
+            $multicastIds = [];
             do {
                 $attempt++;
 
@@ -245,10 +258,10 @@ class SenderFcm
         }
 
         if (!is_array($registrationIds)) {
-            $registrationIds = array($registrationIds);
+            $registrationIds = [$registrationIds];
         }
 
-        $request = array();
+        $request = [];
         $request[self::DEVICE_GROUP_OPERATION] = $operation;
         $request[self::DEVICE_GROUP_NOTIFICATION_KEY_NAME] = $notificationKeyName;
         $request[self::DEVICE_GROUP_REGISTRATION_IDS] = $registrationIds;
@@ -259,7 +272,7 @@ class SenderFcm
 
         $ch = $this->getCurlRequest();
         curl_setopt($ch, CURLOPT_URL, self::DEVICE_GROUP_ENDPOINT);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: key=' . $this->key, self::DEVICE_GROUP_PROJET_ID_HEADER . ': ' . $senderId));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: key=' . $this->key, self::DEVICE_GROUP_PROJET_ID_HEADER . ': ' . $senderId]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($request));
         $response = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -277,8 +290,8 @@ class SenderFcm
     private function makeRequest(Message $message, array $registrationIds)
     {
         $ch = $this->getCurlRequest();
-        curl_setopt($ch, CURLOPT_URL, self::SEND_ENDPOINT);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: key=' . $this->key));
+        curl_setopt($ch, CURLOPT_URL, self::GCM_ENDPOINT);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Authorization: key=' . $this->key]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $message->build($registrationIds));
         $response = curl_exec($ch);
         $status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -297,6 +310,8 @@ class SenderFcm
         }
 
         $this->logger->log("STATUS: Message sent...");
+        $this->logger->log(sprintf("TO: %s device%s.", count($registrationIds),
+            count($registrationIds) > 1 ? 's' : ''));
 
         $response = json_decode($response, true);
         $success = $response[self::SUCCESS];
@@ -311,7 +326,8 @@ class SenderFcm
 
             foreach ($individualResults as $singleResult) {
                 $messageId = isset($singleResult[self::MESSAGE_ID]) ? $singleResult[self::MESSAGE_ID] : null;
-                $canonicalRegId = isset($singleResult[self::REGISTRATION_ID]) ? $singleResult[self::REGISTRATION_ID] : null;
+                $canonicalRegId = isset($singleResult[self::REGISTRATION_ID]) ?
+                    $singleResult[self::REGISTRATION_ID] : null;
                 $error = isset($singleResult[self::ERROR]) ? $singleResult[self::ERROR] : null;
 
                 $result = new Result();
@@ -345,7 +361,7 @@ class SenderFcm
                 '; unsentRegIds: ' . $unsentRegIds);
         }
 
-        $newUnsentRegIds = array();
+        $newUnsentRegIds = [];
         for ($i = 0; $i < count($unsentRegIds); $i++) {
             $regId = $unsentRegIds[$i];
             $result = $results[$i];

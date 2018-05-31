@@ -1,6 +1,6 @@
 <?php
 
-namespace PHP_GCM;
+namespace Siberian\CloudMessaging;
 
 /**
  * Result of a GCM message request that returned HTTP status code 200.

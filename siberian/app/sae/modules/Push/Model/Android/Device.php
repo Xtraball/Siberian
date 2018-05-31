@@ -1,52 +1,100 @@
 <?php
 
-class Push_Model_Android_Device extends Core_Model_Default {
-
+/**
+ * Class Push_Model_Android_Device
+ */
+class Push_Model_Android_Device extends Core_Model_Default
+{
+    /**
+     *
+     */
     const DEVICE_TYPE = 2;
 
-    function __construct($params = array()) {
+    /**
+     * Push_Model_Android_Device constructor.
+     * @param array $params
+     */
+    function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Push_Model_Db_Table_Android_Device';
     }
 
-    public function findByRegistrationId($reg_id) {
+    /**
+     * @param $reg_id
+     * @return $this
+     */
+    public function findByRegistrationId($reg_id)
+    {
         $this->find($reg_id, 'registration_id');
         return $this;
     }
 
-    public function findByDeviceUid($device_uid) {
+    /**
+     * @param $device_uid
+     * @return $this
+     */
+    public function findByDeviceUid($device_uid)
+    {
         $this->find($device_uid, 'device_uid');
         return $this;
     }
 
-    public function findByAppId($app_id, $topic=null, $customers = null) {
+    /**
+     * @param $app_id
+     * @param null $topic
+     * @param null $customers
+     * @return mixed
+     */
+    public function findByAppId($app_id, $topic = null, $customers = null)
+    {
         return $this->getTable()->findByAppId($app_id, $topic, $customers);
     }
 
-    public function getTypeId() {
+    /**
+     * @return int
+     */
+    public function getTypeId()
+    {
         return self::DEVICE_TYPE;
     }
 
-    public function countUnreadMessages() {
+    /**
+     * @return mixed
+     */
+    public function countUnreadMessages()
+    {
         return $this->getTable()->countUnreadMessages($this->getDeviceUid());
     }
 
-    public function findNotReceivedMessages($geolocated = null) {
+    /**
+     * @param null $geolocated
+     * @return Siberian_Db_Table_Rowset
+     * @throws Zend_Exception
+     */
+    public function findNotReceivedMessages($geolocated = null)
+    {
         $message_ids = $this->getTable()->findNotReceivedMessages($this->getRegistrationId(), $geolocated);
         $message = new Push_Model_Message();
-        return !empty($message_ids) ? $message->findAll(array('message_id IN (?)' => $message_ids)) : new Siberian_Db_Table_Rowset(array());
+        return !empty($message_ids) ? $message->findAll(['message_id IN (?)' => $message_ids]) : new Siberian_Db_Table_Rowset([]);
     }
 
-    public function hasReceivedThisMessage($message_id) {
+    /**
+     * @param $message_id
+     * @return mixed
+     */
+    public function hasReceivedThisMessage($message_id)
+    {
         return $this->getTable()->hasReceivedThisMessage($this->getId(), $message_id);
     }
 
     /**
-     * Unregister GCM device
+     * Unregister device
      *
      * @access public
      */
-    public function unregister() {
+    public function unregister()
+    {
         $this->setStatus('uninstalled')->save();
     }
 

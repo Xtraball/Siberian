@@ -1,6 +1,6 @@
 <?php
 
-namespace PHP_GCM;
+namespace Siberian\CloudMessaging;
 
 /**
  * Used for notification messages. See https://developers.google.com/cloud-messaging/http-server-ref#notification-payload-support

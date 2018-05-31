@@ -1,14 +1,20 @@
 <?php
 
-use PHP_GCM\Sender as Sender;
+namespace Siberian\Service\Push;
 
-class Siberian_Service_Push_Gcm extends Sender {
+use Siberian\CloudMessaging\Sender\Gcm as Sender;
 
+/**
+ * Class Siberian_Service_Push_Gcm
+ */
+class Gcm extends Sender
+{
     /**
      * Siberian_Service_Push_Gcm constructor.
      * @param string $key
      */
-    public function __construct($key) {
+    public function __construct($key)
+    {
         parent::__construct($key);
     }
 }

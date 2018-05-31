@@ -1,13 +1,30 @@
 <?php
 
+/**
+ * Class Push_Model_Message
+ *
+ * @method Push_Model_Db_Table_Message getTable()
+ */
 class Push_Model_Message extends Core_Model_Default
 {
-
+    /**
+     * @var boolean
+     */
     protected $_is_cacheable = true;
 
+    /**
+     * @var integer
+     */
     const DISPLAYED_PER_PAGE = 10;
 
+    /**
+     * @var integer
+     */
     const TYPE_PUSH = 1;
+
+    /**
+     * @var integer
+     */
     const TYPE_INAPP = 2;
 
     /**
@@ -15,15 +32,29 @@ class Push_Model_Message extends Core_Model_Default
      */
     public $logger;
 
+    /**
+     * @var array
+     */
     protected $_types = [
         'ios' => 'Push_Model_Ios_Message',
         'android' => 'Push_Model_Android_Message'
     ];
 
+    /**
+     * @var
+     */
     protected $_instances;
 
+    /**
+     * @var
+     */
     protected $_messageType;
 
+    /**
+     * Push_Model_Message constructor.
+     * @param array $datas
+     * @throws Zend_Exception
+     */
     public function __construct($datas = [])
     {
         parent::__construct($datas);
@@ -53,6 +84,11 @@ class Push_Model_Message extends Core_Model_Default
         return $in_app_states;
     }
 
+    /**
+     * @param $option_value
+     * @return array|string[]
+     * @throws Zend_Exception
+     */
     public function getFeaturePaths($option_value)
     {
         if (!$this->isCacheable()) return [];
@@ -94,6 +130,9 @@ class Push_Model_Message extends Core_Model_Default
         return $paths;
     }
 
+    /**
+     * @return $this|void
+     */
     public function delete()
     {
         $message_id = $this->getId();
@@ -103,6 +142,10 @@ class Push_Model_Message extends Core_Model_Default
         $this->getTable()->deleteLog($message_id);
     }
 
+    /**
+     * @param $option_value
+     * @return $this|void
+     */
     public function deleteFeature($option_value)
     {
         $app = $this->getApplication();
@@ -113,37 +156,61 @@ class Push_Model_Message extends Core_Model_Default
 
     }
 
+    /**
+     * @param null $type
+     * @return null
+     */
     public function getInstance($type = null)
     {
         if (!empty($this->_instances[$type])) return $this->_instances[$type];
         else return null;
     }
 
+    /**
+     * @return mixed
+     */
     public function getInstances()
     {
         return $this->_instances;
     }
 
+    /**
+     * @return mixed
+     */
     public function getMessageType()
     {
         return $this->_messageType;
     }
 
+    /**
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
     public function getMessages()
     {
         return $this->getTable()->getMessages($this->_messageType);
     }
 
+    /**
+     * @return bool|null|string|string[]
+     */
     public function getTitle()
     {
-        return !!$this->getData("base64") ? base64_decode($this->getData("title")) : mb_convert_encoding($this->getData('title'), 'UTF-8', 'UTF-8');
+        return !!$this->getData("base64") ? base64_decode($this->getData("title")) :
+            mb_convert_encoding($this->getData('title'), 'UTF-8', 'UTF-8');
     }
 
+    /**
+     * @return bool|null|string|string[]
+     */
     public function getText()
     {
         return !!$this->getData("base64") ? base64_decode($this->getData("text")) : mb_convert_encoding($this->getData('text'), 'UTF-8', 'UTF-8');
     }
 
+    /**
+     * @param $title
+     * @return $this
+     */
     public function setTitle($title)
     {
         $text = $this->getText();
@@ -154,6 +221,10 @@ class Push_Model_Message extends Core_Model_Default
         ]);
     }
 
+    /**
+     * @param $text
+     * @return $this
+     */
     public function setText($text)
     {
         $title = $this->getTitle();
@@ -164,21 +235,43 @@ class Push_Model_Message extends Core_Model_Default
         ]);
     }
 
+    /**
+     * @param $device_uid
+     * @param null $message_id
+     * @return mixed
+     */
     public function markAsRead($device_uid, $message_id = null)
     {
         return $this->getTable()->markAsRead($device_uid, $message_id);
     }
 
+    /**
+     * @param $device_id
+     * @param $message_id
+     * @return mixed
+     */
     public function markAsDisplayed($device_id, $message_id)
     {
         return $this->getTable()->markAsDisplayed($device_id, $message_id);
     }
 
+    /**
+     * @param $appId
+     * @param $typeId
+     * @param int $limit
+     * @return mixed
+     */
     public function findAllForFeature($appId, $typeId, $limit = 100)
     {
         return $this->getTable()->findAllForFeature($appId, $typeId, $limit);
     }
 
+    /**
+     * @param $device_id
+     * @param $app_id
+     * @param int $offset
+     * @return mixed
+     */
     public function findByDeviceId($device_id, $app_id, $offset = 0)
     {
         $allowed_categories = null;
@@ -192,12 +285,20 @@ class Push_Model_Message extends Core_Model_Default
         return $this->getTable()->findByDeviceId($device_id, $this->_messageType, $app_id, $offset, $allowed_categories);
     }
 
-
+    /**
+     * @param $device_id
+     * @return mixed
+     */
     public function countByDeviceId($device_id)
     {
         return $this->getTable()->countByDeviceId($device_id, $this->_messageType);
     }
 
+    /**
+     * @param $device_id
+     * @param $app_id
+     * @return $this
+     */
     public function findLastPushMessage($device_id, $app_id)
     {
         $row = $this->getTable()->findLastPushMessage($device_id, $app_id);
@@ -205,6 +306,11 @@ class Push_Model_Message extends Core_Model_Default
         return $this;
     }
 
+    /**
+     * @param $app_id
+     * @param $device_id
+     * @return $this
+     */
     public function findLastInAppMessage($app_id, $device_id)
     {
         $subscription = new Topic_Model_Subscription();
@@ -215,12 +321,20 @@ class Push_Model_Message extends Core_Model_Default
         return $this;
     }
 
+    /**
+     * @param $app_id
+     * @param $device_id
+     * @param $device_type
+     * @return mixed
+     */
     public function markInAppAsRead($app_id, $device_id, $device_type)
     {
         return $this->getTable()->markInAppAsRead($app_id, $device_id, $device_type);
     }
 
-
+    /**
+     *
+     */
     public function push()
     {
         $success_ios = true;
@@ -260,32 +374,36 @@ class Push_Model_Message extends Core_Model_Default
 
                 if (in_array($this->getTargetDevices(), ["android", "all", "", null])) {
                     try {
-                        /**
-                        $gcm_key = Push_Model_Certificate::getAndroidKey();
-                        if (!empty($gcm_key)) {
-                            $instance = new Push_Model_Android_Message(new Siberian_Service_Push_Gcm(Push_Model_Certificate::getAndroidKey()));
-                            $instance->setMessage($this);
-                            $instance->push();
-                        } else {
-                            throw new Siberian_Exception("You must provide GCM Credentials");
-                        }*/
+
+                        $gcmKey = Push_Model_Certificate::getAndroidKey();
+                        $gcmInstance = null;
+                        if (!empty($gcmKey)) {
+                            $gcmInstance = new \Siberian\CloudMessaging\Sender\Gcm($gcmKey);
+                        }
 
                         $credentials = (new Push_Model_Firebase())
                             ->find('0', 'admin_id');
 
                         $fcmKey = $credentials->getServerKey();
-
+                        $fcmInstance = null;
                         if (!empty($fcmKey)) {
-                            $instance = new Push_Model_Android_Message(new \Siberian\Service\Push\Fcm($fcmKey));
+                            $fcmInstance = new \Siberian\CloudMessaging\Sender\Fcm($fcmKey);
+                        }else {
+                            // Only FCM is mandatory by now!
+                            throw new Siberian_Exception("You must provide FCM Credentials");
+                        }
+
+                        if ($fcmInstance || $gcmInstance) {
+                            $instance = new Push_Model_Android_Message($fcmInstance, $gcmInstance);
                             $instance->setMessage($this);
                             $instance->push();
-                        } else {
-                            throw new Siberian_Exception("You must provide GCM Credentials");
                         }
 
                     } catch (Exception $e) {
-                        $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
-                        $this->_log("Siberian_Service_Push_Gcm", $e->getMessage());
+                        print_r($e->getTraceAsString());
+                        $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(),
+                            date("Y-m-d H:i:s")), "cron_push");
+                        $this->_log("Siberian_Service_Push_Fcm", $e->getMessage());
                         $errors[] = $e->getMessage();
 
                         $success_android = false;

@@ -2,14 +2,13 @@
 
 namespace Siberian\Service\Push;
 
-require __DIR__ . '/../../../PHP_GCM/SenderFcm.php';
+use Siberian\CloudMessaging\Sender\Fcm as Sender;
 
 /**
  * Class Fcm
  */
-class Fcm extends \PHP_GCM\SenderFcm
+class Fcm extends Sender
 {
-
     /**
      * Siberian_Service_Push_Fcm constructor.
      * @param string $key
