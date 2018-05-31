@@ -30,6 +30,11 @@ $schemas['firebase_credential'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'server_key' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'raw_projects' => [
         'type' => 'text',
         'charset' => 'utf8',

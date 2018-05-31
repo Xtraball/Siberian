@@ -7,9 +7,11 @@
  * @method $this setCyphered(string $cyphered)
  * @method $this setAdminId(integer $adminId)
  * @method $this setProjectNumber(string $projectNumber)
+ * @method $this setServerKey(string $serverKey)
  * @method integer getId()
  * @method string getEmail()
  * @method string getProjectNumber()
+ * @method string getServerKey()
  */
 class Push_Model_Firebase extends Core_Model_Default
 {

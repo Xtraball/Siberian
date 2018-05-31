@@ -148,6 +148,11 @@ class Utils
             $configuration['googleService'] = $googleServiceShort;
         }
 
+        $settings = $firebase->fetchServerKey($configuration['projectNumber']);
+
+        print_r($settings);
+        die;
+
         return $configuration;
     }
 

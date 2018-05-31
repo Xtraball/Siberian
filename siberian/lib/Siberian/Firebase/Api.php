@@ -81,6 +81,7 @@ class Api
         $html = $crawler->html();
 
         $this->apiKey = Utils::extractApiKey($html);
+
         if ($this->apiKey === false) {
             throw new \Siberian_Exception('#307-01: ' .
                 __('Unable to login, please check your Firebase credentials, note that if you have two-factor auth enabled, this will not work.'));
@@ -163,6 +164,17 @@ class Api
     }
 
     /**
+     * @param $projectNumber
+     * @return mixed
+     */
+    public function fetchServerKey ($projectNumber)
+    {
+        $result = $this->getProjectSettings($projectNumber);
+
+        return $result;
+    }
+
+    /**
      * @return array
      * @throws \Siberian_Exception
      */
@@ -201,12 +213,38 @@ class Api
     }
 
     /**
+     * @param $projectNumber
+     * @return mixed
+     */
+    public function getProjectSettings ($projectNumber)
+    {
+        $settingsUri = sprintf("%s/v1/projects/%s/settings/cloudmessaging?key=%s",
+            $this->sdkUrl,
+            $projectNumber,
+            $this->apiKey);
+
+        $request = curl_init();
+
+        # Setting options
+        curl_setopt($request, CURLOPT_URL, $settingsUri);
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($request, CURLOPT_TIMEOUT, 30);
+        curl_setopt($request, CURLOPT_HTTPHEADER, $this->headers);
+
+        # Call
+        $result = curl_exec($request);
+
+        curl_close($request);
+
+        return $result;
+    }
+
+    /**
      * @return mixed
      */
     public function listClients ()
     {
-        $this->client->followRedirects(true);
-
         // Fetch clients
         $endpoint = sprintf("%s/v1/projects?key=%s",
                 $this->sdkUrl,

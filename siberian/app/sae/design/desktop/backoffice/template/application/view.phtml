@@ -434,7 +434,7 @@
             <td>
                 <label class="control-label"><?php echo __("iPhone"); ?></label>
                 <br />
-                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?></span>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?>, <?php echo __('iOS 8+') ?></span>
             </td>
             <td>
                 <a ng-if="application.zip.ios" href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}" class="help-block" target="_self" >
@@ -461,7 +461,7 @@
             <td>
                 <label class="control-label"><?php echo __("iPhone (No Ads)"); ?> <i class="fa fa-question-circle" ng-click="show_ads_tip = !show_ads_tip"></i></label>
                 <br />
-                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?></span>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?>, <?php echo __('iOS 8+') ?></span>
             </td>
             <td>
                 <a ng-if="application.zip.iosnoads" href="<?php echo $this->getUrl("") ?>{{ application.zip.iosnoads.path }}" class="help-block" target="_self" >
@@ -493,7 +493,7 @@
             <td>
                 <label class="control-label"><?php echo __("Android"); ?></label>
                 <br />
-                <span style="font-style: italic; font-size: 11px;"><?php echo __('Android Studio 2.3') ?></span>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Android Studio 2.3') ?>, <?php echo __('Android 4.4+') ?></span>
             </td>
             <td>
                 <a ng-if="application.zip.android" href="<?php echo $this->getUrl("") ?>{{ application.zip.android.path }}" class="help-block" target="_self" >

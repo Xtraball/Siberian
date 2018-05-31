@@ -34,7 +34,7 @@ class Push_Model_Android_Message {
      * Push_Model_Ios_Message constructor.
      * @param Siberian_Service_Push_Apns $service_apns
      */
-    public function __construct(Siberian_Service_Push_Gcm $service_gcm) {
+    public function __construct($service_gcm) {
         $this->service_gcm = $service_gcm;
         $this->logger = Zend_Registry::get("logger");
     }

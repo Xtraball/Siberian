@@ -3,64 +3,66 @@
 /**
  * Class Siberian_Api
  *
- * @version 4.8.4
- *
+ * @version 4.14.0
+ * @author Xtraball SAS <dev@xtraball.com>
  */
 
-class Siberian_Api {
+class Siberian_Api
+{
 
     /**
      * Simplified ACL Array
      *
      * @var array
      */
-    public static $acl_keys = array(
-        "application" => array(
+    public static $acl_keys = [
+        "application" => [
             "create" => "Create",
             "update" => "Update",
             "add" => "Grant user",
             "remove" => "Revoke user",
-        ),
-        "user" => array(
+        ],
+        "user" => [
             "exist" => "Exists",
             "authenticate" => "Authenticate",
             "create" => "Create",
             "update" => "Update",
             "forgotpassword" => "Forgot password",
-        ),
-        "backoffice" => array(
+        ],
+        "backoffice" => [
             "manifest" => "Rebuild manifest",
             "cleartmp" => "Clear temp",
             "clearcache" => "Clear cache",
             "clearlogs" => "Clear logs",
-        ),
-        "push" => array(
+        ],
+        "push" => [
             "list" => "List available applications",
             "send" => "Send global push notifications",
-        ),
-    );
+        ],
+    ];
 
     /**
      * @var array
      */
-    public static $protected_keys = array(
+    public static $protected_keys = [
         "application" => "Applications",
         "user" => "Users",
         "backoffice" => "Backoffice options",
         "push" => "Push notifications",
-    );
+    ];
 
     /**
      * @var array
      */
-    public static $keys = array();
+    public static $keys = [];
 
     /**
      * @param $namespace
      * @param array $keys
      */
-    public static function register($namespace, $title, $keys = array()) {
-        if(!in_array($namespace, self::$protected_keys) && is_array($keys)) {
+    public static function register($namespace, $title, $keys = [])
+    {
+        if (!in_array($namespace, self::$protected_keys) && is_array($keys)) {
             self::$acl_keys[$namespace] = $keys;
             self::$keys[$namespace] = $title;
         }
@@ -69,7 +71,8 @@ class Siberian_Api {
     /**
      * @return array
      */
-    public static function getSections() {
+    public static function getSections()
+    {
         return array_merge(self::$protected_keys, self::$keys);
     }
 }

@@ -48,10 +48,19 @@
                             value="{{ project.projectNumber }}">{{ project.displayName }} ({{ project.projectId }} - {{ project.projectNumber }})</option>
                 </select>
             </div>
+            <div class="col-md-4">
+                <label for="ServerKey"><?php echo __('Server key') ?></label>
+                <input type="text"
+                       id="ServerKey"
+                       ng-model="firebase.serverKey"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Server key', "'") ?>"/>
+            </div>
             <div class="col-md-4"
                  style="padding-top: 24px;">
                 <button type="submit"
-                        class="btn btn-primary left"><?php echo __('Save default project'); ?></button>
+                        class="btn btn-primary left"><?php echo __('Save project & key'); ?></button>
                 <sb-loader is_visible="projectLoader"
                            type="'inner_content'"
                            size="'small'"

@@ -45,10 +45,16 @@ $schemas['push_gcm_devices'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'provider' => [
+        'type' => 'enum(\'gcm\',\'fcm\')',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'gcm',
+    ],
     'development' => array(
         'type' => 'enum(\'production\',\'sandbox\')',
-        'charset' => 'latin1',
-        'collation' => 'latin1_swedish_ci',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
         'default' => 'production',
     ),
     'status' => array(

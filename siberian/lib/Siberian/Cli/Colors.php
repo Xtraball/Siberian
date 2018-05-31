@@ -1,5 +1,7 @@
 <?php
 
+namespace Siberian\Cli;
+
 /**
  * Class Colors
  */
@@ -194,17 +196,4 @@ class Colors
     {
         fwrite(STDOUT, self::initColoredString($msg, 'green') . PHP_EOL);
     }
-}
-
-/**
- * Short hand alias!
- *
- * @param $string
- * @param null $fg
- * @param null $bg
- * @return string
- */
-function color ($string, $fg = null, $bg = null)
-{
-    return Colors::initColoredString($string, $fg, $bg);
 }

@@ -29,11 +29,12 @@ App.factory('Firebase', function ($http, Url) {
         });
     };
 
-    factory.saveFirebaseProject = function (projectNumber) {
+    factory.saveFirebaseProject = function (projectNumber, serverKey) {
         return $http({
             method: 'POST',
             data: {
-                projectNumber: projectNumber
+                projectNumber: projectNumber,
+                serverKey: serverKey
             },
             url: Url.get('push/backoffice_firebase/project'),
             cache: true,

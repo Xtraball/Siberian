@@ -14,7 +14,8 @@ App.config(function ($routeProvider) {
     $scope.firebase = {
         'email': null,
         'password': null,
-        'projectNumber': null
+        'projectNumber': null,
+        'serverKey': null
     };
     $scope.projects = {};
 
@@ -83,7 +84,7 @@ App.config(function ($routeProvider) {
     $scope.saveFirebaseProject = function () {
         $scope.projectLoader = true;
         Firebase
-            .saveFirebaseProject($scope.firebase.projectNumber)
+            .saveFirebaseProject($scope.firebase.projectNumber, $scope.firebase.serverKey)
             .success(function (data) {
                 $scope.message.setText(data.message)
                     .isError(false)

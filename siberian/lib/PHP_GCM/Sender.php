@@ -40,7 +40,7 @@ class Sender {
    *
    * @param string $key API key obtained through the Google API Console.
    */
-  public function __construct($key) {
+  public function __construct($key, $type) {
     $this->key = $key;
     $this->retries = 3;
     $this->certificatePath = null;

@@ -25,6 +25,7 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
                 'email' => $credentials->getEmail(),
                 'password' => Push_Model_Firebase::$fakePassword,
                 'projectNumber' => $credentials->getProjectNumber(),
+                'serverKey' => $credentials->getServerKey(),
             ],
             'projects' => $credentials->getRawProjects()
         ]);
@@ -89,6 +90,7 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
 
             $credentials
                 ->setProjectNumber($params['projectNumber'])
+                ->setServerKey($params['serverKey'])
                 ->save();
 
             $payload = [
