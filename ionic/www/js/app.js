@@ -250,9 +250,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     var deviceScreen = $session.getDeviceScreen();
 
                     $log.debug('device_uid', $session.getDeviceUid());
-                    $log.debug('start: front/mobile/loadv3');
+                    $log.debug('start: app/mobile/init');
 
-                    $pwaRequest.post('front/mobile/loadv3', {
+                    $pwaRequest.post('app/mobile/init', {
                         data: {
                             add_language: true,
                             device_uid: $session.getDeviceUid(),
@@ -264,26 +264,26 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         refresh: refresh,
                         network_promise: networkPromise
                     }).then(function (data) {
-                        var load = data.load;
-                        var manifest = data.manifest;
+                        var load = data.loadBlock;
+                        var manifest = data.manifestBlock;
 
                         // Translations & locale!
-                        $translate.translations = data.translation;
-                        tmhDynamicLocale.set($translate.translations._locale);
+                        $translate.translations = data.translationBlock;
+                        tmhDynamicLocale.set($translate.translationBlock._locale);
 
                         if (!$session.getId()) {
-                            $session.setId(data.load.customer.token);
+                            $session.setId(data.loadBlock.customer.token);
                         }
 
                         // Populate main objects!
-                        Application.populate(data.load);
+                        Application.populate(data.loadBlock);
 
                         // Overrides backbutton icon
                         $ionicConfig.backButton.icon(Application.getBackIcon());
 
-                        Customer.populate(data.load.customer);
-                        Customer.setFacebookLogin(data.load.application.facebook);
-                        Pages.populate(data.homepage);
+                        Customer.populate(data.loadBlock.customer);
+                        Customer.setFacebookLogin(data.loadBlock.application.facebook);
+                        Pages.populate(data.featureBlock);
 
                         // Login Facebook HTML5!
                         if (LOGIN_FB) {
@@ -304,21 +304,21 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if (!$rootScope.isOverview && !$rootScope.isNativeApp) {
                             var head = angular.element(document.querySelector('head'));
 
-                            if (manifest.icon_url) {
-                                head.append('<link rel="apple-touch-icon" href="' + manifest.icon_url + '" />');
-                                head.append('<link rel="icon" sizes="192x192" href="' + manifest.icon_url + '" />');
+                            if (manifest.iconUrl) {
+                                head.append('<link rel="apple-touch-icon" href="' + manifest.iconUrl + '" />');
+                                head.append('<link rel="icon" sizes="192x192" href="' + manifest.iconUrl + '" />');
                             }
 
-                            if (manifest.manifest_url) {
-                                head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifest_url + '">');
+                            if (manifest.manifestUrl) {
+                                head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifestUrl + '">');
                             }
 
-                            if (manifest.startup_image_url) {
-                                head.append('<link rel="apple-touch-startup-image" href="' + manifest.startup_image_url + '" />');
+                            if (manifest.startupImageUrl) {
+                                head.append('<link rel="apple-touch-startup-image" href="' + manifest.startupImageUrl + '" />');
                             }
 
-                            if (manifest.theme_color) {
-                                head.append('<meta name="theme-color" content="' + manifest.theme_color + '" />');
+                            if (manifest.themeColor) {
+                                head.append('<meta name="theme-color" content="' + manifest.themeColor + '" />');
                             }
                         }
 
@@ -330,7 +330,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // Configuring PushService & skip if this is a preview.
                         if (!IS_PREVIEW) {
                             try {
-                                PushService.configure(load.application.gcm_senderid, load.application.gcm_iconcolor);
+                                PushService.configure(load.application.pushIconcolor);
                                 PushService.register();
                             } catch (e) {
                                 $log.error('An error occured while registering device for Push.', e.message);
@@ -431,12 +431,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if (window.StatusBar !== undefined) {
                             switch (DEVICE_TYPE) {
                                 case SB.DEVICE.TYPE_ANDROID:
-                                    if (load.application.android_status_bar_is_hidden === true) {
+                                    if (load.application.androidStatusBarIsHidden === true) {
                                         window.StatusBar.hide();
                                     }
                                     break;
                                 case SB.DEVICE.TYPE_IOS:
-                                    if (load.application.ios_status_bar_is_hidden === true) {
+                                    if (load.application.iosStatusBarIsHidden === true) {
                                         window.StatusBar.hide();
                                     }
                                     break;
@@ -463,7 +463,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }
                             });
 
-                        $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
+                        $rootScope.app_is_locked = Application.is_locked &&
+                            !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 
                         $window.colors = load.application.colors;
                         if (window.StatusBar !== undefined) {
@@ -477,9 +478,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         try {
-                            AdmobService.init(load.application.admob_v2);
+                            AdmobService.init(load.application.admob);
                         } catch (error) {
-                            $log.error('Unable to init AdMob.');
+                            $log.error('Unable to initialize AdMob.');
                         }
 
                         if (Customer.isLoggedIn()) {
@@ -561,7 +562,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Global listeners for logout/lock app!
                         $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-                            $rootScope.app_is_locked = (Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
+                            $rootScope.app_is_locked = (Application.is_locked &&
+                                !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
 
                             if (!$rootScope.app_is_locked && Application.is_locked) {
                                 $state.go('home');

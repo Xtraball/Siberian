@@ -17,6 +17,7 @@ class Front_Controller_App_Default extends Core_Controller_Default
     {
         $request = $this->getRequest();
         $application = $this->getApplication();
+
         // Prevent CORS conversion method in dev environment!
         if ($request->getMethod() === 'OPTIONS') {
             die;
@@ -59,10 +60,6 @@ class Front_Controller_App_Default extends Core_Controller_Default
 
                 if ($currentValueId !== 'homepage') {
                     $this->currentOptionValue->find($currentValueId);
-                    // Récupère le layout de l'option_value en cours
-                    if ($this->currentOptionValue->getLayoutId()) {
-                        $this->currentOptionValue->getLayoutId();
-                    }
                 } else {
                     $this->currentOptionValue->setIsHomepage(true);
                 }
@@ -107,7 +104,6 @@ class Front_Controller_App_Default extends Core_Controller_Default
             } else {
                 $response->setHttpResponseCode(400);
             }
-
         }
 
         // Handle development case, unset exception messages in production!

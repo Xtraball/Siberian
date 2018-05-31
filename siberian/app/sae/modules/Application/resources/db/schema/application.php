@@ -39,6 +39,7 @@ $schemas['application'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'default' => 'ion-ios-arrow-back',
     ],
     'bundle_id' => [
         'type' => 'varchar(100)',

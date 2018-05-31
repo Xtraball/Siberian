@@ -1,51 +1,56 @@
 <?php
 
+/**
+ * Class Core_Model_Translator
+ */
 class Core_Model_Translator
 {
-
+    /**
+     * @var
+     */
     public static $_translator;
 
-    public static function getTranslationsFor($platform) {
-
-        $translations = array();
-
-        if($platform == Application_Model_Application::DESIGN_CODE_ANGULAR) {
-            $translations = self::_getAngularTranslations();
-        } else if($platform == Application_Model_Application::DESIGN_CODE_IONIC) {
-            $translations = self::_getIonicTranslations();
-        }
-
-        return $translations;
-
+    /**
+     * @param null $platform
+     * @return array
+     */
+    public static function getTranslationsFor($platform = null)
+    {
+        return self::_getIonicTranslations();
     }
 
-    public static function prepare($moduleName) {
-
+    /**
+     * @param $moduleName
+     * @throws Zend_Translate_Exception
+     * @throws Zend_Validate_Exception
+     */
+    public static function prepare($moduleName)
+    {
         $current_language = Core_Model_Language::getCurrentLanguage();
 
         if (!file_exists(Core_Model_Directory::getBasePathTo("/languages/$current_language/default.csv"))) {
             return;
         }
 
-        self::$_translator = new Zend_Translate(array(
+        self::$_translator = new Zend_Translate([
             'adapter' => 'csv',
             'content' => Core_Model_Directory::getBasePathTo("/languages/$current_language/default.csv"),
             'locale' => $current_language
-        ));
+        ]);
 
-        if(file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/default.csv"))) {
-            self::$_translator->addTranslation(array(
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/default.csv"))) {
+            self::$_translator->addTranslation([
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/default.csv"),
                 'locale' => $current_language
-            ));
+            ]);
         }
 
-        $form_translator = new Zend_Translate(array(
+        $form_translator = new Zend_Translate([
             'adapter' => 'array',
             'content' => Core_Model_Directory::getBasePathTo("lib/Zend/resources/languages"),
-            'locale'  => $current_language,
+            'locale' => $current_language,
             'scan' => Zend_Translate::LOCALE_DIRECTORY
-        ));
+        ]);
 
         Zend_Validate_Abstract::setDefaultTranslator($form_translator);
 
@@ -74,43 +79,53 @@ class Core_Model_Translator
 
     }
 
-    public static function addModule($module_name) {
+    /**
+     * @param $module_name
+     */
+    public static function addModule($module_name)
+    {
         $current_language = Core_Model_Language::getCurrentLanguage();
         if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/{$module_name}.csv"))) {
-            self::$_translator->addTranslation(array(
+            self::$_translator->addTranslation([
                 'content' => Core_Model_Directory::getBasePathTo("/languages/$current_language/{$module_name}.csv"),
                 'locale' => $current_language
-            ));
+            ]);
         }
         if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"))) {
-            self::$_translator->addTranslation(array(
+            self::$_translator->addTranslation([
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"),
                 'locale' => $current_language
-            ));
+            ]);
         }
     }
 
-    public static function translate($text, array $args = array()) {
+    /**
+     * @param $text
+     * @param array $args
+     * @return mixed|string
+     */
+    public static function translate($text, array $args = [])
+    {
 
         $translator = self::$_translator;
-        
-        if(count($args) > 1) {
+
+        if (count($args) > 1) {
             unset($args[0]);
         }
 
         $text = stripslashes($text);
         $orig_text = $text = stripslashes($text);
 
-        if(!is_null($translator)) {
+        if (!is_null($translator)) {
             $text = $translator->_(trim($text));
         }
 
-        if(is_array($text)) {
+        if (is_array($text)) {
             return $orig_text;
         }
 
-        if(count($args) > 0) {
-            while(count($args) < substr_count($text, '%s')) {
+        if (count($args) > 0) {
+            while (count($args) < substr_count($text, '%s')) {
                 $args[] = '';
             }
             array_unshift($args, $text);
@@ -120,16 +135,20 @@ class Core_Model_Translator
         return $text;
     }
 
-    protected static function _getAngularTranslations() {
+    /**
+     * @return array
+     */
+    protected static function _getAngularTranslations()
+    {
 
-        $modules = array("mcommerce", "comment");
-        $translations = array();
+        $modules = ["mcommerce", "comment"];
+        $translations = [];
 
-        foreach($modules as $module) {
+        foreach ($modules as $module) {
             self::addModule($module);
         }
 
-        $texts_to_translate = array(
+        $texts_to_translate = [
             "OK",
             "Website",
             "Phone",
@@ -173,9 +192,9 @@ class Core_Model_Translator
             "Offline content",
             "Don't close the app while downloading. This may take a while.",
             "Do you want to download all the contents now to access it when offline? If you do, we recommend you to use a WiFi connection."
-        );
+        ];
 
-        foreach($texts_to_translate as $text_to_translate) {
+        foreach ($texts_to_translate as $text_to_translate) {
             $translations[$text_to_translate] = self::translate($text_to_translate);
         }
 
@@ -188,18 +207,18 @@ class Core_Model_Translator
      *
      * @return array
      */
-    protected static function _getIonicTranslations() {
-
+    protected static function _getIonicTranslations()
+    {
         $translation_cache = Siberian_Cache_Translation::getCache();
         $mobile_files = $translation_cache["mobile_list"];
 
-        $keys = array();
-        $translations = array();
+        $keys = [];
+        $translations = [];
 
-        foreach($mobile_files as $mobile_file) {
+        foreach ($mobile_files as $mobile_file) {
             $resource = fopen($mobile_file, "r");
-            while($data = fgetcsv($resource, 1024, ";", "\"")) {
-                if(!empty($data[0]) AND stripos($data[0], "%s") === false) {
+            while ($data = fgetcsv($resource, 1024, ";", "\"")) {
+                if (!empty($data[0]) AND stripos($data[0], "%s") === false) {
                     $keys[] = $data[0];
                 }
             }
@@ -209,7 +228,7 @@ class Core_Model_Translator
 
         $current_language = Core_Model_Language::getCurrentLanguage();
         $translation_files_path = Core_Model_Directory::getBasePathTo("languages/{$current_language}");
-        if(is_dir($translation_files_path)) {
+        if (is_dir($translation_files_path)) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($translation_files_path), RecursiveIteratorIterator::SELF_FIRST);
 
             foreach ($files as $file) {
@@ -218,7 +237,7 @@ class Core_Model_Translator
 
                 $resource = fopen($file->getPathName(), "r");
                 while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                    if (!empty($data[0]) AND !empty($data[1]) AND isset($flipped_keys[$data[0]]) ) {
+                    if (!empty($data[0]) AND !empty($data[1]) AND isset($flipped_keys[$data[0]])) {
                         $translations[$data[0]] = $data[1];
                     }
                 }
@@ -227,7 +246,5 @@ class Core_Model_Translator
         }
 
         return $translations;
-
     }
-
 }

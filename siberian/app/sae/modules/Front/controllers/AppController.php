@@ -29,120 +29,20 @@ class Front_AppController extends Front_Controller_App_Default
         $cssBlock = $this->_cssBlock($application);
         $loadBlock = $this->_loadBlock($application);
         $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
+        $translationBlock = $this->_translationBlock($application, $currentLanguage);
 
+        // Alter the loadBlock with the customer
+        $loadBlock = $this->_customerBlock($application, $loadBlock);
 
+        // Web App manifest file & informations!
+        $manifestBlock = $this->_manifestBlock($application, $request);
 
-
-
-        /** ========== Translations ========== *
-        # Cache is based on locale/app_id.
-        $cache_id_translation = "v3_application_mobile_translation_findall_app_{$appId}_locale_{$currentLanguage}";
-        if (!$result = $this->cache->load($cache_id_translation)) {
-
-            Siberian_Cache_Translation::init();
-
-            $data_translation = Core_Model_Translator::getTranslationsFor($application->getDesignCode());
-
-            if (empty($data_translation)) {
-                $data_translation = ["_empty-translation-cache_" => true];
-            }
-
-            $this->cache->save($data_translation, $cache_id_translation, [
-                "v3",
-                "mobile_translation",
-                "mobile_translation_locale_{$currentLanguage}"
-            ]);
-
-            $data_translation["x-cache"] = "MISS";
-        } else {
-
-            $data_translation = $result;
-
-            $data_translation["x-cache"] = "HIT";
-        }
-        $data_translation["_locale"] = strtolower(str_replace("_", "-", $currentLanguage));
-        /** ========== !Translations ========== *
-
-
-        /** Don't cache customer *
-        $session = $this->getSession();
-        $customer = $session->getCustomer();
-        $customer_id = $customer->getCustomerId();
-        $this->__refreshFBToken($customer);
-
-        $is_logged_in = false;
-
-        $loadBlock["customer"] = [
-            "id" => (integer)$customer_id,
-            "can_connect_with_facebook" => (boolean)$application->getFacebookId(),
-            "can_access_locked_features" => (boolean)($customer_id && $session->getCustomer()->canAccessLockedFeatures()),
-            "token" => Zend_Session::getId()
-        ];
-
-        if ($customer_id) {
-            $metadata = $session->getCustomer()->getMetadatas();
-            if (empty($metadata)) {
-                $metadata = json_decode("{}"); // we really need a javascript object here
-            }
-
-            //hide stripe customer id for secure purpose
-            if ($metadata->stripe && array_key_exists("customerId", $metadata->stripe) && $metadata->stripe["customerId"]) {
-                unset($metadata->stripe["customerId"]);
-            }
-
-            $is_logged_in = true;
-
-            $loadBlock["customer"] = array_merge($loadBlock["customer"], [
-                "civility" => $customer->getCivility(),
-                "firstname" => $customer->getFirstname(),
-                "lastname" => $customer->getLastname(),
-                "nickname" => $customer->getNickname(),
-                "email" => $customer->getEmail(),
-                "show_in_social_gaming" => (boolean)$customer->getShowInSocialGaming(),
-                "is_custom_image" => (boolean)$customer->getIsCustomImage(),
-                "metadatas" => $metadata,
-                "can_connect_with_facebook" => (boolean)$application->getFacebookId(),
-                "can_access_locked_features" => (boolean)($customer_id && $session->getCustomer()->canAccessLockedFeatures()),
-            ]);
-
-            if (Siberian_CustomerInformation::isRegistered("stripe")) {
-                $exporter_class = Siberian_CustomerInformation::getClass("stripe");
-                if (class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
-                    $tmp_class = new $exporter_class();
-                    $info = $tmp_class->getInformation($customer->getId());
-                    $data["stripe"] = $info ? $info : [];
-                }
-            }
-        }
-
-        $loadBlock["customer"] = array_merge($loadBlock["customer"], [
-            "is_logged_in" => $is_logged_in
-        ]);*
-
-        /** Get the most recent cache update *
-        $updated_at = max([
-            $this->cache->test($cacheIdCss),
-            $this->cache->test($cacheId),
-            $this->cache->test($cacheId),
-            $this->cache->test($cache_id_translation),
-        ]);
-
-        /** Web App manifest *
-        $data_manifest = $this->generatewebappconfig();
-         *
-         * $data = [
-        "load" => $loadBlock,
-        "css" => $data_css,
-        "homepage" => $dataHomepage,
-        "manifest" => $data_manifest,
-        "translation" => $data_translation,
-        ];
-
-         * */
         $data = [
             'cssBlock' => $cssBlock,
             'loadBlock' => $loadBlock,
             'featureBlock' => $featureBlock,
+            'translationBlock' => $translationBlock,
+            'manifestBlock' => $manifestBlock,
         ];
 
         /** Force no cache */
@@ -150,7 +50,6 @@ class Front_AppController extends Front_Controller_App_Default
         $response->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
         $response->setHeader("Cache-Control", "post-check=0, pre-check=0", false);
         $response->setHeader("Pragma", "no-cache");
-        //$response->setHeader("X-Cache-Last-Update", $updated_at);
 
         $this->_sendJson($data);
     }
@@ -162,7 +61,9 @@ class Front_AppController extends Front_Controller_App_Default
     private function _cssBlock ($application)
     {
         $cacheIdCss = 'v4_front_mobile_load_css_app_' . $application->getId();
+        $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheIdCss)) {
+
             $cssFile = Core_Model_Directory::getBasePathTo(Template_Model_Design::getCssPath($application));
             $blockCss = [
                 'css' => file_get_contents($cssFile)
@@ -182,6 +83,9 @@ class Front_AppController extends Front_Controller_App_Default
             $blockCss = $result;
             $blockCss['x-cache'] = 'HIT';
         }
+        // Time to generate the current block!
+        $blockCss['x-delay'] = microtime(true) - $blockStart;
+
         return $blockCss;
     }
 
@@ -193,6 +97,7 @@ class Front_AppController extends Front_Controller_App_Default
     {
         $appId = $application->getId();
         $cacheId = 'v4_front_mobile_load_app_' . $appId;
+        $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {
 
             // Homepage image url!
@@ -261,16 +166,16 @@ class Front_AppController extends Front_Controller_App_Default
                             'color' => $application->getBlock('list_item')->getColor()
                         ]
                     ],
-                    //'admob' => $this->__getAdmobSettingsV2(),
+                    'admob' => $this->_admobSettings($application),
                     'facebook' => [
                         'id' => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
                         'scope' => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
                     'pushIconcolor' => $iconColor,
                     'gmapsKey' => $googleMapsKey,
-                    'offlineContent' => (boolean)$application->getOfflineContent(),
-                    'iosStatusBarIsHidden' => (boolean)$application->getIosStatusBarIsHidden(),
-                    'androidStatusBarIsHidden' => (boolean)$application->getAndroidStatusBarIsHidden(),
+                    'offlineContent' => (boolean) $application->getOfflineContent(),
+                    'iosStatusBarIsHidden' => (boolean) $application->getIosStatusBarIsHidden(),
+                    'androidStatusBarIsHidden' => (boolean) $application->getAndroidStatusBarIsHidden(),
                     'privacyPolicy' => [
                         'title' => $privacyPolicyTitle,
                         'text' => str_replace('#APP_NAME', $application->getName(), $privacyPolicy),
@@ -280,7 +185,7 @@ class Front_AppController extends Front_Controller_App_Default
                         'isEnabled' => isGdpr(),
                     ],
                     'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
-                    'backButton' => (string)$application->getBackButton(),
+                    'backButton' => (string) $application->getBackButton(),
                 ],
                 'homepageImage' => $homepageImage
             ];
@@ -314,6 +219,9 @@ class Front_AppController extends Front_Controller_App_Default
             $loadBlock['x-cache'] = 'HIT';
         }
 
+        // Time to generate the current block!
+        $loadBlock['x-delay'] = microtime(true) - $blockStart;
+
         return $loadBlock;
     }
 
@@ -321,6 +229,7 @@ class Front_AppController extends Front_Controller_App_Default
     {
         $appId = $application->getId();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
+        $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {
             $optionValues = $application->getPages(10, true);
             $featureBlock = [];
@@ -529,6 +438,405 @@ class Front_AppController extends Front_Controller_App_Default
         }
         $dataHomepage['push_badge'] = $pushNumber;
 
+        // Time to generate the current block!
+        $dataHomepage['x-delay'] = microtime(true) - $blockStart;
+
         return $dataHomepage;
+    }
+
+    /**
+     * @param $application
+     * @param $currentLanguage
+     * @return array|false|string
+     */
+    private function _translationBlock ($application, $currentLanguage)
+    {
+        // Cache is based on locale + appId.
+        $appId = $application->getId();
+        $cacheId = 'v4_application_mobile_translation_findall_app_' . $appId . '_locale_' . $currentLanguage;
+        $blockStart = microtime(true);
+        if (!$result = $this->cache->load($cacheId)) {
+            Siberian_Cache_Translation::init();
+            $translationBlock = Core_Model_Translator::getTranslationsFor('ionic');
+
+            if (empty($translationBlock)) {
+                $translationBlock = ['_empty-translation-cache_' => true];
+            }
+    
+            $this->cache->save($translationBlock, $cacheId, [
+                'v4',
+                'mobile_translation',
+                'mobile_translation_locale_' . $currentLanguage
+            ]);
+
+            $translationBlock['x-cache'] = 'MISS';
+        } else {
+
+            $translationBlock = $result;
+            $translationBlock['x-cache'] = 'HIT';
+        }
+        $translationBlock['_locale'] = strtolower(str_replace('_', '-', $currentLanguage));
+
+        // Time to generate the current block!
+        $translationBlock['x-delay'] = microtime(true) - $blockStart;
+        
+        return $translationBlock;
+    }
+
+    /**
+     * @param $application
+     * @param $loadBlock
+     * @return mixed
+     */
+    private function _customerBlock ($application, $loadBlock)
+    {
+        $session = $this->getSession();
+        $customer = $session->getCustomer();
+        $customerId = $customer->getCustomerId();
+        $isLoggedIn = false;
+
+        // Facebook token refresh for Facebook Login!
+        $this->_refreshFacebookUserToken($customer);
+
+        $loadBlock['customer'] = [
+            'id' => (integer) $customerId,
+            'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
+            'can_access_locked_features' => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
+            'token' => Zend_Session::getId()
+        ];
+
+        if ($customerId) {
+            $metadata = $customer->getMetadatas();
+            if (empty($metadata)) {
+                $metadata = json_decode('{}'); // We really need a javascript object here
+            }
+
+            // Hide stripe customer id for secure purpose!
+            if($metadata->stripe &&
+                array_key_exists('customerId', $metadata->stripe) &&
+                $metadata->stripe['customerId']) {
+                unset($metadata->stripe['customerId']);
+            }
+
+            $isLoggedIn = true;
+
+            $loadBlock['customer'] = array_merge($loadBlock['customer'], [
+                'civility' => $customer->getCivility(),
+                'firstname' => $customer->getFirstname(),
+                'lastname' => $customer->getLastname(),
+                'nickname' => $customer->getNickname(),
+                'email' => $customer->getEmail(),
+                'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
+                'is_custom_image' => (boolean) $customer->getIsCustomImage(),
+                'metadatas' => $metadata,
+                'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
+                'can_access_locked_features' =>
+                    (boolean) ($customerId && $customer->canAccessLockedFeatures()),
+            ]);
+
+            if (Siberian_CustomerInformation::isRegistered('stripe')) {
+                $exporterClass = Siberian_CustomerInformation::getClass('stripe');
+                if (class_exists($exporterClass) &&
+                    method_exists($exporterClass, 'getInformation')) {
+                    $transitionalObject = new $exporterClass();
+                    $info = $transitionalObject->getInformation($customer->getId());
+                    $data['stripe'] = $info ? $info : [];
+                }
+            }
+        }
+
+        $loadBlock['customer'] = array_merge($loadBlock['customer'], [
+            'isLoggedIn' => $isLoggedIn
+        ]);
+
+        return $loadBlock;
+    }
+
+    /**
+     * @param $application
+     * @param $request
+     * @param bool $refresh
+     * @return array
+     */
+    public function _manifestBlock($application, $request, $refresh = false)
+    {
+        $appId = $application->getId();
+        $appIcon = $application->getIcon();
+        $baseUrl = $request->getBaseUrl();
+
+        $manifestMameBase = Core_Model_Directory::getTmpDirectory(true) . '/webapp_manifest_' . $appId . '.json';
+        $manifestName = Core_Model_Directory::getTmpDirectory() . '/webapp_manifest_' . $appId . '.json';
+
+        $appIconBase64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+            ->scaleResize(192, 192);
+        $appIcon144Base64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+            ->scaleResize(144, 144);
+        $appIcon512Base64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+            ->scaleResize(512, 512);
+        $startupImageBase64 = Siberian_Image::open(
+            Core_Model_Directory::getBasePathTo($application->getStartupImageUrl()))->jpeg();
+
+        $appIconBase64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+            $baseUrl . '/', $appIconBase64->png());
+        $appIcon144Base64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+            $baseUrl . '/', $appIcon144Base64->png());
+        $appIcon512Base64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+            $baseUrl . '/', $appIcon512Base64->png());
+
+        $blocks = $application->getBlocks();
+        $themeColor = null;
+        $generalColor = null;
+        foreach ($blocks as $block) {
+            if ($block->getBackgroundColorVariableName() === '$bar-custom-bg') {
+                $themeColor = $block;
+            }
+
+            if ($block->getBackgroundColorVariableName() === '$general-custom-bg') {
+                $generalColor = $block;
+            }
+        }
+
+        if (!is_readable($manifestMameBase) || $refresh) {
+            // Generate manifest!
+            $manifest = [
+                'name' => $application->getName(),
+                'short_name' => cut($application->getName(), 12, ''),
+                'start_url' => '/var/apps/browser/index-prod.html#/' . $application->getKey(),
+                'display' => 'fullscreen',
+                'icons' => [
+                    [
+                        'src' => $appIcon144Base64,
+                        'sizes' => '144x144',
+                        'type' => 'image/png',
+                        'density' => 4.0,
+                    ],
+                    [
+                        'src' => $appIconBase64,
+                        'sizes' => '192x192',
+                        'type' => 'image/png',
+                        'density' => 4.0,
+                    ],
+                    [
+                        'src' => $appIcon512Base64,
+                        'sizes' => '512x512',
+                        'type' => 'image/png',
+                        'density' => 4.0,
+                    ]
+                ],
+                'theme_color' => $themeColor->getBackgroundColor(),
+                'background_color' => $generalColor->getBackgroundColor()
+            ];
+
+            file_put_contents($manifestMameBase, Siberian_Json::encode($manifest));
+        }
+
+        //Collect images and manifest url
+        $manifestBlock = [
+            'startupImageUrl' => $startupImageBase64,
+            'iconUrl' => $appIconBase64,
+            'manifestUrl' => $manifestName,
+            'themeColor' => $themeColor->getBackgroundColor(),
+        ];
+
+        return $manifestBlock;
+    }
+
+    /**
+     *
+     * $application: {
+     *  use_ads > application ads
+     *  owner_use_ads > backoffice specific ads
+     *  system_config > default platform ads
+     * }
+     *
+     * @param $application
+     * @return array
+     */
+    private function _admobSettings($application)
+    {
+        $payload = [
+            'ios_weight' => [
+                'app' => 1,
+                'platform' => 0,
+            ],
+            'android_weight' => [
+                'app' => 1,
+                'platform' => 0,
+            ],
+            'app' => [
+                'ios' => [
+                    'banner_id' => false,
+                    'interstitial_id' => false,
+                    'banner' => false,
+                    'interstitial' => false,
+                    'videos' => false,
+                ],
+                'android' => [
+                    'banner_id' => false,
+                    'interstitial_id' => false,
+                    'banner' => false,
+                    'interstitial' => false,
+                    'videos' => false,
+                ],
+            ],
+            'platform' => [
+                'ios' => [
+                    'banner_id' => false,
+                    'interstitial_id' => false,
+                    'banner' => false,
+                    'interstitial' => false,
+                    'videos' => false,
+                ],
+                'android' => [
+                    'banner_id' => false,
+                    'interstitial_id' => false,
+                    'banner' => false,
+                    'interstitial' => false,
+                    'videos' => false,
+                ],
+            ]
+        ];
+
+        $subscription = null;
+        $planUseAds = false;
+        if ($this->isPe()) {
+            $subscription = $application->getSubscription()->getSubscription();
+            $planUseAds = $subscription->getUseAds();
+        }
+
+        $ios_device = $application->getDevice(1);
+        $android_device = $application->getDevice(2);
+
+        # Platform/Subscription settings
+        if ($application->getOwnerUseAds()) {
+
+            $ios_types = explode('-', $ios_device->getOwnerAdmobType());
+            $ios_weight = (integer) $ios_device->getOwnerAdmobWeight();
+            $android_types = explode('-', $android_device->getOwnerAdmobType());
+            $android_weight = (integer) $android_device->getOwnerAdmobWeight();
+
+            $payload['platform'] = [
+                'ios' => [
+                    'banner_id' => $ios_device->getOwnerAdmobId(),
+                    'interstitial_id' => $ios_device->getOwnerAdmobInterstitialId(),
+                    'banner' => (boolean) in_array('banner', $ios_types),
+                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
+                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                ],
+                'android' => [
+                    'banner_id' => $android_device->getOwnerAdmobId(),
+                    'interstitial_id' => $android_device->getOwnerAdmobInterstitialId(),
+                    'banner' => (boolean) in_array('banner', $android_types),
+                    'interstitial' => (boolean) in_array('interstitial', $android_types),
+                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                ],
+            ];
+
+            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
+                $weight = ($ios_weight/100);
+                $payload['ios_weight']['platform'] = $weight;
+                $payload['ios_weight']['app'] = (1 - $weight);
+            }
+
+            if (($android_weight >= 0) && ($android_weight <= 100)) {
+                $weight = ($android_weight/100);
+                $payload['android_weight']['platform'] = $weight;
+                $payload['android_weight']['app'] = (1 - $weight);
+            }
+
+        } else if (($planUseAds || System_Model_Config::getValueFor('application_owner_use_ads'))) {
+
+            $ios_key = 'application_' . $ios_device->getType()->getOsName() . '_owner_admob_%s';
+            $android_key = 'application_' . $android_device->getType()->getOsName() . '_owner_admob_%s';
+
+            $ios_types = explode('-', System_Model_Config::getValueFor(sprintf($ios_key, 'type')));
+            $ios_weight = (integer) System_Model_Config::getValueFor(sprintf($ios_key, 'weight'));
+            $android_types = explode('-', System_Model_Config::getValueFor(sprintf($android_key, 'type')));
+            $android_weight = (integer) System_Model_Config::getValueFor(sprintf($android_key, 'weight'));
+
+            $payload['platform'] = [
+                'ios' => [
+                    'banner_id' => System_Model_Config::getValueFor(sprintf($ios_key, 'id')),
+                    'interstitial_id' => System_Model_Config::getValueFor(sprintf($ios_key, 'interstitial_id')),
+                    'banner' => (boolean) in_array('banner', $ios_types),
+                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
+                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                ],
+                'android' => [
+                    'banner_id' => System_Model_Config::getValueFor(sprintf($android_key, 'id')),
+                    'interstitial_id' => System_Model_Config::getValueFor(sprintf($android_key, 'interstitial_id')),
+                    'banner' => (boolean) in_array('banner', $android_types),
+                    'interstitial' => (boolean) in_array('interstitial', $android_types),
+                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                ],
+            ];
+
+            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
+                $weight = ($ios_weight/100);
+                $payload['ios_weight']['platform'] = $weight;
+                $payload['ios_weight']['app'] = (1 - $weight);
+            }
+
+            if (($android_weight >= 0) && ($android_weight <= 100)) {
+                $weight = ($android_weight/100);
+                $payload['android_weight']['platform'] = $weight;
+                $payload['android_weight']['app'] = (1 - $weight);
+            }
+        }
+
+        if ($application->getUseAds()) {
+
+            $ios_types = explode('-', $ios_device->getAdmobType());
+            $android_types = explode('-', $android_device->getAdmobType());
+
+            $payload['app'] = [
+                'ios' => [
+                    'banner_id' => $ios_device->getAdmobId(),
+                    'interstitial_id' => $ios_device->getAdmobInterstitialId(),
+                    'banner' => (boolean) in_array('banner', $ios_types),
+                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
+                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                ],
+                'android' => [
+                    'banner_id' => $android_device->getAdmobId(),
+                    'interstitial_id' => $android_device->getAdmobInterstitialId(),
+                    'banner' => (boolean) in_array('banner', $android_types),
+                    'interstitial' => (boolean) in_array('interstitial', $android_types),
+                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                ],
+            ];
+        } else {
+            // If user don't use admob, split revenue is 100% for platform!
+            $payload['ios_weight']['platform'] = 1;
+            $payload['ios_weight']['app'] = 0;
+            $payload['android_weight']['platform'] = 1;
+            $payload['android_weight']['app'] = 0;
+        }
+
+        return $payload;
+    }
+
+    /**
+     * Single action to refresh the user Facebook Login token!
+     *
+     * @param $customer
+     */
+    private function _refreshFacebookUserToken ($customer)
+    {
+        $customerFacebookDatas = $customer->getSocialDatas('facebook');
+
+        if (!empty($customerFacebookDatas) &&
+            isset($customerFacebookDatas['datas'])) {
+            $socialDatas = unserialize($customerFacebookDatas['datas']);
+            if (isset($socialDatas['access_token'])) {
+                $accessToken = Core_Model_Lib_Facebook::getOrRefreshToken($socialDatas['access_token']);
+
+                $social_datas['access_token'] = $accessToken;
+                $customerFacebookDatas['datas'] = $socialDatas;
+                $customerFacebookDatas['id'] = $customerFacebookDatas['social_id'];
+                $customer->setSocialData('facebook', $customerFacebookDatas);
+                $customer->save();
+            }
+        }
     }
 }

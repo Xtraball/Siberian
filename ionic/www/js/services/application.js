@@ -140,18 +140,18 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
     service.populate = function (data) {
         service.app_id = data.application.id;
         service.app_name = data.application.name;
-        service.privacy_policy = data.application.privacy_policy;
-        service.privacy_policy_gdpr = data.application.privacy_policy_gdpr;
-        service.gdprIsEnabled = data.application.gdprIsEnabled;
-        service.privacy_policy_title = data.application.privacy_policy_title;
-        service.googlemaps_key = data.application.googlemaps_key;
+        service.privacy_policy = data.application.privacyPolicy.text;
+        service.privacy_policy_gdpr = data.application.privacyPolicy.gdpr;
+        service.gdprIsEnabled = data.application.gdpr.isEnabled;
+        service.privacy_policy_title = data.application.privacyPolicy.title;
+        service.googlemaps_key = data.application.gmapsKey;
         service.is_locked = data.application.is_locked;
-        service.offline_content = data.application.offline_content;
-        service.homepage_background = data.application.homepage_background;
+        service.offline_content = data.application.offlineContent;
+        service.homepage_background = data.application.useHomepageBackground;
         service.backButton = data.application.backButton;
 
         // Small base64 default image, while loading the real deal!
-        service.default_background = data.homepage_image;
+        service.default_background = data.homepageImage;
         service.colors = data.application.colors;
 
         service.ready = true;
