@@ -211,8 +211,7 @@ class Push_Model_Android_Message {
             ->setTimeToLive(0)
             ->setSendUntil($message->getSendUntil() ? $message->getSendUntil() : "0")
             ->setActionValue($action_url)
-            ->setOpenWebview(!is_numeric($message->getActionValue()))
-        ;
+            ->setOpenWebview(!is_numeric($message->getActionValue()));
 
         # Priority to custom image
         $custom_image = $message->getCustomImage();
@@ -227,7 +226,7 @@ class Push_Model_Android_Message {
             }
         }
 
-        if($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
+        if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
             $gcm_message->contentAvailable(true);
         }
 
