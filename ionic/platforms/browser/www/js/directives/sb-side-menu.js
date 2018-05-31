@@ -22,12 +22,6 @@ angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootS
                         .replace(/\-\-*/, '-'));
                 });
 
-            scope.backButton = 'Back';
-
-            scope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                scope.backButton = $translate.instant('Back');
-            });
-
             /** Custom go back, works with/without side-menus */
             scope.goBack = function () {
                 $ionicHistory.goBack();
