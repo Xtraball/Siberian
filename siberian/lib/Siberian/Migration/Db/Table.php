@@ -6,7 +6,7 @@
  * Migration Class to update DB reflecting latest schema.
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.1.0
+ * @version 4.14.0
  *
  */
 class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
@@ -53,41 +53,65 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $this->dbName = $this->config['dbname'];
     }
 
+    /**
+     * @param $engine
+     */
     public function setEngine($engine)
     {
         $this->tableEngine = $engine;
     }
 
+    /**
+     * @return string
+     */
     public function getEngine()
     {
         return $this->tableEngine;
     }
 
+    /**
+     * @param $charset
+     */
     public function setCharset($charset)
     {
         $this->tableCharset = $charset;
     }
 
+    /**
+     * @return string
+     */
     public function getCharset()
     {
         return $this->tableCharset;
     }
 
+    /**
+     * @param $collate
+     */
     public function setCollate($collate)
     {
         $this->tableCollate = $collate;
     }
 
+    /**
+     * @return string
+     */
     public function getCollate()
     {
         return $this->tableCollate;
     }
 
+    /**
+     * @param $schema_path
+     */
     public function setSchemaPath($schema_path)
     {
         $this->schemaPath = $schema_path;
     }
 
+    /**
+     * @return null
+     */
     public function getSchemaPath()
     {
         return $this->schemaPath;
@@ -100,7 +124,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
      * @return boolean
      * @throws Exception
      */
-	public function tableExists($try_create = true, $update = true)
+    public function tableExists($try_create = true, $update = true)
     {
         try {
             $this->getAdapter()->describeTable($this->tableName);
@@ -252,11 +276,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
 \$schemas = (!isset(\$schemas)) ? [] : \$schemas;
 \$schemas['{$this->tableName}'] = [";
-        foreach($schema as $column) {
+        foreach ($schema as $column) {
             list($name, $default, $nullable, $character_set, $collation, $col_type, $col_key, $extra) =
                 array_values($column);
 
-            if ($default[0] === "'" && $default[strlen($default) - 1] === "'" ) {
+            if ($default[0] === "'" && $default[strlen($default) - 1] === "'") {
                 $default = substr($default, 1, strlen($default) - 2);
             }
 
@@ -317,11 +341,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         /** Cleaning up blank lines */
         $raw_schema = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $raw_schema);
 
-        $schema_path = realpath(APPLICATION_PATH."/../");
+        $schema_path = realpath(APPLICATION_PATH . "/../");
         $version = Siberian_Version::VERSION;
 
-        if (!file_exists($schema_path."/var/schema/{$version}")) {
-            mkdir($schema_path."/var/schema/{$version}", 0777, true);
+        if (!file_exists($schema_path . "/var/schema/{$version}")) {
+            mkdir($schema_path . "/var/schema/{$version}", 0777, true);
         }
 
         if ($save) {
@@ -329,8 +353,8 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             echo "Exporting {$this->tableName} to : {$schema_path}\n";
             file_put_contents($schema_path, $raw_schema);
         } else {
-            if(!file_exists($schema_path."/var/tmp/{$version}")) {
-                mkdir($schema_path."/var/tmp/{$version}", 0777, true);
+            if (!file_exists($schema_path . "/var/tmp/{$version}")) {
+                mkdir($schema_path . "/var/tmp/{$version}", 0777, true);
             }
             $schema_path .= "/var/tmp/{$version}/{$this->tableName}.php";
             file_put_contents($schema_path, $raw_schema);
@@ -353,8 +377,6 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     /**
      * This method compare local database against latest schema, and update column definition
      *
-     * @todo update me.
-     *
      * @throws Exception
      */
     public function updateTable()
@@ -369,11 +391,10 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         /** Walks against the latest schema adding columns */
         foreach ($this->schemaFields as $column_name => $options) {
             if (!isset($this->localFields[$column_name])) {
-#                $this->logger->info("Updating table: '{$this->tableName}' column: '{$column_name}'", $migration_log, true);
                 $request = $this->parseAlter($column_name);
                 $this->execSafe($request);
 
-                if(preg_match("/^(created|updated)_at_utc$/", $column_name)) {
+                if (preg_match("/^(created|updated)_at_utc$/", $column_name)) {
                     $fix_utc_dates = true;
                 }
             }
@@ -381,15 +402,17 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
         if ($fix_utc_dates) {
             $cols = [];
-            if(isset($this->localFields["created_at"])) $cols[] = "created_at";
-            if(isset($this->localFields["updated_at"])) $cols[] = "updated_at";
-            if(count($cols) > 0) {
-                $requestDates = "SELECT ".join($cols, ", ")." FROM `{$this->tableName}` WHERE "
-                    . join(array_map(function($col) { return $col."_utc=0"; }, $cols), " OR ");
+            if (isset($this->localFields["created_at"])) $cols[] = "created_at";
+            if (isset($this->localFields["updated_at"])) $cols[] = "updated_at";
+            if (count($cols) > 0) {
+                $requestDates = "SELECT " . join($cols, ", ") . " FROM `{$this->tableName}` WHERE "
+                    . join(array_map(function ($col) {
+                        return $col . "_utc=0";
+                    }, $cols), " OR ");
                 $resultDates = $this->query($requestDates)->fetchAll();
                 foreach ($resultDates as $row) {
                     foreach ($cols as $col) {
-                        $col_utc = $col."_utc";
+                        $col_utc = $col . "_utc";
                         if (isset($row[$col]) && @intval($row[$col_utc]) < 1) {
                             $date = new Zend_Date($row[$col]);
                             $timestamp = $date->getTimestamp();
@@ -410,8 +433,6 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     {
         $this->readDatabase();
         $this->readSchema();
-
-        $migration_log = sprintf($this->log_info, Siberian_Version::VERSION);
 
         foreach ($this->schemaFields as $column_name => $options) {
             if (isset($options['foreign_key']) && !isset($this->localFields[$column_name]['foreign_key'])) {
@@ -438,7 +459,8 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $col_default = isset($col['default']) ? $col['default'] : "";
         $col_collation = isset($col['collation']) ? $col['collation'] : "";
 
-        if (!in_array($col_default, $this->protected_defaults) && ($col_default != "")) { /** Protect if value */
+        if (!in_array($col_default, $this->protected_defaults) && ($col_default != "")) {
+            /** Protect if value */
             $col_default = "'{$col_default}'";
         }
 
@@ -492,7 +514,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $on_update = $col['on_update'];
         $fk_name = $col['name'];
 
-        $fk =  "ALTER TABLE `{$this->tableName}`
+        $fk = "ALTER TABLE `{$this->tableName}`
                 ADD CONSTRAINT `{$fk_name}` FOREIGN KEY (`{$column_name}`) REFERENCES `{$table}` (`{$column}`)
                 ON DELETE {$on_delete}
                 ON UPDATE {$on_update};";
@@ -513,14 +535,15 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $col_default = isset($col['default']) ? $col['default'] : "";
         $col_collation = isset($col['collation']) ? $col['collation'] : "";
 
-        if (!in_array($col_default, $this->protected_defaults) && ($col_default != "")) { /** Protect if value */
+        if (!in_array($col_default, $this->protected_defaults) && ($col_default != "")) {
+            /** Protect if value */
             $col_default = "'{$col_default}'";
         }
 
-        $type           =  $col['type'];
-        $default        = ($col_default != "") ? " DEFAULT {$col_default}" : "";
-        $collate        = ($col_collation != "") ? " COLLATE {$col_collation}" : "";
-        $null           = (isset($col['is_null'])) ? "" : " NOT NULL";
+        $type = $col['type'];
+        $default = ($col_default != "") ? " DEFAULT {$col_default}" : "";
+        $collate = ($col_collation != "") ? " COLLATE {$col_collation}" : "";
+        $null = (isset($col['is_null'])) ? "" : " NOT NULL";
         $auto_increment = (isset($col['auto_increment'])) ? " AUTO_INCREMENT" : "";
 
         /** Default NULL is is_null & no default value */
@@ -609,7 +632,6 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
      */
     public function createTable()
     {
-        //$this->readDatabase();
         $this->readSchema();
 
         $create = "CREATE TABLE `{$this->tableName}` (\n";
@@ -630,7 +652,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $create .= implode(",\n", array_filter($lines));
 
         $create .= "\n) ENGINE={$this->tableEngine} DEFAULT CHARSET={$this->tableCharset} COLLATE={$this->tableCollate};";
-        
+
         try {
             $this->execSafe($create);
         } catch (Exception $e) {
@@ -704,14 +726,16 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     /**
      * @param $debug
      */
-    static public function setDebug($debug) {
+    static public function setDebug($debug)
+    {
         self::$debug = $debug;
     }
 
     /**
      * @return bool
      */
-    static public function getDebug() {
+    static public function getDebug()
+    {
         return self::$debug;
     }
 

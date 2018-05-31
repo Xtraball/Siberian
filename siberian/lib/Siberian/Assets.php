@@ -5,7 +5,7 @@
  *
  * @id 1000
  *
- * @version 4.4.2
+ * @version 4.14.0
  *
  */
 
@@ -276,7 +276,6 @@ class Siberian_Assets
         ],
         "ios" => [
             "/var/apps/ionic/ios/",
-            "/var/apps/ionic/ios-noads/",
         ],
     ];
 
@@ -382,13 +381,13 @@ class Siberian_Assets
                 foreach ($platforms as $platform) {
                     $path_from = __ss(Core_Model_Directory::getBasePathTo($from));
                     $path_to = __ss(Core_Model_Directory::getBasePathTo(
-                        $platform.$www.(strlen(trim($to)) > 0 ? "/".$to : "")
+                        $platform . $www . (strlen(trim($to)) > 0 ? "/" . $to : "")
                     ));
 
                     if ($base != $path_from) {
                         // Create directory tree if needed, useful since we now copy also single files
                         if (is_dir($path_from)) {
-                            $dir_dest =  $path_to;
+                            $dir_dest = $path_to;
                             $path_to .= "/";
                             $path_from .= "/*";
                         } else {
@@ -421,7 +420,7 @@ class Siberian_Assets
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
                 foreach ($platforms as $platform) {
-                    $path = Core_Model_Directory::getBasePathTo($platform.$www.$dirpath);
+                    $path = Core_Model_Directory::getBasePathTo($platform . $www . $dirpath);
 
                     if (is_dir($path)) {
                         if ($base != $path) {
@@ -458,14 +457,14 @@ class Siberian_Assets
             $my_account = !!$feature["use_account"];
             $only_once = !!$feature["only_once"];
             $mobile_uri = $feature["mobile_uri"];
-            $layouts = isset($feature["layouts"]) ? $feature["layouts"]: [];
+            $layouts = isset($feature["layouts"]) ? $feature["layouts"] : [];
 
             $icons = $feature["icons"];
             if (is_array($icons)) {
-                $basePath = "/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $feature["__DIR__"]);
+                $basePath = "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $feature["__DIR__"]);
                 $icons = array_map(
-                    function($icon) use ($basePath) {
-                        return $basePath."/".$icon;
+                    function ($icon) use ($basePath) {
+                        return $basePath . "/" . $icon;
                     },
                     $icons
                 );
@@ -476,15 +475,15 @@ class Siberian_Assets
             $nickname = array_key_exists('use_nickname', $feature) ? !!$feature['use_nickname'] : false;
             $ranking = array_key_exists('use_ranking', $feature) ? !!$feature['use_ranking'] : false;
 
-            $feature_dir = "./features/".$code;
+            $feature_dir = "./features/" . $code;
 
             self::destroyAssets($feature_dir);
-            if (is_dir($feature["__DIR__"]."/assets")) {
-                self::copyAssets($feature["__DIR__"]."/assets", null, $feature_dir."/assets");
+            if (is_dir($feature["__DIR__"] . "/assets")) {
+                self::copyAssets($feature["__DIR__"] . "/assets", null, $feature_dir . "/assets");
             }
 
-            if (is_dir($feature["__DIR__"]."/templates")) {
-                self::copyAssets($feature["__DIR__"]."/templates", null, $feature_dir."/templates");
+            if (is_dir($feature["__DIR__"] . "/templates")) {
+                self::copyAssets($feature["__DIR__"] . "/templates", null, $feature_dir . "/templates");
             }
 
             // build index.js here
@@ -493,12 +492,12 @@ class Siberian_Assets
                 mkdir($out_dir, 0777, true);
             }
 
-            $feature_js_path = $feature_dir."/".$code.".js";
-            $feature_js_bundle_path = $feature_dir."/".$code.".bundle.min.js";
+            $feature_js_path = $feature_dir . "/" . $code . ".js";
+            $feature_js_bundle_path = $feature_dir . "/" . $code . ".bundle.min.js";
 
             $feature_js = self::compileFeature($feature, $feature_js_bundle_path);
 
-            $built_file = $out_dir."/".$code.".js";
+            $built_file = $out_dir . "/" . $code . ".js";
 
             file_put_contents($built_file, $feature_js);
 
@@ -562,7 +561,7 @@ class Siberian_Assets
     {
 
         $code = $feature["code"];
-        $feature_dir = "features/".$code;
+        $feature_dir = "features/" . $code;
         $minifier_js = new MatthiasMullie\Minify\JS();
         $minifier_css = new MatthiasMullie\Minify\CSS();
 
@@ -574,7 +573,7 @@ class Siberian_Assets
         foreach ($feature["files"] as $file) {
             // Ignore files with ".." for security reasons!
             if (!preg_match("#\.\.#", $file)) {
-                $inFile = $feature["__DIR__"]."/".$file;
+                $inFile = $feature["__DIR__"] . "/" . $file;
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 if (is_file($inFile) && in_array($ext, ['scss'])) {
                     // SCSS Case
@@ -595,9 +594,9 @@ class Siberian_Assets
 
         // minify assets
         $bundle_css = $minifier_css->minify();
-        $minifier_js->add("\nFeatures.insertCSS(".json_encode($bundle_css).", \"".$code."\");");
+        $minifier_js->add("\nFeatures.insertCSS(" . json_encode($bundle_css) . ", \"" . $code . "\");");
 
-        if($bundle_path != null) {
+        if ($bundle_path != null) {
             $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
             $minifier_js->minify($tmp_file);
 
@@ -624,10 +623,10 @@ class Siberian_Assets
 
             self::copyAssets($tmp_file, null, $bundle_path);
 
-            $output = " Features.register(".$feature["__JSON__"].", ['{$bundle_path}']); ";
+            $output = " Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']); ";
 
         } else {
-            $output = $minifier_js->minify() . "\n;Features.register(".$feature["__JSON__"]."); ";
+            $output = $minifier_js->minify() . "\n;Features.register(" . $feature["__JSON__"] . "); ";
         }
 
         return $output;
@@ -637,7 +636,7 @@ class Siberian_Assets
      * @param $path
      * @return string
      */
-    public static function compileScss ($path)
+    public static function compileScss($path)
     {
         $compiler = Siberian_Scss::getCompiler();
         $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));
@@ -704,7 +703,7 @@ class Siberian_Assets
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));
 
-            if(!file_exists($source . '/features/')) {
+            if (!file_exists($source . '/features/')) {
                 mkdir($source . '/features/', 0775, true);
             }
 
@@ -723,9 +722,8 @@ class Siberian_Assets
 
         # Concat & Clean-up
         $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"
-                 . file_get_contents($source . "/dist/templates-modules.js") . "\n"
-                 . file_get_contents($source . "/dist/templates-features.js");
-        ;
+            . file_get_contents($source . "/dist/templates-modules.js") . "\n"
+            . file_get_contents($source . "/dist/templates-features.js");;
 
         file_put_contents($source . "/dist/templates.js", $content);
 
@@ -748,7 +746,7 @@ class Siberian_Assets
             foreach ($platforms as $platform) {
 
                 $path = Core_Model_Directory::getBasePathTo($platform);
-                $index_path = $path.$www_folder."index.html";
+                $index_path = $path . $www_folder . "index.html";
                 $index_content = file_get_contents($index_path);
 
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
@@ -758,7 +756,7 @@ class Siberian_Assets
                 }
 
                 # Build the templateCache, Siberian 5.0
-                self::buildTemplateCaches($path.$www_folder);
+                self::buildTemplateCaches($path . $www_folder);
 
                 foreach (self::$assets_js as $asset_js) {
                     $index_content = self::__appendAsset($index_content, $asset_js, "js");
@@ -772,7 +770,7 @@ class Siberian_Assets
                 preg_match_all("/<(?:script|link)[^>]+data-feature=\"([^\"]+)\"[^>]?>/", $index_content, $ins_features);
                 if (is_array($ins_features)) {
                     $ins_features = array_unique($ins_features[1]);
-    
+
                     // Remove all features from index.html
                     foreach ($ins_features as $f) {
                         $index_content = self::__removeAllFeatureAssets($index_content, $f);
@@ -808,7 +806,7 @@ class Siberian_Assets
     public static function registerPreBuildCallback($code, $callback)
     {
         if (!is_string($code) || strlen(trim($code)) < 1) {
-            throw new InvalidArgumentException("code should be a non empty string. Input was: ".$code);
+            throw new InvalidArgumentException("code should be a non empty string. Input was: " . $code);
         }
         if (!is_callable($callback)) {
             throw new InvalidArgumentException("callback should be callable");
@@ -833,7 +831,7 @@ class Siberian_Assets
     public static function registerPostBuildCallback($code, $callback)
     {
         if (!is_string($code) || strlen(trim($code)) < 1) {
-            throw new InvalidArgumentException("code should be a non empty string. Input was: ".$code);
+            throw new InvalidArgumentException("code should be a non empty string. Input was: " . $code);
         }
         if (!is_callable($callback)) {
             throw new InvalidArgumentException("callback should be callable");
@@ -893,7 +891,7 @@ class Siberian_Assets
     {
         $asset_path = __ss($asset_path);
         $search = "</head>";
-        $replace = self::___assetLine($asset_path, $type, $feature)."</head>";
+        $replace = self::___assetLine($asset_path, $type, $feature) . "</head>";
 
         if (strpos($index_content, $asset_path) === false) {
             $index_content = str_replace($search, $replace, $index_content);
@@ -913,7 +911,7 @@ class Siberian_Assets
     {
         $asset_path = __ss($asset_path);
         $search = "</head>";
-        $replace = self::___assetLine($asset_path, $type, $feature)."</head>";
+        $replace = self::___assetLine($asset_path, $type, $feature) . "</head>";
 
         if (strpos($index_content, $asset_path) === false) {
             $index_content = str_replace($search, $replace, $index_content);

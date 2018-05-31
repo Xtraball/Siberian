@@ -285,7 +285,7 @@ class Zend_Controller_Front
      */
     public function addModuleDirectory($path)
     {
-        try{
+        try {
             $dir = new DirectoryIterator($path);
         } catch(Exception $e) {
             require_once 'Zend/Controller/Exception.php';
@@ -296,7 +296,7 @@ class Zend_Controller_Front
                 continue;
             }
 
-            $module    = $file->getFilename();
+            $module = $file->getFilename();
 
             // Don't use SCCS directories as modules
             if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {

@@ -1,22 +1,23 @@
 <?php
+
 /**
  * Class Siberian_Migration_Db_Table
  *
  * Migration Class to update DB reflecting latest schema.
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.1.0
+ * @version 4.14.0
  *
  */
-
-class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
+class Siberian_Migration_Db extends Zend_Db_Table_Abstract
+{
 
     /**
      * All tables from PE excluding optional modules
      *
      * @note remove when full process is done.
      */
-    const TABLES = array(
+    const TABLES = [
         'acl_resource',
         'acl_resource_role',
         'acl_role',
@@ -162,7 +163,7 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
         'whitelabel_editor',
         'wordpress',
         'wordpress_category',
-    );
+    ];
 
     /**
      * Check whether a Table exists or not
@@ -171,13 +172,12 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
      * @return boolean
      * @throws Exception
      */
-    public function tableExists($table_name) {
-
+    public function tableExists($table_name)
+    {
         try {
             $this->getAdapter()->describeTable($table_name);
             return true;
-        }
-        catch(Exception $e) {}
+        } catch (Exception $e) {}
 
         return false;
     }
@@ -189,10 +189,11 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
      *
      * @throws Exception
      */
-    public function exportAll() {
-        foreach(self::TABLES as $table_name) {
+    public function exportAll()
+    {
+        foreach (self::TABLES as $table_name) {
             $migration_db_table = new Siberian_Migration_Db_Table($table_name);
-            if($migration_db_table->tableExists(false, false)) {
+            if ($migration_db_table->tableExists(false, false)) {
                 $migration_db_table->exportDatabase(true);
             }
         }
@@ -203,10 +204,11 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
      *
      * @throws Exception
      */
-    public function migrateDatabase() {
-        foreach(self::TABLES as $table_name) {
+    public function migrateDatabase()
+    {
+        foreach (self::TABLES as $table_name) {
             $migration_db_table = new Siberian_Migration_Db_Table($table_name);
-            if($migration_db_table->tableExists()) {
+            if ($migration_db_table->tableExists()) {
                 $migration_db_table->updateTable();
             }
         }
@@ -217,8 +219,9 @@ class Siberian_Migration_Db extends Zend_Db_Table_Abstract {
      *
      * @throws Exception
      */
-    public function createDatabase() {
-        foreach(self::TABLES as $table_name) {
+    public function createDatabase()
+    {
+        foreach (self::TABLES as $table_name) {
             $migration_db_table = new Siberian_Migration_Db_Table($table_name);
             //$migration_db_table->exportDatabase();
             $migration_db_table->createTable();

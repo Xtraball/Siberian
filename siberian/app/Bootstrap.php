@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Bootstrap
+ */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
@@ -18,6 +21,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     public $_front_controller = false;
 
+    /**
+     * @throws Zend_Loader_Exception
+     */
     protected function _initPaths()
     {
         $loader = Zend_Loader_Autoloader::getInstance();
@@ -61,6 +67,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         // External vendor, from composer!
         $autoloader = Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
+
         require_once $autoloader;
 
         // Init debugger if needed!
@@ -68,6 +75,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Siberian_Exec::start();
     }
 
+    /**
+     *
+     */
     protected function _initErrorMessages()
     {
 
@@ -80,6 +90,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    /**
+     *
+     */
     protected function _initHtaccess()
     {
         $old_htaccess = Core_Model_Directory::getBasePathTo('htaccess.txt');
@@ -93,6 +106,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    /**
+     * @throws Zend_Log_Exception
+     */
     protected function _initLogger()
     {
         if (!is_dir(Core_Model_Directory::getBasePathTo('var/log'))) {
@@ -152,7 +168,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $base = Core_Model_Directory::getBasePathTo('app');
 
-        if (!file_exists($base . '/local') || !file_exists($base . '/local/modules') || !file_exists($base . '/local/design')) {
+        if (!is_dir($base . '/local') ||
+            !is_dir($base . '/local/modules') ||
+            !is_dir($base . '/local/design')) {
             mkdir($base . '/local', 0777);
             mkdir($base . '/local/modules', 0777);
             mkdir($base . '/local/design', 0777);
@@ -257,6 +275,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    /**
+     *
+     */
     protected function _initDesign()
     {
         // Ensure 'flat' design is used for everyone!
@@ -267,6 +288,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNeverRender(true);
     }
 
+    /**
+     *
+     */
     protected function _initRouter()
     {
         $front = $this->_front_controller;
@@ -280,6 +304,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ));
     }
 
+    /**
+     * @throws Zend_Application_Bootstrap_Exception
+     * @throws Zend_Cache_Exception
+     */
     protected function _initCache()
     {
         $this->bootstrap('CacheManager');
@@ -307,6 +335,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    /**
+     * @throws Exception
+     */
     protected function _initModules()
     {
         if (!$this->_request->isInstalling()) {
@@ -314,8 +345,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $module_names = $front->getDispatcher()->getSortedModuleDirectories();
 
             if (APPLICATION_ENV === 'development') {
-                //Siberian_Assets::buildFeatures();
-
                 foreach ($module_names as $module_name) {
                     $module = new Installer_Model_Installer_Module();
                     $module->prepare($module_name);
@@ -328,6 +357,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
     }
 
+    /**
+     * @throws Zend_Config_Exception
+     * @throws Zend_Session_Exception
+     */
     public function _initSession()
     {
         $session_ini = Core_Model_Directory::getBasePathTo('/app/configs/session.ini');
@@ -343,6 +376,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Session::setOptions($_config);
     }
 
+    /**
+     * @return mixed|void|Zend_Controller_Response_Abstract
+     * @throws Exception
+     * @throws Zend_Application_Bootstrap_Exception
+     */
     public function run()
     {
         $front = $this->_front_controller;

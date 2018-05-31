@@ -6,13 +6,14 @@
  *
  * Release: <package_version>
  */
-
-class Siberian_Session {
+class Siberian_Session
+{
 
     /**
      * @param array $configSession
      */
-    public static function init($configSession = []) {
+    public static function init($configSession = [])
+    {
         if (System_Model_Config::getValueFor('session_handler') === 'redis') {
             $redisConfig = [
                 'keyPrefix' => System_Model_Config::getValueFor('redis_prefix'),

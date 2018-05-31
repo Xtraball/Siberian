@@ -1,66 +1,76 @@
 <?php
+
 /**
- * Siberian_Media try to optimize png/jpg images before packaging the native sources
- *
- * it needs external libraries, like jpegoptim, pngquant, optipng etc ...
+ * Class Siberian_Media
  */
-class Siberian_Media {
-
+class Siberian_Media
+{
+    /**
+     * @var bool
+     */
     protected static $temporary_disabled = false;
-
-    public static $tools = array(
-        "jpg" => array(
-            "jpegoptim" => array(
+    /**
+     * @var array
+     */
+    public static $tools = [
+        "jpg" => [
+            "jpegoptim" => [
                 "bin" => "/usr/local/bin/jpegoptim",
                 "cli" => "/usr/local/bin/jpegoptim -s -q -m 60 %s"
-            ),
-        ),
-        "png" => array(
-            "pngquant" => array(
+            ],
+        ],
+        "png" => [
+            "pngquant" => [
                 "bin" => "/usr/local/bin/pngquant",
                 "cli" => "/usr/local/bin/pngquant --skip-if-larger --ext .png --force -- %s"
-            ),
-            "optipng" => array(
+            ],
+            "optipng" => [
                 "bin" => "/usr/local/bin/optipng",
                 "cli" => "/usr/local/bin/optipng -strip all -quiet -o3 %s"
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
-    public static function optimize($image_path, $force = false) {
+    /**
+     * @param $image_path
+     * @param bool $force
+     * @throws Zend_Exception
+     */
+    public static function optimize($image_path, $force = false)
+    {
         /** Dev global disable. */
         $_config = Zend_Registry::get("_config");
-        if(isset($_config["disable_media"])) {
+        if (isset($_config["disable_media"])) {
             return;
         }
 
         /** Temporary disabled */
-        if(self::$temporary_disabled) {
+        if (self::$temporary_disabled) {
             return;
         }
 
         /** Disable if not cron && sae */
-        if(!$force) {
-            if(!Cron_Model_Cron::is_active()) {
+        if (!$force) {
+            if (!Cron_Model_Cron::is_active()) {
                 return;
             }
         }
 
-        if(!is_writable($image_path)) {
+        if (!is_writable($image_path)) {
             return;
         }
 
         $filetype = strtolower(pathinfo($image_path, PATHINFO_EXTENSION));
-        if(array_key_exists($filetype, self::$tools)) {
+        if (array_key_exists($filetype, self::$tools)) {
             $tools = self::$tools[$filetype];
 
-            foreach($tools as $toolbin => $options) {
+            foreach ($tools as $toolbin => $options) {
                 $path = self::isInstalled($options["bin"]);
 
-                if($path !== false) {
+                if ($path !== false) {
                     exec("{$path} -h", $output);
-                    if(isset($output) && isset($output[0]) && !empty($output[0])) {
-                        if(strpos($path, "/local") !== false) {
+                    if (isset($output) && isset($output[0]) && !empty($output[0])) {
+                        if (strpos($path, "/local") !== false) {
                             $cli = $options["cli"];
                         } else {
                             $cli = str_replace("/local", "", $options["cli"]);
@@ -69,7 +79,7 @@ class Siberian_Media {
 
                         self::log(__("[Siberian_Media] optimizing media %s", $bin));
 
-                        exec($bin." 2>&1", $result);
+                        exec($bin . " 2>&1", $result);
                     }
                 }
             }
@@ -79,8 +89,9 @@ class Siberian_Media {
     /**
      * Disable until next reload
      */
-    public static function disableTemporary() {
-        if(!self::$temporary_disabled) {
+    public static function disableTemporary()
+    {
+        if (!self::$temporary_disabled) {
             self::log("[Siberian_Media] disableTemporary");
 
             self::$temporary_disabled = true;
@@ -90,14 +101,16 @@ class Siberian_Media {
     /**
      * Re enable from a previous disable
      */
-    public static function enable() {
+    public static function enable()
+    {
         self::$temporary_disabled = false;
     }
 
     /**
      * @return bool
      */
-    public static function isTemporaryDisabled() {
+    public static function isTemporaryDisabled()
+    {
         return self::$temporary_disabled;
     }
 
@@ -105,10 +118,11 @@ class Siberian_Media {
      * @param $binary_path
      * @return bool|mixed
      */
-    public static function isInstalled($binary_path) {
-        if(self::exists_path($binary_path)) {
+    public static function isInstalled($binary_path)
+    {
+        if (self::exists_path($binary_path)) {
             return $binary_path;
-        } elseif(self::exists_path(str_replace("/local", "", $binary_path))) {
+        } elseif (self::exists_path(str_replace("/local", "", $binary_path))) {
             return str_replace("/local", "", $binary_path);
         }
         return false;
@@ -118,12 +132,13 @@ class Siberian_Media {
      * @param $binary_path
      * @return bool
      */
-    public static function exists_path($binary_path) {
+    public static function exists_path($binary_path)
+    {
         $result = file_exists($binary_path);
-        if(!$result) {
+        if (!$result) {
             try {
                 exec("if [ -f {$binary_path} ];then echo 1; else echo 0; fi 2>&1", $output);
-                if(!empty($output) && isset($output[0])) {
+                if (!empty($output) && isset($output[0])) {
                     $result = ($output[0] == 1);
                 }
             } catch (Exception $e) {
@@ -139,10 +154,11 @@ class Siberian_Media {
      *
      * @return array
      */
-    public static function getLibraries() {
-        $libraries = array();
-        foreach(self::$tools as $tools) {
-            foreach($tools as $short_name => $options) {
+    public static function getLibraries()
+    {
+        $libraries = [];
+        foreach (self::$tools as $tools) {
+            foreach ($tools as $short_name => $options) {
                 $libraries[$short_name] = (self::isInstalled($options["bin"]) !== false);
             }
         }
@@ -154,7 +170,8 @@ class Siberian_Media {
      * @param $path
      * @return string
      */
-    public static function toBase64($path) {
+    public static function toBase64($path)
+    {
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $base64 = sprintf("data:image/%s;base64,%s", $type, base64_encode($data));
@@ -165,12 +182,11 @@ class Siberian_Media {
     /**
      * @param $message
      */
-    public static function log($message) {
+    public static function log($message)
+    {
         log_info($message);
-        if(defined("CRON")) {
+        if (defined("CRON")) {
             echo sprintf("[Siberian_Media] %s \n", $message);
         }
     }
-
-
 }

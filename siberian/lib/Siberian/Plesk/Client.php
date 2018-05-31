@@ -7,7 +7,11 @@
 
 use Goutte\Client as PleskClient;
 
-class Siberian_Plesk_Client extends PleskClient {
+/**
+ * Class Siberian_Plesk_Client
+ */
+class Siberian_Plesk_Client extends PleskClient
+{
 
     /**
      * @param $method
@@ -19,7 +23,9 @@ class Siberian_Plesk_Client extends PleskClient {
      * @param bool $changeHistory
      * @return \Symfony\Component\DomCrawler\Crawler
      */
-    public function _request($method, $endpoint, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true) {
+    public function _request($method, $endpoint, array $parameters = [], array $files = [],
+                             array $server = [], $content = null, $changeHistory = true)
+    {
         return $this->request($method, $endpoint, $parameters, $files, $server, $content, $changeHistory);
     }
 }

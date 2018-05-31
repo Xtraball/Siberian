@@ -7,7 +7,8 @@
  *
  */
 
-class Siberian_Autoupdater {
+class Siberian_Autoupdater
+{
     /**
      * @var string
      */
@@ -31,9 +32,9 @@ class Siberian_Autoupdater {
     /**
      * @param $host
      */
-    public static function configure($host) {
-
-        $current_release = "".Siberian_Version::VERSION.".".time();
+    public static function configure($host)
+    {
+        $current_release = "" . Siberian_Version::VERSION . "." . time();
         System_Model_Config::setValueFor("current_release", $current_release);
 
         # Clear
@@ -64,38 +65,39 @@ class Siberian_Autoupdater {
      *
      * @param $host
      */
-    public static function manifest($host) {
+    public static function manifest($host)
+    {
 
-        foreach(Siberian_Assets::$platforms as $type => $platforms) {
+        foreach (Siberian_Assets::$platforms as $type => $platforms) {
 
-            foreach($platforms as $platform) {
+            foreach ($platforms as $platform) {
                 $www_folder = Siberian_Assets::$www[$type];
                 $path = Core_Model_Directory::getBasePathTo($platform);
-                $json_path = __ss($path.$www_folder.self::$manifest_json);
-                $manifest_path = __ss($path.$www_folder.self::$manifest_name);
+                $json_path = __ss($path . $www_folder . self::$manifest_json);
+                $manifest_path = __ss($path . $www_folder . self::$manifest_name);
 
-                $hash = array();
-                $static_assets = array();
+                $hash = [];
+                $static_assets = [];
 
                 /** Looping trough files */
                 $files = new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($path.$www_folder, 4096),
+                    new RecursiveDirectoryIterator($path . $www_folder, 4096),
                     RecursiveIteratorIterator::SELF_FIRST);
-                foreach($files as $file) {
-                    if($file->isDir()) {
+                foreach ($files as $file) {
+                    if ($file->isDir()) {
                         continue;
                     }
 
                     $pathname = $file->getPathname();
-                    $relative_path = str_replace($path.$www_folder, "", $pathname);
+                    $relative_path = str_replace($path . $www_folder, "", $pathname);
 
                     # Add only required files
-                    if(!self::exclude($relative_path)) {
+                    if (!self::exclude($relative_path)) {
                         $static_assets[] = $relative_path;
-                        $hash[] = array(
+                        $hash[] = [
                             "file" => $relative_path,
                             "hash" => md5_file($pathname),
-                        );
+                        ];
                     }
 
                 }
@@ -105,24 +107,24 @@ class Siberian_Autoupdater {
                 file_put_contents($manifest_path, $manifest);
 
                 # Release version change
-                $release = array(
-                    "content_url"           => $host.__ss($platform.$www_folder),
-                    "min_native_interface"  => Siberian_Version::NATIVE_VERSION,
-                    "release"               => System_Model_Config::getValueFor("current_release"),
-                );
+                $release = [
+                    "content_url" => $host . __ss($platform . $www_folder),
+                    "min_native_interface" => Siberian_Version::NATIVE_VERSION,
+                    "release" => System_Model_Config::getValueFor("current_release"),
+                ];
 
                 $release = Siberian_Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
                 file_put_contents($json_path, $release);
 
                 # Editing config.xml path
-                if(isset(Siberian_Assets::$config_xml[$type])) {
-                    $confix_xml_path = $path.Siberian_Assets::$config_xml[$type];
-                    $path = $host.__ss($platform.$www_folder.self::$manifest_json);
+                if (isset(Siberian_Assets::$config_xml[$type])) {
+                    $confix_xml_path = $path . Siberian_Assets::$config_xml[$type];
+                    $path = $host . __ss($platform . $www_folder . self::$manifest_json);
                     __replace(
-                        array(
-                            '~(<config-file url=").*(" />)~i' => '$1'.$path.'$2',
-                        ),
+                        [
+                            '~(<config-file url=").*(" />)~i' => '$1' . $path . '$2',
+                        ],
                         $confix_xml_path,
                         true
                     );
@@ -138,9 +140,10 @@ class Siberian_Autoupdater {
      * @param $file
      * @return bool
      */
-    public static function exclude($file) {
-        foreach(Siberian_Assets::$exclude_files as $pattern) {
-            if(preg_match("#".$pattern."#i", $file)) {
+    public static function exclude($file)
+    {
+        foreach (Siberian_Assets::$exclude_files as $pattern) {
+            if (preg_match("#" . $pattern . "#i", $file)) {
                 return true;
             }
         }

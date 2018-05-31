@@ -1,14 +1,29 @@
 <?php
 
-class Siberian_Form_Validate_DateGreaterThanToday extends Zend_Validate_Abstract {
-
+/**
+ * Class Siberian_Form_Validate_DateGreaterThanToday
+ */
+class Siberian_Form_Validate_DateGreaterThanToday extends Zend_Validate_Abstract
+{
+    /**
+     * @var string
+     */
     const DATE_INVALID = 'dateInvalid';
 
-    protected $_messageTemplates = array(
+    /**
+     * @var array
+     */
+    protected $_messageTemplates = [
         self::DATE_INVALID => "'%value%' must be greater than today"
-    );
+    ];
 
-    public function isValid($value) {
+    /**
+     * @param mixed $value
+     * @return bool
+     * @throws Zend_Date_Exception
+     */
+    public function isValid($value)
+    {
         $this->_setValue($value);
 
         $today = new Zend_Date();

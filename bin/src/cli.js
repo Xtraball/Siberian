@@ -535,12 +535,14 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
             if (localPrepare) {
                 sprint(clc.blue('Prepping: ') + clc.green(platform + ' ...'));
-                sh.exec('cordova '+silent+' prepare '+ platform);
+                console.log('cordova ' + silent + ' prepare ' + platform);
+                sh.exec('cordova ' + silent + ' prepare ' + platform);
             } else {
                 sprint(clc.blue('Rebuilding: ') + clc.green(platform + ' ...'));
 
                 // Delete only if not preparing!
                 try {
+                    console.log('cordova ' + silent + ' platform remove ' + platform + ' --nosave');
                     sh.exec('cordova ' + silent + ' platform remove ' + platform + ' --nosave');
                 } catch (e) {
                     // nothing to do!
@@ -552,6 +554,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 }
 
                 try {
+                    console.log('cordova ' + silent + ' platform add ' + platformPath + ' --nosave');
                     sh.exec('cordova ' + silent + ' platform add ' + platformPath + ' --nosave');
                 } catch (e) {
                     console.log(e.message);
@@ -569,7 +572,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     installPlugin(pluginName, platform, requiredPlugins[pluginName]);
                 });
 
-                switch (platform.split('-')[0]) {
+                switch (platform) {
                     case 'android':
                         sh.cp('-f', installPath + '/app/src/main/res/xml/config.xml', installPath + '/config.bck.xml');
                         break;
@@ -638,7 +641,7 @@ let patchIos = function (platform) {
  * @param opts
  */
 let installPlugin = function (pluginName, platform, opts) {
-    let platformBase = platform.split('-')[0],
+    let platformBase = platform,
         platformPath = ROOT + '/ionic/platforms/' + platform,
         pluginPath = ROOT + '/plugins/' + pluginName,
         pluginVariables = opts.variables || '';
@@ -679,6 +682,8 @@ let installPlugin = function (pluginName, platform, opts) {
             silent = '';
         }
 
+        console.log('plugman install --platform ' + platformBase +
+            ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
         sh.exec('plugman install --platform ' + platformBase +
             ' --project ' + platformPath + ' ' + silent + ' --plugin ' + pluginPath + ' ' + cliVariables);
     }
