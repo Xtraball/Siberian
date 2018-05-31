@@ -22,6 +22,28 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     const DESIGN_CODE_ANGULAR = "angular";
     const DESIGN_CODE_IONIC = "ionic";
 
+    /**
+     * @var array
+     */
+    public static $backButtons = [
+        'ion-android-arrow-back',
+        'ion-arrow-left-a',
+        'ion-arrow-left-b',
+        'ion-arrow-left-c',
+        'ion-arrow-return-left',
+        'ion-chevron-left',
+        'ion-home',
+        'ion-ios-arrow-back',
+        'ion-ios-arrow-left',
+        'ion-ios-arrow-thin-left',
+        'ion-ios-home-outline',
+        'ion-ios-home',
+        'ion-ios-undo-outline',
+        'ion-ios-undo',
+        'ion-reply',
+        'ion-ios-arrow-back',
+    ];
+
     protected $_startup_image;
     protected $_customers;
     protected $_options;

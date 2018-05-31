@@ -34,6 +34,12 @@ $schemas['application'] = [
         'type' => 'int(11) unsigned',
         'is_null' => true,
     ],
+    'back_button' => [
+        'type' => 'varchar(100)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'bundle_id' => [
         'type' => 'varchar(100)',
         'is_null' => true,

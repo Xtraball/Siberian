@@ -13,14 +13,29 @@ $android_color = $application->getAndroidPushColor();
 $android_push_icon = "/images/application".$application->getAndroidPushIcon();
 $android_push_image = "/images/application".$application->getAndroidPushImage();
 
+$appCurrentBackbutton = $application->getBackButton();
+
+$backButtons = Application_Model_Application::$backButtons;
+
 ?>
 <div id="icon_conteneur" class="content sb-tour">
     <h3 class="title-editor border-purple text-center">
-        <?php echo __("Dashboard icon"); ?>
+        <?php echo __("Dashboard icon"); ?> / <?php echo __("Back button icon"); ?>
     </h3>
     <div id="icon" class="subcontent content-color">
-        <div class="col-md-6">
+        <div class="col-md-6 col-sm-12">
             <?php echo $icon_form; ?>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div id="sb-tour-push-settings"
+                 class="content-options content-white-bkg sb-tour">
+                <h4><?php echo __("Select your back button appearance") ?></h4>
+                <br />
+                <?php foreach ($backButtons as $backButton): ?>
+                    <i rel="<?php echo $backButton ?>"
+                       class="appIcon icon <?php echo $backButton ?> <?php echo ($appCurrentBackbutton === $backButton) ? 'active border-purple' : '' ?>"></i>
+                <?php endforeach; ?>
+            </div>
         </div>
     </div>
 </div>
@@ -152,6 +167,21 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
         $("#android_push_color").val('<?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>');
 
         $(".sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
+
+        var allAppIcons = $('i.appIcon');
+        allAppIcons.off('click');
+        allAppIcons.on('click', function () {
+            $(allAppIcons)
+                .removeClass('active')
+                .removeClass('border-purple');
+            $(this)
+                .addClass('active')
+                .addClass('border-purple');
+
+            formget('/application/customization_publication_app/backbutton', {
+                backButton: $(this).attr('rel')
+            })
+        });
     });
 </script>
 
@@ -287,4 +317,23 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
         text-align: center;
         text-transform: uppercase;
     }
+
+    i.appIcon {
+        font-size: 32px;
+        padding: 6px;
+        background-color: #e9e9eb;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        width: 60px;
+        display: inline-block;
+        border-radius: 2px;
+        text-align: center;
+    }
+
+    i.active {
+        border-width: 2px !important;
+        border-style: solid !important;
+        padding: 4px;
+    }
 </style>
+<link rel="stylesheet" href="/app/sae/design/desktop/flat/css/ionicons/css/ionicons.min.css" />

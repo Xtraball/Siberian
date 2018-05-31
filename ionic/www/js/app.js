@@ -159,6 +159,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.views.maxCache(0);
+        $ionicConfigProvider.backButton.text('');
         $ionicConfigProvider.backButton.previousTitleText(false);
     })
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
@@ -232,6 +233,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
         $ionicPlatform.ready(function () {
             $ionicNavBarDelegate.showBar(false);
+            $ionicNavBarDelegate.align('center');
 
             var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
@@ -275,6 +277,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Populate main objects!
                         Application.populate(data.load);
+
+                        // Overrides backbutton icon
+                        $ionicConfig.backButton.icon(Application.getBackIcon());
+
                         Customer.populate(data.load.customer);
                         Customer.setFacebookLogin(data.load.application.facebook);
                         Pages.populate(data.homepage);
