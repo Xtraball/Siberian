@@ -563,6 +563,7 @@ class Front_AppController extends Front_Controller_App_Default
         $appId = $application->getId();
         $appIcon = $application->getIcon();
         $baseUrl = $request->getBaseUrl();
+        $startupImage = $application->getStartupImageUrl();
 
         $manifestMameBase = Core_Model_Directory::getTmpDirectory(true) . '/webapp_manifest_' . $appId . '.json';
         $manifestName = Core_Model_Directory::getTmpDirectory() . '/webapp_manifest_' . $appId . '.json';
@@ -573,8 +574,7 @@ class Front_AppController extends Front_Controller_App_Default
             ->scaleResize(144, 144);
         $appIcon512Base64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
             ->scaleResize(512, 512);
-        $startupImageBase64 = Siberian_Image::open(
-            Core_Model_Directory::getBasePathTo($application->getStartupImageUrl()))->jpeg();
+        $startupImageBase64 = $baseUrl . '/' . $startupImage;
 
         $appIconBase64 = str_replace(Core_Model_Directory::getBasePathTo(''),
             $baseUrl . '/', $appIconBase64->png());
@@ -630,7 +630,7 @@ class Front_AppController extends Front_Controller_App_Default
             file_put_contents($manifestMameBase, Siberian_Json::encode($manifest));
         }
 
-        //Collect images and manifest url
+        //Collect images and manifest url!
         $manifestBlock = [
             'startupImageUrl' => $startupImageBase64,
             'iconUrl' => $appIconBase64,

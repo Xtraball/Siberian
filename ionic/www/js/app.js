@@ -440,6 +440,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                         window.StatusBar.hide();
                                     }
                                     break;
+                                default:
+                                    // Do nothing!
                             }
                         }
 

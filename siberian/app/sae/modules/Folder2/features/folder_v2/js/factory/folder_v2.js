@@ -65,7 +65,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         var computeIndex = function (collection) {
             var destination = [];
             angular.forEach(collection, function (folderItem) {
-                if (!folderItem.is_active) {
+                if (!folderItem.feature.is_active) {
                     return;
                 }
                 if (unlocked || !folderItem.feature.is_locked || (folderItem.feature.code === 'padlock')) {
