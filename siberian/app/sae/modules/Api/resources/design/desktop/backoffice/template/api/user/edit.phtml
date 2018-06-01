@@ -1,3 +1,7 @@
+<pre>
+    <?php print_r(Siberian_Api::getSections()); ?>
+</pre>
+
 <form ng-submit="save();">
 
     <sb-section title="section_title">
@@ -80,7 +84,7 @@
     <sb-section title="'<?php echo __js("Select API access") ?>'">
 
         <?php $i = 0; foreach(Siberian_Api::getSections() as $section => $title): $i++; ?>
-            <div class="<?php echo ($i%4 == 0) ? "clear" : ""; ?> col-md-4">
+            <div class="<?php echo ($i % 4 == 0) ? "clear" : ""; ?> col-md-4">
                 <h4><?php echo __($title) ?></h4>
                 <?php foreach(Siberian_Api::$acl_keys[$section] as $subkey => $subtitle): ?>
                 <div class="checkbox">
@@ -105,5 +109,6 @@
         </div>
     </div>
 </form>
+
 
 
