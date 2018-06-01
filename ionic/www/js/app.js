@@ -250,9 +250,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     var deviceScreen = $session.getDeviceScreen();
 
                     $log.debug('device_uid', $session.getDeviceUid());
-                    $log.debug('start: app/mobile/init');
+                    $log.debug('start: front/app/init');
 
-                    $pwaRequest.post('app/mobile/init', {
+                    $pwaRequest.post('front/app/init', {
                         data: {
                             add_language: true,
                             device_uid: $session.getDeviceUid(),
@@ -269,7 +269,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Translations & locale!
                         $translate.translations = data.translationBlock;
-                        tmhDynamicLocale.set($translate.translationBlock._locale);
+                        tmhDynamicLocale.set($translate._locale);
 
                         if (!$session.getId()) {
                             $session.setId(data.loadBlock.customer.token);
@@ -293,10 +293,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         var HomepageLayout = $injector.get('HomepageLayout');
 
                         // Append custom CSS/SCSS to the page!
-                        if (data.css && data.css.css) {
+                        if (data.cssBlock && data.cssBlock.css) {
                             var css = document.createElement('style');
                             css.type = 'text/css';
-                            css.innerHTML = data.css.css;
+                            css.innerHTML = data.cssBlock.css;
                             document.body.appendChild(css);
                         }
 
@@ -734,7 +734,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         networkPromise.promise
                             .then(function (networkPromiseResult) {
                                 // On refresh cache success, refresh pages, then refresh homepage!
-                                Pages.populate(networkPromiseResult.homepage);
+                                Pages.populate(networkPromiseResult.featureBlock);
                                 $rootScope.$broadcast(SB.EVENTS.CACHE.layoutReload);
                             }, function () {})
                             .then(function () {
