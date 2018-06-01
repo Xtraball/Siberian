@@ -120,7 +120,6 @@ class Push_Model_Android_Message
         }
 
         // Handler GCM (deprecated)
-        $messagePayload->setTitle('GCM');
         try {
             $this->_pushToProvider($this->service_gcm,
                 $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
@@ -129,9 +128,7 @@ class Push_Model_Android_Message
             $this->service_gcm->logger->log($e->getMessage());
         }
 
-
         // Handler FCM, from 4.14.0
-        $messagePayload->setTitle('Firebase');
         try {
             $this->_pushToProvider($this->service_fcm,
                 $messagePayload, $registrationTokensFcm, $deviceByTokenFcm);
@@ -252,10 +249,13 @@ class Push_Model_Android_Message
             ->setOpenWebview(!is_numeric($message->getActionValue()));
 
         # Priority to custom image
-        $custom_image = $message->getCustomImage();
-        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application" . $custom_image);
-        if (is_readable($path_custom_image) && !is_dir($path_custom_image)) {
-            $messagePayload->setImage($message->getData("base_url") . "/images/application" . $custom_image);
+        $customImage = $message->getCustomImage();
+        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application" . $customImage);
+        if (strpos($customImage, '/images/assets') === 0 &&
+            is_file(Core_Model_Directory::getBasePathTo($customImage))) {
+            $messagePayload->setImage($message->getData('base_url') . $customImage);
+        } else if (is_readable($path_custom_image) && !is_dir($path_custom_image)) {
+            $messagePayload->setImage($message->getData('base_url') . '/images/application' . $customImage);
         } else {
             # Default application image
             $application_image = $application->getAndroidPushImage();

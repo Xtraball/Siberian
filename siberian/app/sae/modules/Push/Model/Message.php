@@ -4,6 +4,14 @@
  * Class Push_Model_Message
  *
  * @method Push_Model_Db_Table_Message getTable()
+ * @method $this setMessageGlobalId(integer $globalId)
+ * @method $this setTargetDevices(array $targetDevices)
+ * @method $this setAppId(integer $appId)
+ * @method $this setSendToAll(boolean $sendToAll)
+ * @method $this setSendUntil(string $sendUntil)
+ * @method $this setActionValue(string $actionValue)
+ * @method $this setCover(string $cover)
+ * @method $this setCustomImage(string $customImage)
  */
 class Push_Model_Message extends Core_Model_Default
 {
@@ -496,12 +504,21 @@ class Push_Model_Message extends Core_Model_Default
         }
     }
 
+    /**
+     * @return string
+     */
     public function getCoverUrl()
     {
-        $cover_path = Application_Model_Application::getImagePath() . $this->getCover();
-        $base_cover_path = Application_Model_Application::getBaseImagePath() . $this->getCover();
-        if ($this->getCover() AND file_exists($base_cover_path)) {
-            return $cover_path;
+        $cover = $this->getCover();
+        $coverPath = Application_Model_Application::getImagePath() . $this->getCover();
+        $baseCoverPath = Application_Model_Application::getBaseImagePath() . $this->getCover();
+        if (strpos($cover, '/images/assets') === 0 &&
+            is_file(Core_Model_Directory::getBasePathTo($cover))) {
+            return $cover;
+        }
+
+        if ($this->getCover() AND file_exists($baseCoverPath)) {
+            return $coverPath;
         }
         return '';
     }

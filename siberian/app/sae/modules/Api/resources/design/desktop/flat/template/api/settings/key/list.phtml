@@ -1,5 +1,7 @@
-<?php $api_provider = new Api_Model_Provider(); ?>
-<?php $api_providers = $api_provider->findAll(); ?>
+<?php
+$apiProviders = (new Api_Model_Provider())
+    ->findAll();
+?>
 <div class="application_settings application">
     <div class="application_header app_name">
         <?php echo $this->getPartialHtml('customization_header'); ?>
@@ -30,9 +32,6 @@
                            <input type="text" id="<?php echo $key->getKey() ?>" name="value" class="save_data input" value="<?php echo $key->getValue() ?>" />
                            <input type="hidden" name="key_id" value="<?php echo $key->getId() ?>" />
                        </td>
-<!--                       <td>
-                           <img src="<?php echo $this->getImage('customization/ajax/spinner.gif'); ?>" id="loader_<?php echo $api_provider->getCode() ?>_<?php echo $key->getKey() ?>" class="loader_url" alt="Loading" title="Loading" width="24" style="display:none;" />
-                       </td>-->
                     </tr>
                     <?php endforeach; ?>
                 </table>

@@ -584,3 +584,39 @@ function img_to_base64($path)
 
     return $base64;
 }
+
+/**
+ * @param $base64
+ * @param $path
+ * @return mixed
+ * @throws Exception
+ */
+function base64imageToFile ($base64, $path)
+{
+    try {
+        $parts = explode(',', $base64);
+        $specs = $parts[0];
+        $image = $parts[1];
+        $specParts = explode(';', $specs);
+        switch ($specParts[0]) {
+            case 'data:image/png':
+                    $type = 'png';
+                break;
+            case 'data:image/jpeg':
+            case 'data:image/jpg':
+                    $type = 'jpg';
+                break;
+            default:
+                throw new \Exception('Unsupported file format, only png or jpg are allowed!');
+        }
+
+        // Save image to file
+        $imagePath = sprintf("%s.%s", $path, $type);
+        file_put_contents($imagePath, base64_decode($image));
+
+    } catch (Exception $e) {
+        throw $e;
+    }
+
+    return $imagePath;
+}

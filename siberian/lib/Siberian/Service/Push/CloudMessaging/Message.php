@@ -122,6 +122,11 @@ class Message extends BaseMessage
      */
     public function setCover($sCover, $sPicture, $sSummaryText)
     {
+        print_r([
+            '$sCover' => $sCover,
+            '$sPicture' => $sPicture,
+            '$sSummaryText' => $sSummaryText,
+        ]);
         if (!empty($sCover)) {
             $this->addData("cover", $sCover);
 

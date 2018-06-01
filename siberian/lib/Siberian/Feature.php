@@ -11,6 +11,8 @@
 
 class Siberian_Feature
 {
+    const PATH_ASSETS = '/images/assets';
+
     /**
      * @var array
      */
@@ -389,6 +391,35 @@ class Siberian_Feature
         }
 
         return $path;
+    }
+
+    /**
+     * Move a tmp file into the assets folder!
+     *
+     * @param $tmpPath
+     * @return string
+     * @throws \Siberian\Exception
+     */
+    public static function moveAsset($tmpPath)
+    {
+        $filename = pathinfo($tmpPath, PATHINFO_BASENAME);
+
+        // Create a folder for each year-month to spread assets accross time
+        $monthFolder = sprintf("%s/%s", self::PATH_ASSETS, date('Y-m'));
+        $monthFolderAbs = Core_Model_Directory::getBasePathTo($monthFolder);
+        if (!is_dir($monthFolderAbs)) {
+            mkdir($monthFolderAbs, 0777, true);
+        }
+
+        $destination = sprintf("%s/%s", $monthFolderAbs, $filename);
+        $source = sprintf("%s/%s", Core_Model_Directory::getTmpDirectory(true), $filename);
+
+        if (!copy($source, $destination)) {
+            throw new \Siberian\Exception('#343-20: ' .
+                __('An error occurred while saving your picture. Please try again later.'));
+        }
+
+        return sprintf("%s/%s", $monthFolder, $filename);
     }
 
     /**

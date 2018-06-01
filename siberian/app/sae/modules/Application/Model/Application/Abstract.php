@@ -13,7 +13,6 @@
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
-
     const PATH_IMAGE = '/images/application';
     const PATH_TEMPLATES = '/images/templates';
     const OVERVIEW_PATH = 'overview';
@@ -834,26 +833,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $qrcode->getImage($this->getName(), $url, $params);
     }
 
+    /**
+     * @return string
+     */
     public static function getImagePath()
     {
         return Core_Model_Directory::getPathTo(static::PATH_IMAGE);
     }
 
+    /**
+     * @return string
+     */
     public static function getBaseImagePath()
     {
         return Core_Model_Directory::getBasePathTo(static::PATH_IMAGE);
     }
 
+    /**
+     * @return string
+     */
     public static function getTemplatePath()
     {
         return Core_Model_Directory::getPathTo(self::PATH_TEMPLATES);
     }
 
+    /**
+     * @return string
+     */
     public static function getBaseTemplatePath()
     {
         return Core_Model_Directory::getBasePathTo(self::PATH_TEMPLATES);
     }
 
+    /**
+     * @return array
+     */
     public static function getDesignCodes()
     {
         return [
@@ -862,6 +876,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         ];
     }
 
+    /**
+     * @param $code
+     * @return bool
+     */
     public static function hasModuleInstalled($code)
     {
         $module = new Installer_Model_Installer_Module();
@@ -870,6 +888,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $module->isInstalled();
     }
 
+    /**
+     * @return string
+     */
     public function getLogo()
     {
         $logo = self::getImagePath() . $this->getData('logo');
@@ -881,6 +902,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return self::getImagePath() . '/placeholder/no-image.png';
     }
 
+    /**
+     * @param null $size
+     * @param null $name
+     * @param bool $base
+     * @return string
+     */
     public function getIcon($size = null, $name = null, $base = false)
     {
 
@@ -911,6 +938,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $newIcon->getUrl($base);
     }
 
+    /**
+     * @param null $size
+     * @return string
+     */
     public function getIconUrl($size = null)
     {
         $icon = $this->getIcon($size);
@@ -918,6 +949,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return Core_Model_Url::create() . $icon;
     }
 
+    /**
+     * @return array
+     */
     public function getAllPictos()
     {
         $picto_urls = [];

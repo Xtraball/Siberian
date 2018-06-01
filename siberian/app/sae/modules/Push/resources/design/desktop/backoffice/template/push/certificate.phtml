@@ -1,3 +1,12 @@
+<?php
+// Show deprecated GCM settings for Siberian before 4.14.0!
+$pre414 = false;
+$installationVersion = __get('installation_version');
+if (empty($installationVersion)) {
+    $pre414 = true;
+}
+?>
+
 <sb-section title="'<?php echo __js('Firebase Cloud Messaging', "'") ?>'">
     <form ng-submit="saveFirebaseCredentials()"
           autocomplete="off">
@@ -78,7 +87,7 @@
     </form>
 </sb-section>
 
-
+<?php if ($pre414): ?>
 <form ng-submit="saveKeys()">
     <sb-section title="'<?php echo __js('Google Cloud Messaging (GCM, Deprecated)', "'") ?>'">
         <div class="form-group">
@@ -113,3 +122,4 @@
             <div class="clear"></div>
     </sb-section>
 </form>
+<?php endif; ?>

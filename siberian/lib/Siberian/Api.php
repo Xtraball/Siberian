@@ -16,28 +16,28 @@ class Siberian_Api
      * @var array
      */
     public static $acl_keys = [
-        "application" => [
-            "create" => "Create",
-            "update" => "Update",
-            "add" => "Grant user",
-            "remove" => "Revoke user",
+        'application' => [
+            'create' => 'Create',
+            'update' => 'Update',
+            'add' => 'Grant user',
+            'remove' => 'Revoke user',
         ],
-        "user" => [
-            "exist" => "Exists",
-            "authenticate" => "Authenticate",
-            "create" => "Create",
-            "update" => "Update",
-            "forgotpassword" => "Forgot password",
+        'user' => [
+            'exist' => 'Exists',
+            'authenticate' => 'Authenticate',
+            'create' => 'Create',
+            'update' => 'Update',
+            'forgotpassword' => 'Forgot password',
         ],
-        "backoffice" => [
-            "manifest" => "Rebuild manifest",
-            "cleartmp" => "Clear temp",
-            "clearcache" => "Clear cache",
-            "clearlogs" => "Clear logs",
+        'backoffice' => [
+            'manifest' => 'Rebuild manifest',
+            'cleartmp' => 'Clear temp',
+            'clearcache' => 'Clear cache',
+            'clearlogs' => 'Clear logs',
         ],
-        "push" => [
-            "list" => "List available applications",
-            "send" => "Send global push notifications",
+        'push' => [
+            'list' => 'List available applications',
+            'send' => 'Send global push notifications',
         ],
     ];
 
@@ -45,10 +45,10 @@ class Siberian_Api
      * @var array
      */
     public static $protected_keys = [
-        "application" => "Applications",
-        "user" => "Users",
-        "backoffice" => "Backoffice options",
-        "push" => "Push notifications",
+        'application' => 'Applications',
+        'user' => 'Users',
+        'backoffice' => 'Backoffice options',
+        'push' => 'Push notifications',
     ];
 
     /**

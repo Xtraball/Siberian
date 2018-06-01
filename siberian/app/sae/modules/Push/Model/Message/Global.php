@@ -2,6 +2,16 @@
 
 /**
  * Class Push_Model_Message_Global
+ *
+ * @method integer getId()
+ * @method array getTargetDevices()
+ * @method $this setSendToAll(boolean $sendToAll)
+ * @method $this setTargetApps(string $targetApps)
+ * @method $this setTargetDevices(array $targetDevices)
+ * @method $this setCover(string $cover)
+ * @method $this setUrl(string $url)
+ * @method string getTargetApps()
+ * @method boolean getSendToAll()
  */
 class Push_Model_Message_Global extends Core_Model_Default
 {
@@ -22,14 +32,15 @@ class Push_Model_Message_Global extends Core_Model_Default
      */
     public function createInstance($params, $backoffice = false)
     {
-
-        $this->setTitle($params["title"]);
-        $this->setMessage($params["message"]);
-        $this->setSendToAll(!!$params["send_to_all"]);
-        $this->setTargetApps(Siberian_Json::encode($params["checked"]));
-        $this->setTargetDevices($params["devices"]);
-        if (!!$params["open_url"]) {
-            $this->setUrl($params["url"]);
+        $this->setTitle($params['title']);
+        $this->setMessage($params['message']);
+        $this->setSendToAll(filter_var($params['send_to_all'], FILTER_VALIDATE_BOOLEAN));
+        $this->setTargetApps(Siberian_Json::encode($params['checked']));
+        $this->setTargetDevices($params['devices']);
+        $this->setData('base_url', $params['base_url']);
+        $this->setCover($params['cover']);
+        if (filter_var($params['open_url'], FILTER_VALIDATE_BOOLEAN)) {
+            $this->setUrl($params['url']);
         }
 
         $applications = Siberian_Json::decode($this->getTargetApps());
@@ -43,7 +54,7 @@ class Push_Model_Message_Global extends Core_Model_Default
             )->toArray();
 
             $filtered = array_map(function ($app) {
-                return $app["app_id"];
+                return $app['app_id'];
             }, $all_for_admin);
 
             // We keep only apps that belongs to the admin!
@@ -59,7 +70,7 @@ class Push_Model_Message_Global extends Core_Model_Default
                     $this->getSession()->getAdminId()
                 )->toArray();
                 $filtered = array_map(function ($app) {
-                    return $app["app_id"];
+                    return $app['app_id'];
                 }, $all_for_admin);
                 $applications = array_intersect($applications, $filtered);
             }
@@ -72,39 +83,39 @@ class Push_Model_Message_Global extends Core_Model_Default
                 foreach ($applications as $application_id) {
                     $application_id = intval($application_id);
 
-                    $push_message = new Push_Model_Message();
+                    $pushMessage = new Push_Model_Message();
+                    $pushMessage->setMessageGlobalId($this->getId());
+                    $pushMessage->setTargetDevices($this->getTargetDevices());
+                    $pushMessage->setAppId($application_id);
+                    $pushMessage->setSendToAll(true);
+                    $pushMessage->setTitle($this->getTitle());
+                    $pushMessage->setText($this->getMessage());
+                    $pushMessage->setSendUntil(null);
+                    $pushMessage->setData('base_url', $params['base_url']);
 
-                    $push_message->setMessageGlobalId($this->getId());
-                    $push_message->setTargetDevices($this->getTargetDevices());
-                    $push_message->setAppId($application_id);
-                    $push_message->setSendToAll(true);
-                    $push_message->setTitle($this->getTitle());
-                    $push_message->setText($this->getMessage());
-                    $push_message->setSendUntil(null);
-                    $push_message->setBaseUrl($params["base_url"]);
-
-                    if (!empty($this->getUrl())) {
-                        $url = file_get_contents("https://tinyurl.com/api-create.php?url=" . urlencode($this->getData("url")));
-                        $push_message->setActionValue($url);
+                    // Custom image!
+                    if (!empty($params['cover'])) {
+                        $pushMessage->setCover($params['cover']);
                     }
 
-                    $push_message->save();
+                    if (!empty($this->getUrl())) {
+                        $url = file_get_contents('https://tinyurl.com/api-create.php?url=' .
+                            urlencode($this->getData('url')));
+                        $pushMessage->setActionValue($url);
+                    }
+
+                    $pushMessage->save();
                 }
-
                 return true;
-
             } else {
-
                 return false;
             }
-
         } catch (Exception $e) {
-
+            echo $e->getMessage();
+            die;
             # Add a log.
-
             return false;
         }
-
     }
 
     /**

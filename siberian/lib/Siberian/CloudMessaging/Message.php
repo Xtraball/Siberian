@@ -276,6 +276,6 @@ class Message
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE_LOC_KEY] = $this->notification->getTitleLocKey();
         }
 
-        return json_encode($message);
+        return json_encode($message, JSON_UNESCAPED_SLASHES);
     }
 }
