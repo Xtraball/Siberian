@@ -56,6 +56,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
         Core_Model_Directory::setBasePath($base_path);
 
+        // include Stubs
+        require_once Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
+
         $path = '';
         if (isset($_SERVER['SCRIPT_NAME'])) {
             $path = $_SERVER['SCRIPT_NAME'];
