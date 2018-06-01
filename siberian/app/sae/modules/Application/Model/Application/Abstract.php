@@ -32,16 +32,15 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         'ion-arrow-left-c',
         'ion-arrow-return-left',
         'ion-chevron-left',
-        'ion-home',
         'ion-ios-arrow-back',
         'ion-ios-arrow-left',
         'ion-ios-arrow-thin-left',
-        'ion-ios-home-outline',
-        'ion-ios-home',
         'ion-ios-undo-outline',
         'ion-ios-undo',
         'ion-reply',
-        'ion-ios-arrow-back',
+        'ion-home',
+        'ion-ios-home-outline',
+        'ion-ios-home',
     ];
 
     protected $_startup_image;
