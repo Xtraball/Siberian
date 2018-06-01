@@ -24,9 +24,8 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                 // Test wp-json
                 try {
                     $urlParts = parse_url($form->getValue('url'));
-                    $url = $urlParts['scheme'] . '://' . $urlParts['host'] . '/wp-json/';
+                    $url = $urlParts['scheme'] . '://' . $urlParts['host'] . $urlParts['path'] . '/wp-json/';
                     $response = Siberian_Request::get($url);
-
                     if (Siberian_Request::$statusCode != 200) {
                         throw new Siberian_Exception(__('Unable to find your WordPress or /wp-json/ endpoint.'));
                     }

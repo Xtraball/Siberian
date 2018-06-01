@@ -3,7 +3,8 @@
 /**
  * Class Folder2_ApplicationController
  */
-class Folder2_ApplicationController extends Application_Controller_Default {
+class Folder2_ApplicationController extends Application_Controller_Default
+{
 
     /**
      * @var array
@@ -49,7 +50,8 @@ class Folder2_ApplicationController extends Application_Controller_Default {
     /**
      * Load folder form
      */
-    public function loadformAction() {
+    public function loadformAction()
+    {
         $request = $this->getRequest();
         $actionName = $request->getParam('actionName');
         $categoryId = $request->getParam('categoryId');
@@ -58,52 +60,52 @@ class Folder2_ApplicationController extends Application_Controller_Default {
 
         switch ($actionName) {
             case 'edit':
-                    $folder = (new Folder2_Model_Category())
-                        ->find($categoryId);
-                    if ($folder->getId()) {
-                        $form = new Folder2_Form_Category();
-                        $form->getElement('form_header')
-                            ->setValue('<h4 class="folder-form-title">' . __('Edit folder') . '</h4>');
-                        $form->getElement('title')->setAttrib('rel', $categoryId);
-                        $form->populate($folder->getData());
-
-                        $payload = [
-                            'success' => true,
-                            'form' => $form->render(),
-                            'categoryId' => $categoryId,
-                            'message' => __('Success.'),
-                        ];
-                    } else {
-                        $payload = [
-                            'error' => true,
-                            'message' => __('The folder/category you are trying to edit doesn\'t exists..'),
-                        ];
-                    }
-                break;
-            default:
-            case 'create':
-                    $position = (new Folder2_Model_Category())
-                        ->getNextCategoryPosition($parentId);
-
-                    $folder = new Folder2_Model_Category();
-                    $folder
-                        ->setTitle(__('New subfolder'))
-                        ->setTypeId('folder')
-                        ->setValueId($valueId)
-                        ->setPos($position)
-                        ->setParentId($parentId)
-                        ->save();
-
-                    $folder->setDefaultImages($this->getCurrentOptionValue());
-
+                $folder = (new Folder2_Model_Category())
+                    ->find($categoryId);
+                if ($folder->getId()) {
                     $form = new Folder2_Form_Category();
                     $form->getElement('form_header')
                         ->setValue('<h4 class="folder-form-title">' . __('Edit folder') . '</h4>');
-                    $form->getElement('title')->setAttrib('rel', $folder->getId());
+                    $form->getElement('title')->setAttrib('rel', $categoryId);
                     $form->populate($folder->getData());
 
-                    $categoryId = $folder->getId();
-                    $placeholder = '
+                    $payload = [
+                        'success' => true,
+                        'form' => $form->render(),
+                        'categoryId' => $categoryId,
+                        'message' => __('Success.'),
+                    ];
+                } else {
+                    $payload = [
+                        'error' => true,
+                        'message' => __('The folder/category you are trying to edit doesn\'t exists..'),
+                    ];
+                }
+                break;
+            default:
+            case 'create':
+                $position = (new Folder2_Model_Category())
+                    ->getNextCategoryPosition($parentId);
+
+                $folder = new Folder2_Model_Category();
+                $folder
+                    ->setTitle(__('New subfolder'))
+                    ->setTypeId('folder')
+                    ->setValueId($valueId)
+                    ->setPos($position)
+                    ->setParentId($parentId)
+                    ->save();
+
+                $folder->setDefaultImages($this->getCurrentOptionValue());
+
+                $form = new Folder2_Form_Category();
+                $form->getElement('form_header')
+                    ->setValue('<h4 class="folder-form-title">' . __('Edit folder') . '</h4>');
+                $form->getElement('title')->setAttrib('rel', $folder->getId());
+                $form->populate($folder->getData());
+
+                $categoryId = $folder->getId();
+                $placeholder = '
                     <li class="folder-sortable"
                         parentId="' . $parentId . '"
                         rel="' . $categoryId . '">
@@ -120,20 +122,21 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                         <span>
                     </li>';
 
-                    $payload = [
-                        'success' => true,
-                        'form' => $form->render(),
-                        'placeholder' => $placeholder,
-                        'categoryId' => $categoryId,
-                        'message' => __('Success.'),
-                    ];
+                $payload = [
+                    'success' => true,
+                    'form' => $form->render(),
+                    'placeholder' => $placeholder,
+                    'categoryId' => $categoryId,
+                    'message' => __('Success.'),
+                ];
                 break;
         }
 
         $this->_sendJson($payload);
     }
 
-    public function updatepositionsAction() {
+    public function updatepositionsAction()
+    {
         $request = $this->getRequest();
         $positions = $request->getParam('positions');
 
@@ -171,7 +174,7 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                     'message' => __('Folder not found!')
                 ];
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -185,7 +188,8 @@ class Folder2_ApplicationController extends Application_Controller_Default {
     /**
      * Simple edit post, validator
      */
-    public function editpostAction() {
+    public function editpostAction()
+    {
         $values = $this->getRequest()->getPost();
 
         try {
@@ -256,7 +260,8 @@ class Folder2_ApplicationController extends Application_Controller_Default {
     /**
      * Simple edit settings, validator
      */
-    public function editsettingsAction() {
+    public function editsettingsAction()
+    {
         $values = $this->getRequest()->getPost();
 
         try {
@@ -299,7 +304,8 @@ class Folder2_ApplicationController extends Application_Controller_Default {
     /**
      * Attach a feature to the given subfolder (category)
      */
-    public function addfeatureAction() {
+    public function addfeatureAction()
+    {
         $request = $this->getRequest();
 
         try {
@@ -348,7 +354,7 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                 'message' => __("Feature successfully added inside folder!")
             ];
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -361,13 +367,15 @@ class Folder2_ApplicationController extends Application_Controller_Default {
     /**
      *
      */
-    public function deleteAction() {
+    public function deleteAction()
+    {
         $request = $this->getRequest();
 
         /**
          * @param $categoryId
          */
-        function extractOptions($categoryId) {
+        function extractOptions($categoryId)
+        {
             $options = (new Application_Model_Option_Value())
                 ->findAll([
                     'folder_category_id = ?' => $categoryId
@@ -384,7 +392,8 @@ class Folder2_ApplicationController extends Application_Controller_Default {
         /**
          * @param $parentId
          */
-        function recursiveDelete($parentId) {
+        function recursiveDelete($parentId)
+        {
             // First extract options from folder
             extractOptions($parentId);
             // Find childrens and loop
@@ -412,7 +421,7 @@ class Folder2_ApplicationController extends Application_Controller_Default {
                 'message' => __("The folder & it's sub-folders have been removed!")
             ];
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()

@@ -15,6 +15,7 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
         showSearch: false,
         searchIndex: [],
         cardDesign: false,
+        allowLineReturn: false,
         imagePath: function (path) {
             return IMAGE_URL + path;
         }
@@ -38,6 +39,7 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
         Folder2.findAll()
             .then(function () {
                 $scope.cardDesign = Folder2.cardDesign;
+                $scope.allowLineReturn = Folder2.allowLineReturn;
                 $scope.showSearch = Folder2.showSearch;
                 $scope.searchIndex = Folder2.searchIndex;
 
