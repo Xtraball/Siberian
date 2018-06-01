@@ -1060,6 +1060,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $instagram_client_id;
     }
 
+    /**
+     * @return array|mixed|null|string
+     */
     public function getInstagramToken()
     {
 
@@ -1072,50 +1075,88 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $instagram_token;
     }
 
+    /**
+     * @param $positions
+     * @return $this
+     */
     public function updateOptionValuesPosition($positions)
     {
         $this->getTable()->updateOptionValuesPosition($positions);
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function subscriptionIsActive()
     {
         if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->isActive();
     }
 
+    /**
+     * @return bool
+     */
     public function subscriptionIsOffline()
     {
         if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->getPaymentMethod() == "offline";
     }
 
+    /**
+     * @return bool
+     */
     public function subscriptionIsDeleted()
     {
         if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->getIsSubscriptionDeleted();
     }
 
+    /**
+     * @param $check_sources_access_type
+     * @return array
+     */
     public function isAvailableForPublishing($check_sources_access_type)
     {
         $errors = [];
-        if ($this->getPages()->count() < 3) $errors[] = __("At least, 4 pages in the application");
-        if (!$this->getData('background_image')) $errors[] = __("The homepage image");
-        if (!$this->getStartupImage()) $errors[] = __("The startup image");
-        if (!$this->getData('icon')) $errors[] = __("The desktop icon");
-        if (!$this->getName()) $errors[] = __("The application name");
+        if ($this->getPages()->count() < 1) {
+            $errors[] = __("At least, 1 page in the application");
+        }
+        if (!$this->getData('background_image')) {
+            $errors[] = __("The homepage image");
+        }
+        if (!$this->getStartupImage()) {
+            $errors[] = __("The startup image");
+        }
+        if (!$this->getData('icon')) {
+            $errors[] = __("The desktop icon");
+        }
+        if (!$this->getName()) {
+            $errors[] = __("The application name");
+        }
         if ($check_sources_access_type) {
             if (!$this->getBundleId()) $errors[] = __("The bundle id");
         } else {
-            if (!$this->getDescription()) $errors[] = __("The description");
-            else if (strlen($this->getDescription()) < 200) $errors[] = __("At least 200 characters in the description");
-            if (!$this->getKeywords()) $errors[] = __("The keywords");
-            if (!$this->getMainCategoryId()) $errors[] = __("The main category");
+            if (!$this->getDescription()) {
+                $errors[] = __("The description");
+            } else if (strlen($this->getDescription()) < 200) {
+                $errors[] = __("At least 200 characters in the description");
+            }
+            if (!$this->getKeywords()) {
+                $errors[] = __("The keywords");
+            }
+            if (!$this->getMainCategoryId()) {
+                $errors[] = __("The main category");
+            }
         }
 
         return $errors;
     }
 
+    /**
+     * @return bool
+     * @throws Zend_Date_Exception
+     */
     public function isFreeTrialExpired()
     {
         if (Siberian_Version::TYPE != "PE") return false;
@@ -1130,6 +1171,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $diff > 0;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getBackgroundImageUrl($type = 'normal')
     {
 
@@ -1159,6 +1204,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $backgroundImage;
     }
 
+    /**
+     * @param string $type
+     * @param bool $return
+     * @return string
+     */
     public function getHomepageBackgroundImageUrl($type = '', $return = false)
     {
 
@@ -1217,6 +1267,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $image;
     }
 
+    /**
+     * @return array
+     */
     public function getSliderImages()
     {
 
@@ -1232,6 +1285,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $images;
     }
 
+    /**
+     * @param string $type
+     * @return string
+     */
     public function getNoBackgroundImageUrl($type = 'standard')
     {
 
@@ -1251,6 +1308,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return self::getImagePath() . "/placeholder/$image_name";
     }
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @param bool $forceKey
+     * @return array|mixed|string
+     */
     public function getUrl($url = '', array $params = [], $locale = null, $forceKey = false)
     {
 
@@ -1284,9 +1348,15 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @param bool $forceKey
+     * @return array|mixed|string
+     */
     public function getIonicUrl($url = '', array $params = [], $locale = null, $forceKey = false)
     {
-
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $params["use_ionic"] = true;
 
@@ -1304,9 +1374,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $url;
     }
 
+    /**
+     * @param string $uri
+     * @param array $params
+     * @param null $locale
+     * @return array|mixed|string
+     */
     public function getPath($uri = '', array $params = [], $locale = null)
     {
-
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $useKey = (bool)$request->useApplicationKey();
         $request->useApplicationKey(true);
@@ -1320,16 +1395,26 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @return string
+     */
     public static function getIonicPath()
     {
         return trim(Core_Model_Directory::getPathTo(self::PATH_TO_SOURCE_CODE), "/");
     }
 
+    /**
+     * @return array|mixed|null|string
+     */
     public function requireToBeLoggedIn()
     {
         return $this->getData('require_to_be_logged_in');
     }
 
+    /**
+     * @return $this
+     * @throws Siberian_Exception
+     */
     public function duplicate()
     {
 
@@ -1463,18 +1548,26 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @var null
+     */
     public static $singleton = null;
 
+    /**
+     * @param $application
+     */
     public static function setSingleton($application)
     {
         self::$singleton = $application;
     }
 
+    /**
+     * @return null
+     */
     public static function getSingleton()
     {
         return self::$singleton;
     }
-
 
     /**
      * @param bool $base64
