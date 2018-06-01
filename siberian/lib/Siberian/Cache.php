@@ -92,7 +92,7 @@ class Siberian_Cache
     public static function run()
     {
         static::preWalk();
-        self::walk();
+        static::walk();
         static::postWalk();
     }
 
