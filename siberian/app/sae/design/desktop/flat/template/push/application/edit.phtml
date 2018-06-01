@@ -23,7 +23,10 @@ if (Push_Model_Message::hasIndividualPush()){
 $api = Api_Model_Key::findKeysFor("googlemaps");
 $googlemaps_key = $api->getSecretKey();
 
-$enable_android = !empty(Push_Model_Certificate::getAndroidSenderId());
+$credentials = (new Push_Model_Firebase())
+    ->find(0, 'admin_id');
+
+$enable_android = !empty($credentials->getServerKey());
 $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
 
 ?>
@@ -291,7 +294,7 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                         <?php if($enable_android && $enable_ios): ?>
                                             <option value="all"><?php echo __("iOS & Android") ?></option>
                                         <?php else: ?>
-                                            <option value="all" disabled="disabled"><?php echo __("iOS & Android (You must set both a GCM Key & upload a Push Certificate for the Application)") ?></option>
+                                            <option value="all" disabled="disabled"><?php echo __("iOS & Android (You must set both a Firebase Key & upload a Push Certificate for the Application)") ?></option>
                                         <?php endif; ?>
 
                                         <?php if($enable_ios): ?>
@@ -303,7 +306,7 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                         <?php if($enable_android): ?>
                                             <option value="android"><?php echo __("Android only") ?></option>
                                         <?php else: ?>
-                                            <option value="android" disabled="disabled"><?php echo __("Android only (You must set a GCM Key)") ?></option>
+                                            <option value="android" disabled="disabled"><?php echo __("Android only (You must set a Firebase Key)") ?></option>
                                         <?php endif; ?>
                                     </select>
                                 </label>
