@@ -164,17 +164,6 @@ class Api
     }
 
     /**
-     * @param $projectNumber
-     * @return mixed
-     */
-    public function fetchServerKey ($projectNumber)
-    {
-        $result = $this->getProjectSettings($projectNumber);
-
-        return $result;
-    }
-
-    /**
      * @return array
      * @throws \Siberian_Exception
      */

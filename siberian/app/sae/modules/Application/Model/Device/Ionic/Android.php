@@ -14,12 +14,12 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     /**
      * @var string
      */
-	const BACKWARD_ANDROID = "/var/apps/android";
+    const BACKWARD_ANDROID = "/var/apps/android";
 
     /**
      * @var string
      */
-	const IONIC_FOLDER = "/var/apps/ionic";
+    const IONIC_FOLDER = "/var/apps/ionic";
 
     /**
      * @var string
@@ -242,7 +242,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
         if (empty($passwords['alias'])) {
             $alias = Core_Model_Lib_String::format($this->app->getName(), true);
-            if(!$alias) $alias = $this->app->getId();
+            if (!$alias) $alias = $this->app->getId();
 
             $device->setAlias($alias);
             $passwords['alias'] = $alias;
@@ -341,7 +341,7 @@ var IMAGE_URL = DOMAIN + '/';";
     /**
      *
      */
-    protected function _copyGoogleService ()
+    protected function _copyGoogleService()
     {
         $device = $this->getDevice();
         $jsonConfig = $device->getData('google_services');
@@ -358,7 +358,7 @@ var IMAGE_URL = DOMAIN + '/';";
 
         $file_content = "
 /** Auto-generated languages.js */
-var AVAILABLE_LANGUAGES = new Array('".implode("','", $languages)."');
+var AVAILABLE_LANGUAGES = new Array('" . implode("','", $languages) . "');
 
 /**
  * Find navigator preferred language
@@ -378,7 +378,7 @@ if(navigator.language) {
     }
 }";
 
-        file_put_contents($this->_dest_source."/app/src/main/assets/www/js/utils/languages.js", $file_content);
+        file_put_contents($this->_dest_source . "/app/src/main/assets/www/js/utils/languages.js", $file_content);
     }
 
     /**
@@ -393,7 +393,7 @@ if(navigator.language) {
 
         $replacements = ["<string name=\"google_app_id\">01234567890</string>" => $googleappid];
 
-        $this->__replace($replacements, $this->_dest_source_res."/values/strings.xml");
+        $this->__replace($replacements, $this->_dest_source_res . "/values/strings.xml");
     }
 
     /**
@@ -402,30 +402,31 @@ if(navigator.language) {
      * @throws Exception
      * @throws Zend_Exception
      */
-    protected function _generateApk($cron = false) {
+    protected function _generateApk($cron = false)
+    {
 
-    	/** Fetching vars. */
-    	$output = [];
+        /** Fetching vars. */
+        $output = [];
 
         /** Needed for build permissions etc ... */
         exec("chmod -R 777 {$this->_dest_source}");
 
         /** Setting up Android SDK */
         $ionic_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER);
-        $tools_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools");
-        $android_sdk_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/android-sdk");
-        $keystore_folder = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID."/keystore");
-        $var_log = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER."/log");
+        $tools_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools");
+        $android_sdk_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/android-sdk");
+        $keystore_folder = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . "/keystore");
+        $var_log = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER . "/log");
         $var_path = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER);
-        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/gradle");
+        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/gradle");
 
 
         /** Damn licenses */
-        $licenses_folder = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/android-sdk/licenses");
-        if(!file_exists($licenses_folder)) {
+        $licenses_folder = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/android-sdk/licenses");
+        if (!file_exists($licenses_folder)) {
             mkdir($licenses_folder, 0777, true);
         }
-        if(!file_exists($licenses_folder . "/android-sdk-license")) {
+        if (!file_exists($licenses_folder . "/android-sdk-license")) {
             file_put_contents($licenses_folder . "/android-sdk-license", "\n8933bad161af4178b1185d1a37fbf41ea5269c55");
             chmod($licenses_folder . "/android-sdk-license", 0777);
         }
@@ -435,42 +436,41 @@ if(navigator.language) {
 
         /** Checking write permissions */
         $files_to_test = [$ionic_path, $tools_path, $keystore_folder];
-        foreach($files_to_test as $file) {
-            if(file_exists($file)) {
-                if(!is_writable($file) && chmod($file, 0777) === false) {
+        foreach ($files_to_test as $file) {
+            if (file_exists($file)) {
+                if (!is_writable($file) && chmod($file, 0777) === false) {
                     $output[] = "Folder is not writable {$file}";
                     $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
                 }
-            }
-            else {
+            } else {
                 mkdir($file, 0777, true);
             }
         }
 
-    	$alias = $this->getDevice()->getAlias();
-    	$app_id = $this->app->getId();
+        $alias = $this->getDevice()->getAlias();
+        $app_id = $this->app->getId();
 
-    	$store_password = $this->getDevice()->getStorePass();
-    	$key_password = $this->getDevice()->getKeyPass();
+        $store_password = $this->getDevice()->getStorePass();
+        $key_password = $this->getDevice()->getKeyPass();
 
-    	// Generating Keystore!
+        // Generating Keystore!
         $keystore_filename = "{$app_id}.pks";
-    	$keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystore_filename);
-    	if (!file_exists($keystore_path)) {
-    		// Sanitize organization name, or default if empty!
-    		$organization = preg_replace('/[,\s\']+/', ' ', System_Model_Config::getValueFor('company_name'));
-    		if (!$organization) {
-    			$organization = 'Default';
-    		}
+        $keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystore_filename);
+        if (!file_exists($keystore_path)) {
+            // Sanitize organization name, or default if empty!
+            $organization = preg_replace('/[,\s\']+/', ' ', System_Model_Config::getValueFor('company_name'));
+            if (!$organization) {
+                $organization = 'Default';
+            }
 
-    		$keytool = Core_Model_Directory::getBasePathTo('app/sae/modules/Application/Model/Device/Ionic/bin/helper');
+            $keytool = Core_Model_Directory::getBasePathTo('app/sae/modules/Application/Model/Device/Ionic/bin/helper');
 
-    		chmod($keytool, 0777);
-    		exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
+            chmod($keytool, 0777);
+            exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
 
-    		// Copy PKS with a uniqid/date somewhere else!
-    		copy($keystore_path, str_replace('.pks', date('d-m-Y') . '-' . uniqid() . '.pks', $keystore_path));
-    	}
+            // Copy PKS with a uniqid/date somewhere else!
+            copy($keystore_path, str_replace('.pks', date('d-m-Y') . '-' . uniqid() . '.pks', $keystore_path));
+        }
         // Copy the keystore locally!
         copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
 
@@ -481,8 +481,8 @@ if(navigator.language) {
             $this->getDevice()->setPks(bin2hex($pks_content))->save();
         }
 
-    	// Gradle configuration!
-    	$gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
+        // Gradle configuration!
+        $gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
         /** Adding a call to the sdk-updater.php at the gradlew top */
         $search = "DEFAULT_JVM_OPTS=\"\"";
@@ -497,14 +497,16 @@ DEFAULT_JVM_OPTS=\"\"
 
         $this->__replace([$search => $replace], $gradlew_path);
 
-		$android_sdk = "sdk.dir={$android_sdk_path}";
+        $android_sdk = "sdk.dir={$android_sdk_path}";
 
-		$local_properties_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/local.properties");
-		file_put_contents($local_properties_path, $android_sdk);
+        $local_properties_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/local.properties");
+        file_put_contents($local_properties_path, $android_sdk);
+        $local_properties_path_cordova = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/CordovaLib/local.properties");
+        file_put_contents($local_properties_path_cordova, $android_sdk);
 
-    	/** Signing informations */
+        /** Signing informations */
         $release_signing_gradle_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
-    	$signing = "keyAlias={$alias}
+        $signing = "keyAlias={$alias}
 keyPassword={$key_password}
 storeFile={$keystore_filename}
 storePassword={$store_password}";
@@ -512,14 +514,15 @@ storePassword={$store_password}";
         /** Controlling release signing. */
         file_put_contents($release_signing_gradle_path, $signing);
 
-    	/** Change current directory */
-		$project_source_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
-    	chdir($project_source_path);
+        /** Change current directory */
+        $project_source_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
+        chdir($project_source_path);
 
-    	/** Creating ENV PATH */
-		$gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER."/tools/gradle");
-    	putenv("GRADLE_USER_HOME={$gradle_path}");
-    	putenv("GRADLE_HOME={$gradle_path}");
+        /** Creating ENV PATH */
+        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/gradle");
+        putenv("GRADLE_USER_HOME={$gradle_path}");
+        putenv("GRADLE_HOME={$gradle_path}");
+        putenv("ANDROID_HOME={$android_sdk_path}");
 
         /** DEBUG OSX: it doesn't find "which java" with php, also the given path is generic and symlink to the latest version.  */
         $is_darwin = exec("uname");
@@ -530,9 +533,9 @@ storePassword={$store_password}";
             }
         }
 
-    	/** Executing gradlew */
-        $var_log = $var_log."/apk-build.log";
-        if(file_exists($var_log)) {
+        /** Executing gradlew */
+        $var_log = $var_log . "/apk-build.log";
+        if (file_exists($var_log)) {
             unlink($var_log);
         }
 
@@ -540,7 +543,7 @@ storePassword={$store_password}";
         $buildType = 'cdvBuildRelease';
         switch (System_Model_Config::getValueFor('apk_build_type')) {
             case 'debug':
-                    $buildType = 'cdvBuildDebug';
+                $buildType = 'cdvBuildDebug';
                 break;
             default:
                 $buildType = 'cdvBuildRelease';
@@ -548,13 +551,16 @@ storePassword={$store_password}";
 
         //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
         $db = Zend_Registry::get('db');
-        $db->closeConnection(); 
-    	exec("bash -l gradlew " . $buildType . " 2>&1", $output);
-        $db->getConnection(); 
+        $db->closeConnection();
 
+        $logFile = Core_Model_Directory::getBasePathTo('var/log/android-apk.log');
+        exec("bash -l gradlew " . $buildType . " 2>&1 | dd of=" . $logFile);
+        $db->getConnection();
+
+        $logContent = file_get_contents($logFile);
         if (!defined("CRON")) {
-            if (!in_array('BUILD SUCCESSFUL', $output)) {
-                $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
+            if (!preg_match('/BUILD SUCCESSFUL/sm', $logContent)) {
+                $this->_logger->sendException(print_r($logContent, true), "apk_generation_", false);
                 return false;
             }
             exit('Done ...');
@@ -564,28 +570,86 @@ storePassword={$store_password}";
             $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/{$this->_folder_name}-debug.apk";
 
             if (is_readable($apkBasePathRelease)) {
-                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-release.apk";
+                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-release.apk";
                 rename($apkBasePathRelease, $targetPath);
             } else if (is_readable($apkBasePathDebug)) {
-                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/")."{$this->_folder_name}-debug.apk";
+                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-debug.apk";
                 rename($apkBasePathDebug, $targetPath);
             }
 
             # Clean-up dest files.
-            $log_failed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
+            $logFailed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
             if (!$success) {
-                file_put_contents($log_failed, implode("\n", $output));
+                file_put_contents($logFailed, $logContent);
             }
 
             return [
                 'success' => $success,
-                'log' => $output,
+                'log' => $logContent,
                 'path' => is_readable($targetPath) ? $targetPath : false,
             ];
         }
 
+        //unlink($logFile);
+
     }
 
 
+}
 
+/**
+ * Class AwesomeOutput
+ */
+class AwesomeOutput implements ArrayAccess
+{
+    /**
+     * @var array
+     */
+    private $container = [];
+
+    /**
+     * AwesomeOutput constructor.
+     */
+    public function __construct() {}
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->container[] = $value;
+        } else {
+            $this->container[$offset] = $value;
+        }
+        // Live output array like object
+        file_put_contents('/tmp/debug.log', $value . PHP_EOL, FILE_APPEND);
+    }
+
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
+    public function offsetExists($offset)
+    {
+        return isset($this->container[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset)
+    {
+        unset($this->container[$offset]);
+    }
+
+    /**
+     * @param mixed $offset
+     * @return mixed|null
+     */
+    public function offsetGet($offset)
+    {
+        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+    }
 }
