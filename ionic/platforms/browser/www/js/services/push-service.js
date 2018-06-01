@@ -29,19 +29,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
     /**
      * Configure Push Service
      *
-     * @param senderID
      * @param iconColor
      */
-    service.configure = function (senderID, iconColor) {
-        // senderID error proof for Android!
-        if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
-            (senderID === '01234567890' || senderID ==='')) {
-            $log.debug('Invalid senderId: ' + senderID);
-            service.settings.android.senderID = null;
-        } else {
-            service.settings.android.senderID = senderID;
-        }
-
+    service.configure = function (iconColor) {
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
             $log.debug('Invalid iconColor: ' + iconColor);

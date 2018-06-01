@@ -63,6 +63,9 @@ angular.module('starter').provider('HomepageLayout', function () {
             var doClearHistory = false;
 
             // Clear history for side-menu feature!
+            console.log(Pages);
+            console.log(Pages.data);
+            console.log(Pages.data.layout);
             switch (Pages.data.layout.position) {
                 case 'left':
                 case 'right':
