@@ -58,6 +58,7 @@ file_put_contents($androidSdkPath . "/y.txt",
 lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
     '"build-tools;27.0.3" ' .
     '"platform-tools" ' .
+    '"tools" ' .
     '"platforms;android-27" ' .
     '"extras;android;m2repository" ' .
     '"extras;google;m2repository" ' .
