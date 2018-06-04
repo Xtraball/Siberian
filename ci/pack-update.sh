@@ -25,22 +25,33 @@ TEMPLATES=$ROOT"/ci/templates"
 ZIP_EXCLUDE="--exclude=*.DS_Store* --exclude=*.idea* --exclude=*.git* --exclude=*.localized*"
 
 # Clean up previous builds
+mkdir -p $BUILDS
 cd $BUILDS
 rm -rf *update*
 cd -
 rm -f $ROOT"/change.txt"
 rm -f $ROOT"/delete.txt"
-mkdir -p $BUILDS
 mkdir -p $BUILDS/update-package
 
 # Files to include (or not)
-git diff --name-status --relative=siberian/ $HASH_FROM $HASH_TO |grep "^\(M\|A\|R\|T\)" |cut -f 2 > $ROOT"/change.txt"
-git diff --name-status --relative=siberian/ $HASH_FROM $HASH_TO |grep "^D" |cut -f 2 > $ROOT"/delete.txt"
+git config diff.renameLimit 100000
+
+EXTRA_CHANGE=`cat $ROOT/ci/override/extra-change.txt`
+EXTRA_DELETE=`cat $ROOT/ci/override/extra-delete.txt`
+CHANGES=$ROOT"/change.txt"
+DELETES=$ROOT"/delete.txt"
+
+eval "git diff --name-status --diff-filter=MACT --relative=siberian/ $HASH_FROM $HASH_TO $EXTRA_CHANGE |cut -f 2 > $CHANGES"
+# For renamed files we take the second argument (new name)
+eval "git diff --name-status --diff-filter=R --relative=siberian/ $HASH_FROM $HASH_TO $EXTRA_CHANGE |cut -f 3 >> $CHANGES"
+# renamed old name have to be deleted
+eval "git diff --name-status --diff-filter=R --relative=siberian/ $HASH_FROM $HASH_TO |cut -f 2 >> $DELETES"
+eval "git diff --name-status --diff-filter=D --relative=siberian/ $HASH_FROM $HASH_TO |cut -f 2 >> $DELETES"
 
 # Force delete files
 if [ -f $ROOT"/ci/override/force-delete.txt" ]
 then
-    cat $ROOT"/ci/override/force-delete.txt" >> $ROOT"/delete.txt"
+    cat $ROOT"/ci/override/force-delete.txt" >> $DELETES
 fi
 
 # Add a line return otherwise the latest file will not be deleted
@@ -56,14 +67,38 @@ while read FILE; do
 done < $ROOT"/delete.txt"
 TODELETE=$(echo $TODELETE | sed -e 's/\//\\\//g' -e 's/\(,$\)//g')
 
+# package.json
+PACKAGE_SAE='{
+  "name": "Single App Edition",
+  "version": "'$RELEASE'",
+  "code": "",
+  "description": "<a href=\"https://updates02.siberiancms.com/release-notes/all/'$RELEASE'.html\" target=\"_blank\">Click here to see the release notes</a>",
+  "release_note": {
+    "url": "https://updates02.siberiancms.com/release-notes/all/'$RELEASE'.html",
+    "show": true,
+    "is_major": true
+  },
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "'$REQUIRED_VERSION'"
+    }
+  },
+  "files_to_delete": ['$TODELETE']
+}'
+
 # Building SAE - Update
 while read FILE; do
-  DIRNAME=$(dirname $SIBERIAN"/"$FILE)
+  TMP=$(printf %q "${FILE}");
+  DIRNAME=$(dirname $SIBERIAN"/"$TMP)
   BASEDIR=${DIRNAME/$SIBERIAN/}
   if [ ! -d $BUILDS"/update-package/"$BASEDIR ];then
     mkdir -p $BUILDS"/update-package/"$BASEDIR
   fi
-  cp $SIBERIAN"/"$FILE $BUILDS"/update-package/"$BASEDIR
+  SRC=$SIBERIAN"/"$TMP
+  DST=$BUILDS"/update-package/"$(printf %q "${BASEDIR}")
+  echo "cp $SRC $DST"
+  cp $SRC $DST
 done < $ROOT"/change.txt"
 
 php -f $REPO"/ci/scripts/manifest.php" sae $SIBERIAN"/" $BUILDS"/update-package/"
@@ -88,10 +123,16 @@ cat $TEMPLATES/package-update.json | \
     -e s/%REQUIRED_VERSION%/$REQUIRED_VERSION/g > $BUILDS/update-package/package.json
 # Dive into folder then zip
 cd $BUILDS/update-package/
+
+# Clean archives
+rm -f $BUILDS/update-mae/var/apps/ionic/android.tgz
+rm -f $BUILDS/update-mae/var/apps/ionic/ios.tgz
+rm -f $BUILDS/update-mae/var/apps/browser.tgz
+
 zip -r -9 $ZIP_EXCLUDE ../sae.update.$RELEASE.zip ./
 
 
 # Clean-up
-rm -rf $BUILDS/update-package
-rm -f $ROOT"/delete.txt"
-rm -f $ROOT"/change.txt"
+#rm -rf $BUILDS/update-package
+#rm -f $ROOT"/delete.txt"
+#rm -f $ROOT"/change.txt"

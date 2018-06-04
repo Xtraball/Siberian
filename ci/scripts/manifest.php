@@ -51,6 +51,7 @@ class Manifest
         "^var/apps/ionic/android.tgz",
         "^var/apps/ionic/ios.tgz",
         "^var/apps/ionic/previewer.tgz",
+        "^var/pid/*",
         "favicon\.",
         "manifest\.json",
     ];
