@@ -53,7 +53,8 @@ if (!is_dir($androidSdkPath . '/platforms/android-27')) {
 lexec("mkdir -p " . $androidSdkPath . "/licenses");
 file_put_contents($androidSdkPath . "/licenses/android-sdk-license",
     "\nd56f5187479451eabf01fb78af6dfcb131a6481e");
-file_put_contents($androidSdkPath . "/y.txt", implode("\n", array_fill(0, 100, 'y')));
+file_put_contents($androidSdkPath . "/y.txt",
+    implode("\n", array_fill(0, 100, 'y')));
 lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
     '"build-tools;27.0.3" ' .
     '"platform-tools" ' .

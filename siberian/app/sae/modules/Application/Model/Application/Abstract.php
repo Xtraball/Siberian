@@ -25,13 +25,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @var array
      */
     public static $backButtons = [
+        'ion-ios-arrow-back',
         'ion-android-arrow-back',
         'ion-arrow-left-a',
         'ion-arrow-left-b',
         'ion-arrow-left-c',
         'ion-arrow-return-left',
         'ion-chevron-left',
-        'ion-ios-arrow-back',
         'ion-ios-arrow-left',
         'ion-ios-arrow-thin-left',
         'ion-ios-undo-outline',
