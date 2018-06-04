@@ -7,5 +7,11 @@ rm -f package.json.bck
 
 # Pack resources
 ./ci/pack-resources.sh
+./sb cleanlang
+cd ./siberian
+php -f cli cache:design pe
+cd -
 git add siberian/*
-git commit -m "chore: resource archives."
+git commit -m "chore: release routines: cache design, resources archives, language clean-up."
+
+# /end

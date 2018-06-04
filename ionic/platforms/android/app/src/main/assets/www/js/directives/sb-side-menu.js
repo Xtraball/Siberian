@@ -3,7 +3,7 @@
  */
 
 angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
-                                                            $timeout, HomepageLayout, ContextualMenu) {
+                                                            $timeout, HomepageLayout, ContextualMenu, Application) {
     return {
         restrict: 'E',
         replace: true,
