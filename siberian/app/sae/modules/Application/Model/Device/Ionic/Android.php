@@ -511,30 +511,26 @@ keyPassword={$key_password}
 storeFile={$keystore_filename}
 storePassword={$store_password}";
 
-        /** Controlling release signing. */
+        // Controlling release signing.
         file_put_contents($release_signing_gradle_path, $signing);
 
-        /** Change current directory */
-        $project_source_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
-        chdir($project_source_path);
+        // Change current directory
+        $projectSourcePath = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
+        chdir($projectSourcePath);
 
-        /** Creating ENV PATH */
+        // Creating ENV PATH
         $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/gradle");
         putenv("GRADLE_USER_HOME={$gradle_path}");
         putenv("GRADLE_HOME={$gradle_path}");
         putenv("ANDROID_HOME={$android_sdk_path}");
 
-        /** DEBUG OSX: it doesn't find "which java" with php, also the given path is generic and symlink to the latest version.  */
-        $is_darwin = exec("uname");
-        if (strpos($is_darwin, "arwin") !== false) {
-            $java_home = getenv("JAVA_HOME");
-            if (empty($java_home)) {
-                putenv("JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Home");
-            }
+        // Replace JAVA_HOME if set in config.php
+        $configJaveHome = __getConfig('java_home');
+        if ($configJaveHome !== false) {
+            putenv('JAVA_HOME=' . $configJaveHome);
         }
 
-        /** Executing gradlew */
-        $var_log = $var_log . "/apk-build.log";
+        // Executing gradlew!
         if (file_exists($var_log)) {
             unlink($var_log);
         }
@@ -549,22 +545,31 @@ storePassword={$store_password}";
                 $buildType = 'cdvBuildRelease';
         }
 
-        //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
+        // We restart connection to be sure MySQL is still answering!
         $db = Zend_Registry::get('db');
         $db->closeConnection();
+
+        $sdkManager = Core_Model_Directory::getBasePathTo('/var/apps/ionic/tools/sdkmanager.php');
+
+        // /Require sdk manager to start!
+        require_once $sdkManager;
+        // !End sdk manager!
+
+        chdir($projectSourcePath);
         exec("bash -l gradlew " . $buildType . " 2>&1", $output);
         $db->getConnection();
 
+        $result = implode('', $output);
         if (!defined("CRON")) {
-            if (!in_array('BUILD SUCCESSFUL', $output)) {
+            if (strpos($result, 'BUILD SUCCESSFUL') === false) {
                 $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
                 return false;
             }
             exit('Done ...');
         } else {
-            $success = in_array("BUILD SUCCESSFUL", $output);
-            $apkBasePathRelease = "{$this->_dest_source}/app/build/outputs/apk/app-release.apk";
-            $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/app-debug.apk";
+            $success = (strpos($result, 'BUILD SUCCESSFUL') !== false);
+            $apkBasePathRelease = "{$this->_dest_source}/app/build/outputs/apk/release/app-release.apk";
+            $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/debug/app-debug.apk";
 
             if (is_readable($apkBasePathRelease)) {
                 $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-release.apk";

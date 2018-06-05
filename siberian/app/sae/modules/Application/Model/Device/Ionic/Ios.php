@@ -123,11 +123,11 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     {
         $categories = [];
         foreach (self::$_store_categories as $key => $category) {
-            $category_name = parent::_($category);
+            $category_name = __($category);
 
             $categories[$category_name] = new Core_Model_Default([
                 'id' => $key,
-                'name' => parent::_($category_name),
+                'name' => __($category_name)
             ]);
         }
 
@@ -247,8 +247,9 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         }
     }
 
-
-    /** App only */
+    /**
+     * url.js is custom for each app!
+     */
     protected function _prepareUrl()
     {
 
@@ -286,6 +287,9 @@ var IMAGE_URL = DOMAIN + '/';";
         file_put_contents($this->_dest_source . "/www/js/utils/url.js", $url_js_content);
     }
 
+    /**
+     * languages.js is custom for each app!
+     */
     protected function _prepareLanguages()
     {
 
@@ -315,32 +319,4 @@ if(navigator.language) {
 
         file_put_contents($this->_dest_source . "/www/js/utils/languages.js", $file_content);
     }
-
-    private function __getUrlValue($key)
-    {
-
-        $value = null;
-
-        switch ($key) {
-            case "url_scheme":
-                $value = $this->_request->getScheme();
-                break;
-            case "url_domain":
-                $value = $this->_request->getHttpHost();
-                break;
-            case "url_path":
-                $value = ltrim($this->_request->getBaseUrl(), "/");
-                break;
-            case "url_key":
-                if ($this->_request->useApplicationKey()) {
-                    $value = $this->currentApplication->getKey();
-                }
-                break;
-            default:
-                $value = "";
-        }
-
-        return $value;
-    }
-
 }
