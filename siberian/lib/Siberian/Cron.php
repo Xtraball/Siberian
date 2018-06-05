@@ -5,7 +5,7 @@
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.2.0
+ * @version 4.14.0
  */
 class Siberian_Cron
 {
@@ -668,58 +668,6 @@ class Siberian_Cron
     }
 
     /**
-     * Install the Android tools (once)
-     *
-     * @param Cron_Model_Cron $task
-     */
-    public function androidtools($task)
-    {
-        # We do really need to lock this thing !
-        $this->lock($task->getId());
-
-        try {
-            # Running a clear/tmp before.
-            Siberian_Cache::__clearTmp();
-
-            # Testing disk space (4GB required, 2Gb for archive, 2Gb for extracted)
-            $result = exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
-
-            if ($result > 4000000000) {
-                $script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
-
-                require_once $script;
-            } else {
-
-                # Send a message to the Admin
-                $description = "Android SDK can't be updated, you need at least 4GB of free disk space.";
-
-                $notification = new Backoffice_Model_Notification();
-                $notification
-                    ->setTitle(__("Alert: Android SDK can't be updated."))
-                    ->setDescription(__($description))
-                    ->setSource("cron")
-                    ->setType("android-sdk-update")
-                    ->setIsHighPriority(1)
-                    ->setObjectType("Android_Sdk_Update")
-                    ->setObjectId(1)
-                    ->save();
-
-                Backoffice_Model_Notification::sendEmailForNotification($notification);
-            }
-
-
-        } catch (Exception $e) {
-            $this->log($e->getMessage());
-            $task->saveLastError($e->getMessage());
-        }
-
-        # Disable when done.
-        $task->disable();
-        # Releasing
-        $this->unlock($task->getId());
-    }
-
-    /**
      * Check payments recurrencies
      *
      * @param $task
@@ -771,67 +719,6 @@ class Siberian_Cron
         }
 
         $this->log('[Done fetching current disk usage]');
-
-        # Releasing
-        $this->unlock($task->getId());
-    }
-
-    /**
-     * Rebuilds the cache
-     *
-     * @param Cron_Model_Cron $task
-     */
-    public function cachebuilder($task)
-    {
-        # We do really need to lock this thing !
-        $this->lock($task->getId());
-
-        try {
-            # Clear cache, etc...
-            $default_cache = Zend_Registry::get("cache");
-            $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-
-            # Clear cron errors
-            Cron_Model_Cron::clearErrors();
-
-            # Disable when success.
-            $task->disable();
-
-        } catch (Exception $e) {
-            $this->log($e->getMessage());
-            $task->saveLastError($e->getMessage());
-        }
-
-        # Releasing
-        $this->unlock($task->getId());
-    }
-
-    /**
-     * Watch disk quota every hour
-     *
-     * @param $task
-     */
-    public function quotawatcher($task)
-    {
-        # We do really need to lock this thing !
-        $this->lock($task->getId());
-
-        try {
-            $global_root = Core_Model_Directory::getBasePathTo("");
-            $global_quota = System_Model_Config::getValueFor("global_quota");
-            exec("du -cmsL {$global_root}", $output);
-            $parts = explode("\t", end($output));
-            $global_size = $parts[0];
-
-            # Send an alert.
-            if ($global_size > $global_quota) {
-                // Send a quota alert.
-            }
-
-        } catch (Exception $e) {
-            $this->log($e->getMessage());
-            $task->saveLastError($e->getMessage());
-        }
 
         # Releasing
         $this->unlock($task->getId());

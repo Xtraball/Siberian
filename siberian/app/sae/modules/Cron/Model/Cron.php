@@ -2,21 +2,26 @@
 
 /**
  * Class Cron_Model_Cron
+ *
+ * @method integer getId()
  */
 class Cron_Model_Cron extends Core_Model_Default
 {
-
     /**
      * Cron_Model_Cron constructor.
      * @param array $params
+     * @throws Zend_Exception
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         parent::__construct($params);
         $this->_db_table = 'Cron_Model_Db_Table_Cron';
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public static function is_active()
     {
         return (System_Model_Config::getValueFor("disable_cron") == "0");
@@ -35,12 +40,12 @@ class Cron_Model_Cron extends Core_Model_Default
         $db = $this->getTable();
         $select = $db->select()
             ->where("is_active = ?", true)
-            ->where("minute IN (?)", array(-1, $minute))
-            ->where("hour IN (?)", array(-1, $hour))
-            ->where("month_day IN (?)", array(-1, $month_day))
-            ->where("month IN (?)", array(-1, $month))
-            ->where("week_day IN (?)", array(-1, $week_day))
-            ->order(array("standalone ASC", "priority DESC"));
+            ->where("minute IN (?)", [-1, $minute])
+            ->where("hour IN (?)", [-1, $hour])
+            ->where("month_day IN (?)", [-1, $month_day])
+            ->where("month IN (?)", [-1, $month])
+            ->where("week_day IN (?)", [-1, $week_day])
+            ->order(["standalone ASC", "priority DESC"]);
 
         return $db->fetchAll($select);
     }
@@ -156,7 +161,7 @@ class Cron_Model_Cron extends Core_Model_Default
         $db = Zend_Db_Table::getDefaultAdapter();
         $select = $db
             ->select()
-            ->from("cron", array("name", "last_error", "module_id", "last_error_date"))
+            ->from("cron", ["name", "last_error", "module_id", "last_error_date"])
             ->where("last_error != ''")
             ->order("updated_at DESC")
             ->limit(1);
@@ -177,11 +182,11 @@ class Cron_Model_Cron extends Core_Model_Default
             } catch (Exception $e) {
                 log_debug($e);
             }
-            return array(
+            return [
                 "short" => cut(__($result["name"]) . ": " . __(str_replace("\n", " ", $error)), 50),
                 "full" => __($result["name"]) . ": <br>" . str_replace("\n", "<br>", __(htmlspecialchars($error))),
                 "date" => datetime_to_format($result["last_error_date"])
-            );
+            ];
         }
 
         return false;

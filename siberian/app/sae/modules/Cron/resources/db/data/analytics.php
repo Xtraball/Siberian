@@ -1,18 +1,12 @@
 <?php
-
-$data = array(
-    "name"      => "Analytics",
-    "command"   => "agregateanalytics",
-    "minute"    => "10",
-    "hour"      => "0",
-    "month_day" => "-1",
-    "month"     => "-1",
-    "week_day"  => "-1",
-    "priority"  => 50,
-    "is_active" => true,
+Siberian_Feature::installCronjob(
+    "Analytics",
+    "agregateanalytics",
+    10,
+    0,
+    -1,
+    -1,
+    -1,
+    true,
+    50
 );
-
-$agregateanalytics = new Cron_Model_Cron();
-$agregateanalytics
-    ->setData($data)
-    ->insertOrUpdate(array("command"));
