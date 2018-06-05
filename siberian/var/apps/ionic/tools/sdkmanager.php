@@ -52,7 +52,7 @@ if ($run) {
         lexec("wget '" . $file . "' -O " .
             $androidSdkPath . "/tools.zip");
         chdir($androidSdkPath);
-        lexec("unzip /tools.zip");
+        lexec("unzip tools.zip");
     }
 
     if (!is_dir($androidSdkPath . '/licenses')) {
