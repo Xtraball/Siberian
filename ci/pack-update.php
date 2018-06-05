@@ -1,9 +1,8 @@
-#!/usr/bin/env php
 <?php
 
 namespace Cli;
 /**
- * Class Packager //
+ * Class Packager
  */
 class Packager
 {
@@ -178,9 +177,9 @@ class Packager
     /**
      * @return $this
      */
-    private function buildStructure ()
+    public function buildStructure ()
     {
-        $this->buildPath = realpath($this->root . '/release-' . $this->release);
+        $this->buildPath = $this->root . '/release-' . $this->release;
         $this->updatePackagePath = $this->buildPath . '/update-package';
 
         if (!is_dir($this->buildPath)) {
@@ -406,11 +405,20 @@ class Siberian_Version
 }
 
 // Run only if specified!
-if (isset($argv[2]) && $argv[2] === '--run') {
+foreach ($argv as $arg) {
+    $willRun = false;
+    if ($arg === '--run') {
+        $willRun = true;
+    }
+}
+
+if ($willRun) {
     // Run!
     try {
         new \Cli\Packager($argv);
     } catch (\Exception $e) {
         echo 'Something went wrong, ' . $e->getMessage() . PHP_EOL;
     }
+} else {
+    echo 'You must use --run to pack the update.' . PHP_EOL;
 }

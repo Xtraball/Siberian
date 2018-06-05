@@ -552,22 +552,19 @@ storePassword={$store_password}";
         //we restart connection to not have a "MYSQL GONE AWWAAYYYYY!!!! error"
         $db = Zend_Registry::get('db');
         $db->closeConnection();
-
-        $logFile = Core_Model_Directory::getBasePathTo('var/log/android-apk.log');
-        exec("bash -l gradlew " . $buildType . " 2>&1 | dd of=" . $logFile);
+        exec("bash -l gradlew " . $buildType . " 2>&1", $output);
         $db->getConnection();
 
-        $logContent = file_get_contents($logFile);
         if (!defined("CRON")) {
-            if (!preg_match('/BUILD SUCCESSFUL/sm', $logContent)) {
-                $this->_logger->sendException(print_r($logContent, true), "apk_generation_", false);
+            if (!in_array('BUILD SUCCESSFUL', $output)) {
+                $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
                 return false;
             }
             exit('Done ...');
         } else {
             $success = in_array("BUILD SUCCESSFUL", $output);
-            $apkBasePathRelease = "{$this->_dest_source}/app/build/outputs/apk/{$this->_folder_name}-release.apk";
-            $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/{$this->_folder_name}-debug.apk";
+            $apkBasePathRelease = "{$this->_dest_source}/app/build/outputs/apk/app-release.apk";
+            $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/app-debug.apk";
 
             if (is_readable($apkBasePathRelease)) {
                 $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-release.apk";
@@ -580,76 +577,15 @@ storePassword={$store_password}";
             # Clean-up dest files.
             $logFailed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
             if (!$success) {
-                file_put_contents($logFailed, $logContent);
+                file_put_contents($logFailed, implode("\n", $output));
             }
 
             return [
                 'success' => $success,
-                'log' => $logContent,
+                'log' => $output,
                 'path' => is_readable($targetPath) ? $targetPath : false,
             ];
         }
 
-        //unlink($logFile);
-
-    }
-
-
-}
-
-/**
- * Class AwesomeOutput
- */
-class AwesomeOutput implements ArrayAccess
-{
-    /**
-     * @var array
-     */
-    private $container = [];
-
-    /**
-     * AwesomeOutput constructor.
-     */
-    public function __construct() {}
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->container[] = $value;
-        } else {
-            $this->container[$offset] = $value;
-        }
-        // Live output array like object
-        file_put_contents('/tmp/debug.log', $value . PHP_EOL, FILE_APPEND);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return isset($this->container[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->container[$offset]);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return mixed|null
-     */
-    public function offsetGet($offset)
-    {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
     }
 }
