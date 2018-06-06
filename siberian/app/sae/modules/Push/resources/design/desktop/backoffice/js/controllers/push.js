@@ -7,17 +7,60 @@ App.config(function ($routeProvider) {
             controller: 'PushGlobalController',
             templateUrl: BASE_URL + '/push/backoffice_global/template'
         });
-}).controller('PushController', function ($scope, Header, Push, Firebase) {
+}).controller('PushController', function ($scope, Header, Push, Firebase, FileUploader, Url, Label) {
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
     $scope.firebase = {
-        'email': null,
-        'password': null,
-        'projectNumber': null,
-        'serverKey': null
+        'senderID': null,
+        'serverKey': null,
+        'googleService': null
     };
-    $scope.projects = {};
+
+    $scope.initUploader = function () {
+        $scope.uploader = new FileUploader({
+            url: Url.get('push/backoffice_firebase/service')
+        });
+
+        $scope.uploader.filters.push({
+            name: 'limit',
+            fn: function (item, options) {
+                return this.queue.length < 1;
+            }
+        });
+
+        $scope.uploader.onWhenAddingFileFailed = function (item, filter, options) {
+            if (filter.name == "limit") {
+                $scope.message.setText(Label.uploader.error.only_one_at_a_time).isError(true).show();
+            }
+        };
+
+        // Auto-upload!
+        $scope.uploader.onAfterAddingFile = function (item, filter, options) {
+            item.upload();
+        };
+
+        $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.uploader.clearQueue();
+            if (angular.isObject(response) && response.success) {
+                $scope.message.setText(response.message)
+                .isError(false)
+                .show();
+                $scope.firebase.googleService = true;
+            } else {
+                $scope.message.setText(Label.uploader.error.general)
+                .isError(true)
+                .show();
+            }
+        };
+
+        $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
+            $scope.message.setText(response.message)
+            .isError(true)
+            .show();
+        };
+    };
+    $scope.initUploader();
 
     Push
         .loadData()
@@ -39,7 +82,6 @@ App.config(function ($routeProvider) {
         .load()
         .success(function (data) {
             $scope.firebase = data.firebase;
-            $scope.projects = data.projects;
         });
 
     $scope.saveKeys = function () {
@@ -62,29 +104,10 @@ App.config(function ($routeProvider) {
             });
     };
 
-    // Firebase Cloud Messaging
-    $scope.saveFirebaseCredentials = function () {
-        $scope.credentialsLoader = true;
-        Firebase
-            .saveFirebaseCredentials($scope.firebase.email, $scope.firebase.password)
-            .success(function (data) {
-                $scope.projects = data.projects;
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show();
-            }).error(function (data) {
-                $scope.message.setText(data.message)
-                    .isError(true)
-                    .show();
-            }).finally(function () {
-                $scope.credentialsLoader = false;
-            });
-    };
-
     $scope.saveFirebaseProject = function () {
         $scope.projectLoader = true;
         Firebase
-            .saveFirebaseProject($scope.firebase.projectNumber, $scope.firebase.serverKey)
+            .saveFirebaseProject($scope.firebase.senderID, $scope.firebase.serverKey)
             .success(function (data) {
                 $scope.message.setText(data.message)
                     .isError(false)

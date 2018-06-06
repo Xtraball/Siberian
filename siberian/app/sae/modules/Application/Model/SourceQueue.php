@@ -63,13 +63,6 @@ class Application_Model_SourceQueue extends Core_Model_Default
             throw new Exception(__("#500-02: This application does not exist"));
         }
 
-        # Refresh PEM
-        # Disabled action.
-        //if ($this->getIsRefreshPem()) {
-            //$this->sendPemToAutoPublishServer($application);
-            //return true;
-        //}
-
         $design_code = (in_array($this->getDesignCode(), ["angular", "ionic"])) ? $this->getDesignCode() : "ionic";
 
         $application->setDesignCode($design_code);

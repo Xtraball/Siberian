@@ -496,6 +496,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     /**
      * @throws Siberian_Exception
      * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
     public function downloadsourceAction()
     {
@@ -525,9 +526,12 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $design_code = $request->getParam("design_code");
             $adminIdCredentials = $request->getParam('admin_id', 0);
 
-            // Firebase Configuration!
+            // Firebase Validation!
             if ($device === 'android') {
-                $configuration = \Siberian\Firebase\Utils::configureForFirebase($adminIdCredentials, $application);
+                $credentials = (new Push_Model_Firebase())
+                    ->find($adminIdCredentials, 'admin_id');
+
+                $credentials->checkFirebase();
             }
 
             if ($type == "apk") {

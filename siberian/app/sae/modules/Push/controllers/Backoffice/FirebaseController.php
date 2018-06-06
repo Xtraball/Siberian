@@ -6,7 +6,7 @@
 class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
 {
     /**
-     *
+     * @throws Zend_Exception
      */
     public function loadAction()
     {
@@ -22,57 +22,11 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
         $this->_sendJson([
             'success' => true,
             'firebase' => [
-                'email' => $credentials->getEmail(),
-                'password' => Push_Model_Firebase::$fakePassword,
-                'projectNumber' => $credentials->getProjectNumber(),
+                'senderID' => $credentials->getSenderId(),
                 'serverKey' => $credentials->getServerKey(),
-            ],
-            'projects' => $credentials->getRawProjects()
+                'googleService' => $credentials->getGoogleService(),
+            ]
         ]);
-    }
-
-    /**
-     *
-     */
-    public function credentialsAction()
-    {
-        $request = $this->getRequest();
-        try {
-            $params = $request->getBodyParams();
-
-            if ($params['password'] === Push_Model_Firebase::$fakePassword) {
-                throw new Siberian_Exception('#308-00: ' .__('Not saving unchanged password.'));
-            }
-
-            $firebase = new \Siberian\Firebase\Api();
-            $firebase->login($params['email'], $params['password']);
-
-            // Save settings in db
-            $credentials = (new Push_Model_Firebase())
-                ->find('0', 'admin_id');
-
-            $projects = $firebase->getProjects();
-
-            $credentials
-                ->setAdminId(0)
-                ->setEmail($params['email'])
-                ->setCredentials($params['email'], $params['password'])
-                ->setRawProjects($projects)
-                ->save();
-
-            $payload = [
-                'success' => true,
-                'message' => __('Successfully logged-in.'),
-                'projects' => $projects,
-            ];
-        } catch (\Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
-        }
-
-        $this->_sendJson($payload);
     }
 
     /**
@@ -89,7 +43,7 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
                 ->find('0', 'admin_id');
 
             $credentials
-                ->setProjectNumber($params['projectNumber'])
+                ->setSenderId($params['senderID'])
                 ->setServerKey($params['serverKey'])
                 ->save();
 
@@ -101,6 +55,64 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Reads the google-service file!
+     */
+    public function serviceAction ()
+    {
+        try {
+            // Demo version
+            if(__getConfig('is_demo')) {
+                throw new Exception("This is a demo version, you can't alter this configuration.");
+            }
+
+            if (empty($_FILES) || empty($_FILES['file']['name'])) {
+                throw new Siberian_Exception(__("No file has been sent"));
+            }
+
+            $adapter = new Zend_File_Transfer_Adapter_Http();
+            $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
+
+            if ($adapter->receive()) {
+                $file = $adapter->getFileInfo();
+                $content = json_decode(file_get_contents($file['file']['tmp_name']), true);
+
+                // Save credentials in db
+                $credentials = (new Push_Model_Firebase())
+                    ->find('0', 'admin_id');
+
+                // Formatting google-services.json
+                $content = Push_Model_Firebase::formatGoogleServices($content);
+
+                $credentials
+                    ->setGoogleService(json_encode($content))
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Google Service file successfully saved!'),
+                    'content' => $content
+                ];
+            } else {
+                $messages = $adapter->getMessages();
+                if (!empty($messages)) {
+                    $message = implode("\n", $messages);
+                } else {
+                    $message = __("An error occurred during the process. Please try again later.");
+                }
+
+                throw new Siberian_Exception($message);
+            }
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 

@@ -3,31 +3,21 @@
 /**
  * Class Push_Model_Firebase
  *
- * @method $this setEmail(string $email)
- * @method $this setCyphered(string $cyphered)
  * @method $this setAdminId(integer $adminId)
- * @method $this setProjectNumber(string $projectNumber)
+ * @method $this setSenderId(string $senderId)
  * @method $this setServerKey(string $serverKey)
+ * @method $this setGoogleService(string $googleService)
  * @method integer getId()
- * @method string getEmail()
- * @method string getProjectNumber()
+ * @method string getSenderId()
  * @method string getServerKey()
+ * @method string getGoogleService()
  */
 class Push_Model_Firebase extends Core_Model_Default
 {
     /**
-     * @var string
-     */
-    public static $fakePassword = '__fake_not_saved__';
-
-    /**
-     * @var string
-     */
-    private static $passphrase = 'f1r3B45315my541t';
-
-    /**
      * Push_Model_Firebase constructor.
      * @param array $datas
+     * @throws Zend_Exception
      */
     public function __construct ($datas = [])
     {
@@ -36,62 +26,53 @@ class Push_Model_Firebase extends Core_Model_Default
     }
 
     /**
-     * @param $email
-     * @param $password
-     * @return $this
+     * @throws \Siberian\Exception
      */
-    public function setCredentials ($email, $password)
+    public function checkFirebase ()
     {
-        $publicKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials.pub');
-        $clear = $email . ':' . $password;
-        $cyphered = \Siberian\Cypher::cypher($publicKeyPath, $clear);
+        $serverKey = $this->getServerKey();
+        $senderID = $this->getSenderId();
+        $googleService = $this->getGoogleService();
 
-        return $this->setData('cyphered', $cyphered);
+        if (empty($serverKey) ||
+            empty($senderID) ||
+            empty($googleService)) {
+            throw new \Siberian\Exception('#443-02: ' . __('Firebase is not well configured.'));
+        }
     }
 
     /**
+     * We extract only the required "placeholder" Application for subsequent, modifications & lighten the file!
+     *
+     * @param array $googleService
      * @return array
+     * @throws \Siberian\Exception
      */
-    public function getCredentials ()
+    public static function formatGoogleServices (array $googleService)
     {
-        try {
-            $privateKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials');
-            $cyphered = $this->getData('cyphered');
-            $clear = \Siberian\Cypher::decypher($privateKeyPath, $cyphered, self::$passphrase);
+        $clients = $googleService['client'];
 
-            $parts = explode(':', $clear);
+        $googleService['client'] = [];
 
-            return [
-                'email' => $parts[0],
-                'password' => $parts[1],
-            ];
-        } catch (\Exception $e) {
-            return [
-                'email' => '',
-                'password' => '',
-            ];
+        $placeholderClient = null;
+        foreach ($clients as $client) {
+            if (array_key_exists('client_info', $client) &&
+                array_key_exists('android_client_info', $client['client_info']) &&
+                array_key_exists('package_name', $client['client_info']['android_client_info']) &&
+                $client['client_info']['android_client_info']['package_name'] === 'package.placeholder') {
+                $placeholderClient = $client;
+                break;
+            }
         }
-    }
 
-    /**
-     * @param $rawProjects
-     * @return $this
-     */
-    public function setRawProjects ($rawProjects)
-    {
-        return $this->setData('raw_projects', Siberian_Json::encode($rawProjects));
-    }
-
-    /**
-     * @return array|mixed
-     */
-    public function getRawProjects ()
-    {
-        $data = $this->getData('raw_projects');
-
-        if (!empty($data)) {
-            return Siberian_Json::decode($data);
+        if (empty($placeholderClient)) {
+            throw new \Siberian\Exception(
+                '#443-01: ' .
+                __('The required Application `package.placeholder` was not found in the file.'));
         }
-        return [];
+
+        $googleService['client'][] = $placeholderClient;
+
+        return $googleService;
     }
 }

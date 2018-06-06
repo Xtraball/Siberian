@@ -1,8 +1,15 @@
 <?php
 
-class Application_SecurityController extends Core_Controller_Default_Abstract {
-
-    public function checkAction() {
+/**
+ * Class Application_SecurityController
+ */
+class Application_SecurityController extends Core_Controller_Default_Abstract
+{
+    /**
+     *
+     */
+    public function checkAction()
+    {
 
         /*
          * If:     1) It's a request to the editor
@@ -18,7 +25,7 @@ class Application_SecurityController extends Core_Controller_Default_Abstract {
         $is_ajax = $this->getRequest()->isXmlHttpRequest();
         $old_tab = $app_id != $this->getSession()->getApplication()->getAppId();
 
-        if (false /**$is_editor && $is_ajax && $app_id && $old_tab*/) {
+        if (false/**$is_editor && $is_ajax && $app_id && $old_tab*/) {
             $this->_sendJson([
                 "error" => true,
                 "refresh" => true
@@ -29,56 +36,5 @@ class Application_SecurityController extends Core_Controller_Default_Abstract {
                 "refresh" => false
             ]);
         }
-    }
-
-    /**
-     * @throws Siberian_Exception
-     */
-    public function firebaseAction ()
-    {
-        $firebase = new \Siberian\Firebase\Api();
-        $firebase->login('contact@net-reflect.com', 'NHGgtt51');
-
-        echo '<pre>';
-        print_r($firebase->getClients());
-        die;
-
-        echo '<pre>';
-        foreach ($firebase->getProjects() as $project) {
-            echo $project['displayName'] . PHP_EOL;
-            print_r($firebase->getApplications($project['projectId']));
-        }
-        die();
-    }
-
-    public function cypherAction ()
-    {
-        $publicKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials.pub');
-        $cyphered = \Siberian\Cypher::cypher($publicKeyPath, 'my password is awesome & salty!');
-
-        $privateKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/google-credentials');
-        $clear = \Siberian\Cypher::decypher($privateKeyPath, $cyphered, 'f1r3B45315my541t');
-
-    }
-
-    public function plistAction () {
-        $plist = new PListEditor\PListEditor();
-        $plist->readFile('/Volumes/SSD2/Developments/repos/xtraball.com/siberian-2/ionic/platforms/ios/AppsMobileCompany/AppsMobileCompany-Info.plist');
-        // Preview PList
-
-        $dom = new DOMDocument('1.0', 'utf-8');
-
-        $root = $plist->root();
-        $root->removeProperty('CFBundleDisplayName');
-        $root->addProperty(\PListEditor\PListProperty::PL_ARRAY, [
-            'toto',
-            'tata'
-        ], 'CFBundleDisplayName');
-
-        echo 'Preview' . PHP_EOL . '<br />';
-        echo '<pre>';
-        print_r(htmlspecialchars($plist->preview()));
-
-        die();
     }
 }

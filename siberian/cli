@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use \Firebase\JWT\JWT;
+
 /**
  * Siberian
  *

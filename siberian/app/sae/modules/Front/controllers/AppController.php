@@ -138,6 +138,8 @@ class Front_AppController extends Front_Controller_App_Default
             $bgColor = Siberian_Color::newColor($bgColorHex, 'hex');
             $bgColor->alpha = $bgBlock->getBackgroundOpacity() / 100;
 
+            $credentials = (new Push_Model_Firebase())->find(0, 'admin_id');
+
             $colorStatusBar = Siberian_Color::newColor($application->getBlock('header')->getBackgroundColor(), 'hex');
             $colorStatusBarLighten = $colorStatusBar->getNew('lightness', $colorStatusBar->lightness - 10);
 
@@ -174,6 +176,7 @@ class Front_AppController extends Front_Controller_App_Default
                     'pushIconcolor' => $iconColor,
                     'gmapsKey' => $googleMapsKey,
                     'offlineContent' => (boolean) $application->getOfflineContent(),
+                    'fcmSenderID' => $credentials->getSenderId(),
                     'iosStatusBarIsHidden' => (boolean) $application->getIosStatusBarIsHidden(),
                     'androidStatusBarIsHidden' => (boolean) $application->getAndroidStatusBarIsHidden(),
                     'privacyPolicy' => [

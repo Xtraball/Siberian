@@ -440,13 +440,6 @@ App.config(function($routeProvider) {
         url: Url.get("application/backoffice_view/uploadcertificate")
     });
 
-    //$scope.certificate_uploader.filters.push({
-    //    name: 'pem',
-    //    fn: function(item, options) {
-    //        return item.type == "application/x-x509-ca-cert";
-    //    }
-    //});
-
     $scope.certificate_uploader.onWhenAddingFileFailed = function(item, filter, options) {
         if(filter.name == "pem") $scope.message.setText(Label.uploader.error.type.pem).isError(true).show();
     };

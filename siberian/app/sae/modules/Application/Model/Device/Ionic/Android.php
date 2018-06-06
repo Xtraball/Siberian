@@ -339,12 +339,18 @@ var IMAGE_URL = DOMAIN + '/';";
     }
 
     /**
-     *
+     * @throws Zend_Exception
      */
     protected function _copyGoogleService()
     {
-        $device = $this->getDevice();
-        $jsonConfig = $device->getData('google_services');
+        $credentials = (new Push_Model_Firebase())
+            ->find(0, 'admin_id');
+
+        $googleService = json_decode($credentials->getGoogleService(), true);
+
+        $googleService['client'][0]['client_info']['android_client_info']['package_name'] = $this->_package_name;
+
+        $jsonConfig = json_encode($googleService, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
         file_put_contents($this->_dest_source . '/app/google-services.json', $jsonConfig);
     }

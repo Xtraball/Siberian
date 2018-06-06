@@ -8,54 +8,16 @@ if (empty($installationVersion)) {
 ?>
 
 <sb-section title="'<?php echo __js('Firebase Cloud Messaging', "'") ?>'">
-    <form ng-submit="saveFirebaseCredentials()"
-          autocomplete="off">
-        <div class="form-group">
-            <div class="col-md-4">
-                <label for="Email"><?php echo __('E-mail') ?></label>
-                <input type="text"
-                       id="Email"
-                       ng-model="firebase.email"
-                       class="form-control"
-                       autocomplete="new-password"
-                       placeholder="<?php echo __js('E-mail', "'") ?>"/>
-            </div>
-            <div class="col-md-4">
-                <label for="Passwd"><?php echo __('Password') ?></label>
-                <input type="password"
-                       id="Passwd"
-                       ng-model="firebase.password"
-                       class="form-control"
-                       autocomplete="new-password"
-                       placeholder="<?php echo __js('Password', "'") ?>"/>
-            </div>
-            <div class="col-md-4"
-                 style="padding-top: 24px;">
-                <button type="submit"
-                        class="btn btn-primary left"><?php echo __('Save Firebase credentials'); ?></button>
-                <sb-loader is_visible="credentialsLoader"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-            </div>
-            <div class="clear"></div>
-        </div>
-    </form>
-
     <form ng-submit="saveFirebaseProject()">
         <div class="form-group">
             <div class="col-md-4">
-                <label for="DefaultProject"><?php echo __('Project Number (default)') ?></label>
-                <select id="DefaultProject"
-                        ng-model="firebase.projectNumber"
-                        class="form-control">
-                    <option value=""
-                            ng-selected="!firebase.projectNumber"><?php echo __('Select a project') ?></option>
-                    <option ng-repeat="project in projects"
-                            ng-selected="firebase.projectNumber == project.projectNumber"
-                            value="{{ project.projectNumber }}">{{ project.displayName }} ({{ project.projectId }} - {{ project.projectNumber }})</option>
-                </select>
+                <label for="DefaultProject"><?php echo __('Sender ID') ?></label>
+                <input type="text"
+                       id="SenderID"
+                       ng-model="firebase.senderID"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Sender ID', "'") ?>"/>
             </div>
             <div class="col-md-4">
                 <label for="ServerKey"><?php echo __('Server key') ?></label>
@@ -69,7 +31,7 @@ if (empty($installationVersion)) {
             <div class="col-md-4"
                  style="padding-top: 24px;">
                 <button type="submit"
-                        class="btn btn-primary left"><?php echo __('Save project & key'); ?></button>
+                        class="btn btn-primary left"><?php echo __('Save sender id & key'); ?></button>
                 <sb-loader is_visible="projectLoader"
                            type="'inner_content'"
                            size="'small'"
@@ -77,13 +39,63 @@ if (empty($installationVersion)) {
                            class="form_loader"></sb-loader>
             </div>
             <div class="clear"></div>
+
         </div>
 
-        <div class="col-md-12">
-            <div class="form-group">
-
+        <div class="form-group"
+             style="margin-top:20px;">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <?php echo __('Upload your %s file below.', '<b>google-services.json</b>') ?>
+                </div>
             </div>
+            <div class="clear"></div>
         </div>
+
+        <div class="relative upload_area">
+            <div class="col-md-3">
+                <div class="upload_a_file">
+                    <label for="file_uploader"><?php echo __("Upload your json here"); ?></label>
+                    <input id="file_uploader"
+                           type="file"
+                           nv-file-select=""
+                           uploader="uploader"/>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="drop_a_file">
+                    <label><?php echo __("OR"); ?></label>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="drop_a_file">
+                    <label><?php echo __("Drop your json here"); ?></label>
+                    <div ng-show="uploader.isHTML5">
+                        <div class="well drop-zone"
+                             nv-file-drop=""
+                             nv-file-over=""
+                             uploader="uploader">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div ng-if="firebase.googleService"
+                     style="text-align: center;">
+                    <label><?php echo __("You already have a google-services.json file"); ?></label>
+                    <i class="fa fa-file-code-o"
+                       style="font-size: 48px; margin-top: 20px;"></i>
+                </div>
+            </div>
+
+
+            <div class="clear"></div>
+
+        </div>
+
     </form>
 </sb-section>
 
@@ -92,15 +104,6 @@ if (empty($installationVersion)) {
     <sb-section title="'<?php echo __js('Google Cloud Messaging (GCM, Deprecated)', "'") ?>'">
         <div class="form-group">
             <div class="col-md-4">
-                <label for="Key"><?php echo __('GCM Key') ?></label>
-                <input type="text"
-                       id="Key"
-                       ng-model="gcm.android_key"
-                       class="form-control"
-                       autocomplete="new-password"
-                       placeholder="<?php echo __js('GCM Key', "'") ?>"/>
-            </div>
-            <div class="col-md-4">
                 <label for="SenderId"><?php echo __('Sender ID') ?></label>
                 <input type="text"
                        id="SenderId"
@@ -108,6 +111,15 @@ if (empty($installationVersion)) {
                        class="form-control"
                        autocomplete="new-password"
                        placeholder="<?php echo __js('Sender ID', "'") ?>"/>
+            </div>
+            <div class="col-md-4">
+                <label for="Key"><?php echo __('GCM Key') ?></label>
+                <input type="text"
+                       id="Key"
+                       ng-model="gcm.android_key"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('GCM Key', "'") ?>"/>
             </div>
             <div class="col-md-4"
                  style="padding-top: 24px;">
@@ -123,3 +135,9 @@ if (empty($installationVersion)) {
     </sb-section>
 </form>
 <?php endif; ?>
+
+<style type="text/css">
+    .upload_area .well.drop-zone {
+        width: 100%;
+    }
+</style>

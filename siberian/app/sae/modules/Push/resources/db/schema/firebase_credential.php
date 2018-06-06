@@ -1,9 +1,9 @@
 <?php
 /**
  *
- * Schema definition for 'push_messages'
+ * Schema definition for 'firebase_credential'
  *
- * Last update: 2016-04-28
+ * Last update: 2018-06-06
  *
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
@@ -13,19 +13,7 @@ $schemas['firebase_credential'] = [
         'auto_increment' => true,
         'primary' => true,
     ],
-    'email' => [
-        'type' => 'varchar(256)',
-        'is_null' => true,
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-    ],
-    'cyphered' => [
-        'type' => 'text',
-        'is_null' => true,
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-    ],
-    'project_number' => [
+    'sender_id' => [
         'type' => 'varchar(256)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
@@ -35,13 +23,14 @@ $schemas['firebase_credential'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'raw_projects' => [
+    'admin_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+    ],
+    'google_service' => [
         'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ],
-    'admin_id' => [
-        'type' => 'int(11) unsigned',
         'is_null' => true,
     ],
     'created_at' => [
