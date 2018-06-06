@@ -330,7 +330,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // Configuring PushService & skip if this is a preview.
                         if (!IS_PREVIEW) {
                             try {
-                                PushService.configure(load.application.pushIconcolor);
+                                PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
                                 PushService.register();
                             } catch (e) {
                                 $log.error('An error occured while registering device for Push.', e.message);

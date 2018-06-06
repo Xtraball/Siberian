@@ -276,6 +276,9 @@ class Packager
      */
     public function preparePackage ($type, $name, $path)
     {
+        // Do not 'delete' all files that changed (or that were forced to)
+        $realDeleteIndex = array_diff($this->deleteIndex, $this->changeIndex);
+
         $releaseNote = 'https://updates02.siberiancms.com/release-notes/all/' . $this->release . '.html';
         $packageJson = [
             'name' => $name,
@@ -294,7 +297,7 @@ class Packager
                     'version' => $this->requiredVersion,
                 ],
             ],
-            'files_to_delete' => $this->deleteIndex,
+            'files_to_delete' => $realDeleteIndex,
         ];
 
         $packagePath = sprintf("%s/package.json", $path);
