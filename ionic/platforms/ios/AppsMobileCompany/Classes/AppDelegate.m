@@ -27,19 +27,48 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "Constants.h"
 #import <AVFoundation/AVFoundation.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+   //if (!MainViewControllerisPreview) {
+   //     CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+   //     #if __has_feature(objc_arc)
+   //     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+   //     #else
+   //     self.window = [[[UIWindow alloc] initWithFrame:screenBounds] autorelease];
+   //     #endif
+
+   //     self.window.autoresizesSubviews = YES;
+
+   //     #if __has_feature(objc_arc)
+   //     self.viewController = [[MainViewController alloc] init];
+   //     #else
+   //     self.viewController = [[[MainViewController alloc] init] autorelease];
+   //     #endif
+
+        // Set your app's start page by setting the <content src='foo.html' /> tag in config.xml.
+        // If necessary, uncomment the line below to override it.
+        // self.viewController.startPage = @"index.html";
+
+        // NOTE: To customize the view's frame size (which defaults to full screen), override
+        // [self.viewController viewWillAppear:] in your view controller.
+
+        //self.window.rootViewController = self.viewController;
+      //  [self.window makeKeyAndVisible];
+    //}
+
     /** Allow for Audio background playing */
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     BOOL ok;
     NSError *setCategoryError = nil;
-    ok = [audioSession setCategory:AVAudioSessionCategoryPlayback
-                               error:&setCategoryError];
-
+    ok = [audioSession
+        setCategory:AVAudioSessionCategoryPlayback
+        error:&setCategoryError];
 
     self.viewController = [[MainViewController alloc] init];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];

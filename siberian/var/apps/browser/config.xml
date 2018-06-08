@@ -1,14 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="BarcodeScanner">
-        <param name="browser-package" value="BarcodeScanner" />
-    </feature>
-    <feature name="Camera">
-        <param name="browser-package" value="Camera" />
-    </feature>
-    <feature name="Device">
-        <param name="browser-package" value="Device" />
-    </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>
     <author>Apps Mobile Company Dev Team</author>
@@ -25,15 +16,15 @@
     <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="7" />
+        <native-interface version="8" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />

@@ -11,6 +11,11 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     protected $_default_bundle_name = 'com.appsmobilecompany.base';
 
     /**
+     * @var Application_Model_Application
+     */
+    public $currentApplication;
+
+    /**
      * @return mixed
      */
     abstract public function prepareResources();
@@ -21,7 +26,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     protected function _prepareRequest()
     {
         if (!defined('CRON')) {
-            $request = new Siberian_Controller_Request_Http($this->_application->getUrl());
+            $request = new Siberian_Controller_Request_Http($this->currentApplication->getUrl());
             $request->setPathInfo();
             $this->_request = $request;
         }
@@ -230,6 +235,88 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
     }
 
+    /**
+     * This feature removes AdMob Pro from the ios sources!
+     *
+     * @throws Exception
+     */
+    protected function removeAds ()
+    {
+        // Remove feature from config.xml
+        $this->__replace(
+            [
+                '#(<feature name="AdMob">.*)<feature name="AppVersion">#sm' => ''
+            ],
+            $this->_dest_source_amc . '/config.xml',
+            true);
+
+        // Remove all AdmobPro folders
+        exec("rm -rf '{$this->_dest_source_amc}/Plugins/AdmobPro'");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/plugins/AdmobPro'");
+        exec("rm -rf '{$this->_dest_source_amc}/../config.bck.xml'");
+
+        // Remove AdMob references from pbxproj
+        $refsRegex = [
+            '~([A-Z0-9]{24} /\* (GenericAdPlugin|AdMobMediation|libCordovaGenericAd|CDVAdMobPlugin|AdSupport|GoogleMobileAds|CDVPluginExt|PluginAdapterDelegate)[a-zA-Z"<>+.\-\s/*={;0-9]+(};|/,))~sm' => '',
+        ];
+
+        $this->__replace(
+            $refsRegex,
+            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
+            true);
+
+        $refsString = [
+            '"\"AppsMobileCompany/Plugins/AdmobPro\"",' => '',
+            '"\"$(SRCROOT)/AppsMobileCompany/Plugins/AdmobPro\"",' => '',
+        ];
+
+        $this->__replace(
+            $refsString,
+            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
+            false);
+
+        $cordovaPlugins = [
+            '~({\s+"id": "AdmobPro\.AdMob.*window\.AdMob"\s+]\s+},)~sm' => '',
+        ];
+
+        $this->__replace(
+            $cordovaPlugins,
+            $this->_dest_source_amc . '/../www/cordova_plugins.js',
+            true);
+
+        $cordovaPluginsString = [
+            '"AdmobPro": "2.30.1",' => '',
+        ];
+
+        $this->__replace(
+            $cordovaPluginsString,
+            $this->_dest_source_amc . '/../www/cordova_plugins.js',
+            false);
+
+        $this->__replace(
+            [
+                '"AdSupport.framework": 1,' => '',
+            ],
+            $this->_dest_source_amc . '/../frameworks.json',
+            false);
+
+        $this->__replace(
+            [
+                '~({\s+"id": "AdmobPro\.AdMob.*window\.AdMob"\s+]\s+},)~sm' => '',
+                '~("AdmobPro": {\s+"PACKAGE_NAME": "com.appsmobilecompany.base"\s+},)~sm' => '',
+                '~({\s+"xml":\s+"<feature name=\\\"AdMob\\\"><param name=\\\"ios-package\\\" value=\\\"CDVAdMobPlugin\\\" /><param name=\\\"onload\\\" value=\\\"true\\\" /></feature>",\s+"count": 1\s+},)~sm' => '',
+            ],
+            $this->_dest_source_amc . '/../ios.json',
+            true);
+
+        $this->__replace(
+            [
+                '"AdmobPro": "2.30.1",' => '',
+            ],
+            $this->_dest_source_amc . '/../ios.json',
+            false);
+    }
+
     protected function buildPList() {
         $plistPath = $this->_dest_source_amc . '/AppsMobileCompany-Info.plist';
         $device = $this->getDevice();
@@ -270,7 +357,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $root->addProperty(\PListEditor\PListProperty::PL_STRING, $valueCFBundleShortVersionString, 'CFBundleShortVersionString');
 
         // Status bar!
-        $valueUIStatusBarHidden = $this->_application->getIosStatusBarIsHidden() ?
+        $valueUIStatusBarHidden = $this->currentApplication->getIosStatusBarIsHidden() ?
             \PListEditor\PListProperty::PL_TRUE : \PListEditor\PListProperty::PL_FALSE;
         $root->removeProperty('UIStatusBarHidden');
         $root->addProperty($valueUIStatusBarHidden, null, 'UIStatusBarHidden');

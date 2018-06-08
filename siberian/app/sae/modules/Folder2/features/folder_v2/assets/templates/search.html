@@ -17,7 +17,7 @@
 
 <div class="list folder2-search"
      ng-class="{'card': cardDesign}"
-     ng-show="search.searchValue">
+     ng-show="search.searchValue && results.length > 0">
     <a tabbar-items
        class="item item-custom item-avatar-square"
        option="item.feature"
@@ -34,7 +34,7 @@
 
 <div class="list"
      ng-class="{'card': cardDesign}"
-     ng-if="results.length === 0">
+     ng-show="showSearch && search.searchValue && results.length === 0">
     <div class="item text-center item-custom">
         {{ "No results for your request." | translate }}
     </div>
@@ -49,5 +49,15 @@
         right: 0;
         z-index: 5000;
         top: 14px;
+    }
+</style>
+
+<style type="text/css"
+       ng-if="allowLineReturn">
+    .module-folder2 .item h2,
+    .module-folder2 .item p {
+        overflow: visible !important;
+        text-overflow: initial !important;
+        white-space: initial !important;
     }
 </style>

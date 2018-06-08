@@ -140,20 +140,49 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
     service.populate = function (data) {
         service.app_id = data.application.id;
         service.app_name = data.application.name;
-        service.privacy_policy = data.application.privacy_policy;
-        service.privacy_policy_gdpr = data.application.privacy_policy_gdpr;
-        service.gdprIsEnabled = data.application.gdprIsEnabled;
-        service.privacy_policy_title = data.application.privacy_policy_title;
-        service.googlemaps_key = data.application.googlemaps_key;
+        service.privacyPolicy = data.application.privacyPolicy;
+        service.gdpr = data.application.gdpr;
+        service.googlemaps_key = data.application.gmapsKey;
         service.is_locked = data.application.is_locked;
-        service.offline_content = data.application.offline_content;
-        service.homepage_background = data.application.homepage_background;
+        service.offline_content = data.application.offlineContent;
+        service.homepage_background = data.application.useHomepageBackground;
+        service.backButton = data.application.backButton;
 
         // Small base64 default image, while loading the real deal!
-        service.default_background = data.homepage_image;
+        service.default_background = data.homepageImage;
         service.colors = data.application.colors;
 
         service.ready = true;
+    };
+
+    /**
+     *
+     * @returns {string}
+     */
+    service.getBackIcon = function () {
+        if (service.backButton !== undefined) {
+            switch (service.backButton) {
+                case 'ion-android-arrow-back':
+                case 'ion-arrow-left-a':
+                case 'ion-arrow-left-b':
+                case 'ion-arrow-left-c':
+                case 'ion-arrow-return-left':
+                case 'ion-chevron-left':
+                case 'ion-home':
+                case 'ion-ios-arrow-back':
+                case 'ion-ios-arrow-left':
+                case 'ion-ios-arrow-thin-left':
+                case 'ion-ios-home-outline':
+                case 'ion-ios-home':
+                case 'ion-ios-undo-outline':
+                case 'ion-ios-undo':
+                case 'ion-reply':
+                    return 'icon ' + service.backButton;
+                default:
+                    return 'icon ion-ios-arrow-back';
+            }
+        }
+        return 'icon ion-ios-arrow-back';
     };
 
     service.showCacheDownloadModalOrUpdate = function () {

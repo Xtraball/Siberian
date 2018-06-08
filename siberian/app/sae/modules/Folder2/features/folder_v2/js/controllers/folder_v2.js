@@ -1,17 +1,21 @@
 /**
  * Folder v2 feature
  *
- * @version 4.12.24
+ * @version 4.14.0
  */
 angular.module('starter').controller('Folder2ListController', function ($scope, $stateParams, $ionicNavBarDelegate,
-                                                                      $timeout, SB, Customer, Folder2, Padlock, $filter) {
+                                                                        $timeout, SB, Customer, Folder2, Padlock,
+                                                                        $filter) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
-        search: {},
+        search: {
+            searchValue: ''
+        },
         showSearch: false,
         searchIndex: [],
         cardDesign: false,
+        allowLineReturn: false,
         imagePath: function (path) {
             return IMAGE_URL + path;
         }
@@ -23,7 +27,9 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
      * Reset the search item
      */
     $scope.resetSearch = function () {
-        $scope.search = {};
+        $scope.search = {
+            searchValue: ''
+        };
     };
 
     /**
@@ -33,6 +39,7 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
         Folder2.findAll()
             .then(function () {
                 $scope.cardDesign = Folder2.cardDesign;
+                $scope.allowLineReturn = Folder2.allowLineReturn;
                 $scope.showSearch = Folder2.showSearch;
                 $scope.searchIndex = Folder2.searchIndex;
 

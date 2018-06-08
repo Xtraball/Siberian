@@ -235,6 +235,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
             return [
                 'showSearch' => (boolean) $this->getShowSearch(),
+                'allowLineReturn' => (boolean) $this->getAllowLineReturn(),
                 'cardDesign' => (boolean) $this->getCardDesign(),
                 'collection' => $collection,
                 'searchIndex' => $searchIndex

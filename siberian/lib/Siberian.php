@@ -5,7 +5,8 @@
  *
  * Default Siberian wrapper class for static purpose & configurations
  */
-class Siberian {
+class Siberian
+{
 
     /**
      * @var bool|Whitelabel_Model_Editor
@@ -20,28 +21,32 @@ class Siberian {
     /**
      * @param $whitelabel
      */
-    public static function setWhitelabel($whitelabel) {
+    public static function setWhitelabel($whitelabel)
+    {
         self::$whitelabel = $whitelabel;
     }
 
     /**
      * @return bool|Application_Model_Application
      */
-    public static function getWhitelabel() {
+    public static function getWhitelabel()
+    {
         return self::$whitelabel;
     }
 
     /**
      * @param $application
      */
-    public static function setApplication($application) {
+    public static function setApplication($application)
+    {
         self::$application = $application;
     }
 
     /**
      * @return bool|Application_Model_Application
      */
-    public static function getApplication() {
+    public static function getApplication()
+    {
         return self::$application;
     }
 }

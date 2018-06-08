@@ -24,11 +24,16 @@ include_once __DIR__ . '/../Scss/Util.php';
 include_once __DIR__ . '/../Scss/Version.php';
 include_once __DIR__ . '/../Scss/Server.php';
 
-class Siberian_Scss {
-
-    static function getCompiler() {
+/**
+ * Class Siberian_Scss
+ */
+class Siberian_Scss
+{
+    /**
+     * @return \Leafo\ScssPhp\Compiler
+     */
+    static function getCompiler()
+    {
         return new Leafo\ScssPhp\Compiler();
     }
-
 }
-

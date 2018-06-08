@@ -34,6 +34,13 @@ $schemas['application'] = [
         'type' => 'int(11) unsigned',
         'is_null' => true,
     ],
+    'back_button' => [
+        'type' => 'varchar(100)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'ion-ios-arrow-back',
+    ],
     'bundle_id' => [
         'type' => 'varchar(100)',
         'is_null' => true,

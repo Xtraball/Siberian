@@ -3,7 +3,8 @@
 /**
  * Class Siberian_Request
  */
-class Siberian_Request {
+class Siberian_Request
+{
 
     /**
      * @var bool
@@ -24,7 +25,8 @@ class Siberian_Request {
      * @param array $options
      * @return mixed
      */
-    public static function post($endpoint, $data, $cookie_path = null, $auth = null, $headers = null, $options = []) {
+    public static function post($endpoint, $data, $cookie_path = null, $auth = null, $headers = null, $options = [])
+    {
 
         $request = curl_init();
 
@@ -81,7 +83,7 @@ class Siberian_Request {
         curl_close($request);
 
         if (self::$debug) {
-            log_debug("[CODE POST] ".$status_code);
+            log_debug("[CODE POST] " . $status_code);
         }
 
 
@@ -97,12 +99,13 @@ class Siberian_Request {
      * @param array $options
      * @return mixed
      */
-    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null, $headers = null, $options = []) {
+    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null, $headers = null, $options = [])
+    {
 
         $request = curl_init();
 
         if (strpos($endpoint, "?") === false && !empty($data)) {
-            $endpoint .= "?".http_build_query($data);
+            $endpoint .= "?" . http_build_query($data);
         }
 
         # Setting options
@@ -110,8 +113,8 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
-        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        //curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+        //curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
         if ($auth !== null && is_array($auth)) {
             switch ($auth['type']) {
@@ -160,7 +163,8 @@ class Siberian_Request {
      * @param null $cookie_path
      * @return mixed
      */
-    public static function testStream($endpoint) {
+    public static function testStream($endpoint)
+    {
 
         $request = curl_init();
 
@@ -171,7 +175,7 @@ class Siberian_Request {
         curl_setopt($request, CURLOPT_TIMEOUT, 3);
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
-        $headers = array(
+        $headers = [
             'Pragma: no-cache',
             'Accept-Encoding: identity;q=1, *;q=0',
             'Range: bytes=0-',
@@ -179,7 +183,7 @@ class Siberian_Request {
             'Connection: keep-alive',
             'Cache-Control: no-cache',
             'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.101 Safari/537.36',
-        );
+        ];
         curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
 
         # Call

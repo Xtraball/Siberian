@@ -30,6 +30,9 @@ if (DEVICE_TYPE === undefined) {
 if (LOGIN_FB === undefined) {
     var LOGIN_FB = false;
 }
+if (IS_PREVIEW === undefined) {
+    var IS_PREVIEW = false;
+}
 // Fallback for non re-published apps
 var isNativeApp = IS_NATIVE_APP;
 var isOverview = (window.location.href.indexOf('/apps/overview/') !== -1);
@@ -156,6 +159,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.views.maxCache(0);
+        $ionicConfigProvider.backButton.text('');
         $ionicConfigProvider.backButton.previousTitleText(false);
     })
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
@@ -229,6 +233,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
         $ionicPlatform.ready(function () {
             $ionicNavBarDelegate.showBar(false);
+            $ionicNavBarDelegate.align('center');
 
             var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
@@ -245,9 +250,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     var deviceScreen = $session.getDeviceScreen();
 
                     $log.debug('device_uid', $session.getDeviceUid());
-                    $log.debug('start: front/mobile/loadv3');
+                    $log.debug('start: front/app/init');
 
-                    $pwaRequest.post('front/mobile/loadv3', {
+                    $pwaRequest.post('front/app/init', {
                         data: {
                             add_language: true,
                             device_uid: $session.getDeviceUid(),
@@ -259,22 +264,26 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         refresh: refresh,
                         network_promise: networkPromise
                     }).then(function (data) {
-                        var load = data.load;
-                        var manifest = data.manifest;
+                        var load = data.loadBlock;
+                        var manifest = data.manifestBlock;
 
                         // Translations & locale!
-                        $translate.translations = data.translation;
-                        tmhDynamicLocale.set($translate.translations._locale);
+                        $translate.translations = data.translationBlock;
+                        tmhDynamicLocale.set($translate._locale);
 
                         if (!$session.getId()) {
-                            $session.setId(data.load.customer.token);
+                            $session.setId(data.loadBlock.customer.token);
                         }
 
                         // Populate main objects!
-                        Application.populate(data.load);
-                        Customer.populate(data.load.customer);
-                        Customer.setFacebookLogin(data.load.application.facebook);
-                        Pages.populate(data.homepage);
+                        Application.populate(data.loadBlock);
+
+                        // Overrides backbutton icon
+                        $ionicConfig.backButton.icon(Application.getBackIcon());
+
+                        Customer.populate(data.loadBlock.customer);
+                        Customer.setFacebookLogin(data.loadBlock.application.facebook);
+                        Pages.populate(data.featureBlock);
 
                         // Login Facebook HTML5!
                         if (LOGIN_FB) {
@@ -284,10 +293,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         var HomepageLayout = $injector.get('HomepageLayout');
 
                         // Append custom CSS/SCSS to the page!
-                        if (data.css && data.css.css) {
+                        if (data.cssBlock && data.cssBlock.css) {
                             var css = document.createElement('style');
                             css.type = 'text/css';
-                            css.innerHTML = data.css.css;
+                            css.innerHTML = data.cssBlock.css;
                             document.body.appendChild(css);
                         }
 
@@ -295,21 +304,21 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if (!$rootScope.isOverview && !$rootScope.isNativeApp) {
                             var head = angular.element(document.querySelector('head'));
 
-                            if (manifest.icon_url) {
-                                head.append('<link rel="apple-touch-icon" href="' + manifest.icon_url + '" />');
-                                head.append('<link rel="icon" sizes="192x192" href="' + manifest.icon_url + '" />');
+                            if (manifest.iconUrl) {
+                                head.append('<link rel="apple-touch-icon" href="' + manifest.iconUrl + '" />');
+                                head.append('<link rel="icon" sizes="192x192" href="' + manifest.iconUrl + '" />');
                             }
 
-                            if (manifest.manifest_url) {
-                                head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifest_url + '">');
+                            if (manifest.manifestUrl) {
+                                head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifestUrl + '">');
                             }
 
-                            if (manifest.startup_image_url) {
-                                head.append('<link rel="apple-touch-startup-image" href="' + manifest.startup_image_url + '" />');
+                            if (manifest.startupImageUrl) {
+                                head.append('<link rel="apple-touch-startup-image" href="' + manifest.startupImageUrl + '" />');
                             }
 
-                            if (manifest.theme_color) {
-                                head.append('<meta name="theme-color" content="' + manifest.theme_color + '" />');
+                            if (manifest.themeColor) {
+                                head.append('<meta name="theme-color" content="' + manifest.themeColor + '" />');
                             }
                         }
 
@@ -318,71 +327,48 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
                         }
 
-                        // Configuring PushService
-                        try {
-                            PushService.configure(load.application.gcm_senderid, load.application.gcm_iconcolor);
-                            PushService.register();
-                        } catch (e) {
-                            $log.error('An error occured while registering device for Push.', e.message);
+                        // Configuring PushService & skip if this is a preview.
+                        if (!IS_PREVIEW) {
+                            try {
+                                PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
+                                PushService.register();
+                            } catch (e) {
+                                $log.error('An error occured while registering device for Push.', e.message);
+                            }
                         }
 
+                        // skip chcp inside webview loaded app!
+                        if (!IS_PREVIEW) {
+                            $rootScope.fetchupdatetimer = null;
 
-                        $rootScope.fetchupdatetimer = null;
+                            $ionicPlatform.on('resume', function (resumeResult) {
+                                // If app goes live too fast, cancel the update.
+                                $timeout.cancel($rootScope.fetchupdatetimer);
 
-                        $ionicPlatform.on('resume', function (result) {
-                            // If app goes live too fast, cancel the update.
-                            $timeout.cancel($rootScope.fetchupdatetimer);
+                                $log.info('-- app is resumed --');
+                                Analytics.storeOpening().then(function (result) {
+                                    Analytics.data.storeClosingId = result.id;
+                                });
 
-                            $log.info('-- app is resumed --');
-                            Analytics.storeOpening().then(function (result) {
-                                Analytics.data.storeClosingId = result.id;
+                                $rootScope.onPause = false;
                             });
 
                             $rootScope.onPause = false;
-                        });
+                            $ionicPlatform.on('pause', function (pauseResult) {
+                                $rootScope.onPause = true;
+                                $log.info('-- app is on pause --');
+                                Analytics.storeClosing();
 
-                        $rootScope.onPause = false;
-                        $ionicPlatform.on('pause', function (result) {
-                            $rootScope.onPause = true;
-                            $log.info('-- app is on pause --');
-                            Analytics.storeClosing();
-
-                            // When app goes in pause, try to install if required.
-                            if (typeof chcp !== 'undefined') {
-                                $rootScope.fetchupdatetimer = $timeout(function () {
-                                    if (localStorage.getItem('install-update' === true)) {
-                                        chcp.isUpdateAvailableForInstallation(function (error, data) {
-                                            if (error) {
-                                                $log.info('CHCP: Nothing to install');
-                                                $log.info('CHCP: ' + error.description);
-                                                return;
-                                            }
-
-                                            // update is in cache and can be installed - install it
-                                            $log.info('CHCP: Current version: ' + data.currentVersion);
-                                            $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
-                                            chcp.installUpdate(function (error) {
+                                // When app goes in pause, try to install if required.
+                                if (typeof chcp !== 'undefined') {
+                                    $rootScope.fetchupdatetimer = $timeout(function () {
+                                        if (localStorage.getItem('install-update' === true)) {
+                                            chcp.isUpdateAvailableForInstallation(function (error, data) {
                                                 if (error) {
-                                                    $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                    $log.info('CHCP: Nothing to install');
                                                     $log.info('CHCP: ' + error.description);
-                                                } else {
                                                     return;
                                                 }
-                                            });
-                                        });
-                                    } else {
-                                        chcp.fetchUpdate(function (error, data) {
-                                            if (error) {
-                                                if (error.code === 2) {
-                                                    $log.info('CHCP: There is no available update.');
-                                                } else {
-                                                    $log.info('CHCP: Failed to load the update with error code: ' + error.code);
-                                                }
-
-                                                $log.info('CHCP: ' + error.description);
-                                                localStorage.setItem('install-update', false);
-                                            } else {
-                                                $log.info('CHCP: Update success, trying to install.');
 
                                                 // update is in cache and can be installed - install it
                                                 $log.info('CHCP: Current version: ' + data.currentVersion);
@@ -392,17 +378,45 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                         $log.info('CHCP: Something went wrong with the update, will retry later.');
                                                         $log.info('CHCP: ' + error.description);
                                                     } else {
-                                                        $log.info('CHCP: Update successfully install, restarting new files.');
-                                                        localStorage.setItem('install-update', false);
                                                         return;
                                                     }
                                                 });
-                                            }
-                                        });
-                                    }
-                                }, 5000);
-                            }
-                        });
+                                            });
+                                        } else {
+                                            chcp.fetchUpdate(function (error, data) {
+                                                if (error) {
+                                                    if (error.code === 2) {
+                                                        $log.info('CHCP: There is no available update.');
+                                                    } else {
+                                                        $log.info('CHCP: Failed to load the update with error code: ' + error.code);
+                                                    }
+
+                                                    $log.info('CHCP: ' + error.description);
+                                                    localStorage.setItem('install-update', false);
+                                                } else {
+                                                    $log.info('CHCP: Update success, trying to install.');
+
+                                                    // update is in cache and can be installed - install it
+                                                    $log.info('CHCP: Current version: ' + data.currentVersion);
+                                                    $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
+                                                    chcp.installUpdate(function (error) {
+                                                        if (error) {
+                                                            $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                            $log.info('CHCP: ' + error.description);
+                                                        } else {
+                                                            $log.info('CHCP: Update successfully install, restarting new files.');
+                                                            localStorage.setItem('install-update', false);
+                                                            return;
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }, 5000);
+                                }
+                            });
+                        }
+                        // !skip chcp inside webview loaded app!
 
                         if (load.application.is_bo_locked) {
                             $rootScope.app_is_bo_locked = true;
@@ -417,15 +431,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         if (window.StatusBar !== undefined) {
                             switch (DEVICE_TYPE) {
                                 case SB.DEVICE.TYPE_ANDROID:
-                                    if (load.application.android_status_bar_is_hidden === true) {
+                                    if (load.application.androidStatusBarIsHidden === true) {
                                         window.StatusBar.hide();
                                     }
                                     break;
                                 case SB.DEVICE.TYPE_IOS:
-                                    if (load.application.ios_status_bar_is_hidden === true) {
+                                    if (load.application.iosStatusBarIsHidden === true) {
                                         window.StatusBar.hide();
                                     }
                                     break;
+                                default:
+                                    // Do nothing!
                             }
                         }
 
@@ -449,7 +465,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }
                             });
 
-                        $rootScope.app_is_locked = Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
+                        $rootScope.app_is_locked = Application.is_locked &&
+                            !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
 
                         $window.colors = load.application.colors;
                         if (window.StatusBar !== undefined) {
@@ -463,9 +480,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         try {
-                            AdmobService.init(load.application.admob_v2);
+                            AdmobService.init(load.application.admob);
                         } catch (error) {
-                            $log.error('Unable to init AdMob.');
+                            $log.error('Unable to initialize AdMob.');
                         }
 
                         if (Customer.isLoggedIn()) {
@@ -479,8 +496,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $rootScope.getTargetForLink = function () {
                             return !$rootScope.isNativeApp ? '_system' : '_blank';
                         };
-
-                        $window.__ionicNavBarDelegate = $ionicNavBarDelegate;
 
                         $rootScope.$on('$ionicView.loaded', function (event, data) {
                             if (data.stateName !== 'home') {
@@ -549,7 +564,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Global listeners for logout/lock app!
                         $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-                            $rootScope.app_is_locked = (Application.is_locked && !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
+                            $rootScope.app_is_locked = (Application.is_locked &&
+                                !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode));
 
                             if (!$rootScope.app_is_locked && Application.is_locked) {
                                 $state.go('home');
@@ -586,7 +602,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                             $rootScope.unlockUpdate = 0;
 
-                            var checkingUpdate = Dialog.alert('CHCP', 'Checking for update ...', 'OK', -1);
+                            Dialog.alert('CHCP', 'Checking for update ...', 'OK', -1);
 
                             chcp.fetchUpdate(function (fetchUpdateError, fetchUpdateData) {
                                 if (fetchUpdateError) {
@@ -720,7 +736,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         networkPromise.promise
                             .then(function (networkPromiseResult) {
                                 // On refresh cache success, refresh pages, then refresh homepage!
-                                Pages.populate(networkPromiseResult.homepage);
+                                Pages.populate(networkPromiseResult.featureBlock);
                                 $rootScope.$broadcast(SB.EVENTS.CACHE.layoutReload);
                             }, function () {})
                             .then(function () {

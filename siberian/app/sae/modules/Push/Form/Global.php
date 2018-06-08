@@ -32,6 +32,18 @@ class Push_Form_Global extends Siberian_Form_Abstract {
             "android" => __("Android only"),
         ));
 
+        $coverImage = $this->addSimpleImage(
+            'cover',
+            __('Cover'),
+            __('Send a cover image'),
+            [
+                'width' => 1080,
+                'height' => 600,
+            ]);
+        $coverImage
+            ->addClass('default_button')
+            ->addClass('form_button');
+
         $open_url = $this->addSimpleCheckbox("open_url", __("Open custom URL"));
 
         $url = $this->addSimpleText("url", __("URL"));

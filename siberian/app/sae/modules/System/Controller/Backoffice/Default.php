@@ -1,56 +1,70 @@
 <?php
 
-class System_Controller_Backoffice_Default extends Backoffice_Controller_Default {
-
+class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
+{
+    /**
+     * @var string
+     */
     static public $crmApiUrl = "http://krypton.siberiancms.com";
 
-    public function findallAction() {
-        $data = $this->_findconfig();
-        $this->_sendHtml($data);
+    /**
+     *
+     */
+    public function findallAction()
+    {
+        $this->_sendJson($this->_findconfig());
     }
 
-    public function saveAction() {
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+    /**
+     * @throws Zend_Json_Exception
+     */
+    public function saveAction()
+    {
+        $request = $this->getRequest();
+        $params = $request->getBodyParams();
+        if (!empty($params)) {
             try {
-                $this->_save($data);
-                $data = array(
-                    "success" => 1,
-                    "message" => __("Info successfully saved")
-                );
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+                $this->_save($params);
+                $payload = [
+                    'success' => 1,
+                    'message' => __('Info successfully saved')
+                ];
+            } catch (Exception $e) {
+                $payload = [
+                    'error' => 1,
+                    'message' => $e->getMessage()
+                ];
             }
 
         } else {
-            $data = array(
-                "error" => 1,
-                "message" => "An error occurred while saving"
-            );
+            $payload = [
+                'error' => 1,
+                'message' => 'An error occurred while saving'
+            ];
         }
 
-        $this->_sendHtml($data);
-
+        $this->_sendJson($payload);
     }
 
-    protected function _findconfig() {
-        
-        $config = new System_Model_Config();
-        $values = $config->findAll(array("code IN (?)" => $this->_codes));
+    /**
+     * @return array
+     */
+    protected function _findconfig()
+    {
+        $values = (new System_Model_Config())
+            ->findAll(["code IN (?)" => $this->_codes]);
 
-        $data = array();
-        foreach($this->_codes as $code) {
-            $data[$code] = array();
+        $data = [];
+        foreach ($this->_codes as $code) {
+            $data[$code] = [];
         }
 
-        foreach($values as $value) {
-            $data[$value->getCode()] = array(
+        foreach ($values as $value) {
+            $data[$value->getCode()] = [
                 "code" => $value->getCode(),
                 "label" => __($value->getLabel()),
                 "value" => $value->getValue()
-            );
+            ];
         }
 
         # Custom SMTP
@@ -61,8 +75,15 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         return $data;
     }
 
-    protected function _save($data) {
-
+    /**
+     * @param $data
+     * @return $this
+     * @throws Exception
+     * @throws Siberian_Exception
+     * @throws Zend_Exception
+     */
+    protected function _save($data)
+    {
         if (__getConfig('is_demo')) {
             // Demo version
             throw new Siberian_Exception("This is a demo version, these changes can't be saved");
@@ -71,19 +92,17 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         # Custom SMTP
         $this->_saveSmtp($data);
 
-        foreach($data as $code => $values) {
-            if(empty($code)) {
+        foreach ($data as $code => $values) {
+            if (empty($code)) {
                 continue;
             }
-            if(!in_array($code, $this->_codes)) {
+            if (!in_array($code, $this->_codes)) {
                 continue;
             }
-            if($code == "favicon") {
+            if ($code === 'favicon') {
                 continue;
             }
-            $config = new System_Model_Config();
-            $config->find($code, "code");
-            $config->setValue($values["value"])->save();
+            __set($code, $values['value']);
         }
 
         return $this;
@@ -94,8 +113,9 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
      *
      * @param $data
      */
-    public function _saveSmtp($data) {
-        if(!isset($data["smtp_credentials"])) {
+    public function _saveSmtp($data)
+    {
+        if (!isset($data["smtp_credentials"])) {
             return $this;
         }
 
@@ -105,11 +125,11 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         $api_key = new Api_Model_Key();
 
         $provider = $api_provider->find("smtp_credentials", "code");
-        if($provider->getId()) {
-            $keys = $api_key->findAll(array("provider_id = ?" => $provider->getId()));
-            foreach($keys as $key) {
+        if ($provider->getId()) {
+            $keys = $api_key->findAll(["provider_id = ?" => $provider->getId()]);
+            foreach ($keys as $key) {
                 $code = $key->getKey();
-                if(isset($_data[$code])) {
+                if (isset($_data[$code])) {
                     $key->setValue($_data[$code])->save();
                 }
             }
@@ -118,35 +138,35 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         return $this;
     }
 
-    public function generateanalyticsAction() {
-
+    /**
+     *
+     */
+    public function generateanalyticsAction()
+    {
         try {
-
             Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
             Analytics_Model_Aggregate::getInstance()->run(time());
             Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
 
-            $data = array(
+            $payload = [
                 "success" => 1,
                 "message" => __("Your analytics has been computed.")
-            );
-        } catch(Exception $e) {
-            $data = array(
+            ];
+        } catch (Exception $e) {
+            $payload = [
                 "error" => 1,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
-        $this->_sendHtml($data);
-
+        $this->_sendJson($payload);
     }
 
-    public function generateanalyticsforperiodAction() {
-
+    public function generateanalyticsforperiodAction()
+    {
         try {
-
             $data = Zend_Json::decode($this->getRequest()->getRawBody());
-            if(count($data) !== 2 ) {
+            if (count($data) !== 2) {
                 throw new Exception("No period sent.");
             }
 
@@ -156,64 +176,117 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
             $fromTimestamp = $from->toValue();
             $toTimestamp = $to->toValue();
 
-            if($fromTimestamp > $toTimestamp) {
+            if ($fromTimestamp > $toTimestamp) {
                 throw new Exception("Invalid period, end date is before start date.");
             }
 
-            if($toTimestamp - $fromTimestamp > 60 * 60 * 24 * 31) {
+            if ($toTimestamp - $fromTimestamp > 60 * 60 * 24 * 31) {
                 throw new Exception("Period to long, please select less than one month.");
             }
 
             $currentTimestamp = $fromTimestamp;
-            while($currentTimestamp <= $toTimestamp) {
+            while ($currentTimestamp <= $toTimestamp) {
                 Analytics_Model_Aggregate::getInstance()->run($currentTimestamp);
                 $currentTimestamp += 60 * 60 * 24;
             }
 
-            $data = array(
+            $data = [
                 "success" => 1,
                 "message" => __("Your analytics has been computed.")
-            );
+            ];
 
-        } catch(Exception $e) {
-            $data = array(
+        } catch (Exception $e) {
+            $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendHtml($data);
 
     }
 
-    public function checksiberiancmslicenseAction() {
+    public function checksiberiancmslicenseAction()
+    {
         try {
-            $data = array(
+            $data = [
                 'host' => $_SERVER['SERVER_NAME'],
                 'licenseKey' => System_Model_Config::getValueFor('siberiancms_key')
-            );
+            ];
             $json = json_encode($data);
-            $client = new Zend_Http_Client(self::$crmApiUrl."/siberian-licenses/use");
+            $client = new Zend_Http_Client(self::$crmApiUrl . "/siberian-licenses/use");
             $client->setMethod(Zend_Http_Client::POST);
             $client->setAdapter('Zend_Http_Client_Adapter_Curl');
-            $client->setHeaders(array("Content-type" => 'application/json'));
+            $client->setHeaders(["Content-type" => 'application/json']);
             $response = $client->setRawData($json)->request();
-            if($response->getRawBody() === "License has no more activation left") {
+            if ($response->getRawBody() === "License has no more activation left") {
                 throw new Exception(__("License has no more activation left"));
             }
-            if($response->getStatus() !== 200) {
+            if ($response->getStatus() !== 200) {
                 throw new Exception(__("Invalid license key"));
             }
-            $data = array(
+            $data = [
                 "message" => __("License is valid")
-            );
-        } catch(Exception $e) {
-            $data = array(
+            ];
+        } catch (Exception $e) {
+            $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
-            );
+            ];
         }
         $this->_sendHtml($data);
+    }
+
+    /**
+     * Alias action endpoint
+     */
+    public function getlicensetypeAction ()
+    {
+        $this->_sendJson(self::getLicenseType());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLicenseType ()
+    {
+        try {
+            $curl = curl_init();
+            $license = __get('siberiancms_key');
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "http://krypton.siberiancms.com/siberian-licenses/check",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "{\n\t\"licenseKey\": \"" . $license . "\"\n}",
+                CURLOPT_HTTPHEADER => [
+                    "content-type: application/json"
+                ],
+            ]);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                throw new \Siberian\Exception('#080-00: ' . $err);
+            } else {
+                $payload = [
+                    'success' => true,
+                    'result' => json_decode($response, true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return $payload;
     }
 
 }

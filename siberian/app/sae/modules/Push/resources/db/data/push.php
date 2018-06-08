@@ -9,6 +9,8 @@ $queries = [
     'ALTER TABLE `push_apns_devices` CHANGE `push_badge` `push_badge` ENUM(\'disabled\',\'enabled\') CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT \'enabled\';',
     'ALTER TABLE `push_apns_devices` CHANGE `push_alert` `push_alert` ENUM(\'disabled\',\'enabled\') CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT \'enabled\';',
     'ALTER TABLE `push_apns_devices` CHANGE `push_sound` `push_sound` ENUM(\'disabled\',\'enabled\') CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT \'enabled\';',
+    'ALTER TABLE `push_message_global` CHANGE `cover` `cover` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;',
+    'ALTER TABLE `push_messages` CHANGE `cover` `cover` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL;',
 ];
 
 # 4.12.2 fixes iphone disabled push

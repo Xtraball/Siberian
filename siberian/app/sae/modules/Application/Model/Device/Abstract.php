@@ -1,34 +1,56 @@
 <?php
 
-abstract class Application_Model_Device_Abstract extends Core_Model_Default {
-
+/**
+ * Class Application_Model_Device_Abstract
+ */
+abstract class Application_Model_Device_Abstract extends Core_Model_Default
+{
+    /**
+     * @var string
+     */
     public $_os_name = "__unset__";
+
+    /**
+     * @var
+     */
     public $_logger;
 
-    public function getOsName() {
+    /**
+     * @return string
+     */
+    public function getOsName()
+    {
         return $this->_os_name;
     }
 
     /**
-     * @param bool $cron
+     * @param bool $isApkService
      * @return mixed
      */
-    public function getResources() {
+    public function getResources($isApkService = false)
+    {
         $umask = umask(0);
-        $resource = $this->prepareResources();
+        $resource = $this->prepareResources($isApkService);
         umask($umask);
 
         return $resource;
     }
 
-    protected function __replace($replacements, $file, $regex = false) {
+    /**
+     * @param $replacements
+     * @param $file
+     * @param bool $regex
+     * @throws Siberian_Exception
+     */
+    protected function __replace($replacements, $file, $regex = false)
+    {
         $contents = file_get_contents($file);
-        if(!$contents) {
-            throw new Exception(__('An error occurred while editing file (%s).', $file));
+        if (!$contents) {
+            throw new Siberian_Exception(__('An error occurred while editing file (%s).', $file));
         }
 
-        foreach($replacements as $search => $replace) {
-            if($regex) {
+        foreach ($replacements as $search => $replace) {
+            if ($regex) {
                 $contents = preg_replace($search, $replace, $contents);
             } else {
                 $contents = str_replace($search, $replace, $contents);
@@ -36,7 +58,6 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
 
         }
         file_put_contents($file, $contents);
-
     }
 
     /**
@@ -45,22 +66,22 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default {
      * @return string
      * @throws Exception
      */
-    protected function zipFolder() {
+    protected function zipFolder()
+    {
 
         $folder = $this->_dest_source;
-        if(!isset($this->_dest_archive)) {
+        if (!isset($this->_dest_archive)) {
             $dest = "{$this->_dest_source}/{$this->_zipname}.zip";
         } else {
             $dest = "{$this->_dest_archive}/{$this->_zipname}.zip";
         }
-        
+
         Core_Model_Directory::zip($folder, $dest);
 
-        if(!file_exists($dest)) {
+        if (!file_exists($dest)) {
             throw new Exception("An error occurred during the creation of the archive ({$dest})");
         }
 
         return $dest;
-
     }
 }

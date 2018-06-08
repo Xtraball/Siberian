@@ -16,7 +16,6 @@ angular.module('starter').controller('MediaPlayerController', function ($cordova
     };
 
     $scope.backButton = function () {
-        console.log('back media');
         MediaPlayer.goBack(MediaPlayer.is_radio, true);
     };
 

@@ -19,6 +19,8 @@ class Folder2_Form_Settings extends Siberian_Form_Abstract {
 
         $cardDesign = $this->addSimpleCheckbox('card_design', __('Use card design'));
 
+        $allowLineReturn = $this->addSimpleCheckbox('allow_line_return', __('Allow line return in Title & Subtitles'));
+
         $valueId = $this->addSimpleHidden('value_id');
     }
 }

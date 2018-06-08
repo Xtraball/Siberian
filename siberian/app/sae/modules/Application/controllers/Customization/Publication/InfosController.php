@@ -160,13 +160,14 @@ class Application_Customization_Publication_InfosController extends Application_
                 $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
                 $pDesign = $this->getRequest()->getParam("design_code");
                 $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
+                $isApkService = $this->getRequest()->getParam("apk", false) === "apk";
 
                 # ACL Apk user
                 if($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
                     throw new Exception("You are not allowed to generate APK.");
                 }
 
-                if($type == "apk") {
+                if($type == "apk" && !$isApkService) {
                     $queue = new Application_Model_ApkQueue();
 
                     $queue->setAppId($application->getId());
@@ -179,6 +180,12 @@ class Application_Customization_Publication_InfosController extends Application_
                     $queue->setName($application->getName());
                     $queue->setType($device.$noads);
                     $queue->setDesignCode($design_code);
+                }
+
+                // New case for source to apk generator!
+                if ($isApkService) {
+                    $queue->setIsApkService(1);
+                    $queue->setApkStatus('pending');
                 }
 
                 $queue->setHost($this->getRequest()->getHttpHost());
@@ -201,6 +208,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
                 $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
                 $more["queued"] = Application_Model_Queue::getPosition($application->getId());
+                $more["apk_service"] = Application_Model_SourceQueue::getApkServiceStatus($application->getId());
 
                 $data = array(
                     "success" => 1,

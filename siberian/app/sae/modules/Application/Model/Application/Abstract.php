@@ -9,9 +9,10 @@
  * @method string getFlickrKey()
  * @method string getFlickrSecret()
  * @method string getDesignCode()
+ * @method string getName()
  */
-abstract class Application_Model_Application_Abstract extends Core_Model_Default {
-
+abstract class Application_Model_Application_Abstract extends Core_Model_Default
+{
     const PATH_IMAGE = '/images/application';
     const PATH_TEMPLATES = '/images/templates';
     const OVERVIEW_PATH = 'overview';
@@ -19,6 +20,27 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     const PATH_TO_SOURCE_CODE = "/var/apps/browser/index-prod.html#/";
     const DESIGN_CODE_ANGULAR = "angular";
     const DESIGN_CODE_IONIC = "ionic";
+
+    /**
+     * @var array
+     */
+    public static $backButtons = [
+        'ion-ios-arrow-back',
+        'ion-android-arrow-back',
+        'ion-arrow-left-a',
+        'ion-arrow-left-b',
+        'ion-arrow-left-c',
+        'ion-arrow-return-left',
+        'ion-chevron-left',
+        'ion-ios-arrow-left',
+        'ion-ios-arrow-thin-left',
+        'ion-ios-undo-outline',
+        'ion-ios-undo',
+        'ion-reply',
+        'ion-home',
+        'ion-ios-home-outline',
+        'ion-ios-home',
+    ];
 
     protected $_startup_image;
     protected $_customers;
@@ -30,7 +52,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_design_blocks;
     protected $_admin_ids = [];
 
-    public function __construct($params = []) {
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Application_Model_Db_Table_Application';
     }
@@ -43,10 +66,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $value_id
      * @return bool
      */
-    public function valueIdBelongsTo($value_id) {
+    public function valueIdBelongsTo($value_id)
+    {
 
         # Handle special cases.
-        if(in_array($value_id, ["home"])) {
+        if (in_array($value_id, ["home"])) {
             return true;
         }
 
@@ -61,16 +85,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $result;
     }
 
-    public function findByHost($host, $path = null) {
+    public function findByHost($host, $path = null)
+    {
 
-        if(!empty($path)) {
+        if (!empty($path)) {
             $uri = explode('/', ltrim($path, '/'));
             $i = 0;
-            while($i <= 1) {
-                if(!empty($uri[$i])) {
+            while ($i <= 1) {
+                if (!empty($uri[$i])) {
                     $value = $uri[$i];
                     $this->find($value, 'tmp_key');
-                    if($this->getId()) {
+                    if ($this->getId()) {
                         $this->setUseTmpKey('1');
                         break;
                     }
@@ -79,9 +104,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             }
         }
 
-        if(!$this->getId()) {
+        if (!$this->getId()) {
 
-            if(!in_array($host[0], ['www'])) {
+            if (!in_array($host[0], ['www'])) {
                 $this->find($host, 'domain');
             }
         }
@@ -90,15 +115,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function findAllByAdmin($admin_id, $where = [], $order = null, $count = null, $offset = null) {
+    public function findAllByAdmin($admin_id, $where = [], $order = null, $count = null, $offset = null)
+    {
         return $this->getTable()->findAllByAdmin($admin_id, $where, $order, $count, $offset);
     }
 
-    public function findAllToPublish() {
+    public function findAllToPublish()
+    {
         return $this->getTable()->findAllToPublish();
     }
 
-    public function getOwner() {
+    public function getOwner()
+    {
 
         $admin = new Admin_Model_Admin();
         $admin->find($this->getAdminId());
@@ -109,10 +137,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * @return array|mixed|null|string
      */
-    public function getPrivacyPolicy() {
+    public function getPrivacyPolicy()
+    {
         $data = $this->getData("privacy_policy");
         $data = trim(strip_tags($data));
-        if(empty($data)) {
+        if (empty($data)) {
             $config_pp = System_Model_Config::getValueFor("privacy_policy");
             $this->setData("privacy_policy", $config_pp)->save();
         }
@@ -120,9 +149,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getData("privacy_policy");
     }
 
-    public function save() {
+    public function save()
+    {
 
-        if(!$this->getId()) {
+        if (!$this->getId()) {
 
             // Check if values are valid!
             $applicationName = trim($this->getData('name'));
@@ -141,8 +171,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             }
 
             $this->setKey(uniqid())
-                ->setDesignCode(self::DESIGN_CODE_IONIC)
-            ;
+                ->setDesignCode(self::DESIGN_CODE_IONIC);
             if (!$this->getLayoutId()) {
                 $this->setLayoutId(1);
             }
@@ -150,8 +179,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         parent::save();
 
-        if(!empty($this->_admin_ids)) {
-            foreach($this->_admin_ids as $admin_id) {
+        if (!empty($this->_admin_ids)) {
+            foreach ($this->_admin_ids as $admin_id) {
                 $this->getTable()->addAdmin($this->getId(), $admin_id);
             }
         }
@@ -160,9 +189,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function addAdmin($admin) {
+    public function addAdmin($admin)
+    {
 
-        if($this->getId()) {
+        if ($this->getId()) {
             $is_allowed_to_add_pages = $admin->hasIsAllowedToAddPages() ? $admin->getIsAllowedToAddPages() : true;
             $this->getTable()->addAdmin($this->getId(), $admin->getId(), $is_allowed_to_add_pages);
         } else {
@@ -175,42 +205,56 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function removeAdmin($admin) {
+    public function removeAdmin($admin)
+    {
         $this->getTable()->removeAdmin($this->getId(), $admin->getId());
         return $this;
     }
 
-    public function setAdminIds($adminIds) {
+    public function setAdminIds($adminIds)
+    {
         $this->_admin_ids = $adminIds;
         return $this;
     }
 
-    public function getAdmins() {
+    /**
+     * @return mixed
+     */
+    public function getAdmins()
+    {
         return $this->getTable()->getAdminIds($this->getId());
     }
 
-    public function hasAsAdmin($admin_id) {
-        return (bool) $this->getTable()->hasAsAdmin($this->getId(), $admin_id);
+    /**
+     * @param $admin_id
+     * @return bool
+     */
+    public function hasAsAdmin($admin_id)
+    {
+        return (bool)$this->getTable()->hasAsAdmin($this->getId(), $admin_id);
     }
 
-    public function getDevices() {
-
+    /**
+     * @return mixed
+     */
+    public function getDevices()
+    {
         $device_ids = array_keys(Application_Model_Device::getAllIds());
-        foreach($device_ids as $device_id) {
-            if(empty($this->_devices[$device_id])) {
+        foreach ($device_ids as $device_id) {
+            if (empty($this->_devices[$device_id])) {
                 $this->getDevice($device_id);
             }
         }
 
         return $this->_devices;
-
     }
 
     /**
      * @param $deviceId
      * @return Application_Model_Device_Ionic_Android|Application_Model_Device_Ionic_Ios
      */
-    public function getDevice($deviceId) {
+    public function getDevice($deviceId)
+    {
         if (empty($this->_devices[$deviceId])) {
             $device = new Application_Model_Device();
             $device->find([
@@ -220,8 +264,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if (!$device->getId()) {
                 $device->loadDefault($deviceId);
                 $device->setAppId($this->getId());
+
                 // Save newly created device!
                 $device->save();
+
                 // Fetch it again (for MySQL defaults)
                 $device->find($device->getId());
             }
@@ -230,18 +276,35 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         return $this->_devices[$deviceId];
-
     }
 
-    public function useIonicDesign() {
+    /**
+     * @return Application_Model_Device_Ionic_Android
+     */
+    public function getAndroidDevice()
+    {
+        return $this->getDevice(2);
+    }
+
+    /**
+     * @return Application_Model_Device_Ionic_Ios
+     */
+    public function getIosDevice()
+    {
+        return $this->getDevice(1);
+    }
+
+    public function useIonicDesign()
+    {
         return $this->getDesignCode() == self::DESIGN_CODE_IONIC;
     }
 
-    public function getDesign() {
+    public function getDesign()
+    {
 
-        if(!$this->_design) {
+        if (!$this->_design) {
             $this->_design = new Template_Model_Design();
-            if($this->getDesignId()) {
+            if ($this->getDesignId()) {
                 $this->_design->find($this->getDesignId());
             }
         }
@@ -250,28 +313,29 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function setDesign($design, $category = null) {
+    public function setDesign($design, $category = null)
+    {
 
-        $image_name = uniqid().'.png';
+        $image_name = uniqid() . '.png';
         $relative_path = '/homepage_image/bg/';
         $lowres_relative_path = '/homepage_image/bg_lowres/';
 
-        if(!is_dir(self::getBaseImagePath().$lowres_relative_path)) {
-            mkdir(self::getBaseImagePath().$lowres_relative_path, 0777, true);
+        if (!is_dir(self::getBaseImagePath() . $lowres_relative_path)) {
+            mkdir(self::getBaseImagePath() . $lowres_relative_path, 0777, true);
         }
 
-        if(!copy($design->getBackgroundImage(true), self::getBaseImagePath().$lowres_relative_path.$image_name)) {
+        if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
             throw new Exception(__('#101: An error occurred while saving'));
         }
 
-        if(!is_dir(self::getBaseImagePath().$relative_path)) {
-            mkdir(self::getBaseImagePath().$relative_path, 0777, true);
+        if (!is_dir(self::getBaseImagePath() . $relative_path)) {
+            mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
         }
-        if(!copy($design->getBackgroundImageHd(true), self::getBaseImagePath().$relative_path.$image_name)) {
+        if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
             throw new Exception(__('#102: An error occurred while saving'));
         }
 
-        foreach($design->getBlocks() as $block) {
+        foreach ($design->getBlocks() as $block) {
             $block->setAppId($this->getId())->save();
         }
 
@@ -292,11 +356,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
             ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
             ->setStartupImageIphoneX($design->getStartupImageIphoneX())
-            ->setHomepageBackgroundImageRetinaLink($relative_path.$image_name)
-            ->setHomepageBackgroundImageLink($lowres_relative_path.$image_name)
-        ;
+            ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
+            ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
 
-        if(!$this->getOptionIds() AND $category->getId()) {
+        if (!$this->getOptionIds() AND $category->getId()) {
             $this->createDummyContents($category, null, $category);
         }
 
@@ -304,59 +367,61 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getRealLayoutVisibility() {
+    public function getRealLayoutVisibility()
+    {
         $layout = $this->getLayout();
         $layout_visibility = $layout->getVisibility();
         $layout_code = $layout->getCode();
-        if($layout_code === "layout_9") {
+        if ($layout_code === "layout_9") {
             return "toggle";
         }
 
-        if($layout_visibility === "always") {
+        if ($layout_visibility === "always") {
 
         }
     }
 
-    public function createDummyContents($category, $design = null, $_category = null) {
+    public function createDummyContents($category, $design = null, $_category = null)
+    {
 
         $design = is_null($design) ? $this->getDesign() : $design;
         $design_content = new Template_Model_Design_Content();
         $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
 
-        foreach($design_contents as $content) {
+        foreach ($design_contents as $content) {
             $option_value = new Application_Model_Option_Value();
             $option = new Application_Model_Option();
             $option->find($content->getOptionId());
 
-            if(!$option->getId()) continue;
+            if (!$option->getId()) continue;
 
             $option_value->setOptionId($content->getOptionId())
                 ->setAppId($this->getApplication()->getId())
                 ->setTabbarName($content->getOptionTabbarName())
                 ->setIconId($content->getOptionIcon())
                 ->setBackgroundImage($content->getOptionBackgroundImage())
-                ->save()
-            ;
+                ->save();
 
-            if($option->getModel() && $option->getCode() != "push_notification") {
+            if ($option->getModel() && $option->getCode() != "push_notification") {
                 $category = ($_category != null) ? $_category : $category;
                 $option->getObject()->createDummyContents($option_value, $design, $category);
             }
         }
     }
 
-    public function getBlocks($type_id = null) {
+    public function getBlocks($type_id = null)
+    {
 
-        if(!$type_id) {
+        if (!$type_id) {
             $type_id = $this->useIonicDesign() ? Template_Model_Block::TYPE_IONIC_APP : Template_Model_Block::TYPE_APP;
         }
 
         $block = new Template_Model_Block();
-        if(empty($this->_design_blocks)) {
+        if (empty($this->_design_blocks)) {
             $this->_design_blocks = $block->findAll(['app_id' => $this->getId(), 'type_id' => $type_id], 'position ASC');
 
-            if(!empty($this->_design_blocks)) {
-                foreach($this->_design_blocks as $block) {
+            if (!empty($this->_design_blocks)) {
+                foreach ($this->_design_blocks as $block) {
                     $block->setApplication($this);
                 }
             }
@@ -369,7 +434,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $code
      * @return Template_Model_Block
      */
-    public function getBlock($code) {
+    public function getBlock($code)
+    {
 
         if ($this->useIonicDesign() && $code === 'tabbar') {
             $code = 'homepage';
@@ -380,8 +446,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if ($block->getCode() === $code) {
                 return $block;
             } else if ($block->getChildren()) {
-                foreach($block->getChildren() as $child) {
-                    if($child->getCode() === $code) {
+                foreach ($block->getChildren() as $child) {
+                    if ($child->getCode() === $code) {
                         return $child;
                     }
                 }
@@ -391,14 +457,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return (new Template_Model_Block());
     }
 
-    public function setBlocks($blocks) {
+    public function setBlocks($blocks)
+    {
         $this->_design_blocks = $blocks;
         return $this;
     }
 
-    public function getLayout() {
+    public function getLayout()
+    {
 
-        if(!$this->_layout) {
+        if (!$this->_layout) {
             $this->_layout = new Application_Model_Layout_Homepage();
             $this->_layout->find($this->getLayoutId());
         }
@@ -411,10 +479,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $bundle_id
      * @throws Exception
      */
-    public function setBundleId($bundle_id) {
+    public function setBundleId($bundle_id)
+    {
         $regex_ios = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
 
-        if(preg_match($regex_ios, $bundle_id)) {
+        if (preg_match($regex_ios, $bundle_id)) {
             $this->setData("bundle_id", $bundle_id)->save();
         } else {
             throw new Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
@@ -427,10 +496,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $package_name
      * @throws Exception
      */
-    public function setPackageName($package_name) {
+    public function setPackageName($package_name)
+    {
         $regex_android = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
 
-        if(preg_match($regex_android, $package_name)) {
+        if (preg_match($regex_android, $package_name)) {
             $this->setData("package_name", $this->validatePackageName($package_name))->save();
         } else {
             throw new Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
@@ -444,9 +514,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      *
      * @return array|mixed|null|string
      */
-    public function getBundleId() {
+    public function getBundleId()
+    {
         $bundle_id = $this->getData("bundle_id");
-        if(empty($bundle_id)) {
+        if (empty($bundle_id)) {
             $bundle_id = $this->buildId("ios");
             $this->setData("bundle_id", $bundle_id)->save();
         }
@@ -459,9 +530,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      *
      * @return array|mixed|null|string
      */
-    public function getPackageName() {
+    public function getPackageName()
+    {
         $package_name = $this->getData("package_name");
-        if(empty($package_name)) {
+        if (empty($package_name)) {
             $package_name = $this->buildId("android");
             $this->setData("package_name", $package_name)->save();
         }
@@ -476,14 +548,15 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return string
      * @throws Zend_Uri_Exception
      */
-    public function buildId($type = "app") {
+    public function buildId($type = "app")
+    {
 
-        $buildId = function($host, $suffix) {
+        $buildId = function ($host, $suffix) {
 
             $url = array_reverse(explode(".", $url));
             $url[] = $suffix;
 
-            foreach($url as &$part) {
+            foreach ($url as &$part) {
                 $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
             }
 
@@ -491,7 +564,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         };
 
         /** Just in case someone messed-up data in backoffice we must have a fallback. */
-        if(Siberian::getWhitelabel() !== false) {
+        if (Siberian::getWhitelabel() !== false) {
 
             $whitelabel = Siberian::getWhitelabel();
 
@@ -500,11 +573,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
             $host = $whitelabel->getHost();
 
-            if(empty($id_android)) {
+            if (empty($id_android)) {
                 $whitelabel->setData("app_default_identifier_android", $buildId($host, "android"));
             }
 
-            if(empty($id_ios)) {
+            if (empty($id_ios)) {
                 $whitelabel->setData("app_default_identifier_ios", $buildId($host, "ios"));
             }
 
@@ -520,11 +593,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $request = Zend_Controller_Front::getInstance()->getRequest();
             $host = mb_strtolower($request->getServer("HTTP_HOST"));
 
-            if(empty($id_android)) {
+            if (empty($id_android)) {
                 System_Model_Config::setValueFor("app_default_identifier_android", $buildId($host, "android"));
             }
 
-            if(empty($id_ios)) {
+            if (empty($id_ios)) {
                 System_Model_Config::setValueFor("app_default_identifier_ios", $buildId($host, "ios"));
             }
 
@@ -533,12 +606,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         // Now we can process bundle id or package name
-        switch($type) {
+        switch ($type) {
             case "android":
-                    return $id_android . $this->getKey();
+                return $id_android . $this->getKey();
                 break;
             case "ios":
-                    return $id_ios . $this->getKey();
+                return $id_ios . $this->getKey();
                 break;
         }
     }
@@ -547,10 +620,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $package_name
      * @return string
      */
-    public function validatePackageName($package_name) {
+    public function validatePackageName($package_name)
+    {
         $parts = explode(".", $package_name);
-        foreach($parts as $i => $part) {
-            if($part == "new") {
+        foreach ($parts as $i => $part) {
+            if ($part == "new") {
                 $parts[$i] = "new_";
             }
         }
@@ -558,25 +632,30 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return implode(".", $parts);
     }
 
-    public function isActive() {
-        return (bool) $this->getData("is_active");
+    public function isActive()
+    {
+        return (bool)$this->getData("is_active");
     }
 
-    public function isLocked() {
-        return (bool) $this->getData("is_locked");
+    public function isLocked()
+    {
+        return (bool)$this->getData("is_locked");
     }
 
-    public function canBePublished() {
-        return (bool) $this->getData("can_be_published");
+    public function canBePublished()
+    {
+        return (bool)$this->getData("can_be_published");
     }
 
-    public function isSomeoneElseEditingIt($admin_id = null) {
+    public function isSomeoneElseEditingIt($admin_id = null)
+    {
         return $this->getTable()->isSomeoneElseEditingIt($this->getId(), Zend_Session::getId(), $admin_id);
     }
 
-    public function getCustomers() {
+    public function getCustomers()
+    {
 
-        if(is_null($this->_customers)) {
+        if (is_null($this->_customers)) {
             $customer = new Customer_Model_Customer();
             $this->_customers = $customer->findAll(["app_id" => $this->getId()]);
         }
@@ -585,9 +664,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
 
-        if(empty($this->_options)) {
+        if (empty($this->_options)) {
             $option = new Application_Model_Option_Value();
             $this->_options = $option->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
         }
@@ -596,16 +676,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getUsedOptions() {
+    public function getUsedOptions()
+    {
         $option = new Application_Model_Option_Value();
         return $option->findAllWithOptionsInfos(["a.app_id" => $this->getId(), "a.is_visible" => 1]);
     }
 
-    public function getOptionIds() {
+    public function getOptionIds()
+    {
 
         $option_ids = [];
         $options = $this->getOptions();
-        foreach($options as $option) {
+        foreach ($options as $option) {
             $option_ids[] = $option->getOptionId();
         }
 
@@ -613,13 +695,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getOption($code) {
+    public function getOption($code)
+    {
 
         $option_sought = new Application_Model_Option();
         $dummy = new Application_Model_Option();
         $dummy->find($code, 'code');
-        foreach($this->getOptions() as $page) {
-            if($page->getOptionId() == $dummy->getId()) $option_sought = $page;
+        foreach ($this->getOptions() as $page) {
+            if ($page->getOptionId() == $dummy->getId()) $option_sought = $page;
         }
 
         return $option_sought;
@@ -630,26 +713,27 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param int $samples
      * @return Application_Model_Option_Value[]
      */
-    public function getPages($samples = 0, $with_folder = false) {
+    public function getPages($samples = 0, $with_folder = false)
+    {
 
         $options = [
-            "a.app_id"      => $this->getId(),
+            "a.app_id" => $this->getId(),
             "remove_folder" => new Zend_Db_Expr("folder_category_id IS NULL"),
-            "is_visible"    => 1
+            "is_visible" => 1
         ];
 
-        if($with_folder) {
+        if ($with_folder) {
             unset($options["remove_folder"]);
         }
 
-        if(empty($this->_pages)) {
+        if (empty($this->_pages)) {
             $option = new Application_Model_Option_Value();
             $this->_pages = $option->findAll($options);
         }
 
-        if($this->_pages->count() == 0 AND $samples > 0) {
+        if ($this->_pages->count() == 0 AND $samples > 0) {
             $dummy = Application_Model_Option_Value::getDummy();
-            for($i = 0; $i < $samples; $i++) {
+            for ($i = 0; $i < $samples; $i++) {
                 $this->_pages->addRow($this->_pages->count(), $dummy);
             }
         }
@@ -658,7 +742,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getPage($code) {
+    public function getPage($code)
+    {
 
         $dummy = new Application_Model_Option();
         $dummy->find($code, 'code');
@@ -668,10 +753,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getFirstActivePage() {
-        foreach($this->getPages() as $page) {
-            if($page->isActive()) {
-                if($page->getCode() != "padlock" AND (!$page->isLocked() OR $this->getSession()->getCustomer()->canAccessLockedFeatures())) {
+    public function getFirstActivePage()
+    {
+        foreach ($this->getPages() as $page) {
+            if ($page->isActive()) {
+                if ($page->getCode() != "padlock" AND (!$page->isLocked() OR $this->getSession()->getCustomer()->canAccessLockedFeatures())) {
                     return $page;
                 }
             }
@@ -679,28 +765,33 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return new Application_Model_Option_Value();
     }
 
-    public function getTabbarAccountName() {
-        if($this->hasTabbarAccountName()) return $this->getData('tabbar_account_name');
+    public function getTabbarAccountName()
+    {
+        if ($this->hasTabbarAccountName()) return $this->getData('tabbar_account_name');
         else return __('My account');
     }
 
-    public function getShortTabbarAccountName() {
+    public function getShortTabbarAccountName()
+    {
         return Core_Model_Lib_String::formatShortName($this->getTabbarAccountName());
     }
 
-    public function getTabbarMoreName() {
-        if($this->hasTabbarMoreName()) return $this->getData('tabbar_more_name');
+    public function getTabbarMoreName()
+    {
+        if ($this->hasTabbarMoreName()) return $this->getData('tabbar_more_name');
         else return __('More');
     }
 
-    public function getShortTabbarMoreName() {
+    public function getShortTabbarMoreName()
+    {
         return Core_Model_Lib_String::formatShortName($this->getTabbarMoreName());
     }
 
-    public function usesUserAccount() {
+    public function usesUserAccount()
+    {
         $options = $this->getUsedOptions();
-        foreach($options as $option) {
-            if($option->getUseMyAccount()) {
+        foreach ($options as $option) {
+            if ($option->getUseMyAccount()) {
                 return true;
             }
         }
@@ -708,28 +799,31 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return false;
     }
 
-    public function getCountryCode() {
+    public function getCountryCode()
+    {
         $code = $this->getData('country_code');
-        if(is_null($code)) {
+        if (is_null($code)) {
             $code = Core_Model_Language::getCurrentLocaleCode();
         }
         return $code;
     }
 
-    public function isPublished() {
+    public function isPublished()
+    {
 
-        foreach($this->getDevices() as $device) {
-            if($device->isPublished()) return true;
+        foreach ($this->getDevices() as $device) {
+            if ($device->isPublished()) return true;
         }
 
         return false;
 
     }
 
-    public function getQrcode($uri = null, $params = []) {
+    public function getQrcode($uri = null, $params = [])
+    {
         $qrcode = new Core_Model_Lib_Qrcode();
         $url = "";
-        if(filter_var($uri, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
+        if (filter_var($uri, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
             $url = $uri;
         } else {
             //$url = $this->getUrl($uri);
@@ -739,34 +833,66 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $qrcode->getImage($this->getName(), $url, $params);
     }
 
-    public static function getImagePath() {
+    /**
+     * @return string
+     */
+    public static function getImagePath()
+    {
         return Core_Model_Directory::getPathTo(static::PATH_IMAGE);
     }
-    public static function getBaseImagePath() {
+
+    /**
+     * @return string
+     */
+    public static function getBaseImagePath()
+    {
         return Core_Model_Directory::getBasePathTo(static::PATH_IMAGE);
     }
 
-    public static function getTemplatePath() {
+    /**
+     * @return string
+     */
+    public static function getTemplatePath()
+    {
         return Core_Model_Directory::getPathTo(self::PATH_TEMPLATES);
     }
-    public static function getBaseTemplatePath() {
+
+    /**
+     * @return string
+     */
+    public static function getBaseTemplatePath()
+    {
         return Core_Model_Directory::getBasePathTo(self::PATH_TEMPLATES);
     }
-    public static function getDesignCodes() {
+
+    /**
+     * @return array
+     */
+    public static function getDesignCodes()
+    {
         return [
             self::DESIGN_CODE_ANGULAR => ucfirst(self::DESIGN_CODE_ANGULAR),
             self::DESIGN_CODE_IONIC => ucfirst(self::DESIGN_CODE_IONIC)
         ];
     }
 
-    public static function hasModuleInstalled($code) {
+    /**
+     * @param $code
+     * @return bool
+     */
+    public static function hasModuleInstalled($code)
+    {
         $module = new Installer_Model_Installer_Module();
         $module->prepare($code, false);
 
         return $module->isInstalled();
     }
 
-    public function getLogo() {
+    /**
+     * @return string
+     */
+    public function getLogo()
+    {
         $logo = self::getImagePath() . $this->getData('logo');
         $baseLogo = self::getBaseImagePath() . $this->getData('logo');
         if (is_file($baseLogo)) {
@@ -776,13 +902,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return self::getImagePath() . '/placeholder/no-image.png';
     }
 
-    public function getIcon($size = null, $name = null, $base = false) {
+    /**
+     * @param null $size
+     * @param null $name
+     * @param bool $base
+     * @return string
+     */
+    public function getIcon($size = null, $name = null, $base = false)
+    {
 
         if (!$size) {
             $size = 114;
         }
 
-        $icon = self::getBaseImagePath().$this->getData('icon');
+        $icon = self::getBaseImagePath() . $this->getData('icon');
         if (!is_file($icon) || !file_exists($icon)) {
             $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
             $image = Siberian_Image::open($icon);
@@ -805,15 +938,24 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $newIcon->getUrl($base);
     }
 
-    public function getIconUrl($size = null) {
+    /**
+     * @param null $size
+     * @return string
+     */
+    public function getIconUrl($size = null)
+    {
         $icon = $this->getIcon($size);
-        if(substr($icon,0,1) == "/") $icon = substr($icon,1,strlen($icon)-1);
-        return Core_Model_Url::create().$icon;
+        if (substr($icon, 0, 1) == "/") $icon = substr($icon, 1, strlen($icon) - 1);
+        return Core_Model_Url::create() . $icon;
     }
 
-    public function getAllPictos() {
+    /**
+     * @return array
+     */
+    public function getAllPictos()
+    {
         $picto_urls = [];
-        foreach($this->getBlocks() as $block) {
+        foreach ($this->getBlocks() as $block) {
             $dir = Core_Model_Directory::getDesignPath(true, "/images/pictos/", "mobile");
             $pictos = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, 4096), RecursiveIteratorIterator::SELF_FIRST);
             foreach ($pictos as $picto) {
@@ -833,7 +975,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getAppStoreIcon($base = false)
     {
-        return $this->getIcon(1024, 'touch_icon_'.$this->getId(). '_1024', $base);
+        return $this->getIcon(1024, 'touch_icon_' . $this->getId() . '_1024', $base);
     }
 
     /**
@@ -842,7 +984,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getGooglePlayIcon($base = false)
     {
-        return $this->getIcon(512, 'touch_icon_'.$this->getId(). '_512', $base);
+        return $this->getIcon(512, 'touch_icon_' . $this->getId() . '_512', $base);
     }
 
     /**
@@ -858,11 +1000,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if ($type == "standard") {
                 $image_name = $this->getData('startup_image');
             } else {
-                $image_name = $this->getData('startup_image_'.$type);
+                $image_name = $this->getData('startup_image_' . $type);
             }
 
-            if (!empty($image_name) && file_exists(self::getBaseImagePath().$image_name)) {
-                $image = $base ? self::getBaseImagePath().$image_name : self::getImagePath().$image_name;
+            if (!empty($image_name) && file_exists(self::getBaseImagePath() . $image_name)) {
+                $image = $base ? self::getBaseImagePath() . $image_name : self::getImagePath() . $image_name;
             }
 
         } catch (Exception $e) {
@@ -886,14 +1028,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         if ($type == "standard") {
             $type = "";
         } else {
-            $type = "-".str_replace("_", "-", $type);
+            $type = "-" . str_replace("_", "-", $type);
         }
 
         $image_name = "no-startupimage{$type}.png";
 
         $path = $base ? self::getBaseImagePath() : self::getImagePath();
 
-        return $path."/placeholder/".$image_name;
+        return $path . "/placeholder/" . $image_name;
     }
 
     /**
@@ -951,61 +1093,109 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $instagram_client_id;
     }
 
-    public function getInstagramToken() {
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getInstagramToken()
+    {
 
         $instagram_token = $this->getData("instagram_token");
 
-        if(!$instagram_token) {
+        if (!$instagram_token) {
             $instagram_token = Api_Model_Key::findKeysFor('instagram')->getToken();
         }
 
         return $instagram_token;
     }
 
-    public function updateOptionValuesPosition($positions) {
+    /**
+     * @param $positions
+     * @return $this
+     */
+    public function updateOptionValuesPosition($positions)
+    {
         $this->getTable()->updateOptionValuesPosition($positions);
         return $this;
     }
 
-    public function subscriptionIsActive() {
-        if(Siberian_Version::TYPE != "PE") return true;
+    /**
+     * @return bool
+     */
+    public function subscriptionIsActive()
+    {
+        if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->isActive();
     }
 
-    public function subscriptionIsOffline() {
-        if(Siberian_Version::TYPE != "PE") return true;
+    /**
+     * @return bool
+     */
+    public function subscriptionIsOffline()
+    {
+        if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->getPaymentMethod() == "offline";
     }
 
-    public function subscriptionIsDeleted() {
-        if(Siberian_Version::TYPE != "PE") return true;
+    /**
+     * @return bool
+     */
+    public function subscriptionIsDeleted()
+    {
+        if (Siberian_Version::TYPE != "PE") return true;
         return $this->getSubscription()->getIsSubscriptionDeleted();
     }
 
-    public function isAvailableForPublishing($check_sources_access_type) {
+    /**
+     * @param $check_sources_access_type
+     * @return array
+     */
+    public function isAvailableForPublishing($check_sources_access_type)
+    {
         $errors = [];
-        if($this->getPages()->count() < 3) $errors[] = __("At least, 4 pages in the application");
-        if(!$this->getData('background_image')) $errors[] = __("The homepage image");
-        if(!$this->getStartupImage()) $errors[] = __("The startup image");
-        if(!$this->getData('icon')) $errors[] = __("The desktop icon");
-        if(!$this->getName()) $errors[] = __("The application name");
-        if($check_sources_access_type) {
-            if(!$this->getBundleId()) $errors[] = __("The bundle id");
+        if ($this->getPages()->count() < 1) {
+            $errors[] = __("At least, 1 page in the application");
+        }
+        if (!$this->getData('background_image')) {
+            $errors[] = __("The homepage image");
+        }
+        if (!$this->getStartupImage()) {
+            $errors[] = __("The startup image");
+        }
+        if (!$this->getData('icon')) {
+            $errors[] = __("The desktop icon");
+        }
+        if (!$this->getName()) {
+            $errors[] = __("The application name");
+        }
+        if ($check_sources_access_type) {
+            if (!$this->getBundleId()) $errors[] = __("The bundle id");
         } else {
-            if(!$this->getDescription()) $errors[] = __("The description");
-            else if(strlen($this->getDescription()) < 200) $errors[] = __("At least 200 characters in the description");
-            if(!$this->getKeywords()) $errors[] = __("The keywords");
-            if(!$this->getMainCategoryId()) $errors[] = __("The main category");
+            if (!$this->getDescription()) {
+                $errors[] = __("The description");
+            } else if (strlen($this->getDescription()) < 200) {
+                $errors[] = __("At least 200 characters in the description");
+            }
+            if (!$this->getKeywords()) {
+                $errors[] = __("The keywords");
+            }
+            if (!$this->getMainCategoryId()) {
+                $errors[] = __("The main category");
+            }
         }
 
         return $errors;
     }
 
-    public function isFreeTrialExpired() {
-        if(Siberian_Version::TYPE != "PE") return false;
+    /**
+     * @return bool
+     * @throws Zend_Date_Exception
+     */
+    public function isFreeTrialExpired()
+    {
+        if (Siberian_Version::TYPE != "PE") return false;
 
         $date_expire_at = $this->getFreeUntil();
-        if(!$date_expire_at) return false;
+        if (!$date_expire_at) return false;
 
         $date = new Zend_Date();
         $date_until = new Zend_Date($date_expire_at, "y-MM-d HH:mm:ss");
@@ -1014,16 +1204,21 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $diff > 0;
     }
 
-    public function getBackgroundImageUrl($type = 'normal') {
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getBackgroundImageUrl($type = 'normal')
+    {
 
         try {
             $backgroundImage = '';
             if ($background_image = $this->getData('background_image')) {
                 if ($type === 'normal') {
                     $background_image .= '.jpg';
-                } else if($type === 'retina') {
+                } else if ($type === 'retina') {
                     $background_image .= '@2x.jpg';
-                } else if($type === 'retina4') {
+                } else if ($type === 'retina4') {
                     $background_image .= '-568h@2x.jpg';
                 }
 
@@ -1035,28 +1230,46 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $backgroundImage = '';
         }
 
-        if(empty($backgroundImage)) {
+        if (empty($backgroundImage)) {
             $backgroundImage = $this->getNoBackgroundImageUrl($type);
         }
 
         return $backgroundImage;
     }
 
-    public function getHomepageBackgroundImageUrl($type = '', $return = false) {
+    /**
+     * @param string $type
+     * @param bool $return
+     * @return string
+     */
+    public function getHomepageBackgroundImageUrl($type = '', $return = false)
+    {
 
         try {
 
             $image = '';
 
             switch ($type) {
-                case "landscape_hd": $image_name = $this->getData('background_image_landscape_hd'); break;
-                case "landscape_tablet": $image_name = $this->getData('background_image_landscape_tablet'); break;
+                case "landscape_hd":
+                    $image_name = $this->getData('background_image_landscape_hd');
+                    break;
+                case "landscape_tablet":
+                    $image_name = $this->getData('background_image_landscape_tablet');
+                    break;
                 case "landscape_standard":
-                case "landscape": $image_name = $this->getData('background_image_landscape'); break;
-                case "hd": $image_name = $this->getData('background_image_hd'); break;
-                case "tablet": $image_name = $this->getData('background_image_tablet'); break;
+                case "landscape":
+                    $image_name = $this->getData('background_image_landscape');
+                    break;
+                case "hd":
+                    $image_name = $this->getData('background_image_hd');
+                    break;
+                case "tablet":
+                    $image_name = $this->getData('background_image_tablet');
+                    break;
                 case "standard":
-                default: $image_name = $this->getData('background_image'); break;
+                default:
+                    $image_name = $this->getData('background_image');
+                    break;
             }
 
             if ($return === true) {
@@ -1069,9 +1282,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             }
 
             if (!empty($image_name)) {
-                if (file_exists(self::getBaseImagePath().$image_name)) {
+                if (file_exists(self::getBaseImagePath() . $image_name)) {
                     $image = self::getImagePath() . $image_name;
-                } else if(file_exists(self::getBaseTemplatePath().$image_name)) {
+                } else if (file_exists(self::getBaseTemplatePath() . $image_name)) {
                     $image = self::getTemplatePath() . $image_name;
                 }
             }
@@ -1080,64 +1293,87 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $image = '';
         }
 
-        if(empty($image)) {
+        if (empty($image)) {
             $image = $this->getNoBackgroundImageUrl($type);
         }
 
         return $image;
     }
 
-    public function getSliderImages() {
+    /**
+     * @return array
+     */
+    public function getSliderImages()
+    {
 
         try {
 
             $library = new Media_Model_Library();
             $images = $library->find($this->getApplication()->getHomepageSliderLibraryId())->getImages();
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $images = [];
         }
 
         return $images;
     }
 
-    public function getNoBackgroundImageUrl($type = 'standard') {
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function getNoBackgroundImageUrl($type = 'standard')
+    {
 
-        switch($type) {
-            case "hd": $image_name = "no-background-hd.jpg"; break;
-            case "tablet": $image_name = "no-background-tablet.jpg"; break;
+        switch ($type) {
+            case "hd":
+                $image_name = "no-background-hd.jpg";
+                break;
+            case "tablet":
+                $image_name = "no-background-tablet.jpg";
+                break;
             case "standard":
-            default: $image_name = "no-background.jpg"; break;
+            default:
+                $image_name = "no-background.jpg";
+                break;
         }
 
-        return self::getImagePath()."/placeholder/$image_name";
+        return self::getImagePath() . "/placeholder/$image_name";
     }
 
-    public function getUrl($url = '', array $params = [], $locale = null, $forceKey = false) {
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @param bool $forceKey
+     * @return array|mixed|string
+     */
+    public function getUrl($url = '', array $params = [], $locale = null, $forceKey = false)
+    {
 
         $is_ionic_url = false;
-        if(!empty($params["use_ionic"])) {
+        if (!empty($params["use_ionic"])) {
             $is_ionic_url = true;
             unset($params["use_ionic"]);
         }
 
-        if(!$this->getDomain()) $forceKey = true;
+        if (!$this->getDomain()) $forceKey = true;
 
-        if($is_ionic_url) {
+        if ($is_ionic_url) {
             $url = Core_Model_Url::create($url, $params, $locale);
-        } else if($forceKey) {
+        } else if ($forceKey) {
             $request = Zend_Controller_Front::getInstance()->getRequest();
             $use_key = $request->useApplicationKey();
             $request->useApplicationKey(true);
             $url = Core_Model_Url::create($url, $params, $locale);
             $request->useApplicationKey($use_key);
         } else {
-            $domain = rtrim($this->getDomain(), "/")."/";
+            $domain = rtrim($this->getDomain(), "/") . "/";
             $protocol = System_Model_Config::getValueFor("use_https") ? "https://" : "http://";
-            $url = Core_Model_Url::createCustom($protocol.$domain, $url, $params, $locale);
+            $url = Core_Model_Url::createCustom($protocol . $domain, $url, $params, $locale);
         }
 
-        if(substr($url, strlen($url) -1, 1) != "/") {
+        if (substr($url, strlen($url) - 1, 1) != "/") {
             $url .= "/";
         }
 
@@ -1145,8 +1381,15 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public function getIonicUrl($url = '', array $params = [], $locale = null, $forceKey = false) {
-
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @param bool $forceKey
+     * @return array|mixed|string
+     */
+    public function getIonicUrl($url = '', array $params = [], $locale = null, $forceKey = false)
+    {
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $params["use_ionic"] = true;
 
@@ -1164,12 +1407,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $url;
     }
 
-    public function getPath($uri = '', array $params = [], $locale = null) {
-
+    /**
+     * @param string $uri
+     * @param array $params
+     * @param null $locale
+     * @return array|mixed|string
+     */
+    public function getPath($uri = '', array $params = [], $locale = null)
+    {
         $request = Zend_Controller_Front::getInstance()->getRequest();
-        $useKey = (bool) $request->useApplicationKey();
+        $useKey = (bool)$request->useApplicationKey();
         $request->useApplicationKey(true);
-        if($this->getValueId()) {
+        if ($this->getValueId()) {
             $param["value_id"] = $this->getValueId();
         }
         $url = parent::getPath($uri, $params, $locale);
@@ -1179,15 +1428,28 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
-    public static function getIonicPath() {
+    /**
+     * @return string
+     */
+    public static function getIonicPath()
+    {
         return trim(Core_Model_Directory::getPathTo(self::PATH_TO_SOURCE_CODE), "/");
     }
 
-    public function requireToBeLoggedIn() {
+    /**
+     * @return array|mixed|null|string
+     */
+    public function requireToBeLoggedIn()
+    {
         return $this->getData('require_to_be_logged_in');
     }
 
-    public function duplicate() {
+    /**
+     * @return $this
+     * @throws Siberian_Exception
+     */
+    public function duplicate()
+    {
 
         // Retrieve all the accounts
         $admins = $this->getAdmins();
@@ -1219,8 +1481,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->setDomain(null)
             ->setSubdomain(null)
             ->setSubdomainIsValidated(null)
-            ->save()
-        ;
+            ->save();
 
         // Duplicate the images folder
         $old_app_folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::getImagePath() . DIRECTORY_SEPARATOR . $old_app_id);
@@ -1228,8 +1489,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         Core_Model_Directory::duplicate($old_app_folder, $target_app_folder);
 
         // Save the design
-        if(!empty($blocks)) {
-            foreach($blocks as $template_block) {
+        if (!empty($blocks)) {
+            foreach ($blocks as $template_block) {
                 $block = new Template_Model_Block();
                 $block->setData($template_block);
                 $block->setAppId($this->getId());
@@ -1240,7 +1501,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             ->save();
 
         // Copy all the features but folders
-        foreach($option_values as $option_value) {
+        foreach ($option_values as $option_value) {
             if (!in_array($option_value->getCode(), ['folder', 'folder_v2'])) {
                 $option_value->copyTo($this);
                 $value_ids[$option_value->getOldValueId()] = $option_value->getId();
@@ -1281,7 +1542,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $app_id = $this->getId();
             //create new lib
             $library = new Media_Model_Library();
-            $library->setName("homepage_slider_".$app_id)
+            $library->setName("homepage_slider_" . $app_id)
                 ->save();
             $library_id = $library->getId();
 
@@ -1295,11 +1556,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 $explodedLink = explode("/", $oldLink);
                 $explodedLink[3] = $app_id;
 
-                $newLink = implode("/",$explodedLink);
+                $newLink = implode("/", $explodedLink);
 
                 //copy file
-                mkdir(dirname(getcwd().$newLink), 0777, true);
-                copy(getcwd().$oldLink, getcwd().$newLink);
+                mkdir(dirname(getcwd() . $newLink), 0777, true);
+                copy(getcwd() . $oldLink, getcwd() . $newLink);
 
                 //duplicate db entry
                 $newModelImage = new Media_Model_Library_Image();
@@ -1320,22 +1581,33 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @var null
+     */
     public static $singleton = null;
 
-    public static function setSingleton($application) {
+    /**
+     * @param $application
+     */
+    public static function setSingleton($application)
+    {
         self::$singleton = $application;
     }
 
-    public static function getSingleton() {
+    /**
+     * @return null
+     */
+    public static function getSingleton()
+    {
         return self::$singleton;
     }
-
 
     /**
      * @param bool $base64
      * @return string
      */
-    public function _getImage($name) {
+    public function _getImage($name)
+    {
         return $this->__getBase64Image($this->getData($name));
     }
 
@@ -1344,7 +1616,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param $option
      * @return $this
      */
-    public function _setImage($name, $base64, $option, $width = 512, $height = 512) {
+    public function _setImage($name, $base64, $option, $width = 512, $height = 512)
+    {
         $path = $this->__setImageFromBase64($base64, $option, $width, $height);
         $this->setData($name, $path);
 
@@ -1356,18 +1629,19 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      *
      * @return string
      */
-    public function toYml() {
+    public function toYml()
+    {
         $data = $this->getData();
 
-        $data["background_image"]               = $this->_getImage("background_image");
-        $data["background_image_hd"]            = $this->_getImage("background_image_hd");
-        $data["background_image_tablet"]        = $this->_getImage("background_image_tablet");
-        $data["icon"]                           = $this->_getImage("icon");
-        $data["startup_image"]                  = $this->_getImage("startup_image");
-        $data["startup_image_retina"]           = $this->_getImage("startup_image_retina");
-        $data["startup_image_iphone_6"]         = $this->_getImage("startup_image_iphone_6");
-        $data["startup_image_iphone_6_plus"]    = $this->_getImage("startup_image_iphone_6_plus");
-        $data["startup_image_ipad_retina"]      = $this->_getImage("startup_image_ipad_retina");
+        $data["background_image"] = $this->_getImage("background_image");
+        $data["background_image_hd"] = $this->_getImage("background_image_hd");
+        $data["background_image_tablet"] = $this->_getImage("background_image_tablet");
+        $data["icon"] = $this->_getImage("icon");
+        $data["startup_image"] = $this->_getImage("startup_image");
+        $data["startup_image_retina"] = $this->_getImage("startup_image_retina");
+        $data["startup_image_iphone_6"] = $this->_getImage("startup_image_iphone_6");
+        $data["startup_image_iphone_6_plus"] = $this->_getImage("startup_image_iphone_6_plus");
+        $data["startup_image_ipad_retina"] = $this->_getImage("startup_image_ipad_retina");
 
         $data["created_at"] = null;
         $data["updated_at"] = null;
@@ -1383,7 +1657,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         ]);
 
         $dataset_tbas = [];
-        foreach($tbas as $tba) {
+        foreach ($tbas as $tba) {
             $tba_data = $tba->getData();
             $tba_data["created_at"] = null;
             $tba_data["updated_at"] = null;
@@ -1406,7 +1680,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      *
      * @return array|mixed|null|string
      */
-    public function getPrivacyPolicyGdpr ()
+    public function getPrivacyPolicyGdpr()
     {
         $whitelabel = Siberian::getWhitelabel();
         if (Siberian::getWhitelabel()) {
@@ -1448,7 +1722,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * This action will completely wipe the Application & all it's content & resources!
      */
-    public function wipe() {
+    public function wipe()
+    {
         $appId = $this->getId();
 
         // 1. Pre-check PE!
@@ -1560,7 +1835,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @param Siberian_Cron $cron
      * @param Cron_Model_Cron $task
      */
-    public static function getSizeOnDisk ($cron, $task)
+    public static function getSizeOnDisk($cron, $task)
     {
         // We do really need to lock this thing!
         $cron->lock($task->getId());
@@ -1584,7 +1859,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 }
                 usleep(10);
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $cron->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }

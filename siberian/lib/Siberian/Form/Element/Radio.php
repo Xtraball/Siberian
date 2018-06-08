@@ -12,7 +12,8 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
     /**
      * @param $boolean
      */
-    public function setIsFormHorizontal($boolean) {
+    public function setIsFormHorizontal($boolean)
+    {
         $this->is_form_horizontal = $boolean;
     }
 
@@ -24,44 +25,60 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
     /**
      * @param $color
      */
-    public function setColor($color) {
+    public function setColor($color)
+    {
         $this->color = $color;
     }
 
 	/**
 	 * @throws Zend_Form_Exception
 	 */
-	public function init() {
+	public function init()
+    {
 		$this->setDisableLoadDefaultDecorators(true);
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->addFilters(array('StringTrim','StripTags'));
+		$this->addFilters(['StringTrim','StripTags']);
 		$this
 			->setSeparator('')
-			->setDecorators(array(
+			->setDecorators([
 		  		'ViewHelper',
-	           	array('Errors',array(
-	           		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
-	           		'class'=>'alert alert-error form-error')
-	          	),
-	            array('Description', array(
-	                'placement' => Zend_Form_Decorator_Abstract::APPEND,
-	                'class' => 'help-block'
-	            )),
-	            array(array('controls' => 'HtmlTag'), array(
-	                'tag'   => 'div',
-	                'class' => 'controls',
-	            )),
-	            array('Label', array(
-	                'class' => 'control-label',
-	                'requiredSuffix' => ' *',
-	                'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-	            	'disableFor' => true
-	            )),
-	            array('ControlGroup')
-	  		))
-	  		->setAttrib('label_class','pull-left radio-label')
-  		;
-
+	           	[
+	           	    'Errors',
+                    [
+	           		    'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
+	           		    'class'=>'alert alert-error form-error'
+                    ]
+                ],
+	            [
+	                'Description',
+                    [
+                        'placement' => Zend_Form_Decorator_Abstract::APPEND,
+                        'class' => 'help-block'
+                    ]
+                ],
+	            [
+	                [
+	                    'controls' => 'HtmlTag'
+                    ],
+                    [
+                        'tag'   => 'div',
+                        'class' => 'controls',
+                    ]
+                ],
+	            [
+	                'Label',
+                    [
+                        'class' => 'control-label',
+                        'requiredSuffix' => ' *',
+                        'placement' => Zend_Form_Decorator_Abstract::PREPEND,
+                        'disableFor' => true
+                    ]
+                ],
+	            [
+	                'ControlGroup'
+                ]
+            ])
+	  		->setAttrib('label_class','pull-left radio-label');
 	}
 
 	/**
@@ -79,32 +96,32 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
         }
 
 		return $this
-		    ->addClass('sb-form-radio color-red')
+		    ->addClass('sb-form-radio ' . $this->color)
 		    ->setAttrib('label_class', 'sb-custom-radio radio-inline')
 			->setSeparator("<br />")
 			->setAttrib("escape", false)
-		    ->setDecorators(array(
+		    ->setDecorators([
     	  		'ViewHelper',
-				array(array('container'=>'HtmlTag'),array(
+				[['container'=>'HtmlTag'], [
 					'class' => 'sb-radio-container '.$element_class
-				)),
-                array('Label', array(
+                ]],
+                ['Label', [
                     'class' => 'sb-form-line-title '.$label_class,
                     'requiredSuffix' => ' *',
                     'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-                )),
-               	array('Errors',array(
+                ]],
+               	['Errors', [
                		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
                		'class'=>'alert alert-error'
-              	)),
-                array(array('cb' => 'HtmlTag'),array(
+                ]],
+                [['cb' => 'HtmlTag'], [
                 	'class' => 'sb-cb',
                 	'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                )),
-                array('ControlGroup',array(
+                ]],
+                ['ControlGroup', [
                 	'class' => 'form-group sb-form-line'
-                ))
-    	  	)
+                ]]
+                ]
 	  	);
 	}
 
@@ -120,7 +137,7 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 	 * @return Zend_Form_Element_Multi
 	 */
 	public function addMultiOptions(array $options) {
-		$new_options = array();
+		$new_options = [];
 		foreach($options as $value => $label) {
 			$new_options[$value] = '<span class="sb-radio-label">'.$label.'</span>';
 		}

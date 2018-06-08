@@ -2,6 +2,11 @@
 
 /**
  * Class System_Model_Config
+ *
+ * @method $this setCode(string $code)
+ * @method $this setValue(string $value)
+ * @method $this setLabel(string $label)
+ *
  */
 class System_Model_Config extends Rss_Model_Feed_Abstract
 {
@@ -44,14 +49,25 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
     /**
      * @param $code
      * @param $value
-     * @return System_Model_Config
+     * @param null $label
+     * @return $this|null
+     * @throws Exception
+     * @throws Zend_Exception
      */
-    public static function setValueFor($code, $value)
+    public static function setValueFor($code, $value, $label = null)
     {
-        $config = new self();
-        $config->find($code, "code");
-        $config->setCode($code);
-        $config->setValue($value)->save();
+        $config = (new self())
+            ->find($code, "code");
+        $config
+            ->setCode($code)
+            ->setValue($value);
+
+        if ($label !== null) {
+            $config->setLabel($label);
+        }
+
+        $config->save();
+
         return $config;
     }
 
@@ -70,11 +86,11 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
         }
 
         if (stripos($this->getValue(), "image/png;base64") !== false) {
-            $data = substr($this->getValue(),strpos($this->getValue(),",")+1);
+            $data = substr($this->getValue(), strpos($this->getValue(), ",") + 1);
             $data = str_replace(' ', '+', $data);
             $data = base64_decode($data);
             $ext = $this->getCode() == "favicon" ? ".ico" : ".png";
-            $filename = $this->getCode().$ext;
+            $filename = $this->getCode() . $ext;
             $filepath = Core_Model_Directory::getBasePathTo("images/default");
 
             if (!is_dir($filepath)) {
@@ -113,19 +129,19 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
     /**
      * @return bool
      */
-    public static function isGdprEnabled ()
+    public static function isGdprEnabled()
     {
         $whitelabel = Siberian::getWhitelabel();
         if ($whitelabel !== false) {
-            return (boolean) $whitelabel->getIsGdprEnabled();
+            return (boolean)$whitelabel->getIsGdprEnabled();
         }
-        return (boolean) self::getValueFor('is_gdpr_enabled');
+        return (boolean)self::getValueFor('is_gdpr_enabled');
     }
 
     /**
      * @return array
      */
-    public static function gdprCountries ()
+    public static function gdprCountries()
     {
         return [
             'BE',

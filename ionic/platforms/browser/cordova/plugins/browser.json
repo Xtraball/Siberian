@@ -7,29 +7,27 @@
     "files": {}
   },
   "installed_plugins": {
-    "phonegap-plugin-push": {
-      "SENDER_ID": "01234567890",
+    "Push": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "phonegap-plugin-barcodescanner": {
+    "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "cordova-plugin-camera": {
+    "BarcodeScanner": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "cordova-plugin-device": {
+    "Camera": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "cordova-plugin-file": {
+    "Device": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "cordova-plugin-inappbrowser": {
+    "File": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "InAppBrowser": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
   },
-  "dependent_plugins": {
-    "cordova-plugin-compat": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    }
-  }
+  "dependent_plugins": {}
 }

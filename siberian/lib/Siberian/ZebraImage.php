@@ -2,7 +2,8 @@
 
 use Gregwar\Cache\CacheInterface;
 
-class Siberian_ZebraImage {
+class Siberian_ZebraImage
+{
 
     /**
      * @var Zebra_Image
@@ -25,10 +26,11 @@ class Siberian_ZebraImage {
      * Siberian_ZebraImage constructor.
      * @param null $originalFile
      */
-    public function __construct($originalFile = null) {
+    public function __construct($originalFile = null)
+    {
         $this->cache_path = Core_Model_Directory::getImageCacheDirectory(true) . "/zebra";
 
-        if(!file_exists($this->cache_path)) {
+        if (!file_exists($this->cache_path)) {
             mkdir($this->cache_path, 0777, true);
         }
 
@@ -45,11 +47,12 @@ class Siberian_ZebraImage {
      * @param string $background_color
      */
     public function resize($width = 0, $height = 0, $method = ZEBRA_IMAGE_CROP_CENTER,
-                           $background_color = -1) {
+                           $background_color = -1)
+    {
         $this->image->preserve_aspect_ratio = true;
         $this->image->enlarge_smaller_images = true;
 
-        $basename  = basename($this->image->source_path);
+        $basename = basename($this->image->source_path);
         $this->image->target_path = $this->cache_path . "/" . str_replace("." . pathinfo($this->image->source_path, PATHINFO_EXTENSION), "", $basename) . ".png";
         $this->image->resize($width, $height, $method, $background_color);
 
@@ -59,18 +62,19 @@ class Siberian_ZebraImage {
     /**
      * @return string
      */
-    public function inline() {
+    public function inline()
+    {
         $filetype = pathinfo($this->image->source_path, PATHINFO_EXTENSION);
 
         /// Seems 24-bit PNG are buggy and turn to solid black
-        if($filetype === 'png') {
+        if ($filetype === 'png') {
             return $this->image->source_path;
         }
 
         $content = file_get_contents($this->image->target_path);
         $base64 = base64_encode($content);
 
-        if(strlen(base64_decode($content)) > self::$max_size) {
+        if (strlen(base64_decode($content)) > self::$max_size) {
             $inline = $this->image->target_path;
         } else {
             $inline = "data:image/png;base64,{$base64}";

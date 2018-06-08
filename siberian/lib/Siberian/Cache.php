@@ -3,19 +3,38 @@
 /**
  * Class Siberian_Cache
  *
- * @version 4.1.0
+ * @version 4.14.0
  *
  * Cache system for inheritance
  *
  * Contains all common references for Siberian_Cache_*
  */
 
-class Siberian_Cache {
-
+class Siberian_Cache
+{
+    /**
+     * @var string
+     */
     const LOCAL_PATH = 'app/local/';
+
+    /**
+     * @var string
+     */
     const DEMO_PATH = 'app/demo/';
+
+    /**
+     * @var string
+     */
     const PE_PATH = 'app/pe/';
+
+    /**
+     * @var string
+     */
     const MAE_PATH = 'app/mae/';
+
+    /**
+     * @var string
+     */
     const SAE_PATH = 'app/sae/';
 
     /**
@@ -27,10 +46,10 @@ class Siberian_Cache {
      * @var array
      */
     public static $editions = [
-        'sae'   => ['sae', 'local'],
-        'mae'   => ['sae', 'mae', 'local'],
-        'pe'    => ['sae', 'mae', 'pe', 'local'],
-        'demo'  => ['sae', 'mae', 'pe', 'demo', 'local'],
+        'sae' => ['sae', 'local'],
+        'mae' => ['sae', 'mae', 'local'],
+        'pe' => ['sae', 'mae', 'pe', 'local'],
+        'demo' => ['sae', 'mae', 'pe', 'demo', 'local'],
     ];
 
     /**
@@ -41,7 +60,8 @@ class Siberian_Cache {
     /**
      * @return bool
      */
-    public static function init() {
+    public static function init()
+    {
         $basePathCache = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
         // Never cache in development!
         if (static::CACHING && is_readable($basePathCache)) {
@@ -59,7 +79,7 @@ class Siberian_Cache {
             self::run();
             if (static::CACHING) {
                 $jsonCache = json_encode(static::$caches[static::CODE]);
-                if($jsonCache !== false) {
+                if ($jsonCache !== false) {
                     file_put_contents($basePathCache, $jsonCache);
                 }
             }
@@ -69,9 +89,10 @@ class Siberian_Cache {
     /**
      * Run the cache builder
      */
-    public static function run() {
+    public static function run()
+    {
         static::preWalk();
-        self::walk();
+        static::walk();
         static::postWalk();
     }
 
@@ -79,10 +100,11 @@ class Siberian_Cache {
      * @param null $code
      * @return bool|mixed
      */
-    public static function getCache($code = null) {
+    public static function getCache($code = null)
+    {
         $code = (is_null($code)) ? static::CODE : $code;
 
-        if(isset(static::$caches[$code])) {
+        if (isset(static::$caches[$code])) {
             return static::$caches[$code];
         }
 
@@ -93,7 +115,8 @@ class Siberian_Cache {
      * @param $cache
      * @param null $code
      */
-    public static function setCache($cache, $code = null) {
+    public static function setCache($cache, $code = null)
+    {
         $code = (is_null($code)) ? static::CODE : $code;
 
         static::$caches[$code] = $cache;
@@ -101,39 +124,23 @@ class Siberian_Cache {
 
     /**
      * Common method for TYPE walkers
+     *
+     * We refresh only local cache, sae/mae/pe are pre-built for convenience.
      */
-    public static function walk() {
-        /** Registering depending on type */
-        switch(Siberian_Version::TYPE) {
-            default: case 'SAE':
-                static::fetch(self::SAE_PATH);
-            break;
-            case 'MAE':
-                    static::fetch(self::SAE_PATH);
-                    static::fetch(self::MAE_PATH);
-                break;
-            case 'PE':
-                    static::fetch(self::SAE_PATH);
-                    static::fetch(self::MAE_PATH);
-                    static::fetch(self::PE_PATH);
-                break;
-        }
-
-        /** DEMO is a special case, it's a PE with additional modules */
-        //if(Siberian_Version::isDemo()) {
-        //    self::registerDesignType(self::DEMO_PATH);
-        //}
-
-        /** Local always on top of everything (user defined) */
+    public static function walk()
+    {
         static::fetch(self::LOCAL_PATH);
     }
 
-    public static function clearCache() {
+    /**
+     *
+     */
+    public static function clearCache()
+    {
         $path = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             unlink($path);
         }
-
     }
 
     /**
@@ -141,11 +148,12 @@ class Siberian_Cache {
      *
      * @param $folder
      */
-    public static function __clearFolder($folder) {
+    public static function __clearFolder($folder)
+    {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $filename = $file->getFileName();
-            if(!preg_match("/android_pwd|\.gitignore/", $filename) && file_exists($file->getPathName())) {
+            if (!preg_match("/android_pwd|\.gitignore/", $filename) && file_exists($file->getPathName())) {
                 unlink($file->getPathName());
             }
         }
@@ -154,7 +162,8 @@ class Siberian_Cache {
     /**
      * Alias to clear cache
      */
-    public static function __clearCache() {
+    public static function __clearCache()
+    {
         $folder = Core_Model_Directory::getBasePathTo("var/cache/");
 
         return self::__clearFolder($folder);
@@ -163,16 +172,17 @@ class Siberian_Cache {
     /**
      * Alias to clear cache
      */
-    public static function __clearLog() {
+    public static function __clearLog()
+    {
         $folder = Core_Model_Directory::getBasePathTo("var/log/");
 
         /** Backup android_pwd files */
         $android_pwd_backup = Core_Model_Directory::getBasePathTo("var/apps/android/pwd");
         $logs = new DirectoryIterator($folder);
         foreach ($logs as $log) {
-            if(!$log->isDir() && !$log->isDot()) {
+            if (!$log->isDir() && !$log->isDot()) {
                 $filename = $log->getFilename();
-                if(preg_match("/android_pwd/", $filename)) {
+                if (preg_match("/android_pwd/", $filename)) {
                     copy($log->getPathname(), "{$android_pwd_backup}/{$filename}");
                 }
             }
@@ -186,16 +196,17 @@ class Siberian_Cache {
      *
      * @param null $name
      */
-    public static function __clearLocks($name = null) {
+    public static function __clearLocks($name = null)
+    {
         $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
 
         $locks = new DirectoryIterator($folder);
         foreach ($locks as $lock) {
-            if(!$lock->isDir() && !$lock->isDot()) {
+            if (!$lock->isDir() && !$lock->isDot()) {
                 $filename = $lock->getFilename();
-                if(preg_match("/\.lock/", $filename)) {
-                    if(!empty($name)) {
-                        if(preg_match("/$name/", $filename)) {
+                if (preg_match("/\.lock/", $filename)) {
+                    if (!empty($name)) {
+                        if (preg_match("/$name/", $filename)) {
                             unlink($lock->getPathname());
                         }
                     } else {
@@ -209,7 +220,8 @@ class Siberian_Cache {
     /**
      * Alias to clear cache
      */
-    public static function __clearTmp() {
+    public static function __clearTmp()
+    {
         $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
 
         return self::__clearFolder($folder);
@@ -222,10 +234,11 @@ class Siberian_Cache {
      * @param int $limit
      * @return array|mixed
      */
-    public static function getDiskUsage($cache = false) {
-        if(!$cache) {
+    public static function getDiskUsage($cache = false)
+    {
+        if (!$cache) {
             $cachedValue = System_Model_Config::getValueFor('disk_usage_cache');
-            if(!empty($cachedValue)) {
+            if (!empty($cachedValue)) {
                 return Siberian_Json::decode($cachedValue);
             }
             return [
@@ -235,8 +248,9 @@ class Siberian_Cache {
                 'tmp_size' => '-',
             ];
         } else {
-            function timeout($start) {
-                if((time() - $start) > 300) {
+            function timeout($start)
+            {
+                if ((time() - $start) > 300) {
                     throw new Siberian_Exception('timelimit hit');
                 }
             }
@@ -299,8 +313,9 @@ class Siberian_Cache {
     /**
      * @param $feature
      */
-    public static function register($feature) {
-        if(!in_array($feature, self::$registered_caches)) {
+    public static function register($feature)
+    {
+        if (!in_array($feature, self::$registered_caches)) {
             self::$registered_caches[] = $feature;
         }
     }
@@ -309,7 +324,8 @@ class Siberian_Cache {
      * @param $feature
      * @return bool
      */
-    public static function isRegistered($feature) {
+    public static function isRegistered($feature)
+    {
         return (in_array($feature, self::$registered_caches));
     }
 

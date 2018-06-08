@@ -7,14 +7,15 @@
  *
  * @author Josh Finlay <josh@glamourcastle.com>
  */
-class Siberian_Network {
+class Siberian_Network
+{
 
     /**
      * CloudFlare IPv4 range
      *
      * @var array
      */
-    public static $cloudflare_ipv4 = array(
+    public static $cloudflare_ipv4 = [
         "103.21.244.0/22",
         "103.22.200.0/22",
         "103.31.4.0/22",
@@ -30,14 +31,14 @@ class Siberian_Network {
         "197.234.240.0/22",
         "198.41.128.0/17",
         "199.27.128.0/21",
-    );
+    ];
 
     /**
      * CloudFlare IPv6 range
      *
      * @var array
      */
-    public static $cloudflare_ipv6 = array(
+    public static $cloudflare_ipv6 = [
         "2400:cb00::/32",
         "2405:8100::/32",
         "2405:b500::/32",
@@ -45,13 +46,14 @@ class Siberian_Network {
         "2803:f800::/32",
         "2c0f:f248::/32",
         "2a06:98c0::/29",
-    );
+    ];
 
     /**
      * @param $url
      * @return mixed
      */
-    public static function testipv4($url) {
+    public static function testipv4($url)
+    {
         $hostname = self::getHostForUrl($url);
         return (filter_var($hostname, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) !== false);
     }
@@ -59,8 +61,9 @@ class Siberian_Network {
     /**
      * @param $url
      */
-    public static function testipv6($url) {
-        if(empty($url)) {
+    public static function testipv6($url)
+    {
+        if (empty($url)) {
             return false;
         }
         $hostname = self::getHostForUrl($url);
@@ -82,9 +85,10 @@ class Siberian_Network {
      * @param $url
      * @return bool
      */
-    public static function getHostForUrl($url) {
+    public static function getHostForUrl($url)
+    {
         $parts = parse_url($url);
-        if(isset($parts["host"])) {
+        if (isset($parts["host"])) {
             return $parts["host"];
         }
         return false;
@@ -96,10 +100,12 @@ class Siberian_Network {
      * @param $domain
      * @return string
      */
-    public function getBaseHost($domain) {
+    public function getBaseHost($domain)
+    {
         $parts = explode(".", $domain);
 
-        return (array_key_exists(count($parts) - 2, $parts) ? $array[count($parts) - 2] : "").".".$parts[count($parts) - 1];
+        return (array_key_exists(count($parts) - 2, $parts) ?
+                $parts[count($parts) - 2] : "") . "." . $parts[count($parts) - 1];
     }
 
     /**
@@ -109,15 +115,15 @@ class Siberian_Network {
      * @param bool $try_a
      * @return bool
      */
-    public static function gethostbyname6($host, $try_a = false) {
-        if(empty($host)) {
+    public static function gethostbyname6($host, $try_a = false)
+    {
+        if (empty($host)) {
             return false;
         }
         $dns = self::gethostbynamel6($host, $try_a);
         if ($dns == false) {
             return false;
-        }
-        else {
+        } else {
             return $dns[0];
         }
     }
@@ -129,17 +135,17 @@ class Siberian_Network {
      * @param bool $try_a
      * @return array|bool
      */
-    public static function gethostbynamel6($host, $try_a = false) {
+    public static function gethostbynamel6($host, $try_a = false)
+    {
         $dns6 = dns_get_record($host, DNS_AAAA);
         if ($try_a == true) {
             $dns4 = dns_get_record($host, DNS_A);
             $dns = array_merge($dns4, $dns6);
-        }
-        else {
+        } else {
             $dns = $dns6;
         }
-        $ip6 = array();
-        $ip4 = array();
+        $ip6 = [];
+        $ip4 = [];
         foreach ($dns as $record) {
             if ($record["type"] == "A") {
                 $ip4[] = $record["ip"];
@@ -152,16 +158,13 @@ class Siberian_Network {
             if ($try_a == true) {
                 if (count($ip4) < 1) {
                     return false;
-                }
-                else {
+                } else {
                     return $ip4;
                 }
-            }
-            else {
+            } else {
                 return false;
             }
-        }
-        else {
+        } else {
             return $ip6;
         }
     }
@@ -171,7 +174,8 @@ class Siberian_Network {
      * @param bool $verifyPeer
      * @return array
      */
-    public static function testSsl($hostname, $verifyPeer = false) {
+    public static function testSsl($hostname, $verifyPeer = false)
+    {
         try {
             $context = stream_context_create([
                 'ssl' => [
@@ -221,13 +225,14 @@ class Siberian_Network {
      * @param $hostname
      * @return bool
      */
-    public static function isCloudFlare($hostname) {
+    public static function isCloudFlare($hostname)
+    {
 
         # Test first ipv4
         $ipv4s = gethostbynamel($hostname);
-        foreach($ipv4s as $ipv4) {
-            foreach(self::$cloudflare_ipv4 as $ipv4_range) {
-                if(self::ipv4InRange($ipv4, $ipv4_range)) {
+        foreach ($ipv4s as $ipv4) {
+            foreach (self::$cloudflare_ipv4 as $ipv4_range) {
+                if (self::ipv4InRange($ipv4, $ipv4_range)) {
 
                     # break on first match
                     return true;
@@ -241,21 +246,22 @@ class Siberian_Network {
     /**
      * Check if a given ip is in a network
      *
-     * @param  string $ipv4    IP to check in IPV4 format eg. 127.0.0.1
+     * @param  string $ipv4 IP to check in IPV4 format eg. 127.0.0.1
      * @param  string $range IP/CIDR netmask eg. 127.0.0.0/24, also 127.0.0.1 is accepted and /32 assumed
      * @return boolean true if the ip is in this range / false if not.
      */
-    public static function ipv4InRange($ipv4, $range) {
+    public static function ipv4InRange($ipv4, $range)
+    {
         if (strpos($range, '/') == false) {
             $range .= '/32';
         }
 
         list($range, $netmask) = explode('/', $range, 2);
 
-        $range_decimal = ip2long( $range );
-        $ip_decimal = ip2long( $ipv4 );
+        $range_decimal = ip2long($range);
+        $ip_decimal = ip2long($ipv4);
         $wildcard_decimal = pow(2, (32 - $netmask)) - 1;
-        $netmask_decimal = ~ $wildcard_decimal;
+        $netmask_decimal = ~$wildcard_decimal;
 
         return (($ip_decimal & $netmask_decimal) == ($range_decimal & $netmask_decimal));
     }
@@ -265,7 +271,8 @@ class Siberian_Network {
      * @param $hostname
      * @return bool
      */
-    public static function validateCname($main_hostname, $hostname) {
+    public static function validateCname($main_hostname, $hostname)
+    {
         $r = dns_get_record($hostname, DNS_CNAME);
         $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $main_hostname));
 

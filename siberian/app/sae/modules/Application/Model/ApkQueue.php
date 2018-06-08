@@ -70,7 +70,7 @@ class Application_Model_ApkQueue extends Core_Model_Default {
                 break;
         }
 
-        if($result && ($result["success"] == true)) {
+        if ($result && ($result["success"] == true)) {
             $this->changeStatus("success");
             $this->setPath($result["path"]);
             $this->save();

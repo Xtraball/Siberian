@@ -25,10 +25,10 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         page_title: $translate.instant('My account'),
         show_avatar: true,
         avatar_loaded: false,
-        privacy_policy: Application.privacy_policy,
-        privacy_policy_gdpr: Application.privacy_policy_gdpr,
+        privacy_policy: Application.privacyPolicy.text,
+        privacy_policy_gdpr: Application.privacyPolicy.gdpr,
         gdpr: {
-            isEnabled: Application.gdprIsEnabled
+            isEnabled: Application.gdpr.isEnabled
         }
     });
 

@@ -2,3 +2,5 @@
 
 var install = require('./src/install.js');
 install(process.argv);
+
+// node_modules/cordova-lib/src/plugman/plugman.js

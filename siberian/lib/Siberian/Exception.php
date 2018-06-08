@@ -1,15 +1,22 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Exception
- *
- * @version 4.8.7
- *
+ * Class Exception
+ * @package Siberian
+ * @version 4.14.0
  */
-
-class Siberian_Exception extends Exception {
-
-    public function __construct($message = '', $code = 0, Exception $previous = null) {
+class Exception extends \Exception
+{
+    /**
+     * Exception constructor.
+     * @param string $message
+     * @param int $code
+     * @param Exception|null $previous
+     */
+    public function __construct($message = '', $code = 0, Exception $previous = null)
+    {
         parent::__construct($message, $code, $previous);
 
         log_exception($this);

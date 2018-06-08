@@ -4,42 +4,35 @@
     <description>Apps Mobile Company app source code</description>
     <author>Apps Mobile Company Dev Team</author>
     <content src="index.html" />
-
     <access origin="*" />
-    <access origin="tel:*" launch-external="yes" />
-    <access origin="geo:*" launch-external="yes" />
-    <access origin="mailto:*" launch-external="yes" />
-    <access origin="sms:*" launch-external="yes" />
-
+    <access launch-external="yes" origin="tel:*" />
+    <access launch-external="yes" origin="geo:*" />
+    <access launch-external="yes" origin="mailto:*" />
+    <access launch-external="yes" origin="sms:*" />
     <allow-navigation href="*" />
-
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
-
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
-    <preference name="FadeSplashScreen" value="true"/>
-    <preference name="FadeSplashScreenDuration" value="500"/>
-
+    <preference name="FadeSplashScreen" value="true" />
+    <preference name="FadeSplashScreenDuration" value="500" />
     <feature name="StatusBar">
         <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-
     <chcp>
-        <config-file url="PLATFORM_URL"/>
-        <native-interface version="7"/>
-        <auto-download enabled="false"/>
-        <auto-install enabled="false"/>
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="8" />
+        <auto-download enabled="false" />
+        <auto-install enabled="false" />
     </chcp>
-
     <platform name="android">
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />
@@ -59,6 +52,8 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+        <resource-file src="resources/google-services.json" target="app/google-services.json" />
+        <preference name="applicationId" value="${applicationId}"/>
     </platform>
     <platform name="ios">
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
@@ -77,7 +72,6 @@
         <icon height="29" src="resources/ios/icon/icon-small.png" width="29" />
         <icon height="58" src="resources/ios/icon/icon-small@2x.png" width="58" />
         <icon height="87" src="resources/ios/icon/icon-small@3x.png" width="87" />
-
         <splash height="2436" src="resources/ios/splash/Default-2436h.png" width="1125" />
         <splash height="1125" src="resources/ios/splash/Default-Landscape-2436h.png" width="2436" />
         <splash height="1136" src="resources/ios/splash/Default-568h@2x~iphone.png" width="640" />
@@ -91,4 +85,5 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
+    <engine name="ios" />
 </widget>

@@ -64,7 +64,7 @@ class Siberian_Debug {
      * @return bool
      */
     public static function isDevelopment() {
-        return (APPLICATION_ENV === "development");
+        return (APPLICATION_ENV === 'development');
     }
 
     /**

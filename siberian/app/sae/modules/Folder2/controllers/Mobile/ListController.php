@@ -3,12 +3,13 @@
 /**
  * Class Folder2_Mobile_ListController
  */
-class Folder2_Mobile_ListController extends Application_Controller_Mobile_Default {
-
+class Folder2_Mobile_ListController extends Application_Controller_Mobile_Default
+{
     /**
      * find folder
      */
-    public function findallAction() {
+    public function findallAction()
+    {
         try {
             $request = $this->getRequest();
             if ($valueId = $request->getParam('value_id')) {

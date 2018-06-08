@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use \Firebase\JWT\JWT;
+
 /**
  * Siberian
  *
- * @version 4.12.18
+ * @version 4.14.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -17,7 +19,12 @@ if (!file_exists('./config.php')) {
 }
 
 require_once './config.php';
-require_once './Colors.php';
+require_once './lib/Siberian/Cli/Colors.php';
+
+function color ($string, $fg = null, $bg = null)
+{
+    return \Siberian\Cli\Colors::initColoredString($string, $fg, $bg);
+}
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
@@ -173,6 +180,9 @@ try {
             file_put_contents('./config.php', $configContent);
             System_Model_Config::setValueFor('environment', 'production');
             break;
+        case 'cache:design':
+            \Siberian_Cache_Design::rebuild($argv[2]);
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -197,6 +207,9 @@ try {
 
 " . color('production|prod', 'brown') . "
     Set environment to 'production'.
+
+" . color('cache:design <sae|mae|pe>', 'brown') . "
+    Rebuilds sae/mae/pe cache design.
 
 " . color('help', 'brown') . "
     Prints the current help message.    
