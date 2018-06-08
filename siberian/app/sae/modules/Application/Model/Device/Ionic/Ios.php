@@ -174,12 +174,12 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     }
 
     /**
-     * @param bool $cron
+     * @param bool $isApkService
      * @return mixed|string
      * @throws Exception
      * @throws Zend_Controller_Request_Exception
      */
-    public function prepareResources($cron = false)
+    public function prepareResources($isApkService = false)
     {
         $this->currentApplication = $this->getApplication();
 

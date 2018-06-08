@@ -237,4 +237,56 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         $this->_sendHtml($data);
     }
 
+    /**
+     * Alias action endpoint
+     */
+    public function getlicensetypeAction ()
+    {
+        $this->_sendJson(self::getLicenseType());
+    }
+
+    /**
+     * @return array
+     */
+    public static function getLicenseType ()
+    {
+        try {
+            $curl = curl_init();
+            $license = __get('siberiancms_key');
+            curl_setopt_array($curl, [
+                CURLOPT_URL => "http://krypton.siberiancms.com/siberian-licenses/check",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => "{\n\t\"licenseKey\": \"" . $license . "\"\n}",
+                CURLOPT_HTTPHEADER => [
+                    "content-type: application/json"
+                ],
+            ]);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+                throw new \Siberian\Exception('#080-00: ' . $err);
+            } else {
+                $payload = [
+                    'success' => true,
+                    'result' => json_decode($response, true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return $payload;
+    }
+
 }

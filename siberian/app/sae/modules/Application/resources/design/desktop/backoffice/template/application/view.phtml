@@ -748,13 +748,52 @@
             <thead>
                 <tr>
                     <th>
-                        <?php echo __("Builds"); ?>
+                        <?php echo __("Local APK build"); ?>
                     </th>
                     <th></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
+                <tr>
+                    <td colspan="3">
+                        <?php
+                        try {
+                            exec('ldd --version', $o);
+                            $version = $o[0];
+                            preg_match('/(\d+\.\d+){1,}/', $version, $matches);
+                            $match = false;
+                            if (isset($matches[0])) {
+                                $match = true;
+                                $result = version_compare($matches[0], '2.14', '>=');
+                            }
+
+                            $showApk = true;
+                            if (!$match) {
+                                $showApk = false;
+                                echo '<div class="alert alert-danger">';
+                                echo __('We were unable to determine your %s version.', '<b>glibc</b>');
+                                echo __('The local APK generator ' .
+                                    'requires %s, you can check the version via SSH with ' .
+                                    'the following command %s.', '<b>glibc >= 2.14</b>', '`ldd --version`');
+                                echo '</div>';
+
+                            } else {
+                                if (!$result) {
+                                    $showApk = false;
+                                    echo '<div class="alert alert-danger">';
+                                    echo __('Your %s version is %s.', '<b>glibc</b>', $matches[0]);
+                                    echo __('The local APK generator requires %s', '<b>glibc >= 2.14</b>');
+                                    echo '</div>';
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            // Silent!
+                        }
+                        ?>
+                    </td>
+                </tr>
+                <?php if ($showApk): ?>
                 <tr>
                     <td>
                         <label class="control-label"><?php echo __("Android APK"); ?></label>
@@ -791,6 +830,7 @@
                         </a>
                     </td>
                 </tr>
+            <?php endif; ?>
             </tbody>
 
         </table>
@@ -798,6 +838,49 @@
     <div class="clear"></div>
 
 </sb-section>
+
+<sb-section ng-show="showApkService"
+            title="'<?php echo addslashes(__("Service APK generator")); ?>'">
+    <form ng-submit="sendApkToService()"
+          autocomplete="off">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label"><?php echo __('Build information'); ?></label>
+                    <div>
+                        <div class="alert alert-info">
+                            <b><?php echo __('Status'); ?></b>: {{ application.apk_service.status }}
+                            <span ng-if="application.apk_service.message">
+                                <br />
+                                <b><?php echo __('Message'); ?></b>: {{ application.apk_service.message }}
+                            </span>
+                            <span ng-if="application.apk_service.path">
+                                <br />
+                                <a href="{{ application.apk_service.path }}"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-send"></i> <?php echo __('Send to APK generation to service'); ?>
+                </button>
+                <sb-loader is_visible="refreshPublishApk"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+
+            <div class="col-md-6 form-group">
+
+            </div>
+
+        </div>
+    </form>
+</sb-section>
+
 <sb-section title="'<?php echo addslashes(__("Generate and publish iOS Application")); ?>'">
 
     <div class="row">

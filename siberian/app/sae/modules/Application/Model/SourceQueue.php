@@ -72,8 +72,13 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $device->setDownloadType("zip");
         $device->setHost($this->getHost());
 
+        // Android isApkService
+        if ($this->getIsApkService()) {
+            $this->setApkStatus('building');
+        }
+
         // FAST
-        $result = $device->getResources();
+        $result = $device->getResources($this->getIsApkService());
 
         $recipients = [];
         switch ($this->getUserType()) {
@@ -94,40 +99,43 @@ class Application_Model_SourceQueue extends Core_Model_Default
         }
 
         $type = ($this->getType() == "android") ? __("Android Source") : __("iOS Source");
-        if (file_exists($result)) {
-            $this->changeStatus("success");
-            $this->setPath($result);
-            $this->save();
+        // Send instant e-mail only if it's not an external service!
+        if (!$this->getIsApkService()) {
+            if (file_exists($result)) {
+                $this->changeStatus("success");
+                $this->setPath($result);
+                $this->save();
 
-            /** Success email */
-            $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
-            $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
+                // Success email!
+                $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
+                $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
-            $values = [
-                "type" => $type,
-                "application_name" => $this->getName(),
-                "link" => $url,
-            ];
+                $values = [
+                    "type" => $type,
+                    "application_name" => $this->getName(),
+                    "link" => $url,
+                ];
 
-            # @version 4.8.7 - SMTP
-            $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "source_queue_success", __("%s generation success for App: %s", $type, $application->getName()), $recipients, $values);
-            $mail->send();
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
+                $mail->simpleEmail("queue", "source_queue_success", __("%s generation success for App: %s", $type, $application->getName()), $recipients, $values);
+                $mail->send();
 
-        } else {
-            $this->changeStatus("failed");
-            $this->save();
+            } else {
+                $this->changeStatus("failed");
+                $this->save();
 
-            /** Failed email */
-            $values = [
-                "type" => $type,
-                "application_name" => $this->getName(),
-            ];
+                /** Failed email */
+                $values = [
+                    "type" => $type,
+                    "application_name" => $this->getName(),
+                ];
 
-            # @version 4.8.7 - SMTP
-            $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "source_queue_failed", __("The requested %s generation failed: %s", $type, $application->getName()), $recipients, $values);
-            $mail->send();
+                # @version 4.8.7 - SMTP
+                $mail = new Siberian_Mail();
+                $mail->simpleEmail("queue", "source_queue_failed", __("The requested %s generation failed: %s", $type, $application->getName()), $recipients, $values);
+                $mail->send();
+            }
         }
 
         if ($this->getIsAutopublish()) {
@@ -240,7 +248,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
-        if (Siberian_Request::$statusCode != 200) {
+        if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
             throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
@@ -349,7 +357,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
-        if (Siberian_Request::$statusCode != 200) {
+        if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
             throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
@@ -426,6 +434,69 @@ class Application_Model_SourceQueue extends Core_Model_Default
         }
 
         return $data;
+    }
+
+    /**
+     * @param $applicationId
+     * @return array
+     */
+    public static function getApkServiceStatus($applicationId)
+    {
+        $table = new self();
+        $results = $table->findAll(
+            [
+                'app_id' => $applicationId,
+                'is_apk_service' => 1,
+            ],
+            [
+                'created_at DESC'
+            ]
+        );
+
+        $found = [
+            'host' => '-',
+            'status' => '-',
+            'message' => false,
+            'date' => '-',
+            'path' => '-',
+        ];
+        foreach ($results as $result) {
+            $found = [
+                'host' => $result->getHost(),
+                'status' => $result->getApkStatus(),
+                'message' => $result->getApkMessage(),
+                'date' => datetime_to_format($result->getUpdatedAt()),
+                'path' => str_replace(Core_Model_Directory::getBasePathTo(''), '', $result->getApkPath()),
+            ];
+            break;
+        }
+
+        return $found;
+    }
+
+    /**
+     * @param $applicationId
+     * @return bool
+     */
+    public static function getApkServiceQueue($applicationId)
+    {
+        $table = new self();
+        $results = $table->findAll(
+            [
+                'app_id' => $applicationId,
+                'is_apk_service' => 1,
+            ],
+            [
+                'created_at DESC'
+            ]
+        );
+
+        $found = false;
+        foreach ($results as $result) {
+            return $result;
+        }
+
+        return $found;
     }
 
     /**

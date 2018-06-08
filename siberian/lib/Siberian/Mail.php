@@ -282,9 +282,11 @@ class Siberian_Mail extends Zend_Mail
      * @param array $values
      * @param string $sender
      * @param string $sender_name
-     * @throws Exception
+     * @return Zend_Mail
+     * @throws Zend_Layout_Exception
      */
-    public function simpleEmail($module, $template, $subject, $recipients = [], $values = [], $sender = "", $sender_name = "")
+    public function simpleEmail($module, $template, $subject, $recipients = [], $values = [], $sender = "",
+                                $sender_name = "")
     {
         $layout = new Siberian_Layout();
         $layout = $layout->loadEmail($module, $template);
@@ -322,7 +324,7 @@ class Siberian_Mail extends Zend_Mail
             }
         }
 
-        $this
+        return $this
             ->setSubject($subject);
     }
 

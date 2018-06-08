@@ -107,6 +107,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
         $data["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
         $data["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
+        $data["apk_service"] = Application_Model_SourceQueue::getApkServiceStatus($application->getId());
         $data["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
         $data["queued"] = Application_Model_Queue::getPosition($application->getId());
         $data["confirm_message_domain"] = __("If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?");
@@ -523,6 +524,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $type = ($request->getParam("type") == "apk") ? "apk" : "zip";
             $device = ($request->getParam("device_id") == 1) ? "ios" : "android";
             $noads = ($request->getParam("no_ads") == 1) ? "noads" : "";
+            $isApkService = $request->getParam("apk", false) === "apk";
             $design_code = $request->getParam("design_code");
             $adminIdCredentials = $request->getParam('admin_id', 0);
 
@@ -548,6 +550,12 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 $queue->setDesignCode($design_code);
             }
 
+            // New case for source to apk generator!
+            if ($isApkService) {
+                $queue->setIsApkService(1);
+                $queue->setApkStatus('pending');
+            }
+
             $queue->setHost($this->getRequest()->getHttpHost());
             $queue->setUserId($this->getSession()->getBackofficeUserId());
             $queue->setUserType("backoffice");
@@ -568,12 +576,14 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
             $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
             $more["queued"] = Application_Model_Queue::getPosition($application_id);
+            $more["apk_service"] = Application_Model_SourceQueue::getApkServiceStatus($application_id);
 
             $data = [
                 "success" => 1,
                 "message" => __("Application successfully queued for generation."),
                 "more" => $more,
                 "reload" => $reload,
+                "isApkService" => $isApkService,
             ];
 
         } else {
@@ -583,7 +593,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 

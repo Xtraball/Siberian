@@ -150,7 +150,7 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
-    factory.generateSource = function(device_id, no_ads, app_id, design_code) {
+    factory.generateSource = function (device_id, no_ads, app_id, design_code, apk) {
 
         var link = Url.get(
             "application/backoffice_view/downloadsource", {
@@ -158,6 +158,7 @@ App.factory('Application', function($http, Url, DataLoader) {
                 app_id: app_id,
                 design_code: design_code,
                 no_ads : no_ads,
+                apk : apk,
                 type: "zip"
             });
 
@@ -253,6 +254,18 @@ App.factory('Application', function($http, Url, DataLoader) {
                 appId: appId
             },
             url: Url.get('application/backoffice_list/deleteapplication'),
+            responseType: 'json'
+        });
+    };
+
+    /**
+     * check the siberian licenceType
+     * @returns {*}
+     */
+    factory.getLicenseType = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('system/backoffice_config_general/getlicensetype'),
             responseType: 'json'
         });
     };

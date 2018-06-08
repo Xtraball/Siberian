@@ -120,19 +120,21 @@ class Push_Model_Android_Message
         }
 
         // Handler GCM (deprecated)
-        try {
-            $this->_pushToProvider($this->service_gcm,
-                $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
-        } catch (Exception $e) {
-            // Ignore
-            $this->service_gcm->logger->log($e->getMessage());
+        if (isset($this->service_gcm)) {
+            try {
+                $this->_pushToProvider($this->service_gcm,
+                    $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
+            } catch (\Exception $e) {
+                // Ignore
+                $this->service_gcm->logger->log($e->getMessage());
+            }
         }
 
         // Handler FCM, from 4.14.0
         try {
             $this->_pushToProvider($this->service_fcm,
                 $messagePayload, $registrationTokensFcm, $deviceByTokenFcm);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Ignore
             $this->service_fcm->logger->log($e->getMessage());
             // Rethrow exception!

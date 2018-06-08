@@ -146,11 +146,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     /**
-     * @param bool $cron
-     * @return bool|string
+     * @param bool $isApkService
+     * @return array|mixed|string
      * @throws Exception
+     * @throws Zend_Controller_Request_Exception
+     * @throws Zend_Exception
      */
-    public function prepareResources()
+    public function prepareResources($isApkService = false)
     {
         $this->app = $this->getApplication();
 
@@ -176,8 +178,49 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_prepareLanguages();
         $this->_prepareGoogleAppId();
 
-        if ($this->getDevice()->getDownloadType() != "apk") {
-            $zip = $this->zipFolder();
+        if ($this->getDevice()->getDownloadType() !== 'apk') {
+
+            if ($isApkService) {
+                $queue = Application_Model_SourceQueue::getApkServiceStatus($this->app->getId());
+                $keystore = $this->_prepareApk();
+
+                $zip = $this->zipFolder();
+
+                $basePath = Core_Model_Directory::getBasePathTo("");
+                $zipPath = str_replace($basePath, '', $zip);
+
+                $jobUrl = sprintf("%s://%s/%s",
+                    __get('use_https') ? 'https' : 'http',
+                    $queue['host'],
+                    $zipPath);
+
+                Siberian_Request::get(
+                    "https://jenkins-prod02.xtraball.com/job/apk-generator/buildWithParameters",
+                    [
+                        'token' => 'NZDMeOBA2SLM8KyJtApAQbrN6Oy9dg6m',
+                        'jobUrl' => base64_encode($jobUrl),
+                        'jobName' => base64_encode($this->_application_id),
+                        'license' => base64_encode(__get('siberiancms_key')),
+                        'appId' => base64_encode($this->app->getId()),
+                        'appName' => $this->_application_id,
+                        'uuid' => uniqid(),
+                        'keystore' => base64_encode(json_encode($keystore))
+                    ],
+                    null,
+                    [
+                        'type' => 'basic',
+                        'username' => 'ios-builder',
+                        'password' => 'ced2eb561db43afb09c633b8f68c1f17',
+                    ]);
+
+                if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
+                    throw new \Siberian\Exception(__('Cannot send APK build to service %s.',
+                        Siberian_Request::$statusCode));
+                }
+            } else {
+                $zip = $this->zipFolder();
+            }
+
             return $zip;
         }
 
@@ -403,6 +446,60 @@ if(navigator.language) {
     }
 
     /**
+     * @return array
+     */
+    public function _prepareApk ()
+    {
+        $device = $this->getDevice();
+        $alias = $device->getAlias();
+        $storepass = $device->getStorePass();
+        $keypass = $device->getKeyPass();
+
+        // Sanitize organization name, or default if empty!
+        $organization = preg_replace('/[,\s\']+/', ' ', __get('company_name'));
+        if (!$organization) {
+            $organization = 'Default';
+        }
+
+        // Generating Keystore (or not)!
+        $keystoreFilename = $this->app->getId() . '.pks';
+        $keystorePath = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
+        if (!is_dir(dirname($keystorePath))) {
+            mkdir(dirname($keystorePath), 0777, true);
+        }
+        if (!file_exists($keystorePath)) {
+            $keystore = [
+                'generate' => true,
+                'alias' => $alias,
+                'organization' => $organization,
+                'storepass' => $storepass,
+                'keypass' => $keypass,
+            ];
+        } else {
+            $keystore = [
+                'generate' => false,
+                'alias' => $alias,
+                'organization' => $organization,
+                'storepass' => $storepass,
+                'keypass' => $keypass,
+            ];
+
+            // Copy the existing pks before archiving!
+            copy($keystorePath, $this->_dest_source . '/keystore.pks');
+        }
+
+        // Signing informations!
+        $releaseSigning = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
+        $signing = "keyAlias={$alias}
+keyPassword={$keypass}
+storeFile=keystore.pks
+storePassword={$storepass}";
+        file_put_contents($releaseSigning, $signing);
+
+        return $keystore;
+    }
+
+    /**
      * @param bool $cron
      * @return array
      * @throws Exception
@@ -470,6 +567,7 @@ if(navigator.language) {
             }
 
             $keytool = Core_Model_Directory::getBasePathTo('app/sae/modules/Application/Model/Device/Ionic/bin/helper');
+            // keytool alias companyName keystorePath storePassword keyPassword
 
             chmod($keytool, 0777);
             exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");

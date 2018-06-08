@@ -30,6 +30,7 @@ App.config(function($routeProvider) {
     $scope.iosBuildActivationRemain = false;
 
     $scope.datepicker_visible = false;
+    $scope.showApkService = false;
 
     Application.loadViewData().success(function (data) {
         $scope.header.title = data.title;
@@ -52,6 +53,18 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    Application
+        .getLicenseType()
+        .success(function (response) {
+            if (typeof response.success !== undefined &&
+                response.success &&
+                (response.result.type === 'MAE Hosted' ||
+                response.result.type === 'PE Hosted')
+            ) {
+                $scope.showApkService = true;
+            }
+        });
+
     Settings.type = "general";
     Settings.findAll().success(function(configs) {
         //we check license info on config sucees
@@ -68,6 +81,10 @@ App.config(function($routeProvider) {
             $scope.iosBuildLicenceError = '';
         }
     });
+
+    $scope.sendApkToService = function () {
+        $scope.generateSource(2, 0, 'apk');
+    };
 
     $scope.switchToIonic = function() {
         if(!window.confirm($scope.ionic_confirm_message)) {
@@ -106,9 +123,9 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.generateSource = function(device_id, no_ads) {
+    $scope.generateSource = function(device_id, no_ads, apk) {
         $scope.content_loader_is_visible = true;
-        Application.generateSource(device_id, no_ads, $scope.application.id, $scope.mobile_source.design_code)
+        Application.generateSource(device_id, no_ads, $scope.application.id, $scope.mobile_source.design_code, apk)
             .success(function(data) {
                 if(data.reload) {
                     /** Only for direct download */
@@ -123,6 +140,7 @@ App.config(function($routeProvider) {
                     ;
                 }
                 $scope.application.apk = data.more.apk;
+                $scope.application.apk_service = data.more.apk_service;
                 $scope.application.zip = data.more.zip;
                 $scope.application.queued = data.more.queued;
                 $scope.content_loader_is_visible = false;
