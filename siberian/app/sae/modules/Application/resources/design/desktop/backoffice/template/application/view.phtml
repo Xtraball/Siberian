@@ -856,7 +856,8 @@
                             </span>
                             <span ng-if="application.apk_service.path">
                                 <br />
-                                <a href="{{ application.apk_service.path }}"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
+                                <a href="{{ application.apk_service.path }}"
+                                   target="_self"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
                             </span>
                         </div>
                     </div>
@@ -864,7 +865,7 @@
 
                 <button type="submit"
                         class="btn btn-primary left">
-                    <i class="fa fa-send"></i> <?php echo __('Send to APK generation to service'); ?>
+                    <i class="fa fa-send"></i> <?php echo __('Request APK generation'); ?>
                 </button>
                 <sb-loader is_visible="refreshPublishApk"
                            type="'inner_content'"
@@ -873,10 +874,22 @@
                            class="form_loader"></sb-loader>
             </div>
 
-            <div class="col-md-6 form-group">
+        </div>
 
+        <br/>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label ng-if="showApkServiceMessage.length"
+                       class="control-label"><?php echo __('Service notes'); ?></label>
+                <div ng-repeat="message in showApkServiceMessage"
+                     ng-class="message.colors">
+                    <b>{{ message.title }}</b>
+                    <br/>
+                    {{ message.message }}
+                </div>
             </div>
-
         </div>
     </form>
 </sb-section>
