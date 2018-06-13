@@ -1,77 +1,71 @@
-
-App.factory('Settings', function($http, Url) {
-
+App.factory('Settings', function ($http, Url) {
     var factory = {};
 
-    factory.loadData = function() {
-
-        var url = "system/backoffice_config_"+this.type;
-
-        return $http({
-            method: 'GET',
-            url: Url.get(url+"/load"),
-            cache: true,
-            responseType:'json'
-        });
-    };
-
-    factory.findAll = function() {
-
-        var url = "system/backoffice_config_"+this.type;
+    factory.loadData = function () {
+        var url = 'system/backoffice_config_'+this.type;
 
         return $http({
             method: 'GET',
-            url: Url.get(url+"/findall"),
+            url: Url.get(url+'/load'),
             cache: true,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.save = function(values) {
+    factory.findAll = function () {
+        var url = 'system/backoffice_config_' + this.type;
 
-        var url = "system/backoffice_config_"+this.type;
+        return $http({
+            method: 'GET',
+            url: Url.get(url + '/findall'),
+            cache: true,
+            responseType: 'json'
+        });
+    };
+
+    factory.save = function (values) {
+        var url = 'system/backoffice_config_' + this.type;
 
         return $http({
             method: 'POST',
             data: values,
-            url: Url.get(url+"/save"),
+            url: Url.get(url+'/save'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
-
     };
 
-    factory.computeAnalytics = function() {
-        var url = "system/backoffice_config_"+this.type;
+    factory.computeAnalytics = function () {
+        var url = 'system/backoffice_config_' + this.type;
 
         return $http({
             method: 'GET',
-            url: Url.get(url+"/generateanalytics"),
+            url: Url.get(url+'/generateanalytics'),
             cache: false,
-            responseType:'json'
+            responseType: 'json'
         });
     };
 
-    factory.computeAnalyticsForPeriod = function(period) {
-        var url = "system/backoffice_config_"+this.type;
+    factory.computeAnalyticsForPeriod = function (period) {
+        var url = 'system/backoffice_config_' + this.type;
 
         return $http({
             method: 'POST',
-            url: Url.get(url+"/generateanalyticsforperiod"),
+            url: Url.get(url+'/generateanalyticsforperiod'),
             cache: false,
-            responseType:'json',
-            data:period
+            responseType: 'json',
+            data: period
         });
     };
 
-    factory.testemail = function(email) {
-        var url = "system/backoffice_config_email/testsmtp";
+    factory.testemail = function (email) {
+        var url = 'system/backoffice_config_email/testsmtp';
 
         return $http({
             method: 'POST',
             url: Url.get(url, {email: email}),
             cache: false,
-            responseType:'json',
+            responseType: 'json'
         });
     };
 

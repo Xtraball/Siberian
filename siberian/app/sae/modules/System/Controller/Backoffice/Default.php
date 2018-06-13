@@ -86,7 +86,12 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     {
         if (__getConfig('is_demo')) {
             // Demo version
-            throw new Siberian_Exception("This is a demo version, these changes can't be saved");
+            throw new \Siberian\Exception("This is a demo version, these changes can't be saved");
+        }
+
+        # Required fields
+        if (empty($data['main_domain']['value'])) {
+            throw new \Siberian\Exception('#797-00: ' . __('Main domain is required!'));
         }
 
         # Custom SMTP

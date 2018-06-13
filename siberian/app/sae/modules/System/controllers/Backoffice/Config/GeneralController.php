@@ -48,6 +48,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         'app_default_identifier_android',
         'app_default_identifier_ios',
         'is_gdpr_enabled',
+        'main_domain',
     ];
 
     /**
@@ -113,7 +114,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         $data = Siberian_Json::decode($request->getRawBody());
         if (sizeof($data) > 0) {
             try {
-                if(!empty($data['application_free_trial']['value']) AND !is_numeric($data['application_free_trial']['value'])) {
+                if(!empty($data['application_free_trial']['value']) &&
+                    !is_numeric($data['application_free_trial']['value'])) {
                     throw new Siberian_Exception(__('Free trial period duration must be a numeric value.'));
                 }
 
