@@ -502,30 +502,31 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     public function downloadsourceAction()
     {
         $request = $this->getRequest();
-
-        if ($data = $this->getRequest()->getParams()) {
+        try {
+            $params = $request->getParams();
+            if (empty($params)) {
+                throw new \Siberian\Exception(__('Missing parameters for generation.'));
+            }
 
             $application = new Application_Model_Application();
 
-            if (empty($data['app_id']) OR empty($data['device_id'])) {
-                throw new Siberian_Exception('#908-00: ' . __('This application does not exist'));
+            if (empty($params['app_id']) OR empty($params['device_id'])) {
+                throw new \Siberian\Exception('#908-00: ' . __('This application does not exist'));
             }
 
-            $application->find($data['app_id']);
+            $application->find($params['app_id']);
             if (!$application->getId()) {
-                throw new Siberian_Exception('#908-01: ' . __('This application does not exist'));
+                throw new \Siberian\Exception('#908-01: ' . __('This application does not exist'));
             }
 
-            if ($design_code = $this->getRequest()->getParam("design_code")) {
-                $application->setDesignCode($design_code);
-            }
+            $application->setDesignCode('ionic');
 
-            $application_id = $data['app_id'];
-            $type = ($request->getParam("type") == "apk") ? "apk" : "zip";
-            $device = ($request->getParam("device_id") == 1) ? "ios" : "android";
-            $noads = ($request->getParam("no_ads") == 1) ? "noads" : "";
-            $isApkService = $request->getParam("apk", false) === "apk";
-            $design_code = $request->getParam("design_code");
+            $application_id = $params['app_id'];
+            $type = ($request->getParam('type') == 'apk') ? 'apk' : 'zip';
+            $device = ($request->getParam('device_id') == 1) ? 'ios' : 'android';
+            $noads = ($request->getParam('no_ads') == 1) ? 'noads' : '';
+            $isApkService = $request->getParam('apk', false) === 'apk';
+            $design_code = $request->getParam('design_code');
             $adminIdCredentials = $request->getParam('admin_id', 0);
 
             // Firebase Validation!
@@ -536,7 +537,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 $credentials->checkFirebase();
             }
 
-            if ($type == "apk") {
+            if ($type == 'apk') {
                 $queue = new Application_Model_ApkQueue();
 
                 $queue->setAppId($application_id);
@@ -558,43 +559,43 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
             $queue->setHost($this->getRequest()->getHttpHost());
             $queue->setUserId($this->getSession()->getBackofficeUserId());
-            $queue->setUserType("backoffice");
+            $queue->setUserType('backoffice');
             $queue->save();
 
             /** Fallback for SAE, or disabled cron */
             $reload = false;
             if (!Cron_Model_Cron::is_active()) {
                 $cron = new Cron_Model_Cron();
-                $value = ($type == "apk") ? "apkgenerator" : "sources";
-                $task = $cron->find($value, "command");
+                $value = ($type == 'apk') ? 'apkgenerator' : 'sources';
+                $task = $cron->find($value, 'command');
                 Siberian_Cache::__clearLocks();
                 $siberian_cron = new Siberian_Cron();
                 $siberian_cron->execute($task);
                 $reload = true;
             }
 
-            $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
-            $more["zip"] = Application_Model_SourceQueue::getPackages($application_id);
-            $more["queued"] = Application_Model_Queue::getPosition($application_id);
-            $more["apk_service"] = Application_Model_SourceQueue::getApkServiceStatus($application_id);
+            $more['apk'] = Application_Model_ApkQueue::getPackages($application->getId());
+            $more['zip'] = Application_Model_SourceQueue::getPackages($application_id);
+            $more['queued'] = Application_Model_Queue::getPosition($application_id);
+            $more['apk_service'] = Application_Model_SourceQueue::getApkServiceStatus($application_id);
 
-            $data = [
-                "success" => 1,
-                "message" => __("Application successfully queued for generation."),
-                "more" => $more,
-                "reload" => $reload,
-                "isApkService" => $isApkService,
+            $payload = [
+                'success' => true,
+                'message' => __('Application successfully queued for generation.'),
+                'more' => $more,
+                'reload' => $reload,
+                'isApkService' => $isApkService,
             ];
 
-        } else {
-            $data = [
-                "error" => 1,
-                "message" => __("Missing parameters for generation."),
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
-        $this->_sendJson($data);
-
+        $this->_sendJson($payload);
     }
 
     public function cancelqueueAction()

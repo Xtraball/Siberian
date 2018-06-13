@@ -20,10 +20,8 @@
 
 buildscript {
     repositories {
+        maven { url "https://maven.google.com" }
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
     }
     dependencies {
 
@@ -36,10 +34,8 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://maven.google.com" }
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
     }
     //This replaces project.properties w.r.t. build settings
     project.ext {

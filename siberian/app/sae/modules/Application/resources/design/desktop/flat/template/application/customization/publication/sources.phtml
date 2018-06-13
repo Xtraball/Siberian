@@ -13,9 +13,17 @@ $android_device = $application->getDevice(2);
 
 $licenseCheck = System_Controller_Backoffice_Default::getLicenseType();
 $isHosted = false;
+
+
+// Settings
+if (__get('editor_apk_service') === 'external-service') {
+    $isHosted = true;
+}
+
+// If it's an hosted, this is on.
 if (array_key_exists('result', $licenseCheck) &&
     array_key_exists('type', $licenseCheck['result'])) {
-    if (in_array($licenseCheck['result']['type'], ['MAE Hosted', 'PE Hosted'])) {
+    if (in_array($licenseCheck['result']['type'], ['mae-hosted', 'pe-hosted'])) {
         $isHosted = true;
     }
 }

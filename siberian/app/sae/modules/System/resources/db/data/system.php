@@ -246,6 +246,11 @@ $configs = [
         'label' => 'Enable GDPR features & rules',
         'value' => '0',
     ],
+    [
+        'code' => 'editor_apk_service',
+        'label' => 'APK Generator for builds from the Editor (Local or Service)',
+        'value' => 'local-service',
+    ],
 ];
 
 $privacyPolicy = '<h1>Privacy Policy of the #APP_NAME application</h1>

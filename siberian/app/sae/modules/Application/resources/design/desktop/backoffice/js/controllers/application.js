@@ -54,16 +54,16 @@ App.config(function($routeProvider) {
     });
 
     Application
-        .getLicenseType()
-        .success(function (response) {
-            if (typeof response.success !== undefined &&
-                response.success &&
-                (response.result.type === 'MAE Hosted' ||
-                response.result.type === 'PE Hosted')
-            ) {
-                $scope.showApkService = true;
-            }
-        });
+    .getLicenseType()
+    .success(function (response) {
+        if (typeof response.success !== undefined &&
+            response.success &&
+            (response.result.isAllowed)
+        ) {
+            $scope.showApkService = true;
+            $scope.showApkServiceMessage = response.result.message;
+        }
+    });
 
     Settings.type = "general";
     Settings.findAll().success(function(configs) {

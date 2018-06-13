@@ -458,7 +458,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
             'status' => '-',
             'message' => false,
             'date' => '-',
-            'path' => '-',
+            'path' => '',
         ];
         foreach ($results as $result) {
             $found = [
