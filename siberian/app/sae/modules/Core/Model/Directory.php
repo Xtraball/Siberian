@@ -40,17 +40,13 @@ class Core_Model_Directory
     }
 
     public static function getDesignPath($base = false, $path = null, $application_type = null) {
-
         $design_path = self::$_design_path;
         $design_codes = Zend_Registry::get("design_codes");
-
-        print_r($design_path);
-        print_r($design_codes);
-        if($application_type AND $application_type != APPLICATION_TYPE AND !empty($design_codes[$application_type])) {
+        if ($application_type AND $application_type != APPLICATION_TYPE AND !empty($design_codes[$application_type])) {
             $design_path = str_replace("/".APPLICATION_TYPE."/", "/".$application_type."/", $design_path);
             $design_path = str_replace("/".DESIGN_CODE, "/".$design_codes[$application_type], $design_path);
         }
-        if($path AND substr($path, 0, 1) != "/") $path = "/$path";
+        if ($path AND substr($path, 0, 1) != "/")
         $design_path = $base ? self::getBasePathTo($design_path.$path) : self::getPathTo($design_path.$path);
 
         return $design_path;

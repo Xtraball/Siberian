@@ -365,10 +365,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     protected function _getImage($name, $base = false)
     {
-
-        $tmpPath = Core_Model_Directory::getDesignPath(true) . '/images/' . $name;
-        echo $tmpPath . '<br />';
-
         if (file_exists(Core_Model_Directory::getDesignPath(true) . '/images/' . $name)) {
             return Core_Model_Directory::getDesignPath($base) . '/images/' . $name;
         } else if (file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
