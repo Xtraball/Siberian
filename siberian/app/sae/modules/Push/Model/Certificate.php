@@ -1,27 +1,55 @@
 <?php
 
-class Push_Model_Certificate extends Core_Model_Default {
-
+/**
+ * Class Push_Model_Certificate
+ *
+ * @method integer getId()
+ * @method $this setType(string $type)
+ * @method $this setPath(string $path)
+ */
+class Push_Model_Certificate extends Core_Model_Default
+{
+    /**
+     * @var
+     */
     protected static $_ios_certificat;
+
+    /**
+     * @var
+     */
     protected static $_android_key;
+
+    /**
+     * @var
+     */
     protected static $_android_sender_id;
 
-    public function __construct($datas = array()) {
+    /**
+     * Push_Model_Certificate constructor.
+     * @param array $datas
+     */
+    public function __construct($datas = [])
+    {
         parent::__construct($datas);
         $this->_db_table = 'Push_Model_Db_Table_Certificate';
     }
 
-    public static function getiOSCertificat($app_id = null) {
-        if(Siberian_Version::is("sae")) {
+    /**
+     * @param null $app_id
+     * @return array|mixed|null|string
+     */
+    public static function getiOSCertificat($app_id = null)
+    {
+        if (Siberian_Version::is("sae")) {
             $app_id = null;
         }
 
-        if(is_null(self::$_ios_certificat)) {
+        if (is_null(self::$_ios_certificat)) {
             $certificat = new self();
-            if(is_null($app_id)) {
-                $certificat->find(array('type' => 'ios'));
+            if (is_null($app_id)) {
+                $certificat->find(['type' => 'ios']);
             } else {
-                $certificat->find(array('type' => 'ios', 'app_id' => $app_id));
+                $certificat->find(['type' => 'ios', 'app_id' => $app_id]);
             }
 
             self::$_ios_certificat = $certificat->getPath();
@@ -30,16 +58,21 @@ class Push_Model_Certificate extends Core_Model_Default {
         return self::$_ios_certificat;
     }
 
-    public static function getInfos($app_id = null) {
+    /**
+     * @param null $app_id
+     * @return array|null
+     */
+    public static function getInfos($app_id = null)
+    {
         $pem_info = null;
 
-        if(self::getiOSCertificat($app_id)) {
+        if (self::getiOSCertificat($app_id)) {
             $certificate = self::getiOSCertificat($app_id);
             $pem_content = file_get_contents(Core_Model_Directory::getBasePathTo($certificate));
 
             $pem_info = openssl_x509_parse($pem_content);
-            if(!empty($pem_info)) {
-                $pem_info = array(
+            if (!empty($pem_info)) {
+                $pem_info = [
                     "production" => preg_match("/Development/i", $pem_info["name"]),
                     "package_name" => $pem_info["subject"]["UID"],
                     "valid_from" => time_to_date($pem_info["validFrom_time_t"]),
@@ -48,15 +81,15 @@ class Push_Model_Certificate extends Core_Model_Default {
                     //It results that controller->_sendHtml() return null instead of json config
                     //"original" => $pem_info,
                     "is_valid" => ($pem_info["validTo_time_t"] > time()),
-                );
+                ];
 
                 $pem_info["apns_feedback"] = self::testApnsPort(2196);
                 $pem_info["test_pem"] = self::testPem($certificate);
 
             } else {
-                $pem_info = array(
+                $pem_info = [
                     "is_valid" => false,
-                );
+                ];
             }
 
             $pem_info["port_open"] = self::testApnsPort(2195);
@@ -68,7 +101,8 @@ class Push_Model_Certificate extends Core_Model_Default {
     /**
      * @return bool
      */
-    public static function testApnsPort($port = 2195) {
+    public static function testApnsPort($port = 2195)
+    {
         $host = 'gateway.push.apple.com';
 
         $connection = @fsockopen($host, $port, $errno, $errstr, 2);
@@ -86,7 +120,8 @@ class Push_Model_Certificate extends Core_Model_Default {
      * @param $certificate
      * @return bool
      */
-    public static function testPem($certificate) {
+    public static function testPem($certificate)
+    {
         require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
 
         $nEnvironment = (APPLICATION_ENV == "production") ? ApnsPHP_Push::ENVIRONMENT_PRODUCTION : ApnsPHP_Push::ENVIRONMENT_SANDBOX;
@@ -102,14 +137,17 @@ class Push_Model_Certificate extends Core_Model_Default {
             $push_service->disconnect();
 
             return true;
-        } catch(ApnsPHP_Exception $e) {
+        } catch (ApnsPHP_Exception $e) {
             return false;
         }
     }
 
-    public static function getAndroidKey() {
-
-        if(is_null(self::$_android_key)) {
+    /**
+     * @return array|mixed|null|string
+     */
+    public static function getAndroidKey()
+    {
+        if (is_null(self::$_android_key)) {
             $certificat = new self();
             $certificat->find('android_key', 'type');
             self::$_android_key = $certificat->getPath();
@@ -119,9 +157,12 @@ class Push_Model_Certificate extends Core_Model_Default {
 
     }
 
-    public static function getAndroidSenderId() {
-
-        if(is_null(self::$_android_sender_id)) {
+    /**
+     * @return array|mixed|null|string
+     */
+    public static function getAndroidSenderId()
+    {
+        if (is_null(self::$_android_sender_id)) {
             $certificat = new self();
             $certificat->find('android_sender_id', 'type');
             self::$_android_sender_id = $certificat->getPath();
@@ -139,8 +180,8 @@ class Push_Model_Certificate extends Core_Model_Default {
      * @param null $locale
      * @return array|mixed|null|string
      */
-    public function getPath($uri = '', array $params = array(), $locale = null) {
+    public function getPath($uri = '', array $params = [], $locale = null)
+    {
         return $this->getData("path");
     }
-
 }

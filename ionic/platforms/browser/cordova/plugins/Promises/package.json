@@ -1,0 +1,33 @@
+{
+  "name": "Promises",
+  "version": "4.2.2",
+  "description": "Cordova Promises",
+  "main": "www/promise.js",
+  "dependencies": {},
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "es6-promise": "^4.2.2"
+  },
+  "cordova": {
+    "id": "Promises",
+    "platforms": [
+      "ios",
+      "android",
+      "browser"
+    ]
+  },
+  "scripts": {
+    "build": "./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vstirbu/PromisesPlugin.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vstirbu/PromisesPlugin/issues"
+  },
+  "homepage": "https://github.com/vstirbu/PromisesPlugin#readme",
+  "ecosystem": "cordova"
+}

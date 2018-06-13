@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class Manifest
+ *
+ * @version 4.14.0
+ */
 class Manifest
 {
     /**
@@ -45,17 +50,22 @@ class Manifest
         "^var/apps/browser.tgz",
         "^var/apps/ionic/android.tgz",
         "^var/apps/ionic/ios.tgz",
-        "^var/apps/ionic/ios-noads.tgz",
         "^var/apps/ionic/previewer.tgz",
-        "favicon\."
+        "^var/pid/*",
+        "favicon\.",
+        "manifest\.json",
     ];
 
+    /**
+     * @var string
+     */
     public static $manifest = "manifest.json";
 
     /**
      * @param $path
      */
-    public static function build($path, $manifest = null) {
+    public static function build($path, $manifest = null)
+    {
         $hash = [];
 
         /** Looping trough files */
@@ -80,9 +90,9 @@ class Manifest
             }
         }
 
-        $manifest_path = $path.self::$manifest;
+        $manifest_path = $path . self::$manifest;
         if ($manifest != null) {
-            $manifest_path = $manifest.self::$manifest;
+            $manifest_path = $manifest . self::$manifest;
         }
         file_put_contents($manifest_path,
             json_encode($hash, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -94,7 +104,8 @@ class Manifest
      * @param $file
      * @return bool
      */
-    public static function exclude($file) {
+    public static function exclude($file)
+    {
         foreach (self::$exclude_patterns as $pattern) {
             if (preg_match('#' . $pattern . '#i', $file)) {
                 return true;
@@ -106,7 +117,8 @@ class Manifest
     /**
      * @param string|array $patterns
      */
-    public static function addExcludePatterns($patterns) {
+    public static function addExcludePatterns($patterns)
+    {
         if (!is_array($patterns)) {
             $patterns = [$patterns];
         }
@@ -121,15 +133,15 @@ if (isset($argv) && isset($argv[1]) && isset($argv[2]) && isset($argv[3])) {
     $type = strtolower($argv[1]);
     switch ($type) {
         case 'sae':
-            Manifest::addExcludePatterns(array(
+            Manifest::addExcludePatterns([
                 '^app/pe/',
                 '^app/mae/',
-            ));
+            ]);
             break;
         case 'mae':
-            Manifest::addExcludePatterns(array(
+            Manifest::addExcludePatterns([
                 '^app/pe/',
-            ));
+            ]);
             break;
         case 'pe':
 

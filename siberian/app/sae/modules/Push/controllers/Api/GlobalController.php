@@ -3,8 +3,8 @@
 /**
  * Class Push_Api_GlobalController
  */
-class Push_Api_GlobalController extends Api_Controller_Default {
-
+class Push_Api_GlobalController extends Api_Controller_Default
+{
     /**
      * @var string
      */
@@ -18,20 +18,23 @@ class Push_Api_GlobalController extends Api_Controller_Default {
         'send',
     ];
 
-    public function listAction() {
+    /**
+     *
+     */
+    public function listAction()
+    {
         try {
-
-            if($params = $this->getRequest()->getPost()) {
+            if ($params = $this->getRequest()->getPost()) {
                 $application_table = new Application_Model_Db_Table_Application();
                 $all_applications = $application_table->findAllForGlobalPush();
 
-                if(isset($params['admin_id'])) {
+                if (isset($params['admin_id'])) {
                     // Get apps that belong to the current admin!
                     $all_for_admin = $application_table->findAllByAdmin(
                         $this->getSession()->getAdminId()
                     )->toArray();
 
-                    $filtered = array_map(function($app) {
+                    $filtered = array_map(function ($app) {
                         return $app['app_id'];
                     }, $all_for_admin);
 
@@ -62,56 +65,72 @@ class Push_Api_GlobalController extends Api_Controller_Default {
                     )
                 );
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $message = $e->getMessage();
             $message = (empty($message)) ?
                 __("An unknown error occurred while listing applications.") :
                 $message;
 
-            $data = array(
+            $data = [
                 "error" => true,
                 "message" => $message,
-            );
+            ];
         }
         $this->_sendJson($data);
     }
 
-    public function sendAction() {
+    /**
+     *
+     */
+    public function sendAction()
+    {
         try {
-
-            if($params = $this->getRequest()->getPost()) {
+            if ($params = $this->getRequest()->getPost()) {
 
                 // Filter checked applications!
                 $params["checked"] = array_keys(
-                    array_filter($params["checked"], function($v) {
+                    array_filter($params["checked"], function ($v) {
                         return ($v == true);
                     })
                 );
 
                 $params["base_url"] = $this->getRequest()->getBaseUrl();
 
-                if(empty($params["title"]) || empty($params["message"])) {
+                if (empty($params["title"]) || empty($params["message"])) {
                     throw new Siberian_Exception(
                         __("Title & Message are both required.")
                     );
                 }
 
-                if(empty($params["checked"]) && !$params["send_to_all"]) {
+                if (empty($params["checked"]) && !$params["send_to_all"]) {
                     throw new Siberian_Exception(
                         __("Please select at least one application.")
                     );
                 }
 
+                if (!empty($params['cover'])) {
+                    $tmpPath = sprintf("%s/%s", Core_Model_Directory::getTmpDirectory(), uniqid());
+                    $imagePath = base64imageToFile(
+                        $params['cover'],
+                        Core_Model_Directory::getBasePathTo($tmpPath));
+
+                    $picture = Siberian_Feature::moveAsset($imagePath);
+
+                    $params['cover'] = $picture;
+                } else {
+                    $params['cover'] = null;
+                }
+
                 $push_global = new Push_Model_Message_Global();
                 $result = $push_global->createInstance($params);
 
-                $data = array(
+                $data = [
                     "success" => true,
                     "message" => ($result) ?
                         __("Push message is sent.") :
                         __("No message sent, there is no available applications."),
                     "debug" => $this->getRequest()->getPost()
-                );
+                ];
             } else {
                 throw new Siberian_Exception(
                     __("%s, No params sent.",
@@ -119,19 +138,17 @@ class Push_Api_GlobalController extends Api_Controller_Default {
                     )
                 );
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $message = $e->getMessage();
             $message = (empty($message)) ?
                 __("An unknown error occurred while creating the push notification.")
                 : $message;
 
-            $data = array(
+            $data = [
                 "error" => true,
                 "message" => $message,
-            );
+            ];
         }
         $this->_sendJson($data);
     }
-
-
 }

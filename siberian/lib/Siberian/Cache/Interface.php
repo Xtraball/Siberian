@@ -3,14 +3,31 @@
 /**
  * Interface Siberian_Cache_Interface
  *
- * @version 4.1.0
+ * @version 4.14.0
  *
  */
 
 interface Siberian_Cache_Interface
 {
+    /**
+     * @return mixed
+     */
     public static function init();
-    public static function fetch($version);
+
+    /**
+     * @param $version
+     * @param null $cache
+     * @return mixed
+     */
+    public static function fetch($version, $cache = null);
+
+    /**
+     * @return mixed
+     */
     public static function preWalk();
+
+    /**
+     * @return mixed
+     */
     public static function postWalk();
 }

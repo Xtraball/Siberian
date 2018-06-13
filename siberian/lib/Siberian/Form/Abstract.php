@@ -1,11 +1,13 @@
 <?php
+
 /**
  * Class Siberian_Form_Abstract
  *
  * @method $this setAction(string $action)
  * @method $this setAttrib(string $key, mixed $value)
  */
-abstract class Siberian_Form_Abstract extends Zend_Form {
+abstract class Siberian_Form_Abstract extends Zend_Form
+{
 
     const DATEPICKER = "datepicker";
     const TIMEPICKER = "timepicker";
@@ -46,7 +48,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $float
      * @return float|int
      */
-    public function getUnit ($float) {
+    public function getUnit($float)
+    {
         $floatingPoint = strlen(substr(strrchr($float, '.'), 1));
         if ($floatingPoint === 0) {
             return 1;
@@ -58,25 +61,26 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         return $unit;
     }
 
-    public function init() {
+    public function init()
+    {
         parent::init();
 
         $this
             ->setMethod(Zend_Form::METHOD_POST)
-            ->setAttrib("class", "form sb-form feature-form")
-        ;
+            ->setAttrib("class", "form sb-form feature-form");
 
-        if($this->is_form_horizontal) {
+        if ($this->is_form_horizontal) {
             self::addClass("form-horizontal", $this);
         }
 
-        $this->setDecorators(array('FormElements','Form'));
+        $this->setDecorators(['FormElements', 'Form']);
     }
 
     /**
      * @param $boolean
      */
-    public function setIsFormHorizontal($boolean) {
+    public function setIsFormHorizontal($boolean)
+    {
         $this->is_form_horizontal = $boolean;
 
         return $this;
@@ -85,7 +89,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     /**
      * @param $confirm_text
      */
-    public function setConfirmText($confirm_text) {
+    public function setConfirmText($confirm_text)
+    {
         $this->confirm_text = __($confirm_text);
     }
 
@@ -93,7 +98,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $value
      * @return Siberian_Form_Abstract
      */
-    public function setBindJs($value) {
+    public function setBindJs($value)
+    {
         $this->bind_js = $value;
 
         return $this;
@@ -103,8 +109,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $value_id
      * @return $this
      */
-    public function setValueId($value_id) {
-        if(!is_null($this->getElement("value_id"))) {
+    public function setValueId($value_id)
+    {
+        if (!is_null($this->getElement("value_id"))) {
             $el_value_id = $this->getElement("value_id");
             $el_value_id->setValue($value_id);
         }
@@ -157,13 +164,14 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $name
      * @return $this
      */
-    public function removeNav($name) {
+    public function removeNav($name)
+    {
         $display_group = $this->getDisplayGroup($name);
-        if(is_null($display_group)) {
+        if (is_null($display_group)) {
             log_debug("The nav doesn't exists.");
             return $this;
         }
-        foreach($display_group->getElements() as $element) {
+        foreach ($display_group->getElements() as $element) {
             $this->removeElement($element->getName());
         }
         $this->removeDisplayGroup($name);
@@ -176,7 +184,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Submit
      * @throws Zend_Form_Exception
      */
-    public function addSubmit($label = null, $name = null) {
+    public function addSubmit($label = null, $name = null)
+    {
         if ($label == null) {
             $label = "Rechercher";
         }
@@ -189,10 +198,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $submit
             ->setLabel($label)
             ->setAttrib('class', 'btn default_button')
-            ->setDecorators(array(
+            ->setDecorators([
                 'ViewHelper'
-            ))
-        ;
+            ]);
         $submit->setIsFormHorizontal($this->is_form_horizontal);
         $submit->setColor($this->color);
         $submit->setNewDesign();
@@ -204,7 +212,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Submit
      * @throws Zend_Form_Exception
      */
-    public function addMiniSubmit($label = null, $label_off = null, $label_on = null) {
+    public function addMiniSubmit($label = null, $label_off = null, $label_on = null)
+    {
         if ($label == null) {
             $label = "<i class='fa fa-times icon icon-remove company-manage-delete'></i>";
         }
@@ -226,7 +235,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $element
      * @return mixed
      */
-    public function defaultToggle($element, $on_text = "Enable", $off_text = "Disable") {
+    public function defaultToggle($element, $on_text = "Enable", $off_text = "Disable")
+    {
         $element->setAttrib("data-toggle", "tooltip");
         $element->setAttrib("data-title-on", __($on_text));
         $element->setAttrib("data-title-off", __($off_text));
@@ -242,7 +252,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $state
      * @throws Zend_Form_Exception
      */
-    public function setToggleState($state) {
+    public function setToggleState($state)
+    {
         $this->mini_submit->setLabel($state ? $this->mini_submit->getAttrib("data-toggle-off") : $this->mini_submit->getAttrib("data-toggle-on"));
         $this->mini_submit->setAttrib("title", $state ? $this->mini_submit->getAttrib("data-title-off") : $this->mini_submit->getAttrib("data-title-on"));
     }
@@ -254,21 +265,22 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Text
      * @throws Zend_Form_Exception
      */
-    public function addSimpleText($name, $label = "", $placeholder = false, $placeholderText = false) {
+    public function addSimpleText($name, $label = "", $placeholder = false, $placeholderText = false)
+    {
         $el = new Siberian_Form_Element_Text($name);
         $this->addElement($el);
         if ($placeholder) {
             if ($placeholderText === false) {
                 $el->setAttrib('placeholder', $label);
-                $el->setDecorators(array('ViewHelper'));
+                $el->setDecorators(['ViewHelper']);
             } else {
                 $el->setLabel($label);
                 $el->setAttrib('placeholder', $placeholder);
-                $el->setDecorators(array('ViewHelper', 'Label'));
+                $el->setDecorators(['ViewHelper', 'Label']);
             }
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
@@ -285,15 +297,16 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Email
      * @throws Zend_Form_Exception
      */
-    public function addSimpleEmail($name, $label = "", $placeholder = false) {
+    public function addSimpleEmail($name, $label = "", $placeholder = false)
+    {
         $el = new Siberian_Form_Element_Email($name);
         $this->addElement($el);
         if ($placeholder) {
             $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            $el->setDecorators(['ViewHelper']);
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
@@ -308,15 +321,16 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param bool $placeholder
      * @return Siberian_Form_Element_Button
      */
-    public function addSimpleButton($name, $label = "", $placeholder = false) {
+    public function addSimpleButton($name, $label = "", $placeholder = false)
+    {
         $el = new Siberian_Form_Element_Button($name);
         $this->addElement($el);
         if ($placeholder) {
             $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            $el->setDecorators(['ViewHelper']);
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
@@ -331,14 +345,15 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param bool $placeholder
      * @return Siberian_Form_Element_Slider
      */
-    public function addSimpleSlider($name, $label = "", $options = array(), $with_indicator = true) {
-        if($with_indicator) {
+    public function addSimpleSlider($name, $label = "", $options = [], $with_indicator = true)
+    {
+        if ($with_indicator) {
             $options["indicator"] = true;
         }
         $el = new Siberian_Form_Element_Slider($name, $options);
         $this->addElement($el);
         $el->setLabel($label);
-        $el->setDecorators(array('ViewHelper', 'Label'));
+        $el->setDecorators(['ViewHelper', 'Label']);
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
         $el->setNewDesign();
@@ -352,18 +367,19 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Text
      * @throws Zend_Form_Exception
      */
-    public function addSimpleDatetimepicker($name, $label = "", $placeholder = false, $type = self::DATEPICKER, $format = false) {
+    public function addSimpleDatetimepicker($name, $label = "", $placeholder = false, $type = self::DATEPICKER, $format = false)
+    {
         $el = new Siberian_Form_Element_Text($name);
         $this->addElement($el);
         if ($placeholder) {
             $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            $el->setDecorators(['ViewHelper']);
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
         $el->setAttrib('data-datetimepicker', $type);
-        if($format) {
+        if ($format) {
             $el->setAttrib('data-format', $format);
         }
 
@@ -380,15 +396,16 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Text
      * @throws Zend_Form_Exception
      */
-    public function addSimplePassword($name, $label = "", $placeholder = false) {
+    public function addSimplePassword($name, $label = "", $placeholder = false)
+    {
         $el = new Siberian_Form_Element_Password($name);
         $this->addElement($el);
         if ($placeholder) {
             $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            $el->setDecorators(['ViewHelper']);
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
 
         $el->setIsFormHorizontal($this->is_form_horizontal);
@@ -403,18 +420,19 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Textarea
      * @throws Zend_Form_Exception
      */
-    public function addSimpleTextarea($name, $label = "", $placeholder = false, $options = array()) {
+    public function addSimpleTextarea($name, $label = "", $placeholder = false, $options = [])
+    {
         $el = new Siberian_Form_Element_Textarea($name);
         $this->addElement($el);
         if ($placeholder) {
             $el->setAttrib('placeholder', $label);
-            $el->setDecorators(array('ViewHelper'));
+            $el->setDecorators(['ViewHelper']);
         } else {
             $el->setLabel($label);
-            $el->setDecorators(array('ViewHelper', 'Label'));
+            $el->setDecorators(['ViewHelper', 'Label']);
         }
 
-        if(isset($options["ckeditor"])) {
+        if (isset($options["ckeditor"])) {
             $el->setAttrib('ckeditor', $options["ckeditor"]);
         }
 
@@ -431,7 +449,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Select
      * @throws Zend_Form_Exception
      */
-    public function addSimpleSelect($name, $label = "", $options = array()) {
+    public function addSimpleSelect($name, $label = "", $options = [])
+    {
         $el = new Siberian_Form_Element_Select($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
@@ -439,8 +458,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el
             ->setNewDesign()
             ->setLabel($label)
-            ->setMultiOptions($options)
-        ;
+            ->setMultiOptions($options);
         return $el;
     }
 
@@ -451,7 +469,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Multiselect
      * @throws Zend_Form_Exception
      */
-    public function addSimpleMultiSelect($name, $label = "", $options) {
+    public function addSimpleMultiSelect($name, $label = "", $options)
+    {
         $el = new Siberian_Form_Element_Multiselect($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
@@ -459,9 +478,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el
             ->setNewDesign()
             ->setLabel($label)
-            ->setMultiOptions($options)
-
-        ;
+            ->setMultiOptions($options);
         return $el;
     }
 
@@ -471,14 +488,14 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param array $attributes
      * @return Siberian_Form_Element_Html
      */
-    public function addSimpleHtml($name, $html, $attributes = array()) {
+    public function addSimpleHtml($name, $html, $attributes = [])
+    {
         $el = new Siberian_Form_Element_Html($name, $attributes);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el
             ->setValue($html)
-            ->setNewDesign()
-        ;
+            ->setNewDesign();
         return $el;
     }
 
@@ -488,15 +505,15 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Checkbox
      * @throws Zend_Form_Exception
      */
-    public function addSimpleCheckbox($name, $label) {
+    public function addSimpleCheckbox($name, $label)
+    {
         $el = new Siberian_Form_Element_Checkbox($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
         $el
             ->setLabel($label)
-            ->setNewDesign()
-        ;
+            ->setNewDesign();
 
         return $el;
     }
@@ -508,7 +525,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Radio
      * @throws Zend_Form_Exception
      */
-    public function addSimpleRadio($name, $label, $options = array()) {
+    public function addSimpleRadio($name, $label, $options = [])
+    {
         $el = new Siberian_Form_Element_Radio($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
@@ -516,8 +534,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el
             ->addMultiOptions($options)
             ->setLabel($label)
-            ->setNewDesign()
-        ;
+            ->setNewDesign();
         return $el;
     }
 
@@ -528,7 +545,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_MultiCheckbox
      * @throws Zend_Form_Exception
      */
-    public function addSimpleMultiCheckbox($name, $label, $options = array()) {
+    public function addSimpleMultiCheckbox($name, $label, $options = [])
+    {
         $el = new Siberian_Form_Element_MultiCheckbox($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
@@ -536,8 +554,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $el
             ->setMultiOptions($options)
             ->setLabel($label)
-            ->setNewDesign()
-        ;
+            ->setNewDesign();
         return $el;
     }
 
@@ -548,13 +565,14 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Button
      * @throws Zend_Form_Exception
      */
-    public function addSimpleImage($name, $label = "", $button_text = "", $options = array()) {
+    public function addSimpleImage($name, $label = "", $button_text = "", $options = [])
+    {
         /** UID to link elements together */
         $uid = uniqid();
 
         $button_text = !empty($button_text) ? $button_text : __("Add a picture");
 
-        if(is_array($options) && isset($options["width"]) && isset($options["height"])) {
+        if (is_array($options) && isset($options["width"]) && isset($options["height"])) {
             $label .= " " . $options["width"] . " x " . $options["height"];
         } else {
             $label .= " 320 x 150";
@@ -575,7 +593,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_button->removeDecorator('DtDdWrapper');
 
 
-        if(is_array($options) && isset($options["width"]) && isset($options["height"])) {
+        if (is_array($options) && isset($options["width"]) && isset($options["height"])) {
             $image_button->setAttrib("data-width", $options["width"]);
             $image_button->setAttrib("data-height", $options["height"]);
         } else {
@@ -591,10 +609,10 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_input->setAttrib("name", "files[]");
         $image_input->addClass("feature-upload-input");
         $image_input->setAttrib("data-uid", $uid);
-        if(isset($options["data-imagecolor"])) {
+        if (isset($options["data-imagecolor"])) {
             $image_input->setAttrib("data-imagecolor", $options["data-imagecolor"]);
         }
-        if(isset($options["data-forcecolor"])) {
+        if (isset($options["data-forcecolor"])) {
             $image_input->setAttrib("data-forcecolor", $options["data-forcecolor"]);
         }
 
@@ -606,12 +624,12 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         $image_hidden->setAttrib("data-uid", $uid);
         $image_hidden->addClass("feature-upload-hidden");
 
-        if(is_array($options) && isset($options["required"])) {
+        if (is_array($options) && isset($options["required"])) {
             $image_button->setRequired($options["required"]);
             $image_hidden->setRequired($options["required"]);
         }
 
-        if(isset($options["cms-include"])) {
+        if (isset($options["cms-include"])) {
             $image_button->addClass("cms-include");
             $image_input->addClass("cms-include");
             $image_hidden->addClass("cms-include");
@@ -626,7 +644,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param array $options
      * @return Siberian_Form_Element_Button
      */
-    public function addSimpleFile($name, $label = "", $options = array()) {
+    public function addSimpleFile($name, $label = "", $options = [])
+    {
         /** UID to link elements together */
         $uid = uniqid();
 
@@ -647,7 +666,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
         /** Fake uploader */
         $input_file = new Siberian_Form_Element_File("{$name}_hidden", __("uploader"));
         $this->addElement($input_file);
-        if(isset($options["multiple"])) {
+        if (isset($options["multiple"])) {
             $input_file->setAttrib("multiple", "multiple");
         }
         $input_file->setAttrib("style", "display: none;");
@@ -670,12 +689,13 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param string $step
      * @return Siberian_Form_Element_Number
      */
-    public function addSimpleNumber($name, $label, $min = null, $max = null, $inclusive = true, $step = 'any') {
+    public function addSimpleNumber($name, $label, $min = null, $max = null, $inclusive = true, $step = 'any')
+    {
         $el = new Siberian_Form_Element_Number($name);
         $this->addElement($el);
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
-        $el->setDecorators(array('ViewHelper', 'Label'))
+        $el->setDecorators(['ViewHelper', 'Label'])
             ->setLabel($label)
             ->setNewDesign();
 
@@ -707,10 +727,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Siberian_Form_Element_Hidden
      * @throws Zend_Form_Exception
      */
-    public function addSimpleHidden($name){
+    public function addSimpleHidden($name)
+    {
         $el = new Siberian_Form_Element_Hidden($name);
         $this->addElement($el);
-        $el->setDecorators(array('ViewHelper'));
+        $el->setDecorators(['ViewHelper']);
 
         return $el;
     }
@@ -722,11 +743,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return Zend_Form
      * @throws Zend_Form_Exception
      */
-    public function groupElements($name, $elements, $label = "") {
+    public function groupElements($name, $elements, $label = "")
+    {
         $display_group = $this->addDisplayGroup($elements, $name);
         $fieldset = $this->getDisplayGroup($name)->getDecorator("Fieldset")
-            ->setLegend($label)
-        ;
+            ->setLegend($label);
 
         return $display_group;
     }
@@ -736,7 +757,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      *
      * @param $html_js_css
      */
-    public function addMarkup($html_js_css) {
+    public function addMarkup($html_js_css)
+    {
         $this->markup = $html_js_css;
     }
 
@@ -744,14 +766,15 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param Zend_View_Interface|null $view
      * @return string
      */
-    public function render(Zend_View_Interface $view = null) {
-        if(!empty($this->confirm_text)) {
+    public function render(Zend_View_Interface $view = null)
+    {
+        if (!empty($this->confirm_text)) {
             $this->setAttrib("data-confirm", __js($this->confirm_text, "'"));
         }
 
         $content = parent::render($view);
 
-        if(!empty($this->markup)) {
+        if (!empty($this->markup)) {
             $content .= $this->markup;
         }
 
@@ -763,11 +786,12 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @return bool
      * @throws Zend_Form_Exception
      */
-    public function isValid($data) {
+    public function isValid($data)
+    {
         /** Removing all fake_files elements before validating. */
         $elements = $this->getElements();
-        foreach($elements as $element) {
-            if(strpos($element->getName(), "fake_files") !== false) {
+        foreach ($elements as $element) {
+            if (strpos($element->getName(), "fake_files") !== false) {
                 $this->removeElement($element->getName());
             }
         }
@@ -778,29 +802,30 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     /**
      * @return array|string
      */
-    public function  getTextErrors($for_javascript = false) {
+    public function getTextErrors($for_javascript = false)
+    {
         $errors = array_filter($this->getMessages());
 
-        $text_error = array();
-        $javascript_error = array();
-        foreach($errors as $name => $error) {
+        $text_error = [];
+        $javascript_error = [];
+        foreach ($errors as $name => $error) {
             /** Translating errors */
-            $errs = array();
-            foreach($error as $err) {
+            $errs = [];
+            foreach ($error as $err) {
                 $errs[] = __($err);
             }
             $text_error[] = sprintf("%s: %s", ucfirst(__($name)), implode(", ", $errs));
             $javascript_error[$name] = implode("<br />", $errs);
         }
 
-        if($for_javascript) {
+        if ($for_javascript) {
             return $javascript_error;
         }
 
-        if(!empty($text_error)) {
-            $text_error = "<div>".__("Form has the following errors")."<br />".implode("<br />", $text_error)."</div>";
+        if (!empty($text_error)) {
+            $text_error = "<div>" . __("Form has the following errors") . "<br />" . implode("<br />", $text_error) . "</div>";
         } else {
-            $text_error = "<div>".__("Form has the following errors")."</div>";
+            $text_error = "<div>" . __("Form has the following errors") . "</div>";
         }
 
         return $text_error;
@@ -814,23 +839,24 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param bool $isOption
      * @return mixed
      */
-    public static function addClass($new, $element, $isOption = false) {
-        if(is_null($element)) {
+    public static function addClass($new, $element, $isOption = false)
+    {
+        if (is_null($element)) {
             return;
         }
 
-        if($isOption) {
+        if ($isOption) {
             $existing = $element->getOption('class');
         } else {
             $existing = $element->getAttrib('class');
         }
 
-        if($existing == null) {
-            $classes = array($new);
+        if ($existing == null) {
+            $classes = [$new];
         } else {
-            if(is_string($existing)) {
+            if (is_string($existing)) {
                 $classes = explode(' ', $existing);
-            } elseif(is_array($existing)) {
+            } elseif (is_array($existing)) {
                 $classes = $existing;
             }
             $classes[] = $new;
@@ -838,7 +864,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
 
         $classes = implode(' ', $classes);
 
-        if($isOption) {
+        if ($isOption) {
             $element->setOption('class', $classes);
         } else {
             $element->setAttrib('class', $classes);
@@ -853,34 +879,35 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param bool $isOption
      * @return mixed
      */
-    public static function removeClass($remove, $element, $isOption = false) {
-        if(is_null($element)) {
+    public static function removeClass($remove, $element, $isOption = false)
+    {
+        if (is_null($element)) {
             return;
         }
 
-        if($isOption) {
+        if ($isOption) {
             $existing = $element->getOption('class');
         } else {
             $existing = $element->getAttrib('class');
         }
 
-        if(is_string($existing)) {
+        if (is_string($existing)) {
             $classes = explode(' ', $existing);
-        } elseif(is_array($existing)) {
+        } elseif (is_array($existing)) {
             $classes = $existing;
         } else {
             return $element;
         }
 
-        foreach($classes as $i => $class) {
-            if($remove == $class) {
+        foreach ($classes as $i => $class) {
+            if ($remove == $class) {
                 unset($classes[$i]);
             }
         }
 
         $classes = implode(' ', $classes);
 
-        if($isOption) {
+        if ($isOption) {
             $element->setOption('class', $classes);
         } else {
             $element->setAttrib('class', $classes);
@@ -897,10 +924,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
      * @param $key
      * @param $value
      */
-    public static function handlePicture($optionValue, $object, $key, $value) {
-        if($value == '_delete_') {
+    public static function handlePicture($optionValue, $object, $key, $value)
+    {
+        if ($value == '_delete_') {
             $object->setData($key, '');
-        } else if(file_exists(Core_Model_Directory::getBasePathTo('images/application' . $value))) {
+        } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $value))) {
             # Nothing changed, skip
         } else {
             $path_banner = Siberian_Feature::moveUploadedFile(
@@ -915,7 +943,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form {
     /**
      * @return bool
      */
-    public function getPresets() {
+    public function getPresets()
+    {
         return false;
     }
 }

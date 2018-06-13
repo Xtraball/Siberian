@@ -1,0 +1,143 @@
+<?php
+// Show deprecated GCM settings for Siberian before 4.14.0!
+$pre414 = false;
+$installationVersion = __get('installation_version');
+if (empty($installationVersion)) {
+    $pre414 = true;
+}
+?>
+
+<sb-section title="'<?php echo __js('Firebase Cloud Messaging', "'") ?>'">
+    <form ng-submit="saveFirebaseProject()">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="DefaultProject"><?php echo __('Sender ID') ?></label>
+                <input type="text"
+                       id="SenderID"
+                       ng-model="firebase.senderID"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Sender ID', "'") ?>"/>
+            </div>
+            <div class="col-md-4">
+                <label for="ServerKey"><?php echo __('Server key') ?></label>
+                <input type="text"
+                       id="ServerKey"
+                       ng-model="firebase.serverKey"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Server key', "'") ?>"/>
+            </div>
+            <div class="col-md-4"
+                 style="padding-top: 24px;">
+                <button type="submit"
+                        class="btn btn-primary left"><?php echo __('Save sender id & key'); ?></button>
+                <sb-loader is_visible="projectLoader"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+            <div class="clear"></div>
+
+        </div>
+
+        <div class="form-group"
+             style="margin-top:20px;">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <?php echo __('Upload your %s file below.', '<b>google-services.json</b>') ?>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="relative upload_area">
+            <div class="col-md-3">
+                <div class="upload_a_file">
+                    <label for="file_uploader"><?php echo __("Upload your json here"); ?></label>
+                    <input id="file_uploader"
+                           type="file"
+                           nv-file-select=""
+                           uploader="uploader"/>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="drop_a_file">
+                    <label><?php echo __("OR"); ?></label>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="drop_a_file">
+                    <label><?php echo __("Drop your json here"); ?></label>
+                    <div ng-show="uploader.isHTML5">
+                        <div class="well drop-zone"
+                             nv-file-drop=""
+                             nv-file-over=""
+                             uploader="uploader">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div ng-if="firebase.googleService"
+                     style="text-align: center;">
+                    <label><?php echo __("You already have a google-services.json file"); ?></label>
+                    <i class="fa fa-file-code-o"
+                       style="font-size: 48px; margin-top: 20px;"></i>
+                </div>
+            </div>
+
+
+            <div class="clear"></div>
+
+        </div>
+
+    </form>
+</sb-section>
+
+<?php if ($pre414): ?>
+<form ng-submit="saveKeys()">
+    <sb-section title="'<?php echo __js('Google Cloud Messaging (GCM, Deprecated)', "'") ?>'">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="SenderId"><?php echo __('Sender ID') ?></label>
+                <input type="text"
+                       id="SenderId"
+                       ng-model="gcm.android_sender_id"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('Sender ID', "'") ?>"/>
+            </div>
+            <div class="col-md-4">
+                <label for="Key"><?php echo __('GCM Key') ?></label>
+                <input type="text"
+                       id="Key"
+                       ng-model="gcm.android_key"
+                       class="form-control"
+                       autocomplete="new-password"
+                       placeholder="<?php echo __js('GCM Key', "'") ?>"/>
+            </div>
+            <div class="col-md-4"
+                 style="padding-top: 24px;">
+                <button type="submit"
+                        class="btn btn-primary left"><?php echo __('Save GCM settings'); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+            <div class="clear"></div>
+    </sb-section>
+</form>
+<?php endif; ?>
+
+<style type="text/css">
+    .upload_area .well.drop-zone {
+        width: 100%;
+    }
+</style>

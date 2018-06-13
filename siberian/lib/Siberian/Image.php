@@ -1,6 +1,7 @@
 <?php
 
-class Siberian_Image extends Gregwar\Image\Image {
+class Siberian_Image extends Gregwar\Image\Image
+{
 
     /**
      * @var array
@@ -33,7 +34,8 @@ class Siberian_Image extends Gregwar\Image\Image {
      * @param null $height
      */
     public function __construct($originalFile = null,
-                                $width = null, $height = null) {
+                                $width = null, $height = null)
+    {
         parent::__construct($originalFile, $width, $height);
 
         $this->originalFile = $originalFile;
@@ -45,9 +47,10 @@ class Siberian_Image extends Gregwar\Image\Image {
     /**
      * Returns the Base64 inlinable representation.
      */
-    public function inline($type = 'jpg', $quality = 80) {
+    public function inline($type = 'jpg', $quality = 80)
+    {
         $extension = pathinfo($this->source->getFile(), PATHINFO_EXTENSION);
-        if($extension === 'png') {
+        if ($extension === 'png') {
             return 'data:image/png;base64,' .
                 base64_encode(file_get_contents($this->originalFile));
         }
@@ -69,17 +72,18 @@ class Siberian_Image extends Gregwar\Image\Image {
                                         $format = null,
                                         $device_width = null,
                                         $device_height = null,
-                                        $returnInfos = false) {
-        if(isset($resource) && is_file($resource)) {
+                                        $returnInfos = false)
+    {
+        if (isset($resource) && is_file($resource)) {
 
             $resource = Siberian_Image::open($resource);
 
             // Optimize images with the screen resolution or format!
-            if(isset($format) && isset(self::$formats[$format])) {
+            if (isset($format) && isset(self::$formats[$format])) {
                 $max_width = self::$formats[$format];
-            } else if(isset($device_width) && isset($device_height)) {
-                $max_width = ($device_width*1 > $device_height*1) ?
-                    $device_width*1 : $device_height*1;
+            } else if (isset($device_width) && isset($device_height)) {
+                $max_width = ($device_width * 1 > $device_height * 1) ?
+                    $device_width * 1 : $device_height * 1;
             } else {
                 $max_width = 1024;
             }
@@ -104,7 +108,7 @@ class Siberian_Image extends Gregwar\Image\Image {
              *  If the image is bigger than 100kb,
              *  don't cache it locally but send the proxied url
              */
-            if(strlen(base64_decode($base64)) > self::$max_size || self::$force_cache) {
+            if (strlen(base64_decode($base64)) > self::$max_size || self::$force_cache) {
                 $data = str_replace(Core_Model_Directory::getBasePathTo(''),
                     $base_url . '/', $resource->guess());
             } else {
@@ -129,14 +133,16 @@ class Siberian_Image extends Gregwar\Image\Image {
     /**
      * Force image to be cached as URL
      */
-    public static function enableForceCache () {
+    public static function enableForceCache()
+    {
         self::$force_cache = true;
     }
 
     /**
      * Disable image URL cache
      */
-    public static function disableForceCache () {
+    public static function disableForceCache()
+    {
         self::$force_cache = false;
     }
 

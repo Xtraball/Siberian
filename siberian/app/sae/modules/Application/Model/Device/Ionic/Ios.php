@@ -1,32 +1,97 @@
 <?php
 
-class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_Ios_Abstract {
-
+/**
+ * Class Application_Model_Device_Ionic_Ios
+ */
+class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_Ios_Abstract
+{
+    /**
+     * @var string
+     */
     const SOURCE_FOLDER = "/var/apps/ionic/ios";
+
+    /**
+     * @var string
+     */
     const DEST_FOLDER = "/var/tmp/applications/ionic/ios/%s/AppsMobileCompany";
+
+    /**
+     * @var string
+     */
     const ARCHIVE_FOLDER = "/var/tmp/applications/ionic";
 
-    protected $_current_version = '1.0';
+    /**
+     * @var string
+     */
+    protected $_current_version = '2.0';
+
+    /**
+     * @var string
+     */
     protected $_zipname;
+
+    /**
+     * @var string
+     */
     protected $_new_xml;
+
+    /**
+     * @var
+     */
     protected $_request;
-    /** Folders */
+
+    /**
+     * @var string
+     */
     protected $_orig_source;
+
+    /**
+     * @var string
+     */
     protected $_orig_source_amc;
+
+    /**
+     * @var string
+     */
     protected $_orig_source_res;
+
+    /**
+     * @var string
+     */
     protected $_dest_source;
+
+    /**
+     * @var string
+     */
     protected $_dest_source_amc;
+
+    /**
+     * @var string
+     */
     protected $_dest_source_res;
+
+    /**
+     * @var string
+     */
     protected $_dest_archive;
 
-    public function __construct($data = array()) {
+    /**
+     * Application_Model_Device_Ionic_Ios constructor.
+     * @param array $data
+     * @throws Zend_Exception
+     */
+    public function __construct($data = [])
+    {
         parent::__construct($data);
         $this->_os_name = "ios";
         $this->_logger = Zend_Registry::get("logger");
         return $this;
     }
 
-    public static $_store_categories = array(
+    /**
+     * @var array
+     */
+    public static $_store_categories = [
         1 => "Business",
         2 => "Catalogs",
         3 => "Education",
@@ -49,17 +114,21 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         20 => "Utilities",
         21 => "Weather",
         22 => "Book"
-    );
+    ];
 
-    public static function getStoreCategeories() {
-        $categories = array();
-        foreach(self::$_store_categories as $key => $category) {
-            $category_name = parent::_($category);
+    /**
+     * @return array
+     */
+    public static function getStoreCategeories()
+    {
+        $categories = [];
+        foreach (self::$_store_categories as $key => $category) {
+            $category_name = __($category);
 
-            $categories[$category_name] = new Core_Model_Default(array(
+            $categories[$category_name] = new Core_Model_Default([
                 'id' => $key,
-                'name' => parent::_($category_name),
-            ));
+                'name' => __($category_name)
+            ]);
         }
 
         ksort($categories);
@@ -67,89 +136,124 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         return $categories;
     }
 
-    public static function getStoreCategory($cat_id) {
-
-        foreach(self::getStoreCategeories() as $category) {
-            if($category->getId() == $cat_id) return $category;
+    /**
+     * @param $cat_id
+     * @return Core_Model_Default|mixed
+     */
+    public static function getStoreCategory($cat_id)
+    {
+        foreach (self::getStoreCategeories() as $category) {
+            if ($category->getId() == $cat_id) return $category;
         }
 
         return new Core_Model_Default();
     }
 
-    public function getCurrentVersion() {
+    /**
+     * @return string
+     */
+    public function getCurrentVersion()
+    {
         return $this->_current_version;
     }
 
-    public function getStoreName() {
+    /**
+     * @return string
+     */
+    public function getStoreName()
+    {
         return "App Store";
     }
 
-    public function getBrandName() {
+    /**
+     * @return string
+     */
+    public function getBrandName()
+    {
         return "Apple";
     }
 
-    public function prepareResources($cron = false) {
+    /**
+     * @param bool $isApkService
+     * @return mixed|string
+     * @throws Exception
+     * @throws Zend_Controller_Request_Exception
+     */
+    public function prepareResources($isApkService = false)
+    {
+        $this->currentApplication = $this->getApplication();
 
-        self::$_application = $this->_application = $this->getApplication();
-
-        $this->_package_name = self::$_application->getBundleId();
-        $this->_application_id = Core_Model_Lib_String::format(self::$_application->getName()."_".self::$_application->getId(), true);
-        $this->_application_name = self::$_application->getName();
+        $this->_package_name = $this->currentApplication->getBundleId();
+        $this->_application_id = Core_Model_Lib_String::format($this->currentApplication->getName() . "_" .
+            $this->currentApplication->getId(), true);
+        $this->_application_name = $this->currentApplication->getName();
 
         // Prepping paths!
         $this->_preparePathsVars();
         $this->_prepareRequest();
         $this->_cpFolder();
+
+        // Remove Ads from sources!
+        if ($this->getDevice()->getExcludeAds()) {
+            $this->removeAds();
+        }
+
         $this->_prepareUrl();
         $this->_prepareLanguages();
 
         // Shared method!
         $this->buildPList();
-        $this->ionicResources(self::$_application);
+        $this->ionicResources($this->currentApplication);
 
         $zip = $this->zipFolder();
 
         return $zip;
     }
 
-    protected function _preparePathsVars() {
+    /**
+     *
+     */
+    protected function _preparePathsVars()
+    {
         // Ads!
         $_package_ads_suffix = $_source_ads_suffix = "";
-        $_dest_ads_suffix = "";
-        if($this->getDevice()->getExcludeAds()) {
+        if ($this->getDevice()->getExcludeAds()) {
             $_package_ads_suffix = $_source_ads_suffix = "-noads";
-            $_dest_ads_suffix = "NoAds";
         }
 
-        $this->_app_name_formatted = Core_Model_Lib_String::format(self::$_application->getName(), true);
-        $this->_folder_name = $this->_app_name_formatted.'-'.self::$_application->getId();
+        $this->_app_name_formatted = Core_Model_Lib_String::format($this->currentApplication->getName(), true);
+        $this->_folder_name = $this->_app_name_formatted . '-' . $this->currentApplication->getId();
 
         // Ionic sources!
-        $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER.$_source_ads_suffix);
-        $this->_orig_source_amc = $this->_orig_source."/AppsMobileCompany";
-        $this->_orig_source_res = $this->_orig_source_amc."/Resources";
+        $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);
+        $this->_orig_source_amc = $this->_orig_source . "/AppsMobileCompany";
+        $this->_orig_source_res = $this->_orig_source_amc . "/Resources";
 
         /** /var/tmp/applications/[DESIGN]/[PLATFORM]/[APP_NAME]/AppsMobileCompany */
-        $this->_dest_source = Core_Model_Directory::getBasePathTo(self::DEST_FOLDER.$_dest_ads_suffix);
+        $this->_dest_source = Core_Model_Directory::getBasePathTo(self::DEST_FOLDER);
         $this->_dest_source = sprintf($this->_dest_source, $this->_folder_name);
-        $this->_dest_source_amc = $this->_dest_source."/AppsMobileCompany";
-        $this->_dest_source_res = $this->_dest_source_amc."/";
+        $this->_dest_source_amc = $this->_dest_source . "/AppsMobileCompany";
+        $this->_dest_source_res = $this->_dest_source_amc . "/";
 
         $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
 
         /** Vars */
-        $this->_zipname = sprintf("%s_%s_%s%s", $this->_app_name_formatted, self::$_application->getId(), "ios_source", $_package_ads_suffix);
+        $this->_zipname = sprintf("%s_%s_%s%s",
+            $this->_app_name_formatted, $this->currentApplication->getId(), "ios_source", $_package_ads_suffix);
 
-        if(!$this->_app_name_formatted) {
-            $this->_zipname = sprintf("%s_%s_%s%s", $this->getDevice()->getAlias(), self::$_application->getId(), "ios_source", $_package_ads_suffix);
+        if (!$this->_app_name_formatted) {
+            $this->_zipname = sprintf("%s_%s_%s%s",
+                $this->getDevice()->getAlias(), $this->currentApplication->getId(), "ios_source", $_package_ads_suffix);
         }
     }
 
+    /**
+     * url.js is custom for each app!
+     */
+    protected function _prepareUrl()
+    {
 
-    /** App only */
-    protected function _prepareUrl() {
-
-        if(defined("CRON")) {
+        if (defined("CRON")) {
             $protocol = System_Model_Config::getValueFor("use_https") ? 'https://' : 'http://';
             $domain = $this->getDevice()->getHost();
         } else {
@@ -157,7 +261,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
             $domain = $this->_request->getHttpHost();
         }
 
-        $app_key = self::$_application->getKey();
+        $app_key = $this->currentApplication->getKey();
 
         $url_js_content = "
 /** Auto-generated url.js */
@@ -166,23 +270,34 @@ var IS_NATIVE_APP = true;
 var DEVICE_TYPE = 2;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
-DOMAIN = '{$protocol}{$domain}';
-APP_KEY = '{$app_key}';
-BASE_PATH = '/'+APP_KEY;
+
+// WebView
+if (typeof IS_PREVIEW === 'undefined' ||
+    (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW !== true)) {
+    PROTOCOL = '{$protocol}';
+    DOMAIN = '{$protocol}{$domain}';
+    APP_KEY = '{$app_key}';
+    BASE_PATH = '/'+APP_KEY;
+}
 
 var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
-        file_put_contents($this->_dest_source."/www/js/utils/url.js", $url_js_content);
+
+        file_put_contents($this->_dest_source . "/www/js/utils/url.js", $url_js_content);
     }
 
-    protected function _prepareLanguages() {
+    /**
+     * languages.js is custom for each app!
+     */
+    protected function _prepareLanguages()
+    {
 
         $languages = array_keys(Core_Model_Language::getLanguages());
 
         $file_content = "
 /** Auto-generated languages.js */
-var AVAILABLE_LANGUAGES = new Array('".implode("','", $languages)."');
+var AVAILABLE_LANGUAGES = new Array('" . implode("','", $languages) . "');
 
 /**
  * Find navigator preferred language
@@ -202,26 +317,6 @@ if(navigator.language) {
     }
 }";
 
-        file_put_contents($this->_dest_source."/www/js/utils/languages.js", $file_content);
+        file_put_contents($this->_dest_source . "/www/js/utils/languages.js", $file_content);
     }
-
-    private function __getUrlValue($key) {
-
-        $value = null;
-
-        switch($key) {
-            case "url_scheme": $value = $this->_request->getScheme(); break;
-            case "url_domain": $value = $this->_request->getHttpHost(); break;
-            case "url_path": $value = ltrim($this->_request->getBaseUrl(), "/"); break;
-            case "url_key":
-                if($this->_request->useApplicationKey()) {
-                    $value = self::$_application->getKey();
-                }
-                break;
-            default: $value = "";
-        }
-
-        return $value;
-    }
-
 }

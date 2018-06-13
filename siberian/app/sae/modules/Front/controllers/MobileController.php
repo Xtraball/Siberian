@@ -140,6 +140,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default {
                     'privacy_policy_gdpr' => $application->getPrivacyPolicyGdpr(),
                     'gdprIsEnabled' => isGdpr(),
                     "homepage_background" => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
+                    'backButton' => (string) $application->getBackButton(),
                 ),
                 "homepage_image" => $homepage_image_b64
             );

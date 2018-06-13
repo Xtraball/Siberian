@@ -1,9 +1,10 @@
 <?php
 
 /**
- *
+ * Class Siberian_Minify
  */
-class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
+class Siberian_Minify extends \MatthiasMullie\Minify\Minify
+{
 
     /**
      * @var array
@@ -25,44 +26,44 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      */
     public static $PLATFORMS = [
         'browser' => [
-            'css'           => true,
-            'js'            => true,
-            'base'          => 'var/apps/browser',
-            'index'         => 'var/apps/browser/index.html',
-            'output_css'    => 'var/apps/browser/dist/app.bundle-min.css',
-            'output_js'     => 'var/apps/browser/dist/app.bundle-min.js',
+            'css' => true,
+            'js' => true,
+            'base' => 'var/apps/browser',
+            'index' => 'var/apps/browser/index.html',
+            'output_css' => 'var/apps/browser/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/browser/dist/app.bundle-min.js',
         ],
         'overview' => [
-            'css'           => true,
-            'js'            => true,
-            'base'          => 'var/apps/overview',
-            'index'         => 'var/apps/overview/index.html',
-            'output_css'    => 'var/apps/overview/dist/app.bundle-min.css',
-            'output_js'     => 'var/apps/overview/dist/app.bundle-min.js',
+            'css' => true,
+            'js' => true,
+            'base' => 'var/apps/overview',
+            'index' => 'var/apps/overview/index.html',
+            'output_css' => 'var/apps/overview/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/overview/dist/app.bundle-min.js',
         ],
         'android' => [
-            'css'           => true,
-            'js'            => false,
-            'base'          => 'var/apps/ionic/android/assets/www',
-            'index'         => 'var/apps/ionic/android/assets/www/index.html',
-            'output_css'    => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.css',
-            'output_js'     => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.js',
+            'css' => true,
+            'js' => false,
+            'base' => 'var/apps/ionic/android/assets/www',
+            'index' => 'var/apps/ionic/android/assets/www/index.html',
+            'output_css' => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.js',
         ],
         'ios' => [
-            'css'           => true,
-            'js'            => false,
-            'base'          => 'var/apps/ionic/ios/www',
-            'index'         => 'var/apps/ionic/ios/www/index.html',
-            'output_css'    => 'var/apps/ionic/ios/www/dist/app.bundle-min.css',
-            'output_js'     => 'var/apps/ionic/ios/www/dist/app.bundle-min.js',
+            'css' => true,
+            'js' => false,
+            'base' => 'var/apps/ionic/ios/www',
+            'index' => 'var/apps/ionic/ios/www/index.html',
+            'output_css' => 'var/apps/ionic/ios/www/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/ionic/ios/www/dist/app.bundle-min.js',
         ],
         'ios-noads' => [
-            'css'           => true,
-            'js'            => false,
-            'base'          => 'var/apps/ionic/ios-noads/www',
-            'index'         => 'var/apps/ionic/ios-noads/www/index.html',
-            'output_css'    => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.css',
-            'output_js'     => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.js',
+            'css' => true,
+            'js' => false,
+            'base' => 'var/apps/ionic/ios-noads/www',
+            'index' => 'var/apps/ionic/ios-noads/www/index.html',
+            'output_css' => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.js',
         ],
     ];
 
@@ -86,8 +87,11 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      */
     public static $instance = null;
 
-
-    public function __construct() {
+    /**
+     * Siberian_Minify constructor.
+     */
+    public function __construct()
+    {
         if (is_null(self::$instance)) {
             self::$basepath = Core_Model_Directory::getBasePathTo("");
 
@@ -104,18 +108,31 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         return self::$instance;
     }
 
-    /** Hook for platforms */
-    public static function addPlatform($name, $options = []) {
+    /**
+     * @param $name
+     * @param array $options
+     */
+    public static function addPlatform($name, $options = [])
+    {
         if (!isset(self::$PLATFORMS[$name])) {
             self::$PLATFORMS[$name] = $options;
         }
     }
 
-    public function execute($path = null) {
+    /**
+     * @param null $path
+     * @return string|void
+     */
+    public function execute($path = null)
+    {
         parent::execute($path);
     }
 
-    public function build() {
+    /**
+     *
+     */
+    public function build()
+    {
         foreach (self::$PLATFORMS as $platform => $path) {
             $do_css = self::$PLATFORMS[$platform]['css'];
             $do_js = self::$PLATFORMS[$platform]['js'];
@@ -143,7 +160,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
     /**
      *
      */
-    public function buildServiceWorker() {
+    public function buildServiceWorker()
+    {
         $base = self::$PLATFORMS["browser"]["base"];
         //$manifest_file = $base . "/" . Siberian_Autoupdater::$pwa_manifest;
         //$current_release = System_Model_Config::getValueFor("current_release");
@@ -151,10 +169,10 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         $app_shell_files = Siberian_Json::decode(file_get_contents(Core_Model_Directory::getBasePathTo($manifest_file)));
 
         # Modules
-        if(file_exists($base . "/modules")) {
+        if (file_exists($base . "/modules")) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base . "/modules", 4096), RecursiveIteratorIterator::SELF_FIRST);
-            foreach($files as $file) {
-                if($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
+            foreach ($files as $file) {
+                if ($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
                     continue;
                 }
 
@@ -166,10 +184,10 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         }
 
         # Features
-        if(file_exists($base . "/features")) {
+        if (file_exists($base . "/features")) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base . "/features", 4096), RecursiveIteratorIterator::SELF_FIRST);
-            foreach($files as $file) {
-                if($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
+            foreach ($files as $file) {
+                if ($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
                     continue;
                 }
 
@@ -181,10 +199,10 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         }
 
         # Plugins
-        if(file_exists($base . "/plugins")) {
+        if (file_exists($base . "/plugins")) {
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($base . "/plugins", 4096), RecursiveIteratorIterator::SELF_FIRST);
-            foreach($files as $file) {
-                if($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
+            foreach ($files as $file) {
+                if ($file->isDir() || $file->isLink() || (strpos($file->getFilename(), ".") === 0)) {
                     continue;
                 }
 
@@ -195,7 +213,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
             mkdir($base . "/plugins", 0775, true);
         }
 
-        $app_shell_files[]  = "dist/app.bundle-min.js?version=" . $current_release;
+        $app_shell_files[] = "dist/app.bundle-min.js?version=" . $current_release;
 
         # Write to file
         //$template = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker-template.js");
@@ -206,11 +224,11 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
 
 
         /**$service_worker = str_replace("var filesToCache = [];",
-            "var filesToCache = " . $toreplace . ";", $service_worker);
-        $service_worker = str_replace("var cacheName = \"pwa-worker-\" + Date.now();",
-            "var cacheName = \"pwa-worker-" . System_Model_Config::getValueFor("current_release") . "\";", $service_worker);
-
-        file_put_contents($destination, $service_worker);*/
+         * "var filesToCache = " . $toreplace . ";", $service_worker);
+         * $service_worker = str_replace("var cacheName = \"pwa-worker-\" + Date.now();",
+         * "var cacheName = \"pwa-worker-" . System_Model_Config::getValueFor("current_release") . "\";", $service_worker);
+         *
+         * file_put_contents($destination, $service_worker);*/
     }
 
     /**
@@ -218,7 +236,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      * @param $index_path
      * @param $output_css
      */
-    public function minifyCss($platform, $index_path, $output_css) {
+    public function minifyCss($platform, $index_path, $output_css)
+    {
         $regex = '/<link href="([a-z0-9\.\/\-_]+\.css)" rel="stylesheet">/mi';
 
         $this->_minify("css", $regex, $index_path, $output_css, $platform);
@@ -229,7 +248,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      * @param $index_path
      * @param $output_js
      */
-    public function minifyJs($platform, $index_path, $output_js) {
+    public function minifyJs($platform, $index_path, $output_js)
+    {
         $regex = '/<script[^>]+src="([a-z0-9\.\/\-_]+\.js)"/mi';
 
         $this->_minify('js', $regex, $index_path, $output_js, $platform);
@@ -242,7 +262,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      * @param $output
      * @param $platform
      */
-    private function _minify($type, $regex, $content, $output, $platform) {
+    private function _minify($type, $regex, $content, $output, $platform)
+    {
         if (!is_readable($content)) {
             return;
         }
@@ -252,13 +273,13 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
 
         switch ($type) {
             case 'css':
-                    $minifier = new MatthiasMullie\Minify\CSS();
-                    $minifier->setMaxImportSize(5000);
-                    $exclude = self::$EXCLUDE_CSS;
+                $minifier = new MatthiasMullie\Minify\CSS();
+                $minifier->setMaxImportSize(5000);
+                $exclude = self::$EXCLUDE_CSS;
                 break;
             case 'js':
-                    $minifier = new MatthiasMullie\Minify\JS();
-                    $exclude = self::$EXCLUDE_JS;
+                $minifier = new MatthiasMullie\Minify\JS();
+                $exclude = self::$EXCLUDE_JS;
                 break;
         }
 
@@ -297,7 +318,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
      * @param bool $css
      * @param bool $js
      */
-    public function replaceIndex($platform, $index_path, $css = true, $js = true) {
+    public function replaceIndex($platform, $index_path, $css = true, $js = true)
+    {
         $source = $index_path;
         $dest = str_replace("index", "index-prod", $index_path);
         $css_file = str_replace("index.html", "dist/app.bundle-min.css", $index_path);
@@ -340,7 +362,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
         $app_files .= '
     </head>';
 
-        $content = preg_replace('/<\/head>/mi', $app_files."\n\t", $content);
+        $content = preg_replace('/<\/head>/mi', $app_files . "\n\t", $content);
 
         file_put_contents($dest, $content);
         if (file_exists($dest)) {
@@ -352,13 +374,14 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify {
     /**
      * Hook to clear cache
      */
-    public static function clearCache() {
+    public static function clearCache()
+    {
         $files_to_unlink = [];
 
         foreach (self::$PLATFORMS as $platform => $path) {
-            $css    = self::$PLATFORMS[$platform]['output_css'];
-            $js     = self::$PLATFORMS[$platform]['output_js'];
-            $index  = str_replace('index', 'index-prod', self::$PLATFORMS[$platform]['index']);
+            $css = self::$PLATFORMS[$platform]['output_css'];
+            $js = self::$PLATFORMS[$platform]['output_js'];
+            $index = str_replace('index', 'index-prod', self::$PLATFORMS[$platform]['index']);
 
             $files_to_unlink[] = self::$basepath . $css;
             $files_to_unlink[] = self::$basepath . $js;

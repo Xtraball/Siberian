@@ -35,7 +35,7 @@
     <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="7" />
+        <native-interface version="8" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -82,20 +82,15 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
-    <preference name="android-minSdkVersion" value="16" />
-    <preference name="android-targetSdkVersion" value="23" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="27" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="500" />
-    <feature name="AdMob">
-        <param name="ios-package" value="CDVAdMobPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
@@ -103,6 +98,13 @@
     </feature>
     <feature name="PushNotification">
         <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="ios-package" value="WebViewPlugin" />
+    </feature>
+    <feature name="AdMob">
+        <param name="ios-package" value="CDVAdMobPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
@@ -138,7 +140,6 @@
     </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="StatusBar">
         <param name="ios-package" value="CDVStatusBar" />

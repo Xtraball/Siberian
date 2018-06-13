@@ -10,6 +10,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         categories: [],
         searchIndex: [],
         showSearch: false,
+        allowLineReturn: false,
         extendedOptions: {}
     };
 
@@ -36,6 +37,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
     factory.populate = function (payload) {
         factory.collection = payload.collection;
         factory.showSearch = payload.showSearch;
+        factory.allowLineReturn = payload.allowLineReturn;
         factory.cardDesign = payload.cardDesign;
         factory.searchIndex = payload.searchIndex;
 
@@ -65,7 +67,7 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         var computeIndex = function (collection) {
             var destination = [];
             angular.forEach(collection, function (folderItem) {
-                if (!folderItem.is_active) {
+                if (!folderItem.feature.is_active) {
                     return;
                 }
                 if (unlocked || !folderItem.feature.is_locked || (folderItem.feature.code === 'padlock')) {

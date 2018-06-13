@@ -3,9 +3,13 @@
 /**
  * Class Backoffice_Controller_Default
  */
-class Backoffice_Controller_Default extends Core_Controller_Default {
-
-    public function init() {
+class Backoffice_Controller_Default extends Core_Controller_Default
+{
+    /**
+     * @return $this|void
+     */
+    public function init()
+    {
         parent::init();
 
         Siberian_Cache_Translation::init();
@@ -16,13 +20,14 @@ class Backoffice_Controller_Default extends Core_Controller_Default {
             'backoffice_account_login_post',
             'backoffice_account_login_forgottenpassword',
             'application_backoffice_iosautopublish_updatejobstatus', //used by jenkins/fastlane to update job status
+            'application_backoffice_iosautopublish_uploadapk', //used by jenkins/fastlane to update job status
             'application_backoffice_iosautopublish_uploadcertificate', //used by jenkins/fastlane to update job status
             'installer_module_getfeature',
             'backoffice_advanced_tools_testbasicauth',
             'backoffice_advanced_tools_testbearerauth'
         ];
 
-        if(!$this->getSession(Core_Model_Session::TYPE_BACKOFFICE)->isLoggedIn()
+        if (!$this->getSession(Core_Model_Session::TYPE_BACKOFFICE)->isLoggedIn()
             // Allowed for a few URLs
             AND !in_array($this->getFullActionName("_"), $allowed)
             // Forbidden when Siberian is not installed
@@ -37,40 +42,58 @@ class Backoffice_Controller_Default extends Core_Controller_Default {
         }
     }
 
-    public function indexAction() {
+    /**
+     *
+     */
+    public function indexAction()
+    {
         $this->forward('index', 'index', 'Backoffice', $this->getRequest()->getParams());
     }
 
-    public function templateAction() {
+    /**
+     *
+     */
+    public function templateAction()
+    {
         $this->loadPartials(null, false);
     }
 
     /**
      * On every request append cool informations
      *
-     * @param $data
+     * @param $payload
      * @return mixed
+     * @deprecated use _sendJson($payload) instead
      */
-    protected function _sendHtml($data) {
+    protected function _sendHtml($payload)
+    {
+        return $this->_sendJson($payload);
+    }
+
+    /**
+     * Payload wrapper for backoffice to send more informations on each request!
+     *
+     * @param $payload
+     */
+    public function _sendJson($payload)
+    {
         $notifs_model = new Backoffice_Model_Notification();
         $unread = $notifs_model->countUnread();
 
         $is_numeric = true;
-        foreach ($data as $a => $b) {
+        foreach ($payload as $a => $b) {
             if (!is_int($a)) {
                 $is_numeric = false;
             }
         }
 
-        if(!$is_numeric) {
-            $data["meta"] = array(
-                "unread_messages" => $unread,
-            );
+        if (!$is_numeric) {
+            $payload['meta'] = [
+                'unread_messages' => $unread,
+            ];
         }
 
-        Siberian_Debug::sendDataInHeaders();
-
-        return parent::_sendHtml($data);
+        return parent::_sendJson($payload);
     }
 
 }

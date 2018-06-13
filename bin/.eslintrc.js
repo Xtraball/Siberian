@@ -1,5 +1,5 @@
 /**
- * @date 15-November-2017
+ * @date 31-May-2018
  * @author Xtraball SAS <dev@xtraball.com>
  */
 module.exports = {

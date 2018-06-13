@@ -1,78 +1,89 @@
 <?php
 
+/**
+ * Class Push_Backoffice_CertificateController
+ */
 class Push_Backoffice_CertificateController extends Backoffice_Controller_Default
 {
+    /**
+     *
+     */
+    public function loadAction()
+    {
+        $payload = [
+            'title' => $this->_('Push Notifications'),
+            'icon' => 'fa-comment-o',
+        ];
 
-    public function loadAction() {
-
-        $html = array(
-            "title" => $this->_("Push Notifications"),
-            "icon" => "fa-comment-o",
-        );
-
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
+    /**
+     *
+     */
+    public function findallAction()
+    {
+        $payload = [
+            'gcm' => [
+                'android_key' => Push_Model_Certificate::getAndroidKey(),
+                'android_sender_id' => Push_Model_Certificate::getAndroidSenderId(),
+            ]
+        ];
 
-        $data = array(
-            "title" => '<i class="fa fa-android"></i> Android',
-            "keys" => array(
-                array(
-                    "title" => "GCM Key",
-                    "name" => "android_key",
-                    "value" => Push_Model_Certificate::getAndroidKey()
-                ), array(
-                    "title" => "Sender ID",
-                    "name" => "android_sender_id",
-                    "value" => Push_Model_Certificate::getAndroidSenderId()
-                )
-            )
-        );
-
-
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
 
-    public function saveAction() {
-
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            try {
-
-                if (__getConfig('is_demo')) {
-                    // Demo version
-                    throw new Exception("This is a demo version, these changes can't be saved");
-                }
-
-                foreach($data as $key) {
-                    $certificate = new Push_Model_Certificate();
-                    $certificate->find($key["name"], "type");
-                    if(!$certificate->getId()) {
-                        $certificate->setType($key["name"]);
-                    }
-
-                    $certificate->setPath($key["value"])
-                        ->save()
-                    ;
-                }
-
-                $data = array(
-                    "success" => 1,
-                    "message" => $this->_("Keys successfully saved")
-                );
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
-            }
-
-            $this->_sendHtml($data);
+    /**
+     * @throws Siberian_Exception
+     */
+    public function saveAction()
+    {
+        if (__getConfig('is_demo')) {
+            // Demo version
+            throw new Siberian_Exception("This is a demo version, these changes can't be saved");
         }
 
+        $request = $this->getRequest();
+        $params = $request->getBodyParams();
+        try {
+            if (!array_key_exists('android_key', $params) ||
+                !array_key_exists('android_sender_id', $params)) {
+                throw new Siberian_Exception("GCM Settings are missing!");
+            }
+
+            // Android key!
+            $certificate = (new Push_Model_Certificate())
+                ->find('android_key', 'type');
+            if (!$certificate->getId()) {
+                $certificate->setType('android_key');
+            }
+            $certificate
+                ->setPath($params['android_key'])
+                ->save();
+
+            // Android senderId!
+            $certificate = (new Push_Model_Certificate())
+                ->find('android_sender_id', 'type');
+            if (!$certificate->getId()) {
+                $certificate->setType('android_sender_id');
+            }
+            $certificate
+                ->setPath($params['android_sender_id'])
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('GCM settings saved.')
+            ];
+
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendHtml($payload);
     }
 
 }

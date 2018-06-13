@@ -1,40 +1,48 @@
 <?php
 
+/**
+ * Class Api_Backoffice_User_ListController
+ */
 class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
 {
-
-    public function loadAction() {
-
-        $html = array(
+    /**
+     *
+     */
+    public function loadAction()
+    {
+        $payload = [
             "title" => __("Api Users"),
             "icon" => "fa-users",
-        );
+        ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
+    /**
+     *
+     */
+    public function findallAction()
+    {
 
         $user = new Api_Model_User();
         $users = $user->findAll();
-        $data = array("users" => array());
+        $payload = ["users" => []];
 
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $user->setCreatedAt($user->getFormattedCreatedAt());
-            $data["users"][] = $user->getData();
+            $payload["users"][] = $user->getData();
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($payload);
     }
 
-    public function deleteAction() {
-
+    public function deleteAction()
+    {
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
 
-                if(empty($data["user_id"])) {
+                if (empty($data["user_id"])) {
                     throw new Exception($this->_("An error occurred while saving. Please try again later."));
                 }
 
@@ -47,22 +55,20 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
 
                 $user->delete();
 
-                $data = array(
+                $payload = [
                     "success" => 1,
                     "message" => $this->_("User successfully deleted")
-                );
+                ];
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (Exception $e) {
+                $payload = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($data);
-
+            $this->_sendJson($payload);
         }
-
     }
 
 }

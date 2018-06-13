@@ -5,7 +5,8 @@
  *
  * PHP 5.6+ only
  */
-class Siberian_Plesk_Crawler {
+class Siberian_Plesk_Crawler
+{
 
     /**
      * @var Client
@@ -18,14 +19,16 @@ class Siberian_Plesk_Crawler {
     public $crawler;
 
     /**
-     * Apps constructor.
-     *
      * Login into dashboard
      *
+     * Siberian_Plesk_Crawler constructor.
+     * @param $host
      * @param $username
      * @param $password
+     * @throws Exception
      */
-    public function __construct($host, $username, $password) {
+    public function __construct($host, $username, $password)
+    {
         $this->host = $host;
         $this->username = $username;
         $this->password = $password;
@@ -37,26 +40,27 @@ class Siberian_Plesk_Crawler {
     /**
      * @throws Exception
      */
-    public function login() {
+    public function login()
+    {
         /** For no reason, sometimes one method works, sometimes the other one */
         try {
-            $this->crawler = $this->client->_request("GET", $this->host."/login_up.php3");
+            $this->crawler = $this->client->_request("GET", $this->host . "/login_up.php3");
 
             $forgery_tokens = $this->crawler->filterXPath('//head/meta[@name="forgery_protection_token"]');
 
             $forgery_token = "";
-            foreach($forgery_tokens as $t) {
+            foreach ($forgery_tokens as $t) {
                 $forgery_token = $t->getAttribute("content");
             }
 
-            $this->crawler = $this->client->_request("POST", $this->host."/login_up.php3", array(
+            $this->crawler = $this->client->_request("POST", $this->host . "/login_up.php3", [
                 "login_name" => $this->username,
                 "passwd" => $this->password,
-                "success_redirect_url" => $this->host."/admin/domain/list?context=domains",
+                "success_redirect_url" => $this->host . "/admin/domain/list?context=domains",
                 "forgery_protection_token" => $forgery_token,
-            ));
+            ]);
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("[Siberian_Plesk_Crawler]: Unable to log in Plesk, with message %s.", $e->getMessage());
         }
     }
@@ -71,26 +75,27 @@ class Siberian_Plesk_Crawler {
      * @return bool
      * @throws Exception
      */
-    public function updateDomain($hostname, $id) {
-        $this->crawler = $this->client->_request("GET", $this->host."/smb/web/settings/id/".$id);
+    public function updateDomain($hostname, $id)
+    {
+        $this->crawler = $this->client->_request("GET", $this->host . "/smb/web/settings/id/" . $id);
 
         try {
             $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $hostname);
             $options = $this->crawler->filterXPath('//select[@id="sslSettings-certificateId"]/option');
             $certificate_id = null;
-            foreach($options as $option) {
-                if(strpos($option->nodeValue, $cert_name) !== false) {
+            foreach ($options as $option) {
+                if (strpos($option->nodeValue, $cert_name) !== false) {
                     $certificate_id = $option->getAttribute("value");
                     break;
                 }
             }
 
-            $form = $this->crawler->filterXPath('//form[contains(@id, "web-settings")]')->form(array(
+            $form = $this->crawler->filterXPath('//form[contains(@id, "web-settings")]')->form([
                 "sslSettings[certificateId]" => $certificate_id,
-            ));
+            ]);
 
             $this->crawler = $this->client->submit($form);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception(__("[Siberian_Plesk_Crawler]: Unable to save certificate, with message %s.", $e->getMessage()));
         }
 

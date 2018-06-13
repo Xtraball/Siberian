@@ -3,13 +3,14 @@
 /**
  * Class Siberian_Cache_Design
  *
- * @version 4.2.0
+ * @version 4.14.0
  *
  * Adding inheritance system in the design folders
  *
  */
-
-class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Interface
+class Siberian_Cache_Design
+    extends Siberian_Cache
+    implements Siberian_Cache_Interface
 {
     /**
      * @var
@@ -21,64 +22,180 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
      *
      * @var array
      */
-    public static $module_override = array();
+    public static $module_override = [];
 
-    const CODE = "design";
-    const CACHE_PATH = "var/cache/design.cache";
+    /**
+     * @var string
+     */
+    const CODE = 'design';
+
+    /**
+     * @var boolean
+     */
     const CACHING = true;
 
     /**
-     * @param $version
+     * @var string
      */
-    public static function fetch($version) {
-        $base = Core_Model_Directory::getBasePathTo("");
+    const CACHE_PATH = 'app/local/design/design-cache.json';
+
+    /**
+     * @return bool
+     */
+    public static function init()
+    {
+        $editionCache = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
+        if (!is_file($editionCache)) {
+            static::saveCache('local', self::LOCAL_PATH);
+        }
+
+        static::run();
+    }
+
+    /**
+     * @param $version
+     * @param null $cache
+     * @return bool|mixed|null
+     */
+    public static function fetch($version, $cache = null)
+    {
+        if ($cache === null) {
+            $cache = static::getCache();
+        }
+
+        $base = Core_Model_Directory::getBasePathTo('');
         chdir($base);
         $version = "{$version}design/";
 
         $design_codes = new DirectoryIterator("$version");
 
-        /** Core inheritance, with top erase */
+        // Core inheritance, with top erase!
+        // Also skip deprecated 'mobile' design code, which was used for angular apps!
         foreach ($design_codes as $design_code) {
-            if($design_code->isDir() && !$design_code->isDot()) {
-                $cache = static::getCache();
+            if ($design_code->isDir() &&
+                !$design_code->isDot() &&
+                $design_code->getFilename() !== 'mobile') {
 
-                /** Init the array if not. */
+                // Init the array if not!
                 $base_code = $design_code->getFilename();
                 if (!isset($cache[$base_code])) {
-                    $cache[$base_code] = array();
+                    $cache[$base_code] = [];
                 }
 
-                /** Looping trough files */
-                self::recursiveSearch($design_code->getPathname(), $base_code);
+                // Looping trough files!
+                $cache = self::recursiveSearch($design_code->getPathname(), $base_code, $cache);
             }
         }
 
-        $modules = str_replace("design", "modules", $version);
+        $modules = str_replace('design', 'modules', $version);
         $module_folders = new DirectoryIterator("$modules");
 
-        /** Module loading, without erase (no module should override Core files) */
+        // Module loading, without erase (no module should override Core files)!
         foreach ($module_folders as $module_folder) {
-            if($module_folder->isDir() && !$module_folder->isDot() && is_readable("{$module_folder->getPathname()}/resources/design/")) {
+            if ($module_folder->isDir() &&
+                !$module_folder->isDot() &&
+                is_readable("{$module_folder->getPathname()}/resources/design/")) {
                 $modules_design_codes = new DirectoryIterator("{$module_folder->getPathname()}/resources/design/");
 
                 $module_name = strtolower(basename($module_folder->getPathname()));
-
                 foreach ($modules_design_codes as $design_code) {
-                    if($design_code->isDir() && !$design_code->isDot()) {
-                        $cache = static::getCache();
+                    if ($design_code->isDir() &&
+                        !$design_code->isDot() &&
+                        $design_code->getFilename() !== 'mobile') {
 
-                        /** Init the array if not. */
+                        // Init the array if not!
                         $base_code = $design_code->getFilename();
+
                         if (!isset($cache[$base_code])) {
-                            $cache[$base_code] = array();
+                            $cache[$base_code] = [];
                         }
 
-                        /** Looping trough files */
-                        self::recursiveSearch($design_code->getPathname(), $base_code, self::isAllowedOverride($module_name));
+                        // Looping trough files!
+                        $cache = self::recursiveSearch(
+                            $design_code->getPathname(),
+                            $base_code,
+                            $cache,
+                            self::isAllowedOverride($module_name));
                     }
                 }
             }
         }
+
+        return $cache;
+    }
+
+    /**
+     * @param $type
+     */
+    public static function rebuild($type)
+    {
+        $localType = strtolower($type);
+        switch ($localType) {
+            default:
+            case 'sae':
+                static::saveCache('sae', self::SAE_PATH);
+                break;
+            case 'mae':
+                static::saveCache('sae', self::SAE_PATH);
+                static::saveCache('mae', self::MAE_PATH);
+                break;
+            case 'pe':
+                static::saveCache('sae', self::SAE_PATH);
+                static::saveCache('mae', self::MAE_PATH);
+                static::saveCache('pe', self::PE_PATH);
+                break;
+        }
+    }
+
+    /**
+     * @param $type
+     * @param $path
+     * @return bool|mixed|null
+     */
+    public static function saveCache ($type, $path)
+    {
+        // Reset cache!
+        $cache = static::fetch($path, []);
+
+        // Write cache!
+        $editionCache = Core_Model_Directory::getBasePathTo('app/' . $type . '/design/design-cache.json');
+        $options = (APPLICATION_ENV === 'development') ? JSON_PRETTY_PRINT : 0;
+        try {
+            $jsonCache = json_encode($cache, $options);
+            if ($jsonCache !== false) {
+                file_put_contents($editionCache, $jsonCache);
+            }
+        } catch (Exception $e) {
+            // Something went wrong while saving cache!
+        }
+
+        return $cache;
+    }
+
+    /**
+     * @param $type
+     * @param $path
+     */
+    public static function loadCache ($type, $path)
+    {
+        $editionCache = Core_Model_Directory::getBasePathTo('app/' . $type . '/design/design-cache.json');
+        try {
+            if (is_file($editionCache)) {
+                $cache = file_get_contents($editionCache);
+                $cachedContent = json_decode($cache, true);
+                if ($cachedContent === null) {
+                    throw new Siberian_Exception(__('Unable to read %s cache file', $editionCache));
+                }
+            }
+        } catch (Exception $e) {
+            // Error!
+            $cachedContent = self::saveCache($type, $path);
+        }
+
+        $localCache = static::getCache() ? static::getCache() : [];
+        $cache = array_replace_recursive($localCache, $cachedContent);
+
+        static::setCache($cache);
     }
 
     /**
@@ -86,9 +203,10 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
      *
      * @param $module
      */
-    public static function overrideCoreDesign($module) {
+    public static function overrideCoreDesign($module)
+    {
         $module = strtolower($module);
-        if(!in_array($module, self::$module_override)) {
+        if (!in_array($module, self::$module_override)) {
             self::$module_override[] = $module;
         }
     }
@@ -99,68 +217,126 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
      * @param $module
      * @return bool
      */
-    public static function isAllowedOverride($module) {
+    public static function isAllowedOverride($module)
+    {
         $module = strtolower($module);
         $is_allowed = in_array($module, self::$module_override);
 
         return $is_allowed;
     }
 
-    public static function preWalk() {
-
+    /**
+     *
+     */
+    public static function preWalk()
+    {
+        // Load edition pre-built caches
+        $localType = strtolower(Siberian_Version::TYPE);
+        switch ($localType) {
+            default:
+            case 'sae':
+                static::loadCache('sae', self::SAE_PATH);
+                break;
+            case 'mae':
+                static::loadCache('sae', self::SAE_PATH);
+                static::loadCache('mae', self::MAE_PATH);
+                break;
+            case 'pe':
+                static::loadCache('sae', self::SAE_PATH);
+                static::loadCache('mae', self::MAE_PATH);
+                static::loadCache('pe', self::PE_PATH);
+                break;
+        }
     }
 
-    public static function postWalk() {
-
+    /**
+     * Common method for TYPE walkers
+     *
+     * We refresh only local cache, sae/mae/pe are pre-built for convenience.
+     */
+    public static function walk()
+    {
+        static::loadCache('local', self::LOCAL_PATH);
     }
 
-    protected static function recursiveSearch($folder, $base_code, $replace = true) {
-        $cache = static::getCache();
+    /**
+     *
+     */
+    public static function postWalk()
+    {
+    }
 
+    /**
+     * @param $folder
+     * @param $base_code
+     * @param $cache
+     * @param bool $replace
+     * @return mixed
+     */
+    protected static function recursiveSearch($folder, $base_code, $cache, $replace = true)
+    {
         # 4608 > 4096:Skip_dots, 512:Follow_symlinks
         $links = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($folder, 4608),
             RecursiveIteratorIterator::SELF_FIRST
         );
 
-        foreach($links as $link) {
-            if(!$link->isDir() && $link->isFile()) {
+        foreach ($links as $link) {
+            if (!$link->isDir() && $link->isFile()) {
                 $path = $link->getPathname();
                 $named_path = str_replace("$folder/", "", $path);
 
-                if($replace) {
-                    $cache[$base_code][$named_path] = $path;
-                } else if(!$replace && !isset($cache[$base_code][$named_path])) {
-                    $cache[$base_code][$named_path] = $path;
+                if (strpos($named_path, 'siberian/') === 0) {
+                    continue;
                 }
 
+                if ($replace) {
+                    $cache[$base_code][$named_path] = $path;
+                } else if (!$replace && !isset($cache[$base_code][$named_path])) {
+                    $cache[$base_code][$named_path] = $path;
+                }
             }
         }
-        
-        static::setCache($cache);
+
+        return $cache;
     }
 
-    public static function getPath($base_file, $type = null, $design_code = null, $key = false) {
+    /**
+     * @param $base_file
+     * @param null $type
+     * @param null $design_code
+     * @param bool $key
+     * @return bool|string
+     */
+    public static function getPath($base_file, $type = null, $design_code = null, $key = false)
+    {
         $cache = static::getCache();
 
         $type = is_null($type) ? APPLICATION_TYPE : $type;
         $design_code = is_null($design_code) ? DESIGN_CODE : $design_code;
 
         /** Key contain only single slashes, removing duplicates helps to find the right ones. */
-        if($type == 'email') {
+        if ($type == 'email') {
             $base_file = preg_replace("#/+#", "/", sprintf("%s", $base_file));
         } else {
             $base_file = preg_replace("#/+#", "/", sprintf("%s/%s", $design_code, $base_file));
         }
 
-        if(isset($cache[$type]) && isset($cache[$type][$base_file])) {
-            return "/".$cache[$type][$base_file];
+        if (isset($cache[$type]) && isset($cache[$type][$base_file])) {
+            return "/" . $cache[$type][$base_file];
         }
         return false;
     }
 
-    public static function searchForFolder($folder, $type = null, $design_code = null) {
-        $found_files = array();
+    /**
+     * @param $folder
+     * @param null $type
+     * @param null $design_code
+     * @return array
+     */
+    public static function searchForFolder($folder, $type = null, $design_code = null)
+    {
+        $found_files = [];
 
         $type = is_null($type) ? APPLICATION_TYPE : $type;
         $design_code = is_null($design_code) ? DESIGN_CODE : $design_code;
@@ -168,8 +344,8 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
         $files = self::getType($type);
         $base_folder = preg_replace("#/+#", "/", sprintf("%s/%s", $design_code, $folder));
 
-        foreach($files as $key => $value) {
-            if(strpos($key, $base_folder) === 0) {
+        foreach ($files as $key => $value) {
+            if (strpos($key, $base_folder) === 0) {
                 $found_files[$key] = $value;
             }
         }
@@ -177,16 +353,28 @@ class Siberian_Cache_Design extends Siberian_Cache implements Siberian_Cache_Int
         return $found_files;
     }
 
-    public static function getType($type) {
+    /**
+     * @param $type
+     * @return bool
+     */
+    public static function getType($type)
+    {
         $cache = static::getCache();
 
-        if(isset($cache[$type])) {
+        if (isset($cache[$type])) {
             return $cache[$type];
         }
         return false;
     }
 
-    public static function getBasePath($base_file, $type = null, $design_code = null) {
+    /**
+     * @param $base_file
+     * @param null $type
+     * @param null $design_code
+     * @return string
+     */
+    public static function getBasePath($base_file, $type = null, $design_code = null)
+    {
         return Core_Model_Directory::getBasePathTo(self::getPath($base_file, $type, $design_code));
     }
 }

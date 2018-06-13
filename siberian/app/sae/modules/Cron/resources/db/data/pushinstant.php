@@ -1,18 +1,12 @@
 <?php
-
-$data = array(
-    "name"      => "Push Message queue",
-    "command"   => "pushinstant",
-    "minute"    => "-1",
-    "hour"      => "-1",
-    "month_day" => "-1",
-    "month"     => "-1",
-    "week_day"  => "-1",
-    "priority"  => 100,
-    "is_active" => true,
+Siberian_Feature::installCronjob(
+    "Push Message queue",
+    "pushinstant",
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    true,
+    100
 );
-
-$pushinstant = new Cron_Model_Cron();
-$pushinstant
-    ->setData($data)
-    ->insertOrUpdate(array("command"));

@@ -29,8 +29,7 @@
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVCommandQueue.h>
 
-@interface MainViewController : CDVViewController
-
+@interface MainViewController : CDVViewController <UIGestureRecognizerDelegate>
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

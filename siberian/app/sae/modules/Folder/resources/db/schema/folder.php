@@ -56,5 +56,9 @@ $schemas['folder'] = array(
     'card_design' => array(
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
+    ),
+    'allow_line_return' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     )
 );

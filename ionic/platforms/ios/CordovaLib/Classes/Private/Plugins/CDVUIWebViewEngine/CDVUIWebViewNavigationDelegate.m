@@ -44,6 +44,8 @@
     NSLog(@"Resetting plugins due to page load.");
     CDVViewController* vc = (CDVViewController*)self.enginePlugin.viewController;
 
+    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVwebViewDidStartLoad object:self.enginePlugin.webView]];
+
     [vc.commandQueue resetRequestId];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginResetNotification object:self.enginePlugin.webView]];
 }

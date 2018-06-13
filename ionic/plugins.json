@@ -1,175 +1,134 @@
 {
   "default": {
-    "cordova-plugin-app-version": {
+    "Promises": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-app-event": {
+    "AdmobPro": {
       "version": "latest",
       "variables": {}
     },
-    "phonegap-plugin-barcodescanner": {
+    "AppVersion": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-camera": {
+    "AppEvent": {
+      "version": "latest",
+      "variables": {}
+    },
+    "BarcodeScanner": {
+      "version": "latest",
+      "variables": {}
+    },
+    "Camera": {
       "version": "~2.1.0",
       "variables": {}
     },
-    "cordova-clipboard": {
+    "Clipboard": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-device": {
+    "Device": {
       "version": "~1.1.1",
       "variables": {}
     },
-    "cordova-plugin-file": {
+    "File": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-geofence": {
+    "Geofence": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-geolocation": {
+    "Geolocation": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-inappbrowser": {
+    "InAppBrowser": {
       "version": "~1.2.0",
       "variables": {}
     },
-    "ionic-plugin-keyboard": {
+    "Keyboard": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-socialsharing": {
+    "SocialSharing": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-statusbar": {
+    "StatusBar": {
       "version": "~2.1.0",
       "variables": {}
     },
-    "cordova-plugin-whitelist": {
+    "WhiteList": {
       "version": "~1.2.1",
       "variables": {}
     },
-    "cordova-plugin-local-notifications": {
+    "LocalNotification": {
       "version": "latest",
       "variables": {}
     },
-    "siberian-plugin-offlinemode": {
+    "OfflineMode": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-insomnia": {
+    "Insomnia": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-music-controls-plugin": {
+    "MusicControls": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-plugin-siberian": {
+    "Siberian": {
       "version": "latest",
       "variables": {}
     }
   },
   "ios": {
-    "cordova-admob-pro": {
-      "version": "latest",
-      "variables": {}
-    },
-    "cordova-hot-code-push": {
+    "Chcp": {
       "version": "latest"
     },
-    "cordova-plugin-splashscreen": {
+    "SplashScreen": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-extension": {
-      "version": "latest",
-      "variables": {}
-    },
-    "siberian-plugin-push": {
+    "Push": {
       "version": "latest",
       "variables": {
         "SENDER_ID": "01234567890"
       }
-    }
-  },
-  "ios-noads": {
-    "cordova-hot-code-push": {
-      "version": "latest"
     },
-    "cordova-plugin-splashscreen": {
-      "version": "latest",
-      "variables": {}
-    },
-    "siberian-plugin-push": {
-      "version": "latest",
-      "variables": {
-        "SENDER_ID": "01234567890"
-      }
-    }
-  },
-  "ios-previewer": {
-    "cordova-hot-code-push": {
-      "version": "latest"
-    },
-    "siberian-plugin-previewer": {
+    "WebView": {
       "version": "latest",
       "variables": {}
     }
   },
   "android": {
-    "cordova-plugin-console": {
-      "version": "~1.0.2",
-      "variables": {}
-    },
-    "cordova-admob-pro": {
+    "Extension": {
       "version": "latest",
       "variables": {}
     },
-    "cordova-extension": {
-      "version": "latest",
-      "variables": {}
-    },
-    "cordova-hot-code-push": {
+    "Chcp": {
       "version": "latest"
     },
-    "cordova-plugin-splashscreen": {
+    "SplashScreen": {
       "version": "latest",
       "variables": {}
     },
-    "siberian-plugin-push": {
+    "Push": {
       "version": "latest",
       "variables": {
         "SENDER_ID": "01234567890"
       }
-    }
-  },
-  "android-previewer": {
-    "cordova-plugin-console": {
-      "version": "~1.0.2",
-      "variables": {}
     },
-    "cordova-hot-code-push": {
-      "version": "latest"
-    },
-    "cordova-plugin-splashscreen": {
-      "version": "latest",
-      "variables": {}
-    },
-    "siberian-plugin-previewer": {
+    "WebView": {
       "version": "latest",
       "variables": {}
     }
   },
   "browser": {
-    "siberian-plugin-push": {
+    "Push": {
       "version": "latest",
       "variables": {
         "SENDER_ID": "01234567890"

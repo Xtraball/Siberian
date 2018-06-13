@@ -26,8 +26,7 @@
 //
 
 #import "MainViewController.h"
-//import remoteControls AppsMobileCompany
-//#import "RemoteControls.h"
+#import "Constants.h"
 
 @implementation MainViewController
 
@@ -70,17 +69,79 @@
     // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
     // you can do so here.
 
+    if (isPreview) {
+        [self.navigationController setNavigationBarHidden:YES];
+
+        NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+        [notifyCenter addObserverForName:@"CDVwebViewDidStartLoad"
+            object:nil
+            queue:nil
+            usingBlock:^(NSNotification *notification){
+                // Explore notification
+                NSLog(@"Notification found with:"
+                    "\r\n     name:     %@"
+                    "\r\n     object:   %@"
+                    "\r\n     userInfo: %@",
+                    [notification name],
+                    [notification object],
+                    [notification userInfo]
+                );
+
+                UIWebView *theWebView = [notification object];
+
+                if (isPreview && ![appDomain isEqualToString:@""] && ![appKey isEqualToString:@""]) {
+                    NSLog(@"appDomain: %@", appDomain);
+                    NSLog(@"appKey: %@", appKey);
+
+                    NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"setTimeout(function () { IS_PREVIEW = true; DOMAIN = '%@'; APP_KEY = '%@'; BASE_PATH = '/' + APP_KEY; }, 1);", appDomain, appKey];
+
+                    [theWebView stringByEvaluatingJavaScriptFromString:jsSetIdentifier];
+
+                    appDomain = @"";
+                    appKey = @"";
+                }
+            }];
+    } else {
+        NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
+        [notifyCenter addObserverForName:@"CDVwebViewDidStartLoad"
+            object:nil
+            queue:nil
+            usingBlock:^(NSNotification *notification) {
+                UIWebView *theWebView = [notification object];
+
+                NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"IS_PREVIEW = false;"];
+                [theWebView stringByEvaluatingJavaScriptFromString:jsSetIdentifier];
+            }];
+    }
+
+
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // AppsMobileCompany
-    //[[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    // Do any additional setup after loading the view from its nib.
-    // AppsMobileCompany
-    //[[RemoteControls remoteControls] setWebView:self.webView];
+
+    if (isPreview) {
+        //[[webViewInfo layer] setCornerRadius:5.00f];
+        //[[webViewInfo layer] setBackgroundColor:[getLightWhiteColor() CGColor]];
+
+        //webViewInfo.textColor = getWhiteColor();
+        //webViewInfo.text = [[NSString alloc] initWithFormat:@"%@", NSLocalizedString(@"Tap twice to go back to apps list.", nil)];
+        //[webViewInfo sizeToFit];
+        //webViewInfo.frame = CGRectMake(webViewInfo.frame.origin.x,
+        //                               webViewInfo.frame.origin.y,
+        //                               webViewInfo.frame.size.width + 10,
+        //                               webViewInfo.frame.size.height + 5);
+
+        //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+        //tap.numberOfTapsRequired = 2;
+        //tap.delegate = self;
+
+        //[self.webView addGestureRecognizer:tap];
+
+        //[self performSelector:@selector(hideWebViewInfo) withObject:nil afterDelay:5.0];
+    }
 }
 
 - (void)viewDidUnload
@@ -93,17 +154,25 @@
 }
 
 
-// AppsMobileCompany
-//- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-//    [[RemoteControls remoteControls] receiveRemoteEvent:receivedEvent];
-//}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
 
-/* Comment out the block below to over-ride */
+- (void)tapAction:(id)ignored {
+    [self closeApplication];
+}
 
-/*
-- (UIWebView*) newCordovaViewWithFrame:(CGRect)bounds
-{
-    return[super newCordovaViewWithFrame:bounds];
+- (void)hideWebViewInfo {
+    //[UIView animateWithDuration:0.3 animations:^{
+    //    webViewInfo.alpha = 0;
+    //} completion: ^(BOOL finished) {
+    //    webViewInfo.hidden = YES;
+    //}];
+}
+
+- (void)closeApplication {
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 // CB-12098
@@ -116,7 +185,7 @@
     return [super supportedInterfaceOrientations];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
@@ -125,7 +194,6 @@
 {
     return [super shouldAutorotate];
 }
-*/
 
 @end
 

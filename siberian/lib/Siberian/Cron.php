@@ -1,113 +1,114 @@
 <?php
+
 /**
  * Class Siberian_Cron
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.2.0
+ * @version 4.14.0
  */
 class Siberian_Cron
 {
-	/**
-	 * @var Cron_Model_Cron
-	 */
-	protected $cron;
+    /**
+     * @var Cron_Model_Cron
+     */
+    protected $cron;
 
-	/**
-	 * @var Siberian_Log
-	 */
-	protected $logger;
+    /**
+     * @var Siberian_Log
+     */
+    protected $logger;
 
-	/**
-	 * @var String
-	 */
-	protected $lock_base = '/var/tmp/';
+    /**
+     * @var String
+     */
+    protected $lock_base = '/var/tmp/';
 
-	/**
-	 * @var String
-	 */
-	protected $root_path;
+    /**
+     * @var String
+     */
+    protected $root_path;
 
-	/**
-	 * @var array
-	 */
-	protected $locked_tasks = [];
+    /**
+     * @var array
+     */
+    protected $locked_tasks = [];
 
-	/**
-	 * @var integer
-	 */
-	protected $start;
+    /**
+     * @var integer
+     */
+    protected $start;
 
     /**
      * Siberian_Cron constructor.
      * @throws Zend_Exception
      */
-	public function __construct()
+    public function __construct()
     {
-		$this->cron = new Cron_Model_Cron();
-		$this->logger = Zend_Registry::get('logger');
-		$this->lock_base = Core_Model_Directory::getBasePathTo($this->lock_base);
-		$this->start = microtime(true);
-		$this->root_path = Core_Model_Directory::getBasePathTo();
+        $this->cron = new Cron_Model_Cron();
+        $this->logger = Zend_Registry::get('logger');
+        $this->lock_base = Core_Model_Directory::getBasePathTo($this->lock_base);
+        $this->start = microtime(true);
+        $this->root_path = Core_Model_Directory::getBasePathTo();
 
-		# Set the same timezone as in the Application settings.
-		$timezone = System_Model_Config::getValueFor('system_timezone');
-		if ($timezone) {
-			date_default_timezone_set($timezone);
-		}
-	}
+        # Set the same timezone as in the Application settings.
+        $timezone = System_Model_Config::getValueFor('system_timezone');
+        if ($timezone) {
+            date_default_timezone_set($timezone);
+        }
+    }
 
-	/**
-	 * @param $text
-	 */
-	public function log($text)
+    /**
+     * @param $text
+     */
+    public function log($text)
     {
-		echo sprintf("[CRON: %s]: %s\n", date("Y-m-d H:i:s"), $text);
-	}
+        echo sprintf("[CRON: %s]: %s\n", date("Y-m-d H:i:s"), $text);
+    }
 
     /**
      * @return $this|array|bool
      */
-	public function triggerAll()
+    public function triggerAll()
     {
-		if (!Cron_Model_Cron::is_active()) {
-			$this->log("Cron is disabled in your system, see: Backoffice > Settings > Advanced > Configuration > Cron");
-			return $this;
-		}
+        if (!Cron_Model_Cron::is_active()) {
+            $this->log("Cron is disabled in your system, see: Backoffice > Settings > Advanced > Configuration > Cron");
+            return $this;
+        }
 
-		try {
-			$minute = (int)date("i");
-			$hour = (int)date("G");
-			$month_day = (int)date("j");
-			$month = (int)date('m');
-			$week_day = (int)date('w');
+        try {
+            $minute = (int)date("i");
+            $hour = (int)date("G");
+            $month_day = (int)date("j");
+            $month = (int)date('m');
+            $week_day = (int)date('w');
 
-			$all = $this->cron->getActiveActions($minute, $hour, $month_day, $month, $week_day);
+            $all = $this->cron->getActiveActions($minute, $hour, $month_day, $month, $week_day);
 
-			$actions = [];
+            $actions = [];
 
-			foreach ($all as $task){
-				$actions[] = [
+            foreach ($all as $task) {
+                $actions[] = [
                     "id" => $task->getCommand(),
                     "command" => $task->getCommand(),
                 ];
-				$this->execute($task);
-			}
+                $this->execute($task);
+            }
 
-			return $actions;
-		} catch (Exception $e) {
-			if(APPLICATION_ENV === 'development') {
-				Zend_Debug::dump($e);
-			}
-			$this->log($e->getMessage());
-			return false;
-		}
-	}
+            return $actions;
+        } catch (Exception $e) {
+            if (APPLICATION_ENV === 'development') {
+                Zend_Debug::dump($e);
+            }
+            $this->log($e->getMessage());
+            return false;
+        }
+    }
 
     /**
      * @param $command
      */
-	public function runTaskByCommand($command)
+    public function runTaskByCommand($command)
     {
         try {
             $tasks = $this->cron->getTaskByCommand($command);
@@ -122,193 +123,191 @@ class Siberian_Cron
         }
     }
 
-	/**
-	 * @param Cron_Model_Cron $task
-	 */
-	public function execute($task)
+    /**
+     * @param Cron_Model_Cron $task
+     */
+    public function execute($task)
     {
-		/** Avoid duplicates when a task takes too long */
-		$task->trigger();
-		$success = true;
+        /** Avoid duplicates when a task takes too long */
+        $task->trigger();
+        $success = true;
 
-		if (!$this->isLocked($task->getId())) {
-			$this->log("Executing task: ".$task->getName());
+        if (!$this->isLocked($task->getId())) {
+            $this->log("Executing task: " . $task->getName());
 
-			/** Non blocking tasks */
-			try {
-				$command = $task->getCommand();
-				if (strpos($command, "::") !== false) {
-					# Split Class::method
-					$parts = explode("::", $command);
-					$class = $parts[0];
-					$method = $parts[1];
+            /** Non blocking tasks */
+            try {
+                $command = $task->getCommand();
+                if (strpos($command, "::") !== false) {
+                    # Split Class::method
+                    $parts = explode("::", $command);
+                    $class = $parts[0];
+                    $method = $parts[1];
 
-					# Tests.
-					if (method_exists($class, $method)) {
-						call_user_func($command, $this, $task);
-					}
+                    # Tests.
+                    if (method_exists($class, $method)) {
+                        call_user_func($command, $this, $task);
+                    }
 
-				} else {
-					# Local method
-					if (method_exists($this, $command)) {
-						$this->$command($task);
-					}
-				}
+                } else {
+                    # Local method
+                    if (method_exists($this, $command)) {
+                        $this->$command($task);
+                    }
+                }
 
-			} catch (Exception $e) {
-				$this->log($e->getMessage());
+            } catch (Exception $e) {
+                $this->log($e->getMessage());
 
-				// Unlock task in case of Exception!
-				$this->unlock($task->getId());
+                // Unlock task in case of Exception!
+                $this->unlock($task->getId());
 
-				$task->saveLastError($e->getMessage());
+                $task->saveLastError($e->getMessage());
 
-				$success = false;
-			}
-		} else {
-			$this->log("Locked task: {$task->getName()}, skipping...");
-		}
+                $success = false;
+            }
+        } else {
+            $this->log("Locked task: {$task->getName()}, skipping...");
+        }
 
-		if ($success) {
-			$task->success();
-		} else {
-			$task->fail();
-		}
-	}
+        if ($success) {
+            $task->success();
+        } else {
+            $task->fail();
+        }
+    }
 
-	/**
-	 * @param $task_id
-	 * @return bool
-	 */
-	public function isLocked($task_id)
+    /**
+     * @param $task_id
+     * @return bool
+     */
+    public function isLocked($task_id)
     {
-		return (file_exists("{$this->lock_base}/{$task_id}.lock"));
-	}
+        return (file_exists("{$this->lock_base}/{$task_id}.lock"));
+    }
 
-	/**
-	 * Use if you want to
-	 *
-	 * @param $task_id
-	 */
-	public function lock($task_id)
+    /**
+     * Use if you want to
+     *
+     * @param $task_id
+     */
+    public function lock($task_id)
     {
-		$this->locked_tasks[] = $task_id;
-		file_put_contents("{$this->lock_base}/{$task_id}.lock", 1);
-	}
+        $this->locked_tasks[] = $task_id;
+        file_put_contents("{$this->lock_base}/{$task_id}.lock", 1);
+    }
 
-	/**
-	 * @param $task_id
-	 */
-	public function unlock($task_id)
+    /**
+     * @param $task_id
+     */
+    public function unlock($task_id)
     {
-		$file = "{$this->lock_base}/{$task_id}.lock";
-		if(file_exists($file)) {
-			unlink($file);
-			unset($this->locked_tasks[$task_id]);
-		}
-	}
+        $file = "{$this->lock_base}/{$task_id}.lock";
+        if (file_exists($file)) {
+            unlink($file);
+            unset($this->locked_tasks[$task_id]);
+        }
+    }
 
-	###############################################################################
-	#                                                                             #
-	#                         Start of the tasks block.                           #
-	#                                                                             #
-	###############################################################################
+    ###############################################################################
+    #                                                                             #
+    #                         Start of the tasks block.                           #
+    #                                                                             #
+    ###############################################################################
 
-	/**
-	 * Push instant queued messages, Apns, Gcm (Every minute)
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function pushinstant($task)
+    /**
+     * Push instant queued messages, Apns, Gcm (Every minute)
+     *
+     * @param Cron_Model_Cron $task
+     */
+    public function pushinstant($task)
     {
-		# Init
-		$now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+        # Init
+        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
 
         # Check for Individual Push module
         if (Push_Model_Message::hasIndividualPush()) {
             $base = Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
 
             # Models
-			if (is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
-				require_once "{$base}/Model/Customer/Message.php";
-				require_once "{$base}/Model/Db/Table/Customer/Message.php";
-			}
+            if (is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
+                require_once "{$base}/Model/Customer/Message.php";
+                require_once "{$base}/Model/Db/Table/Customer/Message.php";
+            }
         }
 
-
-
-		# Fetch instant message in queue.
-		$message = new Push_Model_Message();
-		$messages = $message->findAll(
-			[
+        # Fetch instant message in queue.
+        $message = new Push_Model_Message();
+        $messages = $message->findAll(
+            [
                 'status IN (?)' => ['queued'],
                 'send_at IS NULL OR send_at <= ?' => $now,
                 'send_until IS NULL OR send_until >= ?' => $now,
                 'type_id = ?' => Push_Model_Message::TYPE_PUSH
             ],
-			'created_at DESC'
-		);
+            'created_at DESC'
+        );
 
-		if (count($messages) > 0) {
-			# Set all fetched messages to sending
-			foreach ($messages as $message) {
-				$message->updateStatus('sending');
-			}
+        if (count($messages) > 0) {
+            # Set all fetched messages to sending
+            foreach ($messages as $message) {
+                $message->updateStatus('sending');
+            }
 
-			foreach ($messages as $message) {
-				echo sprintf("[CRON] Message Id: %s, Title: %s \n", $message->getId(), $message->getTitle());
-				# Send push
-				$message->push();
-			}
-		}
-	}
+            foreach ($messages as $message) {
+                echo sprintf("[CRON] Message Id: %s, Title: %s \n", $message->getId(), $message->getTitle());
+                # Send push
+                $message->push();
+            }
+        }
+    }
 
-	/**
-	 * Cleaning-up/rotate old/unused logs (Every day at 00:05 AM)
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function logrotate($task)
+    /**
+     * Cleaning-up/rotate old/unused logs (Every day at 00:05 AM)
+     *
+     * @param Cron_Model_Cron $task
+     */
+    public function logrotate($task)
     {
-		$log_files = new DirectoryIterator("{$this->root_path}/var/log/");
-		foreach ($log_files as $file) {
-			$filename = $file->getFilename();
-			$pathname = $file->getPathname();
+        $log_files = new DirectoryIterator("{$this->root_path}/var/log/");
+        foreach ($log_files as $file) {
+            $filename = $file->getFilename();
+            $pathname = $file->getPathname();
 
-			# Clean up info_* logs
-			if (strpos($filename, "info_") !== false) {
-				unlink($pathname);
-			}
+            # Clean up info_* logs
+            if (strpos($filename, "info_") !== false) {
+                unlink($pathname);
+            }
 
-			# Clean up migration_* logs
-			if (strpos($filename, "migration_") !== false) {
-				unlink($pathname);
-			}
+            # Clean up migration_* logs
+            if (strpos($filename, "migration_") !== false) {
+                unlink($pathname);
+            }
 
-			# Clean up error_* logs
-			if (strpos($filename, "error_") !== false) {
-				unlink($pathname);
-			}
+            # Clean up error_* logs
+            if (strpos($filename, "error_") !== false) {
+                unlink($pathname);
+            }
 
-			# Clean up output_* logs
-			if (strpos($filename, "output.log") !== false) {
-				unlink($pathname);
-			}
+            # Clean up output_* logs
+            if (strpos($filename, "output.log") !== false) {
+                unlink($pathname);
+            }
 
-			# Clean up output_* logs
-			if (strpos($filename, "cron-output.log") !== false) {
-				unlink($pathname);
-			}
+            # Clean up output_* logs
+            if (strpos($filename, "cron-output.log") !== false) {
+                unlink($pathname);
+            }
 
-			# Clean up output_* logs
-			if (strpos($filename, "cron.log") !== false) {
-				unlink($pathname);
-			}
+            # Clean up output_* logs
+            if (strpos($filename, "cron.log") !== false) {
+                unlink($pathname);
+            }
 
-		}
+        }
 
-		# This folder is not always present +4.9.1.
-		if (is_readable("{$this->root_path}/var/log/modules/")) {
+        # This folder is not always present +4.9.1.
+        if (is_readable("{$this->root_path}/var/log/modules/")) {
             $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
             foreach ($module_log_files as $file) {
                 $pathname = $file->getPathname();
@@ -318,41 +317,41 @@ class Siberian_Cron
             }
         }
 
-	}
+    }
 
-	/** NOTE: APK & Sources queues shares the same lock, as one may break the other */
+    /** NOTE: APK & Sources queues shares the same lock, as one may break the other */
 
-	/**
-	 * APK Generator queue
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function apkgenerator($task)
+    /**
+     * APK Generator queue
+     *
+     * @param Cron_Model_Cron $task
+     */
+    public function apkgenerator($task)
     {
-		# We do really need to lock this thing !
-		if (!$this->isLocked("generator")) {
-			$this->lock("generator");
+        # We do really need to lock this thing !
+        if (!$this->isLocked("generator")) {
+            $this->lock("generator");
 
-			# Generate the APK
-			$queue = Application_Model_ApkQueue::getQueue();
-			foreach ($queue as $apk) {
+            # Generate the APK
+            $queue = Application_Model_ApkQueue::getQueue();
+            foreach ($queue as $apk) {
                 # Keep APK Queue id
                 $apk_id = $apk->getId();
 
-				try {
-					$this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
-					$apk->changeStatus("building");
+                try {
+                    $this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
+                    $apk->changeStatus("building");
 
-					# Trying to clean-up old related processes
-					exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+                    # Trying to clean-up old related processes
+                    exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
 
-					$apk->generate();
+                    $apk->generate();
 
                     # +After generation**
                     exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
 
-				} catch (Exception $e) {
-					$this->log($e->getMessage());
+                } catch (Exception $e) {
+                    $this->log($e->getMessage());
                     # Trying to fetch APK
                     $refetch_apk = new Application_Model_ApkQueue();
                     $refetch_apk = $refetch_apk->find($apk_id);
@@ -362,40 +361,40 @@ class Siberian_Cron
                         $refetch_apk->changeStatus("failed");
                         $task->saveLastError($e->getMessage());
                     }
-				}
+                }
 
-			}
+            }
 
-			# Releasing
-			$this->unlock("generator");
-		} else {
-			$this->log("Locked task: {$task->getName()} / generator, skipping...");
-		}
-	}
+            # Releasing
+            $this->unlock("generator");
+        } else {
+            $this->log("Locked task: {$task->getName()} / generator, skipping...");
+        }
+    }
 
-	/**
-	 * Sources Generator queue
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function sources($task)
+    /**
+     * Sources Generator queue
+     *
+     * @param Cron_Model_Cron $task
+     */
+    public function sources($task)
     {
-		# We do really need to lock this thing !
-		if (!$this->isLocked("generator")) {
-			$this->lock("generator");
+        # We do really need to lock this thing !
+        if (!$this->isLocked("generator")) {
+            $this->lock("generator");
 
-			# Generate the Source ZIP
-			$queue = Application_Model_SourceQueue::getQueue();
-			foreach ($queue as $source) {
+            # Generate the Source ZIP
+            $queue = Application_Model_SourceQueue::getQueue();
+            foreach ($queue as $source) {
                 # Keep Source Queue id
                 $source_id = $source->getId();
 
-				try {
-					$this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
-					$source->changeStatus("building");
-					$source->generate();
-				} catch (Exception $e) {
-					$this->log($e->getMessage());
+                try {
+                    $this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
+                    $source->changeStatus("building");
+                    $source->generate();
+                } catch (Exception $e) {
+                    $this->log($e->getMessage());
 
                     # Trying to fetch Source
                     $refetch_source = new Application_Model_SourceQueue();
@@ -406,16 +405,16 @@ class Siberian_Cron
                         $refetch_source->changeStatus("failed");
                         $task->saveLastError($e->getMessage());
                     }
-				}
+                }
 
-			}
+            }
 
-			# Releasing
-			$this->unlock("generator");
-		} else {
-			$this->log("Locked task: {$task->getName()} / generator, skipping...");
-		}
-	}
+            # Releasing
+            $this->unlock("generator");
+        } else {
+            $this->log("Locked task: {$task->getName()} / generator, skipping...");
+        }
+    }
 
     /**
      * Let's Encrypt certificates renewal
@@ -558,32 +557,32 @@ class Siberian_Cron
                             // Change updated_at date, time()+10 to ensure renew is newer than updated_at
                             $cert
                                 ->setErrorCount(0)
-                                ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
+                                ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
                                 ->save();
 
                             // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
                             try {
                                 switch ($panel_type) {
                                     case "plesk":
-                                            $siberian_plesk = new Siberian_Plesk();
-                                            $siberian_plesk->removeCertificate($cert);
-                                            $siberian_plesk->updateCertificate($cert);
-                                            $siberian_plesk->selectCertificate($cert);
+                                        $siberian_plesk = new Siberian_Plesk();
+                                        $siberian_plesk->removeCertificate($cert);
+                                        $siberian_plesk->updateCertificate($cert);
+                                        $siberian_plesk->selectCertificate($cert);
                                         break;
                                     case "cpanel":
-                                            $cpanel = new Siberian_Cpanel();
-                                            $cpanel->updateCertificate($cert);
+                                        $cpanel = new Siberian_Cpanel();
+                                        $cpanel->updateCertificate($cert);
                                         break;
                                     case "vestacp":
-                                            $vestacp = new Siberian_VestaCP();
-                                            $vestacp->updateCertificate($cert);
+                                        $vestacp = new Siberian_VestaCP();
+                                        $vestacp->updateCertificate($cert);
                                         break;
                                     case "directadmin":
-                                            $directadmin = new Siberian_DirectAdmin();
-                                            $directadmin->updateCertificate($cert);
+                                        $directadmin = new Siberian_DirectAdmin();
+                                        $directadmin->updateCertificate($cert);
                                         break;
                                     case "self":
-                                            $this->log("Self-managed sync is not available for now.");
+                                        $this->log("Self-managed sync is not available for now.");
                                         break;
                                 }
                             } catch (Exception $e) {
@@ -599,7 +598,7 @@ class Siberian_Cron
                             $cert
                                 ->setErrorCount($cert->getErrorCount() + 1)
                                 ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
-                                ->setRenewDate(time_to_date(time()+10, "YYYY-MM-dd HH:mm:ss"))
+                                ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
                                 ->setErrorLog($lets_encrypt->getLog())
                                 ->save();
                         }
@@ -655,75 +654,25 @@ class Siberian_Cron
         }
     }
 
-	/**
-	 * Analytics aggregation
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function agregateanalytics($task) {
-		//caluling on day after and before to be sure for results
-		Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
-		Analytics_Model_Aggregate::getInstance()->run(time());
-		Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
-	}
-
-	/**
-	 * Install the Android tools (once)
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function androidtools($task) {
-		# We do really need to lock this thing !
-		$this->lock($task->getId());
-
-		try {
-		    # Running a clear/tmp before.
-            Siberian_Cache::__clearTmp();
-
-            # Testing disk space (4GB required, 2Gb for archive, 2Gb for extracted)
-            $result = exec("echo $(($(stat -f --format=\"%a*%S\" .)))");
-
-            if($result > 4000000000) {
-                $script = "{$this->root_path}/var/apps/ionic/tools/sdk-updater.php";
-
-                require_once $script;
-            } else {
-
-                # Send a message to the Admin
-                $description = "Android SDK can't be updated, you need at least 4GB of free disk space.";
-
-                $notification = new Backoffice_Model_Notification();
-                $notification
-                    ->setTitle(__("Alert: Android SDK can't be updated."))
-                    ->setDescription(__($description))
-                    ->setSource("cron")
-                    ->setType("android-sdk-update")
-                    ->setIsHighPriority(1)
-                    ->setObjectType("Android_Sdk_Update")
-                    ->setObjectId(1)
-                    ->save();
-
-                Backoffice_Model_Notification::sendEmailForNotification($notification);
-            }
-
-
-		} catch(Exception $e){
-			$this->log($e->getMessage());
-			$task->saveLastError($e->getMessage());
-		}
-
-		# Disable when done.
-		$task->disable();
-		# Releasing
-		$this->unlock($task->getId());
-	}
+    /**
+     * Analytics aggregation
+     *
+     * @param Cron_Model_Cron $task
+     */
+    public function agregateanalytics($task)
+    {
+        //caluling on day after and before to be sure for results
+        Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
+        Analytics_Model_Aggregate::getInstance()->run(time());
+        Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
+    }
 
     /**
      * Check payments recurrencies
      *
      * @param $task
      */
-	public function checkpayments($task)
+    public function checkpayments($task)
     {
         // We do really need to lock this thing !
         $this->lock($task->getId());
@@ -740,7 +689,7 @@ class Siberian_Cron
             if (method_exists('Payment_PaypalController', 'checkRecurrencies')) {
                 Payment_PaypalController::checkRecurrencies($this);
             }
-        } catch (Exception $e){
+        } catch (Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -754,7 +703,8 @@ class Siberian_Cron
      *
      * @param $task
      */
-    public function diskusage($task) {
+    public function diskusage($task)
+    {
         # We do really need to lock this thing !
         $this->lock($task->getId());
 
@@ -763,7 +713,7 @@ class Siberian_Cron
             $this->log('[Fetching current disk usage]');
             Siberian_Cache::getDiskUsage(true);
 
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -774,71 +724,13 @@ class Siberian_Cron
         $this->unlock($task->getId());
     }
 
-	/**
-	 * Rebuilds the cache
-	 *
-	 * @param Cron_Model_Cron $task
-	 */
-	public function cachebuilder($task) {
-		# We do really need to lock this thing !
-		$this->lock($task->getId());
-
-		try {
-		    # Clear cache, etc...
-            $default_cache = Zend_Registry::get("cache");
-            $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-
-            # Clear cron errors
-            Cron_Model_Cron::clearErrors();
-
-			# Disable when success.
-			$task->disable();
-
-        } catch(Exception $e){
-			$this->log($e->getMessage());
-			$task->saveLastError($e->getMessage());
-		}
-
-		# Releasing
-		$this->unlock($task->getId());
-	}
-
-    /**
-     * Watch disk quota every hour
-     *
-     * @param $task
-     */
-	public function quotawatcher($task) {
-        # We do really need to lock this thing !
-        $this->lock($task->getId());
-
-        try {
-            $global_root = Core_Model_Directory::getBasePathTo("");
-            $global_quota = System_Model_Config::getValueFor("global_quota");
-            exec("du -cmsL {$global_root}", $output);
-            $parts = explode("\t", end($output));
-            $global_size = $parts[0];
-
-            # Send an alert.
-            if($global_size > $global_quota) {
-                // Send a quota alert.
-            }
-
-        } catch(Exception $e){
-            $this->log($e->getMessage());
-            $task->saveLastError($e->getMessage());
-        }
-
-        # Releasing
-        $this->unlock($task->getId());
-    }
-
     /**
      * Alerts watcher
      *
      * @param $task
      */
-    public function alertswatcher($task) {
+    public function alertswatcher($task)
+    {
         # We do really need to lock this thing !
         $this->lock($task->getId());
 
@@ -849,7 +741,7 @@ class Siberian_Cron
             $source_stucks = Application_Model_SourceQueue::getStuck($current_time);
 
             # APK Round
-            foreach($apk_stucks as $apk_stuck) {
+            foreach ($apk_stucks as $apk_stuck) {
                 $description = "You have an APK generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
 
                 $notification = new Backoffice_Model_Notification();
@@ -868,7 +760,7 @@ class Siberian_Cron
             }
 
             # Sources Round
-            foreach($source_stucks as $source_stuck) {
+            foreach ($source_stucks as $source_stuck) {
                 $description = "You have a Source generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
 
                 $notification = new Backoffice_Model_Notification();
@@ -888,7 +780,7 @@ class Siberian_Cron
 
             # More alerts to come.
 
-        } catch(Exception $e){
+        } catch (Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -899,17 +791,18 @@ class Siberian_Cron
 
 
 
-	###############################################################################
-	#                                                                             #
-	#                          End of the tasks block.                            #
-	#                                                                             #
-	###############################################################################
+    ###############################################################################
+    #                                                                             #
+    #                          End of the tasks block.                            #
+    #                                                                             #
+    ###############################################################################
 
 
-	public function __destruct() {
-		/** Detect too long processes to alert admin */
-		$exec_time = microtime(true) - $this->start;
-		$this->log("Execution time {$exec_time}");
-	}
+    public function __destruct()
+    {
+        /** Detect too long processes to alert admin */
+        $exec_time = microtime(true) - $this->start;
+        $this->log("Execution time {$exec_time}");
+    }
 
 }

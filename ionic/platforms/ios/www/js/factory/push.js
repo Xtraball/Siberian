@@ -41,12 +41,18 @@ angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
         factory.findAll();
     };
 
+    /**
+     * Register device token on the platform!
+     *
+     * @param params
+     */
     factory.registerAndroidDevice = function (params) {
         $pwaRequest.post('/push/android/registerdevice', {
-            data    : angular.extend(params, {
-                device_uid: $session.getDeviceUid()
+            data: angular.extend(params, {
+                device_uid: $session.getDeviceUid(),
+                provider: 'fcm'
             }),
-            cache   : false
+            cache: false
         });
     };
 

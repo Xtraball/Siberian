@@ -32,7 +32,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     /**
-     * @return Zend_Controller_Request_Http
+     * @return Siberian_Controller_Request_Http
      */
     public function getRequest() {
         return parent::getRequest();

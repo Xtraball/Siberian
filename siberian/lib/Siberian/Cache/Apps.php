@@ -15,7 +15,7 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
     const CACHE_PATH = "var/cache/assets.cache";
     const CACHING = false;
 
-    public static function fetch($version)
+    public static function fetch($version, $cache = null)
     {
         $version = Core_Model_Directory::getBasePathTo("{$version}modules/");
 
@@ -25,7 +25,7 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
 
         foreach ($modules_assets as $asset) {
 
-            $matches = array();
+            $matches = [];
             preg_match("#{$version}(.*)\/resources#", $asset, $matches);
 
             $module_name = $matches[1];
@@ -33,7 +33,7 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
             /** Init the array if not. */
             $type = basename($asset);
             if (!isset($cache[$type])) {
-                $cache[$type] = array();
+                $cache[$type] = [];
             }
 
             $base_path = Core_Model_Directory::getBasePathTo("{$version}resources/var/apps/");
@@ -41,25 +41,27 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
 
             /** Looping trough files */
             $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($asset, 4096), RecursiveIteratorIterator::SELF_FIRST);
-            foreach($files as $file) {
-                if($file->isDir()) {
+            foreach ($files as $file) {
+                if ($file->isDir()) {
                     continue;
                 }
 
-                switch($type) {
-                    case "css": case "js": case "img":
-                            if(!isset($cache[$type][$file->getFilename()])) {
-                                $cache[$type][$file->getFilename()] = $file->getPathname();
-                            }
+                switch ($type) {
+                    case "css":
+                    case "js":
+                    case "img":
+                        if (!isset($cache[$type][$file->getFilename()])) {
+                            $cache[$type][$file->getFilename()] = $file->getPathname();
+                        }
                         break;
                     case "templates":
-                            $base_templates = str_replace($base_path, "", $file->getPathname());
-                            if(!isset($cache[$type][$file->getFilename()])) {
-                                $cache[$type][$file->getFilename()] = array(
-                                    "basepath" => $base_path,
-                                    "template" => $base_templates,
-                                );
-                            }
+                        $base_templates = str_replace($base_path, "", $file->getPathname());
+                        if (!isset($cache[$type][$file->getFilename()])) {
+                            $cache[$type][$file->getFilename()] = [
+                                "basepath" => $base_path,
+                                "template" => $base_templates,
+                            ];
+                        }
                         break;
                 }
 
@@ -69,9 +71,12 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
         static::setCache($cache);
     }
 
-    public static function preWalk() {}
+    public static function preWalk()
+    {
+    }
 
-    public static function postWalk() {
+    public static function postWalk()
+    {
 
     }
 }

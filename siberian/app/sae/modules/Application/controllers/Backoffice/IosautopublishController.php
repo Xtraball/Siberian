@@ -262,8 +262,211 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
         $this->_sendJson($payload);
     }
 
-    /// To clean after me
+    /**
+     * Upload APK from jenkins
+     *
+     * @throws Zend_Layout_Exception
+     */
+    public function uploadapkAction ()
+    {
+        $request = $this->getRequest();
+        try {
+            $appId = $request->getParam('appId', false);
+            if ($appId === false) {
+                throw new \Siberian\Exception('#565-04: ' . __('Missing appId'));
+            }
 
+            if (empty($_FILES) || empty($_FILES['file']['name'])) {
+                throw new \Siberian\Exception('#565-02: ' . __('No file has been sent'));
+            }
+
+            $basePath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/");
+            if (!is_dir($basePath)) {
+                mkdir($basePath, 0775, true);
+            }
+            $adapter = new Zend_File_Transfer_Adapter_Http();
+            $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
+
+            $queue = Application_Model_SourceQueue::getApkServiceStatus($appId);
+
+            if ($adapter->receive()) {
+                $file = $adapter->getFileInfo();
+
+                $destination = $basePath . $file['file_0_']['name'];
+                exec("rm -f '{$destination}'");
+                if (!rename($file['file_0_']['tmp_name'], $destination)) {
+                    throw new \Siberian\Exception(
+                        '#565-01: ' .
+                        __("An error occurred while saving your APK. Please try again later."));
+                }
+
+                if (isset($file['file_1_'])) {
+                    // We have a new keystore
+                    $destinationKeystore = Core_Model_Directory::getBasePathTo(
+                        '/var/apps/android/keystore/' . $appId . '.pks');
+
+                    // If there is already a pks, we will rename/backup it!
+                    if (is_file($destinationKeystore)) {
+                        rename($destinationKeystore, str_replace(
+                            '.pks',
+                            '-backup-' . date('Y-m-d_H-i-s') .  '.pks',
+                            $destinationKeystore));
+                    }
+
+                    if (!rename($file['file_1_']['tmp_name'], $destinationKeystore)) {
+                        throw new \Siberian\Exception(
+                            '#565-05: ' .
+                            __("An error occurred while saving your Keystore. Please try again later."));
+                    }
+                }
+
+                $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
+                $serviceQueue
+                    ->setApkPath($destination)
+                    ->setStatus('success')
+                    ->setApkStatus('success')
+                    ->save();
+
+                $this->apkServiceEmail($serviceQueue);
+
+                $payload = [
+                    'success' => 1
+                ];
+
+            } else {
+                $messages = $adapter->getMessages();
+                if (!empty($messages)) {
+                    $message = implode("\n", $messages);
+                } else {
+                    $message = '#565-03: ' . __("An error occurred while upload the APK. Please try again later.");
+                }
+
+                throw new \Siberian\Exception($message);
+            }
+        } catch (\Exception $e) {
+            $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
+            $serviceQueue
+                ->setStatus('failed')
+                ->setApkStatus('failed')
+                ->setApkMessage($e->getMessage())
+                ->save();
+
+            $this->apkServiceEmail($serviceQueue);
+
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function apkservicestatusAction ()
+    {
+        $request = $this->getRequest();
+        try {
+            $appId = $request->getParam('appId', false);
+            if ($appId === false) {
+                throw new \Siberian\Exception('#566-01: ' . __('Missing appId'));
+            }
+
+            $status = $request->getParam('status', false);
+            if ($status === false) {
+                throw new \Siberian\Exception('#566-02: ' . __('Missing status'));
+            }
+
+            $message = $request->getParam('message', false);
+
+            $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
+            $serviceQueue
+                ->setStatus($status)
+                ->setApkStatus($status)
+                ->setApkMessage($message)
+                ->save();
+
+            $this->apkServiceEmail($serviceQueue);
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @param Application_Model_SourceQueue $queue
+     * @throws Zend_Layout_Exception
+     */
+    private function apkServiceEmail ($queue)
+    {
+        $recipients = [];
+        switch ($queue->getUserType()) {
+            case 'backoffice':
+                $backofficeUser = (new Backoffice_Model_User())
+                    ->find($queue->getUserId());
+                if ($backofficeUser->getId()) {
+                    $recipients[] = $backofficeUser;
+                }
+                break;
+            case 'admin':
+                $adminUser = (new Admin_Model_Admin())
+                    ->find($queue->getUserId());
+                if($adminUser->getId()) {
+                    $recipients[] = $adminUser;
+                }
+                break;
+        }
+
+        $protocol =__get('use_https') ? 'https' : 'http';
+        if ($queue->getApkStatus() === 'success') {
+            // Success email!
+            $url = sprintf("%s://%s/%s",
+                $protocol,
+                $queue->getHost(),
+                str_replace(Core_Model_Directory::getBasePathTo(''), '', $queue->getApkPath())
+            );
+
+            $values = [
+                'type' => __("APK Generator Service"),
+                'application_name' => $queue->getName(),
+                'link' => $url,
+            ];
+
+            // SMTP Mailer
+            (new Siberian_Mail())
+                ->simpleEmail(
+                    'queue',
+                    'apk_queue_success',
+                    __("APK generation for App: %s", $queue->getName()),
+                    $recipients,
+                    $values)
+                ->send();
+
+        } else {
+            // Failure email!
+            $values = [
+                'type' => __('APK Generator Service'),
+                'application_name' => $queue->getName(),
+            ];
+
+            // SMTP Mailer
+            (new Siberian_Mail())
+                ->simpleEmail(
+                    'queue',
+                    'apk_queue_failed',
+                    __("The requested APK generation failed: %s", $queue->getName()),
+                    $recipients,
+                    $values)
+                ->send();
+        }
+    }
 
     public function updatejobstatusAction() {
 

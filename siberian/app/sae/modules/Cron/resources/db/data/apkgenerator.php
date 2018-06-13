@@ -1,18 +1,12 @@
 <?php
-
-$data = array(
-    "name"      => "APK Generator queue",
-    "command"   => "apkgenerator",
-    "minute"    => "-1",
-    "hour"      => "-1",
-    "month_day" => "-1",
-    "month"     => "-1",
-    "week_day"  => "-1",
-    "priority"  => 80,
-    "is_active" => true,
+Siberian_Feature::installCronjob(
+    "APK Generator queue",
+    "apkgenerator",
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    true,
+    80
 );
-
-$apkgenerator = new Cron_Model_Cron();
-$apkgenerator
-    ->setData($data)
-    ->insertOrUpdate(array("command"));

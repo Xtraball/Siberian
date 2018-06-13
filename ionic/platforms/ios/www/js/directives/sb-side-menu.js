@@ -3,7 +3,7 @@
  */
 
 angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
-                                                            $timeout, HomepageLayout, ContextualMenu) {
+                                                            $timeout, HomepageLayout, ContextualMenu, Application) {
     return {
         restrict: 'E',
         replace: true,
@@ -21,12 +21,6 @@ angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootS
                         .replace('.', '-')
                         .replace(/\-\-*/, '-'));
                 });
-
-            scope.backButton = 'Back';
-
-            scope.$on('$stateChangeSuccess', function (event, toState, toStateParams, fromState, fromStateParams) {
-                scope.backButton = $translate.instant('Back');
-            });
 
             /** Custom go back, works with/without side-menus */
             scope.goBack = function () {

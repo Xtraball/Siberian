@@ -1,6 +1,10 @@
 <?php
 
-class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
+/**
+ * Class BootstrapCron
+ */
+class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
+{
 
     /**
      * @var Siberian_Controller_Request_Http
@@ -17,7 +21,11 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
      */
     public $_front_controller = false;
 
-    protected function _initPaths() {
+    /**
+     * @throws Zend_Loader_Exception
+     */
+    protected function _initPaths()
+    {
         $loader = Zend_Loader_Autoloader::getInstance();
 
         $loader->registerNamespace('Core');
@@ -25,9 +33,9 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('PListEditor');
 
-        $include_paths = array(get_include_path());
-        $include_paths[] = realpath(APPLICATION_PATH.'/local/modules');
-        switch(Siberian_Version::TYPE) {
+        $include_paths = [get_include_path()];
+        $include_paths[] = realpath(APPLICATION_PATH . '/local/modules');
+        switch (Siberian_Version::TYPE) {
             case 'PE':
                 $include_paths[] = realpath(APPLICATION_PATH . '/pe/modules');
             case 'MAE':
@@ -45,19 +53,23 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         } elseif (isset($_SERVER['argv']) && isset($_SERVER['argv'][0])) {
             $base_path = dirname($_SERVER['argv']['0']);
         } else {
-            $base_path = substr(dirname(__FILE__),0,-3);
+            $base_path = substr(dirname(__FILE__), 0, -3);
         }
         Core_Model_Directory::setBasePath($base_path);
+
+        // include Stubs
+        require_once Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         //for cron we are always at root directory
         Core_Model_Directory::setPath('');
 
         // External vendor, from composer!
         $autoloader = Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
-            require_once $autoloader;
+        require_once $autoloader;
     }
 
-    protected function _initLogger() {
+    protected function _initLogger()
+    {
         if (!is_dir(Core_Model_Directory::getBasePathTo('var/log'))) {
             mkdir(Core_Model_Directory::getBasePathTo('var/log'), 0777, true);
         }
@@ -67,31 +79,36 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         Zend_Registry::set('logger', $logger);
     }
 
-    protected function _initConnection() {
+    protected function _initConnection()
+    {
         $this->bootstrap('db');
         $resource = $this->getResource('db');
 
         // Disabling strict mode on run!
         try {
             $resource->query('SET sql_mode = \'\';');
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $logger = Zend_Registry::get('logger');
             $logger->err('Fatal Error when trying to disable SQL strict mode: ' . PHP_EOL . print_r($e, true));
         }
 
         Zend_Registry::set('db', $resource);
-        if(Installer_Model_Installer::isInstalled()) {
+        if (Installer_Model_Installer::isInstalled()) {
             try {
                 $default = new Core_Model_Db_Table();
                 $default->checkConnection();
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $logger = Zend_Registry::get('logger');
                 $logger->sendException('Fatal Error When Connecting to The Database: ' . PHP_EOL . print_r($e, true));
             }
         }
     }
 
-    protected function _initDispatcher() {
+    /**
+     * Permet de garder le nom des modules avec une majuscule et les url en minuscule
+     */
+    protected function _initDispatcher()
+    {
         $frontController = Zend_Controller_Front::getInstance();
         $frontController->setDispatcher(new Siberian_Controller_Dispatcher_Standard());
         $this->bootstrap('frontController');
@@ -103,28 +120,32 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
      *
      * @version 4.12.18
      */
-    protected function _initModuleDirectory() {
+    protected function _initModuleDirectory()
+    {
         $base = Core_Model_Directory::getBasePathTo('app');
 
-        if (!file_exists($base . '/local') || !file_exists($base . '/local/modules') || !file_exists($base . '/local/design')) {
+        if (!is_dir($base . '/local') ||
+            !is_dir($base . '/local/modules') ||
+            !is_dir($base . '/local/design')) {
             mkdir($base . '/local', 0777);
             mkdir($base . '/local/modules', 0777);
             mkdir($base . '/local/design', 0777);
         }
 
         // Priorities are inverted for controllers!
-        switch(Siberian_Version::TYPE) {
-            default: case 'SAE':
-                    $this->_front_controller->addModuleDirectory($base . '/sae/modules');
-            break;
+        switch (Siberian_Version::TYPE) {
+            default:
+            case 'SAE':
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
+                break;
             case 'MAE':
-                    $this->_front_controller->addModuleDirectory($base . '/sae/modules');
-                    $this->_front_controller->addModuleDirectory($base . '/mae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/mae/modules');
                 break;
             case 'PE':
-                    $this->_front_controller->addModuleDirectory($base . '/sae/modules');
-                    $this->_front_controller->addModuleDirectory($base . '/mae/modules');
-                    $this->_front_controller->addModuleDirectory($base . '/pe/modules');
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/mae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/pe/modules');
                 break;
         }
 
@@ -135,22 +156,24 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         Siberian_Utils::load();
     }
 
-    protected function _initLanguages() {
+    protected function _initLanguages()
+    {
         Core_Model_Language::prepare();
     }
 
     // Loading individual bootstrappers!
-    protected function _initModuleBoostrap() {
+    protected function _initModuleBoostrap()
+    {
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
         foreach ($module_names as $module) {
-        $path = $this->_front_controller->getModuleDirectory($module) . '/bootstrap.php';
-        $path_init = $this->_front_controller->getModuleDirectory($module) . '/init.php';
+            $path = $this->_front_controller->getModuleDirectory($module) . '/bootstrap.php';
+            $path_init = $this->_front_controller->getModuleDirectory($module) . '/init.php';
 
             // Init is the new flavor 5.0, and has priority over bootstrap!
             if (is_readable($path_init)) {
                 try {
-                global $init;
+                    global $init;
                     ob_start();
                     require_once $path_init;
                     if (is_callable($init)) {
@@ -175,9 +198,9 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
                             }
                         }
                     } else {
-                    throw new Siberian_Exception('The bootstrap file located at \'' . $path .
-                        '\' redefines/or is already loaded, Class \'' . $classname .
-                        '\', please remove it or rename it.');
+                        throw new Siberian_Exception('The bootstrap file located at \'' . $path .
+                            '\' redefines/or is already loaded, Class \'' . $classname .
+                            '\', please remove it or rename it.');
                     }
                 } catch (Exception $e) {
                     // Silently catch & log malformed bootstrap module!
@@ -187,8 +210,9 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap {
         }
     }
 
-    protected function _initCache() {
-        if (version_compare(PHP_VERSION, '5.6.0' , '>=')) {
+    protected function _initCache()
+    {
+        if (version_compare(PHP_VERSION, '5.6.0', '>=')) {
             Siberian_Cache_Design::init();
             $this->bootstrap('CacheManager');
             $default_cache = $this->getResource('CacheManager')->getCache('default');
