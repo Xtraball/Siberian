@@ -146,13 +146,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     /**
-     * @param bool $isApkService
      * @return array|mixed|string
      * @throws Exception
      * @throws Zend_Controller_Request_Exception
      * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
-    public function prepareResources($isApkService = false)
+    public function prepareResources()
     {
         $this->app = $this->getApplication();
 
@@ -180,7 +180,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         if ($this->getDevice()->getDownloadType() !== 'apk') {
 
-            if ($isApkService) {
+            if (defined('IS_APK_SERVICE')) {
                 $queue = Application_Model_SourceQueue::getApkServiceStatus($this->app->getId());
                 $keystore = $this->_prepareApk();
 

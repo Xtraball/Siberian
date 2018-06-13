@@ -24,13 +24,13 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param bool $isApkService
      * @return mixed
      */
-    public function getResources($isApkService = false)
+    public function getResources()
     {
         $umask = umask(0);
-        $resource = $this->prepareResources($isApkService);
+
+        $resource = $this->prepareResources();
         umask($umask);
 
         return $resource;
