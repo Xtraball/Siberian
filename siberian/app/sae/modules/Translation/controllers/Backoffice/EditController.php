@@ -82,8 +82,16 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         $data_csv = $this->_parseCsv($lang_id);
         $data_xml = $this->_parseXml($lang_id);
 
-        $data_all["translation_files"] = array_merge($data_csv["translation_files"], $data_xml["translation_files"]);
-        $data_all["translation_files_data"] = array_merge($data_csv["translation_files_data"], $data_xml["translation_files_data"]);
+        if (isset ($data_xml["translation_files"])) {
+            $data_all["translation_files"] = array_merge($data_csv["translation_files"], $data_xml["translation_files"]);
+        } else {
+            $data_all["translation_files"] = $data_csv["translation_files"];
+        }
+        if (isset ($data_xml["translation_files_data"])) {
+            $data_all["translation_files_data"] = array_merge($data_csv["translation_files_data"], $data_xml["translation_files_data"]);
+        } else {
+            $data_all["translation_files_data"] = $data_csv["translation_files_data"];
+        }
 
         ksort($data_all["translation_files"]);
         $data["translation_files"] = $data_all["translation_files"];
