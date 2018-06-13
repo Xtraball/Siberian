@@ -194,6 +194,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                     $queue['host'],
                     $zipPath);
 
+                $buildType = __get('apk_build_type') === 'debug' ? 'cdvBuildDebug' : 'cdvBuildRelease';
+
                 Siberian_Request::get(
                     "https://jenkins-prod02.xtraball.com/job/apk-generator/buildWithParameters",
                     [
@@ -204,6 +206,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         'appId' => base64_encode($this->app->getId()),
                         'appName' => $this->_application_id,
                         'uuid' => uniqid(),
+                        'buildType' => $buildType,
                         'keystore' => base64_encode(json_encode($keystore))
                     ],
                     null,
@@ -218,6 +221,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         Siberian_Request::$statusCode));
                 }
             } else {
+                $keystore = $this->_prepareApk();
                 $zip = $this->zipFolder();
             }
 

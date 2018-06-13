@@ -43,6 +43,9 @@ class Core_Model_Directory
 
         $design_path = self::$_design_path;
         $design_codes = Zend_Registry::get("design_codes");
+
+        print_r($design_path);
+        print_r($design_codes);
         if($application_type AND $application_type != APPLICATION_TYPE AND !empty($design_codes[$application_type])) {
             $design_path = str_replace("/".APPLICATION_TYPE."/", "/".$application_type."/", $design_path);
             $design_path = str_replace("/".DESIGN_CODE, "/".$design_codes[$application_type], $design_path);
@@ -55,14 +58,21 @@ class Core_Model_Directory
 
     public static function getDesignsFor($application_type = "desktop") {
 
-        $designs = array();
-        $excluded_designs = array();
+        $designs = [];
+        $excluded_designs = [];
         $base_path = APPLICATION_PATH."/sae/design/".$application_type;
         if(!is_dir($base_path)) return $designs;
 
         switch($application_type) {
-            case "desktop": $excluded_designs = array("backoffice", "installer", "debug"); break;
-            default: break;
+            case 'desktop':
+                $excluded_designs = [
+                    'backoffice',
+                    'installer',
+                    'debug'
+                ];
+                break;
+            default:
+                break;
         }
 
         $directories = new DirectoryIterator($base_path);

@@ -6,12 +6,12 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
     public function findallAction() {
 
         if($this->getRequest()->getParam('value_id')) {
-            $payload = array();
+            $payload = [];
             $fcc = new LoyaltyCard_Model_Customer();
             $customer_id = $this->getSession()->getCustomerId() | 0;
             $cards = $fcc->findAllByOptionValue($this->getCurrentOptionValue()->getId(), $customer_id);
             $current_card = new LoyaltyCard_Model_Customer();
-            $promotions = array();
+            $promotions = [];
             $cardIsLocked = false;
 
             foreach($cards as $card) {
@@ -73,7 +73,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
         try {
 
-            $html = array();
+            $html = [];
             if($datas = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
                 $application_id = $this->getApplication()->getAppId();
@@ -158,13 +158,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                         // On renvoie un message de validation
                         $s = ($nbr > 1) ? 's' : '';
                         $msg = __('Point%s successfully validated', $s, $s);
-                        $html = array(
+                        $html = [
                             'success' => true,
                             'message' => $msg,
                             'close_pad' => true,
                             'customer_card_id' => $card->getCustomerCardId(),
                             'number_of_points' => $card->getNumberOfPoints()
-                        );
+                        ];
 
                     }
                     // Sinon, on cloture la carte
@@ -174,12 +174,12 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             ->setValidateBy($password->getId())
                             ->save()
                         ;
-                        $html = array(
+                        $html = [
                             'success' => true,
                             'message' => __('You just finished your card'),
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
-                        );
+                        ];
                     }
                 }
             }
@@ -198,7 +198,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
         try {
 
-            $html = array();
+            $html = [];
             if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
                 $application_id = $this->getApplication()->getAppId();
@@ -254,13 +254,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                         // On renvoie un message de validation
                         $s = $nbr>1?'s':'';
                         $msg = __('Point%s successfully validated', $s, $s);
-                        $html = array(
+                        $html = [
                             'success' => true,
                             'message' => $msg,
                             'close_pad' => true,
                             'customer_card_id' => $card->getCustomerCardId(),
                             'number_of_points' => $card->getNumberOfPoints()
-                        );
+                        ];
 
                     }
                     // Sinon, on cloture la carte
@@ -270,12 +270,12 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             ->setValidateBy($password->getId())
                             ->save()
                         ;
-                        $html = array(
+                        $html = [
                             'success' => true,
                             'message' => __('You just finished your card'),
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
-                        );
+                        ];
                     }
 
                 }
@@ -295,7 +295,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
         $pictures = $this->_getPictos($current_card);
 
-        $points = array();
+        $points = [];
 
         for($i = 0; $i < $current_card->getMaxNumberOfPoints(); $i++) {
 
@@ -305,11 +305,11 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 $is_validated = true;
             }
 
-            $points[] = array(
+            $points[] = [
                 "is_validated"          => $is_validated,
                 "image_url"             => $pictures["inactive"],
                 "validated_image_url"   => $pictures["active"],
-            );
+            ];
         }
 
         return $points;
@@ -318,7 +318,8 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
     protected function _getPictos($current_card) {
 
         $regular_image_url = $this->_getImage('pictos/point.png');
-        $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true), $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
+        $validated_image_url = $this->_getColorizedImage($this->_getImage('pictos/point_validated.png', true),
+            $this->getApplication()->getBlock('connect_button')->getBackgroundColor());
 
 
         if($current_card->getImageActive()) {
@@ -338,10 +339,10 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
         $image_inactive = Siberian_Image::open($path);
         $image_inactive_b64 = $image_inactive->inline($image_inactive->guessType());
 
-        return array(
+        return [
             "active" => $image_active_b64,
             "inactive" => $image_inactive_b64,
-        );
+        ];
     }
 
 }
