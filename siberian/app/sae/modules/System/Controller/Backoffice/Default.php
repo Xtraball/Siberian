@@ -90,7 +90,8 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         }
 
         # Required fields
-        if (empty($data['main_domain']['value'])) {
+        if (array_key_exists('main_domain', $data) &&
+            empty($data['main_domain']['value'])) {
             throw new \Siberian\Exception('#797-00: ' . __('Main domain is required!'));
         }
 
