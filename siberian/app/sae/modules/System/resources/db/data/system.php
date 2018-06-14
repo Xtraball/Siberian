@@ -1,4 +1,5 @@
 <?php
+// force update
 $module = new Installer_Model_Installer_Module();
 $module->prepare("System", false);
 
@@ -255,6 +256,16 @@ $configs = [
         'code' => 'main_domain',
         'label' => 'Main domain',
         'value' => '',
+    ],
+    [
+        'code' => 'java_options',
+        'label' => 'JAVA Extended options',
+        'value' => '-Xmx384m -Xms384m -XX:MaxPermSize=384m',
+    ],
+    [
+        'code' => 'gradle_options',
+        'label' => 'GRADLE extended options',
+        'value' => '-Dorg.gradle.daemon=false',
     ],
 ];
 

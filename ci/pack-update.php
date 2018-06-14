@@ -289,7 +289,7 @@ class Packager
             'release_note' => [
                 'url' => $releaseNote,
                 'show' => true,
-                'is_major' => true,
+                'is_major' => false,
             ],
             'dependencies' => [
                 'system' => [
