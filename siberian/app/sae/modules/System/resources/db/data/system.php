@@ -1,4 +1,5 @@
 <?php
+// force update
 $module = new Installer_Model_Installer_Module();
 $module->prepare("System", false);
 
