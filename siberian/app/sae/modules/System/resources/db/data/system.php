@@ -258,6 +258,11 @@ $configs = [
         'value' => '',
     ],
     [
+        'code' => 'java_home',
+        'label' => 'JAVA_HOME path',
+        'value' => '',
+    ],
+    [
         'code' => 'java_options',
         'label' => 'JAVA Extended options',
         'value' => '-Xmx384m -Xms384m -XX:MaxPermSize=384m',

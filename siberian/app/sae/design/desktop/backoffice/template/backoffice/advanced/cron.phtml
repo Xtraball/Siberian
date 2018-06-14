@@ -72,12 +72,23 @@
                        class="form-control"
                        ng-model="configs.java_options.value" />
             </div>
+
             <div class="col-md-6">
                 <label for="{{ configs.gradle_options.code }}">{{ configs.gradle_options.label }}</label>
                 <input type="text"
                        id="configs.gradle_options.code"
                        class="form-control"
                        ng-model="configs.gradle_options.value" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="{{ configs.java_home.code }}">{{ configs.java_home.label }}</label>
+                <input type="text"
+                       id="configs.java_home.code"
+                       class="form-control"
+                       ng-model="configs.java_home.value" />
             </div>
         </div>
 

@@ -521,6 +521,20 @@ storePassword={$storepass}";
      */
     protected function _generateApk($cron = false)
     {
+        // Replace JAVA_HOME if set in config.php priority is given to "system_config"
+        $configJavaHome = __get('java_home');
+        $javaHomeOpts = '';
+        if ($configJavaHome !== false) {
+            $javaHomeOpts = 'export JAVA_HOME="' . $configJavaHome . '"' . "\n";
+            $javaHomeOptsKeytool = "export JAVA_HOME='$configJavaHome';";
+        }
+
+        // Fallback with value from config.php if existing
+        $configJavaHome = __getConfig('java_home');
+        if ($configJavaHome !== false) {
+            $javaHomeOpts = 'export JAVA_HOME="' . $configJavaHome . '"' . "\n";
+            $javaHomeOptsKeytool = "export JAVA_HOME='$configJavaHome';";
+        }
 
         /** Fetching vars. */
         $output = [];
@@ -584,7 +598,7 @@ storePassword={$storepass}";
             // keytool alias companyName keystorePath storePassword keyPassword
 
             chmod($keytool, 0777);
-            exec("{$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
+            exec("{$javaHomeOptsKeytool} {$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
 
             // Copy PKS with a uniqid/date somewhere else!
             copy($keystore_path, str_replace('.pks', date('d-m-Y') . '-' . uniqid() . '.pks', $keystore_path));
@@ -614,7 +628,7 @@ storePassword={$storepass}";
 
         /** Adding a call to the sdk-updater.php at the gradlew top */
         $search = "DEFAULT_JVM_OPTS=\"\"";
-        $replace = "
+        $replace = $javaHomeOpts . "      
 export _JAVA_OPTIONS=\"$javaOptions\"
 export ANDROID_HOME=\"$android_sdk_path\"
 export GRADLE_USER_HOME=\"$gradle_path\"
