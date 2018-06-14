@@ -164,7 +164,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
                 $url = $feature->getPath(null, [
                     'value_id' => $feature->getId()
-                ], false);
+                ], 'mobile');
 
                 $pictureFile = null;
                 if ($feature->getIconId()) {

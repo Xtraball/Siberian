@@ -365,14 +365,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     protected function _getImage($name, $base = false)
     {
-        if (file_exists(Core_Model_Directory::getDesignPath(true) . '/images/' . $name)) {
-            return Core_Model_Directory::getDesignPath($base) . '/images/' . $name;
+        if (file_exists(Core_Model_Directory::getDesignPath(true, '') . '/images/' . $name)) {
+            return Core_Model_Directory::getDesignPath($base, '') . '/images/' . $name;
         } else if (file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
             return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
         }
 
         return "";
-
     }
 
     public static function sGetColorizedImage($image_id, $color)
