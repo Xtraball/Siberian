@@ -62,6 +62,7 @@ App.config(function($routeProvider) {
         ) {
             $scope.showApkService = true;
             $scope.showApkServiceMessage = response.result.message;
+            $scope.licenseType = response.result.type;
         }
     });
 

@@ -519,6 +519,12 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 throw new \Siberian\Exception('#908-01: ' . __('This application does not exist'));
             }
 
+            $mainDomain = __get('main_domain');
+            if (empty($mainDomain)) {
+                throw new \Siberian\Exception('#908-02: ' .
+                    __('Main domain is required, you can set it in <b>Settings > General</b>'));
+            }
+
             $application->setDesignCode('ionic');
 
             $application_id = $params['app_id'];
@@ -557,7 +563,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 $queue->setApkStatus('pending');
             }
 
-            $queue->setHost($this->getRequest()->getHttpHost());
+            $queue->setHost($mainDomain);
             $queue->setUserId($this->getSession()->getBackofficeUserId());
             $queue->setUserType('backoffice');
             $queue->save();

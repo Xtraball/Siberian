@@ -51,10 +51,13 @@ class Application_Model_SourceQueue extends Core_Model_Default
     }
 
     /**
+     * @param $cron
      * @return mixed
      * @throws Exception
+     * @throws Zend_Json_Exception
+     * @throws Zend_Layout_Exception
      */
-    public function generate()
+    public function generate($cron)
     {
         $application = new Application_Model_Application();
         $application = $application->find($this->getAppId());
@@ -74,11 +77,13 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
         // Android isApkService
         if ($this->getIsApkService()) {
+            define('IS_APK_SERVICE', true);
+            $cron->log('Will send to APK service.');
             $this->setApkStatus('building');
         }
 
         // FAST
-        $result = $device->getResources($this->getIsApkService());
+        $result = $device->getResources();
 
         $recipients = [];
         switch ($this->getUserType()) {

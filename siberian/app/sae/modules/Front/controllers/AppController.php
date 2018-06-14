@@ -283,7 +283,7 @@ class Front_AppController extends Front_Controller_App_Default
                         'use_external_app' => (boolean) $useExternalApp,
                         'path' => $optionValue->getPath(null, [
                             'value_id' => $optionValue->getId()
-                        ], false),
+                        ], 'mobile'),
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
                         'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
                         'is_locked' => (boolean) $optionValue->isLocked(),

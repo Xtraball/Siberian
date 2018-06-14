@@ -245,7 +245,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         // Remove feature from config.xml
         $this->__replace(
             [
-                '#(<feature name="AdMob">.*)<feature name="AppVersion">#sm' => ''
+                '#(<feature name="AdMob">.*)<feature name="AppVersion">#sm' => '<feature name="AppVersion">'
             ],
             $this->_dest_source_amc . '/config.xml',
             true);

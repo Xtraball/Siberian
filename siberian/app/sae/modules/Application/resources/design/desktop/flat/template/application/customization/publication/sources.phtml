@@ -27,6 +27,8 @@ if (array_key_exists('result', $licenseCheck) &&
         $isHosted = true;
     }
 }
+
+$mainDomain = __get('main_domain');
 ?>
 <div class="application container-fluid">
     <div id="sb-tour-section-general-source"
@@ -250,6 +252,13 @@ if (array_key_exists('result', $licenseCheck) &&
                 <p><?php echo __("Your application is ready to be published."); ?></p>
                 <p><?php echo __("Proceed to checkout before downloading the source code."); ?></p>
             <?php else : ?>
+                <?php if (empty($mainDomain)): ?>
+                <div>
+                    <div class="alert alert-info">
+                        <?php echo __('Source code generation is not configured, ask your administrator for more informations.') ?>
+                    </div>
+                </div>
+                <?php else: ?>
                 <div>
                     <h4 class="subtitle"><?php echo __("Generate the source code") ?></h4>
                     <div class="form-horizontal">
@@ -428,6 +437,7 @@ if (array_key_exists('result', $licenseCheck) &&
                     </div>
 
                 </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
     </div>
