@@ -392,7 +392,7 @@ class Siberian_Cron
                 try {
                     $this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
                     $source->changeStatus("building");
-                    $source->generate();
+                    $source->generate($this);
                 } catch (Exception $e) {
                     $this->log($e->getMessage());
 

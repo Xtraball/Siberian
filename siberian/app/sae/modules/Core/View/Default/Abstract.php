@@ -145,8 +145,6 @@ abstract class Core_View_Default_Abstract extends Siberian_View
     /** @migration
      * @todo use good path .... */
     public function getJs($name) {
-        //Zend_Debug::dump($this->getRequest()->getMediaUrl());
-        //Zend_Debug::dump('/app/sae/design/' . APPLICATION_TYPE . '/' . DESIGN_CODE . '/js/' . $name);
         die("@migration, Core_View_Default_Abstract");
 
         return $this->getRequest()->getMediaUrl().'/app/sae/design/' . APPLICATION_TYPE . '/' . DESIGN_CODE . '/js/' . $name;
@@ -160,22 +158,17 @@ abstract class Core_View_Default_Abstract extends Siberian_View
     }
 
     public function getImage($name, $base = false) {
-
         $path = Siberian_Cache_Design::getBasePath("/images/".$name);
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             return Siberian_Cache_Design::getPath("/images/".$name);
-
-        } else if(file_exists($this->getBaseImagePath() . "/" . $name)) {
+        } else if (file_exists($this->getBaseImagePath() . "/" . $name)) {
             $path = $base ? $this->getBaseImagePath() : $this->getImagePath();
             return $path."/".$name;
-
         } else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
             return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
-
         }
 
         return "";
-
     }
 
     public function getColorizedImage($image_id, $color) {

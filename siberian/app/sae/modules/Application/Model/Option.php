@@ -309,20 +309,26 @@ class Application_Model_Option extends Core_Model_Default
 
             if(!is_null($env)) {
 
-                if(!$force_uri) $uri .= $action;
+                if (!$force_uri) {
+                    $uri .= $action;
+                }
 
-                if($this->getData("{$env}_uri")) {
+                if ($this->getData("{$env}_uri")) {
                     $uri = $this->getData("{$env}_uri");
                 }
 
-                if($env == "mobile") {
+                if ($env == "mobile") {
                     $request->useApplicationKey(true);
                 }
             }
 
-            if($env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) $path = $this->getObject()->getLink()->getUrl();
-            else $path = parent::getPath($uri, $params);
-
+            if ($env != "desktop" &&
+                !$this->getIsAjax() &&
+                $this->getObject()->getLink()) {
+                $path = $this->getObject()->getLink()->getUrl();
+            } else {
+                $path = parent::getPath($uri, $params);
+            }
         }
         else {
             $path = '/front/index/noroute';

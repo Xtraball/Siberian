@@ -92,15 +92,15 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
             var whom = 'app';
             if (ionic.Platform.isIOS()) {
                 $log.debug('AdMob init iOS');
-                whom = service.getWeight(service.options.ios_weight);
-                service.options = service.options[whom].ios;
+                whom = service.getWeight(options.ios_weight);
+                service.options = options[whom].ios;
                 service.initWithOptions();
             }
 
             if (ionic.Platform.isAndroid()) {
                 $log.debug('AdMob init Android');
-                whom = service.getWeight(service.options.android_weight);
-                service.options = service.options[whom].android;
+                whom = service.getWeight(options.android_weight);
+                service.options = options[whom].android;
                 service.initWithOptions();
             }
         }
@@ -119,6 +119,7 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
      */
     service.loadBanner = function () {
         if (service.options.banner) {
+            $log.info('init admob banner');
             $window.AdMob.removeBanner();
             $window.AdMob.createBanner({
                 adId: service.options.banner_id,
@@ -126,6 +127,8 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
                 position: $window.AdMob.AD_POSITION.BOTTOM_CENTER,
                 autoShow: true
             });
+        } else {
+            $log.info('!ko init admob banner');
         }
     };
 
@@ -134,6 +137,7 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
      */
     service.prepareInterstitial = function () {
         if (service.options.interstitial) {
+            $log.info('init interstitial banner');
             $window.AdMob.prepareInterstitial({
                 adId: service.options.interstitial_id,
                 autoShow: false
@@ -168,6 +172,8 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
                     service.viewEnterCount = 0;
                 }
             });
+        } else {
+            $log.info('!ko init interstitial banner');
         }
     };
 

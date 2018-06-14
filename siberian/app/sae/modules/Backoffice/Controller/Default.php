@@ -21,6 +21,7 @@ class Backoffice_Controller_Default extends Core_Controller_Default
             'backoffice_account_login_forgottenpassword',
             'application_backoffice_iosautopublish_updatejobstatus', //used by jenkins/fastlane to update job status
             'application_backoffice_iosautopublish_uploadapk', //used by jenkins/fastlane to update job status
+            'application_backoffice_iosautopublish_apkservicestatus', //used by jenkins/fastlane to update job status
             'application_backoffice_iosautopublish_uploadcertificate', //used by jenkins/fastlane to update job status
             'installer_module_getfeature',
             'backoffice_advanced_tools_testbasicauth',

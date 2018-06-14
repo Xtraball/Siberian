@@ -150,9 +150,14 @@ class Application_Customization_Publication_InfosController extends Application_
                     throw new Exception("You have to purchase the application before downloading the mobile source code.");
                 }
 
-
-                if($design_code = $this->getRequest()->getParam("design_code")) {
+                if ($design_code = $this->getRequest()->getParam("design_code")) {
                     $application->setDesignCode($design_code);
+                }
+
+                $mainDomain = __get('main_domain');
+                if (empty($mainDomain)) {
+                    throw new \Siberian\Exception('#908-02: ' .
+                        __('Main domain is required, you can set it in <b>Settings > General</b>'));
                 }
 
                 $type = $this->getRequest()->getParam("type");
@@ -188,7 +193,7 @@ class Application_Customization_Publication_InfosController extends Application_
                     $queue->setApkStatus('pending');
                 }
 
-                $queue->setHost($this->getRequest()->getHttpHost());
+                $queue->setHost($mainDomain);
                 $queue->setUserId($this->getSession()->getAdminId());
                 $queue->setUserType("admin");
                 $queue->save();

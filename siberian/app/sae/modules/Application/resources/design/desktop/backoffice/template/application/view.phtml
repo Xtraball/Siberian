@@ -739,7 +739,7 @@
 
     <?php if (Siberian_Version::is('MAE') || Siberian_Version::is('PE')): ?>
         <table class="table queue"
-               ng-show="mobile_source.design_code == 'ionic'">
+               ng-show="licenseType !== 'mae-hosted' && licenseType !== 'pe-hosted'">
             <colgroup>
                 <col width="20%">
                 <col width="50%">

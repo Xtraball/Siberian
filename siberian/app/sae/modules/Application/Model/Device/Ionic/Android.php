@@ -146,13 +146,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     }
 
     /**
-     * @param bool $isApkService
      * @return array|mixed|string
      * @throws Exception
      * @throws Zend_Controller_Request_Exception
      * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
-    public function prepareResources($isApkService = false)
+    public function prepareResources()
     {
         $this->app = $this->getApplication();
 
@@ -180,7 +180,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         if ($this->getDevice()->getDownloadType() !== 'apk') {
 
-            if ($isApkService) {
+            if (defined('IS_APK_SERVICE')) {
                 $queue = Application_Model_SourceQueue::getApkServiceStatus($this->app->getId());
                 $keystore = $this->_prepareApk();
 
@@ -194,6 +194,8 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                     $queue['host'],
                     $zipPath);
 
+                $buildType = __get('apk_build_type') === 'debug' ? 'cdvBuildDebug' : 'cdvBuildRelease';
+
                 Siberian_Request::get(
                     "https://jenkins-prod02.xtraball.com/job/apk-generator/buildWithParameters",
                     [
@@ -204,6 +206,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         'appId' => base64_encode($this->app->getId()),
                         'appName' => $this->_application_id,
                         'uuid' => uniqid(),
+                        'buildType' => $buildType,
                         'keystore' => base64_encode(json_encode($keystore))
                     ],
                     null,
@@ -218,6 +221,17 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         Siberian_Request::$statusCode));
                 }
             } else {
+                $this->_prepareApk();
+
+                // Check
+                $keystoreFilename = $this->app->getId() . '.pks';
+                $keystorePath = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
+
+                if (!is_file($keystorePath)) {
+                    $releaseSigning = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
+                    unlink($releaseSigning);
+                }
+
                 $zip = $this->zipFolder();
             }
 
@@ -595,6 +609,7 @@ export _JAVA_OPTIONS=\"-Xmx384m -Xms384m -XX:MaxPermSize=384m\"
 export ANDROID_HOME=\"$android_sdk_path\"
 export GRADLE_USER_HOME=\"$gradle_path\"
 export GRADLE_HOME=\"$gradle_path\"
+export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 DEFAULT_JVM_OPTS=\"\"
 ";

@@ -482,7 +482,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         try {
                             AdmobService.init(load.application.admob);
                         } catch (error) {
-                            $log.error('Unable to initialize AdMob.');
+                            $log.error('Unable to initialize AdMob.', error);
                         }
 
                         if (Customer.isLoggedIn()) {

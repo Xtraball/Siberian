@@ -251,6 +251,11 @@ $configs = [
         'label' => 'APK Generator for builds from the Editor (Local or Service)',
         'value' => 'local-service',
     ],
+    [
+        'code' => 'main_domain',
+        'label' => 'Main domain',
+        'value' => '',
+    ],
 ];
 
 $privacyPolicy = '<h1>Privacy Policy of the #APP_NAME application</h1>

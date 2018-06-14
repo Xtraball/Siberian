@@ -19,26 +19,30 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     protected $_layout;
     protected static $_application;
-    protected static $_session = array();
+    protected static $_session = [];
     protected $float_validator;
     protected $int_validator;
 
-    public function validateFloat($val){
+    public function validateFloat($val)
+    {
         return $this->float_validator->isValid($val);
     }
 
-    public function validateInt($val){
+    public function validateInt($val)
+    {
         return $this->int_validator->isValid($val);
     }
 
     /**
      * @return Siberian_Controller_Request_Http
      */
-    public function getRequest() {
+    public function getRequest()
+    {
         return parent::getRequest();
     }
 
-    public function init() {
+    public function init()
+    {
         $this->cache = Zend_Registry::get('cache');
 
         $this->_initDesign();
@@ -63,7 +67,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      *
      */
-    public function preDispatch() {
+    public function preDispatch()
+    {
         # Check for cache triggers and call them
         $this->_triggerCache();
 
@@ -76,63 +81,64 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * We are using an infinite cache policy, with clear triggers.
      *
      */
-    public function _triggerCache() {
+    public function _triggerCache()
+    {
 
         $request = $this->getRequest();
 
-        if(isset($this->cache_triggers) && is_array($this->cache_triggers)) {
+        if (isset($this->cache_triggers) && is_array($this->cache_triggers)) {
 
             $action_name = $this->getRequest()->getActionName();
             $current_language = Core_Model_Language::getCurrentLanguage();
 
-            if(isset($this->cache_triggers[$action_name])) {
+            if (isset($this->cache_triggers[$action_name])) {
 
                 $values = $this->cache_triggers[$action_name];
-                if(isset($values["tags"]) && is_array($values["tags"])) {
+                if (isset($values["tags"]) && is_array($values["tags"])) {
 
                     $params = $this->getRequest()->getParams();
                     $payload_data = Siberian_Json::decode($request->getRawBody());
-                    if(isset($params["value_id"]) && !empty($params["value_id"])) {
+                    if (isset($params["value_id"]) && !empty($params["value_id"])) {
                         $value_id = $params["value_id"];
-                    } else if(isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
+                    } else if (isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
                         $value_id = $params["option_value_id"];
-                    } else if(isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
+                    } else if (isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
                         $value_id = $payload_data["value_id"];
-                    } else if(isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
+                    } else if (isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
                         $value_id = $payload_data["option_value_id"];
                     }
 
                     # App_id
                     $app = $this->getApplication();
                     $app_id = "noapps";
-                    if($app) {
+                    if ($app) {
                         $app_id = $app->getId();
                     }
 
-                    if(empty($app_id) || ($app_id === "noapps")) {
+                    if (empty($app_id) || ($app_id === "noapps")) {
                         # Search in params/payload
-                        if(isset($params["app_id"]) && !empty($params["app_id"])) {
+                        if (isset($params["app_id"]) && !empty($params["app_id"])) {
                             $app_id = $params["app_id"];
-                        } else if(isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
+                        } else if (isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
                             $app_id = $payload_data["app_id"];
                         }
                     }
 
 
-                    $final_tags = array();
-                    foreach($values["tags"] as $tag) {
+                    $final_tags = [];
+                    foreach ($values["tags"] as $tag) {
 
                         $final_tags[] = str_replace(
-                            array(
+                            [
                                 "#APP_ID#",
                                 "#VALUE_ID#",
                                 "#LOCALE#",
-                            ),
-                            array(
+                            ],
+                            [
                                 $app_id,
                                 $value_id,
                                 $current_language,
-                            ),
+                            ],
                             $tag
                         );
                     }
@@ -149,7 +155,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
-    public function _($text) {
+    public function _($text)
+    {
         $args = func_get_args();
         return Core_Model_Translator::translate($text, $args);
     }
@@ -160,31 +167,36 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             return $this->_forward('noroute');
         }
 
-        throw new Exception('Méthode invalide "' . $method . '" appelée',500);
+        throw new Exception('Méthode invalide "' . $method . '" appelée', 500);
     }
 
-    public function isProduction() {
+    public function isProduction()
+    {
         return APPLICATION_ENV == 'production';
     }
 
-    public function isSae() {
+    public function isSae()
+    {
         return Siberian_Version::TYPE == "SAE";
     }
 
-    public function isMae() {
+    public function isMae()
+    {
         return Siberian_Version::TYPE == "MAE";
     }
 
-    public function isPe() {
+    public function isPe()
+    {
         return Siberian_Version::TYPE == "PE";
     }
 
-    public function getSession($type = null) {
-        if(!$type) {
+    public function getSession($type = null)
+    {
+        if (!$type) {
             $type = SESSION_TYPE;
         }
 
-        if(isset(self::$_session[$type])) {
+        if (isset(self::$_session[$type])) {
             return self::$_session[$type];
         } else {
             $session = new Core_Model_Session($type);
@@ -193,18 +205,21 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
-    public static function setSession($session, $type = 'front') {
+    public static function setSession($session, $type = 'front')
+    {
         self::$_session[$type] = $session;
     }
 
     /**
      * @return Application_Model_Application
      */
-    public function getApplication() {
+    public function getApplication()
+    {
         return Application_Model_Application::getInstance();
     }
 
-    public function loadPartials($action = null, $use_base = null) {
+    public function loadPartials($action = null, $use_base = null)
+    {
         if (is_null($use_base)) {
             $use_base = true;
         }
@@ -216,7 +231,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $this;
     }
 
-    public function render($action = null, $name = null, $noController = false) {
+    public function render($action = null, $name = null, $noController = false)
+    {
 
     }
 
@@ -245,14 +261,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->forward($action);
     }
 
-    public function oldbrowserAction() {
+    public function oldbrowserAction()
+    {
         $this->loadPartials('front_index_oldbrowser');
         return $this;
     }
 
-    public function postDispatch() {
+    public function postDispatch()
+    {
 
-        if(!$this->getLayout()->isLoaded() AND $this->getRequest()->isDispatched()) {
+        if (!$this->getLayout()->isLoaded() AND $this->getRequest()->isDispatched()) {
             $this->_forward('noroute');
         }
 
@@ -260,9 +278,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
-    public function norouteAction() {
+    public function norouteAction()
+    {
 
-        if(!$this->getRequest()->isApplication()) {
+        if (!$this->getRequest()->isApplication()) {
             $this->getResponse()->setHeader('HTTP/1.0', '404 Not Found');
             $this->loadPartials('front_index_noroute');
         } else {
@@ -271,13 +290,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
-    public function forbiddenAction() {
+    public function forbiddenAction()
+    {
 
-        if(!$this->getRequest()->isApplication()) {
+        if (!$this->getRequest()->isApplication()) {
             $this->getResponse()
-                    ->clearHeaders()
-                    ->setHttpResponseCode(403)
-            ;
+                ->clearHeaders()
+                ->setHttpResponseCode(403);
 
             $this->loadPartials('front_index_forbidden');
         } else {
@@ -286,44 +305,51 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
-    public function exceptionAction() {
+    public function exceptionAction()
+    {
 
         $errors = $this->_getParam('error_handler');
 
         $logger = Zend_Registry::get("logger");
-        $logger->sendException("Fatal Error: \n".print_r($errors, true));
+        $logger->sendException("Fatal Error: \n" . print_r($errors, true));
     }
 
     /**
      * @return Siberian_Layout|Siberian_Layout_Email
      */
-    public function getLayout() {
+    public function getLayout()
+    {
         return $this->_layout;
     }
 
-    public function getFullActionName($separator = '/') {
+    public function getFullActionName($separator = '/')
+    {
 
-        return strtolower(join($separator, array(
+        return strtolower(join($separator, [
             $this->getRequest()->getModuleName(),
             $this->getRequest()->getControllerName(),
             $this->getRequest()->getActionName()
-        )));
+        ]));
 
     }
 
-    public function getUrl($url = '', array $params = array(), $locale = null) {
+    public function getUrl($url = '', array $params = [], $locale = null)
+    {
         return Core_Model_Url::create($url, $params, $locale);
     }
 
-    public function getPath($uri = '', array $params = array()) {
+    public function getPath($uri = '', array $params = [])
+    {
         return Core_Model_Url::createPath($uri, $params);
     }
 
-    public function getCurrentUrl($withParams = true, $locale = null) {
+    public function getCurrentUrl($withParams = true, $locale = null)
+    {
         return Core_Model_Url::current($withParams, $locale);
     }
 
-    public function downloadAction() {
+    public function downloadAction()
+    {
 
         $path = $this->getRequest()->getParam('path');
         $path = base64_decode($path);
@@ -337,20 +363,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
-    protected function _getImage($name, $base = false) {
-
-        if(file_exists(Core_Model_Directory::getDesignPath(true) . '/images/' . $name)) {
-            return Core_Model_Directory::getDesignPath($base).'/images/'.$name;
-        }
-        else if(file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
+    protected function _getImage($name, $base = false)
+    {
+        if (file_exists(Core_Model_Directory::getDesignPath(true, '') . '/images/' . $name)) {
+            return Core_Model_Directory::getDesignPath($base, '') . '/images/' . $name;
+        } else if (file_exists(Media_Model_Library_Image::getBaseImagePathTo($name))) {
             return $base ? Media_Model_Library_Image::getBaseImagePathTo($name) : Media_Model_Library_Image::getImagePathTo($name);
         }
 
         return "";
-
     }
 
-    public static function sGetColorizedImage($image_id, $color) {
+    public static function sGetColorizedImage($image_id, $color)
+    {
 
         Siberian_Media::disableTemporary();
 
@@ -362,13 +387,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $url = '';
 
         $image = new Media_Model_Library_Image();
-        if(is_numeric($image_id)) {
+        if (is_numeric($image_id)) {
             $image->find($image_id);
-            if(!$image->getId()) return $url;
-            if(!$image->getCanBeColorized()) $color = null;
+            if (!$image->getId()) return $url;
+            if (!$image->getCanBeColorized()) $color = null;
             $path = $image->getLink();
             $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
-        } else if(!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+        } else if (!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
             $path = Core_Model_Directory::getBasePathTo($image_id);
         } else {
             $path = $image_id;
@@ -379,32 +404,32 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $image->setId($id)
                 ->setPath($path)
                 ->setColor($color)
-                ->colorize()
-            ;
+                ->colorize();
             $url = $image->getUrl();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $url = '';
         }
 
         return $url;
     }
 
-    protected function _getColorizedImage($image_id, $color) {
+    protected function _getColorizedImage($image_id, $color)
+    {
 
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', array($image_id, $color)));
+        $id = md5(implode('+', [$image_id, $color]));
         $url = '';
 
         $image = new Media_Model_Library_Image();
-        if(is_numeric($image_id)) {
+        if (is_numeric($image_id)) {
             $image->find($image_id);
-            if(!$image->getId()) return $url;
-            if(!$image->getCanBeColorized()) $color = null;
+            if (!$image->getId()) return $url;
+            if (!$image->getCanBeColorized()) $color = null;
             $path = $image->getLink();
             $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
-        } else if(!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+        } else if (!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
             $path = Core_Model_Directory::getBasePathTo($image_id);
         } else {
             $path = $image_id;
@@ -415,80 +440,73 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $image->setId($id)
                 ->setPath($path)
                 ->setColor($color)
-                ->colorize()
-            ;
+                ->colorize();
             $url = $image->getUrl();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $url = '';
         }
 
         return $url;
     }
 
-    protected function _redirect($url, array $options = array()) {
+    protected function _redirect($url, array $options = [])
+    {
         $url = Core_Model_Url::create($url, $options);
         parent::_redirect($url, $options);
     }
 
-    protected function _initDesign() {
-
+    protected function _initDesign()
+    {
+        $request = $this->getRequest();
         $detect = new Mobile_Detect();
+        $designCode = !$request->isInstalling() ? 'flat' : 'installer';
 
-        if(!$this->getRequest()->isInstalling()) {
-            $design_code =  System_Model_Config::getValueFor("editor_design");
-        } else {
-            $design_code = "installer";
-        }
+        $designCodes = [
+            'desktop' => $designCode,
+        ];
 
-        $design_codes = array(
-            "desktop" => $design_code,
-            "mobile" => "angular"
-        );
+        $white_label_blocks = [
+            'flat' => [
+                'block' => 'color-blue',
+                'color' => 'background_color',
+                'color_reverse' => 'color'
+            ]
+        ];
 
-        $white_label_blocks = array(
-            "flat" => array(
-                "block" => "color-blue",
-                "color" => "background_color",
-                "color_reverse" => "color"
-            ),
-            "siberian" => array(
-                "block" => "area",
-                "color" => "color"
-            )
-        );
+        Zend_Registry::set('design_codes', $designCodes);
+        Siberian_Cache_Design::$design_codes = $designCodes;
 
-        Zend_Registry::set("design_codes", $design_codes);
-        Siberian_Cache_Design::$design_codes = $design_codes;
-
-        if(!$this->getRequest()->isInstalling()) {
-            if($this->getRequest()->isApplication()) $apptype = 'mobile';
-            else $apptype = 'desktop';
-            if($detect->isMobile() || $apptype == 'mobile') $device_type = 'mobile';
-            else $device_type = 'desktop';
-            if($this->getRequest()->isApplication()) $code = $design_codes["mobile"];
-            else if($this->_isInstanceOfBackoffice()) $code = 'backoffice';
-            else $code = $design_codes["desktop"];
+        if (!$this->getRequest()->isInstalling()) {
+            $apptype = 'desktop';
+            $deviceType = 'desktop';
+            if ($this->getRequest()->isApplication()) {
+                $code = $designCodes['desktop'];
+            } else if ($this->_isInstanceOfBackoffice()) {
+                $code = 'backoffice';
+            } else {
+                $code = $designCodes['desktop'];
+            }
         } else {
             $apptype = 'desktop';
-            $device_type = 'desktop';
+            $deviceType = 'desktop';
             $code = "installer";
         }
 
-        $base_paths = array(APPLICATION_PATH . "/design/email/template/");
+        $base_paths = [APPLICATION_PATH . "/design/email/template/"];
 
-        if(!defined("APPLICATION_TYPE")) define("APPLICATION_TYPE", $apptype);
-        if(!defined("DEVICE_TYPE"))      define("DEVICE_TYPE", $device_type);
-        if(!defined("DEVICE_IS_IPHONE")) define("DEVICE_IS_IPHONE", $detect->isIphone() || $detect->isIpad());
-        if(!defined("IS_APPLICATION"))   define("IS_APPLICATION", $detect->isNative() && $this->getRequest()->isApplication());
-        if(!defined("DESIGN_CODE"))      define("DESIGN_CODE", $code);
+        if (!defined("APPLICATION_TYPE")) define("APPLICATION_TYPE", $apptype);
+        if (!defined("DEVICE_TYPE")) define("DEVICE_TYPE", $deviceType);
+        if (!defined("DEVICE_IS_IPHONE")) define("DEVICE_IS_IPHONE", $detect->isIphone() || $detect->isIpad());
+        if (!defined("IS_APPLICATION")) define("IS_APPLICATION", $detect->isNative() && $this->getRequest()->isApplication());
+        if (!defined("DESIGN_CODE")) define("DESIGN_CODE", $code);
 
         Core_Model_Directory::setDesignPath("/app/sae/design/$apptype/$code");
 
-        $resources = array(
-            'resources' => array(
-                'layout' => array('layoutPath' => APPLICATION_PATH . "/design/$apptype/$code/template/page")
-            )
-        );
+        $resources = [
+            'resources' => [
+                'layout' => ['layoutPath' => APPLICATION_PATH . "/design/$apptype/$code/template/page"]
+            ]
+        ];
 
         $base_paths[] = APPLICATION_PATH . "/design/$apptype/$code/template/";
 
@@ -499,18 +517,18 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $view = $bootstrap->getResource('View');
         $view->doctype('HTML5');
 
-        foreach($base_paths as $base_path) {
+        foreach ($base_paths as $base_path) {
             $view->addBasePath($base_path);
         }
 
         Core_View_Default::setDevice($detect);
         Application_Controller_Mobile_Default::setDevice($detect);
 
-        if(!$this->getRequest()->isInstalling()) {
+        if (!$this->getRequest()->isInstalling()) {
             $blocks = [];
             if ($this->getRequest()->isApplication()) {
                 $blocks = $this->getRequest()->getApplication()->getBlocks();
-            } else if(!$this->_isInstanceOfBackoffice()) {
+            } else if (!$this->_isInstanceOfBackoffice()) {
                 $blocks = $this->getRequest()->getWhiteLabelEditor()->getBlocks();
 
                 if ($block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
@@ -529,7 +547,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
-    protected function _initSession() {
+    protected function _initSession()
+    {
         $request = $this->getRequest();
         if (!Zend_Session::isStarted() && !$request->isInstalling()) {
             Siberian_Session::init();
@@ -554,7 +573,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             }
 
             defined('SESSION_TYPE')
-                || define('SESSION_TYPE', $sessionType);
+            || define('SESSION_TYPE', $sessionType);
 
             $session = new Core_Model_Session($sessionType);
 
@@ -565,12 +584,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
-    protected function _initAcl() {
+    protected function _initAcl()
+    {
 
-        if(!$this->getRequest()->isInstalling()) {
+        if (!$this->getRequest()->isInstalling()) {
 
             $is_editor = !$this->getRequest()->isApplication() && !$this->_isInstanceOfBackoffice();
-            if($is_editor AND $this->getSession()->isLoggedIn()) {
+            if ($is_editor AND $this->getSession()->isLoggedIn()) {
 
                 $acl = new Acl_Model_Acl();
                 $acl->prepare($this->getSession()->getAdmin());
@@ -583,18 +603,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
-    protected function _initLanguage() {
+    protected function _initLanguage()
+    {
 
         $available_languages = Core_Model_Language::getLanguageCodes();
         $current_language = in_array($this->getRequest()->getLanguageCode(), $available_languages) ? $this->getRequest()->getLanguageCode() : "";
         $language_session = Core_Model_Language::getSession();
         $language = '';
 
-        if(!$this->getRequest()->isApplication()) {
+        if (!$this->getRequest()->isApplication()) {
 
-            if($language_session->current_language) {
+            if ($language_session->current_language) {
                 $language = $language_session->current_language;
-            } else if(!$this->getRequest()->isInstalling()) {
+            } else if (!$this->getRequest()->isInstalling()) {
                 $current_language = System_Model_Config::getValueFor("system_default_language");
             }
 
@@ -602,19 +623,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $language = $language_session->current_language;
         }
 
-        if(!empty($current_language)) {
+        if (!empty($current_language)) {
             Core_Model_Language::setCurrentLanguage($current_language);
-        } else if(!empty($language)) {
-        } else if($accepted_languages = Zend_Locale::getBrowser()) {
+        } else if (!empty($language)) {
+        } else if ($accepted_languages = Zend_Locale::getBrowser()) {
             $accepted_languages = array_keys($accepted_languages);
-            foreach($accepted_languages as $lang) {
-                if(in_array($lang, $available_languages)) {
+            foreach ($accepted_languages as $lang) {
+                if (in_array($lang, $available_languages)) {
                     $current_language = $lang;
                     break;
                 }
             }
 
-            if(!$current_language) {
+            if (!$current_language) {
                 $current_language = Core_Model_Language::getDefaultLanguage();
             }
 
@@ -629,25 +650,26 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      *
      */
-    protected function _initLocale() {
+    protected function _initLocale()
+    {
 
         $locale = new Zend_Locale();
         $locale_code = Core_Model_Language::DEFAULT_LOCALE;
 
         $is_installing = $this->getRequest()->isInstalling();
 
-        if($this->getRequest()->isApplication() && $this->getApplication()->getLocale()) {
+        if ($this->getRequest()->isApplication() && $this->getApplication()->getLocale()) {
             $locale_code = $this->getApplication()->getLocale();
-        } else if(!$is_installing) {
+        } else if (!$is_installing) {
 
             $currency_code = System_Model_Config::getValueFor("system_currency");
-            if($currency_code) {
+            if ($currency_code) {
                 $currency = new Zend_Currency(null, $currency_code);
                 Core_Model_Language::setCurrentCurrency($currency);
             }
 
             $territory = System_Model_Config::getValueFor("system_territory");
-            if($territory) {
+            if ($territory) {
                 $locale_code = $locale->getLocaleToTerritory($territory);
             } else {
                 $locale_code = new Zend_Locale(Core_Model_Language::getCurrentLocale());
@@ -655,9 +677,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         }
 
-        if(!$is_installing) {
+        if (!$is_installing) {
             $timezone = System_Model_Config::getValueFor("system_timezone");
-            if($timezone) {
+            if ($timezone) {
                 date_default_timezone_set($timezone);
             }
         }
@@ -671,7 +693,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * @return $this
      */
-    protected function _initTranslator() {
+    protected function _initTranslator()
+    {
         Core_Model_Translator::prepare(strtolower($this->getRequest()->getModuleName()));
         return $this;
     }
@@ -679,17 +702,18 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * @return null|string
      */
-    protected function _needToBeRedirected() {
+    protected function _needToBeRedirected()
+    {
 
         $url = null;
 
-        if($this->getRequest()->isInstalling()) {
-            if(!$this->getRequest()->isXmlHttpRequest() AND !in_array($this->getFullActionName('_'), array('front_index_index', 'front_error_error', 'front_error_exception'))) {
+        if ($this->getRequest()->isInstalling()) {
+            if (!$this->getRequest()->isXmlHttpRequest() AND !in_array($this->getFullActionName('_'), ['front_index_index', 'front_error_error', 'front_error_exception'])) {
                 $url = '/';
             }
         }
 
-        if($this->getRequest()->getLanguageCode()) {
+        if ($this->getRequest()->getLanguageCode()) {
             $url = is_null($url) ? $this->getRequest()->getPathInfo() : $url;
         }
 
@@ -701,7 +725,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      *
      * @param $html
      */
-    protected function _sendHtml($html) {
+    protected function _sendHtml($html)
+    {
         $this->_sendJson($html);
     }
 
@@ -734,7 +759,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param $filename
      * @param string $content_type
      */
-    protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel') {
+    protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
+    {
 
 
         $response = $this->getResponse();
@@ -746,12 +772,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $response->setHeader('Pragma', 'public', true);
         $response->setHeader('Last-Modified', date('r'));
 
-        if(file_exists($file)) {
+        if (file_exists($file)) {
 
             $sibTmpPath = Core_Model_Directory::getBasePathTo("/var/tmp");
             $sibAppsPath = Core_Model_Directory::getBasePathTo("/var/apps");
             //check if we download a file from /var/tmp
-            if(stripos($file, $sibTmpPath) !== 0 && stripos($file, $sibAppsPath) !== 0 ) {
+            if (stripos($file, $sibTmpPath) !== 0 && stripos($file, $sibAppsPath) !== 0) {
                 throw new Exception("Forbidden path $file");
             }
 
@@ -760,9 +786,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             ob_end_flush();
 
-            readfile($file); /** Avoid storing the whole file in memory  */
-        }
-        else {
+            readfile($file);
+            /** Avoid storing the whole file in memory  */
+        } else {
             $response->setHeader('Content-Length', strlen($file));
             $response->setBody($file);
             $response->sendResponse();
@@ -771,12 +797,14 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         exit();
     }
 
-    protected function _setBaseLayout($layout) {
+    protected function _setBaseLayout($layout)
+    {
         $this->_helper->layout()->setLayout($layout);
         return $this;
     }
 
-    protected function _isInstanceOfBackoffice() {
+    protected function _isInstanceOfBackoffice()
+    {
         return is_subclass_of($this, 'Backoffice_Controller_Default');
     }
 
@@ -785,15 +813,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @return string
      * @throws Exception
      */
-    public function exportAction() {
-        if($this->getCurrentOptionValue()) {
+    public function exportAction()
+    {
+        if ($this->getCurrentOptionValue()) {
             $option = $this->getCurrentOptionValue();
-            if(Siberian_Exporter::isRegistered($option->getCode())) {
+            if (Siberian_Exporter::isRegistered($option->getCode())) {
                 $class = Siberian_Exporter::getClass($option->getCode());
                 $exporter = new $class();
                 $result = $exporter->exportAction($option);
 
-                $this->_download($result, $option->getCode()."-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+                $this->_download($result, $option->getCode() . "-" . date("Y-m-d_h-i-s") . ".yml", "text/x-yaml");
             }
         }
     }
@@ -801,24 +830,29 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * Nothing to do
      */
-    public function importAction() {}
+    public function importAction()
+    {
+    }
 
 
     /**
      * Nothing to do
      */
-    public function clearcacheAction() {}
+    public function clearcacheAction()
+    {
+    }
 
-    protected function clean_url($url) {
+    protected function clean_url($url)
+    {
         $original_path = parse_url($url, PHP_URL_PATH);
         $path = explode("/", $original_path);
         $new_path = "";
-        foreach($path as $segpath) {
-            if($segpath == "" || $segpath == ".") continue;
-            if($segpath == "..") {
+        foreach ($path as $segpath) {
+            if ($segpath == "" || $segpath == ".") continue;
+            if ($segpath == "..") {
                 $new_path = substr($new_path, 0, strrpos($new_path, "/"));
             } else {
-                $new_path = $new_path."/".$segpath;
+                $new_path = $new_path . "/" . $segpath;
             }
         }
 

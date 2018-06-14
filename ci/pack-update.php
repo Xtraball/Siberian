@@ -383,7 +383,7 @@ class Siberian_Version
     {
         chdir($path);
 
-        $zipCommand = sprintf("zip -r -9 %s ../%s.update.%s.zip ./",
+        $zipCommand = sprintf("zip -r -9 %s ../siberian_%s.update.%s.zip ./",
             $this->zipExcludeArgs,
             strtolower($type),
             $this->release);
