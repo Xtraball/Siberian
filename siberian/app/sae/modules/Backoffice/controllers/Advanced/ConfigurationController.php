@@ -22,6 +22,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'redis_prefix',
         'redis_auth',
         'apk_build_type',
+        'java_options',
+        'gradle_options',
     ];
 
     /**

@@ -602,14 +602,24 @@ storePassword={$storepass}";
         // Gradle configuration!
         $gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
 
+        $javaOptions = __get('java_options');
+        if (empty($javaOptions)) {
+            $javaOptions = '-Xmx384m -Xms384m -XX:MaxPermSize=384m';
+        }
+
+        $gradleOptions = __get('gradle_options');
+        if (empty($gradleOptions)) {
+            $gradleOptions = '-Dorg.gradle.daemon=false';
+        }
+
         /** Adding a call to the sdk-updater.php at the gradlew top */
         $search = "DEFAULT_JVM_OPTS=\"\"";
         $replace = "
-export _JAVA_OPTIONS=\"-Xmx384m -Xms384m -XX:MaxPermSize=384m\"
+export _JAVA_OPTIONS=\"$javaOptions\"
 export ANDROID_HOME=\"$android_sdk_path\"
 export GRADLE_USER_HOME=\"$gradle_path\"
 export GRADLE_HOME=\"$gradle_path\"
-export GRADLE_OPTS=-Dorg.gradle.daemon=false
+export GRADLE_OPTS=\"$gradleOptions\"
 
 DEFAULT_JVM_OPTS=\"\"
 ";

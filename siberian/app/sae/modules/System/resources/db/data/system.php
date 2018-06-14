@@ -257,6 +257,16 @@ $configs = [
         'label' => 'Main domain',
         'value' => '',
     ],
+    [
+        'code' => 'java_options',
+        'label' => 'JAVA Extended options',
+        'value' => '-Xmx384m -Xms384m -XX:MaxPermSize=384m',
+    ],
+    [
+        'code' => 'gradle_options',
+        'label' => 'GRADLE extended options',
+        'value' => '-Dorg.gradle.daemon=false',
+    ],
 ];
 
 $privacyPolicy = '<h1>Privacy Policy of the #APP_NAME application</h1>
