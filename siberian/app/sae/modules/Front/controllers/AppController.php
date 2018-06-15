@@ -549,7 +549,8 @@ class Front_AppController extends Front_Controller_App_Default
         }
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
-            'isLoggedIn' => $isLoggedIn
+            'isLoggedIn' => $isLoggedIn,
+            'is_logged_in' => $isLoggedIn
         ]);
 
         return $loadBlock;
