@@ -120,7 +120,8 @@ class Push_Model_Android_Message
         }
 
         // Handler GCM (deprecated)
-        if (isset($this->service_gcm)) {
+        if (isset($this->service_gcm) &&
+            !empty($registrationTokensGcm)) {
             try {
                 $this->_pushToProvider($this->service_gcm,
                     $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
@@ -160,7 +161,7 @@ class Push_Model_Android_Message
                 try {
                     # Fetch the device
                     $registrationId = $result->getRegistrationId();
-                    if (isset($deviceByTokenGcm[$registrationId])) {
+                    if (isset($deviceByToken[$registrationId])) {
                         $device = $deviceByToken[$registrationId];
                     } else {
                         continue;
@@ -177,11 +178,11 @@ class Push_Model_Android_Message
                     } else if (!empty($errorCode)) {
                         // Handle error!
                         $errorCount = $device->getErrorCount();
-                        if ($errorCount >= 10000) {
+                        if ($errorCount >= 100) {
                             # Remove device from list
-                            //$device->delete();
+                            $device->delete();
 
-                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 2 failed push.",
+                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 100 failed push.",
                                 $device->getId(), $registrationId);
                             $this->logger->info($msg, "push_android", false);
                         } else {
@@ -204,7 +205,7 @@ class Push_Model_Android_Message
             $error = sprintf("#810-03: PushGCM InvalidArgumentException with error: %s.", $e->getMessage());
         } catch (\Siberian\CloudMessaging\InvalidRequestException $e) { # server returned HTTP code other than 200 or 503
             $error = sprintf("#810-04: PushGCM InvalidRequestException with error: %s.", $e->getMessage());
-        } catch (Exception $e) { # message could not be sent
+        } catch (\Exception $e) { # message could not be sent
             $error = sprintf("#810-05: PushGCM Exception with error: %s.", $e->getMessage());
         }
 
