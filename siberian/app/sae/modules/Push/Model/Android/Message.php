@@ -229,10 +229,19 @@ class Push_Model_Android_Message
             $option_value = new Application_Model_Option_Value();
             $option_value->find($message->getActionValue());
 
-            $action_url = sprintf("/%s/%sindex/value_id/%s",
-                $application->getKey(),
-                $option_value->getMobileUri(),
-                $option_value->getId());
+            $mobileUri = $option_value->getMobileUri();
+            if (preg_match('/^goto\/feature/', $mobileUri)) {
+                $action_url = sprintf("/%s/%s/value_id/%s",
+                    $application->getKey(),
+                    $mobileUri,
+                    $option_value->getId());
+            } else {
+                $action_url = sprintf("/%s/%sindex/value_id/%s",
+                    $application->getKey(),
+                    $option_value->getMobileUri(),
+                    $option_value->getId());
+            }
+
         } else {
             $action_url = $message->getActionValue();
         }
