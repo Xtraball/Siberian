@@ -31,7 +31,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
      */
     factory.populate = function (customer) {
         factory.customer = customer;
-        factory.is_logged_in = customer.is_logged_in;
+        factory.is_logged_in = customer.isLoggedIn;
         factory.id = customer.id;
         factory.can_access_locked_features = customer.can_access_locked_features;
         factory.can_connect_with_facebook = customer.can_connect_with_facebook;
