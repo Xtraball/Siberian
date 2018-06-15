@@ -61,7 +61,7 @@ class Folder_Model_Folder extends Core_Model_Default
         if (!$result = $this->cache->load($cache_id)) {
 
             $paths = [];
-            $paths[] = $option_value->getPath("findall", ['value_id' => $option_value->getId()], false);
+            $paths[] = $option_value->getPath("findall", ['value_id' => $option_value->getId()], 'mobile');
 
             $paths = array_merge($paths, $this->_get_subcategories_feature_paths($this->getRootCategory(), $option_value));
 
@@ -292,7 +292,6 @@ class Folder_Model_Folder extends Core_Model_Default
 
                 $picture_b64 = null;
                 if ($page->getIconId()) {
-                    $base = Core_Model_Directory::getBasePathTo("");
                     $icon = Core_Controller_Default::sGetColorizedImage($page->getIconId(), $color);
                     $picture_b64 = $request->getBaseUrl() . $icon;
 
@@ -301,7 +300,7 @@ class Folder_Model_Folder extends Core_Model_Default
                 /**
                  * END Link special code
                  */
-                $url = $page->getPath(null, ["value_id" => $page->getId()], false);
+                $url = $page->getPath(null, ["value_id" => $page->getId()], 'mobile');
 
                 $payload["folders"][] = [
                     "title" => $page->getTabbarName(),
@@ -380,6 +379,11 @@ class Folder_Model_Folder extends Core_Model_Default
 
     }
 
+    /**
+     * @param $category
+     * @param Application_Model_Option_Value $option_value
+     * @return array
+     */
     private function _get_subcategories_feature_paths($category, $option_value)
     {
         $paths = [];
@@ -390,7 +394,7 @@ class Folder_Model_Folder extends Core_Model_Default
                 "value_id" => $option_value->getId(),
                 "category_id" => $subcategory->getId()
             ];
-            $paths[] = $option_value->getPath("findall", $params, false);
+            $paths[] = $option_value->getPath("findall", $params, 'mobile');
             $paths = array_merge($paths, $this->_get_subcategories_feature_paths($subcategory, $option_value));
         }
 

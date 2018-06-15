@@ -55,7 +55,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
                         $option_value->find($message->getActionValue());
                         $action_value = $option_value->getPath(null, [
                             'value_id' => $option_value->getId()
-                        ], false);
+                        ], 'mobile');
                     } else {
                         $action_value = $message->getActionValue();
                         $url = $action_value;

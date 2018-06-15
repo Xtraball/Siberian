@@ -91,6 +91,7 @@
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />

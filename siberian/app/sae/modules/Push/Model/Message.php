@@ -374,8 +374,6 @@ class Push_Model_Message extends Core_Model_Default
                     $this->logger->info(sprintf("[CRON: %s]: ios is not in the target list, skipping.", date("Y-m-d H:i:s")), "cron_push");
                     $this->_log("Siberian_Service_Push_Apns", "ios is not in the target list, skipping.");
                 }
-
-
             }
 
             if ($type == 'android') {

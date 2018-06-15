@@ -464,11 +464,16 @@ function datetime_to_format($datetime, $format = Zend_Date::DATETIME_SHORT, $loc
         return "-";
     }
 
-    $language = Core_Model_Language::getSession()->current_language;
+    $language = null;
+    if (Core_Model_Language::getSession() &&
+        Core_Model_Language::getSession()->current_language) {
+
+        $language = Core_Model_Language::getSession()->current_language;
+    }
     $locale = (is_null($locale)) ? new Zend_Locale($language) : $locale;
 
-    $date = new Zend_Date();
-    $date->set($datetime, "YYYY-MM-dd HH:mm:ss");
+    $date = (new Zend_Date())
+        ->set($datetime, "YYYY-MM-dd HH:mm:ss");
 
     return $date->toString($format, $locale);
 }

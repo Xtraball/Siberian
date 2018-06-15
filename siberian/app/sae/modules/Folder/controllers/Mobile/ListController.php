@@ -111,7 +111,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         $search_list[] = array(
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
-                            "url" => $feature->getPath(null, array('value_id' => $feature->getId()), false),
+                            "url" => $feature->getPath(null, array('value_id' => $feature->getId()), 'mobile'),
                             "is_link" => (boolean) !$feature->getIsAjax(),
                             "hide_navbar" => $hide_navbar,
                             "use_external_app" => $use_external_app,
@@ -168,7 +168,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "hide_navbar" => $hide_navbar,
                         "use_external_app" => $use_external_app,
                         "is_link" => (boolean) !$page->getIsAjax(),
-                        "url" => $page->getPath(null, array('value_id' => $page->getId()), false),
+                        "url" => $page->getPath(null, array('value_id' => $page->getId()), 'mobile'),
                         "code" => $page->getCode(),
                         "offline_mode" => $page->getObject()->isCacheable(),
                         "is_locked" => !!$page->isLocked()

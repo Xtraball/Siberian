@@ -258,6 +258,11 @@ $configs = [
         'value' => '',
     ],
     [
+        'code' => 'java_home',
+        'label' => 'JAVA_HOME path',
+        'value' => '',
+    ],
+    [
         'code' => 'java_options',
         'label' => 'JAVA Extended options',
         'value' => '-Xmx384m -Xms384m -XX:MaxPermSize=384m',
@@ -438,27 +443,39 @@ $this->query("DELETE FROM `system_config` WHERE code = '';");
 Siberian_Cache::__clearLocks();
 
 # 4.12.0
-$id_android = System_Model_Config::getValueFor("app_default_identifier_android");
-$id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+$id_android = __get("app_default_identifier_android");
+$id_ios = __get("app_default_identifier_ios");
 
-$buildId = function($suffix) {
+$buildId = function ($suffix) {
     $request = Zend_Controller_Front::getInstance()->getRequest();
-    $url = mb_strtolower($request->getServer("HTTP_HOST"));
+    $url = mb_strtolower($request->getServer('HTTP_HOST'));
     $url = array_reverse(explode(".", $url));
     $url[] = $suffix;
 
-    foreach($url as &$part) {
+    foreach ($url as &$part) {
         $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
     }
 
     return implode(".", $url);
 };
 
-if(empty($id_android)) {
-    System_Model_Config::setValueFor("app_default_identifier_android", $buildId("android"));
+if (empty($id_android)) {
+    __set("app_default_identifier_android", $buildId("android"));
 }
 
-if(empty($id_ios)) {
-    System_Model_Config::setValueFor("app_default_identifier_ios", $buildId("ios"));
+if (empty($id_ios)) {
+    __set("app_default_identifier_ios", $buildId("ios"));
 }
+
+// Monkey-patch for bad $mainDomain!
+try {
+    $mainDomain = __get('main_domain');
+    if (preg_match('/^https?:\/\//', $mainDomain)) {
+        $mainDomain = parse_url($mainDomain, PHP_URL_HOST);
+        __set('main_domain', $mainDomain);
+    }
+} catch (\Exception $e) {
+    // Silent!
+}
+
 

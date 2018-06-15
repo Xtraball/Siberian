@@ -9,6 +9,8 @@
 
 global $_config;
 
+$oldUmask = umask(003);
+
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
@@ -92,3 +94,6 @@ if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] ==
 
 // Running!
 $application->bootstrap()->run();
+
+// Revert umask!
+umask($oldUmask);
