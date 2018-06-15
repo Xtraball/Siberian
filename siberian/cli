@@ -183,6 +183,11 @@ try {
         case 'cache:design':
             \Siberian_Cache_Design::rebuild($argv[2]);
             break;
+        case 'cache:clear':
+            \Siberian_Cache::__clearCache();
+            \Siberian_Cache::__clearLog();
+            \Siberian_Cache::__clearTmp();
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -210,6 +215,9 @@ try {
 
 " . color('cache:design <sae|mae|pe>', 'brown') . "
     Rebuilds sae/mae/pe cache design.
+    
+" . color('cache:clear', 'brown') . "
+    Clear var/cache, var/log & var/tmp.
 
 " . color('help', 'brown') . "
     Prints the current help message.    

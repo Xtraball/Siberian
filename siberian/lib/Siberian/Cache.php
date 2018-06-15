@@ -231,13 +231,14 @@ class Siberian_Cache
      * Fetch disk usage
      *
      * @param bool $cache
-     * @param int $limit
      * @return array|mixed
+     * @throws Exception
+     * @throws Zend_Exception
      */
     public static function getDiskUsage($cache = false)
     {
         if (!$cache) {
-            $cachedValue = System_Model_Config::getValueFor('disk_usage_cache');
+            $cachedValue = __get('disk_usage_cache');
             if (!empty($cachedValue)) {
                 return Siberian_Json::decode($cachedValue);
             }
@@ -248,10 +249,14 @@ class Siberian_Cache
                 'tmp_size' => '-',
             ];
         } else {
+            /**
+             * @param $start
+             * @throws \Siberian\Exception
+             */
             function timeout($start)
             {
                 if ((time() - $start) > 300) {
-                    throw new Siberian_Exception('timelimit hit');
+                    throw new \Siberian\Exception('timelimit hit');
                 }
             }
 
@@ -304,7 +309,7 @@ class Siberian_Cache
                 'tmp_size' => $var_tmp_size,
             ];
             $encodedResult = Siberian_Json::encode($result);
-            System_Model_Config::setValueFor('disk_usage_cache', $encodedResult);
+            __set('disk_usage_cache', $encodedResult);
 
             return $result;
         }

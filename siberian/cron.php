@@ -9,6 +9,7 @@
 
 global $_config;
 
+$oldUmask = umask(0);
 chdir(__DIR__);
 
 if (!file_exists('./config.php')) {
@@ -28,7 +29,9 @@ if (
 ) {
     # Continue
 } else {
-    if(isset($_GET['cron_secret']) && isset($_config['cron_secret']) && ($_GET['cron_secret'] == $_config['cron_secret'])) {
+    if (isset($_GET['cron_secret']) &&
+        isset($_config['cron_secret']) &&
+        ($_GET['cron_secret'] == $_config['cron_secret'])) {
         # Continue
     } else {
         die('You must run from CLI.' . PHP_EOL);
@@ -36,12 +39,12 @@ if (
 }
 
 define('CRON', true);
-define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/app'));
+define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 define('APPLICATION_ENV', $_config['environment']);
 
-set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH.'/../lib'),
-)));
+set_include_path(implode(PATH_SEPARATOR, [
+    realpath(APPLICATION_PATH . '/../lib'),
+]));
 
 require_once 'Zend/Application.php';
 
@@ -49,11 +52,11 @@ $application = new Zend_Application(
     $_config['environment'],
     [
         'config' => [
-            APPLICATION_PATH.'/configs/app.ini',
-            APPLICATION_PATH.'/configs/resources.cachemanager.ini',
+            APPLICATION_PATH . '/configs/app.ini',
+            APPLICATION_PATH . '/configs/resources.cachemanager.ini',
         ],
         'bootstrap' => [
-            'path' => APPLICATION_PATH.'/BootstrapCron.php',
+            'path' => APPLICATION_PATH . '/BootstrapCron.php',
             'class' => 'BootstrapCron',
         ],
     ]
@@ -68,14 +71,16 @@ $application->bootstrap();
 
 /** Run cron */
 $start = time();
-$interval = System_Model_Config::getValueFor('cron_interval');
-$interval = (($interval >= 10) && ($interval < 51)) ? $interval : false;
+$interval = __get('cron_interval');
+$interval = (($interval >= 10) && ($interval < 51)) ?
+    $interval : false;
 
 defined('DESIGN_CODE') || define('DESIGN_CODE', design_code());
 
 /** Creating an Alert in the Backoffice rather than killing the process */
 if (version_compare(PHP_VERSION, '5.6.0') < 0) {
-    $description = 'PHP version >= 5.6.0 is required for the cron scheduler to run correctly, your php-cli version is ' . PHP_VERSION . '.';
+    $description = 'PHP version >= 5.6.0 is required for the cron scheduler to run correctly, your php-cli version is ' .
+        PHP_VERSION . '.';
 
     $notification = new Backoffice_Model_Notification();
     $notification
@@ -115,3 +120,5 @@ if ($interval !== false) {
     }
 }
 
+// Revert umask!
+umask($oldUmask);
