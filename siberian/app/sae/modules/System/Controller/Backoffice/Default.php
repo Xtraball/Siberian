@@ -90,9 +90,16 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         }
 
         # Required fields
-        if (array_key_exists('main_domain', $data) &&
-            empty($data['main_domain']['value'])) {
-            throw new \Siberian\Exception('#797-00: ' . __('Main domain is required!'));
+        if (array_key_exists('main_domain', $data)) {
+            // Raise error if empty!
+            if (empty($data['main_domain']['value'])) {
+                throw new \Siberian\Exception('#797-00: ' . __('Main domain is required!'));
+            }
+
+            // If input matches https?:// extract host part before saving!
+            if (preg_match('/^https?:\/\//', $data['main_domain']['value'])) {
+                $data['main_domain']['value'] = parse_url($data['main_domain']['value'], PHP_URL_HOST);
+            }
         }
 
         # Custom SMTP
