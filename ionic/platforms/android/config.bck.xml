@@ -54,6 +54,7 @@
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="android-package" value="com.nordnetab.chcp.main.HotCodePushPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />

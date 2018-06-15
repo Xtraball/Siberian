@@ -21,6 +21,7 @@
     </feature>
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
