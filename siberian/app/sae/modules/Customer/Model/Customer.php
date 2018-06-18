@@ -500,6 +500,7 @@ class Customer_Model_Customer extends Core_Model_Default
             }
 
             $payload['is_logged_in'] = true;
+            $payload['isLoggedIn'] = true;
         }
 
         return $payload;
