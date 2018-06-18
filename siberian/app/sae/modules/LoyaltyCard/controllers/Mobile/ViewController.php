@@ -165,6 +165,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'number_of_points' => $card->getNumberOfPoints()
                         ];
 
+                        \Siberian\Hook::trigger('loyalty_card.validate', [
+                            'customerId' => $customer_id,
+                            'card' => $card,
+                            'points' => $nbr,
+                            'unlockType' => 'password'
+                        ]);
+
                     } // Sinon, on cloture la carte
                     else {
                         $card->setIsUsed(1)
@@ -177,6 +184,12 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
                         ];
+
+                        \Siberian\Hook::trigger('loyalty_card.complete', [
+                            'customerId' => $customer_id,
+                            'card' => $card,
+                            'unlockType' => 'password'
+                        ]);
                     }
                 }
             }
@@ -257,6 +270,13 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'number_of_points' => $card->getNumberOfPoints()
                         ];
 
+                        \Siberian\Hook::trigger('loyalty_card.validate', [
+                            'customerId' => $customer_id,
+                            'card' => $card,
+                            'points' => $nbr,
+                            'unlockType' => 'qrcode'
+                        ]);
+
                     } // Sinon, on cloture la carte
                     else {
                         $card->setIsUsed(1)
@@ -269,6 +289,12 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'promotion_id_to_remove' => $card->getId(),
                             'close_pad' => true
                         ];
+
+                        \Siberian\Hook::trigger('loyalty_card.complete', [
+                            'customerId' => $customer_id,
+                            'card' => $card,
+                            'unlockType' => 'qrcode'
+                        ]);
                     }
 
                 }
