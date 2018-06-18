@@ -8884,11 +8884,7 @@
              * @return   boolean
              */
             isInAppBrowserInstalled: function(cordovaMetadata) {
-                var inAppBrowserNames = ["cordova-plugin-inappbrowser", "org.apache.cordova.inappbrowser", "InAppBrowser.inappbrowser"];
-
-                return inAppBrowserNames.some(function(name) {
-                    return cordovaMetadata.hasOwnProperty(name);
-                });
+                return true;
             },
 
             /*
