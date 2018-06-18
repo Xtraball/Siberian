@@ -13,7 +13,6 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, FacebookConnect,
                                               HomepageLayout) {
-
     angular.extend($scope, {
         customer: Customer.customer,
         card: {},
@@ -33,60 +32,62 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     });
 
     // Alias for the global login modal!
-    $scope.login = function() {
+    $scope.login = function () {
         Customer.loginModal($scope);
     };
 
-    $scope.requestToken = function() {
+    $scope.requestToken = function () {
         Customer.requestToken();
     };
 
-    $scope.loginWithFacebook = function() {
-        if($rootScope.isNotAvailableInOverview()) {
+    $scope.loginWithFacebook = function () {
+        if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
         FacebookConnect.login();
     };
 
-    $scope.hideAvatar = function() {
+    $scope.hideAvatar = function () {
         $scope.show_avatar = false;
     };
 
-    $scope.avatarLoaded = function() {
+    $scope.avatarLoaded = function () {
         $scope.avatar_loaded = true;
         $scope.show_avatar = true;
     };
 
-    $scope.editAvatar = function() {
+    $scope.editAvatar = function () {
         var buttons = [
-            { text: $translate.instant("Edit") }
+            {
+                text: $translate.instant('Edit')
+            }
         ];
 
-        if($scope.customer.avatar !== null) {
-            var text = "Cancel "+($scope.customer.delete_avatar ? "delete" : "edit");
+        if ($scope.customer.avatar !== null) {
+            var text = 'Cancel ' + ($scope.customer.delete_avatar ? 'delete' : 'edit');
             buttons.push({ text: $translate.instant(text) });
         } else {
-            if($scope.customer.is_custom_image) {
-                buttons.push({ text: $translate.instant("Delete") });
+            if ($scope.customer.is_custom_image) {
+                buttons.push({ text: $translate.instant('Delete') });
             }
         }
 
         var hideSheet = $ionicActionSheet.show({
             buttons: buttons,
-            cancelText: $translate.instant("Cancel"),
-            cancel: function() {
+            cancelText: $translate.instant('Cancel'),
+            cancel: function () {
                 hideSheet();
             },
-            buttonClicked: function(index) {
-                if(index == 0) {
+            buttonClicked: function (index) {
+                if (index == 0) {
                     // We have to use timeout, if we do not,
                     // next action sheet will loose focus after 400ms
                     // because of the closing one. For more details,
                     // see this : https://github.com/driftyco/ionic/blob/1.x/js/angular/service/actionSheet.js#L138
                     $timeout($scope.takePicture, 600);
                 }
-                if(index == 1) {
-                    if($scope.customer.avatar != null) {
+                if (index == 1) {
+                    if ($scope.customer.avatar != null) {
                         // Cancel edit/delete :
                         $scope.customer.avatar = null;
                         $scope.customer.delete_avatar = false;
@@ -109,8 +110,8 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
      *
      * @param field
      */
-    $scope.takePicture = function(field) {
-        var gotImage = function(image_url) {
+    $scope.takePicture = function (field) {
+        var gotImage = function (image_url) {
             // TODO: move all picture taking and cropping modal
             // into a dedicated service for consistence against modules
             $scope.cropModal = {original: image_url, result: null};
@@ -121,7 +122,9 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             // img-crop in the view.
             $scope.popupShowing = false;
             $ionicPopup.show({
-                template: '<div style="position: absolute" class="cropper"><img-crop ng-if="popupShowing" image="cropModal.original" result-image="cropModal.result" area-type="square" result-image-size="256" result-image-format="image/jpeg" result-image-quality="0.9"></img-crop></div>',
+                template: '<div style="position: absolute" class="cropper">' +
+                    '<img-crop ng-if="popupShowing" image="cropModal.original" result-image="cropModal.result" area-type="square" result-image-size="256" result-image-format="image/jpeg" result-image-quality="0.9"></img-crop>' +
+                '</div>',
                 cssClass: 'avatar-crop',
                 scope: $scope,
                 buttons: [{
@@ -148,23 +151,23 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             $scope.popupShowing = true;
         };
 
-        var gotError = function(err) {
+        var gotError = function (err) {
             // An error occured. Show a message to the user
         };
 
-        if(Application.is_webview) {
+        if (Application.is_webview) {
             var input = angular.element("<input type='file' accept='image/*'>");
-            var selectedFile = function(evt) {
+            var selectedFile = function (evt) {
                 var file=evt.currentTarget.files[0];
                 var reader = new FileReader();
-                reader.onload = function (evt) {
-                    gotImage(evt.target.result);
-                    input.off("change", selectedFile);
+                reader.onload = function (onloadEvt) {
+                    gotImage(onloadEvt.target.result);
+                    input.off('change', selectedFile);
                 };
                 reader.onerror = gotError;
                 reader.readAsDataURL(file);
             };
-            input.on("change", selectedFile);
+            input.on('change', selectedFile);
             input[0].click();
         } else {
             var source_type = Camera.PictureSourceType.CAMERA;
@@ -172,25 +175,25 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             // Show the action sheet
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
-                    { text: $translate.instant("Take a picture") },
-                    { text: $translate.instant("Import from Library") }
+                    { text: $translate.instant('Take a picture') },
+                    { text: $translate.instant('Import from Library') }
                 ],
-                cancelText: $translate.instant("Cancel"),
-                cancel: function() {
+                cancelText: $translate.instant('Cancel'),
+                cancel: function () {
                     hideSheet();
                 },
-                buttonClicked: function(index) {
-                    if(index == 0) {
+                buttonClicked: function (index) {
+                    if (index == 0) {
                         source_type = Camera.PictureSourceType.CAMERA;
                     }
-                    if(index == 1) {
+                    if (index == 1) {
                         source_type = Camera.PictureSourceType.PHOTOLIBRARY;
                     }
 
                     var options = {
-                        quality : 90,
-                        destinationType : Camera.DestinationType.DATA_URL,
-                        sourceType : source_type,
+                        quality: 90,
+                        destinationType: Camera.DestinationType.DATA_URL,
+                        sourceType: source_type,
                         encodingType: Camera.EncodingType.JPEG,
                         targetWidth: 256,
                         targetHeight: 256,
@@ -199,9 +202,11 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                         saveToPhotoAlbum: false
                     };
 
-                    $cordovaCamera.getPicture(options).then(function(imageData) {
-                        gotImage("data:image/jpeg;base64," + imageData);
-                    }, gotError);
+                    $cordovaCamera
+                        .getPicture(options)
+                        .then(function (imageData) {
+                            gotImage('data:image/jpeg;base64,' + imageData);
+                        }, gotError);
 
                     return true;
                 }
@@ -264,14 +269,14 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             .then(function (data) {
                 if (angular.isDefined(data.message)) {
                     Dialog.alert('', data.message, 'OK', -1)
-                        .then(function() {
+                        .then(function () {
                             Customer.login_modal.hide();
                         });
                 }
 
                 return data;
             }, function (data) {
-                if(data && angular.isDefined(data.message)) {
+                if (data && angular.isDefined(data.message)) {
                     Dialog.alert('Error', data.message, 'OK', -1);
                 }
 
@@ -332,25 +337,21 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     };
 
     $scope.unloadcard = function() {
-        Dialog.confirm("Confirmation", "Do you confirm you want to remove your card?")
-            .then(function(result){
-                if(result) {
+        Dialog.confirm('Confirmation', 'Do you confirm you want to remove your card?')
+            .then(function (result) {
+                if (result) {
                     $scope.is_loading = true;
 
                     Loader.show();
 
-                    //we cannot be there without customer
+                    // We cannot be there without customer!
                     Customer.removeCard()
                         .then(function (data) {
-
                             $scope.card = {};
                             $scope.customer.stripe = {};
-
-                        }, function(data) {
-                            if(data && angular.isDefined(data.message)) {
-
-                                Dialog.alert("Error", data.message, "OK", -1);
-
+                        }, function (data) {
+                            if (data && angular.isDefined(data.message)) {
+                                Dialog.alert('Error', data.message, 'OK', -1);
                             }
                         }).then(function () {
                             $scope.is_loading = false;
@@ -361,5 +362,4 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     };
 
     $scope.loadContent();
-
 });
