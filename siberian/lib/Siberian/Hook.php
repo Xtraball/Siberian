@@ -51,12 +51,12 @@ class Hook
             });
 
             foreach ($actions as $index => $action) {
-                \Siberian\Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > ' .
+                Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > ' .
                     $action['name']);
                 try {
                     $action['callback']($payload);
                 } catch (\Exception $e) {
-                    \Siberian\Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > Failed ' .
+                    Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > Failed ' .
                         $action['name'] . ' > Exception: ' . $e->getMessage());
                 }
             }

@@ -11,10 +11,17 @@ $place_form = new Places_Form_Place();
 $delete_form = new Places_Form_Place_Delete();
 $delete_form->setValueId($option_value->getId());
 
+$appKey = $application->getGooglemapsKey();
 ?>
 
 
 <div id="places_list" class="places-new">
+
+    <?php if (empty($appKey)): ?>
+        <div class="alert alert-danger">
+            <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
