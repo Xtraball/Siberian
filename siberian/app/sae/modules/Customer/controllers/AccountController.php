@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Customer_AccountController
+ */
 class Customer_AccountController extends Application_Controller_Default
 {
 

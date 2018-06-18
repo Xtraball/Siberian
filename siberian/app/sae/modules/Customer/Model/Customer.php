@@ -463,6 +463,7 @@ class Customer_Model_Customer extends Core_Model_Default
 
         $payload = [];
         $payload['is_logged_in'] = false;
+        $payload['isLoggedIn'] = false;
 
         if ($customer->getId()) {
             $metadatas = $customer->getMetadatas();

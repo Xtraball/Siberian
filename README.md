@@ -33,7 +33,7 @@
     
     * functions: `exec()`
     
-    * parameters: `allow_url_fopen = On`, `memory_limit >= 128M`
+    * parameters: `allow_url_fopen = On`, `memory_limit >= 128M`, `post_max_size = 100M`, `upload_max_filesize = 100m`, `max_execution_time = 300`
 
 * MySQL/MariaDB >=5.5 with InnoDB/XtraDB engine
 
