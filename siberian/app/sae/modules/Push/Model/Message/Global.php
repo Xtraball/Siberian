@@ -94,9 +94,7 @@ class Push_Model_Message_Global extends Core_Model_Default
                     $pushMessage->setData('base_url', $params['base_url']);
 
                     // Custom image!
-                    if (!empty($params['cover'])) {
-                        $pushMessage->setCover($params['cover']);
-                    }
+                    $pushMessage->setCover($params['cover']);
 
                     if (!empty($this->getUrl())) {
                         $url = file_get_contents('https://tinyurl.com/api-create.php?url=' .

@@ -5,19 +5,28 @@
 $maps->find($option_value->getId(),"value_id");
 $api = Api_Model_Key::findKeysFor("googlemaps");
 $googlemaps_key = $api->getSecretKey();
+
+$appKey = $application->getGooglemapsKey();
 ?>
 <div class="form_content">
     <div id="list" class="edit_page maps">
+
+        <?php if (empty($appKey)): ?>
+            <div class="alert alert-danger">
+                <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+            </div>
+        <?php endif; ?>
+
         <div class="form_content">
             <form id="mapsForm" name="mapsForm" method="post" action="<?php echo $this->getUrl('maps/application/editpost') ?>">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_("Maps configuration") ?>
+                    <?php echo __("Maps configuration") ?>
                 </h3>
                 <div class="form_content container-fluid first-row-feature content-feature">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-4">
-                                <label for="address"><?php echo $this->_("Destination address"); ?></label>
+                                <label for="address"><?php echo __("Destination address"); ?></label>
                             </div>
                             <div class="col-md-8">
                                 <input type="text" id="address" name="address" class="input-flat" rel="0" placeholder="" value="<?php echo $maps->getAddress(); ?>"/>
@@ -25,7 +34,7 @@ $googlemaps_key = $api->getSecretKey();
                         </div>
                         <div class="form-group">
                             <div class="col-md-4">
-                                <label for="unit"><?php echo $this->_("Unit distance"); ?></label>
+                                <label for="unit"><?php echo __("Unit distance"); ?></label>
                             </div>
                             <div class="col-md-8">
                                 <select id="unit" name="unit" class="styled-select color-blue">
@@ -38,7 +47,7 @@ $googlemaps_key = $api->getSecretKey();
                         <div class="form-group">
                             <div class="col-md-12">
                                 <button class="pull-right btn color-blue" type="submit">
-                                    <?php echo $this->_('Save'); ?>
+                                    <?php echo __('Save'); ?>
                                 </button>
                             </div>
                         </div>

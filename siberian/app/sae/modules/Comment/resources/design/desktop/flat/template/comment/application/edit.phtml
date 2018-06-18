@@ -1,9 +1,21 @@
-<?php $application = $this->getApplication(); ?>
-<?php $value = $this->getOptionValue(); ?>
-<?php $comment = new Comment_Model_Comment(); ?>
-<?php $comments = $comment->findAll(array('value_id' => $value->getId()), 'comment_id DESC'); ?>
+<?php
+
+$application = $this->getApplication();
+$value = $this->getOptionValue();
+$comment = new Comment_Model_Comment();
+$comments = $comment->findAll(array('value_id' => $value->getId()), 'comment_id DESC');
+$appKey = $application->getGooglemapsKey();
+
+?>
 <div class="edit_page comment">
     <div id="list">
+
+        <?php if (empty($appKey)): ?>
+            <div class="alert alert-danger">
+                <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+            </div>
+        <?php endif; ?>
+
         <?php if ($this->getOptionValue()->getCode() == 'fanwall'): ?>
             <?php $radius = new Comment_Model_Radius(); ?>
             <?php $radius->find($value->getId(), 'value_id'); ?>

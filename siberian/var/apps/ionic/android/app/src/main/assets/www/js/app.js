@@ -232,8 +232,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         };
 
         $ionicPlatform.ready(function () {
-            $ionicNavBarDelegate.showBar(false);
             $ionicNavBarDelegate.align('center');
+            $timeout(function () {
+                $ionicNavBarDelegate.showBar(false);
+            });
 
             var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
@@ -497,8 +499,13 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             return !$rootScope.isNativeApp ? '_system' : '_blank';
                         };
 
-                        $rootScope.$on('$ionicView.loaded', function (event, data) {
-                            if (data.stateName !== 'home') {
+                        $ionicNavBarDelegate.align('center');
+                        $timeout(function () {
+                            $ionicNavBarDelegate.showBar(false);
+                        });
+
+                        $rootScope.$on('$ionicView.loaded', function (event, loadViewData) {
+                            if (loadViewData.stateName !== 'home') {
                                 $timeout(function () {
                                     $ionicNavBarDelegate.showBar(true);
                                 }, 100);

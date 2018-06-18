@@ -41,6 +41,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
 
             $payload["is_logged_in"] = true;
+            $payload["isLoggedIn"] = true;
 
         }
 

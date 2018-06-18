@@ -190,27 +190,23 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
             cache: false
         });
 
-        promise.then(function (result) {
-            factory.populate(result.customer);
+        promise
+            .then(function (result) {
+                factory.populate(result.customer);
 
-            return result;
-        }, function (error) {
-            Dialog.alert('Error', error.message, 'OK', -1);
-        }).then(function (result) {
-            Loader.hide();
+                return result;
+            }, function (error) {
+                Dialog.alert('Error', error.message, 'OK', -1);
+            }).then(function (result) {
+                Loader.hide();
 
-            return result;
-        });
+                return result;
+            });
 
         return promise;
     };
 
     factory.facebookConnect = function () {
-        // Warning about API v2.7 for facebook expiration!
-        if (Math.ceil(Date.now()/1000) > 1533420000) {
-            console.error('Facebook API v2.7 will shutdown 5 October 2018, please upgrade to latest API Version.');
-        }
-
         if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
@@ -298,8 +294,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
     };
 
     factory.getAvatarUrl = function (customerId, options) {
-        var myOptions = angular.isObject(options) ?
-            options : {};
+        var myOptions = angular.isObject(options) ? options : {};
         return Url.get(
             '/customer/mobile_account/avatar', angular.extend({}, myOptions, { customer: customerId })) +
             ($rootScope.isOffline ? '' : '?' +(+new Date()));
@@ -417,7 +412,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
 
                 return data;
             }, function (data) {
-                if(data && angular.isDefined(data.message)) {
+                if (data && angular.isDefined(data.message)) {
                     Dialog.alert('Error', data.message, 'OK', -1);
                 }
 

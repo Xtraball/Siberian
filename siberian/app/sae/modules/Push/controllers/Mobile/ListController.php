@@ -42,10 +42,16 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default {
                     );
                 }
 
-                $picture = $message->getCover() ?
-                    $this->getRequest()->getBaseUrl() .
-                    Application_Model_Application::getImagePath() .
-                    $message->getCover() : null;
+                if (preg_match('#^/images/assets#', $message->getCover())) {
+                    $picture = $message->getCover() ?
+                        $this->getRequest()->getBaseUrl() .
+                        $message->getCover() : null;
+                } else {
+                    $picture = $message->getCover() ?
+                        $this->getRequest()->getBaseUrl() .
+                        Application_Model_Application::getImagePath() .
+                        $message->getCover() : null;
+                }
 
                 $action_value = null;
                 $url = null;

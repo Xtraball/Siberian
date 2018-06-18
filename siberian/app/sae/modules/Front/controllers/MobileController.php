@@ -457,7 +457,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default
         }
 
         $data_load["customer"] = array_merge($data_load["customer"], [
-            "is_logged_in" => $is_logged_in
+            "is_logged_in" => $is_logged_in,
+            "isLoggedIn" => $is_logged_in
         ]);
 
         /** Get the most recent cache update */
