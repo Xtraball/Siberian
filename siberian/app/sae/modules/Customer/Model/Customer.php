@@ -488,6 +488,7 @@ class Customer_Model_Customer extends Core_Model_Default
                 'show_in_social_gaming' => (bool) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (bool) $customer->getIsCustomImage(),
                 'can_access_locked_features' => (bool) $customer->canAccessLockedFeatures(),
+                'token' => (string) Zend_Session::getId(),
                 'metadatas' => $metadatas
             ];
 

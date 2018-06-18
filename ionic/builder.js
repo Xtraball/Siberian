@@ -245,7 +245,7 @@ let debug = true,
                 './www/lib/utils.js',
                 './www/lib/ionic/js/ionic.bundle.min.js',
                 './www/lib/ionic/js/angular/angular-route.js',
-                './www/lib/ngCordova/dist/ng-cordova.min.js'
+                './www/lib/ngCordova/dist/ng-cordova.js'
             ],
             dest: './www/dist/app.libs.min.js'
         },

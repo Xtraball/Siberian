@@ -57,8 +57,16 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
      */
     public function postAction()
     {
+        $application = $this->getApplication();
+        $request = $this->getRequest();
+
+        \Siberian\Hook::trigger('mobile.login', [
+            'appId' => $application->getId(),
+            'request' => $request
+        ]);
+
         try {
-            if ($datas = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+            if ($datas = Siberian_Json::decode($request->getRawBody())) {
 
                 if ((empty($datas['email']) || empty($datas['password']))) {
                     throw new Siberian_Exception(
@@ -69,7 +77,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $customer = new Customer_Model_Customer();
                 $customer->find([
                     "email" => $datas['email'],
-                    "app_id" => $this->getApplication()->getId()
+                    "app_id" => $application->getId()
                 ]);
 
                 $password = $datas['password'];
@@ -114,7 +122,6 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         }
 
         $this->_sendJson($payload);
-
     }
 
     public function loginwithfacebookAction()
@@ -254,6 +261,13 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
     public function logoutAction()
     {
+        $application = $this->getApplication();
+        $request = $this->getRequest();
+
+        \Siberian\Hook::trigger('mobile.logout', [
+            'appId' => $application->getId(),
+            'request' => $request
+        ]);
 
         /** Unlink from individual push */
         if (Push_Model_Message::hasIndividualPush()) {
