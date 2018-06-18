@@ -25,11 +25,6 @@ class Hook
             self::$hooks[$actionName] = [];
         }
 
-        $offset = ($priority === null) ? sizeof(self::$hooks[$actionName]) : $priority;
-        foreach (self::$hooks[$actionName] as $index => $callback) {
-            $offset = $index;
-        }
-
         $newCallback = [
             'name' => $name,
             'priority' => $priority,
