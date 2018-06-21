@@ -2,7 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <meta name="viewport"
+              content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <meta http-equiv="Content-Security-Policy" content="
             default-src * cdvfile://* ws://* wss://* mailto:;
             script-src * cdvfile://* 'unsafe-inline' 'unsafe-eval';
@@ -15,8 +16,11 @@
             font-src * data:;
             filesystem * cdvfile://*;
             connect-src * ws://* wss://* ;">
-        <meta id="last_meta" name="apple-mobile-web-app-capable" content="yes">
-        <meta name="mobile-web-app-capable" content="yes">
+        <meta id="last_meta"
+              name="apple-mobile-web-app-capable"
+              content="yes">
+        <meta name="mobile-web-app-capable"
+              content="yes">
 
         <title></title>
 
@@ -36,13 +40,17 @@
         <script src="./dist/onloadchunks.bundle.min.js"></script>
 
 	</head>
-    <body ng-app="starter" class="platform-browser platform-cordova platform-webview">
+    <body ng-app="starter"
+          class="platform-browser platform-cordova platform-webview">
 
         <!-- Global layout handler -->
         <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>
 
-        <div class="ui-background-loader uil-squares-css" ng-hide="!ui_background_loader" ng-click="openLoaderProgress()"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
-        <div class="ui-progress-view" ng-hide="!ui_progress_view">
+        <div class="ui-background-loader uil-squares-css"
+             ng-hide="!ui_background_loader"
+             ng-click="openLoaderProgress()"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
+        <div class="ui-progress-view"
+             ng-hide="!ui_progress_view">
             <p>{{ "Downloading..." | translate }}</p>
             <div class="ui-progress-view-circle"></div>
             <p ng-click="backgroundLoaderProgress()">{{ "Tap to download in background" | translate }}</p>
