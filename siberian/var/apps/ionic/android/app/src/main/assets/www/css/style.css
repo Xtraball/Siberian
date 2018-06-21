@@ -2396,3 +2396,22 @@ i.shutdown:before {
         padding-top: 0;
     }
 }
+
+.previewer-load {
+    display: none;
+    z-index: 65000;
+    background-color: rgba(255,0,0,0.8);
+    color: white;
+    width: 80vw;
+    top: 20vh;
+    position: absolute;
+    left: 10vw;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 1.1em;
+}
+
+.previewer-load.active {
+    display: block !important;
+}

@@ -59,11 +59,6 @@ public class SystemWebViewClient extends WebViewClient {
     private boolean doClearHistory = false;
     boolean isCurrentlyLoading;
 
-    /** Previewer part */
-    public static Boolean isPreview = false;
-    public static String appDomain = "";
-    public static String appKey = "";
-
     /** The authorization tokens. */
     private Hashtable<String, AuthenticationToken> authenticationTokens = new Hashtable<String, AuthenticationToken>();
 
@@ -143,21 +138,6 @@ public class SystemWebViewClient extends WebViewClient {
      */
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        // If the page is a previewer!
-        if (isPreview) {
-            // We use a setTimeout to ensure values are set first and cordova wait for them,
-            // these are mandatory in the process!
-            String javascript = "javascript:setTimeout(function () { " +
-                    "IS_PREVIEW = true;" +
-                    "DOMAIN = '" + appDomain + "';" +
-                    "APP_KEY = '" + appKey + "';" +
-                    "BASE_PATH = '/' + APP_KEY; }, 1);";
-
-            view.loadUrl(javascript);
-        } else {
-            view.loadUrl("javascript:setTimeout(function () { IS_PREVIEW = false; }, 1);");
-        }
-
         super.onPageStarted(view, url, favicon);
         isCurrentlyLoading = true;
         // Flush stale messages & reset plugins.

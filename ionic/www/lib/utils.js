@@ -73,3 +73,27 @@ window.registerTap = function (numberOfTaps, callback) {
         callback();
     });
 };
+
+window.fileExists = function (path, callbackSuccess, callbackError) {
+    window.requestFileSystem(window.LocalFileSystem.TEMPORARY, 0, function (fileSystem) {
+        fileSystem.root.getFile(
+            path,
+            {
+                create: false
+            },
+            function () {
+                if (typeof callbackSuccess === 'function') {
+                    callbackSuccess();
+                }
+            },
+            function () {
+                if (typeof callbackError === 'function') {
+                    callbackError();
+                }
+            });
+    }, function () {
+        if (typeof callbackError === 'function') {
+            callbackError();
+        }
+    });
+};
