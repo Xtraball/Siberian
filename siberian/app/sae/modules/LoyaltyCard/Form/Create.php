@@ -29,7 +29,7 @@ class LoyaltyCard_Form_Create extends Siberian_Form_Abstract
         $number_of_points = $this->addSimpleSelect(
             "number_of_points",
             __("Number of points"),
-            range(1, 20));
+            array_combine(range(1, 20), range(1, 20)));
         $number_of_points
             ->setRequired(true);
 
