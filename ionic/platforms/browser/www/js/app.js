@@ -366,42 +366,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $log.info('-- app is on pause --');
                                 Analytics.storeClosing();
 
-                                // When app goes in pause, try to install if required.
-                                if (typeof chcp !== 'undefined') {
-                                    $rootScope.fetchupdatetimer = $timeout(function () {
-                                        if (localStorage.getItem('install-update' === true)) {
-                                            chcp.isUpdateAvailableForInstallation(function (error, data) {
-                                                if (error) {
-                                                    $log.info('CHCP: Nothing to install');
-                                                    $log.info('CHCP: ' + error.description);
-                                                    return;
-                                                }
-
-                                                // update is in cache and can be installed - install it
-                                                $log.info('CHCP: Current version: ' + data.currentVersion);
-                                                $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
-                                                chcp.installUpdate(function (error) {
+                                var runChcp = function () {
+                                    // When app goes in pause, try to install if required.
+                                    if (typeof chcp !== 'undefined') {
+                                        $rootScope.fetchupdatetimer = $timeout(function () {
+                                            if (localStorage.getItem('install-update' === true)) {
+                                                chcp.isUpdateAvailableForInstallation(function (error, data) {
                                                     if (error) {
-                                                        $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                        $log.info('CHCP: Nothing to install');
                                                         $log.info('CHCP: ' + error.description);
-                                                    } else {
                                                         return;
                                                     }
-                                                });
-                                            });
-                                        } else {
-                                            chcp.fetchUpdate(function (error, data) {
-                                                if (error) {
-                                                    if (error.code === 2) {
-                                                        $log.info('CHCP: There is no available update.');
-                                                    } else {
-                                                        $log.info('CHCP: Failed to load the update with error code: ' + error.code);
-                                                    }
-
-                                                    $log.info('CHCP: ' + error.description);
-                                                    localStorage.setItem('install-update', false);
-                                                } else {
-                                                    $log.info('CHCP: Update success, trying to install.');
 
                                                     // update is in cache and can be installed - install it
                                                     $log.info('CHCP: Current version: ' + data.currentVersion);
@@ -411,16 +386,53 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                             $log.info('CHCP: Something went wrong with the update, will retry later.');
                                                             $log.info('CHCP: ' + error.description);
                                                         } else {
-                                                            $log.info('CHCP: Update successfully install, restarting new files.');
-                                                            localStorage.setItem('install-update', false);
                                                             return;
                                                         }
                                                     });
-                                                }
-                                            });
-                                        }
-                                    }, 5000);
-                                }
+                                                });
+                                            } else {
+                                                chcp.fetchUpdate(function (error, data) {
+                                                    if (error) {
+                                                        if (error.code === 2) {
+                                                            $log.info('CHCP: There is no available update.');
+                                                        } else {
+                                                            $log.info('CHCP: Failed to load the update with error code: ' + error.code);
+                                                        }
+
+                                                        $log.info('CHCP: ' + error.description);
+                                                        localStorage.setItem('install-update', false);
+                                                    } else {
+                                                        $log.info('CHCP: Update success, trying to install.');
+
+                                                        // update is in cache and can be installed - install it
+                                                        $log.info('CHCP: Current version: ' + data.currentVersion);
+                                                        $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
+                                                        chcp.installUpdate(function (error) {
+                                                            if (error) {
+                                                                $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                                $log.info('CHCP: ' + error.description);
+                                                            } else {
+                                                                $log.info('CHCP: Update successfully install, restarting new files.');
+                                                                localStorage.setItem('install-update', false);
+                                                                return;
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        }, 5000);
+                                    }
+                                };
+
+                                // Ensure we won't update an app while the previewer is in progress!
+                                window.fileExists(
+                                    'module.js',
+                                    function () {
+                                        // do nothing when file exists!
+                                    }, function () {
+                                        // run update if file doesn't exists!
+                                        runChcp();
+                                    });
                             });
                         }
                         // !skip chcp inside webview loaded app!

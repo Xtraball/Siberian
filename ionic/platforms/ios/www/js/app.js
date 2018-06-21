@@ -237,6 +237,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 $ionicNavBarDelegate.showBar(false);
             });
 
+            // Display previewer notice!
+            if (IS_PREVIEW) {
+                $rootScope.previewerNotice = true;
+            }
+
             var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
 
@@ -361,42 +366,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $log.info('-- app is on pause --');
                                 Analytics.storeClosing();
 
-                                // When app goes in pause, try to install if required.
-                                if (typeof chcp !== 'undefined') {
-                                    $rootScope.fetchupdatetimer = $timeout(function () {
-                                        if (localStorage.getItem('install-update' === true)) {
-                                            chcp.isUpdateAvailableForInstallation(function (error, data) {
-                                                if (error) {
-                                                    $log.info('CHCP: Nothing to install');
-                                                    $log.info('CHCP: ' + error.description);
-                                                    return;
-                                                }
-
-                                                // update is in cache and can be installed - install it
-                                                $log.info('CHCP: Current version: ' + data.currentVersion);
-                                                $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
-                                                chcp.installUpdate(function (error) {
+                                var runChcp = function () {
+                                    // When app goes in pause, try to install if required.
+                                    if (typeof chcp !== 'undefined') {
+                                        $rootScope.fetchupdatetimer = $timeout(function () {
+                                            if (localStorage.getItem('install-update' === true)) {
+                                                chcp.isUpdateAvailableForInstallation(function (error, data) {
                                                     if (error) {
-                                                        $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                        $log.info('CHCP: Nothing to install');
                                                         $log.info('CHCP: ' + error.description);
-                                                    } else {
                                                         return;
                                                     }
-                                                });
-                                            });
-                                        } else {
-                                            chcp.fetchUpdate(function (error, data) {
-                                                if (error) {
-                                                    if (error.code === 2) {
-                                                        $log.info('CHCP: There is no available update.');
-                                                    } else {
-                                                        $log.info('CHCP: Failed to load the update with error code: ' + error.code);
-                                                    }
-
-                                                    $log.info('CHCP: ' + error.description);
-                                                    localStorage.setItem('install-update', false);
-                                                } else {
-                                                    $log.info('CHCP: Update success, trying to install.');
 
                                                     // update is in cache and can be installed - install it
                                                     $log.info('CHCP: Current version: ' + data.currentVersion);
@@ -406,16 +386,53 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                             $log.info('CHCP: Something went wrong with the update, will retry later.');
                                                             $log.info('CHCP: ' + error.description);
                                                         } else {
-                                                            $log.info('CHCP: Update successfully install, restarting new files.');
-                                                            localStorage.setItem('install-update', false);
                                                             return;
                                                         }
                                                     });
-                                                }
-                                            });
-                                        }
-                                    }, 5000);
-                                }
+                                                });
+                                            } else {
+                                                chcp.fetchUpdate(function (error, data) {
+                                                    if (error) {
+                                                        if (error.code === 2) {
+                                                            $log.info('CHCP: There is no available update.');
+                                                        } else {
+                                                            $log.info('CHCP: Failed to load the update with error code: ' + error.code);
+                                                        }
+
+                                                        $log.info('CHCP: ' + error.description);
+                                                        localStorage.setItem('install-update', false);
+                                                    } else {
+                                                        $log.info('CHCP: Update success, trying to install.');
+
+                                                        // update is in cache and can be installed - install it
+                                                        $log.info('CHCP: Current version: ' + data.currentVersion);
+                                                        $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
+                                                        chcp.installUpdate(function (error) {
+                                                            if (error) {
+                                                                $log.info('CHCP: Something went wrong with the update, will retry later.');
+                                                                $log.info('CHCP: ' + error.description);
+                                                            } else {
+                                                                $log.info('CHCP: Update successfully install, restarting new files.');
+                                                                localStorage.setItem('install-update', false);
+                                                                return;
+                                                            }
+                                                        });
+                                                    }
+                                                });
+                                            }
+                                        }, 5000);
+                                    }
+                                };
+
+                                // Ensure we won't update an app while the previewer is in progress!
+                                window.fileExists(
+                                    'module.js',
+                                    function () {
+                                        // do nothing when file exists!
+                                    }, function () {
+                                        // run update if file doesn't exists!
+                                        runChcp();
+                                    });
                             });
                         }
                         // !skip chcp inside webview loaded app!
@@ -477,7 +494,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         if (load.application.facebook.id) {
                             FacebookConnect.permissions = (!Array.isArray(load.application.facebook.scope)) ?
-                                new Array(load.application.facebook.scope) : load.application.facebook.scope;
+                                [load.application.facebook.scope] : load.application.facebook.scope;
                             FacebookConnect.app_id = load.application.facebook.id;
                         }
 
@@ -599,6 +616,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $rootScope.checkForUpdate = function () {
                             if (!$rootScope.isNativeApp) {
                                 $log.info('Stop update, Android or iOS is required.');
+                                return;
+                            }
+
+                            if (IS_PREVIEW) {
+                                $log.info('Stop update, This an App preview.');
                                 return;
                             }
 
@@ -787,6 +809,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         var currentState = $ionicHistory.currentStateName();
                         if ($rootScope.app_is_locked && (currentState !== 'padlock-view')) {
                             $state.go('padlock-view');
+                        }
+
+                        // When App is loaded dismiss the previewerNotice!
+                        if (IS_PREVIEW) {
+                            $timeout(function () {
+                                $rootScope.previewerNotice = false;
+                            }, 3000);
+
+                            $window.registerTap(3, function () {
+                                $window.webview.close();
+                            });
                         }
                     }).catch(function (error) {
                         $log.error('main promise caught error, ', error);

@@ -119,14 +119,6 @@
 }
 
 - (void)loadApp:(CDVInvokedUrlCommand*)command {
-
-    isPreview = true;
-    appDomain = (NSString*)[command.arguments objectAtIndex:0];
-    appKey = (NSString*)[command.arguments objectAtIndex:1];
-
-    NSLog(@"appDomain %@", appDomain);
-    NSLog(@"appKey %@", appKey);
-
     [self.commandDelegate runInBackground:^{
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -147,11 +139,6 @@
 }
 
 - (void)show:(CDVInvokedUrlCommand*)command {
-
-    isPreview = false;
-    appDomain = @"";
-    appKey = @"";
-
     [self.commandDelegate runInBackground:^{
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -172,12 +159,6 @@
 }
 
 - (void)hide:(CDVInvokedUrlCommand*)command {
-    isPreview = false;
-    appDomain = @"";
-    appKey = @"";
-
-    NSLog(@"hidewebViewView");
-
     [self.commandDelegate runInBackground:^{
         @try {
 
@@ -271,53 +252,6 @@
     // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
     // you can do so here.
 
-    NSLog(@"viewWillAppear plugin isPreview value: %d", isPreview);
-    NSLog(@"viewWillAppear plugin appDomain isPreview value: %@", appDomain);
-    NSLog(@"viewWillAppear plugin appKey isPreview value: %@", appKey);
-
-    if (isPreview) {
-        [self.navigationController setNavigationBarHidden:YES];
-
-        NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
-        [notifyCenter addObserverForName:@"CDVwebViewDidStartLoad"
-                                  object:nil
-                                   queue:nil
-                              usingBlock:^(NSNotification *notification){
-                                  // Explore notification
-                                  NSLog(@"Notification ispreview found with:"
-                                        "\r\n     name:     %@"
-                                        "\r\n     object:   %@"
-                                        "\r\n     userInfo: %@",
-                                        [notification name],
-                                        [notification object],
-                                        [notification userInfo]
-                                        );
-
-                                  UIWebView *theWebView = [notification object];
-
-                                  if (isPreview && ![appDomain isEqualToString:@""] && ![appKey isEqualToString:@""]) {
-                                      NSLog(@"appDomain: %@", appDomain);
-                                      NSLog(@"appKey: %@", appKey);
-
-                                      NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"IS_PREVIEW = true; DOMAIN = '%@'; APP_KEY = '%@'; BASE_PATH = '/' + APP_KEY;", appDomain, appKey];
-
-                                      [theWebView stringByEvaluatingJavaScriptFromString:jsSetIdentifier];
-                                  }
-                              }];
-    } else {
-        NSNotificationCenter *notifyCenter = [NSNotificationCenter defaultCenter];
-        [notifyCenter addObserverForName:@"CDVwebViewDidStartLoad"
-                                  object:nil
-                                   queue:nil
-                              usingBlock:^(NSNotification *notification) {
-                                  UIWebView *theWebView = [notification object];
-
-                                  NSString *jsSetIdentifier = [[NSString alloc] initWithFormat:@"IS_PREVIEW = false;"];
-                                  [theWebView stringByEvaluatingJavaScriptFromString:jsSetIdentifier];
-                              }];
-    }
-
-
     [super viewWillAppear:animated];
 }
 
@@ -328,7 +262,7 @@
     [self.pluginObjects setObject:delegate forKey:@"WebViewPlugin"];
 
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureTriggered:)];
-    [tapGestureRecognizer setNumberOfTapsRequired:5];
+    [tapGestureRecognizer setNumberOfTapsRequired:3];
     [tapGestureRecognizer setNumberOfTouchesRequired:1];
     [self.webView addGestureRecognizer:tapGestureRecognizer];
 }
