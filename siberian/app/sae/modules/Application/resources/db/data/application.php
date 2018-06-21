@@ -426,6 +426,12 @@ $categories = [
         "name" => "Misc",
         "icon" => "icon-code",
         "position" => 80
+    ],
+    [
+        "code" => "_master",
+        "name" => "Admin",
+        "icon" => "icon-gear",
+        "position" => 90
     ]
 ];
 

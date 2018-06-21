@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-use \Firebase\JWT\JWT;
-
 /**
  * Siberian
  *
@@ -188,6 +186,9 @@ try {
             \Siberian_Cache::__clearLog();
             \Siberian_Cache::__clearTmp();
             break;
+        case 'app:manifest':
+            \Siberian\Manifest::rebuild();
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -218,6 +219,9 @@ try {
     
 " . color('cache:clear', 'brown') . "
     Clear var/cache, var/log & var/tmp.
+    
+" . color('app:manifest', 'brown') . "
+    Rebuilds the application manifest.
 
 " . color('help', 'brown') . "
     Prints the current help message.    

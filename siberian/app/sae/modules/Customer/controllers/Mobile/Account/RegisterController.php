@@ -94,18 +94,14 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             }
 
             $this->_sendJson($html);
-
         }
-
     }
 
     protected function _sendNewAccountEmail($customer, $password)
     {
-
         $admin_email = null;
         $contact = new Contact_Model_Contact();
         $contact_page = $this->getApplication()->getPage('contact');
-        //$sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
 
         if ($contact_page->getId()) {
             $contact->find($contact_page->getId(), 'value_id');
@@ -116,10 +112,9 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
         $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
         $content = $layout->render();
 
-        # @version 4.8.7 - SMTP
+        # version 4.8.7 - SMTP
         $mail = new Siberian_Mail();
         $mail->setBodyHtml($content);
-        //$mail->setFrom($sender, $this->getApplication()->getName());
         $mail->addTo($customer->getEmail(), $customer->getName());
         $mail->setSubject(__('%s - Account creation', $this->getApplication()->getName()));
         $mail->send();

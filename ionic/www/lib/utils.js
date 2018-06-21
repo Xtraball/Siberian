@@ -27,3 +27,49 @@ window.calculateDistance = function (latitude_a, longitude_a, latitude_b, longit
 
     return dist;
 };
+
+window.registerTap = function (numberOfTaps, callback) {
+    var count = 0;
+    var elements = new Map();
+
+    document.addEventListener('click', function (event) {
+        var countdown;
+
+        function reset () {
+            count = 0;
+            countdown = null;
+        }
+
+        count += 1;
+
+        if (count === numberOfTaps) {
+            if (!elements.has(event.target)) {
+                elements.set(event.target, 1);
+            } else {
+                var currentCount = elements.get(event.target);
+                currentCount += 1;
+                elements.set(event.target, currentCount);
+            }
+
+            var tripleClick = new CustomEvent('trplclick', {
+                bubbles: true,
+                detail: {
+                    numberOfTripleClicks: elements.get(event.target)
+                }
+            });
+
+            event.target.dispatchEvent(tripleClick);
+            reset();
+        }
+
+        if (!countdown) {
+            countdown = window.setTimeout(function () {
+                reset();
+            }, 500);
+        }
+    });
+
+    document.addEventListener('trplclick', function () {
+        callback();
+    });
+};
