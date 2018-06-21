@@ -237,6 +237,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 $ionicNavBarDelegate.showBar(false);
             });
 
+            // Display previewer notice!
+            if (IS_PREVIEW) {
+                $rootScope.previewerNotice = true;
+            }
+
             var loadApp = function (refresh) {
                 $log.debug('$ionicPlatform.ready');
 
@@ -477,7 +482,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         if (load.application.facebook.id) {
                             FacebookConnect.permissions = (!Array.isArray(load.application.facebook.scope)) ?
-                                new Array(load.application.facebook.scope) : load.application.facebook.scope;
+                                [load.application.facebook.scope] : load.application.facebook.scope;
                             FacebookConnect.app_id = load.application.facebook.id;
                         }
 
@@ -599,6 +604,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $rootScope.checkForUpdate = function () {
                             if (!$rootScope.isNativeApp) {
                                 $log.info('Stop update, Android or iOS is required.');
+                                return;
+                            }
+
+                            if (IS_PREVIEW) {
+                                $log.info('Stop update, This an App preview.');
                                 return;
                             }
 
@@ -787,6 +797,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         var currentState = $ionicHistory.currentStateName();
                         if ($rootScope.app_is_locked && (currentState !== 'padlock-view')) {
                             $state.go('padlock-view');
+                        }
+
+                        // When App is loaded dismiss the previewerNotice!
+                        if (IS_PREVIEW) {
+                            $timeout(function () {
+                                $rootScope.previewerNotice = false;
+                            }, 3000);
+
+                            $window.registerTap(3, function () {
+                                $window.webview.close();
+                            });
                         }
                     }).catch(function (error) {
                         $log.error('main promise caught error, ', error);

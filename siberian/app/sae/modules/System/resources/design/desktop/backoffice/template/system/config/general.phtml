@@ -1,3 +1,7 @@
+<?php
+$host = $this->getRequest()->getHttpHost();
+?>
+
 <form ng-submit="save()"
       class="form-horizontal">
     <sb-section title="'<?php echo __js("Your Platform","'"); ?>'">
@@ -10,18 +14,8 @@
                        class="form-control"
                        placeholder="{{ configs.platform_name.label }}" />
             </div>
-            <div class="col-md-6">
-                <label for="{{ configs.facebook_import_active.code }}">{{ configs.facebook_import_active.label }}</label>
-                <select id="{{ configs.facebook_import_active.code }}"
-                        class="form-control"
-                        ng-model="configs.facebook_import_active.value">
-                    <option value="1"><?php echo __("Active"); ?></option>
-                    <option value="0"><?php echo __("Inactive"); ?></option>
-                </select>
-            </div>
 
-            <div class="col-md-6"
-                 style="margin-top: 15px;">
+            <div class="col-md-6">
                 <label for="{{ configs.main_domain.code }}">{{ configs.main_domain.label }} *</label>
                 <input id="{{ configs.main_domain.code }}"
                        type="text"
@@ -30,6 +24,11 @@
                 <br />
                 <div class="alert alert-info">
                     <?php echo __('Main domain (without https?://) is required for services, and tools.'); ?>
+                    <?php if (!empty($host)): ?>
+                        <p ng-if="configs.main_domain.value.length === 0">
+                            <b><?php echo __('Hint') ?>: </b><?php echo __('This is probably %s', '<span style="font-weight: bold; font-style: italic;">' . $host . '</i>'); ?>
+                        </p>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

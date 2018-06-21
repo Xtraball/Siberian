@@ -5,6 +5,7 @@
     <author>Apps Mobile Company Dev Team</author>
     <content src="index.html" />
     <access origin="*" />
+    <access origin="cdvfile://*" />
     <access launch-external="yes" origin="tel:*" />
     <access launch-external="yes" origin="geo:*" />
     <access launch-external="yes" origin="mailto:*" />
@@ -30,4 +31,5 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="SplashMaintainAspectRatio" value="true" />
 </widget>

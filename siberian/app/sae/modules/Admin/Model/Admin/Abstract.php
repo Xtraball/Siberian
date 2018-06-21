@@ -262,4 +262,15 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
+    /**
+     * @return bool
+     */
+    public function isBackofficeUser()
+    {
+        $backofficeUser = (new Backoffice_Model_User())
+            ->find($this->getEmail(), 'email');
+
+        return (boolean) $backofficeUser->getId();
+    }
+
 }
