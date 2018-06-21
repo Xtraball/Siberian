@@ -272,6 +272,16 @@ $configs = [
         'label' => 'GRADLE extended options',
         'value' => '-Dorg.gradle.daemon=false',
     ],
+    [
+        'code' => 'import_enabled',
+        'label' => 'Allow users to import features',
+        'value' => '0',
+    ],
+    [
+        'code' => 'export_enabled',
+        'label' => 'Allow users to export features',
+        'value' => '0',
+    ],
 ];
 
 $privacyPolicy = '<h1>Privacy Policy of the #APP_NAME application</h1>

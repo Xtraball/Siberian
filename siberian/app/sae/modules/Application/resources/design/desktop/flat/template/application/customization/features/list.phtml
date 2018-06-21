@@ -64,10 +64,14 @@ $isBackofficeUser = $admin->isBackofficeUser();
             </div>
 
             <?php echo __('Your pages'); ?>
+
+            <?php if (__get('import_enabled')): ?>
             <button id="feature_import_export"
                     class="sb-tour color-blue bt-header-right btn import-feature pull-right export-button">
-                <?php echo __("Import / Export") ?>
+                <?php echo __("Import") ?>
             </button>
+            <?php endif; ?>
+
         </h3>
         <div id="pages_list"
              class="subcontent content-color sb-tour">

@@ -11,13 +11,24 @@
 <div id="feature_exporter_modal" class="previewer container-fluid">
     <div class="row">
         <div class="col-md-12 first-row-feature">
-            <h4><?php echo __("Import an application template or a single feature.") ?></h4>
+
+            <div class="alert alert-info">
+                <b><?php echo __('Note') ?>:</b>
+                <?php echo __('Export / Import of features is currently in beta and available only with some features.') ?>
+            </div>
+
+            <h4><?php echo __("Import a single feature.") ?></h4>
             <?php echo $form_import; ?>
+
+            <?php if (false): ?>
             <hr class="border-blue" style="border-top:0;" />
             <h4><?php echo __('Export your application to a re-usable template & share it across Apps & Platforms.'); ?></h4>
             <i><?php echo __("If a feature is not listed, it yet can't be exported.") ?></i>
             <br /><br />
             <?php echo $form_export; ?>
+            <?php endif; ?>
+
+            <br /><br />
         </div>
     </div>
 </div>

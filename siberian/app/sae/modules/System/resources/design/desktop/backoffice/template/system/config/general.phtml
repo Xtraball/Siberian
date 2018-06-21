@@ -181,13 +181,39 @@ $host = $this->getRequest()->getHttpHost();
                 <p class="help-block" ng-show="configs.system_publication_access_type.value == 'sources'"><?php echo __("Users can download application sources code."); ?></p>
                 <p class="help-block" ng-show="configs.system_publication_access_type.value == 'info'"><?php echo __("Users give you the required information to publish applications."); ?></p>
             </div>
-        <?php if($this->isPe()): ?>
+            <?php if($this->isPe()): ?>
             <div class="col-md-6">
                 <label for="{{ configs.application_free_trial.code }}">{{ configs.application_free_trial.label }}</label>
                 <input type="text" id="{{ configs.application_free_trial.code }}" ng-model="configs.application_free_trial.value" class="form-control" placeholder="{{ configs.application_free_trial.label }}"/>
                 <p class="help-block"><?php echo __("Duration of the free trial period of your platform (in days, 0 for no free trial)."); ?></p>
             </div>
-        <?php endif; ?>
+            <?php endif; ?>
+
+            <div class="clear"></div>
+
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <b><?php echo __('Note') ?>:</b>
+                    <?php echo __('Export / Import of features is currently in beta and available only with some features.') ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.import_enabled.code }}">{{ configs.import_enabled.label }}</label>
+                <select class="form-control" ng-model="configs.import_enabled.value">
+                    <option value="0"><?php echo __("Disabled"); ?></option>
+                    <option value="1"><?php echo __("Enabled"); ?></option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.export_enabled.code }}">{{ configs.export_enabled.label }}</label>
+                <select class="form-control" ng-model="configs.export_enabled.value">
+                    <option value="0"><?php echo __("Disabled"); ?></option>
+                    <option value="1"><?php echo __("Enabled"); ?></option>
+                </select>
+            </div>
+
         </div>
 
     </sb-section>

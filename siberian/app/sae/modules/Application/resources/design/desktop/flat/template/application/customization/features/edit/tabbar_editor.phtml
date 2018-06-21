@@ -36,7 +36,7 @@ $layout = $layout_model->find($layout_id);
 $use_subtitle = ($layout->getUseSubtitle());
 
 # Exporter
-$can_export = Siberian_Exporter::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+$can_export = Siberian_Exporter::isRegistered($option->getCode()) && (__get('export_enabled'));
 $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
 
 $option_object = $option->getObject();
