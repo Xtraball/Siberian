@@ -16,7 +16,7 @@ class Hook
     /**
      * @param $actionName
      * @param $name
-     * @param $callback The callback function must return the payload, altered or not!
+     * @param $callback callback function must return the payload, altered or not!
      * @param null $priority
      */
     public static function listen ($actionName, $name, $callback, $priority = null)

@@ -23,22 +23,17 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     public function postv2Action()
     {
         try {
-
             $request = $this->getRequest();
-
             if ($params = Siberian_Json::decode($request->getRawBody())) {
                 //
             } else {
-                throw new Siberian_Exception(__("Missing parameters."));
+                throw new \Siberian\Exception(__("Missing parameters."));
             }
-
-        } catch (Exception $e) {
-
+        } catch (\Exception $e) {
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
             ];
-
         }
 
         $this->_sendJson($payload);
@@ -141,12 +136,15 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function loginwithfacebookAction()
     {
         $application = $this->getApplication();
         $request = $this->getRequest();
 
-        \Siberian\Hook::trigger('mobile.loginFacebook', [
+        \Siberian\Hook::trigger('mobile.login', [
             'appId' => $application->getId(),
             'request' => $request,
             'type' => 'facebook'
@@ -274,7 +272,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     'customer' => $this->_getCustomer()
                 ];
 
-                \Siberian\Hook::trigger('mobile.loginFacebook.success', [
+                \Siberian\Hook::trigger('mobile.login.success', [
                     'appId' => $application->getId(),
                     'customerId' => $customer->getId(),
                     'customer' => $currentCustomer,
@@ -289,7 +287,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     'message' => $e->getMessage()
                 ];
 
-                \Siberian\Hook::trigger('mobile.loginFacebook.error', [
+                \Siberian\Hook::trigger('mobile.login.error', [
                     'appId' => $application->getId(),
                     'message' => $e->getMessage(),
                     'type' => 'facebook'
@@ -297,11 +295,12 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
             }
 
             $this->_sendJson($html);
-
         }
-
     }
 
+    /**
+     *
+     */
     public function logoutAction()
     {
         $application = $this->getApplication();

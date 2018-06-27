@@ -36,6 +36,23 @@ $categories = (new Application_Model_Option_Category())
     ]);
 
 $isBackofficeUser = $admin->isBackofficeUser();
+$masterId = null;
+
+/**
+ * @param $canAccess
+ * @param $option
+ * @param $option_ids
+ * @param $masterId
+ * @param $isBackofficeUser
+ * @return bool
+ */
+function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackofficeUser)
+{
+    return
+        !$canAccess ||
+        ($option->onlyOnce() && in_array($option->getId(), $option_ids)) ||
+        (!$isBackofficeUser && ($masterId == $option->getCategoryId()));
+}
 ?>
 
 <script type="text/javascript">
@@ -220,10 +237,11 @@ $isBackofficeUser = $admin->isBackofficeUser();
                                     foreach ($categories as $category):
                                         $cats[$category->getId()] = $category->getData('name');
 
-                                        // Skip master features!
-                                        if ($category->getCode() === '_master' && !$isBackofficeUser) {
-                                            continue;
-                                        }
+                                    // Skip master features!
+                                    if ($category->getCode() === '_master' && !$isBackofficeUser) {
+                                        $masterId = $category->getId();
+                                        continue;
+                                    }
                                 ?>
                                     <li>
                                         <a href="javascript:void(0)"
@@ -239,7 +257,7 @@ $isBackofficeUser = $admin->isBackofficeUser();
                             <div>
                                 <ul id="add_page_list" class="sb-tour">
                                     <?php foreach ($options as $key => $option) : ?>
-                                        <?php if (!$this->_canAccess("feature_" . $option->getCode(), "all") || $option->onlyOnce() && in_array($option->getId(), $option_ids)) continue; ?>
+                                        <?php if (hideFeature ($this->_canAccess('feature_' . $option->getCode(), 'all'), $option, $option_ids, $masterId, $isBackofficeUser)) continue; ?>
                                         <?php $preview = $option->getPreview(); ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
                                             data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"
