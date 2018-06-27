@@ -15,7 +15,7 @@ class Application_Form_Import extends Siberian_Form_Abstract {
         /** Bind as a onchange form */
         self::addClass("create", $this);
 
-        $this->addSimpleFile("filename", __("Import zip or yml"));
+        $this->addSimpleFile("filename", __("Import yml"));
 
         $this->addSimpleHidden("confirm")->setValue(false);
     }

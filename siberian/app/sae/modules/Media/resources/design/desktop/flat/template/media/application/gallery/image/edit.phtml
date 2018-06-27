@@ -8,10 +8,6 @@
 
     $instagram_is_available = $application->getInstagramClientId() && $application->getInstagramToken();
 
-    //If we're unable to get acces token then facebook is not available
-    $facebook = new Social_Model_Facebook();
-    $facebookIsAvailable = $facebook->getAccessToken() != null;
-
     $flickrIsAvailable = ($application->getFlickrKey() && $application->getFlickrSecret());
 ?>
 
@@ -70,12 +66,6 @@
                                 <p><?php echo __('My images') ?></p>
                             </a>
                         </li>
-                        <li class="color-blue list-group-item btn capitalize" rel="facebook" <?php if(!$facebookIsAvailable) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
-                            <a href="javascript:void(0);" rel="facebook" class="block select_type image_type_select capitalize">
-                                <i title="<?php echo __("Facebook"); ?>" class="fa fa-facebook block img_icon"></i>
-                                <p><?php echo __('Facebook') ?></p>
-                            </a>
-                        </li>
                     </ul>
                 </div>
 
@@ -95,18 +85,12 @@
                             <i id="type_instagram" rel="instagram" class="bt-margin type_selected fa fa-instagram" title="Instagram" style="display:none;" ></i>
                             <i id="type_flickr" rel="flickr" class="bt-margin type_selected fa fa-flickr" title="Flickr" style="display:none;" ></i>
                             <i id="type_custom" rel="user" class="margin-top-5 type_selected fa fa-camera" title="<?php echo __("My images"); ?>" style="display:none;"></i>
-                            <i id="type_facebook" rel="facebook" class="margin-top-5 type_selected fa fa-facebook" title="<?php echo __("Facebook"); ?>" style="display:none;"></i>
                         </div>
                         <div class="col-sm-4">
                             <span>
                                 <input id="name-input" type="text" name="name" value="" placeholder="<?php echo __('Gallery Name') ?>" class="input-flat required" />
                             </span>
-                            <br />
-                            <span rel="facebook" style="display: none;">
-                                <label for="gallery_name"><?php echo __("Gallery Name"); ?></label>
-                                <input id="gallery_name" type="text" name="gallery_name" value="" placeholder="<?php echo __('Gallery Name') ?>" class="input-flat" />
-                                <?php echo __("If set, will appear instead of the Facebook page Id in app."); ?>
-                            </span>
+
 
                         </div>
                         <div class="col-sm-4">
@@ -117,8 +101,6 @@
 
                             <input type="text" id="input_picasa" name="param" value=""
                                    placeholder="<?php echo __('Parameter') ?>" class="new_search_input search_input input-flat required" />
-                            <select name="param_facebook" id="input_facebook"
-                                    class="sb-select styled-select color-blue form-control no-dk required new_search_input"></select>
                             <input type="hidden" id="input_instagram" name="param_instagram" value=""
                                    class="new_search_input search_input" />
                             <input type="text" id="input_flickr" name="param_flickr" value=""
@@ -248,16 +230,6 @@
                             foreach ($galleries as $gallery) {
                                 // Here we store fb gallery information for performance purpose!
                                 try {
-                                    if ($gallery->getTypeId() === 'facebook') {
-                                        if ($currentGalleryName !== $gallery->getName()) {
-                                            $currentGalleryName = $gallery->getName();
-                                            $albums = (new Media_Model_Gallery_Image_Facebook())
-                                                ->find([
-                                                    'gallery_id' => $gallery->getGalleryId()
-                                                ])->getAlbums();
-                                        }
-                                    }
-
                                     if ($gallery->getTypeId() === 'picasa') {
                                         if ($currentGalleryName !== $gallery->getName()) {
                                             $currentGalleryName = $gallery->getName();
@@ -312,7 +284,6 @@
             'picasa': '<?php echo __('Gallery Name') ?>',
             'custom': '<?php echo __('Gallery Name') ?>',
             'instagram': '<?php echo __('Gallery Name') ?>',
-            'facebook': '<?php echo __('Facebook page ID') ?>'
         }, selected;
 
         // Prevent chained reloads
@@ -352,26 +323,6 @@
                 // depending on the clicked option display the appropriate label
                 $('#name-label').html(label[id]);
                 $('#name-input').attr('placeholder', label[id]);
-                // Load
-                $('#input_facebook').focus(function () {
-                    var that = $(this);
-                    reload(this, '<?php echo $this->getUrl('media/application_gallery_image/albums/'); ?>?pageid=' + $('#name-input').val(), true, function (data) {
-                        that.html('');
-                        $.each(data, function (i, album) {
-                            that.append($('<option>', {
-                                value: album.id,
-                                text: album.name
-                            }));
-                        });
-                    });
-                });
-
-                //Facebook now have one more field
-                if(id === 'facebook') {
-                    $('span[rel="facebook"]').show();
-                } else {
-                    $('span[rel="facebook"]').hide();
-                }
 
                 if(id === 'instagram') {
                     $("#input_instagram").val(1);
@@ -420,10 +371,6 @@
             if (error) {
                 return false;
             }
-
-            // Facebook gallery name!
-            var galleryName = $('#gallery_name').val();
-            $('#label').val(galleryName);
 
             var formData = $('div.row_image[rel="' + galleryId + '"], #list_' + galleryId)
                 .find('input, select, textarea')

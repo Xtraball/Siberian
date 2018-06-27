@@ -966,7 +966,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function exportmodalAction() {
         $layout = $this->getLayout();
         $layout->setBaseRender('modal', 'html/modal.phtml', 'core_view_default')
-            ->setTitle(__('Import / Export'))
+            ->setTitle(__('Export / Import'))
             ->setBorderColor("border-blue")
         ;
         $layout->addPartial('modal_content', 'admin_view_default', 'application/customization/features/export.phtml');

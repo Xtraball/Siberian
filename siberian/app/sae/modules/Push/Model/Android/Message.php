@@ -176,23 +176,12 @@ class Push_Model_Android_Message
                         // Very important code, this links push message to user/device!
                         $this->getMessage()->createLog($device, 1, $registrationId);
                     } else if (!empty($errorCode)) {
-                        // Handle error!
-                        $errorCount = $device->getErrorCount();
-                        if ($errorCount >= 100) {
-                            # Remove device from list
-                            $device->delete();
+                        # Remove device from list
+                        $device->delete();
 
-                            $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after 100 failed push.",
-                                $device->getId(), $registrationId);
-                            $this->logger->info($msg, "push_android", false);
-                        } else {
-                            $device->setErrorCount(++$errorCount)->save();
-
-                            $msg = sprintf("#810-02: Android Device with ID: %s, Token: %s, failed push ! Errors count: %s.",
-                                $device->getId(), $registrationId, $errorCount);
-                            $this->logger->info($msg, "push_android", false);
-                        }
-
+                        $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after push failed.",
+                            $device->getId(), $registrationId);
+                        $this->logger->info($msg, "push_android", false);
                     }
                 } catch (Exception $e) {
                     $msg = sprintf("#810-06: Android Device with ID: %s, Token: %s failed ! Error message: %s.",

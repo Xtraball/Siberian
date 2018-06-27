@@ -8,3 +8,8 @@
  * Class Siberian_Exception
  */
 class Siberian_Exception extends \Siberian\Exception {}
+
+/**
+ * Class Core_Model_Default
+ */
+class Core_Model_Default extends \Core\Model\Base {}

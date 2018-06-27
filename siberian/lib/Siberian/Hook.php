@@ -16,7 +16,7 @@ class Hook
     /**
      * @param $actionName
      * @param $name
-     * @param $callback
+     * @param $callback callback function must return the payload, altered or not!
      * @param null $priority
      */
     public static function listen ($actionName, $name, $callback, $priority = null)
@@ -35,8 +35,11 @@ class Hook
     }
 
     /**
+     * Must return the payload altered or not!
+     *
      * @param $actionName
      * @param null $payload
+     * @return mixed
      */
     public static function trigger ($actionName, $payload = null)
     {
@@ -54,13 +57,14 @@ class Hook
                 Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > ' .
                     $action['name']);
                 try {
-                    $action['callback']($payload);
+                    return $action['callback']($payload);
                 } catch (\Exception $e) {
                     Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > Failed ' .
                         $action['name'] . ' > Exception: ' . $e->getMessage());
                 }
             }
         }
+        return $payload;
     }
 
     /**

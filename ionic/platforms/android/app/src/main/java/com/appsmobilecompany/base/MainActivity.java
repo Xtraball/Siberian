@@ -22,6 +22,8 @@ package com.appsmobilecompany.base;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
+import java.io.File;
+
 public class MainActivity extends CordovaActivity
 {
     @Override
@@ -35,7 +37,31 @@ public class MainActivity extends CordovaActivity
             moveTaskToBack(true);
         }
 
+        // Clear temp files on startup!
+        deleteTempFiles(getCacheDir());
+
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
+    }
+
+    /**
+     *
+     * @param file
+     * @return
+     */
+    private boolean deleteTempFiles(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files != null) {
+                for (File f : files) {
+                    if (f.isDirectory()) {
+                        deleteTempFiles(f);
+                    } else {
+                        f.delete();
+                    }
+                }
+            }
+        }
+        return file.delete();
     }
 }

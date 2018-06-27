@@ -49,6 +49,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         'app_default_identifier_ios',
         'is_gdpr_enabled',
         'main_domain',
+        'import_enabled',
+        'export_enabled',
     ];
 
     /**

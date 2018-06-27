@@ -23,22 +23,17 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     public function postv2Action()
     {
         try {
-
             $request = $this->getRequest();
-
             if ($params = Siberian_Json::decode($request->getRawBody())) {
                 //
             } else {
-                throw new Siberian_Exception(__("Missing parameters."));
+                throw new \Siberian\Exception(__("Missing parameters."));
             }
-
-        } catch (Exception $e) {
-
+        } catch (\Exception $e) {
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
             ];
-
         }
 
         $this->_sendJson($payload);
@@ -62,7 +57,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
         \Siberian\Hook::trigger('mobile.login', [
             'appId' => $application->getId(),
-            'request' => $request
+            'request' => $request,
+            'type' => 'account'
         ]);
 
         try {
@@ -102,13 +98,23 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     ->resetInstance()
                     ->setCustomer($customer);
 
+                $currentCustomer = $this->_getCustomer();
+
                 $payload = [
                     "success" => true,
                     "customer_id" => $customer->getId(),
                     "can_access_locked_features" => $customer->canAccessLockedFeatures(),
                     "token" => Zend_Session::getId(),
-                    "customer" => $this->_getCustomer()
+                    "customer" => $currentCustomer
                 ];
+
+                \Siberian\Hook::trigger('mobile.login.success', [
+                    'appId' => $application->getId(),
+                    'customerId' => $customer->getId(),
+                    'customer' => $currentCustomer,
+                    'token' => Zend_Session::getId(),
+                    'type' => 'account'
+                ]);
 
             } else {
                 throw new Siberian_Exception(__("An error occurred, please try again."));
@@ -119,13 +125,31 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 "error" => true,
                 "message" => $e->getMessage()
             ];
+
+            \Siberian\Hook::trigger('mobile.login.error', [
+                'appId' => $application->getId(),
+                'message' => $e->getMessage(),
+                'type' => 'account'
+            ]);
         }
 
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function loginwithfacebookAction()
     {
+        $application = $this->getApplication();
+        $request = $this->getRequest();
+
+        \Siberian\Hook::trigger('mobile.login', [
+            'appId' => $application->getId(),
+            'request' => $request,
+            'type' => 'facebook'
+        ]);
+
         $datas = Siberian_Json::decode($this->getRequest()->getRawBody());
         if (isset($datas["token"])) {
 
@@ -238,6 +262,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 // Log-in the customer
                 $this->getSession()->setCustomer($customer);
 
+                $currentCustomer = $this->_getCustomer();
+
                 $html = [
                     'success' => true,
                     'customer_id' => $customer->getId(),
@@ -246,19 +272,35 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     'customer' => $this->_getCustomer()
                 ];
 
+                \Siberian\Hook::trigger('mobile.login.success', [
+                    'appId' => $application->getId(),
+                    'customerId' => $customer->getId(),
+                    'customer' => $currentCustomer,
+                    'token' => Zend_Session::getId(),
+                    'type' => 'facebook'
+                ]);
+
+
             } catch (Exception $e) {
                 $html = [
                     'error' => true,
                     'message' => $e->getMessage()
                 ];
+
+                \Siberian\Hook::trigger('mobile.login.error', [
+                    'appId' => $application->getId(),
+                    'message' => $e->getMessage(),
+                    'type' => 'facebook'
+                ]);
             }
 
             $this->_sendJson($html);
-
         }
-
     }
 
+    /**
+     *
+     */
     public function logoutAction()
     {
         $application = $this->getApplication();
@@ -298,6 +340,12 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         $this->getSession()->resetInstance();
 
         $html = ['success' => 1];
+
+        \Siberian\Hook::trigger('mobile.logout.success', [
+            'appId' => $application->getId(),
+            'customerId' => $customer_id,
+            'request' => $request
+        ]);
 
         $this->getLayout()->setHtml(Zend_Json::encode($html));
 
