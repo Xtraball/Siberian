@@ -54,10 +54,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         }
-        Core_Model_Directory::setBasePath($base_path);
+        \Core_Model_Directory::setBasePath($base_path);
 
         // include Stubs
-        require_once Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
+        require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         $path = '';
         if (isset($_SERVER['SCRIPT_NAME'])) {

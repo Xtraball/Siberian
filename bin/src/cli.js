@@ -1454,14 +1454,23 @@ let pack = function (module) {
         buildPath = ROOT + '/packages/modules/',
         zipName = module + '-' + version + '.zip';
 
-    sprint(clc.blue('Building ' + module + ' version: ' + version));
+    // Case when tools/pack.sh exists!
+    if (fs.existsSync(modulePath + '/tools/pack.sh')) {
+        sprint(clc.blue('Building ' + module + ' version with tools/pack.sh: ' + version));
+        sh.cd(modulePath);
+        sh.exec('./tools/pack.sh');
+        sprint(clc.green('Package done. ' + buildPath + zipName));
+    } else {
+        // Otherwise with integrated tool
+        sprint(clc.blue('Building ' + module + ' version: ' + version));
 
-    // Zip the Module!
-    sh.cd(modulePath);
-    sh.rm('-f', buildPath + zipName);
-    sh.exec('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
+        // Zip the Module!
+        sh.cd(modulePath);
+        sh.rm('-f', buildPath + zipName);
+        sh.exec('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
 
-    sprint(clc.green('Package done. ' + buildPath + zipName));
+        sprint(clc.green('Package done. ' + buildPath + zipName));
+    }
 };
 
 /**
