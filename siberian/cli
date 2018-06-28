@@ -189,6 +189,43 @@ try {
         case 'app:manifest':
             \Siberian\Manifest::rebuild();
             break;
+        case 'app:keystore:restore':
+            $deviceId = 2;
+            if (isset($argv[2])) {
+                $appId = (integer) $argv[2];
+            } else {
+                $appId = readline('Input app id: ');
+            }
+
+            $basePath = \Core_Model_Directory::getBasePathTo('/var/tmp');
+
+            $app = (new Application_Model_Application())
+                ->find($appId, 'app_id');
+
+            if (!$app->getId()) {
+                echo 'Sorry app_id doesn\'t exists.' . PHP_EOL;
+            } else {
+                $device = $app->getDevice($deviceId);
+                $pks = $device->getPks();
+                if (!$pks) {
+                    echo 'Sorry no pks for this app in db.' . PHP_EOL;
+                } else {
+
+                    $pks = hex2bin($pks);
+                    file_put_contents($basePath . '/restored_' . $appId . '.pks', $pks);
+
+                    exec("echo \"\" | keytool -list -keystore " . $basePath . "/restored_" . $appId . ".pks",
+                        $output);
+
+                    echo 'Pks restored with signature (' . $basePath . '/restored_' . $appId . '.pks' . '): ' . PHP_EOL;
+                    foreach ($output as $out) {
+                        if (preg_match('/SHA1/', $out)) {
+                            echo $out . PHP_EOL;
+                        }
+                    }
+                }
+            }
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -222,6 +259,9 @@ try {
     
 " . color('app:manifest', 'brown') . "
     Rebuilds the application manifest.
+    
+" . color('app:keystore:restore [appId]', 'brown') . "
+    Extract a saved PKS (Keystore) from the database backup.
 
 " . color('help', 'brown') . "
     Prints the current help message.    
