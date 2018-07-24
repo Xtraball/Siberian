@@ -1459,6 +1459,7 @@ let pack = function (module) {
         sprint(clc.blue('Building ' + module + ' version with tools/pack.sh: ' + version));
         sh.cd(modulePath);
         sh.exec('./tools/pack.sh');
+        sh.cp('-f', './*.zip', buildPath);
         sprint(clc.green('Package done. ' + buildPath + zipName));
     } else {
         // Otherwise with integrated tool

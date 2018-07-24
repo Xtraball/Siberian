@@ -62,8 +62,8 @@ $form_privacy_policy->populate($application->getData());
     $('.replace-with-ckeditor').ckeditor();
 
     <?php
-        $privacy_policy = System_Model_Config::getValueFor('privacy_policy');
-        $privacyPolicyGdpr = System_Model_Config::getValueFor('privacy_policy_gdpr');
+     $privacy_policy = System_Model_Config::getValueFor('privacy_policy');
+     $privacyPolicyGdpr = System_Model_Config::getValueFor('privacy_policy_gdpr');
     ?>
 
     var default_pp = `<?php echo __js($privacy_policy, "`") ?>`;
@@ -72,7 +72,7 @@ $form_privacy_policy->populate($application->getData());
     $(document).ready(function() {
         bindForms("#privacy_policy");
 
-        $("#reset_default").on("click", function(event) {
+        $("#reset_default").on("click", function(event) {e
             /** Stop default submit */
             event.preventDefault();
 
