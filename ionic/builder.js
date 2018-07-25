@@ -173,7 +173,8 @@ let debug = true,
         ],
         'weather': [
             './www/js/controllers/weather.js',
-            './www/js/factory/weather.js'
+            './www/js/factory/weather.js',
+            './www/js/factory/weather/rain-effect.js'
         ],
         'wordpress': [
             './www/js/controllers/wordpress.js',
