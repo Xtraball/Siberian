@@ -50,11 +50,13 @@ class Siberian_VestaCP
         $this->api = new Siberian_VestaCP_Api(
             $this->config["host"], $this->config["username"], $this->config["password"], $this->config["webspace"]);
 
-        $this->api->login();
+        //$this->api->login();
     }
 
     /**
      * @param $ssl_certificate
+     * @return bool
+     * @throws \Siberian\Exception
      */
     public function updateCertificate($ssl_certificate)
     {
@@ -63,10 +65,10 @@ class Siberian_VestaCP
 
         if (version_compare(phpversion(), "5.6", "<")) {
             $this->logger->info("[Siberian_VestaCP] requires php 5.6+");
-            throw new Exception(__("[Siberian_VestaCP] requires php 5.6+"));
+            throw new \Siberian\Exception(__("[Siberian_VestaCP] requires php 5.6+"));
         }
 
-        $this->api->updateDomain($ssl_certificate);
+        $this->api->updateDomainVesta($ssl_certificate);
 
         return true;
 
