@@ -1,4 +1,4 @@
-<ion-view sb-page-background>
+<ion-view sb-page-background class="job-list">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip collection="tooltip.collection" current-item="tooltip.current_item" button-label="tooltip.button_label" on-item-clicked="showTooltip(object)" ng-if="tooltip"></div>
@@ -70,4 +70,18 @@
         </ion-infinite-scroll>
 
     </ion-content>
+
+    <style ng-if="options.display_place_icon">
+        .job-list .item-place {
+            padding: 6px;
+        }
+
+        .job-list p {
+            margin-left: 70px !important;
+        }
+
+        .job-list h2 {
+            margin-left: 70px !important;
+        }
+    </style>
 </ion-view>
