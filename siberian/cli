@@ -72,10 +72,12 @@ $application->bootstrap();
 try {
     $action = isset($argv[1]) ? $argv[1] : '';
     switch ($action) {
+        case 'export:schemas':
         case 'export-schemas':
             (new Siberian_Migration_Db())
                 ->exportAll();
             break;
+        case 'export:database':
         case 'export-database':
             $dbParams = $config->resources->db->params;
             $filename = readline('Filename for the export: ');
@@ -186,6 +188,19 @@ try {
             \Siberian_Cache::__clearLog();
             \Siberian_Cache::__clearTmp();
             break;
+        case 'license:set':
+            if (isset($argv[2])) {
+                $license = (string) $argv[2];
+            } else {
+                $license = readline('New license: ');
+            }
+            if (!empty($license)) {
+                __set('siberiancms_key', trim($license));
+                echo 'Your license is updated to "' . $license . '".' . PHP_EOL;
+            } else {
+                echo 'Aborting, empty license.' . PHP_EOL;
+            }
+            break;
         case 'app:manifest':
             \Siberian\Manifest::rebuild();
             break;
@@ -230,10 +245,10 @@ try {
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
             
-" . color('export-schemas', 'brown') . "
+" . color('export:schemas', 'brown') . "
     Export current tables schema to /var/schema/%VERSION%/ to php files.
     
-" . color('export-database', 'brown') . "
+" . color('export:database', 'brown') . "
     Export complete database.
     
 " . color('version <version>', 'brown') . "
@@ -257,11 +272,14 @@ try {
 " . color('cache:clear', 'brown') . "
     Clear var/cache, var/log & var/tmp.
     
+" . color('license:set <license>', 'brown') . "
+    Update your license to <license>.
+    
 " . color('app:manifest', 'brown') . "
     Rebuilds the application manifest.
     
-" . color('app:keystore:restore [appId]', 'brown') . "
-    Extract a saved PKS (Keystore) from the database backup.
+" . color('app:keystore:restore <appId>', 'brown') . "
+    Extract a saved PKS (Keystore) from the database backup for the given <appId>.
 
 " . color('help', 'brown') . "
     Prints the current help message.    
