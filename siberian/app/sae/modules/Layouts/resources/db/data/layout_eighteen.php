@@ -1,17 +1,15 @@
 <?php
 # Layout 18
-$default_options = Siberian_Json::encode(array(
+$default_options = Siberian_Json::encode([
     "borders" => "border-right",
-    "borders" => "border-left",
-    "borders" => "border-top",
     "label" => "label-left",
     "textTransform" => "title-lowcase",
-));
+]);
 
 $layout_category = new Application_Model_Layout_Category();
 $default_layout_category = $layout_category->find("default", "code");
 
-$datas = array(
+$datas = [
     'name' => 'Layout 18',
     'category_id' => $default_layout_category->getId(),
     'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -28,4 +26,6 @@ $datas = array(
     "use_subtitle" => 1,
     "use_homepage_slider" => 1,
     "options" => $default_options,
-);
+];
+
+Siberian_Feature::installApplicationLayout($datas, "default");

@@ -1,17 +1,17 @@
 <?php
 # Layout Swipe
-$default_options = Siberian_Json::encode(array(
+$default_options = Siberian_Json::encode([
     "icons" => "default",
     "loop" => 1,
     "angle" => -10,
     "stretch" => 50,
     "depth" => 200,
-));
+]);
 
 $layout_category = new Application_Model_Layout_Category();
 $default_layout_category = $layout_category->find("default", "code");
 
-$datas = array(
+$datas = [
     'name' => 'Layout Swipe',
     'category_id' => $default_layout_category->getId(),
     'visibility' => Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE,
@@ -28,4 +28,6 @@ $datas = array(
     "use_subtitle" => 1,
     "use_homepage_slider" => 0,
     "options" => $default_options,
-);
+];
+
+Siberian_Feature::installApplicationLayout($datas, "default");
