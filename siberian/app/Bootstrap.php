@@ -284,7 +284,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initDesign()
     {
         // Ensure 'flat' design is used for everyone!
-        __set('editor_design', 'flat');
+        try {
+            __set('editor_design', 'flat');
+        } catch (\Exception $e) {
+            // Silent it's probably an installation!
+        }
 
         Siberian_Cache_Design::init();
         $this->getPluginLoader()->addPrefixPath('Siberian_Application_Resource', 'Siberian/Application/Resource');

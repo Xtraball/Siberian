@@ -105,14 +105,18 @@ class Siberian_VestaCP_Api
      */
     public function updateDomainVesta($ssl_certificate)
     {
-        $mainDomain = __get('main_domain');
+        $webspace = $ssl_certificate->getHostname();
+        if (!empty($this->webspace)) {
+            $webspace = $this->webspace;
+        }
+
         $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
-        $folder = $base . '/' . $mainDomain;
+        $folder = $base . '/' . $ssl_certificate->getHostname();
 
         // Coy the files
-        copy($folder . '/cert.pem', $folder . '/' . $mainDomain . '.crt');
-        copy($folder . '/private.pem', $folder . '/' . $mainDomain . '.key');
-        copy($folder . '/fullchain.pem', $folder . '/' . $mainDomain . '.ca');
+        copy($folder . '/cert.pem', $folder . '/' . $webspace . '.crt');
+        copy($folder . '/private.pem', $folder . '/' . $webspace . '.key');
+        copy($folder . '/fullchain.pem', $folder . '/' . $webspace . '.ca');
 
         // Prepare POST query
         $postvars = [
@@ -121,7 +125,7 @@ class Siberian_VestaCP_Api
             'returncode' => 'yes',
             'cmd' => 'v-add-web-domain-ssl',
             'arg1' => $this->username,
-            'arg2' => $mainDomain,
+            'arg2' => $webspace,
             'arg3' => $folder,
             'arg4' => 'RESTART'
         ];
@@ -148,7 +152,7 @@ class Siberian_VestaCP_Api
                     'returncode' => 'yes',
                     'cmd' => 'v-update-web-domain-ssl',
                     'arg1' => $this->username,
-                    'arg2' => $mainDomain,
+                    'arg2' => $webspace,
                     'arg3' => $folder,
                     'arg4' => 'RESTART'
                 ];
