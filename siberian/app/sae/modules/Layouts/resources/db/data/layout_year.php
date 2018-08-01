@@ -27,3 +27,5 @@ $datas = [
     "use_homepage_slider" => 0,
     "options" => $default_options,
 ];
+
+Siberian_Feature::installApplicationLayout($datas, "default");

@@ -94,52 +94,50 @@ class Admin_Api_AccountController extends Api_Controller_Default {
     }
 
     public function createAction() {
-
-        if($data = $this->getRequest()->getPost()) {
-
-            try {
-
-                $admin = new Admin_Model_Admin();
-                $email_checker = new Admin_Model_Admin();
-
-                if(!empty($data['user_id'])) {
-                    throw new Exception(__("Unable to update a user from here."));
-                }
-                if(empty($data['email'])) {
-                    throw new Exception(__("The email is required"));
-                }
-
-                $email_checker->find($data['email'], 'email');
-                if($email_checker->getId()) {
-                    throw new Exception(__("This email address is already used"));
-                }
-
-                if(!isset($data['password'])) {
-                    throw new Exception(__('The password is required'));
-                }
-
-                $admin->addData($data)
-                    ->setPassword($data["password"])
-                    ->save()
-                ;
-
-                $data = array(
-                    "success" => 1,
-                    "user_id" => $admin->getId(),
-                    "token" => $admin->getLoginToken()
-                );
-
-            } catch(Exception $e) {
-                $data = array(
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                );
+        try {
+            $data = $this->getRequest()->getPost();
+            if (!$data) {
+                throw new \Siberian\Exception('dqzdqzdzq');
             }
 
-            $this->_sendJson($data);
+            $admin = new Admin_Model_Admin();
+            $email_checker = new Admin_Model_Admin();
 
+            if(!empty($data['user_id'])) {
+                throw new Exception(__("Unable to update a user from here."));
+            }
+            if(empty($data['email'])) {
+                throw new Exception(__("The email is required"));
+            }
+
+            $email_checker->find($data['email'], 'email');
+            if($email_checker->getId()) {
+                throw new Exception(__("This email address is already used"));
+            }
+
+            if(!isset($data['password'])) {
+                throw new Exception(__('The password is required'));
+            }
+
+            $admin->addData($data)
+                ->setPassword($data["password"])
+                ->save()
+            ;
+
+            $data = array(
+                "success" => 1,
+                "user_id" => $admin->getId(),
+                "token" => $admin->getLoginToken()
+            );
+
+        } catch(Exception $e) {
+            $data = array(
+                'error' => 1,
+                'message' => $e->getMessage()
+            );
         }
 
+        $this->_sendJson($data);
     }
 
     public function updateAction() {

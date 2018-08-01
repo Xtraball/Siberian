@@ -1,8 +1,8 @@
 <?php
 $init = function($bootstrap) {
 
-    $js = array();
-    $css = array();
+    $js = [];
+    $css = [];
 
     #===== All layouts assets =====#
     Siberian_Assets::registerAssets("Layouts", "/app/sae/modules/Layouts/resources/var/apps/");
@@ -16,17 +16,17 @@ $init = function($bootstrap) {
     $css[] = "modules/layout/home/layout_siberian_swipe/style.css";
 
     Siberian_Feature::registerRatioCallback("layout_siberian_swipe", function($position, $options = null) {
-        $sizes = array(
+        $sizes = [
             "width" => 820,
             "height" => 480,
-        );
+        ];
 
         if(!empty($options)) {
             if(isset($options["icons"]) && ($options["icons"] == "default")) {
-                $sizes = array(
+                $sizes = [
                     "width" => 512,
                     "height" => 512,
-                );
+                ];
             }
         }
 
@@ -34,14 +34,14 @@ $init = function($bootstrap) {
     });
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_siberian_swipe", "Layouts_Form_SwipeOptions", function($datas) {
-        $options = array(
+        $options = [
             "loop" => $datas["loop"],
-            "coverflow" => array(
+            "coverflow" => [
                 "rotate" => $datas["rotate"],
                 "stretch" => $datas["stretch"],
                 "depth" => $datas["depth"],
-            ),
-        );
+            ],
+        ];
 
         return $options;
     });
@@ -73,12 +73,12 @@ $init = function($bootstrap) {
             }
         }
 
-        return array(
+        return [
             "width" => $width,
             "height" => $height,
-        );
+        ];
     });
-    Siberian_Feature::registerLayoutOptionsCallbacks("layout_17", "Layouts_Form_ApartmentsOptions", function($datas) {return array();});
+    Siberian_Feature::registerLayoutOptionsCallbacks("layout_17", "Layouts_Form_ApartmentsOptions", function($datas) {return [];});
     #===== /Layout Apartments =====#
 
 
@@ -87,11 +87,11 @@ $init = function($bootstrap) {
     $css[] = "modules/layout/home/layout_siberian_18/style.css";
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_siberian_18", "Layouts_Form_Layout18Options", function($datas) {
-        $options = array(
+        $options = [
             "borders" => $datas["borders"],
             "label" => $datas["label"],
             "textTransform" => $datas["textTransform"],
-        );
+        ];
 
         return $options;
     });
@@ -100,9 +100,9 @@ $init = function($bootstrap) {
 
     #===== Layout 1 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_1", "Layouts_Form_Layout1Options", function($datas) {
-        $options = array(
+        $options = [
             "shadow" => $datas["shadow"],
-        );
+        ];
 
         return $options;
     });
@@ -111,9 +111,9 @@ $init = function($bootstrap) {
 
     #===== Layout 2 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_2", "Layouts_Form_Layout2Options", function($datas) {
-        $options = array(
+        $options = [
             "shadow" => $datas["shadow"],
-        );
+        ];
 
         return $options;
     });
@@ -122,17 +122,17 @@ $init = function($bootstrap) {
 
     #===== Layout 3 - 3H =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_3", "Layouts_Form_Layout3Options", function($datas) {
-        $options = array(
+        $options = [
             "title" => $datas["title"],
-        );
+        ];
 
         return $options;
     });
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_3_h", "Layouts_Form_Layout3HorizontalOptions", function($datas) {
-        $options = array(
+        $options = [
             "colorizePager" => false,
-        );
+        ];
 
         return $options;
     });
@@ -141,17 +141,17 @@ $init = function($bootstrap) {
 
     #===== Layout 4 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_4", "Layouts_Form_Layout4Options", function($datas) {
-        $options = array(
+        $options = [
             "title" => $datas["title"],
-        );
+        ];
 
         return $options;
     });
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_4_h", "Layouts_Form_Layout4HorizontalOptions", function($datas) {
-        $options = array(
+        $options = [
             "colorizePager" => false,
-        );
+        ];
 
         return $options;
     });
@@ -160,17 +160,17 @@ $init = function($bootstrap) {
 
     #===== Layout 5 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_5", "Layouts_Form_Layout5Options", function($datas) {
-        $options = array(
+        $options = [
             "textTransform" => $datas["textTransform"],
-        );
+        ];
 
         return $options;
     });
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_5_h", "Layouts_Form_Layout5HorizontalOptions", function($datas) {
-        $options = array(
+        $options = [
             "colorizePager" => false,
-        );
+        ];
 
         return $options;
     });
@@ -179,10 +179,10 @@ $init = function($bootstrap) {
 
     #===== Layout 6 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_6", "Layouts_Form_Layout6Options", function($datas) {
-        $options = array(
+        $options = [
             "label" => $datas["label"],
             "textTransform" => $datas["textTransform"],
-        );
+        ];
 
         return $options;
     });
@@ -191,11 +191,11 @@ $init = function($bootstrap) {
 
     #===== Layout 7 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_7", "Layouts_Form_Layout7Options", function($datas) {
-        $options = array(
+        $options = [
             "borders" => $datas["borders"],
             "textTransform" => $datas["textTransform"],
             "title" => $datas["title"],
-        );
+        ];
 
         return $options;
     });
@@ -204,11 +204,11 @@ $init = function($bootstrap) {
 
     #===== Layout 9 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_9", "Layouts_Form_Layout9Options", function($datas) {
-        $options = array(
+        $options = [
             "background" => $datas["background"],
             "textTransform" => $datas["textTransform"],
             "title" => $datas["title"],
-        );
+        ];
 
         return $options;
     });
@@ -217,10 +217,10 @@ $init = function($bootstrap) {
 
     #===== Layout 10 =====#
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_10", "Layouts_Form_Layout10Options", function($datas) {
-        $options = array(
+        $options = [
             "border" => $datas["border"],
             "shadow" => $datas["shadow"],
-        );
+        ];
 
         return $options;
     });
@@ -231,11 +231,11 @@ $init = function($bootstrap) {
     $css[] = "modules/layout/home/layout_siberian_year/style.css";
 
     Siberian_Feature::registerLayoutOptionsCallbacks("layout_siberian_year", "Layouts_Form_LayoutYearOptions", function($datas) {
-        $options = array(
+        $options = [
             "positionMenu" => $datas["menu-middle"],
             "textTransform" => $datas["textTransform"],
             "title" => $datas["titlehidden"],
-        );
+        ];
 
         return $options;
     });

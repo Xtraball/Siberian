@@ -3,7 +3,7 @@
     <div class="step step1 col-md-12">
         <?php echo $this->getLayout()->addPartial('welcome', 'core_view_default', 'installer/installation/index/welcome.phtml')->setErrors($errors)->toHtml(); ?>
     </div>
-    <?php if(empty($errors["permissions"]) AND empty($errors["extensions"])) : ?>
+    <?php if(empty($errors)) : ?>
     <div class="step step2 col-md-12">
         <?php echo $this->getLayout()->addPartial('license', 'core_view_default', 'installer/installation/index/license.phtml')->toHtml(); ?>
     </div>

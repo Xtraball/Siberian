@@ -116,7 +116,6 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
         foreach($primaryKey as $pk) {
             $order[] = $pk . ' DESC';
         }
-        $order = join(', ', $order);
 
         return $this->fetchRow($where, $order);
     }

@@ -43,27 +43,40 @@
 
         </style>
     </head>
-    <?php $errors = array(); ?>
-    <?php $errors["permissions"] = Installer_Model_Installer::checkPermissions(); ?>
-    <?php $errors["extensions"] = Installer_Model_Installer::checkExtensions(); ?>
-    <?php $errors["php_version"] = Installer_Model_Installer::checkRequiredPhpVersion(); ?>
+
+<?php
+Installer_Model_Installer::runTest();
+$errors = Installer_Model_Installer::$_errors;
+?>
     <body class="<?php echo $this->default_class_name ?> general">
 
         <div class="wrapper">
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
             </div>
-            <div id="content" class="container">
-                <div id="sidebar" class="sidebar col-md-3">
+            <div id="content"
+                 class="container">
+                <div id="sidebar"
+                     class="sidebar col-md-3">
                     <?php echo $this->getPartialHtml('sidebar') ?>
                 </div>
                 <div class="content col-md-9">
-                    <div id="mask" class="mask" style="display:none;">
-                        <button id="hide_mask" class="default_button reverse" style="display:none;"><i class="icon-remove"></i></button>
+                    <div id="mask"
+                         class="mask"
+                         style="display:none;">
+                        <button id="hide_mask"
+                                class="default_button reverse"
+                                style="display:none;"><i class="icon-remove"></i></button>
                         <div class="loader"></div>
                     </div>
-                    <?php echo $this->getPartialHtml('title') ?>
-                    <?php echo $this->getPartial('content')->setErrors($errors)->toHtml() ?>
+                    <?php
+                        echo $this->getPartialHtml('title');
+                        echo
+                        $this
+                            ->getPartial('content')
+                            ->setErrors($errors)
+                            ->toHtml()
+                    ?>
                 </div>
             </div>
             <div class="footer">
@@ -71,17 +84,17 @@
             </div>
         </div>
 
-        <div id="alert" class="header">
+        <div id="alert"
+             class="header">
             <div id="alert_message"></div>
-            <button type="button" class="default_button" id="close_alert_message">OK</button>
+            <button type="button"
+                    class="default_button"
+                    id="close_alert_message">OK</button>
         </div>
 
         <script type="text/javascript">
-
             $.validator.messages = validatorMessages['<?php echo Core_Model_Language::getCurrentLanguage(); ?>'];
-
             $(document).ready(function() {
-
                 loader.init();
 
                 $('#change_language').change(function() {
@@ -97,23 +110,22 @@
                         }
                     });
                 });
-
             });
 
             $(document).ready(function() {
                 setTimeout(installer.init.bind(installer), 800);
-                <?php if(empty($errors["permissions"]) AND empty($errors["extensions"])) : ?>
-                installer.setPlugins(<?php echo Zend_Json::encode(Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories()) ?>);
-                installer.installation_url = '<?php echo $this->getUrl('installer/installation_database/install'); ?>';
-                installer.installation_url_data = '<?php echo $this->getUrl('installer/installation_database/insertdata'); ?>';
-                installer.check_database_connection_url = '<?php echo $this->getUrl('installer/installation_database/check'); ?>';
-                installer.create_admin_url = '<?php echo $this->getUrl('installer/installation_user/create'); ?>';
-                installer.create_application_url = '<?php echo $this->getUrl('installer/installation_application/create'); ?>';
-                installer.cron_url = '<?php echo $this->getUrl('installer/installation_database/cronscheduler'); ?>';
-                $('#previous_step').click(installer.previousStep.bind(installer));
-                $('#next_step').click(installer.nextStep.bind(installer));
+                <?php if(empty($errors)) : ?>
+                    installer.setPlugins(<?php echo Zend_Json::encode(Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories()) ?>);
+                    installer.installation_url = '<?php echo $this->getUrl('installer/installation_database/install'); ?>';
+                    installer.installation_url_data = '<?php echo $this->getUrl('installer/installation_database/insertdata'); ?>';
+                    installer.check_database_connection_url = '<?php echo $this->getUrl('installer/installation_database/check'); ?>';
+                    installer.create_admin_url = '<?php echo $this->getUrl('installer/installation_user/create'); ?>';
+                    installer.create_application_url = '<?php echo $this->getUrl('installer/installation_application/create'); ?>';
+                    installer.cron_url = '<?php echo $this->getUrl('installer/installation_database/cronscheduler'); ?>';
+                    $('#previous_step').click(installer.previousStep.bind(installer));
+                    $('#next_step').click(installer.nextStep.bind(installer));
                 <?php else : ?>
-                installer.containErrors();
+                    installer.containErrors();
                 <?php endif; ?>
             });
         </script>
