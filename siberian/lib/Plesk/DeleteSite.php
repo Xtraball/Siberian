@@ -8,7 +8,7 @@ class DeleteSite extends BaseRequest
      */
     public $xml_packet = <<<EOT
 <?xml version="1.0"?>
-<packet version="1.6.9.1">
+<packet version="1.6.3.0">
 <site>
 	<del>
 		<filter>

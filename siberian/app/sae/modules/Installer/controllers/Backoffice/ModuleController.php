@@ -81,8 +81,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     chdir($base);
                     exec('zip test.zip test.file');
                     if (!file_exists($zip_file)) {
-                        $_errors[] = 'Please enable/add binary: zip & unzip';
-                        $fatalErrors = true;
+                        //$_errors[] = 'Please enable/add binary: zip & unzip';
+                        //$fatalErrors = true;
                     } else {
                         // now test unzip
                         if (file_exists($test_file)) {
@@ -90,8 +90,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                         }
                         exec('unzip test.zip');
                         if (!file_exists($test_file)) {
-                            $_errors[] = 'Please enable/add binary: unzip';
-                            $fatalErrors = true;
+                            //$_errors[] = 'Please enable/add binary: unzip';
+                            //$fatalErrors = true;
                         }
                     }
                 } catch (Exception $e) {

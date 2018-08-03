@@ -285,12 +285,12 @@ class Installer_Model_Installer extends Core_Model_Default
         if (function_exists('exec')) {
             $which1 = exec('which zip');
             if (empty($which1)) {
-                self::$_errors[] = 'Please enable/add binary: zip';
+                //self::$_errors[] = 'Please enable/add binary: zip';
             }
 
             $which2 = exec('which unzip');
             if (empty($which2)) {
-                self::$_errors[] = 'Please enable/add binary: unzip';
+                //self::$_errors[] = 'Please enable/add binary: unzip';
             }
 
         } else {
