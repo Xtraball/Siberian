@@ -1,5 +1,12 @@
+<?php
+$owner = exec("stat -c \"%U\" '" . APPLICATION_PATH . "/../index.php'", $output, $exitCode);
+if ($exitCode === 1) {
+    $owner = exec("ls -al  '" . APPLICATION_PATH . "/../index.php' | awk '{print $3}'", $output, $exitCode);
+}
+?>
 
-<form ng-submit="test_integrity()" class="form-horizontal">
+<form ng-submit="test_integrity()"
+      class="form-horizontal">
     <sb-section title="'<?php echo addcslashes(__("Integrity check"), "'"); ?>'">
 
         <div class="form-group">
@@ -10,33 +17,41 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><i class="fa fa-play"></i> <?php echo __("Run test"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-play"></i> <?php echo __("Run test"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-12" ng-show="integrity_result.hash.length">
+            <div class="col-md-12"
+                 ng-show="integrity_result.hash.length">
                 <h4><?php echo __("File hash is different from manifest.") ?></h4>
                 <div ng-repeat="file in integrity_result.hash">
                     <span>{{ file }}</span>
                 </div>
             </div>
 
-            <div class="col-md-12" ng-show="integrity_result.missing.length">
+            <div class="col-md-12"
+                 ng-show="integrity_result.missing.length">
                 <h4><?php echo __("File is missing.") ?></h4>
                 <div ng-repeat="file in integrity_result.missing">
                     <span>{{ file }}</span>
                 </div>
-
             </div>
         </div>
 
     </sb-section>
 </form>
 
-<form ng-submit="restore_apps()" class="form-horizontal">
+<form ng-submit="restore_apps()"
+      class="form-horizontal">
     <sb-section title="'<?php echo addcslashes(__("Restore Apps sources"), "'"); ?>'">
         <div class="form-group">
             <div class="col-md-12">
@@ -46,12 +61,58 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><i class="fa fa-medkit"></i> <?php echo __("Restore Apps"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-medkit"></i> <?php echo __("Restore Apps"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
     </sb-section>
 </form>
 
+<form ng-submit="restore_apps()"
+      class="form-horizontal">
+    <sb-section title="'<?php echo addcslashes(__("Siberian informations"), "'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <?php echo __("Below you'll find important informations required in some services!") ?>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table class="table">
+                    <tr>
+                        <th><?php echo __('Siberian domain'); ?></th>
+                        <td><?php echo __get('main_domain'); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Siberian current installation path'); ?></th>
+                        <td><?php echo realpath(APPLICATION_PATH . '/../'); ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('Web folder Owner'); ?></th>
+                        <td><?php echo empty($owner) ? '-' : $owner; ?></td>
+                    </tr>
+                    <tr>
+                        <th><?php echo __('PHP Version'); ?></th>
+                        <td><?php echo PHP_VERSION; ?></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </sb-section>
+</form>
+
+<style type="text/css">
+    th {
+        padding-right: 15px;
+        font-weight: bold;
+    }
+</style>
 
