@@ -244,12 +244,14 @@ class Installer_Model_Installer extends Core_Model_Default
     }
 
     /**
-     * @return array
+     *
      */
     public static function testPhp()
     {
         if (!self::hasRequiredPhpVersion()) {
-            self::$_errors[] = __("Your PHP version %s is too old, please upgrade at least to PHP 5.6+.", PHP_VERSION);
+            self::$_errors[] =
+                __("Your PHP version %s is not supported, PHP versions from 5.6 to 7.0 are supported.",
+                    PHP_VERSION);
         }
     }
 
@@ -280,23 +282,23 @@ class Installer_Model_Installer extends Core_Model_Default
     /**
      *
      */
-    public static function testExec()
-    {
-        if (function_exists('exec')) {
-            $which1 = exec('which zip');
-            if (empty($which1)) {
-                //self::$_errors[] = 'Please enable/add binary: zip';
-            }
-
-            $which2 = exec('which unzip');
-            if (empty($which2)) {
-                //self::$_errors[] = 'Please enable/add binary: unzip';
-            }
-
-        } else {
-            self::$_errors[] = 'Please enable/add function: exec()';
-        }
-    }
+    //public static function testExec()
+    //{
+    //    if (function_exists('exec')) {
+    //        $which1 = exec('which zip');
+    //        if (empty($which1)) {
+    //            //self::$_errors[] = 'Please enable/add binary: zip';
+    //        }
+//
+    //        $which2 = exec('which unzip');
+    //        if (empty($which2)) {
+    //            //self::$_errors[] = 'Please enable/add binary: unzip';
+    //        }
+//
+    //    } else {
+    //        self::$_errors[] = 'Please enable/add function: exec()';
+    //    }
+    //}
 
     /**
      *
@@ -309,7 +311,7 @@ class Installer_Model_Installer extends Core_Model_Default
     }
 
     /**
-     * @return array
+     *
      */
     public static function testPermissions()
     {
@@ -355,7 +357,7 @@ class Installer_Model_Installer extends Core_Model_Default
         self::testPhp();
         self::testFunctions();
         self::testExtensions();
-        self::testExec();
+        //self::testExec();
         self::testOpenSSL();
         self::testPermissions();
     }
