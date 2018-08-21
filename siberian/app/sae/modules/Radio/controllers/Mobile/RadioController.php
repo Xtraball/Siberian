@@ -31,12 +31,15 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
                         'value_id' => $valueId
                     ]);
 
-                // Fix for shoutcast, force stream!
-                $contentType = Siberian_Request::testStream($this->getData('link'));
-                if(!in_array(explode('/', $contentType)[0], ['audio']) &&
-                    !in_array($contentType, ['application/ogg'])) {
-                    if(strrpos($this->getData('link'), ';') === false) {
-                        $this->setData('link', $this->getData('link') . '/;');
+                // test stream only for old versions!
+                if ($radio->getVersion() < 2) {
+                    // Fix for shoutcast, force stream!
+                    $contentType = Siberian_Request::testStream($this->getData('link'));
+                    if(!in_array(explode('/', $contentType)[0], ['audio']) &&
+                        !in_array($contentType, ['application/ogg'])) {
+                        if(strrpos($this->getData('link'), ';') === false) {
+                            $this->setData('link', $this->getData('link') . '/;');
+                        }
                     }
                 }
 

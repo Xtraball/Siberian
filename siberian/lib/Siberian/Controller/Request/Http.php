@@ -28,6 +28,17 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
     public $isAllowed;
 
     /**
+     * Siberian_Controller_Request_Http constructor.
+     * @param null $uri
+     * @throws Zend_Controller_Request_Exception
+     * @throws Zend_Exception
+     */
+    public function __construct($uri = null)
+    {
+        parent::__construct($uri);
+    }
+
+    /**
      * @return array|mixed
      */
     public function getBodyParams()

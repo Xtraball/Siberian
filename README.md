@@ -41,7 +41,7 @@
 
     * required: `zip`, `unzip`
 
-    * optional: `pngquant` or `optipng`, `jpegoptim`
+    * optional: `pngquant` or `optipng`, `jpegoptim`, 
 
 ### Configuration
 

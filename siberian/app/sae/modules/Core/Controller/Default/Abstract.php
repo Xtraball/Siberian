@@ -41,6 +41,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return parent::getRequest();
     }
 
+    /**
+     * @return $this|void
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
+     */
     public function init()
     {
         $this->cache = Zend_Registry::get('cache');
@@ -62,6 +67,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->_initTranslator();
 
         $this->_layout = $this->_helper->layout->getLayoutInstance();
+
+        // Filtering $_FILES;
+        if (!empty($_FILES)) {
+            \Siberian\Security::filterFiles($_FILES, $this->getSession());
+        }
     }
 
     /**
@@ -755,14 +765,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * Download a file or data
      *
-     * @param $file Path or RAW Data
+     * @param $file
      * @param $filename
      * @param string $content_type
+     * @throws \Siberian\Exception
      */
     protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
     {
-
-
         $response = $this->getResponse();
 
         $response->setHeader('Content-Description', 'File Transfer');
@@ -778,7 +787,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $sibAppsPath = Core_Model_Directory::getBasePathTo("/var/apps");
             //check if we download a file from /var/tmp
             if (stripos($file, $sibTmpPath) !== 0 && stripos($file, $sibAppsPath) !== 0) {
-                throw new Exception("Forbidden path $file");
+                throw new \Siberian\Exception("Forbidden path $file");
             }
 
             $response->setHeader('Content-Length', filesize($file));
