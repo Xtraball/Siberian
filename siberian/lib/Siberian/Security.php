@@ -52,6 +52,7 @@ class Security
 
         foreach ($newFiles as $file) {
             $fileParts = pathinfo($file['name']);
+            $extension = strtolower($fileParts['extension']);
 
             if (!array_key_exists('type', $file)) {
                 // Wipe files without mime/type!
@@ -60,20 +61,20 @@ class Security
             }
 
             // Forbidden extensions!
-            if (in_array($fileParts['extension'], self::FW_FORBIDDEN_EXTENSIONS)) {
+            if (in_array($extension, self::FW_FORBIDDEN_EXTENSIONS)) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
                 self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
             // Regex for php
-            if (preg_match("/php/ig", $fileParts['extension'])) {
+            if (preg_match("/php/ig", $extension)) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
                 self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
-            if (!in_array($fileParts['extension'], $allowedExtensionsArray)) {
+            if (!in_array($extension, $allowedExtensionsArray)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
                 self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
