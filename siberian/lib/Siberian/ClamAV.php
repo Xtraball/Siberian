@@ -65,6 +65,8 @@ class ClamAV
     // Private function to open a socket to clamd based on the current options
     private function socket()
     {
+        ini_set('default_socket_timeout', 10);
+
         if (!empty($this->clamd_ip) && !empty($this->clamd_port)) {
             // Attempt to use a network based socket
             $socket = socket_create(AF_INET, SOCK_STREAM, 0);

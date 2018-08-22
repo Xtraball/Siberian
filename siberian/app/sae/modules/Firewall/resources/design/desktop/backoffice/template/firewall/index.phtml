@@ -1,52 +1,3 @@
-<sb-section title="'<?php echo addcslashes(__("Add new upload extensions."), "'"); ?>'">
-    <div class="form-group">
-        <div class="col-md-12">
-            <div class="alert alert-info">
-                <b><?php echo __("You can add allowed extensions, please note that .php, .js & .ico are strictly forbidden and can't be added") ?></b>
-            </div>
-        </div>
-
-        <form ng-submit="addFwUploadRule()">
-            <div class="col-md-8">
-                <input type="text"
-                       id="newExtension"
-                       class="form-control"
-                       placeholder="<?php echo __js("Extension: txt, png, jpeg, avi, etc...") ?>"
-                       ng-model="form.newExtension" />
-            </div>
-
-            <div class="col-md-4">
-                <button class="btn btn-info"
-                        type="submit"><?php echo __('Add extension') ?></button>
-            </div>
-        </form>
-    </div>
-</sb-section>
-
-<sb-section title="'<?php echo addcslashes(__("Allowed upload extensions."), "'"); ?>'">
-    <table class="table">
-        <thead>
-            <tr>
-                <th style="width:50%;"><?php echo __("Extension") ?></th>
-                <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="fw_upload_rule in fw_upload_rules"
-                ng-show="fw_upload_rules.length">
-                <td>{{ fw_upload_rule.value }}</td>
-                <td style="text-align:right;">
-                    <button class="btn btn-xs btn-danger"
-                            ng-click="deleteFwUploadRule(fw_upload_rule.value)"><?php echo __('Delete') ?></button>
-                </td>
-            </tr>
-            <tr ng-show="!fw_upload_rules.length">
-                <td colspan="2"><?php echo __("No rules") ?></td>
-            </tr>
-        </tbody>
-    </table>
-</sb-section>
-
 <sb-section title="'<?php echo addcslashes(__("ClamAV settings"), "'"); ?>'">
     <div class="form-group">
 
@@ -83,5 +34,58 @@
                         type="submit"><?php echo __('Save') ?></button>
             </div>
         </form>
+
+        <div style="clear:both;"></div>
     </div>
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Add new upload extensions."), "'"); ?>'">
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <b><?php echo __("You can add allowed extensions, please note that .php, .js & .ico are strictly forbidden and can't be added") ?></b>
+            </div>
+        </div>
+
+        <form ng-submit="addFwUploadRule()">
+            <div class="col-md-8">
+                <input type="text"
+                       id="newExtension"
+                       class="form-control"
+                       placeholder="<?php echo __js("Extension: txt, png, jpeg, avi, etc...") ?>"
+                       ng-model="form.newExtension" />
+            </div>
+
+            <div class="col-md-4">
+                <button class="btn btn-info"
+                        type="submit"><?php echo __('Add extension') ?></button>
+            </div>
+        </form>
+
+        <div style="clear:both;"></div>
+    </div>
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Allowed upload extensions."), "'"); ?>'">
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="width:50%;"><?php echo __("Extension") ?></th>
+                <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="fw_upload_rule in fw_upload_rules"
+                ng-show="fw_upload_rules.length">
+                <td>{{ fw_upload_rule.value }}</td>
+                <td style="text-align:right;">
+                    <button class="btn btn-xs btn-danger"
+                            ng-click="deleteFwUploadRule(fw_upload_rule.value)"><?php echo __('Delete') ?></button>
+                </td>
+            </tr>
+            <tr ng-show="!fw_upload_rules.length">
+                <td colspan="2"><?php echo __("No rules") ?></td>
+            </tr>
+        </tbody>
+    </table>
 </sb-section>
