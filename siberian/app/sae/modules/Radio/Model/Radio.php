@@ -1,7 +1,20 @@
 <?php
-class Radio_Model_Radio extends Core_Model_Default {
 
-    public function __construct($params = array()) {
+/**
+ * Class Radio_Model_Radio
+ *
+ * @method $this setVersion(integer $version)
+ * @method integer getVersion()
+ */
+class Radio_Model_Radio extends Core_Model_Default
+{
+    /**
+     * Radio_Model_Radio constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Radio_Model_Db_Table_Radio';
         return $this;
@@ -10,17 +23,18 @@ class Radio_Model_Radio extends Core_Model_Default {
     /**
      * @return array
      */
-    public function getInappStates($value_id) {
+    public function getInappStates($value_id)
+    {
 
-        $in_app_states = array(
-            array(
+        $in_app_states = [
+            [
                 "state" => "radio",
                 "offline" => false,
-                "params" => array(
+                "params" => [
                     "value_id" => $value_id,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $in_app_states;
     }
@@ -29,28 +43,29 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value)
+    {
 
         $payload = false;
 
-        if($this->getId()) {
+        if ($this->getId()) {
 
             // Fix for shoutcast, force stream!
             $contentType = Siberian_Request::testStream($this->getLink());
-            if(!in_array(explode('/', $contentType)[0], ['audio']) &&
+            if (!in_array(explode('/', $contentType)[0], ['audio']) &&
                 !in_array($contentType, ['application/ogg'])) {
-                if(strrpos($this->getLink(), ';') === false) {
+                if (strrpos($this->getLink(), ';') === false) {
                     $this->setLink($this->getLink() . '/;');
                 }
             }
 
-            $payload = array(
-                "radio" => array(
-                    "url"           => addslashes($this->getLink()),
-                    "title"         => $this->getTitle(),
-                    "background"    => $option_value->getBaseUrl() . "/images/application" . $this->getBackground(),
-                )
-            );
+            $payload = [
+                "radio" => [
+                    "url" => addslashes($this->getLink()),
+                    "title" => $this->getTitle(),
+                    "background" => $option_value->getBaseUrl() . "/images/application" . $this->getBackground(),
+                ]
+            ];
 
         }
 
@@ -58,8 +73,18 @@ class Radio_Model_Radio extends Core_Model_Default {
 
     }
 
-    public function copyTo($option) {
-        $this->setId(null)->setValueId($option->getId())->save();
+    /**
+     * @param $option
+     * @param null $parent_id
+     * @return $this
+     */
+    public function copyTo($option, $parent_id = null)
+    {
+        $this
+            ->setId(null)
+            ->setValueId($option->getId())
+            ->save();
+
         return $this;
     }
 
@@ -67,7 +92,8 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @param bool $base64
      * @return string
      */
-    public function _getBackground() {
+    public function _getBackground()
+    {
         return $this->__getBase64Image($this->getBackground());
     }
 
@@ -76,7 +102,8 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @param $option
      * @return $this
      */
-    public function _setBackground($base64, $option) {
+    public function _setBackground($base64, $option)
+    {
         $background_path = $this->__setImageFromBase64($base64, $option, 1080, 1920);
         $this->setBackground($background_path);
 
@@ -88,8 +115,9 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @return string
      * @throws Exception
      */
-    public function exportAction($option, $export_type = null) {
-        if($option && $option->getId()) {
+    public function exportAction($option, $export_type = null)
+    {
+        if ($option && $option->getId()) {
 
             $current_option = $option;
             $value_id = $current_option->getId();
@@ -100,14 +128,14 @@ class Radio_Model_Radio extends Core_Model_Default {
             $radio_data = $radio->getData();
             $radio_data["background"] = $radio->_getBackground();
 
-            $dataset = array(
+            $dataset = [
                 "option" => $current_option->forYaml(),
                 "radio" => $radio_data,
-            );
+            ];
 
             try {
                 $result = Siberian_Yaml::encode($dataset);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 throw new Exception("#088-03: An error occured while exporting dataset to YAML.");
             }
 
@@ -122,12 +150,13 @@ class Radio_Model_Radio extends Core_Model_Default {
      * @param $path
      * @throws Exception
      */
-    public function importAction($path) {
+    public function importAction($path)
+    {
         $content = file_get_contents($path);
 
         try {
             $dataset = Siberian_Yaml::decode($content);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("#088-04: An error occured while importing YAML dataset '$path'.");
         }
 
@@ -136,19 +165,18 @@ class Radio_Model_Radio extends Core_Model_Default {
         $application_option = new Application_Model_Option_Value();
         $radio_model = new Radio_Model_Radio();
 
-        if(isset($dataset["option"]) && isset($dataset["radio"])) {
+        if (isset($dataset["option"]) && isset($dataset["radio"])) {
             $new_application_option = $application_option
                 ->setData($dataset["option"])
                 ->unsData("value_id")
                 ->unsData("id")
                 ->setData('app_id', $application->getId())
-                ->save()
-            ;
+                ->save();
 
             $new_value_id = $new_application_option->getId();
 
             /** Create Job/Options */
-            if($new_value_id) {
+            if ($new_value_id) {
                 $new_radio = $radio_model
                     ->setData($dataset["radio"])
                     ->unsData("radio_id")
@@ -157,8 +185,7 @@ class Radio_Model_Radio extends Core_Model_Default {
                     ->unsData("updated_at")
                     ->setData("value_id", $new_value_id)
                     ->_setBackground($dataset["radio"]["background"], $new_application_option)
-                    ->save()
-                ;
+                    ->save();
             } else {
                 /** Log, empty feature/default */
             }

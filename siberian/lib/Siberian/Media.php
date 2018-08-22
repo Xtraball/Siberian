@@ -163,6 +163,10 @@ class Siberian_Media
             }
         }
 
+        // ClamAV test
+        $clamav = new \Siberian\ClamAV();
+        $libraries['clamav'] = $clamav->ping();
+
         return $libraries;
     }
 

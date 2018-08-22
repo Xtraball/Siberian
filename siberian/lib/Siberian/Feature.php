@@ -323,7 +323,8 @@ class Siberian_Feature
         }
 
         if (!file_exists($img_dst) && !copy($img_src, $img_dst)) {
-            throw new Siberian_Exception('#343-01: ' . __('An error occurred while saving your picture. Please try again later.<br />%s - %s', $img_src, $img_dst));
+            throw new Siberian_Exception('#343-01: ' .
+                __('An error occurred while saving your picture. Please try again later.'));
         } else {
             $path = $relative_path . '/' . $filename;
             try {

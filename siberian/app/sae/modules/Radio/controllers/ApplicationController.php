@@ -1,6 +1,7 @@
 <?php
 
-class Radio_ApplicationController extends Application_Controller_Default {
+class Radio_ApplicationController extends Application_Controller_Default
+{
 
     /**
      * @var array
@@ -15,63 +16,88 @@ class Radio_ApplicationController extends Application_Controller_Default {
 
     /**
      * Simple edit post, validator
+     *
+     * @throws Zend_Exception
+     * @throws Zend_Form_Exception
+     * @throws exception
      */
-    public function editpostAction() {
-        $values = $this->getRequest()->getPost();
+    public function editpostAction()
+    {
+        try {
+            $values = $this->getRequest()->getPost();
 
-        $form = new Radio_Form_Radio();
-        if($form->isValid($values)) {
-            /** Do whatever you need when form is valid */
-            $radio = new Radio_Model_Radio();
-            $radio->find($values["radio_id"]);
-            $radio->setData($values);
-
-            if($values["background"] == "_delete_") {
-                $radio->setData("background", "");
-            } else if(file_exists(Core_Model_Directory::getBasePathTo("images/application".$values["background"]))) {
-                # Nothing changed, skip
+            $form = new Radio_Form_Radio();
+            if (!$form->isValid($values)) {
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
             } else {
-                $background = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values["background"]);
-                $radio->setData("background", $background);
+                /** Do whatever you need when form is valid */
+                $radio = new Radio_Model_Radio();
+                $radio->find($values["radio_id"]);
+                $radio->setData($values);
+
+                // Fix for shoutcast, force stream! fix once for all!
+                $contentType = Siberian_Request::testStream($radio->getData('link'));
+                if (!in_array(explode('/', $contentType)[0], ['audio']) &&
+                    !in_array($contentType, ['application/ogg'])) {
+                    if (strrpos($radio->getData('link'), ';') === false) {
+                        $radio->setData('link', $radio->getData('link') . '/;');
+                    }
+                }
+
+                // Set version 2 on create/save, means it's been updated
+                $radio->setVersion(2);
+
+                if ($values["background"] == "_delete_") {
+                    $radio->setData("background", "");
+                } else if (is_file(Core_Model_Directory::getBasePathTo("images/application" . $values["background"]))) {
+                    # Nothing changed, skip
+                } else if (is_file(Core_Model_Directory::getTmpDirectory() . "/" . $values["background"])) {
+                    $background = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(),
+                        Core_Model_Directory::getTmpDirectory() . "/" . $values["background"]);
+                    $radio->setData("background", $background);
+                }
+
+                /** Alert ipv4 */
+                $warning_message = Siberian_Network::testipv4($values['link']);
+
+                $radio->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = array(
+                    'success' => true,
+                    'message' => __('Success.'),
+                );
             }
-
-            /** Alert ipv4 */
-            $warning_message = Siberian_Network::testipv4($values['link']);
-
-            $radio->save();
-
-            /** Update touch date, then never expires (until next touch) */
-            $this->getCurrentOptionValue()
-                ->touch()
-                ->expires(-1);
-
-            $html = array(
-                "success" => 1,
-                "message" => __("Success."),
-            );
-        } else {
-            /** Do whatever you need when form is not valid */
-            $html = array(
-                "error" => 1,
-                "message" => $form->getTextErrors(),
-                "errors" => $form->getTextErrors(true)
-            ); 
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
 
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $this->_sendJson($payload);
     }
 
     /**
-     * @param $option
-     * @return string
+     * @return string|void
      * @throws Exception
+     * @throws Zend_Exception
      */
-    public function exportAction() {
-        if($this->getCurrentOptionValue()) {
+    public function exportAction()
+    {
+        if ($this->getCurrentOptionValue()) {
             $radio = new Radio_Model_Radio();
             $result = $radio->exportAction($this->getCurrentOptionValue());
 
-            $this->_download($result, "radio-".date("Y-m-d_h-i-s").".yml", "text/x-yaml");
+            $this->_download($result, "radio-" . date("Y-m-d_h-i-s") . ".yml", "text/x-yaml");
         }
     }
 

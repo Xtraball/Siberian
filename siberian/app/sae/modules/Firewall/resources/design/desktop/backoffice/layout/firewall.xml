@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <firewall_index_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="firewall/index.phtml" />
+        </views>
+    </firewall_index_template>
+</layout>

@@ -93,7 +93,19 @@ if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] ==
 }
 
 // Running!
-$application->bootstrap()->run();
+try {
+    $application->bootstrap()->run();
+} catch (\Exception $e) {
+    ob_clean();
+    http_response_code(400);
+
+    $payload = [
+        'error' => true,
+        'message' => $e->getPrevious()->getMessage(),
+    ];
+
+    exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+}
 
 // Revert umask!
 umask($oldUmask);

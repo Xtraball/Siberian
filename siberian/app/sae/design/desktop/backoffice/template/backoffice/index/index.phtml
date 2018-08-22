@@ -136,7 +136,8 @@
                         <?php echo __("Required extensions") ?>
                     </td>
                     <td class="extensions">
-                        <span class="group">
+                        <span class="group"
+                              style="margin-left: 0;">
                         <?php $php_version = phpversion(); ?>
                         <?php echo __("PHP version %s:", $php_version) ?>
 			<?php if(version_compare($php_version, '5.6', '<')){ ?>
@@ -181,25 +182,48 @@
                         <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
                     </td>
                     <td>
-                        <?php echo __("Optional libraries") ?>
+                        <?php echo __("Optional binaries") ?>
                     </td>
                     <td class="extensions">
-                        <span class="group">
+                        <span class="group"
+                              style="margin-left: 0;">
                             <?php echo __("OptiPNG:") ?>
-                            <span ng-show="libraries.optipng" ><span class="service-green"><i class="fa fa-check"></i></span></span>
-                            <span ng-show="!libraries.optipng"><span class="service-blue"><?php echo __("Not found") ?></span>,</span>
+                            <span ng-show="libraries.optipng">
+                                <span class="service-green"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-show="!libraries.optipng">
+                                <span class="service-blue"><?php echo __("Not found") ?></span>,
+                            </span>
                         </span>
 
                         <span class="group">
                             <?php echo __("JpegOptim:") ?>
-                            <span ng-show="libraries.jpegoptim" ><span class="service-green"><i class="fa fa-check"></i></span></span>
-                            <span ng-show="!libraries.jpegoptim"><span class="service-blue"><?php echo __("Not found") ?></span>,</span>
+                            <span ng-show="libraries.jpegoptim">
+                                <span class="service-green"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-show="!libraries.jpegoptim">
+                                <span class="service-blue"><?php echo __("Not found") ?></span>,
+                            </span>
                         </span>
 
                         <span class="group">
                             <?php echo __("PNGQuant:") ?>
-                            <span ng-show="libraries.pngquant"><span class="service-green"><i class="fa fa-check"></i></span></span>
-                            <span ng-show="!libraries.pngquant"><span class="service-blue"><?php echo __("Not found") ?></span></span>
+                            <span ng-show="libraries.pngquant">
+                                <span class="service-green"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-show="!libraries.pngquant">
+                                <span class="service-blue"><?php echo __("Not found") ?></span>,
+                            </span>
+                        </span>
+
+                        <span class="group">
+                            <?php echo __("ClamAV:") ?>
+                            <span ng-show="libraries.clamav">
+                                <span class="service-green"><i class="fa fa-check"></i></span>
+                            </span>
+                            <span ng-show="!libraries.clamav">
+                                <span class="service-blue"><?php echo __("Not found") ?></span>
+                            </span>
                         </span>
                     </td>
                 </tr>
