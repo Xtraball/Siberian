@@ -195,11 +195,6 @@ function is_image($path, $external = false)
  */
 function normalizeFiles ($files)
 {
-    file_put_contents(
-        '/tmp/debug.log',
-        print_r($files, true) . PHP_EOL,
-        FILE_APPEND);
-
     $newFiles = [];
 
     foreach ($files as $keyName => $_files) {
@@ -223,11 +218,6 @@ function normalizeFiles ($files)
             array_push($newFiles, $_files);
         }
     }
-
-    file_put_contents(
-        '/tmp/debug.log',
-        print_r($newFiles, true) . PHP_EOL,
-        FILE_APPEND);
 
     return $newFiles;
 }

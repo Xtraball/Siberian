@@ -34,7 +34,7 @@ class Security
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function filterFiles (&$_files, $session)
+    public static function filterFiles ($_files, $session)
     {
         $allowedExtensions = (new \Firewall_Model_Rule())
             ->findAll([

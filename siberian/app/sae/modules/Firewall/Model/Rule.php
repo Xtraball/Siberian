@@ -2,6 +2,12 @@
 
 /**
  * Class Firewall_Model_Rule
+ *
+ * @method string getType()
+ * @method string getValue()
+ * @method $this setType(string $type)
+ * @method $this setValue(string $value)
+ * @method Firewall_Model_Rule[] findAll($values = [], $order = null, $params = [])
  */
 class Firewall_Model_Rule extends Core_Model_Default
 {
