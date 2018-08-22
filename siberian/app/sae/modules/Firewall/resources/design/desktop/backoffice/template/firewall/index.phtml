@@ -1,3 +1,44 @@
+<sb-section title="'<?php echo addcslashes(__("ClamAV settings"), "'"); ?>'">
+    <div class="form-group">
+
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <b><?php echo __("ClamAV is an optional anti-virus, you can enable it up below.") ?></b>
+                <br />
+                <?php echo __("Siberian uses it to scan all uploaded files that have passed the soft Firewall."); ?>
+                <br />
+                <br />
+                <b><?php echo __("To be able to use ClamAV you must have it installed on your server and configured accordingly to our documentation.") ?></b>
+            </div>
+        </div>
+
+        <form ng-submit="saveFwClamdSettings()">
+            <div class="col-md-4">
+                <input type="text"
+                       id="newExtension"
+                       class="form-control"
+                       placeholder="<?php echo __js("IP, example: 127.0.0.1") ?>"
+                       ng-model="fw_clamd.ip" />
+            </div>
+
+            <div class="col-md-4">
+                <input type="text"
+                       id="newExtension"
+                       class="form-control"
+                       placeholder="<?php echo __js("Port, example: 3310") ?>"
+                       ng-model="fw_clamd.port" />
+            </div>
+
+            <div class="col-md-4 pull-right">
+                <button class="btn btn-info"
+                        type="submit"><?php echo __('Save') ?></button>
+            </div>
+        </form>
+
+        <div style="clear:both;"></div>
+    </div>
+</sb-section>
+
 <sb-section title="'<?php echo addcslashes(__("Add new upload extensions."), "'"); ?>'">
     <div class="form-group">
         <div class="col-md-12">
@@ -20,6 +61,8 @@
                         type="submit"><?php echo __('Add extension') ?></button>
             </div>
         </form>
+
+        <div style="clear:both;"></div>
     </div>
 </sb-section>
 

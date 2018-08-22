@@ -34,7 +34,7 @@ namespace Siberian;
 
 class ClamAV
 {
-    private $clamd_sock = "/var/run/clamav/clamd.sock";
+    private $clamd_sock = "/tmp/clamd.sock";
     private $clamd_sock_len = 20000;
     private $clamd_ip = null;
     private $clamd_port = 3310;
@@ -44,6 +44,10 @@ class ClamAV
     // Pass in an array of options to change the default settings.  You probably will only ever need to change the socket
     public function __construct($opts = [])
     {
+        $this->clamd_sock = __get('fw_clamd_sock');
+        $this->clamd_ip = __get('fw_clamd_ip');
+        $this->clamd_port = __get('fw_clamd_port');
+
         if (isset($opts['clamd_sock'])) {
             $this->clamd_sock = $opts['clamd_sock'];
         }
@@ -61,6 +65,8 @@ class ClamAV
     // Private function to open a socket to clamd based on the current options
     private function socket()
     {
+        ini_set('default_socket_timeout', 10);
+
         if (!empty($this->clamd_ip) && !empty($this->clamd_port)) {
             // Attempt to use a network based socket
             $socket = socket_create(AF_INET, SOCK_STREAM, 0);

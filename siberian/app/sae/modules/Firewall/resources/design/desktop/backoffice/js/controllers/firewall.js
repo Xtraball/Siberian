@@ -13,6 +13,7 @@ App.config(function($routeProvider) {
     $scope.form = {
         newExtension: ''
     };
+    $scope.fw_clamd = {};
 
     $scope.loadContent = function () {
         Firewall
@@ -21,6 +22,7 @@ App.config(function($routeProvider) {
                 $scope.header.title = data.title;
                 $scope.header.icon = data.icon;
                 $scope.fw_upload_rules = data.fw_upload_rules;
+                $scope.fw_clamd = data.fw_clamd;
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
             });
@@ -55,6 +57,20 @@ App.config(function($routeProvider) {
                 $scope.content_loader_is_visible = false;
 
                 $scope.form.newExtension = '';
+            });
+    };
+
+    $scope.saveFwClamdSettings = function () {
+        $scope.content_loader_is_visible = true;
+
+        Firewall
+            .saveFwClamdSettings($scope.fw_clamd)
+            .success(function(data) {
+                $scope.message.onSuccess(data);
+            }).error(function(data) {
+                $scope.message.onError(data);
+            }).finally(function () {
+                $scope.content_loader_is_visible = false;
             });
     };
 
