@@ -66,6 +66,13 @@ class Security
                 self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
+            // Regex for php
+            if (preg_match("/php/ig", $fileParts['extension'])) {
+                // Wipe forbidden extensions!
+                unlink($file['tmp_name']);
+                self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
+            }
+
             if (!in_array($fileParts['extension'], $allowedExtensionsArray)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
