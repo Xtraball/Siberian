@@ -194,9 +194,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 throw new Exception("This is a demo version, no modules can be uploaded");
             }
 
-            // Temporarily allows zip for modules!
-            \Siberian\Security::allowExtension('zip');
-
             if (empty($_FILES) || empty($_FILES['file']['name'])) {
                 throw new Siberian_Exception(__("No file has been sent"));
             }

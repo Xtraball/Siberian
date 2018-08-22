@@ -190,6 +190,49 @@ function is_image($path, $external = false)
 }
 
 /**
+ * @param $files
+ * @return array
+ */
+function normalizeFiles ($files)
+{
+    file_put_contents(
+        '/tmp/debug.log',
+        print_r($files, true) . PHP_EOL,
+        FILE_APPEND);
+
+    $newFiles = [];
+
+    foreach ($files as $keyName => $_files) {
+        if (array_key_exists('name', $_files) &&
+            is_array($_files['name'])) {
+            $filesCount = count($_files['name']);
+            for ($i = 0; $i < $filesCount; $i++) {
+                $tmpFile = [
+                    'name' => $_files['name'][$i],
+                    'type' => $_files['type'][$i],
+                    'tmp_name' => $_files['tmp_name'][$i],
+                    'error' => $_files['error'][$i],
+                    'size' => $_files['size'][$i],
+                ];
+
+                array_push($newFiles, $tmpFile);
+            }
+        } else if (array_key_exists('name', $_files) &&
+            !is_array($_files['name'])) {
+
+            array_push($newFiles, $_files);
+        }
+    }
+
+    file_put_contents(
+        '/tmp/debug.log',
+        print_r($newFiles, true) . PHP_EOL,
+        FILE_APPEND);
+
+    return $newFiles;
+}
+
+/**
  * Get the directory size
  *
  * @param directory $directory

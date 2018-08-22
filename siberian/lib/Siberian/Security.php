@@ -46,38 +46,41 @@ class Security
             $allowedExtensionsArray[] = $allowedExtension->getValue();
         }
 
-        foreach ($_files as $key => $file) {
-            $tmpFile = $_files[$key];
-            $fileParts = pathinfo($tmpFile['name'][0]);
+        $allowedExtensionsArray = array_merge($allowedExtensionsArray, self::$temporaryAllowedExtensions);
+
+        $newFiles = normalizeFiles($_files);
+
+        foreach ($newFiles as $file) {
+            $fileParts = pathinfo($file['name']);
 
             if (!array_key_exists('type', $file)) {
                 // Wipe files without mime/type!
-                unlink($tmpFile['tmp_name'][0]);
+                unlink($file['tmp_name']);
                 self::logAlert('Missing mime/type', $session);
             }
 
             // Forbidden extensions!
             if (in_array($fileParts['extension'], self::FW_FORBIDDEN_EXTENSIONS)) {
                 // Wipe forbidden extensions!
-                unlink($tmpFile['tmp_name'][0]);
+                unlink($file['tmp_name']);
                 self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
             if (!in_array($fileParts['extension'], $allowedExtensionsArray)) {
                 // Wipe files without mime/type!
-                unlink($tmpFile['tmp_name'][0]);
+                unlink($file['tmp_name']);
                 self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
             }
         }
 
         // Second pass will use ClamAV (if available)
         $clamav = new ClamAV();
-
-        foreach ($_files as $key => $file) {
-            $tmpFile = $_files[$key];
-            if (!$clamav->scan($file['tmp_name'])) {
-                unlink($tmpFile['tmp_name'][0]);
-                self::logAlert('ClamAV malicious file ' . $tmpFile['name'][0] . ' was deleted.', $session);
+        if ($clamav->ping()) {
+            foreach ($newFiles as $file) {
+                if (!$clamav->scan($file['tmp_name'])) {
+                    unlink($file['tmp_name']);
+                    self::logAlert('ClamAV malicious file ' . $file['name'] . ' was deleted.', $session);
+                }
             }
         }
     }
@@ -93,9 +96,9 @@ class Security
         $fwLog
             ->setType(\Firewall_Model_Rule::FW_TYPE_UPLOAD)
             ->setMessage($message)
-            ->setUser($session->getAdminId())
+            ->setUser($session->getAdminId() || $session->getBackofficeUserId())
             ->save();
 
-        throw new Exception($message);
+        throw new Exception($message, Exception::CODE_FW);
     }
 }

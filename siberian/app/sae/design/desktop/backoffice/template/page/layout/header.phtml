@@ -266,6 +266,13 @@ $backofficeTree = [
                         'url' => $this->getUrl("backoffice/advanced_cron"),
                         'icon' => 'fa fa-clock-o',
                     ],
+                    'firewall' => [
+                        'hasChilds' => false,
+                        'isVisible' => true,
+                        'label' => __('Firewall'),
+                        'url' => $this->getUrl("firewall/index"),
+                        'icon' => 'icofont icofont-ui-fire-wall',
+                    ],
                     'modules' => [
                         'hasChilds' => false,
                         'isVisible' => true,

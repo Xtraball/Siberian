@@ -9,6 +9,8 @@ namespace Siberian;
  */
 class Exception extends \Exception
 {
+    const CODE_FW = 1024;
+
     /**
      * Exception constructor.
      * @param string $message
