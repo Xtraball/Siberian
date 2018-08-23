@@ -16,9 +16,10 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             'title' => __('Advanced') . ' > ' . __('Firewall'),
             'icon' => 'icofont icofont-ui-fire-wall',
             'fw_clamd' => [
-                //'sock' => __get('fw_clamd_sock'),
-                'ip' => __get('fw_clamd_ip'),
-                'port' => __get('fw_clamd_port'),
+                'type' => (string) __get('fw_clamd_type'),
+                'sock' => (string) __get('fw_clamd_sock'),
+                'ip' => (string) __get('fw_clamd_ip'),
+                'port' => (string) __get('fw_clamd_port'),
             ],
         ];
 
@@ -39,7 +40,42 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             ];
         }
 
+        $logs = (new \Firewall_Model_Log())
+            ->findAll(
+                [],
+                [
+                    'created_at DESC'
+                ],
+                [
+                    'limit' => 50,
+                ]
+            );
+
+        $logsData = [];
+        foreach ($logs as $log) {
+            $user = $log->getUser();
+            $userData = [
+                'id' => '-',
+                'email' => '-',
+            ];
+
+            if ($user) {
+                $userData = [
+                    'id' => $user->getId(),
+                    'email' => $user->getEmail(),
+                ];
+            }
+
+            $logsData[] = [
+                'type' => $log->getType(),
+                'message' => $log->getMessage(),
+                'user' => $userData,
+                'date' => datetime_to_format($log->getCreatedAt(), Zend_Date::DATETIME_LONG),
+            ];
+        }
+
         $payload['fw_upload_rules'] = $rulesData;
+        $payload['fw_logs'] = $logsData;
 
         $this->_sendJson($payload);
     }
@@ -140,17 +176,14 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 throw new \Siberian\Exception(__('Missing values'));
             }
 
-            //$sock = $params['fw_clamd_sock'];
+            $type = $params['fw_clamd_type'];
+            $sock = $params['fw_clamd_sock'];
             $ip = $params['fw_clamd_ip'];
             $port = $params['fw_clamd_port'];
 
-            if (empty($ip) &&
-                empty($port)) {
-                throw new \Siberian\Exception(__("You must fill ip & port."));
-            }
-
             // Saving values
-            //__set('fw_clamd_sock', $sock);
+            __set('fw_clamd_type', $type);
+            __set('fw_clamd_sock', $sock);
             __set('fw_clamd_ip', $ip);
             __set('fw_clamd_port', $port);
 

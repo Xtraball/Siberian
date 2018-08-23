@@ -187,11 +187,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
         ];
         curl_setopt_array($curl, $curlParams);
 
-        if ($this->__isTesting) {
-            curl_setopt($curl, CURLOPT_SSLVERSION, 6);
-        } else {
-            curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_1);
-        }
+        // Uses TLS v1.2
+        curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 
         $response = curl_exec($curl);
         $responseArray = [];
