@@ -29,11 +29,11 @@ class Security
     }
 
     /**
-     * @param $_files
-     * @param $session
-     * @throws Exception
-     * @throws \Zend_Exception
-     */
+ * @param $_files
+ * @param $session
+ * @throws Exception
+ * @throws \Zend_Exception
+ */
     public static function filterFiles ($_files, $session)
     {
         $allowedExtensions = (new \Firewall_Model_Rule())
@@ -94,6 +94,119 @@ class Security
     }
 
     /**
+     * @param $_post
+     * @param $session
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function filterGet ($_get, $session)
+    {
+        $values = array_flat($_get, 'get');
+        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
+
+        foreach ($values as $key => $value) {
+            if (strpos($value, 'base64') !== false) {
+                try {
+                    $content = base64_decode(explode(',', $value)[1]);
+                } catch (\Exception $e) {
+                    // Nope base64_decode failed!
+                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                }
+
+                if (strpos($content, '<?php') !== false) {
+                    self::logAlert('#G-001: Suspicious upload detected.', $session);
+                }
+                $tmpFilename = $tmpDir . '/' . uniqid();
+
+                file_put_contents($tmpFilename, $content);
+                chmod($tmpFilename, 0644);
+                // Second pass will use ClamAV (if available)
+                $clamav = new ClamAV();
+                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
+                    unlink($tmpFilename);
+                    self::logAlert('#G-002: Suspicious upload detected.', $session);
+                }
+                unlink($tmpFilename);
+            }
+        }
+    }
+
+    /**
+     * @param $_post
+     * @param $session
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function filterPost ($_post, $session)
+    {
+        $values = array_flat($_post, 'post');
+        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
+
+        foreach ($values as $key => $value) {
+            if (strpos($value, 'base64') !== false) {
+                try {
+                    $content = base64_decode(explode(',', $value)[1]);
+                } catch (\Exception $e) {
+                    // Nope base64_decode failed!
+                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                }
+
+                if (strpos($content, '<?php') !== false) {
+                    self::logAlert('#P-001: Suspicious upload detected.', $session);
+                }
+                $tmpFilename = $tmpDir . '/' . uniqid();
+
+                file_put_contents($tmpFilename, $content);
+                chmod($tmpFilename, 0644);
+                // Second pass will use ClamAV (if available)
+                $clamav = new ClamAV();
+                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
+                    unlink($tmpFilename);
+                    self::logAlert('#P-002: Suspicious upload detected.', $session);
+                }
+                unlink($tmpFilename);
+            }
+        }
+    }
+
+    /**
+     * @param $_bodyParams
+     * @param $session
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function filterBodyParams ($_bodyParams, $session)
+    {
+        $values = array_flat($_bodyParams, 'body_params');
+        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
+
+        foreach ($values as $key => $value) {
+            if (strpos($value, 'base64') !== false) {
+                try {
+                    $content = base64_decode(explode(',', $value)[1]);
+                } catch (\Exception $e) {
+                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                }
+
+                if (strpos($content, '<?php') !== false) {
+                    self::logAlert('#B-001: Suspicious upload detected.', $session);
+                }
+                $tmpFilename = $tmpDir . '/' . uniqid();
+
+                file_put_contents($tmpFilename, $content);
+                chmod($tmpFilename, 0644);
+                // Second pass will use ClamAV (if available)
+                $clamav = new ClamAV();
+                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
+                    unlink($tmpFilename);
+                    self::logAlert('#B-002: Suspicious upload detected.', $session);
+                }
+                unlink($tmpFilename);
+            }
+        }
+    }
+
+    /**
      * @param $message
      * @throws Exception
      * @throws \Zend_Exception
@@ -110,6 +223,18 @@ class Security
                     $userId = $session->getBackofficeUserId();
                     $userClass = 'Backoffice_Model_User';
                 break;
+            default:
+                    $userId = $session->getCustomerId();
+                    $userClass = 'Customer_Model_Customer';
+                break;
+        }
+
+        if (empty($userId)) {
+            $userId = 'undetected userId';
+        }
+
+        if (empty($userClass)) {
+            $userClass = 'undetected userClass';
         }
 
         $fwLog = (new \Firewall_Model_Log());
