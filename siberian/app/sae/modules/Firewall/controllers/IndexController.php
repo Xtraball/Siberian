@@ -21,6 +21,12 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 'ip' => (string) __get('fw_clamd_ip'),
                 'port' => (string) __get('fw_clamd_port'),
             ],
+            'fw_slack' => [
+                'is_enabled' => (boolean) __get('fw_slack_is_enabled'),
+                'webhook' => __get('fw_slack_webhook'),
+                'channel' => __get('fw_slack_channel'),
+                'username' => __get('fw_slack_username'),
+            ],
         ];
 
         $rules = (new \Firewall_Model_Rule())
@@ -190,6 +196,42 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => __('ClamAV settings have been saved.'),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function savefwslacksettingsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+
+            if (empty($params)) {
+                throw new \Siberian\Exception(__('Missing values'));
+            }
+
+            $is_enabled = $params['fw_slack_is_enabled'];
+            $webhook = $params['fw_slack_webhook'];
+            $channel = $params['fw_slack_channel'];
+            $username = $params['fw_slack_username'];
+
+            // Saving values
+            __set('fw_slack_is_enabled', $is_enabled);
+            __set('fw_slack_webhook', $webhook);
+            __set('fw_slack_channel', $channel);
+            __set('fw_slack_username', $username);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Firewall Slack settings have been saved.'),
             ];
 
         } catch (\Exception $e) {

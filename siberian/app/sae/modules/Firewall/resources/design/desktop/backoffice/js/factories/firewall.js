@@ -50,5 +50,20 @@ App.factory('Firewall', function($http, Url) {
         });
     };
 
+    factory.saveFwSlackSettings = function (settings) {
+        return $http({
+            method: 'POST',
+            url: Url.get("firewall/index/savefwslacksettings"),
+            data: {
+                fw_slack_is_enabled: settings.is_enabled,
+                fw_slack_webhook: settings.webhook,
+                fw_slack_channel: settings.channel,
+                fw_slack_username: settings.username
+            },
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return factory;
 });

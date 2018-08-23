@@ -14,6 +14,7 @@ App.config(function($routeProvider) {
         newExtension: ''
     };
     $scope.fw_clamd = {};
+    $scope.fw_slack = {};
 
     $scope.loadContent = function () {
         Firewall
@@ -23,6 +24,7 @@ App.config(function($routeProvider) {
                 $scope.header.icon = data.icon;
                 $scope.fw_upload_rules = data.fw_upload_rules;
                 $scope.fw_clamd = data.fw_clamd;
+                $scope.fw_slack = data.fw_slack;
                 $scope.fw_logs = data.fw_logs;
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
@@ -73,6 +75,20 @@ App.config(function($routeProvider) {
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
             });
+    };
+
+    $scope.saveFwSlackSettings = function () {
+        $scope.content_loader_is_visible = true;
+
+        Firewall
+        .saveFwSlackSettings($scope.fw_slack)
+        .success(function(data) {
+            $scope.message.onSuccess(data);
+        }).error(function(data) {
+            $scope.message.onError(data);
+        }).finally(function () {
+            $scope.content_loader_is_visible = false;
+        });
     };
 
     $scope.loadContent();

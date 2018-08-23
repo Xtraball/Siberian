@@ -57,27 +57,27 @@ class Security
             if (!array_key_exists('type', $file)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
-                self::logAlert('Missing mime/type', $session);
+                return self::logAlert('Missing mime/type', $session);
             }
 
             // Forbidden extensions!
             if (in_array($extension, self::FW_FORBIDDEN_EXTENSIONS)) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
-                self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
+                return self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
             // Regex for php
             if (preg_match("/php/ig", $extension)) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
-                self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
+                return self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
             if (!in_array($extension, $allowedExtensionsArray)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
-                self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
+                return self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
             }
         }
 
@@ -87,7 +87,7 @@ class Security
             foreach ($newFiles as $file) {
                 if (!$clamav->scan($file['tmp_name'])) {
                     unlink($file['tmp_name']);
-                    self::logAlert('Suspicious file detected ' . $file['name'] . ' was deleted.', $session);
+                    return self::logAlert('Suspicious file detected ' . $file['name'] . ' was deleted.', $session);
                 }
             }
         }
@@ -110,11 +110,11 @@ class Security
                     $content = base64_decode(explode(',', $value)[1]);
                 } catch (\Exception $e) {
                     // Nope base64_decode failed!
-                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                    return self::logAlert('Uploaded base64 data is invalid.', $session);
                 }
 
                 if (strpos($content, '<?php') !== false) {
-                    self::logAlert('#G-001: Suspicious upload detected.', $session);
+                    return self::logAlert('#G-001: Suspicious upload detected.', $session);
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
@@ -124,7 +124,7 @@ class Security
                 $clamav = new ClamAV();
                 if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
                     unlink($tmpFilename);
-                    self::logAlert('#G-002: Suspicious upload detected.', $session);
+                    return self::logAlert('#G-002: Suspicious upload detected.', $session);
                 }
                 unlink($tmpFilename);
             }
@@ -148,11 +148,11 @@ class Security
                     $content = base64_decode(explode(',', $value)[1]);
                 } catch (\Exception $e) {
                     // Nope base64_decode failed!
-                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                    return self::logAlert('Uploaded base64 data is invalid.', $session);
                 }
 
                 if (strpos($content, '<?php') !== false) {
-                    self::logAlert('#P-001: Suspicious upload detected.', $session);
+                    return self::logAlert('#P-001: Suspicious upload detected.', $session);
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
@@ -162,7 +162,7 @@ class Security
                 $clamav = new ClamAV();
                 if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
                     unlink($tmpFilename);
-                    self::logAlert('#P-002: Suspicious upload detected.', $session);
+                    return self::logAlert('#P-002: Suspicious upload detected.', $session);
                 }
                 unlink($tmpFilename);
             }
@@ -185,11 +185,11 @@ class Security
                 try {
                     $content = base64_decode(explode(',', $value)[1]);
                 } catch (\Exception $e) {
-                    self::logAlert('Uploaded base64 data is invalid.', $session);
+                    return self::logAlert('Uploaded base64 data is invalid.', $session);
                 }
 
                 if (strpos($content, '<?php') !== false) {
-                    self::logAlert('#B-001: Suspicious upload detected.', $session);
+                    return self::logAlert('#B-001: Suspicious upload detected.', $session);
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
@@ -199,7 +199,7 @@ class Security
                 $clamav = new ClamAV();
                 if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
                     unlink($tmpFilename);
-                    self::logAlert('#B-002: Suspicious upload detected.', $session);
+                    return self::logAlert('#B-002: Suspicious upload detected.', $session);
                 }
                 unlink($tmpFilename);
             }
@@ -244,6 +244,34 @@ class Security
             ->setUserId($userId)
             ->setUserClass($userClass)
             ->save();
+
+        // Slack notifications!
+        $slackIsEnabled = (boolean) __get('fw_slack_is_enabled');
+        if ($slackIsEnabled) {
+            $slack = new \Siberian\Notification\Slack();
+
+            $user = $fwLog->getUser();
+            $userData = [
+                'id' => '-',
+                'email' => '-',
+            ];
+
+            if ($user) {
+                $userData = [
+                    'id' => $user->getId(),
+                    'email' => $user->getEmail(),
+                ];
+            }
+
+            $slackMessage = sprintf(
+                "%s - %s - %s - %s",
+                $fwLog->getType(),
+                $fwLog->getMessage(),
+                $userData['id'],
+                $userData['email']);
+
+            $slack->send($slackMessage);
+        }
 
         throw new Exception($message, Exception::CODE_FW);
     }

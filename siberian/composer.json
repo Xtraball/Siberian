@@ -14,7 +14,8 @@
         "endroid/qrcode": "^2.3",
         "vnn/wordpress-rest-api-client": "^1.2",
         "phpseclib/phpseclib": "^2.0",
-        "lawondyss/moment-php": "^1.1"
+        "lawondyss/moment-php": "^1.1",
+        "maknz/slack": "^1.7"
     },
     "config": {
         "vendor-dir": "lib/vendor"
