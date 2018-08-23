@@ -12,6 +12,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
      */
     public function findallAction()
     {
+        $slackWebHook = __get('fw_slack_webhook');
+        if (__getConfig('is_demo')) {
+            $slackWebHook = 'https://hooks.slack.com/services/DEMO/DEMO/DEMO';
+        }
+
         $payload = [
             'title' => __('Advanced') . ' > ' . __('Firewall'),
             'icon' => 'icofont icofont-ui-fire-wall',
@@ -23,7 +28,7 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             ],
             'fw_slack' => [
                 'is_enabled' => (boolean) __get('fw_slack_is_enabled'),
-                'webhook' => __get('fw_slack_webhook'),
+                'webhook' => $slackWebHook,
                 'channel' => __get('fw_slack_channel'),
                 'username' => __get('fw_slack_username'),
             ],
@@ -92,6 +97,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function deletefwuploadruleAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -128,6 +138,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function addfwuploadruleAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -175,6 +190,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function savefwclamdsettingsAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -211,6 +231,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function savefwslacksettingsAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
