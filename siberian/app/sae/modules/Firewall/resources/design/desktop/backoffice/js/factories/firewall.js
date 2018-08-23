@@ -40,6 +40,7 @@ App.factory('Firewall', function($http, Url) {
             method: 'POST',
             url: Url.get("firewall/index/savefwclamdsettings"),
             data: {
+                fw_clamd_type: settings.type,
                 fw_clamd_sock: settings.sock,
                 fw_clamd_ip: settings.ip,
                 fw_clamd_port: settings.port

@@ -34,9 +34,10 @@ namespace Siberian;
 
 class ClamAV
 {
-    private $clamd_sock = "/tmp/clamd.sock";
-    private $clamd_sock_len = 20000;
-    private $clamd_ip = null;
+    private $clamd_type = "sock";
+    private $clamd_sock = "/var/run/clamav/clamd.ctl";
+    private $clamd_sock_len = 50000;
+    private $clamd_ip = '127.0.0.1';
     private $clamd_port = 3310;
     private $message = "";
 
@@ -44,22 +45,10 @@ class ClamAV
     // Pass in an array of options to change the default settings.  You probably will only ever need to change the socket
     public function __construct($opts = [])
     {
+        $this->clamd_type = __get('fw_clamd_type');
         $this->clamd_sock = __get('fw_clamd_sock');
         $this->clamd_ip = __get('fw_clamd_ip');
         $this->clamd_port = __get('fw_clamd_port');
-
-        if (isset($opts['clamd_sock'])) {
-            $this->clamd_sock = $opts['clamd_sock'];
-        }
-        if (isset($opts['clamd_sock_len'])) {
-            $this->clamd_sock_len = $opts['clamd_sock_len'];
-        }
-        if (isset($opts['clamd_ip'])) {
-            $this->clamd_ip = $opts['clamd_ip'];
-        }
-        if (isset($opts['clamd_port'])) {
-            $this->clamd_port = $opts['clamd_port'];
-        }
     }
 
     // Private function to open a socket to clamd based on the current options
@@ -67,19 +56,25 @@ class ClamAV
     {
         ini_set('default_socket_timeout', 10);
 
-        if (!empty($this->clamd_ip) && !empty($this->clamd_port)) {
+        if ($this->clamd_type === 'ip' &&
+            !empty($this->clamd_ip) &&
+            !empty($this->clamd_port)) {
             // Attempt to use a network based socket
             $socket = socket_create(AF_INET, SOCK_STREAM, 0);
             if (socket_connect($socket, $this->clamd_ip, $this->clamd_port)) {
                 return $socket;
             }
-        } else {
+        }
+
+        if ($this->clamd_type === 'sock' &&
+            !empty($this->clamd_sock)) {
             // By default we just use the local socket
             $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
             if (socket_connect($socket, $this->clamd_sock)) {
                 return $socket;
             }
         }
+
         return false;
     }
 
@@ -102,7 +97,8 @@ class ClamAV
     // Function to scan the passed in file.  Returns true if safe, false otherwise.
     public function scan($file)
     {
-        if (file_exists($file)) {
+        if (is_file($file)) {
+            chmod($file, 0644); // Allows ClamAV to read the file!
             $scan = $this->send("SCAN $file");
             $scan = substr(strrchr($scan, ":"), 1);
             if ($scan !== false) {

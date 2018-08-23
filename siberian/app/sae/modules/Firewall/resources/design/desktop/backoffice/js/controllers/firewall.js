@@ -23,6 +23,7 @@ App.config(function($routeProvider) {
                 $scope.header.icon = data.icon;
                 $scope.fw_upload_rules = data.fw_upload_rules;
                 $scope.fw_clamd = data.fw_clamd;
+                $scope.fw_logs = data.fw_logs;
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
             });

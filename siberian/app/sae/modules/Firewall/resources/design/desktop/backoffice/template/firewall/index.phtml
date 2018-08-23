@@ -13,24 +13,54 @@
         </div>
 
         <form ng-submit="saveFwClamdSettings()">
-            <div class="col-md-4">
+
+            <div class="col-md-6"
+                 style="margin-bottom: 20px;">
+                <label for="fw_clamd.type"><?php echo __('Connection type') ?></label>
+                <select id="fw_clamd.type"
+                        class="form-control"
+                        ng-model="fw_clamd.type">
+                    <option value=""><?php echo __('Select a connection type:') ?></option>
+                    <option value="sock"><?php echo __('Socket') ?></option>
+                    <option value="ip"><?php echo __('IP:Port') ?></option>
+                    <option value="disabled"><?php echo __('Disabled') ?></option>
+                </select>
+            </div>
+
+            <div ng-show="fw_clamd.type == 'sock'"
+                 class="clear col-md-10">
+                <label for="fw_clamd.sock"><?php echo __('Socket') ?></label>
                 <input type="text"
-                       id="newExtension"
+                       id="fw_clamd.sock"
+                       class="form-control"
+                       placeholder="<?php echo __js("Socket, example: /var/run/clamav/clamd.ctl") ?>"
+                       ng-model="fw_clamd.sock" />
+            </div>
+
+            <div ng-show="fw_clamd.type == 'ip'"
+                 class="clear col-md-5">
+                <label for="fw_clamd.ip"><?php echo __('IP') ?></label>
+                <input type="text"
+                       id="fw_clamd.ip"
                        class="form-control"
                        placeholder="<?php echo __js("IP, example: 127.0.0.1") ?>"
                        ng-model="fw_clamd.ip" />
             </div>
 
-            <div class="col-md-4">
+            <div ng-show="fw_clamd.type == 'ip'"
+                 class="col-md-5">
+                <label for="fw_clamd.port"><?php echo __('Port') ?></label>
                 <input type="text"
-                       id="newExtension"
+                       id="fw_clamd.port"
                        class="form-control"
                        placeholder="<?php echo __js("Port, example: 3310") ?>"
                        ng-model="fw_clamd.port" />
             </div>
 
-            <div class="col-md-4 pull-right">
-                <button class="btn btn-info"
+            <div class="col-md-2 pull-right">
+                <button id="fw_clamd.submit"
+                        style="margin-top: 24px;"
+                        class="btn btn-info"
                         type="submit"><?php echo __('Save') ?></button>
             </div>
         </form>
@@ -89,3 +119,29 @@
         </tbody>
     </table>
 </sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("Security logs (last 50 triggers)"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width: 120px;"><?php echo __("Type") ?></th>
+            <th><?php echo __("Message") ?></th>
+            <th><?php echo __("User") ?></th>
+            <th><?php echo __("Date") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="fw_log in fw_logs"
+                ng-show="fw_logs.length">
+                <td>{{ fw_log.type }}</td>
+                <td>{{ fw_log.message }}</td>
+                <td>{{ fw_log.user.id }} - {{ fw_log.user.email }}</td>
+                <td>{{ fw_log.date }}</td>
+            </tr>
+            <tr ng-show="!fw_logs.length">
+                <td colspan="2"><?php echo __("No logs") ?></td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>
+

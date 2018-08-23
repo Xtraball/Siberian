@@ -87,7 +87,7 @@ class Security
             foreach ($newFiles as $file) {
                 if (!$clamav->scan($file['tmp_name'])) {
                     unlink($file['tmp_name']);
-                    self::logAlert('ClamAV malicious file ' . $file['name'] . ' was deleted.', $session);
+                    self::logAlert('Suspicious file detected ' . $file['name'] . ' was deleted.', $session);
                 }
             }
         }
@@ -100,11 +100,24 @@ class Security
      */
     public static function logAlert ($message, \Core_Model_Session $session)
     {
+        $namespace = $session->getNamespace();
+        switch ($namespace) {
+            case 'front':
+                    $userId = $session->getAdminId();
+                    $userClass = 'Admin_Model_Admin';
+                break;
+            case 'backoffice':
+                    $userId = $session->getBackofficeUserId();
+                    $userClass = 'Backoffice_Model_User';
+                break;
+        }
+
         $fwLog = (new \Firewall_Model_Log());
         $fwLog
             ->setType(\Firewall_Model_Rule::FW_TYPE_UPLOAD)
             ->setMessage($message)
-            ->setUser($session->getAdminId() || $session->getBackofficeUserId())
+            ->setUserId($userId)
+            ->setUserClass($userClass)
             ->save();
 
         throw new Exception($message, Exception::CODE_FW);

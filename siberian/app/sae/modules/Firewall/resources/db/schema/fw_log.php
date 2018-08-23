@@ -19,8 +19,11 @@ $schemas['fw_log'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'user' => [
-        'type' => 'text',
+    'user_id' => [
+        'type' => 'int(11)',
+    ],
+    'user_class' => [
+        'type' => 'varchar(64)',
     ],
     'created_at' => [
         'type' => 'datetime',
