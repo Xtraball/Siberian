@@ -3,6 +3,9 @@
 // Firewall default rules!
 
 $allowedExtensions = [
+    'pem',
+    'apk',
+    'pks',
     'png',
     'jpg',
     'jpeg',
@@ -44,7 +47,7 @@ foreach ($allowedExtensions as $allowedExtension) {
                 'type' => \Firewall_Model_Rule::FW_TYPE_UPLOAD,
                 'value' => $allowedExtension,
             ])
-            ->insertOrUpdate([
+            ->insertOnce([
                 'type',
                 'value'
             ]);
