@@ -56,7 +56,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                     !$promotion_customer->getCustomerId()) {
                     $pictureUrl = $this->getRequest()->getBaseUrl() .
                         '/images/library/code_scan/qrcode.png';
-                    $title = __('Scan it.');
+                    $title = $promotion_customer->getTitle();
                     $subtitle = '';
                     $url = '';
                     $is_locked = true;
