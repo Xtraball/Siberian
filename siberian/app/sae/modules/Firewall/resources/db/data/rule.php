@@ -37,6 +37,8 @@ $allowedExtensions = [
     'pub',
     'm4a',
     'psd',
+    'ai',
+    'json',
 ];
 
 // Register default allowed extensions!
