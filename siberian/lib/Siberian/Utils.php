@@ -254,6 +254,29 @@ function design_code()
 }
 
 /**
+ * @param $array
+ * @param string $prefix
+ * @return array
+ */
+function array_flat($array, $prefix = '')
+{
+    $result = [];
+
+    foreach ($array as $key => $value) {
+        $new_key = $prefix . (empty($prefix) ? '' : '.') . $key;
+
+        if (is_array($value)) {
+            $result = array_merge($result, array_flat($value, $new_key));
+        }
+        else {
+            $result[$new_key] = $value;
+        }
+    }
+
+    return $result;
+}
+
+/**
  * Cut a string to the desired maximum length
  *
  * @param $string

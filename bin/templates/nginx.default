@@ -33,7 +33,7 @@ server {
         try_files $uri /index.php?$query_string;
     }
 
-    location ~ \.php$ {
+    location ~ ^\/(index|check_connection|cron|debug)\.php$ {
         fastcgi_index index.php;
         fastcgi_pass 127.0.0.1:9000;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
@@ -43,6 +43,10 @@ server {
         fastcgi_send_timeout 300s;
         fastcgi_read_timeout 300s;
         fastcgi_param APPLICATION_ENV "development";
+    }
+
+    location ~ \.php$ {
+        return 404;
     }
 
     location ~* ^.+.(js|css|png|jpg|jpeg|gif|ico|html)$ {

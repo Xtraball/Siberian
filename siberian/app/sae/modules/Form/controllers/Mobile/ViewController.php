@@ -155,10 +155,14 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                     $image = $data[$field->getId()];
 
                                     if (!preg_match("@^data:image/([^;]+);@", $image, $matches)) {
-                                        throw new Exception(__("Unrecognized image format"));
+                                        throw new \Siberian\Exception(__("Unrecognized image format"));
                                     }
 
-                                    $extension = $matches[1];
+                                    $extension = strtolower($matches[1]);
+
+                                    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp'])) {
+                                        throw new \Siberian\Exception(__("Forbidden image format"));
+                                    }
 
                                     $fileName = uniqid() . '.' . $extension;
                                     $relativePath = $this->getCurrentOptionValue()->getImagePathTo();
@@ -170,12 +174,12 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                                     $contents = file_get_contents($image);
                                     if ($contents === FALSE) {
-                                        throw new Exception(__("No uploaded image"));
+                                        throw new \Siberian\Exception(__("No uploaded image"));
                                     }
 
                                     $res = file_put_contents($filePath, $contents);
                                     if ($res === FALSE) {
-                                        throw new Siberian_Exception('Unable to save image');
+                                        throw new \Siberian\Exception('Unable to save image');
                                     }
 
                                     list($width, $height) = getimagesize($fullPath . DS . $fileName);
@@ -240,13 +244,13 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
 
             } else {
-                throw new Siberian_Exception(__("No data sent."));
+                throw new \Siberian\Exception(__("No data sent."));
             }
 
         } catch (Exception $e) {
             $payload = array(
                 "error" => true,
-                "message" => __("An unknown error occured.")
+                "message" => $e->getMessage()
             );
         }
 

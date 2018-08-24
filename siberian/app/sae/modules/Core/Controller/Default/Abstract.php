@@ -68,9 +68,23 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         $this->_layout = $this->_helper->layout->getLayoutInstance();
 
-        // Filtering $_FILES;
+        // Firewall filtering rules!
+        $session = $this->getSession();
         if (!empty($_FILES)) {
-            \Siberian\Security::filterFiles($_FILES, $this->getSession());
+            \Siberian\Security::filterFiles($_FILES, $session);
+        }
+
+        if (!empty($_GET)) {
+            \Siberian\Security::filterGet($_GET, $session);
+        }
+
+        if (!empty($_POST)) {
+            \Siberian\Security::filterPost($_POST, $session);
+        }
+
+        $bodyParams = $this->getRequest()->getBodyParams();
+        if (!empty($bodyParams)) {
+            \Siberian\Security::filterBodyParams($bodyParams, $session);
         }
     }
 

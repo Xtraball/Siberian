@@ -145,3 +145,56 @@
     </table>
 </sb-section>
 
+<?php if (__getConfig('fw_slack_is_active') === 'yes'): ?>
+<sb-section title="'<?php echo addcslashes(__("Slack notification settings"), "'"); ?>'">
+    <div class="form-group">
+
+        <form ng-submit="saveFwSlackSettings()">
+
+            <div class="col-md-1">
+                <label for="fw_slack.is_enabled"><?php echo __('Enabled?') ?></label>
+                <input type="checkbox"
+                       id="fw_slack.is_enabled"
+                       class="form-control"
+                       ng-model="fw_slack.is_enabled" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="fw_slack.webhook"><?php echo __('Webhook') ?></label>
+                <input type="text"
+                       id="fw_slack.webhook"
+                       class="form-control"
+                       placeholder="<?php echo __js("Example: https://hooks.slack.com/services/XDEFFE/DE45GFV/RxwdF4bnhtRDsqsqzd234, ") ?>"
+                       ng-model="fw_slack.webhook" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="fw_slack.channel"><?php echo __('Channel') ?></label>
+                <input type="text"
+                       id="fw_slack.channel"
+                       class="form-control"
+                       placeholder="<?php echo __js("Channel: #security, #notifications, etc...") ?>"
+                       ng-model="fw_slack.channel" />
+            </div>
+
+            <div class="col-md-3">
+                <label for="fw_slack.username"><?php echo __('Username') ?></label>
+                <input type="text"
+                       id="fw_slack.username"
+                       class="form-control"
+                       placeholder="<?php echo __js("Username: siberian-notifier, etc...") ?>"
+                       ng-model="fw_slack.username" />
+            </div>
+
+            <div class="col-md-2 pull-right">
+                <button id="fw_slack.submit"
+                        style="margin-top: 24px;"
+                        class="btn btn-info"
+                        type="submit"><?php echo __('Save') ?></button>
+            </div>
+        </form>
+
+        <div style="clear:both;"></div>
+    </div>
+</sb-section>
+<?php endif; ?>

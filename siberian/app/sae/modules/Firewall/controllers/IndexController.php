@@ -12,6 +12,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
      */
     public function findallAction()
     {
+        $slackWebHook = __get('fw_slack_webhook');
+        if (__getConfig('is_demo')) {
+            $slackWebHook = 'https://hooks.slack.com/services/DEMO/DEMO/DEMO';
+        }
+
         $payload = [
             'title' => __('Advanced') . ' > ' . __('Firewall'),
             'icon' => 'icofont icofont-ui-fire-wall',
@@ -20,6 +25,12 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 'sock' => (string) __get('fw_clamd_sock'),
                 'ip' => (string) __get('fw_clamd_ip'),
                 'port' => (string) __get('fw_clamd_port'),
+            ],
+            'fw_slack' => [
+                'is_enabled' => (boolean) __get('fw_slack_is_enabled'),
+                'webhook' => $slackWebHook,
+                'channel' => __get('fw_slack_channel'),
+                'username' => __get('fw_slack_username'),
             ],
         ];
 
@@ -86,6 +97,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function deletefwuploadruleAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -122,6 +138,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function addfwuploadruleAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -169,6 +190,11 @@ class Firewall_IndexController extends Backoffice_Controller_Default
     public function savefwclamdsettingsAction()
     {
         try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
             $request = $this->getRequest();
             $params = $request->getBodyParams();
 
@@ -190,6 +216,47 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => __('ClamAV settings have been saved.'),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function savefwslacksettingsAction()
+    {
+        try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+
+            if (empty($params)) {
+                throw new \Siberian\Exception(__('Missing values'));
+            }
+
+            $is_enabled = $params['fw_slack_is_enabled'];
+            $webhook = $params['fw_slack_webhook'];
+            $channel = $params['fw_slack_channel'];
+            $username = $params['fw_slack_username'];
+
+            // Saving values
+            __set('fw_slack_is_enabled', $is_enabled);
+            __set('fw_slack_webhook', $webhook);
+            __set('fw_slack_channel', $channel);
+            __set('fw_slack_username', $username);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Firewall Slack settings have been saved.'),
             ];
 
         } catch (\Exception $e) {
