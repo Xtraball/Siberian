@@ -10,9 +10,9 @@ let sh = require('shelljs');
 const install = function (inputArgs) {
     // Copy Siberian CLI custom modification!
     // Improvement: Fork cordova-lib@6.5.0 to avoid replacing platform files!
-    sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
-    sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
-    sh.cp('-r', './bin/config/plugman.js ./node_modules/plugman/plugman.js');
+    //sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
+    //sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
+    sh.cp('-r', './bin/config/plugman.js ./node_modules/cordova-lib//src/plugman/plugman.js');
     sh.cp('-r', './bin/config/main.js ./node_modules/plugman/main.js');
 
     // Configuring environment!
