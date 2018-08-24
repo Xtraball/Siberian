@@ -53,7 +53,7 @@ angular.module('starter').directive('sbCmsText', function () {
         '   </ul>' +
         '   <div rn-carousel-indicators ng-if="block.gallery.length > 1" slides="block.gallery" rn-carousel-index="carouselIndex"></div>' +
         '</div>' +
-        '<div ng-if="block.description" class="item item-custom padding description">{{ block.description }}</div>' +
+        '<div ng-if="block.description" ng-style="lineReturn" class="item item-custom padding description">{{ block.description }}</div>' +
         '<script id="zoom-modal.html" type="text/ng-template">'+
         '   <div class="sb-cms-image modal fullscreen">'+
         '       <ion-header-bar class="bar-dark"><button class="button button-clear pull-right" ng-click="hideFullscreen()">{{ "Done" | translate }}</button></ion-header-bar>' +
@@ -73,6 +73,14 @@ angular.module('starter').directive('sbCmsText', function () {
             $scope.carouselIndex = 0;
 
             $scope.is_fullscreen = false;
+
+            $scope.lineReturn = {};
+            if ($scope.block.allow_line_return == true) {
+                $scope.lineReturn = {
+                    'word-wrap': 'normal',
+                    'white-space': 'normal'
+                };
+            }
 
             $scope.setCarouselIndex = function (index) {
                 var localIndex = index;

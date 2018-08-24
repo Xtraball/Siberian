@@ -3,7 +3,7 @@
  */
 
 angular.module("starter").controller("WeatherController", function(Modal, $scope, $stateParams, $window, Country,
-                                                                   LinkService, Weather) {
+                                                                   RainEffect, LinkService, Weather) {
 
     angular.extend($scope, {
         is_loading              : true,
@@ -45,6 +45,8 @@ angular.module("starter").controller("WeatherController", function(Modal, $scope
                 }
 
                 $scope.is_loading = false;
+
+                $scope.runRain();
 
             });
     };
@@ -141,6 +143,37 @@ angular.module("starter").controller("WeatherController", function(Modal, $scope
     $scope.openYahooWebsite = function() {
         LinkService.openLink("https://www.yahoo.com/?ilc=401");
     };
+
+    $scope.runRain = function () {
+        RainEffect.run();
+    };
+
+    $scope.currentEffect = 'rain';
+
+    var currentIndex = 0;
+    var effects = [
+        'rain',
+        'storm',
+        'fallout',
+        'drizzle',
+        'sunny'
+    ];
+
+    setInterval(function () {
+        var eff = effects[currentIndex];
+        $scope.currentEffect = eff;
+        currentIndex = currentIndex + 1;
+        if (currentIndex > 4) {
+            currentIndex = 0;
+        }
+
+        var event = new CustomEvent('weatherChange', {
+            detail: {
+                type: eff
+            }
+        });
+        window.dispatchEvent(event);
+    }, 3000);
 
     $scope.loadContent();
 
