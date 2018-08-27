@@ -23,21 +23,21 @@ class Acl_Model_Acl extends Core_Model_Default {
      *
      * @type array
      */
-    private $__resources = array();
+    private $__resources = [];
 
     /**
      * Resources Labels
      *
      * @type array
      */
-    private $__resource_labels = array();
+    private $__resource_labels = [];
 
     /**
      * Link between URLs & Resources
      *
      * @type array
      */
-    private $__urls = array();
+    private $__urls = [];
 
     /**
      * Prepare the ACL for a given admin
@@ -66,17 +66,17 @@ class Acl_Model_Acl extends Core_Model_Default {
     public function isAllowed($resource, $value_id = null) {
 
         if(is_array($resource)) {
-            $resources = array(
+            $resources = [
                 // sprintf("%s/*", $resource["module"]),
                 sprintf("%s/%s/*", $resource["module"], $resource["controller"]),
                 sprintf("%s/%s/%s", $resource["module"], $resource["controller"], $resource["action"])
-            );
+            ];
             //TEMP : bypassing ACL for cms feature because of inbox dependencies
             if(in_array("cms/application_page/editpost", $resources)) return true;
             if(in_array("cms/application_page/addblock", $resources)) return true;
             $resource = null;
         } else {
-            $resources = array($resource);
+            $resources = [$resource];
         }
 
         foreach($resources as $res) {
@@ -151,7 +151,7 @@ class Acl_Model_Acl extends Core_Model_Default {
             $resource = new Acl_Model_Resource();
             $this->__resources = $resource->getResources();
 
-            $inserted_resources = array();
+            $inserted_resources = [];
 
             foreach($this->__resources as $resource) {
 

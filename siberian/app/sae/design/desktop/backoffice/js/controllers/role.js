@@ -1,19 +1,19 @@
 App.config(function($routeProvider) {
 
-    $routeProvider.when(BASE_URL+"/acl/backoffice_role_list", {
+    $routeProvider.when(BASE_URL + '/acl/backoffice_role_list', {
         controller: 'RoleListController',
-        templateUrl: BASE_URL+"/acl/backoffice_role_list/template"
-    }).when(BASE_URL+"/acl/backoffice_role_edit/role_id/:role_id", {
+        templateUrl: BASE_URL + '/acl/backoffice_role_list/template'
+    }).when(BASE_URL + '/acl/backoffice_role_edit/role_id/:role_id', {
         controller: 'RoleEditController',
-        templateUrl: BASE_URL+"/acl/backoffice_role_edit/template",
-        code: "role-edit"
-    }).when(BASE_URL+"/acl/backoffice_role_edit", {
+        templateUrl: BASE_URL + '/acl/backoffice_role_edit/template',
+        code: 'role-edit'
+    }).when(BASE_URL + '/acl/backoffice_role_edit', {
         controller: 'RoleEditController',
-        templateUrl: BASE_URL+"/acl/backoffice_role_edit/template",
-        code: "role-edit"
+        templateUrl: BASE_URL + '/acl/backoffice_role_edit/template',
+        code: 'role-edit'
     });
 
-}).controller("RoleListController", function($scope, $location, Header, SectionButton, Role) {
+}).controller('RoleListController', function($scope, $location, Header, SectionButton, Role) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -40,9 +40,9 @@ App.config(function($routeProvider) {
                 .isError(false)
                 .show()
             ;
-            var new_role_list = new Array();
+            var new_role_list = [];
             angular.forEach($scope.roles,function(role){
-                if(role.id != role_id){
+                if (role.id != role_id) {
                     new_role_list.push(role);
                 }
             });
@@ -50,11 +50,10 @@ App.config(function($routeProvider) {
         });
     };
 
+}).controller('RoleEditController', function($scope, $location, $routeParams, $window, Header, Role, Url) {
 
-}).controller("RoleEditController", function($scope, $location, $routeParams, $window, Header, Role, Url) {
-
-    if($routeParams.role_id==1) {
-        $location.path(Url.get("acl/backoffice_role_list"));
+    if($routeParams.role_id == 1) {
+        $location.path(Url.get('acl/backoffice_role_list'));
     } else {
         $scope.header = new Header();
         $scope.header.button.left.is_visible = false;
@@ -73,7 +72,7 @@ App.config(function($routeProvider) {
             $scope.role = data.role;
             $scope.resources = data.resources;
 
-            $scope.parent_resources = new Array();
+            $scope.parent_resources = [];
             angular.forEach($scope.resources, function(resource) {
                 $scope.parent_resources[resource.code] = false;
             });
