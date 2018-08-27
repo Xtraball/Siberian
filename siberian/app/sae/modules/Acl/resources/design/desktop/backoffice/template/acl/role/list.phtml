@@ -4,8 +4,10 @@
         <span class="line">
             <i class="icofont icofont-simple-left-down"></i>
             <span>#{{ role.id }}</span> - <span>{{ role.label }}</span> <i>({{ role.code }})</i>
-            <span class="label label-success"
-                  ng-show="role.default"><?php echo __('Default role for all new users') ?></span>
+            <span ng-show="role.default"
+                  class="label label-success"><?php echo __('DEFAULT') ?></span>
+            <span ng-show="role.is_self_assignable"
+                  class="label label-primary"><?php echo __('SELF-ASSIGNABLE') ?></span>
             <span ng-if="role.id != '1'"
                   class="actions pull-right">
                 <a href="acl/backoffice_role_edit/role_id/{{ role.id }}"
@@ -26,7 +28,7 @@
 
 <sb-section title="'<?php echo addslashes(__("List of your roles")); ?>'" button="button">
     <div class="alert alert-info">
-        <?php echo __('Editor note: A user with a given role can only assign self & child roles.'); ?>
+        <?php echo __('Editor note: A user with a given role can only assign Self role (if the role is SELF-ASSIGNABLE) & Child roles.'); ?>
     </div>
 
     <ul class="nested">
@@ -48,9 +50,9 @@
 
     ul.nested span.label {
         display: inline-block;
-        transform: translateY(-1px);
-        height: 18px;
-        line-height: 14px;
+        transform: translateY(-3px);
+        height: 20px;
+        line-height: 16px;
     }
     ul.nested .btn-sm {
         padding: 1px 5px !important;

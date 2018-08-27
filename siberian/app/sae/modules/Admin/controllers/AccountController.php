@@ -77,7 +77,9 @@ class Admin_AccountController extends Admin_Controller_Default
                 // Available roles for the current admin!
                 $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
                 $availableRoles = (new Acl_Model_Role())->getChilds($role);
-                array_unshift($availableRoles, $role->_asArray($role));
+                if ($role->getIsSelfAssignable()) {
+                    array_unshift($availableRoles, $role->_asArray($role));
+                }
 
                 $isAllowedRole = false;
                 foreach ($availableRoles as $availableRole) {

@@ -28,4 +28,8 @@ $schemas['acl_role'] = [
         'is_null' => true,
         'default' => '1',
     ],
+    'is_self_assignable' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
 ];

@@ -68,6 +68,7 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
                 'code' => $role->getCode(),
                 'label' => $role->getLabel(),
                 'parent_id' => $role->getParentId(),
+                'is_self_assignable' => (boolean) $role->getIsSelfAssignable(),
                 'default' => $role->isDefaultRole()
             ];
 
@@ -173,6 +174,7 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
                 ->setLabel($roleData['label'])
                 ->setCode($roleData['code'])
                 ->setParentId($parentId)
+                ->setIsSelfAssignable(filter_var($roleData['is_self_assignable'], FILTER_VALIDATE_BOOLEAN))
                 ->save();
 
             $defaultRoleId = __get(Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE);

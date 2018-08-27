@@ -7,10 +7,12 @@
  * @method string getCode()
  * @method string getLabel()
  * @method integer getParentId()
+ * @method boolean getIsSelfAssignable()
  * @method $this setResources($resources)
  * @method $this setLabel(string $label)
  * @method $this setCode(string $code)
  * @method $this setParentId(integer $parentId)
+ * @method $this setIsSelfAssignable(boolean $isSelfAssignable)
  * @method Acl_Model_Role[] findAll($values = [], $order = null, $params = [])
  */
 class Acl_Model_Role extends Core_Model_Default

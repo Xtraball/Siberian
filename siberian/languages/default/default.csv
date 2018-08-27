@@ -767,4 +767,7 @@
 "Editor note: A user with a given role can only assign self & child roles."
 "EDIT"
 "DELETE"
+"DEFAULT"
+"SELF-ASSIGNABLE"
 "Your are not allowed to assign this role."
+"Editor note: A user with a given role can only assign Self role (if the role is SELF-ASSIGNABLE) & Child roles."
