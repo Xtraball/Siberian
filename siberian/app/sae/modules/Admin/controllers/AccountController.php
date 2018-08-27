@@ -66,7 +66,7 @@ class Admin_AccountController extends Admin_Controller_Default
                     }
                 }
 
-                if(empty($data["role_id"]) AND $data["mode"]=="management") {
+                if (empty($data["role_id"]) && $data["mode"]=="management") {
                     throw new Exception(__('The account role is required'));
                 } else {
                     if($data["mode"]=="management") {
@@ -74,9 +74,25 @@ class Admin_AccountController extends Admin_Controller_Default
                     }
                 }
 
-                $admin->addData($data)
-                    ->save()
-                ;
+                // Available roles for the current admin!
+                $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
+                $availableRoles = (new Acl_Model_Role())->getChilds($role);
+                array_unshift($availableRoles, $role->_asArray($role));
+
+                $isAllowedRole = false;
+                foreach ($availableRoles as $availableRole) {
+                    if ($availableRole['value'] == $data['role_id']) {
+                        $isAllowedRole = true;
+                    }
+                }
+
+                if (!$isAllowedRole) {
+                    throw new \Siberian\Exception(__("Your are not allowed to assign this role."));
+                }
+
+                $admin
+                    ->addData($data)
+                    ->save();
 
                 //For SAE we link automatically the user to the uniq app
                 if(Siberian_Version::is("sae")) {

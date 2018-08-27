@@ -1,26 +1,31 @@
-<?php $admin = $this->getEditAdmin(); ?>
-<?php $current_admin = $this->getAdmin(); ?>
-<?php $admin_role = $current_admin->getRoleId(); ?>
-<?php $role = new Acl_Model_Role(); ?>
-<?php $role->find($admin_role); ?>
-<?php $admin_role_code = $role->getCode(); ?>
-<?php $applications = $this->getApplications(); ?>
-<?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
-<?php asort($countries, SORT_LOCALE_STRING); ?>
-<?php 
-    if (!($this->getMode()=="management")) {
+<?php $admin = $this->getEditAdmin();
+$current_admin = $this->getAdmin();
+$admin_role = $current_admin->getRoleId();
+$role = new Acl_Model_Role();
+$role->find($admin_role);
+$admin_role_code = $role->getCode();
+$applications = $this->getApplications();
+$countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
+asort($countries, SORT_LOCALE_STRING);
+
+// Available roles for the current admin!
+$role = (new Acl_Model_Role())->find($current_admin->getRoleId());
+$availableRoles = (new Acl_Model_Role())->getChilds($role);
+array_unshift($availableRoles, $role->_asArray($role));
+
+if (!($this->getMode()=="management")) {
+    $class_col = "col-md-12";
+    $class_sub_col = "col-md-6";
+} else {
+    if (!($admin->getParentId())) {
         $class_col = "col-md-12";
         $class_sub_col = "col-md-6";
-    } else {
-        if (!($admin->getParentId())) {
-            $class_col = "col-md-12";
-            $class_sub_col = "col-md-6";
-        }
-        else {
-            $class_col = "col-md-6";
-            $class_sub_col = "col-md-12";
-        }
     }
+    else {
+        $class_col = "col-md-6";
+        $class_sub_col = "col-md-12";
+    }
+}
 ?>
 <div class="row">
     <form action="<?php echo $this->getUrl('admin/account/savepost') ?>" method="post" id="editForm" class="form-horizontal <?php echo $class_col ?>">
@@ -142,9 +147,8 @@
                             <div class="col-md-9 col-sm-4">
                                 <select class="styled-select color-blue required" id="role_id" name="role_id">
                                     <option></option>
-                                    <?php foreach($admin->getAvailableRole() as $role): ?>
-                                        <?php if($admin_role_code != "Admin" AND $role["code"] == "Admin") continue; ?>
-                                        <option value="<?php echo $role["role_id"];?>" <?php if($role["role_id"]==$admin->getRoleId()) echo "selected"; ?>><?php echo $role["label"];?></option>
+                                    <?php foreach($availableRoles as $role): ?>
+                                        <option value="<?php echo $role['value'];?>" <?php if($role["value"]==$admin->getRoleId()) echo "selected"; ?>><?php echo $role['label'];?></option>
                                     <?php endforeach;?>
                                 </select>
                             </div>

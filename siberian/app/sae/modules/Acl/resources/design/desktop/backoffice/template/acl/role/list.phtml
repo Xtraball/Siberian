@@ -1,0 +1,73 @@
+<script type="text/ng-template"
+        id="child_roles.html">
+    <li class="nested">
+        <span class="line">
+            <i class="icofont icofont-simple-left-down"></i>
+            <span>#{{ role.id }}</span> - <span>{{ role.label }}</span> <i>({{ role.code }})</i>
+            <span class="label label-success"
+                  ng-show="role.default"><?php echo __('Default role for all new users') ?></span>
+            <span ng-if="role.id != '1'"
+                  class="actions pull-right">
+                <a href="acl/backoffice_role_edit/role_id/{{ role.id }}"
+                   class="btn btn-sm btn-success">EDIT</a>
+                <a href="javascript:void(0);"
+                   ng-click="deleteRole(role.id)"
+                   class="btn btn-sm btn-danger">DELETE</a>
+            </span>
+        </span>
+        <ul ng-if="role.childs.length"
+            class="nested">
+            <ng-include src="'child_roles.html'"
+                        ng-repeat="role in role.childs"></ng-include>
+        </ul>
+    </li>
+</script>
+
+
+<sb-section title="'<?php echo addslashes(__("List of your roles")); ?>'" button="button">
+    <div class="alert alert-info">
+        <?php echo __('Editor note: A user with a given role can only assign self & child roles.'); ?>
+    </div>
+
+    <ul class="nested">
+        <ng-include src="'child_roles.html'"
+                    ng-repeat="role in roles"></ng-include>
+    </ul>
+</sb-section>
+
+<style type="text/css">
+    ul.nested {
+        padding-top: 0;
+    }
+
+    li.nested {
+        padding: 0 0 0 20px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    ul.nested span.label {
+        display: inline-block;
+        transform: translateY(-1px);
+        height: 18px;
+        line-height: 14px;
+    }
+    ul.nested .btn-sm {
+        padding: 1px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        border-radius: 2px !important;
+        font-weight: bold;
+    }
+    span.line {
+        display: inline-block;
+        width: 100%;
+        border-bottom: 1px solid lightgrey;
+    }
+    span.actions {
+        margin-top: -4px;
+    }
+
+</style>
+
+

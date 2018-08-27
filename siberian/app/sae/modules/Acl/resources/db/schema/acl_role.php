@@ -3,24 +3,29 @@
  *
  * Schema definition for 'acl_role'
  *
- * Last update: 2016-04-28
+ * Last update: 2018-08-27
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['acl_role'] = array(
-    'role_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['acl_role'] = [
+    'role_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'code' => array(
+    ],
+    'code' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'label' => array(
+    ],
+    'label' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-);
+    ],
+    'parent_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+        'default' => '1',
+    ],
+];

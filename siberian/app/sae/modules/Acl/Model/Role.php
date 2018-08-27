@@ -6,14 +6,24 @@
  * @method integer getId()
  * @method string getCode()
  * @method string getLabel()
+ * @method integer getParentId()
  * @method $this setResources($resources)
  * @method $this setLabel(string $label)
  * @method $this setCode(string $code)
+ * @method $this setParentId(integer $parentId)
+ * @method Acl_Model_Role[] findAll($values = [], $order = null, $params = [])
  */
 class Acl_Model_Role extends Core_Model_Default
 {
     const DEFAULT_ROLE_ID = 1;
     const DEFAULT_ADMIN_ROLE_CODE = "admin_default_role_id";
+
+    /**
+     * prevent recursive loops!
+     *
+     * @var int
+     */
+    private $loopFailSafe = 0;
 
     /**
      * Acl_Model_Role constructor.
@@ -60,6 +70,48 @@ class Acl_Model_Role extends Core_Model_Default
     public function findDefaultRoleId()
     {
         return __get(self::DEFAULT_ADMIN_ROLE_CODE);
+    }
+
+    /**
+     * @param $role
+     * @return array
+     */
+    public function getChilds($role)
+    {
+        $allChilds = [];
+        $this->_recursiveChilds ($allChilds, $role);
+
+        return $allChilds;
+    }
+
+    /**
+     * @param $allChilds
+     * @param $role
+     */
+    public function _recursiveChilds (&$allChilds, $role)
+    {
+        $this->loopFailSafe++;
+        if ($this->loopFailSafe > 20) {
+            return;
+        }
+
+        $childs = $this->getTable()->findAll(['parent_id = ?' => $role->getId()]);
+        foreach ($childs as $child) {
+            $this->_recursiveChilds($allChilds, $child);
+            $allChilds[] = $this->_asArray($child);
+        }
+    }
+
+    /**
+     * @param $role
+     * @return array
+     */
+    public function _asArray ($role)
+    {
+        return [
+            'value' => $role->getId(),
+            'label' => $role->getLabel(),
+        ];
     }
 
     /**

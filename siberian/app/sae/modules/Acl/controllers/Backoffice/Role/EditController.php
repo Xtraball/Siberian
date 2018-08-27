@@ -28,6 +28,8 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
             $resourcesData = [];
             $roleId = $request->getParam('role_id', null);
 
+            $defaultRole = __get(Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE);
+
             $role = (new Acl_Model_Role())->find($roleId);
             if ($role->getId()) {
                 $data_title = __("Edit %s role", $role->getCode());
@@ -37,18 +39,42 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
                 }
             } else {
                 $data_title = __('Create a new role');
+                $role->setParentId(1);
+            }
+
+            $allParents = (new Acl_Model_Role())->findAll(['role_id != ?' => $roleId]);
+            $parentsData = [];
+            foreach($allParents as $allParent) {
+                $default = ($defaultRole == $allParent->getId()) ?
+                    ' (' . __('Default role for all new users') . ')' : '';
+
+                if ($role->getId() &&
+                    !$this->isChild($role, $allParent)) {
+                    continue;
+                }
+
+                $parentsData[] = [
+                    'value' => $allParent->getId(),
+                    'label' => sprintf(
+                        "%s - %s%s",
+                        $allParent->getLabel(),
+                        $allParent->getCode(),
+                        $default),
+                ];
             }
 
             $role = [
                 'id' => $role->getId(),
                 'code' => $role->getCode(),
                 'label' => $role->getLabel(),
+                'parent_id' => $role->getParentId(),
                 'default' => $role->isDefaultRole()
             ];
 
             $payload = [
                 'title' => $data_title,
-                'role' => $role
+                'role' => $role,
+                'parents' => $parentsData,
             ];
 
             $payload['resources'] = (new Acl_Model_Resource())->getHierarchicalResources($resourcesData);
@@ -61,6 +87,27 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $role
+     * @param $possibleParent
+     * @return bool
+     * @throws Zend_Exception
+     */
+    private function isChild($role, $possibleParent)
+    {
+        $currentId = $role->getId();
+        $parentId = $possibleParent->getParentId();
+        while ($parentId != null) {
+            $parent = (new Acl_Model_Role())->find($parentId);
+            // If we find the current role in the ancestors we will reject this node as a parent!
+            if ($parent->getId() == $currentId) {
+                return false;
+            }
+            $parentId = $parent->getParentId();
+        }
+        return true;
     }
 
     /**
@@ -109,10 +156,23 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
             $resourcesData = (new Acl_Model_Resource())
                 ->flattenedResources($resourcesData);
 
+            $parentId = $roleData['parent_id'];
+            // Ensure loop-free parent ids!
+            if ($role->getId() &&
+                $role->getId() == $parentId) {
+                $parentId = 1;
+            }
+
+            if ($role->getId()) {
+                // Check if the parent is valid and won't break the tree.
+                $this->checkHierarchy($parentId, $role->getId());
+            }
+
             $role
                 ->setResources($resourcesData)
                 ->setLabel($roleData['label'])
                 ->setCode($roleData['code'])
+                ->setParentId($parentId)
                 ->save();
 
             $defaultRoleId = __get(Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE);
@@ -147,6 +207,25 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $parentId
+     * @param $roleId
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
+     */
+    private function checkHierarchy($parentId, $roleId)
+    {
+        while ($parentId != null) {
+            $role = (new Acl_Model_Role())->find($parentId);
+            if ($role->getId() &&
+                $role->getId() != $roleId) {
+                $parentId = $role->getParentId();
+            } else {
+                throw new \Siberian\Exception(__("You can't assign a role to this child role, this will break the hierarchy!"));
+            }
+        }
     }
 
     /**

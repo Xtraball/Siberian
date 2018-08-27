@@ -35,18 +35,20 @@ App.config(function($routeProvider) {
     });
 
     $scope.deleteRole = function(role_id) {
+        if (!window.confirm('Are you sure?')) {
+            return;
+        }
+
         Role.delete(role_id).success(function(data){
             $scope.message.setText(data.message)
                 .isError(false)
                 .show()
             ;
-            var new_role_list = [];
-            angular.forEach($scope.roles,function(role){
-                if (role.id != role_id) {
-                    new_role_list.push(role);
-                }
+            Role.findAll().success(function(data) {
+                $scope.roles = data;
+            }).finally(function() {
+                $scope.content_loader_is_visible = false;
             });
-            $scope.roles = new_role_list;
         });
     };
 
@@ -71,6 +73,7 @@ App.config(function($routeProvider) {
             $scope.section_title = data.title;
             $scope.role = data.role;
             $scope.resources = data.resources;
+            $scope.parents = data.parents;
 
             $scope.parent_resources = [];
             angular.forEach($scope.resources, function(resource) {
