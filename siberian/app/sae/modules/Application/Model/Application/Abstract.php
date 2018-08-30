@@ -642,17 +642,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function isActive()
     {
-        return (bool)$this->getData("is_active");
+        return (bool) $this->getData("is_active");
     }
 
     public function isLocked()
     {
-        return (bool)$this->getData("is_locked");
+        return (bool) $this->getData("is_locked");
     }
 
     public function canBePublished()
     {
-        return (bool)$this->getData("can_be_published");
+        return (bool) $this->getData("can_be_published");
     }
 
     public function isSomeoneElseEditingIt($admin_id = null)
@@ -1127,12 +1127,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * SAE & MAE have no subscriptions, we assume that it's always active then.
+     *
      * @return bool
      */
     public function subscriptionIsActive()
     {
-        if (Siberian_Version::TYPE != "PE") return true;
-        return $this->getSubscription()->isActive();
+        return true;
     }
 
     /**

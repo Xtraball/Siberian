@@ -59,7 +59,7 @@
                 </a>
             </li>
 
-            <?php if($this->_canAccess("push_admin_global")) : ?>
+            <?php if ($this->_canAccess("push_admin_global")) : ?>
             <li>
                 <a id="sb-tour-global-push" href="<?php echo $this->getUrl('push/admin/global'); ?>" class="<?php if($current_link == 'push_global') : ?> active<?php endif; ?> box foo sb-tour" title="<?php echo __('Push notifications') ?>">
                     <i class="fa fa-bullhorn"></i>
@@ -70,7 +70,7 @@
             </li>
             <?php endif; ?>
 
-            <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
+            <?php if (!$this->getRequest()->isWhiteLabelEditor()) : ?>
 
                 <?php if($this->_canAccess("admin_access_management")) : ?>
                 <li>
