@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * Class Application_Backoffice_ListController
+ */
 class Application_Backoffice_ListController extends Backoffice_Controller_Default
 {
-
-    public function loadAction() {
-
-        $html = [
+    /**
+     *
+     */
+    public function loadAction()
+    {
+        $payload = [
             "title" => __("Applications"),
             "icon" => "fa-mobile",
             "words" => [
@@ -16,11 +21,14 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             ],
         ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
+    /**
+     * @throws Zend_Controller_Request_Exception
+     */
+    public function findallAction()
+    {
         $application = new Application_Model_Application();
 
         $offset = $this->getRequest()->getParam('offset', null);
@@ -40,25 +48,25 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         ];
 
         $filters = [];
-        if($_filter = $this->getRequest()->getParam("filter", false)) {
+        if ($_filter = $this->getRequest()->getParam("filter", false)) {
             $filters["(name LIKE ? OR app_id LIKE ? OR bundle_id LIKE ? OR package_name LIKE ?)"] = "%{$_filter}%";
         }
 
         $order = $this->getRequest()->getParam("order", false);
         $by = filter_var($this->getRequest()->getParam("by", false), FILTER_VALIDATE_BOOLEAN);
-        if($order) {
+        if ($order) {
             $order_by = ($by) ? "ASC" : "DESC";
             $order = sprintf("%s %s", $order, $order_by);
         }
 
         $to_publish = filter_var($this->getRequest()->getParam("toPublish", false), FILTER_VALIDATE_BOOLEAN);
-        if($to_publish) {
+        if ($to_publish) {
             $app_ids = $application->findAllToPublish();
 
-            if(empty($app_ids)) {
+            if (empty($app_ids)) {
                 $filters["app_id = ?"] = -1;
             } else {
-                if(!empty($app_ids)) {
+                if (!empty($app_ids)) {
                     $filters["app_id IN (?)"] = $app_ids;
                 }
 
@@ -66,11 +74,11 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         }
 
         $published_only = filter_var($this->getRequest()->getParam("published_only", false), FILTER_VALIDATE_BOOLEAN);
-        if($published_only) {
+        if ($published_only) {
             $application_table = new Application_Model_Db_Table_Application();
             $applications = $application_table->findAllForGlobalPush();
 
-            if(!empty($applications)) {
+            if (!empty($applications)) {
                 $filters["app_id IN (?)"] = $applications;
             }
 
@@ -90,7 +98,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $applications = $application->findAll($filters, $order, $params);
 
         $data = [
-            'display_per_page'=> $limit,
+            'display_per_page' => $limit,
             'collection' => []
         ];
 
@@ -109,10 +117,11 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $this->_sendJson($data['collection']);
     }
 
-    public function findbyadminAction() {
+    public function findbyadminAction()
+    {
 
         $request = $this->getRequest();
-        if($range = $request->getHeader("Range")) {
+        if ($range = $request->getHeader("Range")) {
             $parts = explode("-", $range);
             $offset = $parts[0];
             $limit = ($parts[1] - $parts[0]) + 1;
@@ -121,19 +130,19 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $admin_id = $this->getRequest()->getParam("admin_id");
 
         $filters = [];
-        if($_filter = $this->getRequest()->getParam("filter", false)) {
+        if ($_filter = $this->getRequest()->getParam("filter", false)) {
             $filters["(a.name LIKE ? OR a.app_id LIKE ? OR a.bundle_id LIKE ? OR a.package_name LIKE ?)"] = "%{$_filter}%";
         }
 
         $order = $this->getRequest()->getParam("order", false);
         $by = filter_var($this->getRequest()->getParam("by", false), FILTER_VALIDATE_BOOLEAN);
-        if($order) {
+        if ($order) {
             $order_by = ($by) ? "ASC" : "DESC";
             $order = sprintf("%s %s", $order, $order_by);
         }
 
         $application = new Application_Model_Application();
-        if(!Siberian_Version::is("sae")) {
+        if (!Siberian_Version::is("sae")) {
             $show_all = filter_var($this->getRequest()->getParam("show_all_applications", false), FILTER_VALIDATE_BOOLEAN);
             $_admin_id = ($show_all) ? null : $admin_id;
 
@@ -146,9 +155,9 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $total = 1;
         }
 
-        if($range = $request->getHeader("Range")) {
+        if ($range = $request->getHeader("Range")) {
             $start = $parts[0];
-            $end = ($total < $parts[1]) ? $total-1 : $parts[1];
+            $end = ($total < $parts[1]) ? $total - 1 : $parts[1];
 
             $this->getResponse()->setHeader("Content-Range", sprintf("%s-%s/%s", $start, $end, $total));
             $this->getResponse()->setHeader("Range-Unit", "items");
@@ -157,7 +166,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         $application_admin = new Application_Model_Admin();
 
         $apps = [];
-        foreach($applications as $application) {
+        foreach ($applications as $application) {
             $result = $application_admin->findAll([
                 "app_id" => $application->getId(),
                 "admin_id" => $admin_id
@@ -179,7 +188,8 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
     }
 
-    public function deleteapplicationAction() {
+    public function deleteapplicationAction()
+    {
         if (Siberian_Version::is('SAE')) {
             $this->_sendJson([
                 'error' => true,
@@ -207,7 +217,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                     'success' => true,
                     'message' => __('The Application ' . $appId . ' / ' . $appName . ' has been deleted!')
                 ];
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $payload = [
                     'error' => true,
                     'message' => $e->getMessage()

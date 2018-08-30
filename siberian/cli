@@ -241,6 +241,21 @@ try {
                 }
             }
             break;
+        case 'security:scan':
+            $clamav = new \Siberian\ClamAV();
+            if ($clamav->ping()) {
+                if (isset($argv[2])) {
+                    $filename = (string) $argv[2];
+                } else {
+                    $filename = readline('File to scan: ');
+                }
+
+                $clamav->scan($filename);
+                echo 'Result: ' . $clamav->getMessage() . PHP_EOL;
+            } else {
+                echo 'No answer after PING.' . PHP_EOL;
+            }
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "

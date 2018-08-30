@@ -173,8 +173,9 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
                 $nextBillingDate->setHour('12');
                 $nextBillingDate->setMinute('00');
+
+                $subscription->unlock();
                 $subscription
-                    ->setIsActive(1)
                     ->update($nextBillingDate)
                     ->save();
 
@@ -188,9 +189,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 if ($cronInstance) {
                     $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive");
                 }
-                $subscription
-                    ->setIsActive(0)
-                    ->save();
+                $subscription->lock();
             }
         }
 

@@ -35,18 +35,26 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
 
 ?>
 <div class="page-content-wrapper">
-    <div id="template_content" class="content">
+    <div id="template_content"
+         class="content">
         <h3 class="title-editor border-red text-center">
             <?php echo __("Your design"); ?>
         </h3>
-        <div id="templates" class="subcontent content-color container-fluid">
+        <div id="templates"
+             class="subcontent content-color container-fluid">
             <div class="row">
-                <div id="sb-tour-change-template-section" class="col-sm-4 col-xs-6 sb-tour">
+                <div id="sb-tour-change-template-section"
+                     class="col-sm-4 col-xs-6 sb-tour">
                     <?php if($this->_canAccess("application_create")) : ?>
-                        <div id="show_templates" class="pointer">
+                        <div id="show_templates"
+                             class="pointer">
                             <p>
                                 <?php if(empty($design_id)): ?>
-                                    <img id="design_overview" class="overview-old" src="/images/templates/blank/overview.png" width="100% " height="100%"/>
+                                    <img id="design_overview"
+                                         class="overview-old"
+                                         src="/images/templates/blank/overview.png"
+                                         width="100%"
+                                         height="100%"/>
                                 <?php elseif(!empty($overview_new)): ?>
                                     <img id="design_overview" src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>" width="100% " height="100%"/>
                                 <?php else: ?>

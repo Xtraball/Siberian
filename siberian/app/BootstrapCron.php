@@ -58,6 +58,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Directory::setBasePath($base_path);
 
         // include Stubs
+        require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
         require_once Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         //for cron we are always at root directory
