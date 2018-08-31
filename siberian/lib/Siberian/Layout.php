@@ -457,6 +457,7 @@ class Siberian_Layout extends Zend_Layout
     public function loadEmail($filename, $nodename)
     {
         $layout = new Siberian_Layout_Email($filename, $nodename);
+        Siberian_View::setDesignType('email');
         $layout->load();
         return $layout;
     }
