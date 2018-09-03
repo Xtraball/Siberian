@@ -182,13 +182,9 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             CURLOPT_POSTFIELDS => $params,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_VERBOSE => 1,
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSLVERSION => CURL_SSLVERSION_TLSv1,
         ];
         curl_setopt_array($curl, $curlParams);
-
-        // Uses TLS v1.2
-        curl_setopt($curl, CURLOPT_SSLVERSION, CURL_SSLVERSION_TLSv1_2);
 
         $response = curl_exec($curl);
         $responseArray = [];
@@ -426,6 +422,69 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
 
         return false;
     }
+
+    /**
+     * @param $paymentData
+     * @return array
+     */
+    public static function cancelSubscription($paymentData)
+    {
+        try {
+            $params = [
+                'PROFILEID' => $paymentData['profile_id'],
+                'ACTION' => 'CANCEL',
+                'NOTE' => __('Your subscription was manually cancelled.')
+            ];
+
+            $result = (new self())->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+
+            if ($result['ACK'] !== 'Success') {
+                throw new \Siberian\Exception(__('Unable to cancel PayPal subscription, tray again later.'));
+            }
+
+            return [
+                'success' => true,
+                'payload' => $result,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * @param $paymentData
+     * @return array
+     */
+    public static function getSubscriptionStatus($paymentData)
+    {
+        try {
+            $isActive = false;
+            $params = [
+                'PROFILEID' => $paymentData['profile_id'],
+            ];
+
+            $result = (new self())->request(self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS, $params);
+
+            if ($result['STATUS'] !== 'Active') {
+                throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
+            }
+
+            $isActive = true;
+
+            return [
+                'success' => true,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
 
     /**
      * @param $order
