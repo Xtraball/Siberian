@@ -16,6 +16,16 @@ if ($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance"))
  * @var Application_Model_Application $application
  */
 $application = $this->getApplication();
+
+$expiredSubscriptions = (new Subscription_Model_Subscription_Application())
+    ->findAll([
+        'is_subscription_deleted = ?' => 1,
+        'app_id = ?' => $application->getId(),
+    ],
+    [
+        'updated_at DESC',
+    ]);
+
 ?>
     <div class="menu_steps">
         <ul>
@@ -114,8 +124,8 @@ $application = $this->getApplication();
                 <?php if ($application->subscriptionIsActive()): ?>
 
                     <?php
-                    $subscriptionApp = $application->getSubscription();
-                    $subscription = $subscriptionApp->getSubscription();
+                        $subscriptionApp = $application->getSubscription();
+                        $subscription = $subscriptionApp->getSubscription();
                     ?>
 
 
@@ -151,7 +161,11 @@ $application = $this->getApplication();
                                     <tr>
                                         <th><?php echo __('Payment method') ?></th>
                                         <td>
+                                            <?php if ($subscriptionApp->getPaymentMethod() === ''): ?>
+                                                <span style="text-transform: uppercase; font-weight: bold;"><?php echo __('Free plan') ?></span>
+                                            <?php else: ?>
                                             <span style="text-transform: uppercase; font-weight: bold;"><?php echo $subscriptionApp->getPaymentMethod() ?></span>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                     <?php else: ?>
@@ -168,8 +182,123 @@ $application = $this->getApplication();
                             </table>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="container-fluid subcontent text-right">
+                                <a class="btn color-red cancel-subscription"
+                                   href="javascript:void(0);">
+                                    <?php echo __('Cancel current Subscription'); ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
+
+            <?php if ($expiredSubscriptions->count() > 0) : ?>
+            <div class="form-horizontal container-fluid subcontent content-color">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <h4 class="subtitle"><?php echo __('Previous and/or Expired subscriptions') ?></h4>
+                    </div>
+                    <div class="col-md-12">
+                        <table class="table table-striped"
+                               style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th><?php echo __('ID') ?></th>
+                                    <th><?php echo __('Name') ?></th>
+                                    <th><?php echo __('Description') ?></th>
+                                    <th><?php echo __('Setup fee') ?></th>
+                                    <th><?php echo __('Regular fee') ?></th>
+                                    <th><?php echo __('Expired on') ?></th>
+                                    <th><?php echo __('Payment method') ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($expiredSubscriptions as $expiredSubscription):
+                                    $subscription = $subscriptionApp->getSubscription(); ?>
+                                <tr>
+                                    <td>#<?php echo $subscription->getId() ?></td>
+                                    <td><?php echo $subscription->getName() ?></td>
+                                    <td><?php echo $subscription->getDescription() ?></td>
+                                    <td>
+                                        <?php if (!$expiredSubscription->isChild()): ?>
+                                            <?php echo $subscription->getFormattedSetupFee(); ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if ($subscription->getPaymentFrequency() && !$expiredSubscription->isChild()): ?>
+                                            <?php echo $subscription->getFormattedRegularPayment() ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?php echo datetime_to_format($expiredSubscription->getExpireAt(), Zend_Date::DATE_SHORT) ?></td>
+                                    <td>
+                                        <?php if (!$expiredSubscription->isChild()): ?>
+                                        <span style="text-transform: uppercase; font-weight: bold;"><?php echo $expiredSubscription->getPaymentMethod() ?></span>
+                                        <?php else: ?>
+                                        <span style="text-transform: uppercase;">
+                                           <?php echo __('Linked to Subscription') ?> <b>#<?php echo $expiredSubscription->getParentId() ?></b>
+                                        </span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 <?php endif; ?>
+
+<script type="text/javascript">
+    var cancelUrl = '<?php echo $this->getUrl('subscription/application/cancel'); ?>';
+
+    $(document).ready(function () {
+        $('.cancel-subscription').off('click');
+        $('.cancel-subscription').on('click', function () {
+            swal({
+                html: true,
+                title: '<?php echo __js("Cancel Subscription", "'") ?>',
+                type: 'prompt',
+                text: '<?php echo __js("You are about to cancel your Subscription, if this is a paid plan the subscription will be cancelled at the end of the recurring period, otherwise the subscription will be immediately cancelled and the application locked.", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo __js("Yes, Cancel my subscription", "'") ?>',
+                cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
+                buttons: {
+                    confirm: {
+                        value: ''
+                    }
+                }
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    'subscription/application/cancel',
+                    {
+                        'message': value
+                    },
+                    function () {
+                        // Success!
+                        location.reload();
+                    },
+                    function () {
+                        // Error!
+                        location.reload();
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+    });
+</script>
