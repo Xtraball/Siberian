@@ -670,8 +670,6 @@ class Cron
     }
 
     /**
-     * Check payments recurrencies
-     *
      * @param $task
      */
     public function checkpayments($task)
@@ -679,19 +677,11 @@ class Cron
         // We do really need to lock this thing !
         $this->lock($task->getId());
 
-        if (method_exists('Payment_StripeController', 'checkRecurrencies')) {
-            \Payment_StripeController::checkRecurrencies($this);
-        }
-
         try {
-            # This handles paypal only!
-            include_once \Core_Model_Directory::getBasePathTo(
-                '/app/sae/modules/Payment/controllers/PaypalController.php');
-
-            if (method_exists('Payment_PaypalController', 'checkRecurrencies')) {
-                \Payment_PaypalController::checkRecurrencies($this);
+            if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
+                \Subscription_Model_Subscription_Application::checkRecurrencies($this);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }

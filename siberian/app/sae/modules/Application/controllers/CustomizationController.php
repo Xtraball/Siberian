@@ -1,10 +1,19 @@
 <?php
 
-class Application_CustomizationController extends Application_Controller_Default {
+/**
+ * Class Application_CustomizationController
+ */
+class Application_CustomizationController extends Application_Controller_Default
+{
+    /**
+     *
+     */
+    public function indexAction()
+    {
 
-    public function indexAction() {
         $resource = new Acl_Model_Resource();
-        $resources = $resource->findAll(array(new Zend_Db_Expr('code LIKE \'editor_%\' AND url IS NOT NULL')));
+        $resources = $resource->findAll([new Zend_Db_Expr('code LIKE \'editor_%\' AND url IS NOT NULL')]);
+
         foreach ($resources as $resource) {
             if ($this->_canAccess($resource->getCode())) {
                 $url = rtrim(trim($resource->getData('url')), '*');
@@ -15,7 +24,11 @@ class Application_CustomizationController extends Application_Controller_Default
         $this->_redirect('application/customization_design_style/edit');
     }
 
-    public function checkAction() {
+    /**
+     *
+     */
+    public function checkAction()
+    {
         if ($this->getRequest()->isPost()) {
             $adminCanPublish = $this->getSession()
                 ->getAdmin()
