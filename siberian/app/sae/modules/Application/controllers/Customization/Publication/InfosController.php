@@ -160,12 +160,14 @@ class Application_Customization_Publication_InfosController extends Application_
                         __('Main domain is required, you can set it in <b>Settings > General</b>'));
                 }
 
-                $type = $this->getRequest()->getParam("type");
-                $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
-                $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
-                $pDesign = $this->getRequest()->getParam("design_code");
+                $request = $this->getRequest();
+
+                $type = $request->getParam("type");
+                $device = ($request->getParam("device_id") == 1) ? "ios" : "android";
+                $noads = ($request->getParam("no_ads") == 1) ? "noads" : "";
+                $pDesign = $request->getParam("design_code");
                 $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
-                $isApkService = $this->getRequest()->getParam("apk", false) === "apk";
+                $isApkService = $request->getParam("apk", false) === "apk";
 
                 # ACL Apk user
                 if($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
@@ -188,7 +190,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 }
 
                 // New case for source to apk generator!
-                if ($isApkService) {
+                if ($isApkService && $device === "android") {
                     $queue->setIsApkService(1);
                     $queue->setApkStatus('pending');
                 }
