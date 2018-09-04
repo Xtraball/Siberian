@@ -256,6 +256,9 @@ try {
                 echo 'No answer after PING.' . PHP_EOL;
             }
             break;
+        case 'subscription:check-payments':
+            \Subscription_Model_Subscription_Application::checkRecurrencies(new Siberian_Cron());
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -295,6 +298,12 @@ try {
     
 " . color('app:keystore:restore <appId>', 'brown') . "
     Extract a saved PKS (Keystore) from the database backup for the given <appId>.
+    
+" . color('security:scan <filePath>', 'brown') . "
+    Scan the given <filePath> with ClamAV (if configured in your Backoffice).
+    
+" . color('subscription:check-payments', 'brown') . "
+    Manually run payment verification for expired subscriptions (only for PE, this action is normally triggered by the cron).
 
 " . color('help', 'brown') . "
     Prints the current help message.    
