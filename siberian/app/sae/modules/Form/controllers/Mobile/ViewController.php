@@ -69,12 +69,14 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                 // Date Validator
                 $dataChanged = [];
+                $index = 0;
 
                 foreach ($sections as $k => $section) {
                     // Load the fields
                     $section->findFields($section->getId());
                     // Browse the fields
                     foreach ($section->getFields() as $field) {
+                        $index++;
 
                         // If the field has options
                         if ($field->hasOptions()) {
@@ -97,12 +99,12 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                             // If the key exists,
                                             if (array_key_exists($option["id"], $data[$field->getId()])) {
                                                 if ($data[$field->getId()][$option["id"]]) {
-                                                    $dataChanged[$field->getName()][$option["id"]] = $option["name"];
+                                                    $dataChanged[$index . ' - ' . $field->getName()][$option["id"]] = $option["name"];
                                                 }
                                             }
                                             // If the current option has been posted, store its value
                                         } else if ($option["id"] == $data[$field->getId()]) {
-                                            $dataChanged[$field->getName()] = $option["name"];
+                                            $dataChanged[$index . ' - ' . $field->getName()] = $option["name"];
                                         }
                                     }
                                 } else if ($field->isRequired()) {
@@ -148,6 +150,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                     $data[$field->getId()] = datetime_to_format($new_date->toString('y-MM-dd HH:mm:ss'));
                                 }
                             }
+
                             // If not empty, store its value
                             if (!empty($data[$field->getId()])) {
                                 // If the field is an image
@@ -196,9 +199,9 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                                     $imageUrl = $this->getRequest()->getBaseUrl() . '/images/application' . $finalPath;
 
-                                    $dataChanged[$field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $imageUrl . '" alt="' . $field->getName() . '" />';
+                                    $dataChanged[$index . ' - ' . $field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $imageUrl . '" alt="' . $field->getName() . '" />';
                                 } else {
-                                    $dataChanged[$field->getName()] = $data[$field->getId()];
+                                    $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
                                 }
                             }
 
