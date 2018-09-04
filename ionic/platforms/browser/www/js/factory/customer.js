@@ -216,7 +216,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
 
     factory.loginWithFacebook = function (token) {
         var data = {
-            device_id: device.uuid,
+            device_uid: device.uuid,
             token: token
         };
 

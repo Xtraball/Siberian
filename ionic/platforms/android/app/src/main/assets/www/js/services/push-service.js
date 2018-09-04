@@ -103,6 +103,13 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         } else {
             $log.debug('Unable to initialize push service.');
         }
+
+        if (!$rootScope.isNativeApp) {
+            Application.loaded.then(function () {
+                // When Application is loaded, register at least for InApp
+                service.fetchMessagesOnStart();
+            });
+        }
     };
 
     /**
