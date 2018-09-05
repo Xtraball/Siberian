@@ -147,6 +147,9 @@ $schemas['admin'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'last_action' => array(
+        'type' => 'datetime',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),
