@@ -210,10 +210,17 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
      */
     public function findLastInAppMessage($app_id, $device_uid, $topics)
     {
+        if (!is_array($device_uid)) {
+            $device_uid = [$device_uid];
+        }
+
+        if (empty($device_uid)) {
+            $device_uid[] = '-rng-';
+        }
+
         $select = $this->select()
             ->from(['pm' => $this->_name])
             ->joinLeft(['pdm' => 'push_delivered_message'], "pm.message_id = pdm.message_id", [])
-            ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.deliver_id IS NULL')
             ->where('pm.type_id = ?', 2)
             ->where('pm.send_at IS NULL OR pm.send_at <= ?', Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
@@ -229,7 +236,8 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
         }
 
         if (!empty($topics)) {
-            $select->joinLeft(['pcm' => 'topic_category_message'], 'pcm.message_id = pm.message_id', [])
+            $select
+                ->joinLeft(['pcm' => 'topic_category_message'], 'pcm.message_id = pm.message_id', [])
                 ->joinLeft(['ps' => 'topic_subscription'], 'ps.category_id = pcm.category_id AND ps.device_uid = "' . $device_uid . '"', [])
                 ->where('pm.send_to_all = 1 OR (ps.category_id IN (?) AND ps.subscription_id IS NOT NULL)', implode(",", $topics));
         } else {
@@ -277,7 +285,9 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
             $device_id = $this->_db->fetchOne($select);
         }
 
-        if (!$device_id) return $this;
+        if (!$device_id) {
+            return $this;
+        }
 
         $fields = array_keys($this->_db->describeTable("push_delivered_message"));
         $fields = array_combine($fields, $fields);
@@ -302,9 +312,31 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
             ->setIntegrityCheck(false);
 
         $fields = array_merge(["message_id"], array_keys($fields));
-        $this->_db->query("INSERT INTO push_delivered_message(" . implode(", ", $fields) . ") {$select->assemble()}");
+        $query = "INSERT INTO push_delivered_message(" . implode(", ", $fields) . ") {$select->assemble()}";
+        $this->_db->query($query);
 
         return $this;
+    }
+
+    /**
+     * @param $messageId
+     * @param $deviceUid
+     * @throws Zend_Exception
+     */
+    public function markRealInAppAsRead($messageId, $deviceUid)
+    {
+        $pushDeliveredMessage = new Push_Model_DeliveredMessage();
+
+        $pushDeliveredMessage
+            ->setDeviceId(0)
+            ->setDeviceUid($deviceUid)
+            ->setDeviceType(0)
+            ->setMessageId($messageId)
+            ->setStatus(1)
+            ->setIsRead(1)
+            ->setIsDisplayed(1)
+            ->setDeliveredAt(Zend_Date::now()->toString('yyyy-MM-dd HH:mm:ss'))
+            ->save();
     }
 
     /**

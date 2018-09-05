@@ -182,10 +182,14 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     public function deleteAction() {
         try {
+            if (!$this->_canAccess('delete_feature')) {
+                throw new \Siberian\Exception(__("You are not allowed to delete a feature!"));
+            }
+
             $request = $this->getRequest();
             $params = $request->getPost();
             if (empty($params['value_id'])) {
-                throw new Siberian_Exception(__('An error occurred while deleting the option'));
+                throw new \Siberian\Exception(__('An error occurred while deleting the option'));
             }
 
             $application = $this->getApplication();

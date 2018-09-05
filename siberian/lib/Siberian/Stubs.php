@@ -6,6 +6,8 @@
 
 /**
  * Class Siberian_Exception
+ *
+ * @deprecated please use \Siberian\Exception
  */
 class Siberian_Exception extends \Siberian\Exception {}
 

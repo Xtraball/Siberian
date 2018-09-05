@@ -785,10 +785,11 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 if(!$renew) {
 
                     //$thirty_days = 2592000;
-                    $five_days = 432000;
+                    $eight_days = 691200;
+                    //$five_days = 432000;
 
                     $diff = $cert_content["validTo_time_t"] - time();
-                    if($diff < $five_days) {
+                    if($diff < $eight_days) {
                         # Should renew
                         $renew = true;
                         $logger->info(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));

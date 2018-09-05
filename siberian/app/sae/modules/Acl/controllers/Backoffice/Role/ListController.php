@@ -1,40 +1,95 @@
 <?php
 
+/**
+ * Class Acl_Backoffice_Role_ListController
+ */
 class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
 {
+    /**
+     * Loop fail-safe incremental counter!
+     *
+     * @var int
+     */
+    private $preventLoops = 0;
 
-    public function loadAction() {
+    /**
+     * 
+     */
+    public function loadAction()
+    {
+        $payload = [
+            'title' => __('Roles'),
+            'icon' => 'fa-lock',
+        ];
 
-        $html = array(
-            "title" => $this->_("Roles"),
-            "icon" => "fa-lock",
-        );
-
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
 
     }
 
-    public function findallAction() {
-        $role = new Acl_Model_Role();
-        $roles = $role->findAll();
+    /**
+     * @throws Zend_Exception
+     */
+    public function findallAction()
+    {
+        $rootRole = (new Acl_Model_Role())->find(1);
+        $defaultRole = __get(Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE);
 
-        $default_role = $role->findDefaultRoleId();
+        $currentParent = null;
+        $fetchChildsRecursively = null;
 
-        $data = array();
-        foreach($roles as $role) {
-            $is_default_role = false;
-            if($role->getId() == $default_role) {
-                $is_default_role = true;
-            }
+        $rootRoleData = $this->prepareRole($rootRole, $defaultRole);
+        $rootRoleData['childs'] = $this->fetchChildsRecursively($rootRoleData, $defaultRole);
 
-            $data[] = array(
-                "id" => $role->getId(),
-                "code" => $role->getCode(),
-                "label" => $role->getLabel(),
-                "default" => $is_default_role
-            );
+        $this->_sendJson([$rootRoleData]);
+    }
+
+    /**
+     * @param $role
+     * @param $defaultRole
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    function fetchChildsRecursively ($role, $defaultRole)
+    {
+        // Prevent loops in recursive methods!
+        $this->preventLoops++;
+        if ($this->preventLoops > 20) {
+            return [];
         }
 
-        $this->_sendHtml($data);
+        $childs = (new Acl_Model_Role())->findAll(['parent_id = ?' => $role['id']]);
+
+        $preparedChilds = [];
+        foreach ($childs as $child) {
+            $tempChild = $this->prepareRole($child, $defaultRole);
+            $tempChild['childs'] = $this->fetchChildsRecursively($tempChild, $defaultRole);
+
+            $preparedChilds[] = $tempChild;
+        }
+
+        return $preparedChilds;
+    }
+
+    /**
+     * @param Acl_Model_Role $role
+     * @param $defaultRole
+     * @return array
+     */
+    private function prepareRole($role, $defaultRole)
+    {
+        $isDefaultRole = false;
+        if ($role->getId() == $defaultRole) {
+            $isDefaultRole = true;
+        }
+
+        $roleData = [
+            'id' => (integer) $role->getId(),
+            'code' => (string) $role->getCode(),
+            'label' => (string) $role->getLabel(),
+            'is_self_assignable' => (boolean) $role->getIsSelfAssignable(),
+            'default' => (boolean) $isDefaultRole
+        ];
+
+        return $roleData;
     }
 }

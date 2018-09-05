@@ -330,6 +330,8 @@ class Push_Model_Message extends Core_Model_Default
     }
 
     /**
+     * In fact it's "MARK PUSH AS READ"
+     *
      * @param $app_id
      * @param $device_id
      * @param $device_type
@@ -338,6 +340,17 @@ class Push_Model_Message extends Core_Model_Default
     public function markInAppAsRead($app_id, $device_id, $device_type)
     {
         return $this->getTable()->markInAppAsRead($app_id, $device_id, $device_type);
+    }
+
+    /**
+     * InApp Message is read!
+     *
+     * @param $messageId
+     * @param $deviceUid
+     */
+    public function markRealInAppAsRead($messageId, $deviceUid)
+    {
+        $this->getTable()->markRealInAppAsRead($messageId, $deviceUid);
     }
 
     /**

@@ -517,10 +517,11 @@ class Siberian_Cron
                                 $diff = $cert_content["validTo_time_t"] - time();
 
                                 //$thirty_days = 2592000;
-                                $five_days = 432000;
+                                $eight_days = 691200;
+                                //$five_days = 432000;
 
                                 # Go with five days for now.
-                                if ($diff < $five_days) {
+                                if ($diff < $eight_days) {
                                     # Should renew
                                     $renew = true;
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
