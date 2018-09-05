@@ -629,8 +629,17 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                         if (datas.page_html) {
                             if (datas.use_my_account) $('#option_value_customer_account').show();
-                            var li = $(datas.page_html);
-                            var a = li.children('a');
+
+                            function createElementFromHTML(htmlString) {
+                                var div = document.createElement('div');
+                                div.innerHTML = htmlString.trim();
+
+                                // Change this to div.childNodes to support multiple top-level nodes
+                                return div.firstChild;
+                            }
+
+                            var li = createElementFromHTML(datas.page_html);
+                            li = $(li);
                             $('#option_value_customer_account').before(li);
                             this.close();
                             preview.close(true);
