@@ -10,6 +10,7 @@
  * @method string getFlickrSecret()
  * @method string getDesignCode()
  * @method string getName()
+ * @method $this setIsActive(boolean $isActive)
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
