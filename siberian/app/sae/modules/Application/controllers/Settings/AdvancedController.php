@@ -1,50 +1,56 @@
 <?php
 
-class Application_Settings_AdvancedController extends Application_Controller_Default {
+/**
+ * Class Application_Settings_AdvancedController
+ */
+class Application_Settings_AdvancedController extends Application_Controller_Default
+{
 
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "save" => array(
-            "tags" => array("app_#APP_ID#"),
-        ),
-    );
+    public $cache_triggers = [
+        "save" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+    ];
 
-    public function indexAction() {
+    public function indexAction()
+    {
         $this->loadPartials();
     }
 
-    public function saveformAction() {
+    public function saveformAction()
+    {
         $request = $this->getRequest();
 
         $form = new Application_Form_Smtp();
-        if($form->isValid($request->getParams())) {
+        if ($form->isValid($request->getParams())) {
             $application = $this->getApplication();
 
             $application
                 ->setData($form->getValues())
                 ->setSmtpCredentials(Siberian_Json::encode($request->getParam("smtp_credentials")))
-                ->save()
-            ;
+                ->save();
 
-            $data = array(
+            $data = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $data = array(
+            $data = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
         $this->_sendJson($data);
     }
 
-    public function savensdescriptionAction() {
+    public function savensdescriptionAction()
+    {
         try {
             $request = $this->getRequest();
             $application = $this->getApplication();
@@ -71,7 +77,7 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
             }
 
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -81,7 +87,8 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($payload);
     }
 
-    public function saveorientationsAction() {
+    public function saveorientationsAction()
+    {
         try {
             $request = $this->getRequest();
             $application = $this->getApplication();
@@ -131,7 +138,7 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                 'success' => true,
                 'message' => __('Orientations saved!')
             ];
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -141,9 +148,10 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($payload);
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
 
@@ -155,22 +163,20 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                     ->setGooglemapsKey($data["googlemaps_key"])
                     ->setFlickrKey($data["flickr_key"])
                     ->setFlickrSecret($data["flickr_secret"])
-                    ->setFidelityRate($data["fidelity_rate"])
-                ;
+                    ->setFidelityRate($data["fidelity_rate"]);
 
                 $application->save();
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => __("Option successfully saved"),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0,
-                );
+                ];
 
-            }
-            catch(Exception $e) {
-                $html = array('message' => $e->getMessage());
+            } catch (Exception $e) {
+                $html = ['message' => $e->getMessage()];
             }
 
             $this->_sendJson($html);

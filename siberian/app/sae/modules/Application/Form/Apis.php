@@ -94,6 +94,15 @@ class Application_Form_Apis extends Siberian_Form_Abstract
             $something = true;
         }
 
+        $google_maps_key = $this->addSimpleText("googlemaps_key", __("Google Maps JavaScript API Key"));
+        $this->groupElements(
+            "google_maps",
+            [
+                "googlemaps_key"
+            ],
+            __("Google Maps settings"));
+        $something = true;
+
         if ($something) {
             $this->addNav("save", "Save", false);
         } else {
