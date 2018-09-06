@@ -21,7 +21,7 @@ class Application_Form_Behavior extends Siberian_Form_Abstract {
         $background->setCols("col-md-10 col-xs-10", "col-md-1 col-xs-1", "");
         $background->setNewDesign();
 
-        $ios_status = $this->addSimpleCheckbox("ios_status_bar_is_hidden", __("Hide iOS status bar  "));
+        $ios_status = $this->addSimpleCheckbox("ios_status_bar_is_hidden", __("Hide iOS status bar"));
         $ios_status->setCols("col-md-10 col-xs-10", "col-md-1 col-xs-1", "");
         $ios_status->setNewDesign();
 
