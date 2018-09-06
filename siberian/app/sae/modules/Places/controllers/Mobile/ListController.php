@@ -13,17 +13,17 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 $limit = $request->getParam("limit", 100);
                 $offset = $request->getParam("offset", 0);
 
-                $position = array(
+                $position = [
                     "latitude" => $request->getParam("latitude"),
                     "longitude" => $request->getParam("longitude")
-                );
+                ];
 
                 $value = $this->getCurrentOptionValue();
 
-                $params = array(
+                $params = [
                     "offset" => $offset,
                     "limit" => $limit
-                );
+                ];
 
                 $repository = new Cms_Model_Application_Page();
                 if(!$is_maps) {
@@ -34,9 +34,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     } else {
                         if ($order_places) {
                             $pages = $repository->findAll(
-                                array(
+                                [
                                     "value_id" => $value_id
-                                ),
+                                ],
                                 null,
                                 $params
                             );
@@ -45,11 +45,11 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                         }
                     }
                 } else {
-                    $pages = $repository->findAll(array("value_id" => $value_id));
+                    $pages = $repository->findAll(["value_id" => $value_id]);
                 }
 
 
-                $place_list = array();
+                $place_list = [];
 
                 foreach($pages as $page) {
                     $place = new Places_Model_Place();
@@ -69,22 +69,22 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 }
 
                 if ($this->getCurrentOptionValue()->getMetadataValue("places_order_alpha")) {
-                    usort($place_list, array("Places_Model_Place", "sortPlacesByLabel"));
+                    usort($place_list, ["Places_Model_Place", "sortPlacesByLabel"]);
                 } else if ($this->getCurrentOptionValue()->getMetadataValue("places_order")) {
                     // Order places by distance to user, if and the position is set the places_order option is activated
                     if ($position["latitude"] && $position["longitude"]) {
-                        usort($place_list, array("Places_Model_Place", "sortPlacesByDistance"));
+                        usort($place_list, ["Places_Model_Place", "sortPlacesByDistance"]);
                     }
                 }
 
                 $option = $this->getCurrentOptionValue();
 
-                $payload = array(
+                $payload = [
                     "success"       => true,
                     "page_title"    => $option->getTabbarName(),
                     "displayed_per_page"    => sizeof($place_list),
                     "places"        => $place_list
-                );
+                ];
 
             } else {
                 throw new Siberian_Exception(__("Missing parameters."));
@@ -92,10 +92,10 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
 
         } catch(Exception $e) {
-            $payload = array(
+            $payload = [
                 "error"     => true,
                 "message"   => __("An error occurred during process. Please try again later.")
-            );
+            ];
         }
 
         $this->_sendJson($payload);
@@ -108,13 +108,13 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             try {
                 $value_id = $this->getRequest()->getParam("value_id");
                 $option = $this->getCurrentOptionValue();
-                $position = array(
+                $position = [
                     'latitude' => $this->getRequest()->getParam('latitude'),
                     'longitude' => $this->getRequest()->getParam('longitude')
-                );
+                ];
                 $repository = new Places_Model_Place();
                 $pages = $repository->search($search_criteria, $value_id);
-                $place_list = array();
+                $place_list = [];
                 foreach ($pages as $page) {
                     $place = new Places_Model_Place();
                     $place->setPage($page);
@@ -124,18 +124,18 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     $place_list[] = $representation;
                 }
                 if ($this->getCurrentOptionValue()->getMetadataValue('places_order_alpha')) {
-                    usort($place_list, array('Places_Model_Place', 'sortPlacesByLabel'));
+                    usort($place_list, ['Places_Model_Place', 'sortPlacesByLabel']);
                 } else if ($this->getCurrentOptionValue()->getMetadataValue('places_order')) {
                     // Order places by distance to user, if and the position is set the places_order option is activated
                     if ($position['latitude'] && $position['longitude']) {
-                        usort($place_list, array('Places_Model_Place', 'sortPlacesByDistance'));
+                        usort($place_list, ['Places_Model_Place', 'sortPlacesByDistance']);
                     }
                 }
 
                 $data["page_title"] = $option->getTabbarName();
-                $data = array("places" => $place_list);
+                $data = ["places" => $place_list];
             } catch (Exception $e) {
-                $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
+                $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
             }
             $this->_sendJson($data);
         }
@@ -155,14 +155,14 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $option = $this->getCurrentOptionValue();
 
-                $position = array(
+                $position = [
                     "latitude"  => $search_criteria["latitude"],
                     "longitude" => $search_criteria["longitude"]
-                );
+                ];
 
                 $repository = new Places_Model_Place();
                 $pages = $repository->search($search_criteria["search"], $value_id);
-                $place_list = array();
+                $place_list = [];
 
                 foreach ($pages as $page) {
                     $place = new Places_Model_Place();
@@ -175,29 +175,29 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
 
                 if ($this->getCurrentOptionValue()->getMetadataValue("places_order_alpha")) {
-                    usort($place_list, array("Places_Model_Place", "sortPlacesByLabel"));
+                    usort($place_list, ["Places_Model_Place", "sortPlacesByLabel"]);
                 } else if ($this->getCurrentOptionValue()->getMetadataValue("places_order")) {
                     // Order places by distance to user, if and the position is set the places_order option is activated
                     if ($position["latitude"] && $position["longitude"]) {
-                        usort($place_list, array("Places_Model_Place", "sortPlacesByDistance"));
+                        usort($place_list, ["Places_Model_Place", "sortPlacesByDistance"]);
                     }
                 }
 
-                $payload = array(
+                $payload = [
                     "succes" => true,
                     "page_title" => $option->getTabbarName(),
                     "places" => $place_list
-                );
+                ];
 
             } else {
                 throw new Siberian_Exception(__("The search request is empty."));
             }
 
         } catch(Exception $e) {
-            $payload = array(
+            $payload = [
                 "error"     => true,
                 "message"   => __("An error occurred during process. Please try again later.")
-            );
+            ];
         }
 
         $this->_sendJson($payload);
@@ -209,7 +209,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
      */
     public function settingsAction() {
         if ($value_id = $this->getRequest()->getParam("value_id")) {
-            $html = array("tags" => array());
+            $html = ["tags" => []];
             $option_value = new Application_Model_Option_Value();
             $option_value->find($value_id);
             $metadata = $option_value->getMetadatas();

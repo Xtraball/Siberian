@@ -1,14 +1,20 @@
 <?php
 
-class Places_Form_Place extends Cms_Form_Cms {
-
+/**
+ * Class Places_Form_Place
+ */
+class Places_Form_Place extends Cms_Form_Cms
+{
     /**
      * @var string
      */
     public $feature_code = 'places';
 
-    public function init() {
-
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function init()
+    {
         $this->addNav('nav-places', __('Save'));
 
         $cms_type = $this->addSimpleHidden('cms_type');
@@ -22,17 +28,17 @@ class Places_Form_Place extends Cms_Form_Cms {
         $subtitle = $this->addSimpleText('content', __('Subtitle'));
         $subtitle->addClass('cms-include');
 
-        $this->addSimpleImage('places_file', __('Add an image'), __('Add an image'), array(
+        $this->addSimpleImage('places_file', __('Add an image'), __('Add an image'), [
             'width' => 700,
             'height' => 440,
             'cms-include' => true,
-        ));
+        ]);
 
-        $this->addSimpleImage('places_thumbnail', __('Add a thumbnail'), __('Add a thumbnail'), array(
+        $this->addSimpleImage('places_thumbnail', __('Add a thumbnail'), __('Add a thumbnail'), [
             'width' => 128,
             'height' => 128,
             'cms-include' => true,
-        ));
+        ]);
 
         $show_image = $this->addSimpleCheckbox('show_image', __('Display image in page'));
         $show_image->setBelongsTo('metadata');
@@ -51,10 +57,14 @@ class Places_Form_Place extends Cms_Form_Cms {
         $tags->setAttrib('data-role', 'tagsinput');
 
         parent::init();
-
     }
 
-    public function fill($page) {
+    /**
+     * @param $page
+     * @return Zend_Form
+     */
+    public function fill($page)
+    {
         $values = $page->getData();
 
         $this->getElement('places_file')->setValue($values['picture']);

@@ -15,7 +15,8 @@ $appKey = $application->getGooglemapsKey();
 ?>
 
 
-<div id="places_list" class="places-new">
+<div id="places_list"
+     class="places-new">
 
     <?php if (empty($appKey)): ?>
         <div class="alert alert-danger">
@@ -24,15 +25,23 @@ $appKey = $application->getGooglemapsKey();
     <?php endif; ?>
 
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#places" aria-controls="places" role="tab" data-toggle="tab">
+    <ul class="nav nav-tabs"
+        role="tablist">
+        <li role="presentation"
+            class="active">
+            <a href="#places"
+               aria-controls="places"
+               role="tab"
+               data-toggle="tab">
                 <i class="fa fa-map-marker"></i>
                 <?php echo __("Places") ?>
             </a>
         </li>
         <li role="presentation">
-            <a href="#search" aria-controls="search" role="tab" data-toggle="tab">
+            <a href="#search"
+               aria-controls="search"
+               role="tab"
+               data-toggle="tab">
                 <i class="fa fa-search"></i>
                 <?php echo __("Search settings") ?>
             </a>
@@ -40,12 +49,15 @@ $appKey = $application->getGooglemapsKey();
     </ul>
 
     <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="places">
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="places">
 
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __("Add place"); ?>
-                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                    <button type="button"
+                            class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
                         <i class="fa fa-plus"></i>
                     </button>
                 </h3>
@@ -56,7 +68,8 @@ $appKey = $application->getGooglemapsKey();
                     <span class="cms-title-create">
                         <?php echo __("Create a place"); ?>
                     </span>
-                    <span class="cms-title-edit" style="display :none;">
+                    <span class="cms-title-edit"
+                          style="display :none;">
                         <?php echo __("Edit place"); ?>
                     </span>
                 </h3>
@@ -71,7 +84,8 @@ $appKey = $application->getGooglemapsKey();
                     <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
                             <?php echo __("Manage"); ?>
-                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                            <button type="button"
+                                    class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
                                 <i class="fa fa-angle-down"></i>
                             </button>
                         </h3>
@@ -80,25 +94,31 @@ $appKey = $application->getGooglemapsKey();
                                 <thead>
                                 <tr class="border-grey">
                                     <th style="width:40px;"></th>
-                                    <th class="sortable" style="width:30%;"><?php echo __("Title"); ?></th>
-                                    <th class="sortable" style="width:65%;"><?php echo __("Subtitle"); ?></th>
+                                    <th class="sortable"
+                                        style="width:30%;"><?php echo __("Title"); ?></th>
+                                    <th class="sortable"
+                                        style="width:65%;"><?php echo __("Subtitle"); ?></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <?php foreach($pages as $place) : ?>
-                                    <tr id="place_manage_element_<?php echo $place->getId(); ?>" class="place-manage-element sb-pager">
+                                    <tr id="place_manage_element_<?php echo $place->getId(); ?>"
+                                        class="place-manage-element sb-pager">
                                         <td>
                                             <?php if(!empty($place->getPicture())): ?>
-                                                <img src="/images/application<?php echo $place->getPicture(); ?>" style="width: 26px; height: 16px;" />
+                                                <img src="/images/application<?php echo $place->getPicture(); ?>"
+                                                     style="width: 26px; height: 16px;" />
                                             <?php else: ?>
-                                                <img src="/app/sae/design/desktop/flat/images/flat/default-place.png" style="width: 26px; height: 16px;" />
+                                                <img src="/app/sae/design/desktop/flat/images/flat/default-place.png"
+                                                     style="width: 26px; height: 16px;" />
                                             <?php endif; ?>
                                         </td>
                                         <td><?php echo $place->getTitle(); ?></td>
                                         <td><?php echo cut(html_entity_decode($place->getContent()), 60); ?></td>
-                                        <td class="edit-action open-edit" data-placeid="<?php echo $place->getId(); ?>">
+                                        <td class="edit-action open-edit"
+                                            data-placeid="<?php echo $place->getId(); ?>">
                                             <i class="fa fa-pencil"></i>
                                         </td>
                                         <td class="delete-action">
@@ -130,7 +150,9 @@ $appKey = $application->getGooglemapsKey();
             </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="search">
+        <div role="tabpanel"
+             class="tab-pane"
+             id="search">
             <div>
                 <h3 class="title-editor title-feature-indent">
                     <?php echo __("Search filters & Options"); ?>

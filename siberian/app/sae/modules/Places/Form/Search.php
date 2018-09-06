@@ -1,14 +1,20 @@
 <?php
 
-class Places_Form_Search extends Siberian_Form_Abstract {
-
-    public function init() {
+/**
+ * Class Places_Form_Search
+ */
+class Places_Form_Search extends Siberian_Form_Abstract
+{
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function init()
+    {
         parent::init();
 
         $this
             ->setAction(__path("/cms/application_page/editpostv2"))
-            ->setAttrib("id", "form-cms")
-        ;
+            ->setAttrib("id", "form-cms");
 
         /** Text */
         $show_text = $this->addSimpleCheckbox("show", __("Text"));

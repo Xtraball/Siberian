@@ -1,17 +1,21 @@
 <?php
+
 /**
  * Class Places_Form_Place_Delete
  */
-class Places_Form_Place_Delete extends Siberian_Form_Abstract {
-
-    public function init() {
+class Places_Form_Place_Delete extends Siberian_Form_Abstract
+{
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function init()
+    {
         parent::init();
 
         $this
             ->setAction(__path("/cms/application_page/delete"))
             ->setAttrib("id", "form-place-delete")
-            ->setConfirmText("You are about to remove this Place ! Are you sure ?");
-        ;
+            ->setConfirmText("You are about to remove this Place ! Are you sure ?");;
 
         /** Bind as a delete form */
         self::addClass("delete", $this);

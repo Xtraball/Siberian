@@ -53,6 +53,14 @@ $schemas['cms_application_page'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'is_featured' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
+    'featured_position' => [
+        'type' => 'int(11) unsigned',
+        'default' => '0',
+    ],
     'created_at' => array(
         'type' => 'datetime',
     ),

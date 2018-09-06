@@ -18,44 +18,44 @@ class Places_Model_Domain_Settings
      * Each setting has a label and possible other subfields
      * This descibes the validator, and null value for each
      */
-    protected $meta_settings = array(
-        'text' => array(
-            'label' => array('validator' => 'Zend_Validate_Alnum', 'null_value' => "")
-        ),
-        'type' => array(
-            'label' => array('validator' => 'Zend_Validate_Alnum', 'null_value' => "")
-        ),
-        'address' => array(
-            'label' => array('validator' => 'Zend_Validate_Alnum', 'null_value' => "")
-        ),
-        'aroundyou' => array(
-            'label' => array('validator' => 'Zend_Validate_Alnum', 'null_value' => ""),
-            'radius' => array('validator' => 'Zend_Validate_Float', 'null_value' => 0.0)
-        )
-    );
+    protected $meta_settings = [
+        'text' => [
+            'label' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""]
+        ],
+        'type' => [
+            'label' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""]
+        ],
+        'address' => [
+            'label' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""]
+        ],
+        'aroundyou' => [
+            'label' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""],
+            'radius' => ['validator' => 'Zend_Validate_Float', 'null_value' => 0.0]
+        ]
+    ];
 
     /*
      * The metadata are saved as strings, but has types to which they are casted once they are retrieved and manipulated.
      */
-    protected $setting_types = array(
-        'text' => array(
+    protected $setting_types = [
+        'text' => [
             'show' => 'boolean',
             'label' => 'string'
-        ),
-        'type' => array(
+        ],
+        'type' => [
             'show' => 'boolean',
             'label' => 'string'
-        ),
-        'address' => array(
+        ],
+        'address' => [
             'show' => 'boolean',
             'label' => 'string'
-        ),
-        'aroundyou' => array(
+        ],
+        'aroundyou' => [
             'show' => 'boolean',
             'label' => 'string',
             'radius' => 'float'
-        )
-    );
+        ]
+    ];
 
     /**
      * Places_Model_Domain_Settings constructor.
@@ -74,7 +74,7 @@ class Places_Model_Domain_Settings
          * If the feature is not found then throw an Exception
          */
         if (!$option_value->getId()) {
-            throw new Exception($this->controller->_('Feature not found.'));
+            throw new Exception(__('Feature not found.'));
         }
         /*
          * Set the corresponding Feature (i.e. Option_Value)
@@ -87,10 +87,10 @@ class Places_Model_Domain_Settings
         /*
          * Setup validators
          */
-        $this->validators = array(
-            'Zend_Validate_Alnum' => new Zend_Validate_Alnum(array('allowWhiteSpace' => true)),
+        $this->validators = [
+            'Zend_Validate_Alnum' => new Zend_Validate_Alnum(['allowWhiteSpace' => true]),
             'Zend_Validate_Float' => new Zend_Validate_Float()
-        );
+        ];
     }
 
     /**
@@ -209,9 +209,9 @@ class Places_Model_Domain_Settings
              */
             if (!$this->validators[$field_descriptor['validator']]->isValid($setting[$field_name])) {
                 throw new Exception(
-                    $this->controller->_('Please verify the ') .
-                    ucfirst($field_name) . $this->controller->_(' of the ') .
-                    ucfirst($name) . $this->controller->_(' setting.')
+                    __('Please verify the ') .
+                    ucfirst($field_name) . __(' of the ') .
+                    ucfirst($name) . __(' setting.')
                 );
             }
         }
@@ -225,7 +225,7 @@ class Places_Model_Domain_Settings
      */
     protected function _buildSettingNames($name)
     {
-        $names = array();
+        $names = [];
         foreach ($this->meta_settings[$name] as $field_name => $descriptor) {
             /*
              * This yields for instance 'search_text_label' or 'search_aroundyou_radius', etc.
