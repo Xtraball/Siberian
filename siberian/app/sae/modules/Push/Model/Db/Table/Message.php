@@ -210,17 +210,13 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
      */
     public function findLastInAppMessage($app_id, $device_uid, $topics)
     {
-        if (!is_array($device_uid)) {
-            $device_uid = [$device_uid];
-        }
-
         if (empty($device_uid)) {
-            $device_uid[] = '-rng-';
+            $device_uid = '-rng-';
         }
 
         $select = $this->select()
             ->from(['pm' => $this->_name])
-            ->joinLeft(['pdm' => 'push_delivered_message'], "pm.message_id = pdm.message_id", [])
+            ->joinLeft(['pdm' => 'push_delivered_message'], "pm.message_id = pdm.message_id AND pdm.device_uid = '$device_uid'", [])
             ->where('pdm.deliver_id IS NULL')
             ->where('pm.type_id = ?', 2)
             ->where('pm.send_at IS NULL OR pm.send_at <= ?', Zend_Date::now()->toString("yyyy-MM-dd HH:mm:ss"))
@@ -229,7 +225,8 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
 
         //PUSH TO USER ONLY
         if (Push_Model_Message::hasIndividualPush()) {
-            $select->joinLeft(["pgd" => "push_gcm_devices"], $this->_db->quoteInto("pgd.registration_id = ?", $device_uid), [])
+            $select
+                ->joinLeft(["pgd" => "push_gcm_devices"], $this->_db->quoteInto("pgd.registration_id = ?", $device_uid), [])
                 ->joinLeft(["pad" => "push_apns_devices"], $this->_db->quoteInto("pad.device_uid = ?", $device_uid), [])
                 ->joinLeft(["pum" => "push_customer_message"], "pum.message_id = pm.message_id", [])
                 ->where("((pum.message_id IS NOT NULL AND pum.customer_id = IFNULL(pad.customer_id, IFNULL(pgd.customer_id, 0))) OR pum.message_id IS NULL)");
