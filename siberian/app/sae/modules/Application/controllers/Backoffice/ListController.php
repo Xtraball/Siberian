@@ -71,10 +71,13 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $applications = $application_table->findAllForGlobalPush();
 
             if(!empty($applications)) {
-                $filters["app_id IN (?)"] = $applications;
+                $filters["is_active IN (?)"] = $applications;
             }
+        }
 
-
+        $removedFromEditor = filter_var($this->getRequest()->getParam('removedFromEditor', false), FILTER_VALIDATE_BOOLEAN);
+        if ($removedFromEditor) {
+            $filters["is_active = ?"] = 0;
         }
 
         $total = $application->countAll($filters);
