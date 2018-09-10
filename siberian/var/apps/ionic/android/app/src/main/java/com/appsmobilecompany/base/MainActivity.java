@@ -22,6 +22,7 @@ package com.appsmobilecompany.base;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
+// Clear temp files on startup! @siberian
 import java.io.File;
 
 public class MainActivity extends CordovaActivity
@@ -37,7 +38,7 @@ public class MainActivity extends CordovaActivity
             moveTaskToBack(true);
         }
 
-        // Clear temp files on startup!
+        // Clear temp files on startup! @siberian
         deleteTempFiles(getCacheDir());
 
         // Set by <content src="index.html" /> in config.xml
@@ -45,6 +46,7 @@ public class MainActivity extends CordovaActivity
     }
 
     /**
+     * @description siberian
      *
      * @param file
      * @return
