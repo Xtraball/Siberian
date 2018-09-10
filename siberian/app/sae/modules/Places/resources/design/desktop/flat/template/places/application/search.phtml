@@ -6,6 +6,49 @@
     <form method="post"
           id="search-settings-form"
           class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <label id="label_search_featured_title">
+                    <?php echo __("Title for featured places") ?>
+                </label>
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox"
+                       name="search[featured][show]"
+                    <?php if ($value->getMetadata('search_featured_show')->getPayload()) echo 'checked' ?>
+                       class="color-blue"/>
+            </div>
+            <div class="col-md-6">
+                <input type="text"
+                       name="search[featured][title]"
+                       class="input-flat"
+                       placeholder="<?php echo __js("Title for featured places") ?>"
+                       value="<?php echo $value->getMetadata('search_featured_title')->getPayload() ?>" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-2">
+                <label id="label_search_nonfeatured_title">
+                    <?php echo __("Title for non-featured places") ?>
+                </label>
+            </div>
+            <div class="col-md-1">
+                <input type="checkbox"
+                       name="search[nonfeatured][show]"
+                    <?php if ($value->getMetadata('search_nonfeatured_show')->getPayload()) echo 'checked' ?>
+                       class="color-blue"/>
+            </div>
+            <div class="col-md-6">
+                <input type="text"
+                       name="search[nonfeatured][title]"
+                       class="input-flat"
+                       placeholder="<?php echo __js("Title for non-featured places") ?>"
+                       value="<?php echo $value->getMetadata('search_nonfeatured_title')->getPayload() ?>" />
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-2">
                 <label for="search_text"

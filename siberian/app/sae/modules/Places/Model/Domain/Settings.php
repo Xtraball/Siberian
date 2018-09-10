@@ -31,6 +31,12 @@ class Places_Model_Domain_Settings
         'aroundyou' => [
             'label' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""],
             'radius' => ['validator' => 'Zend_Validate_Float', 'null_value' => 0.0]
+        ],
+        'featured' => [
+            'title' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""],
+        ],
+        'nonfeatured' => [
+            'title' => ['validator' => 'Zend_Validate_Alnum', 'null_value' => ""],
         ]
     ];
 
@@ -54,6 +60,14 @@ class Places_Model_Domain_Settings
             'show' => 'boolean',
             'label' => 'string',
             'radius' => 'float'
+        ],
+        'featured' => [
+            'show' => 'boolean',
+            'title' => 'string',
+        ],
+        'nonfeatured' => [
+            'show' => 'boolean',
+            'title' => 'string',
         ]
     ];
 

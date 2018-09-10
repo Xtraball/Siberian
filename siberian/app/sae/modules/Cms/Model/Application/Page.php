@@ -770,12 +770,13 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @return $this
      */
     public function savePlace($option_value, $datas) {
-        $picture = Siberian_Feature::saveImageForOptionDelete($option_value, $datas["places_file"]);
-        $thumbnail = Siberian_Feature::saveImageForOptionDelete($option_value, $datas["places_thumbnail"]);
+        $picture = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_file']);
+        $thumbnail = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_thumbnail']);
 
         $this
-            ->setTitle($datas["title"])
-            ->setContent($datas["content"])
+            ->setTitle($datas['title'])
+            ->setContent($datas['content'])
+            ->setIsFeatured($datas['is_featured'])
             ->setPicture($picture)
             ->setThumbnail($thumbnail)
             ->save();

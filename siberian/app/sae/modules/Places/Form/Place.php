@@ -52,6 +52,9 @@ class Places_Form_Place extends Cms_Form_Cms
         $show_picto->setBelongsTo('metadata');
         $show_picto->addClass('cms-include');
 
+        $isFeatured = $this->addSimpleCheckbox('is_featured', __('Feature this place?'));
+        $isFeatured->addClass('cms-include');
+
         $tags = $this->addSimpleText('tags', __('Tags'));
         $tags->addClass('cms-include');
         $tags->setAttrib('data-role', 'tagsinput');
