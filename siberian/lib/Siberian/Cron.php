@@ -260,6 +260,14 @@ class Siberian_Cron
                 $message->push();
             }
         }
+
+        // Clean-up failed push!
+        $failedPushs = (new Push_Model_Message())->findAll(['status = ?' => 'failed']);
+        foreach ($failedPushs as $failedPush) {
+            $failedPush->delete();
+        }
+
+        $this->log('[Push Clean]: cleaned-up ' . $failedPushs->count() . ' failed push.');
     }
 
     /**
