@@ -183,6 +183,12 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'background_image_unified' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'use_homepage_background_image_in_subpages' => [
         'type' => 'tinyint(1)',
         'default' => '0',
@@ -232,6 +238,10 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'splash_version' => [
+        'type' => 'tinyint(4)',
+        'default' => 1,
+    ],
     'startup_image' => [
         'type' => 'varchar(255)',
         'is_null' => true,
@@ -263,6 +273,12 @@ $schemas['application'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'startup_image_iphone_x' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'startup_image_unified' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',

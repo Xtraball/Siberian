@@ -1275,6 +1275,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 case "tablet":
                     $image_name = $this->getData('background_image_tablet');
                     break;
+                case "unified":
+                    $image_name = $this->getData('background_image_unified');
+                    break;
                 case "standard":
                 default:
                     $image_name = $this->getData('background_image');
