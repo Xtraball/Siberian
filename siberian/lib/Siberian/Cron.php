@@ -262,8 +262,25 @@ class Siberian_Cron
         }
 
         // Clean-up failed push!
-        $failedPushs = (new Push_Model_Message())->findAll(['status = ?' => 'failed']);
+        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+
+        /**
+         * @var $failedPushs Push_Model_Message[]
+         */
+        $failedPushs = (new Push_Model_Message())->findAll(
+            [
+                'status = ?' => 'failed',
+                'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!
+            ]
+        );
+
         foreach ($failedPushs as $failedPush) {
+            $detail = sprintf("[%s - %s - %s]",
+                $failedPush->getId(),
+                $failedPush->getTitle(),
+                $failedPush->getText());
+            $this->log('[Push Clean]: cleaned-up ' . $detail . ' failed push.');
+
             $failedPush->delete();
         }
 
