@@ -180,54 +180,28 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
     </div>
 
-    <?php if ($splashVersion === 2): ?>
-        <div id="homepage_content"
-             class="content sb-tour">
-            <h3 class="title-editor border-red text-center">
-                <?php echo __('Unified homepage'); ?>
-            </h3>
-            <div id="homepage" class="subcontent content-color container-fluid">
-                <div class="icon_color">
-                    <input type="hidden"
-                           id="homepage_image_name"
-                           name="homepage_image"
-                           value="" />
-                    <input type="hidden"
-                           id="homepage_image_has_changed"
-                           name="homepage_image_has_changed"
-                           value="0" />
-                </div>
-                <?php echo $this->createPartialHtml(
-                        'homepage_create',
-                        'admin_view_default',
-                        'application/customization/design/style/homepage-unified.phtml'); ?>
+    <div id="homepage_content"
+         class="content sb-tour">
+        <h3 class="title-editor border-red text-center">
+            <?php echo __('Unified homepage'); ?>
+        </h3>
+        <div id="homepage" class="subcontent content-color container-fluid">
+            <div class="icon_color">
+                <input type="hidden"
+                       id="homepage_image_name"
+                       name="homepage_image"
+                       value="" />
+                <input type="hidden"
+                       id="homepage_image_has_changed"
+                       name="homepage_image_has_changed"
+                       value="0" />
             </div>
+            <?php echo $this->createPartialHtml(
+                    'homepage_create',
+                    'admin_view_default',
+                    'application/customization/design/style/homepage-unified.phtml'); ?>
         </div>
-    <?php else: ?>
-        <div id="homepage_content"
-             class="content sb-tour">
-            <h3 class="title-editor border-red text-center">
-                <?php echo __("Choose your homepage image"); ?>
-            </h3>
-            <div id="homepage"
-                 class="subcontent content-color container-fluid">
-                <div class="icon_color">
-                    <input type="hidden"
-                           id="homepage_image_name"
-                           name="homepage_image"
-                           value="" />
-                    <input type="hidden"
-                           id="homepage_image_has_changed"
-                           name="homepage_image_has_changed"
-                           value="0" />
-                </div>
-                <?php echo $this->createPartialHtml(
-                        'homepage_create',
-                        'admin_view_default',
-                        'application/customization/design/style/homepage.phtml'); ?>
-            </div>
-        </div>
-    <?php endif; ?>
+    </div>
 
     <div id="countries_container" class="content">
         <h3 class="title-editor border-red text-center">

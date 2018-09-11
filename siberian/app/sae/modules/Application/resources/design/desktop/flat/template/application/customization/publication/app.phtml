@@ -11,34 +11,19 @@ $splashVersion = (integer) $application->getSplashVersion();
             'admin_view_default',
             'application/customization/publication/app/icon.phtml'); ?>
 
-    <?php if ($splashVersion === 2): ?>
-        <div id="startup_conteneur"
-             class="content sb-tour">
-            <h3 class="title-editor border-purple text-center">
-                <?php echo __('Unified splashscreen'); ?>
-            </h3>
-            <div id="startup"
-                 class="subcontent content-color">
-                <?php echo $this->createPartialHtml(
-                        'startup_create',
-                        'admin_view_default',
-                        'application/customization/publication/app/startup-unified.phtml'); ?>
-            </div>
+    <div id="startup_conteneur"
+         class="content sb-tour">
+        <h3 class="title-editor border-purple text-center">
+            <?php echo __('Unified splashscreen'); ?>
+        </h3>
+        <div id="startup"
+             class="subcontent content-color">
+            <?php echo $this->createPartialHtml(
+                    'startup_create',
+                    'admin_view_default',
+                    'application/customization/publication/app/startup-unified.phtml'); ?>
         </div>
-    <?php else: ?>
-        <div id="startup_conteneur"
-             class="content sb-tour">
-            <h3 class="title-editor border-purple text-center">
-                <?php echo __('Startup image'); ?>
-            </h3>
-            <div id="startup" class="subcontent content-color">
-                <?php echo $this->createPartialHtml(
-                        'startup_create',
-                        'admin_view_default',
-                        'application/customization/publication/app/startup.phtml'); ?>
-            </div>
-        </div>
-    <?php endif; ?>
+    </div>
 
     <form id="publicationForm"
           action="<?php echo $this->getUrl('application/customization_publication_app/save'); ?>"

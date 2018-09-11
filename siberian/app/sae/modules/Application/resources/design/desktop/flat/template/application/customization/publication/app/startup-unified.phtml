@@ -1,6 +1,11 @@
 <?php
 $application = $this->getApplication();
 $startupUnified = $application->getStartupImageUrl('unified');
+
+$application = $this->getApplication();
+
+$splashVersion = (integer) $application->getSplashVersion();
+
 ?>
 
 <div class="container-fluid first-row-feature content-feature">

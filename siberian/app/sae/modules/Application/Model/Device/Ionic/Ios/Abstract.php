@@ -118,84 +118,18 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $image->save($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png', 'png', 100);
         }
 
+
+        /** Clean up screen.xxx */
+        array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
+
         // Startup Images!
-        $startup_src = $application->getStartupImageUrl('standard', true);
-        $startup_src_retina = $application->getStartupImageUrl('retina', true);
-        $startup_src_iphone_6 = $application->getStartupImageUrl('iphone_6', true);
-        $startup_src_iphone_6_plus = $application->getStartupImageUrl('iphone_6_plus', true);
-        $startup_src_ipad_retina = $application->getStartupImageUrl('ipad_retina', true);
-        $startup_src_iphone_x = $application->getStartupImageUrl('iphone_x', true);
+        $universal = $application->getStartupImageUrl('universal', true);
 
         $tmpDest = $this->_dest_source_res;
         $startups = [
-            $startup_src => [
+            $universal => [
                 [
-                    'width' => 320,
-                    'height' => 480,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default~iphone.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default@2x~iphone.png'
-                ]
-            ],
-            $startup_src_retina => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ], 
-                [
-                    'width' => 640,
-                    'height' => 1136,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-568h@2x~iphone.png'
-                ]
-            ],
-            $startup_src_iphone_6 => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-667h.png'
-                ]
-            ],
-            $startup_src_iphone_6_plus => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-736h.png'
-                ]
-            ],
-            $startup_src_ipad_retina => [
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ],
-                /** Defaulting landcape splash */
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-736h.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape@2x~ipad.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape~ipad.png'
-                ]
-            ],
-            $startup_src_iphone_x => [
-                [
-                    'width' => 1125,
-                    'height' => 2436,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-2436h.png'
-                ],
-                [
-                    'width' => 2436,
-                    'height' => 1125,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-2436h.png'
+                    'dst' => $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.png'
                 ]
             ]
         ];

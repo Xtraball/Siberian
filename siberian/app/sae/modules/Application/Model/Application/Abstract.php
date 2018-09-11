@@ -1336,21 +1336,23 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getNoBackgroundImageUrl($type = 'standard')
     {
-
         switch ($type) {
-            case "hd":
-                $image_name = "no-background-hd.jpg";
+            case 'hd':
+                $imageName = 'no-background-hd.jpg';
                 break;
-            case "tablet":
-                $image_name = "no-background-tablet.jpg";
+            case 'tablet':
+                $imageName = 'no-background-tablet.jpg';
                 break;
-            case "standard":
+            case 'unified':
+                $imageName = 'no-background-unified.jpg';
+                break;
+            case 'standard':
             default:
-                $image_name = "no-background.jpg";
+                $imageName = 'no-background.jpg';
                 break;
         }
 
-        return self::getImagePath() . "/placeholder/$image_name";
+        return self::getImagePath() . '/placeholder/' . $imageName;
     }
 
     /**

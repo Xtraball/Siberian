@@ -100,22 +100,25 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         /** Associating screen image resolution to various landscape/portrait-resolution */
         $orientation_resolution_image = [
-            'land' => [
-                'ldpi' => 'standard',
-                'mdpi' => 'standard',
-                'hdpi' => 'standard',
-                'xhdpi' => 'iphone_6',
-                'xxhdpi' => 'iphone_6_plus',
-                'xxxhdpi' => 'ipad_retina',
+            'universal' => [
+                'xxxhdpi' => 'universal',
             ],
-            'port' => [
-                'ldpi' => 'standard',
-                'mdpi' => 'standard',
-                'hdpi' => 'standard',
-                'xhdpi' => 'iphone_6',
-                'xxhdpi' => 'iphone_6_plus',
-                'xxxhdpi' => 'ipad_retina',
-            ]
+            //'land' => [
+            //    'ldpi' => 'standard',
+            //    'mdpi' => 'standard',
+            //    'hdpi' => 'standard',
+            //    'xhdpi' => 'iphone_6',
+            //    'xxhdpi' => 'iphone_6_plus',
+            //    'xxxhdpi' => 'ipad_retina',
+            //],
+            //'port' => [
+            //    'ldpi' => 'standard',
+            //    'mdpi' => 'standard',
+            //    'hdpi' => 'standard',
+            //    'xhdpi' => 'iphone_6',
+            //    'xxhdpi' => 'iphone_6_plus',
+            //    'xxxhdpi' => 'ipad_retina',
+            //]
         ];
 
         /** Clean up screen.xxx */
@@ -125,8 +128,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             foreach ($resolution_image as $resolution => $image) {
                 $_file = $application->getStartupImageUrl($image, "base");
                 $extension = pathinfo($_file, PATHINFO_EXTENSION);
-                $icons[$this->_dest_source_res . "/drawable-{$orientation}-{$resolution}/screen.$extension"] = $_file;
-                $icons[$this->_dest_source_res . "/drawable-{$orientation}-{$resolution}/startup_image.$extension"] = $_file;
+                $icons[$this->_dest_source_res . "/drawable-{$resolution}/screen.$extension"] = $_file;
+                $icons[$this->_dest_source_res . "/drawable-{$resolution}/startup_image.$extension"] = $_file;
             }
         }
 
