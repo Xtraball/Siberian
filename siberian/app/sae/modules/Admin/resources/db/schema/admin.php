@@ -147,6 +147,13 @@ $schemas['admin'] = array(
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ),
+    'accept_tos' => array(
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ),
+    'last_action' => array(
+        'type' => 'datetime',
+    ),
     'created_at' => array(
         'type' => 'datetime',
     ),

@@ -17,6 +17,7 @@ class Siberian_Assets
      * @var array
      */
     public static $exclude_files = [
+        "\.htaccess",
         "\.gitignore",
         "\.DS_Store",
         "\.idea",

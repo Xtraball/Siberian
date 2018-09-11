@@ -3,7 +3,7 @@
 class Weblink_Model_Weblink extends Core_Model_Default
 {
 
-    protected $_type_id;
+    public $_type_id;
 
     public function __construct($params = [])
     {
@@ -74,6 +74,8 @@ class Weblink_Model_Weblink extends Core_Model_Default
         $this->addLinks();
         return $this;
     }
+
+    public function addLinks() {}
 
     public function findAll($values = [], $order = null, $params = [])
     {
@@ -182,8 +184,11 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
             $new_value_id = $application_option->getId();
 
-            if (isset($dataset["weblink"])) {
+            $typeId = $dataset['option']['model'] === 'Weblink_Model_Type_Mono' ? 1 : 2;
+
+            if (array_key_exists('weblink', $dataset)) {
                 $new_weblink = new Weblink_Model_Weblink();
+                $new_weblink->_type_id = $typeId;
                 $new_weblink
                     ->setData($dataset["weblink"])
                     ->setData("value_id", $new_value_id)
@@ -193,7 +198,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
                 $new_weblink_id = $new_weblink->getId();
 
-                if (isset($dataset["weblink_links"])) {
+                if (array_key_exists('weblink_links', $dataset)) {
                     foreach ($dataset["weblink_links"] as $weblink) {
                         $new_weblink_link = new Weblink_Model_Weblink_Link();
                         $new_weblink_link
@@ -202,8 +207,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
                             ->unsData("id")
                             ->unsData("link_id")
                             ->save();
-                    }
-
+                        }
                 }
             }
 

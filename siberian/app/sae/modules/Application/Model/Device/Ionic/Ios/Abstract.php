@@ -332,6 +332,9 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $root->removeProperty('CFBundleIdentifier');
         $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_package_name, 'CFBundleIdentifier');
 
+        // Temporary fix for NFCReader
+        $root->removeProperty('NFCReaderUsageDescription');
+
         // Version!
         $valueCFBundleVersion = null;
         if (isset($this->_previewer)) {
