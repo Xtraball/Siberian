@@ -41,7 +41,7 @@ if (empty($rawData)) {
             <div class="content-options content-white-bkg">
 
                 <div class="overlay-help alert alert-info">
-                    <?php echo __('The overlay helps you check if your important content and/or text on your homepage image is inside the safe boundaries.') ?>
+                    <?php echo __('The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries.') ?>
                     <br />
                     <a href="javascript:void(0);"
                        class="dismiss-help pull-right btn btn-sm btn-default color-blue"><?php echo __('dismiss') ?></a>
@@ -123,6 +123,20 @@ if (empty($rawData)) {
                         rel="unified">
                     <?php echo __('Change your homepage'); ?><br/>
                 </button>
+
+                <div class="alert alert-info"
+                     style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                    <?php echo __('Download template as') ?>
+                    <a href="/external/resources/template-unified.png"
+                       class="btn btn-xs color-blue"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PNG</b></a>
+                    or
+                    <a href="/external/resources/template-unified.psd"
+                       class="btn btn-xs color-blue"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PSD</b></a>
+                </div>
             </div>
         </div>
     </div>

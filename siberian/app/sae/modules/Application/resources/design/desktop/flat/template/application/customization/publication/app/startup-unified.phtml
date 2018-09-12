@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var $application Application_Model_Application
+ */
 $application = $this->getApplication();
 $startupUnified = $application->getStartupImageUrl('unified');
 
@@ -6,10 +9,22 @@ $application = $this->getApplication();
 
 $splashVersion = (integer) $application->getSplashVersion();
 
+$rawData = $application->getData('startup_image_unified');
+if (empty($rawData)) {
+    $startupUnified = $application->getNoStartupImageUrl('unified');
+}
+
 ?>
 
 <div class="container-fluid first-row-feature content-feature">
     <div class="row">
+        <?php if (empty($rawData)): ?>
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <?php echo __('Before publishing your Application you must upload a splashscreen.') ?>
+            </div>
+        </div>
+        <?php endif; ?>
         <div class="col-md-8"
              id="splashscreen_v2">
             <img id="startup_image"
@@ -26,10 +41,21 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
         <div class="col-md-4">
             <div class="content-options content-white-bkg">
-                <h4 class="toggle-overlay"><?php echo __('Safe zone overlay') ?></h4>
+
+                <div class="overlay-help alert alert-info">
+                    <?php echo __('The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries.') ?>
+                    <br />
+                    <a href="javascript:void(0);"
+                       class="dismiss-help pull-right btn btn-sm btn-default color-blue"><?php echo __('dismiss') ?></a>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <h4 class="toggle-overlay"><?php echo __('Safe zone overlay') ?>
+                    <i class="fa fa-question-circle show-help"></i>
+                </h4>
 
                 <fieldset>
-                    <b><?php echo __('Color') ?></b>
+                    <b><?php echo __('Overlay color') ?></b>
                     <br />
                     <label for="radio_black">
                         <input id="radio_black"
@@ -51,25 +77,15 @@ $splashVersion = (integer) $application->getSplashVersion();
                     </label>
                 </fieldset>
                 <fieldset>
-                    <b><?php echo __('Zone') ?></b>
+                    <b><?php echo __('Zone overlay') ?></b>
                     <br />
                     <label for="radio_all">
                         <input id="radio_all"
                                class="color-red"
                                type="radio"
                                name="safe_zone"
-                               checked="checked"
                                value="" />
-                        <?php echo __('Hide') ?>
-                    </label>
-                    <br />
-                    <label for="radio_any">
-                        <input id="radio_any"
-                               class="color-red"
-                               type="radio"
-                               name="safe_zone"
-                               value="any" />
-                        <?php echo __('Safe everywhere') ?>
+                        <?php echo __('Hide overlay') ?>
                     </label>
                     <br />
                     <label for="radio_portrait">
@@ -77,6 +93,7 @@ $splashVersion = (integer) $application->getSplashVersion();
                                class="color-red"
                                type="radio"
                                name="safe_zone"
+                               checked="checked"
                                value="portrait" />
                         <?php echo __('Safe in portrait') ?>
                     </label>
@@ -89,6 +106,15 @@ $splashVersion = (integer) $application->getSplashVersion();
                                value="landscape" />
                         <?php echo __('Safe in landscape') ?>
                     </label>
+                    <br />
+                    <label for="radio_any">
+                        <input id="radio_any"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="any" />
+                        <?php echo __('Safe in portrait & landscape') ?>
+                    </label>
                 </fieldset>
 
                 <p class="clear recommended_size">
@@ -99,6 +125,20 @@ $splashVersion = (integer) $application->getSplashVersion();
                         rel="unified">
                     <?php echo __('Change your startup image'); ?><br/>
                 </button>
+
+                <div class="alert alert-info"
+                     style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                    <?php echo __('Download template as') ?>
+                    <a href="/external/resources/template-unified.png"
+                       class="btn btn-xs color-blue"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PNG</b></a>
+                    or
+                    <a href="/external/resources/template-unified.psd"
+                       class="btn btn-xs color-blue"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PSD</b></a>
+                </div>
             </div>
         </div>
     </div>
@@ -135,7 +175,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
 
     img.safe_visible {
-        opacity: 0.85;
+        opacity: 0.35;
     }
 
     img.safe_white {
@@ -148,12 +188,16 @@ $splashVersion = (integer) $application->getSplashVersion();
     $(document).ready(function() {
         var safeZone = $('[name="safe_zone"]');
 
-        safeZone.off('change');
-        safeZone.on('change', function () {
-            //
+        var switchZone = function () {
             var value = $('[name="safe_zone"]:checked').val();
             $('.safe_hidden').removeClass('safe_visible');
             $('#safe_zone_' + value).addClass('safe_visible');
+        };
+
+        safeZone.off('change');
+        safeZone.on('change', function () {
+            //
+            switchZone();
             toggleColor();
         });
 
@@ -172,6 +216,9 @@ $splashVersion = (integer) $application->getSplashVersion();
         safeColor.on('change', function () {
             toggleColor();
         });
+
+        switchZone();
+        toggleColor();
 
         var type = '';
 
@@ -223,6 +270,26 @@ $splashVersion = (integer) $application->getSplashVersion();
         $('.upload_bg').click(function(){
             $('input.fileupload.' + $(this).attr('rel')).trigger('click');
             return false;
+        });
+
+        // Save prefs in session
+        var showOverlayHelp = sessionStorage.getItem('showOverlayHelp');
+        if (showOverlayHelp == 0) {
+            $('.overlay-help').hide();
+        }
+
+        var showHelp = $('.show-help');
+        showHelp.off('click');
+        showHelp.on('click', function () {
+            sessionStorage.setItem('showOverlayHelp', 1);
+            $('.overlay-help').show();
+        });
+
+        var dismissHelp = $('.dismiss-help');
+        dismissHelp.off('click');
+        dismissHelp.on('click', function () {
+            sessionStorage.setItem('showOverlayHelp', 0);
+            $('.overlay-help').hide();
         });
     });
 </script>
