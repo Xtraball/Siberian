@@ -1393,6 +1393,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
                 return $imageName;
             }
+            if (is_file(Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $imageName))) {
+                return self::PATH_IMAGE . $imageName;
+            }
         } catch (\Exception $e) {
             //
         }
@@ -1408,6 +1411,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $imageName = $this->getData('startup_image_unified');
             if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
                 return $imageName;
+            }
+            if (is_file(Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $imageName))) {
+                return self::PATH_IMAGE . $imageName;
             }
         } catch (\Exception $e) {
             //
