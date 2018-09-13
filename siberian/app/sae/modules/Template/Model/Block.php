@@ -7,15 +7,15 @@ class Template_Model_Block extends Core_Model_Default {
     const TYPE_WHITE_LABEL_EDITOR = 2;
     const TYPE_IONIC_APP = 3;
 
-    protected $_children = array();
+    protected $_children = [];
     protected $int_validator;
     protected $between_validator;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Template_Model_Db_Table_Block';
         $this->int_validator = new Zend_Validate_Int();
-        $this->between_validator = new Zend_Validate_Between(array('min' => 0, 'max' => 100));
+        $this->between_validator = new Zend_Validate_Between(['min' => 0, 'max' => 100]);
         return $this;
     }
 
@@ -157,7 +157,7 @@ class Template_Model_Block extends Core_Model_Default {
     public function toRgb($hexStr, $returnAsString = false, $seperator = ','){
 
         $hexStr = preg_replace("/[^0-9A-Fa-f]/", '', $hexStr);
-        $rgbArray = array();
+        $rgbArray = [];
 
         if (strlen($hexStr) == 6) {
             $colorVal = hexdec($hexStr);

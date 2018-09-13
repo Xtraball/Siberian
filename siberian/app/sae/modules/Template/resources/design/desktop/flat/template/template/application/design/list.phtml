@@ -1,47 +1,66 @@
-<?php $application = $this->getApplication() ?>
-<?php $design = new Template_Model_Design(); ?>
-<?php $designs = $design->findAllWithCategory(); ?>
-<?php $category = new Template_Model_Category(); ?>
-<?php $categories = $category->findAll(null, "name ASC"); ?>
+<?php
+$application = $this->getApplication();
+$designs = (new Template_Model_Design())
+    ->findAllWithCategory();
+$categories = (new Template_Model_Category())
+    ->findAll(null, 'name ASC');
+
+?>
+
+
 <div class="content-no-padding col-md-3 col-xs-3">
     <ul>
         <li class="change_category color-red">
-        <a href="javascript:void(0);">
-            <?php echo __("All"); ?>
-            <input type="hidden" value="0" name="category_id" />
-        </a>
+            <a href="javascript:void(0);">
+                <?php echo __("All"); ?>
+                <input type="hidden"
+                       value="0"
+                       name="category_id" />
+            </a>
         </li>
-        <?php foreach($categories as $category) : ?>
+        <?php foreach ($categories as $category): ?>
         <li class="change_category">
             <a href="javascript:void(0);">
                 <?php echo __($category->getName()); ?>
-                <input type="hidden" value="<?php echo $category->getCategoryId(); ?>" />
+                <input type="hidden"
+                       value="<?php echo $category->getCategoryId(); ?>" />
             </a>
         </li>
         <?php endforeach ?>
     </ul>
 </div>
 <div class="content-no-padding templates_content_preview col-md-9 col-xs-9">
-    <?php foreach($designs as $design) : ?>
+    <?php foreach ($designs as $design): ?>
     <div class="col-md-4 col-xs-6 text-center <?php echo $this->getClass($design) ?>">
         <p class="template_image">
-            <a href="javascript:void(0);" class="change_design block relative">
+            <a href="javascript:void(0);"
+               class="change_design block relative">
                 <h3 class="template_title radius_bottom_only">
                     <?php echo $design->getName(); ?>
                 </h3>
                 <?php
-                    $overview_new = $design->getOverviewNew();
+                    $overviewNew = $design->getOverviewNew();
                 ?>
-                <?php if(!empty($overview_new)):  ?>
-                    <img class="overview-new" src="<?php echo $design->getOverview("overview_new"); ?>" width="100%" height="100%" />
+                <?php if(!empty($overviewNew)):  ?>
+                    <img class="overview-new"
+                         src="<?php echo $design->getOverview('overview_new'); ?>"
+                         width="100%"
+                         height="100%" />
                 <?php else: ?>
-                    <img class="overview-old" src="<?php echo $design->getOverview(); ?>" width="100%" height="100%" />
+                    <img class="overview-old"
+                         src="<?php echo $design->getOverview(); ?>"
+                         width="100%"
+                         height="100%" />
                 <?php endif; ?>
                 <?php if($application->getDesignId() == $design->getId()) : ?>
                     <span class="checked"></span>
                 <?php endif ?>
-                <input type="hidden" name="design_id" value="<?php echo $design->getId(); ?>" />
-                <input type="hidden" name="category_id" value="<?php echo $this->getCategoryId($design) ?>" />
+                <input type="hidden"
+                       name="design_id"
+                       value="<?php echo $design->getId(); ?>" />
+                <input type="hidden"
+                       name="category_id"
+                       value="<?php echo $this->getCategoryId($design) ?>" />
             </a>
         </p>
     </div>

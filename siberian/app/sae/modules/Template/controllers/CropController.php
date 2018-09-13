@@ -10,17 +10,17 @@ class Template_CropController extends Admin_Controller_Default
 
                 $folder = Core_Model_Directory::getTmpDirectory(true).'/';
 
-                $params = array();
-                $params['validators'] = array(
-                    'Extension' => array('jpg', 'png', 'jpeg', 'gif', 'case' => false),
-                    'Size' => array('min' => 100, 'max' => 200000000),
-                    'ImageSize' => array(
+                $params = [];
+                $params['validators'] = [
+                    'Extension' => ['jpg', 'png', 'jpeg', 'gif', 'case' => false],
+                    'Size' => ['min' => 100, 'max' => 200000000],
+                    'ImageSize' => [
                         'minwidth' => 20,
                         'minheight' => 20,
                         'maxwidth' => 5000,
                         'maxheight' => 5000,
-                    )
-                );
+                    ]
+                ];
 
                 $params['destination_folder'] = $folder;
                 $params['uniq'] = 1;
@@ -45,17 +45,17 @@ class Template_CropController extends Admin_Controller_Default
 
                 $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$file);
 
-                $datas = array(
+                $datas = [
                     'success' => 1,
                     'files' => $file,
                     'source_width' => $image_sizes[0],
                     'source_height' => $image_sizes[1],
-                );
+                ];
             } catch (Exception $e) {
-                $datas = array(
+                $datas = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($datas));
         }
@@ -127,18 +127,18 @@ class Template_CropController extends Admin_Controller_Default
             try {
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $datas = array(
+                $datas = [
                     'success' => 1,
                     'file' => $file,
                     'message_success' => $this->_('Info successfully saved'),
                     'message_button' => 0,
                     'message_timeout' => 2,
-                );
+                ];
             } catch (Exception $e) {
-                $datas = array(
+                $datas = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->_sendHtml($datas);
          }

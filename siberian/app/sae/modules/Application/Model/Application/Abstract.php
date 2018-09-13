@@ -322,9 +322,76 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $design
+     * @param null $category
+     * @return $this
+     * @throws Exception
+     */
     public function setDesign($design, $category = null)
     {
+        if ($design->getVersion() == 2) {
+            $this->setSplashVersion(2);
+            $this->setDesignUnified($design, $category);
+        } else {
+            $image_name = uniqid() . '.png';
+            $relative_path = '/homepage_image/bg/';
+            $lowres_relative_path = '/homepage_image/bg_lowres/';
 
+            if (!is_dir(self::getBaseImagePath() . $lowres_relative_path)) {
+                mkdir(self::getBaseImagePath() . $lowres_relative_path, 0777, true);
+            }
+
+            if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
+                throw new Exception(__('#101: An error occurred while saving'));
+            }
+
+            if (!is_dir(self::getBaseImagePath() . $relative_path)) {
+                mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
+            }
+            if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
+                throw new Exception(__('#102: An error occurred while saving'));
+            }
+
+            foreach ($design->getBlocks() as $block) {
+                $block->setAppId($this->getId())->save();
+            }
+
+            $this->setDesignId($design->getId())
+                ->setLayoutId($design->getLayoutId())
+                ->setLayoutVisibility($design->getLayoutVisibility())
+                ->setOverView($design->getOverview())
+                ->setBackgroundImage($design->getBackgroundImage())
+                ->setBackgroundImageHd($design->getBackgroundImageHd())
+                ->setBackgroundImageTablet($design->getBackgroundImageTablet())
+                ->setBackgroundImageLandscape($design->getBackgroundImageLandscape())
+                ->setBackgroundImageLandscapeHd($design->getBackgroundImageLandscapeHd())
+                ->setBackgroundImageLandscapeTablet($design->getBackgroundImageLandscapeTablet())
+                ->setIcon($design->getIcon())
+                ->setStartupImage($design->getStartupImage())
+                ->setStartupImageRetina($design->getStartupImageRetina())
+                ->setStartupImageIphone6($design->getStartupImageIphone6())
+                ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
+                ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
+                ->setStartupImageIphoneX($design->getStartupImageIphoneX())
+                ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
+                ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
+
+            if (!$this->getOptionIds() AND $category->getId()) {
+                $this->createDummyContents($category, null, $category);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Template_Model_Design $design
+     * @param null $category
+     * @throws Exception
+     */
+    public function setDesignUnified($design, $category = null)
+    {
         $image_name = uniqid() . '.png';
         $relative_path = '/homepage_image/bg/';
         $lowres_relative_path = '/homepage_image/bg_lowres/';
@@ -333,47 +400,38 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             mkdir(self::getBaseImagePath() . $lowres_relative_path, 0777, true);
         }
 
-        if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
-            throw new Exception(__('#101: An error occurred while saving'));
-        }
-
         if (!is_dir(self::getBaseImagePath() . $relative_path)) {
             mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
         }
-        if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
-            throw new Exception(__('#102: An error occurred while saving'));
-        }
+
+        //if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
+        //    throw new Exception(__('#101: An error occurred while saving'));
+        //}
+
+
+
+        //if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
+        //    throw new Exception(__('#102: An error occurred while saving'));
+        //}
 
         foreach ($design->getBlocks() as $block) {
-            $block->setAppId($this->getId())->save();
+            $block
+                ->setAppId($this->getId())
+                ->save();
         }
 
-        $this->setDesignId($design->getId())
+        $this
+            ->setDesignId($design->getId())
             ->setLayoutId($design->getLayoutId())
             ->setLayoutVisibility($design->getLayoutVisibility())
             ->setOverView($design->getOverview())
-            ->setBackgroundImage($design->getBackgroundImage())
-            ->setBackgroundImageHd($design->getBackgroundImageHd())
-            ->setBackgroundImageTablet($design->getBackgroundImageTablet())
-            ->setBackgroundImageLandscape($design->getBackgroundImageLandscape())
-            ->setBackgroundImageLandscapeHd($design->getBackgroundImageLandscapeHd())
-            ->setBackgroundImageLandscapeTablet($design->getBackgroundImageLandscapeTablet())
+            ->setBackgroundImageUnified($design->getBackgroundImageUnified())
             ->setIcon($design->getIcon())
-            ->setStartupImage($design->getStartupImage())
-            ->setStartupImageRetina($design->getStartupImageRetina())
-            ->setStartupImageIphone6($design->getStartupImageIphone6())
-            ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
-            ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
-            ->setStartupImageIphoneX($design->getStartupImageIphoneX())
-            ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
-            ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
+            ->setStartupImageUnified($design->getStartupImageUnified());
 
-        if (!$this->getOptionIds() AND $category->getId()) {
+        if (!$this->getOptionIds() && $category->getId()) {
             $this->createDummyContents($category, null, $category);
         }
-
-        return $this;
-
     }
 
     public function getRealLayoutVisibility()
@@ -390,9 +448,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
     }
 
+    /**
+     * @param $category
+     * @param null $design
+     * @param null $_category
+     * @throws Exception
+     */
     public function createDummyContents($category, $design = null, $_category = null)
     {
-
         $design = is_null($design) ? $this->getDesign() : $design;
         $design_content = new Template_Model_Design_Content();
         $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
@@ -404,7 +467,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
             if (!$option->getId()) continue;
 
-            $option_value->setOptionId($content->getOptionId())
+            $option_value
+                ->setOptionId($content->getOptionId())
                 ->setAppId($this->getApplication()->getId())
                 ->setTabbarName($content->getOptionTabbarName())
                 ->setIconId($content->getOptionIcon())
@@ -1003,6 +1067,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getStartupImageUrl($type = "standard", $base = false)
     {
+        if ($this->getSplashVersion() == 2) {
+            return $this->getStartupImageUnified();
+        }
+
         try {
             $image = '';
 
@@ -1253,6 +1321,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getHomepageBackgroundImageUrl($type = '', $return = false)
     {
+        if ($this->getSplashVersion() == 2) {
+            return $this->getHomepageBackgroundUnified();
+        }
 
         try {
 
@@ -1310,6 +1381,38 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         return $image;
+    }
+
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getHomepageBackgroundUnified()
+    {
+        try {
+            $imageName = $this->getData('background_image_unified');
+            if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
+                return $imageName;
+            }
+        } catch (\Exception $e) {
+            //
+        }
+        return '';
+    }
+
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getStartupBackgroundUnified()
+    {
+        try {
+            $imageName = $this->getData('startup_image_unified');
+            if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
+                return $imageName;
+            }
+        } catch (\Exception $e) {
+            //
+        }
+        return '';
     }
 
     /**

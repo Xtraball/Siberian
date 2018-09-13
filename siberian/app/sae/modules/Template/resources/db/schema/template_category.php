@@ -6,21 +6,21 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['template_category'] = array(
-    'category_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['template_category'] = [
+    'category_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_general_ci',
-    ),
-    'code' => array(
+    ],
+    'code' => [
         'type' => 'varchar(20)',
         'charset' => 'utf8',
         'collation' => 'utf8_general_ci',
-    ),
-);
+    ],
+];

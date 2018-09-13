@@ -5,10 +5,10 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
 
     public function loadAction() {
 
-        $html = array(
+        $html = [
             "title" => __("Templates"),
             "icon" => "fa-picture-o",
-        );
+        ];
 
         $this->_sendHtml($html);
 
@@ -18,16 +18,16 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
 
         $category = new Template_Model_Category();
         $categories = $category->findAll();
-        $data = array("title" => $this->_("List of your categories"), "columns" => array());
-        $tmp = array();
+        $data = ["title" => $this->_("List of your categories"), "columns" => []];
+        $tmp = [];
         foreach($categories as $category) {
-            $tmp[] = array(
+            $tmp[] = [
                 "category_id" => $category->getId(),
                 "name" => __($category->getName())
-            );
+            ];
             if(count($tmp) == 2) {
                 $data["columns"][] = $tmp;
-                $tmp = array();
+                $tmp = [];
             }
         }
 
@@ -53,16 +53,16 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
                     $category->addData($data)->save();
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => $this->_("Info successfully saved")
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);

@@ -6,29 +6,29 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['template_design_category'] = array(
-    'design_category_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['template_design_category'] = [
+    'design_category_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'design_id' => array(
+    ],
+    'design_id' => [
         'type' => 'int(11) unsigned',
-        'index' => array(
+        'index' => [
             'key_name' => 'design_id',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'category_id' => array(
+        ],
+    ],
+    'category_id' => [
         'type' => 'int(11) unsigned',
-        'index' => array(
+        'index' => [
             'key_name' => 'category_id',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-);
+        ],
+    ],
+];
