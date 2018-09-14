@@ -30,8 +30,16 @@ $categories = (new Template_Model_Category())
     </ul>
 </div>
 <div class="content-no-padding templates_content_preview col-md-9 col-xs-9">
-    <?php foreach ($designs as $design): ?>
-    <div class="col-md-4 col-xs-6 text-center <?php echo $this->getClass($design) ?>">
+    <?php foreach ($designs as $design):
+
+        $activeClass = '';
+        if($application->getDesignId() == $design->getId()) {
+            $activeClass = 'current';
+        }
+
+    ?>
+
+    <div class="col-md-4 col-xs-6 text-center <?php echo $this->getClass($design) ?> <?php echo $activeClass ?>">
         <p class="template_image">
             <a href="javascript:void(0);"
                class="change_design block relative">
@@ -52,9 +60,6 @@ $categories = (new Template_Model_Category())
                          width="100%"
                          height="100%" />
                 <?php endif; ?>
-                <?php if($application->getDesignId() == $design->getId()) : ?>
-                    <span class="checked"></span>
-                <?php endif ?>
                 <input type="hidden"
                        name="design_id"
                        value="<?php echo $design->getId(); ?>" />

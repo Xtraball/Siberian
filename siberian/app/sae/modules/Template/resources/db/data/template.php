@@ -128,6 +128,16 @@ foreach($block->findAll() as $block) {
 
 # Inserting designs with blocks
 $designs = [
+    "blank" => [
+        "layout_id" => $layouts["layout_1"]->getId(),
+        "name" => "Blank",
+        "overview_new" => "/images/templates/blank/unified/overview_new.jpg",
+        "background_image_unified" => "/../../images/application/placeholder/no-background-unified.jpg",
+        "icon" => "/../../images/application/placeholder/no-image.png",
+        "startup_image_unified" => "/../../images/application/placeholder/no-startupimage-unified.png",
+        "version" => "2",
+        "position" => "0",
+    ],
     "rouse" => [
         "layout_id" => $layouts["layout_6"]->getId(),
         "name" => "Red&Co",
@@ -136,6 +146,7 @@ $designs = [
         "icon" => "/../../images/templates/rouse/unified/icon.png",
         "startup_image_unified" => "/../../images/templates/rouse/unified/background.png",
         "version" => "2",
+        "position" => "10",
     ],
     "bleuc" => [
         "layout_id" => $layouts["layout_5"]->getId(),
@@ -145,40 +156,17 @@ $designs = [
         "icon" => "/../../images/templates/bleuc/unified/icon.png",
         "startup_image_unified" => "/../../images/templates/bleuc/unified/background.png",
         "version" => "2",
+        "position" => "20",
     ],
     "colors" => [
         "layout_id" => $layouts["layout_4"]->getId(),
         "name" => "Colors",
-        "overview" => "/colors/overview.png",
-        "overview_new" => "/colors/overview_new.png",
-        "background_image" => "/../../images/templates/colors/640x1136.jpg",
-        "background_image_hd" => "/../../images/templates/colors/1242x2208.jpg",
-        "background_image_tablet" => "/../../images/templates/colors/1536x2048.jpg",
-        "background_image_landscape" => "/../../images/templates/colors/colors-1136-640.jpg",
-        "background_image_landscape_hd" => "/../../images/templates/colors/colors-2208-1242.jpg",
-        "background_image_landscape_tablet" => "/../../images/templates/colors/colors-2048-1536.jpg",
-        "icon" => "/../../images/templates/colors/180x180.png",
-        "startup_image" => "/../../images/templates/colors/640x960.jpg",
-        "startup_image_retina" => "/../../images/templates/colors/640x1136.jpg",
-        "startup_image_iphone_6" => "/../../images/templates/colors/750x1334.jpg",
-        "startup_image_iphone_6_plus" => "/../../images/templates/colors/1242x2208.jpg",
-        "startup_image_ipad_retina" => "/../../images/templates/colors/1536x2048.jpg",
-        "startup_image_iphone_x" => "/../../images/templates/colors/1125x2436.jpg",
-    ],
-    "blank" => [
-        "layout_id" => $layouts["layout_1"]->getId(),
-        "name" => "Blank",
-        "overview" => "/blank/overview.png",
-        "background_image" => "/../../images/application/placeholder/no-background.jpg",
-        "background_image_hd" => "/../../images/application/placeholder/no-background-hd.jpg",
-        "background_image_tablet" => "/../../images/application/placeholder/no-background-tablet.jpg",
-        "icon" => "/../../images/application/placeholder/no-image.png",
-        "startup_image" => "/../../images/application/placeholder/no-startupimage.png",
-        "startup_image_retina" => "/../../images/application/placeholder/no-startupimage-retina.png",
-        "startup_image_iphone_6" => "/../../images/application/placeholder/no-startupimage-iphone-6.png",
-        "startup_image_iphone_6_plus" => "/../../images/application/placeholder/no-startupimage-iphone-6-plus.png",
-        "startup_image_ipad_retina" => "/../../images/application/placeholder/no-startupimage-tablet.png",
-        "startup_image_iphone_x" => "/../../images/application/placeholder/no-startupimage-iphone-x.png",
+        "overview_new" => "/images/templates/colors/unified/overview_new.jpg",
+        "icon" => "/../../images/templates/colors/unified/icon.png",
+        "background_image_unified" => "/../../images/templates/colors/unified/background.png",
+        "startup_image_unified" => "/../../images/templates/colors/unified/background.png",
+        "version" => "2",
+        "position" => "30",
     ]
 ];
 

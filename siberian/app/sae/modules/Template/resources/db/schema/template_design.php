@@ -44,6 +44,10 @@ $schemas['template_design'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'position' => [
+        'type' => 'int(11) unsigned',
+        'default' => '1000',
+    ],
     'name' => [
         'type' => 'varchar(50)',
         'is_null' => true,

@@ -237,7 +237,7 @@ class Template_Model_Design extends Core_Model_Default
 
     public function findAllWithCategory()
     {
-        $all_templates = $this->findAll();
+        $all_templates = $this->findAll(null, ['position ASC', 'name ASC']);
         $template_a_category = $this->getTable()->findAllWithCategory();
         $final_templates = [];
 
