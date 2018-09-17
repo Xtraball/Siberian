@@ -62,8 +62,8 @@ class Template_DesignController extends Application_Controller_Default
                 }
             }
 
-            $layout_model = new Application_Model_Layout_Homepage();
-            $layout = $layout_model->find($design->getLayoutId());
+            $layout = (new Application_Model_Layout_Homepage())
+                ->find($design->getLayoutId());
 
             $this
                 ->getApplication()
@@ -71,9 +71,11 @@ class Template_DesignController extends Application_Controller_Default
                 ->setDesign($design, $category)
                 ->save();
 
-            if ($this->getApplication()->useIonicDesign()) {
-                Template_Model_Design::generateCss($this->getApplication(), false, false, true);
-            }
+            Template_Model_Design::generateCss(
+                $this->getApplication(),
+                false,
+                false,
+                true);
 
             $payload = [
                 'success' => true,

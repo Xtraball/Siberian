@@ -36,11 +36,15 @@ $schemas['template_design'] = [
         'default' => 'homepage',
     ],
     'code' => [
-        'type' => 'varchar(20)',
+        'type' => 'varchar(128)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
     'version' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
+    'is_active' => [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],

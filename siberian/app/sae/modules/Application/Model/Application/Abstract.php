@@ -11,6 +11,7 @@
  * @method string getDesignCode()
  * @method string getName()
  * @method $this setIsActive(boolean $isActive)
+ * @method $this setLayoutVisibility(boolean $visibility)
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
@@ -404,21 +405,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
         }
 
-        //if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
-        //    throw new Exception(__('#101: An error occurred while saving'));
-        //}
-
-
-
-        //if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
-        //    throw new Exception(__('#102: An error occurred while saving'));
-        //}
-
         foreach ($design->getBlocks() as $block) {
             $block
                 ->setAppId($this->getId())
                 ->save();
         }
+
+        // Here we duplicate the icon to preserve it!
 
         $this
             ->setDesignId($design->getId())
@@ -465,7 +458,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $option = new Application_Model_Option();
             $option->find($content->getOptionId());
 
-            if (!$option->getId()) continue;
+            if (!$option->getId()) {
+                continue;
+            }
 
             $option_value
                 ->setOptionId($content->getOptionId())
@@ -475,7 +470,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 ->setBackgroundImage($content->getOptionBackgroundImage())
                 ->save();
 
-            if ($option->getModel() && $option->getCode() != "push_notification") {
+            if ($option->getModel() && $option->getCode() !== 'push_notification') {
                 $category = ($_category != null) ? $_category : $category;
                 $option->getObject()->createDummyContents($option_value, $design, $category);
             }

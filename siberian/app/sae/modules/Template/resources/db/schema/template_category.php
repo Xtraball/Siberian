@@ -13,13 +13,18 @@ $schemas['template_category'] = [
         'auto_increment' => true,
         'primary' => true,
     ],
+    'original_name' => [
+        'type' => 'varchar(128)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_general_ci',
+    ],
     'name' => [
-        'type' => 'varchar(50)',
+        'type' => 'varchar(128)',
         'charset' => 'utf8',
         'collation' => 'utf8_general_ci',
     ],
     'code' => [
-        'type' => 'varchar(20)',
+        'type' => 'varchar(128)',
         'charset' => 'utf8',
         'collation' => 'utf8_general_ci',
     ],

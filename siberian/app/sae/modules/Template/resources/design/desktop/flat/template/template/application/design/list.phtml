@@ -1,9 +1,17 @@
 <?php
 $application = $this->getApplication();
 $designs = (new Template_Model_Design())
-    ->findAllWithCategory();
+    ->findAllWithCategory(
+        [
+            'version = ?' => 2,
+            'is_active = ?' => 1,
+        ]
+    );
 $categories = (new Template_Model_Category())
-    ->findAll(null, 'name ASC');
+    ->findAll(
+        null,
+        'name ASC'
+    );
 
 ?>
 
