@@ -12,6 +12,8 @@ if (empty($rawData)) {
     $homepageUnified = $application->getNoBackgroundImageUrl('unified');
 }
 
+$backgroundImage = $this->getApplication()->getData('background_image');
+
 ?>
 
 <div class="container-fluid first-row-feature content-feature">
@@ -138,8 +140,37 @@ if (empty($rawData)) {
                        target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PSD</b></a>
                 </div>
             </div>
+
+            <?php if (!empty($backgroundImage)): ?>
+            <br />
+            <div class="content-options content-white-bkg">
+                <h4 class="toggle-overlay"><?php echo __('Previous version') ?></h4>
+                <div class="alert alert-info"
+                     style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                    <?php echo __('Download images archive') ?>
+                    <a href="/application/customization_design_style/downloadhomepage"
+                       class="btn btn-xs color-blue"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>ZIP</b></a>
+                </div>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
+
+    <div class="row content-in">
+        <div id="behavior_container"
+             class="col-md-6 col-xs-12 sb-tour">
+            <div class="content-options content-white-bkg">
+                <?php
+                $formAppBehavior = (new Application_Form_Behavior())
+                    ->populate($application->getData());
+                echo $formAppBehavior;
+                ?>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <input enctype="multipart/form-data"
@@ -184,6 +215,8 @@ if (empty($rawData)) {
 <script type="text/javascript">
     homepage_uploader = new Uploader();
     $(document).ready(function() {
+        bindForms('#behavior_container');
+
         var safeZone = $('[name="safe_zone"]');
 
         var switchZone = function () {

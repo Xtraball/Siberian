@@ -201,6 +201,9 @@ try {
                 echo 'Aborting, empty license.' . PHP_EOL;
             }
             break;
+        case 'i18n:extract':
+            \Siberian\Translation::extractAll();
+            break;
         case 'app:manifest':
             \Siberian\Manifest::rebuild();
             break;
@@ -274,6 +277,9 @@ try {
     
 " . color('license:set <license>', 'brown') . "
     Update your license to <license>.
+    
+" . color('i18n:extract', 'brown') . "
+    Extracts all missing translations.
     
 " . color('app:manifest', 'brown') . "
     Rebuilds the application manifest.

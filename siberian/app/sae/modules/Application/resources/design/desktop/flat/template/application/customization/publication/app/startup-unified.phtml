@@ -14,6 +14,8 @@ if (empty($rawData)) {
     $startupUnified = $application->getNoStartupImageUrl('unified');
 }
 
+$startupImage = $this->getApplication()->getData('startup_image');
+
 ?>
 
 <div class="container-fluid first-row-feature content-feature">
@@ -140,6 +142,21 @@ if (empty($rawData)) {
                        target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PSD</b></a>
                 </div>
             </div>
+
+            <?php if (!empty($startupImage)): ?>
+                <br />
+                <div class="content-options content-white-bkg">
+                    <h4 class="toggle-overlay"><?php echo __('Previous version') ?></h4>
+                    <div class="alert alert-info"
+                         style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                        <?php echo __('Download images archive') ?>
+                        <a href="/application/customization_design_style/downloadhomepage"
+                           class="btn btn-xs color-blue"
+                           style="cursor: pointer !important;"
+                           target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>ZIP</b></a>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

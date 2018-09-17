@@ -761,4 +761,75 @@ class Application_Customization_Design_StyleController extends Application_Contr
         }
     }
 
+    /**
+     * Upgrade app to unified homepage/splashscreen
+     */
+    public function upgradeunifiedAction ()
+    {
+        try {
+            $this
+                ->getApplication()
+                ->setSplashVersion(2)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @throws \Siberian\Exception
+     */
+    public function downloadhomepageAction ()
+    {
+        // Create temp folder
+        $application = $this->getApplication();
+        $appId = $application->getId();
+
+        $zipFile = Core_Model_Directory::getBasePathTo('/var/tmp/homepages-' . $appId . '.zip');
+        $tmp = Core_Model_Directory::getBasePathTo('/var/tmp/homepages-' . $appId);
+        mkdir($tmp, 0777, true);
+
+        $allImages = [];
+
+        $allImages['homepage'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image'));
+        $allImages['homepage_hd'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_hd'));
+        $allImages['homepage_tablet'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_tablet'));
+        $allImages['homepage_landscape'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape'));
+        $allImages['homepage_landscape_hd'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape_hd'));
+        $allImages['homepage_landscape_tablet'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape_tablet'));
+        $allImages['icon'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('icon'));
+        $allImages['android_push_icon'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('android_push_icon'));
+        $allImages['splashscreen'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image'));
+        $allImages['splashscreen_retina'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_retina'));
+        $allImages['splashscreen_iphone6'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_6'));
+        $allImages['splashscreen_iphone6_plus'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_6_plus'));
+        $allImages['splashscreen_ipad_retina'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_ipad_retina'));
+        $allImages['splashscreen_iphone_x'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_x'));
+
+        foreach ($allImages as $filename => $image) {
+            if (is_file($image)) {
+                $ext = pathinfo(basename($image), PATHINFO_EXTENSION);
+                copy($image, $tmp . '/' . $filename . '.' . $ext);
+            }
+        }
+
+        // Zip!
+        Core_Model_Directory::zip($tmp, $zipFile);
+
+        // Then clear!
+        Core_Model_Directory::delete($tmp);
+
+        $this->_download($zipFile, 'homepages-' . $appId . '.zip');
+    }
+
 }
