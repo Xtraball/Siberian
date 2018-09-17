@@ -21,7 +21,8 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
         $core_modules = (new Installer_Model_Installer_Module())->findAll(
             [
-                'can_uninstall = ?' => 0
+                'can_uninstall = ?' => 0,
+                'type NOT IN (?)' => ['template']
             ],
             [
                 'name ASC'
