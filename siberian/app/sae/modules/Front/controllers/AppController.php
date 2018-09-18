@@ -90,7 +90,7 @@ class Front_AppController extends Front_Controller_App_Default
     }
 
     /**
-     * @param $application
+     * @param Application_Model_Application $application
      * @return array|false|string
      */
     private function _loadBlock ($application)
@@ -101,7 +101,15 @@ class Front_AppController extends Front_Controller_App_Default
         if (!$result = $this->cache->load($cacheId)) {
 
             // Homepage image url!
-            $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl());
+            if ($application->getSplashVersion() == '2') {
+                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundUnified());
+            } else {
+                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl());
+            }
+
+            $homepageImageB64 = Siberian_Image::open($homepageImage)
+                ->cropResize(512)->inline('jpeg', 65);
+
             $googleMapsKey = $application->getGooglemapsKey();
 
             $privacyPolicy = trim($application->getPrivacyPolicy());
@@ -190,7 +198,7 @@ class Front_AppController extends Front_Controller_App_Default
                     'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string) $application->getBackButton(),
                 ],
-                'homepageImage' => $homepageImage
+                'homepageImage' => $homepageImageB64
             ];
             $this->cache->save($loadBlock, $cacheId, [
                 'v4',
