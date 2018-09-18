@@ -1,15 +1,20 @@
 <?php
 
-class Push_MobileController extends Application_Controller_Mobile_Default {
 
-    public function listAction() {
+class Push_MobileController extends Application_Controller_Mobile_Default
+{
+    /**
+     *
+     */
+    public function listAction()
+    {
 
-        $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
+        $this->loadPartials($this->getFullActionName('_') . '_l' . $this->_layout_id, false);
         $html = array();
         $device_uid = $this->_getDeviceUid();
         $messages = array();
 
-        if($device_uid) {
+        if ($device_uid) {
             $option_value = $this->getCurrentOptionValue();
 
             $message = new Push_Model_Message();
@@ -23,36 +28,45 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
-    public function countAction() {
-
-        $html = array();
+    /**
+     * @throws Zend_Exception
+     */
+    public function countAction()
+    {
         $device_uid = $this->_getDeviceUid();
         $nbr = 0;
-        if($device_uid) {
+        if ($device_uid) {
             $message = new Push_Model_Message();
             $nbr = $message->countByDeviceId($device_uid);
         }
 
-        $html = array('count' => $nbr);
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
+        $payload = [
+            'success' => true,
+            'count' => $nbr,
+        ];
 
+        $this->_sendJson($payload);
     }
 
-    public function lastmessagesAction() {
+    /**
+     * @throws Zend_Exception
+     */
+    public function lastmessagesAction()
+    {
         $data = array();
         $request = $this->getRequest();
         $baseUrl = $request->getBaseUrl();
-        if($device_uid = $request->getParam('device_uid')) {
+        if ($device_uid = $request->getParam('device_uid')) {
             $application = $this->getApplication();
 
             $message = new Push_Model_Message();
             $message->findLastPushMessage($device_uid, $application->getId());
 
-            if($message->getId()) {
+            if ($message->getId()) {
                 // We read this push!
-                $message->markAsRead($device_uid,$message->getMessageId());
+                $message->markAsRead($device_uid, $message->getMessageId());
 
-                if(is_numeric($message->getActionValue())) {
+                if (is_numeric($message->getActionValue())) {
                     $option_value = new Application_Model_Option_Value();
                     $option_value->find($message->getActionValue());
                     $action_url = $option_value->getPath(
@@ -84,13 +98,12 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
                 ];
             }
 
-            $message = new Push_Model_Message();
-            $message->findLastInAppMessage(
+            $message = (new Push_Model_Message())->findLastInAppMessage(
                 $application->getId(),
                 $device_uid
             );
 
-            if($message->getId()) {
+            if ($message->getId()) {
                 $data['inapp_message'] = array(
                     'title' => $message->getTitle(),
                     'text' => $message->getText(),
@@ -107,15 +120,22 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
                         $baseUrl . $message->getCoverUrl() :
                         null
                 );
+
+                // Add to read messages!
+                (new Push_Model_Message())
+                    ->markRealInAppAsRead(
+                        $message->getId(),
+                        $device_uid);
             }
         }
 
         $this->_sendJson($data);
     }
 
-    public function readinappAction(){
+    public function readinappAction()
+    {
         $data = array();
-        if($device_uid = $this->getRequest()->getParam('device_uid') AND $device_type = $this->getRequest()->getParam('device_type')) {
+        if ($device_uid = $this->getRequest()->getParam('device_uid') AND $device_type = $this->getRequest()->getParam('device_type')) {
             $message = new Push_Model_Message();
             $message->markInAppAsRead($this->getApplication()->getId(), $device_uid, $device_type);
             $data = array(
@@ -125,17 +145,17 @@ class Push_MobileController extends Application_Controller_Mobile_Default {
         $this->_sendJson($data);
     }
 
-    protected function _getDeviceUid() {
+    protected function _getDeviceUid()
+    {
 
         $id = null;
-        if($device_uid = $this->getRequest()->getParam('device_uid')) {
-            if(!empty($device_uid)) {
-                if(strlen($device_uid) == 36) {
+        if ($device_uid = $this->getRequest()->getParam('device_uid')) {
+            if (!empty($device_uid)) {
+                if (strlen($device_uid) == 36) {
                     $device = new Push_Model_Iphone_Device();
                     $device->find($device_uid, 'device_uid');
                     $id = $device->getDeviceUid();
-                }
-                else {
+                } else {
                     $device = new Push_Model_Android_Device();
                     $device->find($device_uid, 'registration_id');
                     $id = $device->getRegistrationId();

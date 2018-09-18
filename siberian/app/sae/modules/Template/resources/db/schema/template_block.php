@@ -6,164 +6,164 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['template_block'] = array(
-    'block_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['template_block'] = [
+    'block_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'parent_id' => array(
+    ],
+    'parent_id' => [
         'type' => 'int(11)',
         'is_null' => true,
-    ),
-    'type_id' => array(
+    ],
+    'type_id' => [
         'type' => 'tinyint(1) unsigned',
         'is_null' => true,
-    ),
-    'code' => array(
+    ],
+    'code' => [
         'type' => 'varchar(20)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'more' => array(
+    ],
+    'more' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'color' => array(
+    ],
+    'color' => [
         'type' => 'varchar(10)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'is_null' => true,
-    ),
-    'color_variable_name' => array(
+    ],
+    'color_variable_name' => [
         'type' => 'varchar(50)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'color_variable_label' => array(
+    ],
+    'color_variable_label' => [
         'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'background_color' => array(
+    ],
+    'background_color' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'background_color_variable_name' => array(
+    ],
+    'background_color_variable_name' => [
         'type' => 'varchar(50)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'background_color_variable_label' => array(
+    ],
+    'background_color_variable_label' => [
         'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'border_color' => array(
+    ],
+    'border_color' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'border_color_variable_name' => array(
+    ],
+    'border_color_variable_name' => [
         'type' => 'varchar(50)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'border_color_variable_label' => array(
+    ],
+    'border_color_variable_label' => [
         'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'use_color_on_hover' => array(
+    ],
+    'use_color_on_hover' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'color_on_hover' => array(
+    ],
+    'color_on_hover' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'background_color_on_hover' => array(
+    ],
+    'background_color_on_hover' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'use_color_on_active' => array(
+    ],
+    'use_color_on_active' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'color_on_active' => array(
+    ],
+    'color_on_active' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'background_color_on_active' => array(
+    ],
+    'background_color_on_active' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_color' => array(
+    ],
+    'image_color' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_color_variable_name' => array(
+    ],
+    'image_color_variable_name' => [
         'type' => 'varchar(50)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_color_variable_label' => array(
+    ],
+    'image_color_variable_label' => [
         'type' => 'varchar(64)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_opacity' => array(
+    ],
+    'image_opacity' => [
         'type' => 'tinyint(4)',
         'default' => 100
-    ),
-    'background_opacity' => array(
+    ],
+    'background_opacity' => [
         'type' => 'tinyint(4)',
         'default' => 100
-    ),
-    'text_opacity' => array(
+    ],
+    'text_opacity' => [
         'type' => 'tinyint(4)',
         'default' => 100
-    ),
-    'border_opacity' => array(
+    ],
+    'border_opacity' => [
         'type' => 'tinyint(4)',
         'default' => 100
-    ),
-    'position' => array(
+    ],
+    'position' => [
         'type' => 'smallint(5)',
         'default' => '0',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

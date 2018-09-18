@@ -261,6 +261,31 @@ class Cron
                 $message->push();
             }
         }
+
+        // Clean-up failed push!
+        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+
+        /**
+         * @var $failedPushs Push_Model_Message[]
+         */
+        $failedPushs = (new Push_Model_Message())->findAll(
+            [
+                'status = ?' => 'failed',
+                'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!
+            ]
+        );
+
+        foreach ($failedPushs as $failedPush) {
+            $detail = sprintf("[%s - %s - %s]",
+                $failedPush->getId(),
+                $failedPush->getTitle(),
+                $failedPush->getText());
+            $this->log('[Push Clean]: cleaned-up ' . $detail . ' failed push.');
+
+            $failedPush->delete();
+        }
+
+        $this->log('[Push Clean]: cleaned-up ' . $failedPushs->count() . ' failed push.');
     }
 
     /**
@@ -519,10 +544,11 @@ class Cron
                                 $diff = $cert_content["validTo_time_t"] - time();
 
                                 //$thirty_days = 2592000;
-                                $five_days = 432000;
+                                $eight_days = 691200;
+                                //$five_days = 432000;
 
                                 # Go with five days for now.
-                                if ($diff < $five_days) {
+                                if ($diff < $eight_days) {
                                     # Should renew
                                     $renew = true;
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));

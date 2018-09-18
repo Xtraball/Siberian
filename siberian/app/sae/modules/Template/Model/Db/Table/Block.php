@@ -9,7 +9,7 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
         $fields = $this->getFields();
         $select = $this->select()
-            ->from(array('tb' => $this->_name), array())
+            ->from(['tb' => $this->_name], [])
         ;
 
         if(!empty($values['app_id'])) {
@@ -30,12 +30,12 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
             $fields['image_opacity'] =
                 new Zend_Db_Expr('IFNULL(tba.image_opacity, tb.image_opacity)');
 
-            $join = join(' AND ', array(
+            $join = join(' AND ', [
                 'tba.block_id = tb.block_id',
                 $this->_db->quoteInto('tba.app_id = ?', $values['app_id'])
-            ));
+            ]);
 
-            $select->joinLeft(array('tba' => 'template_block_app'), $join)
+            $select->joinLeft(['tba' => 'template_block_app'], $join)
                 ->setIntegrityCheck(false)
             ;
             unset($values['app_id']);
@@ -70,7 +70,7 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
         $blocks = $this->fetchAll($select);
 
-        $sorted_collection = array();
+        $sorted_collection = [];
 
         foreach($blocks as $block) {
             if(!$block->getParentId()) {
@@ -99,7 +99,7 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         } catch (Exception $e) {
             if($e->getCode() == 23000) {
                 $data["updated_at"] = new Zend_Db_Expr("NOW()");
-                $this->_db->update('template_block_app', $data, array('block_id = ?' => $data['block_id'], 'app_id = ?' => $data['app_id']));
+                $this->_db->update('template_block_app', $data, ['block_id = ?' => $data['block_id'], 'app_id = ?' => $data['app_id']]);
             }
         }
 
@@ -109,9 +109,9 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
     public function findByDesign($design_id) {
 
         $select = $this->select()
-            ->from(array('td' => 'template_design'), array())
-            ->join(array('tdb' => 'template_design_block'), 'tdb.design_id = td.design_id', array('block_id', 'color', 'background_color', 'border_color', 'image_color', 'text_opacity', 'background_opacity', 'border_opacity', 'image_opacity'))
-            ->join(array('tb' => $this->_name), 'tb.block_id = tdb.block_id', array('name', 'code', 'position', 'created_at', 'updated_at'))
+            ->from(['td' => 'template_design'], [])
+            ->join(['tdb' => 'template_design_block'], 'tdb.design_id = td.design_id', ['block_id', 'color', 'background_color', 'border_color', 'image_color', 'text_opacity', 'background_opacity', 'border_opacity', 'image_opacity'])
+            ->join(['tb' => $this->_name], 'tb.block_id = tdb.block_id', ['name', 'code', 'position', 'created_at', 'updated_at'])
             ->where('td.design_id = ?', $design_id)
             ->setIntegrityCheck(false)
         ;
@@ -119,7 +119,7 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         return $this->fetchAll($select);
     }
 
-    private function __buildTree($block, $parents = array()) {
+    private function __buildTree($block, $parents = []) {
 
         foreach($parents as $parent) {
             if($parent->getId() == $block->getParentId()) {

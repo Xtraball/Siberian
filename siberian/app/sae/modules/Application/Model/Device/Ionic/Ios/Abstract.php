@@ -57,40 +57,10 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     {
         // Touch Icons!
         $icons = [
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small.png' =>
-                $application->getIcon(29, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@2x.png' =>
-                $application->getIcon(58, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon.png' =>
                 $application->getIcon(57, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon@2x.png' =>
-                $application->getIcon(114, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40.png' =>
-                $application->getIcon(40, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40@2x.png' =>
-                $application->getIcon(80, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50.png' =>
-                $application->getIcon(50, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50@2x.png' =>
-                $application->getIcon(100, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60.png' =>
-                $application->getIcon(60, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@2x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@3x.png' =>
                 $application->getIcon(180, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72.png' =>
-                $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72@2x.png' =>
-                $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76.png' =>
-                $application->getIcon(76, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76@2x.png' =>
-                $application->getIcon(152, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png' =>
-                $application->getIcon(167, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@3x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png' =>
                 $application->getIcon(1024, null, true),
         ];
@@ -118,84 +88,18 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $image->save($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png', 'png', 100);
         }
 
+
+        /** Clean up screen.xxx */
+        array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
+
         // Startup Images!
-        $startup_src = $application->getStartupImageUrl('standard', true);
-        $startup_src_retina = $application->getStartupImageUrl('retina', true);
-        $startup_src_iphone_6 = $application->getStartupImageUrl('iphone_6', true);
-        $startup_src_iphone_6_plus = $application->getStartupImageUrl('iphone_6_plus', true);
-        $startup_src_ipad_retina = $application->getStartupImageUrl('ipad_retina', true);
-        $startup_src_iphone_x = $application->getStartupImageUrl('iphone_x', true);
+        $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
         $startups = [
-            $startup_src => [
+            $universal => [
                 [
-                    'width' => 320,
-                    'height' => 480,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default~iphone.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default@2x~iphone.png'
-                ]
-            ],
-            $startup_src_retina => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ], 
-                [
-                    'width' => 640,
-                    'height' => 1136,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-568h@2x~iphone.png'
-                ]
-            ],
-            $startup_src_iphone_6 => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-667h.png'
-                ]
-            ],
-            $startup_src_iphone_6_plus => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-736h.png'
-                ]
-            ],
-            $startup_src_ipad_retina => [
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ],
-                /** Defaulting landcape splash */
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-736h.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape@2x~ipad.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape~ipad.png'
-                ]
-            ],
-            $startup_src_iphone_x => [
-                [
-                    'width' => 1125,
-                    'height' => 2436,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-2436h.png'
-                ],
-                [
-                    'width' => 2436,
-                    'height' => 1125,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-2436h.png'
+                    'dst' => $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.png'
                 ]
             ]
         ];
@@ -327,10 +231,14 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         $root = $plist->root();
         $root->removeProperty('CFBundleDisplayName');
-        $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_application_name, 'CFBundleDisplayName');
+        $root->addProperty(\PListEditor\PListProperty::PL_STRING,
+            str_replace("&", '-', $this->_application_name), 'CFBundleDisplayName');
 
         $root->removeProperty('CFBundleIdentifier');
         $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_package_name, 'CFBundleIdentifier');
+
+        // Temporary fix for NFCReader
+        $root->removeProperty('NFCReaderUsageDescription');
 
         // Version!
         $valueCFBundleVersion = null;

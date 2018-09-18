@@ -1,73 +1,106 @@
 <?php
 
+/**
+ * Class Template_Backoffice_Category_ListController
+ */
 class Template_Backoffice_Category_ListController extends Backoffice_Controller_Default
 {
+    public function loadAction()
+    {
+        $payload = [
+            'title' => __('Templates'),
+            'icon' => 'fa-picture-o',
+        ];
 
-    public function loadAction() {
-
-        $html = array(
-            "title" => __("Templates"),
-            "icon" => "fa-picture-o",
-        );
-
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
+    public function findallAction()
+    {
+        $categories = (new Template_Model_Category())
+            ->findAll();
 
-        $category = new Template_Model_Category();
-        $categories = $category->findAll();
-        $data = array("title" => $this->_("List of your categories"), "columns" => array());
-        $tmp = array();
-        foreach($categories as $category) {
-            $tmp[] = array(
-                "category_id" => $category->getId(),
-                "name" => __($category->getName())
-            );
-            if(count($tmp) == 2) {
-                $data["columns"][] = $tmp;
-                $tmp = array();
-            }
+        $templates = (new Template_Model_Design())
+            ->findAll(null,
+                [
+                    'position ASC',
+                    'name ASC'
+                ]);
+
+        $payload = [
+            'title' => __('List of your categories'),
+            'categories' => [],
+            'templates' => [],
+        ];
+
+        foreach ($categories as $category) {
+            $payload['categories'][] = [
+                'category_id' => $category->getId(),
+                'original_name' => __($category->getData('original_name')),
+                'name' => $category->getName(),
+            ];
         }
 
-        if(!empty($tmp)) $data["columns"][] = $tmp;
+        $coreTemplates = [
+            'blank',
+            'bleuc',
+            'rouse',
+            'colors',
+        ];
 
-        $this->_sendHtml($data);
+        $toggleTemplates = [
+            'blank',
+        ];
+
+        foreach ($templates as $template) {
+            $payload['templates'][] = [
+                'template_id' => $template->getId(),
+                'name' => $template->getName(),
+                'is_active' => (boolean) $template->getIsActive(),
+                'is_protected' => in_array($template->getcode(), $coreTemplates),
+                'can_toggle' => !in_array($template->getcode(), $toggleTemplates),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
-    public function saveAction() {
-
-        if($categories = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            try {
-
-                if (__getConfig('is_demo')) {
-                    // Demo version
-                    throw new Exception($this->_("This is a demo version, these changes can't be saved."));
-                }
-                
-                foreach($categories as $data) {
-                    $category = new Template_Model_Category();
-                    $category->find($data["category_id"]);
-                    $category->addData($data)->save();
-                }
-
-                $data = array(
-                    "success" => 1,
-                    "message" => $this->_("Info successfully saved")
-                );
-
-            } catch(Exception $e) {
-                $data = array(
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                );
+    public function saveAction()
+    {
+        try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new \Siberian\Exception(__("This is a demo version, these changes can't be saved."));
             }
 
-            $this->_sendHtml($data);
-        }
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
 
+            if (empty($data)) {
+                throw new \Siberian\Exception(__('Missing params!'));
+            }
+
+            $categories = $data['categories'];
+            foreach ($categories as $categoryData) {
+                $category = (new Template_Model_Category())
+                    ->find($categoryData['category_id']);
+                $category
+                    ->setName($categoryData['name'])
+                    ->save();
+            }
+            
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+        
+        $this->_sendJson($payload);
     }
 
 }

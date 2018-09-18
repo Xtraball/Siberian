@@ -71,8 +71,13 @@ $host = $this->getRequest()->getHttpHost();
             </div>
             <div class="col-md-6">
                 <label for="{{ configs.company_country.code }}">{{ configs.company_country.label }}</label>
-                <select id="configs.company_country.code" class="form-control" ng-model="configs.company_country.value" ng-options="k as v for (k, v) in countries">
+                <select id="configs.company_country.code"
+                        class="form-control"
+                        ng-model="configs.company_country.value">
                     <option value=""><?php echo __("Select a country"); ?></option>
+                    <option ng-value="country.code"
+                            ng-selected="country.code === configs.company_country.value"
+                            ng-repeat="country in countries">{{ country.label }}</option>
                 </select>
             </div>
         </div>

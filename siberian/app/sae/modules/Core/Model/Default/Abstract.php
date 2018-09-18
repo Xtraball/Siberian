@@ -896,6 +896,11 @@ abstract class Core_Model_Default_Abstract
     {
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // In case the dummy is missing!
+        if ($dummy_content_xml === false) {
+            return false;
+        }
+
         foreach ($dummy_content_xml->children() as $content) {
             $this->unsData();
 
@@ -947,8 +952,7 @@ abstract class Core_Model_Default_Abstract
      *
      * @param $design
      * @param $category
-     * @return SimpleXMLElement[]
-     * @throws Exception
+     * @return bool|SimpleXMLElement
      */
     protected function _getDummyXml($design, $category)
     {
@@ -957,8 +961,9 @@ abstract class Core_Model_Default_Abstract
 
         $dummy_xml = Core_Model_Directory::getBasePathToModule($option_model_name, "data/dummy_" . $category->getCode() . ".xml");
 
+        // Missing dummy
         if (!is_file($dummy_xml)) {
-            throw new Exception(__('#113: An error occurred while saving'));
+            return false;
         }
 
         $dummy_content_xml = simplexml_load_file($dummy_xml);

@@ -263,6 +263,18 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
     }
 
     /**
+     * @return $this
+     */
+    public function updateLastAction()
+    {
+        $this
+            ->setLastAction(date('Y-m-d H:i:s'))
+            ->save();
+
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function isBackofficeUser()

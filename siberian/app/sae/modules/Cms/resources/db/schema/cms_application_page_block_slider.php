@@ -38,6 +38,10 @@ $schemas['cms_application_page_block_slider'] = array(
         'type' => 'tinyint(1)',
         'default' => '0',
     ),
+    'allow_line_return' => array(
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ),
     'library_id' => array(
         'type' => 'int(11)',
         'is_null' => true,

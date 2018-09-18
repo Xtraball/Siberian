@@ -17,17 +17,44 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public $cache_triggers = null;
 
+    /**
+     * @var
+     */
     protected $_layout;
+
+    /**
+     * @var
+     */
     protected static $_application;
+
+    /**
+     * @var array
+     */
     protected static $_session = [];
+
+    /**
+     * @var
+     */
     protected $float_validator;
+
+    /**
+     * @var
+     */
     protected $int_validator;
 
+    /**
+     * @param $val
+     * @return mixed
+     */
     public function validateFloat($val)
     {
         return $this->float_validator->isValid($val);
     }
 
+    /**
+     * @param $val
+     * @return mixed
+     */
     public function validateInt($val)
     {
         return $this->int_validator->isValid($val);
@@ -70,6 +97,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         // Firewall filtering rules!
         $session = $this->getSession();
+
+        if ($session->getAdminId()) {
+            $session->getAdmin()->updateLastAction();
+        }
+
         if (!empty($_FILES)) {
             \Siberian\Security::filterFiles($_FILES, $session);
         }
@@ -179,12 +211,21 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
+    /**
+     * @param $text
+     * @return mixed|string
+     */
     public function _($text)
     {
         $args = func_get_args();
         return Core_Model_Translator::translate($text, $args);
     }
 
+    /**
+     * @param string $method
+     * @param array $args
+     * @throws Exception
+     */
     public function __call($method, $args)
     {
         if ('Action' == substr($method, -6)) {
@@ -194,26 +235,43 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         throw new Exception('Méthode invalide "' . $method . '" appelée', 500);
     }
 
+    /**
+     * @return bool
+     */
     public function isProduction()
     {
         return APPLICATION_ENV == 'production';
     }
 
+    /**
+     * @return bool
+     */
     public function isSae()
     {
         return Siberian_Version::TYPE == "SAE";
     }
 
+    /**
+     * @return bool
+     */
     public function isMae()
     {
         return Siberian_Version::TYPE == "MAE";
     }
 
+    /**
+     * @return bool
+     */
     public function isPe()
     {
         return Siberian_Version::TYPE == "PE";
     }
 
+    /**
+     * @param null $type
+     * @return Core_Model_Session|mixed
+     * @throws Zend_Session_Exception
+     */
     public function getSession($type = null)
     {
         if (!$type) {
@@ -229,6 +287,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
+    /**
+     * @param $session
+     * @param string $type
+     */
     public static function setSession($session, $type = 'front')
     {
         self::$_session[$type] = $session;
@@ -242,6 +304,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return Application_Model_Application::getInstance();
     }
 
+    /**
+     * @param null $action
+     * @param null $use_base
+     * @return $this
+     */
     public function loadPartials($action = null, $use_base = null)
     {
         if (is_null($use_base)) {
@@ -255,11 +322,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $this;
     }
 
+    /**
+     * @param null $action
+     * @param null $name
+     * @param bool $noController
+     */
     public function render($action = null, $name = null, $noController = false)
     {
 
     }
 
+    /**
+     * @throws Zend_Controller_Response_Exception
+     */
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
@@ -285,12 +360,18 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->forward($action);
     }
 
+    /**
+     * @return $this
+     */
     public function oldbrowserAction()
     {
         $this->loadPartials('front_index_oldbrowser');
         return $this;
     }
 
+    /**
+     *
+     */
     public function postDispatch()
     {
 
@@ -302,6 +383,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     *
+     */
     public function norouteAction()
     {
 
@@ -314,6 +398,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     * @throws Zend_Controller_Response_Exception
+     */
     public function forbiddenAction()
     {
 
@@ -329,6 +416,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     * @throws Zend_Exception
+     */
     public function exceptionAction()
     {
 
@@ -346,6 +436,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $this->_layout;
     }
 
+    /**
+     * @param string $separator
+     * @return string
+     */
     public function getFullActionName($separator = '/')
     {
 
@@ -357,21 +451,40 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     * @param string $url
+     * @param array $params
+     * @param null $locale
+     * @return array|mixed|string
+     */
     public function getUrl($url = '', array $params = [], $locale = null)
     {
         return Core_Model_Url::create($url, $params, $locale);
     }
 
+    /**
+     * @param string $uri
+     * @param array $params
+     * @return array|mixed|string
+     */
     public function getPath($uri = '', array $params = [])
     {
         return Core_Model_Url::createPath($uri, $params);
     }
 
+    /**
+     * @param bool $withParams
+     * @param null $locale
+     * @return array|mixed|string
+     */
     public function getCurrentUrl($withParams = true, $locale = null)
     {
         return Core_Model_Url::current($withParams, $locale);
     }
 
+    /**
+     * @throws \Siberian\Exception
+     */
     public function downloadAction()
     {
 
@@ -387,6 +500,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     * @param $name
+     * @param bool $base
+     * @return string
+     * @throws Zend_Exception
+     */
     protected function _getImage($name, $base = false)
     {
         if (file_exists(Core_Model_Directory::getDesignPath(true, '') . '/images/' . $name)) {
@@ -398,6 +517,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return "";
     }
 
+    /**
+     * @param $image_id
+     * @param $color
+     * @return string
+     */
     public static function sGetColorizedImage($image_id, $color)
     {
 
@@ -437,6 +561,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $url;
     }
 
+    /**
+     * @param $image_id
+     * @param $color
+     * @return string
+     */
     protected function _getColorizedImage($image_id, $color)
     {
 
@@ -473,12 +602,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         return $url;
     }
 
+    /**
+     * @param string $url
+     * @param array $options
+     */
     protected function _redirect($url, array $options = [])
     {
         $url = Core_Model_Url::create($url, $options);
         parent::_redirect($url, $options);
     }
 
+    /**
+     *
+     */
     protected function _initDesign()
     {
         $request = $this->getRequest();
@@ -571,6 +707,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
+    /**
+     * @throws Zend_Session_Exception
+     */
     protected function _initSession()
     {
         $request = $this->getRequest();
@@ -608,6 +747,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
     }
 
+    /**
+     * @throws Zend_Exception
+     * @throws Zend_Session_Exception
+     */
     protected function _initAcl()
     {
 
@@ -627,6 +770,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     }
 
+    /**
+     *
+     */
     protected function _initLanguage()
     {
 
@@ -784,7 +930,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param string $content_type
      * @throws \Siberian\Exception
      */
-    protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
+    public function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
     {
         $response = $this->getResponse();
 
@@ -820,12 +966,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         exit();
     }
 
+    /**
+     * @param $layout
+     * @return $this
+     */
     protected function _setBaseLayout($layout)
     {
         $this->_helper->layout()->setLayout($layout);
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     protected function _isInstanceOfBackoffice()
     {
         return is_subclass_of($this, 'Backoffice_Controller_Default');
@@ -865,6 +1018,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     {
     }
 
+    /**
+     * @param $url
+     * @return mixed
+     */
     protected function clean_url($url)
     {
         $original_path = parse_url($url, PHP_URL_PATH);

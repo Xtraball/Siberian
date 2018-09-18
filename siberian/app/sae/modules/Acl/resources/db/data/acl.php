@@ -105,6 +105,10 @@ $resource_data = [
         ]
     ],
     [
+        "code" => "delete_feature",
+        "label" => "Delete a feature"
+    ],
+    [
         "code" => "admin_access_management",
         "label" => "Manage the editor users",
         "url" => "admin/access_management/*"

@@ -15,7 +15,7 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
     $session.loaded
         .then(function () {
             var loadBackgrounds = function (refresh) {
-                $pwaRequest.get('front/mobile/backgroundimages', {
+                $pwaRequest.get('front/assets/backgroundimages', {
                     urlParams: {
                         device_width: deviceScreen.width,
                         device_height: deviceScreen.height

@@ -81,8 +81,11 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             if (!empty($applications)) {
                 $filters["app_id IN (?)"] = $applications;
             }
+        }
 
-
+        $removedFromEditor = filter_var($this->getRequest()->getParam('removedFromEditor', false), FILTER_VALIDATE_BOOLEAN);
+        if ($removedFromEditor) {
+            $filters["is_active = ?"] = 0;
         }
 
         $total = $application->countAll($filters);
@@ -110,6 +113,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 'bundle_id' => $application->getBundleId(),
                 'package_name' => $application->getPackageName(),
                 'icon' => $application->getIcon(128),
+                'is_active' => (boolean) $application->getIsActive(),
                 'size_on_disk' => formatBytes($application->getData('size_on_disk'))
             ];
         }
@@ -184,7 +188,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             ];
         }
 
-        $this->_sendHtml($apps);
+        $this->_sendJson($apps);
 
     }
 
