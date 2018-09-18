@@ -38,7 +38,7 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
             "unread_messages" => $messages,
         ];
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
