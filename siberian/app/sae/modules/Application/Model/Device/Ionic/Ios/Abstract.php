@@ -57,40 +57,10 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     {
         // Touch Icons!
         $icons = [
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small.png' =>
-                $application->getIcon(29, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@2x.png' =>
-                $application->getIcon(58, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon.png' =>
                 $application->getIcon(57, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon@2x.png' =>
-                $application->getIcon(114, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40.png' =>
-                $application->getIcon(40, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40@2x.png' =>
-                $application->getIcon(80, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50.png' =>
-                $application->getIcon(50, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50@2x.png' =>
-                $application->getIcon(100, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60.png' =>
-                $application->getIcon(60, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@2x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@3x.png' =>
                 $application->getIcon(180, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72.png' =>
-                $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72@2x.png' =>
-                $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76.png' =>
-                $application->getIcon(76, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76@2x.png' =>
-                $application->getIcon(152, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png' =>
-                $application->getIcon(167, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@3x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png' =>
                 $application->getIcon(1024, null, true),
         ];
@@ -123,7 +93,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
 
         // Startup Images!
-        $universal = $application->getStartupImageUrl('universal', true);
+        $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
         $startups = [
@@ -261,7 +231,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         $root = $plist->root();
         $root->removeProperty('CFBundleDisplayName');
-        $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_application_name, 'CFBundleDisplayName');
+        $root->addProperty(\PListEditor\PListProperty::PL_STRING,
+            str_replace("&", '-', $this->_application_name), 'CFBundleDisplayName');
 
         $root->removeProperty('CFBundleIdentifier');
         $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_package_name, 'CFBundleIdentifier');
