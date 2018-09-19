@@ -1,24 +1,28 @@
 <?php
 
 /**
- * @version 4.12.20
+ * Class Backoffice_Advanced_ToolsController
  */
-class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_Default {
+class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_Default
+{
 
-    public function loadAction() {
+    public function loadAction()
+    {
         $html = [
-            'title' => __('Advanced').' > '.__('Tools'),
+            'title' => __('Advanced') . ' > ' . __('Tools'),
             'icon' => 'fa-file-code-o',
         ];
         $this->_sendJson($html);
     }
 
-    public function runtestAction() {
+    public function runtestAction()
+    {
         $data = Siberian_Tools_Integrity::checkIntegrity();
         $this->_sendJson($data);
     }
 
-    public function restoreappsAction() {
+    public function restoreappsAction()
+    {
         try {
             $var_apps = Core_Model_Directory::getBasePathTo('var/apps');
 
@@ -88,7 +92,8 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     /**
      * Migrate current in DB sessions to Redis
      */
-    public function migratetoredisAction() {
+    public function migratetoredisAction()
+    {
         try {
             if (!class_exists('Redis')) {
                 throw new Siberian_Exception(__('php-redis module is required!'));
@@ -125,7 +130,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                 'message' => __('All sessions are now migrated to Redis.')
             ];
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -135,9 +140,10 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson($payload);
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
                 $this->_save($data);
@@ -146,7 +152,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                     "success" => 1,
                     "message" => __("Configuration successfully saved")
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $data = array(
                     "error" => 1,
                     "message" => $e->getMessage()
@@ -162,7 +168,8 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     /**
      * Testing that HTTP Basic Auth is available!
      */
-    public function testbasicauthAction () {
+    public function testbasicauthAction()
+    {
         $request = $this->getRequest();
 
         $username = $request->getServer('PHP_AUTH_USER');
@@ -176,7 +183,8 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     /**
      * Testing that HTTP Bearer Auth is available!
      */
-    public function testbearerauthAction () {
+    public function testbearerauthAction()
+    {
         $request = $this->getRequest();
 
         $bearer = $request->getHeader('Api-Auth-Bearer');
@@ -184,6 +192,32 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson([
             'credentials' => $bearer
         ]);
+    }
+
+    /**
+     * E-mail preview
+     *
+     * @throws Zend_Exception
+     * @throws Zend_Layout_Exception
+     */
+    public function testEmailAction()
+    {
+        $platformName = __get('platform_name');
+        $message = "Mox dicta finierat, multitudo omnis ad, quae imperator voluit, promptior laudato consilio consensit in pacem ea ratione maxime percita, quod norat expeditionibus crebris fortunam eius in malis tantum civilibus vigilasse, cum autem bella moverentur externa, accidisse plerumque luctuosa, icto post haec foedere gentium ritu perfectaque sollemnitate imperator Mediolanum ad hiberna discessit.";
+
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('subscription', 'activate');
+        $layout
+            ->setContentFor('base', 'email_title', __('Email') . ' - ' . __('Render Test'))
+            ->setContentFor('content_email', 'app_name', __('Test App'))
+            ->setContentFor('content_email', 'platform_name', $platformName)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', true)
+        ;
+
+        $content = $layout->render();
+
+        die($content);
     }
 
 }
