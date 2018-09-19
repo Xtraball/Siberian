@@ -263,12 +263,12 @@ class Cron
         }
 
         // Clean-up failed push!
-        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+        $now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
 
         /**
-         * @var $failedPushs Push_Model_Message[]
+         * @var $failedPushs \Push_Model_Message[]
          */
-        $failedPushs = (new Push_Model_Message())->findAll(
+        $failedPushs = (new \Push_Model_Message())->findAll(
             [
                 'status = ?' => 'failed',
                 'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!

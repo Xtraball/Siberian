@@ -1,38 +1,87 @@
-<table>
-    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
-        <td>
-            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Thanks for choosing us!"); ?></p>
-            <p align="justify">
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-            <?php echo $this->_("You are going to love it! Thanks to our effective features, you will be able to create great mobile apps in your name, within minutes."); ?><br />
-            <?php if($email = System_Model_Config::getValueFor("support_email")) : ?>
-            <?php echo $this->_("Do not hesitate to give us your feedback by sharing your needs:"); ?><br />
-                </span>
-            </p>
-            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <?php echo $this->_("Email:"); ?> <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br/>
-            </p>
-            <?php endif; ?>
-            <p align="justify" style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Your credentials"); ?><br>
-                  <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_("Here are your credentials, keep them preciously:"); ?><br />
-                  <?php echo $this->_("Your login:"); ?> <?php echo $this->getAdmin()->getEmail() ?><br />
-                  <?php echo $this->_("Your password:"); ?> <strong><?php echo $this->getPassword() ?></strong>
-                  </span>
-            </p>
-            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $this->_("Ready to create your own apps?"); ?> <a href="<?php echo $this->getUrl('admin/application/list'); ?>" target="_blank"><strong><?php echo $this->_("Log in"); ?></strong></a></p>
-            <?php if($support_url = System_Model_Config::getValueFor("support_link")) : ?>
-            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;"><?php echo $this->_("Need some help?"); ?></p><br />
-            <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <?php echo $this->_("Find some advices here:"); ?><a href="<?php echo $support_url; ?>" target="_blank"><?php echo $this->_("Our support"); ?></a>
-            </span>
-            <br />
-            <?php endif; ?>
-            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><br/>
-                    <?php echo $this->_("Enjoy!"); ?><br/>
-                    <?php echo $this->_("The Support Team"); ?>
-                </span><br/>
-            </p>
+<?php
+$email = __get('support_email');
+$supportLink = __get('support_link');
+?>
+
+<p>
+    <?php echo __('Thanks for working with us!'); ?>
+</p>
+<p style="text-align: justify;">
+    <?php echo __("You are going to love it!<br />Thanks to our effective features, you will be able to create great mobile apps in your name, within minutes."); ?>
+</p>
+<?php if (!empty($email)) : ?>
+<p>
+    <?php echo __("Do not hesitate to give us your feedback by sharing your needs:"); ?><br />
+    <?php echo __("Email:"); ?> <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a>
+</p>
+<?php endif; ?>
+
+<p align="justify">
+    <span>
+        <?php echo __("Login:"); ?> <?php echo $this->getAdmin()->getEmail() ?><br />
+        <?php echo __("Password:"); ?> <strong>**********</strong>
+    </span>
+</p>
+<p>
+    <?php echo __('Ready to create your own apps?'); ?>
+</p>
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       class="btn btn-primary">
+    <tbody>
+    <tr>
+        <td align="left">
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="<?php echo $this->getUrl('admin/application/list'); ?>"
+                           target="_blank">
+                            <?php echo __('Log in') ?>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </td>
     </tr>
+    </tbody>
 </table>
+<?php if (!empty($supportLink)) : ?>
+<p>
+    <?php echo __('Need some help?'); ?><br />
+    <?php echo __('Check out our support pages:'); ?>
+</p>
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       class="btn btn-primary">
+    <tbody>
+    <tr>
+        <td align="left">
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="<?php echo $supportLink; ?>"
+                           target="_blank">
+                            <?php echo __('Support') ?>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<?php endif; ?>
+<p>
+    <?php echo __('Enjoy!'); ?><br />
+    <?php echo __('The Support Team'); ?><br />
+</p>

@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
+    <application_base_layout>
+        <views>
+            <base class="core_view_email_default"
+                  template="application/base/content.phtml" />
+            <header class="core_view_email_default"
+                    template="application/base/header.phtml" />
+            <footer class="core_view_email_default"
+                    template="application/base/footer.phtml" />
+        </views>
+    </application_base_layout>
 
     <base_email>
         <views>
-            <base class="core_view_email_default" template="default/content.phtml" />
-            <header class="core_view_email_default" template="default/header.phtml" />
-            <footer class="core_view_email_default" template="default/footer.phtml" />
+            <base class="core_view_email_default"
+                  template="default/content.phtml" />
+            <header class="core_view_email_default"
+                    template="default/header.phtml" />
+            <footer class="core_view_email_default"
+                    template="default/footer.phtml" />
         </views>
     </base_email>
 

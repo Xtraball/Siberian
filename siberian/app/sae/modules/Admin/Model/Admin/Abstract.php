@@ -219,39 +219,75 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         return $roles;
     }
 
-    public function sendCreationAccountEmail($password) {
+    /**
+     * @param $password
+     * @return $this
+     * @throws Zend_Layout_Exception
+     */
+    public function sendCreationAccountEmail($password = '')
+    {
+        $platformName = __get('platform_name');
 
-        $layout = Zend_Controller_Action_HelperBroker::getStaticHelper('layout')->getLayoutInstance()
-            ->loadEmail('admin', 'create_account');
-        $layout->getPartial('content_email')->setAdmin($this)->setPassword($password);
-        $content = $layout->render();
+        // E-Mail new User!
+        $baseEmail = $this->baseEmail(
+            'create_account',
+            __('Account Created'));
 
-        $sender = System_Model_Config::getValueFor("support_email");
-        $support_name = System_Model_Config::getValueFor("support_name");
+        $baseEmail->setContentFor('content_email', 'admin', $this);
+        $baseEmail->setContentFor('header', 'show_logo', true);
 
-        # @todo SMTP
-        # @version 4.8.7 - SMTP
-        if($sender AND $support_name) {
-            //Mail to new client
-            $mail = new Siberian_Mail();
-            $mail->setBodyHtml($content);
-            $mail->setFrom($sender, $support_name);
-            $mail->addTo($this->getEmail());
-            $mail->setSubject(__("Welcome!"));
-            $mail->send();
+        $content = $baseEmail->render();
 
-            //mail to admin
-            $end_message = System_Model_Config::getValueFor("signup_mode") == "validation" ? " ".__("Connect to your backoffice to validate this account.") : "";
-            $mail = new Siberian_Mail();
-            $mail->setBodyHtml(__("Hello, a new user has registered on your platform : %s.", $this->getEmail()).$end_message);
-            $mail->setFrom($sender, $support_name);
-            $mail->addTo($sender);
-            $mail->setSubject(__("New user registration on your platform"));
-            $mail->send();
-        }
+        $subject = __('Welcome on our Platform %s', $platformName);
+
+        $mail = new \Siberian_Mail();
+        $mail->setBodyHtml($content);
+        $mail->addTo($this->getEmail());
+        $mail->setSubject($subject);
+        $mail->send();
+
+        // E-Mail Platform owner!
+        $baseEmail = $this->baseEmail(
+            'create_for_owner',
+            __('New user Account'));
+
+        $baseEmail->setContentFor('content_email', 'admin', $this);
+        $baseEmail->setContentFor('header', 'show_logo', true);
+
+        $content = $baseEmail->render();
+
+        $subject = __('A user registered on your Platform %s', $platformName);
+
+        $mail = new \Siberian_Mail();
+        $mail->setBodyHtml($content);
+        $mail->ccToSender();
+        $mail->setSubject($subject);
+        $mail->send();
 
         return $this;
 
+    }
+
+    /**
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '')
+    {
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('admin', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', true)
+        ;
+
+        return $layout;
     }
 
     private function _encrypt($password) {

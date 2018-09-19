@@ -80,7 +80,7 @@ class Translation
             $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             if (in_array($extension, ['php', 'phtml', 'csv'])) {
                 $textContent = file_get_contents($file->getPathname());
-                $count = preg_match_all('/((__|->_)\("([!\w\s\d\'<>\/\\\,:;.]+)(",|"\)))/mi', $textContent, $matches);
+                $count = preg_match_all('/((__|->_)\("([!\w\s\d\'<>\/\\\,:;.%]+)(",|"\)))/mi', $textContent, $matches);
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {
@@ -88,7 +88,7 @@ class Translation
                         }
                     }
                 }
-                $count = preg_match_all('/((__|->_)\(\'([!\w\s\d"<>\/\\\,:;.]+)(\',|\'\)))/mi', $textContent, $matches);
+                $count = preg_match_all('/((__|->_)\(\'([!\w\s\d"<>\/\\\,:;.%]+)(\',|\'\)))/mi', $textContent, $matches);
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {
@@ -102,8 +102,8 @@ class Translation
         }
 
         foreach ($extractTranslate as $extract) {
-            if (!in_array($extract, $allKeys)) {
-                echo '"' . $extract . '"' . PHP_EOL;
+            if (!in_array(addcslashes($extract, '"'), $allKeys)) {
+                echo '"' . addcslashes($extract, '"') . '"' . PHP_EOL;
             }
         }
     }

@@ -58,14 +58,14 @@ class Application_Model_ApkQueue extends Core_Model_Default {
                 $backoffice = new Backoffice_Model_User();
                 $backoffice_user = $backoffice->find($this->getUserId());
                 if($backoffice_user->getId()) {
-                    $recipients[] = $backoffice_user;
+                    $recipients[] = $backoffice_user->getEmail();
                 }
                 break;
             case "admin":
                 $admin = new Admin_Model_Admin();
                 $admin_user = $admin->find($this->getUserId());
                 if($admin_user->getId()) {
-                    $recipients[] = $admin_user;
+                    $recipients[] = $admin_user->getEmail();
                 }
                 break;
         }
@@ -79,35 +79,81 @@ class Application_Model_ApkQueue extends Core_Model_Default {
             $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
             $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
 
-            $values = array(
-                "type" => __("Android APK"),
-                "application_name" => $this->getName(),
-                "link" => $url,
-            );
+            $baseEmail = $this->baseEmail(
+                'apk_queue_failed',
+                $application,
+                __('Build succeed'),
+                null);
 
-            # @version 4.8.7 - SMTP
-            $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "apk_queue_success", __("APK generation for App: %s", $application->getName()), $recipients, $values);
+            $baseEmail->setContentFor('content_email', 'link', $url);
+            $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
+
+            $content = $baseEmail->render();
+
+            $subject = sprintf('%s - %s',
+                $application->getName(),
+                __('APK build succeed!'));
+
+            $mail = new \Siberian_Mail();
+            $mail->setBodyHtml($content);
+            $mail->addTo($recipients);
+            $mail->setSubject($subject);
             $mail->send();
 
         } else {
             $this->changeStatus("failed");
             $this->save();
 
-            /** Failed email */
-            $values = array(
-                "type" => __("Android APK"),
-                "application_name" => $this->getName(),
-            );
+            $baseEmail = $this->baseEmail(
+                'apk_queue_failed',
+                $application,
+                __('Build failed'),
+                null);
 
-            # @version 4.8.7 - SMTP
-            $mail = new Siberian_Mail();
-            $mail->simpleEmail("queue", "apk_queue_failed", __("The requested APK generation failed: %s", $application->getName()), $recipients, $values);
+            $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
+
+            $content = $baseEmail->render();
+
+            $subject = sprintf('%s - %s',
+                $application->getName(),
+                __('APK build failed!'));
+
+            $mail = new \Siberian_Mail();
+            $mail->setBodyHtml($content);
+            $mail->addTo($recipients);
+            $mail->setSubject($subject);
             $mail->send();
 
         }
 
         return $result;
+    }
+
+    /**
+     * @param $nodeName
+     * @param $application
+     * @param $title
+     * @param $message
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $application,
+                              $title,
+                              $message)
+    {
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('queue', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', __('APK Generation') . ' - ' . $title)
+
+            ->setContentFor('content_email', 'app_name', $application->getName())
+            ->setContentFor('content_email', 'message', $message)
+
+            ->setContentFor('footer', 'show_legals', false)
+        ;
+
+        return $layout;
     }
 
     /**
