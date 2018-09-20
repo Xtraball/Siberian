@@ -60,7 +60,7 @@ class Application_CustomizationController extends Application_Controller_Default
 
                     $content = $baseEmail->render();
 
-                    $subject = __('New publication request on your platform %s, for the Applicaiton %s.',
+                    $subject = __('New publication request on your platform %s, for the Application %s.',
                         __get('platform_name'),
                         $application->getName());
 
