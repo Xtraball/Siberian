@@ -38,6 +38,20 @@ class Core_Model_Translator
             'locale' => $current_language
         ]);
 
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/default-group1.csv"))) {
+            self::$_translator->addTranslation([
+                'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/default-group1.csv"),
+                'locale' => $current_language
+            ]);
+        }
+
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/default-group2.csv"))) {
+            self::$_translator->addTranslation([
+                'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/default-group2.csv"),
+                'locale' => $current_language
+            ]);
+        }
+
         if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/default.csv"))) {
             self::$_translator->addTranslation([
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/default.csv"),

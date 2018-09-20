@@ -123,19 +123,17 @@ $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
                 <?php endif; ?>
 
                 <?php if ($application->subscriptionIsActive()): ?>
-
                     <?php
                         $subscriptionApp = $application->getSubscription();
                         $subscription = $subscriptionApp->getSubscription();
                     ?>
-
 
                     <div class="form-group">
                         <div class="col-md-12">
                             <?php if ($subscriptionApp->getIsSubscriptionDeleted()): ?>
                                 <div class="alert alert-warning">
                                     <?php echo __('This subscription is cancelled, and will expire by <b>%s</b>.',
-                                        datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATE_SHORT)) ?>
+                                        datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATE_MEDIUM)) ?>
                                     <?php if ($subscriptionApp->getIsSubscriptionDeleted() && !$subscriptionApp->isExpiredOrCancelled()): ?>
                                         <a class="btn color-red"
                                            href="<?php echo $this->getUrl('application/customization/check'); ?>"
@@ -166,13 +164,18 @@ $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
                                         </tr>
                                     <?php endif; ?>
                                     <tr>
-                                        <th><?php echo __('Subscription date') ?></th>
+                                        <th><?php echo __('Subscription date & time') ?></th>
                                         <td><?php echo datetime_to_format($subscriptionApp->getCreatedAt(), Zend_Date::DATETIME_MEDIUM) ?></td>
                                     </tr>
                                     <?php if ($subscriptionApp->getIsSubscriptionDeleted() && !$subscriptionApp->isExpiredOrCancelled()): ?>
                                         <tr class="text-danger">
                                             <th><?php echo __('Expiration date') ?></th>
-                                            <td><?php echo datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATETIME_MEDIUM) ?></td>
+                                            <td><?php echo datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATE_MEDIUM) ?></td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <th><?php echo __('Next payment date') ?></th>
+                                            <td><?php echo datetime_to_format($subscriptionApp->getExpireAt(), Zend_Date::DATE_MEDIUM) ?></td>
                                         </tr>
                                     <?php endif; ?>
                                     <?php if (!$subscriptionApp->isChild()): ?>

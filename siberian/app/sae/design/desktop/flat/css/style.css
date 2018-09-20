@@ -2684,7 +2684,8 @@ input[type=submit]:hover {
     text-align: center !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    border-bottom: 1px solid #8a6d3b !important;
+    /**border-top: 1px solid #e5e5e5 !important;*/
+    border-top: 2px solid #8a6d3b !important;
 }
 
 div#iphone {
@@ -3155,6 +3156,18 @@ div.ui-datepicker-buttonpane .ui-datepicker-close {
 div.ui-datepicker-buttonpane .ui-datepicker-current.ui-state-hover,
 div.ui-datepicker-buttonpane .ui-datepicker-close.ui-state-hover {
     background: #b0b0b0 !important;
+}
+
+li.is_current {
+    border: 1px solid #404040;
+    border-radius: 3px;
+}
+
+.dropdown-menu li.is_current {
+    border-width: 0 0 0 4px;
+    border-style: solid;
+    border-color:  #404040;
+    border-radius: 0;
 }
 
 .ui-widget-header .ui-icon {

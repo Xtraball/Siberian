@@ -1219,29 +1219,81 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param $check_sources_access_type
+     * @param $checkSourcesAccessType
      * @return array
      */
-    public function isAvailableForPublishing($check_sources_access_type)
+    public function isAvailableForPublishing($checkSourcesAccessType)
+    {
+        if ($this->getSplashVersion() == '2') {
+            return $this->isAvailableForPublishingUnified($checkSourcesAccessType);
+        } else {
+            $errors = [];
+            if ($this->getPages()->count() < 1) {
+                $errors[] = __("At least, 1 page in the application");
+            }
+            if (!$this->getData('background_image')) {
+                $errors[] = __("The homepage image");
+            }
+            if (!$this->getStartupImage()) {
+                $errors[] = __("The startup image");
+            }
+            if (!$this->getData('icon')) {
+                $errors[] = __("The desktop icon");
+            }
+            if (!$this->getName()) {
+                $errors[] = __("The application name");
+            }
+            if ($checkSourcesAccessType) {
+                if (!$this->getBundleId()) $errors[] = __("The bundle id");
+            } else {
+                if (!$this->getDescription()) {
+                    $errors[] = __("The description");
+                } else if (strlen($this->getDescription()) < 200) {
+                    $errors[] = __("At least 200 characters in the description");
+                }
+                if (!$this->getKeywords()) {
+                    $errors[] = __("The keywords");
+                }
+                if (!$this->getMainCategoryId()) {
+                    $errors[] = __("The main category");
+                }
+            }
+
+            return $errors;
+        }
+    }
+
+    /**
+     * @param $checkSourcesAccessType
+     * @return array
+     */
+    public function isAvailableForPublishingUnified($checkSourcesAccessType)
     {
         $errors = [];
         if ($this->getPages()->count() < 1) {
             $errors[] = __("At least, 1 page in the application");
         }
-        if (!$this->getData('background_image')) {
+
+        if (!$this->getData('background_image_unified')) {
             $errors[] = __("The homepage image");
         }
-        if (!$this->getStartupImage()) {
-            $errors[] = __("The startup image");
+
+        if (!$this->getData('startup_image_unified')) {
+            $errors[] = __("The homepage image");
         }
+
         if (!$this->getData('icon')) {
             $errors[] = __("The desktop icon");
         }
+
         if (!$this->getName()) {
             $errors[] = __("The application name");
         }
-        if ($check_sources_access_type) {
-            if (!$this->getBundleId()) $errors[] = __("The bundle id");
+
+        if ($checkSourcesAccessType) {
+            if (!$this->getBundleId()) {
+                $errors[] = __("The bundle id");
+            }
         } else {
             if (!$this->getDescription()) {
                 $errors[] = __("The description");

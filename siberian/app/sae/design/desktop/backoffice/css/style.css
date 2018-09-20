@@ -344,8 +344,7 @@ table.sub-table tr.no-border-bottom td { border-bottom: 0; }
 #cron-help { position: fixed;  top: 100px;  width: 900px;  left: 50%;  margin-left: -450px;  z-index: 25000;  }
 #cron-help .modal-title { font-size: 18px; font-weight: bold; }
 
-.development-responsive { z-index: 999; position: fixed; width: 100%; top: 0; left: 0; border: none !important;  padding: 3px !important;  text-align: center !important;  margin: 0 !important; border-radius: 0 !important;  }
-.development-responsive + .top { top: 26px; }
+.development-responsive { z-index: 999; position: fixed; width: 100%; bottom: 0; left: 0; border: none !important;  padding: 3px !important;  text-align: center !important;  margin: 0 !important; border-radius: 0 !important;  }
 
 input.highlight {
     background-color: rgba(0, 0, 255, 0.05);

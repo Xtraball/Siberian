@@ -14,10 +14,12 @@
 
             <div class="col-md-6">
                 <label for="{{ configs.update_channel.code }}">{{ configs.update_channel.label }}</label>
-                <select id="configs.update_channel.code" class="form-control" ng-model="configs.update_channel.value">
+                <select id="configs.update_channel.code"
+                        class="form-control"
+                        ng-model="configs.update_channel.value">
                     <option value="stable"><?php echo __("Stable"); ?></option>
                     <option value="beta"><?php echo __("Beta"); ?></option>
-                    <option value="preview"><?php echo __("Preview 5.0"); ?></option>
+                    <!--option value="preview"><?php echo __("Preview 5.0"); ?></option-->
                 </select>
             </div>
 
@@ -46,43 +48,47 @@
             </div>
         </div>
 
-        <div class="clear">
-            <br />
-            <br />
-        </div>
+        <div ng-show="configs.update_channel.value == 'preview'">
 
-        <div class="form-group">
-
-            <div class="col-md-12" ng-show="configs.update_channel.value == 'preview'">
-                <p class="alert alert-danger">
-                    <?php echo __("<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>.") ?>
-                    <br />
-                    <?php echo __("We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below.") ?>
-                    <br /><br />
-                    <?php echo __("<b>Actual preview version is Siberian 5.0</b>.") ?>
-                </p>
+            <div class="clear">
+                <br />
+                <br />
             </div>
 
-            <div class="col-md-12" ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
-                <p>
-                    <b><?php echo __("Submit a bug report or improvement request for beta/preview") ?>:</b>
-                </p>
+            <div class="form-group">
 
-                <ng-ckeditor name="beta-report"
-                             bind="report.message"
-                             skin="moono"
-                             remove-buttons="Button,HiddenField,ImageButton,Select,Textarea,TextField,Radio,Checkbox,Form"
-                             remove-plugins="print,iframe,flash,smiley,pagebreak,language,scayt,selectall,templates,specialchar"
-                             msn-count="<?php echo __("Number of typed characters:") ?>">
-                </ng-ckeditor>
+                <div class="col-md-12">
+                    <p class="alert alert-danger">
+                        <?php echo __("<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>.") ?>
+                        <br />
+                        <?php echo __("We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below.") ?>
+                        <br /><br />
+                        <?php echo __("<b>Actual preview version is Siberian 5.0</b>.") ?>
+                    </p>
+                </div>
 
-                <p>
-                    <?php echo __("<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots.") ?>
-                </p>
+                <div class="col-md-12" ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
+                    <p>
+                        <b><?php echo __("Submit a bug report or improvement request for beta/preview") ?>:</b>
+                    </p>
 
-                <br />
-                <a class="btn btn-primary right" ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
-                <div class="clear"></div>
+                    <ng-ckeditor name="beta-report"
+                                 bind="report.message"
+                                 skin="moono"
+                                 remove-buttons="Button,HiddenField,ImageButton,Select,Textarea,TextField,Radio,Checkbox,Form"
+                                 remove-plugins="print,iframe,flash,smiley,pagebreak,language,scayt,selectall,templates,specialchar"
+                                 msn-count="<?php echo __("Number of typed characters:") ?>">
+                    </ng-ckeditor>
+
+                    <p>
+                        <?php echo __("<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots.") ?>
+                    </p>
+
+                    <br />
+                    <a class="btn btn-primary right" ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
+                    <div class="clear"></div>
+                </div>
+
             </div>
 
         </div>
