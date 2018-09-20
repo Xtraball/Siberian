@@ -18,12 +18,15 @@ class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
     public function loadAction()
     {
         $payload = [
-            'title' => __('Roles'),
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Users'),
+                __('Roles')
+            ),
             'icon' => 'fa-lock',
         ];
 
         $this->_sendJson($payload);
-
     }
 
     /**

@@ -8,7 +8,10 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
     public function loadAction()
     {
         $payload = [
-            'title' => __('Templates'),
+            'title' => sprintf('%s > %s',
+                __('Manage'),
+                __('Templates')
+            ),
             'icon' => 'fa-picture-o',
         ];
 

@@ -11,8 +11,12 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
     public function loadAction()
     {
         $payload = [
-            "title" => __("Api Users"),
-            "icon" => "fa-users",
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Users'),
+                __('Api Users')
+            ),
+            'icon' => 'fa-users',
         ];
 
         $this->_sendJson($payload);

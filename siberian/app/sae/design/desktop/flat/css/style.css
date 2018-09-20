@@ -2684,8 +2684,11 @@ input[type=submit]:hover {
     text-align: center !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    /**border-top: 1px solid #e5e5e5 !important;*/
     border-top: 2px solid #8a6d3b !important;
+    position: fixed;
+    bottom: 0;
+    z-index: 65500;
+    width: 100%;
 }
 
 div#iphone {

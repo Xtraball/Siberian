@@ -11,7 +11,10 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
     public function loadAction()
     {
         $payload = [
-            "title" => __("Applications"),
+            'title' => sprintf('%s > %s',
+                __('Manage'),
+                __('Applications')
+            ),
             "icon" => "fa-mobile",
             "words" => [
                 "confirmDelete" => __("Yes, Delete!"),
