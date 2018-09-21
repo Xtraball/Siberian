@@ -20,7 +20,7 @@ class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
         $payload = [
             'title' => sprintf('%s > %s > %s',
                 __('Manage'),
-                __('Users'),
+                __('Editor access'),
                 __('Roles')
             ),
             'icon' => 'fa-lock',

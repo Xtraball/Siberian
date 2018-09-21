@@ -6,7 +6,11 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $html = array(
-            "title" => __("User"),
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Editor access'),
+                __('User')
+            ),
             "icon" => "fa-user",
         );
 

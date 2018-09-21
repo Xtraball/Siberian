@@ -1,0 +1,191 @@
+/** Modern theme for Backoffice */
+
+@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i');
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+*,
+button,
+a,
+input,
+select,
+textarea {
+    border-radius: 0 !important;
+}
+
+.top img#logo {
+    height: 35px;
+}
+
+.alert {
+    border-width: 0 0 3px 0 !important;
+}
+
+.top,
+.top .content,
+.backoffice_menu ul.l1 li ul.l2,
+.backoffice_menu ul.l1 li ul.l2 li ul.l3 {
+    background-color: #72b3cb;
+}
+
+.backoffice_menu ul.l1 li a:hover,
+.backoffice_menu ul.l1 li ul.l2 li a:hover,
+.backoffice_menu ul.l1 li ul.l2 li ul.l3 li a:hover {
+    background-color: #8dcee6 !important;
+}
+
+.backoffice_menu ul.l1 li ul.l2 li a,
+.backoffice_menu ul.l1 li ul.l2 li ul.l3 li a {
+    border: 0 !important;
+}
+
+.top {
+    height: 46px;
+}
+
+.top .content {
+    height: 46px;
+}
+
+.backoffice_menu ul.l1 {
+    height: 46px;
+}
+
+.backoffice_menu ul.l1 li a {
+    padding: 12px 14px 12px 14px;
+    font-size: 16px;
+}
+
+::-webkit-search-decoration {
+    display: none;
+}
+
+.message-badge {
+    right: 0;
+    top: 0;
+    padding: 1px 8px 2px 8px;
+}
+
+.top div.message p {
+    background-color: #72b3cb;
+    border-top: 2px solid #8dcee6;
+}
+
+input, select, textarea {
+    border-width: 0 0 2px 0 !important;
+    background-color: #f2f4f5 !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-border-radius: 0 !important;
+}
+
+.btn-primary {
+    background-color: #72b3cb;
+    border: 0;
+}
+
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:hover {
+    background-color: #8dcee6;
+    border: 0;
+    color: white;
+}
+
+.wrapper .content div.area .title {
+    background-color: #8dcee6;
+    border-bottom: 2px solid #71b2ca;
+    color: #f0f0f0;
+    margin-bottom: 0;
+}
+
+.wrapper .content div.area {
+    margin: 0;
+    padding: 0;
+}
+
+.wrapper .content div.area .title h2 {
+    margin-top: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.wrapper .content div.area .content {
+    background-color: #e6e6e6;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.alert {
+    padding: 8px;
+    line-height: 20px;
+}
+
+.backoffice_menu ul.l1 li.has_submenu:hover ul.l2 {
+    top: 46px;
+}
+
+.title_content h1 i {
+    display: none;
+}
+
+.title_content h1 {
+    font-size: 14px;
+    margin: 0;
+}
+
+.wrapper .title {
+    min-height: initial;
+}
+
+.wrapper .title div.title_content {
+    padding: 15px 0;
+}
+
+input[type="file"] {
+    background-color: transparent !important  ;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+    visibility: hidden;
+}
+
+input[type="checkbox"]:before {
+    content: " ";
+    display: block;
+    visibility: visible;
+    width: 16px;
+    height: 16px;
+    background-color: #71b2ca;
+    position: relative;
+    opacity: 1;
+    z-index: 9;
+    top: -3px;
+}
+
+input[type="checkbox"]:checked:after {
+    content: " ";
+    display: block;
+    visibility: visible;
+    width: 10px;
+    height: 5px;
+    transform: rotate(-45deg);
+    border-width: 0 0 2px 2px;
+    border-style: solid;
+    border-color: white;
+    z-index: 10;
+    top: -15px;
+    position: relative;
+    left: 3px;
+}
+
+.wrapper .title button {
+    position: absolute;
+    top: -10px;
+    right: 6px;
+    z-index: 100;
+}

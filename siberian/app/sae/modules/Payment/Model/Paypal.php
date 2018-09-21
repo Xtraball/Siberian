@@ -4,8 +4,10 @@
  * Class Payment_Model_Paypal
  *
  * @method string getToken()
+ * @method $this setToken(string $token)
  */
-class Payment_Model_Paypal extends Payment_Model_Abstract {
+class Payment_Model_Paypal extends Payment_Model_Abstract
+{
 
     /**
      * Paypal methods definition
@@ -108,7 +110,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param bool $signature
      * @throws Exception
      */
-    public function __construct($user = false, $pwd = false, $signature = false, $isTesting = false) {
+    public function __construct($user = false, $pwd = false, $signature = false, $isTesting = false)
+    {
         parent::__construct([]);
 
         $this->_code = 'paypal';
@@ -157,8 +160,9 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $params
      * @return array|bool
      */
-    public function request($method, $params) {
-        
+    public function request($method, $params)
+    {
+
         $logger = Zend_Registry::get('logger');
 
         if (!$this->_isValid()) {
@@ -196,16 +200,17 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             $this->_params = $params;
             curl_close($curl);
             $logger->log('CURL error n° ' . print_r($this->_errors, true) .
-                ' - response: '. print_r($response, true),
+                ' - response: ' . print_r($response, true),
                 Zend_Log::DEBUG);
-        
+
             return false;
         } else {
             if ($responseArray['ACK'] === 'Success') {
                 curl_close($curl);
 
-                if(!empty($responseArray['TOKEN']) && $token = $responseArray['TOKEN']) {
+                if (!empty($responseArray['TOKEN']) && $token = $responseArray['TOKEN']) {
                     $this->__pay_url = $this->__paypal_url . $responseArray['TOKEN'];
+                    $this->_response = $responseArray;
                 } else {
                     $this->_response = $responseArray;
                 }
@@ -225,7 +230,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @return bool|string
      * @override
      */
-    public function getUrl() {
+    public function getUrl()
+    {
         $logger = Zend_Registry::get('logger');
         if (!$this->_isValid()) {
             return false;
@@ -257,7 +263,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
         }
 
         // Sum of costs of all items in this order!
-        $tmpTotal = round($totalPriceExcludeTax , 2);
+        $tmpTotal = round($totalPriceExcludeTax, 2);
         if ($order->getTip()) {
             $tmpTotal += $order->getTip();
         }
@@ -281,7 +287,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
 
         // Sum of tax for all items in this order
         $params['PAYMENTREQUEST_0_TAXAMT'] = round($totalTax, 2);
-        
+
         // Total of order, including shipping, handling, tax, and any other billing adjustments such as a credit due
         $params['PAYMENTREQUEST_0_AMT'] = round($totalPrice, 2);
 
@@ -299,7 +305,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return bool
      */
-    public function pay() {
+    public function pay()
+    {
         $token = $this->getToken();
         $paymentIsOk = $this->process($token);
 
@@ -314,18 +321,22 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $token
      * @return bool
      */
-    public function process($token) {
+    public function process($token)
+    {
         if (!$this->_isValid()) {
             return false;
         }
 
-        if (!$token){
+        if (!$token) {
             Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
         }
-        
+
         $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, [
             'TOKEN' => $token
         ]);
+
+        dbg("first response");
+        dbg($response);
 
         $logger = Zend_Registry::get('logger');
         $logger->debug(print_r($response, true));
@@ -336,6 +347,10 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             }
 
             $response = $this->request(self::DO_EXPRESS_CHECKOUT_PAYMENT, $response);
+
+            dbg("last response");
+            dbg($response);
+
             if ($response) {
                 return true;
             } else {
@@ -350,7 +365,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $token
      * @return bool
      */
-    public function createRecurring($token) {
+    public function createRecurring($token)
+    {
         $params = [];
         $order = $this->getOrder();
         $lines = $order->getLines();
@@ -377,6 +393,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
         }
 
         if (!empty($params)) {
+            dbg('shitty');
+
             $frequency = $this->_order->getSubscription()->getPaymentFrequency();
             $date = $this->getNextPaymentDue($frequency);
 
@@ -402,7 +420,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return bool
      */
-    public function manageRecurring() {
+    public function manageRecurring()
+    {
         if (!$this->getData('is_active')) {
             $paypalRecurringAction = 'SUSPEND';
         } else {
@@ -488,7 +507,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @return array
      * @throws Exception
      */
-    public function getPaymentData($order){
+    public function getPaymentData($order)
+    {
         $returnUrl = parent::getUrl('subscription/application/success', [
             'order_id' => $order->getId(),
             'payment_method' => 'paypal'
@@ -502,7 +522,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             ->setCancelUrl($cancelUrl);
 
         // Redirect to Paypal here
-        if(!$paypalUrl = $this->getUrl()) {
+        if (!$paypalUrl = $this->getUrl()) {
             $errors = $this->getErrors();
             $message = __('An error occurred while processing your payment.');
             if (is_array($errors) && !empty($errors['L_LONGMESSAGE0'])) {
@@ -511,7 +531,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             // Really strange log!
             Zend_Registry::get('logger')
                 ->sendException('Error when retrieving the Paypal URL:' . PHP_EOL .
-                    print_r($this->getErrors(), true). PHP_EOL .
+                    print_r($this->getErrors(), true) . PHP_EOL .
                     'And params:' . print_r($this->getParams(), true),
                     'paypal_error_', false);
 
@@ -526,20 +546,27 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return array|bool
      */
-    public function success () {
+    public function success()
+    {
         try {
             if ($order = $this->getOrder()) {
                 if ($token = $this->getToken()) {
                     if (!$order->getId()) {
-                        throw new Siberian_Exception(__('An error occurred while processing your order. Please, try again later.'));
+                        throw new \Siberian\Exception(__('An error occurred while processing your order. Please, try again later.'));
                     }
 
-                    $paymentIsOk = $this->setToken($token)
+                    $paymentIsOk = $this
+                        ->setToken($token)
                         ->setOrder($order)
                         ->pay();
 
+                    dbg('$paymentIsOk');
+                    dbg($paymentIsOk);
+
                     if ($paymentIsOk) {
                         $response = $this->getResponse();
+                        dbg($response);
+
                         $data = [
                             'payment_data' => [
                                 'profile_id' => !empty($response['PROFILEID']) ?
@@ -551,15 +578,15 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
                         ];
                         return $data;
                     } else {
-                        throw new Siberian_Exception(__('An error occurred while processing the payment. For more information, please feel free to contact us.'));
+                        throw new \Siberian\Exception(__('An error occurred while processing the payment. For more information, please feel free to contact us.'));
                     }
                 } else {
-                    throw new Siberian_Exception(__("An error occurred while processing your order. Please, try again later."));
+                    throw new \Siberian\Exception(__("An error occurred while processing your order. Please, try again later."));
                 }
             } else {
                 return false;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->getSession()->addError($e->getMessage());
             return false;
         }
@@ -568,7 +595,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return bool
      */
-    public function cancel() {
+    public function cancel()
+    {
         try {
             if ($orderId = $this->getSession()->order_id) {
                 $order = new Sales_Model_Order();
@@ -583,12 +611,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
                 $this->getSession()->addWarning(__('Your order has been canceled. If you need any help to place your order, please feel free to contact us.'));
                 $this->getSession()->order_id = null;
                 $this->getSession()->subscription_id = null;
-                
+
                 return true;
             } else {
                 return false;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->getSession()->addError($e->getMessage());
             return false;
         }
@@ -598,22 +626,23 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param string|null $period
      * @return string{'Year', 'Month', 'SemiMonth', 'Week', 'Day'}
      */
-    public function getPeriod($period = null){
-        switch($period) {
+    public function getPeriod($period = null)
+    {
+        switch ($period) {
             case 'Yearly'  :
-                return 'Year' ;
+                return 'Year';
                 break;
             case 'Monthly'  :
-                return 'Month' ;
+                return 'Month';
                 break;
             case 'SemiMonthly'  :
-                return 'SemiMonth' ;
+                return 'SemiMonth';
                 break;
             case 'Weekly'  :
-                return 'Week' ;
+                return 'Week';
                 break;
             default :
-                return 'Day' ;
+                return 'Day';
                 break;
         }
     }
@@ -622,11 +651,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $period
      * @return string
      */
-    public function getNextPaymentDue($period) {
+    public function getNextPaymentDue($period)
+    {
 
         $date = Zend_Date::now();
 
-        switch($period) {
+        switch ($period) {
             case 'Yearly' :
                 $date->addYear(1);
                 break;
@@ -650,21 +680,24 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return array
      */
-    public function getParams() {
+    public function getParams()
+    {
         return $this->_params;
     }
 
     /**
      * @return array
      */
-    public function getResponse() {
+    public function getResponse()
+    {
         return $this->_response;
     }
 
     /**
      * @return array
      */
-    public function getErrors() {
+    public function getErrors()
+    {
         return $this->_errors;
     }
 
@@ -672,7 +705,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param Mcommerce_Model_Cart $cart
      * @return $this
      */
-    public function setCart(Mcommerce_Model_Cart $cart) {
+    public function setCart(Mcommerce_Model_Cart $cart)
+    {
         $this->_cart = $cart;
         return $this;
     }
@@ -680,7 +714,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return Mcommerce_Model_Cart
      */
-    public function getCart() {
+    public function getCart()
+    {
         return $this->_cart;
     }
 
@@ -688,7 +723,9 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param Mcommerce_Model_Order $order
      * @return $this
      */
-    public function setOrder(/**Mcommerce_Model_Order */$order) {
+    public function setOrder(/**Mcommerce_Model_Order */
+        $order)
+    {
         $this->_order = $order;
         return $this;
     }
@@ -696,7 +733,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return Mcommerce_Model_Order
      */
-    public function getOrder() {
+    public function getOrder()
+    {
         return $this->_order;
     }
 
@@ -704,7 +742,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param Subscription_Model_Subscription $subscription
      * @return $this
      */
-    public function setSubscription(Subscription_Model_Subscription $subscription) {
+    public function setSubscription(Subscription_Model_Subscription $subscription)
+    {
         $this->_subscription = $subscription;
         return $this;
     }
@@ -712,14 +751,16 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return Subscription_Model_Subscription
      */
-    public function getSubscription() {
+    public function getSubscription()
+    {
         return $this->_subscription;
     }
 
     /**
      * @return string
      */
-    public function getReturnUrl() {
+    public function getReturnUrl()
+    {
         return $this->_return_url;
     }
 
@@ -727,7 +768,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $url
      * @return $this
      */
-    public function setReturnUrl($url) {
+    public function setReturnUrl($url)
+    {
         $this->_return_url = $url;
         return $this;
     }
@@ -735,7 +777,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return string
      */
-    public function getCancelUrl() {
+    public function getCancelUrl()
+    {
         return $this->_cancel_url;
     }
 
@@ -743,7 +786,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $url
      * @return $this
      */
-    public function setCancelUrl($url) {
+    public function setCancelUrl($url)
+    {
         $this->_cancel_url = $url;
         return $this;
     }
@@ -751,7 +795,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
     /**
      * @return bool
      */
-    protected function _isValid() {
+    protected function _isValid()
+    {
         return !empty($this->__user) && !empty($this->__pwd) && !empty($this->__signature);
     }
 
@@ -763,7 +808,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @throws Zend_Date_Exception
      * @throws Zend_Exception
      */
-    public static function checkRecurrencies(Siberian_Cron $cronInstance, Subscription_Model_Subscription_Application $subscription) {
+    public static function checkRecurrencies(Siberian_Cron $cronInstance, Subscription_Model_Subscription_Application $subscription)
+    {
 
         $subscription->refetchDetails();
         $saleModel = new Sales_Model_Invoice();
@@ -780,8 +826,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             ]
         );
         if ($cronInstance) {
-            $cronInstance->log('('.$subscription->getProfileId().') '.
-                "status:".
+            $cronInstance->log('(' . $subscription->getProfileId() . ') ' .
+                "status:" .
                 (array_key_exists('STATUS', $response) ? $response['STATUS'] : 'unknow')
             );
         }
@@ -797,7 +843,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             intval($response['OUTSTANDINGBALANCE']) === 0) {
 
             if ($cronInstance) {
-                $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is active");
+                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is active");
             }
 
             $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
@@ -808,8 +854,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
             $checkingInvoiceDate = clone $profileStartDate;
             $frequency = $subscription->getSubscription()->getPaymentFrequency();
 
-            while($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
-                switch($frequency) {
+            while ($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
+                switch ($frequency) {
                     case 'Monthly':
                         if (!$saleModel->isInvoiceExistsForMonth(
                             $subscription->getAppId(), $checkingInvoiceDate
@@ -820,7 +866,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
                             // and we don't want to dupplicated fixed invoices
                             if (!$checkingInvoiceDate->isEarlier($year2018)) {
                                 if ($cronInstance) {
-                                    $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub monthly) for date ".$checkingInvoiceDate);
+                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
                                 }
                                 $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                             }
@@ -837,7 +883,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
                             // and we don't want to dupplicated fixed invoices
                             if (!$checkingInvoiceDate->isEarlier($year2018)) {
                                 if ($cronInstance) {
-                                    $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub yearly) for date ".$checkingInvoiceDate);
+                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
                                 }
                                 $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                             }
@@ -845,7 +891,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
                         $checkingInvoiceDate->addYear(1);
                         break;
                     default:
-                        throw new Exception('Error: unknow subscription payment frequency for subscription:'.$subscription->getId());
+                        throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
                 }
             }
             // Payment (re-)activated!
@@ -866,7 +912,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
         } else {
             // Payment suspended!
             if ($cronInstance) {
-                $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive or cancelled");
+                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is inactive or cancelled");
             }
             $subscription->cancelCron();
             $subscription->cronCancelEmail(__('Your subscription was automatically cancelled.'));
@@ -877,7 +923,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract {
      * @param $code
      * @return bool|stdClass
      */
-    public function getSubscriptionInfo($code) {
+    public function getSubscriptionInfo($code)
+    {
         $response = $this->request(
             self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS,
             ['PROFILEID' => $code]);

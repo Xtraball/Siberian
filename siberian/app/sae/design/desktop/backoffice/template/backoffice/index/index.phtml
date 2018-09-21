@@ -39,7 +39,25 @@
 </div>
 
 <div class="col-xs-12 col-md-6">
-    <sb-section title="'<?php echo __js("Services", "'"); ?>'" button="button">
+    <sb-section title="'<?php echo __("Statistics"); ?>'"
+                button="button">
+        <canvas
+                id="line"
+                class="chart chart-bar"
+                height="420"
+                width="1040"
+                chart-data="graphData"
+                chart-labels="graphLabels"
+                chart-options="graphOptions"
+                chart-series="graphSeries"
+                chart-dataset-override="graphDatasetOverride"
+        </canvas>
+    </sb-section>
+</div>
+
+<div class="col-xs-12 col-md-6">
+    <sb-section title="'<?php echo __js("Services", "'"); ?>'"
+                button="button">
         <table class="table table dashboard no-wrap">
             <col width="32px" />
             <col width="180px" />
@@ -332,24 +350,6 @@
         </table>
     </sb-section>
 </div>
-
-
-<div class="clear col-xs-12 col-md-offset-3 col-md-6">
-    <sb-section title="'<?php echo __("Statistics"); ?>'" button="button">
-        <canvas
-            id="line"
-            class="chart chart-bar"
-            height="420"
-            width="1040"
-            chart-data="graphData"
-            chart-labels="graphLabels"
-            chart-options="graphOptions"
-            chart-series="graphSeries"
-            chart-dataset-override="graphDatasetOverride"
-        </canvas>
-    </sb-section>
-</div>
-
 
 <div class="col-xs-12 col-md-6">
 

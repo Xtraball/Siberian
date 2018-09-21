@@ -11,7 +11,11 @@ class Acl_Backoffice_Role_EditController extends Backoffice_Controller_Default
     public function loadAction()
     {
         $payload = [
-            'title' => __('Role'),
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Editor access'),
+                __('Role')
+            ),
             'icon' => 'fa-lock',
         ];
 

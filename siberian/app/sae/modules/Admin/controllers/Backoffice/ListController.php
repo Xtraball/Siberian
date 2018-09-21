@@ -10,7 +10,7 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
         $payload = [
             'title' => sprintf('%s > %s > %s',
                 __('Manage'),
-                __('Users'),
+                __('Editor access'),
                 __('Users')
             ),
             'icon' => 'fa-users',

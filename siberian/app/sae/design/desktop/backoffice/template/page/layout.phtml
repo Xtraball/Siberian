@@ -19,6 +19,18 @@
         <?php if(stripos($base_url, "/") !== 0) $base_url = "/$base_url"; ?>
         <base href="<?php echo $base_url; ?>" />
 
+        <?php
+            $backofficeTheme = __get('backoffice_theme');
+            switch ($backofficeTheme) {
+                case 'modern':
+                        echo '<link href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=' . Siberian_Version::VERSION . '" 
+                                    media="all" 
+                                    rel="stylesheet" 
+                                    type="text/css" />';
+                    break;
+            }
+        ?>
+
         <?php echo Siberian_Debug::renderHead(); ?>
     </head>
     <body class="<?php echo $this->default_class_name ?> general">

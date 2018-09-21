@@ -23,20 +23,17 @@
                 </select>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <br />
                 <p class="alert alert-info">
                     <b><?php echo __('Production') ?></b>:
                     <?php echo __('The default setting to run your production server.') ?>
                 </p>
-            </div>
-            <div class="col-md-12">
                 <p class="alert alert-danger">
                     <b><?php echo __('Development') ?></b>:
                     <?php echo __('Errors are displayed on page, outputs are more verbose, this is an option for debug purpose, use with care as it may output some critical informations about your server.') ?>
                 </p>
             </div>
-
 
         </div>
 
@@ -144,7 +141,7 @@
             <div class="col-md-12">
                 <button type="submit"
                         ng-click="migrate_sessions($event)"
-                        class="btn btn-primary left">
+                        class="btn btn-primary right">
                     <i class="fa fa-medkit"></i> <?php echo __("Migrate sessions"); ?>
                 </button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
@@ -286,7 +283,9 @@
                 <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
 
                 <div ng-show="configs.certificates.length">
-                    <a class="btn btn-primary right" ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
+                    <a class="btn btn-primary right"
+                       style="margin-right: 15px;"
+                       ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
                 </div>
 
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
@@ -377,15 +376,13 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-plus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="!show_upload" ng-click="show_upload = !show_upload">
-    </sb-section>
+    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?>'"
+                class="cert-upload" >
 
-    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-minus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="show_upload" ng-click="show_upload = !show_upload">
-    </sb-section>
 
-    <div class="cert-upload area ng-isolate-scope" ng-show="show_upload" style="margin-top: -100px;">
+    <div class="cert-upload ng-isolate-scope">
 
-        <form ng-submit="createCertificate()" ng-show="show_upload" class="form-horizontal">
+        <form ng-submit="createCertificate()" class="form-horizontal">
             <br />
 
             <div class="form-group">
@@ -645,20 +642,14 @@
         </form>
     </div>
 
+    </sb-section>
+
 <div class="clear"></div>
 
 <style type="text/css">
     .well.drop-zone {
         height: 80px;
         border: dotted 3px lightgray;
-    }
-
-    .cert-upload {
-        cursor: pointer;
-    }
-
-    .cert-upload i.fa {
-        margin-left: 10px;
     }
 
     .loader.content_loader {

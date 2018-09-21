@@ -111,13 +111,15 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-12 text-right">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <button type="submit" class="btn btn-primary"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
+
+        <div style="clear:both;"></div>
     </form>
 
 </sb-section>
@@ -171,4 +173,6 @@
             url="'<?php echo $this->getUrl("/application/backoffice_list/findbyadmin") ?>'"
             url-params="urlParams">
     </bgf-pagination>
+
+    <div style="clear:both;"></div>
 </sb-section>

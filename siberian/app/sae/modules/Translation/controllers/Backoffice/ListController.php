@@ -9,7 +9,9 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
      */
     public function loadAction() {
         $payload = [
-            'title' => __('Translations'),
+            'title' => sprintf('%s > %s',
+                __('Settings'),
+                __('Translations')),
             'icon' => 'fa-language',
         ];
 
