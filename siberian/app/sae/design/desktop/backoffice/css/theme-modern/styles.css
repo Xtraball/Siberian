@@ -68,6 +68,12 @@ textarea {
     padding: 1px 8px 2px 8px;
 }
 
+.subtitle h4 {
+    border-bottom: 2px solid #808080;
+    margin-bottom: 15px;
+    padding: 6px;
+}
+
 .top div.message p {
     background-color: #72b3cb;
     border-top: 2px solid #8dcee6;

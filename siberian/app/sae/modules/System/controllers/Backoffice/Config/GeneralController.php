@@ -59,7 +59,9 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
     public function loadAction()
     {
         $payload = [
-            'title' => __('General'),
+            'title' => sprintf('%s > %s',
+                __('Settings'),
+                __('General')),
             'icon' => 'fa-home',
         ];
 

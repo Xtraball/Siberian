@@ -647,7 +647,7 @@ a.link, button.as-link {
     width: 99%;
     min-width: 1250px;
     height: 60px;
-    margin: 0px auto auto;
+    margin: 0 auto auto;
     background-color: #404040;
     z-index: 2;
 }
@@ -670,10 +670,16 @@ a.link, button.as-link {
     padding: 10px 20px;
     background-color: #404040;
     color: white;
-    border-radius: 0px 0px 5px 5px;
+    border-radius: 0 0 5px 5px;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
+}
+
+.subtitle h4 {
+    border-bottom: 2px solid #808080;
+    margin-bottom: 15px;
+    padding: 6px;
 }
 
 .top div.message.error p {

@@ -9,6 +9,7 @@
                 <js>
                     <angular link="js/angular.min.js" />
                     <angular_scripts folder="js/angular" />
+                    <textangular folder="js/libraries/text-angular" />
                     <app link="js/app.js" />
                     <controllers folder="js/controllers" />
                     <factories folder="js/factories" />
@@ -34,6 +35,7 @@
                     <datetimepicker link="css/datetimepicker.css" />
                     <icofont link="css/icofont/css/icofont.css" />
                     <sweetalert link="css/sweetalert.css" />
+                    <textangular folder="css/text-angular" />
                 </css>
             </scripts>
             <metas>
