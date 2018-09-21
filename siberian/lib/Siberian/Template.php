@@ -58,17 +58,25 @@ class Template
     public static function categories ($categories = ['Default'])
     {
         // Create new categories
-        foreach ($categories as $category) {
+        foreach ($categories as $categoryName) {
             $categoryData = [
-                'original_name' => $category,
-                'code' => preg_replace('/[&\s]+/', "_", strtolower($category))
+                'original_name' => $categoryName,
+                'code' => preg_replace('/[&\s]+/', "_", strtolower($categoryName))
             ];
 
-            $category = (new \Template_Model_Category())
+            $categoryModel = (new \Template_Model_Category())
                 ->find($categoryData['code'], 'code');
 
-            $category
-                ->setData($categoryData)
+            if ($categoryModel->getId()) {
+                $name = trim($categoryModel->getName());
+                if (empty($name)) {
+                    $categoryModel->setName($categoryName);
+                }
+            }
+
+            $categoryModel
+                ->setOriginalName($categoryData['original_name'])
+                ->setCode($categoryData['code'])
                 ->save();
         }
     }

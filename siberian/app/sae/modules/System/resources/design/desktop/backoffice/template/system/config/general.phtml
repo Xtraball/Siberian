@@ -70,7 +70,11 @@ $host = $this->getRequest()->getHttpHost();
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.company_address.code }}">{{ configs.company_address.label }}</label>
-                <textarea rows="3" id="{{ configs.company_address.code }}" ng-model="configs.company_address.value" class="form-control" placeholder="{{ configs.company_address.label }}"></textarea>
+                <textarea rows="3"
+                          id="{{ configs.company_address.code }}"
+                          ng-model="configs.company_address.value"
+                          class="form-control"
+                          placeholder="{{ configs.company_address.label }}"></textarea>
             </div>
             <div class="col-md-6">
                 <label for="{{ configs.company_country.code }}">{{ configs.company_country.label }}</label>
@@ -365,7 +369,7 @@ $host = $this->getRequest()->getHttpHost();
 
          <div class="form-group">
              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>

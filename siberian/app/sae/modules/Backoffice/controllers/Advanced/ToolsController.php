@@ -206,7 +206,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $message = "Mox dicta finierat, multitudo omnis ad, quae imperator voluit, promptior laudato consilio consensit in pacem ea ratione maxime percita, quod norat expeditionibus crebris fortunam eius in malis tantum civilibus vigilasse, cum autem bella moverentur externa, accidisse plerumque luctuosa, icto post haec foedere gentium ritu perfectaque sollemnitate imperator Mediolanum ad hiberna discessit.";
 
         $layout = new \Siberian_Layout();
-        $layout = $layout->loadEmail('subscription', 'activate');
+        $layout = $layout->loadEmail('test', 'test');
         $layout
             ->setContentFor('base', 'email_title', __('Email') . ' - ' . __('Render Test'))
             ->setContentFor('content_email', 'app_name', __('Test App'))

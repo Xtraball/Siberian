@@ -91,7 +91,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
     <chcp>
-        <config-file url="PLATFORM_URL" />
+        <config-file url="https://anders.xtraball.com/var/apps/ionic/android/app/src/main/assets/www/chcp.json" />
         <native-interface version="8" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />

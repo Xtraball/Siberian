@@ -334,10 +334,6 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
         $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, [
             'TOKEN' => $token
         ]);
-
-        dbg("first response");
-        dbg($response);
-
         $logger = Zend_Registry::get('logger');
         $logger->debug(print_r($response, true));
 
@@ -347,9 +343,6 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             }
 
             $response = $this->request(self::DO_EXPRESS_CHECKOUT_PAYMENT, $response);
-
-            dbg("last response");
-            dbg($response);
 
             if ($response) {
                 return true;
@@ -393,8 +386,6 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
         }
 
         if (!empty($params)) {
-            dbg('shitty');
-
             $frequency = $this->_order->getSubscription()->getPaymentFrequency();
             $date = $this->getNextPaymentDue($frequency);
 
@@ -560,12 +551,8 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                         ->setOrder($order)
                         ->pay();
 
-                    dbg('$paymentIsOk');
-                    dbg($paymentIsOk);
-
                     if ($paymentIsOk) {
                         $response = $this->getResponse();
-                        dbg($response);
 
                         $data = [
                             'payment_data' => [

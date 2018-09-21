@@ -189,6 +189,40 @@ input[type="checkbox"]:checked:after {
     left: 3px;
 }
 
+input[type="radio"] {
+    margin-right: 10px;
+    visibility: hidden;
+}
+
+input[type="radio"]:before {
+    content: " ";
+    display: block;
+    visibility: visible;
+    width: 16px;
+    height: 16px;
+    background-color: #71b2ca;
+    position: relative;
+    opacity: 1;
+    z-index: 9;
+    top: -3px;
+    border-radius: 10px !important;
+}
+
+input[type="radio"]:checked:after {
+    content: " ";
+    display: block;
+    visibility: visible;
+    width: 8px;
+    height: 8px;
+    background: white;
+    z-index: 10;
+    top: -15px;
+    position: relative;
+    left: 4px;
+    border-radius: 10px !important;
+}
+
+
 .wrapper .title button {
     position: absolute;
     top: -10px;
