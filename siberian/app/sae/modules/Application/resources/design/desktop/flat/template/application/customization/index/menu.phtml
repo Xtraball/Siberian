@@ -2,7 +2,7 @@
 $level1 = $this->getCurrentMenu();
 $level2 = $this->getCurrentSubmenu();
 
-$publication_type = System_Model_Config::getValueFor("system_publication_access_type");
+$publication_type = __get('system_publication_access_type');
 $publish_type = $this->getAdmin()->getPublicationAccessType() ?
     $this->getAdmin()->getPublicationAccessType() : $publication_type;
 
@@ -17,15 +17,18 @@ if ($has_previewer && method_exists("Previewer_Model_Previewer", "getInstance"))
  */
 $application = $this->getApplication();
 
-$expiredSubscriptions = (new Subscription_Model_Subscription_Application())
-    ->findAll([
-        'is_subscription_deleted = ?' => 1,
-        'is_active = ?' => 0,
-        'app_id = ?' => $application->getId(),
-    ],
-    [
-        'subscription_app_id DESC',
-    ]);
+if (Siberian_Version::is('PE')) {
+    $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
+        ->findAll([
+            'is_subscription_deleted = ?' => 1,
+            'is_active = ?' => 0,
+            'app_id = ?' => $application->getId(),
+        ],
+            [
+                'subscription_app_id DESC',
+            ]);
+}
+
 
 ?>
     <div class="menu_steps">
@@ -103,6 +106,8 @@ $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
     $application->canBePublished()) : ?>
 
     <div class="container-fluid">
+
+        <?php if (Siberian_Version::is('PE')): ?>
         <div id="sb-tour-section-general-source"
              class="content sb-tour">
             <h3 class="title-editor border-green text-center">
@@ -292,6 +297,7 @@ $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
             </div>
             <?php endif; ?>
         </div>
+        <?php endif; ?>
     </div>
 <?php endif; ?>
 

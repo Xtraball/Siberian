@@ -640,6 +640,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                             var li = createElementFromHTML(datas.page_html);
                             li = $(li);
+
+                            var a = li.children('a');
+
                             $('#option_value_customer_account').before(li);
                             this.close();
                             preview.close(true);

@@ -1,127 +1,379 @@
-<?php $current_link = $this->getCurrentLink(); ?>
-<?php $editor = $this->getAdmin()->getWhiteLabelEditor(); ?>
-<?php if (APPLICATION_ENV !== 'production'): ?>
-    <div class="alert alert-warning development-responsive">
-        <i class="fa fa-exclamation-triangle"></i>
-        <span>
-            <?php echo __('You current working environment is'); ?>&nbsp;
-        </span>
-        <b><?php echo __('Development') ?></b>, <?php echo __('be careful or set it back to') ?><b>&nbsp;<?php echo __('Production') ?></b>
-    </div>
-<?php endif; ?>
+<?php
+$current = $this->getCurrentLink();
+$editor = $this->getAdmin()->getWhiteLabelEditor();
+$request = $this->getRequest();
+$session = $this->getSession();
+
+$supportLink = __get('support_link');
+if (Siberian::$whitelabel) {
+    $supportLink = Siberian::$whitelabel->getSupportLink();
+}
+
+if (empty($supportLink)) {
+    $supportLink = false;
+}
+
+// Awesome menu
+$editorTree = [
+    'dashboard' => [
+        'hasChilds' => false,
+        'isVisible' => true,
+        'label' => __('Dashboard'),
+        'id' => 'sb-tour-dashboard',
+        'is_current' => 'app_list' === $current,
+        'url' => $this->getUrl('/'),
+        'icon' => 'fa fa-tachometer',
+    ],
+    'push_global' => [
+        'hasChilds' => false,
+        'isVisible' => $this->_canAccess('push_admin_global'),
+        'label' => __('Push notifications'),
+        'id' => 'sb-tour-global-push',
+        'is_current' => 'push_global' === $current,
+        'url' => $this->getUrl('push/admin/global'),
+        'icon' => 'fa fa-bullhorn',
+    ],
+    'whitelabel' => [
+        'hasChilds' => true,
+        'isVisible' => ($this->isPe() && $this->_canAccessWhiteLabelEditor()),
+        'label' => __('White Label'),
+        'id' => 'sb-tour-whitelabel',
+        'icon' => 'fa fa-tags',
+        'childs' => [
+            'settings' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Settings'),
+                'url' => $this->getUrl('whitelabel/editor/index'),
+                'is_current' => 'white_label_editor' === $current,
+            ],
+            'activity' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Activity'),
+                'url' => $this->getUrl('whitelabel/editor/activity'),
+                'is_current' => 'white_label_activity' === $current,
+            ],
+        ],
+        'is_current' => in_array($current, ['white_label_activity', 'white_label_editor']),
+    ],
+    'profile' => [
+        'hasChilds' => true,
+        'isVisible' => true,
+        'label' => __('Profile'),
+        'id' => 'sb-tour-profile',
+        'icon' => 'fa fa-user',
+        'childs' => [
+            'my_account' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Account Settings'),
+                'url' => $this->getUrl('admin/account/edit'),
+                'is_current' => 'my_account' === $current,
+            ],
+            'access_management' => [
+                'hasChilds' => false,
+                'isVisible' => !$request->isWhiteLabelEditor() && $this->_canAccess('admin_access_management'),
+                'label' => __('Access Management'),
+                'url' => $this->getUrl('admin/access_management/list'),
+                'is_current' => 'access_management' === $current,
+            ],
+            'subscriptions' => [
+                'hasChilds' => false,
+                'isVisible' => !$request->isWhiteLabelEditor() && $this->_canAccessSubscription(),
+                'label' => __('Subscriptions'),
+                'url' => $this->getUrl('sales/admin_subscription/list'),
+                'is_current' => 'my_subscriptions' === $current,
+            ],
+            'invoices' => [
+                'hasChilds' => false,
+                'isVisible' => !$request->isWhiteLabelEditor() && $this->_canAccessInvoice(),
+                'label' => __('Invoices'),
+                'url' => $this->getUrl('sales/admin_invoice/list'),
+                'is_current' => 'my_invoices' === $current,
+            ],
+            'manage_tour' => [
+                'hasChilds' => false,
+                'isVisible' => $session->getAdmin()->isAllowedToManageTour(),
+                'label' => __('Invoices'),
+                'extra' => 'onclick="sbTour.switchTourEdition()"',
+                'is_current' => false,
+            ],
+            'profile_divider' => [
+                'isVisible' => true,
+                'divider' => true,
+                'is_current' => false,
+            ],
+            'logout' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Log-out'),
+                'url' => $this->getUrl('admin/account/logout'),
+                'is_current' => false,
+            ],
+        ],
+        'is_current' => in_array($current, ['my_invoices', 'my_subscriptions', 'access_management', 'my_account']),
+    ],
+    'support_link' => [
+        'hasChilds' => false,
+        'isVisible' => $this->_canAccess('support') && $supportLink,
+        'label' => __('Support'),
+        'id' => 'sb-tour-support',
+        'url' => $supportLink,
+        'icon' => 'fa fa-medkit',
+    ],
+];
+
+$editorTree = \Siberian\Hook::trigger('editor.header.menu.ready', $editorTree);
+
+/**
+ * @param $markup
+ * @param $menus
+ * @param int $level
+ * @return string
+ */
+function renderRecursive($markup, $menus, $isChild = false) {
+    foreach ($menus as $menu) {
+        if (!$menu['isVisible']) {
+            continue;
+        }
+
+        // Simple divider!
+        if (array_key_exists('divider', $menu)) {
+            $markup .= '
+                <li role="separator"
+                    class="divider">
+                </li>';
+        } else if ($menu['hasChilds']) {
+            $childs = '<ul class="dropdown-menu content-white-bkg">' .
+                renderRecursive('', $menu['childs'], true) . '</ul>';
+
+            if (!$isChild) {
+                $label = '
+                <div class="section-responsive">
+                    ' . $menu['label'] . ' <span class="caret"></span>
+                </div>';
+            } else {
+                $label = $menu['label'];
+            }
+            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $markup .= '
+                <li class="dropdown ' . $isCurrent . '">
+                    <a id="' . $menu['id'] . '"
+                       href="#"
+                       data-toggle="dropdown" 
+                       role="button" 
+                       aria-haspopup="true" 
+                       aria-expanded="false"
+                       title="' . $menu['label'] . '">
+                        <i class="' . $menu['icon'] . '"></i>
+                        ' . $label . '
+                    </a>
+                    ' . $childs . '
+                </li>';
+        } else {
+
+            if (!$isChild) {
+                $label = '
+                <div class="section-responsive">
+                    ' . $menu['label'] . '
+                </div>';
+            } else {
+                $label = $menu['label'];
+            }
+
+            $extra = '';
+            if (array_key_exists('extra', $menu)) {
+                $extra = $menu['extra'];
+            }
+
+            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $markup .= '
+                <li class="' . $isCurrent . '">
+                    <a id="' . $menu['id'] . '"
+                       href="' . $menu['url'] . '"
+                       ' . $extra . '
+                       class="sb-tour"
+                       title="' . $menu['label'] . '">
+                        <i class="' . $menu['icon'] . '"></i>
+                        ' . $label . '
+                    </a>
+                </li>';
+        }
+    }
+    return $markup;
+}
+
+$outputHtml = renderRecursive('', $editorTree);
+
+// Development warning!
+$isDevelopment = (APPLICATION_ENV !== 'production');
+?>
+
+<div id="customization_label"
+     class="mode color-blue"
+     style="display:none;">
+    <span class="color-blue"
+          style="top:-100px;">
+        <p style="text-transform:uppercase"><?php echo __('Customization mode activated'); ?></p>
+    </span>
+</div>
 <nav class="navbar navbar-default content-white-bkg">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header color-blue">
-        <?php $platform_name = System_Model_Config::getValueFor("platform_name"); ?>
-        <a id="sb-tour-logo-platform" href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="sb-tour pull-left logo-position">
-            <img src="<?php echo $this->getLogo(); ?>" id="logo" alt="<?php echo $platform_name; ?>" title="<?php echo $platform_name; ?>" width="100%" />
+        <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
+        <a id="sb-tour-logo-platform"
+           href="<?php echo $this->getUrl('admin/application/list'); ?>"
+           class="sb-tour pull-left logo-position">
+            <img src="<?php echo $this->getLogo(); ?>"
+                 id="logo"
+                 alt="<?php echo $platform_name; ?>"
+                 title="<?php echo $platform_name; ?>"
+                 width="100%" />
         </a>
-        <div class="logo-block"></div>
-        <?php if($current_link == 'edit') : ?>
-        <a id="left-menu-toggle" href="#left-menu-toggle" class="sb-tour">
-            <button type="button" class="btn-close-sidebarleft color-blue btn">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </a>
+        <div class="logo-block content-white-bkg"></div>
+        <?php if ($current == 'edit') : ?>
+            <a id="left-menu-toggle"
+               href="#left-menu-toggle"
+               class="sb-tour">
+                <button type="button"
+                        class="btn-close-sidebarleft color-blue btn">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </a>
         <?php endif; ?>
     </div>
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-navbar" aria-expanded="false">
+    <button type="button"
+            class="navbar-toggle collapsed"
+            data-toggle="collapse"
+            data-target="#bs-navbar"
+            aria-expanded="false">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span> 
+        <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <div class="collapse navbar-collapse" id="bs-navbar">
-        <?php if(System_Model_Config::getValueFor("bootstraptour_active") == "1"): ?>
-            <button id="sb-tour-enable" class="sb-tour pull-right btn color-blue" onclick="launchBootstrapTour()">
-                <i class="fa fa-question-circle-o" style="font-size: 25px;"></i>
+    <div class="collapse navbar-collapse"
+         id="bs-navbar">
+
+        <?php if (__get('bootstraptour_active') == "1"): ?>
+            <button id="sb-tour-enable"
+                    class="sb-tour pull-right btn color-blue"
+                    onclick="launchBootstrapTour()">
+                <i class="fa fa-question-circle-o"
+                   style="font-size: 25px;"></i>
             </button>
         <?php endif; ?>
+
+        <?php if ($this->isPe() && !$request->isWhiteLabelEditor()) : ?>
+            <button id="toggle_customization_sidebar"
+                    onclick="wl_editor.toggle();"
+                    class="sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
+                    title="<?php echo __('Customize My Editor'); ?>">
+                <i class="fa fa-desktop"></i>
+                <div class="section-responsive">
+                    <?php echo __('Customize My Editor'); ?>
+                </div>
+            </button>
+        <?php endif; ?>
+
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a id="sb-tour-editor" href="<?php echo $this->getUrl('application/customization_design_style/edit'); ?>" class="<?php if($current_link == 'edit'): ?> active<?php endif; ?> box foo sb-tour" title="<?php echo __('Editor') ?>">
-                    <i class="fa fa-tachometer"></i>
-                    <div class="section-responsive">
-                        <?php echo __('Editor') ?>
-                    </div>
-                </a>
-            </li>
+            <?php echo $outputHtml; ?>
 
-            <li>
-                <a id="sb-tour-my-account" href="<?php echo $this->getUrl('admin/account/edit'); ?>" class="<?php if($current_link == 'my_account') : ?> active<?php endif; ?> box foo sb-tour" title="<?php echo __('My account') ?>">
-                    <i class="fa fa-user"></i>
-                    <div class="section-responsive">
-                        <?php echo __('My account'); ?>
-                    </div>
-                </a>
-            </li>
-
-            <?php if ($this->_canAccess("push_admin_global")) : ?>
-            <li>
-                <a id="sb-tour-global-push" href="<?php echo $this->getUrl('push/admin/global'); ?>" class="<?php if($current_link == 'push_global') : ?> active<?php endif; ?> box foo sb-tour" title="<?php echo __('Push notifications') ?>">
-                    <i class="fa fa-bullhorn"></i>
-                    <div class="section-responsive">
-                        <?php echo __('Push notifications'); ?>
-                    </div>
-                </a>
-            </li>
-            <?php endif; ?>
-
-            <?php if (!$this->getRequest()->isWhiteLabelEditor()) : ?>
-
-                <?php if($this->_canAccess("admin_access_management")) : ?>
-                <li>
-                    <a id="sb-tour-access-management" href="<?php echo $this->getUrl('admin/access_management/list'); ?>" class="<?php if($current_link == 'access_management') : ?> active<?php endif; ?> box foo sb-tour" title="<?php echo __('Access Management') ?>">
-                        <i class="fa fa-road"></i>
-                        <div class="section-responsive">
-                            <?php echo __('Access Management'); ?>
-                        </div>
-                    </a>
-                </li>
-                <?php endif; ?>
-
-                <?php if($this->_canAccess("support") AND $url = System_Model_Config::getValueFor("support_link")) : ?>
-                    <li class="right">
-                        <a id="sb-tour-support" href="<?php echo $url; ?>" target="_blank" title="<?php echo __('Support') ?>" class="box foo sb-tour">
-                            <i class="fa fa-medkit"></i>
-                            <div class="section-responsive">
-                                <?php echo __('Support'); ?>
-                            </div>
-                        </a>
-                    </li>
-                <?php endif; ?>
-            <?php endif; ?>
-            <?php if($this->getSession()->getAdmin()->isAllowedToManageTour()): ?>
-                <li>
-                    <a href="#" title="<?php echo $this->_('Manage Tour'); ?>" onclick="sbTour.switchTourEdition()"  class="box foo">
-                        <i class="fa fa-map-signs"></i>
-                        <div class="section-responsive">
-                            <?php echo $this->_('Manage Tour'); ?>
-                        </div>
-                    </a>
-                </li>
-            <?php endif; ?>
-            <li>
-                <a href="<?php echo $this->getUrl('admin/account/logout'); ?>" title="<?php echo __('Log-out') ?>" class="box foo">
-                    <i class="fa fa-power-off"></i>
-                    <div class="section-responsive">
-                        <?php echo __('Log-out') ?>
-                    </div>
-                </a>
-            </li>
             <?php echo $this->getPartialHtml('languages'); ?>
         </ul>
     </div>
 </nav>
 
+<?php if ($isDevelopment): ?>
+    <div class="alert alert-warning development-responsive small-dev">
+        <div class="big">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span>
+                <?php echo __('You current working environment is'); ?>&nbsp;
+            </span>
+            <b><?php echo __('Development') ?></b>, <?php echo __('be careful or set it back to') ?>
+            <b><?php echo __('Production') ?></b>
+            <span class="dismiss-dev">
+                <i class="fa fa-times"></i> <b><?php echo __('REDUCE') ?></b>
+            </span>
+        </div>
+        <div class="small">
+            <i class="fa fa-exclamation-triangle"></i>
+            <span>
+                <?php echo __('Environment is'); ?>&nbsp;
+            </span>
+            <b><?php echo __('Development') ?></b>
+        </div>
+    </div>
+<?php endif; ?>
+
 <style>
-    #sb-tour-enable{
+    #toggle_customization_sidebar {
+        height: 50px;
+        margin-top: 4px;
+        display: none
+    }
+
+    @media (min-width: 960px) {
+        #toggle_customization_sidebar.visible {
+            display: block
+        }
+
+        #toggle_customization_sidebar {
+            display: none;
+        }
+    }
+
+    .development-responsive .small {
+        display: none;
+    }
+
+    .development-responsive.small-dev .big {
+        display: none !important;
+    }
+
+    .development-responsive.small-dev .small {
+        display: block !important;
+    }
+
+    .development-responsive .dismiss-dev {
+        position: absolute;
+        right: 20px;
+        cursor: pointer;
+    }
+
+    .development-responsive.small-dev {
+        width: 250px;
+    }
+
+    .development-responsive.small-dev {
+
+    }
+
+    #sb-tour-enable {
         height: 50px;
         margin-top: 4px;
         margin-left: 5px;
         width: 50px;
     }
 </style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dismissDev = $('.dismiss-dev');
+
+        dismissDev.off('click');
+        dismissDev.on('click', function () {
+            $('.development-responsive').addClass('small-dev');
+            localStorage.setItem('small-dev', true);
+        });
+
+        if (!localStorage.getItem('small-dev')) {
+            $('.development-responsive').removeClass('small-dev');
+        }
+    });
+</script>
