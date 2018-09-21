@@ -1,31 +1,4 @@
-
 <form ng-submit="save()">
-
-    <?php if(design_code() === "siberian"): ?>
-    <sb-section title="configs.editor_design.label">
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="editor_design"><?php echo __("Editor's Design");?></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <select id="editor_design" class="form-control" ng-change="Change_Design()" ng-model="configs.editor_design.value" ng-options="k as v for (k, v) in designs"></select>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
-                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
-                    <div class="clear"></div>
-                </div>
-            </div>
-        </div>
-    </sb-section>
-    <?php endif; ?>
 
     <sb-section title="'<?php echo __js('Backoffice theme (BETA)') ?>'">
         <div class="form-group">
@@ -42,7 +15,7 @@
                         <option value=""
                                 ng-selected="configs.backoffice_theme.value == ''"><?php echo __('Default') ?></option>
                         <option value="modern"
-                                ng-selected="configs.backoffice_theme.value == 'modern'"><?php echo __('Modern') ?></option>
+                                ng-selected="configs.backoffice_theme.value == 'modern'"><?php echo __('Elegance') ?></option>
                     </select>
                 </div>
             </div>
