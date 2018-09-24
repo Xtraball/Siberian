@@ -18,7 +18,10 @@ class Firewall_IndexController extends Backoffice_Controller_Default
         }
 
         $payload = [
-            'title' => __('Advanced') . ' > ' . __('Firewall'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Advanced'),
+                __('Firewall')),
             'icon' => 'icofont icofont-ui-fire-wall',
             'fw_clamd' => [
                 'type' => (string) __get('fw_clamd_type'),

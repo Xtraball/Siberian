@@ -9,7 +9,10 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     public function loadAction()
     {
         $html = [
-            'title' => __('Advanced') . ' > ' . __('Tools'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Advanced'),
+                __('Tools')),
             'icon' => 'fa-file-code-o',
         ];
         $this->_sendJson($html);
@@ -18,6 +21,9 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     public function runtestAction()
     {
         $data = Siberian_Tools_Integrity::checkIntegrity();
+
+        $data['messageEmpty'] = __('Everything seems ok.');
+
         $this->_sendJson($data);
     }
 

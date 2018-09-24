@@ -685,6 +685,13 @@ App.config(function($routeProvider) {
         AdvancedTools.runtest()
             .success(function(data) {
                 $scope.integrity_result = data;
+
+                if (data.hash.length === 0) {
+                    $scope.message.setText(data.messageEmpty)
+                        .isError(false)
+                        .show()
+                    ;
+                }
             }).finally(function() {
 
             $scope.content_loader_is_visible = false;

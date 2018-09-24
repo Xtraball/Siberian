@@ -9,7 +9,10 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
     public function loadAction()
     {
         $payload = [
-            'title' => __('Advanced') . ' > ' . __('Modules'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Advanced'),
+                __('Modules')),
             'icon' => 'fa-sliders',
         ];
 
