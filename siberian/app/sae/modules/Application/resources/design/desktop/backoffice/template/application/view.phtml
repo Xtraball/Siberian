@@ -1316,10 +1316,10 @@
         </colgroup>
         <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Actions</th>
+            <th><?php echo __('Id') ?></th>
+            <th><?php echo __('Name') ?></th>
+            <th><?php echo __('Email') ?></th>
+            <th><?php echo __('Actions') ?></th>
         </tr>
         </thead>
         <tbody>
@@ -1329,7 +1329,7 @@
             <td>{{ admin.email }}</td>
             <td clas="text-right">
                 <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
-                   class="btn btn-sm btn-primary">EDIT</a>
+                   class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
             </td>
         </tr>
         </tbody>
