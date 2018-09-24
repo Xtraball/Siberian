@@ -57,16 +57,23 @@
             <?php endif; ?>
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
-                <div class="message slide-down" ng-show="message.is_visible" ng-class="{error: message.is_error}">
+                <div class="message slide-down"
+                     ng-show="message.is_visible"
+                     ng-class="{error: message.is_error}">
                     <p ng-bind-html="message.text"></p>
                 </div>
             </div>
             <?php echo $this->getPartialHtml('messages') ?>
             <?php echo $this->getPartialHtml('menu'); ?>
             <div>
-                <div id="wrapper" class="background" ng-class="direction">
-                    <div ng-view class="slide-view background" ng-class="code" ng-if="isLoggedIn"></div>
-                    <sb-login-dialog class="scale-fade background" ng-if="!isLoggedIn"></sb-login-dialog>
+                <div id="wrapper"
+                     class="background"
+                     ng-class="direction">
+                    <div ng-view class="slide-view background"
+                         ng-class="code"
+                         ng-if="isLoggedIn"></div>
+                    <sb-login-dialog class="scale-fade background"
+                                     ng-if="!isLoggedIn"></sb-login-dialog>
                 </div>
 
                 <?php echo $this->getPartialHtml("templates"); ?>

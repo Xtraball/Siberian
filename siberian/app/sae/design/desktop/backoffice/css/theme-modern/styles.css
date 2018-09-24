@@ -19,6 +19,10 @@ textarea {
     height: 35px;
 }
 
+div.title[data-uri="/backoffice/index/template"] h1 {
+    margin-left: 15px;
+}
+
 .alert {
     border-width: 0 0 3px 0 !important;
 }
