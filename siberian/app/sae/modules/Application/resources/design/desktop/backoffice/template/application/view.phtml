@@ -262,7 +262,7 @@
     <div class="col-md-12">
         <div class="form-group">
             <label class="control-label"><?php echo __("Description"); ?></label>
-            <p>{{ application.description }}</p>
+            <p style="word-break: break-word;">{{ application.description }}</p>
         </div>
     </div>
     <div class="col-md-12">
@@ -1327,11 +1327,27 @@
             <td>{{ admin.admin_id }}</td>
             <td>{{ admin.firstname }} {{ admin.lastname }}</td>
             <td>{{ admin.email }}</td>
-            <td>
+            <td clas="text-right">
                 <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
-                   title="<?php echo __("Edit"); ?>"><i class="fa fa-edit"></i></a></td>
+                   class="btn btn-sm btn-primary">EDIT</a>
+            </td>
         </tr>
         </tbody>
     </table>
 </sb-section>
+
+<style type="text/css">
+    .btn-sm {
+        padding: 1px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        font-weight: bold;
+        border: 0 !important;
+    }
+
+    a.btn-sm,
+    a.btn-sm:hover {
+        text-decoration: none !important;
+    }
+</style>
 
