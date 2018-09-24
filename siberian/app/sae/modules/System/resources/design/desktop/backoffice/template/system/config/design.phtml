@@ -3,6 +3,13 @@
     <sb-section title="'<?php echo __js('Backoffice theme (BETA)') ?>'">
         <div class="form-group">
             <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <?php echo __('During the <b>beta</b> stage, themes are likely to evolve slightly.') ?>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-md-6">
                     <label for="backoffice_theme"><?php echo __("Theme");?></label>
                 </div>
@@ -14,8 +21,10 @@
                             ng-model="configs.backoffice_theme.value">
                         <option value=""
                                 ng-selected="configs.backoffice_theme.value == ''"><?php echo __('Default') ?></option>
+                        <option value="elegance"
+                                ng-selected="configs.backoffice_theme.value == 'elegance'"><?php echo __('Elegance') ?></option>
                         <option value="modern"
-                                ng-selected="configs.backoffice_theme.value == 'modern'"><?php echo __('Elegance') ?></option>
+                                ng-selected="configs.backoffice_theme.value == 'modern'"><?php echo __('Modern') ?></option>
                     </select>
                 </div>
             </div>

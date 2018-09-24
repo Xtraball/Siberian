@@ -7,18 +7,28 @@
     <br />
     <table class="table">
         <col width="5%" />
-        <col width="34%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="10%" />
         <col width="25%" />
-        <col width="25%" />
-        <col width="9%" />
-        <col width="12%" />
         <thead>
             <tr>
-                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'admin_id' && urlParams.by, 'pointer-down': urlParams.order == 'admin_id' && !urlParams.by}" ng-click="urlParams.order = 'admin_id'; urlParams.by = !urlParams.by"><?php echo __("Id"); ?></th>
-                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'email' && urlParams.by, 'pointer-down': urlParams.order == 'email' && !urlParams.by}" ng-click="urlParams.order = 'email'; urlParams.by = !urlParams.by"><?php echo __("Email"); ?></th>
-                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'firstname' && urlParams.by, 'pointer-down': urlParams.order == 'firstname' && !urlParams.by}" ng-click="urlParams.order = 'firstname'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
-                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'company' && urlParams.by, 'pointer-down': urlParams.order == 'company' && !urlParams.by}" ng-click="urlParams.order = 'company'; urlParams.by = !urlParams.by"><?php echo __("Company"); ?></th>
-                <th class="pointer" ng-class="{'pointer-up': urlParams.order == 'created_at' && urlParams.by, 'pointer-down': urlParams.order == 'created_at' && !urlParams.by}" ng-click="urlParams.order = 'created_at'; urlParams.by = !urlParams.by"><?php echo __("Created At"); ?></th>
+                <th class="pointer"
+                    ng-class="{'pointer-up': urlParams.order == 'admin_id' && urlParams.by, 'pointer-down': urlParams.order == 'admin_id' && !urlParams.by}"
+                    ng-click="urlParams.order = 'admin_id'; urlParams.by = !urlParams.by"><?php echo __("Id"); ?></th>
+                <th class="pointer"
+                    ng-class="{'pointer-up': urlParams.order == 'email' && urlParams.by, 'pointer-down': urlParams.order == 'email' && !urlParams.by}"
+                    ng-click="urlParams.order = 'email'; urlParams.by = !urlParams.by"><?php echo __("Email"); ?></th>
+                <th class="pointer"
+                    ng-class="{'pointer-up': urlParams.order == 'firstname' && urlParams.by, 'pointer-down': urlParams.order == 'firstname' && !urlParams.by}"
+                    ng-click="urlParams.order = 'firstname'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
+                <th class="pointer"
+                    ng-class="{'pointer-up': urlParams.order == 'company' && urlParams.by, 'pointer-down': urlParams.order == 'company' && !urlParams.by}"
+                    ng-click="urlParams.order = 'company'; urlParams.by = !urlParams.by"><?php echo __("Company"); ?></th>
+                <th class="pointer"
+                    ng-class="{'pointer-up': urlParams.order == 'created_at' && urlParams.by, 'pointer-down': urlParams.order == 'created_at' && !urlParams.by}"
+                    ng-click="urlParams.order = 'created_at'; urlParams.by = !urlParams.by"><?php echo __("Created At"); ?></th>
                 <th><?php echo __("Actions"); ?></th>
             </tr>
         </thead>
@@ -29,10 +39,14 @@
                 <td>{{ admin.name }}</td>
                 <td>{{ admin.company }}</td>
                 <td>{{ admin.created_at }}</td>
-                <td>
-                    <a href="<?php echo $this->getUrl("admin/backoffice_edit"); ?>/admin_id/{{ admin.id }}" title="<?php echo __("Edit"); ?>"><i class="fa fa-edit"></i></a>
-                    <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.id }}" target="_blank" title="<?php echo __("Log-in As"); ?>"><i class="fa fa-user"></i></a>
-                    <a href="#" ng-click="deleteAdmin(admin)" title="<?php echo __("Delete"); ?>"><i class="fa fa-remove"></i></a>
+                <td class="text-right">
+                    <a href="<?php echo $this->getUrl("admin/backoffice_edit"); ?>/admin_id/{{ admin.id }}"
+                       class="btn btn-sm btn-primary">EDIT</a>
+                    <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.id }}"
+                       class="btn btn-sm btn-info">IMPERSONATE</a>
+                    <a href="javascript:void(0);"
+                       ng-click="deleteAdmin(admin)"
+                       class="btn btn-sm btn-danger">DELETE</a>
                 </td>
             </tr>
             <tr ng-show="!admins.length">
@@ -52,4 +66,15 @@
         url-params="urlParams">
     </bgf-pagination>
     <div style="clear:both;"></div>
+
+    <style type="text/css">
+        .btn-sm {
+            padding: 1px 5px !important;
+            font-size: 11px !important;
+            line-height: 1.4 !important;
+            font-weight: bold;
+            border: 0 !important;
+            text-decoration: none;
+        }
+    </style>
 </sb-section>
