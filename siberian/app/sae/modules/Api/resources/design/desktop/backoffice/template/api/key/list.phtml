@@ -30,23 +30,19 @@
                 </div>
             </div>
 
+            <div class="col-md-12">
+                <div class="form-group text-right">
+                    <button type="submit"
+                            class="btn btn-primary"><?php echo $this->_("Save"); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'none'"
+                               class="form_loader"></sb-loader>
+                </div>
+            </div>
+
             <div class="clear"></div>
         </sb-section>
     </div>
-
-    <div class="col-md-12">
-        <div class="form-group text-right">
-            <button type="submit"
-                    class="btn btn-primary"><?php echo $this->_("Save"); ?></button>
-            <sb-loader is_visible="form_loader_is_visible"
-                       type="'inner_content'"
-                       size="'small'"
-                       animation="'none'"
-                       class="form_loader"></sb-loader>
-            <div class="clear"></div>
-        </div>
-
-        <div class="clear"></div>
-    </div>
-
 </form>
