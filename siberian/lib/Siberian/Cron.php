@@ -1,5 +1,7 @@
 <?php
 
+namespace Siberian;
+
 /**
  * Class Siberian_Cron
  *
@@ -7,15 +9,15 @@
  *
  * @version 4.14.0
  */
-class Siberian_Cron
+class Cron
 {
     /**
-     * @var Cron_Model_Cron
+     * @var \Cron_Model_Cron
      */
     protected $cron;
 
     /**
-     * @var Siberian_Log
+     * @var \Siberian_Log
      */
     protected $logger;
 
@@ -41,18 +43,18 @@ class Siberian_Cron
 
     /**
      * Siberian_Cron constructor.
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function __construct()
     {
-        $this->cron = new Cron_Model_Cron();
-        $this->logger = Zend_Registry::get('logger');
-        $this->lock_base = Core_Model_Directory::getBasePathTo($this->lock_base);
+        $this->cron = new \Cron_Model_Cron();
+        $this->logger = \Zend_Registry::get('logger');
+        $this->lock_base = \Core_Model_Directory::getBasePathTo($this->lock_base);
         $this->start = microtime(true);
-        $this->root_path = Core_Model_Directory::getBasePathTo();
+        $this->root_path = \Core_Model_Directory::getBasePathTo();
 
         # Set the same timezone as in the Application settings.
-        $timezone = System_Model_Config::getValueFor('system_timezone');
+        $timezone = __get('system_timezone');
         if ($timezone) {
             date_default_timezone_set($timezone);
         }
@@ -71,7 +73,7 @@ class Siberian_Cron
      */
     public function triggerAll()
     {
-        if (!Cron_Model_Cron::is_active()) {
+        if (!\Cron_Model_Cron::is_active()) {
             $this->log("Cron is disabled in your system, see: Backoffice > Settings > Advanced > Configuration > Cron");
             return $this;
         }
@@ -96,9 +98,9 @@ class Siberian_Cron
             }
 
             return $actions;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if (APPLICATION_ENV === 'development') {
-                Zend_Debug::dump($e);
+                \Zend_Debug::dump($e);
             }
             $this->log($e->getMessage());
             return false;
@@ -114,7 +116,7 @@ class Siberian_Cron
             $tasks = $this->cron->getTaskByCommand($command);
             foreach ($tasks as $task) {
                 if (!$task->getId()) {
-                    throw new Siberian_Exception('The task doesn\'t exists.');
+                    throw new \Siberian\Exception('The task doesn\'t exists.');
                 }
                 $this->execute($task);
             }
@@ -124,7 +126,7 @@ class Siberian_Cron
     }
 
     /**
-     * @param Cron_Model_Cron $task
+     * @param \Cron_Model_Cron $task
      */
     public function execute($task)
     {
@@ -218,16 +220,16 @@ class Siberian_Cron
     /**
      * Push instant queued messages, Apns, Gcm (Every minute)
      *
-     * @param Cron_Model_Cron $task
+     * @param \Cron_Model_Cron $task
      */
     public function pushinstant($task)
     {
         # Init
-        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+        $now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
 
         # Check for Individual Push module
-        if (Push_Model_Message::hasIndividualPush()) {
-            $base = Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
+        if (\Push_Model_Message::hasIndividualPush()) {
+            $base = \Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
 
             # Models
             if (is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
@@ -237,13 +239,12 @@ class Siberian_Cron
         }
 
         # Fetch instant message in queue.
-        $message = new Push_Model_Message();
-        $messages = $message->findAll(
+        $messages = (new \Push_Model_Message())->findAll(
             [
                 'status IN (?)' => ['queued'],
                 'send_at IS NULL OR send_at <= ?' => $now,
                 'send_until IS NULL OR send_until >= ?' => $now,
-                'type_id = ?' => Push_Model_Message::TYPE_PUSH
+                'type_id = ?' => \Push_Model_Message::TYPE_PUSH
             ],
             'created_at DESC'
         );
@@ -262,12 +263,12 @@ class Siberian_Cron
         }
 
         // Clean-up failed push!
-        $now = Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+        $now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
 
         /**
-         * @var $failedPushs Push_Model_Message[]
+         * @var $failedPushs \Push_Model_Message[]
          */
-        $failedPushs = (new Push_Model_Message())->findAll(
+        $failedPushs = (new \Push_Model_Message())->findAll(
             [
                 'status = ?' => 'failed',
                 'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!
@@ -290,11 +291,11 @@ class Siberian_Cron
     /**
      * Cleaning-up/rotate old/unused logs (Every day at 00:05 AM)
      *
-     * @param Cron_Model_Cron $task
+     * @param \Cron_Model_Cron $task
      */
     public function logrotate($task)
     {
-        $log_files = new DirectoryIterator("{$this->root_path}/var/log/");
+        $log_files = new \DirectoryIterator("{$this->root_path}/var/log/");
         foreach ($log_files as $file) {
             $filename = $file->getFilename();
             $pathname = $file->getPathname();
@@ -333,7 +334,7 @@ class Siberian_Cron
 
         # This folder is not always present +4.9.1.
         if (is_readable("{$this->root_path}/var/log/modules/")) {
-            $module_log_files = new DirectoryIterator("{$this->root_path}/var/log/modules/");
+            $module_log_files = new \DirectoryIterator("{$this->root_path}/var/log/modules/");
             foreach ($module_log_files as $file) {
                 $pathname = $file->getPathname();
 
@@ -349,7 +350,7 @@ class Siberian_Cron
     /**
      * APK Generator queue
      *
-     * @param Cron_Model_Cron $task
+     * @param \Cron_Model_Cron $task
      */
     public function apkgenerator($task)
     {
@@ -358,7 +359,7 @@ class Siberian_Cron
             $this->lock("generator");
 
             # Generate the APK
-            $queue = Application_Model_ApkQueue::getQueue();
+            $queue = \Application_Model_ApkQueue::getQueue();
             foreach ($queue as $apk) {
                 # Keep APK Queue id
                 $apk_id = $apk->getId();
@@ -378,7 +379,7 @@ class Siberian_Cron
                 } catch (Exception $e) {
                     $this->log($e->getMessage());
                     # Trying to fetch APK
-                    $refetch_apk = new Application_Model_ApkQueue();
+                    $refetch_apk = new \Application_Model_ApkQueue();
                     $refetch_apk = $refetch_apk->find($apk_id);
                     if (!$refetch_apk->getId()) {
                         $task->saveLastError("APK Generation was cancelled during the build phase, unable to continue.");
@@ -398,9 +399,10 @@ class Siberian_Cron
     }
 
     /**
-     * Sources Generator queue
-     *
-     * @param Cron_Model_Cron $task
+     * @param $task
+     * @throws \Exception
+     * @throws \Zend_Json_Exception
+     * @throws \Zend_Layout_Exception
      */
     public function sources($task)
     {
@@ -409,7 +411,7 @@ class Siberian_Cron
             $this->lock("generator");
 
             # Generate the Source ZIP
-            $queue = Application_Model_SourceQueue::getQueue();
+            $queue = \Application_Model_SourceQueue::getQueue();
             foreach ($queue as $source) {
                 # Keep Source Queue id
                 $source_id = $source->getId();
@@ -422,7 +424,7 @@ class Siberian_Cron
                     $this->log($e->getMessage());
 
                     # Trying to fetch Source
-                    $refetch_source = new Application_Model_SourceQueue();
+                    $refetch_source = new \Application_Model_SourceQueue();
                     $refetch_source = $refetch_source->find($source_id);
                     if (!$refetch_source->getId()) {
                         $task->saveLastError("Source Generation was cancelled during the build phase, unable to continue.");
@@ -448,24 +450,24 @@ class Siberian_Cron
      */
     public function letsencrypt($task)
     {
-        $letsencrypt_disabled = System_Model_Config::getValueFor("letsencrypt_disabled");
+        $letsencrypt_disabled = __get("letsencrypt_disabled");
         if ($letsencrypt_disabled > time()) {
             $this->log(__("[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, skipping.", date("d/m/Y H:i:s", $letsencrypt_disabled)));
             return;
         } else {
             # Enabling again after the 7 days period
-            System_Model_Config::setValueFor("letsencrypt_disabled", 0);
+            __set("letsencrypt_disabled", 0);
         }
 
         if (!$this->isLocked($task->getId())) {
             $this->lock($task->getId());
 
-            $email = System_Model_Config::getValueFor("support_email");
-            $root = Core_Model_Directory::getBasePathTo("/");
-            $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
+            $email = __get("support_email");
+            $root = \Core_Model_Directory::getBasePathTo("/");
+            $base = \Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
 
             // Check panel type
-            $panel_type = System_Model_Config::getValueFor("cpanel_type");
+            $panel_type = __get("cpanel_type");
 
             // Ensure folders have good rights
             exec("chmod -R 775 {$base}");
@@ -473,11 +475,11 @@ class Siberian_Cron
                 exec("chmod -R 775 {$root}/.well-known");
             }
 
-            $lets_encrypt = new Siberian_LetsEncrypt($base, $root, false);
+            $lets_encrypt = new \Siberian_LetsEncrypt($base, $root, false);
             $le_is_init = false;
 
             // Use staging environment
-            $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
+            $letsencrypt_env = __get("letsencrypt_env");
             if ($letsencrypt_env == "staging") {
                 $lets_encrypt->setIsStaging();
             }
@@ -487,12 +489,12 @@ class Siberian_Cron
             }
 
             try {
-                $ssl_certificates = new System_Model_SslCertificates();
+                $ssl_certificates = new \System_Model_SslCertificates();
 
-                $to_renew = new Zend_Db_Expr("renew_date < updated_at");
+                $to_renew = new \Zend_Db_Expr("renew_date < updated_at");
                 $certs = $ssl_certificates->findAll(
                     [
-                        "source = ?" => System_Model_SslCertificates::SOURCE_LETSENCRYPT,
+                        "source = ?" => \System_Model_SslCertificates::SOURCE_LETSENCRYPT,
                         "status = ?" => "enabled",
                         $to_renew
                     ]
@@ -512,7 +514,7 @@ class Siberian_Cron
 
                             if (isset($cert_content["extensions"]) && $cert_content["extensions"]["subjectAltName"]) {
                                 $certificate_hosts = explode(",", str_replace("DNS:", "", $cert_content["extensions"]["subjectAltName"]));
-                                $hostnames = Siberian_Json::decode($cert->getDomains());
+                                $hostnames = \Siberian_Json::decode($cert->getDomains());
 
                                 foreach ($hostnames as $hostname) {
                                     $hostname = trim($hostname);
@@ -568,7 +570,7 @@ class Siberian_Cron
                             # Save back domains
                             if (sizeof($domains) != sizeof($retain_domains)) {
                                 $cert
-                                    ->setDomains(Siberian_Json::encode($retain_domains))
+                                    ->setDomains(\Siberian_Json::encode($retain_domains))
                                     ->save();
                             }
 
@@ -590,21 +592,21 @@ class Siberian_Cron
                             try {
                                 switch ($panel_type) {
                                     case "plesk":
-                                        $siberian_plesk = new Siberian_Plesk();
+                                        $siberian_plesk = new \Siberian_Plesk();
                                         $siberian_plesk->removeCertificate($cert);
                                         $siberian_plesk->updateCertificate($cert);
                                         $siberian_plesk->selectCertificate($cert);
                                         break;
                                     case "cpanel":
-                                        $cpanel = new Siberian_Cpanel();
+                                        $cpanel = new \Siberian_Cpanel();
                                         $cpanel->updateCertificate($cert);
                                         break;
                                     case "vestacp":
-                                        $vestacp = new Siberian_VestaCP();
+                                        $vestacp = new \Siberian_VestaCP();
                                         $vestacp->updateCertificate($cert);
                                         break;
                                     case "directadmin":
-                                        $directadmin = new Siberian_DirectAdmin();
+                                        $directadmin = new \Siberian_DirectAdmin();
                                         $directadmin->updateCertificate($cert);
                                         break;
                                     case "self":
@@ -617,7 +619,7 @@ class Siberian_Cron
 
                             // SocketIO
                             if (class_exists("SocketIO_Model_SocketIO_Module") && method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
-                                SocketIO_Model_SocketIO_Module::killServer();
+                                \SocketIO_Model_SocketIO_Module::killServer();
                             }
 
                         } else {
@@ -634,7 +636,7 @@ class Siberian_Cron
                             (strpos($e->getMessage(), "many certificates already issued") !== false)) {
                             # We hit the rate limit, disable for the next seven days
                             $in_a_week = time() + 604800;
-                            System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);
+                            \System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);
                         }
 
                         $cert
@@ -653,7 +655,7 @@ class Siberian_Cron
                         # Send a message to the Admin
                         $description = "It seems that the renewal of the following SSL Certificate %s is failing, please check in <b>Settings > Advanced > Configuration</b> for the specified certificate.";
 
-                        $notification = new Backoffice_Model_Notification();
+                        $notification = new \Backoffice_Model_Notification();
                         $notification
                             ->setTitle(__("Alert: The SSL Certificate %s automatic renewal failed.", $cert->getHostname()))
                             ->setDescription(__($description, $cert->getHostname()))
@@ -664,7 +666,7 @@ class Siberian_Cron
                             ->setObjectId($cert->getId())
                             ->save();
 
-                        Backoffice_Model_Notification::sendEmailForNotification($notification);
+                        \Backoffice_Model_Notification::sendEmailForNotification($notification);
                     }
                 }
 
@@ -683,19 +685,17 @@ class Siberian_Cron
     /**
      * Analytics aggregation
      *
-     * @param Cron_Model_Cron $task
+     * @param \Cron_Model_Cron $task
      */
     public function agregateanalytics($task)
     {
         //caluling on day after and before to be sure for results
-        Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
-        Analytics_Model_Aggregate::getInstance()->run(time());
-        Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
+        \Analytics_Model_Aggregate::getInstance()->run(time() - 60 * 60 * 24);
+        \Analytics_Model_Aggregate::getInstance()->run(time());
+        \Analytics_Model_Aggregate::getInstance()->run(time() + 60 * 60 * 24);
     }
 
     /**
-     * Check payments recurrencies
-     *
      * @param $task
      */
     public function checkpayments($task)
@@ -703,19 +703,11 @@ class Siberian_Cron
         // We do really need to lock this thing !
         $this->lock($task->getId());
 
-        if (method_exists('Payment_StripeController', 'checkRecurrencies')) {
-            Payment_StripeController::checkRecurrencies($this);
-        }
-
         try {
-            # This handles paypal only!
-            include_once Core_Model_Directory::getBasePathTo(
-                '/app/sae/modules/Payment/controllers/PaypalController.php');
-
-            if (method_exists('Payment_PaypalController', 'checkRecurrencies')) {
-                Payment_PaypalController::checkRecurrencies($this);
+            if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
+                \Subscription_Model_Subscription_Application::checkRecurrencies($this);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -737,7 +729,7 @@ class Siberian_Cron
         try {
             # Timeout to 5 minutes.
             $this->log('[Fetching current disk usage]');
-            Siberian_Cache::getDiskUsage(true);
+            \Siberian_Cache::getDiskUsage(true);
 
         } catch (Exception $e) {
             $this->log($e->getMessage());
@@ -763,16 +755,19 @@ class Siberian_Cron
         try {
             # Search for stuck builds
             $current_time = time();
-            $apk_stucks = Application_Model_ApkQueue::getStuck($current_time);
-            $source_stucks = Application_Model_SourceQueue::getStuck($current_time);
+            $apk_stucks = \Application_Model_ApkQueue::getStuck($current_time);
+            $source_stucks = \Application_Model_SourceQueue::getStuck($current_time);
 
             # APK Round
             foreach ($apk_stucks as $apk_stuck) {
                 $description = "You have an APK generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
 
-                $notification = new Backoffice_Model_Notification();
+                $notification = new \Backoffice_Model_Notification();
                 $notification
-                    ->setTitle(__("Alert: The APK build for the Application: %s (%s) is stuck for more than one hour.", $apk_stuck->getName(), $apk_stuck->getAppId()))
+                    ->setTitle(
+                        __("Alert: The APK build for the Application: %s (%s) is stuck for more than one hour.",
+                            $apk_stuck->getName(),
+                            $apk_stuck->getAppId()))
                     ->setDescription(__($description))
                     ->setSource("cron")
                     ->setType("alert")
@@ -789,9 +784,12 @@ class Siberian_Cron
             foreach ($source_stucks as $source_stuck) {
                 $description = "You have a Source generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below.";
 
-                $notification = new Backoffice_Model_Notification();
+                $notification = new \Backoffice_Model_Notification();
                 $notification
-                    ->setTitle(__("Alert: The Source build for the Application: %s (%s) is stuck for more than one hour.", $source_stuck->getName(), $source_stuck->getAppId()))
+                    ->setTitle(
+                        __("Alert: The Source build for the Application: %s (%s) is stuck for more than one hour.",
+                            $source_stuck->getName(),
+                            $source_stuck->getAppId()))
                     ->setDescription(__($description))
                     ->setSource("cron")
                     ->setType("alert")

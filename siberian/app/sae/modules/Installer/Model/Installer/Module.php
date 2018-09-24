@@ -171,6 +171,15 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 }
             }
 
+            if (isset($this->_packageInfo['type'])) {
+                $type = $this->_packageInfo['type'];
+                if (in_array($type, ['icons', 'layout', 'template'])) {
+                    $this
+                        ->setType($type)
+                        ->save();
+                }
+            }
+
             # Now update the foreign keys.
             foreach ($migration_tables as $table) {
                 $table->updateForeignKeys();
@@ -181,8 +190,9 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         # Testing if it's a Template installer
         $template_install_path = Core_Model_Directory::getBasePathTo('var/tmp/template.install.php');
         if (is_readable($template_install_path)) {
-            $this->_installTemplate($template_install_path);
-            unlink($template_install_path);
+            // Old template installers are now disabled
+            throw new \Siberian\Exception('#437-001: ' .
+                __('This template installer is not supported anymore, please refer to the documentation to update your installer.'));
         }
     }
 

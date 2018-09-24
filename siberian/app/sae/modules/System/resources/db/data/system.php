@@ -16,6 +16,11 @@ $configs = [
         "label" => "Platform Name"
     ],
     [
+        "code" => "backoffice_theme",
+        "label" => "Backoffice Theme",
+        "value" => ""
+    ],
+    [
         "code" => "company_name",
         "label" => "Name"
     ],

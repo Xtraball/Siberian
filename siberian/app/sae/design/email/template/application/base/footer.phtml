@@ -1,0 +1,32 @@
+<?php
+$whitelabel = Siberian::getWhitelabel();
+if (Siberian::getWhitelabel()) {
+    $companyName = $whitelabel->getCompany();
+    $platformName = empty($whitelabel->getName()) ? $whitelabel->getHost() : $whitelabel->getName();
+    $address = $whitelabel->getAddress();
+    $country = null;
+    $phone = $whitelabel->getPhone();
+    $email = $whitelabel->getEmail();
+} else {
+    $companyName = __get('company_name');
+    $platformName = __get('platform_name');
+    $address = __get('company_address');
+    $country = __get('company_country');
+    $phone = __get('company_phone');
+    $email = __get('support_email');
+}
+
+?>
+
+<div class="footer">
+    <?php if ($this->getShowLegals()): ?>
+        <br />
+        <?php echo $companyName ?> - <?php echo $platformName ?><br />
+        -<br />
+        <?php echo $address ?><?php if (!empty($country)): ?>, <?php echo $country ?><?php endif; ?><br />
+        <?php echo $phone ?> - <?php echo $email ?><br />
+    <?php endif; ?>
+
+    <br />
+    <?php echo $this->getFooterText(); ?>
+</div>

@@ -26,6 +26,9 @@ package-lock.json
 npm-debug.log
 /node_modules/
 /ionic/platforms/Archive.zip
+/templates
+
+**/data/dummy_*.xml
 
 # Locally built packages
 /packages/*

@@ -11,7 +11,10 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
     public function loadAction()
     {
         $payload = [
-            'title' => $this->_('Push Notifications'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Push'),
+                __('Configuration')),
             'icon' => 'fa-comment-o',
         ];
 

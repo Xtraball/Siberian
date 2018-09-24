@@ -1,21 +1,69 @@
 <form ng-submit="save()">
-
     <sb-section title="template.title">
-        <div ng-repeat="columns in template.columns" class="form-group">
-            <div class="col-md-6" ng-repeat="category in columns">
-                <label for="{{ key.name }}">{{ category.name }}</label>
-                <input type="text" id="{{ category.name }}" ng-model="category.name" class="form-control" placeholder="{{ category.name }}" />
+        <div class="form-group">
+            <div style="margin-bottom: 20px;"
+                 class="col-md-6"
+                 ng-repeat="category in template.categories">
+                <label for="{{ key.name }}">{{ category.original_name }}</label>
+                <input type="text"
+                       id="{{ category.name }}"
+                       ng-model="category.name"
+                       class="form-control"
+                       placeholder="{{ category.name }}" />
             </div>
             <div class="clear"></div>
         </div>
-
-        <div class="col-md-12">
+        <div class="col-md-12 text-right">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
             </div>
         </div>
 
+        <div class="clear"></div>
     </sb-section>
-
 </form>
+
+<sb-section title="'<?php echo addcslashes(__("Templates"), "'"); ?>'">
+
+    <div class="alert alert-info">
+        <?php echo __('You can disable a template globally!') ?>
+        <br />
+        <?php echo __('Note: A disabled template is not removed from published applications, but users can\'t select it anymore!') ?>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:50%;text-align:right;"><?php echo __("Enabled?") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="tpl in template.templates"
+            ng-show="template.templates.length">
+            <td>
+                <span style="margin-right:10px;">{{ tpl.name }}</span>
+                <span ng-if="tpl.is_protected"
+                      class="label label-success"><?php echo __('CORE TEMPLATE') ?></span>
+                <span ng-if="!tpl.can_toggle"
+                      class="label label-danger"><?php echo __('PROTECTED') ?></span>
+            </td>
+            <td style="text-align:right;">
+                <input type="checkbox"
+                       ng-if="tpl.can_toggle"
+                       ng-model="tpl.is_active"
+                       ng-change="toggleTemplate(tpl)" />
+            </td>
+        </tr>
+        <tr ng-show="!template.templates.length">
+            <td colspan="3"><?php echo __("No templates") ?></td>
+        </tr>
+        </tbody>
+    </table>
+</sb-section>

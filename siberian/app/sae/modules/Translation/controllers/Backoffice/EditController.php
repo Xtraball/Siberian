@@ -38,7 +38,9 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
     public function loadAction() {
 
         $html = array(
-            "title" => $this->_("Translations"),
+            'title' => sprintf('%s > %s',
+                __('Settings'),
+                __('Translations')),
             "icon" => "fa-language",
         );
 

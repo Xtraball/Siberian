@@ -14,27 +14,26 @@
 
             <div class="col-md-6">
                 <label for="{{ configs.update_channel.code }}">{{ configs.update_channel.label }}</label>
-                <select id="configs.update_channel.code" class="form-control" ng-model="configs.update_channel.value">
+                <select id="configs.update_channel.code"
+                        class="form-control"
+                        ng-model="configs.update_channel.value">
                     <option value="stable"><?php echo __("Stable"); ?></option>
                     <option value="beta"><?php echo __("Beta"); ?></option>
-                    <option value="preview"><?php echo __("Preview 5.0"); ?></option>
+                    <!--option value="preview"><?php echo __("Preview 5.0"); ?></option-->
                 </select>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <br />
                 <p class="alert alert-info">
                     <b><?php echo __('Production') ?></b>:
                     <?php echo __('The default setting to run your production server.') ?>
                 </p>
-            </div>
-            <div class="col-md-12">
                 <p class="alert alert-danger">
                     <b><?php echo __('Development') ?></b>:
                     <?php echo __('Errors are displayed on page, outputs are more verbose, this is an option for debug purpose, use with care as it may output some critical informations about your server.') ?>
                 </p>
             </div>
-
 
         </div>
 
@@ -46,43 +45,47 @@
             </div>
         </div>
 
-        <div class="clear">
-            <br />
-            <br />
-        </div>
+        <div ng-show="configs.update_channel.value == 'preview'">
 
-        <div class="form-group">
-
-            <div class="col-md-12" ng-show="configs.update_channel.value == 'preview'">
-                <p class="alert alert-danger">
-                    <?php echo __("<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>.") ?>
-                    <br />
-                    <?php echo __("We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below.") ?>
-                    <br /><br />
-                    <?php echo __("<b>Actual preview version is Siberian 5.0</b>.") ?>
-                </p>
+            <div class="clear">
+                <br />
+                <br />
             </div>
 
-            <div class="col-md-12" ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
-                <p>
-                    <b><?php echo __("Submit a bug report or improvement request for beta/preview") ?>:</b>
-                </p>
+            <div class="form-group">
 
-                <ng-ckeditor name="beta-report"
-                             bind="report.message"
-                             skin="moono"
-                             remove-buttons="Button,HiddenField,ImageButton,Select,Textarea,TextField,Radio,Checkbox,Form"
-                             remove-plugins="print,iframe,flash,smiley,pagebreak,language,scayt,selectall,templates,specialchar"
-                             msn-count="<?php echo __("Number of typed characters:") ?>">
-                </ng-ckeditor>
+                <div class="col-md-12">
+                    <p class="alert alert-danger">
+                        <?php echo __("<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>.") ?>
+                        <br />
+                        <?php echo __("We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below.") ?>
+                        <br /><br />
+                        <?php echo __("<b>Actual preview version is Siberian 5.0</b>.") ?>
+                    </p>
+                </div>
 
-                <p>
-                    <?php echo __("<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots.") ?>
-                </p>
+                <div class="col-md-12" ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
+                    <p>
+                        <b><?php echo __("Submit a bug report or improvement request for beta/preview") ?>:</b>
+                    </p>
 
-                <br />
-                <a class="btn btn-primary right" ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
-                <div class="clear"></div>
+                    <ng-ckeditor name="beta-report"
+                                 bind="report.message"
+                                 skin="moono"
+                                 remove-buttons="Button,HiddenField,ImageButton,Select,Textarea,TextField,Radio,Checkbox,Form"
+                                 remove-plugins="print,iframe,flash,smiley,pagebreak,language,scayt,selectall,templates,specialchar"
+                                 msn-count="<?php echo __("Number of typed characters:") ?>">
+                    </ng-ckeditor>
+
+                    <p>
+                        <?php echo __("<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots.") ?>
+                    </p>
+
+                    <br />
+                    <a class="btn btn-primary right" ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
+                    <div class="clear"></div>
+                </div>
+
             </div>
 
         </div>
@@ -138,7 +141,7 @@
             <div class="col-md-12">
                 <button type="submit"
                         ng-click="migrate_sessions($event)"
-                        class="btn btn-primary left">
+                        class="btn btn-primary right">
                     <i class="fa fa-medkit"></i> <?php echo __("Migrate sessions"); ?>
                 </button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
@@ -280,7 +283,9 @@
                 <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
 
                 <div ng-show="configs.certificates.length">
-                    <a class="btn btn-primary right" ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
+                    <a class="btn btn-primary right"
+                       style="margin-right: 15px;"
+                       ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
                 </div>
 
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
@@ -371,15 +376,13 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-plus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="!show_upload" ng-click="show_upload = !show_upload">
-    </sb-section>
+    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?>'"
+                class="cert-upload" >
 
-    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?><i class=\'fa fa-minus-square\'>&nbsp;</i>'" class="cert-upload" ng-show="show_upload" ng-click="show_upload = !show_upload">
-    </sb-section>
 
-    <div class="cert-upload area ng-isolate-scope" ng-show="show_upload" style="margin-top: -100px;">
+    <div class="cert-upload ng-isolate-scope">
 
-        <form ng-submit="createCertificate()" ng-show="show_upload" class="form-horizontal">
+        <form ng-submit="createCertificate()" class="form-horizontal">
             <br />
 
             <div class="form-group">
@@ -639,20 +642,14 @@
         </form>
     </div>
 
+    </sb-section>
+
 <div class="clear"></div>
 
 <style type="text/css">
     .well.drop-zone {
         height: 80px;
         border: dotted 3px lightgray;
-    }
-
-    .cert-upload {
-        cursor: pointer;
-    }
-
-    .cert-upload i.fa {
-        margin-left: 10px;
     }
 
     .loader.content_loader {

@@ -140,6 +140,7 @@ let cli = function (inputArgs) {
             'cleanlang': Boolean,
             'db': Boolean,
             'dev': Boolean,
+            'deploy': Boolean,
             'init': Boolean,
             'install': Boolean,
             'ions': Boolean,
@@ -248,6 +249,8 @@ let cli = function (inputArgs) {
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
+        } else if (args.deploy) {
+            deploy();
         } else if (args.patchios) {
             if (remain.length >= 1) {
                 patchIos(remain[0], COPY);
@@ -394,6 +397,14 @@ let install = function () {
     sh.exec('git config core.fileMode false');
 
     sprint('Done.');
+};
+
+let deploy = function () {
+    const developer = require(ROOT + '/developer.json');
+    const host = developer.deploy.host;
+    const path = developer.deploy.path;
+
+    //sh.exec('rsync -avz --delete --exclude-from ' + ROOT + '/rsync_exclude.txt ./ ' + host + ':' + path + ';')
 };
 
 /**

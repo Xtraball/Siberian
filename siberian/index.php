@@ -110,10 +110,18 @@ try {
     ob_clean();
     http_response_code(400);
 
+    $exception = $e;
+    $previous = ($e->getPrevious()) ? $e->getPrevious() : null;
+
     $payload = [
         'error' => true,
-        'message' => $e->getPrevious()->getMessage(),
+        'message' => $exception->getMessage(),
     ];
+
+    if ($previous) {
+        $payload['previous'] = $payload['message'];
+        $payload['message'] = $previous;
+    }
 
     exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }

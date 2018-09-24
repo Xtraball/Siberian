@@ -1,0 +1,21 @@
+<?php
+$companyName = __get('company_name');
+$platformName = __get('platform_name');
+$address = __get('company_address');
+$country = __get('company_country');
+$phone = __get('company_phone');
+$email = __get('support_email');
+?>
+
+<div class="footer">
+    <?php if ($this->getShowLegals()): ?>
+    <br />
+        <?php echo $companyName ?> - <?php echo $platformName ?><br />
+        -<br />
+        <?php echo $address ?>, <?php echo $country ?><br />
+        <?php echo $phone ?> - <?php echo $email ?><br />
+    <?php endif; ?>
+
+    <br />
+    <?php echo $this->getFooterText(); ?>
+</div>

@@ -1,60 +1,70 @@
 <form class="form-horizontal" ng-submit="save()">
     <sb-section title="section_title" button="button">
         <br />
-            <div class="form-group">
-                <div class="col-md-4">
-                    <label for="role_code"><?php echo __('Code'); ?></label>
-                </div>
-                <div class="col-md-4">
-                    <label for="role_label"><?php echo __('Label'); ?></label>
-                </div>
-                <div class="col-md-4">
-                    <label for="role_parent_id"><?php echo __('Parent'); ?></label>
-                </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="role_code"><?php echo __('Code'); ?></label>
             </div>
-            <div class="form-group">
-                <div class="col-md-4">
-                    <input type="text"
-                           id="role_code"
-                           class="form-control"
-                           ng-model="role.code" />
-                </div>
-                <div class="col-md-4">
-                    <input type="text"
-                           id="role_label"
-                           class="form-control"
-                           ng-model="role.label" />
-                </div>
-                <div class="col-md-4">
-                    <select id="role_parent_id"
-                            class="form-control"
-                            ng-model="role.parent_id">
-                        <option ng-repeat="parent in parents"
-                                ng-selected="role.parent_id == parent.value"
-                                value="{{ parent.value }}">{{ parent.label }}</option>
-                    </select>
-                </div>
+            <div class="col-md-4">
+                <label for="role_label"><?php echo __('Label'); ?></label>
             </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <label for="self_assignable">
-                        <input type="checkbox"
-                               id="self_assignable"
-                               ng-model="role.is_self_assignable"/>
-                        <?php echo __('Is self assignable (a user with a self-assignable role can create users with the same role)'); ?>
-                    </label>
-                </div>
+            <div class="col-md-4">
+                <label for="role_parent_id"><?php echo __('Parent'); ?></label>
             </div>
-            <div class="form-group">
-                <div class="col-md-12">
-                    <label for="default_role">
-                        <input type="checkbox"
-                               id="default_role"
-                               ng-model="role.default"/>
-                        <?php echo __('This role will be the default one for the whole platform.'); ?>
-                    </label>
-                </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-4">
+                <input type="text"
+                       id="role_code"
+                       class="form-control"
+                       ng-model="role.code" />
             </div>
+            <div class="col-md-4">
+                <input type="text"
+                       id="role_label"
+                       class="form-control"
+                       ng-model="role.label" />
+            </div>
+            <div class="col-md-4">
+                <select id="role_parent_id"
+                        class="form-control"
+                        ng-model="role.parent_id">
+                    <option ng-repeat="parent in parents"
+                            ng-selected="role.parent_id == parent.value"
+                            value="{{ parent.value }}">{{ parent.label }}</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="self_assignable">
+                    <input type="checkbox"
+                           id="self_assignable"
+                           ng-model="role.is_self_assignable"/>
+                    <?php echo __('Is self assignable (a user with a self-assignable role can create users with the same role)'); ?>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="default_role">
+                    <input type="checkbox"
+                           id="default_role"
+                           ng-model="role.default"/>
+                    <?php echo __('This role will be the default one for the whole platform.'); ?>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12 text-right">
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+            </div>
+        </div>
+
     </sb-section>
     
     <sb-section title="'<?php echo addslashes(__("Manage access")); ?>'"
@@ -64,14 +74,15 @@
                 class="list-group-item"
                 ng-include="'role/resources/list.html'"></li>
         </ul>
-    </sb-section>
 
-    <div class="form-group">
-        <div class="col-md-12 text-right">
-            <button type="submit"
-                    class="btn btn-primary"><?php echo __("Save"); ?></button>
+        <div class="form-group">
+            <div class="col-md-12 text-right">
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+            </div>
         </div>
-    </div>
+
+    </sb-section>
 
     <script type="text/ng-template"
             id="role/resources/list.html">

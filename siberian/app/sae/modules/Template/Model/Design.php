@@ -235,9 +235,13 @@ class Template_Model_Design extends Core_Model_Default
         return $result;
     }
 
-    public function findAllWithCategory()
+    /**
+     * @param null $where
+     * @return array
+     */
+    public function findAllWithCategory($where = null)
     {
-        $all_templates = $this->findAll();
+        $all_templates = $this->findAll($where, ['position ASC', 'name ASC']);
         $template_a_category = $this->getTable()->findAllWithCategory();
         $final_templates = [];
 
@@ -278,9 +282,18 @@ class Template_Model_Design extends Core_Model_Default
 
     }
 
+    /**
+     * @param null $data_key
+     * @return string
+     */
     public function getOverview($data_key = null)
     {
-        $data = (empty($data_key)) ? $this->getData('overview') : $this->getData($data_key);
+        $data = (empty($data_key)) ?
+            $this->getData('overview') : $this->getData($data_key);
+
+        if ($this->getVersion() == 2) {
+            return Core_Model_Directory::getPathTo($data);
+        }
         return Core_Model_Directory::getPathTo(self::PATH_IMAGE . $data);
     }
 

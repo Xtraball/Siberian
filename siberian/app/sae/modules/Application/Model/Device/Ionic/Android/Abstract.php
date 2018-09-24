@@ -33,17 +33,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         /** Checking paths */
         $resource_folders = [
             $this->_dest_source_res . '/drawable',
-            $this->_dest_source_res . '/drawable-ldpi',
-            $this->_dest_source_res . '/drawable-mdpi',
-            $this->_dest_source_res . '/drawable-hdpi',
-            $this->_dest_source_res . '/drawable-xhdpi',
-            $this->_dest_source_res . '/drawable-xxhdpi',
             $this->_dest_source_res . '/drawable-xxxhdpi',
-            $this->_dest_source_res . '/mipmap-hdpi',
-            $this->_dest_source_res . '/mipmap-ldpi',
-            $this->_dest_source_res . '/mipmap-mdpi',
-            $this->_dest_source_res . '/mipmap-xhdpi',
-            $this->_dest_source_res . '/mipmap-xxhdpi',
             $this->_dest_source_res . '/mipmap-xxxhdpi',
         ];
 
@@ -53,82 +43,30 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
         }
 
-        $push_icon = Core_Model_Directory::getBasePathTo("/images/application" . $application->getAndroidPushIcon());
+        $pushIcon = Core_Model_Directory::getBasePathTo("/images/application" . $application->getAndroidPushIcon());
 
         /** icon/push_icon */
+        $appIcon192 = $application->getIcon(192, null, true);
         $icons = [
-            $this->_dest_source_res . '/drawable-ldpi/icon.png' => $application->getIcon(36, null, true),
-            $this->_dest_source_res . '/drawable-mdpi/icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/drawable-hdpi/icon.png' => $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/drawable-xhdpi/icon.png' => $application->getIcon(96, null, true),
-            $this->_dest_source_res . '/drawable-xxhdpi/icon.png' => $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $application->getIcon(192, null, true),
-            $this->_dest_source_res . '/drawable-ldpi/push_icon.png' => $application->getIcon(36, null, true),
-            $this->_dest_source_res . '/drawable-mdpi/push_icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/drawable-hdpi/push_icon.png' => $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/drawable-xhdpi/push_icon.png' => $application->getIcon(96, null, true),
-            $this->_dest_source_res . '/drawable-xxhdpi/push_icon.png' => $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $application->getIcon(192, null, true),
-            $this->_dest_source_res . '/drawable/launcher_icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/drawable-ldpi/launcher_icon.png' => $application->getIcon(36, null, true),
-            $this->_dest_source_res . '/drawable-mdpi/launcher_icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/drawable-hdpi/launcher_icon.png' => $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/drawable-xhdpi/launcher_icon.png' => $application->getIcon(96, null, true),
-            $this->_dest_source_res . '/drawable-xxhdpi/launcher_icon.png' => $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/drawable-xxxhdpi/launcher_icon.png' => $application->getIcon(192, null, true),
-            $this->_dest_source . '/assets/www/img/app_icon.png' => $application->getIcon(192, null, true),
-            $this->_dest_source_res . '/drawable/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-hdpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-ldpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-mdpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-xhdpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-xxhdpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/drawable-xxxhdpi/ic_icon.png' => $push_icon,
-            $this->_dest_source_res . '/mipmap-ldpi/icon.png' => $application->getIcon(36, null, true),
-            $this->_dest_source_res . '/mipmap-mdpi/icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/mipmap-hdpi/icon.png' => $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/mipmap-xhdpi/icon.png' => $application->getIcon(96, null, true),
-            $this->_dest_source_res . '/mipmap-xxhdpi/icon.png' => $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $application->getIcon(192, null, true),
-            $this->_dest_source_res . '/mipmap-ldpi/launcher_icon.png' => $application->getIcon(36, null, true),
-            $this->_dest_source_res . '/mipmap-mdpi/launcher_icon.png' => $application->getIcon(48, null, true),
-            $this->_dest_source_res . '/mipmap-hdpi/launcher_icon.png' => $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/mipmap-xhdpi/launcher_icon.png' => $application->getIcon(96, null, true),
-            $this->_dest_source_res . '/mipmap-xxhdpi/launcher_icon.png' => $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $application->getIcon(192, null, true),
-        ];
+            $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $appIcon192,
+            $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $appIcon192,
+            $this->_dest_source_res . '/drawable-xxxhdpi/launcher_icon.png' => $appIcon192,
 
-        /** Associating screen image resolution to various landscape/portrait-resolution */
-        $orientation_resolution_image = [
-            'land' => [
-                'ldpi' => 'standard',
-                'mdpi' => 'standard',
-                'hdpi' => 'standard',
-                'xhdpi' => 'iphone_6',
-                'xxhdpi' => 'iphone_6_plus',
-                'xxxhdpi' => 'ipad_retina',
-            ],
-            'port' => [
-                'ldpi' => 'standard',
-                'mdpi' => 'standard',
-                'hdpi' => 'standard',
-                'xhdpi' => 'iphone_6',
-                'xxhdpi' => 'iphone_6_plus',
-                'xxxhdpi' => 'ipad_retina',
-            ]
+            $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $appIcon192,
+            $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $appIcon192,
+
+            $this->_dest_source_res . '/drawable-xxxhdpi/ic_icon.png' => $pushIcon,
+
+            $this->_dest_source . '/app/src/main/assets/www/img/app_icon.png' => $appIcon192,
         ];
 
         /** Clean up screen.xxx */
         array_map('unlink', glob("{$this->_dest_source_res}/drawable*/screen*"));
 
-        foreach ($orientation_resolution_image as $orientation => $resolution_image) {
-            foreach ($resolution_image as $resolution => $image) {
-                $_file = $application->getStartupImageUrl($image, "base");
-                $extension = pathinfo($_file, PATHINFO_EXTENSION);
-                $icons[$this->_dest_source_res . "/drawable-{$orientation}-{$resolution}/screen.$extension"] = $_file;
-                $icons[$this->_dest_source_res . "/drawable-{$orientation}-{$resolution}/startup_image.$extension"] = $_file;
-            }
-        }
+        $_file = $application->getStartupBackgroundUnified();
+        $extension = pathinfo($_file, PATHINFO_EXTENSION);
+        $icons[$this->_dest_source_res . "/drawable-xxxhdpi/screen.$extension"] =
+            Core_Model_Directory::getBasePathTo($_file);
 
         foreach ($icons as $icon_dst => $icon_src) {
             if (Core_Model_Lib_Image::getMimeType($icon_src) != 'image/png') {
@@ -170,27 +108,15 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             '${applicationId}' => $tmp_application_id,
         ];
 
-        /** App Only */
-        if (isset($this->_previewer)) {
-            $version_name = $this->_previewer->getAndroidVersion();
-            $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
-            if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
-                $replacements = array_merge($replacements, [
-                    "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
-                    "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
-                ]);
-            }
-        } elseif ($this->getDevice()) {
-            $version_name = $this->getDevice()->getVersion();
-            $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
+        $version_name = $this->getDevice()->getVersion();
+        $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
-            if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
-                $replacements = array_merge($replacements, [
-                    "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
-                    "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
-                ]);
-            }
+        if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
+            $replacements = array_merge($replacements, [
+                "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
+                "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
+            ]);
         }
 
         $this->__replace($replacements, "{$this->_dest_source}/app/src/main/AndroidManifest.xml");

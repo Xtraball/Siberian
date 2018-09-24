@@ -930,7 +930,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param string $content_type
      * @throws \Siberian\Exception
      */
-    protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
+    public function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
     {
         $response = $this->getResponse();
 

@@ -2053,9 +2053,36 @@ h3.template_title {
     top: 0;
     left: 0;
     margin-top: 0;
-    line-height: 3.5vh;
+    line-height: 40px;
     font-weight: 200;
-    font-size: 1.5vh;
+    font-size: 1.8vh;
+    z-index: 10;
+    opacity: 0.9;
+}
+
+h3.template_title a {
+    letter-spacing: 1.8px;
+}
+
+div p.template_image {
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(119, 119, 119);
+    z-index: 20;
+    margin: 0 !important;
+    pointer-events: none;
+}
+
+div.current p.template_image {
+    border: 2px solid red !important;
+}
+
+.current h3.template_title {
+    background-color: red;
+    color: white;
 }
 
 .templates_content_preview .design .radius_top_only {
@@ -2075,7 +2102,7 @@ h3.template_title {
 }
 
 .templates_content_preview div {
-    height: 480px;
+    height: 450px;
     overflow: hidden;
 }
 
@@ -2086,7 +2113,7 @@ h3.template_title {
     left: 0;
     z-index: 1;
     transition:0.5s ease-out 0s;
-    top:40px;
+    top: 0;
 }
 
 .templates_content_preview .col-md-4 {
@@ -2115,6 +2142,7 @@ h3.template_title {
 
 img#design_overview {
     width: 200%;
+    margin-left: -100%;
 }
 
 /* */
@@ -2656,7 +2684,11 @@ input[type=submit]:hover {
     text-align: center !important;
     margin: 0 !important;
     border-radius: 0 !important;
-    border-bottom: 1px solid #8a6d3b !important;
+    border-top: 2px solid #8a6d3b !important;
+    position: fixed;
+    bottom: 0;
+    z-index: 65500;
+    width: 100%;
 }
 
 div#iphone {
@@ -3127,6 +3159,18 @@ div.ui-datepicker-buttonpane .ui-datepicker-close {
 div.ui-datepicker-buttonpane .ui-datepicker-current.ui-state-hover,
 div.ui-datepicker-buttonpane .ui-datepicker-close.ui-state-hover {
     background: #b0b0b0 !important;
+}
+
+li.is_current {
+    border: 1px solid #404040;
+    border-radius: 3px;
+}
+
+.dropdown-menu li.is_current {
+    border-width: 0 0 0 4px;
+    border-style: solid;
+    border-color:  #404040;
+    border-radius: 0;
 }
 
 .ui-widget-header .ui-icon {

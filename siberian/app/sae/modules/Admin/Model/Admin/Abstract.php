@@ -13,7 +13,8 @@
  * @method $this setRegion(string $region)
  * @method $this setPhone(string $phone)
  */
-abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
+abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
+{
 
     /**
      * @var
@@ -33,7 +34,8 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
     const LOGO_PATH = '/images/admin';
     const BO_DISPLAYED_PER_PAGE = 500;
 
-    public function __construct($datas = array()) {
+    public function __construct($datas = array())
+    {
         parent::__construct($datas);
         $this->_db_table = 'Admin_Model_Db_Table_Admin';
     }
@@ -43,11 +45,12 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
      *
      * @return mixed
      */
-    public function getPublishedApplicationsForAdmin() {
+    public function getPublishedApplicationsForAdmin()
+    {
         $application_table = new Application_Model_Db_Table_Application();
         $applications = $application_table->findAllForGlobalPush();
 
-        if(count($applications) <= 0) {
+        if (count($applications) <= 0) {
             return array();
         }
 
@@ -59,22 +62,25 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         return $admin_applications;
     }
 
-    public function findByEmail($email) {
+    public function findByEmail($email)
+    {
         return $this->find($email, 'email');
     }
 
-    public function getStats() {
+    public function getStats()
+    {
         return $this->getTable()->getStats();
     }
 
-    public function save() {
+    public function save()
+    {
 
         $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
 
-        if($this->getCountryCode()) {
-            if(empty($countries[$this->getCountryCode()])) {
+        if ($this->getCountryCode()) {
+            if (empty($countries[$this->getCountryCode()])) {
                 throw new Exception(__("An error occurred while saving. The country is not valid."));
-            } else if($this->getCountry() != $countries[$this->getCountryCode()]) {
+            } else if ($this->getCountry() != $countries[$this->getCountryCode()]) {
                 $this->setCountry($countries[$this->getCountryCode()]);
             }
         }
@@ -83,44 +89,50 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
 
     }
 
-    public function getApplications() {
+    public function getApplications()
+    {
 
-        if(!$this->_applications) {
+        if (!$this->_applications) {
             $this->_applications = array(Application_Model_Application::getInstance());
         }
 
         return $this->_applications;
     }
 
-    public function getApplicationsByDesignType($type) {
+    public function getApplicationsByDesignType($type)
+    {
 
-        if($type) {
+        if ($type) {
             return $this->getTable()->getApplicationsByDesignType($type, $this->getId());
         }
 
         return array();
     }
 
-    public function getAllApplicationAdmins($app_id) {
-        if($app_id) {
+    public function getAllApplicationAdmins($app_id)
+    {
+        if ($app_id) {
             return $this->getTable()->getAllApplicationAdmins($app_id);
         }
         return array();
     }
 
-    public function getLoginToken() {
-        return md5($this->getFirstname().$this->getEmail().$this->getId());
+    public function getLoginToken()
+    {
+        return md5($this->getFirstname() . $this->getEmail() . $this->getId());
     }
 
-    public function isAllowedToAddPages($app_id = null) {
-        return (bool) $this->getIsAllowedToAddPages();
+    public function isAllowedToAddPages($app_id = null)
+    {
+        return (bool)$this->getIsAllowedToAddPages();
     }
 
-    public function getWhiteLabelEditor() {
+    public function getWhiteLabelEditor()
+    {
 
-        if(!$this->_white_label_editor) {
+        if (!$this->_white_label_editor) {
 
-            if(Installer_Model_Installer::hasModule("whitelabel")) {
+            if (Installer_Model_Installer::hasModule("whitelabel")) {
                 $this->_white_label_editor = new Whitelabel_Model_Editor();
                 $this->_white_label_editor->find($this->getId(), "admin_id");
             } else {
@@ -131,8 +143,8 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         return $this->_white_label_editor;
     }
 
-    public function canPublishThemself() {
-
+    public function canPublishThemself()
+    {
         $publication_type = System_Model_Config::getValueFor("system_publication_access_type");
 
         $admin = new Admin_Model_Admin();
@@ -141,7 +153,6 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         $publish_rights = $admin->getPublicationAccessType() ? $admin->getPublicationAccessType() : $publication_type;
 
         return $publish_rights == 'sources';
-
     }
 
     /**
@@ -149,7 +160,8 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
      *
      * @return bool
      */
-    public function canGenerateApk() {
+    public function canGenerateApk()
+    {
 
         $global_generate_apk = System_Model_Config::getValueFor("system_generate_apk");
 
@@ -162,7 +174,8 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
 
     }
 
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         if (strlen($password) < 6) {
             throw new Siberian_Exception(__('The password must be at least 6 characters'));
         }
@@ -170,95 +183,140 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         return $this;
     }
 
-    public function isSamePassword($password) {
+    public function isSamePassword($password)
+    {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
-    public function authenticate($password) {
+    public function authenticate($password)
+    {
         return $this->_checkPassword($password);
     }
 
-    public static function getLogoPathTo($path = '') {
-        return Core_Model_Directory::getPathTo(self::LOGO_PATH.$path);
+    public static function getLogoPathTo($path = '')
+    {
+        return Core_Model_Directory::getPathTo(self::LOGO_PATH . $path);
     }
 
-    public static function getBaseLogoPathTo($path = '') {
-        return Core_Model_Directory::getBasePathTo(self::LOGO_PATH.$path);
+    public static function getBaseLogoPathTo($path = '')
+    {
+        return Core_Model_Directory::getBasePathTo(self::LOGO_PATH . $path);
     }
 
-    public static function getNoLogo($base = false) {
+    public static function getNoLogo($base = false)
+    {
         return $base ? self::getBaseLogoPathTo('placeholder/no-logo.png') : self::getLogoPathTo('placeholder/no-logo.png');
     }
 
-    public function getLogoLink() {
-        if($this->getData('logo') AND is_file(self::getBaseLogoPathTo($this->getData('logo')))) {
+    public function getLogoLink()
+    {
+        if ($this->getData('logo') AND is_file(self::getBaseLogoPathTo($this->getData('logo')))) {
             return self::getLogoPath($this->getData('logo'));
-        }
-        else {
+        } else {
             return self::getNoLogo();
         }
 
     }
 
-    public function getLogoUrl() {
-        return $this->getBaseUrl().$this->getLogoLink();
+    public function getLogoUrl()
+    {
+        return $this->getBaseUrl() . $this->getLogoLink();
     }
 
-    public function getBaseLogoLink() {
-        if($this->getData('logo') AND is_file(self::getBaseLogoPathTo($this->getLogo()))) return self::getBaseLogoPathTo($this->getLogo());
+    public function getBaseLogoLink()
+    {
+        if ($this->getData('logo') AND is_file(self::getBaseLogoPathTo($this->getLogo()))) return self::getBaseLogoPathTo($this->getLogo());
         else return self::getNoLogo(true);
     }
 
-    public function getAvailableRole() {
+    public function getAvailableRole()
+    {
         $roles = $this->getTable()->getAvailableRole();
 
-        for($i = 0; $i<count($roles); $i++) {
+        for ($i = 0; $i < count($roles); $i++) {
             $roles[$i]["label"] = __($roles[$i]["label"]);
             $roles[$i]["code"] = __($roles[$i]["code"]);
         }
         return $roles;
     }
 
-    public function sendCreationAccountEmail($password) {
+    /**
+     * @param $password
+     * @return $this
+     * @throws Zend_Layout_Exception
+     */
+    public function sendCreationAccountEmail($password = '')
+    {
+        $platformName = __get('platform_name');
 
-        $layout = Zend_Controller_Action_HelperBroker::getStaticHelper('layout')->getLayoutInstance()
-            ->loadEmail('admin', 'create_account');
-        $layout->getPartial('content_email')->setAdmin($this)->setPassword($password);
-        $content = $layout->render();
+        // E-Mail new User!
+        $baseEmail = $this->baseEmail(
+            'create_account',
+            __('Account Created'));
 
-        $sender = System_Model_Config::getValueFor("support_email");
-        $support_name = System_Model_Config::getValueFor("support_name");
+        $baseEmail->setContentFor('content_email', 'admin', $this);
+        $baseEmail->setContentFor('header', 'show_logo', true);
 
-        # @todo SMTP
-        # @version 4.8.7 - SMTP
-        if($sender AND $support_name) {
-            //Mail to new client
-            $mail = new Siberian_Mail();
-            $mail->setBodyHtml($content);
-            $mail->setFrom($sender, $support_name);
-            $mail->addTo($this->getEmail());
-            $mail->setSubject(__("Welcome!"));
-            $mail->send();
+        $content = $baseEmail->render();
 
-            //mail to admin
-            $end_message = System_Model_Config::getValueFor("signup_mode") == "validation" ? " ".__("Connect to your backoffice to validate this account.") : "";
-            $mail = new Siberian_Mail();
-            $mail->setBodyHtml(__("Hello, a new user has registered on your platform : %s.", $this->getEmail()).$end_message);
-            $mail->setFrom($sender, $support_name);
-            $mail->addTo($sender);
-            $mail->setSubject(__("New user registration on your platform"));
-            $mail->send();
-        }
+        $subject = __('Welcome on our Platform %s', $platformName);
+
+        $mail = new \Siberian_Mail();
+        $mail->setBodyHtml($content);
+        $mail->addTo($this->getEmail());
+        $mail->setSubject($subject);
+        $mail->send();
+
+        // E-Mail Platform owner!
+        $baseEmail = $this->baseEmail(
+            'create_for_owner',
+            __('New user Account'));
+
+        $baseEmail->setContentFor('content_email', 'admin', $this);
+        $baseEmail->setContentFor('header', 'show_logo', true);
+
+        $content = $baseEmail->render();
+
+        $subject = __('A user registered on your Platform %s', $platformName);
+
+        $mail = new \Siberian_Mail();
+        $mail->setBodyHtml($content);
+        $mail->ccToSender();
+        $mail->setSubject($subject);
+        $mail->send();
 
         return $this;
 
     }
 
-    private function _encrypt($password) {
+    /**
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '')
+    {
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('admin', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', true);
+
+        return $layout;
+    }
+
+    private function _encrypt($password)
+    {
         return sha1($password);
     }
 
-    private function _checkPassword($password) {
+    private function _checkPassword($password)
+    {
         return $this->getPassword() == $this->_encrypt($password);
     }
 
@@ -282,7 +340,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default {
         $backofficeUser = (new Backoffice_Model_User())
             ->find($this->getEmail(), 'email');
 
-        return (boolean) $backofficeUser->getId();
+        return (boolean)$backofficeUser->getId();
     }
 
 }

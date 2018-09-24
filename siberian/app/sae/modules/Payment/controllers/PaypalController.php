@@ -56,6 +56,8 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
 
     /**
      * New version as of 4.12.20 to check paypal payment recurrencies!
+     *
+     * @deprecated
      */
     public static function checkRecurrencies($cronInstance = null) {
         $subscriptions = (new Subscription_Model_Subscription_Application())
@@ -129,7 +131,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 $checkingInvoiceDate = clone $profileStartDate;
                 $frequency = $subscription->getSubscription()->getPaymentFrequency();
 
-                while($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
+                while ($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
                     switch($frequency) {
                         case 'Monthly':
                             if (!$saleModel->isInvoiceExistsForMonth(
@@ -173,8 +175,9 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
                 $nextBillingDate->setHour('12');
                 $nextBillingDate->setMinute('00');
+
+                $subscription->unlock();
                 $subscription
-                    ->setIsActive(1)
                     ->update($nextBillingDate)
                     ->save();
 
@@ -188,9 +191,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 if ($cronInstance) {
                     $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive");
                 }
-                $subscription
-                    ->setIsActive(0)
-                    ->save();
+                $subscription->lock();
             }
         }
 

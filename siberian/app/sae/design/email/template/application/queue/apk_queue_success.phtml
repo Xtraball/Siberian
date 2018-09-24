@@ -1,10 +1,28 @@
-<table>
-    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
-        <td>
-            <p style="font-family: Verdana; font-weight: bold;color: #404040;font-size:18px; line-height:150%;">
-                <?php echo __("The APK for the application %s has been generated !", $this->getApplicationName()); ?>
-            </p>
-            <a href ="<?php echo $this->getLink() ?>"><?php echo __("Download the APK") ?></a>
+<p>
+    <?php echo __('The APK for the application %s has been generated !', $this->getApplicationName()); ?>
+</p>
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       class="btn btn-primary">
+    <tbody>
+    <tr>
+        <td align="left">
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="<?php echo $this->getLink() ?>"
+                           target="_blank">
+                            <?php echo __('Download the APK') ?>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </td>
     </tr>
+    </tbody>
 </table>

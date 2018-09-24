@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "51964b4654706def3c3e395641f95e70",
+    "content-hash": "6ed1c8adc526364b1e362449f5137077",
     "packages": [
+        {
+            "name": "2checkout/2checkout-php",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2Checkout/2checkout-php.git",
+                "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2Checkout/2checkout-php/zipball/cbac8da68155b6f557db0da0ac16a48a0faa5400",
+                "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Twocheckout": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Craig Christenson",
+                    "email": "christensoncraig@gmail.com",
+                    "homepage": "https://github.com/craigchristenson"
+                }
+            ],
+            "description": "2Checkout PHP Library",
+            "homepage": "https://github.com/2Checkout/2checkout-php",
+            "keywords": [
+                "2checkout",
+                "2co",
+                "gateway",
+                "payment"
+            ],
+            "time": "2016-01-29T14:28:52+00:00"
+        },
         {
             "name": "bacon/bacon-qr-code",
             "version": "1.0.1",

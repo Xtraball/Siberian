@@ -192,6 +192,13 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twocheckout' => 
+            array (
+                0 => __DIR__ . '/..' . '/2checkout/2checkout-php/lib',
+            ),
+        ),
         'M' => 
         array (
             'MomentPHP' => 

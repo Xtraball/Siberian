@@ -33,9 +33,11 @@ $host = $this->getRequest()->getHttpHost();
             </div>
         </div>
 
-    </sb-section>
+        <div class="subtitle">
+            <h4><?php echo __("Your licenses") ?></h4>
+            <div class="clear"></div>
+        </div>
 
-    <sb-section title="'<?php echo __js("Your iOS autobuild License Key","'"); ?>'">
         <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
         <div class="form-group">
             <div class="col-md-6">
@@ -52,6 +54,7 @@ $host = $this->getRequest()->getHttpHost();
                 </div>
             </div>
         </div>
+
     </sb-section>
 
     <sb-section class="clear" title="'<?php echo __js("Your company","'"); ?>'">
@@ -67,7 +70,11 @@ $host = $this->getRequest()->getHttpHost();
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.company_address.code }}">{{ configs.company_address.label }}</label>
-                <textarea rows="3" id="{{ configs.company_address.code }}" ng-model="configs.company_address.value" class="form-control" placeholder="{{ configs.company_address.label }}"></textarea>
+                <textarea rows="3"
+                          id="{{ configs.company_address.code }}"
+                          ng-model="configs.company_address.value"
+                          class="form-control"
+                          placeholder="{{ configs.company_address.label }}"></textarea>
             </div>
             <div class="col-md-6">
                 <label for="{{ configs.company_country.code }}">{{ configs.company_country.label }}</label>
@@ -280,7 +287,7 @@ $host = $this->getRequest()->getHttpHost();
         <div class="form-group">
             <div class="col-md-6">
 
-                <div class="title">
+                <div class="subtitle">
                     <h4><?php echo __("Ios") ?></h4>
                     <div class="clear"></div>
                 </div>
@@ -320,7 +327,7 @@ $host = $this->getRequest()->getHttpHost();
             </div>
             <div class="col-md-6">
 
-                <div class="title">
+                <div class="subtitle">
                     <h4><?php echo __("Android") ?></h4>
                     <div class="clear"></div>
                 </div>
@@ -362,7 +369,7 @@ $host = $this->getRequest()->getHttpHost();
 
          <div class="form-group">
              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>

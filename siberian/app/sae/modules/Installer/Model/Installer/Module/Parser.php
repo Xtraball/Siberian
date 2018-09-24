@@ -72,9 +72,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $package = $this->getPackageDetails();
 
         switch($package->getType()) {
-            case "module":
-            case "layout":
-            case "icons":
+            case 'template':
+            case 'module':
+            case 'layout':
+            case 'icons':
                     $this->_checkDependenciesModule($package, $package->getType());
                 break;
             default:
@@ -136,13 +137,16 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $_module->prepare($name);
 
         switch($package_type) {
-            case "layout":
-                $_module->setType("layout");
+            case 'layout':
+                $_module->setType('layout');
                 break;
-            case "icons":
-                $_module->setType("icons");
+            case 'template':
+                $_module->setType('template');
                 break;
-            case "module":
+            case 'icons':
+                $_module->setType('icons');
+                break;
+            case 'module':
                 break;
         }
 

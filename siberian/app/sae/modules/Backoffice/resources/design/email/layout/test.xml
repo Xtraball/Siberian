@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <test_layout>
+        <views>
+            <base class="core_view_email_default"
+                  template="test/content.phtml" />
+            <header class="core_view_email_default"
+                    template="test/header.phtml" />
+            <footer class="core_view_email_default"
+                    template="test/footer.phtml" />
+        </views>
+    </test_layout>
+
+    <test>
+        <addLayout name="test_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="test/test.phtml" />
+        </views>
+    </test>
+</layout>

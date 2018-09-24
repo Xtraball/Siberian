@@ -14,13 +14,8 @@
       <dict>
         <key>CFBundleIconFiles</key>
         <array>
-          <string>icon-40</string>
-          <string>icon-small</string>
-          <string>icon-60</string>
           <string>icon</string>
-          <string>icon@2x</string>
-          <string>icon-72</string>
-          <string>icon-72@2x</string>
+          <string>icon-60@3x</string>
         </array>
         <key>UIPrerenderedIcon</key>
         <false/>
@@ -32,16 +27,8 @@
       <dict>
         <key>CFBundleIconFiles</key>
         <array>
-          <string>icon-small</string>
-          <string>icon-40</string>
-          <string>icon-50</string>
-          <string>icon-76</string>
-          <string>icon-60</string>
           <string>icon</string>
-          <string>icon@2x</string>
-          <string>icon-72</string>
-          <string>icon-72@2x</string>
-          <string>icon-83.5@2x</string>
+          <string>icon-60@3x</string>
         </array>
         <key>UIPrerenderedIcon</key>
         <false/>
@@ -210,6 +197,8 @@
       <key>NSAllowsArbitraryLoads</key>
       <true/>
     </dict>
+    <key>UILaunchStoryboardName</key>
+    <string>CDVLaunchScreen</string>
     <key>UIBackgroundModes</key>
     <array>
       <string>remote-notification</string>
