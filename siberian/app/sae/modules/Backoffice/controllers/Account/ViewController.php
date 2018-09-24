@@ -3,15 +3,17 @@
 class Backoffice_Account_ViewController extends Backoffice_Controller_Default
 {
 
-    public function loadAction() {
+    public function loadAction()
+    {
+        $payload = [
+            "title" => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Backoffice access'),
+                __('Account')),
+            "icon" => "fa-users",
+        ];
 
-        $html = array(
-            "title" => $this->_("Account"),
-            "icon" => "fa-user",
-        );
-
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
     public function findAction() {
