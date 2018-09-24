@@ -3,15 +3,21 @@
 class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
 {
 
-    public function loadAction() {
+    /**
+     *
+     */
+    public function loadAction()
+    {
+        $payload = [
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Backoffice access'),
+                __('Api User')
+            ),
+            'icon' => 'fa-user',
+        ];
 
-        $html = array(
-            "title" => __("User"),
-            "icon" => "fa-user",
-        );
-
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
     public function findAction() {

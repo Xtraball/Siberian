@@ -13,7 +13,7 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
         $payload = [
             'title' => sprintf('%s > %s > %s',
                 __('Manage'),
-                __('Users'),
+                __('Backoffice access'),
                 __('Api Users')
             ),
             'icon' => 'fa-users',
