@@ -4,12 +4,12 @@
             <div style="margin-bottom: 20px;"
                  class="col-md-6"
                  ng-repeat="category in template.categories">
-                <label for="{{ key.name }}">{{ category.original_name }}</label>
+                <label for="{{ key.name }}">{{ category.original_name ? category.original_name : category.name }}</label>
                 <input type="text"
                        id="{{ category.name }}"
                        ng-model="category.name"
                        class="form-control"
-                       placeholder="{{ category.name }}" />
+                       placeholder="{{ category.name ? category.name : category.original_name }}" />
             </div>
             <div class="clear"></div>
         </div>
