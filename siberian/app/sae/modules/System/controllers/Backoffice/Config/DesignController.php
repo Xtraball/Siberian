@@ -15,7 +15,6 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
 
     public function loadAction()
     {
-
         $html = [
             "title" => sprintf('%s > %s',
                 __('Appearance'),
@@ -26,6 +25,9 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
                 "siberian" => __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "150x50px")
             ]
         ];
+
+        // Hides new themes message!
+        __set('display_backoffice_theme', true);
 
         $this->_sendJson($html);
 

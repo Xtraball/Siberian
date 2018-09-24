@@ -1,3 +1,11 @@
+<?php
+$backofficeThemeView = __get('display_backoffice_theme');
+
+$displayTheme = false;
+if (empty($backofficeThemeView)) {
+    $displayTheme = true;
+}
+?>
 <div class="col-md-8 col-md-offset-2 col-sm-12">
     <span ng-if="!sslLoading">
         <p class="alert"
@@ -12,6 +20,14 @@
             <?php echo __('HTTPS is not available on your server.') ?></p>
     </span>
 </div>
+
+<?php if ($displayTheme): ?>
+<div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="alert alert-info">
+        <?php echo __('New backoffice themes are available, check them out <a href="/system/backoffice_config_design">here</a>.') ?>
+    </div>
+</div>
+<?php endif; ?>
 
 <div class="col-xs-12 col-md-6">
     <sb-section title="'<?php echo __js("New messages", "'"); ?>'" button="button">
