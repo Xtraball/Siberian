@@ -24,7 +24,10 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
             ->findAll();
 
         $templates = (new Template_Model_Design())
-            ->findAll(null,
+            ->findAll(
+                [
+                    'version = ?' => 2,
+                ],
                 [
                     'position ASC',
                     'name ASC'
