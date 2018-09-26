@@ -141,6 +141,10 @@ input, select, textarea {
     margin-bottom: 15px;
 }
 
+table.table tbody tr {
+    background-color: #f2f4f5;
+}
+
 .alert {
     padding: 8px;
     line-height: 20px;
