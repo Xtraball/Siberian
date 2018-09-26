@@ -1320,3 +1320,7 @@ th.pointer-down {
 .slider.round:before {
     border-radius: 50%;
 }
+
+textarea.ta-bind {
+    width: 100%;
+}
