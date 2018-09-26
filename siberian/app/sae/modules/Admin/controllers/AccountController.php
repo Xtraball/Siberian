@@ -34,9 +34,7 @@ class Admin_AccountController extends Admin_Controller_Default
                         $admin->getParentId() AND $admin->getParentId() != $this->getAdmin()->getId() OR
                         !$admin->getParentId()
                     )) {
-
-                        throw new Exception(__("An error occurred while saving your account. Please try again later."));
-
+                        throw new \Siberian\Exception(__("An error occurred while saving your account. Please try again later."));
                 }
                 
                 if(!$admin->getId() OR $admin->getId() != $this->getAdmin()->getId()) {
@@ -50,15 +48,15 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 // Demo version
                 if(__getConfig('is_demo') && $admin->getId() == 1) {
-                    throw new Exception("This is a demo version, this user can't be changed");
+                    throw new \Siberian\Exception("This is a demo version, this user can't be changed");
                 }
 
                 if(isset($data['password'])) {
                     if($data['password'] != $data['confirm_password']) {
-                        throw new Exception(__('Your password does not match the entered password.'));
+                        throw new \Siberian\Exception(__('Your password does not match the entered password.'));
                     }
                     if(!empty($data['old_password']) AND !$admin->isSamePassword($data['old_password'])) {
-                        throw new Exception(__("The old password does not match the entered password."));
+                        throw new \Siberian\Exception(__("The old password does not match the entered password."));
                     }
                     if(!empty($data['password'])) {
                         $admin->setPassword($data['password']);
@@ -67,7 +65,7 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 if (empty($data["role_id"]) && $data["mode"]=="management") {
-                    throw new Exception(__('The account role is required'));
+                    throw new \Siberian\Exception(__('The account role is required'));
                 } else {
                     if($data["mode"]=="management") {
                         $admin->setRoleId($data["role_id"]);
@@ -75,21 +73,25 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 // Available roles for the current admin!
-                $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
-                $availableRoles = (new Acl_Model_Role())->getChilds($role);
-                if ($role->getIsSelfAssignable()) {
-                    array_unshift($availableRoles, $role->_asArray($role));
-                }
-
-                $isAllowedRole = false;
-                foreach ($availableRoles as $availableRole) {
-                    if ($availableRole['value'] == $data['role_id']) {
-                        $isAllowedRole = true;
+                if ($data['mode'] == 'management') {
+                    $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
+                    $availableRoles = (new Acl_Model_Role())->getChilds($role);
+                    if ($role->getIsSelfAssignable()) {
+                        array_unshift($availableRoles, $role->_asArray($role));
                     }
-                }
 
-                if (!$isAllowedRole) {
-                    throw new \Siberian\Exception(__("Your are not allowed to assign this role."));
+                    $isAllowedRole = false;
+                    foreach ($availableRoles as $availableRole) {
+                        if ($availableRole['value'] == $data['role_id']) {
+                            $isAllowedRole = true;
+                        }
+                    }
+
+                    if (!$isAllowedRole) {
+                        throw new \Siberian\Exception(__("Your are not allowed to assign this role."));
+                    }
+                } else {
+                    unset($data['role_id']);
                 }
 
                 $admin
