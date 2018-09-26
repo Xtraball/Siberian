@@ -62,7 +62,6 @@ App.config(function ($routeProvider) {
             if ($scope.code === 'design') {
                 $scope.designs = configs.designs;
                 $scope.prepareDesignUploaders();
-                $scope.Change_Design();
             }
 
             // We check license info on config succes!
@@ -209,10 +208,6 @@ App.config(function ($routeProvider) {
                 $scope.message.setText(response.message).isError(true).show();
             };
         }
-    };
-
-    $scope.Change_Design = function () {
-        $scope.design_message = $scope.translated_messages[$scope.configs.editor_design.value];
     };
 
     $scope.Compute_Analytics = function () {

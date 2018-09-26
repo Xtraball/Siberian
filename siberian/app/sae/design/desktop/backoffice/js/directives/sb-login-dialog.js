@@ -1,7 +1,7 @@
 App.directive('sbLoginDialog', function ($templateCache, AUTH_EVENTS, Auth) {
     return {
         restrict: 'E',
-        template: '<div ng-include src="\'loginForm.html\'"></div>',
+        template: '<div ng-include src="\'loginForm.html\'" class="login-form"></div>',
         replace: true,
         controller: function($rootScope, $scope) {
 

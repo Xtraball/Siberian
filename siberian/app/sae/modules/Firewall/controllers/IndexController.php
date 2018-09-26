@@ -73,7 +73,7 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 'email' => '-',
             ];
 
-            if ($user) {
+            if ($user instanceof \Core_Model_Default) {
                 $userData = [
                     'id' => $user->getId(),
                     'email' => $user->getEmail(),

@@ -20,10 +20,6 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
                 __('Appearance'),
                 __('General')),
             "icon" => "fa-pencil",
-            "message" => [
-                "flat" => __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "345x85px"),
-                "siberian" => __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpg, jpeg, gif", "150x50px")
-            ]
         ];
 
         // Hides new themes message!

@@ -1,3 +1,15 @@
+<link ng-if="configs.backoffice_theme.value == 'modern'"
+      href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=<?php echo time() ?>"
+      media="all"
+      rel="stylesheet"
+      type="text/css" />
+
+<link ng-if="configs.backoffice_theme.value == 'elegance'"
+      href="/app/sae/design/desktop/backoffice/css/theme-elegance/styles.css?t=<?php echo time() ?>"
+      media="all"
+      rel="stylesheet"
+      type="text/css" />
+
 <form ng-submit="save()">
 
     <sb-section title="'<?php echo __js('Backoffice theme (BETA)') ?>'">
@@ -46,9 +58,12 @@
     </sb-section>
 
     <sb-section title="configs.logo.label" class="upload_area">
-        <p class="help-block" ng-bind-html="design_message"></p>
+        <p class="help-block">
+            <?php echo __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpeg, gif", "368x85px") ?>
+        </p>
 
         <br />
+
         <div class="col-md-3">
             <div class="upload_a_file">
                 <label for="logo_uploader"><?php echo __("Click here to send your logo"); ?></label>
@@ -126,7 +141,7 @@
     <div class="clear"></div>
 
     <sb-section title="configs.favicon.label" class="upload_area">
-        <p class="help-block"><?php echo __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png", "32x32px"); ?></p>
+        <p class="help-block"><?php echo __("<b>File type:</b> %s<br /><b>Recommended size:</b> %s", "png", "32x32px"); ?></p>
 
         <br />
         <div class="col-md-3">

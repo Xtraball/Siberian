@@ -112,6 +112,18 @@ input, select, textarea {
     margin-bottom: 0;
 }
 
+.sweet-alert h2 {
+    background-color: #8dcee6;
+    border-bottom: 2px solid #71b2ca;
+    color: #f0f0f0;
+    text-align: center;
+}
+
+.login-form .wrapper .content {
+    background-color: #e6e6e6;
+    padding-top: 40px;
+}
+
 .wrapper .content div.area {
     margin: 0;
     padding: 0;

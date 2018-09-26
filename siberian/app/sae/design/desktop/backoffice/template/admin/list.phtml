@@ -41,13 +41,13 @@
                 <td>{{ admin.created_at }}</td>
                 <td class="text-right">
                     <a href="<?php echo $this->getUrl("admin/backoffice_edit"); ?>/admin_id/{{ admin.id }}"
-                       class="btn btn-sm btn-primary">EDIT</a>
+                       class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
                     <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.id }}"
                        target="_blank"
-                       class="btn btn-sm btn-info">IMPERSONATE</a>
+                       class="btn btn-sm btn-info"><?php echo __('IMPERSONATE') ?></a>
                     <a href="javascript:void(0);"
                        ng-click="deleteAdmin(admin)"
-                       class="btn btn-sm btn-danger">DELETE</a>
+                       class="btn btn-sm btn-danger"><?php echo __('DELETE') ?></a>
                 </td>
             </tr>
             <tr ng-show="!admins.length">
@@ -66,7 +66,8 @@
         url="'<?php echo $this->getUrl("/admin/backoffice_list/findall") ?>'"
         url-params="urlParams">
     </bgf-pagination>
-    <div style="clear:both;"></div>
+
+    <div class="clear"></div>
 
     <style type="text/css">
         .btn-sm {
