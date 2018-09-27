@@ -106,7 +106,7 @@
     <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="8" />
+        <native-interface version="9" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
