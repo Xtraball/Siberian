@@ -1,7 +1,10 @@
 <?php
 
-class Admin_Api_AccountController extends Api_Controller_Default {
-
+/**
+ * Class Admin_Api_AccountController
+ */
+class Admin_Api_AccountController extends Api_Controller_Default
+{
     /**
      * @var string
      */
@@ -10,39 +13,40 @@ class Admin_Api_AccountController extends Api_Controller_Default {
     /**
      * @var array
      */
-    public $secured_actions = array(
+    public $secured_actions = [
         "exist",
         "authenticate",
         "create",
         "update",
         "forgotpassword",
-    );
+    ];
 
-    public function existAction() {
+    public function existAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
 
-                if(empty($data["email"])) {
-                    throw new Exception(__("The email is required"));
+                if (empty($data["email"])) {
+                    throw new \Siberian\Exception(__("The email is required"));
                 }
 
                 $email = $data["email"];
-                $data = array("success" => 1);
+                $data = ["success" => 1];
                 $admin = new Admin_Model_Admin();
                 $admin->find($email, "email");
 
-                $data = array(
+                $data = [
                     "success" => 1,
-                    "exists" => (bool) $admin->getId()
-                );
+                    "exists" => (bool)$admin->getId()
+                ];
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -51,40 +55,41 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     }
 
-    public function authenticateAction() {
+    public function authenticateAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
 
-                if(empty($data["email"])) {
-                    throw new Exception(__("The email is required"));
+                if (empty($data["email"])) {
+                    throw new \Siberian\Exception(__("The email is required"));
                 }
-                if(empty($data["password"])) {
-                    throw new Exception(__("The password is required"));
+                if (empty($data["password"])) {
+                    throw new \Siberian\Exception(__("The password is required"));
                 }
 
                 $email = $data["email"];
                 $password = $data["password"];
-                $data = array("success" => 1);
+                $data = ["success" => 1];
                 $admin = new Admin_Model_Admin();
                 $admin->find($email, "email");
 
-                if(!$admin->getId()) {
-                    throw new Exception("The user doesn't exist.");
+                if (!$admin->getId()) {
+                    throw new \Siberian\Exception("The user doesn't exist.");
                 }
 
-                if(!$admin->authenticate($password)) {
-                    throw new Exception(__("Authentication failed."));
+                if (!$admin->authenticate($password)) {
+                    throw new \Siberian\Exception(__("Authentication failed."));
                 }
 
                 $data["token"] = $admin->getLoginToken();
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (\Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -93,7 +98,8 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     }
 
-    public function createAction() {
+    public function createAction()
+    {
         try {
             $data = $this->getRequest()->getPost();
             if (!$data) {
@@ -103,72 +109,79 @@ class Admin_Api_AccountController extends Api_Controller_Default {
             $admin = new Admin_Model_Admin();
             $email_checker = new Admin_Model_Admin();
 
-            if(!empty($data['user_id'])) {
-                throw new Exception(__("Unable to update a user from here."));
+            if (!empty($data['user_id'])) {
+                throw new \Siberian\Exception(__("Unable to update a user from here."));
             }
-            if(empty($data['email'])) {
-                throw new Exception(__("The email is required"));
+            if (empty($data['email'])) {
+                throw new \Siberian\Exception(__("The email is required"));
             }
 
             $email_checker->find($data['email'], 'email');
-            if($email_checker->getId()) {
-                throw new Exception(__("This email address is already used"));
+            if ($email_checker->getId()) {
+                throw new \Siberian\Exception(__("This email address is already used"));
             }
 
-            if(!isset($data['password'])) {
-                throw new Exception(__('The password is required'));
+            if (!isset($data['password'])) {
+                throw new \Siberian\Exception(__('The password is required'));
             }
 
             $admin->addData($data)
                 ->setPassword($data["password"])
-                ->save()
-            ;
+                ->save();
 
-            $data = array(
+            $data = [
                 "success" => 1,
                 "user_id" => $admin->getId(),
                 "token" => $admin->getLoginToken()
-            );
+            ];
 
-        } catch(Exception $e) {
-            $data = array(
+        } catch (\Exception $e) {
+            $data = [
                 'error' => 1,
                 'message' => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($data);
     }
 
-    public function updateAction() {
+    public function updateAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
 
-                if(isset($data["id"])) {
+                if (isset($data["id"])) {
                     unset($data["id"]);
                 }
 
                 $admin = new Admin_Model_Admin();
 
-                if(!empty($data["user_id"])) {
+                if (!empty($data["user_id"])) {
 
                     $admin->find($data["user_id"]);
-                    if(!$admin->getId()) {
-                        throw new Exception(__("This admin does not exist"));
+                    if (!$admin->getId()) {
+                        throw new \Siberian\Exception(__("This admin does not exist"));
                     }
 
                 }
 
-                if(!empty($data["email"])) {
+                // Demo protection of default accounts!
+                if (__getConfig('is_demo')) {
+                    if (in_array($data['email'], ['demo@demo.com', 'client@client.com'])) {
+                        throw new \Siberian\Exception(__("This action is not allowed in demo."));
+                    }
+                }
 
-                    $email_checker = new Admin_Model_Admin();
-                    $email_checker->find($data['email'], 'email');
+                if (!empty($data["email"])) {
 
-                    if($email_checker->getId()
-                        AND $email_checker->getId() != $admin->getId()) {
-                        throw new Exception(
+                    $email_checker = (new Admin_Model_Admin())
+                        ->find($data['email'], 'email');
+
+                    if ($email_checker->getId() &&
+                        $email_checker->getId() != $admin->getId()) {
+                        throw new \Siberian\Exception(
                             __("This email address is already used")
                         );
                     }
@@ -177,23 +190,23 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
                 $admin->addData($data);
 
-                if(isset($data['password'])) {
+                if (isset($data['password'])) {
                     $admin->setPassword($data["password"]);
                 }
 
                 $admin->save();
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "user_id" => $admin->getId(),
                     "token" => $admin->getLoginToken()
-                );
+                ];
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (\Exception $e) {
+                $data = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -202,19 +215,20 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     }
 
-    public function forgotpasswordAction() {
+    public function forgotpasswordAction()
+    {
 
         try {
-            if($data = $this->getRequest()->getPost()) {
-                if(empty($data['email'])) {
-                    throw new Exception(__('Please enter your email address'));
+            if ($data = $this->getRequest()->getPost()) {
+                if (empty($data['email'])) {
+                    throw new \Siberian\Exception(__('Please enter your email address'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($data['email']);
 
-                if(!$admin->getId()) {
-                    throw new Exception(__("This email address does not exist"));
+                if (!$admin->getId()) {
+                    throw new \Siberian\Exception(__("This email address does not exist"));
                 }
 
                 $password = Core_Model_Lib_String::generate(8);
@@ -231,34 +245,35 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject, array("_sender_name"));
+                $mail->setSubject($subject, ["_sender_name"]);
                 $mail->send();
 
-                $data = array(
+                $data = [
                     "success" => true
-                );
+                ];
             }
-        } catch(Exception $e) {
-            $data = array(
+        } catch (\Exception $e) {
+            $data = [
                 'error' => 1,
                 'message' => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($data);
     }
 
-    public function isloggedinAction() {
+    public function isloggedinAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
-                $data = array("is_logged_in" => $this->getSession()->isLoggedIn());
-            } catch(Exception $e) {
-                $data = array(
+                $data = ["is_logged_in" => $this->getSession()->isLoggedIn()];
+            } catch (Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -267,9 +282,10 @@ class Admin_Api_AccountController extends Api_Controller_Default {
 
     }
 
-    public function autologinAction() {
+    public function autologinAction()
+    {
 
-        if($email = $this->getRequest()->getParam("email")
+        if ($email = $this->getRequest()->getParam("email")
             AND $token = $this->getRequest()->getParam("token")) {
 
             try {
@@ -277,21 +293,20 @@ class Admin_Api_AccountController extends Api_Controller_Default {
                 $admin = new Admin_Model_Admin();
                 $admin->find($email, "email");
 
-                if(!$admin->getId()) {
+                if (!$admin->getId()) {
                     throw new Exception(__("The user doesn't exist."));
                 }
 
-                if($admin->getLoginToken() != $token) {
+                if ($admin->getLoginToken() != $token) {
                     throw new Exception(__("Authentication failed"));
                 }
 
                 $this->getSession()
-                    ->setAdmin($admin)
-                ;
+                    ->setAdmin($admin);
 
                 $this->_redirect("admin/application/list");
 
-            } catch(Exception $e) {
+            } catch (Exception $e) {
 
             }
         }

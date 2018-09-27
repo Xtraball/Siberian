@@ -19,11 +19,19 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
                 ->save();
         }
 
+        $senderID = $credentials->getSenderId();
+        $serverKey = $credentials->getServerKey();
+        if (__getConfig('is_demo')) {
+            // Demo version
+            $senderID = 'demo';
+            $serverKey = 'demo';
+        }
+
         $this->_sendJson([
             'success' => true,
             'firebase' => [
-                'senderID' => $credentials->getSenderId(),
-                'serverKey' => $credentials->getServerKey(),
+                'senderID' => $senderID,
+                'serverKey' => $serverKey,
                 'googleService' => $credentials->getGoogleService(),
             ]
         ]);
@@ -36,6 +44,10 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
     {
         $request = $this->getRequest();
         try {
+            if(__getConfig('is_demo')) {
+                throw new \Siberian\Exception("This is a demo version, you can't alter this configuration.");
+            }
+
             $params = $request->getBodyParams();
 
             // Save credentials in db
@@ -69,11 +81,11 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
         try {
             // Demo version
             if(__getConfig('is_demo')) {
-                throw new Exception("This is a demo version, you can't alter this configuration.");
+                throw new \Siberian\Exception("This is a demo version, you can't alter this configuration.");
             }
 
             if (empty($_FILES) || empty($_FILES['file']['name'])) {
-                throw new Siberian_Exception(__("No file has been sent"));
+                throw new \Siberian\Exception(__("No file has been sent"));
             }
 
             $adapter = new Zend_File_Transfer_Adapter_Http();
@@ -107,9 +119,9 @@ class Push_Backoffice_FirebaseController extends Backoffice_Controller_Default
                     $message = __("An error occurred during the process. Please try again later.");
                 }
 
-                throw new Siberian_Exception($message);
+                throw new \Siberian\Exception($message);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()

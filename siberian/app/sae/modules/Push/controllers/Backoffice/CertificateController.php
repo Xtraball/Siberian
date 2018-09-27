@@ -26,10 +26,18 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
      */
     public function findallAction()
     {
+        $androidKey = Push_Model_Certificate::getAndroidKey();
+        $androidSenderId = Push_Model_Certificate::getAndroidSenderId();
+        if (__getConfig('is_demo')) {
+            // Demo version
+            $androidKey = 'demo';
+            $androidSenderId = 'demo';
+        }
+
         $payload = [
             'gcm' => [
-                'android_key' => Push_Model_Certificate::getAndroidKey(),
-                'android_sender_id' => Push_Model_Certificate::getAndroidSenderId(),
+                'android_key' => $androidKey,
+                'android_sender_id' => $androidSenderId,
             ]
         ];
 
@@ -43,7 +51,7 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
     {
         if (__getConfig('is_demo')) {
             // Demo version
-            throw new Siberian_Exception("This is a demo version, these changes can't be saved");
+            throw new \Siberian\Exception("This is a demo version, these changes can't be saved");
         }
 
         $request = $this->getRequest();
@@ -51,7 +59,7 @@ class Push_Backoffice_CertificateController extends Backoffice_Controller_Defaul
         try {
             if (!array_key_exists('android_key', $params) ||
                 !array_key_exists('android_sender_id', $params)) {
-                throw new Siberian_Exception("GCM Settings are missing!");
+                throw new \Siberian\Exception("GCM Settings are missing!");
             }
 
             // Android key!

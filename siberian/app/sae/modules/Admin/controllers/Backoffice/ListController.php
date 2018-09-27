@@ -99,6 +99,12 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
                     throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
+                if (__getConfig('is_demo')) {
+                    if (in_array($admin->getEmail(), ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to delete this account in demo!'));
+                    }
+                }
+
                 $admin->delete();
 
                 $data = [

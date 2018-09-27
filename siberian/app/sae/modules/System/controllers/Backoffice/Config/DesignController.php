@@ -26,7 +26,6 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
         __set('display_backoffice_theme', true);
 
         $this->_sendJson($html);
-
     }
 
     public function uploadAction()

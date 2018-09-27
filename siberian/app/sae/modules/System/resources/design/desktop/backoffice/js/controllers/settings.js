@@ -12,7 +12,7 @@ App.config(function ($routeProvider) {
         templateUrl: BASE_URL + '/system/backoffice_config_design/template',
         code: 'design'
     });
-}).controller('SettingsController', function ($scope, Header, Label, Settings, Url, FileUploader, LicenseService) {
+}).controller('SettingsController', function ($scope, Header, Label, Settings, Url, FileUploader, LicenseService, $window) {
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
@@ -82,6 +82,10 @@ App.config(function ($routeProvider) {
 
         }).finally(function () {
             $scope.content_loader_is_visible = false;
+
+            if (Settings.type === 'design') {
+                $window.document.querySelector('link[data-style="backoffice_theme"]').setAttribute('media', 'none');
+            }
         });
 
     $scope.save = function () {
@@ -101,7 +105,13 @@ App.config(function ($routeProvider) {
                     .setText(message)
                     .show();
                 // Lazy reload!
-                window.location.href = window.location.href;
+                if (Settings.type === 'design') {
+                    $window.document.querySelector('link[data-style="backoffice_theme"]').setAttribute('media', 'all');
+
+                    $window.location.pathname = '/backoffice';
+                } else {
+                    $window.location.href = $window.location.href;
+                }
             }).error(function (data) {
                 var message = Label.save.error;
                 if(angular.isObject(data) && angular.isDefined(data.message)) {
@@ -160,6 +170,12 @@ App.config(function ($routeProvider) {
             });
         }
     }
+
+    $scope.$on("$destroy", function(){
+        if (Settings.type === 'design') {
+            $window.document.querySelector('link[data-style="backoffice_theme"]').setAttribute('media', 'all');
+        }
+    });
 
     $scope.prepareDesignUploaders = function () {
         for (var i = 0; i < codes.length; i++) {
