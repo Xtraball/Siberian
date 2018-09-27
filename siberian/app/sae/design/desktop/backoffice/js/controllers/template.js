@@ -11,6 +11,8 @@ App.config(function($routeProvider) {
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
 
+    $scope.viewType = 'grid';
+
     TemplateCategory.loadData().success(function(data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;

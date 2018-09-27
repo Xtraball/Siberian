@@ -37,7 +37,22 @@
         <?php echo __('Note: A disabled template is not removed from published applications, but users can\'t select it anymore!') ?>
     </div>
 
-    <table class="table">
+    <div class="selectors">
+        <span ng-class="{'active': viewType == 'grid'}"
+              ng-click="viewType = 'grid'">
+            <i class="fa fa-th"></i> <?php echo __('Grid view') ?>
+        </span>
+        |
+        <span ng-class="{'active': viewType == 'list'}"
+              ng-click="viewType = 'list'">
+            <i class="fa fa-list"></i> <?php echo __('List view') ?>
+        </span>
+    </div>
+
+    <br />
+
+    <table ng-show="viewType == 'list'"
+           class="table">
         <thead>
         <tr>
             <th style="width:50%;"><?php echo __("Name") ?></th>
@@ -66,4 +81,75 @@
         </tr>
         </tbody>
     </table>
+
+    <div ng-show="viewType == 'grid'"
+         class="row">
+        <div ng-repeat="tpl in template.templates"
+             class="col-md-3 col-sm-6">
+            <div class="overview-grid"
+                 ng-class="{'overview-grayscale': !tpl.is_active}">
+                <div class="overview-grid-title">
+                    <span style="margin-right:10px;">{{ tpl.name }}</span>
+                    <span ng-if="tpl.is_protected"
+                          class="label label-success"><?php echo __('CORE TEMPLATE') ?></span>
+                    <span ng-if="!tpl.can_toggle"
+                          class="label label-danger"><?php echo __('PROTECTED') ?></span>
+                </div>
+                <img src="{{ tpl.overview }}"
+                     class="tpl-overview" />
+                <div class="overview-grid-toggler">
+                    <label ng-if="tpl.can_toggle"
+                           for="toggler_{{ tpl.template_id }}"
+                           style="font-weight: normal;">
+                        <?php echo __("Enabled?") ?>
+                    </label>
+                    <input type="checkbox"
+                           id="toggler_{{ tpl.template_id }}"
+                           ng-if="tpl.can_toggle"
+                           ng-model="tpl.is_active"
+                           ng-change="toggleTemplate(tpl)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .overview-grayscale {
+            filter: grayscale(100%);
+        }
+
+        .selectors span {
+            filter: brightness(50%);
+            cursor: pointer;
+        }
+
+        .selectors span.active {
+            font-weight: bold;
+            filter: brightness(0%);
+        }
+
+        .overview-grid {
+            background: #ffffff;
+            padding: 6px;
+            margin-bottom: 30px;
+        }
+
+        .overview-grid-title span.label {
+            top: -3px;
+            position: relative;
+        }
+
+        .overview-grid-toggler {
+            background: #ffffff;
+            position: relative;
+            bottom: -6px;
+            right: -5px;
+            padding: 6px 0px 0 6px;
+            text-align: right;
+        }
+
+        .tpl-overview {
+            width: 100%;
+        }
+    </style>
 </sb-section>

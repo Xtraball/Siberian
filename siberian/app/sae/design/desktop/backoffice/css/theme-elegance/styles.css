@@ -307,3 +307,11 @@ input[type="radio"]:checked:after {
     right: 6px;
     z-index: 100;
 }
+
+.overview-grid {
+    background: #e6e6e6 !important;
+}
+
+.overview-grid-toggler {
+    background: #e6e6e6 !important;
+}
