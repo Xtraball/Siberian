@@ -20,24 +20,22 @@
         <base href="<?php echo $base_url; ?>" />
 
         <?php
-            if ($_SERVER['REQUEST_URI'] !== '/system/backoffice_config_design') {
-                $backofficeTheme = __get('backoffice_theme');
-                switch ($backofficeTheme) {
-                    case 'modern':
-                            echo '<link href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=' . Siberian_Version::VERSION . '" 
-                                        media="all" 
-                                        data-style="backoffice_theme"
-                                        rel="stylesheet" 
-                                        type="text/css" />';
-                        break;
-                    case 'elegance':
-                        echo '<link href="/app/sae/design/desktop/backoffice/css/theme-elegance/styles.css?t=' . Siberian_Version::VERSION . '" 
-                                        media="all" 
-                                        data-style="backoffice_theme"
-                                        rel="stylesheet" 
-                                        type="text/css" />';
-                        break;
-                }
+            $backofficeTheme = __get('backoffice_theme');
+            switch ($backofficeTheme) {
+                case 'modern':
+                        echo '<link href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=' . Siberian_Version::VERSION . '" 
+                                    media="all" 
+                                    data-style="backoffice_theme"
+                                    rel="stylesheet" 
+                                    type="text/css" />';
+                    break;
+                case 'elegance':
+                    echo '<link href="/app/sae/design/desktop/backoffice/css/theme-elegance/styles.css?t=' . Siberian_Version::VERSION . '" 
+                                    media="all" 
+                                    data-style="backoffice_theme"
+                                    rel="stylesheet" 
+                                    type="text/css" />';
+                    break;
             }
         ?>
 
