@@ -54,6 +54,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_design_blocks;
     protected $_admin_ids = [];
 
+    /**
+     * Application_Model_Application_Abstract constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
@@ -146,6 +151,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array|mixed|null|string
+     * @throws \Siberian\Exception
      */
     public function getPrivacyPolicy()
     {
@@ -159,6 +165,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getData("privacy_policy");
     }
 
+    /**
+     * @return $this
+     * @throws \Siberian\Exception
+     */
     public function save()
     {
 
@@ -167,7 +177,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             // Check if values are valid!
             $applicationName = trim($this->getData('name'));
             if (empty($applicationName)) {
-                throw new Siberian_Exception(__('Name is required to save the Application.'));
+                throw new \Siberian\Exception(__('Name is required to save the Application.'));
             }
 
             // Force trim name on save.
@@ -176,7 +186,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if (!Siberian_Version::is('sae')) {
                 $adminId = trim($this->getData('admin_id'));
                 if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
-                    throw new Siberian_Exception(__('AdminId is required to save the Application.'));
+                    throw new \Siberian\Exception(__('AdminId is required to save the Application.'));
                 }
             }
 
@@ -702,17 +712,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     public function isActive()
     {
-        return (bool) $this->getData("is_active");
+        return (bool)$this->getData("is_active");
     }
 
     public function isLocked()
     {
-        return (bool) $this->getData("is_locked");
+        return (bool)$this->getData("is_locked");
     }
 
     public function canBePublished()
     {
-        return (bool) $this->getData("can_be_published");
+        return (bool)$this->getData("can_be_published");
     }
 
     public function isSomeoneElseEditingIt($admin_id = null)
