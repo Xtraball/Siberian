@@ -145,7 +145,6 @@
     </table>
 </sb-section>
 
-<?php if (__getConfig('fw_slack_is_active') === 'yes'): ?>
 <sb-section title="'<?php echo addcslashes(__("Slack notification settings"), "'"); ?>'">
     <div class="form-group">
 
@@ -194,7 +193,6 @@
             </div>
         </form>
 
-        <div style="clear:both;"></div>
+        <div class="clear"></div>
     </div>
 </sb-section>
-<?php endif; ?>
