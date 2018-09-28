@@ -98,9 +98,8 @@ class Siberian_Layout_Email extends Siberian_Layout
     /**
      * @return null|SimpleXMLElement
      */
-    protected function _createXml()
+    protected function _createXml($useBase = true)
     {
-
         $filename = $this->_filename . '.xml';
         $action = $this->_action;
         $this->_otherLayout = array();

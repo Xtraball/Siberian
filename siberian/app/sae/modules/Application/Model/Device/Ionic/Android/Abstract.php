@@ -67,8 +67,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         // Convert to jpeg
         $jpegStartup = Siberian_Image::open(Core_Model_Directory::getBasePathTo($_file));
-        $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpeg');
-        $jpegStartup->save($_tmpStartup, 'jpeg', 70);
+        $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
+        $jpegStartup->save($_tmpStartup, 'jpg', 70);
 
         foreach ($icons as $icon_dst => $icon_src) {
             if (Core_Model_Lib_Image::getMimeType($icon_src) != 'image/png') {
@@ -93,7 +93,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // Startup screen
-        $startupDest = $this->_dest_source_res . "/drawable-xxxhdpi/screen.jpeg";
+        $startupDest = $this->_dest_source_res . "/drawable-xxxhdpi/screen.jpg";
         if (is_readable($_tmpStartup) && is_writable(dirname($startupDest))) {
             if (!copy($_tmpStartup, $startupDest)) {
                 throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));

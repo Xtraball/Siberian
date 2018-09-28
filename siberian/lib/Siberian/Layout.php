@@ -635,7 +635,7 @@ class Siberian_Layout extends Zend_Layout
      * @param $use_base
      * @return null|SimpleXMLElement
      */
-    protected function _createXml($use_base)
+    protected function _createXml($use_base = true)
     {
         // Définition des variables
         $action = $this->_action;

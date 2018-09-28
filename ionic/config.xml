@@ -60,7 +60,7 @@
               src="resources/android/icon/drawable-xxxhdpi-icon.png" />
 
         <splash density="xxxhdpi"
-                src="resources/android/splash/drawable-xxxhdpi-screen.png" />
+                src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
 
         <resource-file src="resources/google-services.json"
                        target="app/google-services.json" />
@@ -73,7 +73,7 @@
         <icon height="180"
               src="resources/ios/icon/icon-60@3x.png"
               width="180" />
-        <splash src="resources/ios/splash/Default@2x~universal~anyany.png" />
+        <splash src="resources/ios/splash/Default@2x~universal~anyany.jpg" />
     </platform>
 
     <engine name="ios" />
