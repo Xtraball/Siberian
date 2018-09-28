@@ -27,9 +27,10 @@ class Siberian_Layout_Email extends Siberian_Layout
     }
 
     /**
+     * @param null $useBase
      * @return $this
      */
-    public function load()
+    public function load($useBase = null)
     {
 
         $this->_createXml();
@@ -183,9 +184,9 @@ class Siberian_Layout_Email extends Siberian_Layout
      * @return mixed|null|string
      * @throws Zend_Exception
      */
-    public function render()
+    public function render($name = null)
     {
-        $datas = parent::render();
+        $datas = parent::render($name);
         $this->unload();
         return $datas;
     }

@@ -192,6 +192,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_preparePathsVars();
         $this->_prepareRequest();
         $this->_cpFolder();
+        $this->_cleanAssets();
 
         // Remove Ads from sources!
         if ($this->getDevice()->getExcludeAds()) {

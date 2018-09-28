@@ -64,9 +64,11 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         array_map('unlink', glob("{$this->_dest_source_res}/drawable*/screen*"));
 
         $_file = $application->getStartupBackgroundUnified();
-        $extension = pathinfo($_file, PATHINFO_EXTENSION);
-        $icons[$this->_dest_source_res . "/drawable-xxxhdpi/screen.$extension"] =
-            Core_Model_Directory::getBasePathTo($_file);
+
+        // Convert to jpeg
+        $jpegStartup = Siberian_Image::open(Core_Model_Directory::getBasePathTo($_file));
+        $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpeg');
+        $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
         foreach ($icons as $icon_dst => $icon_src) {
             if (Core_Model_Lib_Image::getMimeType($icon_src) != 'image/png') {
@@ -90,6 +92,15 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             Siberian_Media::optimize($icon_dst);
         }
 
+        // Startup screen
+        $startupDest = $this->_dest_source_res . "/drawable-xxxhdpi/screen.jpeg";
+        if (is_readable($_tmpStartup) && is_writable(dirname($startupDest))) {
+            if (!copy($_tmpStartup, $startupDest)) {
+                throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
+            }
+        }
+
+        Siberian_Media::optimize($startupDest);
     }
 
     /**

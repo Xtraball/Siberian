@@ -50,6 +50,30 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     }
 
     /**
+     * @return $this
+     */
+    protected function _cleanAssets()
+    {
+        exec("rm -rf '{$this->_dest_source_amc}/../www/css");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/controllers");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/directives");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/factory");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/features");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/filters");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/libraries");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/providers");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/js/services");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/MusicControls.js");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/app.js");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/features.js");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/form-post.js");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/lib");
+        exec("rm -rf '{$this->_dest_source_amc}/../www/templates/*");
+
+        return $this;
+    }
+
+    /**
      * @param $application Application_Model_Application|Previewer_Model_Previewer
      * @throws Exception
      */
@@ -96,42 +120,62 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
-        $startups = [
-            $universal => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.png'
-                ]
-            ]
-        ];
+        //$startups = [
+        //    $universal => [
+        //        [
+        //            'dst' => $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.png'
+        //        ]
+        //    ]
+        //];
 
         try {
-            foreach ($startups as $startup_src => $images) {
-                foreach ($images as $image) {
-                    if (!empty($image["width"]) OR Core_Model_Lib_Image::getMimeType($startup_src) != 'image/png') {
-                        list($width, $height) = getimagesize($startup_src);
-                        if (empty($image["width"])) {
-                            $image["width"] = $width;
-                        }
-                        if (empty($image["height"])) {
-                            $image["height"] = $height;
-                        }
-                        $newStartupImage = imagecreatetruecolor($image["width"], $image["height"]);
-                        $startupSrc = imagecreatefromstring(file_get_contents($startup_src));
-                        imagecopyresized($newStartupImage, $startupSrc, 0, 0, 0, 0, $image["width"], $image["height"], $width, $height);
+            // Convert to jpeg
+            $jpegStartup = Siberian_Image::open($universal);
+            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpeg');
+            $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
-                        $extension = pathinfo($image["dst"], PATHINFO_EXTENSION);
-                        $image["dst"] = str_replace($extension, "png", $image["dst"]);
+            $destStartup = $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpeg';
+            $destStartupContents = $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Contents.json';
 
-                        imagepng($newStartupImage, $image["dst"]);
-                    } else {
-                        if (!copy($startup_src, $image["dst"])) {
-                            throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
-                        }
-                    }
+            Siberian_Media::optimize($_tmpStartup);
 
-                    Siberian_Media::optimize($image["dst"]);
-                }
+            if (!copy($_tmpStartup, $destStartup)) {
+                throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
             }
+
+            $this->__replace(
+                [
+                    'Default@2x~universal~anyany.png' => 'Default@2x~universal~anyany.jpeg'
+                ],
+                $destStartupContents);
+
+            //foreach ($startups as $startup_src => $images) {
+            //    foreach ($images as $image) {
+            //        if (!empty($image["width"]) OR Core_Model_Lib_Image::getMimeType($startup_src) != 'image/png') {
+            //            list($width, $height) = getimagesize($startup_src);
+            //            if (empty($image["width"])) {
+            //                $image["width"] = $width;
+            //            }
+            //            if (empty($image["height"])) {
+            //                $image["height"] = $height;
+            //            }
+            //            $newStartupImage = imagecreatetruecolor($image["width"], $image["height"]);
+            //            $startupSrc = imagecreatefromstring(file_get_contents($startup_src));
+            //            imagecopyresized($newStartupImage, $startupSrc, 0, 0, 0, 0, $image["width"], $image["height"], $width, $height);
+//
+            //            $extension = pathinfo($image["dst"], PATHINFO_EXTENSION);
+            //            $image["dst"] = str_replace($extension, "png", $image["dst"]);
+//
+            //            imagepng($newStartupImage, $image["dst"]);
+            //        } else {
+            //            if (!copy($startup_src, $image["dst"])) {
+            //                throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
+            //            }
+            //        }
+//
+            //        Siberian_Media::optimize($image["dst"]);
+            //    }
+            //}
         }
         catch(Exception $e) {
             throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.');
