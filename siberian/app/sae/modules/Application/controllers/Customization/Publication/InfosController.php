@@ -43,9 +43,6 @@ class Application_Customization_Publication_InfosController extends Application_
 
 
                 if (!empty($data["name"])) {
-                    if (is_numeric(substr($data["name"], 0, 1))) {
-                        throw new Exception("The application's name cannot start with a number");
-                    }
                     $this->getApplication()->setName($data['name'])->save();
                 } else if (!empty($data['description'])) {
                     if (strlen($data['description']) < 200) throw new Exception(__('The description must be at least 200 characters'));

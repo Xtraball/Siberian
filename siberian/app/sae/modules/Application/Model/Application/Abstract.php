@@ -175,13 +175,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         if (!$this->getId()) {
 
             // Check if values are valid!
-            $applicationName = trim($this->getData('name'));
+            $applicationName = $this->getName();
             if (empty($applicationName)) {
                 throw new \Siberian\Exception(__('Name is required to save the Application.'));
             }
 
             // Force trim name on save.
-            $this->setName(trim($this->getData('name')));
+            $this->setName($this->getName());
 
             if (!Siberian_Version::is('sae')) {
                 $adminId = trim($this->getData('admin_id'));
@@ -207,6 +207,39 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         return $this;
 
+    }
+
+    /**
+     * Filters app name!
+     * Validate
+     *
+     * @param $name
+     * @return $this
+     * @throws \Siberian\Exception
+     */
+    public function setName($name)
+    {
+        $name = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+
+        if (is_numeric(substr($name, 0, 1))) {
+            throw new \Siberian\Exception("The application's name cannot start with a number");
+        }
+
+        if (strlen($name) < 6) {
+            throw new \Siberian\Exception("The application's name must be at least 6 characters long.");
+        }
+
+        return $this->setData('name', $name);
+    }
+
+    /**
+     * Filters app name!
+     *
+     * @param $name
+     */
+    public function getName()
+    {
+        return filter_var(trim($this->getData('name')), FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
     }
 
     public function addAdmin($admin)
@@ -588,9 +621,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * get bundle_id, create default if empty
-     *
      * @return array|mixed|null|string
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
      */
     public function getBundleId()
     {
@@ -631,7 +664,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $buildId = function ($host, $suffix) {
 
-            $url = array_reverse(explode(".", $url));
+            $url = array_reverse(explode(".", $host));
             $url[] = $suffix;
 
             foreach ($url as &$part) {

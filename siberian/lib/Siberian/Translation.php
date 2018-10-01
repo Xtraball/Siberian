@@ -66,6 +66,9 @@ class Translation
             }
         }
 
+        ini_set('pcre.backtrack_limit', 10000000000000000000);
+        ini_set('pcre.recursion_limit', 10000000000000000000);
+
         $extractTranslate = [];
 
         $appPath = \Core_Model_Directory::getBasePathTo('/app');
@@ -97,7 +100,15 @@ class Translation
                     }
                 }
 
-
+                $count = preg_match_all(file_get_contents(__DIR__ . '/translate.rgx'), $textContent, $matches);
+                echo array_flip(get_defined_constants(true)['pcre'])[preg_last_error()] . ' > ' . $file->getFilename() . PHP_EOL;
+                if ($count > 0) {
+                    foreach ($matches[3] as $element) {
+                        if (!in_array($element, $extractTranslate)) {
+                            $extractTranslate[] = $element;
+                        }
+                    }
+                }
             }
         }
 

@@ -46,7 +46,10 @@ class Front_AssetsController extends Front_Controller_App_Default
                 $background = null;
 
                 $value_id = $option->getId();
-                if ($option->hasBackgroundImage() &&
+                if ($option->getIsHomepage() || $useBackgroundForAll) {
+                    $background = $backgrounds['home'];
+                    $landscape_background = $backgrounds['landscape_home'];
+                } else if ($option->hasBackgroundImage() &&
                     ($option->getBackgroundImage() !== 'no-image') &&
                     ($option->getBackgroundImage() !== '')) {
 
@@ -68,10 +71,6 @@ class Front_AssetsController extends Front_Controller_App_Default
                         // Landscape fallback is portrait!
                         $landscape_background = $background;
                     }
-
-                } else if ($option->getIsHomepage() || $useBackgroundForAll) {
-                    $background = $backgrounds['home'];
-                    $landscape_background = $backgrounds['landscape_home'];
                 }
 
                 if (!empty($background)) {

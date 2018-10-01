@@ -34,7 +34,12 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
     const LOGO_PATH = '/images/admin';
     const BO_DISPLAYED_PER_PAGE = 500;
 
-    public function __construct($datas = array())
+    /**
+     * Admin_Model_Admin_Abstract constructor.
+     * @param array $datas
+     * @throws Zend_Exception
+     */
+    public function __construct($datas = [])
     {
         parent::__construct($datas);
         $this->_db_table = 'Admin_Model_Db_Table_Admin';
@@ -51,13 +56,13 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         $applications = $application_table->findAllForGlobalPush();
 
         if (count($applications) <= 0) {
-            return array();
+            return [];
         }
 
         $application_model = new Application_Model_Application();
-        $admin_applications = $application_model->findAllByAdmin($this->getId(), array(
+        $admin_applications = $application_model->findAllByAdmin($this->getId(), [
             "a.app_id IN (?)" => $applications
-        ));
+        ]);
 
         return $admin_applications;
     }
@@ -72,28 +77,49 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         return $this->getTable()->getStats();
     }
 
+    /**
+     * @return $this
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
+     */
     public function save()
     {
+        // Filter inputs!
+        $fields = [
+            'company',
+            'city',
+            'firstname',
+            'lastname',
+            'address',
+            'address2',
+            'zip_code',
+            'country_code',
+            'phone',
+        ];
+
+        foreach ($fields as $field) {
+            $_filtered = filter_var($this->getData($field), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+            $this->setData($field, $_filtered);
+        }
 
         $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
 
         if ($this->getCountryCode()) {
             if (empty($countries[$this->getCountryCode()])) {
-                throw new Exception(__("An error occurred while saving. The country is not valid."));
+                throw new \Siberian\Exception(__("An error occurred while saving. The country is not valid."));
             } else if ($this->getCountry() != $countries[$this->getCountryCode()]) {
                 $this->setCountry($countries[$this->getCountryCode()]);
             }
         }
 
         return parent::save();
-
     }
 
     public function getApplications()
     {
 
         if (!$this->_applications) {
-            $this->_applications = array(Application_Model_Application::getInstance());
+            $this->_applications = [Application_Model_Application::getInstance()];
         }
 
         return $this->_applications;
@@ -106,7 +132,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
             return $this->getTable()->getApplicationsByDesignType($type, $this->getId());
         }
 
-        return array();
+        return [];
     }
 
     public function getAllApplicationAdmins($app_id)
@@ -114,7 +140,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         if ($app_id) {
             return $this->getTable()->getAllApplicationAdmins($app_id);
         }
-        return array();
+        return [];
     }
 
     public function getLoginToken()

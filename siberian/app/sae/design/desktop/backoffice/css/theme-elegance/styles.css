@@ -136,6 +136,7 @@ div.title[data-uri="/backoffice/index/template"] h1 {
     background-color: #ffffff;
     border-bottom: 2px solid #3dcc6d;
     color: #404040;
+    box-shadow: 0 0 2px lightgreen;
 }
 
 input, select, textarea {
