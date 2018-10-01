@@ -541,6 +541,24 @@ function slugify($text)
 }
 
 /**
+ * HTML Purifier using standard rules
+ * http://htmlpurifier.org/download
+ *
+ * @param $string
+ * @return mixed
+ * @throws Zend_Exception
+ */
+function purify($string)
+{
+    /**
+     * @var $htmlPurifier HTMLPurifier
+     */
+    $htmlPurifier = Zend_Registry::get('htmlPurifier');
+
+    return $htmlPurifier->purify($string);
+}
+
+/**
  * @param $path
  * @return string
  */

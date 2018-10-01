@@ -54,7 +54,7 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         try {
             $request = $this->getRequest();
             $application = $this->getApplication();
-            $iosDevice = $application->getDevice(1);
+            $iosDevice = $application->getIosDevice();
             $params = $request->getParams();
 
             $formNsDescription = new Application_Form_NsDescription();
@@ -66,8 +66,15 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                     'errors' => $formNsDescription->getTextErrors(true),
                 ];
             } else {
+                $values = $formNsDescription->getValues();
+
                 $iosDevice
-                    ->setData($formNsDescription->getValues())
+                    ->setNsCameraUd($values['ns_camera_ud'])
+                    ->setNsPhotoLibraryUd($values['ns_photo_library_ud'])
+                    ->setNsLocationWhenInUseUd($values['ns_location_when_in_use_ud'])
+                    ->setNsLocationAlwaysUd($values['ns_location_always_ud'])
+                    ->setNsLocationAlwaysAndWhenInUseUd($values['ns_location_always_and_when_in_use_ud'])
+                    ->setNsMotionUd($values['ns_motion_ud'])
                     ->save();
 
                 $payload = [

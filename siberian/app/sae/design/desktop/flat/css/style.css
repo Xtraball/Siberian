@@ -3552,3 +3552,9 @@ textarea.cke_source {
 #go_up_root.hide ~ .list-search {
     left: 8px !important;
 }
+
+h4.subtitle {
+    padding: 6px;
+    margin-bottom: 18px;
+    border-bottom-width: 2px;
+}

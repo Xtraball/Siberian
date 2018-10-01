@@ -1,8 +1,13 @@
 <?php
 
+/**
+ * Class Admin_AccountController
+ */
 class Admin_AccountController extends Admin_Controller_Default
 {
-
+    /**
+     * @throws Zend_Session_Exception
+     */
     public function editAction()
     {
         $this->loadPartials();
@@ -10,6 +15,9 @@ class Admin_AccountController extends Admin_Controller_Default
         $this->getLayout()->getPartial("content")->setMode("edit")->setEditAdmin($current_admin);
     }
 
+    /**
+     *
+     */
     public function savepostAction()
     {
 
@@ -17,6 +25,7 @@ class Admin_AccountController extends Admin_Controller_Default
 
             try {
 
+                // Protection for demo mode!
                 if (__getConfig('is_demo')) {
                     if (in_array($data['email'], ['client@client.com', 'demo@demo.com'])) {
                         throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
@@ -26,37 +35,33 @@ class Admin_AccountController extends Admin_Controller_Default
                 $admin = new Admin_Model_Admin();
                 $current_admin = $this->getSession()->getAdmin();
                 $check_email_admin = new Admin_Model_Admin();
-                $html = '';
 
                 if (!empty($data['admin_id'])) {
                     $admin->find($data['admin_id']);
                     if (!$admin->getId()) {
-                        throw new Exception(__('An error occurred while saving your account. Please try again later.'));
+                        throw new \Siberian\Exception(__('There is no user with this ID.'));
                     }
                 }
-                if (empty($data['email'])) {
-                    throw new Exception(__('The email is required'));
-                }
 
-                if ($admin->getId() AND $admin->getId() != $this->getAdmin()->getId() AND (
-                        $admin->getParentId() AND $admin->getParentId() != $this->getAdmin()->getId() OR
+                if ($admin->getId() &&
+                    $admin->getId() != $this->getAdmin()->getId() &&
+                    (
+                        $admin->getParentId() &&
+                        $admin->getParentId() != $this->getAdmin()->getId() ||
                         !$admin->getParentId()
                     )) {
+
                     throw new \Siberian\Exception(__("An error occurred while saving your account. Please try again later."));
                 }
 
-                if (!$admin->getId() OR $admin->getId() != $this->getAdmin()->getId()) {
+                if (!$admin->getId() ||
+                    $admin->getId() != $this->getAdmin()->getId()) {
                     $admin->setParentId($this->getAdmin()->getId());
                 }
 
                 $check_email_admin->find($data['email'], 'email');
                 if ($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
-                    throw new Exception(__('This email address is already used'));
-                }
-
-                // Demo version
-                if (__getConfig('is_demo') && $admin->getId() == 1) {
-                    throw new \Siberian\Exception("This is a demo version, this user can't be changed");
+                    throw new \Siberian\Exception(__('This email address is already used'));
                 }
 
                 if (isset($data['password'])) {
@@ -103,7 +108,15 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 $admin
-                    ->addData($data)
+                    ->setAddress($data['address'])
+                    ->setAddress2($data['address2'])
+                    ->setCity($data['city'])
+                    ->setCompany($data['company'])
+                    ->setZipCode($data['zip_code'])
+                    ->setFirstname($data['firstname'])
+                    ->setLastname($data['lastname'])
+                    ->setPhone($data['phone'])
+                    ->setOptinEmail($data['optin_email'] === 'on')
                     ->save();
 
                 //For SAE we link automatically the user to the uniq app
@@ -111,21 +124,24 @@ class Admin_AccountController extends Admin_Controller_Default
                     $this->getApplication()->addAdmin($admin);
                 }
 
-                $html = ['success' => 1];
-                $html = array_merge($html, [
+                $payload = [
+                    'success' => 1
+                ];
+
+                $payload = array_merge($payload, [
                     'success_message' => __('The account has been successfully saved'),
                     'message_timeout' => false,
                     'message_button' => false,
                     'message_loader' => 1
                 ]);
             } catch (Exception $e) {
-                $html = [
-                    'error' => 1,
+                $payload = [
+                    'error' => true,
                     'message' => $e->getMessage()
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($payload);
 
         }
 

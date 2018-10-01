@@ -1,0 +1,274 @@
+<?php
+/**
+ * @var Application_Model_Application $application
+ */
+$application = $this->getApplication();
+
+if (Siberian_Version::is('PE')) {
+    $expiredSubscriptions = (new Subscription_Model_Subscription_Application())
+        ->findAll([
+            'is_subscription_deleted = ?' => 1,
+            'is_active = ?' => 0,
+            'app_id = ?' => $application->getId(),
+        ],
+            [
+                'subscription_app_id DESC',
+            ]);
+}
+
+?>
+
+<?php if ($this->_canAccess('editor_publication') &&
+    $application->canBePublished()) : ?>
+
+    <div>
+
+        <?php if (Siberian_Version::is('PE')): ?>
+            <div id="sb-tour-section-general-source"
+                 class="content sb-tour">
+                <h3 class="title-editor border-green text-center">
+                    <?php echo __('Subscription'); ?>
+                </h3>
+                <div class="form-horizontal container-fluid subcontent content-color">
+                    <?php if (!$application->subscriptionIsActive()): ?>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div id="sb-tour-ready-publish"
+                                     class="container-fluid subcontent sb-tour text-center">
+                                    <a class="btn color-red"
+                                       href="<?php echo $this->getUrl('application/customization/check'); ?>"
+                                       onclick="reload(this, this.href, true); return false;"><?php echo __('Ready ? Publish my app!'); ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($application->subscriptionIsActive()): ?>
+                        <?php
+                        $subscriptionApp = $application->getSubscription();
+                        $subscription = $subscriptionApp->getSubscription();
+                        ?>
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <?php if ($subscriptionApp->getIsSubscriptionDeleted()): ?>
+                                    <div class="alert alert-warning">
+                                        <?php echo __('This subscription is cancelled, and will expire by <b>%s</b>.',
+                                            datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATE_MEDIUM)) ?>
+                                        <?php if ($subscriptionApp->getIsSubscriptionDeleted() && !$subscriptionApp->isExpiredOrCancelled()): ?>
+                                            <a class="btn color-red"
+                                               href="<?php echo $this->getUrl('application/customization/check'); ?>"
+                                               onclick="reload(this, this.href, true); return false;"><?php echo __('Purchase a new subscription!'); ?></a>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+                                <table class="table table-striped">
+                                    <tbody>
+                                    <tr>
+                                        <th style="width: 33%;"><?php echo __('Name') ?></th>
+                                        <td><?php echo $subscription->getName() ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th><?php echo __('Description') ?></th>
+                                        <td><?php echo $subscription->getDescription() ?></td>
+                                    </tr>
+                                    <?php if (!$subscriptionApp->isChild()): ?>
+                                        <tr>
+                                            <th><?php echo __('Setup fee') ?></th>
+                                            <td><?php echo $subscription->getFormattedSetupFee() ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <?php if ($subscription->getPaymentFrequency() && !$subscriptionApp->isChild()): ?>
+                                        <tr>
+                                            <th><?php echo __($subscription->getPaymentFrequency() . ' fee') ?></th>
+                                            <td><?php echo $subscription->getFormattedRegularPayment() ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <tr>
+                                        <th><?php echo __('Subscription date & time') ?></th>
+                                        <td><?php echo datetime_to_format($subscriptionApp->getCreatedAt(), Zend_Date::DATETIME_MEDIUM) ?></td>
+                                    </tr>
+                                    <?php if ($subscriptionApp->getIsSubscriptionDeleted() && !$subscriptionApp->isExpiredOrCancelled()): ?>
+                                        <tr class="text-danger">
+                                            <th><?php echo __('Expiration date') ?></th>
+                                            <td><?php echo datetime_to_format($subscriptionApp->getCancelledAt(), Zend_Date::DATE_MEDIUM) ?></td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <th><?php echo __('Next payment date') ?></th>
+                                            <td><?php echo datetime_to_format($subscriptionApp->getExpireAt(), Zend_Date::DATE_MEDIUM) ?></td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    <?php if (!$subscriptionApp->isChild()): ?>
+                                        <tr>
+                                            <th><?php echo __('Payment method') ?></th>
+                                            <td>
+                                                <?php if ($subscriptionApp->getPaymentMethod() === ''): ?>
+                                                    <span style="text-transform: uppercase; font-weight: bold;"><?php echo __('Free plan') ?></span>
+                                                <?php else: ?>
+                                                    <span style="text-transform: uppercase; font-weight: bold;"><?php echo $subscriptionApp->getPaymentMethod() ?></span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php else: ?>
+                                        <tr>
+                                            <th><?php echo __('Payment method') ?></th>
+                                            <td>
+                                            <span style="text-transform: uppercase;">
+                                               <?php echo __('Linked to Subscription') ?> <b>#<?php echo $subscriptionApp->getParentId() ?></b>
+                                            </span>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <?php
+                        $paymentMethod = $subscriptionApp->getPaymentMethod();
+                        switch ($paymentMethod) {
+                            case '':
+                                $aclCancel = 'cancel_free_subscription';
+                                break;
+                            case 'offline':
+                                $aclCancel = 'cancel_offline_subscription';
+                                break;
+                            case 'child':
+                                $aclCancel = 'cancel_child_subscription';
+                                break;
+                            default:
+                                $aclCancel = 'cancel_online_subscription';
+                                break;
+                        }
+                        ?>
+                        <?php if ($this->_canAccess($aclCancel) && !$subscriptionApp->isSubscriptionDeleted()): ?>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="container-fluid subcontent text-right">
+                                        <a class="btn color-red cancel-subscription"
+                                           href="javascript:void(0);">
+                                            <?php echo __('Cancel current Subscription'); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+
+                <?php if ($expiredSubscriptions->count() > 0) : ?>
+                    <div class="form-horizontal container-fluid subcontent content-color">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <h4 class="subtitle"><?php echo __('Previous and/or Expired subscriptions') ?></h4>
+                            </div>
+                            <div class="col-md-12">
+                                <table class="table table-striped"
+                                       style="width: 100%;">
+                                    <thead>
+                                    <tr>
+                                        <th><?php echo __('ID') ?></th>
+                                        <th><?php echo __('Name') ?></th>
+                                        <th><?php echo __('Description') ?></th>
+                                        <th><?php echo __('Setup fee') ?></th>
+                                        <th><?php echo __('Regular fee') ?></th>
+                                        <th><?php echo __('Expired on') ?></th>
+                                        <th><?php echo __('Payment method') ?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($expiredSubscriptions as $expiredSubscription):
+                                        $subscription = $expiredSubscription->getSubscription(); ?>
+                                        <tr>
+                                            <td>#<?php echo $expiredSubscription->getId() ?></td>
+                                            <td><?php echo $subscription->getName() ?></td>
+                                            <td><?php echo $subscription->getDescription() ?></td>
+                                            <td>
+                                                <?php if (!$expiredSubscription->isChild()): ?>
+                                                    <?php echo $subscription->getFormattedSetupFee(); ?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if ($subscription->getPaymentFrequency() && !$expiredSubscription->isChild()): ?>
+                                                    <?php echo $subscription->getFormattedRegularPayment() ?>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td><?php echo datetime_to_format($expiredSubscription->getExpireAt(), Zend_Date::DATE_SHORT) ?></td>
+                                            <td>
+                                                <?php if (!$expiredSubscription->isChild()): ?>
+                                                    <span style="text-transform: uppercase; font-weight: bold;"><?php echo $expiredSubscription->getPaymentMethod() ?></span>
+                                                <?php else: ?>
+                                                    <span style="text-transform: uppercase;">
+                                           <?php echo __('Linked to Subscription') ?> <b>#<?php echo $expiredSubscription->getParentId() ?></b>
+                                        </span>
+                                                <?php endif; ?>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+<script type="text/javascript">
+    <?php if ($application->subscriptionIsActive() && $application->getSubscription()):
+    $subscriptionApp = $application->getSubscription(); ?>
+    var cancelUrl = '<?php echo $this->getUrl('subscription/application/cancelowner'); ?>';
+    var id = '<?php echo $subscriptionApp->getId() ?>';
+
+    $(document).ready(function () {
+        var cancelButton = $('.cancel-subscription');
+        cancelButton.off('click');
+        cancelButton.on('click', function () {
+            swal({
+                html: true,
+                title: '<?php echo __js("Cancel Subscription", "'") ?>',
+                type: 'prompt',
+                text: '<?php echo __js("You are about to cancel your Subscription, if this is a paid plan the subscription will be cancelled at the end of the recurring period, otherwise the subscription will be immediately cancelled and the application locked.<br /><br />Below you can leave a message for the Administrator.<br />", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo __js("Yes, Cancel my subscription", "'") ?>',
+                cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
+                buttons: {
+                    confirm: {
+                        value: ''
+                    }
+                }
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    cancelUrl,
+                    {
+                        'id': id,
+                        'message': value
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+    });
+    <?php endif; ?>
+</script>

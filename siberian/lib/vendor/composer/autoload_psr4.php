@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'rock\\sanitize\\' => array($vendorDir . '/romeoz/rock-sanitize/src'),
+    'rock\\helpers\\' => array($vendorDir . '/romeoz/rock-helpers/src'),
+    'rock\\base\\' => array($vendorDir . '/romeoz/rock-base/src'),
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Vnn\\WpApiClient\\' => array($vendorDir . '/vnn/wordpress-rest-api-client/src'),
     'Symfony\\Polyfill\\Php70\\' => array($vendorDir . '/symfony/polyfill-php70'),

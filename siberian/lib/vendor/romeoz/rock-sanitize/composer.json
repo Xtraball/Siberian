@@ -1,0 +1,35 @@
+{
+    "name": "romeoz/rock-sanitize",
+    "description": "Flexible sanitizator for PHP.",
+    "keywords": ["sanitize", "sanitization", "sanitizator"],
+    "type": "library",
+    "license": "MIT",
+    "support": {
+        "email": "serggalka@gmail.com",
+        "issues": "https://github.com/romeOz/rock-sanitize/issues",
+        "source": "https://github.com/romeOz/rock-sanitize"
+    },
+    "authors": [
+        {
+            "name": "Ruslan",
+            "email": "serggalka@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "romeoz/rock-base" : "0.12.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "rock\\sanitize\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.11-dev"
+        }
+    }
+}

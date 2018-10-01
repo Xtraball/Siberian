@@ -296,6 +296,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNeverRender(true);
     }
 
+    protected function _initPurifier()
+    {
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('Cache.SerializerPath', Core_Model_Directory::getBasePathTo('var/cache'));
+
+        $htmlPurifier = new HTMLPurifier($config);
+        Zend_Registry::set('htmlPurifier', $htmlPurifier);
+    }
+
     /**
      *
      */

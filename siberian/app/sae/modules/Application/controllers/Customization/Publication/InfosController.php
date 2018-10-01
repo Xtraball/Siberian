@@ -34,108 +34,243 @@ class Application_Customization_Publication_InfosController extends Application_
     /**
      *
      */
-    public function saveAction()
+    public function saveGeneralInformationAction()
     {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
 
-        if ($data = $this->getRequest()->getPost()) {
-
-            try {
-
-
-                if (!empty($data["name"])) {
-                    $this->getApplication()->setName($data['name'])->save();
-                } else if (!empty($data['description'])) {
-                    if (strlen($data['description']) < 200) throw new Exception(__('The description must be at least 200 characters'));
-                    $this->getApplication()->setDescription($data['description'])->save();
-                } else if (!empty($data['android_version'])) {
-                    if (!preg_match("#^([0-9\.]+)$#", $data['android_version'])) {
-                        throw new Exception(__('Invalid version'));
-                    } else {
-                        $this->getApplication()->getDevice(2)->setVersion($data['android_version'])->save();
-                    }
-                } else if (!empty($data['keywords'])) {
-                    $this->getApplication()->setKeywords($data['keywords'])->save();
-                } else if (!empty($data['bundle_id'])) {
-                    if (count(explode('.', $data['bundle_id'])) < 2) {
-                        throw new Exception(__('The entered bundle id is incorrect, it should be like: com.siberiancms.app'));
-                    }
-                    $this->getApplication()->setBundleId($data['bundle_id'])->save();
-                } else if (!empty($data['package_name'])) {
-                    if (count(explode('.', $data['package_name'])) < 2) {
-                        throw new Exception(__('The entered package name is incorrect, it should be like: com.siberiancms.app'));
-                    }
-                    $this->getApplication()->setPackageName($data['package_name'])->save();
-                } else if (isset($data['main_category_id'])) {
-                    if (empty($data['main_category_id'])) throw new Exception(__('The field is required'));
-                    else $this->getApplication()->setMainCategoryId($data['main_category_id'])->save();
-                } else if (isset($data['secondary_category_id'])) {
-                    $this->getApplication()->setSecondaryCategoryId($data['secondary_category_id'])->save();
-                } else if (isset($data['flag_use_ads'])) {
-                    $this->getApplication()->setUseAds(isset($data['use_ads']))->save();
-                } else if (isset($data['device_id'])) {
-                    $device = $this->getApplication()->getDevice($data['device_id']);
-
-                    if (isset($data["admob_id"])) {
-                        $device->setAdmobId($data["admob_id"]);
-                    } else if (isset($data["admob_interstitial_id"])) {
-                        $device->setAdmobInterstitialId($data["admob_interstitial_id"]);
-                    } else if (isset($data["admob_type"])) {
-                        if ($data["admob_type"] != "") {
-                            $device->setAdmobType($data["admob_type"]);
-                        } else {
-                            throw new Exception(__('You must choose an ads type'));
-                        }
-                    }
-
-                    $device->save();
-                } else if (isset($data['ios_username'])) {
-                    if (!empty($data['ios_username']) AND !Zend_Validate::is($data['ios_username'], "emailAddress")) throw new Exception(__('Please enter a valid email address'));
-                    else $this->getApplication()->getDevice(1)
-                        ->setUseOurDeveloperAccount(0)
-                        ->setDeveloperAccountUsername(!empty($data['ios_username']) ? $data['ios_username'] : null)
-                        ->save();
-                } else if (isset($data['ios_password'])) {
-                    $this->getApplication()->getDevice(1)
-                        ->setUseOurDeveloperAccount(0)
-                        ->setDeveloperAccountPassword(!empty($data['ios_password']) ? $data['ios_password'] : null)
-                        ->save();
-                } else if (isset($data['has_apple_account']) AND $data['has_apple_account'] == 2) {
-                    $this->getApplication()->getDevice(1)
-                        ->setDeveloperAccountUsername(null)
-                        ->setDeveloperAccountPassword(null)
-                        ->setUseOurDeveloperAccount(1)
-                        ->save();
-                } else if (isset($data['android_username'])) {
-                    if (!empty($data['android_username']) AND !Zend_Validate::is($data['android_username'], "emailAddress")) throw new Exception(__('Please enter a valid email address'));
-                    else $this->getApplication()->getDevice(2)
-                        ->setUseOurDeveloperAccount(0)
-                        ->setDeveloperAccountUsername(!empty($data['android_username']) ? $data['android_username'] : null)
-                        ->save();
-                } else if (isset($data['android_password'])) {
-                    $this->getApplication()->getDevice(2)
-                        ->setUseOurDeveloperAccount(0)
-                        ->setDeveloperAccountPassword(!empty($data['android_password']) ? $data['android_password'] : null)
-                        ->save();
-                } else if (isset($data['has_android_account']) AND $data['has_android_account'] == 2) {
-                    $this->getApplication()->getDevice(2)
-                        ->setDeveloperAccountUsername(null)
-                        ->setDeveloperAccountPassword(null)
-                        ->setUseOurDeveloperAccount(1)
-                        ->save();
-                }
-
-                $html = ['success' => '1'];
-
-            } catch (Exception $e) {
-                $html = [
-                    'message' => $e->getMessage()
-                ];
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__('This application does not exists.'));
             }
 
-            $this->_sendHtml($html);
+            $form = new Application_Form_GeneralInformation();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
 
+                $application
+                    ->setName($params['name'])
+                    ->setDescription($params['description'])
+                    ->setKeywords($params['keywords'])
+                    ->setMainCategoryId((integer) $params['main_category_id'])
+                    ->setSecondaryCategoryId((integer) $params['secondary_category_id'])
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
 
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function saveGeneralInformationSourcesAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
+
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__('This application does not exists.'));
+            }
+
+            $form = new Application_Form_GeneralInformationSources();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
+
+                $application
+                    ->setName($params['name'])
+                    ->setBundleId($params['bundle_id'])
+                    ->setPackageName($params['package_name'])
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveAndroidVersionAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
+
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__('This application does not exists.'));
+            }
+
+            $form = new Application_Form_Admob();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
+
+                $androidDevice = $application->getAndroidDevice();
+                $androidDevice
+                    ->setVersion($params['version'])
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveAdmobAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
+
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__('This application does not exists.'));
+            }
+
+            $form = new Application_Form_Admob();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
+
+                $application
+                    ->setUseAds(filter_var($params['use_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->save();
+
+                $androidDevice = $application->getAndroidDevice();
+                $androidDevice
+                    ->setAdmobId($params['android_admob_id'])
+                    ->setAdmobInterstitialId($params['android_admob_interstitial_id'])
+                    ->setAdmobType($params['android_admob_type'])
+                    ->save();
+
+                $iosDevice = $application->getIosDevice();
+                $iosDevice
+                    ->setAdmobId($params['ios_admob_id'])
+                    ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
+                    ->setAdmobType($params['ios_admob_type'])
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveAppleGoogleAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
+
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__('This application does not exists.'));
+            }
+
+            $form = new Application_Form_AppleGoogle();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
+
+                $androidDevice = $application->getAndroidDevice();
+                $androidDevice
+                    ->setDeveloperAccountUsername($params['android_email'])
+                    ->setDeveloperAccountPassword($params['android_password'])
+                    ->setUseOurDeveloperAccount($params['has_android_account'] === '2')
+                    ->save();
+
+                $iosDevice = $application->getIosDevice();
+                $iosDevice
+                    ->setDeveloperAccountUsername($params['apple_email'])
+                    ->setDeveloperAccountPassword($params['apple_password'])
+                    ->setUseOurDeveloperAccount($params['has_apple_account'] === '2')
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     /**

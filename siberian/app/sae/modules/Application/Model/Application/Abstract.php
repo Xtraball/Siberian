@@ -9,7 +9,6 @@
  * @method string getFlickrKey()
  * @method string getFlickrSecret()
  * @method string getDesignCode()
- * @method string getName()
  * @method $this setIsActive(boolean $isActive)
  * @method $this setLayoutVisibility(boolean $visibility)
  */
@@ -210,16 +209,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * Filters app name!
-     * Validate
-     *
      * @param $name
      * @return $this
      * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function setName($name)
     {
-        $name = filter_var($name, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+        $name = \rock\sanitize\Sanitize::removeTags()->sanitize(trim($name));
 
         if (is_numeric(substr($name, 0, 1))) {
             throw new \Siberian\Exception("The application's name cannot start with a number");
@@ -233,18 +230,258 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * Filters app name!
-     *
-     * @param $name
+     * @return mixed
+     * @throws \rock\sanitize\SanitizeException
      */
     public function getName()
     {
-        return filter_var(trim($this->getData('name')), FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+        return \rock\sanitize\Sanitize::removeTags()->sanitize(trim($this->getData('name')));
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     * @throws \Siberian\Exception
+     */
+    public function setDescription(string $description)
+    {
+        if (strlen($description) < 200) {
+            throw new \Siberian\Exception('The description must be at least 200 characters');
+        }
+
+        $description = \rock\sanitize\Sanitize::removeTags()->sanitize($description);
+
+        return $this->setData('description', $description);
+    }
+
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getDescription()
+    {
+        return $this->getData('description');
+    }
+
+    /**
+     * @param string $keywords
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setKeywords(string $keywords)
+    {
+        $keywords = \rock\sanitize\Sanitize::removeTags()->sanitize($keywords);
+
+        return $this->setData('keywords', $keywords);
+    }
+
+    /**
+     * @param $mainCategoryId
+     * @return $this
+     */
+    public function setMainCategoryId($mainCategoryId)
+    {
+        return $this->setData('main_category_id', $mainCategoryId);
+    }
+
+    /**
+     * @param $secondaryCategoryId
+     * @return $this
+     */
+    public function setSecondaryCategoryId($secondaryCategoryId)
+    {
+        return $this->setData('secondary_category_id', $secondaryCategoryId);
+    }
+
+    /**
+     * @param string $bundleId
+     * @return $this
+     * @throws Exception
+     * @throws \Siberian\Exception
+     */
+    public function setBundleId(string $bundleId)
+    {
+        $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
+
+        if (preg_match($regexIos, $bundleId)) {
+            $this->setData('bundle_id', $bundleId)->save();
+        } else {
+            throw new \Siberian\Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $packageName
+     * @return $this
+     * @throws Exception
+     * @throws \Siberian\Exception
+     */
+    public function setPackageName(string $packageName)
+    {
+        $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
+
+        if (preg_match($regexAndroid, $packageName)) {
+            $this->setData('package_name', $this->validatePackageName($packageName))->save();
+        } else {
+            throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $privacyPolicy
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setPrivacyPolicy(string $privacyPolicy)
+    {
+        $_filtered = \Siberian\Xss::sanitize($privacyPolicy);
+
+        return $this->setData('privacy_policy', $_filtered);
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFacebookId(string $id)
+    {
+        $_filtered = \Siberian\Xss::sanitize($id);
+
+        return $this->setData('facebook_id', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFacebookKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('facebook_key', $_filtered);
+    }
+
+    /**
+     * @param string $consumerKey
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterConsumerKey(string $consumerKey)
+    {
+        $_filtered = \Siberian\Xss::sanitize($consumerKey);
+
+        return $this->setData('twitter_consumer_key', $_filtered);
+    }
+
+    /**
+     * @param string $consumerSecret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterConsumerSecret(string  $consumerSecret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($consumerSecret);
+
+        return $this->setData('twitter_consumer_secret', $_filtered);
+    }
+
+    /**
+     * @param string $apiToken
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterApiToken(string $apiToken)
+    {
+        $_filtered = \Siberian\Xss::sanitize($apiToken);
+
+        return $this->setData('twitter_api_token', $_filtered);
+    }
+
+    /**
+     * @param string $apiSecret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterApiSecret(string $apiSecret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($apiSecret);
+
+        return $this->setData('twitter_api_secret', $_filtered);
+    }
+
+    /**
+     * @param string $clientId
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setInstagramClientId(string $clientId)
+    {
+        $_filtered = \Siberian\Xss::sanitize($clientId);
+
+        return $this->setData('instagram_client_id', $_filtered);
+    }
+
+    /**
+     * @param string $token
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setInstagramToken(string $token)
+    {
+        $_filtered = \Siberian\Xss::sanitize($token);
+
+        return $this->setData('instagram_token', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFlickrKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('flickr_key', $_filtered);
+    }
+
+    /**
+     * @param string $secret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFlickrSecret(string $secret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($secret);
+
+        return $this->setData('flickr_secret', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setGooglemapsKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('googlemaps_key', $_filtered);
+    }
+
+
+
+/**
+     * @param $admin
+     * @return $this
+     */
     public function addAdmin($admin)
     {
-
         if ($this->getId()) {
             $is_allowed_to_add_pages = $admin->hasIsAllowedToAddPages() ? $admin->getIsAllowedToAddPages() : true;
             $this->getTable()->addAdmin($this->getId(), $admin->getId(), $is_allowed_to_add_pages);
@@ -255,7 +492,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         return $this;
-
     }
 
     public function removeAdmin($admin)
@@ -584,40 +820,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         return $this->_layout;
 
-    }
-
-    /**
-     * @param $bundle_id
-     * @throws Exception
-     */
-    public function setBundleId($bundle_id)
-    {
-        $regex_ios = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
-
-        if (preg_match($regex_ios, $bundle_id)) {
-            $this->setData("bundle_id", $bundle_id)->save();
-        } else {
-            throw new Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $package_name
-     * @throws Exception
-     */
-    public function setPackageName($package_name)
-    {
-        $regex_android = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
-
-        if (preg_match($regex_android, $package_name)) {
-            $this->setData("package_name", $this->validatePackageName($package_name))->save();
-        } else {
-            throw new Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
-        }
-
-        return $this;
     }
 
     /**

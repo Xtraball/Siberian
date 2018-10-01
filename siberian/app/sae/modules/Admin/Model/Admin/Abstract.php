@@ -4,18 +4,9 @@
  * Class Admin_Model_Admin_Abstract
  *
  * @method integer getId()
- * @method $this setFirstname(string $firstname)
- * @method $this setLastname(string $lastname)
- * @method $this setAddress(string $address)
- * @method $this setAddress2(string $address2)
- * @method $this setZipCode(string $zipCode)
- * @method $this setCity(string $city)
- * @method $this setRegion(string $region)
- * @method $this setPhone(string $phone)
  */
 abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 {
-
     /**
      * @var
      */
@@ -44,6 +35,128 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         parent::__construct($datas);
         $this->_db_table = 'Admin_Model_Db_Table_Admin';
     }
+
+    /**
+     * Setters / Getters / Filters
+     */
+
+    /**
+     * @param string $email
+     * @return $this
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setEmail(string $email)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($email);
+
+        $validator = new Zend_Validate_EmailAddress();
+        if (!$validator->isValid($_filtered)) {
+            throw new \Siberian\Exception(__('This is not a valid e-mail address.'));
+        }
+
+        return $this->setData('email', $_filtered);
+    }
+
+    /**
+     * @param string $firstname
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setFirstname(string $firstname)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($firstname);
+        return $this->setData('firstname', $_filtered);
+    }
+
+    /**
+     * @param string $lastname
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setLastname(string $lastname)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($lastname);
+        return $this->setData('lastname', $_filtered);
+    }
+
+    /**
+     * @param string $company
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setCompany(string $company)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($company);
+        return $this->setData('company', $_filtered);
+    }
+
+    /**
+     * @param string $address
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setAddress(string $address)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($address);
+        return $this->setData('address', $_filtered);
+    }
+
+    /**
+     * @param string $address2
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setAddress2(string $address2)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($address2);
+        return $this->setData('address2', $_filtered);
+    }
+
+    /**
+     * @param string $zipCode
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setZipCode(string $zipCode)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($zipCode);
+        return $this->setData('zip_code', $_filtered);
+    }
+
+    /**
+     * @param string $city
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setCity(string $city)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($city);
+        return $this->setData('city', $_filtered);
+    }
+
+    /**
+     * @param string $region
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setRegion(string $region)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($region);
+        return $this->setData('region', $_filtered);
+    }
+
+    /**
+     * @param string $phone
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setPhone(string $phone)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($phone);
+        return $this->setData('phone', $_filtered);
+    }
+
 
     /**
      * Get only pusblished applications
@@ -84,25 +197,11 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      */
     public function save()
     {
-        // Filter inputs!
-        $fields = [
-            'company',
-            'city',
-            'firstname',
-            'lastname',
-            'address',
-            'address2',
-            'zip_code',
-            'country_code',
-            'phone',
-        ];
-
-        foreach ($fields as $field) {
-            $_filtered = filter_var($this->getData($field), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-            $this->setData($field, $_filtered);
-        }
-
         $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
+
+        if (empty($this->getEmail())) {
+            throw new \Siberian\Exception(__('E-mail is required!'));
+        }
 
         if ($this->getCountryCode()) {
             if (empty($countries[$this->getCountryCode()])) {
