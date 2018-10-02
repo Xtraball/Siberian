@@ -55,20 +55,20 @@ class Cms_Form_Block_File extends Cms_Form_Block_Abstract {
      */
     public function loadBlock($block) {
 
-        $file_html = array();
+        $file_html = [];
         $name = $block->getName();
         if(!empty($name)) {
 
             $tmp = static::$file_template;
-            $tmp = str_replace(array(
+            $tmp = str_replace([
                 "%UNIQID%",
                 "%FILE_PATH%",
                 "#TEXT#",
-            ), array(
+            ], [
                 $this->getUniqid(),
                 $name,
                 "<b>".__("Attachement").":</b> ".basename($name),
-            ), $tmp);
+            ], $tmp);
 
             $file_html = $tmp;
         }

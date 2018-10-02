@@ -267,7 +267,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                             }
                         }
                     } else {
-                        throw new Siberian_Exception('The bootstrap file located at \'' . $path .
+                        throw new \Siberian\Exception('The bootstrap file located at \'' . $path .
                             '\' redefines/or is already loaded, Class \'' . $classname .
                             '\', please remove it or rename it.');
                     }
@@ -300,8 +300,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.SerializerPath', Core_Model_Directory::getBasePathTo('var/cache'));
+        $def = $config->getHTMLDefinition(true);
+
+        // Attributes for in-app links
+        $def->addAttribute('a', 'data-offline', 'Text');
+        $def->addAttribute('a', 'data-params', 'Text');
+        $def->addAttribute('a', 'data-state', 'Text');
 
         $htmlPurifier = new HTMLPurifier($config);
+
         Zend_Registry::set('htmlPurifier', $htmlPurifier);
     }
 

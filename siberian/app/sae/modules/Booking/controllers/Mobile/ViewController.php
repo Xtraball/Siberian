@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Booking_Mobile_ViewController
+ */
 class Booking_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
     /**
@@ -15,20 +18,20 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             if($value_id = $this->getRequest()->getParam('value_id')) {
 
                 $booking = $this->getCurrentOptionValue()->getObject();
-                $data = array("stores" => array());
+                $data = ["stores" => []];
 
                 if($booking->getId()) {
 
                     $store = new Booking_Model_Store();
-                    $stores = $store->findAll(array(
+                    $stores = $store->findAll([
                         "booking_id" => $booking->getId()
-                    ));
+                    ]);
 
                     foreach($stores as $store) {
-                        $data["stores"][] = array(
+                        $data["stores"][] = [
                             "id"    => $store->getId(),
                             "name"  => $store->getStoreName()
-                        );
+                        ];
                     }
 
                 }
@@ -36,15 +39,15 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
 
             } else {
-                throw new Siberian_Exception("The value_id is required.");
+                throw new \Siberian\Exception("The value_id is required.");
             }
 
         } catch(Exception $e) {
-            $data = array(
-                "error"                 => true,
-                "message"               => __("Booking::findAction An unknown error occurred, please try again later."),
-                "exceptionMessage"      => $e->getMessage()
-            );
+            $data = [
+                "error" => true,
+                "message" => __("Booking::findAction An unknown error occurred, please try again later."),
+                "exceptionMessage" => $e->getMessage()
+            ];
         }
 
         $this->_sendJson($data);
@@ -66,7 +69,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
-                $errors = array();
+                $errors = [];
 
                 if(empty($data["name"])) {
                     $errors[] = __("Name");
@@ -98,10 +101,10 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $message = __("Please fill out the following fields")."<br />-&nbsp;";
                     $message .= join("<br />-&nbsp;", $errors);
 
-                    $data = array(
+                    $data = [
                         "error" => true,
                         "message" => $message
-                    );
+                    ];
 
                 }
                 else {
@@ -126,7 +129,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $booking = new Booking_Model_Booking();
                     $booking->find($store->getBookingId(), "booking_id");
                     if(!$booking->getId()) {
-                        throw new Siberian_Exception(__("An error occurred during process.<br />Please try again later."));
+                        throw new \Siberian\Exception(__("An error occurred during process.<br />Please try again later."));
                     }
                     $dest_email = $store->getEmail();
 
@@ -144,15 +147,15 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $mail->setSubject($app_name." - ".$booking->getName()." - ".$store->getStoreName());
                     $mail->send();
 
-                    $data = array(
+                    $data = [
                         "success" => true,
                         "message" => __("Thank you for your request.<br />We'll answer you as soon as possible.")
-                    );
+                    ];
                 }
 
 
             } else {
-                throw new Siberian_Exception("The sent request is empty.");
+                throw new \Siberian\Exception("The sent request is empty.");
             }
 
         } catch(Exception $e) {
@@ -160,11 +163,11 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $message = $e->getMessage();
             $message = (empty($message)) ? __("%s An unknown error occurred, please try again later.", "Booking::postAction") : $message;
 
-            $data = array(
-                "error"                 => true,
-                "message"               => $message,
-                "exceptionMessage"      => $e->getMessage()
-            );
+            $data = [
+                "error" => true,
+                "message" => $message,
+                "exceptionMessage" => $e->getMessage()
+            ];
 
         }
 

@@ -1,30 +1,33 @@
 <?php
 
+/**
+ * Class Comment_Mobile_ViewController
+ */
 class Comment_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "addlike" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "addlike" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "flagpost" => array(
-            "tags" => array(
+            ],
+        ],
+        "flagpost" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "flagcomment" => array(
-            "tags" => array(
+            ],
+        ],
+        "flagcomment" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function indexAction() {
         $this->forward('index', 'index', 'Front', $this->getRequest()->getParams());
@@ -47,30 +50,30 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $customer = $comment->getCustomer();
 
                 $color = $application->getBlock('background')->getColor();
-                $cleaned_message = str_replace(array("\n","\r"), "", html_entity_decode(strip_tags($comment->getText()), ENT_QUOTES, 'UTF-8'));
+                $cleaned_message = str_replace(["\n","\r"], "", html_entity_decode(strip_tags($comment->getText()), ENT_QUOTES, 'UTF-8'));
 
                 $answer = new Comment_Model_Answer();
                 $answers = $answer->findByComment($comment->getId());
-                $all_answers = array();
+                $all_answers = [];
                 foreach($answers as $answer) {
-                    $all_answers[] = array(
+                    $all_answers[] = [
                         "id"                => (integer) $answer->getId(),
                         "name"              => $answer->getCustomerName(),
                         "customer_id"       => (integer) $answer->getCustomerId(),
-                        "message"           => $answer->getText(),
+                        "message"           => \Siberian\Xss::sanitize($answer->getText()),
                         "created_at"        => $this->_durationSince($answer->getCreatedAt())
-                    );
+                    ];
 
                 }
 
                 switch($this->getCurrentOptionValue()->getLayoutId()) {
                     case 2:
-                        $data = array(
+                        $data = [
                             "id"                        => (integer) $comment->getId(),
                             "author"                    => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "title"                     => $comment->getTitle(),
-                            "subtitle"                  => $comment->getSubtitle(),
-                            "message"                   => $comment->getText(),
+                            "title"                     => \Siberian\Xss::sanitize($comment->getTitle()),
+                            "subtitle"                  => \Siberian\Xss::sanitize($comment->getSubtitle()),
+                            "message"                   => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message"           => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
                             "picture"                   => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
                             "icon"                      => $this->getRequest()->getBaseUrl().$application->getIcon(74),
@@ -78,14 +81,14 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             "code"                      => $this->getCurrentOptionValue()->getCode(),
                             "social_sharing_active"     => (boolean) $option->getSocialSharingIsActive(),
                             "answers"                   => $all_answers
-                        );
+                        ];
                     break;
                     case 1:
                     default:
-                        $data = array(
+                        $data = [
                             "id"                            => (integer) $comment->getId(),
                             "author"                        => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "message"                       => $comment->getText(),
+                            "message"                       => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message"               => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
                             "picture"                       => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
                             "icon"                          => $this->getRequest()->getBaseUrl().$application->getIcon(74),
@@ -96,7 +99,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             "code"                          => $this->getCurrentOptionValue()->getCode(),
                             "social_sharing_active"         => (boolean) $option->getSocialSharingIsActive(),
                             "answers"                       => $all_answers
-                        );
+                        ];
                     break;
                 }
 
@@ -136,10 +139,10 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $like->save();
 
                     $message = __('Your like has been successfully added');
-                    $html = array(
+                    $html = [
                         'success' => true,
                         'message' => $message
-                    );
+                    ];
 
                 } else {
                     throw new Exception(__("You can't like more than once the same news"));
@@ -147,7 +150,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             }
             catch(Exception $e) {
-                $html = array('error' => true, 'message' => $e->getMessage());
+                $html = ['error' => true, 'message' => $e->getMessage()];
             }
 
             $this->_sendJson($html);
@@ -168,7 +171,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $comment->save();
 
                 $message = __('Your flag has successfully been notified');
-                $html = array('success' => true, 'message' => $message);
+                $html = ['success' => true, 'message' => $message];
 
                 $this->_sendJson($html);
             }
@@ -191,7 +194,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $answer->save();
 
                 $message = __('Your flag has successfully been notified');
-                $html = array('success' => true, 'message' => $message);
+                $html = ['success' => true, 'message' => $message];
 
                 $this->_sendJson($html);
             }

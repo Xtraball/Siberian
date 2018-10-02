@@ -6,31 +6,31 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['mcommerce_payment_method'] = array(
-    'method_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['mcommerce_payment_method'] = [
+    'method_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'code' => array(
+    ],
+    'code' => [
         'type' => 'varchar(20)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'online_payment' => array(
+    ],
+    'online_payment' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

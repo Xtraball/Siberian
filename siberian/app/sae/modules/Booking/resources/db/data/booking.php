@@ -3,7 +3,7 @@ $name = "Booking";
 $category = "contact";
 
 # Install icons
-$icons = array(
+$icons = [
     '/booking/booking1.png',
     '/booking/booking2.png',
     '/booking/booking3.png',
@@ -15,12 +15,12 @@ $icons = array(
     '/booking/booking9.png',
     '/booking/booking10.png',
     '/booking/booking11.png'
-);
+];
 
 $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
-$data = array(
+$data = [
     'library_id'                    => $result["library_id"],
     'icon_id'                       => $result["icon_id"],
     'code'                          => 'booking',
@@ -33,15 +33,15 @@ $data = array(
     'only_once'                     => 0,
     'is_ajax'                       => 1,
     'position'                      => 140
-);
+];
 
-$option = Siberian_Feature::install($category, $data, array('code'));
+$option = Siberian_Feature::install($category, $data, ['code']);
 
 # Icons Flat
-$icons = array(
+$icons = [
     '/booking/booking1-flat.png',
     '/booking/booking2-flat.png',
     '/booking/booking3-flat.png',
-);
+];
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);

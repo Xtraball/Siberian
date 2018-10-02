@@ -8,8 +8,8 @@ class Mcommerce_Model_Db_Table_Delivery_Method extends Core_Model_Db_Table {
     public function findByStore($id) {
 
         $select = $this->select()
-            ->from(array('mdm' => $this->_name))
-            ->join(array('msdm' => 'mcommerce_store_delivery_method'), 'msdm.method_id = mdm.method_id', array('store_delivery_method_id', 'tax_id', 'price', 'min_amount_for_free_delivery'))
+            ->from(['mdm' => $this->_name])
+            ->join(['msdm' => 'mcommerce_store_delivery_method'], 'msdm.method_id = mdm.method_id', ['store_delivery_method_id', 'tax_id', 'price', 'min_amount_for_free_delivery'])
             ->where('msdm.store_id = ?', $id)
             ->setIntegrityCheck(false)
         ;
@@ -20,7 +20,7 @@ class Mcommerce_Model_Db_Table_Delivery_Method extends Core_Model_Db_Table {
 
     public function saveStoreDatas($store_id, $method_datas) {
 
-        $this->_db->delete('mcommerce_store_delivery_method', array('store_id = ?' => $store_id));
+        $this->_db->delete('mcommerce_store_delivery_method', ['store_id = ?' => $store_id]);
         $fields = array_keys($this->_db->describeTable('mcommerce_store_delivery_method'));
         $fields = array_combine($fields, $fields);
 

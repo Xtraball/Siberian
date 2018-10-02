@@ -11,7 +11,7 @@ class Mcommerce_Application_Settings_FieldsController extends Application_Contro
             try {
 
                 $mcommerce = new Mcommerce_Model_Mcommerce();
-                $mcommerce->find(array("value_id" => $datas["option_value_id"]));
+                $mcommerce->find(["value_id" => $datas["option_value_id"]]);
                 if ($mcommerce->getId()) {
                     $mcommerce->setPhone($datas["phone"]);
                     $mcommerce->setBirthday($datas["birthday"]);
@@ -20,21 +20,21 @@ class Mcommerce_Application_Settings_FieldsController extends Application_Contro
                     $mcommerce->save();
                 }
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => $this->_('Settings successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);

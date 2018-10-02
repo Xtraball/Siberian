@@ -31,7 +31,7 @@ abstract class Cms_Model_Application_Page_Block_Abstract extends Core_Model_Defa
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
         $this->setData($data);
 
         return $this;
@@ -111,13 +111,13 @@ abstract class Cms_Model_Application_Page_Block_Abstract extends Core_Model_Defa
             case "image":
             case "slider":
                 $library = new Cms_Model_Application_Page_Block_Image_Library();
-                $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
-                $block_data["gallery"] = array();
+                $libraries = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null);
+                $block_data["gallery"] = [];
                 foreach($libraries as $image) {
-                    $block_data["gallery"][] = array(
+                    $block_data["gallery"][] = [
                         "id" => $image->getId(),
                         "src" => $this->getRequest()->getBaseUrl().$image->getImageFullSize()
-                    );
+                    ];
                 }
             break;
             case "video":

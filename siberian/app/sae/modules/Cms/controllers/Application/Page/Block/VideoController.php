@@ -8,7 +8,7 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
     public function searchAction() {
         if($datas = $this->getRequest()->getParams()) {
 
-            $data = array();
+            $data = [];
 
             try {
                 $datas = current($datas['block']);
@@ -25,11 +25,11 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
                 ;
 
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -43,23 +43,23 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
                 $video->setTypeId($datas["type"]);
                 $videos = $video->getList($datas["search"]);
 
-                $vids = array();
+                $vids = [];
                 foreach($videos as $video) {
                     $vids[] = $video->getData();
                 }
 
-                $data = array(
+                $data = [
                     "success" => true,
                     "videos" => $vids
-                );
+                ];
 
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     "error" => true,
                     "message" => $e->getMessage(),
                     "message_button" => 1,
                     "message_loader" => 1
-                );
+                ];
             }
 
             $this->_sendJson($data);

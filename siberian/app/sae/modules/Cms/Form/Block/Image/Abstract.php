@@ -16,21 +16,21 @@ class Cms_Form_Block_Image_Abstract extends Cms_Form_Block_Abstract {
             $this->getElement("description")->setValue($block->getDescription());
         }
 
-        $images_html = array();
+        $images_html = [];
         $images = $block->getLibrary();
         if($images) {
             foreach($images as $image) {
 
                 $tmp = static::$image_template;
-                $tmp = str_replace(array(
+                $tmp = str_replace([
                     "%UNIQID%",
                     "%IMAGE_PATH%",
                     "#THUMBNAIL_PATH#",
-                ), array(
+                ], [
                     $this->getUniqid(),
                     $image->getData("image_url"),
                     "/images/application".$image->getData("image_url"),
-                ), $tmp);
+                ], $tmp);
 
                 $images_html[] = $tmp;
             }

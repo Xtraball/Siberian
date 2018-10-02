@@ -11,7 +11,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
 
             $option_value = $this->getCurrentOptionValue();
 
-            $data = array();
+            $data = [];
 
             if($product->getData("type") != "menu") {
 
@@ -20,7 +20,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
 
                 $minPrice = $product->getMinPrice();
 
-                $formatGroup = array();
+                $formatGroup = [];
                 $formats = $product->getType()->getOptions();
                 foreach($formats as $format) {
                     $priceInclTax = $format->getPrice() * (1 + $taxRate / 100);
@@ -29,7 +29,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                     $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($format->getPrice(), $taxRate);
 
                     /** @wip #1688 */
-                    $formatGroup[] = array(
+                    $formatGroup[] = [
                         "id" => $format->getOptionId(),
                         "title" => $format->getTitle(),
                         "price" => $format->getPrice(),
@@ -38,22 +38,22 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "priceInclTax" => $priceInclTax,
                         //"formattedPriceInclTax" => $product->formatPrice($priceInclTax)
                         "formattedPriceInclTax" => $displayPriceInclTax
-                    );
+                    ];
                 }
 
-                $optionsGroups = array();
-                $choicesGroups = array();
+                $optionsGroups = [];
+                $choicesGroups = [];
                 $product_groups = $product->getGroups();
                 $product_choices = $product->getChoices();
 
                 foreach($product_groups as $group){
-                    $optionsGroup = array(
+                    $optionsGroup = [
                         "id" => $group->getId(),
                         "title" => $group->getTitle(),
                         "required" => $group->isRequired() === '1',
-                        "options" => array(),
+                        "options" => [],
                         "selectedQuantity" => 1
-                    );
+                    ];
                     foreach($group->getOptions() as $option){
 
                         $priceInclTax = $option->getPrice() * (1 + $taxRate / 100);
@@ -62,7 +62,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $taxRate);
 
                         /** @wip #1688 */
-                        $optionsGroup["options"][] = array(
+                        $optionsGroup["options"][] = [
                             "id" => $option->getId(),
                             "optionId" => $option->getOptionId(),
                             "name" => $option->getName(),
@@ -72,24 +72,24 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                             "priceInclTax" => (double) $priceInclTax,
                             //"formattedPriceInclTax" => $priceInclTax > 0 ? $product->formatPrice($priceInclTax) : null
                             "formattedPriceInclTax" => $priceInclTax > 0 ? $displayPriceInclTax : null
-                        );
+                        ];
                     }
                     $optionsGroups[] = $optionsGroup;
                 }
                 foreach($product_choices as $choice){
-                    $choicesGroup = array(
+                    $choicesGroup = [
                         "id" => $choice->getGroupId(),
                         "title" => $choice->getTitle(),
                         "required" => $choice->isRequired() === '1',
-                        "options" => array()
-                    );
+                        "options" => []
+                    ];
                     foreach($choice->getOptions($product_id) as $option){
-                        $choicesGroup["options"][] = array(
+                        $choicesGroup["options"][] = [
                             "id" => $option->getOptionId(),
                             "optionId" => $option->getOptionId(),
                             "name" => $option->getName(),
                             "selected" => false
-                        );
+                        ];
                     }
                     $choicesGroups[] = $choicesGroup;
                 }
@@ -100,8 +100,8 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                 $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($minPrice, $taxRate);
 
                 /** @wip #1688 */
-                $data = array(
-                    "product" => array(
+                $data = [
+                    "product" => [
                         "id" => $product->getId(),
                         "name" => $product->getName(),
                         "conditions" => $product->getConditions(),
@@ -120,9 +120,9 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "choicesGroups" => $choicesGroups,
                         "formatGroups" => $formatGroup,
                         "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
-                    ),
+                    ],
                     "page_title" => $product->getName()
-                );
+                ];
 
             }
 

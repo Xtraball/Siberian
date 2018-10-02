@@ -14,7 +14,7 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
             ->setRequireChoiceEditor($this->getRequest()->getParam('require-choice-editor') || $group->getAsCheckbox())
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
 
         $this->_sendHtml($html);
 
@@ -44,14 +44,14 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
                 $group->setData($datas)->save();
                 $new_option_ids = $group->getNewOptionIds();
 
-                $html = array(
+                $html = [
                     'group_id' => $group->getId(),
                     'success' => '1',
                     'success_message' => $this->_("Options group successfully saved"),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
                 if($isNew) {
                     $html['row_html'] = $this->getLayout()->addPartial('group_row_'.$group->getGroupId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/edit/group.phtml')
@@ -63,34 +63,34 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
                 }
                 else {
 
-                    $html['group'] = array('name' => $group->getTitle(),);
-                    $html['group']['options'] = array();
-                    $html['group']['new_options'] = array();
+                    $html['group'] = ['name' => $group->getTitle(),];
+                    $html['group']['options'] = [];
+                    $html['group']['new_options'] = [];
 
                     foreach($group->getOptions() as $option) {
                         if(!in_array($option->getId(), $new_option_ids)) {
-                            $html['group']['options'][$option->getId()] = array('id' => $option->getId(), 'name' => $option->getName());
+                            $html['group']['options'][$option->getId()] = ['id' => $option->getId(), 'name' => $option->getName()];
                         }
                         else {
-                            $html['group']['new_options'][] = array(
+                            $html['group']['new_options'][] = [
                                 'row_html' => $this->getLayout()->addPartial('group_option_row_'.$option->getOptionId(), 'admin_view_default', 'mcommerce/application/edit/catalog/products/edit/group/row.phtml')
                                     ->setCurrentGroup($group)
                                     ->setCurrentGroupOption($option)
                                     ->toHtml(),
                                 'id' => $option->getOptionId()
-                            );
+                            ];
                         }
                     }
                 }
 
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -114,14 +114,14 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
 
                 $store->setIsVisible(0)->save();
 
-                $html = array(
+                $html = [
                     'store_id' => $store->getId(),
                     'success' => '1',
                     'success_message' => $this->_("Options group successfully deleted"),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             }
             else {
@@ -129,12 +129,12 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
             }
         }
         catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);

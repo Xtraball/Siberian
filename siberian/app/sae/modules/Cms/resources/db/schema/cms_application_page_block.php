@@ -6,21 +6,21 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['cms_application_page_block'] = array(
-    'value_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['cms_application_page_block'] = [
+    'value_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'block_id' => array(
+    ],
+    'block_id' => [
         'type' => 'int(11) unsigned',
-    ),
-    'page_id' => array(
+    ],
+    'page_id' => [
         'type' => 'int(11) unsigned',
-    ),
-    'position' => array(
+    ],
+    'position' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
-    ),
-);
+    ],
+];

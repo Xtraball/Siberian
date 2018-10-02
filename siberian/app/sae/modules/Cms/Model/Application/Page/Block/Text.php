@@ -9,7 +9,7 @@ class Cms_Model_Application_Page_Block_Text extends Cms_Model_Application_Page_B
      * Cms_Model_Application_Page_Block_Text constructor.
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Text';
         return $this;
@@ -30,11 +30,11 @@ class Cms_Model_Application_Page_Block_Text extends Cms_Model_Application_Page_B
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
         $image = $this->saveImage($data['image']);
 
         $this
-            ->setContent($data['text'])
+            ->setContent(\Siberian\Xss::sanitize($data['text']))
             ->setSize($data['size'])
             ->setAlignment($data['alignment'])
             ->setImage($image)

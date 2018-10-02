@@ -14,7 +14,8 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
     }
 
     /**
-     *
+     * @throws Exception
+     * @throws Zend_Exception
      */
     public function loadAction()
     {

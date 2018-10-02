@@ -9,14 +9,14 @@ class Cms_Model_Db_Table_Application_Block extends Core_Model_Db_Table {
     public function findByPage($page_id) {
 
         // Récupère les sous-tables
-        $subtables = $this->_db->fetchCol($this->_db->select()->from('cms_application_block', array('type')));
-        $blocks = array();
+        $subtables = $this->_db->fetchCol($this->_db->select()->from('cms_application_block', ['type']));
+        $blocks = [];
         foreach($subtables as $subtable) {
             $select = $this->select()
-                ->from(array('cap' => 'cms_application_page'), array())
-                ->join(array('capb' => 'cms_application_page_block'), 'capb.page_id = cap.page_id', array('position'))
-                ->join(array('cab' => $this->_name), 'cab.block_id = capb.block_id', array('block_id', 'type', 'template', 'mobile_template'))
-                ->join(array($subtable => 'cms_application_page_block_'.$subtable), "$subtable.value_id = capb.value_id")
+                ->from(['cap' => 'cms_application_page'], [])
+                ->join(['capb' => 'cms_application_page_block'], 'capb.page_id = cap.page_id', ['position'])
+                ->join(['cab' => $this->_name], 'cab.block_id = capb.block_id', ['block_id', 'type', 'template', 'mobile_template'])
+                ->join([$subtable => 'cms_application_page_block_'.$subtable], "$subtable.value_id = capb.value_id")
                 ->where('cap.page_id = ?', $page_id)
                 ->order('capb.position ASC')
                 ->setIntegrityCheck(false)

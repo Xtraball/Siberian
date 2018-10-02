@@ -2,7 +2,7 @@
 
 class Mcommerce_Model_Promo_Log extends Core_Model_Default {
 
-    public function __construct($datas = array()) {
+    public function __construct($datas = []) {
         parent::__construct($datas);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Promo_Log';
     }

@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Mcommerce_Mobile_Sales_CustomerController
+ */
 class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mobile_Default
 {
 
@@ -8,7 +11,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
 
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
-            $html = array();
+            $html = [];
 
             try {
                 $option = $this->getCurrentOptionValue();
@@ -31,30 +34,30 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                     throw new Exception($this->_($message));
                 }
 
-                $info = array();
+                $info = [];
                 if ($version == "legacy") {
-                    $cart->setLocation(array(
+                    $cart->setLocation([
                         'street' => $data['form']['customer']['street'],
                         'postcode' => $data['form']['customer']['postcode'],
                         'city' => $data['form']['customer']['city']
-                    ));
+                    ]);
                     $info = $this->_getCartData($data['form']['customer']);
                 } else {
                     $cart->setLocation($data['form']['customer']['metadatas']['delivery_address']);
-                    $info = array("customer_id" => $data['form']['customer']['id']);
+                    $info = ["customer_id" => $data['form']['customer']['id']];
                 }
 
                 $cart->addData($info)->save();
 
-                $html = array(
+                $html = [
                     'customer' => $version == "legacy" ? $data['form']['customer'] : Mcommerce_Model_Customer::getCleanInfos($mcommerce, $data['form']['customer']),
                     'cartId' => $cart->getId()
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -68,14 +71,14 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
         $mcommerce = $option->getObject();
 
         $customer = $this->getSession()->getCustomer();
-        $data = array();
+        $data = [];
 
         if ($customer->getId()) {
             $metadatas = $customer->getMetadatas();
             if (empty($metadatas))
                 $metadatas = json_decode("{}"); // we really need a javascript object here
 
-            $data["customer"] = array(
+            $data["customer"] = [
 
                 "id" => $customer->getId(),
                 "civility" => $customer->getCivility(),
@@ -86,7 +89,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                 "show_in_social_gaming" => (bool)$customer->getShowInSocialGaming(),
                 "is_custom_image" => (bool)$customer->getIsCustomImage(),
                 "metadatas" => $metadatas
-            );
+            ];
             $data['settings'] = $mcommerce->getSettings();
         }
 
@@ -97,29 +100,30 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
     public function hasguestmodeAction()
     {
 
-        $html = array();
+        $html = [];
 
         try {
             $option = $this->getCurrentOptionValue();
             $mcommerce = $option->getObject();
 
-            $html = array(
+            $html = [
                 'success' => 1,
-                'activated' =>$mcommerce->getGuestMode()
-            );
+                'activated' => $mcommerce->getGuestMode()
+            ];
 
         } catch (Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendHtml($html);
 
     }
 
-    public function getordersAction() {
+    public function getordersAction()
+    {
 
         $offset = $this->getRequest()->getParam("offset") ? $this->getRequest()->getParam("offset") : 0;
 
@@ -127,7 +131,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
         $option = $this->getCurrentOptionValue();
         $mcommerce = $option->getObject();
 
-        $data = array();
+        $data = [];
 
         if ($customer->getId() AND $mcommerce->getId()) {
             $orders = new Mcommerce_Model_Order();
@@ -139,22 +143,23 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
         $this->_sendHtml($data);
     }
 
-    public function getorderdetailsAction() {
+    public function getorderdetailsAction()
+    {
         if ($request_data = $this->getRequest()->getParams()) {
 
-            $html = array();
+            $html = [];
 
             try {
 
-                if(!$request_data["order_id"]) {
+                if (!$request_data["order_id"]) {
                     throw new Exception($this->_("Error"));
                 }
 
                 $order = new Mcommerce_Model_Order();
                 $order->find($request_data["order_id"]);
 
-                if($order->getId()) {
-                    $data["details"] = array(
+                if ($order->getId()) {
+                    $data["details"] = [
                         "order_id" => $order->getOrderId(),
                         "number" => $order->getNumber(),
                         "payment_method" => __($order->getPaymentMethod()),
@@ -168,32 +173,32 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                         "discount" => $order->getDiscountCode(),
                         "discount_total" => $order->getDiscountCode() ? $order->getFormattedDiscount() : null,
                         "tip" => $order->getFormattedTip()
-                    );
+                    ];
 
-                    $data["lines"] = array();
+                    $data["lines"] = [];
 
-                    foreach($order->getLines() as $line) {
+                    foreach ($order->getLines() as $line) {
                         $format = unserialize($line->getFormat());
                         $text_format = isset($format['title']) ? "<br />" . __("Format:") . " " . $format['title'] : "";
 
-                        $data["lines"][] = array(
+                        $data["lines"][] = [
                             "title" => $line->getName() . $text_format,
                             "qty" => $line->getQty(),
                             "total" => Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate(), $line->getQty())
-                        );
+                        ];
                     }
                 } else {
                     throw new Exception($this->_("Error"));
                 }
 
-                $html = array(
+                $html = [
                     'order' => $data
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -217,8 +222,9 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
      * @param array $data
      * @return Mcommerce_Model_Cart
      */
-    protected function _getCartData($customer) {
-        return array(
+    protected function _getCartData($customer)
+    {
+        return [
             "customer_firstname" => $customer["firstname"],
             "customer_lastname" => $customer["lastname"],
             "customer_email" => $customer["email"],
@@ -228,7 +234,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
             "customer_postcode" => $customer["postcode"],
             "customer_city" => $customer["city"],
             "customer_birthday" => $customer["birthday"]
-        );
+        ];
     }
 
 }

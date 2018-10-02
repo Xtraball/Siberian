@@ -36,7 +36,7 @@ class Cms_Form_Block_Slider extends Cms_Form_Block_Image_Abstract {
         $lineReturn = $this->addSimpleCheckbox("allow_line_return", __("Allow line return?"));
         $lineReturn->setBelongsTo("block[".$this->uniqid."][slider]");
 
-        $pictures_uploader = $this->addSimpleFile("image_uploader", __("Add pictures"), array("multiple" => true));
+        $pictures_uploader = $this->addSimpleFile("image_uploader", __("Add pictures"), ["multiple" => true]);
         $pictures_uploader->setBelongsTo("block[".$this->uniqid."][slider]");
 
         $cms_images_container = '

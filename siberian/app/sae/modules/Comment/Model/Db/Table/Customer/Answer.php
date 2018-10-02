@@ -7,7 +7,7 @@ class Comment_Model_Db_Table_Customer_Answer extends Core_Model_Db_Table
 
     public function findByStatus($status_id, $viewAll, $pos_id) {
 
-        $where = array($this->_db->quoteInto('comment_id = ?', $status_id));
+        $where = [$this->_db->quoteInto('comment_id = ?', $status_id)];
         if(!$viewAll) {
             $where[] = 'is_visible = 1';
         }

@@ -4,7 +4,7 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
 
     protected $_podcasts;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Video_Podcast';
         return $this;
@@ -18,7 +18,7 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
 
         $this
             ->setSearch($data["podcast_search"])
@@ -45,14 +45,14 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
 
         if (!$this->_podcasts) {
 
-            $this->_podcasts = array();
+            $this->_podcasts = [];
 
             try {
                 if($flux) {
                     $feed = Zend_Feed_Reader::import($flux);
                 }
             } catch (Exception $e) {
-                $feed = array();
+                $feed = [];
             }
 
             foreach ($feed as $entry) {
@@ -92,13 +92,13 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default 
                         }
                     }
 
-                    $podcast = new Core_Model_Default(array(
+                    $podcast = new Core_Model_Default([
                         "id"            => $entry->getId(),
                         "title"         => $entry->getTitle(),
                         "description"   => $entry->getContent(),
                         "link"          => $entry->getEnclosure()->url,
                         "image"         => $image
-                    ));
+                    ]);
 
                     /** Return a single podcast */
                     if(!is_null($id) && ($id == $entry->getId())) {

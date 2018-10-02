@@ -4,6 +4,10 @@
 
 namespace Siberian;
 
+/**
+ * Class Xss
+ * @package Siberian
+ */
 Class Xss
 {
     const LEVEL_LOW = 1;

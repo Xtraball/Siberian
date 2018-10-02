@@ -36,7 +36,7 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
         $html = '
     <p><b>'.__($title).'</b></p>';
 
-        $current = array();
+        $current = [];
         foreach($blocks as $block) {
             if($this->feature_code == "places") {
 
@@ -48,17 +48,17 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
 
             if(!in_array($block->getType(), $current)) {
                 $tpl = self::$button_template;
-                $tpl = str_replace(array(
+                $tpl = str_replace([
                     "%ID%",
                     "%BLOCK_ID%",
                     "%BLOCK_ICON%",
                     "%TITLE%",
-                ), array(
+                ], [
                     $block->getType(),
                     $block->getId(),
                     $block->getIcon(),
                     __($block->getTitle()),
-                ), $tpl);
+                ], $tpl);
 
                 $html .= $tpl;
 
@@ -66,10 +66,10 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
             }
         }
 
-        $this->addSimpleHtml($name, $html, array("class" => "section-padding"));
+        $this->addSimpleHtml($name, $html, ["class" => "section-padding"]);
 
         # Container for the blocks
-        $this->addSimpleHtml($name."_container", "", array("class" => "blocks-container section-padding"));
+        $this->addSimpleHtml($name."_container", "", ["class" => "blocks-container section-padding"]);
 
         return $this;
     }

@@ -35,7 +35,7 @@ class Mcommerce_Model_Utility {
     }
 
     static public function formatCurrency($price, $currency = null) {
-        $price = preg_replace(array('/(,)/', '/[^0-9.-]/'), array('.', ''), $price);
+        $price = preg_replace(['/(,)/', '/[^0-9.-]/'], ['.', ''], $price);
 
         $currency = ($currency) ? new Zend_Currency($currency) : Core_Model_Language::getCurrentCurrency();
 

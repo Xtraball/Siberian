@@ -12,22 +12,22 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
     protected $_root_category;
     protected $_products;
 
-    protected static $_importable_object = array(
-        "Stores" => array(
+    protected static $_importable_object = [
+        "Stores" => [
             "model" => "Mcommerce_Model_Store",
             "table" => "mcommerce_store"
-        ),
-        "Products" => array(
+        ],
+        "Products" => [
             "model" => "Catalog_Model_Product",
             "table" => "catalog_product"
-        ),
-        "Categories" => array(
+        ],
+        "Categories" => [
             "model" => "Catalog_Model_Category",
             "table" => "folder_category"
-        )
-    );
+        ]
+    ];
 
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Mcommerce';
@@ -77,13 +77,13 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
             $catalog_option->find('catalog', 'code');
             $catalog_option_value = new Application_Model_Option_Value();
             // Ajoute les données
-            $catalog_option_value->addData(array(
+            $catalog_option_value->addData([
                 'option_id' => $catalog_option->getId(),
                 'app_id' => $option_value->getAppId(),
                 'position' => 0,
                 'is_active' => 1,
                 'is_visible' => 0
-            ))->save();
+            ])->save();
 
             $root_category = new Folder_Model_Category();
             $root_category->setTitle($this->_('Category'))
@@ -103,12 +103,12 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
     public function getSettings()
     {
 
-        return array(
-            "phone" => array("rule" => $this->getPhone(), "label" => "Phone"),
-            "birthday" => array("rule" => $this->getBirthday(), "label" => "Date of birth"),
-            "delivery_address" => array("rule" => $this->getDeliveryAddress(), "label" => __("Delivery address")),
-            "invoicing_address" => array("rule" => $this->getInvoicingAddress(), "label" => __("Invoicing address"))
-        );
+        return [
+            "phone" => ["rule" => $this->getPhone(), "label" => "Phone"],
+            "birthday" => ["rule" => $this->getBirthday(), "label" => "Date of birth"],
+            "delivery_address" => ["rule" => $this->getDeliveryAddress(), "label" => __("Delivery address")],
+            "invoicing_address" => ["rule" => $this->getInvoicingAddress(), "label" => __("Invoicing address")]
+        ];
 
     }
 
@@ -119,13 +119,13 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      * @return array
      */
     public function validateLegacyCustomer($controller, $customer) {
-        $required_fields = array(
+        $required_fields = [
             $controller->_('Firstname') => 'firstname',
             $controller->_('Lastname') => 'lastname',
             $controller->_('Email') => 'email',
             $controller->_('Phone') => 'phone'
-        );
-        $errors = array();
+        ];
+        $errors = [];
         foreach ($required_fields as $label => $field) {
             if (empty($customer[$field])) $errors[] = $label;
         }
@@ -147,12 +147,12 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         $not_empty = new Zend_Validate_NotEmpty();
         if ($data['phone'] && $this->getPhone() != "hidden") {
             if (!$not_empty->isValid($data['phone'])) {
-                return array($controller->_('Phone'));
+                return [$controller->_('Phone')];
             };
         } else if ($this->getPhone() == "mandatory") {
-            return array($controller->_('Phone'));
+            return [$controller->_('Phone')];
         }
-        return array();
+        return [];
     }
 
     protected function _validateBirthday($controller, $data)
@@ -161,12 +161,12 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         if ($data['birthday'] && $this->getBirthday() != "hidden") {
             $date = new Zend_Date($data['birthday']);
             if (!$data_validator->isValid($date)) {
-                return array($controller->_('Birthday'));
+                return [$controller->_('Birthday')];
             };
         } else if ($this->getBirthday() == "mandatory") {
-            return array($controller->_('Birthday'));
+            return [$controller->_('Birthday')];
         }
-        return array();
+        return [];
     }
 
     protected function _validateDeliveryAddress($controller, $data)
@@ -175,9 +175,9 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         if (($mandatory && !$data['delivery_address']) ||
             !$this->_addressComponentsAreValid($data['delivery_address'], $mandatory)
         ) {
-            return array($controller->_('Delivery address'));
+            return [$controller->_('Delivery address')];
         }
-        return array();
+        return [];
     }
 
     protected function _validateInvoicingAddress($controller, $data) {
@@ -185,9 +185,9 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         if (($mandatory && !$data['invoicing_address']) ||
             !$this->_addressComponentsAreValid($data['invoicing_address'], $mandatory)
         ) {
-            return array($controller->_('Invoicing address'));
+            return [$controller->_('Invoicing address')];
         }
-        return array();
+        return [];
     }
 
     protected function _addressComponentsAreValid($data, $isMandatory = true) {
@@ -231,11 +231,11 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      */
     public function setAddTip($add_tip) {
 
-        $data = array(
+        $data = [
             "value_id" => $this->getValueId(),
             "code" => "add_tip",
             "type" => "boolean"
-        );
+        ];
 
         $this->_resetMetada($data);
 
@@ -252,20 +252,20 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      */
     public function getAddTip(){
         $metadata = new Application_Model_Option_Value_Metadata();
-        $metadata->find(array(
+        $metadata->find([
             "value_id" => $this->getValueId(),
             "code" => "add_tip"
-        ));
+        ]);
         return $metadata->getPayload();
     }
 
     public function setGuestMode($guestmode) {
 
-        $data = array(
+        $data = [
             "value_id" => $this->getValueId(),
             "code" => "guest_mode",
             "type" => "boolean"
-        );
+        ];
 
         $this->_resetMetada($data);
 
@@ -277,10 +277,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     public function getGuestMode(){
         $metadata = new Application_Model_Option_Value_Metadata();
-        $metadata->find(array(
+        $metadata->find([
             "value_id" => $this->getValueId(),
             "code" => "guest_mode"
-        ));
+        ]);
         return $metadata->getPayload();
     }
 
@@ -289,7 +289,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         if (!$this->_stores) {
             $store = new Mcommerce_Model_Store();
-            $this->_stores = $store->findAll(array('mcommerce_id' => $this->getId(), 'is_visible' => 1));
+            $this->_stores = $store->findAll(['mcommerce_id' => $this->getId(), 'is_visible' => 1]);
         }
 
         return $this->_stores;
@@ -301,7 +301,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         if (!$this->_carts) {
             $cart = new Mcommerce_Model_Cart();
-            $this->_carts = $cart->findAll(array('mcommerce_id' => $this->getId()), 'cart_id DESC');
+            $this->_carts = $cart->findAll(['mcommerce_id' => $this->getId()], 'cart_id DESC');
         }
 
         return $this->_carts;
@@ -313,7 +313,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         if (!$this->_orders) {
             $order = new Mcommerce_Model_Order();
-            $this->_orders = $order->findAll(array('mcommerce_id' => $this->getId()), 'order_id DESC');
+            $this->_orders = $order->findAll(['mcommerce_id' => $this->getId()], 'order_id DESC');
         }
 
         return $this->_orders;
@@ -349,7 +349,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         if (!$this->_taxes) {
             $tax = new Mcommerce_Model_Tax();
-            $this->_taxes = $tax->findAll(array('mcommerce_id' => $this->getId()));
+            $this->_taxes = $tax->findAll(['mcommerce_id' => $this->getId()]);
         }
 
         return $this->_taxes;
@@ -374,7 +374,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         if (!$this->_products) {
             $product = new Catalog_Model_Product();
-            $this->_products = $product->findAll(array('mcommerce_id' => $this->getId()));
+            $this->_products = $product->findAll(['mcommerce_id' => $this->getId()]);
         }
 
         return $this->_products;
@@ -393,24 +393,24 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
             $catalog_category_option_value = new Application_Model_Option_Value();
 
-            $datas = array(
+            $datas = [
                 "app_id" => $this->getApplication()->getId(),
                 "option_id" => $catalog_category->getId(),
                 "layout_id" => $this->getApplication()->getLayout()->getId(),
                 "is_visible" => 0
-            );
+            ];
 
             $catalog_category_option_value->addData($datas)
                 ->save();
 
             //folder_category
             $folder_category = new Folder_Model_Category();
-            $datas_category = array(
+            $datas_category = [
                 "title" => (string)$content->stores->category->title,
                 "subtitle" => (string)$content->stores->category->subtitle ? (string)$content->stores->category->subtitle : NULL,
                 "picture" => (string)$content->stores->category->picture ? (string)$content->stores->category->picture : NULL,
                 "type_id" => (string)$content->stores->category->type_id
-            );
+            ];
 
             $folder_category->addData($datas_category)
                 ->save();
@@ -427,7 +427,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
                 //mcommerce_store
                 $store = new Mcommerce_Model_Store();
 
-                $datas_delivery_method = array();
+                $datas_delivery_method = [];
                 $i = 0;
                 foreach ($content->stores->store_delivery_methods->method_code as $delivery_method_code) {
                     $delivery_method = new Mcommerce_Model_Delivery_Method();
@@ -436,7 +436,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
                     $datas_delivery_method[$i++]["method_id"] = $delivery_method->getId();
                 }
 
-                $datas_payment_method = array();
+                $datas_payment_method = [];
                 $i = 0;
                 foreach ($content->stores->store_payment_methods->method_code as $payment_method_code) {
                     $payment_method = new Mcommerce_Model_Payment_Method();
@@ -489,23 +489,23 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
                         foreach ($product->options->children() as $option) {
 
                             if ($option->group) {
-                                $data_option = array();
+                                $data_option = [];
                                 $i = 0;
                                 foreach ($option->group->children() as $option_value) {
                                     $data_option["new_" . $i++]["name"] = (string)$option_value;
                                 }
 
                                 $group = new Catalog_Model_Product_Group();
-                                $data_group = array(
+                                $data_group = [
                                     "title" => (string)$option->title,
                                     "app_id" => $this->getApplication()->getId()
-                                );
+                                ];
 
                                 $group->addData($data_group)
                                     ->setNewOption($data_option)
                                     ->save();
 
-                                $data_option_value = array();
+                                $data_option_value = [];
                                 foreach ($option->group as $option_value) {
                                     $group_option_value = new Catalog_Model_Product_Group_Option();
                                     $group_option_value->find((string)$option_value->name, "name");
@@ -531,13 +531,13 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
             if ($content->stores->category->subcategory) {
                 foreach ($content->stores->category->subcategory as $subcategory) {
                     $folder_subcategory = new Folder_Model_Category();
-                    $datas_subcategory = array(
+                    $datas_subcategory = [
                         "title" => (string)(string)$subcategory->title,
                         "subtitle" => (string)$subcategory->subtitle ? (string)$subcategory->subtitle : NULL,
                         "picture" => (string)$subcategory->picture ? (string)$subcategory->picture : NULL,
                         "type_id" => (string)$subcategory->type_id,
                         "parent_id" => $folder_category->getId()
-                    );
+                    ];
 
                     $folder_subcategory->addData($datas_subcategory)
                         ->save();
@@ -564,7 +564,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
                                 ->setValueId($catalog_category_option_value->getId())
                                 ->setMcommerceId($this->getId())
                                 ->setTaxId($tax->getId())
-                                ->setNewCategoryIds(array(0 => $folder_subcategory->getId()))
+                                ->setNewCategoryIds([0 => $folder_subcategory->getId()])
                                 ->save();
 
                             //subproducts options
@@ -573,7 +573,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
                                     if ($option->group) {
 
-                                        $data_option = array();
+                                        $data_option = [];
                                         $i = 0;
                                         foreach ($option->group as $option_value) {
                                             $data_option["new_" . $i++]["name"] = (string)$option_value->name;
@@ -585,7 +585,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
                                             ->setNewOption($data_option)
                                             ->save();
 
-                                        $data_option_value = array();
+                                        $data_option_value = [];
                                         foreach ($option->group as $option_value) {
                                             $group_option_value = new Catalog_Model_Product_Group_Option();
                                             $group_option_value->find((string)$option_value->name, "name");
@@ -615,15 +615,15 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
     public function copyTo($option)
     {
 
-        $old_product_ids = array();
-        $old_group_ids = array();
-        $old_option_ids = array();
+        $old_product_ids = [];
+        $old_group_ids = [];
+        $old_option_ids = [];
 
         $root_category = $this->getRootCategory();
         $products = $this->getProducts();
         $stores = $this->getStores();
         $taxes = $this->getTaxes();
-        $tax_ids = array();
+        $tax_ids = [];
         $this->setId(null)->setValueId($option->getId());
 
         $this->prepareFeature($option);
@@ -649,29 +649,29 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
             $data = $store->getData();
 
             // Delivery methods
-            $data['new_delivery_methods'] = array();
+            $data['new_delivery_methods'] = [];
             foreach ($delivery_methods as $delivery_method) {
                 $tax_id = null;
                 if ($delivery_method->getTaxId() AND !empty($tax_ids[$delivery_method->getTaxId()])) {
                     $tax_id = $tax_ids[$delivery_method->getTaxId()];
                 }
-                $data['new_delivery_methods'][] = array(
+                $data['new_delivery_methods'][] = [
                     'method_id' => $delivery_method->getMethodId(),
                     'price' => $delivery_method->getPrice(),
                     'min_amount_for_free_delivery' => $delivery_method->getMinAmountForFreeDelivery(),
                     'tax_id' => $tax_id
-                );
+                ];
             }
 
             // Payment methods
-            $data['new_payment_methods'] = array();
+            $data['new_payment_methods'] = [];
             foreach ($payment_methods as $payment_method) {
-                $data['new_payment_methods'][] = array(
+                $data['new_payment_methods'][] = [
                     'method_id' => $payment_method->getMethodId(),
                     'user' => $payment_method->getUser(),
                     'password' => $payment_method->getPassword(),
                     'signature' => $payment_method->getSignature(),
-                );
+                ];
             }
 
             unset($data['id']);
@@ -688,7 +688,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         }
 
         $group = new Catalog_Model_Product_Group();
-        $groups = $group->findAll(array('app_id' => $option->getOldAppId()));
+        $groups = $group->findAll(['app_id' => $option->getOldAppId()]);
 
         // Groups + Options
         foreach ($groups as $group) {
@@ -758,7 +758,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         return $this;
     }
 
-    public function copyCategoryTo($category, $parent_id = null, $old_product_ids = array())
+    public function copyCategoryTo($category, $parent_id = null, $old_product_ids = [])
     {
 
         $category_products = $category->getProducts();
@@ -772,7 +772,7 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
             $product_id = $old_product_ids[$category_product->getId()];
             $product = $this->getProducts()->findById($product_id);
             if ($product->getId()) {
-                $new_category_ids = is_array($product->getNewCategoryIds()) ? $product->getNewCategoryIds() : array();
+                $new_category_ids = is_array($product->getNewCategoryIds()) ? $product->getNewCategoryIds() : [];
                 $new_category_ids[] = $category->getId();
                 $product->setNewCategoryIds($new_category_ids);
             }
@@ -791,28 +791,28 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
     public function getFeaturePaths($option_value)
     {
-        if (!$this->isCacheable()) return array();
+        if (!$this->isCacheable()) return [];
 
         // Categories paths
-        $paths = array();
-        $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
+        $paths = [];
+        $paths[] = $option_value->getPath("findall", ['value_id' => $option_value->getId()], false);
 
         $categories = $this->getRootCategory()->getChildren();
 
         foreach ($categories as $category) {
-            $params = array(
+            $params = [
                 'value_id' => $option_value->getId(),
                 'category_id' => $category->getId()
-            );
+            ];
             $paths[] = $option_value->getPath("findall", $params, false);
 
             // Subcategories paths
             $subcategories = $category->getChildren();
             foreach ($subcategories as $subcategory) {
-                $params = array(
+                $params = [
                     'value_id' => $option_value->getId(),
                     'category_id' => $subcategory->getId()
-                );
+                ];
                 $paths[] = $option_value->getPath("findall", $params, false);
             }
         }
@@ -821,10 +821,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
             $products = $this->getProducts();
             foreach ($products as $product) {
-                $params = array(
+                $params = [
                     "value_id" => $option_value->getId(),
                     "product_id" => $product->getId()
-                );
+                ];
 
                 $paths[] = $option_value->getPath($uri, $params, false);
             }
@@ -847,11 +847,11 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      * @return $this
      */
     public function setMetadatum($name, $type, $payload) {
-        $data = array(
+        $data = [
             "value_id" => $this->getValueId(),
             "code" => $name,
             "type" => $type
-        );
+        ];
 
         $this->_resetMetadata($data);
 
@@ -893,16 +893,16 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      */
     public function getMetadatum($name){
         $metadata = new Application_Model_Option_Value_Metadata();
-        $metadata->find(array(
+        $metadata->find([
             "value_id" => $this->getValueId(),
             "code" => $name
-        ));
+        ]);
         return $metadata->getPayload();
     }
 
     public function getPromos(){
         $promo = new Mcommerce_Model_Promo();
-        $promos = $promo->findAll(array('mcommerce_id' => $this->getId(), 'hidden' => 0));
+        $promos = $promo->findAll(['mcommerce_id' => $this->getId(), 'hidden' => 0]);
         return $promos;
     }
 }

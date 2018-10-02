@@ -6,7 +6,7 @@ abstract class Cms_Model_Application_Page_Block_Image_Abstract extends Cms_Model
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
         $library_model = new Cms_Model_Application_Page_Block_Image_Library();
         # Create libraries
         $library_last_id = $library_model->findLastLibrary();

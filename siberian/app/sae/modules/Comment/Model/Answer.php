@@ -6,7 +6,7 @@ class Comment_Model_Answer extends Core_Model_Default
     protected $_customer;
     protected $_comment;
 
-    public function __construct($datas = array()) {
+    public function __construct($datas = []) {
         parent::__construct($datas);
         $this->_db_table = 'Comment_Model_Db_Table_Answer';
     }

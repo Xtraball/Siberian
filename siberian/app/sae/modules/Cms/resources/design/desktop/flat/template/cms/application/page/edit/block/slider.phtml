@@ -2,7 +2,7 @@
 <?php $block = $this->getCurrentBlock(); ?>
 <?php $option = $this->getCurrentOptionValue(); ?>
 <?php $library = new Cms_Model_Application_Page_Block_Image_Library(); ?>
-<?php $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null); ?>
+<?php $libraries = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null); ?>
 <div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block picture" rel="<?php echo $this->getPosition(); ?>">
     <div class="control left">
         <a class="handle" href="javascript:void(0);"><i class="fa fa-sort"></i></a>

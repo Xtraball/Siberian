@@ -22,7 +22,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
             ->setCurrentStore($store)
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
 
         $this->_sendHtml($html);
 
@@ -133,26 +133,26 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
                 $store->setIsVisible(0)->save();
 
-                $html = array(
+                $html = [
                     'store_id' => $store->getId(),
                     'success' => '1',
                     'success_message' => __('Store successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             }
             else {
                 throw new Exception(__('An error occurred during the process. Please try again later.'));
             }
         } catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);

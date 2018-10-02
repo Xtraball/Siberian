@@ -5,20 +5,20 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "add" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "add" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "addlike" => array(
-            "tags" => array(
+            ],
+        ],
+        "addlike" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function viewAction() {
         $this->forward("list");
@@ -41,30 +41,30 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
             $comments       = $comment->findLastest($value_id);
             $color          = $application->getBlock("background")->getColor();
 
-            $data = array(
-                "news" => array(),
-                "application" => array()
-            );
+            $data = [
+                "news" => [],
+                "application" => []
+            ];
 
             foreach($comments as $comment) {
-                $data["news"][] = array(
+                $data["news"][] = [
                     "text"                  => cut($comment->getText(), 88),
                     "created_at"            => $comments->getFormattedCreatedAt(),
                     "number_of_comments"    => count($comment->getAnswers()),
                     "number_of_likes"       => count($comment->getLikes())
-                );
+                ];
             }
 
-            $data["application"] = array(
+            $data["application"] = [
                 "icon_url"  => $application->getIconUrl(74),
                 "name"      => $application->getName()
-            );
+            ];
 
-            $data["picto"] = array(
+            $data["picto"] = [
                 "pencil"    => $this->_getColorizedImage($this->getImage("picto/pencil.png"), $color),
                 "comment"   => $this->_getColorizedImage($this->getImage("picto/comment.png"), $color),
                 "like"      => $this->_getColorizedImage($this->getImage("picto/like.png"), $color),
-            );
+            ];
 
             $this->_sendJson($data);
         }
@@ -98,11 +98,11 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                     ->toHtml()
                 ;
 
-                $html = array('html' => $html, 'title' => $this->getApplication()->getName());
+                $html = ['html' => $html, 'title' => $this->getApplication()->getName()];
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = ['error' => 1, 'message' => $e->getMessage()];
             }
 
             $this->_sendHtml($html);
@@ -134,17 +134,17 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                 $message = __('Your message has been successfully saved.');
                 if(!$comment->isVisible()) $message .= ' ' . __('It will be visible only after validation by our team.');
 
-                $data = array(
+                $data = [
                     "success" => true,
                     "message" => $message
-                );
+                ];
 
             }
             catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => true,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -172,17 +172,17 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
                     ;
                 endforeach;
 
-                $data = array(
+                $data = [
                     "success"   => true,
                     "comments"  => $partial_comment,
                     "details"   => $partial_details
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error"     => true,
                     "message"   => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -210,20 +210,20 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
 
                 if($is_saved) {
                     $message = __('Your like has been successfully added');
-                    $data = array(
+                    $data = [
                         "success" => true,
                         "message" => $message
-                    );
+                    ];
                 } else {
                     throw new Siberian_Exception(__('You can\'t like more than once the same news'));
                 }
 
             }
             catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => true,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);

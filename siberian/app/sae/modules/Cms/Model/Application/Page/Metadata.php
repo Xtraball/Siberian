@@ -5,7 +5,7 @@ class Cms_Model_Application_Page_Metadata extends Core_Model_Default
 
     protected $_object;
 
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Metadata';

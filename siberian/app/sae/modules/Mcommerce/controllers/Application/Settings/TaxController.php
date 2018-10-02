@@ -18,7 +18,7 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
             ->setCurrentTax($tax)
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
 
         $this->_sendHtml($html);
     }
@@ -54,14 +54,14 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
 
                 $tax->setData($datas)->save();
 
-                $html = array(
+                $html = [
                     'tax_id' => $tax->getId(),
                     'success' => '1',
                     'success_message' => $this->_('Tax successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
                 if($isNew) {
                     $html['row_html'] = $this->getLayout()->addPartial('row_tax_'.$tax->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/tax/li.phtml')
@@ -77,12 +77,12 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
 
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -106,14 +106,14 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
 
                 $tax->setIsDeleted(1)->save();
 
-                $html = array(
+                $html = [
                     'tax_id' => $tax->getId(),
                     'success' => '1',
                     'success_message' => $this->_('Tax successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             }
             else {
@@ -121,12 +121,12 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
             }
         }
         catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);

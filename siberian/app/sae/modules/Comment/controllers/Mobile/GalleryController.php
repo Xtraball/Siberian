@@ -12,16 +12,16 @@ class Comment_Mobile_GalleryController extends Application_Controller_Mobile_Def
             $comment = new Comment_Model_Comment();
             $comments = $comment->findAllWithPhoto($value_id);
 
-            $data = array(
-                "collection" => array()
-                );
+            $data = [
+                "collection" => []
+            ];
 
             foreach($comments as $comment) {
-                $data['collection'][] = array(
+                $data['collection'][] = [
                     "id" => $comment->getId(),
-                    "link" => $this->getPath("comment/mobile_view", array("value_id" => $value_id, "comment_id" => $comment->getId())),
+                    "link" => $this->getPath("comment/mobile_view", ["value_id" => $value_id, "comment_id" => $comment->getId()]),
                     "src" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null
-                );
+                ];
             }
 
             $this->_sendHtml($data);

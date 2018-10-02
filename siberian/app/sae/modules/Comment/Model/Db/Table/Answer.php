@@ -9,7 +9,7 @@ class Comment_Model_Db_Table_Answer extends Core_Model_Db_Table
 
         $select = $this->select()
             ->from($this->_name)
-            ->join("customer", "customer.customer_id = {$this->_name}.customer_id", array("customer_email" => "customer.email", "customer_name" => new Zend_Db_Expr("CONCAT(customer.firstname, ' ', LEFT(customer.lastname, 1), '.')")))
+            ->join("customer", "customer.customer_id = {$this->_name}.customer_id", ["customer_email" => "customer.email", "customer_name" => new Zend_Db_Expr("CONCAT(customer.firstname, ' ', LEFT(customer.lastname, 1), '.')")])
             ->where("comment_id = ?", $comment_id)
             ->order("created_at ASC")
             ->setIntegrityCheck(false)

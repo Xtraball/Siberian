@@ -9,7 +9,7 @@ class Cms_Model_Application_Page_Block_File extends Cms_Model_Application_Page_B
      * Cms_Model_Application_Page_Block_File constructor.
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_File';
         return $this;
@@ -30,7 +30,7 @@ class Cms_Model_Application_Page_Block_File extends Cms_Model_Application_Page_B
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
         $file = Siberian_Feature::saveFileForOption($this->option_value, $data["file"]);
 
         $this->setLabel($data["label"]);

@@ -9,27 +9,27 @@ class Mcommerce_Application_Settings_GuestmodeController extends Application_Con
             try {
 
                 $mcommerce = new Mcommerce_Model_Mcommerce();
-                $mcommerce->find(array("value_id" => $datas["option_value_id"]));
+                $mcommerce->find(["value_id" => $datas["option_value_id"]]);
 
                 $guestmode = $datas["guest_mode"] ? "true" : "false";
 
                 $mcommerce->setGuestMode($guestmode);
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => $this->_('Settings successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
