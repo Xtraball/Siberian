@@ -444,7 +444,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             if (strpos($paymentData['profile_id'], 'I-') !== 0) {
                 return [
                     'success' => true,
-                    'partialMessage' => __('We were unable to automatically cancel the subscription, please check manually on your PayPal dashboard.')
+                    'partialMessage' => __('We were unable to automatically cancel the subscription, please check manually on your %s dashboard.', 'PayPal')
                 ];
             }
 
