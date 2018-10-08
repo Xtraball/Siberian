@@ -133,8 +133,6 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
      */
     private function _checkDependenciesModule($package, $package_type = "module")
     {
-        $version = $package->getVersion();
-        $name = $package->getName();
         $deps = $package->getDependencies();
 
         foreach ($deps as $type => $values) {
