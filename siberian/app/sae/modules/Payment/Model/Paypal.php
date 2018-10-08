@@ -440,6 +440,14 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     public static function cancelSubscription($paymentData)
     {
         try {
+            // In case there was no sub_xxxxx id we force the cancel with a warning!
+            if (strpos($paymentData['profile_id'], 'I-') !== 0) {
+                return [
+                    'success' => true,
+                    'partialMessage' => __('We were unable to automatically cancel the subscription, please check manually on your PayPal dashboard.')
+                ];
+            }
+
             $params = [
                 'PROFILEID' => $paymentData['profile_id'],
                 'ACTION' => 'CANCEL',

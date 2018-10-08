@@ -4637,6 +4637,7 @@ a.thumbnail.active {
     border: 1px solid transparent;
     border-bottom: 3px solid transparent;
     border-radius: 2px;
+    letter-spacing: 0.7px;
 }
 .alert h4 {
     margin-top: 0;
@@ -4688,8 +4689,8 @@ a.thumbnail.active {
 }
 .alert-warning {
     color: #ffffff;
-    background-color: #de8435;
-    border-bottom-color: #965a25;
+    background-color: #dea435;
+    border-bottom-color: #966e25;
 }
 .alert-warning hr {
     border-top-color: #965a25;
