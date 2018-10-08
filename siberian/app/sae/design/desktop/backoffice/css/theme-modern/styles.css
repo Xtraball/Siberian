@@ -45,6 +45,30 @@ div.title[data-uri="/backoffice/index/template"] h1 {
     border: 0 !important;
 }
 
+.alert-info {
+    background-color: #8dcee6;
+    color: #404040;
+    border-bottom: 2px solid #71b2ca !important;
+}
+
+.alert-success {
+    background-color: #60bd32;
+    color: #ffffff;
+    border-bottom: 2px solid #1f8700 !important;
+}
+
+.alert-warning {
+    background-color: #dcaf2b;
+    color: #ffffff;
+    border-bottom: 2px solid #a17b00 !important;
+}
+
+.alert-danger {
+    background-color: #e65454;
+    color: #ffffff;
+    border-bottom: 2px solid #aa1228 !important;
+}
+
 .top {
     height: 46px;
 }

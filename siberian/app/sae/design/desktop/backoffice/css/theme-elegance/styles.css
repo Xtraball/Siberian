@@ -32,27 +32,27 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .alert-info {
-    background-color: #f0f0f0;
-    color: #205857;
-    border-bottom: 2px solid #1b908c !important;
+    background-color: #8dcee6;
+    color: #404040;
+    border-bottom: 2px solid #71b2ca !important;
 }
 
 .alert-success {
-    background-color: #f0f0f0;
-    color: #4ca61c;
-    border-bottom: 2px solid #44881b !important;
+    background-color: #60bd32;
+    color: #ffffff;
+    border-bottom: 2px solid #1f8700 !important;
 }
 
 .alert-warning {
-    background-color: #f0f0f0;
-    color: #dcae28;
-    border-bottom: 2px solid #bb9124 !important;
+    background-color: #dcaf2b;
+    color: #ffffff;
+    border-bottom: 2px solid #a17b00 !important;
 }
 
 .alert-danger {
-    background-color: #f0f0f0;
-    color: rgb(210, 0, 12);
-    border-bottom: 2px solid rgb(169, 0, 12) !important;
+    background-color: #e65454;
+    color: #ffffff;
+    border-bottom: 2px solid #aa1228 !important;
 }
 
 .loader.content_loader {
