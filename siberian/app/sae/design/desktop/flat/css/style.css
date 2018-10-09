@@ -2600,15 +2600,15 @@ div.feature-upload-placeholder img {
     border-radius: 5px;
     width: auto;
     max-width: 100%;
-    max-height: 200px;
+    max-height: 256px;
 }
 
 div.feature-upload-placeholder button {
     position: absolute;
     top: 36px;
     left: 15px;
-    border-top-right-radius: 0px;
-    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
 }
 
 .feature-block-create {

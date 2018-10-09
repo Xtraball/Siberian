@@ -83,7 +83,7 @@ class Translation
             $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             if (in_array($extension, ['php', 'phtml', 'csv'])) {
                 $textContent = file_get_contents($file->getPathname());
-                $count = preg_match_all('/((__|->_)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
+                $count = preg_match_all('/((__|->_|__js)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {
@@ -91,7 +91,7 @@ class Translation
                         }
                     }
                 }
-                $count = preg_match_all('/((__|->_)\(\'([!\w\s\d"<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(\',|\'\)))/mi', $textContent, $matches);
+                $count = preg_match_all('/((__|->_|__js)\(\'([!\w\s\d"<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(\',|\'\)))/mi', $textContent, $matches);
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {

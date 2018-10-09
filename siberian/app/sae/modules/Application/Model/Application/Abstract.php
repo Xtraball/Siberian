@@ -166,7 +166,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return $this
+     * @throws Zend_Uri_Exception
      * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function save()
     {
@@ -189,8 +191,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 }
             }
 
-            $this->setKey(uniqid())
-                ->setDesignCode(self::DESIGN_CODE_IONIC);
+            $this->setKey(uniqid());
+
+            // Check bundle/package
+            $this->getBundleId();
+            $this->getPackageName();
+
+            $this->setDesignCode(self::DESIGN_CODE_IONIC);
+
             if (!$this->getLayoutId()) {
                 $this->setLayoutId(1);
             }
@@ -829,29 +837,29 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getBundleId()
     {
-        $bundle_id = $this->getData("bundle_id");
-        if (empty($bundle_id)) {
-            $bundle_id = $this->buildId("ios");
-            $this->setData("bundle_id", $bundle_id)->save();
+        $bundleId = $this->getData('bundle_id');
+        if (empty($bundleId)) {
+            $bundleId = $this->buildId('ios');
+            $this->setData('bundle_id', $bundleId)->save();
         }
 
-        return $bundle_id;
+        return $bundleId;
     }
 
     /**
-     * get package_name, create default if empty
-     *
      * @return array|mixed|null|string
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
      */
     public function getPackageName()
     {
-        $package_name = $this->getData("package_name");
-        if (empty($package_name)) {
-            $package_name = $this->buildId("android");
-            $this->setData("package_name", $package_name)->save();
+        $packageName = $this->getData('package_name');
+        if (empty($packageName)) {
+            $packageName = $this->buildId('android');
+            $this->setData('package_name', $packageName)->save();
         }
 
-        return $package_name;
+        return $packageName;
     }
 
     /**
@@ -863,7 +871,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function buildId($type = "app")
     {
-
         $buildId = function ($host, $suffix) {
 
             $url = array_reverse(explode(".", $host));
@@ -900,22 +907,22 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $id_ios = $whitelabel->getData("app_default_identifier_ios");
 
         } else {
-            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
-            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+            $id_android = __get("app_default_identifier_android");
+            $id_ios = __get("app_default_identifier_ios");
 
             $request = Zend_Controller_Front::getInstance()->getRequest();
             $host = mb_strtolower($request->getServer("HTTP_HOST"));
 
             if (empty($id_android)) {
-                System_Model_Config::setValueFor("app_default_identifier_android", $buildId($host, "android"));
+                __set("app_default_identifier_android", $buildId($host, "android"));
             }
 
             if (empty($id_ios)) {
-                System_Model_Config::setValueFor("app_default_identifier_ios", $buildId($host, "ios"));
+                __set("app_default_identifier_ios", $buildId($host, "ios"));
             }
 
-            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
-            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+            $id_android = __get("app_default_identifier_android");
+            $id_ios = __get("app_default_identifier_ios");
         }
 
         // Now we can process bundle id or package name
