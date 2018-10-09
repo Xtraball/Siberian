@@ -67,7 +67,10 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         exec("rm -f '{$this->_dest_source_amc}/../www/js/app.js'");
         exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/features.js'");
         exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/form-post.js'");
-        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/css'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/js'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/scss'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/lib/ionic/version.json'");
         exec("rm -Rf '{$this->_dest_source_amc}/../www/templates'");
 
         return $this;

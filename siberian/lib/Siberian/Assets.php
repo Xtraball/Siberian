@@ -241,7 +241,10 @@ class Siberian_Assets
         "js/libraries/.*",
         "js/services/.*",
         "js/MusicControls.js",
-        "lib/.*",
+        "lib/ionic/css/.*",
+        "lib/ionic/js/.*",
+        "lib/ionic/scss/.*",
+        "lib/ionic/version.json",
         "templates/.*",
     ];
 
