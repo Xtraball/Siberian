@@ -60,21 +60,14 @@ $editorTree = [
     'profile' => [
         'hasChilds' => true,
         'isVisible' => true,
-        'label' => __('Profile'),
+        'label' => __('My account'),
         'id' => 'sb-tour-profile',
         'icon' => 'fa fa-user',
         'childs' => [
-            'my_account' => [
-                'hasChilds' => false,
-                'isVisible' => true,
-                'label' => __('Account Settings'),
-                'url' => $this->getUrl('admin/account/edit'),
-                'is_current' => 'my_account' === $current,
-            ],
             'access_management' => [
                 'hasChilds' => false,
                 'isVisible' => !$request->isWhiteLabelEditor() && $this->_canAccess('admin_access_management'),
-                'label' => __('Access Management'),
+                'label' => __('Users'),
                 'url' => $this->getUrl('admin/access_management/list'),
                 'is_current' => 'access_management' === $current,
             ],
@@ -95,11 +88,23 @@ $editorTree = [
             'manage_tour' => [
                 'hasChilds' => false,
                 'isVisible' => $session->getAdmin()->isAllowedToManageTour(),
-                'label' => __('Manage Tour'),
+                'label' => __('Manage tour'),
                 'extra' => 'onclick="sbTour.switchTourEdition()"',
                 'is_current' => false,
             ],
             'profile_divider' => [
+                'isVisible' => true,
+                'divider' => true,
+                'is_current' => false,
+            ],
+            'my_account' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Profile'),
+                'url' => $this->getUrl('admin/account/edit'),
+                'is_current' => 'my_account' === $current,
+            ],
+            'profile_divider_2' => [
                 'isVisible' => true,
                 'divider' => true,
                 'is_current' => false,
@@ -220,7 +225,7 @@ $isDevelopment = (APPLICATION_ENV !== 'production');
 </div>
 <nav class="navbar navbar-default content-white-bkg">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header color-blue">
+    <div class="navbar-header">
         <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
         <a id="sb-tour-logo-platform"
            href="<?php echo $this->getUrl('admin/application/list'); ?>"
@@ -237,7 +242,7 @@ $isDevelopment = (APPLICATION_ENV !== 'production');
                href="#left-menu-toggle"
                class="sb-tour">
                 <button type="button"
-                        class="btn-close-sidebarleft color-blue btn">
+                        class="btn-close-sidebarleft btn">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>

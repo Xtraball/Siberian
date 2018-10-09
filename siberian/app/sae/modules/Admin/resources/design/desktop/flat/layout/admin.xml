@@ -35,7 +35,7 @@
     <admin_account_edit>
         <addLayout name="admin_menu" />
         <base>
-            <title>Admin Account</title>
+            <title>My profile</title>
         </base>
         <views>
             <content class="admin_view_default" template="admin/account/edit.phtml" />
@@ -54,7 +54,7 @@
     <admin_access_management_list>
         <addLayout name="admin_menu" />
         <base>
-            <title>Access Management</title>
+            <title>My users</title>
         </base>
         <views>
             <content class="admin_view_default" template="admin/access/management/list.phtml" />
@@ -67,7 +67,7 @@
     <admin_access_management_edit>
         <addLayout name="admin_menu" />
         <base>
-            <title>Access Management</title>
+            <title>My users</title>
         </base>
         <views>
             <content class="admin_view_default" template="admin/account/edit.phtml" />
@@ -85,7 +85,7 @@
 
     <admin_backoffice_edit>
         <base>
-            <title>Admin Account</title>
+            <title>My profile</title>
         </base>
         <views>
             <content class="admin_view_default" template="admin/backoffice/edit.phtml" />

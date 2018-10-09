@@ -145,9 +145,9 @@ i.fa.fa-plus {
 }
 
 .btn-close-sidebarleft {
-    background-color: transparent;
+    background-color:  #ffffff !important;
     background-image: none;
-    border: 1px solid white;
+    border: 1px solid #0099C7;
     border-radius: 3px;
     float: right;
     margin-bottom: 8px;
@@ -158,7 +158,7 @@ i.fa.fa-plus {
 }
 
 .btn-close-sidebarleft .icon-bar {
-    background-color: white;
+    background-color: #0099C7;
     border-radius: 1px;
     display: block;
     height: 2px;
