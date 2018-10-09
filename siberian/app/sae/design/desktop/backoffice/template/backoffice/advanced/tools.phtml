@@ -109,36 +109,10 @@ if ($exitCode === 1) {
     </sb-section>
 </form>
 
-<sb-section title="'<?php echo addcslashes(__("E-Mail render preview"), "'"); ?>'">
-    <div class="form-group">
-        <div class="col-md-12">
-            <div class="alert alert-info">
-                <i class="fa fa-exclamation-triangle"></i>
-                <?php echo __("This is only a generic preview, header & footer are adjusted depending on the context!") ?>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <iframe class="preview-email"
-                    src="/backoffice/advanced_tools/test-email"></iframe>
-        </div>
-    </div>
-
-    <div class="clear"></div>
-</sb-section>
-
 <style type="text/css">
     th {
         padding-right: 15px;
         font-weight: bold;
-    }
-
-    iframe.preview-email {
-        border: 1px solid lightgrey;
-        border-radius: 4px;
-        width: 100%;
-        height: 700px;
-        overflow-x: hidden;
-        overflow-y: auto;
     }
 </style>
 
