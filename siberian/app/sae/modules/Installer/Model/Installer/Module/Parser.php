@@ -222,16 +222,16 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                         }
 
                         # Remove all beta-parts from beta if in stable for requirements
-                        if (System_Model_Config::getValueFor("update_channel") == "stable") {
+                        if (__get("update_channel") == "stable") {
                             $version_parts = explode("-", $dependency["version"]);
                             $dependency["version"] = $version_parts[0];
                         }
 
                         # If the current version of Siberian equals the package's version
                         if (version_compare(Siberian_Version::VERSION, $package->getVersion(), "=")) {
-                            throw new Exception($this->_("#19-004: You already have installed this update."));
+                            throw new Exception(__("#19-004: You already have installed this update."));
                         } elseif (version_compare(Siberian_Version::VERSION, $dependency["version"], "<")) {
-                            throw new Exception($this->_("#19-005: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                            throw new Exception(__("#19-005: Please update your system to the %s version before installing this update.", $dependency["version"]));
                         }
 
                         break;
@@ -240,7 +240,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
                         $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
                         if ($compare == -1) {
-                            throw new Exception($this->_("#19-007: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                            throw new Exception(__("#19-007: Please update your system to the %s version before installing this update.", $dependency["version"]));
                         }
 
                         break;
@@ -251,12 +251,12 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                         $template_design->find($package->getCode(), "code");
 
                         if ($template_design->getId()) {
-                            throw new Exception($this->_("#19-008: You already have installed this template."));
+                            throw new Exception(__("#19-008: You already have installed this template."));
                         }
 
                         $compare = version_compare(Siberian_Version::VERSION, $dependency["version"]);
                         if ($compare == -1) {
-                            throw new Exception($this->_("#19-009: Please update your system to the %s version before installing this update.", $dependency["version"]));
+                            throw new Exception(__("#19-009: Please update your system to the %s version before installing this update.", $dependency["version"]));
                         }
 
                         break;

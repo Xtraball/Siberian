@@ -63,6 +63,8 @@ class Application_Model_IosAutopublish extends Core_Model_Default
             $base64cypher = self::cypher($loginOrCypher . ':' . $password);
         }
 
+        dbg($base64cypher);
+
         $result = Siberian_Request::post(
             $this->autopublishApiEndpoint,
             [
