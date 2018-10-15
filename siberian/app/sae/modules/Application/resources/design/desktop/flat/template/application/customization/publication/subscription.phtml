@@ -30,7 +30,29 @@ if (Siberian_Version::is('PE')) {
                     <?php echo __('Subscription'); ?>
                 </h3>
                 <div class="form-horizontal container-fluid subcontent content-color">
-                    <?php if (!$application->subscriptionIsActive()): ?>
+                    <?php if ($offlineSub = $application->getOfflineSubscription()): ?>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="alert alert-warning">
+                                    <?php echo __('You offline subscription is awaiting approval from an Administrator!') ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?php if ($this->_canAccess('cancel_offline_subscription') && !$offlineSub->isSubscriptionDeleted()): ?>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="container-fluid subcontent text-right">
+                                        <a class="btn color-red cancel-subscription"
+                                           href="javascript:void(0);">
+                                            <?php echo __('Cancel current Offline subscription'); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
+                    <?php elseif (!$application->subscriptionIsActive()): ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div id="sb-tour-ready-publish"
@@ -218,8 +240,9 @@ if (Siberian_Version::is('PE')) {
 <?php endif; ?>
 
 <script type="text/javascript">
-    <?php if ($application->subscriptionIsActive() && $application->getSubscription()):
-    $subscriptionApp = $application->getSubscription(); ?>
+    <?php if (($application->subscriptionIsActive() && $application->getSubscription()) || $application->getOfflineSubscription()):
+    $subscriptionApp = $application->subscriptionIsActive() ? $application->getSubscription() : $application->getOfflineSubscription();
+    ?>
     var cancelUrl = '<?php echo $this->getUrl('subscription/application/cancelowner'); ?>';
     var id = '<?php echo $subscriptionApp->getId() ?>';
 
