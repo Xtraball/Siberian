@@ -174,10 +174,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
         # Then check the module deps itself
         $_module = new Installer_Model_Installer_Module();
-        $_module->prepare($name);
-
-        dbg('--module--');
-        dbg($_module);
+        $_module->prepare($package->getName());
 
         switch ($package_type) {
             case 'layout':
@@ -193,7 +190,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                 break;
         }
 
-        if ($_module->isInstalled() && version_compare($version, $_module->getVersion(), "<=")) {
+        if ($_module->isInstalled() && version_compare($package->getVersion(), $_module->getVersion(), "<=")) {
             throw new Exception(__("#19-016: You already have installed this %s or a newer version.", $package_type));
         } else {
             # Set the module as in Local, which could be uninstalled.
@@ -218,7 +215,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                     case "system":
 
                         if (strtolower($dependency["type"]) != strtolower(Siberian_Version::TYPE)) {
-                            throw new Exception($this->_("#19-003: This update is designed for the %s, you can't install it in your %s.", $package->getName(), Siberian_Version::NAME));
+                            throw new Exception(__("#19-003: This update is designed for the %s, you can't install it in your %s.", $package->getName(), Siberian_Version::NAME));
                         }
 
                         # Remove all beta-parts from beta if in stable for requirements
@@ -277,14 +274,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $this->_package_details = new Core_Model_Default();
             $package_file = "{$this->_tmp_directory}/package.json";
             if (!file_exists($package_file)) {
-                throw new Exception($this->_("#19-010: The package you have uploaded is invalid."));
+                throw new Exception(__("#19-010: The package you have uploaded is invalid."));
             }
 
             try {
                 $content = Zend_Json::decode(file_get_contents($package_file));
             } catch (Zend_Json_Exception $e) {
                 Zend_Registry::get("logger")->sendException(print_r($e, true), "siberian_update_", false);
-                throw new Exception($this->_("#19-011: The package you have uploaded is invalid."));
+                throw new Exception(__("#19-011: The package you have uploaded is invalid."));
             }
 
             $this->_package_details->setData($content);
