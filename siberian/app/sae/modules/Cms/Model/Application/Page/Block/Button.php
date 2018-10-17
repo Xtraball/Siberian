@@ -2,7 +2,7 @@
 
 class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page_Block_Abstract {
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Button';
         return $this;
@@ -29,7 +29,7 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
 
         $this->setTypeId($data["type"]);
         $this->setLabel($data["label"]);

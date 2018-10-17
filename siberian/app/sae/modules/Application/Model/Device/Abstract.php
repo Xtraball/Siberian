@@ -24,6 +24,20 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param string $version
+     * @return $this
+     * @throws \Siberian\Exception
+     */
+    public function setVersion (string $version)
+    {
+        if (preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $version) !== 1) {
+            throw new \Siberian\Exception(__('The version number format is invalid, please use x.y.z where x, y & z are only digits.'));
+        }
+
+        return $this->setData('version', $version);
+    }
+
+    /**
      * @return mixed
      */
     public function getResources()
@@ -40,13 +54,13 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
      * @param $replacements
      * @param $file
      * @param bool $regex
-     * @throws Siberian_Exception
+     * @throws \Siberian\Exception
      */
     protected function __replace($replacements, $file, $regex = false)
     {
         $contents = file_get_contents($file);
         if (!$contents) {
-            throw new Siberian_Exception(__('An error occurred while editing file (%s).', $file));
+            throw new \Siberian\Exception(__('An error occurred while editing file (%s).', $file));
         }
 
         foreach ($replacements as $search => $replace) {

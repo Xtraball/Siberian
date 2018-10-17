@@ -36,6 +36,7 @@ App.config(function($routeProvider) {
         $scope.modules = data.modules;
         $scope.core_modules = data.core_modules;
         $scope.layouts = data.layouts;
+        $scope.templates = data.templates;
         $scope.features = data.features;
         $scope.icons = data.icons;
     }).finally(function() {
@@ -98,7 +99,6 @@ App.config(function($routeProvider) {
                 $scope.form_loader_is_visible = false;
             });
     };
-
 
 }).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, $window,
                                                                     Label, Header, AdvancedConfiguration, FileUploader,
@@ -685,6 +685,13 @@ App.config(function($routeProvider) {
         AdvancedTools.runtest()
             .success(function(data) {
                 $scope.integrity_result = data;
+
+                if (data.hash.length === 0) {
+                    $scope.message.setText(data.messageEmpty)
+                        .isError(false)
+                        .show()
+                    ;
+                }
             }).finally(function() {
 
             $scope.content_loader_is_visible = false;

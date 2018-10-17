@@ -3,17 +3,17 @@ $name = "Fan Wall";
 $category = "social";
 
 # Install icons
-$icons = array(
+$icons = [
     "/fanwall/fanwall1.png",
     "/fanwall/fanwall2.png",
     "/fanwall/fanwall3.png",
     "/fanwall/fanwall4.png"
-);
+];
 
 $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
-$data = array(
+$data = [
     'library_id'                    => $result["library_id"],
     'icon_id'                       => $result["icon_id"],
     "code"                          => "fanwall",
@@ -28,21 +28,21 @@ $data = array(
     "position"                      => 15,
     "social_sharing_is_available"   => 1,
     "use_my_account"                => 1
-);
+];
 
-$option = Siberian_Feature::install($category, $data, array('code'));
+$option = Siberian_Feature::install($category, $data, ['code']);
 
 # Layouts
-$layout_data = array(1);
+$layout_data = [1];
 $slug = "newswall";
 
 Siberian_Feature::installLayouts($option->getId(), $slug, $layout_data);
 
 # Icons Flat
-$icons = array(
+$icons = [
     "/fanwall/fanwall1-flat.png",
     "/fanwall/fanwall2-flat.png",
     "/fanwall/fanwall3-flat.png",
-);
+];
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);

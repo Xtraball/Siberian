@@ -227,6 +227,25 @@ class Siberian_Assets
         "js/utils/form-post.js",
         "js/utils/languages.js",
         "js/utils/utils.bundle.js",
+        // 4.15.0+ unused files
+        "css/angular-carousel.min.css",
+        "css/app.min.css",
+        "css/ion-gallery.css",
+        "css/ionic.app.min.css",
+        "css/ionRadioFix.css",
+        "css/ng-animation.css",
+        "css/style.css",
+        "js/app.js",
+        "js/controllers/.*",
+        "js/factory/.*",
+        "js/libraries/.*",
+        "js/services/.*",
+        "js/MusicControls.js",
+        "lib/ionic/css/.*",
+        "lib/ionic/js/.*",
+        "lib/ionic/scss/.*",
+        "lib/ionic/version.json",
+        "templates/.*",
     ];
 
     public static $assets = [];

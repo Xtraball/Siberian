@@ -3,9 +3,8 @@
 /**
  * Class Payment_Model_Payment
  */
-
-class Payment_Model_Payment extends Core_Model_Default {
-
+class Payment_Model_Payment extends Core_Model_Default
+{
     /**
      * @var
      */
@@ -19,14 +18,16 @@ class Payment_Model_Payment extends Core_Model_Default {
     /**
      * @return array
      */
-    public static function getTypes() {
+    public static function getTypes()
+    {
         return self::$_types;
     }
 
     /**
      * @return array
      */
-    public static function getAvailableMethods() {
+    public static function getAvailableMethods()
+    {
         $methods = [];
         foreach (self::getTypes() as $paymentCode => $paymentType) {
             if (Payment_Model_Payment::isSetup($paymentCode)) {
@@ -41,7 +42,8 @@ class Payment_Model_Payment extends Core_Model_Default {
      * @param $method
      * @return bool
      */
-    public static function isSetup($method) {
+    public static function isSetup($method)
+    {
         $excludeKeys = ['is_testing'];
 
         $providerName = new Api_Model_Provider();
@@ -65,7 +67,8 @@ class Payment_Model_Payment extends Core_Model_Default {
      * @param $typeCustomer
      * @return null
      */
-    protected function getType($typeCustomer) {
+    protected function getType($typeCustomer)
+    {
         if (!$this->_type_payment) {
             if (!empty(self::$_types[$typeCustomer])) {
                 $class = 'Payment_Model_' . self::$_types[$typeCustomer];
@@ -78,9 +81,23 @@ class Payment_Model_Payment extends Core_Model_Default {
     }
 
     /**
+     * @param $paymentMethod
+     * @return Payment_Model_Stripe|Payment_Model_Paypal
+     */
+    public static function getPaymentClass($paymentMethod)
+    {
+        if (isset(self::getTypes()[$paymentMethod])) {
+            $className = 'Payment_Model_' . self::getTypes()[$paymentMethod];
+            return new $className();
+        }
+        return false;
+    }
+
+    /**
      * @return string
      */
-    public function getCode() {
+    public function getCode()
+    {
         if ($this->getPaymentMethod()) {
             return $this->getType($this->getPaymentMethod())->getCode();
         }
@@ -91,7 +108,8 @@ class Payment_Model_Payment extends Core_Model_Default {
      * @param $params
      * @return array
      */
-    public function getPaymentData($params) {
+    public function getPaymentData($params)
+    {
         if ($this->getType($params['payment_method'])) {
             return $this->getType($params['payment_method'])->getPaymentData($params['order']);
         }
@@ -101,7 +119,8 @@ class Payment_Model_Payment extends Core_Model_Default {
     /**
      * @return array
      */
-    public function cancel() {
+    public function cancel()
+    {
         if ($this->getPaymentMethod()) {
             return $this->getType($this->getPaymentMethod())->cancel();
         }
@@ -111,7 +130,8 @@ class Payment_Model_Payment extends Core_Model_Default {
     /**
      * @return array
      */
-    public function success() {
+    public function success()
+    {
         if ($this->getPaymentMethod()) {
             return $this->getType($this->getPaymentMethod())
                 ->setData($this->getData())
@@ -124,7 +144,8 @@ class Payment_Model_Payment extends Core_Model_Default {
     /**
      * @return array
      */
-    public function manageRecurring() {
+    public function manageRecurring()
+    {
         if ($this->getPaymentMethod()) {
             return $this->getType($this->getPaymentMethod())
                 ->setData($this->getData())
@@ -137,7 +158,8 @@ class Payment_Model_Payment extends Core_Model_Default {
      * @param $code
      * @param $classSuffix
      */
-    public static function addPaymentType ($code, $classSuffix) {
+    public static function addPaymentType($code, $classSuffix)
+    {
         if (!isset(self::$_types[$code])) {
             self::$_types[$code] = $classSuffix;
         }

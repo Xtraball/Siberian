@@ -6,30 +6,30 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['booking_store'] = array(
-    'store_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['booking_store'] = [
+    'store_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'booking_id' => array(
+    ],
+    'booking_id' => [
         'type' => 'int(11)',
-        'index' => array(
+        'index' => [
             'key_name' => 'KEY_BOOKING_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'store_name' => array(
+        ],
+    ],
+    'store_name' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'email' => array(
+    ],
+    'email' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-);
+    ],
+];

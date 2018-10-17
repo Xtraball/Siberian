@@ -8,13 +8,13 @@ $admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId()));
         <div class="col-md-12">
             <div class="page-content-wrapper content solo-page">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo $this->_('List of my accounts'); ?>
+                    <?php echo __('My users'); ?>
                 </h3>
                 <div class="subcontent content-color container-fluid">
                     <div class="form-group">
                         <div class="col-md-12">
                             <button id="sb-tour-add-account" class="color-blue btn sb-tour" onclick="window.location = '<?php echo $this->getUrl('admin/access_management/new'); ?>'">
-                                <?php echo $this->_("Add"); ?>
+                                <?php echo __("Add"); ?>
                             </button>
                         </div>
                     </div>

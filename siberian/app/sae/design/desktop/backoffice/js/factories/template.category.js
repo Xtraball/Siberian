@@ -22,13 +22,34 @@ App.factory('TemplateCategory', function($http, Url) {
         });
     };
 
-    factory.save = function(data) {
+    factory.save = function(categories) {
 
         return $http({
             method: 'POST',
-            data: data,
+            data: {
+                categories: categories
+            },
             url: Url.get("template/backoffice_category_list/save"),
             responseType:'json'
+        });
+    };
+
+    /**
+     * Toggle a template enable state
+     *
+     * @param templateId
+     * @returns {*}
+     */
+    factory.toggleTemplate = function (templateId, isActive) {
+        return $http({
+            method: 'POST',
+            url: Url.get('template/backoffice_design/toggleactive'),
+            data: {
+                templateId: templateId,
+                isActive: isActive
+            },
+            cache: false,
+            responseType: 'json'
         });
     };
 

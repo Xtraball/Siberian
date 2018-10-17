@@ -11,7 +11,7 @@ class Comment_PageController extends Application_Controller_Default
 
     public function viewAction() {
         $this->getLayout()->setBaseRender('content', 'html/content.phtml', 'core_view_default');
-        $partials = array();
+        $partials = [];
 
         $this->getLayout()->addPartial('pos_infos', 'core_view_default', 'html/pos_infos.phtml');
         $partials[] = 'pos_infos';
@@ -21,7 +21,7 @@ class Comment_PageController extends Application_Controller_Default
         $partials[] = 'tabs';
 
         $this->getLayout()->getBaseRender()->setBlocks($partials)->setTabId(1);
-        $html = array('html' => $this->getLayout()->render());
+        $html = ['html' => $this->getLayout()->render()];
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
@@ -50,19 +50,19 @@ class Comment_PageController extends Application_Controller_Default
                 $message = $this->_('Your message has been successfully saved.');
                 if(!$comment->isVisible()) $message .= ' ' . $this->_('It will be visible only after validation by our team.');
                 if($this->getCurrentAdmin()->getDesignId() == 6) {
-                    $html = array('success' => 1, 'message' => $message);
+                    $html = ['success' => 1, 'message' => $message];
                 }
                 else {
                     $this->getLayout()
                         ->setBaseRender('content', 'comment/list.phtml', 'comment_view_pos_list')
                         ->setMessage($message)
                     ;
-                    $html = array('html' => $this->getLayout()->render());
+                    $html = ['html' => $this->getLayout()->render()];
                 }
 
             }
             catch(Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $html = ['message' => $e->getMessage()];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));

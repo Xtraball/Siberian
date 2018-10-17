@@ -27,12 +27,13 @@ $backofficeTree = [
         'url' => $this->getUrl('backoffice'),
         'icon' => 'fa fa-tachometer',
     ],
-    'invoices' => [
+    'messages' => [
         'hasChilds' => false,
-        'isVisible' => $this->isPe(),
-        'label' => __('Invoices'),
-        'url' => $this->getUrl("sales/backoffice_invoice_list"),
-        'icon' => 'fa fa-ticket',
+        'isVisible' => true,
+        'label' => __('Messages') . '&nbsp;<span id="unread_messages" class="message-badge" style="' .
+            $unreadDisplay . '">' . $unreadCount . '</span>',
+        'url' => $this->getUrl("backoffice/notif_list"),
+        'icon' => 'fa fa-envelope',
     ],
     'manage' => [
         'hasChilds' => true,
@@ -43,7 +44,7 @@ $backofficeTree = [
             'users' => [
                 'hasChilds' => true,
                 'isVisible' => true,
-                'label' => __('Users'),
+                'label' => __('Editor access'),
                 'icon' => 'fa fa-users',
                 'childs' => [
                     'users' => [
@@ -59,6 +60,21 @@ $backofficeTree = [
                         'label' => __('Roles'),
                         'url' => $this->getUrl("acl/backoffice_role_list"),
                         'icon' => 'fa fa-lock',
+                    ],
+                ],
+            ],
+            'backoffice' => [
+                'hasChilds' => true,
+                'isVisible' => true,
+                'label' => __('Backoffice access'),
+                'icon' => 'fa fa-lock',
+                'childs' => [
+                    'accounts' => [
+                        'hasChilds' => false,
+                        'isVisible' => true,
+                        'label' => __('Accounts'),
+                        'url' => $this->getUrl("backoffice/account_list"),
+                        'icon' => 'fa fa-users',
                     ],
                     'api' => [
                         'hasChilds' => false,
@@ -91,7 +107,29 @@ $backofficeTree = [
                     __('Application') : __('Applications'),
                 'url' => $this->isSae() ?
                     $this->getUrl('application/backoffice_view') : $this->getUrl('application/backoffice_list'),
-                'icon' => 'fa fa-picture-o',
+                'icon' => 'fa fa-mobile',
+            ],
+            'templates' => [
+                'hasChilds' => false,
+                'isVisible' => true,
+                'label' => __('Templates'),
+                'url' => $this->getUrl('template/backoffice_category_list'),
+                'icon' => 'fa fa-th',
+            ],
+        ],
+    ],
+    'sales' => [
+        'hasChilds' => true,
+        'isVisible' => $this->isPe(),
+        'label' => __('Sales'),
+        'icon' => 'fa fa-dollar',
+        'childs' => [
+            'invoices' => [
+                'hasChilds' => false,
+                'isVisible' => $this->isPe(),
+                'label' => __('Invoices'),
+                'url' => $this->getUrl("sales/backoffice_invoice_list"),
+                'icon' => 'fa fa-ticket',
             ],
             'subscriptions' => [
                 'hasChilds' => false,
@@ -99,13 +137,6 @@ $backofficeTree = [
                 'label' => __('Subscriptions'),
                 'url' => $this->getUrl('subscription/backoffice_application_list'),
                 'icon' => 'fa fa-list-ul',
-            ],
-            'templates' => [
-                'hasChilds' => false,
-                'isVisible' => true,
-                'label' => __('Templates'),
-                'url' => $this->getUrl('template/backoffice_category_list'),
-                'icon' => 'fa fa-picture-o',
             ],
         ],
     ],
@@ -150,13 +181,6 @@ $backofficeTree = [
                 'label' => __('General'),
                 'url' => $this->getUrl("system/backoffice_config_general"),
                 'icon' => 'fa fa-home',
-            ],
-            'accounts' => [
-                'hasChilds' => false,
-                'isVisible' => true,
-                'label' => __('Accounts'),
-                'url' => $this->getUrl("backoffice/account_list"),
-                'icon' => 'fa fa-users',
             ],
             'modules' => [
                 'hasChilds' => false,
@@ -301,26 +325,17 @@ $backofficeTree = [
                 'url' => $this->getUrl("translation/backoffice_list"),
                 'icon' => 'fa fa-language',
             ],
-            'logout' => [
-                'hasChilds' => false,
-                'isVisible' => true,
-                'label' => __('Log-out'),
-                'url' => false,
-                'ngOptions' => [
-                    'ng-click' => 'logout()',
-                ],
-                'icon' => 'fa fa-power-off',
-            ],
         ],
     ],
-    'messages' => [
+    'logout' => [
         'hasChilds' => false,
         'isVisible' => true,
-        'label' => __('Messages'),
-        'url' => $this->getUrl("backoffice/notif_list"),
-        'extra' => '<span id="unread_messages" class="message-badge" style="' .
-            $unreadDisplay . '">' . $unreadCount . '</span>',
-        'icon' => 'fa fa-envelope',
+        'label' => __('Log-out'),
+        'url' => false,
+        'ngOptions' => [
+            'ng-click' => 'logout()',
+        ],
+        'icon' => 'fa fa-power-off',
     ],
 ];
 

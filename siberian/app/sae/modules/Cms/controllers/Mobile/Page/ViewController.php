@@ -14,7 +14,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 $page->find($page_id);
 
                 $blocks = $page->getBlocks();
-                $json = array();
+                $json = [];
 
                 $request = $this->getRequest();
 
@@ -22,20 +22,20 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                     $json[] = $block->_toJson($request->getBaseUrl());
                 }
 
-                $data = array(
+                $data = [
                     "blocks"                    => $json,
                     "page_title"                => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
                     "picture"                   => $page->getPictureUrl(),
                     "social_sharing_active"     => (boolean) $option_value->getSocialSharingIsActive()
-                );
+                ];
 
             }
             catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
 
         } else {
-            $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
+            $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
         }
 
         $this->_sendJson($data);
@@ -61,30 +61,30 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 }
 
                 $blocks = $page->getBlocks();
-                $data = array("blocks" => array());
+                $data = ["blocks" => []];
 
                 foreach ($blocks as $block) {
                     $data["blocks"][] = $block->_toJson($this->getRequest()->getBaseUrl());
                 }
 
                 if($option->getCode() == "places") {
-                    $data["page"] = array(
+                    $data["page"] = [
                         "title"         => $page->getTitle(),
                         "subtitle"      => $page->getContent(),
                         "picture"       => $page->getPictureUrl() ? $this->getRequest()->getBaseUrl().$page->getPictureUrl() : null,
                         "show_image"    => $page->getMetadataValue('show_image'),
                         "show_titles"   => $page->getMetadataValue('show_titles')
-                    );
+                    ];
                 }
 
                 $data["page_title"]             = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
                 $data["social_sharing_active"]  = (boolean) $option->getSocialSharingIsActive();
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -114,7 +114,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 }
 
                 $blocks = $page->getBlocks();
-                $data = array("block" => array());
+                $data = ["block" => []];
 
                 foreach ($blocks as $block) {
                     if($block->getBlockId() == $block_id) {
@@ -129,10 +129,10 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 $data["page_title"] = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);

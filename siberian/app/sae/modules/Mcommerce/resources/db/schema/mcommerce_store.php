@@ -6,121 +6,121 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['mcommerce_store'] = array(
-    'store_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['mcommerce_store'] = [
+    'store_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'mcommerce_id' => array(
+    ],
+    'mcommerce_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'mcommerce',
             'column' => 'mcommerce_id',
             'name' => 'mcommerce_store_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_MCOMMERCE_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'name' => array(
+        ],
+    ],
+    'name' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'email' => array(
+    ],
+    'email' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'street' => array(
+    ],
+    'street' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'postcode' => array(
+    ],
+    'postcode' => [
         'type' => 'varchar(10)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'city' => array(
+    ],
+    'city' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'country' => array(
+    ],
+    'country' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'latitude' => array(
+    ],
+    'latitude' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'longitude' => array(
+    ],
+    'longitude' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'phone' => array(
+    ],
+    'phone' => [
         'type' => 'varchar(25)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'delivery_fees' => array(
+    ],
+    'delivery_fees' => [
         'type' => 'decimal(12,2)',
         'default' => '0.00',
-    ),
-    'min_amount' => array(
+    ],
+    'min_amount' => [
         'type' => 'decimal(12,2)',
         'default' => '0.00',
-    ),
-    'min_amount_free_delivery' => array(
+    ],
+    'min_amount_free_delivery' => [
         'type' => 'decimal(12,2)',
         'default' => '0.00',
-    ),
-    'clients_calculate_change' => array(
+    ],
+    'clients_calculate_change' => [
         'type' => 'tinyint(1)',
         'is_null' => true,
-    ),
-    'delivery_area' => array(
+    ],
+    'delivery_area' => [
         'type' => 'decimal(8,4)',
         'is_null' => true,
-    ),
-    'delivery_time' => array(
+    ],
+    'delivery_time' => [
         'type' => 'decimal(4,2)',
         'is_null' => true,
-    ),
-    'opening_hours' => array(
+    ],
+    'opening_hours' => [
         'type' => 'text',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'is_visible' => array(
+    ],
+    'is_visible' => [
         'type' => 'tinyint(1)',
         'default' => '1',
-    ),
-    'currency_code' => array(
+    ],
+    'currency_code' => [
         'type' => 'varchar(5)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

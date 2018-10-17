@@ -50,6 +50,33 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     }
 
     /**
+     * @return $this
+     */
+    protected function _cleanAssets()
+    {
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/css'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/controllers'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/directives'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/factory'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/features'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/filters'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/libraries'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/providers'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/js/services'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/MusicControls.js'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/app.js'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/features.js'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/js/utils/form-post.js'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/css'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/js'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/lib/ionic/scss'");
+        exec("rm -f '{$this->_dest_source_amc}/../www/lib/ionic/version.json'");
+        exec("rm -Rf '{$this->_dest_source_amc}/../www/templates'");
+
+        return $this;
+    }
+
+    /**
      * @param $application Application_Model_Application|Previewer_Model_Previewer
      * @throws Exception
      */
@@ -57,40 +84,10 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     {
         // Touch Icons!
         $icons = [
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small.png' =>
-                $application->getIcon(29, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@2x.png' =>
-                $application->getIcon(58, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon.png' =>
                 $application->getIcon(57, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon@2x.png' =>
-                $application->getIcon(114, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40.png' =>
-                $application->getIcon(40, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-40@2x.png' =>
-                $application->getIcon(80, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50.png' =>
-                $application->getIcon(50, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-50@2x.png' =>
-                $application->getIcon(100, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60.png' =>
-                $application->getIcon(60, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@2x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@3x.png' =>
                 $application->getIcon(180, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72.png' =>
-                $application->getIcon(72, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-72@2x.png' =>
-                $application->getIcon(144, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76.png' =>
-                $application->getIcon(76, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-76@2x.png' =>
-                $application->getIcon(152, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png' =>
-                $application->getIcon(167, null, true),
-            $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@3x.png' =>
-                $application->getIcon(120, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png' =>
                 $application->getIcon(1024, null, true),
         ];
@@ -103,7 +100,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 imagecopyresized($newIcon, $iconResource, 0, 0, 0, 0, $width, $height, $width, $height);
                 imagepng($newIcon, $iconDst);
             } else if(!copy($iconSrc, $iconDst)) {
-                throw new Siberian_Exception(
+                throw new \Siberian\Exception(
                     __('An error occured while copying your app icon. Please check the icon, try to send it again and try again.') .
                     "\n" . $iconSrc . "\n" . $iconDst);
             }
@@ -118,115 +115,27 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $image->save($this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-1024.png', 'png', 100);
         }
 
+
+        /** Clean up screen.xxx */
+        array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
+
         // Startup Images!
-        $startup_src = $application->getStartupImageUrl('standard', true);
-        $startup_src_retina = $application->getStartupImageUrl('retina', true);
-        $startup_src_iphone_6 = $application->getStartupImageUrl('iphone_6', true);
-        $startup_src_iphone_6_plus = $application->getStartupImageUrl('iphone_6_plus', true);
-        $startup_src_ipad_retina = $application->getStartupImageUrl('ipad_retina', true);
-        $startup_src_iphone_x = $application->getStartupImageUrl('iphone_x', true);
+        $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
-        $startups = [
-            $startup_src => [
-                [
-                    'width' => 320,
-                    'height' => 480,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default~iphone.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default@2x~iphone.png'
-                ]
-            ],
-            $startup_src_retina => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ], 
-                [
-                    'width' => 640,
-                    'height' => 1136,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-568h@2x~iphone.png'
-                ]
-            ],
-            $startup_src_iphone_6 => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-667h.png'
-                ]
-            ],
-            $startup_src_iphone_6_plus => [
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-736h.png'
-                ]
-            ],
-            $startup_src_ipad_retina => [
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'width' => 768,
-                    'height' => 1024,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait~ipad.png'
-                ], 
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Portrait@2x~ipad.png'
-                ],
-                /** Defaulting landcape splash */
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-736h.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape@2x~ipad.png'
-                ],
-                [
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape~ipad.png'
-                ]
-            ],
-            $startup_src_iphone_x => [
-                [
-                    'width' => 1125,
-                    'height' => 2436,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-2436h.png'
-                ],
-                [
-                    'width' => 2436,
-                    'height' => 1125,
-                    'dst' => $tmpDest .'/Images.xcassets/LaunchImage.launchimage/Default-Landscape-2436h.png'
-                ]
-            ]
-        ];
 
         try {
-            foreach ($startups as $startup_src => $images) {
-                foreach ($images as $image) {
-                    if (!empty($image["width"]) OR Core_Model_Lib_Image::getMimeType($startup_src) != 'image/png') {
-                        list($width, $height) = getimagesize($startup_src);
-                        if (empty($image["width"])) {
-                            $image["width"] = $width;
-                        }
-                        if (empty($image["height"])) {
-                            $image["height"] = $height;
-                        }
-                        $newStartupImage = imagecreatetruecolor($image["width"], $image["height"]);
-                        $startupSrc = imagecreatefromstring(file_get_contents($startup_src));
-                        imagecopyresized($newStartupImage, $startupSrc, 0, 0, 0, 0, $image["width"], $image["height"], $width, $height);
+            // Convert to jpeg
+            $jpegStartup = Siberian_Image::open($universal);
+            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
+            $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
-                        $extension = pathinfo($image["dst"], PATHINFO_EXTENSION);
-                        $image["dst"] = str_replace($extension, "png", $image["dst"]);
+            $destStartup = $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpg';
 
-                        imagepng($newStartupImage, $image["dst"]);
-                    } else {
-                        if (!copy($startup_src, $image["dst"])) {
-                            throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
-                        }
-                    }
+            Siberian_Media::optimize($_tmpStartup);
 
-                    Siberian_Media::optimize($image["dst"]);
-                }
+            if (!copy($_tmpStartup, $destStartup)) {
+                throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
             }
         }
         catch(Exception $e) {
@@ -327,7 +236,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         $root = $plist->root();
         $root->removeProperty('CFBundleDisplayName');
-        $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_application_name, 'CFBundleDisplayName');
+        $root->addProperty(\PListEditor\PListProperty::PL_STRING,
+            str_replace("&", '-', $this->_application_name), 'CFBundleDisplayName');
 
         $root->removeProperty('CFBundleIdentifier');
         $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->_package_name, 'CFBundleIdentifier');

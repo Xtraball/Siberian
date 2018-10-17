@@ -12,6 +12,7 @@ class Application_Model_Application extends Application_Model_Application_Abstra
 
     /**
      * @return Application_Model_Application
+     * @throws Zend_Exception
      */
     public static function getInstance()
     {

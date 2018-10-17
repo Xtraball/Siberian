@@ -27,7 +27,7 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
             ->setAttrib("id", "form-cms-block-text-".$this->uniqid)
         ;
 
-        $text = $this->addSimpleTextarea("text", __("Text"), false, array("ckeditor" => "cms"));
+        $text = $this->addSimpleTextarea("text", __("Text"), false, ["ckeditor" => "cms"]);
         $text->setBelongsTo("block[".$this->uniqid."][text]");
         $text->setRichtext();
 

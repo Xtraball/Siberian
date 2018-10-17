@@ -775,20 +775,17 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _initLanguage()
     {
-
         $available_languages = Core_Model_Language::getLanguageCodes();
         $current_language = in_array($this->getRequest()->getLanguageCode(), $available_languages) ? $this->getRequest()->getLanguageCode() : "";
         $language_session = Core_Model_Language::getSession();
         $language = '';
 
         if (!$this->getRequest()->isApplication()) {
-
             if ($language_session->current_language) {
                 $language = $language_session->current_language;
             } else if (!$this->getRequest()->isInstalling()) {
-                $current_language = System_Model_Config::getValueFor("system_default_language");
+                $current_language = __get('system_default_language');
             }
-
         } else {
             $language = $language_session->current_language;
         }
@@ -796,6 +793,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         if (!empty($current_language)) {
             Core_Model_Language::setCurrentLanguage($current_language);
         } else if (!empty($language)) {
+            // nothing to do!
         } else if ($accepted_languages = Zend_Locale::getBrowser()) {
             $accepted_languages = array_keys($accepted_languages);
             foreach ($accepted_languages as $lang) {
@@ -810,11 +808,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             }
 
             Core_Model_Language::setCurrentLanguage($current_language);
-
         } else {
             Core_Model_Language::setCurrentLanguage(Core_Model_Language::getDefaultLanguage());
         }
-
     }
 
     /**
@@ -832,13 +828,13 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $locale_code = $this->getApplication()->getLocale();
         } else if (!$is_installing) {
 
-            $currency_code = System_Model_Config::getValueFor("system_currency");
+            $currency_code = __get('system_currency');
             if ($currency_code) {
                 $currency = new Zend_Currency(null, $currency_code);
                 Core_Model_Language::setCurrentCurrency($currency);
             }
 
-            $territory = System_Model_Config::getValueFor("system_territory");
+            $territory = __get('system_territory');
             if ($territory) {
                 $locale_code = $locale->getLocaleToTerritory($territory);
             } else {
@@ -848,7 +844,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         if (!$is_installing) {
-            $timezone = System_Model_Config::getValueFor("system_timezone");
+            $timezone = __get('system_timezone');
             if ($timezone) {
                 date_default_timezone_set($timezone);
             }
@@ -857,7 +853,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $locale->setLocale($locale_code);
 
         Zend_Registry::set('Zend_Locale', $locale);
-
     }
 
     /**
@@ -874,7 +869,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _needToBeRedirected()
     {
-
         $url = null;
 
         if ($this->getRequest()->isInstalling()) {
@@ -884,7 +878,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         if ($this->getRequest()->getLanguageCode()) {
-            $url = is_null($url) ? $this->getRequest()->getPathInfo() : $url;
+            // Clear params!
+            $this->getRequest()->clearParams();
+            $url = is_null($url) ? '/' : $url;
         }
 
         return $url;
@@ -930,7 +926,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param string $content_type
      * @throws \Siberian\Exception
      */
-    protected function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
+    public function _download($file, $filename, $content_type = 'application/vnd.ms-excel')
     {
         $response = $this->getResponse();
 

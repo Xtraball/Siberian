@@ -26,7 +26,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         }
 
         $payload = [
-            'title' => __('Modules'),
+            'title' => sprintf('%s > %s',
+                __('Settings'),
+                __('Modules')),
             'icon' => 'fa-cloud-download',
             'words' => [
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
@@ -195,7 +197,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             if (empty($_FILES) || empty($_FILES['file']['name'])) {
-                throw new Siberian_Exception(__("No file has been sent"));
+                throw new \Siberian\Exception(__("No file has been sent"));
             }
 
             $adapter = new Zend_File_Transfer_Adapter_Http();
@@ -212,7 +214,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $message = __("An error occurred during the process. Please try again later.");
                 }
 
-                throw new Siberian_Exception($message);
+                throw new \Siberian\Exception($message);
             }
         } catch (Exception $e) {
             $payload = [
@@ -234,7 +236,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $file = Core_Model_Directory::getTmpDirectory(true)."/$filename";
 
                 if (!file_exists($file)) {
-                    throw new Siberian_Exception(__("The file %s does not exist", $filename));
+                    throw new \Siberian\Exception(__("The file %s does not exist", $filename));
                 }
 
                 $parser = new Installer_Model_Installer_Module_Parser();
@@ -248,7 +250,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $ftp_path = System_Model_Config::getValueFor("ftp_path");
                     $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
 
-                    if ($ftp->checkConnection() AND $ftp->isSiberianDirectory()) {
+                    if ($ftp->checkConnection() && $ftp->isSiberianDirectory()) {
                         $is_ok = true;
                     }
                 }
@@ -261,7 +263,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                     $messages = $parser->getErrors();
                     $message = implode("\n", $messages);
-                    throw new Siberian_Exception(__($message));
+                    throw new \Siberian\Exception(__($message));
                 }
 
             } catch (Exception $e) {
@@ -298,10 +300,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
                 if(!$ftp->checkConnection()) {
                     $error_code = 1;
-                    throw new Siberian_Exception(__("Unable to connect to your FTP. Please check the connection information."));
+                    throw new \Siberian\Exception(__("Unable to connect to your FTP. Please check the connection information."));
                 } else if(!$ftp->isSiberianDirectory()) {
                     $error_code = 2;
-                    throw new Siberian_Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
+                    throw new \Siberian\Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
                 }
 
                 $fields = array(
@@ -341,7 +343,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
     }
 
@@ -378,7 +380,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 );
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }

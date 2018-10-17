@@ -1,0 +1,12 @@
+{
+    "name": "TemplateRouse",
+    "type": "template",
+    "description": "Red&Co template installer.",
+    "version": "4.15.0",
+    "dependencies": {
+        "system": {
+            "type": "SAE",
+            "version": "4.15.0-beta.1"
+        }
+    }
+}

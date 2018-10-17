@@ -1,10 +1,19 @@
 <?php
 
-class Application_CustomizationController extends Application_Controller_Default {
+/**
+ * Class Application_CustomizationController
+ */
+class Application_CustomizationController extends Application_Controller_Default
+{
+    /**
+     *
+     */
+    public function indexAction()
+    {
 
-    public function indexAction() {
         $resource = new Acl_Model_Resource();
-        $resources = $resource->findAll(array(new Zend_Db_Expr('code LIKE \'editor_%\' AND url IS NOT NULL')));
+        $resources = $resource->findAll([new Zend_Db_Expr('code LIKE \'editor_%\' AND url IS NOT NULL')]);
+
         foreach ($resources as $resource) {
             if ($this->_canAccess($resource->getCode())) {
                 $url = rtrim(trim($resource->getData('url')), '*');
@@ -15,13 +24,20 @@ class Application_CustomizationController extends Application_Controller_Default
         $this->_redirect('application/customization_design_style/edit');
     }
 
-    public function checkAction() {
+    /**
+     * @throws Zend_Layout_Exception
+     * @throws Zend_Session_Exception
+     */
+    public function checkAction()
+    {
         if ($this->getRequest()->isPost()) {
             $adminCanPublish = $this->getSession()
                 ->getAdmin()
                 ->canPublishThemself();
+
             $errors = $this->getApplication()
                 ->isAvailableForPublishing($adminCanPublish);
+
             if (!empty($errors)) {
                 array_unshift($errors, __('In order to publish your application, we need:'));
                 $message = join('<br />- ', $errors);
@@ -32,18 +48,26 @@ class Application_CustomizationController extends Application_Controller_Default
                     'message_loader' => 1
                 ];
             } else {
-                if (Siberian_Version::TYPE === 'MAE') {
-                    $layout = $this->getLayout()->loadEmail('application', 'publish_app');
-                    $layout->getPartial('content_email')
-                        ->setApp($this->getApplication())
-                        ->setAdmin($this->getAdmin());
-                    $content = $layout->render();
+                if (Siberian_Version::is('MAE')) {
+                    $application = $this->getApplication();
 
-                    # @version 4.8.7 - SMTP
-                    $mail = new Siberian_Mail();
+                    $baseEmail = $this->baseEmail(
+                        'publish_app',
+                        __('Application %s', $application->getName()));
+
+                    $baseEmail->setContentFor('content_email', 'application', $application);
+                    $baseEmail->setContentFor('content_email', 'admin', $this->getAdmin());
+
+                    $content = $baseEmail->render();
+
+                    $subject = __('New publication request on your platform %s, for the Application %s.',
+                        __get('platform_name'),
+                        $application->getName());
+
+                    $mail = new \Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->ccToSender();
-                    $mail->setSubject(__('%s – Publication request', $this->getApplication()->getName()));
+                    $mail->setSubject($subject);
                     $mail->send();
 
                     $html = [
@@ -63,5 +87,24 @@ class Application_CustomizationController extends Application_Controller_Default
             $this->getResponse()->setBody(Zend_Json::encode($html))->sendResponse();
             die;
         }
+    }
+
+    /**
+     * @param $nodeName
+     * @param $title
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title)
+    {
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('application', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', __('Publication request') . ' - ' . $title)
+            ->setContentFor('footer', 'show_legals', true)
+        ;
+
+        return $layout;
     }
 }

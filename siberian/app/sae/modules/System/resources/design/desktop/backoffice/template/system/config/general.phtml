@@ -33,9 +33,79 @@ $host = $this->getRequest()->getHttpHost();
             </div>
         </div>
 
-    </sb-section>
+        <div class="subtitle"
+             style="margin-top: 15px;">
+            <h4><?php echo __("Location settings") ?></h4>
+            <div class="clear"></div>
+        </div>
 
-    <sb-section title="'<?php echo __js("Your iOS autobuild License Key","'"); ?>'">
+        <div class="form-group">
+            <div class="col-md-6">
+                <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
+                <select class="form-control"
+                        ng-model="configs.system_timezone.value"
+                        ng-options="k as v for (k, v) in configs.territories">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="{{ configs.system_currency.code }}">{{ configs.system_currency.label }}</label>
+                <select id="{{ configs.system_currency.code }}"
+                        class="form-control"
+                        ng-model="configs.system_currency.value"
+                        ng-options="k as v for (k, v) in configs.currencies">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group"
+             ng-if="configs.languages">
+            <div class="col-md-6" >
+                <label for="{{ configs.system_default_language.code }}">{{ configs.system_default_language.label }}</label>
+                <select class="form-control"
+                        ng-model="configs.system_default_language.value"
+                        ng-options="k as v for (k, v) in configs.languages">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="subtitle"
+             style="margin-top: 15px;">
+            <h4><?php echo __("Privacy settings") ?></h4>
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679"
+                       style="text-decoration: underline;"
+                       target="_blank">
+                        <i class="fa fa-link"></i>
+                        <?php echo __('European <b>General Data Protection Regulation (GDPR)</b>.') ?>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.is_gdpr_enabled.code }}">{{ configs.is_gdpr_enabled.label }}</label>
+                <select class="form-control"
+                        ng-model="configs.is_gdpr_enabled.value">
+                    <option value="1"><?php echo __('Yes') ?></option>
+                    <option value="0"><?php echo __('No') ?></option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="subtitle"
+             style="margin-top: 15px;">
+            <h4><?php echo __("Your licenses") ?></h4>
+            <div class="clear"></div>
+        </div>
+
         <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
         <div class="form-group">
             <div class="col-md-6">
@@ -52,6 +122,7 @@ $host = $this->getRequest()->getHttpHost();
                 </div>
             </div>
         </div>
+
     </sb-section>
 
     <sb-section class="clear" title="'<?php echo __js("Your company","'"); ?>'">
@@ -67,7 +138,11 @@ $host = $this->getRequest()->getHttpHost();
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.company_address.code }}">{{ configs.company_address.label }}</label>
-                <textarea rows="3" id="{{ configs.company_address.code }}" ng-model="configs.company_address.value" class="form-control" placeholder="{{ configs.company_address.label }}"></textarea>
+                <textarea rows="3"
+                          id="{{ configs.company_address.code }}"
+                          ng-model="configs.company_address.value"
+                          class="form-control"
+                          placeholder="{{ configs.company_address.label }}"></textarea>
             </div>
             <div class="col-md-6">
                 <label for="{{ configs.company_country.code }}">{{ configs.company_country.label }}</label>
@@ -109,64 +184,6 @@ $host = $this->getRequest()->getHttpHost();
              ng-show="configs.gdpr_countries.indexOf(configs.company_country.value) !== -1">
             <div class="col-md-12">
                 <div class="alert alert-info"><?php echo __('The european <b>General Data Protection Regulation (GDPR)</b> is applicable to your country, you must enable it in the privacy settings below.') ?></div>
-            </div>
-        </div>
-    </sb-section>
-
-    <div class="clear"></div>
-
-    <sb-section title="'<?php echo __js("Privacy Settings","'"); ?>'">
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="alert alert-info">
-                    <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R0679"
-                       style="text-decoration: underline;"
-                       target="_blank">
-                        <i class="fa fa-link"></i>
-                        <?php echo __('European <b>General Data Protection Regulation (GDPR)</b>.') ?>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <label for="{{ configs.is_gdpr_enabled.code }}">{{ configs.is_gdpr_enabled.label }}</label>
-                <select class="form-control"
-                        ng-model="configs.is_gdpr_enabled.value">
-                    <option value="1"><?php echo __('Yes') ?></option>
-                    <option value="0"><?php echo __('No') ?></option>
-                </select>
-            </div>
-
-        </div>
-    </sb-section>
-
-    <div class="clear"></div>
-
-    <sb-section title="'<?php echo __js("Your Location","'"); ?>'">
-        <div class="form-group">
-            <div class="col-md-6">
-                <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
-                <select class="form-control"
-                        ng-model="configs.system_timezone.value"
-                        ng-options="k as v for (k, v) in configs.territories">
-                    <option value=""></option>
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label for="{{ configs.system_currency.code }}">{{ configs.system_currency.label }}</label>
-                <select id="{{ configs.system_currency.code }}" class="form-control" ng-model="configs.system_currency.value" ng-options="k as v for (k, v) in configs.currencies">
-                    <option value=""></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group" ng-if="configs.languages">
-            <div class="col-md-6" >
-                <label for="{{ configs.system_default_language.code }}">{{ configs.system_default_language.label }}</label>
-                <select class="form-control" ng-model="configs.system_default_language.value" ng-options="k as v for (k, v) in configs.languages">
-                    <option value=""></option>
-                </select>
             </div>
         </div>
     </sb-section>
@@ -280,7 +297,7 @@ $host = $this->getRequest()->getHttpHost();
         <div class="form-group">
             <div class="col-md-6">
 
-                <div class="title">
+                <div class="subtitle">
                     <h4><?php echo __("Ios") ?></h4>
                     <div class="clear"></div>
                 </div>
@@ -320,7 +337,7 @@ $host = $this->getRequest()->getHttpHost();
             </div>
             <div class="col-md-6">
 
-                <div class="title">
+                <div class="subtitle">
                     <h4><?php echo __("Android") ?></h4>
                     <div class="clear"></div>
                 </div>
@@ -362,7 +379,7 @@ $host = $this->getRequest()->getHttpHost();
 
          <div class="form-group">
              <div class="col-md-12">
-                <button type="submit" class="btn btn-primary left"><?php echo __("Save"); ?></button>
+                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>

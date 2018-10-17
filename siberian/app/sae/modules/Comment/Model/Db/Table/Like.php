@@ -7,7 +7,7 @@ class Comment_Model_Db_Table_Like extends Core_Model_Db_Table
     
     public function findByComment($comment_id, $pos_id) {
 
-        $where = array($this->_db->quoteInto('comment_id = ?', $comment_id));
+        $where = [$this->_db->quoteInto('comment_id = ?', $comment_id)];
         
         if($pos_id) {
             $where[] = $this->_db->quoteInto('pos_id = ?', $pos_id);
@@ -19,7 +19,7 @@ class Comment_Model_Db_Table_Like extends Core_Model_Db_Table
     
     public function findByIp($comment_id, $customer_id, $ip, $ua) {
 
-        $where = array($this->_db->quoteInto('comment_id = ?', $comment_id));
+        $where = [$this->_db->quoteInto('comment_id = ?', $comment_id)];
         if(!empty($customer_id)) {
             $where[] = $this->_db->quoteInto('customer_id = ?', $customer_id);
         } else {

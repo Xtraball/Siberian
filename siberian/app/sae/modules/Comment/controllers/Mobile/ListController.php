@@ -58,7 +58,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "id" => (integer)$answer->getId(),
                             "name" => $answer->getCustomerName(),
                             "customer_id" => (integer)$answer->getCustomerId(),
-                            "message" => $answer->getText(),
+                            "message" => \Siberian\Xss::sanitize($answer->getText()),
                             /** deprecated for mt_created_at */
                             "created_at" => $this->_durationSince($answer->getCreatedAt()),
                             "mt_created_at" => $answer->getCreatedAt()
@@ -99,9 +99,9 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                         "embed_payload" => [
                             "id" => (integer)$comment->getId(),
                             "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "title" => $comment->getTitle(),
-                            "subtitle" => $comment->getSubtitle(),
-                            "message" => $comment->getText(),
+                            "title" => \Siberian\Xss::sanitize($comment->getTitle()),
+                            "subtitle" => \Siberian\Xss::sanitize($comment->getSubtitle()),
+                            "message" => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
                             "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl() . $comment->getImageUrl() : null,
                             "icon" => $this->getRequest()->getBaseUrl() . $application->getIcon(74),
@@ -123,7 +123,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "id" => (integer)$answer->getId(),
                             "name" => $answer->getCustomerName(),
                             "customer_id" => (integer)$answer->getCustomerId(),
-                            "message" => $answer->getText(),
+                            "message" => \Siberian\Xss::sanitize($answer->getText()),
                             "created_at" => $this->_durationSince($answer->getCreatedAt()),
                             "mt_created_at" => $answer->getCreatedAt(),
                         ];
@@ -135,7 +135,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $data["collection"][] = [
                         "id" => (integer)$comment->getId(),
                         "title" => $comment->getTitle(),
-                        "subtitle" => $comment->getSubtitle(),
+                        "subtitle" => \Siberian\Xss::sanitize($comment->getSubtitle()),
                         "message" => strip_tags(html_entity_decode(strip_tags($comment->getText()), ENT_NOQUOTES, "UTF-8")),
                         "url" => $this->getPath("comment/mobile_view", ["value_id" => $value_id, "comment_id" => $comment->getId()]),
                         "author" => ($this->getCurrentOptionValue()->getCode() == "fanwall" && $customer->getFirstname()) ? $customer->getFirstname() : $application->getName(),
@@ -159,7 +159,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                         "embed_payload" => [
                             "id" => (integer)$comment->getId(),
                             "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
-                            "message" => $comment->getText(),
+                            "message" => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
                             "picture" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl() . $comment->getImageUrl() : null,
                             "icon" => $this->getRequest()->getBaseUrl() . $icon_url,

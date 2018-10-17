@@ -1,17 +1,33 @@
-<?php $application = $this->getApplication() ?>
+<?php
+$application = $this->getApplication();
+
+$splashVersion = (integer) $application->getSplashVersion();
+
+?>
 <div class="page-content-wrapper">
 
-    <?php echo $this->createPartialHtml('icon_create', 'admin_view_default', 'application/customization/publication/app/icon.phtml'); ?>
+    <?php echo $this->createPartialHtml(
+            'icon_create',
+            'admin_view_default',
+            'application/customization/publication/app/icon.phtml'); ?>
 
-    <div id="startup_conteneur" class="content sb-tour">
+    <div id="startup_conteneur"
+         class="content sb-tour">
         <h3 class="title-editor border-purple text-center">
-            <?php echo __('Startup image'); ?>
+            <?php echo __('Unified splashscreen'); ?>
         </h3>
-        <div id="startup" class="subcontent content-color">
-            <?php echo $this->createPartialHtml('startup_create', 'admin_view_default', 'application/customization/publication/app/startup.phtml'); ?>
+        <div id="startup"
+             class="subcontent content-color container-fluid">
+            <?php echo $this->createPartialHtml(
+                    'startup_create',
+                    'admin_view_default',
+                    'application/customization/publication/app/startup-unified.phtml'); ?>
         </div>
     </div>
-    <form id="publicationForm" action="<?php echo $this->getUrl('application/customization_publication_app/save'); ?>" method="post">
+
+    <form id="publicationForm"
+          action="<?php echo $this->getUrl('application/customization_publication_app/save'); ?>"
+          method="post">
     </form>
 </div>
 

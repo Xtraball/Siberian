@@ -48,7 +48,7 @@ class Module
         'dependencies' => [
             'system' => [
                 'type' => 'SAE',
-                'version' => '4.13.16',
+                'version' => '4.14.0',
             ],
         ],
     ];
@@ -650,7 +650,7 @@ class Module
             if ($moduleIndex === 'done') {
                 break;
             } else if ($moduleIndex === 'all') {
-                $selected = $keys;
+                $selected = $cloneModels;
                 break;
             } else if (!in_array(intval($moduleIndex), $keys)) {
                 echo color('Invalid index.', 'red') . PHP_EOL;
@@ -742,6 +742,7 @@ class Module
 
         $tabHeads = [];
         $tabContents = [];
+
         foreach ($selected as $model) {
 
             $placeholders = $model['placeholders'];

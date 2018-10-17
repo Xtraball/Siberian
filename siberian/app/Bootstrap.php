@@ -57,6 +57,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         \Core_Model_Directory::setBasePath($base_path);
 
         // include Stubs
+        require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         $path = '';
@@ -266,7 +267,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                             }
                         }
                     } else {
-                        throw new Siberian_Exception('The bootstrap file located at \'' . $path .
+                        throw new \Siberian\Exception('The bootstrap file located at \'' . $path .
                             '\' redefines/or is already loaded, Class \'' . $classname .
                             '\', please remove it or rename it.');
                     }
@@ -293,6 +294,22 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Siberian_Cache_Design::init();
         $this->getPluginLoader()->addPrefixPath('Siberian_Application_Resource', 'Siberian/Application/Resource');
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNeverRender(true);
+    }
+
+    protected function _initPurifier()
+    {
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('Cache.SerializerPath', Core_Model_Directory::getBasePathTo('var/cache'));
+        $def = $config->getHTMLDefinition(true);
+
+        // Attributes for in-app links
+        $def->addAttribute('a', 'data-offline', 'Text');
+        $def->addAttribute('a', 'data-params', 'Text');
+        $def->addAttribute('a', 'data-state', 'Text');
+
+        $htmlPurifier = new HTMLPurifier($config);
+
+        Zend_Registry::set('htmlPurifier', $htmlPurifier);
     }
 
     /**

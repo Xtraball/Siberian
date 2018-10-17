@@ -1,0 +1,11 @@
+<p><?php echo __('Hello,') ?></p>
+<p><?php echo __('An administrator of the Platform <b>%s</b>, activated your subscription for the Application <b>%s</b>',
+        $this->getPlatformName(),
+        $this->getAppName()) ?></p>
+
+<?php if (!empty($this->getMessage())): ?>
+    <p><?php echo __('Message:') ?></p>
+    <code><?php echo $this->getMessage() ?></code>
+<?php else: ?>
+    <p><?php echo __('Thanks for your subscription.') ?></p>
+<?php endif; ?>

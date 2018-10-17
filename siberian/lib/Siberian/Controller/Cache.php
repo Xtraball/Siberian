@@ -1,6 +1,10 @@
 <?php
 
-class Siberian_Controller_Cache extends Zend_Controller_Action {
+/**
+ * Class Siberian_Controller_Cache
+ */
+class Siberian_Controller_Cache extends Zend_Controller_Action
+{
 
     /**
      * Bypass the action
@@ -26,7 +30,15 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      */
     protected $_cacheable = false;
 
-    public function __construct(Zend_Controller_Request_Abstract $request, Zend_Controller_Response_Abstract $response, array $invokeArgs = array()){
+    /**
+     * Siberian_Controller_Cache constructor.
+     * @param Zend_Controller_Request_Abstract $request
+     * @param Zend_Controller_Response_Abstract $response
+     * @param array $invokeArgs
+     */
+    public function __construct(Zend_Controller_Request_Abstract $request,
+                                Zend_Controller_Response_Abstract $response, array $invokeArgs = [])
+    {
         //Tous les dispatch (meme les re-dispatch invoqués par les helper (actions,vues,forward) reconstruisent
         parent::__construct($request, $response, $invokeArgs);
 
@@ -40,10 +52,11 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      * Retourne la config du cache pour cette action ou false
      * @return mixed Zend_Config|boolean
      */
-    protected function getConfig(){
-        if($this->_config === null){
+    protected function getConfig()
+    {
+        if ($this->_config === null) {
             $name = $this->getCacheName();
-            $this->_config = isset(Zend_Registry::get('config')->cache->$name) ? Zend_Registry::get('config')->cache->$name:false;
+            $this->_config = isset(Zend_Registry::get('config')->cache->$name) ? Zend_Registry::get('config')->cache->$name : false;
         }
 
         return $this->_config;
@@ -55,7 +68,8 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      * @param  boolean $bypass
      * @return void
      */
-    public function setCancelAction($bypass){
+    public function setCancelAction($bypass)
+    {
         $this->_cancelAction = $bypass;
     }
 
@@ -65,17 +79,17 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      * @param string $action Method name of action
      * @return void
      */
-    public function dispatch($action){
+    public function dispatch($action)
+    {
 
         // Notify helpers of action preDispatch state
         $this->_helper->notifyPreDispatch();
         $this->preDispatch();
 
 
-
-        // OuiCar $this->_cancelAction, bypass the action (use the cache)
+        // $this->_cancelAction, bypass the action (use the cache)
         if ($this->getRequest()->isDispatched()) {
-            if(!$this->_cancelAction) {
+            if (!$this->_cancelAction) {
                 if (null === $this->_classMethods) {
                     $this->_classMethods = get_class_methods($this);
                 }
@@ -90,7 +104,7 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
                         }
                         $this->$action();
                     } else {
-                        $this->__call($action, array());
+                        $this->__call($action, []);
                     }
                 }
                 $this->postDispatch();
@@ -109,33 +123,34 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      *  et on assigne a la vue les variables précédemments sauvegardés
      *
      */
-    public function preDispatch(){
+    public function preDispatch()
+    {
         /// Executée quoi qu'il arrive.
 
         // Il y a une config donc un cache possible
-        if($this->getConfig()){
-            if(
+        if ($this->getConfig()) {
+            if (
                 $this->hasOnlyIgnoredGets() && //pas d'autres get que ceux ignorés
                 $this->getRequest()->isDispatched() && //la requete n'a pas été modifiée par un pre_dispatch d'un helper d'action
                 !$this->getRequest()->isPost() && /// Pas de requete en POST
                 !$this->disabled
-            ){
+            ) {
                 $this->_cacheable = true; //for the postDispatch
 
-                $this->view->cacheObject = array(
+                $this->view->cacheObject = [
                     'lifetime' => $this->getConfig()->lifetime,
                     'id' => $this->getCacheId(),
                     'name' => $this->getCacheName()
-                );
+                ];
 
-                if( ($result = $this->cache_global->load($this->getCacheId())) !== false){
+                if (($result = $this->cache_global->load($this->getCacheId())) !== false) {
                     $this->getResponse()->setHeader('Za-Cache', 'HIT');
                     $this->setCancelAction(true);
                     /// Re-Assign the cached vars to the view
                     $this->view->assign($result);
                 }
 
-            }else{
+            } else {
                 $this->getResponse()->setHeader('Za-Cache', 'PASS');
             }
         }
@@ -147,10 +162,11 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      * Du coup on sauvegarde les variables de vue
      *
      */
-    public function postDispatch(){
-        if($this->_cacheable){
+    public function postDispatch()
+    {
+        if ($this->_cacheable) {
 
-            if(
+            if (
                 !$this->getResponse()->isRedirect() &&
                 $this->getRequest()->isDispatched()
             ) {
@@ -158,8 +174,8 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
                 $view_vars = $this->view->getVars();
                 unset($view_vars['cacheObject']);
 
-                $this->cache_global->save($view_vars, $this->getCacheId(), array($this->getCacheName()), $this->getConfig()->lifetime);
-            }else{
+                $this->cache_global->save($view_vars, $this->getCacheId(), [$this->getCacheName()], $this->getConfig()->lifetime);
+            } else {
                 $this->getResponse()->setHeader('Za-Cache', 'PASS');
             }
         }
@@ -171,15 +187,16 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      * @param Boolean $cacheName true for config name
      * @return String
      */
-    public function getCacheId() {
-        if($this->cacheId == null) {
-            $cacheId = $this->getCacheName().'_';
+    public function getCacheId()
+    {
+        if ($this->cacheId == null) {
+            $cacheId = $this->getCacheName() . '_';
 
-            $params = isset($this->getConfig()->params) ? $this->getConfig()->params : array(); /// Default
-            $_params = array();
-            foreach($params as $key) {
+            $params = isset($this->getConfig()->params) ? $this->getConfig()->params : []; /// Default
+            $_params = [];
+            foreach ($params as $key) {
                 $result = $this->getRequest()->getParam($key, '_undefined_');
-                $_params[] = $key.'_'.$result;
+                $_params[] = $key . '_' . $result;
             }
             $cacheId .= implode('_', $_params);
 
@@ -194,12 +211,13 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
      *
      * @return String
      */
-    public function getCacheName() {
-        if($this->cacheName == null) {
+    public function getCacheName()
+    {
+        if ($this->cacheName == null) {
             $module = $this->getRequest()->getModuleName();
             $controller = $this->getRequest()->getControllerName();
             $action = $this->getRequest()->getActionName();
-            $this->cacheName = sprintf("%s_%s_%s", $module, $controller,$action);
+            $this->cacheName = sprintf("%s_%s_%s", $module, $controller, $action);
             $this->cacheName = preg_replace('#[^a-zA-Z0-9_]#', '_', $this->cacheName);
         }
 
@@ -210,19 +228,20 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
     /**
      * @return boolean true si il y a d'autres get que ceux ignorés
      */
-    protected function hasOnlyIgnoredGets() {
-        if($this->getStatus == null) {
+    protected function hasOnlyIgnoredGets()
+    {
+        if ($this->getStatus == null) {
             $this->_gets = $_GET;
             /// Clean get_array;
             unset($this->_gets['from']); /// Always unset from (it's only for tracking)
             unset($this->_gets['t']); /// And t for tracking
             /// remove all utm_
-            foreach($this->_gets as $key => $value) {
-                if(preg_match('/^utm_/', $key)) {
+            foreach ($this->_gets as $key => $value) {
+                if (preg_match('/^utm_/', $key)) {
                     unset($this->_gets[$key]);
                 }
             }
-            $this->getStatus = (count($this->_gets)==0);
+            $this->getStatus = (count($this->_gets) == 0);
         }
         return $this->getStatus;
     }
@@ -242,7 +261,8 @@ class Siberian_Controller_Cache extends Zend_Controller_Action {
         return $string;
     }
 
-    public function disableCache(){
+    public function disableCache()
+    {
         $this->disabled = true;
     }
 }

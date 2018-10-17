@@ -5,18 +5,18 @@ class Booking_ApplicationController extends Application_Controller_Default {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "editpost" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
-            ),
-        ),
-        "delete" => array(
-            "tags" => array(
+            ],
+        ],
+        "delete" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
-            ),
-        )
-    );
+            ],
+        ]
+    ];
 
     public function editpostAction() {
 
@@ -62,13 +62,13 @@ class Booking_ApplicationController extends Application_Controller_Default {
                 $params["booking_id"] = $booking->getId();
                 $store->setData($params)->save();
 
-                $data = array(
+                $data = [
                     "success"           => true,
                     "success_message"   => __("Info successfully saved"),
                     "message_timeout"   => 2,
                     "message_button"    => 0,
                     "message_loader"    => 0
-                );
+                ];
 
                 if($isNew) {
                     $data["row_html"] = $this->getLayout()->addPartial("row_".$store->getId(), "admin_view_default", "booking/application/edit/row.phtml")
@@ -88,12 +88,12 @@ class Booking_ApplicationController extends Application_Controller_Default {
             }
 
         } catch(Exception $e) {
-            $data = array(
+            $data = [
                 "error"             => true,
                 "message"           => $e->getMessage(),
                 "message_button"    => true,
                 "message_loader"    => true
-            );
+            ];
         }
 
         $this->_sendJson($data);
@@ -111,17 +111,17 @@ class Booking_ApplicationController extends Application_Controller_Default {
                 ->delete();
 
             # Success
-            $data = array(
+            $data = [
                 "success" => true
-            );
+            ];
 
         } catch(Exception $e) {
-            $data = array(
+            $data = [
                 "error"             => true,
                 "message"           => $e->getMessage(),
                 "message_button"    => 1,
                 "message_loader"    => 1
-            );
+            ];
         }
 
         $this->_sendJson($data);

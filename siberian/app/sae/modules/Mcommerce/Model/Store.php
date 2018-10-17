@@ -9,7 +9,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
     protected $_payment_method_ids;
     protected $_printer;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Store';
         return $this;
@@ -121,7 +121,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
     public function getFullAddress($separator = '<br />') {
 
-        $address = array();
+        $address = [];
         if($this->getStreet()) $address[] = $this->getStreet($separator);
         if($this->getPostcode() AND $this->getCity()) $address[] = $this->getPostcode() . ' - ' . $this->getCity();
         if($this->getCountry()) $address[] = $this->getCountry();
@@ -137,7 +137,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
 
         if(!$this->_taxes) {
             $tax = new Mcommerce_Model_Tax();
-            $this->_taxes = $tax->findAll(array('mcommerce_id' => $this->getMcommerceId()));
+            $this->_taxes = $tax->findAll(['mcommerce_id' => $this->getMcommerceId()]);
 //            $this->_taxes = $tax->findByStore($this->getId());
         }
 
@@ -179,7 +179,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
     public function hasDeliveryMethod($id) {
 
         if (!$this->_delivery_method_ids) {
-            $this->_delivery_method_ids = array();
+            $this->_delivery_method_ids = [];
             foreach($this->getDeliveryMethods() as $method) {
                 $this->_delivery_method_ids[] = $method->getId();
             }
@@ -226,7 +226,7 @@ class Mcommerce_Model_Store extends Core_Model_Default {
     public function hasPaymentMethod($id) {
 
         if(!$this->_payment_method_ids) {
-            $this->_payment_method_ids = array();
+            $this->_payment_method_ids = [];
             foreach($this->getPaymentMethods() as $method) {
                 $this->_payment_method_ids[] = $method->getId();
             }

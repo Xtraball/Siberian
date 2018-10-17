@@ -17,19 +17,19 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
             ->setCurrentPromo($promo)
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
         $this->_sendHtml($html);
     }
 
     public function editpostAction() {
         if ($datas = $this->getRequest()->getPost()) {
-            $fields = array(
+            $fields = [
                 'label' => "Discount label is missing",
                 'code' => "Discount code is missing",
                 'type' => "Discount type is missing",
                 'discount' => "Discounted amount is missing",
-            );
-            $errors = array();
+            ];
+            $errors = [];
 
             try {
                 foreach ($fields as $field_name => $error_message) {
@@ -56,7 +56,7 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                 $isNew = true;
 
                 if ($datas['promo_id']) {
-                    $promo->find(array('promo_id' => $datas['promo_id'], 'mcommerce_id' => $mcommerce->getMcommerceId()));
+                    $promo->find(['promo_id' => $datas['promo_id'], 'mcommerce_id' => $mcommerce->getMcommerceId()]);
                     if (!$promo->getId()) {
                         $errors[] = $this->_("Promo not found");
                     } else {
@@ -88,14 +88,14 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                     ->save();
 
 
-                $html = array(
+                $html = [
                     'promo_id' => $promo->getPromoId(),
                     'success' => '1',
                     'success_message' => $this->_('Discount successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
                 if ($isNew) {
                     $html['row_html'] = $this->getLayout()->addPartial('row_promo_' . $promo->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/discount/li.phtml')
@@ -108,12 +108,12 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                 }
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
             $this->_sendHtml($html);
         }
@@ -128,7 +128,7 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
             if ($id = $this->getRequest()->getParam('promo_id')) {
 
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
-                $promo->find(array('promo_id' => $id, 'mcommerce_id' => $mcommerce->getMcommerceId()));
+                $promo->find(['promo_id' => $id, 'mcommerce_id' => $mcommerce->getMcommerceId()]);
 
                 if (!$promo->getId()) {
                     throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -137,25 +137,25 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
 
                 $promo->setIsDeleted(1)->save();
 
-                $html = array(
+                $html = [
                     'promo_id' => $promo_id,
                     'success' => '1',
                     'success_message' => $this->_('Promo successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             } else {
                 throw new Exception($this->_('An error occurred during the process. Please try again later.'));
             }
         } catch (Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);

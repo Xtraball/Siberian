@@ -1,33 +1,60 @@
-<sb-section title="'<?php echo addslashes($this->_("List of existing previews")); ?>'" button="button">
+<sb-section title="'<?php echo addslashes(__("List of existing previews")); ?>'" 
+            button="button">
     <br />
     <div class="form-group">
-        <label for="filter"><?php echo $this->_("Search"); ?></label>
-        <input type="text" id="filter" class="form-control" ng-model="filter" placeholder="<?php echo $this->_("Search"); ?>" />
+        <label for="filter"><?php echo __("Search"); ?></label>
+        <input type="text" 
+               id="filter" 
+               class="form-control" 
+               ng-model="filter" 
+               placeholder="<?php echo __("Search"); ?>" />
     </div>
     <br />
     <table class="table">
         <col width="5%" />
-        <col width="87%" />
-        <col width="8%" />
+        <col width="75%" />
+        <col width="20%" />
         <thead>
         <tr>
-            <th class="pointer" ng-click="order = 'id'; by = !by"><?php echo $this->_("Id"); ?></th>
-            <th class="pointer" ng-click="order = 'feature_name'; by = !by"><?php echo $this->_("Feature"); ?></th>
-            <th><?php echo $this->_("Actions"); ?></th>
+            <th class="pointer" 
+                ng-click="order = 'id'; by = !by"><?php echo __("Id"); ?></th>
+            <th class="pointer" 
+                ng-click="order = 'feature_name'; by = !by"><?php echo __("Feature"); ?></th>
+            <th><?php echo __("Actions"); ?></th>
         </tr>
         </thead>
         <tbody>
-        <tr class="slide-left" ng-repeat="preview in previews | filter:filter | orderBy:order:by">
+        <tr class="slide-left"
+            ng-repeat="preview in previews | filter:filter | orderBy:order:by">
             <td>{{ preview.id }}</td>
             <td>{{ preview.feature_name }}</td>
-            <td>
-                <a href="<?php echo $this->getUrl("preview/backoffice_edit"); ?>/preview_id/{{ preview.id }}" title="<?php echo $this->_("Edit"); ?>"><i class="fa fa-edit"></i></a>
-                <a href="#" ng-click="deletePreview(preview.id)" title="<?php echo $this->_("Delete"); ?>"><i class="fa fa-remove"></i></a>
+            <td class="text-right">
+                <a href="<?php echo $this->getUrl("preview/backoffice_edit"); ?>/preview_id/{{ preview.id }}"
+                   class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
+                <a href="javascript:void(0);"
+                   ng-click="deletePreview(preview.id)"
+                   class="btn btn-sm btn-danger"><?php echo __('DELETE') ?></a>
             </td>
         </tr>
         <tr ng-show="!previews.length">
-            <td colspan="5" class="a-center"><?php echo $this->_("You don't have any previews yet"); ?></td>
+            <td colspan="5"
+                class="a-center"><?php echo __("You don't have any previews yet"); ?></td>
         </tr>
         </tbody>
     </table>
 </sb-section>
+
+<style type="text/css">
+    .btn-sm {
+        padding: 1px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        font-weight: bold;
+        border: 0 !important;
+    }
+
+    a.btn-sm,
+    a.btn-sm:hover {
+        text-decoration: none !important;
+    }
+</style>

@@ -3,7 +3,7 @@
 $application = $this->getApplication();
 $value = $this->getOptionValue();
 $comment = new Comment_Model_Comment();
-$comments = $comment->findAll(array('value_id' => $value->getId()), 'comment_id DESC');
+$comments = $comment->findAll(['value_id' => $value->getId()], 'comment_id DESC');
 $appKey = $application->getGooglemapsKey();
 
 ?>

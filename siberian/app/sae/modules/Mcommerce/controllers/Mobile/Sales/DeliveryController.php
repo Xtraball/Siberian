@@ -64,13 +64,13 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
                 $delivery_tax = $store->getTax($method->getTaxId());
                 $delivery_tax_rate = $delivery_tax->getRate();
 
-                $data_cart = array(
+                $data_cart = [
                     "store_id" => $datas['store_id'],
                     "paid_amount" => $datas['paid_amount'] ? $datas['paid_amount'] : null,
                     "delivery_cost" => $method->getPrice(),
                     "delivery_tax_rate" => $delivery_tax_rate,
                     "tip" => $this->getCart()->getTip() // To avoid loss of tip
-                );
+                ];
 
                 $this->getCart()
                     ->setData($data_cart)
@@ -78,17 +78,17 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
                     ->save()
                 ;
 
-                $html = array(
+                $html = [
                     'store_id' => $this->getCart()->getStoreId(),
                     'delivery_method_id' => $this->getCart()->getDeliveryMethodId(),
                     'cartId' => $this->getCart()->getId()
-                );
+                ];
             }
             catch(Exception $e ) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);

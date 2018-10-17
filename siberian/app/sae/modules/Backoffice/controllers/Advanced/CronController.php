@@ -29,7 +29,10 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
     public function loadAction()
     {
         $payload = [
-            'title' => __('Advanced') . ' > ' . __('Cron'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Advanced'),
+                __('Cron')),
             'icon' => 'fa-clock-o',
         ];
 

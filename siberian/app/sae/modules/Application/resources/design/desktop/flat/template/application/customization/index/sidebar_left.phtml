@@ -6,7 +6,8 @@
 <?php if($this->getApplication()) : ?>
 <!-- Sidebar -->
 <div id="left-sidebar-wrapper" class="bkg-sidebar-left sb-tour">
-    <ul class="sidebar-nav">
+    <ul class="sidebar-nav"
+        style="padding-bottom: 40px;">
         <li id="sb-tour-app-name" class="sidebar-brand sb-tour">
             <img id="header_app_icon" src="<?php echo $this->getApplication()->getIcon(); ?>" class="icon"/>
             <span id="header_app_name"><?php echo $this->getApplication()->getShortName(); ?></span>

@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "51964b4654706def3c3e395641f95e70",
+    "content-hash": "27f6d3710fdf4a03a156d1d037aa241c",
     "packages": [
+        {
+            "name": "2checkout/2checkout-php",
+            "version": "0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2Checkout/2checkout-php.git",
+                "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2Checkout/2checkout-php/zipball/cbac8da68155b6f557db0da0ac16a48a0faa5400",
+                "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Twocheckout": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Craig Christenson",
+                    "email": "christensoncraig@gmail.com",
+                    "homepage": "https://github.com/craigchristenson"
+                }
+            ],
+            "description": "2Checkout PHP Library",
+            "homepage": "https://github.com/2Checkout/2checkout-php",
+            "keywords": [
+                "2checkout",
+                "2co",
+                "gateway",
+                "payment"
+            ],
+            "time": "2016-01-29T14:28:52+00:00"
+        },
         {
             "name": "bacon/bacon-qr-code",
             "version": "1.0.1",
@@ -229,6 +278,53 @@
             ],
             "abandoned": "endroid/qr-code",
             "time": "2017-09-08T14:58:28+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "d85d39da4576a6934b72480be6978fb10c860021"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
+                "reference": "d85d39da4576a6934b72480be6978fb10c860021",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "simpletest/simpletest": "^1.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "time": "2018-02-23T01:58:20+00:00"
         },
         {
             "name": "fabpot/goutte",
@@ -1329,6 +1425,158 @@
                 "phulpplugin"
             ],
             "time": "2016-11-21T19:06:50+00:00"
+        },
+        {
+            "name": "romeoz/rock-base",
+            "version": "0.12.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romeOz/rock-base.git",
+                "reference": "ae1f0c5a835870ea355080d715873ed8233de312"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romeOz/rock-base/zipball/ae1f0c5a835870ea355080d715873ed8233de312",
+                "reference": "ae1f0c5a835870ea355080d715873ed8233de312",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "romeoz/rock-helpers": "0.12.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rock\\base\\": "src/"
+                },
+                "files": [
+                    "src/polyfills.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruslan",
+                    "email": "serggalka@gmail.com"
+                }
+            ],
+            "description": "Base module for Rock Framework",
+            "keywords": [
+                "common",
+                "framerock",
+                "rock framework"
+            ],
+            "time": "2015-11-06T02:04:27+00:00"
+        },
+        {
+            "name": "romeoz/rock-helpers",
+            "version": "0.12.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romeOz/rock-helpers.git",
+                "reference": "ef14475dbf033a4a719ac24cb2b5586c703165fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romeOz/rock-helpers/zipball/ef14475dbf033a4a719ac24cb2b5586c703165fc",
+                "reference": "ef14475dbf033a4a719ac24cb2b5586c703165fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "romeoz/rock-base": "0.12.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rock\\helpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruslan",
+                    "email": "serggalka@gmail.com"
+                }
+            ],
+            "description": "Helpers for Rock Framework",
+            "keywords": [
+                "helpers",
+                "utils"
+            ],
+            "time": "2015-11-06T21:18:26+00:00"
+        },
+        {
+            "name": "romeoz/rock-sanitize",
+            "version": "0.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/romeOz/rock-sanitize.git",
+                "reference": "fdcb5abefba5e4bce0698dcccea53b8a165dbc52"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/romeOz/rock-sanitize/zipball/fdcb5abefba5e4bce0698dcccea53b8a165dbc52",
+                "reference": "fdcb5abefba5e4bce0698dcccea53b8a165dbc52",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "romeoz/rock-base": "0.12.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "rock\\sanitize\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ruslan",
+                    "email": "serggalka@gmail.com"
+                }
+            ],
+            "description": "Flexible sanitizator for PHP.",
+            "keywords": [
+                "sanitization",
+                "sanitizator",
+                "sanitize"
+            ],
+            "time": "2015-11-07T05:01:22+00:00"
         },
         {
             "name": "stefangabos/zebra_image",

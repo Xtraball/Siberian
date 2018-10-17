@@ -38,7 +38,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     public function loadAction()
     {
         $data = [
-            'title' => __('Advanced') . ' > ' . __('Configuration'),
+            'title' => sprintf('%s > %s > %s',
+                __('Settings'),
+                __('Advanced'),
+                __('Configuration')),
             'icon' => 'fa-toggle-on',
         ];
 

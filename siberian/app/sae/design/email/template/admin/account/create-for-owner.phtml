@@ -1,0 +1,40 @@
+<?php
+$admin = $this->getAdmin();
+$isValidation = __get('signup_mode') === 'validation';
+
+// Hello, a new user has registered on your platform : %s.
+?>
+
+<p>
+    <?php echo __('A new user just registered!'); ?>
+</p>
+<p style="text-align: justify;">
+    <?php echo __('User %s just signed-up on the platform.', $admin->getEmail()); ?>
+</p>
+<?php if ($isValidation): ?>
+<table border="0"
+       cellpadding="0"
+       cellspacing="0"
+       class="btn btn-primary">
+    <tbody>
+    <tr>
+        <td align="left">
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0">
+                <tbody>
+                <tr>
+                    <td>
+                        <a href="<?php echo $this->getUrl('admin/backoffice_list'); ?>"
+                           target="_blank">
+                            <?php echo __('Activate the user') ?>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<?php endif; ?>

@@ -37,29 +37,29 @@ class Mcommerce_Model_Order extends Core_Model_Default {
      *
      * @var array
      */
-    protected static $_statuses = array(
+    protected static $_statuses = [
         -1 => 'Cancelled',
         1 => 'Waiting for payment',
         2 => 'Paid',
         3 => 'Done',
-    );
+    ];
 
     const CANCEL_STATUS = -1;
     const DEFAULT_STATUS = 1;
     const PAID_STATUS = 2;
     const DONE_STATUS = 3;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Order';
         return $this;
     }
 
     public function findAllByCustomerId($customer_id, $mcommerce_id, $offset = 0) {
-        $orders = $this->findAll(array("customer_id" => $customer_id, "mcommerce_id" => $mcommerce_id), array("created_at DESC"), array("limit" => "10", "offset" => $offset));
-        $data = array();
+        $orders = $this->findAll(["customer_id" => $customer_id, "mcommerce_id" => $mcommerce_id], ["created_at DESC"], ["limit" => "10", "offset" => $offset]);
+        $data = [];
         foreach($orders as $order) {
-            $data[] = array(
+            $data[] = [
                 "order_id" => $order->getOrderId(),
                 "number" => $order->getNumber(),
                 "payment_method" => $order->getPaymentMethod(),
@@ -67,7 +67,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
                 "status" => $order->getStatusId(),
                 "status_label" => __(self::$_statuses[$order->getStatusId()]),
                 "date" => $order->getCreatedAt(),
-            );
+            ];
         }
 
         return $data;
@@ -92,7 +92,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             $this->setPaymentMethod($payment_method->getName());
         }
 
-        $toUnset = array('line_id', 'cart_id');
+        $toUnset = ['line_id', 'cart_id'];
         $toUnset = array_combine($toUnset, $toUnset);
 
         foreach ($cart->getLines() as $cart_line) {
@@ -129,12 +129,12 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
     public static function getStatuses() {
 
-        $statuses = array();
+        $statuses = [];
         foreach(self::$_statuses as $key => $status) {
-            $statuses[] = new Core_Model_Default(array(
+            $statuses[] = new Core_Model_Default([
                 'id' => $key,
                 'label' => parent::_($status)
-            ));
+            ]);
         }
 
         return $statuses;
@@ -145,7 +145,7 @@ class Mcommerce_Model_Order extends Core_Model_Default {
     }
 
     public function setNumber() {
-        $last_order = $this->findAll(array('mcommerce_id' => $this->getMcommerceId(), 'store_id' => $this->getStoreId()), 'order_id DESC', array('limit' => 1))->current();
+        $last_order = $this->findAll(['mcommerce_id' => $this->getMcommerceId(), 'store_id' => $this->getStoreId()], 'order_id DESC', ['limit' => 1])->current();
         $last_number = 0;
 
         if($last_order AND $last_order->getId()) {

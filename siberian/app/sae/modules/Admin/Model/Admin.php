@@ -10,6 +10,7 @@ class Admin_Model_Admin extends Admin_Model_Admin_Abstract
 
     /**
      * @return Admin_Model_Admin[]
+     * @throws Zend_Exception
      */
     public function getSubaccounts()
     {

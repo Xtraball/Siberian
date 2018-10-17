@@ -5,44 +5,44 @@ class Comment_ApplicationController extends Application_Controller_Default {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "editpost" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "updatepost" => array(
-            "tags" => array(
+            ],
+        ],
+        "updatepost" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "delete" => array(
-            "tags" => array(
+            ],
+        ],
+        "delete" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "hide" => array(
-            "tags" => array(
+            ],
+        ],
+        "hide" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "show" => array(
-            "tags" => array(
+            ],
+        ],
+        "show" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-        "saveradius" => array(
-            "tags" => array(
+            ],
+        ],
+        "saveradius" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function editpostAction() {
         $html = '';
@@ -74,20 +74,20 @@ class Comment_ApplicationController extends Application_Controller_Default {
                             ->save()
                     ;
 
-                    $html = array(
+                    $html = [
                         'success' => '1',
                         'success_message' => __('Information successfully saved'),
                         'image' => $image,
                         'message_timeout' => 2,
                         'message_button' => 0,
                         'message_loader' => 0
-                    );
+                    ];
                 }
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($html);
@@ -126,22 +126,22 @@ class Comment_ApplicationController extends Application_Controller_Default {
                             ->save()
                     ;
 
-                    $url = array('comment/admin/edit');
+                    $url = ['comment/admin/edit'];
 
-                    $html = array(
+                    $html = [
                         'success' => '1',
                         'success_message' => __('Information successfully saved'),
                         'image' => $image,
                         'message_timeout' => 2,
                         'message_button' => 0,
                         'message_loader' => 0
-                    );
+                    ];
                 }
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -154,18 +154,18 @@ class Comment_ApplicationController extends Application_Controller_Default {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->delete();
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => __('Information successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($html));
         }
@@ -177,18 +177,18 @@ class Comment_ApplicationController extends Application_Controller_Default {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->setisVisible(0)->save();
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => __('Information successfully hidden'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($html));
         }
@@ -200,18 +200,18 @@ class Comment_ApplicationController extends Application_Controller_Default {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->setisVisible(1)->save();
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => __('Information successfully shown'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($html));
         }
@@ -222,18 +222,18 @@ class Comment_ApplicationController extends Application_Controller_Default {
             try {
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($data);
-                $data = array(
+                $data = [
                     'success' => 1,
                     'file' => $file,
                     'message_success' => __("Image successfully saved"),
                     'message_button' => 0,
                     'message_timeout' => 2,
-                );
+                ];
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($data));
         }
@@ -273,18 +273,18 @@ class Comment_ApplicationController extends Application_Controller_Default {
                         ->save()
                 ;
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'success_message' => __('Information successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));

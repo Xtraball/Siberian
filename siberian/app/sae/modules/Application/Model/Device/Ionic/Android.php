@@ -166,6 +166,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_preparePathsVars();
         $this->_prepareRequest();
         $this->_cpFolder();
+        $this->_cleanAssets();
 
         // Shared method!
         $this->ionicResources($this->app);
@@ -353,6 +354,33 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         /** Needed for build permissions etc ... */
         exec("chmod -R 777 {$this->_dest_source}");
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function _cleanAssets()
+    {
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/css'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/controllers'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/directives'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/factory'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/features'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/filters'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/libraries'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/providers'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/js/services'");
+        exec("rm -f '{$this->_dest_source}/app/src/main/assets/www/js/MusicControls.js'");
+        exec("rm -f '{$this->_dest_source}/app/src/main/assets/www/js/app.js'");
+        exec("rm -f '{$this->_dest_source}/app/src/main/assets/www/js/utils/features.js'");
+        exec("rm -f '{$this->_dest_source}/app/src/main/assets/www/js/utils/form-post.js'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/lib/ionic/css'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/lib/ionic/js'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/lib/ionic/scss'");
+        exec("rm -f '{$this->_dest_source}/app/src/main/assets/www/lib/ionic/version.json'");
+        exec("rm -Rf '{$this->_dest_source}/app/src/main/assets/www/templates'");
 
         return $this;
     }

@@ -80,7 +80,7 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
                     ->save()
                 ;
 
-                $html = array(
+                $html = [
                     'is_new' => (int) $isNew,
                     'is_deleted' => (int) $category->getIsDeleted(),
                     'category_id' => $category->getId(),
@@ -90,7 +90,7 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
                 if($isNew) {
                     $html['row_html'] = $this->getLayout()->addPartial('child_'.$category->getId(), 'admin_view_default', 'mcommerce/application/edit/catalog/categories/list.phtml')
@@ -101,12 +101,12 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
 
             }
             catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -186,18 +186,18 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
 
                 $category->delete();
 
-                $html = array(
+                $html = [
                     'success' => 1,
                     'category_id' => $datas['category_id']
-                );
+                ];
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -213,21 +213,21 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
 
         if($datas = $this->getRequest()->getPost()) {
             try {
-                $html = array();
+                $html = [];
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $html = array(
+                $html = [
                     'success' => 1,
                     'file' => $file,
                     'message_success' => 'Enregistrement réussi',
                     'message_button' => 0,
                     'message_timeout' => 2,
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);

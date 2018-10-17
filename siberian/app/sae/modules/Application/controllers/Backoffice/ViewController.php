@@ -23,7 +23,10 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     public function loadAction()
     {
         $payload = [
-            "title" => __("Application"),
+            'title' => sprintf('%s > %s',
+                __('Manage'),
+                __('Application')
+            ),
             "icon" => "fa-mobile",
             "ionic_message" => __("If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken.")
         ];

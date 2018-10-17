@@ -7,7 +7,7 @@ class Mcommerce_Model_Db_Table_Mcommerce extends Core_Model_Db_Table {
 
     public function getAppIdByMcommerceId() {
         $select = $this->select()
-            ->from($this->_name, array('mcommerce_id'))
+            ->from($this->_name, ['mcommerce_id'])
             ->joinLeft('application_option_value',$this->_name.'.value_id = application_option_value.value_id','app_id')
             ->setIntegrityCheck(false);
         return $this->_db->fetchAssoc($select);

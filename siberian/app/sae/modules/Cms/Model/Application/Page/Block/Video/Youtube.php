@@ -4,12 +4,12 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
 
     private $_videos;
     private $_link;
-    protected $_flux = array(
+    protected $_flux = [
         'search' => 'https://www.googleapis.com/youtube/v3/search/?q=%s1&type=search&part=snippet&key=%s2&maxResults=%d2',
         'video_id' => 'https://www.googleapis.com/youtube/v3/videos?id=%s1&key=%s2&part=snippet'
-    );
+    ];
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Video_Youtube';
         return $this;
@@ -27,7 +27,7 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
      * @param array $data
      * @return $this
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
 
         $this
             ->setSearch($data["youtube_search"])
@@ -55,7 +55,7 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
 
         if(!$this->_videos) {
 
-            $this->_videos = array();
+            $this->_videos = [];
 
             try {
                 $video_id = $search;
@@ -73,12 +73,12 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
                 try { 
                     $datas = Zend_Json::decode($datas); 
                 } catch(Exception $e) { 
-                    $datas = array(); 
+                    $datas = []; 
                 }
 
                 if($datas AND !empty($datas['pageInfo']['totalResults'])) {
                     
-                    $feed = array();
+                    $feed = [];
 
                     foreach($datas['items'] as $item) {
 
@@ -88,12 +88,12 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
 
                         if(is_null($video_id)) continue;
                         
-                        $feed[] = new Core_Model_Default(array(
+                        $feed[] = new Core_Model_Default([
                             'title' => !empty($item['snippet']['title']) ? $item['snippet']['title'] : null,
                             'content' => !empty($item['snippet']['description']) ? $item['snippet']['description'] : null,
                             'link'  => "https://www.youtube.com/watch?v={$video_id}",
                             'image' => "https://img.youtube.com/vi/{$video_id}/0.jpg"
-                        ));
+                        ]);
                     }
 
                 }
@@ -102,20 +102,20 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
                 }
 
             } catch(Exception $e) {
-                $feed = array();
+                $feed = [];
             }
 
             foreach ($feed as $entry) {
                 $params = Zend_Uri::factory($entry->getLink())->getQueryAsArray();
                 if(empty($params['v'])) continue;
 
-                $video = new Core_Model_Default(array(
+                $video = new Core_Model_Default([
                     'id'           => $params['v'],
                     'title'        => $entry->getTitle(),
                     'description'  => $entry->getContent(),
                     'link'         => "https://www.youtube.com/embed/{$params['v']}",
                     'image'        => "https://img.youtube.com/vi/{$params['v']}/0.jpg"
-                ));
+                ]);
 
                 $this->_videos[] = $video;
             }

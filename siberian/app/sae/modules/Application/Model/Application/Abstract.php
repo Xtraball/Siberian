@@ -9,8 +9,8 @@
  * @method string getFlickrKey()
  * @method string getFlickrSecret()
  * @method string getDesignCode()
- * @method string getName()
  * @method $this setIsActive(boolean $isActive)
+ * @method $this setLayoutVisibility(boolean $visibility)
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
@@ -53,6 +53,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     protected $_design_blocks;
     protected $_admin_ids = [];
 
+    /**
+     * Application_Model_Application_Abstract constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
@@ -145,6 +150,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array|mixed|null|string
+     * @throws \Siberian\Exception
      */
     public function getPrivacyPolicy()
     {
@@ -158,29 +164,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getData("privacy_policy");
     }
 
+    /**
+     * @return $this
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
+     */
     public function save()
     {
 
         if (!$this->getId()) {
 
             // Check if values are valid!
-            $applicationName = trim($this->getData('name'));
+            $applicationName = $this->getName();
             if (empty($applicationName)) {
-                throw new Siberian_Exception(__('Name is required to save the Application.'));
+                throw new \Siberian\Exception(__('Name is required to save the Application.'));
             }
 
             // Force trim name on save.
-            $this->setName(trim($this->getData('name')));
+            $this->setName($this->getName());
 
             if (!Siberian_Version::is('sae')) {
                 $adminId = trim($this->getData('admin_id'));
                 if (empty($adminId) || ($adminId === 0) || ($adminId === '0')) {
-                    throw new Siberian_Exception(__('AdminId is required to save the Application.'));
+                    throw new \Siberian\Exception(__('AdminId is required to save the Application.'));
                 }
             }
 
-            $this->setKey(uniqid())
-                ->setDesignCode(self::DESIGN_CODE_IONIC);
+            $this->setKey(uniqid());
+
+            // Check bundle/package
+            $this->getBundleId();
+            $this->getPackageName();
+
+            $this->setDesignCode(self::DESIGN_CODE_IONIC);
+
             if (!$this->getLayoutId()) {
                 $this->setLayoutId(1);
             }
@@ -198,9 +216,280 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $name
+     * @return $this
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setName($name)
+    {
+        $name = \rock\sanitize\Sanitize::removeTags()->sanitize(trim($name));
+
+        if (is_numeric(substr($name, 0, 1))) {
+            throw new \Siberian\Exception("The application's name cannot start with a number");
+        }
+
+        if (strlen($name) < 6) {
+            throw new \Siberian\Exception("The application's name must be at least 6 characters long.");
+        }
+
+        return $this->setData('name', $name);
+    }
+
+    /**
+     * @return mixed
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function getName()
+    {
+        return \rock\sanitize\Sanitize::removeTags()->sanitize(trim($this->getData('name')));
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws \Siberian\Exception
+     */
+    public function setDescription(string $description)
+    {
+        if (strlen($description) < 200) {
+            throw new \Siberian\Exception('The description must be at least 200 characters');
+        }
+
+        $description = \rock\sanitize\Sanitize::removeTags()->sanitize($description);
+
+        return $this->setData('description', $description);
+    }
+
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getDescription()
+    {
+        return $this->getData('description');
+    }
+
+    /**
+     * @param string $keywords
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setKeywords(string $keywords)
+    {
+        $keywords = \rock\sanitize\Sanitize::removeTags()->sanitize($keywords);
+
+        return $this->setData('keywords', $keywords);
+    }
+
+    /**
+     * @param $mainCategoryId
+     * @return $this
+     */
+    public function setMainCategoryId($mainCategoryId)
+    {
+        return $this->setData('main_category_id', $mainCategoryId);
+    }
+
+    /**
+     * @param $secondaryCategoryId
+     * @return $this
+     */
+    public function setSecondaryCategoryId($secondaryCategoryId)
+    {
+        return $this->setData('secondary_category_id', $secondaryCategoryId);
+    }
+
+    /**
+     * @param string $bundleId
+     * @return $this
+     * @throws Exception
+     * @throws \Siberian\Exception
+     */
+    public function setBundleId(string $bundleId)
+    {
+        $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
+
+        if (preg_match($regexIos, $bundleId)) {
+            $this->setData('bundle_id', $bundleId)->save();
+        } else {
+            throw new \Siberian\Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $packageName
+     * @return $this
+     * @throws Exception
+     * @throws \Siberian\Exception
+     */
+    public function setPackageName(string $packageName)
+    {
+        $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
+
+        if (preg_match($regexAndroid, $packageName)) {
+            $this->setData('package_name', $this->validatePackageName($packageName))->save();
+        } else {
+            throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $privacyPolicy
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setPrivacyPolicy(string $privacyPolicy)
+    {
+        $_filtered = \Siberian\Xss::sanitize($privacyPolicy);
+
+        return $this->setData('privacy_policy', $_filtered);
+    }
+
+    /**
+     * @param string $id
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFacebookId(string $id)
+    {
+        $_filtered = \Siberian\Xss::sanitize($id);
+
+        return $this->setData('facebook_id', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFacebookKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('facebook_key', $_filtered);
+    }
+
+    /**
+     * @param string $consumerKey
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterConsumerKey(string $consumerKey)
+    {
+        $_filtered = \Siberian\Xss::sanitize($consumerKey);
+
+        return $this->setData('twitter_consumer_key', $_filtered);
+    }
+
+    /**
+     * @param string $consumerSecret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterConsumerSecret(string  $consumerSecret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($consumerSecret);
+
+        return $this->setData('twitter_consumer_secret', $_filtered);
+    }
+
+    /**
+     * @param string $apiToken
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterApiToken(string $apiToken)
+    {
+        $_filtered = \Siberian\Xss::sanitize($apiToken);
+
+        return $this->setData('twitter_api_token', $_filtered);
+    }
+
+    /**
+     * @param string $apiSecret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setTwitterApiSecret(string $apiSecret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($apiSecret);
+
+        return $this->setData('twitter_api_secret', $_filtered);
+    }
+
+    /**
+     * @param string $clientId
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setInstagramClientId(string $clientId)
+    {
+        $_filtered = \Siberian\Xss::sanitize($clientId);
+
+        return $this->setData('instagram_client_id', $_filtered);
+    }
+
+    /**
+     * @param string $token
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setInstagramToken(string $token)
+    {
+        $_filtered = \Siberian\Xss::sanitize($token);
+
+        return $this->setData('instagram_token', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFlickrKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('flickr_key', $_filtered);
+    }
+
+    /**
+     * @param string $secret
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setFlickrSecret(string $secret)
+    {
+        $_filtered = \Siberian\Xss::sanitize($secret);
+
+        return $this->setData('flickr_secret', $_filtered);
+    }
+
+    /**
+     * @param string $key
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setGooglemapsKey(string $key)
+    {
+        $_filtered = \Siberian\Xss::sanitize($key);
+
+        return $this->setData('googlemaps_key', $_filtered);
+    }
+
+
+
+/**
+     * @param $admin
+     * @return $this
+     */
     public function addAdmin($admin)
     {
-
         if ($this->getId()) {
             $is_allowed_to_add_pages = $admin->hasIsAllowedToAddPages() ? $admin->getIsAllowedToAddPages() : true;
             $this->getTable()->addAdmin($this->getId(), $admin->getId(), $is_allowed_to_add_pages);
@@ -211,7 +500,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         return $this;
-
     }
 
     public function removeAdmin($admin)
@@ -322,9 +610,76 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $design
+     * @param null $category
+     * @return $this
+     * @throws Exception
+     */
     public function setDesign($design, $category = null)
     {
+        if ($design->getVersion() == 2) {
+            $this->setSplashVersion(2);
+            $this->setDesignUnified($design, $category);
+        } else {
+            $image_name = uniqid() . '.png';
+            $relative_path = '/homepage_image/bg/';
+            $lowres_relative_path = '/homepage_image/bg_lowres/';
 
+            if (!is_dir(self::getBaseImagePath() . $lowres_relative_path)) {
+                mkdir(self::getBaseImagePath() . $lowres_relative_path, 0777, true);
+            }
+
+            if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
+                throw new Exception(__('#101: An error occurred while saving'));
+            }
+
+            if (!is_dir(self::getBaseImagePath() . $relative_path)) {
+                mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
+            }
+            if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
+                throw new Exception(__('#102: An error occurred while saving'));
+            }
+
+            foreach ($design->getBlocks() as $block) {
+                $block->setAppId($this->getId())->save();
+            }
+
+            $this->setDesignId($design->getId())
+                ->setLayoutId($design->getLayoutId())
+                ->setLayoutVisibility($design->getLayoutVisibility())
+                ->setOverView($design->getOverview())
+                ->setBackgroundImage($design->getBackgroundImage())
+                ->setBackgroundImageHd($design->getBackgroundImageHd())
+                ->setBackgroundImageTablet($design->getBackgroundImageTablet())
+                ->setBackgroundImageLandscape($design->getBackgroundImageLandscape())
+                ->setBackgroundImageLandscapeHd($design->getBackgroundImageLandscapeHd())
+                ->setBackgroundImageLandscapeTablet($design->getBackgroundImageLandscapeTablet())
+                ->setIcon($design->getIcon())
+                ->setStartupImage($design->getStartupImage())
+                ->setStartupImageRetina($design->getStartupImageRetina())
+                ->setStartupImageIphone6($design->getStartupImageIphone6())
+                ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
+                ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
+                ->setStartupImageIphoneX($design->getStartupImageIphoneX())
+                ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
+                ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
+
+            if (!$this->getOptionIds() AND $category->getId()) {
+                $this->createDummyContents($category, null, $category);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Template_Model_Design $design
+     * @param null $category
+     * @throws Exception
+     */
+    public function setDesignUnified($design, $category = null)
+    {
         $image_name = uniqid() . '.png';
         $relative_path = '/homepage_image/bg/';
         $lowres_relative_path = '/homepage_image/bg_lowres/';
@@ -333,47 +688,30 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             mkdir(self::getBaseImagePath() . $lowres_relative_path, 0777, true);
         }
 
-        if (!copy($design->getBackgroundImage(true), self::getBaseImagePath() . $lowres_relative_path . $image_name)) {
-            throw new Exception(__('#101: An error occurred while saving'));
-        }
-
         if (!is_dir(self::getBaseImagePath() . $relative_path)) {
             mkdir(self::getBaseImagePath() . $relative_path, 0777, true);
         }
-        if (!copy($design->getBackgroundImageHd(true), self::getBaseImagePath() . $relative_path . $image_name)) {
-            throw new Exception(__('#102: An error occurred while saving'));
-        }
 
         foreach ($design->getBlocks() as $block) {
-            $block->setAppId($this->getId())->save();
+            $block
+                ->setAppId($this->getId())
+                ->save();
         }
 
-        $this->setDesignId($design->getId())
+        // Here we duplicate the icon to preserve it!
+
+        $this
+            ->setDesignId($design->getId())
             ->setLayoutId($design->getLayoutId())
             ->setLayoutVisibility($design->getLayoutVisibility())
             ->setOverView($design->getOverview())
-            ->setBackgroundImage($design->getBackgroundImage())
-            ->setBackgroundImageHd($design->getBackgroundImageHd())
-            ->setBackgroundImageTablet($design->getBackgroundImageTablet())
-            ->setBackgroundImageLandscape($design->getBackgroundImageLandscape())
-            ->setBackgroundImageLandscapeHd($design->getBackgroundImageLandscapeHd())
-            ->setBackgroundImageLandscapeTablet($design->getBackgroundImageLandscapeTablet())
+            ->setBackgroundImageUnified($design->getBackgroundImageUnified())
             ->setIcon($design->getIcon())
-            ->setStartupImage($design->getStartupImage())
-            ->setStartupImageRetina($design->getStartupImageRetina())
-            ->setStartupImageIphone6($design->getStartupImageIphone6())
-            ->setStartupImageIphone6Plus($design->getStartupImageIphone6Plus())
-            ->setStartupImageIpadRetina($design->getStartupImageIpadRetina())
-            ->setStartupImageIphoneX($design->getStartupImageIphoneX())
-            ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
-            ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
+            ->setStartupImageUnified($design->getStartupImageUnified());
 
-        if (!$this->getOptionIds() AND $category->getId()) {
+        if (!$this->getOptionIds() && $category->getId()) {
             $this->createDummyContents($category, null, $category);
         }
-
-        return $this;
-
     }
 
     public function getRealLayoutVisibility()
@@ -390,9 +728,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
     }
 
+    /**
+     * @param $category
+     * @param null $design
+     * @param null $_category
+     * @throws Exception
+     */
     public function createDummyContents($category, $design = null, $_category = null)
     {
-
         $design = is_null($design) ? $this->getDesign() : $design;
         $design_content = new Template_Model_Design_Content();
         $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
@@ -402,16 +745,19 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $option = new Application_Model_Option();
             $option->find($content->getOptionId());
 
-            if (!$option->getId()) continue;
+            if (!$option->getId()) {
+                continue;
+            }
 
-            $option_value->setOptionId($content->getOptionId())
+            $option_value
+                ->setOptionId($content->getOptionId())
                 ->setAppId($this->getApplication()->getId())
                 ->setTabbarName($content->getOptionTabbarName())
                 ->setIconId($content->getOptionIcon())
                 ->setBackgroundImage($content->getOptionBackgroundImage())
                 ->save();
 
-            if ($option->getModel() && $option->getCode() != "push_notification") {
+            if ($option->getModel() && $option->getCode() !== 'push_notification') {
                 $category = ($_category != null) ? $_category : $category;
                 $option->getObject()->createDummyContents($option_value, $design, $category);
             }
@@ -485,69 +831,35 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param $bundle_id
-     * @throws Exception
-     */
-    public function setBundleId($bundle_id)
-    {
-        $regex_ios = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
-
-        if (preg_match($regex_ios, $bundle_id)) {
-            $this->setData("bundle_id", $bundle_id)->save();
-        } else {
-            throw new Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $package_name
-     * @throws Exception
-     */
-    public function setPackageName($package_name)
-    {
-        $regex_android = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
-
-        if (preg_match($regex_android, $package_name)) {
-            $this->setData("package_name", $this->validatePackageName($package_name))->save();
-        } else {
-            throw new Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
-        }
-
-        return $this;
-    }
-
-    /**
-     * get bundle_id, create default if empty
-     *
      * @return array|mixed|null|string
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
      */
     public function getBundleId()
     {
-        $bundle_id = $this->getData("bundle_id");
-        if (empty($bundle_id)) {
-            $bundle_id = $this->buildId("ios");
-            $this->setData("bundle_id", $bundle_id)->save();
+        $bundleId = $this->getData('bundle_id');
+        if (empty($bundleId)) {
+            $bundleId = $this->buildId('ios');
+            $this->setData('bundle_id', $bundleId)->save();
         }
 
-        return $bundle_id;
+        return $bundleId;
     }
 
     /**
-     * get package_name, create default if empty
-     *
      * @return array|mixed|null|string
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
      */
     public function getPackageName()
     {
-        $package_name = $this->getData("package_name");
-        if (empty($package_name)) {
-            $package_name = $this->buildId("android");
-            $this->setData("package_name", $package_name)->save();
+        $packageName = $this->getData('package_name');
+        if (empty($packageName)) {
+            $packageName = $this->buildId('android');
+            $this->setData('package_name', $packageName)->save();
         }
 
-        return $package_name;
+        return $packageName;
     }
 
     /**
@@ -559,10 +871,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function buildId($type = "app")
     {
-
         $buildId = function ($host, $suffix) {
 
-            $url = array_reverse(explode(".", $url));
+            $url = array_reverse(explode(".", $host));
             $url[] = $suffix;
 
             foreach ($url as &$part) {
@@ -596,22 +907,22 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $id_ios = $whitelabel->getData("app_default_identifier_ios");
 
         } else {
-            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
-            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+            $id_android = __get("app_default_identifier_android");
+            $id_ios = __get("app_default_identifier_ios");
 
             $request = Zend_Controller_Front::getInstance()->getRequest();
             $host = mb_strtolower($request->getServer("HTTP_HOST"));
 
             if (empty($id_android)) {
-                System_Model_Config::setValueFor("app_default_identifier_android", $buildId($host, "android"));
+                __set("app_default_identifier_android", $buildId($host, "android"));
             }
 
             if (empty($id_ios)) {
-                System_Model_Config::setValueFor("app_default_identifier_ios", $buildId($host, "ios"));
+                __set("app_default_identifier_ios", $buildId($host, "ios"));
             }
 
-            $id_android = System_Model_Config::getValueFor("app_default_identifier_android");
-            $id_ios = System_Model_Config::getValueFor("app_default_identifier_ios");
+            $id_android = __get("app_default_identifier_android");
+            $id_ios = __get("app_default_identifier_ios");
         }
 
         // Now we can process bundle id or package name
@@ -1003,6 +1314,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getStartupImageUrl($type = "standard", $base = false)
     {
+        if ($this->getSplashVersion() == 2) {
+            return $this->getStartupImageUnified();
+        }
+
         try {
             $image = '';
 
@@ -1128,12 +1443,13 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * SAE & MAE have no subscriptions, we assume that it's always active then.
+     *
      * @return bool
      */
     public function subscriptionIsActive()
     {
-        if (Siberian_Version::TYPE != "PE") return true;
-        return $this->getSubscription()->isActive();
+        return true;
     }
 
     /**
@@ -1155,29 +1471,81 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param $check_sources_access_type
+     * @param $checkSourcesAccessType
      * @return array
      */
-    public function isAvailableForPublishing($check_sources_access_type)
+    public function isAvailableForPublishing($checkSourcesAccessType)
+    {
+        if ($this->getSplashVersion() == '2') {
+            return $this->isAvailableForPublishingUnified($checkSourcesAccessType);
+        } else {
+            $errors = [];
+            if ($this->getPages()->count() < 1) {
+                $errors[] = __("At least, 1 page in the application");
+            }
+            if (!$this->getData('background_image')) {
+                $errors[] = __("The homepage image");
+            }
+            if (!$this->getStartupImage()) {
+                $errors[] = __("The startup image");
+            }
+            if (!$this->getData('icon')) {
+                $errors[] = __("The desktop icon");
+            }
+            if (!$this->getName()) {
+                $errors[] = __("The application name");
+            }
+            if ($checkSourcesAccessType) {
+                if (!$this->getBundleId()) $errors[] = __("The bundle id");
+            } else {
+                if (!$this->getDescription()) {
+                    $errors[] = __("The description");
+                } else if (strlen($this->getDescription()) < 200) {
+                    $errors[] = __("At least 200 characters in the description");
+                }
+                if (!$this->getKeywords()) {
+                    $errors[] = __("The keywords");
+                }
+                if (!$this->getMainCategoryId()) {
+                    $errors[] = __("The main category");
+                }
+            }
+
+            return $errors;
+        }
+    }
+
+    /**
+     * @param $checkSourcesAccessType
+     * @return array
+     */
+    public function isAvailableForPublishingUnified($checkSourcesAccessType)
     {
         $errors = [];
         if ($this->getPages()->count() < 1) {
             $errors[] = __("At least, 1 page in the application");
         }
-        if (!$this->getData('background_image')) {
+
+        if (!$this->getData('background_image_unified')) {
             $errors[] = __("The homepage image");
         }
-        if (!$this->getStartupImage()) {
-            $errors[] = __("The startup image");
+
+        if (!$this->getData('startup_image_unified')) {
+            $errors[] = __("The homepage image");
         }
+
         if (!$this->getData('icon')) {
             $errors[] = __("The desktop icon");
         }
+
         if (!$this->getName()) {
             $errors[] = __("The application name");
         }
-        if ($check_sources_access_type) {
-            if (!$this->getBundleId()) $errors[] = __("The bundle id");
+
+        if ($checkSourcesAccessType) {
+            if (!$this->getBundleId()) {
+                $errors[] = __("The bundle id");
+            }
         } else {
             if (!$this->getDescription()) {
                 $errors[] = __("The description");
@@ -1253,6 +1621,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getHomepageBackgroundImageUrl($type = '', $return = false)
     {
+        if ($this->getSplashVersion() == 2) {
+            return $this->getHomepageBackgroundUnified();
+        }
 
         try {
 
@@ -1274,6 +1645,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                     break;
                 case "tablet":
                     $image_name = $this->getData('background_image_tablet');
+                    break;
+                case "unified":
+                    $image_name = $this->getData('background_image_unified');
                     break;
                 case "standard":
                 default:
@@ -1310,6 +1684,44 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @return array|mixed|null|string
+     */
+    public function getHomepageBackgroundUnified()
+    {
+        try {
+            $imageName = $this->getData('background_image_unified');
+            if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
+                return $imageName;
+            }
+            if (is_file(Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $imageName))) {
+                return self::PATH_IMAGE . $imageName;
+            }
+        } catch (\Exception $e) {
+            //
+        }
+        return '';
+    }
+
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getStartupBackgroundUnified()
+    {
+        try {
+            $imageName = $this->getData('startup_image_unified');
+            if (is_file(Core_Model_Directory::getBasePathTo($imageName))) {
+                return $imageName;
+            }
+            if (is_file(Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $imageName))) {
+                return self::PATH_IMAGE . $imageName;
+            }
+        } catch (\Exception $e) {
+            //
+        }
+        return '';
+    }
+
+    /**
      * @return array
      */
     public function getSliderImages()
@@ -1333,21 +1745,23 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getNoBackgroundImageUrl($type = 'standard')
     {
-
         switch ($type) {
-            case "hd":
-                $image_name = "no-background-hd.jpg";
+            case 'hd':
+                $imageName = 'no-background-hd.jpg';
                 break;
-            case "tablet":
-                $image_name = "no-background-tablet.jpg";
+            case 'tablet':
+                $imageName = 'no-background-tablet.jpg';
                 break;
-            case "standard":
+            case 'unified':
+                $imageName = 'no-background-unified.jpg';
+                break;
+            case 'standard':
             default:
-                $image_name = "no-background.jpg";
+                $imageName = 'no-background.jpg';
                 break;
         }
 
-        return self::getImagePath() . "/placeholder/$image_name";
+        return self::getImagePath() . '/placeholder/' . $imageName;
     }
 
     /**

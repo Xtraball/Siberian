@@ -12,7 +12,7 @@ class Cms_Model_Db_Table_Application_Page_Block_Image_Library extends Core_Model
      */
     public function findLastLibrary() {
         $select = $this->select()
-            ->from($this->_name, array('library_id'))
+            ->from($this->_name, ['library_id'])
             ->order('library_id DESC')
             ->limit(1)
         ;

@@ -285,11 +285,11 @@ class Packager
             'version'=> $this->release,
             'code' => '',
             'description' => '<a href="' . $releaseNote .
-                '" target="_blank">Click here to see the release notes</a>',
+                '" target="_blank">Click here to read the release notes</a>',
             'release_note' => [
                 'url' => $releaseNote,
                 'show' => true,
-                'is_major' => false,
+                'is_major' => true,
             ],
             'dependencies' => [
                 'system' => [

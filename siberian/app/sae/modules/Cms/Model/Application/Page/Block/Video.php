@@ -8,11 +8,11 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
     /**
      * @var array
      */
-    protected $_types = array(
+    protected $_types = [
         1 => "link",
         2 => "youtube",
         3 => "podcast",
-    );
+    ];
 
     /**
      * @var Cms_Model_Application_Page_Block_Video_*
@@ -23,7 +23,7 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
      * Cms_Model_Application_Page_Block_Video constructor.
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = "Cms_Model_Db_Table_Application_Page_Block_Video";
         return $this;
@@ -33,7 +33,7 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
      * @param array $data
      * @return mixed
      */
-    public function populate($data = array()) {
+    public function populate($data = []) {
         $this->setTypeId($data["type"]);
 
         if($this->getTypeInstance()) {
@@ -152,7 +152,7 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
      */
     protected function _getTypeInstanceData() {
         $fields = $this->getTypeInstance()->getFields();
-        $datas = array();
+        $datas = [];
         foreach($fields as $field) {
             $datas[$field] = $this->getData($field);
         }

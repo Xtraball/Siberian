@@ -1,38 +1,45 @@
 <?php
 
+/**
+ * Class Backoffice_Account_ListController
+ */
 class Backoffice_Account_ListController extends Backoffice_Controller_Default
 {
 
-    public function loadAction() {
-
-        $html = array(
-            "title" => $this->_("Accounts"),
+    public function loadAction()
+    {
+        $payload = [
+            "title" => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Backoffice access'),
+                __('Accounts')),
             "icon" => "fa-users",
-        );
+        ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
-    public function findallAction() {
+    public function findallAction()
+    {
 
         $user = new Backoffice_Model_User();
         $users = $user->findAll();
-        $data = array("users" => array());
+        $data = ["users" => []];
 
-        foreach($users as $user) {
-            $data["users"][] = array(
+        foreach ($users as $user) {
+            $data["users"][] = [
                 "id" => $user->getId(),
                 "email" => $user->getEmail(),
                 "created_at" => $user->getFormattedCreatedAt($this->_("MM/dd/yyyy"))
-            );
+            ];
         }
         $this->_sendHtml($data);
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
 
@@ -58,15 +65,15 @@ class Backoffice_Account_ListController extends Backoffice_Controller_Default
 
                 $user->delete();
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => $this->_("User successfully deleted")
-                );
-            } catch(Exception $e) {
-                $data = array(
+                ];
+            } catch (Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
