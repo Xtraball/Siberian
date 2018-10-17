@@ -119,6 +119,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             mkdir(Core_Model_Directory::getBasePathTo('var/log'), 0777, true);
         }
 
+        // Clean-up old template installer!
+        $tmp = Core_Model_Directory::getBasePathTo('var/tmp/template.install.php');
+        if (is_file($tmp)) {
+            unlink($tmp);
+        }
+
         $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
         $logger = new Siberian_Log($writer);
         Zend_Registry::set('logger', $logger);
