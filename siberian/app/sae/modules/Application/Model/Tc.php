@@ -58,7 +58,7 @@ class Application_Model_Tc extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setText(string $text)
+    public function setText($text)
     {
         $_filtered = \Siberian\Xss::sanitize($text);
 

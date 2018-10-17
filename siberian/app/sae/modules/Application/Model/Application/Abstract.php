@@ -251,7 +251,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws \Siberian\Exception
      */
-    public function setDescription(string $description)
+    public function setDescription($description)
     {
         if (strlen($description) < 200) {
             throw new \Siberian\Exception('The description must be at least 200 characters');
@@ -275,7 +275,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setKeywords(string $keywords)
+    public function setKeywords($keywords)
     {
         $keywords = \rock\sanitize\Sanitize::removeTags()->sanitize($keywords);
 
@@ -306,7 +306,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @throws Exception
      * @throws \Siberian\Exception
      */
-    public function setBundleId(string $bundleId)
+    public function setBundleId($bundleId)
     {
         $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
 
@@ -325,7 +325,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @throws Exception
      * @throws \Siberian\Exception
      */
-    public function setPackageName(string $packageName)
+    public function setPackageName($packageName)
     {
         $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
 
@@ -343,7 +343,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setPrivacyPolicy(string $privacyPolicy)
+    public function setPrivacyPolicy($privacyPolicy)
     {
         $_filtered = \Siberian\Xss::sanitize($privacyPolicy);
 
@@ -355,7 +355,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setFacebookId(string $id)
+    public function setFacebookId($id)
     {
         $_filtered = \Siberian\Xss::sanitize($id);
 
@@ -367,7 +367,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setFacebookKey(string $key)
+    public function setFacebookKey($key)
     {
         $_filtered = \Siberian\Xss::sanitize($key);
 
@@ -379,7 +379,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setTwitterConsumerKey(string $consumerKey)
+    public function setTwitterConsumerKey($consumerKey)
     {
         $_filtered = \Siberian\Xss::sanitize($consumerKey);
 
@@ -391,7 +391,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setTwitterConsumerSecret(string  $consumerSecret)
+    public function setTwitterConsumerSecret($consumerSecret)
     {
         $_filtered = \Siberian\Xss::sanitize($consumerSecret);
 
@@ -403,7 +403,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setTwitterApiToken(string $apiToken)
+    public function setTwitterApiToken($apiToken)
     {
         $_filtered = \Siberian\Xss::sanitize($apiToken);
 
@@ -415,7 +415,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setTwitterApiSecret(string $apiSecret)
+    public function setTwitterApiSecret($apiSecret)
     {
         $_filtered = \Siberian\Xss::sanitize($apiSecret);
 
@@ -427,7 +427,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setInstagramClientId(string $clientId)
+    public function setInstagramClientId($clientId)
     {
         $_filtered = \Siberian\Xss::sanitize($clientId);
 
@@ -439,7 +439,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setInstagramToken(string $token)
+    public function setInstagramToken($token)
     {
         $_filtered = \Siberian\Xss::sanitize($token);
 
@@ -451,7 +451,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setFlickrKey(string $key)
+    public function setFlickrKey($key)
     {
         $_filtered = \Siberian\Xss::sanitize($key);
 
@@ -463,7 +463,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setFlickrSecret(string $secret)
+    public function setFlickrSecret($secret)
     {
         $_filtered = \Siberian\Xss::sanitize($secret);
 
@@ -475,7 +475,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setGooglemapsKey(string $key)
+    public function setGooglemapsKey($key)
     {
         $_filtered = \Siberian\Xss::sanitize($key);
 

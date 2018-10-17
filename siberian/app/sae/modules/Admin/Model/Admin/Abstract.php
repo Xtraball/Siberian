@@ -46,7 +46,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @throws \Siberian\Exception
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setEmail(string $email)
+    public function setEmail($email)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($email);
 
@@ -63,7 +63,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setFirstname(string $firstname)
+    public function setFirstname($firstname)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($firstname);
         return $this->setData('firstname', $_filtered);
@@ -74,7 +74,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setLastname(string $lastname)
+    public function setLastname($lastname)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($lastname);
         return $this->setData('lastname', $_filtered);
@@ -85,7 +85,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setCompany(string $company)
+    public function setCompany($company)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($company);
         return $this->setData('company', $_filtered);
@@ -96,7 +96,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setAddress(string $address)
+    public function setAddress($address)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($address);
         return $this->setData('address', $_filtered);
@@ -107,7 +107,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setAddress2(string $address2)
+    public function setAddress2($address2)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($address2);
         return $this->setData('address2', $_filtered);
@@ -118,7 +118,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setZipCode(string $zipCode)
+    public function setZipCode($zipCode)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($zipCode);
         return $this->setData('zip_code', $_filtered);
@@ -129,7 +129,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setCity(string $city)
+    public function setCity($city)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($city);
         return $this->setData('city', $_filtered);
@@ -140,7 +140,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setRegion(string $region)
+    public function setRegion($region)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($region);
         return $this->setData('region', $_filtered);
@@ -151,7 +151,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setPhone(string $phone)
+    public function setPhone($phone)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($phone);
         return $this->setData('phone', $_filtered);

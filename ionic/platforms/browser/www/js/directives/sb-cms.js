@@ -46,26 +46,53 @@ angular.module('starter').directive('sbCmsText', function () {
         },
         template:
         '<div class="item item-image-gallery item-custom sb-cms-image">' +
-        '   <ul rn-carousel rn-carousel-index="carouselIndex" class="image">' +
+        '   <ul rn-carousel ' +
+        '       rn-carousel-index="carouselIndex" ' +
+        '       class="image">' +
         '       <li ng-repeat="image in block.gallery">' +
-        '           <div sb-image image-src="image.src" ng-click="showFullscreen($index)"></div>' +
+        '           <div sb-image ' +
+        '                image-src="image.src" ' +
+        '                ng-click="showFullscreen($index)"></div>' +
         '       </li>' +
         '   </ul>' +
-        '   <div rn-carousel-indicators ng-if="block.gallery.length > 1" slides="block.gallery" rn-carousel-index="carouselIndex"></div>' +
+        '   <div rn-carousel-indicators ' +
+        '        ng-if="block.gallery.length > 1" ' +
+        '        slides="block.gallery" ' +
+        '        rn-carousel-index="carouselIndex"></div>' +
         '</div>' +
-        '<div ng-if="block.description" ng-style="lineReturn" class="item item-custom padding description">{{ block.description }}</div>' +
-        '<script id="zoom-modal.html" type="text/ng-template">'+
+        '<div ng-if="block.description" ' +
+        '     ng-style="lineReturn" ' +
+        '     class="item item-custom padding description">{{ block.description }}</div>' +
+        '<script id="zoom-modal.html" ' +
+        '        type="text/ng-template">'+
         '   <div class="sb-cms-image modal fullscreen">'+
-        '       <ion-header-bar class="bar-dark"><button class="button button-clear pull-right" ng-click="hideFullscreen()">{{ "Done" | translate }}</button></ion-header-bar>' +
+        '       <ion-header-bar class="bar-dark">' +
+        '           <button class="button button-clear pull-right" ' +
+        '                   ng-click="hideFullscreen()">{{ "Done" | translate }}' +
+        '           </button>' +
+        '       </ion-header-bar>' +
         '       <ion-content>' +
-        '           <ul rn-carousel rn-carousel-index="carouselIndexModal" class="image" id="zoomedImage">' +
+        '           <ul rn-carousel ' +
+        '               rn-carousel-index="carouselIndexModal" ' +
+        '               class="image" ' +
+        '               id="zoomedImage">' +
         '               <li ng-repeat="image in block.gallery">' +
-        '                   <ion-scroll delegate-handle="slide-{{ $index }}" direction="xy" zooming="true" ng-swipe-left="setCarouselIndex($index+1)" ng-swipe-right="setCarouselIndex($index-1)">' +
-        '                       <div class="image" sb-image image-src="image.src"></div>' +
+        '                   <ion-scroll delegate-handle="slide-{{ $index }}" ' +
+        '                               overflow-scroll="false" ' +
+        '                               direction="xy" ' +
+        '                               zooming="true" ' +
+        '                               ng-swipe-left="setCarouselIndex($index+1)" ' +
+        '                               ng-swipe-right="setCarouselIndex($index-1)">' +
+        '                       <div class="image" ' +
+        '                            sb-image ' +
+        '                            image-src="image.src"></div>' +
         '                   </ion-scroll>' +
         '               </li>' +
         '           </ul>' +
-        '           <div rn-carousel-indicators ng-if="block.gallery.length > 1" slides="block.gallery" rn-carousel-index="carouselIndexModal"></div>' +
+        '           <div rn-carousel-indicators ' +
+        '                ng-if="block.gallery.length > 1" ' +
+        '                slides="block.gallery" ' +
+        '                rn-carousel-index="carouselIndexModal"></div>' +
         '       </ion-content>' +
         '   </div>'+
         '</script>',
