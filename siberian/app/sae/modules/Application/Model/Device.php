@@ -63,7 +63,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws \Siberian\Exception
      */
-    public function setVersion (string $version = null)
+    public function setVersion ($version = null)
     {
         if ($version === null) {
             $version = $this->getType()->getCurrentVersion();
@@ -81,7 +81,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsCameraUd(string $description)
+    public function setNsCameraUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
@@ -93,7 +93,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsPhotoLibraryUd(string $description)
+    public function setNsPhotoLibraryUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
@@ -105,7 +105,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsLocationWhenInUseUd(string $description)
+    public function setNsLocationWhenInUseUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
@@ -117,7 +117,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsLocationAlwaysUd(string $description)
+    public function setNsLocationAlwaysUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
@@ -129,7 +129,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsLocationAlwaysAndWhenInUseUd(string $description)
+    public function setNsLocationAlwaysAndWhenInUseUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
@@ -141,7 +141,7 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
-    public function setNsMotionUd(string $description)
+    public function setNsMotionUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
 
