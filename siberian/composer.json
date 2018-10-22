@@ -18,7 +18,8 @@
         "maknz/slack": "^1.7",
         "2checkout/2checkout-php": "^0.3.1",
         "romeoz/rock-sanitize": "^0.11.1",
-        "ezyang/htmlpurifier": "^4.10"
+        "ezyang/htmlpurifier": "^4.10",
+        "stripe/stripe-php": "^6.19"
     },
     "config": {
         "vendor-dir": "lib/vendor"

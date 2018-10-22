@@ -31,7 +31,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
-        $loader->registerNamespace('Stripe');
         $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
 

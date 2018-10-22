@@ -10,7 +10,9 @@
   "private": true,
   "dependencies": {
     "fs": "0.0.1-security",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "vue": "^2.5.17",
+    "vue-cli": "^2.9.6"
   },
   "devDependencies": {
     "axios": "^0.17.1",

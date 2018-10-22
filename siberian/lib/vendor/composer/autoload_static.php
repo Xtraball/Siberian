@@ -47,6 +47,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Stripe\\' => 7,
         ),
         'R' => 
         array (
@@ -144,6 +145,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
         'React\\EventLoop\\' => 
         array (
