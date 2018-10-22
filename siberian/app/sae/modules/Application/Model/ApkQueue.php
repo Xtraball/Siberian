@@ -1,8 +1,17 @@
 <?php
 
-class Application_Model_ApkQueue extends Core_Model_Default {
-
-    public function __construct($data = array()) {
+/**
+ * Class Application_Model_ApkQueue
+ */
+class Application_Model_ApkQueue extends Core_Model_Default
+{
+    /**
+     * Application_Model_ApkQueue constructor.
+     * @param array $data
+     * @throws Zend_Exception
+     */
+    public function __construct($data = [])
+    {
         parent::__construct($data);
         $this->_db_table = "Application_Model_Db_Table_ApkQueue";
     }
@@ -11,8 +20,9 @@ class Application_Model_ApkQueue extends Core_Model_Default {
      * @param $status
      * @return mixed
      */
-    public function changeStatus($status) {
-        switch($status) {
+    public function changeStatus($status)
+    {
+        switch ($status) {
             case "building":
                 $this->setBuildTime(time());
                 $this->setBuildStartTime(time());
@@ -30,14 +40,15 @@ class Application_Model_ApkQueue extends Core_Model_Default {
     /**
      * Generate APK in cron queue
      *
-     * @throws Exception
+     * @throws \Siberian\Exception
      */
-    public function generate() {
+    public function generate()
+    {
         $application = new Application_Model_Application();
         $application = $application->find($this->getAppId());
 
-        if(!$application->getId()) {
-            throw new Exception(__("#500-01: This application does not exist"));
+        if (!$application->getId()) {
+            throw new \Siberian\Exception(__("#500-01: This application does not exist"));
         }
 
         $application->setDesignCode("ionic");
@@ -52,19 +63,19 @@ class Application_Model_ApkQueue extends Core_Model_Default {
         /** Saving log */
         $this->setLog(implode("\n", $result["log"]));
 
-        $recipients = array();
-        switch($this->getUserType()) {
+        $recipients = [];
+        switch ($this->getUserType()) {
             case "backoffice":
                 $backoffice = new Backoffice_Model_User();
                 $backoffice_user = $backoffice->find($this->getUserId());
-                if($backoffice_user->getId()) {
+                if ($backoffice_user->getId()) {
                     $recipients[] = $backoffice_user->getEmail();
                 }
                 break;
             case "admin":
                 $admin = new Admin_Model_Admin();
                 $admin_user = $admin->find($this->getUserId());
-                if($admin_user->getId()) {
+                if ($admin_user->getId()) {
                     $recipients[] = $admin_user->getEmail();
                 }
                 break;
@@ -77,10 +88,10 @@ class Application_Model_ApkQueue extends Core_Model_Default {
 
             /** Success email */
             $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
-            $url = $protocol.$this->getHost()."/".str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
+            $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
 
             $baseEmail = $this->baseEmail(
-                'apk_queue_failed',
+                'apk_queue_success',
                 $application,
                 __('Build succeed'),
                 null);
@@ -146,12 +157,9 @@ class Application_Model_ApkQueue extends Core_Model_Default {
         $layout = $layout->loadEmail('queue', $nodeName);
         $layout
             ->setContentFor('base', 'email_title', __('APK Generation') . ' - ' . $title)
-
             ->setContentFor('content_email', 'app_name', $application->getName())
             ->setContentFor('content_email', 'message', $message)
-
-            ->setContentFor('footer', 'show_legals', false)
-        ;
+            ->setContentFor('footer', 'show_legals', false);
 
         return $layout;
     }
@@ -162,7 +170,8 @@ class Application_Model_ApkQueue extends Core_Model_Default {
      * @param $application_id
      * @return array
      */
-    public static function getPackages($application_id) {
+    public static function getPackages($application_id)
+    {
         $results = (new self())->findAll(
             [
                 'app_id' => $application_id,
@@ -196,16 +205,17 @@ class Application_Model_ApkQueue extends Core_Model_Default {
 
     /**
      * Fetch if the APK is queued
-     * 
+     *
      * @param $application_id
      * @return bool
      */
-    public static function getStatus($application_id) {
+    public static function getStatus($application_id)
+    {
         $table = new self();
-        $results = $table->findAll(array(
+        $results = $table->findAll([
             "app_id" => $application_id,
-            "status IN (?)" => array("queued", "building"),
-        ));
+            "status IN (?)" => ["queued", "building"],
+        ]);
 
         return ($results->count() > 0);
     }
@@ -213,12 +223,13 @@ class Application_Model_ApkQueue extends Core_Model_Default {
     /**
      * @return Application_Model_ApkQueue[]
      */
-    public static function getQueue() {
+    public static function getQueue()
+    {
         $table = new self();
 
         $results = $table->findAll(
-            array("status" => "queued"),
-            array("created_at ASC")
+            ["status" => "queued"],
+            ["created_at ASC"]
         );
 
         return $results;
@@ -230,15 +241,16 @@ class Application_Model_ApkQueue extends Core_Model_Default {
      * @param $current_time
      * @return Push_Model_Message[]
      */
-    public static function getStuck($current_time) {
+    public static function getStuck($current_time)
+    {
         $table = new self();
 
         $results = $table->findAll(
-            array(
+            [
                 "status = ?" => "building",
                 "(build_start_time + 3600) < ?" => $current_time,
-            ),
-            array("created_at ASC")
+            ],
+            ["created_at ASC"]
         );
 
         return $results;
@@ -247,9 +259,10 @@ class Application_Model_ApkQueue extends Core_Model_Default {
     /**
      * Clear old pathts when clearing tmp cache in backoffice
      */
-    public static function clearPaths() {
+    public static function clearPaths()
+    {
         $db = Zend_Db_Table::getDefaultAdapter();
         $db->query("UPDATE apk_queue SET path = '' WHERE status != 'building';");
     }
-    
+
 }

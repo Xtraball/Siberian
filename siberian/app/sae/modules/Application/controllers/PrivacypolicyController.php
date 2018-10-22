@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Application_PrivacypolicyController
+ */
 class Application_PrivacypolicyController extends Application_Controller_Default
 {
 
@@ -12,6 +15,11 @@ class Application_PrivacypolicyController extends Application_Controller_Default
         ],
     ];
 
+    /**
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
+     */
     public function indexAction()
     {
         $this->loadPartials();

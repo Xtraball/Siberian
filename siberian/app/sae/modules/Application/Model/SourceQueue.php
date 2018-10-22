@@ -201,8 +201,9 @@ class Application_Model_SourceQueue extends Core_Model_Default
     /**
      * @param $application
      * @param $sourcePath
-     * @throws Exception
-     * @throws Zend_Json_Exception
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     protected function sendJobToAutoPublishServer($application, $sourcePath)
     {
@@ -228,10 +229,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
         if (!array_key_exists('error', $languages)) {
             if (count($languages) === 0) {
-                throw new Siberian_Exception('There is no language selected');
+                throw new \Siberian\Exception('There is no language selected');
             }
         } else {
-            throw new Siberian_Exception('Cannot unserialize language data');
+            throw new \Siberian\Exception('Cannot unserialize language data');
         }
 
         //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
@@ -262,11 +263,11 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
         if (!mkdir($jobFolder, 0777, true)) {
-            throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
+            throw new \Siberian\Exception('Cannot create folder ' . $jobFolder);
         }
 
         if (!copy($sourcePath, $jobFolder . '/sources.zip')) {
-            throw new Siberian_Exception('Cannot copy sources to job folder');
+            throw new \Siberian\Exception('Cannot copy sources to job folder');
         }
 
         $configJobFilePath = $jobFolder . '/config.json';
@@ -275,7 +276,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         if (!array_key_exists('error', $json)) {
             file_put_contents($configJobFilePath, $json);
         } else {
-            throw new Siberian_Exception('Cannot create json config job file');
+            throw new \Siberian\Exception('Cannot create json config job file');
         }
 
         $tgzJobFilePath = $jobFolder . '.tgz';
@@ -283,7 +284,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         exec("tar zcf $tgzJobFilePath -C $jobFolder sources.zip config.json", $output, $return_val);
 
         if ($return_val !== 0) {
-            throw new Siberian_Exception('Cannot create zip job file');
+            throw new \Siberian\Exception('Cannot create zip job file');
         }
 
         $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
@@ -293,23 +294,18 @@ class Application_Model_SourceQueue extends Core_Model_Default
             [
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
-            ],
-            null,
-            [
-                'type' => 'basic',
-                'username' => 'ios-builder',
-                'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
-            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
+            throw new \Siberian\Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 
     /**
      * @param $application
-     * @throws Siberian_Exception
-     * @throws Zend_Exception
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     protected function sendPemToAutoPublishServer($application)
     {
@@ -335,10 +331,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
         if (!array_key_exists('error', $languages)) {
             if (count($languages) === 0) {
-                throw new Siberian_Exception('There is no language selected');
+                throw new \Siberian\Exception('There is no language selected');
             }
         } else {
-            throw new Siberian_Exception('Cannot unserialize language data');
+            throw new \Siberian\Exception('Cannot unserialize language data');
         }
 
         //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
@@ -370,12 +366,12 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
         if (!mkdir($jobFolder, 0777, true)) {
-            throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
+            throw new \Siberian\Exception('Cannot create folder ' . $jobFolder);
         }
 
         $fakeSources = Core_Model_Directory::getBasePathTo('/var/apps/ionic/refresh_pem.zip');
         if (!copy($fakeSources, $jobFolder . '/sources.zip')) {
-            throw new Siberian_Exception('Cannot copy sources to job folder');
+            throw new \Siberian\Exception('Cannot copy sources to job folder');
         }
 
         $configJobFilePath = $jobFolder . '/config.json';
@@ -384,7 +380,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         if (!array_key_exists('error', $json)) {
             file_put_contents($configJobFilePath, $json);
         } else {
-            throw new Siberian_Exception('Cannot create json config job file');
+            throw new \Siberian\Exception('Cannot create json config job file');
         }
 
         $tgzJobFilePath = $jobFolder . '.tgz';
@@ -392,7 +388,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         exec("tar zcf $tgzJobFilePath -C $jobFolder sources.zip config.json", $output, $return_val);
 
         if ($return_val !== 0) {
-            throw new Siberian_Exception('Cannot create zip job file');
+            throw new \Siberian\Exception('Cannot create zip job file');
         }
 
         $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
@@ -402,16 +398,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
             [
                 'token' => '6EJQwGkCLzTTvSWUfY19a3QshNvk8RXK',
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
-            ],
-            null,
-            [
-                'type' => 'basic',
-                'username' => 'ios-builder',
-                'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
-            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
+            throw new \Siberian\Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 
