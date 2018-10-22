@@ -76,7 +76,7 @@ class Backoffice_Controller_Default extends Core_Controller_Default
      *
      * @param $payload
      */
-    public function _sendJson($payload)
+    public function _sendJson($payload, $options = JSON_PRETTY_PRINT)
     {
         $notifs_model = new Backoffice_Model_Notification();
         $unread = $notifs_model->countUnread();
@@ -94,7 +94,7 @@ class Backoffice_Controller_Default extends Core_Controller_Default
             ];
         }
 
-        return parent::_sendJson($payload);
+        return parent::_sendJson($payload, $options);
     }
 
 }

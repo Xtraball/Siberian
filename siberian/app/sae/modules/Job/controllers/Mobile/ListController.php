@@ -57,7 +57,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
                     $locality = null;
                     if (!$more_search && $values["latitude"] && $values["longitude"]) {
-                        $georeverse = Siberian_Google_Geocoding::geoReverse($values["latitude"], $values["longitude"]);
+                        $georeverse = Siberian_Google_Geocoding::geoReverse($values["latitude"], $values["longitude"], $this->getApplication()->getGooglemapsKey());
                         if (isset($georeverse["locality"])) {
                             $locality = $georeverse["locality"];
                         }
@@ -68,7 +68,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         $position = true;
                     }
                     if ($more_search && $values["locality"] != $locality) {
-                        $geocode = Siberian_Google_Geocoding::getLatLng(["address" => $values["locality"]]);
+                        $geocode = Siberian_Google_Geocoding::getLatLng(["address" => $values["locality"]], $this->getApplication()->getGooglemapsKey());
                         $locality = $values["locality"];
 
                         $latitude = $geocode[0];
@@ -535,7 +535,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
                         /** Geocoding */
                         if (!empty($values["location"])) {
-                            $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]]);
+                            $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
                             $place->setData("latitude", $coordinates[0]);
                             $place->setData("longitude", $coordinates[1]);
                             $place->setLocation($values["location"]);
@@ -605,7 +605,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 /** Geocoding */
                 if (!empty($values["location"])) {
-                    $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]]);
+                    $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
                     $place->setData("latitude", $coordinates[0]);
                     $place->setData("longitude", $coordinates[1]);
                 }
@@ -670,7 +670,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
                         /** Geocoding */
                         if (!empty($values["location"])) {
-                            $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]]);
+                            $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
                             $company->setData("latitude", $coordinates[0]);
                             $company->setData("longitude", $coordinates[1]);
                             $company->setLocation($values["location"]);

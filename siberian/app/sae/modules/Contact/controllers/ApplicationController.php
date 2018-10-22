@@ -63,7 +63,7 @@ class Contact_ApplicationController extends Application_Controller_Default
                         "street" => $contact->getStreet(),
                         "postcode" => $contact->getPostcode(),
                         "city" => $contact->getCity()
-                    ));
+                    ), $this->getApplication()->getGooglemapsKey());
 
                     if(!empty($latlon[0]) && !empty($latlon[1])) {
                         $contact->setLatitude($latlon[0])

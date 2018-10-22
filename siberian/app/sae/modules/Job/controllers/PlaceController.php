@@ -102,7 +102,7 @@ class Job_PlaceController extends Application_Controller_Default {
 
             /** Geocoding */
             if(!empty($values["location"])) {
-                $coordinates = Siberian_Google_Geocoding::getLatLng(array("address" => $values["location"]));
+                $coordinates = Siberian_Google_Geocoding::getLatLng(array("address" => $values["location"]), $this->getApplication()->getGooglemapsKey());
                 $place->setData("latitude", $coordinates[0]);
                 $place->setData("longitude", $coordinates[1]);
             }

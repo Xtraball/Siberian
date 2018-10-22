@@ -22,7 +22,7 @@ class Mcommerce_Model_Delivery_Method_Homedelivery extends Mcommerce_Model_Deliv
                     'city' => $store->getCity(),
                     'country' => $store->getcountry()
                 ];
-                $geoStore = Siberian_Google_Geocoding::getLatLng($addressStore);
+                $geoStore = Siberian_Google_Geocoding::getLatLng($addressStore, $this->getApplication()->getGooglemapsKey());
                 if (isset($geoStore[0]) && isset($geoStore[1])) {
                     $storeCoordinates = [
                         'latitude' => $geoStore[0],
