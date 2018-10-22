@@ -9,7 +9,7 @@ class Siberian_Google_Geocoding
      * @param $address
      * @return array
      */
-    public static function getLatLng($address)
+    public static function getLatLng($address, $apiKey = null)
     {
 
         if (!empty($address["address"])) {
@@ -36,9 +36,9 @@ class Siberian_Google_Geocoding
             ];
         }
 
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
         $raw_response = @file_get_contents($url);
-        if ($raw_response AND $coordinates_datas = @json_decode($raw_response)) {
+        if ($raw_response && $coordinates_datas = @json_decode($raw_response)) {
             if (!empty($coordinates_datas->results[0]->geometry->location)) {
                 $latlng = $coordinates_datas->results[0]->geometry->location;
                 $precision = $coordinates_datas->results[0]->geometry->location_type;
@@ -65,10 +65,10 @@ class Siberian_Google_Geocoding
      * @param $longitude
      * @return array
      */
-    public static function geoReverse($latitude, $longitude)
+    public static function geoReverse($latitude, $longitude, $apiKey = null)
     {
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitude .
-            ',' . $longitude . '&sensor=true';
+            ',' . $longitude . '&sensor=true&key=' . $apiKey;
         $decode = Siberian_Json::decode(file_get_contents($url));
 
         $locality = '';
