@@ -2,7 +2,7 @@
 
 abstract class Mcommerce_Model_Delivery_Method_Abstract extends Core_Model_Default {
 
-    public function isAvailable() {
+    public function isAvailable($application = null) {
         return true;
     }
 

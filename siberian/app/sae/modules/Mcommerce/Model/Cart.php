@@ -420,7 +420,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @param $address_parts
      * @return $this
      */
-    public function setLocation($address_components) {
+    public function setLocation($address_components, $apiKey = null) {
         if (!empty($address_components['street']) AND !empty($address_components['postcode']) AND !empty($address_components['city'])) {
             $address = join(', ', [
                 $address_components['street'],
@@ -429,7 +429,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
             ]);
 
             $address = str_replace(' ', '+', $address);
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
             if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
                 if (!empty($results->results[0]->geometry->location)) {
                     $cordinates = $results->results[0]->geometry->location;

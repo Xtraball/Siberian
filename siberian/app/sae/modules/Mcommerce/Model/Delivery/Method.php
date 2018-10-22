@@ -45,8 +45,8 @@ class Mcommerce_Model_Delivery_Method extends Core_Model_Default {
         return $this->_instance;
     }
 
-    public function isAvailable() {
-        return $this->getInstance()->isAvailable();
+    public function isAvailable($app = null) {
+        return $this->getInstance()->isAvailable($app);
     }
 
     public function isFree() {

@@ -13,6 +13,7 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
     {
         $cart = $this->getCart();
         $store = $cart->getStore();
+        $app = $this->getApplication();
 
         $payload = [];
 
@@ -26,7 +27,7 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
         foreach ($store->getDeliveryMethods() as $deliveryMethod) {
             $deliveryMethod->setCart($this->getCart());
 
-            if ($deliveryMethod->isAvailable()) {
+            if ($deliveryMethod->isAvailable($app)) {
                 $storeJson['deliveryMethods'][] = [
                     'id' => $deliveryMethod->getId(),
                     'code' => $deliveryMethod->getCode(),
