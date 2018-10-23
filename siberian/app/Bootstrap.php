@@ -406,7 +406,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * @return mixed|void|Zend_Controller_Response_Abstract
+     * @return mixed|Zend_Controller_Response_Abstract
      * @throws Exception
      * @throws Zend_Application_Bootstrap_Exception
      */
