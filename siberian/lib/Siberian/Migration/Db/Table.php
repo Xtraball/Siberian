@@ -137,7 +137,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         } catch (Exception $e) {
             // Try to create the table if it doesn't exist yet for installation purpose.!
             if ($try_create && !$this->createTable()) {
-                throw new Siberian_Exception(
+                throw new \Siberian\Exception(
                     __("Unable to create table '{$this->tableName}', with previous Exception %s.",
                         $e->getMessage())
                 );
@@ -163,7 +163,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             include $this->schemaPath;
             $this->schemaFields = $schemas[$this->tableName];
         } else {
-            throw new Siberian_Exception("Unable to read latest schema for '{$this->tableName}', errors: "
+            throw new \Siberian\Exception("Unable to read latest schema for '{$this->tableName}', errors: "
                 . implode("\n", $this->queries) . ".");
         }
     }
@@ -367,7 +367,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
                 /** Cleaning tmp file */
                 unlink($schema_path);
             } else {
-                throw new Siberian_Exception("Unable to save schema from database for '{$this->tableName}'.");
+                throw new \Siberian\Exception("Unable to save schema from database for '{$this->tableName}'.");
             }
 
         }
@@ -699,27 +699,27 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
     /**
      * @param $query
-     * @throws Siberian_Exception
+     * @throws \Siberian\Exception
      */
     public function execSafe($query)
     {
 
         try {
             $this->start();
-            $this->query("SET foreign_key_checks = 0;");
+            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=0;SET FOREIGN_KEY_CHECKS = 0;");
             $this->query($query);
-            $this->query("SET foreign_key_checks = 1;");
+            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=1;SET FOREIGN_KEY_CHECKS = 1;");
             $this->commit();
         } catch (Exception $e) {
 
             $this->revert();
-            $this->query("SET foreign_key_checks = 1;");
+            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=1;SET FOREIGN_KEY_CHECKS = 1;");
 
             $message_error = "#99009: execSafe error on: '{$this->tableName}' request: '{$query}' execSafe error on: '{$this->tableName}' request: '{$query}'";
 
             $migration_log = sprintf($this->log_error, Siberian_Version::VERSION);
             $this->logger->info($message_error, $migration_log, false);
-            throw new Siberian_Exception($message_error);
+            throw new \Siberian\Exception($message_error);
         }
     }
 
