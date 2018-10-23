@@ -45,7 +45,7 @@ angular.module('starter').controller('DiscountListController', function ($cordov
     $scope.loadContent = function (pullToRefresh) {
         $scope.is_loading = true;
 
-        Discount.findAll(pullToRefresh)
+        Discount.findAll(true)
             .then(function (data) {
                 $scope.collection = angular.copy(data.promotions);
 

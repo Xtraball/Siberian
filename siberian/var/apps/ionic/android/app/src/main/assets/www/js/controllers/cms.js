@@ -36,7 +36,7 @@ angular.module('starter').controller('CmsViewController', function ($location, $
 
                 break;
             default:
-                Cms.findAll($stateParams.page_id, pullToRefresh)
+                Cms.findAll($stateParams.page_id, true)
                     .then(function (data) {
                         $scope.social_sharing_active = (data.social_sharing_active && $rootScope.isNativeApp);
 

@@ -25,7 +25,7 @@ angular.module('starter').controller('NewswallListController', function ($filter
     Newswall.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
-        Newswall.findAll($scope.collection.length)
+        Newswall.findAll($scope.collection.length, true)
             .then(function (data) {
                 $scope.can_post = (data.code === 'fanwall');
 
