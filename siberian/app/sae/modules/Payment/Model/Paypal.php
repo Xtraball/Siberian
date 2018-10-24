@@ -849,46 +849,43 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             $checkingInvoiceDate = clone $profileStartDate;
             $frequency = $subscription->getSubscription()->getPaymentFrequency();
 
-            while ($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
-                switch ($frequency) {
-                    case 'Monthly':
-                        if (!$saleModel->isInvoiceExistsForMonth(
-                            $subscription->getAppId(), $checkingInvoiceDate
-                        )) {
-                            // @date 23th Mars 2018
-                            // we created invoices only since 2018-01-01
-                            // indeed some siberian already fix there accounting before
-                            // and we don't want to dupplicated fixed invoices
-                            if (!$checkingInvoiceDate->isEarlier($year2018)) {
-                                if ($cronInstance) {
-                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
-                                }
-                                $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+            switch ($frequency) {
+                case 'Monthly':
+                    if (!$saleModel->isInvoiceExistsForMonth(
+                        $subscription->getAppId(), $checkingInvoiceDate
+                    )) {
+                        // @date 23th Mars 2018
+                        // we created invoices only since 2018-01-01
+                        // indeed some siberian already fix there accounting before
+                        // and we don't want to duplicated fixed invoices
+                        if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                            if ($cronInstance) {
+                                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
                             }
+                            $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                         }
-                        $checkingInvoiceDate->addMonth(1);
-                        break;
-                    case 'Yearly':
-                        if (!$saleModel->isInvoiceExistsForYear(
-                            $subscription->getAppId(), $checkingInvoiceDate
-                        )) {
-                            // @date 23th Mars 2018
-                            // we created invoices only since 2018-01-01
-                            // indeed some siberian already fix there accounting before
-                            // and we don't want to dupplicated fixed invoices
-                            if (!$checkingInvoiceDate->isEarlier($year2018)) {
-                                if ($cronInstance) {
-                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
-                                }
-                                $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+                    }
+                    break;
+                case 'Yearly':
+                    if (!$saleModel->isInvoiceExistsForYear(
+                        $subscription->getAppId(), $checkingInvoiceDate
+                    )) {
+                        // @date 23th Mars 2018
+                        // we created invoices only since 2018-01-01
+                        // indeed some siberian already fix there accounting before
+                        // and we don't want to dupplicated fixed invoices
+                        if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                            if ($cronInstance) {
+                                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
                             }
+                            $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                         }
-                        $checkingInvoiceDate->addYear(1);
-                        break;
-                    default:
-                        throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
-                }
+                    }
+                    break;
+                default:
+                    throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
             }
+
             // Payment (re-)activated!
             $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
             $nextBillingDate->setHour('12');
