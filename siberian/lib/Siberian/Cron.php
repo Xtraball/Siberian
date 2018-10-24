@@ -707,6 +707,12 @@ class Cron
             if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
                 \Subscription_Model_Subscription_Application::checkRecurrencies($this);
             }
+
+            // Update subscription statuses cache!
+            if (method_exists('Subscription_Model_Subscription_Application', 'cacheStatuses')) {
+                \Subscription_Model_Subscription_Application::cacheStatuses($this);
+            }
+
         } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());

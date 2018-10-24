@@ -162,7 +162,6 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
      */
     public function request($method, $params)
     {
-
         $logger = Zend_Registry::get('logger');
 
         if (!$this->_isValid()) {
@@ -205,7 +204,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             return false;
         } else {
-            if ($responseArray['ACK'] === 'Success') {
+            if (in_array($responseArray['ACK'], ['Success', 'Failure'])) {
                 curl_close($curl);
 
                 if (!empty($responseArray['TOKEN']) && $token = $responseArray['TOKEN']) {
@@ -450,14 +449,24 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             $params = [
                 'PROFILEID' => $paymentData['profile_id'],
-                'ACTION' => 'CANCEL',
-                'NOTE' => __('Your subscription was manually cancelled.')
             ];
 
-            $result = (new self())->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+            $result = (new self())->request(self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS, $params);
 
-            if ($result['ACK'] !== 'Success') {
-                throw new \Siberian\Exception(__('Unable to cancel PayPal subscription, tray again later.'));
+            if ($result['STATUS'] === 'Active') {
+                $params = [
+                    'PROFILEID' => $paymentData['profile_id'],
+                    'ACTION' => 'CANCEL',
+                    'NOTE' => __('Your subscription was manually cancelled.')
+                ];
+
+                $result = (new self())->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+
+                if ($result['ACK'] !== 'Success') {
+                    throw new \Siberian\Exception(__('Unable to cancel PayPal subscription, tray again later.'));
+                }
+            } else {
+                $result = __("The subscription was already inactive or cancelled");
             }
 
             return [
@@ -485,16 +494,29 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             $result = (new self())->request(self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS, $params);
 
-            if ($result['STATUS'] !== 'Active') {
-                throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
+            if ($result['ACK'] === 'Success') {
+                if ($result['STATUS'] === 'Active') {
+                    if (isset($result['OUTSTANDINGBALANCE']) && $result['OUTSTANDINGBALANCE'] > 0) {
+                        throw new \Siberian\Exception(
+                            __('PayPal subscription is Active') . '<br /><b>' .
+                            __('Outstanding balance of %s %s.',
+                                $result['OUTSTANDINGBALANCE'], $result['CURRENCYCODE']) . '</b>');
+                    }
+                } else {
+                    throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
+                }
+            } else if ($result['ACK'] === 'Failure') {
+                throw new \Siberian\Exception(__($result['L_LONGMESSAGE0']));
             }
 
             return [
                 'success' => true,
+                'result' => $result,
             ];
         } catch (\Exception $e) {
             return [
                 'success' => false,
+                'result' => $result,
                 'message' => $e->getMessage(),
             ];
         }
@@ -598,7 +620,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                 $order->find($orderId);
 
                 if (!$order->getId()) {
-                    throw new Siberian_Exception(__('An error occurred while processing your order. Please, try again later.'));
+                    throw new \Siberian\Exception(__('An error occurred while processing your order. Please, try again later.'));
                 }
 
                 $order->cancel();
@@ -887,13 +909,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             }
 
             // Payment (re-)activated!
-            $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
-            $nextBillingDate->setHour('12');
-            $nextBillingDate->setMinute('00');
+            $nextBillingDate = $response['NEXTBILLINGDATE'];
+            $dateNext = date_create_from_format("Y-m-d\TH:i:sO", $nextBillingDate);
 
             $subscription->unlock();
             $subscription
-                ->update($nextBillingDate)
+                ->update($dateNext->format("Y-m-d H:i:s"))
                 ->save();
 
             // clean the mess
