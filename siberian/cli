@@ -319,7 +319,7 @@ try {
 " . color('subscription:check-payments', 'brown') . "
     Manually run payment verification for expired subscriptions (only for PE, this action is normally triggered by the cron).
     
-" . color('subscription:check-payments', 'brown') . "
+" . color('subscription:cache-statuses', 'brown') . "
     Manually cache payment statuses.
 
 " . color('help', 'brown') . "
