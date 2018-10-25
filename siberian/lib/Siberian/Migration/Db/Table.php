@@ -706,14 +706,14 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
         try {
             $this->start();
-            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=0;SET FOREIGN_KEY_CHECKS = 0;");
+            $this->query("SET FOREIGN_KEY_CHECKS = 0;");
             $this->query($query);
-            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=1;SET FOREIGN_KEY_CHECKS = 1;");
+            $this->query("SET FOREIGN_KEY_CHECKS = 1;");
             $this->commit();
         } catch (Exception $e) {
 
             $this->revert();
-            $this->query("SET GLOBAL FOREIGN_KEY_CHECKS=1;SET FOREIGN_KEY_CHECKS = 1;");
+            $this->query("SET FOREIGN_KEY_CHECKS = 1;");
 
             $message_error = "#99009: execSafe error on: '{$this->tableName}' request: '{$query}' execSafe error on: '{$this->tableName}' request: '{$query}'";
 
