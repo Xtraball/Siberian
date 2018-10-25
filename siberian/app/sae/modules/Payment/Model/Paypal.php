@@ -144,7 +144,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             }
 
             if (!$this->__user || !$this->__pwd || !$this->__signature) {
-                throw new Siberian_Exception('Error, Paypal is not properly set up.', 100);
+                throw new \Siberian\Exception('Error, Paypal is not properly set up.', 100);
             }
         }
 
@@ -162,7 +162,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
      */
     public function request($method, $params)
     {
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
 
         if (!$this->_isValid()) {
             return false;
@@ -226,12 +226,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     }
 
     /**
-     * @return bool|string
-     * @override
+     * @return array|bool|mixed|string
+     * @throws Zend_Exception
      */
     public function getUrl()
     {
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
         if (!$this->_isValid()) {
             return false;
         }
@@ -319,6 +319,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     /**
      * @param $token
      * @return bool
+     * @throws Zend_Exception
      */
     public function process($token)
     {
@@ -327,13 +328,13 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
         }
 
         if (!$token) {
-            Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
+            \Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
         }
 
         $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, [
             'TOKEN' => $token
         ]);
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
         $logger->debug(print_r($response, true));
 
         if ($response) {
@@ -391,6 +392,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             $params = array_merge($params, array(
                 'TOKEN' => $token,
                 'CURRENCYCODE' => Core_Model_Language::getCurrentCurrency()->getShortName(),
+                'MAXFAILEDPAYMENTS' => 1,
                 'PROFILESTARTDATE' => $date,
                 'BILLINGPERIOD' => $this->getPeriod($frequency),
                 'BILLINGFREQUENCY' => 1,
@@ -433,7 +435,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     }
 
     /**
-     * @param $subscription
+     * @param Subscription_Model_Subscription_Application $subscription
      * @return bool|mixed|string
      * @throws Exception
      */
@@ -892,6 +894,19 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             if ($cronInstance) {
                 $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is active");
+            }
+
+            $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
+            $now = time();
+            if ($now > $nextBillingDate->getTimestamp()) {
+                if ($cronInstance) {
+                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . " Cancelling unpaid subscription.");
+                }
+                $subscription->cancel();
+                $subscription->cancelCron();
+                $subscription->cronCancelEmail(__('Your subscription was automatically cancelled.'));
+
+                return;
             }
 
             $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
