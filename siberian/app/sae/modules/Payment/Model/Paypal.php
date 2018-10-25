@@ -433,6 +433,37 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     }
 
     /**
+     * @param $subscription
+     * @return bool|mixed|string
+     * @throws Exception
+     */
+    static public function syncExpiration($subscription)
+    {
+        // Ok fetch the right date
+        $status = $subscription->getStatus(true);
+        if ($status['isActive']) {
+            $nextBillingDate = $status['details']['NEXTBILLINGDATE'];
+            $date = date_create_from_format("Y-m-d\TH:i:sO", $nextBillingDate);
+            $date->add(new \DateInterval('P1D'));
+            $newDate = $date->format("Y-m-d H:i:s");
+
+            if ($date->getTimestamp() > time()) {
+                $subscription
+                    ->setExpireAt($newDate)
+                    ->setIsActive(1)
+                    ->save();
+
+                $message = __('PayPal subscription is now correctly synced and will correctly expire by %s!',
+                    datetime_to_format($newDate));
+
+                return $message;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param $paymentData
      * @return array
      */

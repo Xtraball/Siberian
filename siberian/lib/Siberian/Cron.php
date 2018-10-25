@@ -710,7 +710,7 @@ class Cron
 
             // Update subscription statuses cache!
             if (method_exists('Subscription_Model_Subscription_Application', 'cacheStatuses')) {
-                \Subscription_Model_Subscription_Application::cacheStatuses($this);
+                \Subscription_Model_Subscription_Application::cacheStatusesAndSync($this);
             }
 
         } catch (\Exception $e) {
