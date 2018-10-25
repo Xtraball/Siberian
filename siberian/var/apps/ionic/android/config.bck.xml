@@ -17,12 +17,12 @@
     <allow-intent href="sms:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="8" />
+        <native-interface version="9" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
-    <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.png" />
+    <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="webviewbounce" value="false" />
