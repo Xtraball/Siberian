@@ -501,13 +501,15 @@ App.config(function($routeProvider) {
         cert_path: "",
         ca_path: "",
         private_path: "",
+        fullchain_path: "",
         upload: "0"
     };
 
     $scope.uploaders = [
         {type : "cert_path",    uploader : "cert_path"},
         {type : "ca_path",      uploader : "ca_path"},
-        {type : "private_path", uploader : "private_path"}
+        {type : "private_path", uploader : "private_path"},
+        {type : "fullchain_path", uploader : "fullchain_path"}
     ];
 
     for (var i = 0; i < $scope.uploaders.length; i++) {
@@ -580,6 +582,7 @@ App.config(function($routeProvider) {
                     cert_path: "",
                     ca_path: "",
                     private_path: "",
+                    fullchain_path: "",
                     upload: "0"
                 };
 

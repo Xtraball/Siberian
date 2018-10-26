@@ -1,12 +1,14 @@
-
-<form ng-submit="save()" class="form-horizontal">
+<form ng-submit="save()"
+      class="form-horizontal">
     <sb-section title="'<?php echo addcslashes(__("Application settings"), "'"); ?>'">
 
         <div class="form-group">
 
             <div class="col-md-6">
                 <label for="{{ configs.environment.code }}">{{ configs.environment.label }}</label>
-                <select id="configs.environment.code" class="form-control" ng-model="configs.environment.value">
+                <select id="configs.environment.code"
+                        class="form-control"
+                        ng-model="configs.environment.value">
                     <option value="production"><?php echo __("Production"); ?></option>
                     <option value="development"><?php echo __("Development"); ?></option>
                 </select>
@@ -39,8 +41,13 @@
 
         <div class="form-group">
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
@@ -64,7 +71,8 @@
                     </p>
                 </div>
 
-                <div class="col-md-12" ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
+                <div class="col-md-12"
+                     ng-show="configs.update_channel.value == 'preview' || configs.update_channel.value == 'beta'">
                     <p>
                         <b><?php echo __("Submit a bug report or improvement request for beta/preview") ?>:</b>
                     </p>
@@ -82,7 +90,8 @@
                     </p>
 
                     <br />
-                    <a class="btn btn-primary right" ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
+                    <a class="btn btn-primary right"
+                       ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
                     <div class="clear"></div>
                 </div>
 
@@ -99,7 +108,9 @@
 
             <div class="col-md-6">
                 <label for="{{ configs.session_handler.code }}">{{ configs.session_handler.label }}</label>
-                <select id="configs.session_handler.code" class="form-control" ng-model="configs.session_handler.value">
+                <select id="configs.session_handler.code"
+                        class="form-control"
+                        ng-model="configs.session_handler.value">
                     <option value="mysql"><?php echo __("MySQL (Default)"); ?></option>
                     <option value="redis"><?php echo __("Redis (requires to install php-redis & Redis server)"); ?></option>
                 </select>
@@ -121,8 +132,13 @@
 
         <div class="form-group">
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
@@ -144,7 +160,11 @@
                         class="btn btn-primary right">
                     <i class="fa fa-medkit"></i> <?php echo __("Migrate sessions"); ?>
                 </button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
@@ -156,13 +176,17 @@
 
         <div class="form-group">
 
-            <div class="col-md-12" ng-show="configs.use_https.value == 1">
-                <p class="alert alert-info" ng-bind-html="configs.testssl.message"></p>
+            <div class="col-md-12"
+                 ng-show="configs.use_https.value == 1">
+                <p class="alert alert-info"
+                   ng-bind-html="configs.testssl.message"></p>
             </div>
 
             <div class="col-md-6">
                 <label for="{{ configs.use_https.code }}">{{ configs.use_https.label }}</label>
-                <select id="configs.use_https.code" class="form-control" ng-model="configs.use_https.value">
+                <select id="configs.use_https.code"
+                        class="form-control"
+                        ng-model="configs.use_https.value">
                     <option value="0"><?php echo __("No"); ?></option>
                     <option value="1"><?php echo __("Yes"); ?></option>
                 </select>
@@ -171,7 +195,9 @@
             <div class="col-md-6">
 
                 <label for="{{ configs.cpanel_type.code }}">{{ configs.cpanel_type.label }}</label>
-                <select id="configs.cpanel_type.code" class="form-control" ng-model="configs.cpanel_type.value">
+                <select id="configs.cpanel_type.code"
+                        class="form-control"
+                        ng-model="configs.cpanel_type.value">
                     <option value="-1"><?php echo __("Select a panel type or self-managed") ?></option>
                     <option value="self"><?php echo __("Unknown - Self-managed"); ?></option>
                     <option value="plesk"><?php echo __("Plesk 12+"); ?></option>
@@ -185,92 +211,144 @@
             <div class="col-md-6">
                 <br /><br />
                 <label for="{{ configs.letsencrypt_env.code }}">{{ configs.letsencrypt_env.label }}</label>
-                <select id="configs.letsencrypt_env.code" class="form-control" ng-model="configs.letsencrypt_env.value">
+                <select id="configs.letsencrypt_env.code"
+                        class="form-control"
+                        ng-model="configs.letsencrypt_env.value">
                     <option value="staging"><?php echo __("Staging"); ?></option>
                     <option value="production"><?php echo __("Production"); ?></option>
                 </select>
 
                 <br />
-                <label ng-if="configs.certificates.length" for="config_hostname"><?php echo __("Selected main hostname"); ?></label>
-                <select ng-if="configs.certificates.length" id="config_hostname" class="form-control" ng-model="configs.current_domain">
+                <label ng-if="configs.certificates.length"
+                       for="config_hostname"><?php echo __("Selected main hostname"); ?></label>
+                <select ng-if="configs.certificates.length"
+                        id="config_hostname"
+                        class="form-control"
+                        ng-model="configs.current_domain">
                     <option value=""><?php echo __("Select a hostname") ?></option>
-                    <option ng-repeat="certificate in configs.certificates" ng-value="certificate.hostname">{{ certificate.hostname }}</option>
+                    <option ng-repeat="certificate in configs.certificates"
+                            ng-value="certificate.hostname">{{ certificate.hostname }}</option>
                 </select>
 
-                <label ng-if="!configs.certificates.length" for="config_hostname"><?php echo __("Main hostname"); ?></label>
-                <input type="text" ng-if="!configs.certificates.length" id="config_hostname" class="form-control" ng-model="configs.current_domain">
+                <label ng-if="!configs.certificates.length"
+                       for="config_hostname"><?php echo __("Main hostname"); ?></label>
+                <input type="text"
+                       ng-if="!configs.certificates.length"
+                       id="config_hostname"
+                       class="form-control"
+                       ng-model="configs.current_domain">
 
                 <br />
                 <label ng-show="configs.cpanel_type.value != -1"><?php echo __("Request or renew the certificate via Let's Encrypt.") ?></label>
                 <div ng-show="configs.cpanel_type.value != -1">
-                    <a class="btn btn-primary left" ng-click="generateSsl(false);"><?php echo __("Request & Upload to panel") ?></a>
-                    <a ng-if="show_force" class="btn btn-primary left" ng-click="generateSsl(true);"><?php echo __("Force request & Upload to panel") ?></a>
+                    <a class="btn btn-primary left"
+                       ng-click="generateSsl(false);"><?php echo __("Request & Upload to panel") ?></a>
+                    <a ng-if="show_force"
+                       class="btn btn-primary left"
+                       ng-click="generateSsl(true);"><?php echo __("Force request & Upload to panel") ?></a>
                 </div>
 
             </div>
 
-            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'cpanel'">
+            <div class="col-md-6"
+                 ng-if="configs.cpanel_type.value == 'cpanel'">
                 <br /><br />
 
                 <label><?php echo __("Host") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.cpanel.host" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.cpanel.host" />
 
                 <label><?php echo __("Username") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.cpanel.user" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.cpanel.user" />
 
                 <label><?php echo __("Password") ?> *</label>
-                <input class="form-control" type="password" ng-model="configs.cpanel.password" />
+                <input class="form-control"
+                       type="password"
+                       ng-model="configs.cpanel.password" />
 
                 <label><?php echo __("Web space") ?></label>
-                <input class="form-control" type="text" ng-model="configs.cpanel.webspace" placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.cpanel.webspace"
+                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'plesk'">
                 <br /><br />
 
                 <label><?php echo __("Host") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.plesk.host" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.plesk.host" />
 
                 <label class="config-spacer"><?php echo __("Username") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.plesk.user" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.plesk.user" />
 
                 <label class="config-spacer"><?php echo __("Password") ?> *</label>
-                <input class="form-control" type="password" ng-model="configs.plesk.password" />
+                <input class="form-control"
+                       type="password"
+                       ng-model="configs.plesk.password" />
 
                 <label class="config-spacer"><?php echo __("Web space") ?></label>
-                <input class="form-control" type="text" ng-model="configs.plesk.webspace" placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.plesk.webspace"
+                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'vestacp'">
                 <br /><br />
 
                 <label><?php echo __("Host") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.vestacp.host" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.vestacp.host" />
 
                 <label class="config-spacer"><?php echo __("Username") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.vestacp.user" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.vestacp.user" />
 
                 <label class="config-spacer"><?php echo __("Password") ?> *</label>
-                <input class="form-control" type="password" ng-model="configs.vestacp.password" />
+                <input class="form-control"
+                       type="password"
+                       ng-model="configs.vestacp.password" />
 
                 <label class="config-spacer"><?php echo __("Web space") ?></label>
-                <input class="form-control" type="text" ng-model="configs.vestacp.webspace" placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.vestacp.webspace"
+                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'directadmin'">
                 <br /><br />
 
                 <label><?php echo __("Host") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.directadmin.host" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.directadmin.host" />
 
                 <label class="config-spacer"><?php echo __("Username") ?> *</label>
-                <input class="form-control" type="text" ng-model="configs.directadmin.user" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.directadmin.user" />
 
                 <label class="config-spacer"><?php echo __("Password") ?> *</label>
-                <input class="form-control" type="password" ng-model="configs.directadmin.password" />
+                <input class="form-control"
+                       type="password"
+                       ng-model="configs.directadmin.password" />
 
                 <label class="config-spacer"><?php echo __("Web space") ?></label>
-                <input class="form-control" type="text" ng-model="configs.directadmin.webspace" placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.directadmin.webspace"
+                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
 
             </div>
 
@@ -280,7 +358,8 @@
         <div class="form-group">
             <div class="col-md-12">
 
-                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
 
                 <div ng-show="configs.certificates.length">
                     <a class="btn btn-primary right"
@@ -288,7 +367,11 @@
                        ng-click="testSsl();"><?php echo __("Test SSL/HTTPS") ?></a>
                 </div>
 
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
 
                 <div class="clear"></div>
             </div>
@@ -312,23 +395,42 @@
                 <th style="text-align:right;"><?php echo __("Actions") ?></th>
             </tr>
             </thead>
-            <tbody ng-repeat="certificate in configs.certificates" ng-show="configs.certificates.length">
-            <tr class="ssl-line" ng-class="{ 'color-success' : certificate.is_valid, 'color-failed' : !certificate.is_valid }">
+            <tbody ng-repeat="certificate in configs.certificates"
+                   ng-show="configs.certificates.length">
+            <tr class="ssl-line"
+                ng-class="{ 'color-success' : certificate.is_valid, 'color-failed' : !certificate.is_valid }">
                 <td>{{ certificate.id }}</td>
                 <td>{{ certificate.hostname }}</td>
                 <td>{{ certificate.source }}</td>
-                <td><a target="_blank" title="<?php echo __js("Download Certificate", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
-                <td><a target="_blank" title="<?php echo __js("Download CA", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
-                <td><a target="_blank" title="<?php echo __js("Download Private", '"') ?>" href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=private&cert_id="); ?>{{ certificate.id }}"><img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a></td>
+                <td><a target="_blank"
+                       title="<?php echo __js("Download Certificate", '"') ?>"
+                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}">
+                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
+                </td>
+                <td><a target="_blank"
+                       title="<?php echo __js("Download CA", '"') ?>"
+                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}">
+                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
+                </td>
+                <td><a target="_blank"
+                       title="<?php echo __js("Download Private", '"') ?>"
+                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=private&cert_id="); ?>{{ certificate.id }}">
+                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
+                </td>
                 <td>{{ certificate.updated_at }}</td>
                 <td style="text-align:right;">
-                    <button class="btn btn-xs btn-info" ng-show="configs.cpanel_type.value != -1" ng-click="uploadToPanel(certificate.hostname)">
+                    <button class="btn btn-xs btn-info"
+                            ng-show="configs.cpanel_type.value != -1"
+                            ng-click="uploadToPanel(certificate.hostname)">
                         <i class="fa fa-upload"></i>&nbsp;&nbsp;<?php echo __("Upload to panel") ?>
                     </button>
-                    <button class="btn btn-xs btn-info" style="margin-right: 10px;" ng-click="certificate.show_info = !certificate.show_info">
+                    <button class="btn btn-xs btn-info"
+                            style="margin-right: 10px;"
+                            ng-click="certificate.show_info = !certificate.show_info">
                         <i class="fa fa-info"></i>&nbsp;&nbsp;<?php echo __("Info") ?>
                     </button>
-                    <button class="btn btn-xs btn-danger" ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></button>
+                    <button class="btn btn-xs btn-danger"
+                            ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></button>
                 </td>
             </tr>
             <tr ng-show="certificate.show_info">
@@ -383,14 +485,17 @@
 
     <div class="cert-upload ng-isolate-scope">
 
-        <form ng-submit="createCertificate()" class="form-horizontal">
+        <form ng-submit="createCertificate()"
+              class="form-horizontal">
             <br />
 
             <div class="form-group">
                 <div class="col-md-12">
                     <div class="form-group col-md-6">
                         <label><?php echo __("Hostname") ?> *</label>
-                        <input class="form-control" type="text" ng-model="form.hostname" />
+                        <input class="form-control"
+                               type="text"
+                               ng-model="form.hostname" />
                     </div>
                 </div>
 
@@ -398,14 +503,21 @@
                     <div class="form-group col-md-6">
                         <label><?php echo __("Upload files or use existing certificates on my server") ?></label>
                         <br />
-                        <label for="up-cert"><input type="radio" id="up-cert" ng-model="form.upload" value="1" /> <?php echo __("Upload my certificates") ?></label>
+                        <label for="up-cert"><input type="radio"
+                                                    id="up-cert"
+                                                    ng-model="form.upload"
+                                                    value="1" /> <?php echo __("Upload my certificates") ?></label>
                         <br />
-                        <label for="path-cert"><input type="radio" id="path-cert" ng-model="form.upload" value="0" /> <?php echo __("Use existing certificates on my server") ?></label>
+                        <label for="path-cert"><input type="radio"
+                                                      id="path-cert"
+                                                      ng-model="form.upload"
+                                                      value="0" /> <?php echo __("Use existing certificates on my server") ?></label>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group" ng-if="form.upload == '1'">
+            <div class="form-group"
+                 ng-if="form.upload == '1'">
 
                 <!-- Certificate -->
                 <div class="col-md-12">
@@ -415,7 +527,10 @@
                 <div class="col-md-4">
                     <div class="upload_a_file">
                         <label for="cert_path"><?php echo __("Click here to send your certificate"); ?></label>
-                        <input id="cert_path" type="file" nv-file-select="" uploader="cert_path" />
+                        <input id="cert_path"
+                               type="file"
+                               nv-file-select=""
+                               uploader="cert_path" />
                     </div>
                 </div>
 
@@ -429,7 +544,10 @@
                     <div class="drop_a_file">
                         <label><?php echo __("Drop your certificate here"); ?></label>
                         <div ng-show="cert_path.isHTML5">
-                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="cert_path">
+                            <div class="well drop-zone"
+                                 nv-file-drop=""
+                                 nv-file-over=""
+                                 uploader="cert_path">
                             </div>
                         </div>
                     </div>
@@ -438,7 +556,8 @@
                 <div class="clear"></div>
 
                 <div class="col-md-12">
-                    <table class="table" ng-show="cert_path.queue.length">
+                    <table class="table"
+                           ng-show="cert_path.queue.length">
                         <thead>
                         <tr>
                             <th width="75%"><?php echo __("Name") ?></th>
@@ -448,11 +567,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="item in cert_path.queue" ng-show="cert_path.queue.length">
+                        <tr ng-repeat="item in cert_path.queue"
+                            ng-show="cert_path.queue.length">
                             <td><strong>{{ item.file.name }}</strong></td>
                             <td ng-show="cert_path.isHTML5">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    <div class="progress-bar progress-bar-striped"
+                                         role="progressbar"
+                                         ng-style="{ 'width': item.progress + '%' }"></div>
                                 </div>
                             </td>
                             <td class="text-center">
@@ -461,7 +583,10 @@
                                 <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                             </td>
                             <td nowrap class="text-right">
-                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs"
+                                        ng-click="item.remove()"
+                                        ng-disabled="item.isReady || item.isUploading">
                                     <span class="fa fa-remove"></span>
                                 </button>
                             </td>
@@ -479,7 +604,10 @@
                 <div class="col-md-4">
                     <div class="upload_a_file">
                         <label for="private_path"><?php echo __("Click here to send your Private certificate"); ?></label>
-                        <input id="private_path" type="file" nv-file-select="" uploader="private_path" />
+                        <input id="private_path"
+                               type="file"
+                               nv-file-select=""
+                               uploader="private_path" />
                     </div>
                 </div>
 
@@ -493,7 +621,10 @@
                     <div class="drop_a_file">
                         <label><?php echo __("Drop your certificate here"); ?></label>
                         <div ng-show="private_path.isHTML5">
-                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="private_path">
+                            <div class="well drop-zone"
+                                 nv-file-drop=""
+                                 nv-file-over=""
+                                 uploader="private_path">
                             </div>
                         </div>
                     </div>
@@ -502,7 +633,8 @@
                 <div class="clear"></div>
 
                 <div class="col-md-12">
-                    <table class="table" ng-show="private_path.queue.length">
+                    <table class="table"
+                           ng-show="private_path.queue.length">
                         <thead>
                         <tr>
                             <th width="75%"><?php echo __("Name") ?></th>
@@ -512,11 +644,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="item in private_path.queue" ng-show="private_path.queue.length">
+                        <tr ng-repeat="item in private_path.queue"
+                            ng-show="private_path.queue.length">
                             <td><strong>{{ item.file.name }}</strong></td>
                             <td ng-show="private_path.isHTML5">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    <div class="progress-bar progress-bar-striped"
+                                         role="progressbar"
+                                         ng-style="{ 'width': item.progress + '%' }"></div>
                                 </div>
                             </td>
                             <td class="text-center">
@@ -525,7 +660,10 @@
                                 <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                             </td>
                             <td nowrap class="text-right">
-                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs"
+                                        ng-click="item.remove()"
+                                        ng-disabled="item.isReady || item.isUploading">
                                     <span class="fa fa-remove"></span>
                                 </button>
                             </td>
@@ -535,6 +673,83 @@
                 </div>
                 <!-- /Private Certificate -->
 
+                <!-- Fullchain -->
+                <div class="col-md-12">
+                    <h4><?php echo __("Full chain") ?> *</h4>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="upload_a_file">
+                        <label for="cert_path"><?php echo __("Click here to send your fullchain"); ?></label>
+                        <input id="cert_path"
+                               type="file"
+                               nv-file-select=""
+                               uploader="fullchain_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="drop_a_file">
+                        <label><?php echo __("OR"); ?></label>
+                    </div>
+                </div>
+
+                <div class="col-md-5">
+                    <div class="drop_a_file">
+                        <label><?php echo __("Drop your certificate here"); ?></label>
+                        <div ng-show="fullchain_path.isHTML5">
+                            <div class="well drop-zone"
+                                 nv-file-drop=""
+                                 nv-file-over=""
+                                 uploader="fullchain_path">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-md-12">
+                    <table class="table"
+                           ng-show="fullchain_path.queue.length">
+                        <thead>
+                        <tr>
+                            <th width="75%"><?php echo __("Name") ?></th>
+                            <th ng-show="fullchain_path.isHTML5"><?php echo __("Progress") ?></th>
+                            <th class="text-center"><?php echo __("Status") ?></th>
+                            <th style="width: 38px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in fullchain_path.queue"
+                            ng-show="fullchain_path.queue.length">
+                            <td><strong>{{ item.file.name }}</strong></td>
+                            <td ng-show="fullchain_path.isHTML5">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped"
+                                         role="progressbar"
+                                         ng-style="{ 'width': item.progress + '%' }"></div>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                            </td>
+                            <td nowrap class="text-right">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs"
+                                        ng-click="item.remove()"
+                                        ng-disabled="item.isReady || item.isUploading">
+                                    <span class="fa fa-remove"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /Fullchain -->
+
                 <!-- CA Certificate -->
                 <div class="col-md-12">
                     <h4><?php echo __("CA certificate") ?></h4>
@@ -543,7 +758,10 @@
                 <div class="col-md-4">
                     <div class="upload_a_file">
                         <label for="ca_path"><?php echo __("Click here to send your CA certificate"); ?></label>
-                        <input id="ca_path" type="file" nv-file-select="" uploader="ca_path" />
+                        <input id="ca_path"
+                               type="file"
+                               nv-file-select=""
+                               uploader="ca_path" />
                     </div>
                 </div>
 
@@ -557,7 +775,10 @@
                     <div class="drop_a_file">
                         <label><?php echo __("Drop your certificate here"); ?></label>
                         <div ng-show="ca_path.isHTML5">
-                            <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="ca_path">
+                            <div class="well drop-zone"
+                                 nv-file-drop=""
+                                 nv-file-over=""
+                                 uploader="ca_path">
                             </div>
                         </div>
                     </div>
@@ -566,7 +787,8 @@
                 <div class="clear"></div>
 
                 <div class="col-md-12">
-                    <table class="table" ng-show="ca_path.queue.length">
+                    <table class="table"
+                           ng-show="ca_path.queue.length">
                         <thead>
                         <tr>
                             <th width="75%"><?php echo __("Name") ?></th>
@@ -576,11 +798,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr ng-repeat="item in ca_path.queue" ng-show="ca_path.queue.length">
+                        <tr ng-repeat="item in ca_path.queue"
+                            ng-show="ca_path.queue.length">
                             <td><strong>{{ item.file.name }}</strong></td>
                             <td ng-show="ca_path.isHTML5">
                                 <div class="progress">
-                                    <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                    <div class="progress-bar progress-bar-striped"
+                                         role="progressbar"
+                                         ng-style="{ 'width': item.progress + '%' }"></div>
                                 </div>
                             </td>
                             <td class="text-center">
@@ -589,7 +814,10 @@
                                 <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                             </td>
                             <td nowrap class="text-right">
-                                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                                <button type="button"
+                                        class="btn btn-danger btn-xs"
+                                        ng-click="item.remove()"
+                                        ng-disabled="item.isReady || item.isUploading">
                                     <span class="fa fa-remove"></span>
                                 </button>
                             </td>
@@ -602,14 +830,17 @@
 
             </div>
 
-            <div class="form-group" ng-if="form.upload == '0'">
+            <div class="form-group"
+                 ng-if="form.upload == '0'">
 
                 <div class="col-md-12">
                     <div class="form-group col-md-6">
                         <label>
                             <?php echo __("Path to your Certificate") ?> *
                         </label>
-                        <input class="form-control" type="text" ng-model="form.cert_path" />
+                        <input class="form-control"
+                               type="text"
+                               ng-model="form.cert_path" />
                     </div>
                 </div>
 
@@ -618,7 +849,20 @@
                         <label>
                             <?php echo __("Path to your Private key") ?> *
                         </label>
-                        <input class="form-control" type="text" ng-model="form.private_path" />
+                        <input class="form-control"
+                               type="text"
+                               ng-model="form.private_path" />
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <label>
+                            <?php echo __("Path to your Fullchain") ?> *
+                        </label>
+                        <input class="form-control"
+                               type="text"
+                               ng-model="form.fullchain_path" />
                     </div>
                 </div>
 
@@ -627,15 +871,22 @@
                         <label>
                             <?php echo __("Path to your CA certificate") ?>
                         </label>
-                        <input class="form-control" type="text" ng-model="form.ca_path" />
+                        <input class="form-control"
+                               type="text"
+                               ng-model="form.ca_path" />
                     </div>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary right"><?php echo __("Upload"); ?></button>
-                    <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                    <button type="submit"
+                            class="btn btn-primary right"><?php echo __("Upload"); ?></button>
+                    <sb-loader is_visible="form_loader_is_visible"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'no'"
+                               class="form_loader"></sb-loader>
                     <div class="clear"></div>
                 </div>
             </div>
