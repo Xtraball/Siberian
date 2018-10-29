@@ -211,6 +211,11 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
                             $rootScope.openLoaderProgress();
                             ProgressbarService.createCircle('.ui-progress-view-circle');
 
+                            // Automatically hides offline loader after 4.7 seconds!
+                            $timeout(function () {
+                                $rootScope.backgroundLoaderProgress();
+                            }, 4700);
+
                             service.updateCache(true);
                         } else {
                             $window.localStorage.setItem('sb-offline-mode', 'no');

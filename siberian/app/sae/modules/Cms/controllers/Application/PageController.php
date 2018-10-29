@@ -184,7 +184,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                     if($block["type"] == "address" AND (empty($block["latitude"]) OR empty($block["longitude"]))) {
                         $latlon = Siberian_Google_Geocoding::getLatLng([
                             "address" => $block["address"]
-                        ]);
+                        ], $this->getApplication()->getGooglemapsKey());
 
                         if(!empty($latlon[0]) AND !empty($latlon[1])) {
                             $blocks[$k]["latitude"] = $latlon[0];

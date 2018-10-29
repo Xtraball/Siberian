@@ -10,7 +10,6 @@ angular.module('starter').config(function ($stateProvider, HomepageLayoutProvide
             resolve: lazyLoadResolver('discount'),
             templateUrl: function (param) {
                 var layoutId = HomepageLayoutProvider.getLayoutIdForValueId(param.value_id);
-                console.log('getting layoutId: ', layoutId);
                 switch (layoutId) {
                     case 2:
                         return 'templates/html/l2/list.html';

@@ -75,7 +75,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
                     'city' => 'city',
                     'country' => 'country'
                 ]);
-                list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address);
+                list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address, $this->getApplication()->getGooglemapsKey());
             }
 
             $params['latitude'] = $latitude;

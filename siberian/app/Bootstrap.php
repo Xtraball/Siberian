@@ -31,7 +31,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
-        $loader->registerNamespace('Stripe');
         $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
 
@@ -297,6 +296,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Silent it's probably an installation!
         }
 
+        // Check default role
+        try {
+            $fixDefaultRole = __get('fix_default_role_4.15.3');
+            if ($fixDefaultRole !== 'done') {
+                $roleId = __get('admin_default_role_id');
+                $role = (new Acl_Model_Role())->find($roleId);
+                if (!$role->getId()) {
+                    // Get admin role
+                    $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
+                    if ($adminRole->getId()) {
+                        __set('admin_default_role_id', $adminRole->getId());
+                        __set('fix_default_role_4.15.3', 'done');
+                    }
+                } else {
+                    __set('fix_default_role_4.15.3', 'done');
+                }
+            }
+        } catch (\Exception $e) {
+            // Nope!
+        }
+
         Siberian_Cache_Design::init();
         $this->getPluginLoader()->addPrefixPath('Siberian_Application_Resource', 'Siberian/Application/Resource');
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNeverRender(true);
@@ -407,7 +427,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * @return mixed|void|Zend_Controller_Response_Abstract
+     * @return mixed|Zend_Controller_Response_Abstract
      * @throws Exception
      * @throws Zend_Application_Bootstrap_Exception
      */

@@ -16,6 +16,8 @@ if (Siberian_Version::is('PE')) {
             ]);
 }
 
+$offlineSub = $application->getOfflineSubscription();
+
 ?>
 
 <?php if ($this->_canAccess('editor_publication') &&
@@ -30,7 +32,7 @@ if (Siberian_Version::is('PE')) {
                     <?php echo __('Subscription'); ?>
                 </h3>
                 <div class="form-horizontal container-fluid subcontent content-color">
-                    <?php if ($offlineSub = $application->getOfflineSubscription()): ?>
+                    <?php if ($offlineSub && !$offlineSub->getIsActive()): ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <div class="alert alert-warning">

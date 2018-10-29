@@ -59,6 +59,13 @@ class Admin_AccountController extends Admin_Controller_Default
                     $admin->setParentId($this->getAdmin()->getId());
                 }
 
+                // Protection for demo mode!
+                if (__getConfig('is_demo')) {
+                    if (in_array($admin->getEmail(), ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+                }
+
                 $check_email_admin->find($data['email'], 'email');
                 if ($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
                     throw new \Siberian\Exception(__('This email address is already used'));
@@ -116,6 +123,7 @@ class Admin_AccountController extends Admin_Controller_Default
                     ->setFirstname($data['firstname'])
                     ->setLastname($data['lastname'])
                     ->setPhone($data['phone'])
+                    ->setEmail($data['email'])
                     ->setOptinEmail($data['optin_email'] === 'on')
                     ->save();
 

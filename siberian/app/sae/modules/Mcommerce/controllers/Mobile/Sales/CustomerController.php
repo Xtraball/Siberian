@@ -20,18 +20,14 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                 /* Either `legacy` or `current` */
                 $version = $this->_getVersion($data);
 
-                if ($version == "legacy") {
-                    $errors = $mcommerce->validateLegacyCustomer($this, $data['form']['customer']);
-                } else {
-                    $errors = $mcommerce->validateCustomer($this, $data['form']['customer']);
-                }
+                $errors = $mcommerce->validateCustomer($this, $data['form']['customer']);
 
                 if (!empty($errors)) {
                     $message = $this->_('Please fill in the following fields:');
                     foreach ($errors as $field) {
                         $message .= '<br />- ' . $field;
                     }
-                    throw new Exception($this->_($message));
+                    throw new \Siberian\Exception(__($message));
                 }
 
                 $info = [];
@@ -43,14 +39,15 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                     ]);
                     $info = $this->_getCartData($data['form']['customer']);
                 } else {
-                    $cart->setLocation($data['form']['customer']['metadatas']['delivery_address']);
+                    $cart->setLocation($data['form']['customer']['metadatas']['delivery_address'], $this->getApplication()->getGooglemapsKey());
                     $info = ["customer_id" => $data['form']['customer']['id']];
                 }
 
                 $cart->addData($info)->save();
 
                 $html = [
-                    'customer' => $version == "legacy" ? $data['form']['customer'] : Mcommerce_Model_Customer::getCleanInfos($mcommerce, $data['form']['customer']),
+                    'customer' => $version == "legacy" ?
+                        $data['form']['customer'] : Mcommerce_Model_Customer::getCleanInfos($mcommerce, $data['form']['customer']),
                     'cartId' => $cart->getId()
                 ];
             } catch (Exception $e) {
@@ -60,7 +57,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
 
     }

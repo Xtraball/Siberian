@@ -878,9 +878,10 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         if ($this->getRequest()->getLanguageCode()) {
-            // Clear params!
-            $this->getRequest()->clearParams();
-            $url = is_null($url) ? '/' : $url;
+            $url = is_null($url) ? $this->getRequest()->getPathInfo() : $url;
+
+            // filter https? for unwanted redirects
+            $url = preg_replace('/(:|%3A)/mi', '', $url);
         }
 
         return $url;

@@ -144,7 +144,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             }
 
             if (!$this->__user || !$this->__pwd || !$this->__signature) {
-                throw new Siberian_Exception('Error, Paypal is not properly set up.', 100);
+                throw new \Siberian\Exception('Error, Paypal is not properly set up.', 100);
             }
         }
 
@@ -162,8 +162,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
      */
     public function request($method, $params)
     {
-
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
 
         if (!$this->_isValid()) {
             return false;
@@ -205,7 +204,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             return false;
         } else {
-            if ($responseArray['ACK'] === 'Success') {
+            if (in_array($responseArray['ACK'], ['Success', 'Failure'])) {
                 curl_close($curl);
 
                 if (!empty($responseArray['TOKEN']) && $token = $responseArray['TOKEN']) {
@@ -227,12 +226,12 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     }
 
     /**
-     * @return bool|string
-     * @override
+     * @return array|bool|mixed|string
+     * @throws Zend_Exception
      */
     public function getUrl()
     {
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
         if (!$this->_isValid()) {
             return false;
         }
@@ -320,6 +319,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     /**
      * @param $token
      * @return bool
+     * @throws Zend_Exception
      */
     public function process($token)
     {
@@ -328,13 +328,13 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
         }
 
         if (!$token) {
-            Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
+            \Zend_Registry::get('logger')->log('Paypal token is missing.', Zend_Log::ERR);
         }
 
         $response = $this->request(self::GET_EXPRESS_CHECKOUT_DETAILS, [
             'TOKEN' => $token
         ]);
-        $logger = Zend_Registry::get('logger');
+        $logger = \Zend_Registry::get('logger');
         $logger->debug(print_r($response, true));
 
         if ($response) {
@@ -392,6 +392,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             $params = array_merge($params, array(
                 'TOKEN' => $token,
                 'CURRENCYCODE' => Core_Model_Language::getCurrentCurrency()->getShortName(),
+                'MAXFAILEDPAYMENTS' => 1,
                 'PROFILESTARTDATE' => $date,
                 'BILLINGPERIOD' => $this->getPeriod($frequency),
                 'BILLINGFREQUENCY' => 1,
@@ -434,6 +435,37 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
     }
 
     /**
+     * @param Subscription_Model_Subscription_Application $subscription
+     * @return bool|mixed|string
+     * @throws Exception
+     */
+    static public function syncExpiration($subscription)
+    {
+        // Ok fetch the right date
+        $status = $subscription->getStatus(true);
+        if ($status['isActive']) {
+            $nextBillingDate = $status['details']['NEXTBILLINGDATE'];
+            $date = date_create_from_format("Y-m-d\TH:i:sO", $nextBillingDate);
+            $date->add(new \DateInterval('P1D'));
+            $newDate = $date->format("Y-m-d H:i:s");
+
+            if ($date->getTimestamp() > time()) {
+                $subscription
+                    ->setExpireAt($newDate)
+                    ->setIsActive(1)
+                    ->save();
+
+                $message = __('PayPal subscription is now correctly synced and will correctly expire by %s!',
+                    datetime_to_format($newDate));
+
+                return $message;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @param $paymentData
      * @return array
      */
@@ -450,14 +482,24 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             $params = [
                 'PROFILEID' => $paymentData['profile_id'],
-                'ACTION' => 'CANCEL',
-                'NOTE' => __('Your subscription was manually cancelled.')
             ];
 
-            $result = (new self())->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+            $result = (new self())->request(self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS, $params);
 
-            if ($result['ACK'] !== 'Success') {
-                throw new \Siberian\Exception(__('Unable to cancel PayPal subscription, tray again later.'));
+            if ($result['STATUS'] === 'Active') {
+                $params = [
+                    'PROFILEID' => $paymentData['profile_id'],
+                    'ACTION' => 'CANCEL',
+                    'NOTE' => __('Your subscription was manually cancelled.')
+                ];
+
+                $result = (new self())->request(self::MANAGE_RECCURING_PAYMENTS_PROFILE, $params);
+
+                if ($result['ACK'] !== 'Success') {
+                    throw new \Siberian\Exception(__('Unable to cancel PayPal subscription, tray again later.'));
+                }
+            } else {
+                $result = __("The subscription was already inactive or cancelled");
             }
 
             return [
@@ -485,16 +527,29 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
 
             $result = (new self())->request(self::GET_RECURRING_PAYMENTS_PROFILE_DETAILS, $params);
 
-            if ($result['STATUS'] !== 'Active') {
-                throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
+            if ($result['ACK'] === 'Success') {
+                if ($result['STATUS'] === 'Active') {
+                    if (isset($result['OUTSTANDINGBALANCE']) && $result['OUTSTANDINGBALANCE'] > 0) {
+                        throw new \Siberian\Exception(
+                            __('PayPal subscription is Active') . '<br /><b>' .
+                            __('Outstanding balance of %s %s.',
+                                $result['OUTSTANDINGBALANCE'], $result['CURRENCYCODE']) . '</b>');
+                    }
+                } else {
+                    throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
+                }
+            } else if ($result['ACK'] === 'Failure') {
+                throw new \Siberian\Exception(__($result['L_LONGMESSAGE0']));
             }
 
             return [
                 'success' => true,
+                'result' => $result,
             ];
         } catch (\Exception $e) {
             return [
                 'success' => false,
+                'result' => $result,
                 'message' => $e->getMessage(),
             ];
         }
@@ -598,7 +653,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                 $order->find($orderId);
 
                 if (!$order->getId()) {
-                    throw new Siberian_Exception(__('An error occurred while processing your order. Please, try again later.'));
+                    throw new \Siberian\Exception(__('An error occurred while processing your order. Please, try again later.'));
                 }
 
                 $order->cancel();
@@ -841,6 +896,19 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                 $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is active");
             }
 
+            $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
+            $now = time();
+            if ($now > $nextBillingDate->getTimestamp()) {
+                if ($cronInstance) {
+                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . " Cancelling unpaid subscription.");
+                }
+                $subscription->cancel();
+                $subscription->cancelCron();
+                $subscription->cronCancelEmail(__('Your subscription was automatically cancelled.'));
+
+                return;
+            }
+
             $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
             // to fix Zend_Date day shifting we set hour as 12:00pm
             $profileStartDate->setHour('12');
@@ -849,54 +917,50 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
             $checkingInvoiceDate = clone $profileStartDate;
             $frequency = $subscription->getSubscription()->getPaymentFrequency();
 
-            while ($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
-                switch ($frequency) {
-                    case 'Monthly':
-                        if (!$saleModel->isInvoiceExistsForMonth(
-                            $subscription->getAppId(), $checkingInvoiceDate
-                        )) {
-                            // @date 23th Mars 2018
-                            // we created invoices only since 2018-01-01
-                            // indeed some siberian already fix there accounting before
-                            // and we don't want to dupplicated fixed invoices
-                            if (!$checkingInvoiceDate->isEarlier($year2018)) {
-                                if ($cronInstance) {
-                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
-                                }
-                                $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+            switch ($frequency) {
+                case 'Monthly':
+                    if (!$saleModel->isInvoiceExistsForMonth(
+                        $subscription->getAppId(), $checkingInvoiceDate
+                    )) {
+                        // @date 23th Mars 2018
+                        // we created invoices only since 2018-01-01
+                        // indeed some siberian already fix there accounting before
+                        // and we don't want to duplicated fixed invoices
+                        if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                            if ($cronInstance) {
+                                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
                             }
+                            $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                         }
-                        $checkingInvoiceDate->addMonth(1);
-                        break;
-                    case 'Yearly':
-                        if (!$saleModel->isInvoiceExistsForYear(
-                            $subscription->getAppId(), $checkingInvoiceDate
-                        )) {
-                            // @date 23th Mars 2018
-                            // we created invoices only since 2018-01-01
-                            // indeed some siberian already fix there accounting before
-                            // and we don't want to dupplicated fixed invoices
-                            if (!$checkingInvoiceDate->isEarlier($year2018)) {
-                                if ($cronInstance) {
-                                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
-                                }
-                                $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
+                    }
+                    break;
+                case 'Yearly':
+                    if (!$saleModel->isInvoiceExistsForYear(
+                        $subscription->getAppId(), $checkingInvoiceDate
+                    )) {
+                        // @date 23th Mars 2018
+                        // we created invoices only since 2018-01-01
+                        // indeed some siberian already fix there accounting before
+                        // and we don't want to dupplicated fixed invoices
+                        if (!$checkingInvoiceDate->isEarlier($year2018)) {
+                            if ($cronInstance) {
+                                $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
                             }
+                            $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                         }
-                        $checkingInvoiceDate->addYear(1);
-                        break;
-                    default:
-                        throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
-                }
+                    }
+                    break;
+                default:
+                    throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
             }
+
             // Payment (re-)activated!
-            $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
-            $nextBillingDate->setHour('12');
-            $nextBillingDate->setMinute('00');
+            $nextBillingDate = $response['NEXTBILLINGDATE'];
+            $dateNext = date_create_from_format("Y-m-d\TH:i:sO", $nextBillingDate);
 
             $subscription->unlock();
             $subscription
-                ->update($nextBillingDate)
+                ->update($dateNext->format("Y-m-d H:i:s"))
                 ->save();
 
             // clean the mess

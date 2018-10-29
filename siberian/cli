@@ -260,7 +260,15 @@ try {
             }
             break;
         case 'subscription:check-payments':
-            \Subscription_Model_Subscription_Application::checkRecurrencies(new Siberian_Cron());
+            if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
+                \Subscription_Model_Subscription_Application::checkRecurrencies(new Siberian_Cron());
+            }
+            break;
+        case 'subscription:sync':
+            // Update subscription statuses cache!
+            if (method_exists('Subscription_Model_Subscription_Application', 'cacheStatusesAndSync')) {
+                \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Siberian_Cron());
+            }
             break;
         case 'help':
         default:
@@ -310,6 +318,9 @@ try {
     
 " . color('subscription:check-payments', 'brown') . "
     Manually run payment verification for expired subscriptions (only for PE, this action is normally triggered by the cron).
+    
+" . color('subscription:sync', 'brown') . "
+    Manually cache payment statuses.
 
 " . color('help', 'brown') . "
     Prints the current help message.    
