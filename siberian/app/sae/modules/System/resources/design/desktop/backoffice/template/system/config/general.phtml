@@ -23,7 +23,7 @@ $host = $this->getRequest()->getHttpHost();
                        ng-model="configs.main_domain.value" />
                 <br />
                 <div class="alert alert-info">
-                    <?php echo __('Main domain (without https?://) is required for services, and tools.'); ?>
+                    <?php echo __('Siberian main domain (without https?://) is required for services, and tools.'); ?>
                     <?php if (!empty($host)): ?>
                         <p ng-if="configs.main_domain.value.length === 0">
                             <b><?php echo __('Hint') ?>: </b><?php echo __('This is probably %s', '<span style="font-weight: bold; font-style: italic;">' . $host . '</i>'); ?>

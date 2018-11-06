@@ -1,14 +1,29 @@
 <?php
 
-class Front_View_Default extends Core_View_Default {
+/**
+ * Class Front_View_Default
+ */
+class Front_View_Default extends Core_View_Default
+{
 
+    /**
+     * @var
+     */
     protected static $_current_white_label_editor;
 
-    public function getCurrentWhiteLabelEditor() {
+    /**
+     * @return mixed
+     */
+    public function getCurrentWhiteLabelEditor()
+    {
         return self::$_current_white_label_editor;
     }
 
-    public static function setCurrentWhiteLabelEditor($backoffice) {
+    /**
+     * @param $backoffice
+     */
+    public static function setCurrentWhiteLabelEditor($backoffice)
+    {
         self::$_current_white_label_editor = $backoffice;
     }
 

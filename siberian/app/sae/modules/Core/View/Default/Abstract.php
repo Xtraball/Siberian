@@ -528,7 +528,7 @@ abstract class Core_View_Default_Abstract extends Siberian_View
             }
 
             if (!$logo) {
-                $logo = System_Model_Config::getValueFor("logo");
+                $logo = __get("logo");
             }
 
             if (!$logo) {
