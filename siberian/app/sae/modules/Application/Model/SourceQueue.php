@@ -111,32 +111,36 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 $this->setPath($result);
                 $this->save();
 
-                // Success email!
-                $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
-                $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
+                // If autopublish, send to job, but no e-mail, jenkins will do it!
+                if ($this->getIsAutopublish()) {
+                    $this->sendJobToAutoPublishServer($application, $result);
+                } else {
+                    // Success email!
+                    $protocol = (__get("use_https")) ? "https://" : "http://";
+                    $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
-                $baseEmail = $this->baseEmail(
-                    'source_queue_success',
-                    $application,
-                    __('Build succeed'),
-                    null);
+                    $baseEmail = $this->baseEmail(
+                        'source_queue_success',
+                        $application,
+                        __('Build succeed'),
+                        null);
 
-                $baseEmail->setContentFor('content_email', 'type', $type);
-                $baseEmail->setContentFor('content_email', 'link', $url);
-                $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
+                    $baseEmail->setContentFor('content_email', 'type', $type);
+                    $baseEmail->setContentFor('content_email', 'link', $url);
+                    $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
 
-                $content = $baseEmail->render();
+                    $content = $baseEmail->render();
 
-                $subject = sprintf('%s - %s',
-                    $application->getName(),
-                    __('Build succeed!'));
+                    $subject = sprintf('%s - %s',
+                        $application->getName(),
+                        __('Build succeed!'));
 
-                $mail = new \Siberian_Mail();
-                $mail->setBodyHtml($content);
-                $mail->addTo($recipients);
-                $mail->setSubject($subject);
-                $mail->send();
-
+                    $mail = new \Siberian_Mail();
+                    $mail->setBodyHtml($content);
+                    $mail->addTo($recipients);
+                    $mail->setSubject($subject);
+                    $mail->send();
+                }
             } else {
                 $this->changeStatus("failed");
                 $this->save();
@@ -162,10 +166,6 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 $mail->setSubject($subject);
                 $mail->send();
             }
-        }
-
-        if ($this->getIsAutopublish()) {
-            $this->sendJobToAutoPublishServer($application, $result);
         }
 
         return $result;

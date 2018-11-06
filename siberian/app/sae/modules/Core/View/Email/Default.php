@@ -12,7 +12,14 @@ class Core_View_Email_Default extends Core_View_Default
      */
     public function getImage($name, $base = false)
     {
-        return $this->getRequest()->getMediaUrl() . '/app/sae/design/email/images/' . $name;
+        if (!$this->getRequest()) {
+            $baseUrl = sprintf('%s://%s',
+                __get('use_https') ? 'https' : 'http',
+                __get('main_domain'));
+        } else {
+            $baseUrl = $this->getRequest()->getMediaUrl();
+        }
+        return $baseUrl . '/app/sae/design/email/images/' . $name;
     }
 
     /**

@@ -1,0 +1,11 @@
+{
+  "name": "Mail",
+  "description": "Mail logger & Tools",
+  "version": "1.0.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.15.3"
+    }
+  }
+}
