@@ -256,6 +256,142 @@ var bindForms = function (default_parent, color, success_cb, error_cb) {
     }, 200);
 };
 
+var _bindRow = function (default_parent) {
+    /** Table toggle edit */
+    $(default_parent+' table .open-edit').on('click', function () {
+        var el = $(this);
+        var object_id = el.data('id');
+        var callback = el.data('callback');
+
+        $('tr.edit-form[data-id!='+object_id+']').hide();
+
+        var tr_edit = $('tr.edit-form[data-id='+object_id+']');
+
+        /** Move the tr-edit right under the current object (avoiding conflicts with any search) */
+        el.parents('tr').after(tr_edit);
+
+        tr_edit.toggle();
+
+        /** Load form if not present */
+        if ($('tr.edit-form[data-id='+object_id+'] form').length == 0) {
+            $('tr.edit-form[data-id='+object_id+'] p.close-edit').after('<div class="feature-loader loader-'+object_id+'"><img src="/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif"></div>');
+
+            $.ajax({
+                type: 'GET',
+                url: el.data('form-url'),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.success) {
+                        $('tr.edit-form[data-id='+object_id+'] p.close-edit').after(data.form);
+                        $('tr.edit-form[data-id='+object_id+'] .loader-'+object_id).remove();
+
+                        setTimeout(function () {
+                            bindForms('tr.edit-form[data-id='+object_id+']');
+                            handleRichtext();
+                            if (typeof callback !== 'undefined') {
+                                try {
+                                    eval(callback);
+                                } catch (e) {
+                                    console.log('unable to eval callback '+callback);
+                                }
+                            }
+                        }, 100);
+                    } else if (data.error) {
+                        feature_form_error(data.message, data.message_timeout);
+                    }
+                },
+                error: function () {
+                    feature_form_error('An error occured, please try again.');
+                }
+            });
+        } else {
+            setTimeout(function () {
+                bindForms('tr.edit-form[data-id='+object_id+']');
+                handleRichtext();
+                if (typeof callback !== 'undefined') {
+                    try {
+                        eval(callback);
+                    } catch (e) {
+                        console.log('unable to eval callback '+callback);
+                    }
+                }
+            }, 100);
+        }
+    });
+
+    /** Table toggle edit */
+    $(default_parent+' table .close-edit').on('click', function () {
+        var el = $(this);
+        var object_id = el.data('id');
+        var clear = (typeof el.data('clear') !== 'undefined');
+
+        $('tr.edit-form[data-id]').hide();
+
+        /** Clear if we want to use multiple forms, or just reload every-time */
+        if (clear) {
+            $('tr.edit-form[data-id='+object_id+']').removeData('binded');
+            $('tr.edit-form[data-id='+object_id+'] p.close-edit').next('form').remove();
+        }
+    });
+};
+
+/** Clean-up form */
+var toggle_add_success = function (default_parent) {
+    $(default_parent+' .feature-block-create').toggle();
+    $(default_parent+' .feature-block-add').toggle();
+
+    /** Reset the form */
+    $(default_parent+' form.feature-form').get(0).reset();
+    $(default_parent+' form.feature-form').find('.feature-upload-placeholder').remove();
+};
+
+var handleRichtext = function (default_parent) {
+    /** Bind ckeditors (only visible ones) */
+    $(default_parent+' .richtext').each(function () {
+        var el = $(this);
+        var ck_key = el.attr('ckeditor');
+        var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config.default;
+
+        setTimeout(function () {
+            el.ckeditor(
+                function () {},
+                ck_config
+            );
+        }, 500);
+    });
+};
+
+var handleDatetimePicker = function (default_parent) {
+    $(default_parent + ' input[data-datetimepicker]').each(function () {
+        var el = $(this);
+        if (typeof el.attr('data-hasdatepicker') === 'undefined') {
+            el.attr('data-hasdatepicker', true);
+            el.after('<input type="hidden" name="datepicker_format" value="' + datepicker_regional + '" />');
+
+            var type = el.data('datetimepicker');
+            var format = el.data('format');
+            var options = {};
+            if (format) {
+                options = {
+                    'dateFormat': format
+                };
+            }
+            switch (type) {
+                default:
+                case 'datepicker':
+                    el.datepicker(options);
+                    break;
+                case 'timepicker':
+                    el.timepicker(options);
+                    break;
+                case 'datetimepicker':
+                    el.datetimepicker(options);
+                    break;
+            }
+        }
+    });
+};
+
 var _bindForms = function (default_parent, color, success_cb, error_cb) {
     var formColor = (color === undefined) ? 'color-blue' : color;
 
@@ -278,65 +414,9 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
     $(default_parent).data('binded', 'yes');
 
-    /** Clean-up form */
-    var toggle_add_success = function () {
-        $(default_parent+' .feature-block-create').toggle();
-        $(default_parent+' .feature-block-add').toggle();
 
-        /** Reset the form */
-        $(default_parent+' form.feature-form').get(0).reset();
-        $(default_parent+' form.feature-form').find('.feature-upload-placeholder').remove();
-    };
-
-    var handleRichtext = function () {
-        /** Bind ckeditors (only visible ones) */
-        $(default_parent+' .richtext').each(function () {
-            var el = $(this);
-            var ck_key = el.attr('ckeditor');
-            var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config.default;
-
-            setTimeout(function () {
-                el.ckeditor(
-                    function () {},
-                    ck_config
-                );
-            }, 500);
-        });
-    };
-
-    var handleDatetimePicker = function () {
-        $(default_parent + ' input[data-datetimepicker]').each(function () {
-            var el = $(this);
-            if (typeof el.attr('data-hasdatepicker') === 'undefined') {
-                el.attr('data-hasdatepicker', true);
-                el.after('<input type="hidden" name="datepicker_format" value="' + datepicker_regional + '" />');
-
-                var type = el.data('datetimepicker');
-                var format = el.data('format');
-                var options = {};
-                if (format) {
-                    options = {
-                        'dateFormat': format
-                    };
-                }
-                switch (type) {
-                    default:
-                    case 'datepicker':
-                            el.datepicker(options);
-                        break;
-                    case 'timepicker':
-                            el.timepicker(options);
-                        break;
-                    case 'datetimepicker':
-                            el.datetimepicker(options);
-                        break;
-                }
-            }
-        });
-    };
-
-    handleRichtext();
-    handleDatetimePicker();
+    handleRichtext(default_parent);
+    handleDatetimePicker(default_parent);
 
     // Handle file uploads!
     $(default_parent+' button.feature-upload-button[data-uid]').each(function () {
@@ -573,7 +653,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
         el.closest('.feature-block-add').next('.feature-block-create').toggle();
         el.closest('.feature-block-add').toggle();
 
-        handleRichtext();
+        handleRichtext(default_parent);
     });
 
     $.each(['create', 'edit'], function (i, klass) {
@@ -599,82 +679,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
         });
     });
 
-    /** Table toggle edit */
-    $(default_parent+' table .open-edit').on('click', function () {
-        var el = $(this);
-        var object_id = el.data('id');
-        var callback = el.data('callback');
-
-        $('tr.edit-form[data-id!='+object_id+']').hide();
-
-        var tr_edit = $('tr.edit-form[data-id='+object_id+']');
-
-        /** Move the tr-edit right under the current object (avoiding conflicts with any search) */
-        el.parents('tr').after(tr_edit);
-
-        tr_edit.toggle();
-
-        /** Load form if not present */
-        if ($('tr.edit-form[data-id='+object_id+'] form').length == 0) {
-            $('tr.edit-form[data-id='+object_id+'] p.close-edit').after('<div class="feature-loader loader-'+object_id+'"><img src="/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif"></div>');
-
-            $.ajax({
-                type: 'GET',
-                url: el.data('form-url'),
-                dataType: 'json',
-                success: function (data) {
-                    if (data.success) {
-                        $('tr.edit-form[data-id='+object_id+'] p.close-edit').after(data.form);
-                        $('tr.edit-form[data-id='+object_id+'] .loader-'+object_id).remove();
-
-                        setTimeout(function () {
-                            bindForms('tr.edit-form[data-id='+object_id+']');
-                            handleRichtext();
-                            if (typeof callback !== 'undefined') {
-                                try {
-                                    eval(callback);
-                                } catch (e) {
-                                    console.log('unable to eval callback '+callback);
-                                }
-                            }
-                        }, 100);
-                    } else if (data.error) {
-                        feature_form_error(data.message, data.message_timeout);
-                    }
-                },
-                error: function () {
-                    feature_form_error('An error occured, please try again.');
-                }
-            });
-        } else {
-            setTimeout(function () {
-                bindForms('tr.edit-form[data-id='+object_id+']');
-                handleRichtext();
-                if (typeof callback !== 'undefined') {
-                    try {
-                        eval(callback);
-                    } catch (e) {
-                        console.log('unable to eval callback '+callback);
-                    }
-                }
-            }, 100);
-        }
-    });
-
-    /** Table toggle edit */
-    $(default_parent+' table .close-edit').on('click', function () {
-        var el = $(this);
-        var object_id = el.data('id');
-        var clear = (typeof el.data('clear') !== 'undefined');
-
-        $('tr.edit-form[data-id]').hide();
-
-        /** Clear if we want to use multiple forms, or just reload every-time */
-        if (clear) {
-            $('tr.edit-form[data-id='+object_id+']').removeData('binded');
-            $('tr.edit-form[data-id='+object_id+'] p.close-edit').next('form').remove();
-        }
-    });
+    _bindRow(default_parent);
 
     /** Tooltip */
     $(default_parent+' .display_tooltip').tooltip();
