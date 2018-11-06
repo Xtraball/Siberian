@@ -896,9 +896,11 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                 $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is active");
             }
 
-            $nextBillingDate = new Zend_Date($response['NEXTBILLINGDATE']);
+            $nextBillingDate = $response['NEXTBILLINGDATE'];
+            $date = date_create_from_format("Y-m-d\TH:i:sO", $nextBillingDate);
+
             $now = time();
-            if ($now > $nextBillingDate->getTimestamp()) {
+            if ($now > $date->getTimestamp()) {
                 if ($cronInstance) {
                     $cronInstance->log('(' . $subscription->getProfileId() . ') ' . " Cancelling unpaid subscription.");
                 }

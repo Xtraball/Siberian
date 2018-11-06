@@ -3,12 +3,13 @@
 /**
  * Class Payment_PaypalController
  */
-class Payment_PaypalController extends Application_Controller_Mobile_Default {
-
+class Payment_PaypalController extends Application_Controller_Mobile_Default
+{
     /**
      * Cancel url public action
      */
-    public function cancelAction () {
+    public function cancelAction()
+    {
         try {
             $request = $this->getRequest();
             $params = $request->getParams();
@@ -24,7 +25,8 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
     /**
      * Confirm url public action
      */
-    public function confirmAction () {
+    public function confirmAction()
+    {
         try {
             $request = $this->getRequest();
             $params = $request->getParams();
@@ -45,7 +47,8 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
     /**
      * Handles old style cron!
      */
-    public function checkrecurrencesAction() {
+    public function checkrecurrencesAction()
+    {
         if (!Cron_Model_Cron::isRunning()) {
             self::checkRecurrencies();
         } else {
@@ -59,7 +62,8 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
      *
      * @deprecated
      */
-    public static function checkRecurrencies($cronInstance = null) {
+    public static function checkRecurrencies($cronInstance = null)
+    {
         $subscriptions = (new Subscription_Model_Subscription_Application())
             ->findExpiredSubscriptions('profile_id');
 
@@ -89,12 +93,12 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
         $countSubscription = count($subscriptions);
         $i = 1;
         if ($cronInstance) {
-            $cronInstance->log(count($subscriptions)." subscriptions to check");
+            $cronInstance->log(count($subscriptions) . " subscriptions to check");
         }
         foreach ($subscriptions as $subscription) {
             if ($cronInstance) {
-                $cronInstance->log($i++."/".$countSubscription.
-                    " : Checking subscription with profile id ".$subscription->getProfileId()
+                $cronInstance->log($i++ . "/" . $countSubscription .
+                    " : Checking subscription with profile id " . $subscription->getProfileId()
                 );
             }
             $response = $paypalModel->request(
@@ -104,8 +108,8 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 ]
             );
             if ($cronInstance) {
-                $cronInstance->log('('.$subscription->getProfileId().') '.
-                    "status:".
+                $cronInstance->log('(' . $subscription->getProfileId() . ') ' .
+                    "status:" .
                     (array_key_exists('STATUS', $response) ? $response['STATUS'] : 'unknow')
                 );
             }
@@ -120,7 +124,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
             if ($status === "Active" && intval($response['OUTSTANDINGBALANCE']) === 0) {
 
                 if ($cronInstance) {
-                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is active");
+                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is active");
                 }
 
                 $profileStartDate = new Zend_Date($response['PROFILESTARTDATE']);
@@ -132,7 +136,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                 $frequency = $subscription->getSubscription()->getPaymentFrequency();
 
                 while ($checkingInvoiceDate->isEarlier(Zend_Date::now())) {
-                    switch($frequency) {
+                    switch ($frequency) {
                         case 'Monthly':
                             if (!$saleModel->isInvoiceExistsForMonth(
                                 $subscription->getAppId(), $checkingInvoiceDate
@@ -143,7 +147,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                                 // and we don't want to dupplicated fixed invoices
                                 if (!$checkingInvoiceDate->isEarlier($year2018)) {
                                     if ($cronInstance) {
-                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub monthly) for date ".$checkingInvoiceDate);
+                                        $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub monthly) for date " . $checkingInvoiceDate);
                                     }
                                     $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                                 }
@@ -160,7 +164,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                                 // and we don't want to dupplicated fixed invoices
                                 if (!$checkingInvoiceDate->isEarlier($year2018)) {
                                     if ($cronInstance) {
-                                        $cronInstance->log('('.$subscription->getProfileId().') '."Creating invoice (sub yearly) for date ".$checkingInvoiceDate);
+                                        $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Creating invoice (sub yearly) for date " . $checkingInvoiceDate);
                                     }
                                     $subscription->invoice($checkingInvoiceDate, $subscription->getProfileId());
                                 }
@@ -168,7 +172,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
                             $checkingInvoiceDate->addYear(1);
                             break;
                         default:
-                            throw new Exception('Error: unknow subscription payment frequency for subscription:'.$subscription->getId());
+                            throw new Exception('Error: unknow subscription payment frequency for subscription:' . $subscription->getId());
                     }
                 }
                 // Payment (re-)activated!
@@ -189,7 +193,7 @@ class Payment_PaypalController extends Application_Controller_Mobile_Default {
             } else {
                 // Payment suspended!
                 if ($cronInstance) {
-                    $cronInstance->log('('.$subscription->getProfileId().') '."Subscription is inactive");
+                    $cronInstance->log('(' . $subscription->getProfileId() . ') ' . "Subscription is inactive");
                 }
                 $subscription->lock();
             }

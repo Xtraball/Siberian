@@ -88,7 +88,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setFirstname(string $firstname)
+    public function setFirstname($firstname)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($firstname);
         return $this->setData('firstname', $_filtered);
@@ -108,7 +108,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @return $this
      * @throws \rock\sanitize\SanitizeException
      */
-    public function setLastname(string $lastname)
+    public function setLastname($lastname)
     {
         $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($lastname);
         return $this->setData('lastname', $_filtered);
