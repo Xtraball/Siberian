@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+
+    <mail_backoffice_log_template>
+        <views>
+            <content class="core_view_default"
+                     template="html/default.phtml" />
+            <page_content class="core_view_default"
+                          template="mail/log.phtml" />
+        </views>
+    </mail_backoffice_log_template>
+</layout>

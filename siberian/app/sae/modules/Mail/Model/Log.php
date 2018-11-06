@@ -26,10 +26,11 @@ class Mail_Model_Log extends Core_Model_Default
     {
         $logLine = new self();
         $logLine
-            ->setTitle($email->getSubject())
+            ->setTitle($email->_original_subject)
             ->setFrom($email->getFrom())
             ->setRecipients(join(',', $email->getRecipients()))
-            ->setRawEmail(serialize($email))
+            ->setBodyHtml($email->getBodyHtml(true))
+            ->setBodyText($email->getBodyText(true))
             ->save();
 
         return $logLine;

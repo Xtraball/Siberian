@@ -31,6 +31,24 @@ $schemas['mail_log'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'body_html' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'body_text' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'text_error' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'raw_email' => [
         'type' => 'mediumtext',
         'is_null' => true,
