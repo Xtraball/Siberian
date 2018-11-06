@@ -480,7 +480,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
 
             if (is_null($token) || is_null($status)) {
-                throw new Siberian_Exception(__('Missing token and/or status.'));
+                throw new \Siberian\Exception(__('Missing token and/or status.'));
             }
 
             $availableStatuses = [
@@ -488,17 +488,17 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 'queued',
                 'building',
                 'success',
-                'faile',
+                'failed',
             ];
             if (!in_array($status, $availableStatuses)) {
-                throw new Siberian_Exception(__('Invalid status `%s`.', $status));
+                throw new \Siberian\Exception(__('Invalid status `%s`.', $status));
             }
 
             $appIosAutopublish = (new Application_Model_IosAutopublish())
                 ->find($token,'token');
 
             if (!$appIosAutopublish->getId()) {
-                throw new Siberian_Exception(__('Unable to find the corresponding build.'));
+                throw new \Siberian\Exception(__('Unable to find the corresponding build.'));
             }
 
             switch ($status) {
@@ -509,7 +509,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     $application = (new Application_Model_Application())
                         ->find($appIosAutopublish->getId());
                     if (!$application->getId()) {
-                        throw new Siberian_Exception(__('Cannot find application from token.'));
+                        throw new \Siberian\Exception(__('Cannot find application from token.'));
                     }
                     //1 is iOS
                     $device = $application->getDevice(1);
