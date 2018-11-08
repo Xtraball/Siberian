@@ -1,11 +1,10 @@
 /*global
     localStorage, XMLHttpRequest, current_release
  */
-
 $(document).ready(function() {
-    if(localStorage.getItem("latest-cache") !== current_release) {
+    if (localStorage.getItem("latest-cache") !== current_release) {
 
-        var preload = [
+        let preload = [
             "/var/apps/overview/dist/app.bundle-min.js",
             "/var/apps/overview/cordova.js",
             "/var/apps/overview/cordova_plugins.js",
@@ -23,8 +22,8 @@ $(document).ready(function() {
             "/var/apps/overview/lib/ionic/fonts/ionicons.svg"
         ];
 
-        var request = function(filename) {
-            var xhr = new XMLHttpRequest();
+        let request = function(filename) {
+            let xhr = new XMLHttpRequest();
             xhr.open('GET', filename);
             xhr.send(null);
         };
@@ -33,8 +32,7 @@ $(document).ready(function() {
             request(element + "?version=" + current_release);
         });
 
-        /** Save information */
+        // Save information!
         localStorage.setItem("latest-cache", current_release);
     }
-
 });
