@@ -39,7 +39,8 @@
                 <td>{{ admin.name }}</td>
                 <td>{{ admin.company }}</td>
                 <td>{{ admin.created_at }}</td>
-                <td class="text-right">
+                <td class="text-right"
+                    style="white-space: normal;">
                     <a href="<?php echo $this->getUrl("admin/backoffice_edit"); ?>/admin_id/{{ admin.id }}"
                        class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
                     <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.id }}"

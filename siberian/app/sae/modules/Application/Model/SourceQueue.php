@@ -293,6 +293,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
             "https://jenkins-prod02.xtraball.com/job/ios-autopublish/buildWithParameters",
             [
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
+                'JOB_NAME' => slugify($app->getName()),
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
             ]);
 

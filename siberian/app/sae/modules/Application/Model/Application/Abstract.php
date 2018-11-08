@@ -1531,7 +1531,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         if (!$this->getData('startup_image_unified')) {
-            $errors[] = __("The homepage image");
+            $errors[] = __("The splashscreen image");
         }
 
         if (!$this->getData('icon')) {
