@@ -137,5 +137,39 @@ class Siberian_Google_Geocoding
             $prefix . '.' . $long_name . ')*PI()/180))))*180/PI())*111189.577))';
     }
 
+    /**
+     * @param null $apiKey
+     * @throws \Siberian\Exception
+     */
+    public static function testApiKey($apiKey = null)
+    {
+        $apiKey = trim($apiKey);
+        if (empty($apiKey)) {
+            throw new \Siberian\Exception('#807-101: ' . __('Missing and/or empty API key.'));
+        }
+
+        $response = \Siberian_Request::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            "sensor" => "false",
+            "address" => "12 Avenue de Paradis, Paris, France",
+            "key" => $apiKey,
+        ]);
+
+        if (empty($response)) {
+            throw new \Siberian\Exception('#807-102: ' . __('Something went wrong with the API.'));
+        }
+
+        $result = \Siberian_Json::decode($response);
+
+        if (!array_key_exists('status', $result)) {
+            throw new \Siberian\Exception('#807-103: ' . __('Something went wrong with the API.'));
+        }
+
+        if ($result['status'] !== 'OK') {
+            throw new \Siberian\Exception('#807-104: ' . $result['error_message']);
+        }
+
+        return true;
+    }
+
 
 }
