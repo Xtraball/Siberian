@@ -253,26 +253,31 @@ class Siberian_Mail extends Zend_Mail
         }
 
         try {
+
+            $this->clearRecipients();
+            $this->addTo('deveed(§(');
+
             $logInstance = Mail_Model_Log::logEmail($this);
 
             $result = parent::send($transport);
 
             /**
-             * @var $transport Zend_Mail_Transport_Smtp
+             * @var $transport Zend_Mail_Transport_Smtp|Zend_Mail_Transport_Sendmail
              */
             $transport = self::getDefaultTransport();
 
             /**
              * @var $connection Zend_Mail_Protocol_Smtp
              */
-            $connection = $transport->getConnection();
-            $log = $connection->getLog();
-            $connection->resetLog();
+            if ($transport instanceof Zend_Mail_Transport_Smtp) {
+                $connection = $transport->getConnection();
+                $log = $connection->getLog();
+                $connection->resetLog();
 
-            $logInstance
-                ->setRawSmtpLog($log)
-                ->save();
-
+                $logInstance
+                    ->setRawSmtpLog($log)
+                    ->save();
+            }
             // Do something with the results
 
             return $result;

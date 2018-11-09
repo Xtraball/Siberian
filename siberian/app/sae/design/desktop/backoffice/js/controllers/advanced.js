@@ -794,6 +794,18 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.restartApk = function (queueId) {
+        AdvancedCron
+            .restartApk(queueId)
+            .success(function (data) {
+                $scope.message.setText(data.message)
+                .isError(false)
+                .show()
+                ;
+                $scope.content_loader_is_visible = false;
+            });
+    };
+
     $scope.save = function() {
 
         $scope.form_loader_is_visible = true;

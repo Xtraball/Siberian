@@ -419,18 +419,18 @@
                 </td>
                 <td>{{ certificate.updated_at }}</td>
                 <td style="text-align:right;">
-                    <button class="btn btn-xs btn-info"
+                    <a class="btn btn-xs btn-info"
                             ng-show="configs.cpanel_type.value != -1"
                             ng-click="uploadToPanel(certificate.hostname)">
                         <i class="fa fa-upload"></i>&nbsp;&nbsp;<?php echo __("Upload to panel") ?>
-                    </button>
-                    <button class="btn btn-xs btn-info"
+                    </a>
+                    <a class="btn btn-xs btn-info"
                             style="margin-right: 10px;"
                             ng-click="certificate.show_info = !certificate.show_info">
                         <i class="fa fa-info"></i>&nbsp;&nbsp;<?php echo __("Info") ?>
-                    </button>
-                    <button class="btn btn-xs btn-danger"
-                            ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></button>
+                    </a>
+                    <a class="btn btn-xs btn-danger"
+                            ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></a>
                 </td>
             </tr>
             <tr ng-show="certificate.show_info">
