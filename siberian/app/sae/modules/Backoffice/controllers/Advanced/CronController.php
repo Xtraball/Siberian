@@ -110,4 +110,43 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
         $this->_sendJson($data);
     }
 
+    public function restartApkAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $queueId = $request->getParam('queueId', null);
+
+            $apkQueue = (new Application_Model_ApkQueue())
+                ->find($queueId);
+
+            if (!$apkQueue->getId()) {
+                throw new \Siberian\Exception(__('This build do not exists.'));
+            }
+
+            // Duplicated the build, restart!
+            $apkQueue
+                ->unsData('id')
+                ->unsData('apk_queue_id')
+                ->setStatus('queued')
+                ->unsData('created_at')
+                ->unsData('updated_at')
+                ->setBuildTime(0)
+                ->setBuildStartTime(0)
+                ->setLog('')
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
 }

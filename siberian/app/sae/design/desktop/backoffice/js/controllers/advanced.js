@@ -774,14 +774,18 @@ App.config(function($routeProvider) {
         $scope.configs = data;
     }).finally(function() {});
 
-    AdvancedCron.findAll().success(function(data) {
-        $scope.system_tasks = data.system_tasks;
-        $scope.tasks = data.tasks;
-        $scope.apk_queue = data.apk_queue;
-        $scope.source_queue = data.source_queue;
-    }).finally(function() {
-        $scope.content_loader_is_visible = false;
-    });
+    $scope.loadContent = function () {
+        AdvancedCron.findAll().success(function(data) {
+            $scope.system_tasks = data.system_tasks;
+            $scope.tasks = data.tasks;
+            $scope.apk_queue = data.apk_queue;
+            $scope.source_queue = data.source_queue;
+        }).finally(function() {
+            $scope.content_loader_is_visible = false;
+        });
+    };
+
+    $scope.loadContent();
 
     $scope.androidSdkRestart = function() {
         $scope.content_loader_is_visible = true;
@@ -795,6 +799,7 @@ App.config(function($routeProvider) {
     };
 
     $scope.restartApk = function (queueId) {
+        $scope.content_loader_is_visible = true;
         AdvancedCron
             .restartApk(queueId)
             .success(function (data) {
@@ -803,6 +808,7 @@ App.config(function($routeProvider) {
                 .show()
                 ;
                 $scope.content_loader_is_visible = false;
+                $scope.loadContent();
             });
     };
 

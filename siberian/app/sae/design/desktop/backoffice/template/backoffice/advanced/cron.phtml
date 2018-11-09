@@ -240,6 +240,7 @@
                 <td>{{ apk.created_at }}</td>
                 <td style="text-align:right;">
                     <a href="javascript:void(0);"
+                       class="btn btn-xs btn-warning"
                        ng-click="restartApk(apk.apk_queue_id)"
                        ng-if="apk.status_code == 'failed'"><?php echo __("Restart") ?></a>
                     <a href="{{ apk.path }}"
