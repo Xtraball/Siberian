@@ -253,10 +253,6 @@ class Siberian_Mail extends Zend_Mail
         }
 
         try {
-
-            $this->clearRecipients();
-            $this->addTo('deveed(§(');
-
             $logInstance = Mail_Model_Log::logEmail($this);
 
             $result = parent::send($transport);
