@@ -1091,7 +1091,8 @@
                                 <span ng-if="ios_publish_informations.last_build_status">{{ios_publish_informations.last_build_status}}</span>
                                 <span ng-if="!ios_publish_informations.last_build_status"><?php echo __('idle') ?></span>
                                 <p ng-if="ios_publish_informations.last_build_status === 'failed'">
-                                    <b><?php echo __('Last error'); ?></b>: {{ios_publish_informations.error_message}}
+                                    <b><?php echo __('Last error'); ?></b>:
+                                    <span ng-bind-html="ios_publish_informations.error_message"></span>
                                 </p>
                             </div>
                         </div>
