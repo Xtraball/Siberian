@@ -50,6 +50,17 @@ class Push_Model_Firebase extends Core_Model_Default
      */
     public static function formatGoogleServices (array $googleService)
     {
+        if (!array_key_exists('project_info', $googleService)) {
+            throw new \Siberian\Exception('#443-02: ' .
+                __("The provided `google-services.json` is not valid, please check the documentation to get the correct google-services.json file."));
+        }
+
+        if (array_key_exists('project_info', $googleService) &&
+            !array_key_exists('firebase_url', $googleService['project_info'])) {
+            throw new \Siberian\Exception('#443-03: ' .
+                __("The provided `google-services.json` is not valid, please check the documentation to get the correct google-services.json file."));
+        }
+
         $clients = $googleService['client'];
 
         $googleService['client'] = [];

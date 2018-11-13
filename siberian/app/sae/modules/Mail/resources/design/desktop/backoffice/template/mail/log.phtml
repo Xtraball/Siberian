@@ -1,0 +1,59 @@
+<sb-section title="'<?php echo __js("Mail logs"); ?>'">
+
+    <div class="alert alert-info">
+        <?php echo __("Only showing latest 100 e-mail logs.") ?>
+    </div>
+
+    <table class="table mail-log">
+        <thead>
+            <tr class="">
+                <th style="width: 4%;"><?php echo __("ID") ?></th>
+                <th style="width: 24%;"><?php echo __("Subject") ?></th>
+                <th style="width: 20%;"><?php echo __("Sender") ?></th>
+                <th style="width: 34%;"><?php echo __("Recipients") ?></th>
+                <th style="width: 6%;"><?php echo __("Status") ?></th>
+                <th style="width: 12%;"><?php echo __("Created At") ?></th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="item in collection"
+               ng-show="collection.length">
+            <tr ng-class="{'danger': item.is_error, 'success': !item.is_error}">
+                <td>
+                    <b>{{ item.id }}</b>
+                </td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.from }}</td>
+                <td>{{ item.recipients }}</td>
+                <td class="text-center"
+                    ng-class="{'text-danger': item.is_error, 'text-success': !item.is_error}">
+                    <span ng-if="item.is_error"><i class="fa fa-times"></i></span>
+                    <span ng-if="!item.is_error"><i class="fa fa-check"></i></span>
+                </td>
+                <td>{{ item.created_at }}</td>
+            </tr>
+            <tr ng-if="item.is_error"
+                ng-class="{'danger': item.is_error}">
+                <td colspan="6">
+                    <i>{{ item.text_error }}</i>
+                </td>
+            </tr>
+        </tbody>
+        <tbody ng-show="!collection.length">
+            <tr>
+                <td colspan="6"><?php echo __("You have no mail logs.") ?></td>
+            </tr>
+        </tbody>
+    </table>
+</sb-section>
+
+<style type="text/css">
+    table.mail-log td {
+        font-size: 12px !important;
+        overflow: visible !important;
+        white-space: normal !important;
+    }
+
+    table.mail-log td i {
+        font-size: 13px !important;
+    }
+</style>

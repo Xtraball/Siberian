@@ -44,7 +44,6 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $limit = ($parts[1] - $parts[0]) + 1;
         }
 
-
         $params = [
             'offset' => $offset,
             'limit' => $limit

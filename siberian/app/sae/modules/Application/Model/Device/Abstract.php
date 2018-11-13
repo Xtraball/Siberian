@@ -28,7 +28,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
      * @return $this
      * @throws \Siberian\Exception
      */
-    public function setVersion (string $version)
+    public function setVersion ($version)
     {
         if (preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $version) !== 1) {
             throw new \Siberian\Exception(__('The version number format is invalid, please use x.y.z where x, y & z are only digits.'));

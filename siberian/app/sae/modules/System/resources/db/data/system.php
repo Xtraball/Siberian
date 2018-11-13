@@ -259,7 +259,7 @@ $configs = [
     ],
     [
         'code' => 'main_domain',
-        'label' => 'Main domain',
+        'label' => 'Main siberian domain',
         'value' => '',
     ],
     [
@@ -482,15 +482,15 @@ if (empty($id_ios)) {
     __set("app_default_identifier_ios", $buildId("ios"));
 }
 
-// Monkey-patch for bad $mainDomain!
+// Patching domain label!
 try {
-    $mainDomain = __get('main_domain');
-    if (preg_match('/^https?:\/\//', $mainDomain)) {
-        $mainDomain = parse_url($mainDomain, PHP_URL_HOST);
-        __set('main_domain', $mainDomain);
+    $mainDomain = (new System_Model_Config())->find('main_domain', 'code');
+    if ($mainDomain->getId()) {
+        $mainDomain
+            ->setLabel('Main siberian domain')
+            ->save();
     }
 } catch (\Exception $e) {
     // Silent!
 }
-
 

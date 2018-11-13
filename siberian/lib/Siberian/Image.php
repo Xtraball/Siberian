@@ -147,7 +147,6 @@ class Siberian_Image extends Gregwar\Image\Image
                                         $returnInfos = false)
     {
         if (isset($resource) && is_file($resource)) {
-
             $resource = Siberian_Image::open($resource);
 
             // Optimize images with the screen resolution or format!

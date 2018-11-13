@@ -50,8 +50,13 @@ class Application_Settings_ApisController extends Application_Controller_Default
                         ->setFlickrSecret($data["flickr_secret"]);
                 }
 
-                $application
-                    ->setGooglemapsKey($data["googlemaps_key"]);
+                if (!empty($data["googlemaps_key"])) {
+                    Siberian_Google_Geocoding::testApiKey($data["googlemaps_key"]);
+
+                    $application
+                        ->setGooglemapsKey($data["googlemaps_key"]);
+                }
+
 
                 $application->save();
 

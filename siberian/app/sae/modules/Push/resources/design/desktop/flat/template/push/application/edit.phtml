@@ -6,7 +6,10 @@ $features = $this->getApplication()->getOptions();
 $messageobj = new Push_Model_Message();
 $messageobj->setMessageTypeByOptionValue($option->getOptionId());
 $messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
-$canSendMessages = $application->isPublished();
+
+// Special shared case with push/inApp
+$canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $application->isPublished();
+
 $pntopic = new Topic_Model_Topic();
 $pntopic->find(
     [
@@ -207,7 +210,9 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                 <br />
                 <div class="alert alert-info">
                     <?php echo __("Before you can send push notification, you must have at least one of iOS or Android application in a published state.") ?>
-                    <button type="button" onclick="feature.list()" class="btn color-blue"><?php echo __("Go back") ?></button>
+                    <button type="button"
+                            onclick="feature.list()"
+                            class="btn color-blue"><?php echo __("Go back") ?></button>
                 </div>
             </div>
             <?php endif; ?>

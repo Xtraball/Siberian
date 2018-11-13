@@ -26,16 +26,43 @@ class Front_AppController extends Front_Controller_App_Default
         $request = $this->getRequest();
         $currentLanguage = Core_Model_Language::getCurrentLanguage();
 
-        $cssBlock = $this->_cssBlock($application);
-        $loadBlock = $this->_loadBlock($application);
-        $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
-        $translationBlock = $this->_translationBlock($application, $currentLanguage);
+        try {
+            $cssBlock = $this->_cssBlock($application);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
 
-        // Alter the loadBlock with the customer
-        $loadBlock = $this->_customerBlock($application, $loadBlock);
+        try {
+            $loadBlock = $this->_loadBlock($application);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
 
-        // Web App manifest file & informations!
-        $manifestBlock = $this->_manifestBlock($application, $request);
+        try {
+            $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+
+        try {
+            $translationBlock = $this->_translationBlock($application, $currentLanguage);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+
+        try {
+            // Alter the loadBlock with the customer
+            $loadBlock = $this->_customerBlock($application, $loadBlock);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+
+        try {
+            // Web App manifest file & informations!
+            $manifestBlock = $this->_manifestBlock($application, $request);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
 
         $data = [
             'cssBlock' => $cssBlock,
@@ -266,7 +293,7 @@ class Front_AppController extends Front_Controller_App_Default
                     }
 
                     if (sizeof($optionValues) >= 50) {
-                        if ($optionValue->getCode() === 'folder') {
+                        if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
                             $embedPayload = false;
                         } else {
                             $embedPayload = $optionValue->getEmbedPayload($request);

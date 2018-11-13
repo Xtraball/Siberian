@@ -1,49 +1,62 @@
 <?php
 
-class Front_View_Index_Index extends Front_View_Default {
+/**
+ * Class Front_View_Index_Index
+ */
+class Front_View_Index_Index extends Front_View_Default
+{
 
-    public function getFavicon() {
+    /**
+     * @return mixed|string
+     */
+    public function getFavicon()
+    {
 
         try {
 
             $favicon = "";
-            if($this->getCurrentWhiteLabelEditor()) {
+            if ($this->getCurrentWhiteLabelEditor()) {
                 $favicon = $this->getCurrentWhiteLabelEditor()->getFaviconUrl();
             }
 
-            if(!$favicon) {
+            if (!$favicon) {
                 $favicon = System_Model_Config::getValueFor("favicon");
             }
 
-            if(!$favicon) {
+            if (!$favicon) {
                 $favicon = "/favicon.png";
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $favicon = "/favicon.png";
         }
 
         return $favicon;
     }
 
-    public function getLogo() {
+    /**
+     * @return bool|mixed|string
+     * @throws Zend_Exception
+     */
+    public function getLogo()
+    {
 
         try {
 
             $logo = "";
-            if($this->getCurrentWhiteLabelEditor()) {
+            if ($this->getCurrentWhiteLabelEditor()) {
                 $logo = $this->getCurrentWhiteLabelEditor()->getLogoUrl();
             }
 
-            if(!$logo) {
-                $logo = System_Model_Config::getValueFor("logo");
+            if (!$logo) {
+                $logo = __get("logo");
             }
 
-            if(!$logo) {
+            if (!$logo) {
                 $logo = $this->getImage("header/logo.png");
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $logo = $this->getImage("header/logo.png");
         }
 
@@ -51,8 +64,13 @@ class Front_View_Index_Index extends Front_View_Default {
 
     }
 
-    protected function _canAccessWhiteLabelEditor() {
-        return Installer_Model_Installer::hasModule("Whitelabel") && !$this->getCurrentWhiteLabelEditor() && $this->_canAccess("white_label_editor");
+    /**
+     * @return bool
+     */
+    protected function _canAccessWhiteLabelEditor()
+    {
+        return Installer_Model_Installer::hasModule("Whitelabel") &&
+            !$this->getCurrentWhiteLabelEditor() && $this->_canAccess("white_label_editor");
     }
 
 }

@@ -35,6 +35,9 @@ $backgroundImage = $this->getApplication()->getData('background_image');
             <img id="safe_zone_portrait"
                  class="safe_hidden"
                  src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-portrait.png" />
+            <img id="safe_zone_portrait_locked"
+                 class="safe_hidden"
+                 src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-portrait-locked.png" />
             <img id="safe_zone_landscape"
                  class="safe_hidden"
                  src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-landscape.png" />
@@ -96,6 +99,15 @@ $backgroundImage = $this->getApplication()->getData('background_image');
                                checked="checked"
                                value="portrait" />
                         <?php echo __('Safe in portrait') ?>
+                    </label>
+                    <br />
+                    <label for="radio_portrait_locked">
+                        <input id="radio_portrait_locked"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="portrait_locked" />
+                        <?php echo __('Safe in portrait (locked)') ?>
                     </label>
                     <br />
                     <label for="radio_landscape">

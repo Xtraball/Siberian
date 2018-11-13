@@ -10,7 +10,8 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
         promise: null,
         timeout: null,
         keep_timeout: false,
-        timeout_count: 0
+        timeout_count: 0,
+        absolute_timeout: null,
     };
 
     /**
@@ -83,9 +84,30 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             if (service.keep_timeout === true) {
                 service.callTimeout();
             }
+
+            service.startAbsoluteTimeout();
         }
 
         return service.promise;
+    };
+
+    /**
+     *
+     */
+    service.startAbsoluteTimeout = function () {
+        service.absolute_timeout = $timeout(function () {
+            service.hide();
+        }, 30000);
+    };
+
+    /**
+     *
+     */
+    service.clearAbsoluteTimeout = function () {
+        if (service.absolute_timeout !== null) {
+            $timeout.cancel(service.absolute_timeout);
+            service.absolute_timeout = null;
+        }
     };
 
     /**
@@ -101,6 +123,8 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             service.timeout_count = 0;
             service.last_config = null;
         }
+
+        service.clearAbsoluteTimeout();
 
         return $ionicLoading.hide();
     };

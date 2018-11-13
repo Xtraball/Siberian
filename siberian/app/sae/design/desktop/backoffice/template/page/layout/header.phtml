@@ -288,6 +288,13 @@ $backofficeTree = [
                         'url' => $this->getUrl("firewall/index"),
                         'icon' => 'icofont icofont-ui-fire-wall',
                     ],
+                    'mail-log' => [
+                        'hasChilds' => false,
+                        'isVisible' => true,
+                        'label' => __('Mail logs'),
+                        'url' => $this->getUrl("mail/backoffice_log"),
+                        'icon' => 'fa fa-envelope',
+                    ],
                     'modules' => [
                         'hasChilds' => false,
                         'isVisible' => true,

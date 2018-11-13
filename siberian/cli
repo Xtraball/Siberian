@@ -270,6 +270,23 @@ try {
                 \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Siberian_Cron());
             }
             break;
+        case 'google:test-api-key':
+            if (isset($argv[2])) {
+                $apiKey = (string) $argv[2];
+            } else {
+                $apiKey = readline('API Key to test: ');
+            }
+
+            try {
+                $result = Siberian_Google_Geocoding::testApiKey($apiKey);
+                if ($result) {
+                    echo 'API Key ok, thanks.' . PHP_EOL;
+                }
+            } catch (\Exception $e) {
+                echo 'Something went wrong: ' . $e->getMessage() . PHP_EOL;
+            }
+
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -321,6 +338,9 @@ try {
     
 " . color('subscription:sync', 'brown') . "
     Manually cache payment statuses.
+    
+" . color('google:test-api-key <apiKey>', 'brown') . "
+    Testing a GoogleMaps API key.
 
 " . color('help', 'brown') . "
     Prints the current help message.    

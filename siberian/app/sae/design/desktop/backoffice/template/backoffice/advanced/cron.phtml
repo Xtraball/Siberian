@@ -1,5 +1,6 @@
 
-<form ng-submit="save()" class="form-horizontal">
+<form ng-submit="save()"
+      class="form-horizontal">
     <sb-section title="'<?php echo addcslashes(__("General settings"), "'"); ?>'">
 
         <div class="form-group">
@@ -15,7 +16,9 @@
 
             <div class="col-md-6">
                 <label for="{{ configs.disable_cron.code }}">{{ configs.disable_cron.label }}</label>
-                <select id="configs.disable_cron.code" class="form-control" ng-model="configs.disable_cron.value">
+                <select id="configs.disable_cron.code"
+                        class="form-control"
+                        ng-model="configs.disable_cron.value">
                     <option value="1"><?php echo __("Yes"); ?></option>
                     <option value="0"><?php echo __("No"); ?></option>
                 </select>
@@ -23,7 +26,9 @@
 
             <div class="col-md-6">
                 <label for="{{ configs.cron_interval.code }}">{{ configs.cron_interval.label }}</label>
-                <select id="configs.cron_interval.code" class="form-control" ng-model="configs.cron_interval.value">
+                <select id="configs.cron_interval.code"
+                        class="form-control"
+                        ng-model="configs.cron_interval.value">
                     <option value="10"><?php echo __("10 seconds"); ?></option>
                     <option value="15"><?php echo __("15 seconds"); ?></option>
                     <option value="20"><?php echo __("20 seconds"); ?></option>
@@ -36,7 +41,9 @@
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.send_statistics.code }}">{{ configs.send_statistics.label }}</label>
-                <select id="configs.send_statistics.code" class="form-control" ng-model="configs.send_statistics.value">
+                <select id="configs.send_statistics.code"
+                        class="form-control"
+                        ng-model="configs.send_statistics.value">
                     <option value="1"><?php echo __("Yes"); ?></option>
                     <option value="0"><?php echo __("No"); ?></option>
                 </select>
@@ -47,7 +54,9 @@
         <div class="form-group">
             <div class="clear col-md-6">
                 <label for="{{ configs.apk_build_type.code }}">{{ configs.apk_build_type.label }}</label>
-                <select id="configs.apk_build_type.code" class="form-control" ng-model="configs.apk_build_type.value">
+                <select id="configs.apk_build_type.code"
+                        class="form-control"
+                        ng-model="configs.apk_build_type.value">
                     <option value="release"><?php echo __("Release"); ?></option>
                     <option value="debug"><?php echo __("Debug"); ?></option>
                 </select>
@@ -57,11 +66,11 @@
         <div class="form-group">
             <div class="col-md-12">
                 <div class="alert alert-danger">
-                    <b><?php echo __('APK Generator advanced settings') ?></b> / <b><?php echo __('Do not edit the following settings if your APK Generator is working!') ?></b>
+                    <b><?php echo __("APK Generator advanced settings") ?></b> / <b><?php echo __("Do not edit the following settings if your APK Generator is working!") ?></b>
                     <br />
-                    <?php echo __('You can extend JAVA & GRADLE options to better fit your server hardware.') ?>
+                    <?php echo __("You can extend JAVA & GRADLE options to better fit your server hardware.") ?>
                     <br />
-                    <?php echo __('Bad settings can break your APK Generator, leave empty to use defaults.') ?>
+                    <?php echo __("Bad settings can break your APK Generator, leave empty to use defaults.") ?>
                 </div>
             </div>
 
@@ -120,7 +129,8 @@
                     <th style="text-align:right;"><?php echo __("Actions") ?></th>
                 </tr>
             </thead>
-            <tbody ng-repeat="system_task in system_tasks" ng-show="system_tasks.length">
+            <tbody ng-repeat="system_task in system_tasks"
+                   ng-show="system_tasks.length">
                 <tr>
                     <td>{{ system_task.command }}</td>
                     <td>{{ system_task.name }}</td>
@@ -129,10 +139,14 @@
                     <td>{{ system_task.month_day }}</td>
                     <td>{{ system_task.month }}</td>
                     <td>{{ system_task.week_day }}</td>
-                    <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="system_task.is_active != '1'"><?php echo __("No"); ?></td>
+                    <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td>
+                    <td ng-show="system_task.is_active != '1'"><?php echo __("No"); ?></td>
                     <td style="text-align:right;">
-                        <button ng-if="system_task.command == 'androidtools' && system_task.is_active != '1'" class="btn btn-xs btn-danger" ng-click="androidSdkRestart()"><?php echo __("Restart") ?></button>
-                        <button class="btn btn-xs btn-info" ng-click="system_task.show_info = !system_task.show_info"><?php echo __("Info") ?></button>
+                        <a ng-if="system_task.command == 'androidtools' && system_task.is_active != '1'"
+                           class="btn btn-xs btn-danger"
+                           ng-click="androidSdkRestart()"><?php echo __("Restart") ?></a>
+                        <a class="btn btn-xs btn-info"
+                           ng-click="system_task.show_info = !system_task.show_info"><?php echo __("Info") ?></a>
                     </td>
                 </tr>
                 <tr ng-show="system_task.show_info">
@@ -225,8 +239,16 @@
                 </td>
                 <td>{{ apk.created_at }}</td>
                 <td style="text-align:right;">
-                    <a href="{{ apk.path }}" target="_self" class="btn btn-xs btn-info" ng-if="apk.path"><?php echo __("Download") ?></a>
-                    <button class="btn btn-xs btn-info" ng-click="apk.show_info = !apk.show_info"><?php echo __("Log") ?></button>
+                    <a href="javascript:void(0);"
+                       class="btn btn-xs btn-warning"
+                       ng-click="restartApk(apk.apk_queue_id)"
+                       ng-if="apk.status_code == 'failed'"><?php echo __("Restart") ?></a>
+                    <a href="{{ apk.path }}"
+                       target="_self"
+                       class="btn btn-xs btn-info"
+                       ng-if="apk.path"><?php echo __("Download") ?></a>
+                    <a class="btn btn-xs btn-info"
+                       ng-click="apk.show_info = !apk.show_info"><?php echo __("Log") ?></a>
                 </td>
             </tr>
             <tr ng-show="apk.show_info">

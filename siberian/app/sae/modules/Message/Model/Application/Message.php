@@ -42,7 +42,7 @@ class Message_Model_Application_Message extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function setMessage(string $message)
+    public function setMessage($message)
     {
         $_filtered = \Siberian\Xss::sanitize($message);
 

@@ -159,29 +159,29 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $params = Siberian_Json::decode($request->getRawBody());
 
             if (empty($params)) {
-                throw new Siberian_Exception('#330-01: ' . __('Missing parameters.'));
+                throw new \Siberian\Exception('#330-01: ' . __('Missing parameters.'));
             }
 
             if (empty($params['app_id'])) {
-                throw new Siberian_Exception('#330-02: ' . __('App Id is required!'));
+                throw new \Siberian\Exception('#330-02: ' . __('App Id is required!'));
             }
 
             $appIosAutopublish = (new Application_Model_IosAutopublish())
                 ->find($params['app_id'],'app_id');
 
             if (!$appIosAutopublish->getId()) {
-                throw new Siberian_Exception('#330-03: ' . __('No credentials found!'));
+                throw new \Siberian\Exception('#330-03: ' . __('No credentials found!'));
             }
 
             if (empty($params['infos']['languages'])) {
-                throw new Siberian_Exception('#330-04: ' . __('Please select at least one language.'));
+                throw new \Siberian\Exception('#330-04: ' . __('Please select at least one language.'));
             }
 
             $application = (new Application_Model_Application())
                 ->find($params['app_id']);
 
             if (!$application->getId()) {
-                throw new Siberian_Exception('#330-05: ' . __('Application not found!'));
+                throw new \Siberian\Exception('#330-05: ' . __('Application not found!'));
             }
 
             // Find selected team!
@@ -189,7 +189,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $selectedProviderId = $params['infos']['selected_provider'];
 
             if (empty($selectedTeamId) || empty($selectedProviderId)) {
-                throw new Siberian_Exception('#330-06: ' .
+                throw new \Siberian\Exception('#330-06: ' .
                     __('You must select both a Development Team & an iTunes Connect provider!'));
             }
 
@@ -236,6 +236,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 ->setIsRefreshPem($refreshPem)
                 ->setHost($request->getHttpHost())
                 ->setUserId($this->getSession()->getBackofficeUserId())
+                ->setUserType('backoffice')
                 ->save();
 
             $more['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
@@ -480,7 +481,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
 
             if (is_null($token) || is_null($status)) {
-                throw new Siberian_Exception(__('Missing token and/or status.'));
+                throw new \Siberian\Exception(__('Missing token and/or status.'));
             }
 
             $availableStatuses = [
@@ -488,17 +489,17 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 'queued',
                 'building',
                 'success',
-                'faile',
+                'failed',
             ];
             if (!in_array($status, $availableStatuses)) {
-                throw new Siberian_Exception(__('Invalid status `%s`.', $status));
+                throw new \Siberian\Exception(__('Invalid status `%s`.', $status));
             }
 
             $appIosAutopublish = (new Application_Model_IosAutopublish())
                 ->find($token,'token');
 
             if (!$appIosAutopublish->getId()) {
-                throw new Siberian_Exception(__('Unable to find the corresponding build.'));
+                throw new \Siberian\Exception(__('Unable to find the corresponding build.'));
             }
 
             switch ($status) {
@@ -509,7 +510,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     $application = (new Application_Model_Application())
                         ->find($appIosAutopublish->getId());
                     if (!$application->getId()) {
-                        throw new Siberian_Exception(__('Cannot find application from token.'));
+                        throw new \Siberian\Exception(__('Cannot find application from token.'));
                     }
                     //1 is iOS
                     $device = $application->getDevice(1);
