@@ -55,7 +55,7 @@ class Radio_ApplicationController extends Application_Controller_Default
                     $radio->setData("background", "");
                 } else if (is_file(Core_Model_Directory::getBasePathTo("images/application" . $values["background"]))) {
                     # Nothing changed, skip
-                } else if (is_file(Core_Model_Directory::getTmpDirectory() . "/" . $values["background"])) {
+                } else {
                     $background = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(),
                         Core_Model_Directory::getTmpDirectory() . "/" . $values["background"]);
                     $radio->setData("background", $background);

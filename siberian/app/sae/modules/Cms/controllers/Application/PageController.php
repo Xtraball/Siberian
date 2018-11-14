@@ -10,22 +10,22 @@ class Cms_Application_PageController extends Application_Controller_Default {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "editpost" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#"
-            ),
-        ),
-        "editpostv2" => array(
-            "tags" => array(
+            ],
+        ],
+        "editpostv2" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#"
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     /**
      * Remastered edit post, with new models & rules
@@ -127,7 +127,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 }
 
                 // Traitement des images des blocks
-                $blocks = !empty($datas['block']) && is_array($datas['block']) ? $datas['block'] : array();
+                $blocks = !empty($datas['block']) && is_array($datas['block']) ? $datas['block'] : [];
                 $image_path = $option_value->getImagePathTo().'/';
                 $base_image_path = $this->getApplication()->getBaseImagePath() . $image_path;
 
@@ -182,9 +182,9 @@ class Cms_Application_PageController extends Application_Controller_Default {
                         }
                     }
                     if($block["type"] == "address" AND (empty($block["latitude"]) OR empty($block["longitude"]))) {
-                        $latlon = Siberian_Google_Geocoding::getLatLng(array(
+                        $latlon = Siberian_Google_Geocoding::getLatLng([
                             "address" => $block["address"]
-                        ));
+                        ], $this->getApplication()->getGooglemapsKey());
 
                         if(!empty($latlon[0]) AND !empty($latlon[1])) {
                             $blocks[$k]["latitude"] = $latlon[0];
@@ -217,20 +217,20 @@ class Cms_Application_PageController extends Application_Controller_Default {
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
+                $html = [
                     'success' => 1,
                     'success_message' => __('Page successfully saved'),
                     'page_id' => $page->getId(),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -241,7 +241,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
         if ($data = $this->getRequest()->getPost()) {
 
-            $html = array();
+            $html = [];
 
             try {
 
@@ -268,10 +268,10 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 /** Clean up tags */
                 if(get_class($page) == 'Cms_Model_Application_Page') {
                     $app_tags = new Application_Model_TagOption();
-                    $tags = $app_tags->findAll(array(
+                    $tags = $app_tags->findAll([
                         "object_id = ?" => $page->getId(),
                         "model = ?" => "Cms_Model_Application_Page",
-                    ));
+                    ]);
 
                     foreach($tags as $tag) {
                         $tag->delete();
@@ -280,19 +280,19 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
                 $page->delete();
 
-                $html = array(
+                $html = [
                     'success' => 1,
                     'success_message' => __('Page successfully deleted'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -323,9 +323,9 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 }
 
 
-                $html = array(
+                $html = [
                     'success' => 1,
-                );
+                ];
 
                 $html['layout'] = $this->getLayout()
                         ->addPartial('row', 'admin_view_default', $block->getTemplate())
@@ -335,11 +335,11 @@ class Cms_Application_PageController extends Application_Controller_Default {
                         ->toHtml()
                 ;
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -357,7 +357,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
             $src_width = $image_sizes[0];
             $src_height = $image_sizes[1];
 
-            $params = array(
+            $params = [
                 'file' => $current_file,
                 'source_width' => $src_width,
                 'source_height' => $src_height,
@@ -367,7 +367,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 'output_height' => 200,
                 'w' => 400,
                 'h' => 200
-            );
+            ];
 
             if ($src_width < $params['output_width'] || $src_height < $params['output_height']) {
                 $source = imagecreatefromstring(file_get_contents($folder . $current_file));
@@ -397,19 +397,19 @@ class Cms_Application_PageController extends Application_Controller_Default {
             $uploader = new Core_Model_Lib_Uploader();
             $new_file = $uploader->savecrop($params);
 
-            $datas = array(
+            $datas = [
                 'success' => 1,
                 'fullsize_file' => $current_file,
                 'file' => $new_file,
                 'message_success' => __("Success."),
                 'message_button' => 0,
                 'message_timeout' => 2,
-            );
+            ];
         } catch (Exception $e) {
-            $datas = array(
+            $datas = [
                 'error' => 1,
                 'message' => $e->getMessage()
-            );
+            ];
         }
         $this->getLayout()->setHtml(Zend_Json::encode($datas));
     }
@@ -421,18 +421,18 @@ class Cms_Application_PageController extends Application_Controller_Default {
 
         if($datas = $this->getRequest()->getPost()) {
             try {
-                $html = array();
+                $html = [];
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $html = array(
+                $html = [
                     'success' => 1,
                     'file' => $file
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -446,18 +446,18 @@ class Cms_Application_PageController extends Application_Controller_Default {
             try {
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $datas = array(
+                $datas = [
                     'success' => 1,
                     'file' => $file,
                     'message_success' => __("Success."),
                     'message_button' => 0,
                     'message_timeout' => 2,
-                );
+                ];
             } catch (Exception $e) {
-                $datas = array(
+                $datas = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($datas));
         }

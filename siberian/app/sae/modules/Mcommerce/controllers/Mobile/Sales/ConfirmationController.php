@@ -1,28 +1,34 @@
 <?php
 
-class Mcommerce_Mobile_Sales_ConfirmationController extends Mcommerce_Controller_Mobile_Default {
+/**
+ * Class Mcommerce_Mobile_Sales_ConfirmationController
+ */
+class Mcommerce_Mobile_Sales_ConfirmationController extends Mcommerce_Controller_Mobile_Default
+{
 
-    public function cancelAction() {
+    public function cancelAction()
+    {
 
-        if(!$this->getRequest()->getParam("value_id")) {
-            if($this->getApplication()->useIonicDesign()) {
+        if (!$this->getRequest()->getParam("value_id")) {
+            if ($this->getApplication()->useIonicDesign()) {
                 sleep(1);
-                $this->_redirect('mcommerce/mobile_sales_error/index',array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+                $this->_redirect('mcommerce/mobile_sales_error/index', ["value_id" => $this->getCurrentOptionValue()->getValueId()]);
             } else {
-                $this->_redirect("/mcommerce/mobile_sales_confirmation/cancel/", array("value_id" => $this->getCurrentOptionValue()->getId()));
+                $this->_redirect("/mcommerce/mobile_sales_confirmation/cancel/", ["value_id" => $this->getCurrentOptionValue()->getId()]);
             }
         } else {
             $this->forward('cancel', 'index', 'Front', $this->getRequest()->getParams());
         }
     }
 
-    public function confirmAction() {
+    public function confirmAction()
+    {
         if (!$this->getRequest()->getParam("value_id")) {
-            if($this->getApplication()->useIonicDesign()) {
+            if ($this->getApplication()->useIonicDesign()) {
                 sleep(1);
-                $this->_redirect("/mcommerce/mobile_sales_payment/validatepayment", array_merge($this->getRequest()->getParams(), array("value_id" => $this->getCurrentOptionValue()->getId())));
+                $this->_redirect("/mcommerce/mobile_sales_payment/validatepayment", array_merge($this->getRequest()->getParams(), ["value_id" => $this->getCurrentOptionValue()->getId()]));
             } else {
-                $this->_redirect("/mcommerce/mobile_sales_confirmation/confirm/", array_merge($this->getRequest()->getParams(), array("value_id" => $this->getCurrentOptionValue()->getId())));
+                $this->_redirect("/mcommerce/mobile_sales_confirmation/confirm/", array_merge($this->getRequest()->getParams(), ["value_id" => $this->getCurrentOptionValue()->getId()]));
             }
         } else {
             $this->forward('confirm', 'index', 'Front', $this->getRequest()->getParams());

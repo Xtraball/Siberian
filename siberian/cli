@@ -201,6 +201,9 @@ try {
                 echo 'Aborting, empty license.' . PHP_EOL;
             }
             break;
+        case 'i18n:extract':
+            \Siberian\Translation::extractAll();
+            break;
         case 'app:manifest':
             \Siberian\Manifest::rebuild();
             break;
@@ -241,6 +244,49 @@ try {
                 }
             }
             break;
+        case 'security:scan':
+            $clamav = new \Siberian\ClamAV();
+            if ($clamav->ping()) {
+                if (isset($argv[2])) {
+                    $filename = (string) $argv[2];
+                } else {
+                    $filename = readline('File to scan: ');
+                }
+
+                $clamav->scan($filename);
+                echo 'Result: ' . $clamav->getMessage() . PHP_EOL;
+            } else {
+                echo 'No answer after PING.' . PHP_EOL;
+            }
+            break;
+        case 'subscription:check-payments':
+            if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
+                \Subscription_Model_Subscription_Application::checkRecurrencies(new Siberian_Cron());
+            }
+            break;
+        case 'subscription:sync':
+            // Update subscription statuses cache!
+            if (method_exists('Subscription_Model_Subscription_Application', 'cacheStatusesAndSync')) {
+                \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Siberian_Cron());
+            }
+            break;
+        case 'google:test-api-key':
+            if (isset($argv[2])) {
+                $apiKey = (string) $argv[2];
+            } else {
+                $apiKey = readline('API Key to test: ');
+            }
+
+            try {
+                $result = Siberian_Google_Geocoding::testApiKey($apiKey);
+                if ($result) {
+                    echo 'API Key ok, thanks.' . PHP_EOL;
+                }
+            } catch (\Exception $e) {
+                echo 'Something went wrong: ' . $e->getMessage() . PHP_EOL;
+            }
+
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -275,11 +321,26 @@ try {
 " . color('license:set <license>', 'brown') . "
     Update your license to <license>.
     
+" . color('i18n:extract', 'brown') . "
+    Extracts all missing translations.
+    
 " . color('app:manifest', 'brown') . "
     Rebuilds the application manifest.
     
 " . color('app:keystore:restore <appId>', 'brown') . "
     Extract a saved PKS (Keystore) from the database backup for the given <appId>.
+    
+" . color('security:scan <filePath>', 'brown') . "
+    Scan the given <filePath> with ClamAV (if configured in your Backoffice).
+    
+" . color('subscription:check-payments', 'brown') . "
+    Manually run payment verification for expired subscriptions (only for PE, this action is normally triggered by the cron).
+    
+" . color('subscription:sync', 'brown') . "
+    Manually cache payment statuses.
+    
+" . color('google:test-api-key <apiKey>', 'brown') . "
+    Testing a GoogleMaps API key.
 
 " . color('help', 'brown') . "
     Prints the current help message.    

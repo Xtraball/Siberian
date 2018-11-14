@@ -45,7 +45,7 @@ class Cms_Form_Cms extends Cms_Form_Base {
 
         $container = $this->getElement('sections_html_container');
 
-        $html_blocks = array();
+        $html_blocks = [];
         foreach($blocks as $block) {
             $block_template = str_replace('/block/', '/block_v2/', $block->getTemplate());
 

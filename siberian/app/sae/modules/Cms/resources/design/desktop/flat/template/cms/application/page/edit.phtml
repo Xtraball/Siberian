@@ -18,9 +18,9 @@ if($is_places) {
     if($is_new) {
         $block_model = new Cms_Model_Application_Block();
         $address_block = $block_model->find("address", "type");
-        $blocks = array(
+        $blocks = [
             $address_block
-        );
+        ];
     }
     if($page->getId()) {
         $cms_form->fill($page);

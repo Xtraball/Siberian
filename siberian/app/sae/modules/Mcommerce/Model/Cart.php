@@ -67,8 +67,8 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
         foreach($this->getLines() as $line) {
 
-            $lines_ids = array();
-            $products_ids = array();
+            $lines_ids = [];
+            $products_ids = [];
 
             if ($line->getProductId() == $product->getId()) {
 
@@ -185,7 +185,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
         if(!$this->_lines) {
             $line = new Mcommerce_Model_Cart_Line();
-            $this->_lines = $line->findAll(array('cart_id' => $this->getId()));
+            $this->_lines = $line->findAll(['cart_id' => $this->getId()]);
         }
 
         return $this->_lines;
@@ -198,7 +198,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @return Mcommerce_Model_Cart_Line
      */
     protected function _createLine($product) {
-        $options_datas = array();
+        $options_datas = [];
 
         if($product->getOptions()) {
             foreach($product->getOptions() as $option) {
@@ -208,24 +208,24 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
                 $vat = Siberian_Currency::getVat($option->getPrice(), $product->getTaxRate());
                 $priceInclTax = $option->getPrice() + $vat;
 
-                $options_datas[] = array(
+                $options_datas[] = [
                     'option_id'         => $option->getId(),
                     'name'              => $option->getName(),
                     'base_price'        => $priceInclTax,
                     'price'             => $price * $option->getQty(),
                     'price_incl_tax'    => $priceInclTax * $option->getQty(),
                     'qty'               => $option->getQty()
-                );
+                ];
             }
         }
 
         $product_format = null;
         if($format = $product->getFormat()) {
-            $product_format = array(
+            $product_format = [
                 "id"    => $format->getOptionId(),
                 "title" => $format->getTitle(),
                 "price" => $format->getPrice()
-            );
+            ];
             $product->setPrice($format->getPrice());
         }
 
@@ -408,7 +408,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      */
     public function getMcommerce() {
         $mcommerce = new Mcommerce_Model_Mcommerce();
-        $mcommerce->find(array("mcommerce_id" => $this->getMcommerceId()));
+        $mcommerce->find(["mcommerce_id" => $this->getMcommerceId()]);
         return $mcommerce;
     }
 
@@ -420,16 +420,16 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
      * @param $address_parts
      * @return $this
      */
-    public function setLocation($address_components) {
+    public function setLocation($address_components, $apiKey = null) {
         if (!empty($address_components['street']) AND !empty($address_components['postcode']) AND !empty($address_components['city'])) {
-            $address = join(', ', array(
+            $address = join(', ', [
                 $address_components['street'],
                 $address_components['postcode'],
                 $address_components['city']
-            ));
+            ]);
 
             $address = str_replace(' ', '+', $address);
-            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+            $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
             if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
                 if (!empty($results->results[0]->geometry->location)) {
                     $cordinates = $results->results[0]->geometry->location;
@@ -484,7 +484,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
             $total_tax += $delivery_tax;
         }
-        return array($subtotal_excl_tax, $delivery_cost_excl_tax, $total_tax);
+        return [$subtotal_excl_tax, $delivery_cost_excl_tax, $total_tax];
     }
 
     public function getDeductedTva() {

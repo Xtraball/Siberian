@@ -1,21 +1,155 @@
 <form ng-submit="save()">
-
     <sb-section title="template.title">
-        <div ng-repeat="columns in template.columns" class="form-group">
-            <div class="col-md-6" ng-repeat="category in columns">
-                <label for="{{ key.name }}">{{ category.name }}</label>
-                <input type="text" id="{{ category.name }}" ng-model="category.name" class="form-control" placeholder="{{ category.name }}" />
+        <div class="form-group">
+            <div style="margin-bottom: 20px;"
+                 class="col-md-6"
+                 ng-repeat="category in template.categories">
+                <label for="{{ key.name }}">{{ category.original_name ? category.original_name : category.name }}</label>
+                <input type="text"
+                       id="{{ category.name }}"
+                       ng-model="category.name"
+                       class="form-control"
+                       placeholder="{{ category.name ? category.name : category.original_name }}" />
             </div>
             <div class="clear"></div>
         </div>
-
-        <div class="col-md-12">
+        <div class="col-md-12 text-right">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary left"><?php echo $this->_("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
             </div>
         </div>
 
+        <div class="clear"></div>
     </sb-section>
-
 </form>
+
+<sb-section title="'<?php echo addcslashes(__("Templates"), "'"); ?>'">
+
+    <div class="alert alert-info">
+        <?php echo __('You can disable a template globally!') ?>
+        <br />
+        <?php echo __('Note: A disabled template is not removed from published applications, but users can\'t select it anymore!') ?>
+    </div>
+
+    <div class="selectors">
+        <span ng-class="{'active': viewType == 'grid'}"
+              ng-click="viewType = 'grid'">
+            <i class="fa fa-th"></i> <?php echo __('Grid view') ?>
+        </span>
+        |
+        <span ng-class="{'active': viewType == 'list'}"
+              ng-click="viewType = 'list'">
+            <i class="fa fa-list"></i> <?php echo __('List view') ?>
+        </span>
+    </div>
+
+    <br />
+
+    <table ng-show="viewType == 'list'"
+           class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:50%;text-align:right;"><?php echo __("Enabled?") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="tpl in template.templates"
+            ng-show="template.templates.length">
+            <td>
+                <span style="margin-right:10px;">{{ tpl.name }}</span>
+                <span ng-if="tpl.is_protected"
+                      class="label label-success"><?php echo __('CORE TEMPLATE') ?></span>
+                <span ng-if="!tpl.can_toggle"
+                      class="label label-danger"><?php echo __('PROTECTED') ?></span>
+            </td>
+            <td style="text-align:right;">
+                <input type="checkbox"
+                       ng-if="tpl.can_toggle"
+                       ng-model="tpl.is_active"
+                       ng-change="toggleTemplate(tpl)" />
+            </td>
+        </tr>
+        <tr ng-show="!template.templates.length">
+            <td colspan="3"><?php echo __("No templates") ?></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div ng-show="viewType == 'grid'"
+         class="row">
+        <div ng-repeat="tpl in template.templates"
+             class="col-md-3 col-sm-6">
+            <div class="overview-grid"
+                 ng-class="{'overview-grayscale': !tpl.is_active}">
+                <div class="overview-grid-title">
+                    <span style="margin-right:10px;">{{ tpl.name }}</span>
+                    <span ng-if="tpl.is_protected"
+                          class="label label-success"><?php echo __('CORE TEMPLATE') ?></span>
+                    <span ng-if="!tpl.can_toggle"
+                          class="label label-danger"><?php echo __('PROTECTED') ?></span>
+                </div>
+                <img src="{{ tpl.overview }}"
+                     class="tpl-overview" />
+                <div class="overview-grid-toggler">
+                    <label ng-if="tpl.can_toggle"
+                           for="toggler_{{ tpl.template_id }}"
+                           style="font-weight: normal;">
+                        <?php echo __("Enabled?") ?>
+                    </label>
+                    <input type="checkbox"
+                           id="toggler_{{ tpl.template_id }}"
+                           ng-if="tpl.can_toggle"
+                           ng-model="tpl.is_active"
+                           ng-change="toggleTemplate(tpl)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .overview-grayscale {
+            filter: grayscale(100%);
+        }
+
+        .selectors span {
+            filter: brightness(50%);
+            cursor: pointer;
+        }
+
+        .selectors span.active {
+            font-weight: bold;
+            filter: brightness(0%);
+        }
+
+        .overview-grid {
+            background: #ffffff;
+            padding: 6px;
+            margin-bottom: 30px;
+        }
+
+        .overview-grid-title span.label {
+            top: -3px;
+            position: relative;
+        }
+
+        .overview-grid-toggler {
+            background: #ffffff;
+            position: relative;
+            bottom: -6px;
+            right: -5px;
+            padding: 6px 0px 0 6px;
+            text-align: right;
+        }
+
+        .tpl-overview {
+            width: 100%;
+        }
+    </style>
+</sb-section>

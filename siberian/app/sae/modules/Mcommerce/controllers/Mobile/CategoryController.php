@@ -27,17 +27,17 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
                     $current_category = $object->getRootCategory();
                 }
 
-                $data = array("collection" => array());
+                $data = ["collection" => []];
 
                 $subcategories = $current_category->getChildren($offset);
 
                 foreach($subcategories as $subcategory) {
-                    $data["collection"][] = array(
+                    $data["collection"][] = [
                         "title" => $subcategory->getTitle(),
                         "subtitle" => $subcategory->getSubtitle(),
                         "picture" => $subcategory->getPictureUrl() ? $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() : null,
-                        "url" => $this->getPath("mcommerce/mobile_category", array("value_id" => $value_id, "category_id" => $subcategory->getId()))
-                    );
+                        "url" => $this->getPath("mcommerce/mobile_category", ["value_id" => $value_id, "category_id" => $subcategory->getId()])
+                    ];
                 }
 
                 //TMP : removing pagination on product list
@@ -59,34 +59,34 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
                     $productPrice = $product->getPrice();
                     $displayPrice = Mcommerce_Model_Utility::displayPrice($productPrice, $taxRate);
 
-                    $data["collection"][] = array(
+                    $data["collection"][] = [
                         "title" => $product->getName(),
                         "subtitle" => $product->getPrice() > 0 ? $displayPrice : strip_tags(html_entity_decode($product->getDescription())),
                         "picture" => $picture,
-                        "url" => $product->getPath("mcommerce/mobile_product", array("value_id" => $value_id, "product_id" => $product->getId()))
-                    );
+                        "url" => $product->getPath("mcommerce/mobile_product", ["value_id" => $value_id, "product_id" => $product->getId()])
+                    ];
                 }
 
                 $mcommerce = new Mcommerce_Model_Mcommerce();
-                $mcommerce->find(array("value_id" => $value_id));
+                $mcommerce->find(["value_id" => $value_id]);
                 if($mcommerce->getId()) {
                     if($mcommerce->getShowSearch() == 1 ) {
                         $data["show_search"] = 1;
                     }
                 }
 
-                $data["cover"] = array(
+                $data["cover"] = [
                     "title" => $this->_($current_category->getTitle()),
                     "subtitle" => $current_category->getSubtitle(),
                     "picture" => $current_category->getPictureUrl() ? $this->getRequest()->getBaseUrl().$current_category->getPictureUrl() : null
-                );
+                ];
 
                 $data["page_title"] = $this->_($current_category->getTitle());
                 $data["displayed_per_page"] = Folder_Model_Category::DISPLAYED_PER_PAGE;
 
             }
             catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
 
             $this->_sendHtml($data);

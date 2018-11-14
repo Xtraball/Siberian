@@ -36,6 +36,7 @@ App.config(function($routeProvider) {
         $scope.modules = data.modules;
         $scope.core_modules = data.core_modules;
         $scope.layouts = data.layouts;
+        $scope.templates = data.templates;
         $scope.features = data.features;
         $scope.icons = data.icons;
     }).finally(function() {
@@ -98,7 +99,6 @@ App.config(function($routeProvider) {
                 $scope.form_loader_is_visible = false;
             });
     };
-
 
 }).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, $window,
                                                                     Label, Header, AdvancedConfiguration, FileUploader,
@@ -501,13 +501,15 @@ App.config(function($routeProvider) {
         cert_path: "",
         ca_path: "",
         private_path: "",
+        fullchain_path: "",
         upload: "0"
     };
 
     $scope.uploaders = [
         {type : "cert_path",    uploader : "cert_path"},
         {type : "ca_path",      uploader : "ca_path"},
-        {type : "private_path", uploader : "private_path"}
+        {type : "private_path", uploader : "private_path"},
+        {type : "fullchain_path", uploader : "fullchain_path"}
     ];
 
     for (var i = 0; i < $scope.uploaders.length; i++) {
@@ -580,6 +582,7 @@ App.config(function($routeProvider) {
                     cert_path: "",
                     ca_path: "",
                     private_path: "",
+                    fullchain_path: "",
                     upload: "0"
                 };
 
@@ -685,6 +688,13 @@ App.config(function($routeProvider) {
         AdvancedTools.runtest()
             .success(function(data) {
                 $scope.integrity_result = data;
+
+                if (data.hash.length === 0) {
+                    $scope.message.setText(data.messageEmpty)
+                        .isError(false)
+                        .show()
+                    ;
+                }
             }).finally(function() {
 
             $scope.content_loader_is_visible = false;
@@ -764,14 +774,18 @@ App.config(function($routeProvider) {
         $scope.configs = data;
     }).finally(function() {});
 
-    AdvancedCron.findAll().success(function(data) {
-        $scope.system_tasks = data.system_tasks;
-        $scope.tasks = data.tasks;
-        $scope.apk_queue = data.apk_queue;
-        $scope.source_queue = data.source_queue;
-    }).finally(function() {
-        $scope.content_loader_is_visible = false;
-    });
+    $scope.loadContent = function () {
+        AdvancedCron.findAll().success(function(data) {
+            $scope.system_tasks = data.system_tasks;
+            $scope.tasks = data.tasks;
+            $scope.apk_queue = data.apk_queue;
+            $scope.source_queue = data.source_queue;
+        }).finally(function() {
+            $scope.content_loader_is_visible = false;
+        });
+    };
+
+    $scope.loadContent();
 
     $scope.androidSdkRestart = function() {
         $scope.content_loader_is_visible = true;
@@ -782,6 +796,20 @@ App.config(function($routeProvider) {
             ;
             $scope.content_loader_is_visible = false;
         });
+    };
+
+    $scope.restartApk = function (queueId) {
+        $scope.content_loader_is_visible = true;
+        AdvancedCron
+            .restartApk(queueId)
+            .success(function (data) {
+                $scope.message.setText(data.message)
+                .isError(false)
+                .show()
+                ;
+                $scope.content_loader_is_visible = false;
+                $scope.loadContent();
+            });
     };
 
     $scope.save = function() {

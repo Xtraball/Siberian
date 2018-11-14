@@ -3,38 +3,38 @@
  *
  * Schema definition for 'module'
  *
- * Last update: 2016-04-28
+ * Last update: 2018-09-17
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['module'] = array(
-    'module_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['module'] = [
+    'module_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'version' => array(
+    ],
+    'version' => [
         'type' => 'varchar(30)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'can_uninstall' => array(
+    ],
+    'can_uninstall' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
-    ),
-    'type' => array(
+    ],
+    'type' => [
         'type' => 'varchar(512)',
         'default' => 'module',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

@@ -48,8 +48,9 @@
     .tabs {
       padding-bottom: constant(safe-area-inset-bottom);
       padding-bottom: env(safe-area-inset-bottom);
-      height: calc(constant(safe-area-inset-bottom) + 49px);
-      height: calc(env(safe-area-inset-bottom) + 49px);
+      height: calc(constant(safe-area-inset-bottom) + 55px);
+      height: calc(env(safe-area-inset-bottom) + 55px);
+
     }
     .has-header, .bar-subheader {
       top: $bar-height + $ios-statusbar-height;

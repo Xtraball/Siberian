@@ -54,16 +54,16 @@ class Cms_Application_BlockController extends Application_Controller_Default {
                 ->setTitle($block_model->getTitle())
                 ->toHtml();
 
-            $data = array(
+            $data = [
                 "success"   => 1,
                 "html"      => $html,
-            );
+            ];
         } catch (Exception $e) {
             /** Do whatever you need when form is not valid */
-            $data = array(
+            $data = [
                 "error"     => 1,
                 "message"   => __("An error occured while adding the block."),
-            );
+            ];
         }
 
         $this->_sendHtml($data);

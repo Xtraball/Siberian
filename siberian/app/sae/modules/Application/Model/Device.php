@@ -59,6 +59,97 @@ class Application_Model_Device extends Core_Model_Default {
     }
 
     /**
+     * @param string $version
+     * @return $this
+     * @throws \Siberian\Exception
+     */
+    public function setVersion ($version = null)
+    {
+        if ($version === null) {
+            $version = $this->getType()->getCurrentVersion();
+        }
+
+        if (preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $version) !== 1) {
+            throw new \Siberian\Exception(__('The version number format is invalid, please use x.y.z where x, y & z are only digits.'));
+        }
+
+        return $this->setData('version', $version);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsCameraUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_camera_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsPhotoLibraryUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_photo_library_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsLocationWhenInUseUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_location_when_in_use_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsLocationAlwaysUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_location_always_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsLocationAlwaysAndWhenInUseUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_location_always_and_when_in_use_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsMotionUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_motion_ud', $_filtered);
+    }
+
+
+    /**
      * @return array
      */
     public static function getAllIds() {
@@ -179,17 +270,5 @@ class Application_Model_Device extends Core_Model_Default {
         }
 
         return $this->_admin;
-    }
-
-    /**
-     * @param null $version
-     * @return $this
-     */
-    public function setVersion($version = null) {
-        if (!$version) {
-            $version = $this->getType()->getCurrentVersion();
-        }
-
-        return $this->setData('version', $version);
     }
 }

@@ -203,7 +203,7 @@ class Mcommerce_Mobile_Sales_PaymentController extends Mcommerce_Controller_Mobi
                         ->setStatusId($statusId);
 
                     array_key_exists('notes', $params) ?
-                        $order->setNotes($params['notes']) : $order->setNotes('');
+                        $order->setNotes(\Siberian\Xss::sanitize($params['notes'])) : $order->setNotes('');
                     $order->save();
 
                     if (in_array($this->getCart()->getPaymentMethod()->getCode(),

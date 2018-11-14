@@ -49,6 +49,27 @@
 
 </sb-section>
 
+<sb-section title="'<?php echo addcslashes(__("Installed templates"), "'"); ?>'">
+    <table class="table">
+        <thead>
+        <tr>
+            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:50%;text-align: right"><?php echo __("Version") ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="template in templates"
+            ng-show="templates.length">
+            <td>{{ template.name }}</td>
+            <td style="text-align: right">{{ template.version }}</td>
+        </tr>
+        <tr ng-show="!templates.length">
+            <td colspan="3"><?php echo __("No templates") ?></td>
+        </tr>
+        </tbody>
+    </table>
+</sb-section>
+
 <sb-section title="'<?php echo addcslashes(__("Installed icon packs"), "'"); ?>'">
     <table class="table">
         <thead>
@@ -69,7 +90,6 @@
         </tr>
         </tbody>
     </table>
-
 </sb-section>
 
 <sb-section title="'<?php echo addcslashes(__("Core modules"), "'"); ?>'">
@@ -126,7 +146,6 @@
             </tr>
         </tbody>
     </table>
-
 </sb-section>
 
 

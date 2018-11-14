@@ -17,6 +17,11 @@ class Siberian_Mail extends Zend_Mail
     public $_sender_email = "";
 
     /**
+     * @var string
+     */
+    public $_original_subject = '';
+
+    /**
      * Whether or not sender have been explicitly set.
      *
      * @var bool
@@ -191,6 +196,8 @@ class Siberian_Mail extends Zend_Mail
             }
         }
 
+        $this->_original_subject = $subject;
+
         return parent::setSubject($subject);
     }
 
@@ -246,10 +253,38 @@ class Siberian_Mail extends Zend_Mail
         }
 
         try {
-            return parent::send($transport);
+            $logInstance = Mail_Model_Log::logEmail($this);
+
+            $result = parent::send($transport);
+
+            /**
+             * @var $transport Zend_Mail_Transport_Smtp|Zend_Mail_Transport_Sendmail
+             */
+            $transport = self::getDefaultTransport();
+
+            /**
+             * @var $connection Zend_Mail_Protocol_Smtp
+             */
+            if ($transport instanceof Zend_Mail_Transport_Smtp) {
+                $connection = $transport->getConnection();
+                $log = $connection->getLog();
+                $connection->resetLog();
+
+                $logInstance
+                    ->setRawSmtpLog($log)
+                    ->save();
+            }
+            // Do something with the results
+
+            return $result;
         } catch (Exception $e) {
             log_err("[Siberian_Mail] an error occurred while sending the following e-mail.");
             log_err(__("[Siberian_Mail::Error] %s.", $e->getMessage()));
+
+            // Update log error!
+            $logInstance
+                ->setTextError($e->getMessage())
+                ->save();
         }
 
     }

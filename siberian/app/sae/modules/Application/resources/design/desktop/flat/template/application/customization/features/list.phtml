@@ -640,6 +640,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                             var li = createElementFromHTML(datas.page_html);
                             li = $(li);
+
+                            var a = li.children('a');
+
                             $('#option_value_customer_account').before(li);
                             this.close();
                             preview.close(true);
@@ -1637,11 +1640,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         max-height: 635px;
         min-height: 355px;
         margin: 20px auto;
-        padding: 15px 15px 10px 20px;
-        border-radius: 10px;
         background-color: white;
         color: #404040;
         z-index: 10001;
+    }
+
+    #previews .previews_list .preview {
+        padding: 15px;
     }
 
     #previews ul {

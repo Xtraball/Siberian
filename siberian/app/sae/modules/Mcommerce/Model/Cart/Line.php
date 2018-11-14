@@ -22,7 +22,7 @@ class Mcommerce_Model_Cart_Line extends Core_Model_Default {
      */
     protected $_cart;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Cart_Line';
         return $this;
@@ -99,7 +99,7 @@ class Mcommerce_Model_Cart_Line extends Core_Model_Default {
     public function getOptions() {
 
         if(!$this->_options) {
-            $this->_options = array();
+            $this->_options = [];
             if($this->getData('options')) {
                 $options = @unserialize($this->getData('options'));
                 if(is_array($options)) {

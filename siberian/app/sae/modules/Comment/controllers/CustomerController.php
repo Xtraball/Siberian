@@ -13,14 +13,14 @@ class Comment_CustomerController extends Core_Controller_Default
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "add" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "add" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function listAction() {
         $this->loadPartials();
@@ -51,19 +51,19 @@ class Comment_CustomerController extends Core_Controller_Default
                 $message = __('Your message has been successfully saved.');
                 if(!$comment->isVisible()) $message .= ' ' . __('It will be visible only after validation by our team.');
                 if($this->getCurrentAdmin()->getDesignId() == 6) {
-                    $html = array('success' => 1, 'message' => $message);
+                    $html = ['success' => 1, 'message' => $message];
                 }
                 else {
                     $this->getLayout()
                         ->setBaseRender('content', 'comment/list.phtml', 'comment_view_pos_list')
                         ->setMessage($message)
                     ;
-                    $html = array('html' => $this->getLayout()->render());
+                    $html = ['html' => $this->getLayout()->render()];
                 }
 
             }
             catch(Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $html = ['message' => $e->getMessage()];
             }
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));

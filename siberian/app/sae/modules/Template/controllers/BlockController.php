@@ -21,7 +21,7 @@ class Template_BlockController extends Core_Controller_Default {
 
         if(($this->getRequest()->getParam('id') || $this->getRequest()->getParam('url') || $this->getRequest()->getParam('path')) AND $color = $this->getRequest()->getParam('color')) {
 
-            $params = array('id', 'url', 'path', 'color');
+            $params = ['id', 'url', 'path', 'color'];
             $path = '';
             foreach($params as $param) $id[] = $this->getRequest()->getParam($param);
             $id = md5(implode('+', $id));

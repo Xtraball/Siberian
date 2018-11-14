@@ -5,14 +5,14 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "add" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "add" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function findallAction() {
 
@@ -26,19 +26,19 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
 
                 $answer = new Comment_Model_Answer();
                 $answers = $answer->findByComment($comment->getId());
-                $data = array();
+                $data = [];
                 foreach($answers as $answer) {
-                    $data[] = array(
+                    $data[] = [
                         "id" => $answer->getId(),
                         "name" => $answer->getCustomerName(),
                         "customer_id" => $answer->getCustomerId(),
-                        "message" => $answer->getText(),
+                        "message" => \Siberian\Xss::sanitize($answer->getText()),
                         "created_at" => $this->_durationSince($answer->getCreatedAt())
-                    );
+                    ];
 
                 }
 
-                $this->_sendHtml($data);
+                $this->_sendJson($data);
             }
 
         }
@@ -58,7 +58,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                 }
 
                 $comment_id = $data['comment_id'];
-                $text = $data['text'];
+                $text = \Siberian\Xss::sanitize($data['text']);
 
                 $answer = new Comment_Model_Answer();
                 $answer->setCommentId($comment_id)
@@ -67,7 +67,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                     ->save()
                 ;
 
-                $html = array('success' => 1);
+                $html = ['success' => 1];
 
                 $message = __('Your message has been successfully saved.');
                 if(!$answer->isVisible()) {
@@ -76,15 +76,15 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
 
                     $customer = $this->getSession()->getCustomer();
 
-                    $html["answer"] = array(
+                    $html["answer"] = [
                         "id"            => (integer) $answer->getId(),
                         "customer_id"   => (integer) $customer->getId(),
                         "author"        => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
                         "name"          => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
                         "picture"       => $customer->getImageLink(),
-                        "message"       => $answer->getText(),
+                        "message"       => \Siberian\Xss::sanitize($answer->getText()),
                         "created_at"    => datetime_to_format($answer->getCreatedAt())
-                    );
+                    ];
 
                 }
 
@@ -92,7 +92,7 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
 
             }
             catch(Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = ['error' => 1, 'message' => $e->getMessage()];
             }
 
             $this->_sendJson($html);

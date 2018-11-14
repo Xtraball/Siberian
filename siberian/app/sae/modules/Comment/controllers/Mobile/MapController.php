@@ -12,23 +12,23 @@ class Comment_Mobile_MapController extends Application_Controller_Mobile_Default
             $comment = new Comment_Model_Comment();
             $comments = $comment->findAllWithLocationAndPhoto($value_id);
 
-            $data = array(
-                "collection" => array(),
+            $data = [
+                "collection" => [],
                 "page_title" => $this->getCurrentOptionValue()->getTabbarName()
-            );
+            ];
 
             foreach($comments as $comment) {
-                $data['collection'][] = array(
+                $data['collection'][] = [
                     "comment_id" => $comment->getId(),
-                    "text" => $comment->getText(),
+                    "text" => \Siberian\Xss::sanitize($comment->getText()),
                     "image" => $comment->getImageUrl() ? $this->getRequest()->getBaseUrl().$comment->getImageUrl() : null,
                     "latitude" => $comment->getLatitude(),
                     "longitude" => $comment->getLongitude(),
-                    "link" => $this->getPath("comment/mobile_view", array("value_id" => $value_id, "comment_id" => $comment->getId()))
-                    );
+                    "link" => $this->getPath("comment/mobile_view", ["value_id" => $value_id, "comment_id" => $comment->getId()])
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
     }
 }

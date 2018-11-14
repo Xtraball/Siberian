@@ -7,14 +7,14 @@ class Mcommerce_Model_Db_Table_Tax extends Core_Model_Db_Table
 
     public function findByStore($store_id) {
 
-        $join = implode(' AND ', array(
+        $join = implode(' AND ', [
             'mst.tax_id = mt.tax_id',
             $this->_db->quoteInto('mst.store_id = ?', $store_id)
-        ));
+        ]);
 
         $select = $this->select()
-            ->from(array('mt' => $this->_name))
-            ->join(array('mst' => 'mcommerce_store_tax'), $join, array('rate'))
+            ->from(['mt' => $this->_name])
+            ->join(['mst' => 'mcommerce_store_tax'], $join, ['rate'])
             ->setIntegrityCheck(false)
         ;
 //        Zend_Debug::dump($select->assemble());
@@ -24,9 +24,9 @@ class Mcommerce_Model_Db_Table_Tax extends Core_Model_Db_Table
 
     public function saveStoreTaxes($tax_id, $datas) {
 
-        $this->_db->delete('mcommerce_store_tax', array('tax_id = ?' => $tax_id));
+        $this->_db->delete('mcommerce_store_tax', ['tax_id = ?' => $tax_id]);
         foreach($datas as $store_id => $rate) {
-            $this->_db->insert('mcommerce_store_tax', array('store_id' => $store_id, 'tax_id' => $tax_id, 'rate' => $rate));
+            $this->_db->insert('mcommerce_store_tax', ['store_id' => $store_id, 'tax_id' => $tax_id, 'rate' => $rate]);
         }
 
         return $this;

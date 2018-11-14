@@ -15,10 +15,10 @@ class Cms_Form_Block_Button extends Cms_Form_Block_Abstract {
         ;
 
         # ICON
-        $icon_fake = $this->addSimpleImage("icon_fake", __("Custom icon"), __("Custom icon"), array(
+        $icon_fake = $this->addSimpleImage("icon_fake", __("Custom icon"), __("Custom icon"), [
             "width" => 128,
             "height" => 128,
-        ));
+        ]);
 
         $icon = $this->addSimpleHidden("icon");
         $icon->setBelongsTo("block[".$this->uniqid."][button]");

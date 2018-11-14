@@ -1,5 +1,56 @@
 [
     {
+        "name": "2checkout/2checkout-php",
+        "version": "0.3.1",
+        "version_normalized": "0.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/2Checkout/2checkout-php.git",
+            "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/2Checkout/2checkout-php/zipball/cbac8da68155b6f557db0da0ac16a48a0faa5400",
+            "reference": "cbac8da68155b6f557db0da0ac16a48a0faa5400",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "php": ">=5.2.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2016-01-29T14:28:52+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Twocheckout": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Craig Christenson",
+                "email": "christensoncraig@gmail.com",
+                "homepage": "https://github.com/craigchristenson"
+            }
+        ],
+        "description": "2Checkout PHP Library",
+        "homepage": "https://github.com/2Checkout/2checkout-php",
+        "keywords": [
+            "2checkout",
+            "2co",
+            "gateway",
+            "payment"
+        ]
+    },
+    {
         "name": "bacon/bacon-qr-code",
         "version": "1.0.1",
         "version_normalized": "1.0.1.0",
@@ -230,6 +281,55 @@
             "symfony"
         ],
         "abandoned": "endroid/qr-code"
+    },
+    {
+        "name": "ezyang/htmlpurifier",
+        "version": "v4.10.0",
+        "version_normalized": "4.10.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ezyang/htmlpurifier.git",
+            "reference": "d85d39da4576a6934b72480be6978fb10c860021"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/d85d39da4576a6934b72480be6978fb10c860021",
+            "reference": "d85d39da4576a6934b72480be6978fb10c860021",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "require-dev": {
+            "simpletest/simpletest": "^1.1"
+        },
+        "time": "2018-02-23T01:58:20+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "HTMLPurifier": "library/"
+            },
+            "files": [
+                "library/HTMLPurifier.composer.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL"
+        ],
+        "authors": [
+            {
+                "name": "Edward Z. Yang",
+                "email": "admin@htmlpurifier.org",
+                "homepage": "http://ezyang.com"
+            }
+        ],
+        "description": "Standards compliant HTML filter written in PHP",
+        "homepage": "http://htmlpurifier.org/",
+        "keywords": [
+            "html"
+        ]
     },
     {
         "name": "fabpot/goutte",
@@ -1374,6 +1474,164 @@
         ]
     },
     {
+        "name": "romeoz/rock-base",
+        "version": "0.12.0",
+        "version_normalized": "0.12.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/romeOz/rock-base.git",
+            "reference": "ae1f0c5a835870ea355080d715873ed8233de312"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/romeOz/rock-base/zipball/ae1f0c5a835870ea355080d715873ed8233de312",
+            "reference": "ae1f0c5a835870ea355080d715873ed8233de312",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "romeoz/rock-helpers": "0.12.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.7.0"
+        },
+        "time": "2015-11-06T02:04:27+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.12-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "rock\\base\\": "src/"
+            },
+            "files": [
+                "src/polyfills.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ruslan",
+                "email": "serggalka@gmail.com"
+            }
+        ],
+        "description": "Base module for Rock Framework",
+        "keywords": [
+            "common",
+            "framerock",
+            "rock framework"
+        ]
+    },
+    {
+        "name": "romeoz/rock-helpers",
+        "version": "0.12.1",
+        "version_normalized": "0.12.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/romeOz/rock-helpers.git",
+            "reference": "ef14475dbf033a4a719ac24cb2b5586c703165fc"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/romeOz/rock-helpers/zipball/ef14475dbf033a4a719ac24cb2b5586c703165fc",
+            "reference": "ef14475dbf033a4a719ac24cb2b5586c703165fc",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "romeoz/rock-base": "0.12.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.7.0"
+        },
+        "time": "2015-11-06T21:18:26+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.12-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "rock\\helpers\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ruslan",
+                "email": "serggalka@gmail.com"
+            }
+        ],
+        "description": "Helpers for Rock Framework",
+        "keywords": [
+            "helpers",
+            "utils"
+        ]
+    },
+    {
+        "name": "romeoz/rock-sanitize",
+        "version": "0.11.1",
+        "version_normalized": "0.11.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/romeOz/rock-sanitize.git",
+            "reference": "fdcb5abefba5e4bce0698dcccea53b8a165dbc52"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/romeOz/rock-sanitize/zipball/fdcb5abefba5e4bce0698dcccea53b8a165dbc52",
+            "reference": "fdcb5abefba5e4bce0698dcccea53b8a165dbc52",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "romeoz/rock-base": "0.12.*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.7.0"
+        },
+        "time": "2015-11-07T05:01:22+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.11-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "rock\\sanitize\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ruslan",
+                "email": "serggalka@gmail.com"
+            }
+        ],
+        "description": "Flexible sanitizator for PHP.",
+        "keywords": [
+            "sanitization",
+            "sanitizator",
+            "sanitize"
+        ]
+    },
+    {
         "name": "stefangabos/zebra_image",
         "version": "2.2.6",
         "version_normalized": "2.2.6.0",
@@ -1421,6 +1679,63 @@
             "php",
             "resize",
             "thumbnail"
+        ]
+    },
+    {
+        "name": "stripe/stripe-php",
+        "version": "v6.19.5",
+        "version_normalized": "6.19.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/stripe/stripe-php.git",
+            "reference": "1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85",
+            "reference": "1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "php-coveralls/php-coveralls": "1.*",
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2018-10-17T14:58:41+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Stripe\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Stripe and contributors",
+                "homepage": "https://github.com/stripe/stripe-php/contributors"
+            }
+        ],
+        "description": "Stripe PHP Library",
+        "homepage": "https://stripe.com/",
+        "keywords": [
+            "api",
+            "payment processing",
+            "stripe"
         ]
     },
     {

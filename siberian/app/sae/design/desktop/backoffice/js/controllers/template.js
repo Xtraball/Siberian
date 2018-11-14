@@ -11,6 +11,8 @@ App.config(function($routeProvider) {
     $scope.header.button.left.is_visible = false;
     $scope.content_loader_is_visible = true;
 
+    $scope.viewType = 'grid';
+
     TemplateCategory.loadData().success(function(data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
@@ -24,33 +26,54 @@ App.config(function($routeProvider) {
 
     $scope.save = function() {
 
-        $scope.form_loader_is_visible = true;
+        $scope.content_loader_is_visible = true;
 
-        TemplateCategory.save($scope.getCategories()).success(function(data) {
-            $scope.message.setText(data.message)
-                .isError(false)
+        TemplateCategory
+            .save($scope.template.categories)
+            .success(function(data) {
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
+            }).error(function(data) {
+
+                $scope.message.setText(data.message)
+                    .isError(true)
+                    .show()
+                ;
+
+            }).finally(function() {
+                $scope.content_loader_is_visible = false;
+            });
+    };
+
+    $scope.toggleTemplate = function (template) {
+        $scope.content_loader_is_visible = true;
+        TemplateCategory
+            .toggleTemplate(template.template_id, template.is_active)
+            .success(function (data) {
+                var message = '';
+                if (angular.isObject(data) && angular.isDefined(data.message)) {
+                    message = data.message;
+                    $scope.message.isError(false);
+                }
+
+                $scope.message.setText(message)
                 .show()
-            ;
-        }).error(function(data) {
+                ;
+            }).error(function (data) {
+                var message = '';
+                if (angular.isObject(data) && angular.isDefined(data.message)) {
+                    message = data.message;
+                }
 
-            $scope.message.setText(data.message)
+                $scope.message.setText(message)
                 .isError(true)
                 .show()
-            ;
-
-        }).finally(function() {
-            $scope.form_loader_is_visible = false;
-        });
-    }
-
-    $scope.getCategories = function() {
-        var categories = new Array();
-        angular.forEach($scope.template.columns, function(columns) {
-            angular.forEach(columns, function(category) {
-                categories.push(category);
+                ;
+            }).finally(function () {
+                $scope.content_loader_is_visible = false;
             });
-        });
-        return categories;
     };
 
 });

@@ -568,7 +568,7 @@ class Zend_Mail extends Zend_Mime_Message
      * @param  string $name
      * @return Zend_Mail Provides fluent interface
      */
-    public function addTo($email, $name='')
+    public function addTo($email, $name = '')
     {
         if (!is_array($email)) {
             $email = array($name => $email);

@@ -12,8 +12,12 @@ class Push_Backoffice_GlobalController extends Backoffice_Controller_Default
     public function findallAction()
     {
         try {
+
             $data = [
-                "title" => __("Global push notifications"),
+                'title' => sprintf('%s > %s > %s',
+                    __('Settings'),
+                    __('Push'),
+                    __('Global notifications')),
                 "icon" => "fa-globe",
             ];
         } catch (Exception $e) {

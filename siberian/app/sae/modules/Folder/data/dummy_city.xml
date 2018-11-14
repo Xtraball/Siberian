@@ -1,37 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <designs>
     <paris>
-        <!--<folders>-->
-            <!--<folder>-->
-                <!--<category>-->
-                    <!--<main>-->
-                        <!--<content>-->
-                            <!--<type_id>folder</type_id>-->
-                            <!--<title>Lorem ipsum</title>-->
-                        <!--</content>-->
-                        <!--<features>-->
-                            <!--<code>contact</code>-->
-                        <!--</features>-->
-                    <!--</main>-->
-                    <!--<subcategory>-->
-                        <!--<content>-->
-                            <!--<type_id>folder</type_id>-->
-                            <!--<title>Proin</title>-->
-                        <!--</content>-->
-                        <!--<features>-->
-                            <!--<code>fanwall</code>-->
-                            <!--<code>discount</code>-->
-                        <!--</features>-->
-                    <!--</subcategory>-->
-                    <!--<subcategory>-->
-                        <!--<content>-->
-                            <!--<type_id>folder</type_id>-->
-                            <!--<title>Aliquam</title>-->
-                        <!--</content>-->
-                    <!--</subcategory>-->
-                <!--</category>-->
-            <!--</folder>-->
-        <!--</folders>-->
     </paris>
     <nyc>
         <folders>
@@ -42,20 +11,20 @@
                             <type_id>folder</type_id>
                             <title>Guide</title>
                             <subtitle>What you must not miss</subtitle>
-                            <picture>/../../images/templates/nyc/content/nyc4.jpeg</picture>
+                            <picture>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/content/nyc4.jpeg</picture>
                         </content>
                         <features>
                             <feature>
                                 <code>places</code>
                                 <name>Places</name>
-                                <icon>/../../images/templates/nyc/icons/places.jpeg</icon>
+                                <icon>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/icons/places.jpeg</icon>
                                 <colorizable>0</colorizable>
                                 <content></content>
                             </feature>
                             <feature>
                                 <code>calendar</code>
                                 <name>Temporary exhibitions</name>
-                                <icon>/../../images/templates/nyc/icons/calendar.jpeg</icon>
+                                <icon>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/icons/calendar.jpeg</icon>
                                 <colorizable>0</colorizable>
                                 <content></content>
                             </feature>

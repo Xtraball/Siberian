@@ -34,8 +34,8 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image
     </div>
 
     <script type="text/javascript">
-        var <?php echo $pvar; ?>_slider_input_template = '<?php echo str_replace("\n", "", $image_template); ?>';
-        var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+        let <?php echo $pvar; ?>_slider_input_template = `<?php echo str_replace("\n", "", $image_template); ?>`;
+        let <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
         $(document).ready(function() {
             bindForms(<?php echo $pvar; ?>);
@@ -47,7 +47,7 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image
                 },
                 done: function (el, data) {
                     if(data.result.success) {
-                        var cms_image = <?php echo $pvar; ?>_slider_input_template;
+                        let cms_image = <?php echo $pvar; ?>_slider_input_template;
                         cms_image = cms_image.replace("%IMAGE_PATH%", data.result.files);
                         cms_image = cms_image.replace("#THUMBNAIL_PATH#", tmp_directory+"/"+data.result.files);
 
@@ -72,7 +72,7 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image
 
             /** Delegate */
             $(<?php echo $pvar; ?>+" button[id$='image_uploader']").on("click", function() {
-                var el = $(this);
+                let el = $(this);
                 el.parents("div.sb-form-line").find(<?php echo $pvar; ?>+" #image_uploader_hidden").trigger("click");
             });
 

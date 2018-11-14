@@ -11,7 +11,7 @@
             <span ng-if="role.id != '1'"
                   class="actions pull-right">
                 <a href="acl/backoffice_role_edit/role_id/{{ role.id }}"
-                   class="btn btn-sm btn-success">EDIT</a>
+                   class="btn btn-sm btn-primary">EDIT</a>
                 <a href="javascript:void(0);"
                    ng-click="deleteRole(role.id)"
                    class="btn btn-sm btn-danger">DELETE</a>
@@ -58,8 +58,13 @@
         padding: 1px 5px !important;
         font-size: 11px !important;
         line-height: 1.4 !important;
-        border-radius: 2px !important;
+        border: 0 !important;
         font-weight: bold;
+
+    }
+
+    .btn-sm a {
+        text-decoration: none;
     }
     span.line {
         display: inline-block;

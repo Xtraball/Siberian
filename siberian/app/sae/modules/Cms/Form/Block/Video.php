@@ -34,10 +34,10 @@ class Cms_Form_Block_Video extends Cms_Form_Block_Abstract {
 
 
         # VIDEO
-        $video_cover = $this->addSimpleImage("cover", __("Loading picture"), __("Loading picture"), array(
+        $video_cover = $this->addSimpleImage("cover", __("Loading picture"), __("Loading picture"), [
             "width" => 1000,
             "height" => 600,
-        ));
+        ]);
         $video_cover->setBelongsTo("block[".$this->uniqid."][video]");
         $video_cover->addClass("cms-video-input cms-video-link");
 

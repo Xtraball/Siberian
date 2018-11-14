@@ -1,0 +1,12 @@
+{
+    "name": "TemplateColors",
+    "type": "template",
+    "description": "Colors template installer.",
+    "version": "4.15.0",
+    "dependencies": {
+        "system": {
+            "type": "SAE",
+            "version": "4.15.0-beta.1"
+        }
+    }
+}

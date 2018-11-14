@@ -6,7 +6,7 @@ class Mcommerce_Model_Delivery_Method extends Core_Model_Default {
 
     protected $_cart;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Delivery_Method';
         return $this;
@@ -45,8 +45,8 @@ class Mcommerce_Model_Delivery_Method extends Core_Model_Default {
         return $this->_instance;
     }
 
-    public function isAvailable() {
-        return $this->getInstance()->isAvailable();
+    public function isAvailable($app = null) {
+        return $this->getInstance()->isAvailable($app);
     }
 
     public function isFree() {

@@ -1,0 +1,337 @@
+<?php
+/**
+ * @var $application Application_Model_Application
+ */
+$application = $this->getApplication();
+$homepageUnified = $application->getHomepageBackgroundUnified();
+
+$splashVersion = (integer) $application->getSplashVersion();
+
+$rawData = $application->getData('background_image_unified');
+if (empty($rawData)) {
+    $homepageUnified = $application->getNoBackgroundImageUrl('unified');
+}
+
+$backgroundImage = $this->getApplication()->getData('background_image');
+
+?>
+
+<div class="container-fluid first-row-feature content-feature">
+    <div class="row">
+        <?php if (empty($rawData)): ?>
+        <div class="col-md-12">
+            <div class="alert alert-warning">
+                <?php echo __('Before publishing your Application you must upload a homepage background.') ?>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="col-md-8"
+             id="splashscreen_v2">
+            <img id="splashscreen_image"
+                 src="<?php echo $homepageUnified; ?>" />
+            <img id="safe_zone_any"
+                 class="safe_hidden"
+                 src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-any-any.png" />
+            <img id="safe_zone_portrait"
+                 class="safe_hidden"
+                 src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-portrait.png" />
+            <img id="safe_zone_portrait_locked"
+                 class="safe_hidden"
+                 src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-portrait-locked.png" />
+            <img id="safe_zone_landscape"
+                 class="safe_hidden"
+                 src="/app/sae/design/desktop/flat/images/splash_v2/safe-zone-landscape.png" />
+        </div>
+        <div class="col-md-4">
+            <div class="content-options content-white-bkg">
+
+                <div class="overlay-help alert alert-info">
+                    <?php echo __('The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries.') ?>
+                    <br />
+                    <a href="javascript:void(0);"
+                       class="dismiss-help pull-right btn btn-sm btn-default color-red"><?php echo __('dismiss') ?></a>
+                    <div style="clear: both;"></div>
+                </div>
+
+                <h4 class="toggle-overlay"><?php echo __('Safe zone overlay') ?>
+                    <i class="fa fa-question-circle show-help"></i>
+                </h4>
+
+                <fieldset>
+                    <b><?php echo __('Overlay color') ?></b>
+                    <br />
+                    <label for="radio_black">
+                        <input id="radio_black"
+                               class="color-red"
+                               type="radio"
+                               name="safe_color"
+                               checked="checked"
+                               value="black" />
+                        <?php echo __('Black') ?>
+                    </label>
+                    <br />
+                    <label for="radio_white">
+                        <input id="radio_white"
+                               class="color-red"
+                               type="radio"
+                               name="safe_color"
+                               value="white" />
+                        <?php echo __('White') ?>
+                    </label>
+                </fieldset>
+                <fieldset>
+                    <b><?php echo __('Zone overlay') ?></b>
+                    <br />
+                    <label for="radio_all">
+                        <input id="radio_all"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="" />
+                        <?php echo __('Hide overlay') ?>
+                    </label>
+                    <br />
+                    <label for="radio_portrait">
+                        <input id="radio_portrait"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               checked="checked"
+                               value="portrait" />
+                        <?php echo __('Safe in portrait') ?>
+                    </label>
+                    <br />
+                    <label for="radio_portrait_locked">
+                        <input id="radio_portrait_locked"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="portrait_locked" />
+                        <?php echo __('Safe in portrait (locked)') ?>
+                    </label>
+                    <br />
+                    <label for="radio_landscape">
+                        <input id="radio_landscape"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="landscape" />
+                        <?php echo __('Safe in landscape') ?>
+                    </label>
+                    <br />
+                    <label for="radio_any">
+                        <input id="radio_any"
+                               class="color-red"
+                               type="radio"
+                               name="safe_zone"
+                               value="any" />
+                        <?php echo __('Safe in portrait & landscape') ?>
+                    </label>
+                </fieldset>
+
+                <p class="clear recommended_size">
+                    <b><?php echo __('Recommended size:'); ?> </b> 2732 x 2732px
+                </p>
+                <button type="button"
+                        class="bg_hd btn-grey upload_bg btn btn-full-width sb-tour"
+                        rel="unified">
+                    <?php echo __('Change your homepage'); ?><br/>
+                </button>
+
+                <div class="alert alert-info"
+                     style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                    <?php echo __('Download template as') ?>
+                    <a href="/external/resources/template-unified.png"
+                       class="btn btn-xs color-red"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PNG</b></a>
+                    <?php echo __('or') ?>
+                    <a href="/external/resources/template-unified.psd"
+                       class="btn btn-xs color-red"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PSD</b></a>
+                </div>
+            </div>
+
+            <?php if (!empty($backgroundImage)): ?>
+            <br />
+            <div class="content-options content-white-bkg">
+                <h4 class="toggle-overlay"><?php echo __('Previous version') ?></h4>
+                <div class="alert alert-info"
+                     style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+                    <?php echo __('Download images archive') ?>
+                    <a href="/application/customization_design_style/downloadhomepage"
+                       class="btn btn-xs color-red"
+                       style="cursor: pointer !important;"
+                       target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>ZIP</b></a>
+                </div>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="row content-in">
+        <div id="behavior_container"
+             class="col-md-6 col-xs-12 sb-tour">
+            <div class="content-options content-white-bkg">
+                <?php
+                $formAppBehavior = (new Application_Form_Behavior())
+                    ->populate($application->getData());
+                echo $formAppBehavior;
+                ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<input enctype="multipart/form-data"
+       class="fileupload unified"
+       type="file"
+       style="display:none"
+       name="files[]"
+       data-url="<?php echo $this->getUrl('template/crop/upload'); ?>"
+       rel="unified" />
+
+<style type="text/css">
+    #splashscreen_v2 img {
+        width: 100%;
+        height: auto;
+    }
+
+    h4.toggle-overlay {
+        font-weight: 200;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    img.safe_hidden {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    img.safe_visible {
+        opacity: 0.35;
+    }
+
+    img.safe_white {
+        filter: brightness(100);
+    }
+</style>
+
+<script type="text/javascript">
+    homepage_uploader = new Uploader();
+    $(document).ready(function() {
+        bindForms('#behavior_container');
+
+        var safeZone = $('[name="safe_zone"]');
+
+        var switchZone = function () {
+            var value = $('[name="safe_zone"]:checked').val();
+            $('.safe_hidden').removeClass('safe_visible');
+            $('#safe_zone_' + value).addClass('safe_visible');
+        };
+
+        safeZone.off('change');
+        safeZone.on('change', function () {
+            //
+            switchZone();
+            toggleColor();
+        });
+
+        var safeColor = $('[name="safe_color"]');
+
+        var toggleColor = function () {
+            var value = $('[name="safe_color"]:checked').val();
+            if (value === 'black') {
+                $('.safe_visible').removeClass('safe_white');
+            } else {
+                $('.safe_visible').addClass('safe_white');
+            }
+        };
+
+        safeColor.off('change');
+        safeColor.on('change', function () {
+            toggleColor();
+        });
+
+        switchZone();
+        toggleColor();
+
+        var type = '';
+
+        $('.fileupload.unified').fileupload({
+            autoUpload: true,
+            dataType: 'json',
+            type: 'POST',
+            add: function (e, data) {
+                type = $(this).attr("rel");
+                data.formData = {
+                    fileType: type,
+                    uniq_prefix: type + '_',
+                    minwidth: '1500',
+                    minheight: '1500',
+                    maxwidth: '4500',
+                    maxheight: '4500'
+                };
+                data.submit();
+                homepage_uploader.showProgressbar();
+            },
+            progressall: function (e, data) {
+                homepage_uploader.moveProgressbar(data);
+            },
+            done: function (e, data) {
+                if(data.result.error) {
+                    loader.hide();
+                    homepage_uploader.showError(data.result.message);
+                } else {
+                    homepage_uploader.hide();
+                    var params = [];
+                    params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                    params["file"] = data.result.files;
+                    params["uploader"] = 'homepage_uploader';
+                    params["output_w"] = 2732;
+                    params["output_h"] = 2732;
+                    params["output_url"] = '<?php echo str_replace(
+                            '/',
+                            '$',
+                            $this->getUrl('application/customization_design_style/savehomepage')) ?>$filetype$unified';
+
+                    homepage_uploader.crop(params);
+                    homepage_uploader.callback = function(file) {
+                        $('#splashscreen_image').attr('src', file);
+                    }
+                }
+            }
+        });
+
+        $('.upload_bg').click(function(){
+            $('input.fileupload.' + $(this).attr('rel')).trigger('click');
+            return false;
+        });
+
+        // Save prefs in session
+        var showOverlayHelp = sessionStorage.getItem('showOverlayHelp');
+        if (showOverlayHelp == 0) {
+            $('.overlay-help').hide();
+        }
+
+        var showHelp = $('.show-help');
+        showHelp.off('click');
+        showHelp.on('click', function () {
+            sessionStorage.setItem('showOverlayHelp', 1);
+            $('.overlay-help').show();
+        });
+
+        var dismissHelp = $('.dismiss-help');
+        dismissHelp.off('click');
+        dismissHelp.on('click', function () {
+            sessionStorage.setItem('showOverlayHelp', 0);
+            $('.overlay-help').hide();
+        });
+    });
+</script>

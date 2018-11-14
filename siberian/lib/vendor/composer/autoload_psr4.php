@@ -6,6 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'rock\\sanitize\\' => array($vendorDir . '/romeoz/rock-sanitize/src'),
+    'rock\\helpers\\' => array($vendorDir . '/romeoz/rock-helpers/src'),
+    'rock\\base\\' => array($vendorDir . '/romeoz/rock-base/src'),
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Vnn\\WpApiClient\\' => array($vendorDir . '/vnn/wordpress-rest-api-client/src'),
     'Symfony\\Polyfill\\Php70\\' => array($vendorDir . '/symfony/polyfill-php70'),
@@ -18,6 +21,7 @@ return array(
     'Symfony\\Component\\DomCrawler\\' => array($vendorDir . '/symfony/dom-crawler'),
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
+    'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
     'React\\EventLoop\\' => array($vendorDir . '/react/event-loop/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),

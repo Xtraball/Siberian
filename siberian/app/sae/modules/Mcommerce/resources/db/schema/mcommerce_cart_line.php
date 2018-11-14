@@ -6,129 +6,129 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['mcommerce_cart_line'] = array(
-    'line_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['mcommerce_cart_line'] = [
+    'line_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'cart_id' => array(
+    ],
+    'cart_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'mcommerce_cart',
             'column' => 'cart_id',
             'name' => 'mcommerce_cart_line_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_CART_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'product_id' => array(
+        ],
+    ],
+    'product_id' => [
         'type' => 'int(11)',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'catalog_product',
             'column' => 'product_id',
             'name' => 'mcommerce_cart_line_ibfk_3',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_PRODUCT_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'category_id' => array(
+        ],
+    ],
+    'category_id' => [
         'type' => 'int(11)',
-        'index' => array(
+        'index' => [
             'key_name' => 'KEY_CATEGORY_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'ref' => array(
+        ],
+    ],
+    'ref' => [
         'type' => 'varchar(100)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'base_price' => array(
+    ],
+    'base_price' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'base_price_incl_tax' => array(
+    ],
+    'base_price_incl_tax' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'price' => array(
+    ],
+    'price' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'price_incl_tax' => array(
+    ],
+    'price_incl_tax' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'qty' => array(
+    ],
+    'qty' => [
         'type' => 'decimal(4,2)',
         'default' => '1.00',
-    ),
-    'total' => array(
+    ],
+    'total' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'total_incl_tax' => array(
+    ],
+    'total_incl_tax' => [
         'type' => 'decimal(12,2)',
         'is_null' => true,
-    ),
-    'choices' => array(
+    ],
+    'choices' => [
         'type' => 'text',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'options' => array(
+    ],
+    'options' => [
         'type' => 'text',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'format' => array(
+    ],
+    'format' => [
         'type' => 'text',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'tax_id' => array(
+    ],
+    'tax_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'mcommerce_tax',
             'column' => 'tax_id',
             'name' => 'mcommerce_cart_line_ibfk_2',
             'on_update' => 'CASCADE',
             'on_delete' => 'RESTRICT',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_TAX_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'tax_rate' => array(
+        ],
+    ],
+    'tax_rate' => [
         'type' => 'decimal(5,2)',
-    ),
-);
+    ],
+];

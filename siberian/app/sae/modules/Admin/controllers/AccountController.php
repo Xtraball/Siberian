@@ -1,156 +1,195 @@
 <?php
 
+/**
+ * Class Admin_AccountController
+ */
 class Admin_AccountController extends Admin_Controller_Default
 {
-
-    public function editAction() {
+    /**
+     * @throws Zend_Session_Exception
+     */
+    public function editAction()
+    {
         $this->loadPartials();
         $current_admin = $this->getSession()->getAdmin();
         $this->getLayout()->getPartial("content")->setMode("edit")->setEditAdmin($current_admin);
     }
 
-    public function savepostAction() {
+    /**
+     *
+     */
+    public function savepostAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
 
             try {
+
+                // Protection for demo mode!
+                if (__getConfig('is_demo')) {
+                    if (in_array($data['email'], ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+                }
 
                 $admin = new Admin_Model_Admin();
                 $current_admin = $this->getSession()->getAdmin();
                 $check_email_admin = new Admin_Model_Admin();
-                $html = '';
 
-                if(!empty($data['admin_id'])) {
+                if (!empty($data['admin_id'])) {
                     $admin->find($data['admin_id']);
-                    if(!$admin->getId()) {
-                        throw new Exception(__('An error occurred while saving your account. Please try again later.'));
+                    if (!$admin->getId()) {
+                        throw new \Siberian\Exception(__('There is no user with this ID.'));
                     }
                 }
-                if(empty($data['email'])) {
-                    throw new Exception(__('The email is required'));
-                }
-    
-                if( $admin->getId() AND $admin->getId() != $this->getAdmin()->getId() AND (
-                        $admin->getParentId() AND $admin->getParentId() != $this->getAdmin()->getId() OR
+
+                if ($admin->getId() &&
+                    $admin->getId() != $this->getAdmin()->getId() &&
+                    (
+                        $admin->getParentId() &&
+                        $admin->getParentId() != $this->getAdmin()->getId() ||
                         !$admin->getParentId()
                     )) {
 
-                        throw new Exception(__("An error occurred while saving your account. Please try again later."));
-
+                    throw new \Siberian\Exception(__("An error occurred while saving your account. Please try again later."));
                 }
-                
-                if(!$admin->getId() OR $admin->getId() != $this->getAdmin()->getId()) {
+
+                if (!$admin->getId() ||
+                    $admin->getId() != $this->getAdmin()->getId()) {
                     $admin->setParentId($this->getAdmin()->getId());
                 }
 
+                // Protection for demo mode!
+                if (__getConfig('is_demo')) {
+                    if (in_array($admin->getEmail(), ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+                }
+
                 $check_email_admin->find($data['email'], 'email');
-                if($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
-                    throw new Exception(__('This email address is already used'));
+                if ($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
+                    throw new \Siberian\Exception(__('This email address is already used'));
                 }
 
-                // Demo version
-                if(__getConfig('is_demo') && $admin->getId() == 1) {
-                    throw new Exception("This is a demo version, this user can't be changed");
-                }
-
-                if(isset($data['password'])) {
-                    if($data['password'] != $data['confirm_password']) {
-                        throw new Exception(__('Your password does not match the entered password.'));
+                if (isset($data['password'])) {
+                    if ($data['password'] != $data['confirm_password']) {
+                        throw new \Siberian\Exception(__('Your password does not match the entered password.'));
                     }
-                    if(!empty($data['old_password']) AND !$admin->isSamePassword($data['old_password'])) {
-                        throw new Exception(__("The old password does not match the entered password."));
+                    if (!empty($data['old_password']) AND !$admin->isSamePassword($data['old_password'])) {
+                        throw new \Siberian\Exception(__("The old password does not match the entered password."));
                     }
-                    if(!empty($data['password'])) {
+                    if (!empty($data['password'])) {
                         $admin->setPassword($data['password']);
                         unset($data['password']);
                     }
                 }
 
-                if (empty($data["role_id"]) && $data["mode"]=="management") {
-                    throw new Exception(__('The account role is required'));
+                if (empty($data["role_id"]) && $data["mode"] == "management") {
+                    throw new \Siberian\Exception(__('The account role is required'));
                 } else {
-                    if($data["mode"]=="management") {
+                    if ($data["mode"] == "management") {
                         $admin->setRoleId($data["role_id"]);
                     }
                 }
 
                 // Available roles for the current admin!
-                $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
-                $availableRoles = (new Acl_Model_Role())->getChilds($role);
-                if ($role->getIsSelfAssignable()) {
-                    array_unshift($availableRoles, $role->_asArray($role));
-                }
-
-                $isAllowedRole = false;
-                foreach ($availableRoles as $availableRole) {
-                    if ($availableRole['value'] == $data['role_id']) {
-                        $isAllowedRole = true;
+                if ($data['mode'] == 'management') {
+                    $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
+                    $availableRoles = (new Acl_Model_Role())->getChilds($role);
+                    if ($role->getIsSelfAssignable()) {
+                        array_unshift($availableRoles, $role->_asArray($role));
                     }
-                }
 
-                if (!$isAllowedRole) {
-                    throw new \Siberian\Exception(__("Your are not allowed to assign this role."));
+                    $isAllowedRole = false;
+                    foreach ($availableRoles as $availableRole) {
+                        if ($availableRole['value'] == $data['role_id']) {
+                            $isAllowedRole = true;
+                        }
+                    }
+
+                    if (!$isAllowedRole) {
+                        throw new \Siberian\Exception(__("Your are not allowed to assign this role."));
+                    }
+                } else {
+                    unset($data['role_id']);
                 }
 
                 $admin
-                    ->addData($data)
+                    ->setAddress($data['address'])
+                    ->setAddress2($data['address2'])
+                    ->setCity($data['city'])
+                    ->setCompany($data['company'])
+                    ->setZipCode($data['zip_code'])
+                    ->setFirstname($data['firstname'])
+                    ->setLastname($data['lastname'])
+                    ->setPhone($data['phone'])
+                    ->setEmail($data['email'])
+                    ->setOptinEmail($data['optin_email'] === 'on')
                     ->save();
 
                 //For SAE we link automatically the user to the uniq app
-                if(Siberian_Version::is("sae")) {
+                if (Siberian_Version::is("sae")) {
                     $this->getApplication()->addAdmin($admin);
                 }
 
-                $html = array('success' => 1);
-                    $html = array_merge($html, array(
-                        'success_message' => __('The account has been successfully saved'),
-                        'message_timeout' => false,
-                        'message_button' => false,
-                        'message_loader' => 1
-                    ));
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
+                $payload = [
+                    'success' => 1
+                ];
+
+                $payload = array_merge($payload, [
+                    'success_message' => __('The account has been successfully saved'),
+                    'message_timeout' => false,
+                    'message_button' => false,
+                    'message_loader' => 1
+                ]);
+            } catch (Exception $e) {
+                $payload = [
+                    'error' => true,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($payload);
 
         }
 
 
     }
 
-    public function deleteAction() {
+    public function deleteAction()
+    {
 
-        if($admin_id = $this->getRequest()->getParam('admin_id') AND !$this->getSession()->getAdmin()->getParentId()) {
+        if ($admin_id = $this->getRequest()->getParam('admin_id') AND !$this->getSession()->getAdmin()->getParentId()) {
 
             try {
 
                 $admin = new Admin_Model_Admin();
                 $admin->find($admin_id);
 
-                if(!$admin->getId()) {
+                if (!$admin->getId()) {
                     throw new Exception(__("This administrator does not exist"));
-                } else if(!$admin->getParentId()) {
+                } else if (!$admin->getParentId()) {
                     throw new Exception(__("You can't delete the main account"));
+                }
+
+                if (__getConfig('is_demo')) {
+                    if (in_array($admin->getEmail(), ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to delete this account in demo!'));
+                    }
                 }
 
                 $admin->delete();
 
-                $html = array(
+                $html = [
                     'success' => 1,
                     'admin_id' => $admin_id
-                );
+                ];
 
-            }
-            catch(Exception $e) {
-                $html = array(
+            } catch (Exception $e) {
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -159,37 +198,37 @@ class Admin_AccountController extends Admin_Controller_Default
 
     }
 
-    public function loginAction() {
+    public function loginAction()
+    {
         $this->loadPartials();
     }
 
-    public function loginpostAction() {
+    public function loginpostAction()
+    {
 
-        if(!$this->getSession()->isLoggedIn() && ($datas = $this->getRequest()->getPost())) {
+        if (!$this->getSession()->isLoggedIn() && ($datas = $this->getRequest()->getPost())) {
 
             $this->getSession()->resetInstance();
             $canBeLoggedIn = false;
 
             try {
 
-                if(empty($datas['email']) OR empty($datas['password'])) {
+                if (empty($datas['email']) OR empty($datas['password'])) {
                     throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($datas['email']);
 
-                if($admin->authenticate($datas['password'])) {
+                if ($admin->authenticate($datas['password'])) {
                     $this->getSession()
-                        ->setAdmin($admin)
-                    ;
+                        ->setAdmin($admin);
                 }
 
-                if(!$this->getSession()->isLoggedIn()) {
+                if (!$this->getSession()->isLoggedIn()) {
                     throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->getSession()->addError($e->getMessage());
             }
         }
@@ -199,52 +238,50 @@ class Admin_AccountController extends Admin_Controller_Default
 
     }
 
-    public function signuppostAction() {
+    public function signuppostAction()
+    {
 
-        if($data = $this->getRequest()->getPost()) {
+        if ($data = $this->getRequest()->getPost()) {
             try {
 
                 // Check l'email et le mot de passe
-                if(empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) {
+                if (empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) {
                     throw new Exception(__('Please enter a valid email address.'));
                 }
-                if(empty($data['password']) OR strlen($data['password']) < 6) {
+                if (empty($data['password']) OR strlen($data['password']) < 6) {
                     throw new Exception(__('The password must be at least 6 characters.'));
                 }
-                if(empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
+                if (empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
                     throw new Exception(__('The password and the confirmation does not match.'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($data['email']);
 
-                if($admin->getId()) {
+                if ($admin->getId()) {
                     throw new Exception(__('We are sorry but this email address is already used.'));
                 }
 
                 $role = new Acl_Model_Role();
-                if($default_role = $role->findDefaultRoleId()) {
+                if ($default_role = $role->findDefaultRoleId()) {
                     $admin->setRoleId($default_role);
                 }
 
                 // Créé le user
                 $admin->setEmail($data['email'])
                     ->setPassword($data['password'])
-                    ->save()
-                ;
+                    ->save();
 
                 // Met le user en session
                 $this->getSession()
-                    ->setAdmin($admin)
-                ;
+                    ->setAdmin($admin);
 
                 $admin->sendAccountCreationEmail($data["password"]);
 
                 $redirect_to = 'admin/application/list';
 
-            }
-            catch(Exception $e) {
-                if($this->getSession()->isLoggedIn()) {
+            } catch (Exception $e) {
+                if ($this->getSession()->isLoggedIn()) {
                     $redirect_to = 'admin/application/list';
                 } else {
                     $this->getSession()->addError($e->getMessage());
@@ -258,20 +295,21 @@ class Admin_AccountController extends Admin_Controller_Default
 
     }
 
-    public function forgotpasswordpostAction() {
+    public function forgotpasswordpostAction()
+    {
 
-        if($datas = $this->getRequest()->getPost() AND !$this->getSession()->isLoggedIn('admin') AND !$this->getSession()->isLoggedIn('pos')) {
+        if ($datas = $this->getRequest()->getPost() AND !$this->getSession()->isLoggedIn('admin') AND !$this->getSession()->isLoggedIn('pos')) {
 
             try {
 
-                if(empty($datas['email'])) {
+                if (empty($datas['email'])) {
                     throw new Exception(__('Please enter your email address'));
                 }
 
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($datas['email']);
 
-                if(!$admin->getId()) {
+                if (!$admin->getId()) {
                     throw new Exception(__("Your email address does not exist"));
                 }
 
@@ -289,13 +327,12 @@ class Admin_AccountController extends Admin_Controller_Default
                 $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject, array("_sender_name"));
+                $mail->setSubject($subject, ["_sender_name"]);
                 $mail->send();
 
                 $this->getSession()->addSuccess(__('Your new password has been sent to the entered email address'));
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $this->getSession()->addError($e->getMessage());
             }
         }
@@ -305,7 +342,8 @@ class Admin_AccountController extends Admin_Controller_Default
 
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $this->getSession()->resetInstance();
         $this->_redirect('');
         return $this;
@@ -314,7 +352,7 @@ class Admin_AccountController extends Admin_Controller_Default
     /**
      *
      */
-    public function mydataAction ()
+    public function mydataAction()
     {
         $session = $this->getSession();
         $admin = $session->getAdmin();
@@ -343,7 +381,6 @@ class Admin_AccountController extends Admin_Controller_Default
                 $content = $this->getProfileContent($this->getBaseLayout($admin), $nav);
                 break;
         }
-
 
 
         if (!$download) {
@@ -378,7 +415,7 @@ class Admin_AccountController extends Admin_Controller_Default
     /**
      * @return Siberian_Layout
      */
-    public function getBaseLayout ($admin)
+    public function getBaseLayout($admin)
     {
         $layout = new Siberian_Layout();
 
@@ -397,7 +434,7 @@ class Admin_AccountController extends Admin_Controller_Default
      * @param $nav
      * @return string
      */
-    private function getProfileContent ($layout, $nav)
+    private function getProfileContent($layout, $nav)
     {
         $layout->addPartial(
             'content', 'admin_view_default',

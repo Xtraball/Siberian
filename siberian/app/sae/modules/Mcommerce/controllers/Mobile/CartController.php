@@ -33,7 +33,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
         $isValidCart = $lines && (!$this->getStore()->getMinAmount() || $this->getCart()->getSubtotalInclTax() >= $this->getStore()->getMinAmount());
 
-        $html["cart"] = array(
+        $html["cart"] = [
             "discount_enabled" => true,
             "discount_code" => $cart->getDiscountCode(),
             "fidelity_rate" => $fidelity_rate,
@@ -43,7 +43,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "deliveryMethodId" => $cart->getDeliveryMethodId(),
             "paymentMethodId" => $cart->getPaymentMethodId(),
             "paymentMethodName" => $cart->getPaymentMethod() != null ? $cart->getPaymentMethod()->getName() : null,
-            "customer" => array(
+            "customer" => [
                 "id" => $cart->getCustomerId(),
                 "firstname" => $cart->getCustomerFirstname(),
                 "lastname" => $cart->getCustomerLastname(),
@@ -56,7 +56,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 "city" => $cart->getCustomerCity(),
                 "latitude" => $cart->getCustomerLatitude(),
                 "longitude" => $cart->getCustomerLongitude()
-            ),
+            ],
             "add_tip" => $mcommerce->getAddTip(),
             "storeId" => $cart->getStoreId(),
             "currency_code" => $currency_code,
@@ -85,14 +85,14 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "formattedTotal" => $cart->getFormattedTotal(),
             "formattedSubtotal" => $cart->getFormattedSubtotal(),
             "formattedSubtotalWithDiscount" => $cart->getFormattedSubtotalWithDiscount(),
-            "lines" => array(),
-            "pictos" => array(
+            "lines" => [],
+            "pictos" => [
                 "trash" => $trashImageUrl,
                 "more" => $moreImageUrl
-            )
-        );
+            ]
+        ];
 
-        if (in_array($cart->getPaymentMethod()->getCode(), array("check", "cc_upon_delivery", "paypal"))) {
+        if (in_array($cart->getPaymentMethod()->getCode(), ["check", "cc_upon_delivery", "paypal"])) {
             $html["cart"]["hide_paid_amount"] = true;
         }
 
@@ -108,13 +108,13 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $displayBasePrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0);
             $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
 
-            $lineJson = array(
+            $lineJson = [
                 "id" => $line->getId(),
                 "category_id" => $line->getCategoryId(),
-                "product" => array(
+                "product" => [
                     "id" => $product->getId(),
-                    "picture" => $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) ? $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) : array("url" => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($this->_getImage("pictos/shopping_cart.png"), $application->getBlock('background')->getColor()))
-                ),
+                    "picture" => $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) ? $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl()) : ["url" => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($this->_getImage("pictos/shopping_cart.png"), $application->getBlock('background')->getColor())]
+                ],
                 "name" => $line->getName(),
                 "qty" => $line->getQty(),
                 "price" => (float)$line->getPrice(),
@@ -131,8 +131,8 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 "totalInclTax" => (float)$line->getTotalInclTax(),
                 //"formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $line->getFormattedTotalInclTax() : null,
                 "formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $displayPriceInclTax : null,
-                "options" => array()
-            );
+                "options" => []
+            ];
 
             foreach ($line->getOptions() as $option) {
 
@@ -140,7 +140,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0);
                 $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate());
 
-                $lineJson["options"][] = array(
+                $lineJson["options"][] = [
                     "id" => $option->getId(),
                     "qty" => $option->getQty(),
                     "name" => $option->getName(),
@@ -150,17 +150,17 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     "priceInclTax" => (float)$option->getPriceInclTax(),
                     //"formattedPriceInclTax" => $option->getFormattedPriceInclTax(),
                     "formattedPriceInclTax" => $displayPriceInclTax,
-                );
+                ];
 
             }
-            $choices = array();
+            $choices = [];
             foreach ($line->getChoices() as $id => $choice) {
                 $group = new Catalog_Model_Product_Group();
                 $group->find($id);
-                $row = array(
+                $row = [
                     "title" => $group->getTitle(),
-                    "options" => array()
-                );
+                    "options" => []
+                ];
                 foreach ($choice['selected_options'] as $sop) {
                     $option = new Catalog_Model_Product_Group_Option();
                     $option->find($sop);
@@ -171,11 +171,11 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $lineJson["choices"] = $choices;
 
             if ($format = $line->getFormat()) {
-                $lineJson["format"][] = array(
+                $lineJson["format"][] = [
                     "id" => $format->getId(),
                     "title" => $format->getTitle(),
                     "price" => $format->getPrice()
-                );
+                ];
             }
 
             $html["cart"]["lines"][] = $lineJson;
@@ -203,7 +203,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
             $form = $data["form"];
 
-            $html = array();
+            $html = [];
 
             try {
                 if (empty($form['product_id'])) throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -211,7 +211,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 $product = new Catalog_Model_Product();
                 $product->find($form['product_id']);
 
-                $errors = array();
+                $errors = [];
 
                 foreach ($product->getGroups() as $group) {
                     $invalid_option = $group->isRequired() &&
@@ -233,7 +233,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
                     if (!empty($form["selected_format"])) {
                         $formats = $product->getType()->getOptions();
-                        $product_format = array();
+                        $product_format = [];
                         foreach ($formats as $format) {
                             $id = $format->getId();
                             if ($id == $form["selected_format"]) {
@@ -244,7 +244,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     }
 
                     if (!empty($form['options'])) {
-                        $options = array();
+                        $options = [];
                         foreach ($product->getGroups() as $group) {
                             foreach ($group->getOptions() as $option) {
 
@@ -267,9 +267,9 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     }
 
                     if (!empty($form['choices'])) {
-                        $choices = array();
+                        $choices = [];
                         foreach ($product->getChoices() as $group) {
-                            $choices["" . $group->getId()] = array();
+                            $choices["" . $group->getId()] = [];
                             foreach ($group->getOptions() as $choice) {
                                 if (in_array("" . $choice->getId(), $form['choices']["" . $group->getId()]['selected_options']))
                                     $choices["" . $group->getId()] = $choice;
@@ -284,7 +284,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $cart->addProduct($product)
                         ->save();
 
-                    $html = array('success' => 1);
+                    $html = ['success' => 1];
                 } else {
                     if (count($errors) == 1) $message = $this->_("The option %s is required", current($errors));
                     else $message = $this->_('The following options are required:<br />%s', implode('<br />- ', $errors));
@@ -292,10 +292,10 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 }
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -308,7 +308,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
         if ($lineId = $this->getRequest()->getParam('line_id')) {
 
-            $html = array();
+            $html = [];
 
             try {
                 if (empty($lineId)) throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -317,13 +317,13 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     ->removeProduct($lineId)
                     ->save();
 
-                $html = array('success' => 1, 'line_id' => $lineId);
+                $html = ['success' => 1, 'line_id' => $lineId];
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -352,13 +352,13 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $displayBasePrice = Mcommerce_Model_Utility::displayPrice($line->getPrice(), 0);
                     $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
 
-                    $lineJson = array(
+                    $lineJson = [
                         "id" => $line->getId(),
                         "name" => $line->getName(),
                         "qty" => $line->getQty(),
-                        "product" => array(
+                        "product" => [
                             "picture" => $product->getLibraryPictures(false, $this->getRequest()->getBaseUrl())
-                        ),
+                        ],
                         "price" => (float)$line->getPrice(),
                         //"formattedPrice" => $line->getPrice() > 0 ? $line->getFormattedPrice() : null,
                         "formattedPrice" => $line->getPrice() > 0 ? $displayPrice : null,
@@ -374,9 +374,9 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         "totalInclTax" => (float)$line->getTotalInclTax(),
                         //"formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $line->getFormattedTotalInclTax() : null,
                         "formattedTotalInclTax" => $line->getTotalInclTax() > 0 ? $displayPriceInclTax : 0,
-                        "options" => array(),
+                        "options" => [],
                         "format" => $data["format"]
-                    );
+                    ];
 
                     foreach ($line->getOptions() as $option) {
 
@@ -384,7 +384,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         $displayPrice = Mcommerce_Model_Utility::displayPrice($option->getPrice(), 0, $line->getQty());
                         $displayPriceInclTax = Mcommerce_Model_Utility::displayPrice($option->getPrice(), $line->getTaxRate(), $line->getQty());
 
-                        $lineJson["options"][] = array(
+                        $lineJson["options"][] = [
                             "id" => $option->getId(),
                             "qty" => $option->getQty(),
                             "name" => $option->getName(),
@@ -394,7 +394,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                             "priceInclTax" => (float)$option->getPriceInclTax(),
                             //"formattedPriceInclTax" => $option->getFormattedPriceInclTax(),
                             "formattedPriceInclTax" => $displayPriceInclTax,
-                        );
+                        ];
                     }
 
                     $cart = $this->getCart();
@@ -402,9 +402,9 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
                     $isValidCart = !$this->getStore()->getMinAmount() || $cart->getSubtotalInclTax() >= $this->getStore()->getMinAmount();
 
-                    $html = array(
+                    $html = [
                         'line' => $lineJson,
-                        'cart' => array(
+                        'cart' => [
                             "formattedSubtotalExclTax" => $cart->getSubtotalExclTax() > 0 ? $cart->getFormattedSubtotalExclTax() : null,
                             "formattedSubtotalInclTax" => $cart->getSubtotalInclTax() > 0 ? $cart->getFormattedSubtotalInclTax() : null,
                             "deliveryCost" => $cart->getDeliveryCost(),
@@ -413,19 +413,19 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                             "formattedTotalTax" => $cart->getTotalTax() > 0 ? $cart->getFormattedTotalTax() : null,
                             "formattedTotal" => $cart->getTotal() > 0 ? $cart->getFormattedTotal() : null,
                             "valid" => $isValidCart
-                        )
-                    );
+                        ]
+                    ];
                 } else {
-                    $html = array(
+                    $html = [
                         'error' => 1,
                         'message' => $this->_('An error occurred during the process. Please try again later.')
-                    );
+                    ];
                 }
             } else {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $this->_('An error occurred during the process. Please try again later.')
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -443,15 +443,15 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     throw new Exception("Missing parameters.");
                 }
                 $cart->setTip(abs(floatval($tip)))->_compute()->save();
-                $html = array(
+                $html = [
                     'cart_id' => $cart->getCartId(),
                     'success' => true
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $this->_('An error occurred during the process. Please try again later.')
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -463,18 +463,18 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $html = $this->computeDiscount();
             $html['cart_id'] = $this->getCart()->getCartId();
         } catch (Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => __('An error occurred during the process. Please try again later.'),
                 'debug' => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($html);
     }
 
     public function adddiscountAction() {
-        $html = array();
+        $html = [];
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             try {
                 $discount_code = $data["discount_code"];
@@ -486,7 +486,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                 } else {
                     $promo = new Mcommerce_Model_Promo();
                     $mcommerce = $this->getCurrentOptionValue()->getObject();
-                    $promo->find(array('code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()));
+                    $promo->find(['code' => $discount_code, 'mcommerce_id' => $mcommerce->getId()]);
                     $customer_uuid = $data["customer_uuid"];
 
                     if($promo->getId()){
@@ -521,20 +521,20 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     }
                 }
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
         } else {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $this->_('An error occurred during the process. Please try again later.'),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
         $this->_sendHtml($html);
     }
@@ -542,7 +542,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
     public function usefidelitypointsforcartAction() {
         //This function will create a discount then validate it
         //to allow users to use fidelity points as discount
-        $html = array();
+        $html = [];
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             try {
                 $promo = new Mcommerce_Model_Promo();
@@ -551,7 +551,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
 
                 $valid_until = Zend_Date::now()->addDay(1)->toString('yyyy-MM-dd');
 
-                $promo_data = array(
+                $promo_data = [
                     "mcommerce_id" => $mcommerce->getId(),
                     "type" => "fixed",
                     "minimum_amount" => 1,
@@ -563,7 +563,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     "use_once" => 1,
                     "hidden" => 1,
                     "valid_until" => $valid_until
-                );
+                ];
 
                 $promo->addData($promo_data)->save();
 
@@ -580,26 +580,26 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $html['message'] = $this->_("Error while using your points") . '(' . $promo->getCode() . ')';
                 }
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
         } else {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $this->_('An error occurred during the process. Please try again later.'),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
         $this->_sendHtml($html);
     }
 
     public function removealldiscountAction() {
-        $html = array();
+        $html = [];
         try {
             $cart = $this->getCart();
             $cart->setDiscountCode(null)->save();
@@ -608,12 +608,12 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             $html['message'] = "ok";
             $this->_sendHtml($html);
         } catch (Exception $e) {
-            $html = array(
+            $html = [
             'error' => 1,
             'message' => $e->getMessage(),
             'message_button' => 1,
             'message_loader' => 1
-            );
+            ];
         }
     }
 }

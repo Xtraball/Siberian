@@ -84,6 +84,46 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * @param string $firstname
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setFirstname($firstname)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($firstname);
+        return $this->setData('firstname', $_filtered);
+    }
+
+    /**
+     * @return string
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function getFirstname()
+    {
+        return \rock\sanitize\Sanitize::removeTags()->sanitize($this->getData('firstname'));
+    }
+
+    /**
+     * @param string $firstname
+     * @return $this
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function setLastname($lastname)
+    {
+        $_filtered = \rock\sanitize\Sanitize::removeTags()->sanitize($lastname);
+        return $this->setData('lastname', $_filtered);
+    }
+
+    /**
+     * @return string
+     * @throws \rock\sanitize\SanitizeException
+     */
+    public function getLastname()
+    {
+        return \rock\sanitize\Sanitize::removeTags()->sanitize($this->getData('lastname'));
+    }
+
+    /**
      * @return string
      */
     public function getName()

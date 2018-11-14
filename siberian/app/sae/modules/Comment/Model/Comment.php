@@ -8,7 +8,7 @@ class Comment_Model_Comment extends Core_Model_Default {
     protected $_likes;
     protected $_customer;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Comment_Model_Db_Table_Comment';
         return $this;
@@ -19,61 +19,61 @@ class Comment_Model_Comment extends Core_Model_Default {
      */
     public function getInappStates($value_id) {
 
-        $in_app_states = array(
-            array(
+        $in_app_states = [
+            [
                 "state" => "newswall-list",
                 "offline" => true,
-                "params" => array(
+                "params" => [
                     "value_id" => $value_id,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $in_app_states;
     }
 
     public function getFeaturePaths($option_value) {
         if(!$this->isCacheable()) {
-            return array();
+            return [];
         }
 
-        $paths = array();
+        $paths = [];
 
         $value_id = $option_value->getId();
         $cache_id = "feature_paths_valueid_{$value_id}";
         if(!$result = $this->cache->load($cache_id)) {
 
             if($option_value->getCode() === "newswall") {
-                $paths[] = $option_value->getPath("comment/mobile_gallery/findall", array('value_id' => $option_value->getId()), false);
-                $paths[] = $option_value->getPath("comment/mobile_map/findall", array('value_id' => $option_value->getId()), false);
+                $paths[] = $option_value->getPath("comment/mobile_gallery/findall", ['value_id' => $option_value->getId()], false);
+                $paths[] = $option_value->getPath("comment/mobile_map/findall", ['value_id' => $option_value->getId()], false);
 
                 // Newswall path
-                $params = array(
+                $params = [
                     'value_id' => $option_value->getId(),
                     'offset' => 0
-                );
+                ];
 
                 $comment = new Comment_Model_Comment();
-                $comments = $comment->findAll(array("value_id" => $option_value->getId(), "is_visible = ?" => 1), "created_at DESC");
+                $comments = $comment->findAll(["value_id" => $option_value->getId(), "is_visible = ?" => 1], "created_at DESC");
                 for($i=0; $i < ceil($comments->count()/Comment_Model_Comment::DISPLAYED_PER_PAGE); $i++) {
                     $params['offset'] = $i*Comment_Model_Comment::DISPLAYED_PER_PAGE;
                     $paths[] = $option_value->getPath("comment/mobile_list/findall", $params, false);
                 }
 
                 foreach ($comments as $comment) {
-                    $params = array(
+                    $params = [
                         "comment_id" => $comment->getId(),
                         "value_id" => $option_value->getId()
-                    );
+                    ];
                     $paths[] = $this->getPath("comment/mobile_view/find", $params, false);
-                    $paths[] = $this->getPath("comment/mobile_comment/findall", array("comment_id" => $comment->getId()), false);
+                    $paths[] = $this->getPath("comment/mobile_comment/findall", ["comment_id" => $comment->getId()], false);
                 }
             }
 
-            $this->cache->save($paths, $cache_id, array(
+            $this->cache->save($paths, $cache_id, [
                 "feature_paths",
                 "feature_paths_valueid_{$value_id}"
-            ));
+            ]);
         } else {
             $paths = $result;
         }
@@ -83,14 +83,14 @@ class Comment_Model_Comment extends Core_Model_Default {
 
     public function getAssetsPaths($option_value) {
         if(!$this->isCacheable()) {
-            return array();
+            return [];
         }
 
         $value_id = $option_value->getId();
         $cache_id = "assets_paths_valueid_{$value_id}";
         if(!$result = $this->cache->load($cache_id)) {
 
-            $paths = array();
+            $paths = [];
 
             if($option_value->getCode() === "newswall") {
 
@@ -98,13 +98,13 @@ class Comment_Model_Comment extends Core_Model_Default {
                 $paths[] = $application->getIcon(74);
 
                 $comment = new Comment_Model_Comment();
-                $comments = $comment->findAll(array("value_id" => $option_value->getId(), "is_visible = ?" => 1), "created_at DESC");
+                $comments = $comment->findAll(["value_id" => $option_value->getId(), "is_visible = ?" => 1], "created_at DESC");
 
                 foreach($comments as $comment) {
                     if($comment->getImageUrl())
                         $paths[] = $comment->getImageUrl();
 
-                    $matches = array();
+                    $matches = [];
                     $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg))+/";
                     preg_match_all($regex_url, $comment->getText(), $matches);
 
@@ -119,15 +119,15 @@ class Comment_Model_Comment extends Core_Model_Default {
                     $answers = $answer->findByComment($comment->getId());
 
                     foreach($answers as $answer) {
-                        $paths[] = __path("/customer/mobile_account/avatar/", array("customer" => $answer->getCustomerId()));
+                        $paths[] = __path("/customer/mobile_account/avatar/", ["customer" => $answer->getCustomerId()]);
                     }
                 }
             }
 
-            $this->cache->save($paths, $cache_id, array(
+            $this->cache->save($paths, $cache_id, [
                 "assets_paths",
                 "assets_paths_valueid_{$value_id}"
-            ));
+            ]);
         } else {
             $paths = $result;
         }
@@ -175,7 +175,7 @@ class Comment_Model_Comment extends Core_Model_Default {
     }
 
     public function getAnswers() {
-        if(!$this->getId()) return array();
+        if(!$this->getId()) return [];
         if(is_null($this->_answers)) {
             $answer = new Comment_Model_Answer();
             $answer->setStatus($this);
@@ -189,7 +189,7 @@ class Comment_Model_Comment extends Core_Model_Default {
     }
 
     public function getLikes() {
-        if(!$this->getId()) return array();
+        if(!$this->getId()) return [];
         if(is_null($this->_likes)) {
             $like = new Comment_Model_Like();
             $this->_likes = $like->findByComment($this->getId());

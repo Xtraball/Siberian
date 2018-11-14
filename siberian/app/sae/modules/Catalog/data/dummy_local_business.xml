@@ -10,7 +10,7 @@
                             <name>Classic</name>
                             <description>Expresso arabica</description>
                             <price>2</price>
-                            <picture>/../../images/templates/rush_cafe/content/coffee3.png</picture>
+                            <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee3.png</picture>
                         </content>
                     </product>
                     <product>
@@ -18,7 +18,7 @@
                             <name>American coffee</name>
                             <description>Grand Arabica</description>
                             <price>3</price>
-                            <picture>/../../images/templates/rush_cafe/content/coffee4.png</picture>
+                            <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee4.png</picture>
                         </content>
                     </product>
                     <product>
@@ -26,7 +26,7 @@
                             <type>format</type>
                             <name>Liégeois</name>
                             <description>Ice cream, Coffe, Whipped Cream</description>
-                            <picture>/../../images/templates/rush_cafe/content/coffee5.png</picture>
+                            <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee5.png</picture>
                         </content>
                         <formats>
                             <new_0>
@@ -39,14 +39,6 @@
                             </new_1>
                         </formats>
                     </product>
-                    <!--<product subcategory="subone">-->
-                        <!--<content>-->
-                            <!--<type>simple</type>-->
-                            <!--<name>Praesent</name>-->
-                            <!--<description>Sed neque non 2.</description>-->
-                            <!--<price>35</price>-->
-                        <!--</content>-->
-                    <!--</product>-->
                 </products>
             </category>
             <category>
@@ -57,7 +49,7 @@
                             <type>format</type>
                             <name>Classic</name>
                             <description>Chocolate, milk</description>
-                            <picture>/../../images/templates/rush_cafe/content/coffee6.png</picture>
+                            <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee6.png</picture>
                         </content>
                         <formats>
                             <new_0>
@@ -75,7 +67,7 @@
                             <type>format</type>
                             <name>Big Cream</name>
                             <description>Chocolate, Milk and Whipped Cream</description>
-                            <picture>/../../images/templates/rush_cafe/content/coffee7.png</picture>
+                            <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee7.png</picture>
                         </content>
                         <formats>
                             <new_0>
@@ -102,7 +94,7 @@
                     <br/><br/>
                     Lorem ipsum dolor sit amet]]></description>
                 <price>10</price>
-                <picture>/../../images/templates/rush_cafe/content/coffee8.png</picture>
+                <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee8.png</picture>
             </content>
             <content>
                 <type>menu</type>
@@ -114,8 +106,33 @@
                     <br/><br/>
                     consectetur adipiscing elit,]]></description>
                 <price>12</price>
-                <picture>/../../images/templates/rush_cafe/content/coffee9.png</picture>
+                <picture>/../../app/local/modules/TemplateRushCafe/resources/images/templates/rush_cafe/content/coffee9.png</picture>
             </content>
         </set_meal>
     </rush_cafe>
+    <club>
+        <catalog>
+            <category>
+                <name>Lorem Ipsum</name>
+                <products>
+                    <product>
+                        <content>
+                            <name>Lorem</name>
+                            <description>Ad populo deos superos</description>
+                            <price>60</price>
+                            <picture>/../../app/local/modules/TemplateClub/resources/images/templates/club/content/club8.jpeg</picture>
+                        </content>
+                    </product>
+                    <product>
+                        <content>
+                            <name>Ipsum</name>
+                            <description>Impetu aliquos ausos</description>
+                            <price>150</price>
+                            <picture>/../../app/local/modules/TemplateClub/resources/images/templates/club/content/club9.jpeg</picture>
+                        </content>
+                    </product>
+                </products>
+            </category>
+        </catalog>
+    </club>
 </designs>

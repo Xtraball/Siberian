@@ -3,8 +3,8 @@
 /**
  * Class Payment_Model_Abstract
  */
-abstract class Payment_Model_Abstract extends Core_Model_Default {
-
+abstract class Payment_Model_Abstract extends Core_Model_Default
+{
     /**
      * @var
      */
@@ -13,29 +13,42 @@ abstract class Payment_Model_Abstract extends Core_Model_Default {
     /**
      * @return array
      */
-    public function getPaymentData() {
-        return array();
+    public function getPaymentData()
+    {
+        return [];
     }
 
     /**
      * @return bool
      */
-    public function success() {
+    public function success()
+    {
         return false;
     }
 
     /**
      * @return bool
      */
-    public function manageRecurring() {
+    public function manageRecurring()
+    {
         return false;
     }
 
     /**
      * @return mixed
      */
-    public function getCode() {
+    public function getCode()
+    {
         return $this->_code;
+    }
+
+    /**
+     * @param $subscription
+     * @return bool
+     */
+    static public function syncExpiration($subscription)
+    {
+        return false;
     }
 
 }

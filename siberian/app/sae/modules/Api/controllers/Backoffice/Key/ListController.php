@@ -1,63 +1,70 @@
 <?php
 
+/**
+ * Class Api_Backoffice_Key_ListController
+ */
 class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
 {
 
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "save" => array(
-            "tags" => array("front_mobile_load"),
-        ),
-    );
+    public $cache_triggers = [
+        "save" => [
+            "tags" => ["front_mobile_load"],
+        ],
+    ];
 
-    public $exclude_providers = array(
+    public $exclude_providers = [
         "cpanel",
         "plesk",
         "vestacp",
         "directadmin",
         "smtp_credentials",
-    );
+    ];
 
-    public function loadAction() {
+    public function loadAction()
+    {
 
-        $html = array(
-            "title" => $this->_("Api Keys"),
+        $payload = [
+            "title" => sprintf('%s > %s',
+                __('Settings'),
+                __('Api Keys')),
             "icon" => "fa-key",
-        );
+        ];
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
 
     }
 
-    public function findallAction() {
+    public function findallAction()
+    {
 
         $api_provider = new Api_Model_Provider();
-        $api_providers = $api_provider->findAll(array("code NOT IN (?)" => $this->exclude_providers));
-        $data = array();
+        $api_providers = $api_provider->findAll(["code NOT IN (?)" => $this->exclude_providers]);
+        $data = [];
 
-        foreach($api_providers as $k => $api_provider) {
+        foreach ($api_providers as $k => $api_provider) {
 
             $provider_name = "";
-            if($api_provider->getIcon()) {
-                $provider_name = '<i class="fa '.$api_provider->getIcon().'"></i> ';
+            if ($api_provider->getIcon()) {
+                $provider_name = '<i class="fa ' . $api_provider->getIcon() . '"></i> ';
             }
             $provider_name .= $api_provider->getName();
             $data["apis"][$k]["provider_name"] = $provider_name;
 
-            if(empty($data["apis"][$k]["keys"])) {
-                $data["apis"][$k]["keys"] = array();
+            if (empty($data["apis"][$k]["keys"])) {
+                $data["apis"][$k]["keys"] = [];
             }
 
-            foreach($api_provider->getKeys() as $key) {
+            foreach ($api_provider->getKeys() as $key) {
 
-                $data["apis"][$k]["keys"][] = array(
+                $data["apis"][$k]["keys"][] = [
                     "id" => $key->getId(),
                     "provider" => $api_provider->getCode(),
                     "key" => $key->getKey(),
                     "value" => $key->getValue()
-                );
+                ];
 
             }
         }
@@ -65,7 +72,8 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
         $this->_sendHtml($data);
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
 
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
@@ -76,10 +84,10 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
                     throw new Exception("This is a demo version, these changes can't be saved");
                 }
 
-                $keysData = array();
+                $keysData = [];
 
-                foreach($data as $api_provider) {
-                    foreach($api_provider["keys"] as $key) {
+                foreach ($data as $api_provider) {
+                    foreach ($api_provider["keys"] as $key) {
                         $keysData[$key["id"]] = $key;
                     }
                 }
@@ -87,22 +95,22 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
                 $key = new Api_Model_Key();
                 $keys = $key->findAll();
 
-                foreach($keys as $key) {
-                    if(!empty($keysData[$key->getId()])) {
+                foreach ($keys as $key) {
+                    if (!empty($keysData[$key->getId()])) {
                         $key->addData($keysData[$key->getId()])->save();
                     }
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => $this->_("Api Keys successfully saved")
-                );
+                ];
 
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
-                    "message" => $this->_("An error occurred while saving. Please try again later.<br/>".$e->getMessage())
-                );
+                    "message" => $this->_("An error occurred while saving. Please try again later.<br/>" . $e->getMessage())
+                ];
 
             }
 

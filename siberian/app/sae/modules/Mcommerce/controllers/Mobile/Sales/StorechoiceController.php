@@ -9,16 +9,16 @@ class Mcommerce_Mobile_Sales_StorechoiceController extends Mcommerce_Controller_
         $stores = $mcommerce->getStores();
         $cart = $this->getCart();
 
-        $html = array("stores" => array());
+        $html = ["stores" => []];
         foreach ($stores as $store) {
 
-            $storeJson = array(
+            $storeJson = [
                 "id" => $store->getId(),
                 "name" => $store->getName(),
                 "formatted_min_amount" => $store->getFormattedMinAmount(),
                 "min_amount" => $store->getMinAmount(),
                 "error_message" => $this->_("Unable to proceed to checkout the minimum order amount is %s", $store->getFormattedMinAmount())
-            );
+            ];
             $html["stores"][] = $storeJson;
         }
         $html["cart_amount"] = $cart->getSubtotalInclTax();
@@ -33,23 +33,23 @@ class Mcommerce_Mobile_Sales_StorechoiceController extends Mcommerce_Controller_
 
             try {
                 if (empty($data['store_id'])) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                $data_cart = array(
+                $data_cart = [
                     "store_id" => $data['store_id']
-                );
+                ];
 
                 $this->getCart()
                     ->setData($data_cart)
                     ->save();
 
-                $html = array(
+                $html = [
                     'store_id' => $this->getCart()->getStoreId()
-                );
+                ];
 
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($html);

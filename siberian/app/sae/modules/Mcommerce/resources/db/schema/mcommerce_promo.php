@@ -6,72 +6,72 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['mcommerce_promo'] = array(
-    'promo_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['mcommerce_promo'] = [
+    'promo_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'mcommerce_id' => array(
+    ],
+    'mcommerce_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'mcommerce',
             'column' => 'mcommerce_id',
             'name' => 'mcommerce_promo_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_MCOMMERCE_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'type' => array(
+        ],
+    ],
+    'type' => [
         'type' => 'enum(\'fixed\',\'percentage\')',
         'default' => 'fixed',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'minimum_amount' => array(
+    ],
+    'minimum_amount' => [
         'default' => 0,
         'type' => 'decimal(12,2)',
-    ),
-    'discount' => array(
+    ],
+    'discount' => [
         'type' => 'decimal(12,2)',
-    ),
-    'label' => array(
+    ],
+    'label' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'code' => array(
+    ],
+    'code' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'enabled' => array(
+    ],
+    'enabled' => [
         'type' => 'tinyint(1)',
         'default' => '1',
-    ),
-    'use_once' => array(
+    ],
+    'use_once' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'hidden' => array(
+    ],
+    'hidden' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'points' => array(
+    ],
+    'points' => [
         'type' => 'int(11)',
         'is_null' => true,
-    ),
-    'valid_until' => array(
+    ],
+    'valid_until' => [
         'is_null' => true,
         'type' => 'datetime',
-    ),
-);
+    ],
+];

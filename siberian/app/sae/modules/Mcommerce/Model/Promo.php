@@ -8,7 +8,7 @@
  */
 class Mcommerce_Model_Promo extends Core_Model_Default {
 
-    public function __construct($datas = array()) {
+    public function __construct($datas = []) {
         parent::__construct($datas);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Promo';
     }
@@ -23,7 +23,7 @@ class Mcommerce_Model_Promo extends Core_Model_Default {
     public static function getApplicablePromo($cart) {
         $promo = new Mcommerce_Model_Promo();
         // 1st condition: The code must be correct
-        $promo = $promo->find(array('code' => $cart->getDiscountCode(), 'mcommerce_id' => $cart->getMcommerceId()));
+        $promo = $promo->find(['code' => $cart->getDiscountCode(), 'mcommerce_id' => $cart->getMcommerceId()]);
 
         if ($promo->getPromoId()) {
             return $promo;
@@ -55,7 +55,7 @@ class Mcommerce_Model_Promo extends Core_Model_Default {
         if ($this->getType() == "percentage") {
             return $this->getDiscount() * $ttc / 100;
         } else {
-            return min(array($this->getDiscount(), $ttc));
+            return min([$this->getDiscount(), $ttc]);
         }
     }
 
@@ -90,10 +90,10 @@ class Mcommerce_Model_Promo extends Core_Model_Default {
      */
     public function getPreviousCodeUses($cart) {
         $log = new Mcommerce_Model_Promo_Log();
-        $logs = $log->findAll(array(
+        $logs = $log->findAll([
             'promo_id' => $this->getPromoId(),
             'customer_uuid' => $cart->getCustomerUUID()
-        ));
+        ]);
         return sizeof($logs);
     }
 

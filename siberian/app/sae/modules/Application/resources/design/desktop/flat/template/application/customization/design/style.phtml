@@ -33,20 +33,30 @@ $app_id     = Core_Model_Lib_Facebook::getAppId();
 $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 $app_linked_fb_page = $application->getFacebookLinkedPage();
 
+$splashVersion = (integer) $application->getSplashVersion();
+
 ?>
 <div class="page-content-wrapper">
-    <div id="template_content" class="content">
+    <div id="template_content"
+         class="content">
         <h3 class="title-editor border-red text-center">
             <?php echo __("Your design"); ?>
         </h3>
-        <div id="templates" class="subcontent content-color container-fluid">
+        <div id="templates"
+             class="subcontent content-color container-fluid">
             <div class="row">
-                <div id="sb-tour-change-template-section" class="col-sm-4 col-xs-6 sb-tour">
+                <div id="sb-tour-change-template-section"
+                     class="col-sm-4 col-xs-6 sb-tour">
                     <?php if($this->_canAccess("application_create")) : ?>
-                        <div id="show_templates" class="pointer">
+                        <div id="show_templates"
+                             class="pointer">
                             <p>
                                 <?php if(empty($design_id)): ?>
-                                    <img id="design_overview" class="overview-old" src="/images/templates/blank/overview.png" width="100% " height="100%"/>
+                                    <img id="design_overview"
+                                         class="overview-old"
+                                         src="/images/templates/blank/overview.png"
+                                         width="100%"
+                                         height="100%"/>
                                 <?php elseif(!empty($overview_new)): ?>
                                     <img id="design_overview" src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>" width="100% " height="100%"/>
                                 <?php else: ?>
@@ -81,7 +91,8 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
                         <?php if($layout_form !== false): ?>
                             <?php if($layout_form->getPresets()): ?>
                                 <p class="preset-title"><?php echo __("Preset") ?></p>
-                                <div class="preset-sets" data-form="<?php echo $layout_form->getId(); ?>"/>
+                                <div class="preset-sets"
+                                     data-form="<?php echo $layout_form->getId(); ?>"/>
                                     <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
                                         <tr>
                                             <td class="prev-arrow">
@@ -120,8 +131,10 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
             </div>
 
             <!-- Homepage Carousel -->
-            <?php if(($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) && $application->getHomepageSliderIsVisible() && $layout->getUseHomepageSlider()): ?>
-            <div id="sb-tour-slider-section" class="row content-in sb-tour">
+            <?php if(($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) &&
+                $application->getHomepageSliderIsVisible() && $layout->getUseHomepageSlider()): ?>
+            <div id="sb-tour-slider-section"
+                 class="row content-in sb-tour">
                 <div class="col-sm-12 col-xs-12 col-md-12">
                     <div class="content-options content-white-bkg">
                         <div id="homepage_slider">
@@ -138,34 +151,58 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
                                     echo $form_slider;
                                 ?>
                                 <div class="slider_images">
-                                    <div id="uploaded_slider_images" class="listing">
+                                    <div id="uploaded_slider_images"
+                                         class="listing">
                                         <div>
-                                            <ul id="slider_images" class="images_list">
+                                            <ul id="slider_images"
+                                                class="images_list">
                                                 <?php foreach($application->getSliderImages() as $slider_image): ?>
-                                                    <li id="slider_image_<?php echo $slider_image->getImageId(); ?>" class="slider_image sortable">
+                                                    <li id="slider_image_<?php echo $slider_image->getImageId(); ?>"
+                                                        class="slider_image sortable">
                                                         <span class="details">
-                                                            <img width="195" src="<?php echo $slider_image->getLink(); ?>" />
+                                                            <img width="195"
+                                                                 src="<?php echo $slider_image->getLink(); ?>" />
                                                         </span>
-                                                        <div class="actions" style="display:none">
-                                                            <a class="move_page pull-left btn btn-grey" href="javascript:void(0)"><i class="fa fa-sort"></i></a>
-                                                            <a class="delete_page delete_slider_image pull-right btn btn-grey" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
+                                                        <div class="actions"
+                                                             style="display:none">
+                                                            <a class="move_page pull-left btn btn-grey"
+                                                               href="javascript:void(0)">
+                                                                <i class="fa fa-sort"></i>
+                                                            </a>
+                                                            <a class="delete_page delete_slider_image pull-right btn btn-grey"
+                                                               onclick="deleteSliderImage(event, this);"
+                                                               href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
                                                                 <i class="fa fa-times"></i>
                                                             </a>
-                                                            <input type="hidden" class="image_id" value="<?php echo $slider_image->getImageId(); ?>" />
+                                                            <input type="hidden"
+                                                                   class="image_id"
+                                                                   value="<?php echo $slider_image->getImageId(); ?>" />
                                                         </div>
                                                     </li>
                                                 <?php endforeach; ?>
                                             </ul>
                                         </div>
-                                        <a id="carousel_prev"><i class="fa fa-angle-left"></i></a>
-                                        <a id="carousel_next"><i class="fa fa-angle-right"></i></a>
+                                        <a id="carousel_prev">
+                                            <i class="fa fa-angle-left"></i>
+                                        </a>
+                                        <a id="carousel_next">
+                                            <i class="fa fa-angle-right"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="slider_images_uploader_action text-right">
-                                    <button type="button" class="upload_images btn color-red" rel="<?php echo $this->getPosition(); ?>">
+                                    <button type="button"
+                                            class="upload_images btn color-red"
+                                            rel="<?php echo $this->getPosition(); ?>">
                                         <?php echo __('Add pictures'); ?>
                                     </button>
-                                    <input style="display:none" enctype="multipart/form-data" rel="slider_images" class="fileupload" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+                                    <input style="display:none"
+                                           enctype="multipart/form-data"
+                                           rel="slider_images"
+                                           class="fileupload"
+                                           type="file"
+                                           name="files[]"
+                                           data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -178,18 +215,53 @@ $app_linked_fb_page = $application->getFacebookLinkedPage();
         </div>
     </div>
 
-    <div id="homepage_content" class="content sb-tour">
+    <?php if ($splashVersion == 2): ?>
+    <div id="homepage_content"
+         class="content sb-tour">
         <h3 class="title-editor border-red text-center">
-            <?php echo __("Choose your homepage image"); ?>
+            <?php echo __('Unified homepage'); ?>
         </h3>
         <div id="homepage" class="subcontent content-color container-fluid">
             <div class="icon_color">
-                <input type="hidden" id="homepage_image_name" name="homepage_image" value="" />
-                <input type="hidden" id="homepage_image_has_changed" name="homepage_image_has_changed" value="0" />
+                <input type="hidden"
+                       id="homepage_image_name"
+                       name="homepage_image"
+                       value="" />
+                <input type="hidden"
+                       id="homepage_image_has_changed"
+                       name="homepage_image_has_changed"
+                       value="0" />
             </div>
-            <?php echo $this->createPartialHtml('homepage_create', 'admin_view_default', 'application/customization/design/style/homepage.phtml'); ?>
+            <?php echo $this->createPartialHtml(
+                    'homepage_create',
+                    'admin_view_default',
+                    'application/customization/design/style/homepage-unified.phtml'); ?>
         </div>
     </div>
+    <?php else: ?>
+        <div id="homepage_content"
+             class="content sb-tour">
+            <h3 class="title-editor border-red text-center">
+                <?php echo __('Homepage'); ?>
+            </h3>
+            <div id="homepage" class="subcontent content-color container-fluid">
+                <div class="icon_color">
+                    <input type="hidden"
+                           id="homepage_image_name"
+                           name="homepage_image"
+                           value="" />
+                    <input type="hidden"
+                           id="homepage_image_has_changed"
+                           name="homepage_image_has_changed"
+                           value="0" />
+                </div>
+                <?php echo $this->createPartialHtml(
+                    'homepage_create',
+                    'admin_view_default',
+                    'application/customization/design/style/homepage.phtml'); ?>
+            </div>
+        </div>
+    <?php endif; ?>
 
     <div id="countries_container" class="content">
         <h3 class="title-editor border-red text-center">

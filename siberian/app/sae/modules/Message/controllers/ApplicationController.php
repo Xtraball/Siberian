@@ -44,8 +44,14 @@ class Message_ApplicationController extends Application_Controller_Default
     {
         if ($data = $this->getRequest()->getPost()) {
             try {
+                $application = $this->getApplication();
+
                 $message = new Message_Model_Application_Message();
-                $message->setData($data)->setData("firstname", __("Me"))->save();
+                $message
+                    ->setAppId($application->getId())
+                    ->setMessage($data['message'])
+                    ->setData("firstname", __("Me"))
+                    ->save();
 
                 $html = array(
                     'success' => '1',
@@ -61,7 +67,7 @@ class Message_ApplicationController extends Application_Controller_Default
                         ->setCurrentMessage($message)
                         ->toHtml()
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = array('message' => $e->getMessage());
             }
 

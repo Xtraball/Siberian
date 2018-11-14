@@ -3,15 +3,16 @@
 class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 {
 
-    public function loadAction() {
-
-        $html = array(
-            "title" => $this->_("Previews"),
+    public function loadAction()
+    {
+        $payload = [
+            "title" => sprintf('%s > %s',
+                __('Appearance'),
+                __('Preview')),
             "icon" => "fa-desktop",
-        );
+        ];
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
     public function findAction() {

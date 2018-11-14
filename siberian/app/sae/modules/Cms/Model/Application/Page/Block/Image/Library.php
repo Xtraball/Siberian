@@ -9,7 +9,7 @@ class Cms_Model_Application_Page_Block_Image_Library extends Core_Model_Default 
      * Cms_Model_Application_Page_Block_Image_Library constructor.
      * @param array $params
      */
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Image_Library';
         return $this;

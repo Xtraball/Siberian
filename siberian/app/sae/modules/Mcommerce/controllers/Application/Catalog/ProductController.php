@@ -20,7 +20,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
             ->setCurrentProduct($product)
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
 
         $this->_sendHtml($html);
 
@@ -116,7 +116,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
 
                         $group = new Catalog_Model_Product_Group_Value();
                         if(!$isNew) {
-                            $group->find(array('product_id' => $product->getId(), 'group_id' => $group_datas['group_id']));
+                            $group->find(['product_id' => $product->getId(), 'group_id' => $group_datas['group_id']]);
                             // Supprime le groupe dont toutes les options ont été décochées mais pas lui
                             if(empty($group_datas['new_option_value'])) $group_datas['is_deleted'] = 1;
                         }
@@ -135,7 +135,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                 }
 
 
-                $html = array(
+                $html = [
                     'picture' => $datas['picture'],
                     'is_new' => (int) $isNew,
                     'is_deleted' => (int) $isDeleted,
@@ -145,22 +145,22 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
-                $html['product'] = array(
+                $html['product'] = [
                     'name' => Core_Model_Lib_String::truncate($product->getName(), 25),
                     'description' => Core_Model_Lib_String::truncate($product->getDescription(), 25),
                     'formatted_price' => $product->getFormattedPrice($application->getCountryCode())
-                );
+                ];
 
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => Zend_Debug::dump($e),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);
@@ -186,14 +186,14 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
 
                 //Duplicate formats
                 if($product->getData("type") == "format") {
-                    $options = array();
+                    $options = [];
                     foreach ($existing_formats as $key => $option) {
-                        $options["new_" . $key] = array(
+                        $options["new_" . $key] = [
                             "title" => $option->getData("title"),
                             "price" => $option->getData("price"),
                             "option_id" => null,
                             "is_deleted" => ""
-                        );
+                        ];
                     }
 
                     $product->getType()->setOptions($options);
@@ -210,17 +210,17 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                         ->save();
 
                     $options_values = new Catalog_Model_Product_Group_Option_Value();
-                    $options_values = $options_values->findAll(array("group_value_id" => $old_option_id));
+                    $options_values = $options_values->findAll(["group_value_id" => $old_option_id]);
 
                     foreach($options_values as $option_value) {
                         $new_option = new Catalog_Model_Product_Group_Option_Value();
-                        $new_option->find(array("group_value_id" => $option->getValueId(), "option_id" => $option_value->getOptionId()));
+                        $new_option->find(["group_value_id" => $option->getValueId(), "option_id" => $option_value->getOptionId()]);
                         if(!$new_option->getId()) {
-                            $option_data = array(
+                            $option_data = [
                                 "group_value_id" => $option->getValueId(),
                                 "option_id" => $option_value->getOptionId(),
                                 "price" => $option_value->getPrice()
-                            );
+                            ];
                             $new_option->setData($option_data)->save();
                         }
                     }
@@ -241,7 +241,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                         $folder = str_replace($name[0],$uniq,$folder);
                         copy($file, $new_file);
                     }
-                    $data = array('library_id' => $library->getId(), 'link' => $folder, 'can_be_colorized' => 0);
+                    $data = ['library_id' => $library->getId(), 'link' => $folder, 'can_be_colorized' => 0];
                     $image = new Media_Model_Library_Image();
                     $image->setData($data)->save();
                 }
@@ -252,19 +252,19 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
             }
 
             $application = $this->getApplication();
-            $html = array(
+            $html = [
                 'product_id' => $product->getProductId(),
-                'product' => array(
+                'product' => [
                     'name' => $product->getName(),
                     'description' => html_entity_decode($product->getDescription()),
                     'formatted_price' => $product->getFormattedPrice($application->getCountryCode())
-                ),
+                ],
                 'success' => '1',
                 'success_message' => $this->_('Product successfully duplicated'),
                 'message_timeout' => 2,
                 'message_button' => 0,
                 'message_loader' => 0
-            );
+            ];
             $this->_sendHtml($html);
         }
     }

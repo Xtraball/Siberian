@@ -83,7 +83,7 @@ class Comment_Model_Db_Table_Comment extends Core_Model_Db_Table {
     protected function _prepareSelect($value_id) {
 
         $select = $this->select()
-            ->from(array('c' => $this->_name))
+            ->from(['c' => $this->_name])
             ->where($this->_db->quoteInto('c.value_id = ?', $value_id))
         ;
 

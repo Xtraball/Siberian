@@ -9,7 +9,7 @@ class Siberian_Google_Geocoding
      * @param $address
      * @return array
      */
-    public static function getLatLng($address)
+    public static function getLatLng($address, $apiKey = null)
     {
 
         if (!empty($address["address"])) {
@@ -36,9 +36,9 @@ class Siberian_Google_Geocoding
             ];
         }
 
-        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address";
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
         $raw_response = @file_get_contents($url);
-        if ($raw_response AND $coordinates_datas = @json_decode($raw_response)) {
+        if ($raw_response && $coordinates_datas = @json_decode($raw_response)) {
             if (!empty($coordinates_datas->results[0]->geometry->location)) {
                 $latlng = $coordinates_datas->results[0]->geometry->location;
                 $precision = $coordinates_datas->results[0]->geometry->location_type;
@@ -65,10 +65,10 @@ class Siberian_Google_Geocoding
      * @param $longitude
      * @return array
      */
-    public static function geoReverse($latitude, $longitude)
+    public static function geoReverse($latitude, $longitude, $apiKey = null)
     {
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' . $latitude .
-            ',' . $longitude . '&sensor=true';
+            ',' . $longitude . '&sensor=true&key=' . $apiKey;
         $decode = Siberian_Json::decode(file_get_contents($url));
 
         $locality = '';
@@ -135,6 +135,40 @@ class Siberian_Google_Geocoding
         return '((((ACOS(SIN((' . $lat . '*PI()/180)) * SIN((' . $prefix . '.' . $lat_name . '*PI()/180)) + COS((' .
             $lat . '*PI()/180)) * COS((' . $prefix . '.' . $lat_name . '*PI()/180)) * COS(((' . $long . ' - ' .
             $prefix . '.' . $long_name . ')*PI()/180))))*180/PI())*111189.577))';
+    }
+
+    /**
+     * @param null $apiKey
+     * @throws \Siberian\Exception
+     */
+    public static function testApiKey($apiKey = null)
+    {
+        $apiKey = trim($apiKey);
+        if (empty($apiKey)) {
+            throw new \Siberian\Exception('#807-101: ' . __('Missing and/or empty API key.'));
+        }
+
+        $response = \Siberian_Request::get("https://maps.googleapis.com/maps/api/geocode/json", [
+            "sensor" => "false",
+            "address" => "12 Avenue de Paradis, Paris, France",
+            "key" => $apiKey,
+        ]);
+
+        if (empty($response)) {
+            throw new \Siberian\Exception('#807-102: ' . __('Something went wrong with the API.'));
+        }
+
+        $result = \Siberian_Json::decode($response);
+
+        if (!array_key_exists('status', $result)) {
+            throw new \Siberian\Exception('#807-103: ' . __('Something went wrong with the API.'));
+        }
+
+        if ($result['status'] !== 'OK') {
+            throw new \Siberian\Exception('#807-104: ' . $result['error_message']);
+        }
+
+        return true;
     }
 
 

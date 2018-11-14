@@ -4,7 +4,7 @@ class Mcommerce_Model_Customer extends Customer_Model_Customer
 {
     public static function getCleanMetas($mcommerce, $data)
     {
-        $meta = array();
+        $meta = [];
         $mcommerce->getPhone() != 'hidden' && $meta['phone'] = $data['metadatas']['phone'];
         $mcommerce->getBirthday() != 'hidden' && $meta['birthday'] = $data['metadatas']['birthday'];
         $mcommerce->getInvoicingAddress() != 'hidden' && $meta['invoicing_address'] = $data['metadatas']['invoicing_address'];
@@ -14,7 +14,7 @@ class Mcommerce_Model_Customer extends Customer_Model_Customer
 
     public static function getCleanInfos($mcommerce, $data)
     {
-        $infos = array();
+        $infos = [];
         $infos['firstname'] = $data['firstname'];
         $infos['lastname'] = $data['lastname'];
         $infos['email'] = $data['email'];

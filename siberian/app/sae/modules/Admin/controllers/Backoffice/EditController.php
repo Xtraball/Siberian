@@ -6,7 +6,11 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
     public function loadAction() {
 
         $html = array(
-            "title" => __("User"),
+            'title' => sprintf('%s > %s > %s',
+                __('Manage'),
+                __('Editor access'),
+                __('User')
+            ),
             "icon" => "fa-user",
         );
 
@@ -59,6 +63,12 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 $dummy->find($data["email"], "email");
                 $isNew = true;
                 $data["confirm_password"] = !empty($data["confirm_password"]) ? $data["confirm_password"] : "";
+
+                if (__getConfig('is_demo')) {
+                    if (in_array($data["email"], ['client@client.com', 'demo@demo.com'])) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+                }
 
                 if(!empty($data["id"])) {
                     $admin->find($data["id"]);

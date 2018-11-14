@@ -1,3 +1,11 @@
+<?php
+$backofficeThemeView = __get('display_backoffice_theme');
+
+$displayTheme = false;
+if (empty($backofficeThemeView)) {
+    $displayTheme = true;
+}
+?>
 <div class="col-md-8 col-md-offset-2 col-sm-12">
     <span ng-if="!sslLoading">
         <p class="alert"
@@ -12,6 +20,14 @@
             <?php echo __('HTTPS is not available on your server.') ?></p>
     </span>
 </div>
+
+<?php if ($displayTheme): ?>
+<div class="col-md-8 col-md-offset-2 col-sm-12">
+    <div class="alert alert-info">
+        <?php echo __('New backoffice themes are available, check them out <a href="/system/backoffice_config_design">here</a>.') ?>
+    </div>
+</div>
+<?php endif; ?>
 
 <div class="col-xs-12 col-md-6">
     <sb-section title="'<?php echo __js("New messages", "'"); ?>'" button="button">
@@ -39,7 +55,25 @@
 </div>
 
 <div class="col-xs-12 col-md-6">
-    <sb-section title="'<?php echo __js("Services", "'"); ?>'" button="button">
+    <sb-section title="'<?php echo __("Statistics"); ?>'"
+                button="button">
+        <canvas
+                id="line"
+                class="chart chart-bar"
+                height="420"
+                width="1040"
+                chart-data="graphData"
+                chart-labels="graphLabels"
+                chart-options="graphOptions"
+                chart-series="graphSeries"
+                chart-dataset-override="graphDatasetOverride"
+        </canvas>
+    </sb-section>
+</div>
+
+<div class="col-xs-12 col-md-6">
+    <sb-section title="'<?php echo __js("Services", "'"); ?>'"
+                button="button">
         <table class="table table dashboard no-wrap">
             <col width="32px" />
             <col width="180px" />
@@ -333,24 +367,6 @@
     </sb-section>
 </div>
 
-
-<div class="clear col-xs-12 col-md-offset-3 col-md-6">
-    <sb-section title="'<?php echo __("Statistics"); ?>'" button="button">
-        <canvas
-            id="line"
-            class="chart chart-bar"
-            height="420"
-            width="1040"
-            chart-data="graphData"
-            chart-labels="graphLabels"
-            chart-options="graphOptions"
-            chart-series="graphSeries"
-            chart-dataset-override="graphDatasetOverride"
-        </canvas>
-    </sb-section>
-</div>
-
-
 <div class="col-xs-12 col-md-6">
 
 </div>
@@ -388,3 +404,10 @@
         </div>
     </div>
 </div>
+
+<style type="text/css">
+    a.btn-xs,
+    a.btn-xs:hover {
+        text-decoration: none !important;
+    }
+</style>

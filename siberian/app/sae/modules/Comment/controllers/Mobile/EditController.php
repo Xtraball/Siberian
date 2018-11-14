@@ -5,14 +5,14 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "create" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "create" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function createAction() {
 
@@ -23,9 +23,9 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
                 $comment = new Comment_Model_Comment();
 
                 if (!$this->getSession()->getCustomerId())
-                    throw new Exception($this->_("You need to be connected to create a post"));
+                    throw new Exception(__("You need to be connected to create a post"));
 
-                $comment->setText($data['text']);
+                $comment->setText(\Siberian\Xss::sanitize($data['text']));
                 $comment->setCustomerId($this->getSession()->getCustomerId());
                 $comment->setValueId($this->getRequest()->getParam("value_id", $data['value_id']));
 
@@ -44,13 +44,13 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
                 $comment->save();
 
                 $message = $this->_('Your post was successfully added');
-                $html = array('success' => 1, 'message' => $message);
+                $html = ['success' => 1, 'message' => $message];
 
             } catch (Exception $e) {
-                $html = array('error' => 1, 'message' => $e->getMessage());
+                $html = ['error' => 1, 'message' => $e->getMessage()];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
     }
 
@@ -65,12 +65,12 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
             if($params = Siberian_Json::decode($request->getRawBody())) {
 
                 if (!$session->getCustomerId()) {
-                    throw new Siberian_Exception(__("You must be connected to create a post!"));
+                    throw new \Siberian\Exception(__("You must be connected to create a post!"));
                 }
 
                 $comment = new Comment_Model_Comment();
                 $comment
-                    ->setText($params["text"])
+                    ->setText(\Siberian\Xss::sanitize($params["text"]))
                     ->setCustomerId($session->getCustomerId())
                     ->setValueId($params["value_id"]);
 
@@ -89,21 +89,21 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
 
                 $comment->save();
 
-                $payload = array(
+                $payload = [
                     "success" => true,
                     "message" => __("Your post was successfully added")
-                );
+                ];
 
             } else {
-                throw new Siberian_Exception(__("Missing parameters, value_id or message."));
+                throw new \Siberian\Exception(__("Missing parameters, value_id or message."));
             }
 
         } catch(Exception $e) {
 
-            $payload = array(
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($payload);

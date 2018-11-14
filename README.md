@@ -41,7 +41,7 @@
 
     * required: `zip`, `unzip`
 
-    * optional: `pngquant` or `optipng`, `jpegoptim`, 
+    * optional: `pngquant` or `optipng`, `jpegoptim`, `ClamAV`
 
 ### Configuration
 
@@ -80,13 +80,12 @@ If a custom development is needed for a platform, `cd` to the folder, then push 
 
 - Platforms templates used to build/rebuild are installed from this directory, this ensure the platforms are synced & up-to-date everytime.
 
-- Android* `platforms/cdv-siberian-android`
-- iOS* `platforms/cdv-siberian-ios`
-
-The other platforms specific to Siberian which are `cdv-siberian-android-previewer`, `cdv-siberian-ios-previewer` & `cdv-siberian-ios-noads` are automatically synced from their respective parents.
+- Browser `platforms/Browser`
+- Android `platforms/Android`
+- iOS `platforms/Ios`
 
 - Rebuilding a platform
-    1. run `siberian rebuild platformName` where platformName is `android | android-previewer |ios | ios-noads | ios-previewer | browser`
+    1. run `siberian rebuild platformName` where platformName is `android | ios | browser`
 
 ### Note: Important
 

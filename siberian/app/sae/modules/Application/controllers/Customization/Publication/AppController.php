@@ -183,7 +183,7 @@ class Application_Customization_Publication_AppController extends Application_Co
                 ];
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $this->_sendJson($datas);
         }
     }
 
@@ -222,8 +222,13 @@ class Application_Customization_Publication_AppController extends Application_Co
                     $file = $new_name;
                 }
 
-                if ($filetype == "standard") $application->setData("startup_image", $relative_path . $file);
-                else $application->setData("startup_image_" . $filetype, $relative_path . $file);
+                if ($filetype === 'unified') {
+                    $application->setData('startup_image_unified', '/images/application' . $relative_path . $file);
+                } else if ($filetype == "standard") {
+                    $application->setData("startup_image", $relative_path . $file);
+                } else {
+                    $application->setData("startup_image_" . $filetype, $relative_path . $file);
+                }
 
                 $application->save();
 
@@ -239,7 +244,7 @@ class Application_Customization_Publication_AppController extends Application_Co
                 ];
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendJson($datas);
         }
     }
 

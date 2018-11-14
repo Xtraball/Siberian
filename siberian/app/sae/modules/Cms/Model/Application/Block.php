@@ -4,7 +4,7 @@ class Cms_Model_Application_Block extends Core_Model_Default {
 
     protected $_object;
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Block';
         return $this;
@@ -31,7 +31,7 @@ class Cms_Model_Application_Block extends Core_Model_Default {
     public function getLibrary() {
         if($this->getLibraryId()) {
             $model_library = new Cms_Model_Application_Page_Block_Image_Library();
-            $result = $model_library->findAll(array("library_id" => $this->getLibraryId()));
+            $result = $model_library->findAll(["library_id" => $this->getLibraryId()]);
 
             return $result;
         }
@@ -68,24 +68,24 @@ class Cms_Model_Application_Block extends Core_Model_Default {
             case "image":
             case "slider":
                 $library = new Cms_Model_Application_Page_Block_Image_Library();
-                $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
-                $block_data["gallery"] = array();
+                $libraries = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null);
+                $block_data["gallery"] = [];
                 foreach($libraries as $image) {
-                    $block_data["gallery"][] = array(
+                    $block_data["gallery"][] = [
                         "id" => $image->getId(),
                         "src" => ($request ? $request->getBaseUrl() : "") . $image->getImageFullSize()
-                    );
+                    ];
                 }
             break;
             case "cover":
                 $library = new Cms_Model_Application_Page_Block_Image_Library();
-                $libraries = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
-                $block_data["gallery"] = array();
+                $libraries = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null);
+                $block_data["gallery"] = [];
                 foreach ($libraries as $image) {
-                    $block_data["gallery"][] = array(
+                    $block_data["gallery"][] = [
                         "id" => $image->getId(),
                         "src" => $image->getImageUrl() ? ($request ? $request->getBaseUrl() : "") . $image->getImageUrl() : null
-                    );
+                    ];
                 }
                 break;
             case "video":
@@ -160,8 +160,8 @@ class Cms_Model_Application_Block extends Core_Model_Default {
             case "slider":
             case "cover":
                 $library = new Cms_Model_Application_Page_Block_Image_Library();
-                $libraries = $library->findAll(array('library_id' => $this->getLibraryId()), 'image_id ASC', null);
-                $block_data["gallery"] = array();
+                $libraries = $library->findAll(['library_id' => $this->getLibraryId()], 'image_id ASC', null);
+                $block_data["gallery"] = [];
                 foreach($libraries as $image) {
 
                     # Should be remove at some point (+6months from Feb/2016)
@@ -176,10 +176,10 @@ class Cms_Model_Application_Block extends Core_Model_Default {
                         }
                     }
 
-                    $block_data["gallery"][] = array(
+                    $block_data["gallery"][] = [
                         "id" => $image->getId(),
                         "src" => $base_url.$path_image
-                    );
+                    ];
 
                 }
                 break;

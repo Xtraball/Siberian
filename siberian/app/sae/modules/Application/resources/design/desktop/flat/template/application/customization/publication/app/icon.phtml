@@ -24,6 +24,7 @@ $backButtons = Application_Model_Application::$backButtons;
     </h3>
     <div id="icon" class="subcontent content-color">
         <div class="col-md-6 col-sm-12">
+            <div class="alert alert-warning"><?php echo __('Changing the Application icon requires a rebuild / republication.') ?></div>
             <?php echo $icon_form; ?>
         </div>
         <div class="col-md-6 col-sm-12">
@@ -191,11 +192,11 @@ $backButtons = Application_Model_Application::$backButtons;
     }
 
     #form-application-appicons button {
-        width: 200px;
+        width: 256px;
     }
 
     #form-application-appicons .feature-upload-placeholder img {
-        min-width: 200px;
+        min-width: 256px;
     }
 
 

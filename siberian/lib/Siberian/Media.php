@@ -18,6 +18,10 @@ class Siberian_Media
                 "bin" => "/usr/local/bin/jpegoptim",
                 "cli" => "/usr/local/bin/jpegoptim -s -q -m 60 %s"
             ],
+            //"imageoptim" => [
+            //    "bin" => "/usr/local/bin/imageoptim",
+            //    "cli" => "/usr/local/bin/imageoptim --jpegmini --quality 60-80 --speed 1 %s"
+            //],
         ],
         "png" => [
             "pngquant" => [
@@ -28,6 +32,10 @@ class Siberian_Media
                 "bin" => "/usr/local/bin/optipng",
                 "cli" => "/usr/local/bin/optipng -strip all -quiet -o3 %s"
             ],
+            //"imageoptim" => [
+            //    "bin" => "/usr/local/bin/imageoptim",
+            //    "cli" => "/usr/local/bin/imageoptim --imagealpha --quality 60-80 --speed 1 %s"
+            //],
         ],
     ];
 

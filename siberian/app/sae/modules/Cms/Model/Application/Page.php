@@ -7,7 +7,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
     protected $_metadata;
     protected $_action_view = "findall";
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page';
         return $this;
@@ -43,16 +43,16 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
         switch($option_value->getCode()) {
             case "places":
-                    $payload = array(
+                    $payload = [
                         "page_title"    => $option_value->getTabbarName(),
-                        "settings"      => array()
-                    );
+                        "settings"      => []
+                    ];
 
                     if($this->getId()) {
 
-                        $payload["settings"] = array(
-                            "tags" => array()
-                        );
+                        $payload["settings"] = [
+                            "tags" => []
+                        ];
 
                         $metadata = $option_value->getMetadatas();
                         foreach ($metadata as $meta) {
@@ -95,15 +95,15 @@ class Cms_Model_Application_Page extends Core_Model_Default
             return $place_model->getInappStates($value_id);
         }
 
-        $in_app_states = array(
-            array(
+        $in_app_states = [
+            [
                 "state" => "cms-view",
                 "offline" => true,
-                "params" => array(
+                "params" => [
                     "value_id" => $value_id,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $in_app_states;
     }
@@ -114,7 +114,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      */
     public function getFeaturePaths($option_value) {
         if(!$this->isCacheable()) {
-            return array();
+            return [];
         }
 
         $value_id = $option_value->getId();
@@ -122,50 +122,50 @@ class Cms_Model_Application_Page extends Core_Model_Default
         if(!$result = $this->cache->load($cache_id)) {
 
             if($option_value->getCode() == "custom_page") {
-                $paths = array();
+                $paths = [];
 
                 $paths[] = $option_value->getPath(
                     "find",
-                    array(
+                    [
                         'page_id' => $this->getId(),
                         'value_id' => $option_value->getId()
-                    ),
+                    ],
                     false
                 );
 
                 $paths[] = $option_value->getPath(
                     "findall",
-                    array(
+                    [
                         'page_id' => $this->getId(),
                         'value_id' => $option_value->getId()
-                    ),
+                    ],
                     false
                 );
 
                 $paths[] = $option_value->getPath(
                     "findall",
-                    array(
+                    [
                         'value_id' => $option_value->getId()
-                    ),
+                    ],
                     false
                 );
 
                 foreach($this->getBlocks() as $block) {
                     $paths[] = $option_value->getPath(
                         "findblock",
-                        array(
+                        [
                             'block_id' => $block->getId(),
                             'page_id' => $this->getId(),
                             'value_id' => $option_value->getId()
-                        ),
+                        ],
                         false
                     );
                     $paths[] = $option_value->getPath(
                         "findblock",
-                        array(
+                        [
                             'block_id' => $block->getId(),
                             'value_id' => $option_value->getId()
-                        ),
+                        ],
                         false
                     );
                 }
@@ -175,10 +175,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $paths =  $places->getFeaturePaths($option_value);
             }
 
-            $this->cache->save($paths, $cache_id, array(
+            $this->cache->save($paths, $cache_id, [
                 "feature_paths",
                 "feature_paths_valueid_{$value_id}"
-            ));
+            ]);
         } else {
             $paths = $result;
         }
@@ -192,7 +192,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      */
     public function getAssetsPaths($option_value) {
         if(!$this->isCacheable()) {
-            return array();
+            return [];
         }
 
         $value_id = $option_value->getId();
@@ -200,7 +200,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
         if(!$result = $this->cache->load($cache_id)) {
 
             if($option_value->getCode() == "custom_page") {
-                $paths = array();
+                $paths = [];
 
                 $val = $this->getPictureUr();
                 if(!empty($val)) {
@@ -209,7 +209,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
                 foreach($this->getBlocks() as $block) {
                     $data = $block->_toJson("");
-                    $keys = array("icon", "image_url", "cover_url", "file_url");
+                    $keys = ["icon", "image_url", "cover_url", "file_url"];
 
                     foreach ($keys as $key) {
                         $val = $data[$key];
@@ -230,7 +230,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
                     if($block->getType() == "text") {
 
-                        $matches = array();
+                        $matches = [];
                         $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
                         preg_match_all($regex_url, $block->getContent(), $matches);
 
@@ -249,10 +249,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $paths = $places->getAssetsPaths($option_value);
             }
 
-            $this->cache->save($paths, $cache_id, array(
+            $this->cache->save($paths, $cache_id, [
                 "assets_paths",
                 "assets_paths_valueid_{$value_id}"
-            ));
+            ]);
         } else {
             $paths = $result;
         }
@@ -371,7 +371,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
     public function save() {
         parent::save();
-        $blocks = $this->getData('block') ? $this->getData('block') : array();
+        $blocks = $this->getData('block') ? $this->getData('block') : [];
         $this->getTable()->saveBlock($this->getId(), $blocks);
     }
 
@@ -487,7 +487,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                         $model = new Cms_Model_Application_Page_Block_Cover();
                         break;
                     default:
-                        throw new Siberian_Exception(__("This block type doesn't exists."));
+                        throw new \Siberian\Exception(__("This block type doesn't exists."));
                 }
 
                 $result = $model
@@ -546,7 +546,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
                 $this->unsData();
 
-                $blocks = array();
+                $blocks = [];
                 $i = 1;
                 foreach ($content->block as $block_content) {
 
@@ -572,7 +572,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
         } else {
 
-            $blocks = array();
+            $blocks = [];
             $i = 1;
             foreach ($dummy_content_xml->blocks->children() as $content) {
 
@@ -600,7 +600,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option
      */
     public function copyTo($option) {
-        $blocks = array();
+        $blocks = [];
 
         foreach($this->getBlocks() as $block) {
             switch($block->getType()) {
@@ -608,15 +608,15 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 case 'cover':
                 case 'slider':
                     $library = new Cms_Model_Application_Page_Block_Image_Library();
-                    $images = $library->findAll(array('library_id' => $block->getLibraryId()), 'image_id ASC', null);
+                    $images = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null);
                     $block->unsId(null)
                         ->unsLibraryId(null)
                         ->unsImageId()
                         ->unsCoverId()
                         ->unsSliderId();
                     $new_block = $block->getData();
-                    $new_block['image_url'] = array();
-                    $new_block['image_fullsize_url'] = array();
+                    $new_block['image_url'] = [];
+                    $new_block['image_fullsize_url'] = [];
                     $new_block['library_id'] = null;
                     $new_block['type'] = $block->getType();
 
@@ -676,8 +676,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
     public function getMetadatas()
     {
         $matadata = new Cms_Model_Application_Page_Metadata();
-        $results = $matadata->findAll(array('page_id' => $this->getPageId()));
-        $this->_metadata = array();
+        $results = $matadata->findAll(['page_id' => $this->getPageId()]);
+        $this->_metadata = [];
         foreach ($results as $result) {
             array_push($this->_metadata, $result);
         }
@@ -693,7 +693,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
     public function getMetadata($code)
     {
         $metadata = new Cms_Model_Application_Page_Metadata();
-        $metadata->find(array('page_id' => $this->getPageId(), 'code' => $code));
+        $metadata->find(['page_id' => $this->getPageId(), 'code' => $code]);
         return $metadata;
     }
 

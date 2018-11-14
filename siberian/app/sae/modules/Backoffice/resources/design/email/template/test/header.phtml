@@ -1,0 +1,18 @@
+<?php
+$logo = $this->getLogo();
+if (strripos($logo, 'header/logo.png') !== false) {
+    $logo = null;
+} else {
+    $logo = sprintf('%s://%s%s',
+        __get('use_https') ? 'https' : 'http',
+        __get('main_domain'),
+        $logo);
+}
+?>
+<div style="text-align: center;">
+    <?php if (!empty($logo)): ?>
+        <img src="<?php echo $logo ?>" style="height: 80px;" />
+    <?php endif; ?>
+    <br />
+    <br />
+</div>

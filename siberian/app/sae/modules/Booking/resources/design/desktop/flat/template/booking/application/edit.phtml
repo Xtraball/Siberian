@@ -3,7 +3,7 @@
 <?php $booking = new Booking_Model_Booking(); ?>
 <?php $booking->find($option_value->getId(), 'value_id') ?>
 <?php $store = new Booking_Model_Store(); ?>
-<?php $stores = $store->findAll(array('booking_id' => $booking->getId())); ?>
+<?php $stores = $store->findAll(['booking_id' => $booking->getId()]); ?>
 <div id="list" class="booking">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_(('Add content')); ?>

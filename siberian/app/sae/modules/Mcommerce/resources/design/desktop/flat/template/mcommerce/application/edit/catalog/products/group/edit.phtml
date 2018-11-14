@@ -69,7 +69,7 @@ $edit = $requireChoiceEditor ? "Edit the choice list group" : "Edit the options 
                     ?>
                 <?php endforeach ?>
                 <?php echo $this->getLayout()->addPartial('group_option_row_new', 'admin_view_default', 'mcommerce/application/edit/catalog/products/group/edit/row.phtml')
-                    ->setCurrentGroupOption(new Catalog_Model_Product_Group_Option(array('id' => 'new')))
+                    ->setCurrentGroupOption(new Catalog_Model_Product_Group_Option(['id' => 'new']))
                     ->toHtml(); ?>
             </div>
         </div>

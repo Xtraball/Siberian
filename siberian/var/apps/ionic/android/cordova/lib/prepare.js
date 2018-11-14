@@ -274,7 +274,7 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
         return;
     }
 
-    var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'drawable', 'screen.png');
+    var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'drawable', 'screen.jpg');
 
     var hadMdpi = false;
     resources.forEach(function (resource) {
@@ -285,14 +285,14 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
             hadMdpi = true;
         }
         var targetPath = getImageResourcePath(
-            platformResourcesDir, 'drawable', resource.density, 'screen.png', path.basename(resource.src));
+            platformResourcesDir, 'drawable', resource.density, 'screen.jpg', path.basename(resource.src));
         resourceMap[targetPath] = resource.src;
     });
 
     // There's no "default" drawable, so assume default == mdpi.
     if (!hadMdpi && resources.defaultResource) {
         var targetPath = getImageResourcePath(
-            platformResourcesDir, 'drawable', 'mdpi', 'screen.png', path.basename(resources.defaultResource.src));
+            platformResourcesDir, 'drawable', 'mdpi', 'screen.jpg', path.basename(resources.defaultResource.src));
         resourceMap[targetPath] = resources.defaultResource.src;
     }
 
@@ -304,7 +304,7 @@ function updateSplashes (cordovaProject, platformResourcesDir) {
 function cleanSplashes (projectRoot, projectConfig, platformResourcesDir) {
     var resources = projectConfig.getSplashScreens('android');
     if (resources.length > 0) {
-        var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'drawable', 'screen.png');
+        var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'drawable', 'screen.jpg');
         events.emit('verbose', 'Cleaning splash screens at ' + platformResourcesDir);
 
         // No source paths are specified in the map, so updatePaths() will delete the target files.

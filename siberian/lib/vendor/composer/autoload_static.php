@@ -12,13 +12,21 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '0a68d60a5e4dce3adf20d45be4cf37c2' => __DIR__ . '/..' . '/romeoz/rock-base/src/polyfills.php',
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'r' => 
+        array (
+            'rock\\sanitize\\' => 14,
+            'rock\\helpers\\' => 13,
+            'rock\\base\\' => 10,
+        ),
         'p' => 
         array (
             'phpseclib\\' => 10,
@@ -39,6 +47,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Stripe\\' => 7,
         ),
         'R' => 
         array (
@@ -77,6 +86,18 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixDirsPsr4 = array (
+        'rock\\sanitize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/romeoz/rock-sanitize/src',
+        ),
+        'rock\\helpers\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/romeoz/rock-helpers/src',
+        ),
+        'rock\\base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/romeoz/rock-base/src',
+        ),
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
@@ -124,6 +145,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
         'React\\EventLoop\\' => 
         array (
@@ -192,11 +217,25 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixesPsr0 = array (
+        'T' => 
+        array (
+            'Twocheckout' => 
+            array (
+                0 => __DIR__ . '/..' . '/2checkout/2checkout-php/lib',
+            ),
+        ),
         'M' => 
         array (
             'MomentPHP' => 
             array (
                 0 => __DIR__ . '/..' . '/lawondyss/moment-php/src',
+            ),
+        ),
+        'H' => 
+        array (
+            'HTMLPurifier' => 
+            array (
+                0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
         'G' => 

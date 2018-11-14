@@ -60,7 +60,7 @@
             <div class="col-md-2 pull-right">
                 <button id="fw_clamd.submit"
                         style="margin-top: 24px;"
-                        class="btn btn-info"
+                        class="btn btn-primary"
                         type="submit"><?php echo __('Save') ?></button>
             </div>
         </form>
@@ -87,7 +87,7 @@
             </div>
 
             <div class="col-md-4">
-                <button class="btn btn-info"
+                <button class="btn btn-primary"
                         type="submit"><?php echo __('Add extension') ?></button>
             </div>
         </form>
@@ -145,7 +145,6 @@
     </table>
 </sb-section>
 
-<?php if (__getConfig('fw_slack_is_active') === 'yes'): ?>
 <sb-section title="'<?php echo addcslashes(__("Slack notification settings"), "'"); ?>'">
     <div class="form-group">
 
@@ -189,12 +188,11 @@
             <div class="col-md-2 pull-right">
                 <button id="fw_slack.submit"
                         style="margin-top: 24px;"
-                        class="btn btn-info"
+                        class="btn btn-primary"
                         type="submit"><?php echo __('Save') ?></button>
             </div>
         </form>
 
-        <div style="clear:both;"></div>
+        <div class="clear"></div>
     </div>
 </sb-section>
-<?php endif; ?>

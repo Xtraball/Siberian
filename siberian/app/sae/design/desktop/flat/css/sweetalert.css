@@ -75,6 +75,7 @@ body.stop-scrolling {
 .sweet-alert fieldset {
     border: none;
     position: relative;
+    padding: 0 10px;
 }
 
 .sweet-alert .sa-error-container {

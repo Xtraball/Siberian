@@ -91,14 +91,14 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 $backoffice = new Backoffice_Model_User();
                 $backoffice_user = $backoffice->find($this->getUserId());
                 if ($backoffice_user->getId()) {
-                    $recipients[] = $backoffice_user;
+                    $recipients[] = $backoffice_user->getEmail();
                 }
                 break;
             case "admin":
                 $admin = new Admin_Model_Admin();
                 $admin_user = $admin->find($this->getUserId());
                 if ($admin_user->getId()) {
-                    $recipients[] = $admin_user;
+                    $recipients[] = $admin_user->getEmail();
                 }
                 break;
         }
@@ -111,50 +111,99 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 $this->setPath($result);
                 $this->save();
 
-                // Success email!
-                $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
-                $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
+                // If autopublish, send to job, but no e-mail, jenkins will do it!
+                if ($this->getIsAutopublish()) {
+                    $this->sendJobToAutoPublishServer($application, $result);
+                } else {
+                    // Success email!
+                    $protocol = (__get("use_https")) ? "https://" : "http://";
+                    $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
-                $values = [
-                    "type" => $type,
-                    "application_name" => $this->getName(),
-                    "link" => $url,
-                ];
+                    $baseEmail = $this->baseEmail(
+                        'source_queue_success',
+                        $application,
+                        __('Build succeed'),
+                        null);
 
-                # @version 4.8.7 - SMTP
-                $mail = new Siberian_Mail();
-                $mail->simpleEmail("queue", "source_queue_success", __("%s generation success for App: %s", $type, $application->getName()), $recipients, $values);
-                $mail->send();
+                    $baseEmail->setContentFor('content_email', 'type', $type);
+                    $baseEmail->setContentFor('content_email', 'link', $url);
+                    $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
 
+                    $content = $baseEmail->render();
+
+                    $subject = sprintf('%s - %s',
+                        $application->getName(),
+                        __('Build succeed!'));
+
+                    $mail = new \Siberian_Mail();
+                    $mail->setBodyHtml($content);
+                    $mail->addTo($recipients);
+                    $mail->setSubject($subject);
+                    $mail->send();
+                }
             } else {
                 $this->changeStatus("failed");
                 $this->save();
 
-                /** Failed email */
-                $values = [
-                    "type" => $type,
-                    "application_name" => $this->getName(),
-                ];
+                $baseEmail = $this->baseEmail(
+                    'source_queue_failed',
+                    $application,
+                    __('Build failed'),
+                    null);
 
-                # @version 4.8.7 - SMTP
-                $mail = new Siberian_Mail();
-                $mail->simpleEmail("queue", "source_queue_failed", __("The requested %s generation failed: %s", $type, $application->getName()), $recipients, $values);
+                $baseEmail->setContentFor('content_email', 'type', $type);
+                $baseEmail->setContentFor('content_email', 'application_name', $application->getName());
+
+                $content = $baseEmail->render();
+
+                $subject = sprintf('%s - %s',
+                    $application->getName(),
+                    __('Build failed!'));
+
+                $mail = new \Siberian_Mail();
+                $mail->setBodyHtml($content);
+                $mail->addTo($recipients);
+                $mail->setSubject($subject);
                 $mail->send();
             }
-        }
-
-        if ($this->getIsAutopublish()) {
-            $this->sendJobToAutoPublishServer($application, $result);
         }
 
         return $result;
     }
 
     /**
+     * @param $nodeName
+     * @param $application
+     * @param $title
+     * @param $message
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $application,
+                              $title,
+                              $message)
+    {
+        $layout = new \Siberian_Layout();
+        $layout = $layout->loadEmail('queue', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', __('Sources Generation') . ' - ' . $title)
+
+            ->setContentFor('content_email', 'app_name', $application->getName())
+            ->setContentFor('content_email', 'message', $message)
+
+            ->setContentFor('footer', 'show_legals', false)
+        ;
+
+        return $layout;
+    }
+
+    /**
      * @param $application
      * @param $sourcePath
-     * @throws Exception
-     * @throws Zend_Json_Exception
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     protected function sendJobToAutoPublishServer($application, $sourcePath)
     {
@@ -180,10 +229,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
         if (!array_key_exists('error', $languages)) {
             if (count($languages) === 0) {
-                throw new Siberian_Exception('There is no language selected');
+                throw new \Siberian\Exception('There is no language selected');
             }
         } else {
-            throw new Siberian_Exception('Cannot unserialize language data');
+            throw new \Siberian\Exception('Cannot unserialize language data');
         }
 
         //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
@@ -214,11 +263,11 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
         if (!mkdir($jobFolder, 0777, true)) {
-            throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
+            throw new \Siberian\Exception('Cannot create folder ' . $jobFolder);
         }
 
         if (!copy($sourcePath, $jobFolder . '/sources.zip')) {
-            throw new Siberian_Exception('Cannot copy sources to job folder');
+            throw new \Siberian\Exception('Cannot copy sources to job folder');
         }
 
         $configJobFilePath = $jobFolder . '/config.json';
@@ -227,7 +276,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         if (!array_key_exists('error', $json)) {
             file_put_contents($configJobFilePath, $json);
         } else {
-            throw new Siberian_Exception('Cannot create json config job file');
+            throw new \Siberian\Exception('Cannot create json config job file');
         }
 
         $tgzJobFilePath = $jobFolder . '.tgz';
@@ -235,7 +284,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         exec("tar zcf $tgzJobFilePath -C $jobFolder sources.zip config.json", $output, $return_val);
 
         if ($return_val !== 0) {
-            throw new Siberian_Exception('Cannot create zip job file');
+            throw new \Siberian\Exception('Cannot create zip job file');
         }
 
         $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
@@ -244,24 +293,20 @@ class Application_Model_SourceQueue extends Core_Model_Default
             "https://jenkins-prod02.xtraball.com/job/ios-autopublish/buildWithParameters",
             [
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
+                'JOB_NAME' => slugify($app->getName()),
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
-            ],
-            null,
-            [
-                'type' => 'basic',
-                'username' => 'ios-builder',
-                'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
-            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
+            throw new \Siberian\Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 
     /**
      * @param $application
-     * @throws Siberian_Exception
-     * @throws Zend_Exception
+     * @throws Zend_Uri_Exception
+     * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     protected function sendPemToAutoPublishServer($application)
     {
@@ -287,10 +332,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
         if (!array_key_exists('error', $languages)) {
             if (count($languages) === 0) {
-                throw new Siberian_Exception('There is no language selected');
+                throw new \Siberian\Exception('There is no language selected');
             }
         } else {
-            throw new Siberian_Exception('Cannot unserialize language data');
+            throw new \Siberian\Exception('Cannot unserialize language data');
         }
 
         //we keep using ISO-639 for siberian storage but we have to translate ISO code to faslane languages name
@@ -322,12 +367,12 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $jobFolder = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER . $jobCode);
 
         if (!mkdir($jobFolder, 0777, true)) {
-            throw new Siberian_Exception('Cannot create folder ' . $jobFolder);
+            throw new \Siberian\Exception('Cannot create folder ' . $jobFolder);
         }
 
         $fakeSources = Core_Model_Directory::getBasePathTo('/var/apps/ionic/refresh_pem.zip');
         if (!copy($fakeSources, $jobFolder . '/sources.zip')) {
-            throw new Siberian_Exception('Cannot copy sources to job folder');
+            throw new \Siberian\Exception('Cannot copy sources to job folder');
         }
 
         $configJobFilePath = $jobFolder . '/config.json';
@@ -336,7 +381,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         if (!array_key_exists('error', $json)) {
             file_put_contents($configJobFilePath, $json);
         } else {
-            throw new Siberian_Exception('Cannot create json config job file');
+            throw new \Siberian\Exception('Cannot create json config job file');
         }
 
         $tgzJobFilePath = $jobFolder . '.tgz';
@@ -344,7 +389,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         exec("tar zcf $tgzJobFilePath -C $jobFolder sources.zip config.json", $output, $return_val);
 
         if ($return_val !== 0) {
-            throw new Siberian_Exception('Cannot create zip job file');
+            throw new \Siberian\Exception('Cannot create zip job file');
         }
 
         $jobUrlEncoded = base64_encode('http://' . $this->getHost() . '/var/tmp/jobs/' . $jobCode . '.tgz');
@@ -354,16 +399,10 @@ class Application_Model_SourceQueue extends Core_Model_Default
             [
                 'token' => '6EJQwGkCLzTTvSWUfY19a3QshNvk8RXK',
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
-            ],
-            null,
-            [
-                'type' => 'basic',
-                'username' => 'ios-builder',
-                'password' => 'ced2eb561db43afb09c633b8f68c1f17',
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
-            throw new Siberian_Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
+            throw new \Siberian\Exception(__('Cannot send build to service %s.', Siberian_Request::$statusCode));
         }
     }
 

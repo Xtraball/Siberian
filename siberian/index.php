@@ -70,6 +70,17 @@ Zend_Registry::set('_config', $_config);
 
 session_cache_limiter(false);
 
+/**
+ * @param $data
+ */
+function dbg($data)
+{
+    file_put_contents(
+        '/tmp/debug.log',
+        print_r($data, true) . PHP_EOL,
+        FILE_APPEND);
+}
+
 // When you need to catch fatal errors create the corresponding congif line `$_config['handle_fatal_errors'] = true;`!
 if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] === true) {
     // Handle fatal errors!
@@ -99,10 +110,18 @@ try {
     ob_clean();
     http_response_code(400);
 
+    $exception = $e;
+    $previous = ($e->getPrevious()) ? $e->getPrevious() : null;
+
     $payload = [
         'error' => true,
-        'message' => $e->getPrevious()->getMessage(),
+        'message' => $exception->getMessage(),
     ];
+
+    if ($previous) {
+        $payload['previous'] = $payload['message'];
+        $payload['message'] = $previous;
+    }
 
     exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }

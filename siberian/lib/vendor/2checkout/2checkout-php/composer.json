@@ -1,0 +1,28 @@
+{
+    "name": "2checkout/2checkout-php",
+    "type": "library",
+    "description": "2Checkout PHP Library",
+    "keywords": ["2Checkout","2co","payment","gateway"],
+    "homepage": "https://github.com/2Checkout/2checkout-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Craig Christenson",
+            "email": "christensoncraig@gmail.com",
+            "homepage": "https://github.com/craigchristenson"
+        }
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Twocheckout": "lib/"
+        }
+    }
+}

@@ -31,7 +31,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
-        $loader->registerNamespace('Stripe');
         $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
 
@@ -57,6 +56,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         \Core_Model_Directory::setBasePath($base_path);
 
         // include Stubs
+        require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         $path = '';
@@ -116,6 +116,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         if (!is_dir(Core_Model_Directory::getBasePathTo('var/log'))) {
             mkdir(Core_Model_Directory::getBasePathTo('var/log'), 0777, true);
+        }
+
+        // Clean-up old template installer!
+        $tmp = Core_Model_Directory::getBasePathTo('var/tmp/template.install.php');
+        if (is_file($tmp)) {
+            unlink($tmp);
         }
 
         $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
@@ -266,7 +272,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                             }
                         }
                     } else {
-                        throw new Siberian_Exception('The bootstrap file located at \'' . $path .
+                        throw new \Siberian\Exception('The bootstrap file located at \'' . $path .
                             '\' redefines/or is already loaded, Class \'' . $classname .
                             '\', please remove it or rename it.');
                     }
@@ -290,9 +296,46 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Silent it's probably an installation!
         }
 
+        // Check default role
+        try {
+            $fixDefaultRole = __get('fix_default_role_4.15.3');
+            if ($fixDefaultRole !== 'done') {
+                $roleId = __get('admin_default_role_id');
+                $role = (new Acl_Model_Role())->find($roleId);
+                if (!$role->getId()) {
+                    // Get admin role
+                    $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
+                    if ($adminRole->getId()) {
+                        __set('admin_default_role_id', $adminRole->getId());
+                        __set('fix_default_role_4.15.3', 'done');
+                    }
+                } else {
+                    __set('fix_default_role_4.15.3', 'done');
+                }
+            }
+        } catch (\Exception $e) {
+            // Nope!
+        }
+
         Siberian_Cache_Design::init();
         $this->getPluginLoader()->addPrefixPath('Siberian_Application_Resource', 'Siberian/Application/Resource');
         Zend_Controller_Action_HelperBroker::getStaticHelper('viewRenderer')->setNeverRender(true);
+    }
+
+    protected function _initPurifier()
+    {
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('Cache.SerializerPath', Core_Model_Directory::getBasePathTo('var/cache'));
+        $def = $config->getHTMLDefinition(true);
+
+        // Attributes for in-app links
+        $def->addAttribute('a', 'data-offline', 'Text');
+        $def->addAttribute('a', 'data-params', 'Text');
+        $def->addAttribute('a', 'data-state', 'Text');
+
+        $htmlPurifier = new HTMLPurifier($config);
+
+        Zend_Registry::set('htmlPurifier', $htmlPurifier);
     }
 
     /**
@@ -384,7 +427,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * @return mixed|void|Zend_Controller_Response_Abstract
+     * @return mixed|Zend_Controller_Response_Abstract
      * @throws Exception
      * @throws Zend_Application_Bootstrap_Exception
      */

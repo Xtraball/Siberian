@@ -6,53 +6,53 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['cms_application_page_block_text'] = array(
-    'text_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['cms_application_page_block_text'] = [
+    'text_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'value_id' => array(
+    ],
+    'value_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'cms_application_page_block',
             'column' => 'value_id',
             'name' => 'cms_application_page_block_text_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_VALUE_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'content' => array(
+        ],
+    ],
+    'content' => [
         'type' => 'mediumtext',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image' => array(
+    ],
+    'image' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'size' => array(
+    ],
+    'size' => [
         'type' => 'varchar(5)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'alignment' => array(
+    ],
+    'alignment' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'layout_id' => array(
+    ],
+    'layout_id' => [
         'type' => 'tinyint(1) unsigned',
-    ),
-);
+    ],
+];

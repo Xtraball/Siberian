@@ -117,7 +117,7 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
         $cart = $this->getCart();
         $cart->setCustomerUUID($this->getRequest()->getParam("customer_uuid", ""));
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
-        $result = array('success' => false);
+        $result = ['success' => false];
         if ($promo) {
             $valid = $promo->validate($cart);
             $result['show_message'] = true;

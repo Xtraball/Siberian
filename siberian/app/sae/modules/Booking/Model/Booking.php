@@ -1,7 +1,7 @@
 <?php
 class Booking_Model_Booking extends Core_Model_Default {
 
-    public function __construct($params = array()) {
+    public function __construct($params = []) {
         parent::__construct($params);
         $this->_db_table = 'Booking_Model_Db_Table_Booking';
         return $this;
@@ -12,15 +12,15 @@ class Booking_Model_Booking extends Core_Model_Default {
      */
     public function getInappStates($value_id) {
 
-        $in_app_states = array(
-            array(
+        $in_app_states = [
+            [
                 "state" => "booking-view",
                 "offline" => false,
-                "params" => array(
+                "params" => [
                     "value_id" => $value_id,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $in_app_states;
     }
@@ -31,22 +31,22 @@ class Booking_Model_Booking extends Core_Model_Default {
      */
     public function getEmbedPayload($option_value) {
 
-        $payload = array(
-            "stores" => array(),
+        $payload = [
+            "stores" => [],
             "page_title" => $option_value->getTabbarName()
-        );
+        ];
 
         if($this->getId()) {
             $store = new Booking_Model_Store();
-            $stores = $store->findAll(array(
+            $stores = $store->findAll([
                 "booking_id" => $this->getId()
-            ));
+            ]);
 
             foreach($stores as $store) {
-                $payload["stores"][] = array(
+                $payload["stores"][] = [
                     "id"    => $store->getId(),
                     "name"  => $store->getStoreName()
-                );
+                ];
             }
         }
 
@@ -75,7 +75,7 @@ class Booking_Model_Booking extends Core_Model_Default {
 
     public function copyTo($option) {
         $store = new Booking_Model_Store();
-        $stores = $store->findAll(array('booking_id' => $this->getId()));
+        $stores = $store->findAll(['booking_id' => $this->getId()]);
 
         $this->setId(null)
             ->setValueId($option->getId())
@@ -108,11 +108,11 @@ class Booking_Model_Booking extends Core_Model_Default {
 
             $store_model = new Booking_Model_Store();
 
-            $stores = $store_model->findAll(array(
+            $stores = $store_model->findAll([
                 "booking_id = ?" => $booking->getId(),
-            ));
+            ]);
 
-            $stores_data = array();
+            $stores_data = [];
             foreach($stores as $store) {
                 $store_data = $store->getData();
 
@@ -124,11 +124,11 @@ class Booking_Model_Booking extends Core_Model_Default {
                 $stores_data[] = $store_data;
             }
 
-            $dataset = array(
+            $dataset = [
                 "option" => $current_option->forYaml(),
                 "booking" => $booking->getData(),
                 "stores" => $stores_data,
-            );
+            ];
 
             try {
                 $result = Siberian_Yaml::encode($dataset);

@@ -6,34 +6,34 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['cms_application_page_block_video_link'] = array(
-    'video_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['cms_application_page_block_video_link'] = [
+    'video_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'cms_application_page_block_video',
             'column' => 'video_id',
             'name' => 'cms_application_page_block_video_link_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-    ),
-    'link' => array(
+        ],
+    ],
+    'link' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'description' => array(
+    ],
+    'description' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image' => array(
+    ],
+    'image' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-);
+    ],
+];

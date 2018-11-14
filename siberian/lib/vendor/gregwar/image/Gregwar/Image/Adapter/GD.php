@@ -586,6 +586,9 @@ class GD extends Common
      */
     protected function openJpeg($file)
     {
+        if (empty($file) || !is_file($file)) {
+            throw new \Exception(__('File is empty [JPG], aborting.'));
+        }
         $this->resource = @imagecreatefromjpeg($file);
     }
 
@@ -594,6 +597,9 @@ class GD extends Common
      */
     protected function openGif($file)
     {
+        if (empty($file) || !is_file($file)) {
+            throw new \Exception(__('File is empty [GIF], aborting.'));
+        }
         $this->resource = @imagecreatefromgif($file);
     }
 
@@ -602,6 +608,9 @@ class GD extends Common
      */
     protected function openPng($file)
     {
+        if (empty($file) || !is_file($file)) {
+            throw new \Exception(__('File is empty [PNG], aborting.'));
+        }
         $this->resource = @imagecreatefrompng($file);
     }
 

@@ -22,7 +22,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
             ->setCurrentOrder($order)
             ->toHtml();
 
-        $html = array('form_html' => $html);
+        $html = ['form_html' => $html];
 
         $this->_sendHtml($html);
 
@@ -59,9 +59,9 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
 
                 if ($order->getCustomerId()) {
                     $order->getCustomer()->populate($mcommerce, $datas['customer'])->save();
-                    $order->addData(array("status_id" => $datas["status_id"]))->save();
+                    $order->addData(["status_id" => $datas["status_id"]])->save();
                 } else {
-                    $order->addData(array(
+                    $order->addData([
                         "status_id" => $datas["status_id"],
                         "customer_firstname" => $datas["customer"]['firstname'],
                         "customer_lastname" => $datas["customer"]['lastname'],
@@ -70,7 +70,7 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                         "customer_street" => $datas["customer"]['street'],
                         "customer_postcode" => $datas["customer"]['postcode'],
                         "customer_city" => $datas["customer"]['city']
-                    ))->save();
+                    ])->save();
                 }
 
                 if($order->getStatusId() == Mcommerce_Model_Order::CANCEL_STATUS) {
@@ -86,14 +86,14 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
                     $mail->send();
                 }
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'order_id' => $order->getId(),
                     'success_message' => __('Order successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
 
                 $html['status'] = $order->getStatus();
@@ -101,12 +101,12 @@ class Mcommerce_Application_OrderController extends Application_Controller_Defau
 
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendHtml($html);

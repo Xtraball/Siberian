@@ -1,16 +1,21 @@
 <?php
 
-class Job_CategoryController extends Application_Controller_Default {
+/**
+ * Class Job_CategoryController
+ */
+class Job_CategoryController extends Application_Controller_Default
+{
 
     /**
      *
      */
-    public function loadformAction() {
+    public function loadformAction()
+    {
         $category_id = $this->getRequest()->getParam("category_id");
 
         $category = new Job_Model_Category();
         $category->find($category_id);
-        if($category->getId()) {
+        if ($category->getId()) {
             $form = new Job_Form_Category();
             $form->populate($category->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -39,21 +44,21 @@ class Job_CategoryController extends Application_Controller_Default {
      *
      * @throws exception
      */
-    public function editpostAction() {
+    public function editpostAction()
+    {
         $values = $this->getRequest()->getPost();
 
         $form = new Job_Form_Category();
-        if($form->isValid($values)) {
+        if ($form->isValid($values)) {
             /** Do whatever you need when form is valid */
             $category = new Job_Model_Category();
             $category
                 ->addData($values)
                 ->addData(array(
                     "is_active" => true,
-                ))
-            ;
+                ));
 
-            $path_icon = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory()."/".$values['icon']);
+            $path_icon = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory() . "/" . $values['icon']);
             $category->setData("icon", $path_icon);
             $category->save();
 
@@ -83,11 +88,12 @@ class Job_CategoryController extends Application_Controller_Default {
     /**
      * Toggle category
      */
-    public function togglepostAction() {
+    public function togglepostAction()
+    {
         $values = $this->getRequest()->getPost();
 
         $form = new Job_Form_Category_Toggle();
-        if($form->isValid($values)) {
+        if ($form->isValid($values)) {
             $category = new Job_Model_Category();
             $result = $category->find($values["category_id"])->toggle();
 
@@ -115,11 +121,12 @@ class Job_CategoryController extends Application_Controller_Default {
     /**
      * Delete category
      */
-    public function deletepostAction() {
+    public function deletepostAction()
+    {
         $values = $this->getRequest()->getPost();
 
         $form = new Job_Form_Category_Delete();
-        if($form->isValid($values)) {
+        if ($form->isValid($values)) {
             $category = new Job_Model_Category();
             $category->find($values["category_id"]);
             $category->delete();

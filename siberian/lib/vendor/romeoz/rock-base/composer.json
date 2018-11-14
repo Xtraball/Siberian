@@ -1,0 +1,40 @@
+{
+  "name": "romeoz/rock-base",
+  "description": "Base module for Rock Framework",
+  "keywords": [
+    "common",
+    "rock framework",
+    "framerock"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "support": {
+    "email": "serggalka@gmail.com",
+    "issues": "https://github.com/romeOz/rock-base/issues",
+    "source": "https://github.com/romeOz/rock-base"
+  },
+  "authors": [
+    {
+      "name": "Ruslan",
+      "email": "serggalka@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "romeoz/rock-helpers": "0.12.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.7.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "rock\\base\\": "src/"
+    },
+    "files": ["src/polyfills.php"]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.12-dev"
+    }
+  }
+}

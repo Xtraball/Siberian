@@ -13,7 +13,7 @@ class Mcommerce_ApplicationController extends Application_Controller_Default_Aja
                     ->setOptionValue($this->getCurrentOptionValue())
                     ->toHtml()
                 ;
-                $html = array('tab_html' => $html);
+                $html = ['tab_html' => $html];
 
             }
             else {
@@ -22,12 +22,12 @@ class Mcommerce_ApplicationController extends Application_Controller_Default_Aja
 
         }
         catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);
@@ -51,14 +51,14 @@ class Mcommerce_ApplicationController extends Application_Controller_Default_Aja
                     ->save()
                 ;
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'create_store' => $mcommerce->getStores()->count() == 0,
                     'success_message' => $this->_('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             }
             else {
@@ -67,12 +67,12 @@ class Mcommerce_ApplicationController extends Application_Controller_Default_Aja
 
         }
         catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendHtml($html);

@@ -2,7 +2,7 @@
 
 class Mcommerce_Model_Tax extends Core_Model_Default {
 
-    public function __construct($datas = array()) {
+    public function __construct($datas = []) {
         parent::__construct($datas);
         $this->_db_table = 'Mcommerce_Model_Db_Table_Tax';
     }
@@ -33,19 +33,19 @@ class Mcommerce_Model_Tax extends Core_Model_Default {
     }
 
     public function getExportData($parent = null) {
-        $col_to_export = array("tax_id", "name", "rate");
-        $result = array();
-        $line_data = array();
+        $col_to_export = ["tax_id", "name", "rate"];
+        $result = [];
+        $line_data = [];
 
         $parent_id = $parent->getId();
 
         if($parent_id) {
 
             $taxes = new Mcommerce_Model_Tax();
-            $taxes = $taxes->findAll(array("mcommerce_id" => $parent_id));
+            $taxes = $taxes->findAll(["mcommerce_id" => $parent_id]);
 
             if(count($taxes)) {
-                $line_data = array();
+                $line_data = [];
                 $result[] = $col_to_export;
                 foreach ($taxes as $tax) {
                     foreach ($tax->getData() as $key => $tax_data) {
@@ -54,15 +54,15 @@ class Mcommerce_Model_Tax extends Core_Model_Default {
                         }
                     }
                     $result[] = $line_data;
-                    $line_data = array();
+                    $line_data = [];
                 }
 
                 return $result;
             } else {
-                return array();
+                return [];
             }
         } else {
-            return array();
+            return [];
         }
     }
 

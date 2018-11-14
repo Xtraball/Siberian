@@ -17,6 +17,9 @@
 
     $toggledown = $this->getToggleDown();
     $marginTop = $this->getMarginTop();
+
+    $application = $this->getApplication();
+    $useHomeForAll = $application->getUseHomepageBackgroundImageInSubpages();
 ?>
 <div class="color-content <?php echo ($marginTop) ? 'margin-bkg' : ''; ?>">
     <h3 class="title-editor no-border-radius title-feature-indent">
@@ -29,10 +32,18 @@
     </h3>
     <div id="change_background_image"
          class="container-fluid content-feature"
-         <?php if($toggledown) { echo 'style="display: none;"'; } ?>>
-        <br />
-        <br />
-        <?php echo $form; ?>
+        <?php if($toggledown) { echo 'style="display: none;"'; } ?>>
+        <?php if (!$useHomeForAll): ?>
+            <br />
+            <br />
+            <?php echo $form; ?>
+        <?php else: ?>
+            <br />
+            <div class="alert alert-info">
+                <?php echo __("Your application is set to use the homepage background for all the features!<br />You can't upload individual backgrounds for the features.") ?>
+                <br />
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 <script type="text/javascript">

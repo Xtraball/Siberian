@@ -18,6 +18,9 @@ App.directive('sbSection', function () {
                     '<div class="clear"></div>' +
                 '</div>' +
                 '<div class="content" ng-transclude></div>' +
-            '</div>'
+            '</div>',
+        link: function(scope, element, attributes) {
+            element.removeAttr('title');
+        }
     };
 });
