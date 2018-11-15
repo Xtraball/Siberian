@@ -1,213 +1,108 @@
 <?php
 
-class Places_Mobile_ListController extends Application_Controller_Mobile_Default {
-
-    public function findallAction() {
-
-        try {
-            $request = $this->getRequest();
-            if($value_id = $request->getParam("value_id")) {
-
-                $is_maps = $request->getParam("maps", false);
-
-                $limit = $request->getParam("limit", 100);
-                $offset = $request->getParam("offset", 0);
-
-                $position = [
-                    "latitude" => $request->getParam("latitude"),
-                    "longitude" => $request->getParam("longitude")
-                ];
-
-                $value = $this->getCurrentOptionValue();
-
-                $params = [
-                    "offset" => $offset,
-                    "limit" => $limit
-                ];
-
-                $repository = new Cms_Model_Application_Page();
-                if(!$is_maps) {
-                    $order_places = $value->getMetadataValue("places_order");
-
-                    if ($request->getParam("by_name")) {
-                        $pages = $repository->findAllOrderedByLabel($value->getId(), $params);
-                    } else {
-                        if ($order_places) {
-                            $pages = $repository->findAll(
-                                [
-                                    "value_id" => $value_id
-                                ],
-                                null,
-                                $params
-                            );
-                        } else {
-                            $pages = $repository->findAllOrderedByRank($value->getId(), $params);
-                        }
-                    }
-                } else {
-                    $pages = $repository->findAll(["value_id" => $value_id]);
-                }
-
-
-                $place_list = [];
-
-                foreach($pages as $page) {
-                    $place = new Places_Model_Place();
-                    $place->setPage($page);
-                    // Get the json representation of the place
-                    if(!$is_maps) {
-                        $representation = $place->asJson($this, $position, $value, $request->getBaseUrl());
-                    } else {
-                        $representation = $place->asMapJson($this, $position, $value, $request->getBaseUrl());
-                    }
-
-                    // append it to the places" list
-                    if($representation !== false) {
-                        $place_list[] = $representation;
-                    }
-
-                }
-
-                if ($this->getCurrentOptionValue()->getMetadataValue("places_order_alpha")) {
-                    usort($place_list, ["Places_Model_Place", "sortPlacesByLabel"]);
-                } else if ($this->getCurrentOptionValue()->getMetadataValue("places_order")) {
-                    // Order places by distance to user, if and the position is set the places_order option is activated
-                    if ($position["latitude"] && $position["longitude"]) {
-                        usort($place_list, ["Places_Model_Place", "sortPlacesByDistance"]);
-                    }
-                }
-
-                $option = $this->getCurrentOptionValue();
-
-                $payload = [
-                    "success"       => true,
-                    "page_title"    => $option->getTabbarName(),
-                    "displayed_per_page"    => sizeof($place_list),
-                    "places"        => $place_list
-                ];
-
-            } else {
-                throw new Siberian_Exception(__("Missing parameters."));
-            }
-
-
-        } catch(Exception $e) {
-            $payload = [
-                "error"     => true,
-                "message"   => __("An error occurred during process. Please try again later.")
-            ];
-        }
-
-        $this->_sendJson($payload);
-    }
-
-    public function searchAction()
+/**
+ * Class Places_Mobile_ListController
+ */
+class Places_Mobile_ListController extends Application_Controller_Mobile_Default
+{
+    /**
+     *
+     */
+    public function findallAction()
     {
-        $request = $this->getRequest();
-        if ($search_criteria = json_decode($this->getRequest()->getParam("search"))) {
-            try {
-                $value_id = $this->getRequest()->getParam("value_id");
-                $option = $this->getCurrentOptionValue();
-                $position = [
-                    'latitude' => $this->getRequest()->getParam('latitude'),
-                    'longitude' => $this->getRequest()->getParam('longitude')
-                ];
-                $repository = new Places_Model_Place();
-                $pages = $repository->search($search_criteria, $value_id);
-                $place_list = [];
-                foreach ($pages as $page) {
-                    $place = new Places_Model_Place();
-                    $place->setPage($page);
-                    // Get the json representation of the place
-                    $representation = $place->asJson($this, $position, $option, $request->getBaseUrl());
-                    // append it to the places' list
-                    $place_list[] = $representation;
-                }
-                if ($this->getCurrentOptionValue()->getMetadataValue('places_order_alpha')) {
-                    usort($place_list, ['Places_Model_Place', 'sortPlacesByLabel']);
-                } else if ($this->getCurrentOptionValue()->getMetadataValue('places_order')) {
-                    // Order places by distance to user, if and the position is set the places_order option is activated
-                    if ($position['latitude'] && $position['longitude']) {
-                        usort($place_list, ['Places_Model_Place', 'sortPlacesByDistance']);
-                    }
-                }
-
-                $data["page_title"] = $option->getTabbarName();
-                $data = ["places" => $place_list];
-            } catch (Exception $e) {
-                $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
-            }
-            $this->_sendJson($data);
-        }
-    }
-
-    public function searchv2Action() {
-
         try {
-
             $request = $this->getRequest();
 
-            if ($search_criteria = Siberian_Json::decode($request->getRawBody())) {
+            $isMaps = $request->getParam("maps", false);
+            $limit = $request->getParam("limit", 100);
+            $offset = $request->getParam("offset", 0);
 
-                Zend_Debug::dump($search_criteria);
+            $position = [
+                "latitude" => $request->getParam("latitude"),
+                "longitude" => $request->getParam("longitude")
+            ];
 
-                $value_id = $request->getParam("value_id");
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
 
-                $option = $this->getCurrentOptionValue();
+            $params = [
+                "offset" => $offset,
+                "limit" => $limit
+            ];
 
-                $position = [
-                    "latitude"  => $search_criteria["latitude"],
-                    "longitude" => $search_criteria["longitude"]
-                ];
-
-                $repository = new Places_Model_Place();
-                $pages = $repository->search($search_criteria["search"], $value_id);
-                $place_list = [];
-
-                foreach ($pages as $page) {
-                    $place = new Places_Model_Place();
-                    $place->setPage($page);
-                    // Get the json representation of the place
-                    $representation = $place->asJson($this, $position, $option, $request->getBaseUrl());
-                    // append it to the places" list
-                    $place_list[] = $representation;
-                }
-
-
-                if ($this->getCurrentOptionValue()->getMetadataValue("places_order_alpha")) {
-                    usort($place_list, ["Places_Model_Place", "sortPlacesByLabel"]);
-                } else if ($this->getCurrentOptionValue()->getMetadataValue("places_order")) {
-                    // Order places by distance to user, if and the position is set the places_order option is activated
-                    if ($position["latitude"] && $position["longitude"]) {
-                        usort($place_list, ["Places_Model_Place", "sortPlacesByDistance"]);
-                    }
-                }
-
-                $payload = [
-                    "succes" => true,
-                    "page_title" => $option->getTabbarName(),
-                    "places" => $place_list
-                ];
-
-            } else {
-                throw new Siberian_Exception(__("The search request is empty."));
+            $sortingType = 'date';
+            if ($optionValue->getMetadataValue("places_order_alpha")) {
+                $sortingType = 'alpha';
+            } else if ($optionValue->getMetadataValue("places_order")) {
+                $sortingType = 'distance';
             }
 
-        } catch(Exception $e) {
+            // Fetch places!
+            $repository = new Cms_Model_Application_Page();
+            if (!$isMaps) {
+                switch ($sortingType) {
+                    case 'date':
+                        $pages = $repository->findAll(
+                            [
+                                'value_id' => $valueId
+                            ],
+                            [
+                                'created_at DESC',
+                            ],
+                            $params);
+                        break;
+                    case 'alpha':
+                        $pages = $repository->findAll(
+                            [
+                                'value_id' => $valueId
+                            ],
+                            [
+                                'title ASC',
+                            ],
+                            $params);
+                        break;
+                    case 'distance':
+                        $pages = $repository->findAllByDistance($valueId, [
+                            'search_by_distance' => true,
+                            'latitude' => $position['latitude'],
+                            'longitude' => $position['longitude'],
+                        ], $params);
+                        break;
+                }
+            } else {
+                $pages = $repository->findAll(["value_id" => $valueId]);
+            }
+
+            $collection = [];
+            foreach ($pages as $page) {
+                $place = new Places_Model_Place();
+                $place->setPage($page);
+
+                $collection[] = $place->asJson($this, $position, $optionValue, $request->getBaseUrl());
+            }
+
             $payload = [
-                "error"     => true,
-                "message"   => __("An error occurred during process. Please try again later.")
+                "success" => true,
+                "sortingType" => $sortingType,
+                "page_title" => $optionValue->getTabbarName(),
+                "displayed_per_page" => sizeof($collection),
+                "places" => $collection
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
         $this->_sendJson($payload);
-
     }
 
     /**
      * @deprecated in Siberian 5.0 only act as fallback
      */
-    public function settingsAction() {
+    public function settingsAction()
+    {
         if ($value_id = $this->getRequest()->getParam("value_id")) {
             $html = ["tags" => []];
             $option_value = new Application_Model_Option_Value();

@@ -6,7 +6,7 @@ angular.module('starter').config(function ($stateProvider) {
         .state('places-list', {
             url: BASE_PATH + '/places/mobile_list/index/value_id/:value_id',
             controller: 'PlacesListController',
-            templateUrl: 'templates/html/l3/list.html',
+            templateUrl: 'templates/places/l1/list.html',
             cache: false,
             resolve: lazyLoadResolver(['cms', 'places'])
         }).state('places-list-map', {

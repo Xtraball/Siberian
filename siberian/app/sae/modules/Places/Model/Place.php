@@ -641,11 +641,21 @@ WHERE cap.value_id = {$value_id}
 
         $entity = $this->int_validator->isValid($this->getId()) ? $this : $this->_page;
 
+        $distanceUnit = $option_value->getMetadataValue('distance_unit');
+        switch ($distanceUnit) {
+            case 'km':case '':case null:
+                    $distance = round($this->getPage()->getDistance() / 1000, 2) . ' km';
+                break;
+            case 'mi':
+                    $distance = round(($this->getPage()->getDistance() / 1000) * 0.621371, 2) . ' mi';
+                break;
+        }
+
         $embed_payload = [
             "blocks" => $json,
             "page" => [
                 "title" => $entity->getTitle(),
-                "subtitle" => $entity->getContent(),
+                "subtitle" => $entity->getContent() . ' - DISTANCE : ' . $this->getPage()->getDistance(),
                 "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
                 "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
                 "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
@@ -657,7 +667,7 @@ WHERE cap.value_id = {$value_id}
 
         $representation = [
             "id" => (integer)$entity->getPageId(),
-            "title" => $entity->getTitle(),
+            "title" => $entity->getTitle() . ' - DISTANCE : ' . $this->getPage()->getDistance(),
             "subtitle" => $entity->getContent(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
             "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,

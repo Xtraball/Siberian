@@ -1,13 +1,36 @@
 <?php
 
+/**
+ * Class Cms_Model_Application_Page
+ *
+ * @method Cms_Model_Db_Table_Application_Page getTable()
+ */
 class Cms_Model_Application_Page extends Core_Model_Default
 {
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
+    /**
+     * @var
+     */
     protected $_blocks;
+    /**
+     * @var
+     */
     protected $_metadata;
+    /**
+     * @var string
+     */
     protected $_action_view = "findall";
 
-    public function __construct($params = []) {
+    /**
+     * Cms_Model_Application_Page constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page';
         return $this;
@@ -20,7 +43,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $params
      * @return collection of pages
      */
-    public static function findAllOrderedByRank($value_id, $params = null) {
+    public static function findAllOrderedByRank($value_id, $params = null)
+    {
         return self::findAllOrderedBy($value_id, 'rank', $params);
     }
 
@@ -31,45 +55,57 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $params
      * @return collection of pages
      */
-    public static function findAllOrderedByLabel($value_id, $params = null) {
+    public static function findAllOrderedByLabel($value_id, $params = null)
+    {
         return self::findAllOrderedBy($value_id, 'label', $params);
+    }
+
+    /**
+     * @param $valueId
+     * @param array $params
+     * @return mixed
+     */
+    public function findAllByDistance($valueId, $values, $params = [])
+    {
+        return $this->getTable()->findAllByDistance($valueId, $values, $params);
     }
 
     /**
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value)
+    {
 
-        switch($option_value->getCode()) {
+        switch ($option_value->getCode()) {
             case "places":
-                    $payload = [
-                        "page_title"    => $option_value->getTabbarName(),
-                        "settings"      => []
+                $payload = [
+                    "page_title" => $option_value->getTabbarName(),
+                    "settings" => []
+                ];
+
+                if ($this->getId()) {
+
+                    $payload["settings"] = [
+                        "tags" => []
                     ];
 
-                    if($this->getId()) {
-
-                        $payload["settings"] = [
-                            "tags" => []
-                        ];
-
-                        $metadata = $option_value->getMetadatas();
-                        foreach ($metadata as $meta) {
-                            $payload["settings"][$meta->getCode()] = $meta->getPayload();
-                        }
-
-                        $tags = $option_value->getOwnTags(new Cms_Model_Application_Page());
-                        foreach ($tags as $tag) {
-                            $payload["settings"]["tags"][] = strtolower(trim($tag->getName()));
-                        }
-
-                        $payload["settings"]["tags"] = array_unique($payload["settings"]["tags"]);
-
+                    $metadata = $option_value->getMetadatas();
+                    foreach ($metadata as $meta) {
+                        $payload["settings"][$meta->getCode()] = $meta->getPayload();
                     }
+
+                    $tags = $option_value->getOwnTags(new Cms_Model_Application_Page());
+                    foreach ($tags as $tag) {
+                        $payload["settings"]["tags"][] = strtolower(trim($tag->getName()));
+                    }
+
+                    $payload["settings"]["tags"] = array_unique($payload["settings"]["tags"]);
+
+                }
                 break;
             default:
-                    $payload = false;
+                $payload = false;
         }
 
         return $payload;
@@ -81,7 +117,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      *
      * @return array
      */
-    public function getInappStates($value_id) {
+    public function getInappStates($value_id)
+    {
 
         $option_value_model = new Application_Model_Option_Value();
         $option_value = $option_value_model->find($value_id);
@@ -90,7 +127,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $option = $option_model->find($option_value->getOptionId());
 
         # Special case 1. for Places
-        if($option->getCode() == "places") {
+        if ($option->getCode() == "places") {
             $place_model = new Places_Model_Place();
             return $place_model->getInappStates($value_id);
         }
@@ -112,16 +149,17 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option_value
      * @return array
      */
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) {
+    public function getFeaturePaths($option_value)
+    {
+        if (!$this->isCacheable()) {
             return [];
         }
 
         $value_id = $option_value->getId();
         $cache_id = "feature_paths_valueid_{$value_id}";
-        if(!$result = $this->cache->load($cache_id)) {
+        if (!$result = $this->cache->load($cache_id)) {
 
-            if($option_value->getCode() == "custom_page") {
+            if ($option_value->getCode() == "custom_page") {
                 $paths = [];
 
                 $paths[] = $option_value->getPath(
@@ -150,7 +188,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     false
                 );
 
-                foreach($this->getBlocks() as $block) {
+                foreach ($this->getBlocks() as $block) {
                     $paths[] = $option_value->getPath(
                         "findblock",
                         [
@@ -172,7 +210,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
             } else {
                 // Places paths
                 $places = new Places_Model_Place();
-                $paths =  $places->getFeaturePaths($option_value);
+                $paths = $places->getFeaturePaths($option_value);
             }
 
             $this->cache->save($paths, $cache_id, [
@@ -190,45 +228,46 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option_value
      * @return array|void
      */
-    public function getAssetsPaths($option_value) {
-        if(!$this->isCacheable()) {
+    public function getAssetsPaths($option_value)
+    {
+        if (!$this->isCacheable()) {
             return [];
         }
 
         $value_id = $option_value->getId();
         $cache_id = "assets_paths_valueid_{$value_id}";
-        if(!$result = $this->cache->load($cache_id)) {
+        if (!$result = $this->cache->load($cache_id)) {
 
-            if($option_value->getCode() == "custom_page") {
+            if ($option_value->getCode() == "custom_page") {
                 $paths = [];
 
                 $val = $this->getPictureUr();
-                if(!empty($val)) {
+                if (!empty($val)) {
                     $paths[] = $val;
                 }
 
-                foreach($this->getBlocks() as $block) {
+                foreach ($this->getBlocks() as $block) {
                     $data = $block->_toJson("");
                     $keys = ["icon", "image_url", "cover_url", "file_url"];
 
                     foreach ($keys as $key) {
                         $val = $data[$key];
-                        if(!empty($val)) {
+                        if (!empty($val)) {
                             $paths[] = $val;
                         }
                     }
 
-                    if(is_array($data["gallery"])) {
+                    if (is_array($data["gallery"])) {
                         foreach ($data["gallery"] as $img) {
                             $paths[] = $img["src"];
                         }
                     }
 
-                    if($block->getType() == "video" && $data["video_type_id"] == "link") {
+                    if ($block->getType() == "video" && $data["video_type_id"] == "link") {
                         $paths[] = $data["url"];
                     }
 
-                    if($block->getType() == "text") {
+                    if ($block->getType() == "text") {
 
                         $matches = [];
                         $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
@@ -236,7 +275,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
                         $matches = call_user_func_array('array_merge', $matches);
 
-                        if($matches && count($matches) > 1) {
+                        if ($matches && count($matches) > 1) {
                             unset($matches[0]);
                             $paths = array_merge($paths, $matches);
                         }
@@ -268,7 +307,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $params
      * @return collection of pages
      */
-    private static function findAllOrderedBy($value_id, $field, $params = null) {
+    private static function findAllOrderedBy($value_id, $field, $params = null)
+    {
         $table = new Cms_Model_Db_Table_Application_Page();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
         $select->setIntegrityCheck(false);
@@ -278,8 +318,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
             ->where("cms_application_page.value_id = ?", $value_id)
             ->order("cms_application_page_block_address." . $field . " asc");
 
-        if(is_array($params)) {
-            if(isset($params["limit"]) && isset($params["offset"])) {
+        if (is_array($params)) {
+            if (isset($params["limit"]) && isset($params["offset"])) {
                 $select->limit($params["limit"], $params["offset"]);
             }
         }
@@ -287,7 +327,13 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return $table->fetchAll($select);
     }
 
-    public static function findAllByPageId($value_id, $ids) {
+    /**
+     * @param $value_id
+     * @param $ids
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public static function findAllByPageId($value_id, $ids)
+    {
         $table = new Cms_Model_Db_Table_Application_Page();
         $select = $table->select(Zend_Db_Table::SELECT_WITH_FROM_PART);
         $select->where("cms_application_page.value_id = ?", $value_id)
@@ -300,7 +346,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      *
      * @param $option_value
      */
-    public function prepareFeature($option_value) {
+    public function prepareFeature($option_value)
+    {
         self::setPlaceOrder($option_value->getValueId(), 'true');
     }
 
@@ -310,7 +357,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $value_id
      * @param $order
      */
-    public static function setPlaceOrder($value_id, $order) {
+    public static function setPlaceOrder($value_id, $order)
+    {
         // Delete old metadata value
         Application_Model_Option_Value_Metadata::deleteByCode($value_id, 'places_order');
         // Replace it with the current one
@@ -328,7 +376,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $value_id
      * @param $order
      */
-    public static function setPlaceOrderAlpha($value_id, $order) {
+    public static function setPlaceOrderAlpha($value_id, $order)
+    {
         // Delete old metadata value
         Application_Model_Option_Value_Metadata::deleteByCode($value_id, 'places_order_alpha');
         // Replace it with the current one
@@ -340,7 +389,12 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $metadatum->save();
     }
 
-    public function findByUrl($url) {
+    /**
+     * @param $url
+     * @return $this
+     */
+    public function findByUrl($url)
+    {
         $this->find($url, 'url');
         return $this;
     }
@@ -348,8 +402,9 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * @return Cms_Model_Application_Block[]
      */
-    public function getBlocks() {
-        if(is_null($this->_blocks) AND $this->getId()) {
+    public function getBlocks()
+    {
+        if (is_null($this->_blocks) AND $this->getId()) {
             $block = new Cms_Model_Application_Block();
             $this->_blocks = $block->findByPage($this->getId());
         }
@@ -357,19 +412,31 @@ class Cms_Model_Application_Page extends Core_Model_Default
         return $this->_blocks;
     }
 
-    public function getPictureUrl() {
-        $path = Application_Model_Application::getImagePath().$this->getPicture();
-        $base_path = Application_Model_Application::getBaseImagePath().$this->getPicture();
+    /**
+     * @return null|string
+     */
+    public function getPictureUrl()
+    {
+        $path = Application_Model_Application::getImagePath() . $this->getPicture();
+        $base_path = Application_Model_Application::getBaseImagePath() . $this->getPicture();
         return is_file($base_path) ? $path : null;
     }
 
-    public function getThumbnailUrl() {
-        $path = Application_Model_Application::getImagePath().$this->getThumbnail();
-        $base_path = Application_Model_Application::getBaseImagePath().$this->getThumbnail();
+    /**
+     * @return null|string
+     */
+    public function getThumbnailUrl()
+    {
+        $path = Application_Model_Application::getImagePath() . $this->getThumbnail();
+        $base_path = Application_Model_Application::getBaseImagePath() . $this->getThumbnail();
         return is_file($base_path) ? $path : null;
     }
 
-    public function save() {
+    /**
+     * @return $this|void
+     */
+    public function save()
+    {
         parent::save();
         $blocks = $this->getData('block') ? $this->getData('block') : [];
         $this->getTable()->saveBlock($this->getId(), $blocks);
@@ -378,7 +445,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * No needs for saveBlocks anymore
      */
-    public function save_v2() {
+    public function save_v2()
+    {
         parent::save();
     }
 
@@ -389,7 +457,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option_value
      * @param $datas
      */
-    public function edit_v2($option_value, $datas) {
+    public function edit_v2($option_value, $datas)
+    {
 
         if (empty($datas['orderUniqid'])) {
             throw new Siberian_Exception('#578-21' . __('At least one section is required to save.'));
@@ -417,7 +486,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $page->find($datas['page_id']);
 
                 if ($page->getId() && ($page->getValueId() != $value_id)) {
-                    throw new Siberian_Exception('#578-02'.__('An error occurred while saving your page.'));
+                    throw new Siberian_Exception('#578-02' . __('An error occurred while saving your page.'));
                 }
             }
 
@@ -461,7 +530,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $block_type = key($block);
                 $values = $block[$block_type];
 
-                switch($block_type) {
+                switch ($block_type) {
                     case 'text':
                         $model = new Cms_Model_Application_Page_Block_Text();
                         break;
@@ -494,8 +563,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     ->setOptionValue($option_value)
                     ->populate($values)
                     ->createBlock($block_type, $page, $block_position)
-                    ->save_v2()
-                ;
+                    ->save_v2();
 
                 if ($result === false) {
                     $messagePartialError[] =
@@ -516,7 +584,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             return $page;
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             // We got an unrecoverable error, rollback
             try {
                 $db->rollBack();
@@ -533,14 +601,15 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $design
      * @param $category
      */
-    public function createDummyContents($option_value, $design, $category) {
+    public function createDummyContents($option_value, $design, $category)
+    {
 
         $option = new Application_Model_Option();
         $option->find($option_value->getOptionId());
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
-        if($option->getCode() == 'places' && $dummy_content_xml->places) {
+        if ($option->getCode() == 'places' && $dummy_content_xml->places) {
 
             foreach ($dummy_content_xml->places->children() as $content) {
 
@@ -551,23 +620,22 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 foreach ($content->block as $block_content) {
 
                     $block = new Cms_Model_Application_Block();
-                    $block->find((string) $block_content->type, "type");
+                    $block->find((string)$block_content->type, "type");
 
-                    $data = (array) $block_content;
-                    if($block_content->image_url) {
-                        $data['image_url'] = (array) $block_content->image_url;
-                        $data['image_fullsize_url'] = (array) $block_content->image_fullsize_url;
+                    $data = (array)$block_content;
+                    if ($block_content->image_url) {
+                        $data['image_url'] = (array)$block_content->image_url;
+                        $data['image_fullsize_url'] = (array)$block_content->image_fullsize_url;
                     }
                     $data["block_id"] = $block->getId();
 
                     $blocks[$i++] = $data;
                 }
 
-                $this->addData((array) $content->content)
+                $this->addData((array)$content->content)
                     ->setBlock($blocks)
                     ->setValueId($option_value->getId())
-                    ->save()
-                ;
+                    ->save();
             }
 
         } else {
@@ -577,12 +645,12 @@ class Cms_Model_Application_Page extends Core_Model_Default
             foreach ($dummy_content_xml->blocks->children() as $content) {
 
                 $block = new Cms_Model_Application_Block();
-                $block->find((string) $content->type, "type");
+                $block->find((string)$content->type, "type");
 
-                $data = (array) $content;
-                if($content->image_url) {
-                    $data['image_url'] = (array) $content->image_url;
-                    $data['image_fullsize_url'] = (array) $content->image_fullsize_url;
+                $data = (array)$content;
+                if ($content->image_url) {
+                    $data['image_url'] = (array)$content->image_url;
+                    $data['image_fullsize_url'] = (array)$content->image_fullsize_url;
                 }
                 $data["block_id"] = $block->getId();
 
@@ -599,11 +667,12 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * @param $option
      */
-    public function copyTo($option) {
+    public function copyTo($option)
+    {
         $blocks = [];
 
-        foreach($this->getBlocks() as $block) {
-            switch($block->getType()) {
+        foreach ($this->getBlocks() as $block) {
+            switch ($block->getType()) {
                 case 'image':
                 case 'cover':
                 case 'slider':
@@ -620,7 +689,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     $new_block['library_id'] = null;
                     $new_block['type'] = $block->getType();
 
-                    foreach($images as $image) {
+                    foreach ($images as $image) {
                         $new_block['image_url'][] = $image->getData('image_url');
                         $new_block['image_fullsize_url'][] = $image->getData('image_url');
                     }
@@ -663,8 +732,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $this->setData('block', $blocks);
         $this->setId(null)
             ->setValueId($option->getId())
-            ->save()
-        ;
+            ->save();
 
     }
 
@@ -743,7 +811,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      *
      * @return $this
      */
-    public function saveMetadata(){
+    public function saveMetadata()
+    {
         foreach ($this->_metadata as $metadatum) {
             $metadatum->save();
         }
@@ -769,7 +838,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $datas
      * @return $this
      */
-    public function savePlace($option_value, $datas) {
+    public function savePlace($option_value, $datas)
+    {
         $picture = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_file']);
         $thumbnail = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_thumbnail']);
 
