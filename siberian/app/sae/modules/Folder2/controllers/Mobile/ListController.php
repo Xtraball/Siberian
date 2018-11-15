@@ -18,10 +18,10 @@ class Folder2_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $option->setRequest($request);
                     $payload = $option->getObject()->getEmbedPayload($option);
                 } else {
-                    throw new Siberian_Exception(__('Unable to find option.'));
+                    throw new \Siberian\Exception(__('Unable to find option.'));
                 }
             } else {
-                throw new Siberian_Exception(__('Missing parameter value_id.'));
+                throw new \Siberian\Exception(__('Missing parameter value_id.'));
             }
 
         } catch (Exception $e) {

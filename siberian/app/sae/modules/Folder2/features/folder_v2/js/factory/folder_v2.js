@@ -105,21 +105,12 @@ angular.module('starter').factory('Folder2', function ($pwaRequest, Customer, Pa
         }
 
         // Otherwise fallback on PWA!
-        $pwaRequest
+        return $pwaRequest
             .get('folder2/mobile_list/findall', {
                 urlParams: {
                     value_id: localValueId
                 }
-            })
-            .then(function (result) {
-                if (result.folders) {
-                    factory.populate(result);
-                    return $pwaRequest.resolve();
-                }
-                return $pwaRequest.reject();
             });
-
-        return $pwaRequest.reject();
     };
 
     /**
