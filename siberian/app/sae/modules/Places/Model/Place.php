@@ -643,7 +643,7 @@ WHERE cap.value_id = {$value_id}
 
         $distanceUnit = $option_value->getMetadataValue('distance_unit');
         switch ($distanceUnit) {
-            case 'km':case '':case null:
+            case 'km': default:
                     $distance = round($this->getPage()->getDistance() / 1000, 2) . ' km';
                 break;
             case 'mi':
@@ -678,14 +678,18 @@ WHERE cap.value_id = {$value_id}
                 "block_id" => (integer)$address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
+                "phone" => $address->getPhone(),
+                "website" => $address->getWebsite(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
+                "show_phone" => (boolean)$address->getShowPhone(),
+                "show_website" => (boolean)$address->getShowWebsite(),
                 "show_address" => (boolean)$address->getShowAddress(),
                 "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
             ],
             "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
             "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
-            "distance" => $this->distance($position),
+            "distance" => $distance,
             "embed_payload" => $embed_payload
         ];
 
@@ -722,6 +726,90 @@ WHERE cap.value_id = {$value_id}
         ];
 
         return $payload;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        $tags = explode(",", $this->getData('tags'));
+
+        return $tags;
+    }
+
+    /**
+     * @param $tags
+     * @return $this
+     */
+    public function setTags($tags)
+    {
+        $tags = array_unique(array_filter($tags));
+
+        return $this->setData('tags', join(',', $tags));
+    }
+
+    /**
+     * @param $newTag
+     * @return Places_Model_Place
+     */
+    public function addTag($newTag)
+    {
+        return $this->addTags([$newTag]);
+    }
+
+    /**
+     * @param $newTags
+     * @return $this
+     */
+    public function addTags($newTags)
+    {
+        $tags = $this->getTags();
+        $tags = array_merge($tags, $newTags);
+
+        return $this->setTags($tags);
+    }
+
+    /**
+     * @return array
+     */
+    public function getCategories()
+    {
+        $categories = array_filter(explode(",", $this->getData('categories')));
+
+        return $categories;
+    }
+
+    /**
+     * @param $tags
+     * @return $this
+     */
+    public function setCategories($categories)
+    {
+        $categories = array_unique(array_filter($categories));
+
+        return $this->setData('categories', ',' . join(',', $categories) . ',');
+    }
+
+    /**
+     * @param $newTag
+     * @return Places_Model_Place
+     */
+    public function addCategory($newCategory)
+    {
+        return $this->addCategories([$newCategory]);
+    }
+
+    /**
+     * @param $newTags
+     * @return $this
+     */
+    public function addCategories($newCategories)
+    {
+        $categories = $this->getCategories();
+        $categories = array_merge($categories, $newCategories);
+
+        return $this->setCategories($categories);
     }
 
 }

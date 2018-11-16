@@ -1,0 +1,140 @@
+<ion-view class="module-places places places-view l1"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
+            <i class="icon ion-ios-upload-outline"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list place-header"
+             ng-if="page.show_image && !is_loading">
+            <div class="item item-image cover-place"
+                 ng-if="page.picture && page.show_image"
+                 ng-style="{'background-image':'url(' + page.picture + ')'}">
+                <img class="image-placeholder"
+                     ng-src="{{ blankImage }}" />
+                <div class="place-title"
+                     ng-if="page.show_titles">{{ page.title }}</div>
+            </div>
+        </div>
+
+        <div class="place-blocks place-blocks-portrait">
+            <div class="place-block"
+                 ng-repeat="block in blocks"
+                 ng-if="!is_loading">
+
+                <div ng-switch
+                     on="block.type">
+                    <div ng-switch-when="text"
+                         class="card">
+                        <div sb-cms-text
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="image"
+                         class="card">
+                        <div sb-place-image
+                             origin="places"
+                             block="block"
+                             gallery="gallery"></div>
+                    </div>
+                    <div ng-switch-when="slider"
+                         class="card">
+                        <div sb-cms-slider
+                             block="block"
+                             gallery="gallery"></div>
+                    </div>
+                    <div ng-switch-when="video">
+                        <div sb-cms-video
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="address"
+                         class="card">
+                        <div sb-cms-address
+                             block="block"
+                             on-show-map="onShowMap(address)"></div>
+                    </div>
+                    <div ng-switch-when="button"
+                         class="card">
+                        <div sb-cms-button
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="file"
+                         class="card">
+                        <div sb-cms-file
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="cover"
+                         class="card no-shadow">
+                        <div sb-cms-cover
+                             block="block"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="place-blocks place-blocks-landscape"
+             ng-repeat="blocks in blockChunks">
+            <div class="place-block"
+                 ng-repeat="block in blocks"
+                 ng-if="!is_loading">
+
+                <div ng-switch
+                     on="block.type">
+                    <div ng-switch-when="text"
+                         class="card">
+                        <div sb-cms-text
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="image"
+                         class="card">
+                        <div sb-place-image
+                             origin="places"
+                             block="block"
+                             gallery="gallery"></div>
+                    </div>
+                    <div ng-switch-when="slider"
+                         class="card">
+                        <div sb-cms-slider
+                             block="block"
+                             gallery="gallery"></div>
+                    </div>
+                    <div ng-switch-when="video">
+                        <div sb-cms-video
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="address"
+                         class="card">
+                        <div sb-cms-address
+                             block="block"
+                             on-show-map="onShowMap(address)"></div>
+                    </div>
+                    <div ng-switch-when="button"
+                         class="card">
+                        <div sb-cms-button
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="file"
+                         class="card">
+                        <div sb-cms-file
+                             block="block"></div>
+                    </div>
+                    <div ng-switch-when="cover"
+                         class="card no-shadow">
+                        <div sb-cms-cover
+                             block="block"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

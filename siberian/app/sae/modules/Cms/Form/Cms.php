@@ -78,7 +78,7 @@ class Cms_Form_Cms extends Cms_Form_Base {
                     $form = new Cms_Form_Block_Cover();
                     break;
                 default:
-                    throw new Siberian_Exception(__('This block type doesn\'t exist'));
+                    throw new \Siberian\Exception(__('This block type doesn\'t exist'));
             }
 
             $form->setValueId($value_id);

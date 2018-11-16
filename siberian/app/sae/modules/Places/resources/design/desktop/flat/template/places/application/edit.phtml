@@ -1,17 +1,26 @@
 <?php
 $application = $this->getApplication();
-$option_value = $this->getOptionValue();
+$optionValue = $this->getOptionValue();
 
 $page = new Cms_Model_Application_Page();
-$pages = $page->findAllOrderedByRank($option_value->getId());
-$places_order = !$option_value->getMetadataValue("places_order");
+$pages = $page->findAllOrderedByRank($optionValue->getId());
+$places_order = !$optionValue->getMetadataValue("places_order");
 
 $place_form = new Places_Form_Place();
 
 $delete_form = new Places_Form_Place_Delete();
-$delete_form->setValueId($option_value->getId());
+$delete_form->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
+
+$designForm = new Places_Form_Design();
+
+// Categories
+$categories = (new Places_Model_Category())
+    ->findAll(['value_id' => $optionValue->getId()]);
+
+$formCategory = new Places_Form_Category();
+
 ?>
 
 
@@ -38,12 +47,30 @@ $appKey = $application->getGooglemapsKey();
             </a>
         </li>
         <li role="presentation">
+            <a href="#categories"
+               aria-controls="categories"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-tags"></i>
+                <?php echo __("Categories") ?>
+            </a>
+        </li>
+        <li role="presentation">
             <a href="#search"
                aria-controls="search"
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-search"></i>
                 <?php echo __("Search settings") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design"
+               aria-controls="design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-image"></i>
+                <?php echo __("Design") ?>
             </a>
         </li>
     </ul>
@@ -53,17 +80,20 @@ $appKey = $application->getGooglemapsKey();
              class="tab-pane active"
              id="places">
 
-            <div class="feature-block-add">
+            <div class="feature-block-add"
+                 rel="places">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __("Add place"); ?>
                     <button type="button"
+                            rel="places"
                             class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
                         <i class="fa fa-plus"></i>
                     </button>
                 </h3>
             </div>
 
-            <div class="feature-block-create">
+            <div class="feature-block-create"
+                 rel="places">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <span class="cms-title-create">
                         <?php echo __("Create a place"); ?>
@@ -78,6 +108,8 @@ $appKey = $application->getGooglemapsKey();
                     <!-- Here goes the Loaded form (Create/Edit) -->
                 </span>
             </div>
+
+            <br />
 
             <?php if(sizeof($pages) > 0): ?>
                 <div class="feature-block-list">
@@ -118,6 +150,7 @@ $appKey = $application->getGooglemapsKey();
                                         <td><?php echo $place->getTitle(); ?></td>
                                         <td><?php echo cut(html_entity_decode($place->getContent()), 60); ?></td>
                                         <td class="edit-action open-edit"
+                                            rel="places"
                                             data-placeid="<?php echo $place->getId(); ?>">
                                             <i class="fa fa-pencil"></i>
                                         </td>
@@ -130,7 +163,7 @@ $appKey = $application->getGooglemapsKey();
 
                                             $delete_form
                                                 ->getElement("option_value_id")
-                                                ->setValue($option_value->getId());
+                                                ->setValue($optionValue->getId());
 
                                             echo $delete_form;
                                             ?>
@@ -145,9 +178,65 @@ $appKey = $application->getGooglemapsKey();
                 </div>
             <?php endif; ?>
 
-            <div class="background-images">
-                <?php echo $this->importBackground($option_value); ?>
+
+        </div>
+
+        <div role="tabpanel"
+             class="tab-pane"
+             id="categories">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Add category'); ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
             </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Create a new category'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formCategory; ?>
+                </div>
+            </div>
+
+            <?php if (sizeof($categories) > 0): ?>
+                <div class="feature-block-list">
+                    <div>
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __("Manage"); ?>
+                            <button type="button"
+                                    class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                    <tr class="border-grey">
+                                        <th style="width:40px;"><?php echo __("Name") ?></th>
+                                        <th style="width:40px;"><?php echo __("Position") ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($categories as $category) : ?>
+                                    <tr id="category_manage_element_<?php echo $category->getId(); ?>"
+                                        class="category-manage-element sb-pager">
+                                        <td><?php echo $category->getTitle() ?></td>
+                                        <td><?php echo $category->getPosition() ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
         </div>
 
         <div role="tabpanel"
@@ -160,10 +249,9 @@ $appKey = $application->getGooglemapsKey();
             </div>
             <div>
                 <?php
-                    /** @todo Places_Form_Search .... with bindForms() */
                     echo $this->getLayout()
                         ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
-                        ->setOptionValue($option_value)
+                        ->setOptionValue($optionValue)
                         ->setPages($pages)
                         ->toHtml();
                 ?>
@@ -171,19 +259,36 @@ $appKey = $application->getGooglemapsKey();
 
         </div>
 
+        <div role="tabpanel"
+             class="tab-pane"
+             id="design">
+            <div>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Behavior & Layout'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $designForm ?>
+                </div>
+            </div>
+
+            <br />
+
+            <?php echo $this->importBackground($optionValue, false, false); ?>
+        </div>
+
     </div>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $(".feature-toggle-add, .edit-action").on("click", function(event) {
+        $(".feature-toggle-add[rel='places'], .edit-action[rel='places']").on("click", function(event) {
             event.preventDefault();
 
-            var formurl = "<?php echo $this->getUrl("/places/application/loadform") ?>";
-            var datas = {value_id: <?php echo $option_value->getId() ?>};
-            var el = $(this);
-            if(el.hasClass("edit-action")) {
-                datas = {value_id: <?php echo $option_value->getId() ?>, place_id: el.attr("data-placeid")}
+            let formurl = "<?php echo $this->getUrl("/places/application/loadform") ?>";
+            let datas = {value_id: <?php echo $optionValue->getId() ?>};
+            let el = $(this);
+            if (el.hasClass("edit-action")) {
+                datas = {value_id: <?php echo $optionValue->getId() ?>, place_id: el.attr("data-placeid")}
             }
 
             loader.show("sb-features");
@@ -199,8 +304,8 @@ $appKey = $application->getGooglemapsKey();
                     if(data.success && data.form) {
 
                         $(".cms-form-placeholder").append(data.form);
-                        $(".feature-block-create ").show();
-                        $(".feature-block-add ").hide();
+                        $(".feature-block-create[rel='places']").show();
+                        $(".feature-block-add[rel='places']").hide();
                         bindForms("#form-cms");
 
                         $("#form-cms input#tags").tagsinput({
@@ -238,8 +343,7 @@ $appKey = $application->getGooglemapsKey();
             return false;
         });
 
-        bindForms(".feature-block-list");
-        bindForms(".background-images");
+        bindForms("#places_list");
 
         $("table.sb-pager").sbpager({
             with_search: true,

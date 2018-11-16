@@ -713,6 +713,8 @@ let icons = function (INSTALL) {
         }
     }
 
+    sh.exec("php -f " + ROOT + "/resources/ionicons/builder/custom-png-to-svg.php");
+
     sh.exec('chmod +x ' + ROOT + '/resources/ionicons/builder/scripts/sfnt2woff');
     sh.exec('python ' + ROOT + '/resources/ionicons/builder/generate.py');
 
@@ -725,7 +727,9 @@ let icons = function (INSTALL) {
     // Copy inside Ionic!
     sh.cp('-rf', ROOT + '/resources/ionicons/fonts/*',
         ROOT + '/ionic/www/lib/ionic/scss/ionicons/');
-    sh.cp('-rf', ROOT + '/resources/ionicons/scss',
+    sh.cp('-rf', ROOT + '/resources/ionicons/fonts/*',
+        ROOT + '/ionic/www/lib/ionic/fonts/');
+    sh.cp('-rf', ROOT + '/resources/ionicons/scss/*',
         ROOT + '/ionic/www/lib/ionic/scss/ionicons/');
 
     // Rebuild Ionic SCSS

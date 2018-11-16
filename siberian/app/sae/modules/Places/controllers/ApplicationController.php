@@ -25,6 +25,96 @@ class Places_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function editAction()
+    {
+        // Upgrade feature if necessary!
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $pages = (new Cms_Model_Application_Page())
+                ->findAllOrderedByRank($optionValue->getId());
+
+            // Associate tags with pages
+            $allTags = [];
+            $tagIndex = 1;
+            foreach ($pages as $page) {
+                if ($page->getPlaceVersion() == 2) {
+                    continue;
+                }
+
+                $tags = $optionValue->getTagNames($page);
+                if (!empty($tags)) {
+                    foreach ($tags as $tag) {
+                        if (!empty($tag)) {
+                            if (!array_key_exists($tag, $allTags)) {
+                                $allTags[$tag] = [
+                                    'index' => $tagIndex++,
+                                    'pages' => [],
+                                ];
+                            }
+                            $allTags[$tag]['pages'][] = $page->getId();
+                        }
+                    }
+                }
+            }
+
+            // Create missing tags
+            foreach ($allTags as $tagName => $allTag) {
+                $lowerCategoryName = strtolower($tagName);
+                $category = (new Places_Model_Category())
+                    ->find(
+                        [
+                            'title' => $lowerCategoryName,
+                            'value_id' => $optionValue->getId()
+                        ]);
+
+                if (!$category->getId()) {
+                    $category
+                        ->setValueId($optionValue->getId())
+                        ->setTitle($lowerCategoryName)
+                        ->setPosition($allTag['index'])
+                        ->save();
+                }
+
+                // Update places
+                $pages = $allTag['pages'];
+                foreach ($pages as $pageId) {
+                    $pagePlace = (new Places_Model_Place())
+                        ->find($pageId);
+                    if ($pagePlace->getId()) {
+                        $pagePlace
+                            ->addTag($lowerCategoryName)
+                            ->save();
+
+                        $pageCategory = (new Places_Model_PageCategory())
+                            ->find(
+                                [
+                                    'page_id' => $pagePlace->getId(),
+                                    'category_id' => $category->getId()
+                                ]);
+
+                        if (!$pageCategory->getId()) {
+                            $pageCategory
+                                ->setPageId($pagePlace->getId())
+                                ->setCategoryId($category->getId())
+                                ->save();
+                        }
+
+                        $pagePlace
+                            ->setPlaceVersion(2)
+                            ->save();
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+        }
+
+        parent::editAction();
+    }
+
+    /**
+     *
+     */
     public function loadformAction()
     {
         $place_id = $this->getRequest()->getParam("place_id");

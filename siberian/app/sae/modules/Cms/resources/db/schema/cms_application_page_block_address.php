@@ -40,6 +40,16 @@ $schemas['cms_application_page_block_address'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'phone' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'website' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'latitude' => [
         'type' => 'varchar(20)',
         'is_null' => true,
@@ -51,6 +61,14 @@ $schemas['cms_application_page_block_address'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'show_phone' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'show_website' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
     'show_address' => [
         'type' => 'tinyint(1)',

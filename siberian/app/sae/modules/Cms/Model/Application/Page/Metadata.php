@@ -1,10 +1,21 @@
 <?php
 
+/**
+ * Class Cms_Model_Application_Page_Metadata
+ */
 class Cms_Model_Application_Page_Metadata extends Core_Model_Default
 {
 
+    /**
+     * @var
+     */
     protected $_object;
 
+    /**
+     * Cms_Model_Application_Page_Metadata constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);

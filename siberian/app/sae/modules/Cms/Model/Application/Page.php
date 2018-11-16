@@ -452,16 +452,16 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
 
     /**
-     * Method create/edit
-     *
      * @param $option_value
      * @param $datas
+     * @return Cms_Model_Application_Page
+     * @throws \Siberian\Exception
      */
     public function edit_v2($option_value, $datas)
     {
 
         if (empty($datas['orderUniqid'])) {
-            throw new Siberian_Exception('#578-21' . __('At least one section is required to save.'));
+            throw new \Siberian\Exception('#578-21' . __('At least one section is required to save.'));
         }
 
         $db = Zend_Db_Table::getDefaultAdapter();
@@ -470,7 +470,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
         try {
             if (!$option_value) {
-                throw new Siberian_Exception('#578-01' . __('An error occurred while saving your page.'));
+                throw new \Siberian\Exception('#578-01' . __('An error occurred while saving your page.'));
             }
 
             $value_id = $option_value->getId();
@@ -486,7 +486,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $page->find($datas['page_id']);
 
                 if ($page->getId() && ($page->getValueId() != $value_id)) {
-                    throw new Siberian_Exception('#578-02' . __('An error occurred while saving your page.'));
+                    throw new \Siberian\Exception('#578-02' . __('An error occurred while saving your page.'));
                 }
             }
 

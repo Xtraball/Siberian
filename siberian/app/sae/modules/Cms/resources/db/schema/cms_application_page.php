@@ -57,8 +57,24 @@ $schemas['cms_application_page'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'tags' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'settings' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'featured_position' => [
         'type' => 'int(11) unsigned',
+        'default' => '0',
+    ],
+    'place_version' => [
+        'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
     'created_at' => [

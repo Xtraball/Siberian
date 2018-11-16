@@ -107,10 +107,6 @@ let debug = true,
         'padlock': [
             './www/js/controllers/padlock.js'
         ],
-        'places': [
-            './www/js/controllers/places.js',
-            './www/js/factory/places.js'
-        ],
         'privacy_policy': [
             './www/js/controllers/privacy-policy.js'
         ],
