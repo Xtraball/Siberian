@@ -585,7 +585,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $db->commit();
             } catch (\Exception $e) {
                 // ignore
-                echo '#1: - ' . $e->getMessage();
             }
 
             die;
@@ -598,11 +597,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $db->rollBack();
             } catch (\Exception $e) {
                 // ignore
-                echo '#4: - ' . $e->getMessage();
             }
-
-            echo '#3: - ' . $e->getMessage();
-            die;
         }
     }
 
