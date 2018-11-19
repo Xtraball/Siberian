@@ -6,18 +6,12 @@ $page = new Cms_Model_Application_Page();
 $pages = $page->findAllOrderedByRank($optionValue->getId());
 $places_order = !$optionValue->getMetadataValue("places_order");
 
-$place_form = new Places_Form_Place();
-
 $delete_form = new Places_Form_Place_Delete();
 $delete_form->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
 
 $designForm = new Places_Form_Design();
-
-// Categories
-$categories = (new Places_Model_Category())
-    ->findAll(['value_id' => $optionValue->getId()]);
 
 $formCategory = new Places_Form_Category();
 
@@ -30,6 +24,12 @@ $formCategory = new Places_Form_Category();
     <?php if (empty($appKey)): ?>
         <div class="alert alert-danger">
             <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($this->getMustUpdate()): ?>
+        <div class="alert alert-warning">
+            <?php echo __('You feature is currently in version 1, would you like to upgrade it to v2 to benefit latest improvements and features?.') ?>
         </div>
     <?php endif; ?>
 

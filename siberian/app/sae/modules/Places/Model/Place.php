@@ -643,11 +643,12 @@ WHERE cap.value_id = {$value_id}
 
         $distanceUnit = $option_value->getMetadataValue('distance_unit');
         switch ($distanceUnit) {
-            case 'km': default:
-                    $distance = round($this->getPage()->getDistance() / 1000, 2) . ' km';
+            case 'km':
+            default:
+                $distance = round($this->getPage()->getDistance() / 1000, 2) . ' km';
                 break;
             case 'mi':
-                    $distance = round(($this->getPage()->getDistance() / 1000) * 0.621371, 2) . ' mi';
+                $distance = round(($this->getPage()->getDistance() / 1000) * 0.621371, 2) . ' mi';
                 break;
         }
 
@@ -655,7 +656,7 @@ WHERE cap.value_id = {$value_id}
             "blocks" => $json,
             "page" => [
                 "title" => $entity->getTitle(),
-                "subtitle" => $entity->getContent() . ' - DISTANCE : ' . $this->getPage()->getDistance(),
+                "subtitle" => $entity->getContent(),
                 "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
                 "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
                 "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
@@ -667,28 +668,28 @@ WHERE cap.value_id = {$value_id}
 
         $representation = [
             "id" => (integer)$entity->getPageId(),
-            "title" => $entity->getTitle() . ' - DISTANCE : ' . $this->getPage()->getDistance(),
+            "title" => $entity->getTitle(),
             "subtitle" => $entity->getContent(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
             "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
             "url" => $url,
             "address" => [
-                "id" => (integer)$address->getId(),
+                "id" => (integer) $address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer)$address->getBlockId(),
+                "block_id" => (integer) $address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
-                "show_phone" => (boolean)$address->getShowPhone(),
-                "show_website" => (boolean)$address->getShowWebsite(),
-                "show_address" => (boolean)$address->getShowAddress(),
-                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
+                "show_phone" => (boolean) $address->getShowPhone(),
+                "show_website" => (boolean) $address->getShowWebsite(),
+                "show_address" => (boolean) $address->getShowAddress(),
+                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton()
             ],
-            "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
-            "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
+            "show_image" => (boolean) $this->getPage()->getMetadataValue('show_image'),
+            "show_titles" => (boolean) $this->getPage()->getMetadataValue('show_titles'),
             "distance" => $distance,
             "embed_payload" => $embed_payload
         ];

@@ -81,5 +81,4 @@ class Cms_Form_Block_Address extends Cms_Form_Block_Abstract
 
         return $this;
     }
-
 }

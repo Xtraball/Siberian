@@ -19,6 +19,7 @@ class Cms_Model_Application_Page_Block_Address extends Cms_Model_Application_Pag
 
     /**
      * @return bool|mixed
+     * @throws \Siberian\Exception
      */
     public function isValid()
     {

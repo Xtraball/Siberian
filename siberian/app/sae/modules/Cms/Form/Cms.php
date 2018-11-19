@@ -40,7 +40,7 @@ class Cms_Form_Cms extends Cms_Form_Base {
 
         $value_id = $this->getElement('value_id')->getValue();
         if(empty($value_id)) {
-            throw new Siberian_Exception(__('Unable to load CMS Blocks without value_id.'));
+            throw new \Siberian\Exception(__('Unable to load CMS Blocks without value_id.'));
         }
 
         $container = $this->getElement('sections_html_container');

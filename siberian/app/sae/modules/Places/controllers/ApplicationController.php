@@ -27,6 +27,32 @@ class Places_ApplicationController extends Application_Controller_Default
      */
     public function editAction()
     {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $pages = (new Cms_Model_Application_Page())
+                ->findAllOrderedByRank($optionValue->getId());
+
+            $mustUpdate = false;
+            foreach ($pages as $page) {
+                if ($page->getPlaceVersion() != 2) {
+                    $mustUpdate = true;
+                    break;
+                }
+            }
+
+            $this->view->must_update = $mustUpdate;
+        } catch (\Exception $e) {
+            // Nope!
+        }
+
+        parent::editAction();
+    }
+
+    /**
+     *
+     */
+    public function updatePlacesAction ()
+    {
         // Upgrade feature if necessary!
         try {
             $optionValue = $this->getCurrentOptionValue();
@@ -108,8 +134,6 @@ class Places_ApplicationController extends Application_Controller_Default
 
         } catch (\Exception $e) {
         }
-
-        parent::editAction();
     }
 
     /**
@@ -117,30 +141,29 @@ class Places_ApplicationController extends Application_Controller_Default
      */
     public function loadformAction()
     {
-        $place_id = $this->getRequest()->getParam("place_id");
-        $option_value = $this->getCurrentOptionValue();
+
 
         try {
+            $request = $this->getRequest();
 
-            $page = new Cms_Model_Application_Page();
-            $page->find($place_id);
+            $optionValue = $this->getCurrentOptionValue();
+            $placeId = $request->getParam("place_id");
 
-            $tag_names = $option_value->getTagNames($page);
-            $page->tag_names = $tag_names;
+            $page = (new Cms_Model_Application_Page())
+                ->find($placeId);
 
-            $is_new = false;
+            $isNew = false;
             if (!$page->getId()) {
                 $page->setId("new");
-                $page->tag_names = [];
-                $is_new = true;
+                $isNew = true;
             }
 
             $html = $this->getLayout()
                 ->addPartial('cms_edit', 'Core_View_Default', 'cms/application/page/edit.phtml')
-                ->setOptionValue($option_value)
+                ->setOptionValue($optionValue)
                 ->setCurrentPage($page)
                 ->setCurrentFeature("places")
-                ->setIsNew($is_new)
+                ->setIsNew($isNew)
                 ->toHtml();
 
             $data = [

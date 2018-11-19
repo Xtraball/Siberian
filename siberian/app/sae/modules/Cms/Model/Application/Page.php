@@ -497,11 +497,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     ->savePlace($option_value, $datas)
                     ->setMetadata($datas['metadata'])
                     ->saveMetadata();
-
-                # Create or update tags, then attach them to the option_value
-                $tag_names = explode(',', $datas['tags']);
-                $tags = Application_Model_Tag::upsert($tag_names);
-                $option_value->attachTags($tags, $page);
             }
 
             # Page title
@@ -542,6 +537,16 @@ class Cms_Model_Application_Page extends Core_Model_Default
                         break;
                     case 'address':
                         $model = new Cms_Model_Application_Page_Block_Address();
+
+                        // Validate only if not empty!
+                        if (!empty($values["website"])) {
+                            if (!preg_match("/^https?:\/\//i", $values["website"])) {
+                                $messagePartialError[] = __("Website must start with http:// or https://, invalid value have been removed!");
+
+                                $values["website"] = "";
+                            }
+                        }
+
                         break;
                     case 'button':
                         $model = new Cms_Model_Application_Page_Block_Button();
@@ -578,19 +583,26 @@ class Cms_Model_Application_Page extends Core_Model_Default
             // Everything was ok, Commit
             try {
                 $db->commit();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
+                echo '#1: - ' . $e->getMessage();
             }
+
+            die;
 
             return $page;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // We got an unrecoverable error, rollback
             try {
                 $db->rollBack();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // ignore
+                echo '#4: - ' . $e->getMessage();
             }
+
+            echo '#3: - ' . $e->getMessage();
+            die;
         }
     }
 
@@ -834,14 +846,14 @@ class Cms_Model_Application_Page extends Core_Model_Default
     }
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @param $datas
      * @return $this
      */
-    public function savePlace($option_value, $datas)
+    public function savePlace($optionValue, $datas)
     {
-        $picture = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_file']);
-        $thumbnail = Siberian_Feature::saveImageForOptionDelete($option_value, $datas['places_thumbnail']);
+        $picture = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_file']);
+        $thumbnail = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_thumbnail']);
 
         $this
             ->setTitle($datas['title'])
@@ -849,6 +861,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
             ->setIsFeatured($datas['is_featured'])
             ->setPicture($picture)
             ->setThumbnail($thumbnail)
+            ->setPlaceVersion(2)
+            ->setTags($datas['tags'])
             ->save();
 
         return $this;

@@ -14,28 +14,29 @@ $default_blocks = $default_block->findAll();
 $blocks = $page->getBlocks();
 
 if($is_places) {
-    $cms_form = new Places_Form_Place();
+    $cmsForm = new Places_Form_Place();
     if($is_new) {
-        $block_model = new Cms_Model_Application_Block();
-        $address_block = $block_model->find("address", "type");
+        $addressBlock = (new Cms_Model_Application_Block())
+            ->find("address", "type");
         $blocks = [
             $address_block
         ];
     }
-    if($page->getId()) {
-        $cms_form->fill($page);
+    if ($page->getId()) {
+        $cmsForm->fill($page);
+        $cmsForm->setPageId($page->getId());
     }
 
 } else {
-    $cms_form = new Cms_Form_Cms();
+    $cmsForm = new Cms_Form_Cms();
 }
 
 if(!$is_places) {
-    $cms_form->setPageId($option_value->getObject()->getPageId());
+    $cmsForm->setPageId($option_value->getObject()->getPageId());
 }
 
-$cms_form->setValueId($option_value->getId());
-$form_blocks = $cms_form->loadBlocks($blocks);
+$cmsForm->setValueId($option_value->getId());
+$form_blocks = $cmsForm->loadBlocks($blocks);
 
 ?>
 
@@ -68,7 +69,7 @@ $form_blocks = $cms_form->loadBlocks($blocks);
                 ->toHtml();
         ?>
         <?php endforeach; ?>
-        <?php $cms_form->getElement("sections_html_container")->setValue($welp); echo $cms_form; ?>
+        <?php $cmsForm->getElement("sections_html_container")->setValue($welp); echo $cmsForm; ?>
         <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
     </div>
 

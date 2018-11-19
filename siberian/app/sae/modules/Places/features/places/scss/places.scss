@@ -10,7 +10,6 @@
   .search-action {
     background-color: $button-energized-custom-bg;
     color: $button-energized-custom-text;
-    font-size: 2rem;
     text-align: center;
     border-radius: 50%;
     box-shadow: 1px 1px 2px $button-energized-custom-border;
@@ -87,9 +86,10 @@
     .search-action {
       width: 7vh;
       height: 7vh;
-      padding-top: 0.8vh;
+      padding-top: 1.2vh;
       bottom: 2vh;
       right: 2vh;
+      font-size: 5vh;
     }
   }
   @media screen and (orientation:landscape) {
@@ -164,9 +164,10 @@
     .search-action {
       width: 7vw;
       height: 7vw;
-      padding-top: 0.8vw;
+      padding-top: 1.2vw;
       bottom: 2vw;
       right: 2vw;
+      font-size: 5vw;
     }
 
     /** LandScape places two columns */
@@ -246,6 +247,7 @@
 
   .sb-cms-block-address .item {
     border-top: 0 !important;
+    border-bottom: 0 !important;
   }
 
   .sb-cms-block-address .item a,
