@@ -13,10 +13,15 @@ class Places_Form_Category extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/cms/application_page/edit-category"))
+            ->setAction(__path("/places/application/edit-category"))
             ->setAttrib("id", "form-edit-category");
 
+        self::addClass('create', $this);
+
         $this->addNav('nav-categories', __('Save'));
+
+        $this->addSimpleHidden('category_id', __("category_id"));
+        $this->addSimpleHidden('value_id', __("value_id"));
 
         $title = $this->addSimpleText('title', __("Name"));
         $title->setRequired(true);

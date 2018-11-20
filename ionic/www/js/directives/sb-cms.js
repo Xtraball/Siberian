@@ -219,22 +219,24 @@ angular.module('starter').directive('sbCmsText', function () {
         '          ng-if="block.address">{{ block.address }}</p>' +
         '   </div>' +
         '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-phone" ' +
-        '        ng-if="block.phone && block.show_phone">' +
+        '        ng-if="block.phone.length && block.show_phone">' +
         '       <i class="icon ion-android-call"></i>' +
         '       <p>' +
         '           <a href="tel:{{ block.phone }}">{{ block.phone }}</a>' +
         '       </p>' +
         '   </div>' +
         '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-website" ' +
-        '        ng-if="block.website && block.show_website">' +
+        '        ng-if="block.website.length && block.show_website">' +
         '       <i class="icon ion-earth"></i>' +
         '       <p>' +
         '           <a href="{{ block.website }}" ' +
-        '              target="_system">{{ block.website.replace(/https?:\/\//, "") }}</a>' +
+        '              target="_system">{{ websiteLabel }}</a>' +
         '       </p>' +
         '   </div>' +
         '</div>',
         controller: function (Location, Loader, LinkService, $rootScope, $scope) {
+
+            $scope.websiteLabel = $scope.block.website.replace(/^https?:\/\//i, "");
 
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {

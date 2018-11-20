@@ -3,20 +3,24 @@
 /**
  * Class Cms_Form_Cms
  */
-class Cms_Form_Cms extends Cms_Form_Base {
+class Cms_Form_Cms extends Cms_Form_Base
+{
 
     /**
      * @var bool
      */
     public $display_back_button = false;
 
-    public function init() {
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function init()
+    {
         parent::init();
 
         $this
             ->setAction(__path('/cms/application_page/editpostv2'))
-            ->setAttrib('id', 'form-cms')
-        ;
+            ->setAttrib('id', 'form-cms');
 
         $nav_group = $this->addNav('nav-cms', __('Save'), $this->display_back_button);
 
@@ -36,20 +40,21 @@ class Cms_Form_Cms extends Cms_Form_Base {
      * @return $this
      * @throws Siberian_Exception
      */
-    public function loadBlocks($blocks) {
+    public function loadBlocks($blocks)
+    {
 
         $value_id = $this->getElement('value_id')->getValue();
-        if(empty($value_id)) {
+        if (empty($value_id)) {
             throw new \Siberian\Exception(__('Unable to load CMS Blocks without value_id.'));
         }
 
         $container = $this->getElement('sections_html_container');
 
         $html_blocks = [];
-        foreach($blocks as $block) {
+        foreach ($blocks as $block) {
             $block_template = str_replace('/block/', '/block_v2/', $block->getTemplate());
 
-            switch($block->getType()) {
+            switch ($block->getType()) {
                 case 'text':
                     $form = new Cms_Form_Block_Text();
                     break;
@@ -61,7 +66,7 @@ class Cms_Form_Cms extends Cms_Form_Base {
                     break;
                 case 'address':
                     $form = new Cms_Form_Block_Address();
-                    if($this->feature_code == 'places') {
+                    if ($this->feature_code == 'places') {
                         $form->setRequired(true);
                     }
                     break;
@@ -96,7 +101,8 @@ class Cms_Form_Cms extends Cms_Form_Base {
     /**
      * @param $page_id
      */
-    public function setPageId($page_id) {
+    public function setPageId($page_id)
+    {
         $this->getElement('page_id')->setValue($page_id)->setRequired(true);
     }
 }

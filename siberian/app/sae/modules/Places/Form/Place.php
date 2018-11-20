@@ -68,9 +68,28 @@ class Places_Form_Place extends Cms_Form_Cms
         $tagsHint = $this->addSimpleHtml("super-tags", $tagsHintHtml);
 
 
-        $categories = $this->addSimpleMultiSelect('categories', __("Categories"), []);
+        $categories = $this->addSimpleMultiSelect('place_categories', __("Categories"), []);
+        $categories->addClass('cms-include');
 
         parent::init();
+    }
+
+    /**
+     * @param $valueId
+     * @throws Zend_Exception
+     */
+    public function fillCategories ($valueId)
+    {
+        // Categories
+        $categories = (new Places_Model_Category())
+            ->findAll(['value_id' => $valueId]);
+
+        $categoryOptions = [];
+        foreach($categories as $_category) {
+            $categoryOptions[$_category->getId()] = $_category->getTitle();
+        }
+
+        $this->getElement('place_categories')->setMultiOptions($categoryOptions);
     }
 
     /**
@@ -82,24 +101,13 @@ class Places_Form_Place extends Cms_Form_Cms
         $values = $page->getData();
 
         // Categories
-        $categories = (new Places_Model_Category())
-            ->findAll(['value_id' => $page->getValueId()]);
-
-        $categoryOptions = [];
-        foreach($categories as $_category) {
-            $categoryOptions[$_category->getId()] = $_category->getTitle();
-        }
-
-        // Categories
         $selectedCategories = (new Places_Model_PageCategory())
             ->findAll(['page_id' => $page->getId()]);
 
-        $values = [];
+        $catValues = [];
         foreach($selectedCategories as $_selectedCategory) {
-            $values[] = $_selectedCategory->getCategoryId();
+            $catValues[] = $_selectedCategory->getCategoryId();
         }
-
-        $this->getElement('categories')->setMultiOptions($categoryOptions);
 
         $this->getElement('places_file')->setValue($values['picture']);
         $this->getElement('places_thumbnail')->setValue($values['thumbnail']);
@@ -107,7 +115,7 @@ class Places_Form_Place extends Cms_Form_Cms
         $this->getElement('show_titles')->setValue($page->getMetadata('show_titles')->getPayload());
         $this->getElement('show_picto')->setValue($page->getMetadata('show_picto')->getPayload());
         $this->getElement('tags')->setValue($page->getData("tags"));
-        $this->getElement('categories')->setValue($values);
+        $this->getElement('place_categories')->setValue($catValues);
 
         return parent::populate($values);
     }

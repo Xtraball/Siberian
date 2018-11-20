@@ -14,6 +14,10 @@ $appKey = $application->getGooglemapsKey();
 $designForm = new Places_Form_Design();
 
 $formCategory = new Places_Form_Category();
+$formCategory->setValueId($optionValue->getId());
+
+$categories = (new Places_Model_Category())
+    ->findAll(['value_id' => $optionValue->getId()], 'position ASC');
 
 ?>
 
@@ -30,6 +34,7 @@ $formCategory = new Places_Form_Category();
     <?php if ($this->getMustUpdate()): ?>
         <div class="alert alert-warning">
             <?php echo __('You feature is currently in version 1, would you like to upgrade it to v2 to benefit latest improvements and features?.') ?>
+            <button class="btn color-blue"><?php echo __("Proceed to update!") ?></button>
         </div>
     <?php endif; ?>
 
@@ -109,7 +114,6 @@ $formCategory = new Places_Form_Category();
                 </span>
             </div>
 
-            <br />
 
             <?php if(sizeof($pages) > 0): ?>
                 <div class="feature-block-list">
@@ -205,7 +209,7 @@ $formCategory = new Places_Form_Category();
 
             <?php if (sizeof($categories) > 0): ?>
                 <div class="feature-block-list">
-                    <div>
+                    <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
                             <?php echo __("Manage"); ?>
                             <button type="button"
@@ -217,16 +221,25 @@ $formCategory = new Places_Form_Category();
                             <table class="table content-white-bkg sb-pager">
                                 <thead>
                                     <tr class="border-grey">
-                                        <th style="width:40px;"><?php echo __("Name") ?></th>
-                                        <th style="width:40px;"><?php echo __("Position") ?></th>
+                                        <th style="width:32px;"></th>
+                                        <th style="width:40%"><?php echo __("Name") ?></th>
+                                        <th style="width:40%;"><?php echo __("Position") ?></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody class="categories-sortable">
                                 <?php foreach ($categories as $category) : ?>
                                     <tr id="category_manage_element_<?php echo $category->getId(); ?>"
-                                        class="category-manage-element sb-pager">
+                                        rel="<?php echo $category->getId(); ?>"
+                                        class="category-manage-element sb-pager category-container">
+                                        <td class="category-handle">
+                                            <i class="fa fa-sort"></i>
+                                        </td>
                                         <td><?php echo $category->getTitle() ?></td>
-                                        <td><?php echo $category->getPosition() ?></td>
+                                        <td class="category-position"><?php echo $category->getPosition() ?></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
@@ -264,7 +277,7 @@ $formCategory = new Places_Form_Category();
              id="design">
             <div>
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Behavior & Layout'); ?>
+                    <?php echo __("Behavior & Layout"); ?>
                 </h3>
                 <div class="container-fluid subcontent content-feature">
                     <?php echo $designForm ?>
@@ -329,8 +342,8 @@ $formCategory = new Places_Form_Category();
                     loader.hide("sb-features");
                 },
                 error: function(data) {
-                    var response = $.parseJSON(data.responseText);
-                    if(response.message != "") {
+                    let response = $.parseJSON(data.responseText);
+                    if (response.message !== "") {
                         handleFormError(form, response);
                     } else {
                         feature_form_error("An error occured, please try again.");
@@ -344,12 +357,44 @@ $formCategory = new Places_Form_Category();
         });
 
         bindForms("#places_list");
+        bindForms("#places_list");
 
         $("table.sb-pager").sbpager({
             with_search: true,
             search_placeholder: "<?php echo __("Search ...") ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+
+        // Sections
+        $('.categories-sortable').sortable({
+            handle: ".category-handle",
+            axis: "y",
+            items: " .category-container",
+            opacity: 0.7,
+            start: function() {
+                // Clear all forms inside elements!
+            },
+            stop: function() {
+                let sections = $('.categories-sortable tr[rel]');
+                let data = {
+                    indexes: []
+                };
+                let index = 1;
+                sections.each(function() {
+                    let el = $(this);
+                    data.indexes.push(el.attr('rel'));
+
+                    el.find('.category-position').text(index++);
+                });
+
+                formget(
+                    '/places/application/update-category-positions',
+                    data,
+                    function(result) {},
+                    function(result) {}
+                );
             }
         });
     });

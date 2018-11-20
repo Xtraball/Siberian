@@ -1,7 +1,7 @@
 <?php
 $application = $this->getApplication();
 $option_value = $this->getOptionValue();
-$is_places = ($this->getCurrentFeature() == "places");
+$isPlaces = ($this->getCurrentFeature() == "places");
 $is_new = ($this->getIsNew());
 
 if (!($page = $this->getCurrentPage())) {
@@ -13,15 +13,18 @@ $default_block = new Cms_Model_Application_Block();
 $default_blocks = $default_block->findAll();
 $blocks = $page->getBlocks();
 
-if($is_places) {
+if($isPlaces) {
     $cmsForm = new Places_Form_Place();
     if($is_new) {
         $addressBlock = (new Cms_Model_Application_Block())
             ->find("address", "type");
         $blocks = [
-            $address_block
+            $addressBlock
         ];
     }
+
+    $cmsForm->fillCategories($option_value->getId());
+
     if ($page->getId()) {
         $cmsForm->fill($page);
         $cmsForm->setPageId($page->getId());
@@ -31,12 +34,12 @@ if($is_places) {
     $cmsForm = new Cms_Form_Cms();
 }
 
-if(!$is_places) {
+if(!$isPlaces) {
     $cmsForm->setPageId($option_value->getObject()->getPageId());
 }
 
 $cmsForm->setValueId($option_value->getId());
-$form_blocks = $cmsForm->loadBlocks($blocks);
+$formBlocks = $cmsForm->loadBlocks($blocks);
 
 ?>
 
@@ -50,7 +53,7 @@ $form_blocks = $cmsForm->loadBlocks($blocks);
         ->toHtml();
     ?>
 
-    <?php if(!$is_places): ?>
+    <?php if(!$isPlaces): ?>
     <div class="feature-block-add">
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __("Custom page"); ?>
@@ -60,7 +63,7 @@ $form_blocks = $cmsForm->loadBlocks($blocks);
 
     <div class="container-fluid content-feature">
 
-        <?php $welp = "<form id=\"fake-form\" name=\"fake-form\" action=\"\"></form>"; foreach($form_blocks as $form_block): ?>
+        <?php $welp = "<form id=\"fake-form\" name=\"fake-form\" action=\"\"></form>"; foreach($formBlocks as $form_block): ?>
         <?php
             $welp .= $this->getLayout()->addPartial("block_template", "Core_View_Default", $form_block["template"])
                 ->setForm($form_block["form"])
@@ -73,7 +76,7 @@ $form_blocks = $cmsForm->loadBlocks($blocks);
         <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
     </div>
 
-    <?php if(!$is_places): ?>
+    <?php if(!$isPlaces): ?>
     <div class="background-images-upload">
         <?php echo $this->importBackground($option_value); ?>
     </div>
@@ -137,7 +140,7 @@ $form_blocks = $cmsForm->loadBlocks($blocks);
         });
 
 
-        var is_places = <?php echo ($is_places) ? "true" : "false"; ?>;
+        var is_places = <?php echo ($isPlaces) ? "true" : "false"; ?>;
         var is_new = <?php echo ($is_new) ? "true" : "false"; ?>;
         var affixFieldset,
             contentElement,

@@ -587,8 +587,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 // ignore
             }
 
-            die;
-
             return $page;
 
         } catch (\Exception $e) {
@@ -844,6 +842,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $optionValue
      * @param $datas
      * @return $this
+     * @throws Zend_Exception
      */
     public function savePlace($optionValue, $datas)
     {
@@ -859,6 +858,29 @@ class Cms_Model_Application_Page extends Core_Model_Default
             ->setPlaceVersion(2)
             ->setTags($datas['tags'])
             ->save();
+
+        // Clear all categories
+        $pageCategories = (new Places_Model_PageCategory())->findAll(['page_id' => $this->getId()]);
+        foreach ($pageCategories as $_pageCategory) {
+            $_pageCategory->delete();
+        }
+
+        // Then add the new ones!
+        foreach ($datas['place_categories'] as $categoryId) {
+            $pageCategory = (new Places_Model_PageCategory())
+                ->find(
+                    [
+                        'page_id' => $this->getId(),
+                        'category_id' => $categoryId
+                    ]);
+
+            if (!$pageCategory->getId()) {
+                $pageCategory
+                    ->setPageId($this->getId())
+                    ->setCategoryId($categoryId)
+                    ->save();
+            }
+        }
 
         return $this;
     }

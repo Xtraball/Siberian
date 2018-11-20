@@ -4,36 +4,27 @@ angular.module('starter').controller('PlacesListController', function (Location,
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
-        position: {
-            longitude: 0,
-            latitude: 0
-        },
         settings: null,
-        show_search_bar: false,
-        search_part_name: 'SEARCH',
-        tag: null,
-        filter_search: '',
-        parameters: {
-            'value_id': $stateParams.value_id
-        },
         collection: [],
         load_more: false,
-        use_pull_refresh: true,
-        pull_to_refresh: false,
         card_design: false,
         module_code: 'places',
         // Version 2
         currentFormatBtn: 'ion-sb-grid-33',
-        currentFormat: 'place-100'
+        currentFormat: 'place-100',
+        categories: [],
+        filters: {
+            fulltext: "",
+            categories: null,
+            position: {
+                longitude: 0,
+                latitude: 0
+            }
+        },
         // Version 2
     });
 
     Places.setValueId($stateParams.value_id);
-
-    // @var $scope.filter_search
-    // IMPORTANT! MCommerce and Places use same list template
-    // This settings is here to make search in mcommerce available
-    // important OK ... but named is better > mcommerce_search_filter ....
 
     // Version 2
     $scope.nextFormat = function () {
@@ -68,72 +59,41 @@ angular.module('starter').controller('PlacesListController', function (Location,
     };
 
     $scope.refreshPlaces = function () {
-        $scope.pullToRefresh(true);
+        $scope.pullToRefresh();
+    };
+
+    /** Re-run findAll with new options */
+    $scope.validateFilters = function() {
+        $scope.closeFilterModal();
+
+        $scope.collection = [];
+        $scope.loadContent();
+    };
+
+    /** Reset filters */
+    $scope.clearFilters = function() {
+        angular.forEach($scope.categories, function(value, key) {
+            $scope.filter.categories[key].is_checked = false;
+        });
+
+        $scope.filters.fulltext = "";
+
+        $scope.closeFilterModal();
+
+        $scope.collection = [];
+        $scope.pullToRefresh();
+    };
+
+    $scope.filterModal = function() {
+        Modal.fromTemplateUrl('features/places/assets/templates/l1/filter.html', {
+            scope: $scope
+        }).then(function(modal) {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
     };
     // Version 2
 
-    $scope.setSearchPartName = function (partName) {
-        /* SEARCH, SEARCH_TEXT, SEARCH_TYPE, SEARCH_ADDRESS, SEARCH_AROUND_YOU */
-        $scope.search_part_name = partName;
-    };
-
-    $scope.findByAroundyou = function () {
-        if (!$scope.search.aroundyou) {
-            $scope.search.aroundyou = {
-                latitude: $scope.position.latitude,
-                longitude: $scope.position.longitude
-            };
-        } else {
-            $scope.search.aroundyou = false;
-        }
-        $scope.loadPlaces();
-    };
-
-    /**
-     * If the actual tag is selected then deselect tag, otherwise select the tag
-     *
-     * @param tag
-     */
-    $scope.findByTag = function (tag) {
-        $scope.search.type = ($scope.search.type === tag) ? '' : tag;
-        $scope.loadPlaces();
-    };
-
-    /** What the fuck ? */
-    $scope.getState = function () {
-        if ($scope.is_loading) {
-            return 'LOADING';
-        } else if (Array.isArray($scope.collection) && $scope.collection.length > 0) {
-            return 'RESULTS';
-        }
-        return 'NO_RESULTS';
-    };
-
-    /* Store search params */
-    $scope.initSearch = function () {
-        $scope.search = {
-            'text': '',
-            'type': '',
-            'address': '',
-            'aroundyou': false
-        };
-    };
-
-    /*
-     * Returns true if there are no search terms specified by the user
-     * If true then load all places, otherwise search for terms
-     */
-    $scope.searchIsEmpty = function () {
-        return (($scope.search.text === '') &&
-                ($scope.search.type === '') &&
-                ($scope.search.address === '') &&
-                (!$scope.search.aroundyou));
-    };
-
-    $scope.clear = function () {
-        $scope.loadPlaces();
-        $scope.setSearchPartName('SEARCH');
-    };
 
 
     /**
@@ -149,8 +109,7 @@ angular.module('starter').controller('PlacesListController', function (Location,
         }
     };
 
-    /** is geolocation available ? */
-    var search_ayou = true;
+    $scope.geolocationAvailable = true;
 
     Places.settings()
         .then(function (settings) {
@@ -159,16 +118,16 @@ angular.module('starter').controller('PlacesListController', function (Location,
 
             Location.getLocation()
                 .then(function (position) {
-                    $scope.position.latitude = position.coords.latitude;
-                    $scope.position.longitude = position.coords.longitude;
+                    $scope.filters.position.latitude = position.coords.latitude;
+                    $scope.filters.position.longitude = position.coords.longitude;
                 }, function (error) {
-                    $scope.position.latitude = 0;
-                    $scope.position.longitude = 0;
+                    $scope.filters.position.latitude = 0;
+                    $scope.filters.position.longitude = 0;
                 }).then(function () {
                     $scope.settings = settings;
 
                     /* If the coordinates are not defined, then don't show the search by vicinity */
-                    if (!($scope.position.longitude && $scope.position.latitude) || $rootScope.isOffline) {
+                    if (!($scope.filters.position.longitude && $scope.filters.position.latitude) || $rootScope.isOffline) {
                         $scope.settings.search_aroundyou_show = false;
                     } else {
                         $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
@@ -219,7 +178,7 @@ angular.module('starter').controller('PlacesListController', function (Location,
     $scope.loadPlaces = function (loadMore) {
         $scope.is_loading = true;
 
-        $scope.parameters.search = $scope.search;
+        $scope.parameters.search = $scope.filters;
 
         var offset = $scope.collection.length;
 

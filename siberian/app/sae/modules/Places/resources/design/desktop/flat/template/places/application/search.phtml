@@ -53,7 +53,7 @@
             <div class="col-md-2">
                 <label for="search_text"
                        id="label_search_text">
-                    <?php echo __("Text") ?>
+                    <?php echo __("Fulltext") ?>
                 </label>
             </div>
             <div class="col-md-1">
@@ -74,42 +74,21 @@
             <div class="col-md-2">
                 <label for="search_type"
                        id="label_search_text">
-                    <?php echo __("Type") ?>
+                    <?php echo __("Category") ?>
                 </label>
             </div>
             <div class="col-md-1">
                 <input type="checkbox"
-                       name="search[type][show]"
+                       name="search[category][show]"
                        <?php if ($value->getMetadata('search_type_show')->getPayload()) echo 'checked' ?>
                        class="color-blue" />
             </div>
             <div class="col-md-6">
                 <input type="text"
-                       name="search[type][label]"
+                       name="search[category][label]"
                        class="input-flat"
                        placeholder="<?php echo __js("Label") ?>"
-                       value="<?php echo $value->getMetadata('search_type_label')->getPayload() ?>" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-                <label for="search_address"
-                       id="label_search_address">
-                    <?php echo __("Address") ?>
-                </label>
-            </div>
-            <div class="col-md-1">
-                <input type="checkbox"
-                       name="search[address][show]"
-                       <?php if ($value->getMetadata('search_address_show')->getPayload()) echo 'checked' ?>
-                       class="color-blue" />
-            </div>
-            <div class="col-md-6">
-                <input type="text"
-                       name="search[address][label]"
-                       class="input-flat"
-                       placeholder="<?php echo __js("Label") ?>"
-                       value="<?php echo $value->getMetadata('search_address_label')->getPayload() ?>" />
+                       value="<?php echo $value->getMetadata('search_category_label')->getPayload() ?>" />
             </div>
         </div>
         <div class="form-group">
@@ -149,7 +128,7 @@
             <div class="col-md-2">
                 <label for="search_aroundyou"
                        id="label_search_aroundyou">
-                    <?php echo __("Order places") ?>
+                    <?php echo __("Order places by") ?>
                 </label>
             </div>
             <div class="sb-radio-container col-sm-7">
@@ -160,7 +139,7 @@
                            name="places_order"
                            class="sb-form-radio radio-inline color-blue"
                            <?php if (!($value->getMetadata('places_order_alpha')->getPayload() || $value->getMetadata('places_order')->getPayload())) echo 'checked' ?> />
-                    <span class="sb-radio-label "><?php echo __("default, by creation date") ?></span>
+                    <span class="sb-radio-label "><?php echo __("Creation date") ?></span>
                 </label>
 
                 <br />
@@ -171,7 +150,7 @@
                            name="places_order"
                            class="sb-form-radio radio-inline color-blue"
                            <?php if ($value->getMetadata('places_order')->getPayload()) echo 'checked' ?> />
-                    <span class="sb-radio-label"><?php echo __("by distance") ?></span>
+                    <span class="sb-radio-label"><?php echo __("Nearest") ?></span>
                 </label>
 
                 <br />
@@ -182,7 +161,7 @@
                            name="places_order"
                            class="sb-form-radio radio-inline color-blue"
                            <?php if ($value->getMetadata('places_order_alpha')->getPayload()) echo 'checked' ?> />
-                    <span class="sb-radio-label"><?php echo __("alphabetically") ?></span>
+                    <span class="sb-radio-label"><?php echo __("Alphabetically") ?></span>
                 </label>
 
             </div>
