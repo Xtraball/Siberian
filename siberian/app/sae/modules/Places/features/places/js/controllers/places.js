@@ -1,6 +1,6 @@
 angular.module('starter').controller('PlacesListController', function (Location, $q, $scope, $rootScope, $state,
                                                                        $stateParams, $translate, $timeout, Places,
-                                                                       Search) {
+                                                                       Modal) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -16,10 +16,8 @@ angular.module('starter').controller('PlacesListController', function (Location,
         filters: {
             fulltext: "",
             categories: null,
-            position: {
-                longitude: 0,
-                latitude: 0
-            }
+            longitude: 0,
+            latitude: 0
         },
         // Version 2
     });
@@ -67,21 +65,26 @@ angular.module('starter').controller('PlacesListController', function (Location,
         $scope.closeFilterModal();
 
         $scope.collection = [];
-        $scope.loadContent();
+        $scope.searchPlaces();
+    };
+
+    $scope.closeFilterModal = function () {
+        $scope.modal.hide();
     };
 
     /** Reset filters */
     $scope.clearFilters = function() {
-        angular.forEach($scope.categories, function(value, key) {
-            $scope.filter.categories[key].is_checked = false;
+        $scope.categories.forEach(function (category) {
+            category.isSelected = false;
         });
 
+        $scope.filters.categories = null;
         $scope.filters.fulltext = "";
 
         $scope.closeFilterModal();
 
         $scope.collection = [];
-        $scope.pullToRefresh();
+        $scope.searchPlaces();
     };
 
     $scope.filterModal = function() {
@@ -92,174 +95,88 @@ angular.module('starter').controller('PlacesListController', function (Location,
             $scope.modal.show();
         });
     };
-    // Version 2
 
-
-
-    /**
-     * Configuring the Search service
-     */
-    Search.setAgent(Places, $scope.value_id);
-    Search.url = 'places/mobile_list/searchv2';
-
-    $scope.right_button = {
-        icon: 'ion-ios-location-outline',
-        action: function () {
-            $scope.goToMap();
+    $scope.imageSrc = function (picture) {
+        if (!picture.length) {
+            return './features/places/assets/templates/l1/no-category.png';
         }
+
+        return IMAGE_URL + 'images/application' + picture;
     };
+    // Version 2
 
     $scope.geolocationAvailable = true;
 
+    // Loading places feature settings
     Places.settings()
         .then(function (settings) {
 
             $scope.setFormat(settings.defaultFormat);
+            $scope.settings = settings;
+            $scope.categories = settings.categories;
 
-            Location.getLocation()
+            // To ensure a fast loading even when GPS is off, we neeed to reduce the GPS timeout!
+            Location.getLocation({timeout: 2500})
                 .then(function (position) {
-                    $scope.filters.position.latitude = position.coords.latitude;
-                    $scope.filters.position.longitude = position.coords.longitude;
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                    $scope.geolocationAvailable = true;
                 }, function (error) {
-                    $scope.filters.position.latitude = 0;
-                    $scope.filters.position.longitude = 0;
-                }).then(function () {
-                    $scope.settings = settings;
-
-                    /* If the coordinates are not defined, then don't show the search by vicinity */
-                    if (!($scope.filters.position.longitude && $scope.filters.position.latitude) || $rootScope.isOffline) {
-                        $scope.settings.search_aroundyou_show = false;
-                    } else {
-                        $scope.settings.search_aroundyou_show = search_ayou && $scope.settings.search_aroundyou_show;
-                    }
-                    /* Only show search when at least one search method is activated */
-                    $scope.settings.showSearch = !$rootScope.isOffline &&
-                        ($scope.settings.search_address_show || $scope.settings.search_text_show ||
-                        $scope.settings.search_type_show || $scope.settings.search_aroundyou_show);
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                    $scope.geolocationAvailable = false;
                 });
         });
 
-
-    $scope.loadContent = function (loadMore) {
-        /* Initialize search terms */
-        $scope.initSearch();
-
-        var noGeoLoc = function () {
-            $scope.position = {
-                latitude: 0, longitude: 0
-            };
-            $scope.parameters.latitude = 0;
-            $scope.parameters.longitude = 0;
-
-            $scope.loadPlaces(loadMore, false);
-        };
-
-        if ($rootScope.isOffline) {
-            noGeoLoc();
-        } else {
-            Location.getLocation()
-                .then(function (position) {
-                $scope.position = {
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                };
-                $scope.parameters.latitude = position.coords.latitude;
-                $scope.parameters.longitude = position.coords.longitude;
-
+    // Search places
+    $scope.searchPlaces = function (loadMore) {
+        Location
+            .getLocation({timeout: 1500})
+            .then(function (position) {
+                $scope.filters.latitude = position.coords.latitude;
+                $scope.filters.longitude = position.coords.longitude;
+                $scope.geolocationAvailable = true;
+            }, function () {
+                $scope.filters.latitude = 0;
+                $scope.filters.longitude = 0;
+                $scope.geolocationAvailable = false;
+            }).then(function () {
                 $scope.loadPlaces(loadMore, true);
-            }, noGeoLoc);
-        }
-    };
-
-    $scope.loadMore = function () {
-        $scope.loadPlaces(true);
+            });
     };
 
     $scope.loadPlaces = function (loadMore) {
         $scope.is_loading = true;
-
-        $scope.parameters.search = $scope.filters;
-
-        var offset = $scope.collection.length;
-
-        $scope.parameters.offset = offset;
+        $scope.filters.offset = $scope.collection.length;
 
         // Clear collection.
-        if (offset <= 0) {
+        if ($scope.collection.length <= 0) {
             $scope.collection = [];
             Places.collection = [];
         }
 
-        var resolver = null;
-        if (($scope.searchIsEmpty() || $rootScope.isOffline)) {
-            resolver = Places.findAll($scope.position, offset);
-        } else {
-            // Clear collection on search!
-            $scope.collection = [];
-            Places.collection = [];
-            resolver = Search.findAll($scope.parameters);
-        }
+        // Group categories
 
-        resolver
+        $scope.filters.categories = $scope.categories
+            .filter(function (category) {
+                return category.isSelected;
+            }).map(function (category) {
+                return category.id;
+            }).join(",");
+
+        Places.findAll($scope.filters, false)
             .then(function (data) {
-                $scope.page_title = data.page_title;
                 Places.collection = Places.collection.concat(angular.copy(data.places));
-                $scope.reduce_collection = data.places.reduce(function (collection, place) {
-                    var item = {
-                        id: place.id,
-                        title: place.title,
-                        subtitle: place.subtitle,
-                        picture: place.picture,
-                        thumbnail: place.thumbnail,
-                        url: place.url
-                    };
-                    collection.push(item);
-                    return collection;
-                }, []);
-
-                $scope.collection = $scope.collection.concat($scope.reduce_collection);
+                $scope.collection = Places.collection;
 
                 $scope.load_more = (data.places.length > 0);
+
             }).then(function () {
                 if (loadMore) {
                     $scope.$broadcast('scroll.infiniteScrollComplete');
                 }
 
                 $scope.is_loading = false;
-            });
-    };
-
-    $scope.pullToRefresh = function () {
-        $scope.load_more = false;
-
-        Places.findAll($scope.position, 0, true)
-            .then(function (data) {
-                if (data.collection) {
-                    $scope.page_title = data.page_title;
-                    Places.collection = angular.copy(data.places);
-                    $scope.reduce_collection = data.places.reduce(function (collection, place) {
-                        var item = {
-                            id: place.id,
-                            title: place.title,
-                            subtitle: place.subtitle,
-                            picture: place.picture,
-                            thumbnail: place.thumbnail,
-                            url: place.url
-                        };
-                        collection.push(item);
-                        return collection;
-                    }, []);
-
-                    $scope.collection = $scope.collection.concat($scope.reduce_collection);
-                }
-
-                $scope.load_more = (data.places.length >= data.displayed_per_page);
-            }).then(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-
-                $timeout(function () {
-                    $scope.can_load_older_posts = !!$scope.collection.length;
-                }, 500);
             });
     };
 
@@ -282,8 +199,11 @@ angular.module('starter').controller('PlacesListController', function (Location,
         });
     };
 
-    $scope.loadContent(false);
-}).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate, $location, Cms, Places) {
+    // Initiate the first loading!
+    $scope.searchPlaces(false);
+
+}).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
+                                                $location, Cms, Places) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,

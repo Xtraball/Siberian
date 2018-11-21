@@ -102,6 +102,41 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table
             ->join(["page_block_address" => "cms_application_page_block_address"], "page_block.value_id = page_block_address.value_id")
             ->limit($params["limit"], $params["offset"]);
 
+        // Category filter
+        if (array_key_exists("categories", $params) && !empty($params["categories"])) {
+            $categories = explode(",", $params["categories"]);
+
+            $select
+                ->join(["page_category" => "place_page_category"], "page_category.page_id = page.page_id", [])
+                ->join(["category" => "place_category"], "category.category_id = page_category.category_id", []);
+
+            $select->where("category.category_id IN (?)", $categories);
+        } else {
+            $select
+                ->joinLeft(["page_category" => "place_page_category"], "page_category.page_id = page.page_id", [])
+                ->joinLeft(["category" => "place_category"], "category.category_id = page_category.category_id", []);
+        }
+
+        // Fulltext search
+        if (array_key_exists("fulltext", $params)) {
+            $fulltext = trim($params["fulltext"]);
+            if (!empty($fulltext)) {
+                $select
+                    ->where("(page.title LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page.content LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page.tags LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page_block_address.label LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page_block_address.address LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page_block_address.phone LIKE ?", "%{$fulltext}%")
+                    ->orWhere("page_block_address.website LIKE ?", "%{$fulltext}%")
+                    ->orWhere("category.title LIKE ?", "%{$fulltext}%")
+                    ->orWhere("category.subtitle LIKE ?)", "%{$fulltext}%")
+                ;
+            }
+        }
+
+
+
         //if(isset($values["time"]) && ($values["time"] > 0) && (!$values["search_by_distance"] || !$values["position"])) {
         //    if($values["pull_to_refresh"]) {
         //        $select->where("UNIX_TIMESTAMP(place.created_at) > ?", $values["time"]);
@@ -127,7 +162,9 @@ class Cms_Model_Db_Table_Application_Page extends Core_Model_Db_Table
             $select->order(["distance ASC"]);
         }
 
-        $select->where('page.value_id = ?', $valueId);
+        $select
+            ->where('page.value_id = ?', $valueId)
+            ->distinct("page.page_id");
 
         //if(!$values["position"]) {
         //    $select->order(["time DESC"]);

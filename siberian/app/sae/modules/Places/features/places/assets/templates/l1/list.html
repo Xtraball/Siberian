@@ -4,26 +4,27 @@
 
     <ion-nav-buttons side="secondary">
         <button ng-click="nextFormat()"
-                class="button button-clear header-item">
+                class="button button-clear header-item places-secondary-button">
             <i class="icon"
                ng-class="currentFormatBtn"></i>
         </button>
-        <button ng-click="refreshPlaces()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-refresh"></i>
+        <button ng-click="goToMap()"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-map"></i>
         </button>
         <button ng-click="moreOptions()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-more"></i>
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-more-round"></i>
         </button>
     </ion-nav-buttons>
 
-    <div class="search-action">
+    <div class="search-action"
+         ng-click="filterModal()">
         <i class="icon ion-sb-search"></i>
     </div>
 
     <ion-content>
-        <div ng-show="getState() == 'LOADING'"
+        <div ng-show="is_loading"
              class="loader">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
@@ -54,8 +55,13 @@
             </div>
         </div>
 
+        <div ng-if="!collection.length && !is_loading"
+             class="item item-custom card">
+            {{ "No results for your search!" }}
+        </div>
+
         <ion-infinite-scroll ng-if="load_more"
-                             on-infinite="loadMore()"
+                             on-infinite="loadPlaces(true)"
                              immediate-check="false"
                              distance="10%"
                              class="spinner-custom">

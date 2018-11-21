@@ -37,23 +37,19 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
         factory.findAll();
     };
 
-    factory.findAll = function (position, offset, refresh) {
+    /**
+     * @param filters
+     * @param refresh
+     */
+    factory.findAll = function (filters, refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject('[Factory::Places.findAll] missing value_id');
         }
 
-        var parameters = {
-            value_id: this.value_id,
-            offset: offset
-        };
-
-        if (angular.isObject(position)) {
-            parameters.latitude = position.latitude;
-            parameters.longitude = position.longitude;
-        }
+        filters.value_id = this.value_id;
 
         return $pwaRequest.get('places/mobile_list/findall', angular.extend({
-            urlParams: parameters,
+            urlParams: filters,
             refresh: refresh
         }, factory.extendedOptions));
     };

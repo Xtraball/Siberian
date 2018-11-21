@@ -20,6 +20,12 @@ class Places_ApplicationController extends Application_Controller_Default
                 "homepage_app_#APP_ID#",
             ],
         ],
+        "edit-category" => [
+            "tags" => [
+                "homepage_app_#APP_ID#",
+                "app_#APP_ID#",
+            ],
+        ],
     ];
 
     /**
@@ -51,7 +57,7 @@ class Places_ApplicationController extends Application_Controller_Default
     /**
      *
      */
-    public function updatePlacesAction ()
+    public function updatePlacesAction()
     {
         // Upgrade feature if necessary!
         try {
@@ -137,7 +143,10 @@ class Places_ApplicationController extends Application_Controller_Default
         }
     }
 
-    public function updateCategoryPositionsAction ()
+    /**
+     *
+     */
+    public function updateCategoryPositionsAction()
     {
         try {
             $request = $this->getRequest();
@@ -177,7 +186,7 @@ class Places_ApplicationController extends Application_Controller_Default
     /**
      *
      */
-    public function editCategoryAction ()
+    public function editCategoryAction()
     {
         $request = $this->getRequest();
         $params = $request->getPost();
@@ -192,6 +201,11 @@ class Places_ApplicationController extends Application_Controller_Default
                     ->find($params['category_id']);
 
                 $category->setData($params);
+
+                if (!$category->getId()) {
+                    // Set the position + 1
+                    $category->initPosition($optionValue->getId());
+                }
 
                 Siberian_Feature::formImageForOption(
                     $optionValue,
@@ -219,6 +233,97 @@ class Places_ApplicationController extends Application_Controller_Default
                     'errors' => $form->getTextErrors(true)
                 ];
             }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Load category form
+     */
+    public function loadCategoryFormAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $categoryId = $request->getParam('category_id');
+
+            $category = (new Places_Model_Category())
+                ->find($categoryId);
+
+            if (!$category->getId()) {
+                throw new \Siberian\Exception(__("The category you are trying to edit doesn't exists.."));
+            }
+
+            $form = new Places_Form_Category();
+            $form->populate($category->getData());
+            $form->removeNav("nav-categories");
+            $submit = $form->addSubmit(__("Save"));
+            $submit->addClass("pull-right");
+
+            $payload = [
+                'success' => true,
+                'form' => $form->render(),
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deleteCategoryAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getPost();
+
+            $form = new Wordpress2_Form_Query_Delete();
+            if ($form->isValid($params)) {
+                $categoryId = $params["category_id"];
+                $category = (new Places_Model_Category())
+                    ->find($categoryId);
+
+                $category->delete();
+
+                // Delete all links
+                $links = (new Places_Model_PageCategory())
+                    ->findAll(["category_id" => $categoryId]);
+
+                foreach ($links as $link) {
+                    $link->delete();
+                }
+
+                $optionValue = $this->getCurrentOptionValue();
+                $valueId = $optionValue->getId();
+
+                // Update touch date, then never expires (until next touch)!
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    'places',
+                    'value_id_' . $valueId,
+                ]);
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
@@ -272,6 +377,9 @@ class Places_ApplicationController extends Application_Controller_Default
         $this->_sendJson($data);
     }
 
+    /**
+     *
+     */
     public function rankAction()
     {
         $ordering = $this->getRequest()->getParam("ordering");
@@ -315,6 +423,9 @@ class Places_ApplicationController extends Application_Controller_Default
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
+    /**
+     *
+     */
     public function searchsettingsAction()
     {
         if ($data = $this->getRequest()->getPost()) {

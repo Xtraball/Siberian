@@ -19,6 +19,9 @@ $formCategory->setValueId($optionValue->getId());
 $categories = (new Places_Model_Category())
     ->findAll(['value_id' => $optionValue->getId()], 'position ASC');
 
+$deleteCategoryForm = new Places_Form_Category_Delete();
+$deleteCategoryForm->setValueId($optionValue->getId());
+
 ?>
 
 
@@ -222,8 +225,9 @@ $categories = (new Places_Model_Category())
                                 <thead>
                                     <tr class="border-grey">
                                         <th style="width:32px;"></th>
-                                        <th style="width:40%"><?php echo __("Name") ?></th>
-                                        <th style="width:40%;"><?php echo __("Position") ?></th>
+                                        <th style="width:5%"><?php echo __("Picture") ?></th>
+                                        <th style="width:45%"><?php echo __("Name") ?></th>
+                                        <th style="width:45%;"><?php echo __("Position") ?></th>
                                         <th></th>
                                         <th></th>
                                     </tr>
@@ -233,13 +237,50 @@ $categories = (new Places_Model_Category())
                                     <tr id="category_manage_element_<?php echo $category->getId(); ?>"
                                         rel="<?php echo $category->getId(); ?>"
                                         class="category-manage-element sb-pager category-container">
-                                        <td class="category-handle">
-                                            <i class="fa fa-sort"></i>
+                                        <td class="category-handle" style="text-align: center;">
+                                            <i class="fa fa-sort"
+                                               style="margin-top: 20px;"></i>
                                         </td>
-                                        <td><?php echo $category->getTitle() ?></td>
+                                        <td>
+                                            <?php if (!empty($category->getPicture())): ?>
+                                            <img src="/images/application<?php echo $category->getPicture() ?>"
+                                                 style="height:64px;" />
+                                            <?php else: ?>
+                                            <img src="/var/apps/overview/img/placeholder/blank-512.png"
+                                                 style="height:64px;" />
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <h5 style="font-weight: bold;"><?php echo $category->getTitle() ?></h5>
+                                            <p><?php echo $category->getSubtitle() ?></p>
+                                        </td>
                                         <td class="category-position"><?php echo $category->getPosition() ?></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="edit-action open-edit"
+                                            data-id="category_<?php echo $category->getId(); ?>"
+                                            data-form-url="<?php echo __path('/places/application/load-category-form', [
+                                                'category_id' => $category->getId(),
+                                                'value_id' => $optionValue->getId()
+                                            ]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $deleteCategoryForm->setAttrib('data-rowid', 'category_manage_element_' . $category->getId());
+                                            $deleteCategoryForm->getElement('category_id')->setValue($category->getId());
+
+                                            echo $deleteCategoryForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="category_<?php echo $category->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="6">
+                                            <p class="close-edit"
+                                               data-id="category_<?php echo $category->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                                 </tbody>
@@ -330,7 +371,7 @@ $categories = (new Places_Model_Category())
                             if (e.keyCode == 13) {
                                 e.keyCode = 188;
                                 e.preventDefault();
-                            };
+                            }
                         });
 
                         $(".bootstrap-tagsinput").addClass("input-flat");
@@ -375,6 +416,8 @@ $categories = (new Places_Model_Category())
             opacity: 0.7,
             start: function() {
                 // Clear all forms inside elements!
+
+                $("#categories .close-edit").trigger("click");
             },
             stop: function() {
                 let sections = $('.categories-sortable tr[rel]');

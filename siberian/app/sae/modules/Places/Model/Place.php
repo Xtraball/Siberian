@@ -76,39 +76,42 @@ class Places_Model_Place extends Core_Model_Default
     }
 
     /**
-     * @param $option_value
-     * @return bool|array
+     * @param null $optionValue
+     * @return array|bool
+     * @throws Zend_Exception
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($optionValue)
     {
-
+        $valueId = $optionValue->getId();
         $payload = [
-            "page_title" => $option_value->getTabbarName(),
+            "page_title" => $optionValue->getTabbarName(),
             "settings" => []
         ];
 
         if ($this->getId()) {
-
             $payload["settings"] = [
-                "tags" => []
+                "categories" => []
             ];
 
-            $metadata = $option_value->getMetadatas();
+            $metadata = $optionValue->getMetadatas();
             foreach ($metadata as $meta) {
                 $payload["settings"][$meta->getCode()] = $meta->getPayload();
             }
 
-            $tags = $option_value->getOwnTags(new Cms_Model_Application_Page());
-            foreach ($tags as $tag) {
-                $payload["settings"]["tags"][] = strtolower(trim($tag->getName()));
+            $categories = (new Places_Model_Category())
+                ->findAll(['value_id' => $valueId], 'position ASC');
+
+            foreach ($categories as $category) {
+                $payload["settings"]["categories"][] = [
+                    'id' => (integer) $category->getId(),
+                    'title' => (string) $category->getTitle(),
+                    'subtitle' => (string) $category->getSubtitle(),
+                    'picture' => (string) $category->getPicture(),
+                ];
             }
-
-            $payload["settings"]["tags"] = array_unique($payload["settings"]["tags"]);
-
         }
 
         return $payload;
-
     }
 
     /**
@@ -769,48 +772,6 @@ WHERE cap.value_id = {$value_id}
         $tags = array_merge($tags, $newTags);
 
         return $this->setTags($tags);
-    }
-
-    /**
-     * @return array
-     */
-    public function getCategories()
-    {
-        $categories = array_filter(explode(",", $this->getData('categories')));
-
-        return $categories;
-    }
-
-    /**
-     * @param $tags
-     * @return $this
-     */
-    public function setCategories($categories)
-    {
-        $categories = array_unique(array_filter($categories));
-
-        return $this->setData('categories', ',' . join(',', $categories) . ',');
-    }
-
-    /**
-     * @param $newTag
-     * @return Places_Model_Place
-     */
-    public function addCategory($newCategory)
-    {
-        return $this->addCategories([$newCategory]);
-    }
-
-    /**
-     * @param $newTags
-     * @return $this
-     */
-    public function addCategories($newCategories)
-    {
-        $categories = $this->getCategories();
-        $categories = array_merge($categories, $newCategories);
-
-        return $this->setCategories($categories);
     }
 
 }

@@ -16,6 +16,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $isMaps = $request->getParam("maps", false);
             $limit = $request->getParam("limit", 25);
             $offset = $request->getParam("offset", 0);
+            $fulltext = $request->getParam("fulltext", null);
+            $categories = $request->getParam("categories", []);
 
             $position = [
                 "latitude" => $request->getParam("latitude"),
@@ -27,7 +29,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             $params = [
                 "offset" => $offset,
-                "limit" => $limit
+                "limit" => $limit,
+                "fulltext" => $fulltext,
+                "categories" => $categories,
             ];
 
             $sortingType = 'date';
