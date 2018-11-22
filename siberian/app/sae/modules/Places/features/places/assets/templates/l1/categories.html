@@ -1,0 +1,44 @@
+<ion-view class="module-places places places-categories l1"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="nextFormat(true)"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon"
+               ng-class="currentFormatBtn"></i>
+        </button>
+        <button ng-click="goToMap()"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-map"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-show="is_loading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div>
+            <div class="places">
+                <div ng-repeat="item in categories"
+                     ng-click="selectCategory(item)"
+                     ng-class="currentFormat"
+                     class="place">
+                    <div class="card">
+                        <div class="image"
+                             ng-style="{'background-image':'url(' + imageSrc(item.picture) + ')'}"></div>
+                        <div class="text">
+                            <p class="title">{{ item.title }}</p>
+                            <p ng-if="item.subtitle"
+                               ng-bind-html="item.subtitle"
+                               class="subtitle"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

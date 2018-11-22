@@ -611,6 +611,7 @@
 .#{$ionicons-prefix}sad:before,
 .#{$ionicons-prefix}sad-outline:before,
 .#{$ionicons-prefix}sb-clear:before,
+.#{$ionicons-prefix}sb-clear-brush:before,
 .#{$ionicons-prefix}sb-close-modal:before,
 .#{$ionicons-prefix}sb-grid-33:before,
 .#{$ionicons-prefix}sb-grid-50:before,
@@ -1360,6 +1361,7 @@
 .#{$ionicons-prefix}sad:before { content: $ionicon-var-sad; }
 .#{$ionicons-prefix}sad-outline:before { content: $ionicon-var-sad-outline; }
 .#{$ionicons-prefix}sb-clear:before { content: $ionicon-var-sb-clear; }
+.#{$ionicons-prefix}sb-clear-brush:before { content: $ionicon-var-sb-clear-brush; }
 .#{$ionicons-prefix}sb-close-modal:before { content: $ionicon-var-sb-close-modal; }
 .#{$ionicons-prefix}sb-grid-33:before { content: $ionicon-var-sb-grid-33; }
 .#{$ionicons-prefix}sb-grid-50:before { content: $ionicon-var-sb-grid-50; }

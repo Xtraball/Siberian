@@ -20,69 +20,97 @@
   @media screen and (orientation:portrait) {
     .places {
       padding-left: 2vw;
+      .place:last-of-type {
+        margin-bottom: 2vw;
+      }
     }
-
     .place-blocks-portrait {
       display: block;
     }
-
     .place-blocks-landscape {
       display: none !important;
     }
-
     .place-25 {
       width: 25%;
+      .card {
+        height: 30vw;
+        margin: 2vw 2vw 0 0;
+      }
     }
-
-    .place-25 .card {
-      height: 30vw;
-      margin: 2vw 2vw 0 0;
-    }
-
     .place-33 {
       width: 33.33%;
+      .card {
+        height: 16vh;
+        margin: 2vw 2vw 0 0;
+      }
     }
-
-    .place-33 .card {
-      height: 16vh;
-      margin: 2vw 2vw 0 0;
-    }
-
     .place-50 {
       width: 50%;
+      .card {
+        height: 20vh;
+        margin: 2vw 2vw 0 0;
+      }
     }
-
-    .place-50 .card {
-      height: 20vh;
-      margin: 2vw 2vw 0 0;
-    }
-
     .place-100 {
       width: 100%;
+      .card {
+        height: calc((25vw / 1.5909) + 2vw);
+        margin: 2vw 2vw 0 0;
+        .image {
+          width: 25vw;
+          height: 100%;
+          background-size: cover;
+          float: left;
+        }
+        .text {
+          width: 100vw;
+          height: 100%;
+          padding: 0 0 0 calc(25vw);
+          .row {
+            height: calc((25vw / 1.5909) + 2vw);
+            width: 71vw;
+            align-items: center;
+            padding: 0 !important;
+            .col-75 {
+              padding: 5px;
+            }
+          }
+          .title {
+            font-size: calc((25vw / 1.5909) / 5);
+            line-height: calc((25vw / 1.5909) / 4);
+            height: calc((25vw / 1.5909) / 4);
+          }
+          .subtitle {
+            font-size: calc(((25vw / 1.5909) / 4) * 0.7);
+            line-height: calc((25vw / 1.5909) / 4);
+            height: calc(((25vw / 1.5909) / 4) * 3);
+            margin: 0;
+          }
+        }
+      }
     }
-
-    .place-100 .card {
-      height: 10vh;
-      margin: 2vw 2vw 0 0;
-    }
-
-    .place-100 .card .image {
-      width: 25vw;
+    .distance-flex {
+      text-align: center;
+      display: flex;
+      flex-flow: row;
       height: 100%;
-      background-size: cover;
-      float: left;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0,0,0,0.08);
+      border-left: 1px solid rgba(0,0,0,0.1);
+      .distance {
+        font-size: calc(25vw / 1.5909 / 4);
+        line-height: calc(25vw / 1.5909 / 4);
+      }
+      .unit {
+        font-size: calc(25vw / 1.5909 / 6);
+        line-height: calc(25vw / 1.5909 / 6);
+      }
+      .stars {
+        font-size: calc((25vw / 1.5909) / 6);
+        color: gold;
+      }
     }
-
-    .place-100 .card .text {
-      width: 100vw;
-      height: 100%;
-      padding-left: calc(25vw + .5rem);
-    }
-
-    .places .place:last-of-type {
-      margin-bottom: 2vw;
-    }
-
     .search-action {
       width: 7vh;
       height: 7vh;
@@ -92,73 +120,104 @@
       font-size: 5vh;
     }
   }
+
   @media screen and (orientation:landscape) {
     .places {
       padding-left: 2vh;
+      .place:last-of-type {
+        margin-bottom: 2vh;
+      }
     }
-
     .place-blocks-portrait {
       display: none !important;
     }
     .place-blocks-landscape {
       display: flex;
     }
-
     .place-25 {
       width: 25%;
+      .card {
+        height: 30vh;
+        margin: 2vh 2vh 0 0;
+      }
     }
-
-    .place-25 .card {
-      height: 30vh;
-      margin: 2vh 2vh 0 0;
-    }
-
     .place-33 {
       width: 33.33%;
+      .card {
+        height: 20vw;
+        margin: 2vh 2vh 0 0;
+      }
     }
-
-    .place-33 .card {
-      height: 20vw;
-      margin: 2vh 2vh 0 0;
-    }
-
     .place-50 {
       width: 50%;
+      .card {
+        height: 20vw;
+        margin: 2vh 2vh 0 0;
+      }
     }
-
-    .place-50 .card {
-      height: 20vw;
-      margin: 2vh 2vh 0 0;
-    }
-
     .place-100 {
       width: 100%;
+      .card {
+        height: calc((25vh / 1.5909) + 2vh);
+        margin: 2vh 2vh 0 0;
+        .image {
+          width: 25vh;
+          height: 100%;
+          background-size: cover;
+          float: left;
+        }
+        .text {
+          width: 100vw;
+          height: 100%;
+          padding: 0 0 0 calc(25vh);
+          .row {
+            height: calc((25vh / 1.5909) + 2vh);
+            width: 71vh;
+            align-items: center;
+            padding: 0 !important;
+            .col-75 {
+              padding: 5px;
+            }
+          }
+          .title {
+            font-size: calc((25vh / 1.5909) / 5);
+            line-height: calc((25vh / 1.5909) / 4);
+            height: calc((25vh / 1.5909) / 4);
+          }
+          .subtitle {
+            font-size: calc(((25vh / 1.5909) / 4) * 0.7);
+            line-height: calc((25vh / 1.5909) / 4);
+            height: calc(((25vh / 1.5909) / 4) * 3);
+            margin: 0;
+          }
+        }
+      }
     }
-
-    .place-100 .card {
-      height: 10vw;
-      margin: 2vh 2vh 0 0;
-    }
-
-    .place-100 .card .image {
-      width: 25vh;
-      height: 100%;
-      background-size: cover;
-      float: left;
-    }
-
     .image-placeholder {
       height: 40vh !important;
     }
 
-    .place-100 .card .text {
-      width: 100vw;
+    .distance-flex {
+      text-align: center;
+      display: flex;
+      flex-flow: row;
       height: 100%;
-      padding-left: calc(25vh + .5rem);
-    }
-
-    .places .place:last-of-type {
-      margin-bottom: 2vh;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(0,0,0,0.08);
+      border-left: 1px solid rgba(0,0,0,0.1);
+      .distance {
+        font-size: calc(25vh / 1.5909 / 4);
+        line-height: calc(25vh / 1.5909 / 4);
+      }
+      .unit {
+        font-size: calc(25vh / 1.5909 / 6);
+        line-height: calc(25vh / 1.5909 / 6);
+      }
+      .stars {
+        font-size: calc((25vh / 1.5909) / 6);
+        color: gold;
+      }
     }
 
     .search-action {
@@ -191,13 +250,10 @@
     }
   }
 
-  .text .subtitle {
-    display: none;
-  }
-
-  /** Display subtitles only for 100 list */
-  .place-100 .card .text .subtitle {
-    display: initial !important;
+  .text {
+    .subtitle {
+      display: none;
+    }
   }
 
   .place {
@@ -206,77 +262,102 @@
 
   .card {
     padding: 0 !important;
-  }
-
-  .card .text {
-    padding: .5rem;
-    font-size: .75rem;
-    line-height: 1rem;
-  }
-
-  .card .text .title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .place-33 .card .image,
-  .place-50 .card .image {
-    width: 100%;
-    height: calc(100% - 2rem);
-    background-size: cover;
-  }
-
-  .place-33 .card .text,
-  .place-50 .card .text {
-    width: 100%;
-    height: 2rem;
-  }
-
-  .place .card .text {
-    background-color: $card-item-custom-bg;
-  }
-
-  .cover-place {
-    background-size: cover;
-  }
-
-  .sb-cms-address-label {
-    display: none !important;
-  }
-
-  .sb-cms-block-address .item {
-    border-top: 0 !important;
-    border-bottom: 0 !important;
-    margin: 0 !important;
-  }
-
-  .sb-cms-block-address .item a,
-  .sb-cms-block-address .item p {
-    font-size: 0.9rem !important;
-    line-height: 1.2rem !important;
-    text-decoration: none !important;
-  }
-
-  .sb-cms-block-address .item i.icon {
-    font-size: 1.25rem !important;
-    opacity: .75 !important;
-  }
-
-  .sb-place-block-image .description {
-    font-size: .9rem;
-    padding: .75rem .75rem 0 .75rem;
-    border-bottom: 0;
-  }
-
-  .sb-place-block-image .item-image-gallery {
-    border-top: 0;
-
-    .gallery-view .image-container {
-      border: 2px solid transparent !important;
+    .text {
+      padding: .5rem;
+      font-size: .75rem;
+      line-height: 1rem;
+      .title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 
+  /** Display subtitles only for 100 list */
+  .place-100 {
+    .card {
+      .text {
+        .title {
+          margin-bottom: 0;
+        }
+        .subtitle {
+          display: block !important;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+  .place-33,
+  .place-50 {
+    .card .image {
+      width: 100%;
+      height: calc(100% - 2rem);
+      background-size: cover;
+    }
+  }
+  .place-33,
+  .place-50 {
+    .card .text {
+      width: 100%;
+      height: 2rem;
+    }
+  }
+  .place-100 {
+    .card {
+      .text {
+        .title {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+  .place {
+    .card {
+      .text {
+        background-color: $card-item-custom-bg;
+      }
+    }
+  }
+  .cover-place {
+    background-size: cover;
+  }
+  .sb-cms-address-label {
+    display: none !important;
+  }
+  .sb-cms-block-address {
+    .item {
+      border-top: 0 !important;
+      border-bottom: 0 !important;
+      margin: 0 !important;
+      a,
+      p {
+        font-size: 0.9rem !important;
+        line-height: 1.2rem !important;
+        text-decoration: none !important;
+      }
+      i.icon {
+        font-size: 1.25rem !important;
+        opacity: .75 !important;
+      }
+    }
+  }
+  .sb-place-block-image {
+    .description {
+      font-size: .9rem;
+      padding: .75rem .75rem 0 .75rem;
+      border-bottom: 0;
+    }
+    .item-image-gallery {
+      border-top: 0;
+      .gallery-view {
+        .image-container {
+          border: 2px solid transparent !important;
+        }
+      }
+    }
+  }
   .cover-place {
     .place-title {
       position: absolute;
@@ -291,30 +372,23 @@
       display: inline-block;
     }
   }
-
   .places-filters {
     margin-bottom: 0 !important;
-
     .card {
       padding: 0!important;
       margin: 1vw!important;
     }
   }
-
   .categories-container {
     display: flex;
-
     flex-direction: row;
     flex-flow: row wrap;
     justify-content: flex-start;
-
     padding: 0 !important;
   }
-
   .category-item-block {
     width: calc(100% / 3);
     padding: 1vw;
-
     .category-item {
       border: 2px solid transparent !important;
       background-size: 70%;
@@ -322,24 +396,26 @@
       background-position: center 30%;
       padding: 0 !important;
       margin: 0 !important;
-
       img {
         width: 100%;
       }
-
       h4 {
         position: relative;
         bottom: .5rem;
         text-align: center;
         font-size: .6875rem;
       }
-
       &.category-selected {
         border: 2px solid $card-item-custom-text !important;
       }
     }
   }
-
+  i.clear-text {
+    position: absolute;
+    right: 1.5rem;
+    top: calc(50% - .625rem);
+    font-size: 1.25rem;
+  }
   @media screen and (orientation:landscape) {
     .category-item {
       width: calc(100% / 6) !important;

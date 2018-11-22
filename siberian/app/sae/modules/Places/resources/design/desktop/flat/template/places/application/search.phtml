@@ -51,81 +51,6 @@
 
         <div class="form-group">
             <div class="col-md-2">
-                <label for="search_text"
-                       id="label_search_text">
-                    <?php echo __("Fulltext") ?>
-                </label>
-            </div>
-            <div class="col-md-1">
-                <input type="checkbox"
-                       name="search[text][show]"
-                       <?php if ($value->getMetadata('search_text_show')->getPayload()) echo 'checked' ?>
-                       class="color-blue"/>
-            </div>
-            <div class="col-md-6">
-                <input type="text"
-                       name="search[text][label]"
-                       class="input-flat"
-                       placeholder="<?php echo __js("Label") ?>"
-                       value="<?php echo $value->getMetadata('search_text_label')->getPayload() ?>" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-                <label for="search_type"
-                       id="label_search_text">
-                    <?php echo __("Category") ?>
-                </label>
-            </div>
-            <div class="col-md-1">
-                <input type="checkbox"
-                       name="search[category][show]"
-                       <?php if ($value->getMetadata('search_type_show')->getPayload()) echo 'checked' ?>
-                       class="color-blue" />
-            </div>
-            <div class="col-md-6">
-                <input type="text"
-                       name="search[category][label]"
-                       class="input-flat"
-                       placeholder="<?php echo __js("Label") ?>"
-                       value="<?php echo $value->getMetadata('search_category_label')->getPayload() ?>" />
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
-                <label for="search_aroundyou"
-                       id="label_search_aroundyou">
-                    <?php echo __("Around you") ?>
-                </label>
-            </div>
-            <div class="col-md-1">
-                <input type="checkbox"
-                       name="search[aroundyou][show]"
-                       <?php if ($value->getMetadata('search_aroundyou_show')->getPayload()) echo 'checked' ?>
-                       class="color-blue"/>
-            </div>
-            <div class="col-md-3">
-                <input type="text"
-                       name="search[aroundyou][label]"
-                       class="input-flat"
-                       placeholder="<?php echo __js("Label") ?>"
-                       value="<?php echo $value->getMetadata('search_aroundyou_label')->getPayload() ?>"/>
-            </div>
-            <div class="col-md-3">
-                <input type="text"
-                       name="search[aroundyou][radius]"
-                       class="input-flat"
-                       placeholder="<?php echo __js("Search radius") ?>"
-                       value="<?php echo $value->getMetadata('search_aroundyou_radius')->getPayload() ?>"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-12">
-                <?php echo __("<b>Around you</b> option for the Overview & HTML5 will be displayed & work only when using HTTPS, however it works in Android & iOS apps without HTTPS."); ?>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-2">
                 <label for="search_aroundyou"
                        id="label_search_aroundyou">
                     <?php echo __("Order places by") ?>
@@ -133,23 +58,14 @@
             </div>
             <div class="sb-radio-container col-sm-7">
 
-                <label class="sb-custom-radio">
-                    <input type="radio"
-                           value="none"
-                           name="places_order"
-                           class="sb-form-radio radio-inline color-blue"
-                           <?php if (!($value->getMetadata('places_order_alpha')->getPayload() || $value->getMetadata('places_order')->getPayload())) echo 'checked' ?> />
-                    <span class="sb-radio-label "><?php echo __("Creation date") ?></span>
-                </label>
 
-                <br />
 
                 <label class="sb-custom-radio">
                     <input type="radio"
                            value="distance"
                            name="places_order"
                            class="sb-form-radio radio-inline color-blue"
-                           <?php if ($value->getMetadata('places_order')->getPayload()) echo 'checked' ?> />
+                        <?php if ($value->getMetadata('places_order')->getPayload()) echo 'checked' ?> />
                     <span class="sb-radio-label"><?php echo __("Nearest") ?></span>
                 </label>
 
@@ -160,12 +76,32 @@
                            value="alpha"
                            name="places_order"
                            class="sb-form-radio radio-inline color-blue"
-                           <?php if ($value->getMetadata('places_order_alpha')->getPayload()) echo 'checked' ?> />
+                        <?php if ($value->getMetadata('places_order_alpha')->getPayload()) echo 'checked' ?> />
                     <span class="sb-radio-label"><?php echo __("Alphabetically") ?></span>
+                </label>
+
+                <br />
+
+                <label class="sb-custom-radio">
+                    <input type="radio"
+                           value="none"
+                           name="places_order"
+                           class="sb-form-radio radio-inline color-blue"
+                           <?php if (!($value->getMetadata('places_order_alpha')->getPayload() || $value->getMetadata('places_order')->getPayload())) echo 'checked' ?> />
+                    <span class="sb-radio-label "><?php echo __("Creation date") ?></span>
                 </label>
 
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <?php echo __("<b>Geolocation</b> option for the Overview & HTML5 will be displayed & work only when using HTTPS, however it works in Android & iOS apps without HTTPS."); ?>
+                </div>
+            </div>
+        </div>
+
         <div class="buttons">
             <div class="pull-right">
                 <button class="btn color-blue"

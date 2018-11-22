@@ -11,7 +11,16 @@ $delete_form->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
 
-$designForm = new Places_Form_Design();
+$settingsForm = new Places_Form_Settings();
+
+$settings = $optionValue->getSettings();
+try {
+    $settingsForm->populate(\Siberian_Json::decode($settings));
+} catch (\Exception $e) {
+    // Do not populate, json is not valid
+}
+$settingsForm->setValueId($optionValue->getId());
+
 
 $formCategory = new Places_Form_Category();
 $formCategory->setValueId($optionValue->getId());
@@ -69,7 +78,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-search"></i>
-                <?php echo __("Search settings") ?>
+                <?php echo __("Settings & Options") ?>
             </a>
         </li>
         <li role="presentation">
@@ -298,35 +307,17 @@ $deleteCategoryForm->setValueId($optionValue->getId());
              id="search">
             <div>
                 <h3 class="title-editor title-feature-indent">
-                    <?php echo __("Search filters & Options"); ?>
+                    <?php echo __("Settings & Options"); ?>
                 </h3>
             </div>
-            <div>
-                <?php
-                    echo $this->getLayout()
-                        ->addPartial('places_search_setup', 'Core_View_Default', 'places/application/search.phtml')
-                        ->setOptionValue($optionValue)
-                        ->setPages($pages)
-                        ->toHtml();
-                ?>
+            <div class="container-fluid subcontent content-feature">
+                <?php echo $settingsForm; ?>
             </div>
-
         </div>
 
         <div role="tabpanel"
              class="tab-pane"
              id="design">
-            <div>
-                <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __("Behavior & Layout"); ?>
-                </h3>
-                <div class="container-fluid subcontent content-feature">
-                    <?php echo $designForm ?>
-                </div>
-            </div>
-
-            <br />
-
             <?php echo $this->importBackground($optionValue, false, false); ?>
         </div>
 
@@ -397,7 +388,6 @@ $deleteCategoryForm->setValueId($optionValue->getId());
             return false;
         });
 
-        bindForms("#places_list");
         bindForms("#places_list");
 
         $("table.sb-pager").sbpager({

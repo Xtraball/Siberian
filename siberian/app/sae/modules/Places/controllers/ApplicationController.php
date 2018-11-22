@@ -23,7 +23,11 @@ class Places_ApplicationController extends Application_Controller_Default
         "edit-category" => [
             "tags" => [
                 "homepage_app_#APP_ID#",
-                "app_#APP_ID#",
+            ],
+        ],
+        "edit-settings" => [
+            "tags" => [
+                "homepage_app_#APP_ID#",
             ],
         ],
     ];
@@ -244,6 +248,52 @@ class Places_ApplicationController extends Application_Controller_Default
     }
 
     /**
+     *
+     */
+    public function editSettingsAction()
+    {
+        $request = $this->getRequest();
+        $params = $request->getPost();
+
+        $form = new Places_Form_Settings();
+        try {
+            if ($form->isValid($params)) {
+                // Do whatever you need when form is valid!
+                $optionValue = $this->getCurrentOptionValue();
+
+                $filteredValues = $form->getValues();
+
+                $optionValue
+                    ->setSettings(\Siberian_Json::encode($filteredValues))
+                    ->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * Load category form
      */
     public function loadCategoryFormAction()
@@ -367,7 +417,7 @@ class Places_ApplicationController extends Application_Controller_Default
                 "form" => $html,
             ];
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $data = [
                 "error" => true,
                 "message" => $e->getMessage()
@@ -375,95 +425,6 @@ class Places_ApplicationController extends Application_Controller_Default
         }
 
         $this->_sendJson($data);
-    }
-
-    /**
-     *
-     */
-    public function rankAction()
-    {
-        $ordering = $this->getRequest()->getParam("ordering");
-        $value_id = $this->getRequest()->getParam("option_value_id");
-        $html = [];
-        try {
-            $pages = Cms_Model_Application_Page::findAllByPageId($value_id, array_keys($ordering));
-            $table = new Cms_Model_Db_Table_Application_Page_Block_Address();
-            $adapter = $table->getAdapter();
-            foreach ($pages as $page_row) {
-                $blocks = $page_row->getBlocks();
-                foreach ($blocks as $block) {
-                    if (get_class($block) == "Cms_Model_Application_Block") {
-                        $block->setRank($ordering[$page_row->getPageId()])->save();
-                        $where = $adapter->quoteInto("address_id = ?", $block->getAddressId());
-                        $table->update(["rank" => $ordering[$page_row->getPageId()]], $where);
-                        break;
-                    }
-                }
-            }
-
-            $this->getCurrentOptionValue()
-                ->touch()
-                ->expires(-1);
-
-
-            $html = [
-                'success' => 1,
-                'success_message' => __('Order successfully saved saved.'),
-                'message_timeout' => 2,
-                'message_button' => 0,
-                'message_loader' => 0
-            ];
-        } catch (Exception $e) {
-            $html = [
-                'message' => __('An error occured.'),
-                'message_button' => 1,
-                'message_loader' => 1
-            ];
-        }
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
-    }
-
-    /**
-     *
-     */
-    public function searchsettingsAction()
-    {
-        if ($data = $this->getRequest()->getPost()) {
-            $html = [];
-
-            try {
-                $settings = new Places_Model_Domain_Settings($data['option_value_id'], $this);
-
-                $settings->setup($data['search']);
-                $settings->save();
-                Cms_Model_Application_Page::setPlaceOrder($data['option_value_id'],
-                    $data['places_order'] === 'distance');
-                Cms_Model_Application_Page::setPlaceOrderAlpha($data['option_value_id'],
-                    $data['places_order'] === 'alpha');
-
-                $this->getCurrentOptionValue()
-                    ->touch()
-                    ->expires(-1);
-
-                $html = [
-                    'success' => 1,
-                    'success_message' => __('Setting successfully saved.'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                ];
-            } catch (Exception $e) {
-                $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                ];
-            }
-
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
-
-        }
-
     }
 
 }

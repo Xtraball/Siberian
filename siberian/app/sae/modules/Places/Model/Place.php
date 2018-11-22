@@ -2,6 +2,8 @@
 
 /**
  * Class Places_Model_Place
+ *
+ * @method Places_Model_Db_Table_Place getTable()
  */
 class Places_Model_Place extends Core_Model_Default
 {
@@ -12,6 +14,11 @@ class Places_Model_Place extends Core_Model_Default
     public $cache_tags = [
         "feature_places",
     ];
+
+    /**
+     * @var null
+     */
+    public $_blocks;
 
     /**
      * @var
@@ -68,6 +75,16 @@ class Places_Model_Place extends Core_Model_Default
     }
 
     /**
+     * @param $valueId
+     * @param array $params
+     * @return mixed
+     */
+    public function findAllWithFilters($valueId, $values, $params = [])
+    {
+        return $this->getTable()->findAllWithFilters($valueId, $values, $params);
+    }
+
+    /**
      * @return string full,none,partial
      */
     public function availableOffline()
@@ -97,6 +114,14 @@ class Places_Model_Place extends Core_Model_Default
             foreach ($metadata as $meta) {
                 $payload["settings"][$meta->getCode()] = $meta->getPayload();
             }
+
+            try {
+                $settings = \Siberian_Json::decode($optionValue->getSettings());
+            } catch (\Exception $exception) {
+                $settings = [];
+            }
+
+            $payload["settings"] = array_merge($payload["settings"], $settings);
 
             $categories = (new Places_Model_Category())
                 ->findAll(['value_id' => $valueId], 'position ASC');
@@ -613,13 +638,14 @@ WHERE cap.value_id = {$value_id}
     }
 
     /**
-     * Returns the json representation of the page.
-     *
      * @param $controller
      * @param $position
-     * @return array
+     * @param $optionValue
+     * @param string $base_url
+     * @return array|bool
+     * @throws Zend_Exception
      */
-    public function asJson($controller, $position, $option_value, $base_url = "")
+    public function asJson($controller, $position, $optionValue, $base_url = "")
     {
         $address = $this->getAddressBlock();
 
@@ -644,14 +670,14 @@ WHERE cap.value_id = {$value_id}
 
         $entity = $this->int_validator->isValid($this->getId()) ? $this : $this->_page;
 
-        $distanceUnit = $option_value->getMetadataValue('distance_unit');
+        $distanceUnit = $optionValue->getMetadataValue('distance_unit');
         switch ($distanceUnit) {
             case 'km':
             default:
-                $distance = round($this->getPage()->getDistance() / 1000, 2) . ' km';
+                $distance = round($this->getPage()->getDistance() / 1000, 2);
                 break;
             case 'mi':
-                $distance = round(($this->getPage()->getDistance() / 1000) * 0.621371, 2) . ' mi';
+                $distance = round(($this->getPage()->getDistance() / 1000) * 0.621371, 2);
                 break;
         }
 
@@ -664,9 +690,9 @@ WHERE cap.value_id = {$value_id}
                 "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
                 "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
             ],
-            "page_title" => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
+            "page_title" => $page->getTitle() ? $page->getTitle() : $optionValue->getTabbarName(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "social_sharing_active" => (boolean)$option_value->getSocialSharingIsActive()
+            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive()
         ];
 
         $representation = [
@@ -694,7 +720,102 @@ WHERE cap.value_id = {$value_id}
             "show_image" => (boolean) $this->getPage()->getMetadataValue('show_image'),
             "show_titles" => (boolean) $this->getPage()->getMetadataValue('show_titles'),
             "distance" => $distance,
+            "distanceUnit" => $distanceUnit,
             "embed_payload" => $embed_payload
+        ];
+
+        return $representation;
+    }
+
+    /**
+     * @param $optionValue
+     * @param string $baseUrl
+     * @return array|bool
+     * @throws Zend_Exception
+     */
+    public function toJson($optionValue, $baseUrl = "")
+    {
+        $defaultSettings = [
+            "distance_unit" => "km",
+            "default_page" => "places",
+            "default_layout" => "place-100",
+            "show_featured" => "0",
+            "featured_label" => "",
+            "show_non_featured" => "0",
+            "non_featured_label" => "",
+        ];
+
+        $valueId = $optionValue->getId();
+        $address = $this->getAddressBlock();
+        if (!$address) {
+            return false;
+        }
+
+        $blocks = $this->getBlocks();
+        $json = [];
+
+        foreach ($blocks as $block) {
+            $json[] = $block->_toJson("");
+        }
+
+        try {
+            $settings = \Siberian_Json::decode($optionValue->getSettings());
+            $settings = array_merge($defaultSettings, $settings);
+        } catch (\Exception $e) {
+            $settings = $defaultSettings;
+        }
+
+        switch ($settings["distance_unit"]) {
+            case 'km':
+            default:
+                $distance = round($this->getDistance() / 1000, 2);
+                break;
+            case 'mi':
+                $distance = round(($this->getDistance() / 1000) * 0.621371, 2);
+                break;
+        }
+
+        $embedPayload = [
+            "blocks" => $json,
+            "page" => [
+                "title" => $this->getTitle(),
+                "subtitle" => $this->getContent(),
+                "picture" => $this->getPictureUrl(),
+                "show_image" => (boolean) $this->getMetadataValue('show_image'),
+                "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+            ],
+            "page_title" => $this->getTitle(),
+            "picture" => $this->getPictureUrl(),
+            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive()
+        ];
+
+        $representation = [
+            "id" => (integer) $this->getId(),
+            "title" => $this->getTitle(),
+            "subtitle" => $this->getContent(),
+            "picture" => $this->getPictureUrl(),
+            "thumbnail" => $this->getThumbnailUrl(),
+            "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
+            "address" => [
+                "id" => (integer) $address->getId(),
+                "position" => $address->getPosition(),
+                "block_id" => (integer) $address->getBlockId(),
+                "label" => $address->getLabel(),
+                "address" => $address->getAddress(),
+                "phone" => $address->getPhone(),
+                "website" => $address->getWebsite(),
+                "latitude" => $address->getLatitude(),
+                "longitude" => $address->getLongitude(),
+                "show_phone" => (boolean) $address->getShowPhone(),
+                "show_website" => (boolean) $address->getShowWebsite(),
+                "show_address" => (boolean) $address->getShowAddress(),
+                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton()
+            ],
+            "show_image" => (boolean) $this->getMetadataValue('show_image'),
+            "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+            "distance" => $distance,
+            "distanceUnit" => $settings["distance_unit"],
+            "embed_payload" => $embedPayload
         ];
 
         return $representation;
@@ -730,6 +851,39 @@ WHERE cap.value_id = {$value_id}
         ];
 
         return $payload;
+    }
+
+    /**
+     * @return Cms_Model_Application_Block[]
+     */
+    public function getBlocks()
+    {
+        if (is_null($this->_blocks) && $this->getId()) {
+            $block = new Cms_Model_Application_Block();
+            $this->_blocks = $block->findByPage($this->getId());
+        }
+
+        return $this->_blocks;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPictureUrl()
+    {
+        $path = Application_Model_Application::getImagePath() . $this->getPicture();
+        $base_path = Application_Model_Application::getBaseImagePath() . $this->getPicture();
+        return is_file($base_path) ? $path : null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getThumbnailUrl()
+    {
+        $path = Application_Model_Application::getImagePath() . $this->getThumbnail();
+        $base_path = Application_Model_Application::getBaseImagePath() . $this->getThumbnail();
+        return is_file($base_path) ? $path : null;
     }
 
     /**

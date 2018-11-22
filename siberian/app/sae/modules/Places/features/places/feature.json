@@ -12,10 +12,24 @@
     "routes": [
         {
             "root": true,
+            "state": "places-home",
+            "controller": "PlacesHomeController",
+            "url": "places/mobile_list/home/value_id/:value_id",
+            "template": "l1/categories.html",
+            "cache": false
+        },
+        {
+            "state": "places-categories",
+            "controller": "PlacesCategoriesController",
+            "url": "places/mobile_list/categories/value_id/:value_id",
+            "template": "l1/categories.html",
+            "cache": false
+        },
+        {
             "state": "places-list",
             "controller": "PlacesListController",
-            "url": "places/mobile_list/index/value_id/:value_id",
-            "template": "l1/list.html",
+            "url": "places/mobile_list/index/value_id/:value_id/category_id/:category_id",
+            "template": "l1/places.html",
             "cache": true
         },
         {

@@ -65,9 +65,9 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param array $params
      * @return mixed
      */
-    public function findAllByDistance($valueId, $values, $params = [])
+    public function findAllWithFilters($valueId, $values, $params = [])
     {
-        return $this->getTable()->findAllByDistance($valueId, $values, $params);
+        return $this->getTable()->findAllWithFilters($valueId, $values, $params);
     }
 
     /**

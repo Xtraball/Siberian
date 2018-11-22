@@ -20,19 +20,15 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $categories = $request->getParam("categories", []);
 
             $position = [
-                "latitude" => $request->getParam("latitude"),
-                "longitude" => $request->getParam("longitude")
+                "latitude" => $request->getParam("latitude", 0),
+                "longitude" => $request->getParam("longitude", 0)
             ];
+
+            // TESTING
+            $position = ["latitude" => 43.5462231, "longitude" => 1.5052359];
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-
-            $params = [
-                "offset" => $offset,
-                "limit" => $limit,
-                "fulltext" => $fulltext,
-                "categories" => $categories,
-            ];
 
             $sortingType = 'date';
             if ($optionValue->getMetadataValue("places_order_alpha")) {
@@ -41,48 +37,35 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 $sortingType = 'distance';
             }
 
+            $params = [
+                "offset" => $offset,
+                "limit" => $limit,
+                "fulltext" => $fulltext,
+                "categories" => $categories,
+                "sortingType" => $sortingType,
+            ];
+
             // Fetch places!
-            $repository = new Cms_Model_Application_Page();
+
+            /**
+             * @var $places Places_Model_Place[]
+             */
+            $places = [];
             if (!$isMaps) {
-                switch ($sortingType) {
-                    case 'date':
-                        $pages = $repository->findAll(
-                            [
-                                'value_id' => $valueId
-                            ],
-                            [
-                                'created_at DESC',
-                            ],
-                            $params);
-                        break;
-                    case 'alpha':
-                        $pages = $repository->findAll(
-                            [
-                                'value_id' => $valueId
-                            ],
-                            [
-                                'title ASC',
-                            ],
-                            $params);
-                        break;
-                    case 'distance':
-                        $pages = $repository->findAllByDistance($valueId, [
-                            'search_by_distance' => true,
-                            'latitude' => $position['latitude'],
-                            'longitude' => $position['longitude'],
-                        ], $params);
-                        break;
-                }
+                $places = (new Places_Model_Place())
+                    ->findAllWithFilters($valueId, [
+                    'search_by_distance' => true,
+                    'latitude' => $position['latitude'],
+                    'longitude' => $position['longitude'],
+                ], $params);
             } else {
-                $pages = $repository->findAll(["value_id" => $valueId]);
+                $places = (new Places_Model_Place())
+                    ->findAll(["value_id" => $valueId]);
             }
 
             $collection = [];
-            foreach ($pages as $page) {
-                $place = new Places_Model_Place();
-                $place->setPage($page);
-
-                $collection[] = $place->asJson($this, $position, $optionValue, $request->getBaseUrl());
+            foreach ($places as $place) {
+                $collection[] = $place->toJson($optionValue, $request->getBaseUrl());
             }
 
             $payload = [

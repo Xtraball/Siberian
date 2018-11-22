@@ -12,7 +12,7 @@
         <div class="buttons">
             <button class="button button-clear"
                     ng-click="clearFilters();">
-                <i class="icon ion-sb-clear"></i>
+                <i class="icon ion-sb-clear-brush"></i>
             </button>
         </div>
     </ion-header-bar>
@@ -23,8 +23,11 @@
             <div class="item item-custom">
                 <div>
                     <input type="text"
-                           placeholder='{{ "Name, locality, tag, etc..." | translate }}'
+                           placeholder='{{ "Name, locality, tag, separate terms with a space ..." | translate }}'
                            ng-model="filters.fulltext" />
+                    <i ng-show="filters.fulltext.length > 0"
+                       ng-click="filters.fulltext = ''"
+                       class="icon ion-backspace-outline clear-text"></i>
                 </div>
             </div>
 
