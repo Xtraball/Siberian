@@ -35,47 +35,14 @@
                      ng-click="showItem(item)"
                      ng-class="currentFormat"
                      class="place">
-                    <div class="card">
-                        <div class="image"
-                             ng-if="item.thumbnail.length"
-                             ng-style="{'background-image':'url(' + item.thumbnail + ')'}">
-                        </div>
-                        <div class="image"
-                             ng-if="item.picture && !item.thumbnail.length"
-                             ng-style="{'background-image':'url(' + item.picture + ')'}">
-                        </div>
-                        <div class="image"
-                             ng-if="!item.picture.length && !item.thumbnail.length"
-                             style="background-image: url('https://placeimg.com/400/200/arch/grayscale')">
-                        </div>
 
-                        <div class="text">
-                            <div ng-if="currentFormat == 'place-100'">
-                                <div class="row">
-                                    <div class="col-75">
-                                        <p class="title">{{ item.title ? item.title : item.author }}</p>
-                                        <p ng-if="item.subtitle"
-                                           ng-bind-html="item.subtitle"
-                                           class="subtitle"></p>
-                                    </div>
-                                    <div class="col-25 distance-flex">
-                                        <span class="distance">
-                                            {{ item.distance }}
-                                            <br />
-                                            <span class="unit">{{ item.distanceUnit }}</span>
-                                            <br />
-                                            <span class="stars">
-                                                <i class="icon ion-ios-star"></i>
-                                                <i class="icon ion-ios-star"></i>
-                                                <i class="icon ion-ios-star"></i>
-                                                <i class="icon ion-ios-star-half"></i>
-                                                <i class="icon ion-ios-star-outline"></i>
-                                            </span>
-                                        </span>
-                                    </div>
-                                </div>
+                    <div ng-if="currentFormat == 'place-33'">
+                        <div class="card">
+                            <div class="image"
+                                 ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
                             </div>
-                            <div ng-if="currentFormat != 'place-100'">
+
+                            <div class="text">
                                 <p class="title">{{ item.title ? item.title : item.author }}</p>
                                 <p ng-if="item.subtitle"
                                    ng-bind-html="item.subtitle"
@@ -83,6 +50,50 @@
                             </div>
                         </div>
                     </div>
+
+                    <div ng-if="currentFormat == 'place-50'">
+                        <div class="card">
+                            <div class="image"
+                                 ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-100'">
+                        <div class="card">
+                            <div class="sb-row">
+                                <div class="sb-col-20">
+                                    <div class="image"
+                                         ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                                    </div>
+                                </div>
+                                <div class="sb-col-60">
+                                    <div class="text">
+                                        <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                        <p ng-if="item.subtitle"
+                                           ng-bind-html="item.subtitle"
+                                           class="subtitle"></p>
+                                    </div>
+                                </div>
+                                <div class="sb-col-20 distance-flex">
+                                    <span class="distance">
+                                        {{ item.distance }}
+                                        <br />
+                                        <span class="unit">{{ item.distanceUnit }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 

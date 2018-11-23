@@ -35,6 +35,13 @@ class Places_Form_Settings extends Siberian_Form_Abstract
 
         $defaultLayout = $this->addSimpleSelect("default_layout", __("Default layout"), $layout);
 
+        $distance = [
+            'km' => __("Kilometers"),
+            'mi' => __("Miles"),
+        ];
+
+        $distanceUnit = $this->addSimpleSelect("distance_unit", __("Distance unit"), $distance);
+
         $showFeatured = $this->addSimpleCheckbox("show_featured", __("Show featured labels"));
 
         $featuredLabel = $this->addSimpleText("featured_label", __("Featured label"));

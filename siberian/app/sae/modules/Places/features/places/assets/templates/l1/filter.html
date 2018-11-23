@@ -50,14 +50,12 @@
                     </div>
                 </div>
             </div>
-
-            <button class="button button-positive button-positive-custom button-full"
-                    ng-click="validateFilters();">
-                {{ "Search" | translate }}
-                &nbsp;
-                <i class="icon ion-sb-search"></i>
-            </button>
         </div>
-
     </ion-content>
+
+    <button class="search-button button button-assertive button-assertive-custom button-full"
+            ng-click="validateFilters();">
+        {{ "Search" | translate }}
+        <i class="icon ion-sb-search"></i>
+    </button>
 </ion-modal-view>

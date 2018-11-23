@@ -728,6 +728,38 @@ WHERE cap.value_id = {$value_id}
     }
 
     /**
+     * @param $code
+     * @return null
+     * @throws Zend_Exception
+     */
+    public function getMetadataValue($code)
+    {
+        $meta = $this->getMetadata($code);
+        if ($meta) {
+            return $meta->getPayload();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param $code
+     * @return $this|null
+     * @throws Zend_Exception
+     */
+    public function getMetadata($code)
+    {
+        $metadata = (new Cms_Model_Application_Page_Metadata())
+            ->find(
+                [
+                    'page_id' => $this->getPageId(),
+                    'code' => $code
+                ]
+            );
+        return $metadata;
+    }
+
+    /**
      * @param $optionValue
      * @param string $baseUrl
      * @return array|bool

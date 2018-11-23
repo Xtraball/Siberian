@@ -17,6 +17,44 @@
     z-index: 100;
   }
 
+  .search-button {
+    position: fixed;
+    bottom: 0;
+    z-index: 100;
+    margin: 0 !important;
+  }
+
+  .sb-row {
+    display: flex;
+    width: 100%;
+    height: 100%;
+  }
+
+  .category-item-block {
+    width: calc(100% / 3);
+    padding: 1vw;
+    .category-item {
+      border: 2px solid transparent !important;
+      background-size: 70%;
+      background-repeat: no-repeat;
+      background-position: center 30%;
+      padding: 0 !important;
+      margin: 0 !important;
+      img {
+        width: 100%;
+      }
+      h4 {
+        position: relative;
+        bottom: .5rem;
+        text-align: center;
+        font-size: .6875rem;
+      }
+      &.category-selected {
+        border: 2px solid $card-item-custom-text !important;
+      }
+    }
+  }
+
   @media screen and (orientation:portrait) {
     .places {
       padding-left: 2vw;
@@ -57,24 +95,20 @@
         height: calc((25vw / 1.5909) + 2vw);
         margin: 2vw 2vw 0 0;
         .image {
-          width: 25vw;
+          width: 100%;
           height: 100%;
           background-size: cover;
-          float: left;
+          background-position: center center;
+          &.category {
+            background-size: auto 80%;
+            background-position: center center;
+            background-repeat: no-repeat;
+          }
         }
         .text {
-          width: 100vw;
+          width: 100%;
           height: 100%;
-          padding: 0 0 0 calc(25vw);
-          .row {
-            height: calc((25vw / 1.5909) + 2vw);
-            width: 71vw;
-            align-items: center;
-            padding: 0 !important;
-            .col-75 {
-              padding: 5px;
-            }
-          }
+          padding: 1vw;
           .title {
             font-size: calc((25vw / 1.5909) / 5);
             line-height: calc((25vw / 1.5909) / 4);
@@ -114,10 +148,13 @@
     .search-action {
       width: 7vh;
       height: 7vh;
-      padding-top: 1.2vh;
+      padding-top: 1vh;
       bottom: 2vh;
       right: 2vh;
       font-size: 5vh;
+      i {
+        margin-left: -5px;
+      }
     }
   }
 
@@ -161,24 +198,20 @@
         height: calc((25vh / 1.5909) + 2vh);
         margin: 2vh 2vh 0 0;
         .image {
-          width: 25vh;
+          width: 100%;
           height: 100%;
           background-size: cover;
-          float: left;
+          background-position: center center;
+          &.category {
+            background-size: auto 80%;
+            background-position: center center;
+            background-repeat: no-repeat;
+          }
         }
         .text {
-          width: 100vw;
+          width: 100%;
           height: 100%;
-          padding: 0 0 0 calc(25vh);
-          .row {
-            height: calc((25vh / 1.5909) + 2vh);
-            width: 71vh;
-            align-items: center;
-            padding: 0 !important;
-            .col-75 {
-              padding: 5px;
-            }
-          }
+          padding: 1vh;
           .title {
             font-size: calc((25vh / 1.5909) / 5);
             line-height: calc((25vh / 1.5909) / 4);
@@ -223,10 +256,13 @@
     .search-action {
       width: 7vw;
       height: 7vw;
-      padding-top: 1.2vw;
+      padding-top: 1vw;
       bottom: 2vw;
       right: 2vw;
       font-size: 5vw;
+      i {
+        margin-left: -5px;
+      }
     }
 
     /** LandScape places two columns */
@@ -248,16 +284,20 @@
         margin-bottom: 0 !important;
       }
     }
+
+    .category-item-block {
+      width: calc(100% / 6);
+      padding: 1vh;
+      .category-item {
+        width: 100%;
+      }
+    }
   }
 
   .text {
     .subtitle {
       display: none;
     }
-  }
-
-  .place {
-    transition: all 300ms;
   }
 
   .card {
@@ -272,6 +312,21 @@
         white-space: nowrap;
       }
     }
+  }
+
+  .sb-col-20 {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+
+  .sb-col-60 {
+    flex: 0 0 60%;
+    max-width: 60%;
+  }
+
+  .sb-col-80 {
+    flex: 0 0 80%;
+    max-width: 80%;
   }
 
   /** Display subtitles only for 100 list */
@@ -291,17 +346,27 @@
   }
   .place-33,
   .place-50 {
-    .card .image {
-      width: 100%;
-      height: calc(100% - 2rem);
-      background-size: cover;
+    .card {
+      .image {
+        width: 100%;
+        height: calc(100% - 2rem);
+        background-size: cover;
+        background-position: center center;
+        &.category {
+          background-size: auto 80%;
+          background-position: center center;
+          background-repeat: no-repeat;
+        }
+      }
     }
   }
   .place-33,
   .place-50 {
-    .card .text {
-      width: 100%;
-      height: 2rem;
+    .card {
+      .text {
+        width: 100%;
+        height: 2rem;
+      }
     }
   }
   .place-100 {
@@ -317,6 +382,12 @@
     .card {
       .text {
         background-color: $card-item-custom-bg;
+      }
+      .image {
+        background-color: darken($card-item-custom-bg, 10%);
+      }
+      .distance-flex {
+        background-color: darken($card-item-custom-bg, 10%);
       }
     }
   }
@@ -370,6 +441,9 @@
       padding: .25rem 2vh .25rem 2vh;
       background: rgba(25,0,0,0.6);
       display: inline-block;
+      max-width: calc(100vw + 2px);
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .places-filters {
@@ -385,41 +459,13 @@
     flex-flow: row wrap;
     justify-content: flex-start;
     padding: 0 !important;
-  }
-  .category-item-block {
-    width: calc(100% / 3);
-    padding: 1vw;
-    .category-item {
-      border: 2px solid transparent !important;
-      background-size: 70%;
-      background-repeat: no-repeat;
-      background-position: center 30%;
-      padding: 0 !important;
-      margin: 0 !important;
-      img {
-        width: 100%;
-      }
-      h4 {
-        position: relative;
-        bottom: .5rem;
-        text-align: center;
-        font-size: .6875rem;
-      }
-      &.category-selected {
-        border: 2px solid $card-item-custom-text !important;
-      }
-    }
+    padding-bottom: 60px !important;
   }
   i.clear-text {
     position: absolute;
     right: 1.5rem;
     top: calc(50% - .625rem);
     font-size: 1.25rem;
-  }
-  @media screen and (orientation:landscape) {
-    .category-item {
-      width: calc(100% / 6) !important;
-    }
   }
 }
 

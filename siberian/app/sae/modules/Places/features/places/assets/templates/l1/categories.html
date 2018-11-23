@@ -26,16 +26,57 @@
                      ng-click="selectCategory(item)"
                      ng-class="currentFormat"
                      class="place">
-                    <div class="card">
-                        <div class="image"
-                             ng-style="{'background-image':'url(' + imageSrc(item.picture) + ')'}"></div>
-                        <div class="text">
-                            <p class="title">{{ item.title }}</p>
-                            <p ng-if="item.subtitle"
-                               ng-bind-html="item.subtitle"
-                               class="subtitle"></p>
+
+                    <div ng-if="currentFormat == 'place-33'">
+                        <div class="card">
+                            <div class="image category"
+                                 ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
                         </div>
                     </div>
+
+                    <div ng-if="currentFormat == 'place-50'">
+                        <div class="card">
+                            <div class="image category"
+                                 ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-100'">
+                        <div class="card">
+                            <div class="sb-row">
+                                <div class="sb-col-20">
+                                    <div class="image category"
+                                         ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                                    </div>
+                                </div>
+                                <div class="sb-col-80">
+                                    <div class="text">
+                                        <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                        <p ng-if="item.subtitle"
+                                           ng-bind-html="item.subtitle"
+                                           class="subtitle"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

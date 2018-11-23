@@ -30,6 +30,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 }).controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $ionicHistory, $rootScope,
                                                       Places) {
 
+    /** Routing history for forward action */
     if ($ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
@@ -87,12 +88,11 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         }
     };
 
-    $scope.imageSrc = function (picture) {
-        if (!picture.length) {
-            return './features/places/assets/templates/l1/img/no-category.png';
+    $scope.categoryThumbnailSrc = function (item) {
+        if (item.picture && item.picture.length) {
+            return IMAGE_URL + "images/application" + item.picture;
         }
-
-        return IMAGE_URL + 'images/application' + picture;
+        return './features/places/assets/templates/l1/img/no-category.png';
     };
 
     $scope.selectCategory = function (category) {
@@ -137,6 +137,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 }).controller('PlacesListController', function (Location, $q, $ionicHistory, $scope, $rootScope, $session, $state,
                                                 $stateParams, $translate, $timeout, Places, Modal) {
 
+    /** Routing history for forward action */
     if ($ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
@@ -251,6 +252,16 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         }
 
         return IMAGE_URL + 'images/application' + picture;
+    };
+
+    $scope.placeThumbnailSrc = function (item) {
+        if (item.thumbnail && item.thumbnail.length) {
+            return item.thumbnail;
+        }
+        if (item.picture && item.picture.length) {
+            return item.picture;
+        }
+        return './features/places/assets/templates/l1/img/no-place.png';
     };
 
     // Version 2
@@ -373,7 +384,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     $scope.searchPlaces(false);
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
-                                                $location, Cms, Places) {
+                                                $location, Places) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -389,7 +400,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         $scope.use_pull_to_refresh = false;
     }
 
-    Cms.setValueId($stateParams.value_id);
+    Places.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
         Places.getPlace($stateParams.page_id)
@@ -402,6 +413,9 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
                 $scope.page = data.page;
                 $scope.page_title = data.page_title;
+
+                console.log(data.page);
+                console.log(data.blocks);
             }).then(function () {
                 $scope.is_loading = false;
             });
