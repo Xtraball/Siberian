@@ -201,7 +201,8 @@ let debug = true,
                 './www/js/libraries/lazyload.min.js',
                 './www/js/libraries/localforage.min.js',
                 './www/js/libraries/lodash.min.js',
-                './www/js/libraries/ng-img-crop.min.js'
+                './www/js/libraries/ng-img-crop.min.js',
+                './www/js/libraries/markerclusterer.js'
             ],
             dest: './www/dist/libraries.bundle.min.js'
         },

@@ -236,7 +236,10 @@ angular.module('starter').directive('sbCmsText', function () {
         '</div>',
         controller: function (Location, Loader, LinkService, $rootScope, $scope) {
 
-            $scope.websiteLabel = $scope.block.website.replace(/^https?:\/\//i, "");
+            // Replace https? and trailing slashes in "text" uris.
+            $scope.websiteLabel = $scope.block.website
+                .replace(/^https?:\/\//i, "")
+                .replace(/\/$/, "");
 
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {

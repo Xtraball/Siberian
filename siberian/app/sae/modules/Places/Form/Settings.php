@@ -42,13 +42,13 @@ class Places_Form_Settings extends Siberian_Form_Abstract
 
         $distanceUnit = $this->addSimpleSelect("distance_unit", __("Distance unit"), $distance);
 
-        $showFeatured = $this->addSimpleCheckbox("show_featured", __("Show featured labels"));
+        // Featured places are disabled for now.
 
-        $featuredLabel = $this->addSimpleText("featured_label", __("Featured label"));
+        //$showFeatured = $this->addSimpleCheckbox("show_featured", __("Show featured labels"));
+        //$featuredLabel = $this->addSimpleText("featured_label", __("Featured label"));
 
-        $showNonFeatured = $this->addSimpleCheckbox("show_non_featured", __("Show non-featured labels"));
-
-        $nonFeaturedLabel = $this->addSimpleText("non_featured_label", __("Non-featured label"));
+        //$showNonFeatured = $this->addSimpleCheckbox("show_non_featured", __("Show non-featured labels"));
+        //$nonFeaturedLabel = $this->addSimpleText("non_featured_label", __("Non-featured label"));
 
         $submit = $this->addSubmit(__("Save"), __("Save"));
         $submit->addClass("pull-right");

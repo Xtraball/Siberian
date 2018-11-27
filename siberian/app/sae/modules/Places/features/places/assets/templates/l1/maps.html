@@ -1,4 +1,5 @@
-<ion-view sb-page-background cache-view="false">
+<ion-view class="module-places places places-map l1"
+          sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-content scroll="false" class="maps">
 
@@ -13,6 +14,30 @@
              config="map_config"
              ng-if="map_config"
              data-tap-disabled="true"></div>
+
+        <div id="mapInfoWindow"
+             ng-class="{'hide': !showInfoWindow}"
+             class="info-window slide-top">
+            <div class="item item-custom item-text-wrap info-window-icon">
+                <span>{{ currentPlace.title }}</span>
+                <i ng-click="hideInfoWindow()"
+                   class="icon ion-close"></i>
+            </div>
+            <div ng-click="goToPlace(currentPlace.id)"
+                 class="item item-text-wrap item-icon-left item-custom info-window-more">
+                <i class="icon ion-android-open"></i>
+                <p>{{ "See details" }}</p>
+            </div>
+            <div class="info-window-distance"
+                 ng-if="currentPlace.distance != 0">{{ currentPlace.distance }} {{ currentPlace.distanceUnit }}</div>
+            <div ng-if="currentPlace"
+                 sb-cms-address
+                 block="currentPlace.address"
+                 on-show-map="onShowMap(currentPlace.address)"></div>
+            <div class="item item-custom item-text-wrap">
+                <br />
+            </div>
+        </div>
 
     </ion-content>
 </ion-view>

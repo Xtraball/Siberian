@@ -8,6 +8,44 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     /**
      *
      */
+    public function findOneAction()
+    {
+        try {
+            $request = $this->getRequest();
+
+            $placeId = $request->getParam("place_id", null);
+            $optionValue = $this->getCurrentOptionValue();
+
+            $place = (new Places_Model_Place())
+                ->find($placeId);
+
+            if (!$place->getId()) {
+                throw new \Siberian\Exception(__("This place do not exists!"));
+            }
+
+            $place = $place->toJson($optionValue, $request->getBaseUrl());
+
+            $payload = [
+                "success" => true,
+                "social_sharing_active" => false,
+                "page_title" => "title",
+                "place" => $place["embed_payload"],
+                "page" => $place["embed_payload"]["page"],
+                "blocks" => $place["embed_payload"]["blocks"],
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function findallAction()
     {
         try {
@@ -23,9 +61,6 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "latitude" => $request->getParam("latitude", 0),
                 "longitude" => $request->getParam("longitude", 0)
             ];
-
-            // TESTING
-            $position = ["latitude" => 43.5462231, "longitude" => 1.5052359];
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();

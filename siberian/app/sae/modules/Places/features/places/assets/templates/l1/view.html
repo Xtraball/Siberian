@@ -2,26 +2,29 @@
           sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
-        <button ng-show="social_sharing_active" class="button button-clear" ng-click="share()">
+        <button ng-show="social_sharing_active"
+                class="button button-clear"
+                ng-click="share()">
             <i class="icon ion-ios-upload-outline"></i>
         </button>
     </ion-nav-buttons>
 
     <ion-content>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader"
+             ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <div class="list place-header"
-             ng-if="page.show_image && !is_loading">
+             ng-if="place.show_image && !is_loading">
             <div class="item item-image cover-place"
-                 ng-if="page.picture && page.show_image"
-                 ng-style="{'background-image':'url(' + page.picture + ')'}">
+                 ng-if="place.picture && place.show_image"
+                 ng-style="{'background-image':'url(' + place.picture + ')'}">
                 <img class="image-placeholder"
                      ng-src="{{ blankImage }}" />
                 <div class="place-title"
-                     ng-if="page.show_titles">{{ page.title }}</div>
+                     ng-if="place.show_titles">{{ place.title }}</div>
             </div>
         </div>
 

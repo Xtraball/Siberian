@@ -70,16 +70,19 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
         }, factory.extendedOptions));
     };
 
-
-    factory.find = function (place_id) {
+    /**
+     *
+     * @param placeId
+     */
+    factory.find = function (placeId) {
         if (!this.value_id) {
             return $pwaRequest.reject('[Factory::Places.find] missing value_id');
         }
 
-        return $pwaRequest.get('places/mobile_view/find', {
+        return $pwaRequest.get('places/mobile_list/find-one', {
             urlParams: {
                 value_id: this.value_id,
-                place_id: place_id
+                place_id: placeId
             }
         });
     };
@@ -87,21 +90,21 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
     /**
      * Search for place payload inside cached collection
      *
-     * @param place_id
+     * @param placeId
      * @returns {*}
      */
-    factory.getPlace = function (place_id) {
+    factory.getPlace = function (placeId) {
         if (!this.value_id) {
             return $pwaRequest.reject('[Factory::Places.getPlace] missing value_id');
         }
 
         var place = _.get(_.filter(factory.collection, function (item) {
-            return (item.id == place_id);
+            return (item.id == placeId);
         })[0], 'embed_payload', false);
 
         if (!place) {
             // Well then fetch it!
-            return Cms.findAll(place_id);
+            return factory.find(placeId);
         }
 
         return $pwaRequest.resolve(place);

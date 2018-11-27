@@ -23,7 +23,7 @@
             "controller": "PlacesCategoriesController",
             "url": "places/mobile_list/categories/value_id/:value_id",
             "template": "l1/categories.html",
-            "cache": false
+            "cache": true
         },
         {
             "state": "places-list",
@@ -37,12 +37,12 @@
             "controller": "PlacesMapController",
             "url": "places/mobile_list_map/index/value_id/:value_id",
             "template": "l1/maps.html",
-            "cache": false
+            "cache": true
         },
         {
             "state": "places-view",
             "controller": "PlacesViewController",
-            "url": "places/mobile_page_view/index/value_id/:value_id/page_id/:page_id/type/:type",
+            "url": "places/mobile_page_view/index/value_id/:value_id/page_id/:page_id",
             "template": "l1/view.html",
             "cache": true
         }

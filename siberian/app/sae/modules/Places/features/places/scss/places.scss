@@ -156,6 +156,13 @@
         margin-left: -5px;
       }
     }
+    /** Maps section */
+    .info-window {
+      width: 100vw;
+      position: absolute;
+      bottom: 0;
+      padding: 0 2vw;
+    }
   }
 
   @media screen and (orientation:landscape) {
@@ -292,6 +299,15 @@
         width: 100%;
       }
     }
+
+    /** Maps section */
+    .info-window {
+      width: 50vw;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: 0 2vw;
+    }
   }
 
   .text {
@@ -384,10 +400,10 @@
         background-color: $card-item-custom-bg;
       }
       .image {
-        background-color: darken($card-item-custom-bg, 10%);
+        background-color: darken($card-item-custom-bg, 5%);
       }
       .distance-flex {
-        background-color: darken($card-item-custom-bg, 10%);
+        background-color: darken($card-item-custom-bg, 5%);
       }
     }
   }
@@ -467,6 +483,39 @@
     top: calc(50% - .625rem);
     font-size: 1.25rem;
   }
+
+  .info-window {
+    .item {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin: -1px 0 !important;
+      border-top: 0;
+      border-bottom: 0;
+    }
+    .info-window-icon {
+      padding: 10px;
+      border-bottom: 0;
+
+      span {
+        font-size: .85rem;
+        font-weight: bold;
+        padding-left: 8px;
+        width: 85%;
+        display: inline-block;
+      }
+      i {
+        float: right;
+      }
+    }
+
+    .info-window-more {
+      i {
+        font-size: 1.25rem!important;
+        opacity: 0.75!important;
+      }
+    }
+  }
+
 }
 
 /** Extra namespace */

@@ -771,6 +771,11 @@ class Siberian_Assets
 
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
 
+                // For browser/overview remove cdvfile
+                if ($type === "browser") {
+                    $index_content = self::__cleanAppOnly($index_content);
+                }
+
                 foreach (self::$preBuildCallbacks as $callback) {
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
@@ -922,20 +927,11 @@ class Siberian_Assets
 
     /**
      * @param $index_content
-     * @param $asset_path
-     * @param $type
-     * @param null $feature
-     * @return mixed
+     * @return null|string|string[]
      */
-    public static function __removeAsset($index_content, $asset_path, $type, $feature = null)
+    public static function __cleanAppOnly($index_content)
     {
-        $asset_path = __ss($asset_path);
-        $search = "</head>";
-        $replace = self::___assetLine($asset_path, $type, $feature) . "</head>";
-
-        if (strpos($index_content, $asset_path) === false) {
-            $index_content = str_replace($search, $replace, $index_content);
-        }
+        $index_content = preg_replace("/(<script.*cdvfile.*<\/script>)/mi", "", $index_content);
 
         return $index_content;
     }

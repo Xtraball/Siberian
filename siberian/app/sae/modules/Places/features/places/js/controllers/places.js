@@ -12,10 +12,6 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         .then(function (settings) {
             $scope.settings = settings;
 
-            $ionicHistory.nextViewOptions({
-                disableAnimate: true,
-            });
-
             if ($scope.settings.default_page === "categories") {
                 $state.go('places-categories', {
                     value_id: $scope.value_id
@@ -298,7 +294,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
             }
 
             // To ensure a fast loading even when GPS is off, we neeeeeed to decrease the GPS timeout!
-            Location.getLocation({timeout: 2500})
+            Location.getLocation()
                 .then(function (position) {
                     $scope.filters.latitude = position.coords.latitude;
                     $scope.filters.longitude = position.coords.longitude;
@@ -313,7 +309,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     // Search places
     $scope.searchPlaces = function (loadMore) {
         Location
-            .getLocation({timeout: 2500})
+            .getLocation()
             .then(function (position) {
                 $scope.filters.latitude = position.coords.latitude;
                 $scope.filters.longitude = position.coords.longitude;
@@ -396,10 +392,6 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.blankImage = "./features/places/assets/templates/l1/img/blank-700-440.png";
 
-    if ($stateParams.type === 'places') {
-        $scope.use_pull_to_refresh = false;
-    }
-
     Places.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
@@ -411,11 +403,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                 $scope.blockChunks = $filter('chunk')(angular.copy($scope.blocks),
                     Math.ceil($scope.blocks.length / 2));
 
-                $scope.page = data.page;
+                $scope.place = data.page;
                 $scope.page_title = data.page_title;
-
-                console.log(data.page);
-                console.log(data.blocks);
             }).then(function () {
                 $scope.is_loading = false;
             });
@@ -454,44 +443,22 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         $location.path(Url.get('map/mobile_view/index', params));
     };
 
-    $scope.addToContact = function (contact) {
-        contact = {
-            firstname: $scope.place.title
-        };
+    $scope.loadContent();
 
-        if ($scope.place.phone) {
-            contact.phone = $scope.place.phone;
-        }
-        if ($scope.place.picture) {
-            contact.image_url = $scope.place.picture;
-        }
-        if ($scope.place.address.street) {
-            contact.street = $scope.place.address.street;
-        }
-        if ($scope.place.address.postcode) {
-            contact.postcode = $scope.place.address.postcode;
-        }
-        if ($scope.place.address.city) {
-            contact.city = $scope.place.address.city;
-        }
-        if ($scope.place.address.state) {
-            contact.state = $scope.place.address.state;
-        }
-        if ($scope.place.address.country) {
-            contact.country = $scope.place.address.country;
-        }
-
-        $scope.message = new Message();
-    };
-
-    $scope.loadContent(false);
-}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, Places) {
+}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Places) {
     angular.extend($scope, {
         is_loading: true,
-        value_id: $stateParams.value_id
+        value_id: $stateParams.value_id,
+        collection: [],
+        showInfoWindow: false,
+        currentPlace: null
     });
 
     Places.setValueId($stateParams.value_id);
+
+    $scope.hideInfoWindow = function () {
+        $scope.showInfoWindow = false;
+    };
 
     $scope.loadContent = function () {
         Places.findAllMaps()
@@ -506,14 +473,18 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
                     var marker = {
                         config: {
-                            id: angular.copy(place.id)
+                            id: angular.copy(place.id),
+                            place: angular.copy(place)
                         },
                         title:
                             place.title + '<br />' +
                             place.address.address + '<br />' +
                             '<i class="ion-android-open"></i>&nbsp;' + $translate.instant('See details') + '</span>',
-                        onClick: (function (config) {
-                            $scope.goToPlace(config.id);
+                        onClick: (function (marker) {
+                            $timeout(function () {
+                                $scope.showInfoWindow = true;
+                                $scope.currentPlace = marker.config.place;
+                            });
                         })
                     };
 
@@ -536,6 +507,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                 }
 
                 $scope.map_config = {
+                    cluster: true,
                     markers: markers,
                     bounds_to_marker: true
                 };
@@ -549,8 +521,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     $scope.goToPlace = function (placeId) {
         $state.go('places-view', {
             value_id: $scope.value_id,
-            page_id: placeId,
-            type: 'places'
+            page_id: placeId
         });
     };
 });

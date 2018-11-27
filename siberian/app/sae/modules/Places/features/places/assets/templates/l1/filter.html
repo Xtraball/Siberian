@@ -23,6 +23,7 @@
             <div class="item item-custom">
                 <div>
                     <input type="text"
+                           style="width: 100%;"
                            placeholder='{{ "Name, locality, tag, separate terms with a space ..." | translate }}'
                            ng-model="filters.fulltext" />
                     <i ng-show="filters.fulltext.length > 0"
@@ -55,7 +56,7 @@
 
     <button class="search-button button button-assertive button-assertive-custom button-full"
             ng-click="validateFilters();">
-        {{ "Search" | translate }}
+        {{ "Validate" | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-sb-search"></i>
     </button>
 </ion-modal-view>
