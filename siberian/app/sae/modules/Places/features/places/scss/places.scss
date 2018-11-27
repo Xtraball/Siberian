@@ -499,19 +499,28 @@
       span {
         font-size: .85rem;
         font-weight: bold;
-        padding-left: 8px;
         width: 85%;
         display: inline-block;
-      }
-      i {
-        float: right;
-      }
-    }
 
-    .info-window-more {
-      i {
-        font-size: 1.25rem!important;
-        opacity: 0.75!important;
+        &.info-window-title {
+          padding-left: 8px;
+          padding-bottom: 6px;
+        }
+
+        &.info-window-more,
+        &.info-window-distance {
+          font-size: .7rem;
+          width: auto;
+        }
+
+        &.info-window-distance {
+          padding-left: 8px;
+        }
+      }
+      i.info-close {
+        position: absolute;
+        right: 10px;
+        top: 8px;
       }
     }
   }

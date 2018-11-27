@@ -11,6 +11,7 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
     var factory = {
         value_id: null,
         collection: [],
+        mapCollection: [],
         extendedOptions: {}
     };
 
@@ -28,6 +29,14 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
      */
     factory.setExtendedOptions = function (options) {
         factory.extendedOptions = options;
+    };
+
+    /**
+     *
+     * @param items
+     */
+    factory.mapCollection = function (collection) {
+        factory.mapCollection = collection;
     };
 
     /**
@@ -54,15 +63,15 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
         }, factory.extendedOptions));
     };
 
-    factory.findAllMaps = function (refresh) {
+    factory.findAllMaps = function (filters, refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject('[Factory::Places.findAll] missing value_id');
         }
 
-        var parameters = {
+        var parameters = Object.assign({
             value_id: this.value_id,
             maps: true
-        };
+        }, filters);
 
         return $pwaRequest.get('places/mobile_list/findall', angular.extend({
             urlParams: parameters,
@@ -98,7 +107,9 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
             return $pwaRequest.reject('[Factory::Places.getPlace] missing value_id');
         }
 
-        var place = _.get(_.filter(factory.collection, function (item) {
+        var merged = _.union(factory.collection, factory.mapCollection);
+
+        var place = _.get(_.filter(merged, function (item) {
             return (item.id == placeId);
         })[0], 'embed_payload', false);
 

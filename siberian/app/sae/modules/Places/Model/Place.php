@@ -807,17 +807,27 @@ WHERE cap.value_id = {$value_id}
                 break;
         }
 
+        $thumbnail = null;
+        if (!empty($this->getThumbnailUrl())) {
+            $thumbnail = $baseUrl . $this->getThumbnailUrl();
+        }
+
+        $picture = null;
+        if (!empty($this->getPictureUrl())) {
+            $picture = $baseUrl . $this->getPictureUrl();
+        }
+
         $embedPayload = [
             "blocks" => $json,
             "page" => [
                 "title" => $this->getTitle(),
                 "subtitle" => $this->getContent(),
-                "picture" => $this->getPictureUrl(),
+                "picture" => $picture,
                 "show_image" => (boolean) $this->getMetadataValue('show_image'),
                 "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
             ],
             "page_title" => $this->getTitle(),
-            "picture" => $this->getPictureUrl(),
+            "picture" => $picture,
             "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive()
         ];
 
@@ -825,8 +835,8 @@ WHERE cap.value_id = {$value_id}
             "id" => (integer) $this->getId(),
             "title" => $this->getTitle(),
             "subtitle" => $this->getContent(),
-            "picture" => $this->getPictureUrl(),
-            "thumbnail" => $this->getThumbnailUrl(),
+            "picture" => $picture,
+            "thumbnail" => $thumbnail,
             "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
             "address" => [
                 "id" => (integer) $address->getId(),

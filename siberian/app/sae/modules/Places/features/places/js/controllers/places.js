@@ -445,13 +445,17 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.loadContent();
 
-}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Places) {
+}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Location, Places) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
         collection: [],
         showInfoWindow: false,
-        currentPlace: null
+        currentPlace: null,
+        filters: {
+            latitude: 0,
+            longitude: 0,
+        }
     });
 
     Places.setValueId($stateParams.value_id);
@@ -461,59 +465,69 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     };
 
     $scope.loadContent = function () {
-        Places.findAllMaps()
-            .then(function (data) {
-                $scope.page_title = data.page_title;
-                $scope.collection = data.places;
+        Location
+            .getLocation()
+            .then(function (position) {
+                $scope.filters.latitude = position.coords.latitude;
+                $scope.filters.longitude = position.coords.longitude;
+            }, function () {
+                $scope.filters.latitude = 0;
+                $scope.filters.longitude = 0;
+            }).then(function () {
+                Places
+                    .findAllMaps($scope.filters, false)
+                    .then(function (data) {
+                        $scope.page_title = data.page_title;
+                        $scope.collection = data.places;
 
-                var markers = [];
+                        Places.mapCollection($scope.collection);
 
-                for (var i = 0; i < $scope.collection.length; i = i + 1) {
-                    var place = $scope.collection[i];
+                        var markers = [];
 
-                    var marker = {
-                        config: {
-                            id: angular.copy(place.id),
-                            place: angular.copy(place)
-                        },
-                        title:
-                            place.title + '<br />' +
-                            place.address.address + '<br />' +
-                            '<i class="ion-android-open"></i>&nbsp;' + $translate.instant('See details') + '</span>',
-                        onClick: (function (marker) {
-                            $timeout(function () {
-                                $scope.showInfoWindow = true;
-                                $scope.currentPlace = marker.config.place;
-                            });
-                        })
-                    };
+                        for (var i = 0; i < $scope.collection.length; i = i + 1) {
+                            var place = $scope.collection[i];
+                            var marker = {
+                                config: {
+                                    id: angular.copy(place.id),
+                                    place: angular.copy(place)
+                                },
+                                onClick: (function (marker) {
+                                    $timeout(function () {
+                                        $scope.showInfoWindow = true;
+                                        $scope.currentPlace = marker.config.place;
+                                    });
+                                })
+                            };
 
-                    if (place.address.latitude && place.address.longitude) {
-                        marker.latitude = place.address.latitude;
-                        marker.longitude = place.address.longitude;
-                    } else {
-                        marker.address = place.address.address;
-                    }
+                            if (place.address.latitude && place.address.longitude) {
+                                marker.latitude = place.address.latitude;
+                                marker.longitude = place.address.longitude;
+                            } else {
+                                marker.address = place.address.address;
+                            }
 
-                    if (place.picture) {
-                        marker.icon = {
-                            url: place.picture,
-                            width: 70,
-                            height: 44
+                            if (place.picture) {
+                                marker.icon = {
+                                    url: place.picture,
+                                    width: 70,
+                                    height: 44
+                                };
+                            }
+
+                            markers.push(marker);
+                        }
+
+                        $scope.map_config = {
+                            cluster: true,
+                            markers: markers,
+                            bounds_to_marker: true
                         };
-                    }
-
-                    markers.push(marker);
-                }
-
-                $scope.map_config = {
-                    cluster: true,
-                    markers: markers,
-                    bounds_to_marker: true
-                };
-            }).finally(function () {
-                $scope.is_loading = false;
+                    }).finally(function () {
+                        $scope.is_loading = false;
+                    });
             });
+
+
     };
 
     $scope.loadContent();

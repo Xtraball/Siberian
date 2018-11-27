@@ -90,6 +90,12 @@ class Places_ApplicationController extends Application_Controller_Default
                             $allTags[$tag]['pages'][] = $page->getId();
                         }
                     }
+                } else {
+                    $pagePlace = (new Places_Model_Place())
+                        ->find($page->getId());
+                    $pagePlace
+                        ->setPlaceVersion(2)
+                        ->save();
                 }
             }
 
@@ -142,9 +148,95 @@ class Places_ApplicationController extends Application_Controller_Default
                 }
             }
 
+            $payload = [
+                "success" => true,
+                "message" => __("Upgrade done!"),
+            ];
         } catch (\Exception $e) {
-            //
+            $payload = [
+                "success" => false,
+                "message" => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function skipUpdateAction()
+    {
+        // Upgrade feature if necessary!
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $pages = (new Cms_Model_Application_Page())
+                ->findAllOrderedByRank($optionValue->getId());
+
+            // Associate tags with pages
+            $allTags = [];
+            $tagIndex = 1;
+            foreach ($pages as $page) {
+                if ($page->getPlaceVersion() == 2) {
+                    continue;
+                }
+
+                $tags = $optionValue->getTagNames($page);
+                if (!empty($tags)) {
+                    foreach ($tags as $tag) {
+                        if (!empty($tag)) {
+                            if (!array_key_exists($tag, $allTags)) {
+                                $allTags[$tag] = [
+                                    'index' => $tagIndex++,
+                                    'pages' => [],
+                                ];
+                            }
+                            $allTags[$tag]['pages'][] = $page->getId();
+                        }
+                    }
+                } else {
+                    $pagePlace = (new Places_Model_Place())
+                        ->find($page->getId());
+                    $pagePlace
+                        ->setPlaceVersion(2)
+                        ->save();
+                }
+            }
+
+            // Create missing tags
+            foreach ($allTags as $tagName => $allTag) {
+                $lowerCategoryName = strtolower($tagName);
+
+                // Update places
+                $pages = $allTag['pages'];
+                foreach ($pages as $pageId) {
+                    $pagePlace = (new Places_Model_Place())
+                        ->find($pageId);
+
+                    if ($pagePlace->getId()) {
+                        $pagePlace
+                            ->addTag($lowerCategoryName)
+                            ->save();
+
+                        $pagePlace
+                            ->setPlaceVersion(2)
+                            ->save();
+                    }
+                }
+            }
+
+            $payload = [
+                "success" => true,
+                "message" => __("Upgrade done!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "success" => false,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     /**

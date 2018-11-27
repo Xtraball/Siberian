@@ -39,14 +39,42 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
     <?php if (empty($appKey)): ?>
         <div class="alert alert-danger">
-            <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+            <?php echo __("You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.") ?>
         </div>
     <?php endif; ?>
 
     <?php if ($this->getMustUpdate()): ?>
+        <div class="alert alert-success">
+            <?php echo __("Places upgrade! New version with a better search engine, categories & display options.") ?>
+            <hr />
+            <?php echo __("What's new?") ?>
+            <br />
+            - <?php echo __("Addresses blocks can now have a website & a phone number.") ?>
+            <br />
+            - <?php echo __("A place can belong to multiple categories.") ?>
+
+            <hr />
+            <?php echo __("What will the upgrade do?") ?>
+            <br />
+            - <?php echo __("Tags will be de-duplicated, migrated to categories & associated to existing places.") ?>
+            <br />
+            - <?php echo __("Existing tags will be copied in the `tag` field, which are now used to improve the full-text search.") ?>
+
+            <br />
+            <br />
+            <button class="btn color-blue pull-right place-upgrade"><?php echo __("Proceed to ugrade!") ?></button>
+
+            <div style="clear:both;"></div>
+        </div>
+
         <div class="alert alert-warning">
-            <?php echo __('You feature is currently in version 1, would you like to upgrade it to v2 to benefit latest improvements and features?.') ?>
-            <button class="btn color-blue"><?php echo __("Proceed to update!") ?></button>
+            <?php echo __("What if I skip the upgrade?") ?>
+            <br />
+            - <?php echo __("Only tags will be copied in the `tag` field, which are now used to improve the full-text search.") ?>
+            <br />
+            <button class="btn color-red pull-right place-skip"><?php echo __("Ok, skip automated upgrade!") ?></button>
+
+            <div style="clear:both;"></div>
         </div>
     <?php endif; ?>
 
@@ -429,6 +457,74 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                     function(result) {}
                 );
             }
+        });
+
+        // Continue until it's done
+        let loopCount = 0;
+        let loopLimit = 10;
+        let updatePlaces = function (skip) {
+            let url = '/places/application/update-places';
+            if (skip) {
+                url = '/places/application/skip-update';
+            }
+
+            formget(
+                url,
+                {
+                    value_id: '<?php echo $optionValue->getId() ?>'
+                },
+                function() {
+                    swal({
+                        title: '<?php echo __jss('Success') ?>',
+                        text: '<?php echo __jss('Your places are now up-to-date.') ?>',
+                        animation: 'none'
+                    }, function () {
+                        swal.close();
+                        page.reload();
+                    });
+                },
+                function() {
+                    updatePlaces(skip);
+                    loopCount++;
+                    if (loopCount > loopLimit) {
+                        swal({
+                            title: '<?php echo __jss('Error') ?>',
+                            text: '<?php echo __jss('Please try again, something did break during the upgrade!') ?>',
+                            animation: 'none'
+                        }, function () {
+                            swal.close();
+                            page.reload();
+                        });
+                    }
+                },
+                false);
+        };
+
+        // Upgrade / Skip
+        let placeUpgrade = $(".place-upgrade");
+        placeUpgrade.off("click");
+        placeUpgrade.on("click", function () {
+            swal({
+                title: '<?php echo __jss("Please wait") ?>',
+                html: true,
+                text: '<?php echo __jss("Upgrade can take a while depending on the places count!") ?><br /><?php echo __jss("Please wait until the page reloads!") ?>',
+                showConfirmButton: false,
+                animation: 'none'
+            });
+            updatePlaces(false);
+        });
+
+        let placeSkip = $(".place-skip");
+        placeSkip.off("click");
+        placeSkip.on("click", function () {
+            swal({
+                title: '<?php echo __jss('Please wait') ?>',
+                html: true,
+                text: '<?php echo __jss('Migrating tags can take a while depending on the places count!') ?><br /><?php echo __jss("Please wait until the page reloads!") ?>',
+                showConfirmButton: false,
+                animation: 'none'
+            });
+            updatePlaces(true);
         });
     });
 </script>

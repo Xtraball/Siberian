@@ -80,23 +80,20 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
             ];
 
-            // Fetch places!
+            if ($isMaps) {
+                $params["offset"] = 0;
+                $params["limit"] = null;
+            }
 
             /**
              * @var $places Places_Model_Place[]
              */
-            $places = [];
-            if (!$isMaps) {
-                $places = (new Places_Model_Place())
-                    ->findAllWithFilters($valueId, [
+            $places = (new Places_Model_Place())
+                ->findAllWithFilters($valueId, [
                     'search_by_distance' => true,
                     'latitude' => $position['latitude'],
                     'longitude' => $position['longitude'],
                 ], $params);
-            } else {
-                $places = (new Places_Model_Place())
-                    ->findAll(["value_id" => $valueId]);
-            }
 
             $collection = [];
             foreach ($places as $place) {
