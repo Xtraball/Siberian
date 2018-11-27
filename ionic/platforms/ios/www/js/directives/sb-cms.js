@@ -22,12 +22,35 @@ angular.module('starter').directive('sbCmsText', function () {
             gallery: '='
         },
         template:
-        '<div class="item item-image-gallery item-custom">' +
-        '   <ion-scroll direction="y">' +
-        '       <ion-gallery ion-gallery-items="block.gallery" ng-if="!is_loading"></ion-gallery>' +
-        '   </ion-scroll>' +
-        '</div>' +
-        '<div ng-if="block.description" class="item item-custom padding description">{{ block.description }}</div>'
+        '<div class="sb-cms-block-image">' +
+        '    <div class="item item-image-gallery item-custom">' +
+        '        <ion-scroll direction="y">' +
+        '           <ion-gallery ion-gallery-items="block.gallery" ' +
+        '                        ng-if="!is_loading"></ion-gallery>' +
+        '       </ion-scroll>' +
+        '    </div>' +
+        '    <div ng-if="block.description" ' +
+        '         class="item item-custom padding description">{{ block.description }}</div>' +
+        '</div>'
+    };
+}).directive('sbPlaceImage', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            block: '=',
+            gallery: '='
+        },
+        template:
+        '<div class="sb-place-block-image">' +
+        '    <div ng-if="block.description" ' +
+        '         class="item item-custom padding description">{{ block.description }}</div>' +
+        '    <div class="item item-image-gallery item-custom">' +
+        '        <ion-scroll direction="y">' +
+        '           <ion-gallery ion-gallery-items="block.gallery" ' +
+        '                        ng-if="!is_loading"></ion-gallery>' +
+        '       </ion-scroll>' +
+        '    </div>' +
+        '</div>'
     };
 }).directive('sbCmsCover', function () {
     return {
@@ -185,26 +208,38 @@ angular.module('starter').directive('sbCmsText', function () {
             onAddToContact: '&'
         },
         template:
-        '<div>' +
-        '    <div class="item item-text-wrap item-custom" ng-if="block.show_address">' +
-        '       <h2 ng-if="block.label">{{ block.label}}</h2>' +
-        '       <p ng-if="block.address">{{ block.address }}</p>' +
+        '<div class="sb-cms-block-address">' +
+        '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-locate" ' +
+        '        ng-if="block.show_address || block.show_geolocation_button" ' +
+        '        ng-click="openIntent()">' +
+        '       <i class="icon ion-sb-turn-right"></i>' +
+        '       <h2 class="sb-cms-address-label" ' +
+        '           ng-if="block.label">{{ block.label}}</h2>' +
+        '       <p class="sb-cms-address-address" ' +
+        '          ng-if="block.address">{{ block.address }}</p>' +
         '   </div>' +
-        '   <div class="item item-text-wrap item-icon-left item-custom" ng-if="handle_address_book" ng-click="addToContact()">' +
-        '       <i class="icon ion-ios-cloud-download"></i>' +
-        '       {{ "Add to address book" | translate }}' +
+        '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-phone" ' +
+        '        ng-if="block.phone.length && block.show_phone">' +
+        '       <i class="icon ion-android-call"></i>' +
+        '       <p>' +
+        '           <a href="tel:{{ block.phone }}">{{ block.phone }}</a>' +
+        '       </p>' +
         '   </div>' +
-        '   <div class="item item-text-wrap item-icon-left item-custom" ng-if="(block.latitude && block.longitude || block.address) && block.show_geolocation_button && !itinerary_link" ng-click="showMap()">' +
-        '       <i class="icon ion-ios-location-outline"></i>' +
-        '       {{ "Locate" | translate }}' +
-        '   </div>' +
-        '   <div class="item item-text-wrap item-icon-left item-custom" ng-if="itinerary_link && block.show_geolocation_button" href="{{ itinerary_link }}" target="{{ itinerary_link_target }}">' +
-        '       <i class="icon ion-ios-location-outline"></i>' +
-        '       {{ "Locate" | translate }}' +
+        '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-website" ' +
+        '        ng-if="block.website.length && block.show_website">' +
+        '       <i class="icon ion-earth"></i>' +
+        '       <p>' +
+        '           <a href="{{ block.website }}" ' +
+        '              target="_system">{{ websiteLabel }}</a>' +
+        '       </p>' +
         '   </div>' +
         '</div>',
-        controller: function ($cordovaGeolocation, Loader, $rootScope, $scope, $window) {
-            $scope.handle_address_book = false; // Application.handle_address_book;
+        controller: function (Location, Loader, LinkService, $rootScope, $scope) {
+
+            // Replace https? and trailing slashes in "text" uris.
+            $scope.websiteLabel = $scope.block.website
+                .replace(/^https?:\/\//i, "")
+                .replace(/\/$/, "");
 
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {
@@ -216,17 +251,29 @@ angular.module('starter').directive('sbCmsText', function () {
                 }
 
                 Loader.show();
+                Location
+                    .getLocation()
+                    .then(function (position) {
+                        $scope.getItineraryLink(position.coords, $scope.block);
+                    }, function () {
+                        $scope.getItineraryLink({'latitude': null, 'longitude': null}, $scope.block);
+                    }).then(function () {
+                        Loader.hide();
+                    });
+            };
 
-                $cordovaGeolocation.getCurrentPosition({ enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }).then(function (position) {
-                    $scope.getItineraryLink(position.coords, $scope.block);
+            $scope.openIntent = function () {
+                if (!$scope.itinerary_link) {
+                    $scope.showMap();
+                } else if ($scope.itinerary_link) {
+                    $scope.openItinary();
+                } else {
+                    // Do nothing!
+                }
+            };
 
-                    Loader.hide();
-                }, function () {
-                    var null_point = { 'latitude': null, 'longitude': null };
-                    $scope.getItineraryLink(null_point, $scope.block);
-
-                    Loader.hide();
-                });
+            $scope.openItinary = function () {
+                LinkService.openLink($scope.itinerary_link, {use_external_app: true});
             };
 
             $scope.addToContact = function () {
@@ -246,7 +293,7 @@ angular.module('starter').directive('sbCmsText', function () {
                     link = link + ('/' + point2.latitude + ',' + point2.longitude);
                 }
 
-                $window.open(link, ($rootScope.isNativeApp ? '_system' : '_blank'), 'location=no');
+                LinkService.openLink(link, {use_external_app: true});
             };
         } // !controller
     };

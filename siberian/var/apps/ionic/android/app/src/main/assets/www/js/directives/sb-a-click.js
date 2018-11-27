@@ -35,7 +35,7 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
                             var options = {
                                 "hide_navbar" : false,
                                 "use_external_app" : false
-                            }
+                            };
                             LinkService.openLink(elem.href,options);
                         });
                     }
