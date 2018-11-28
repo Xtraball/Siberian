@@ -37,7 +37,11 @@ angular.module('starter').controller('Folder2ListController', function ($scope, 
      */
     $scope.loadContent = function () {
         Folder2.findAll()
-            .then(function () {
+            .then(function (result) {
+                if (result && result.collection) {
+                    Folder2.populate(result);
+                }
+
                 $scope.cardDesign = Folder2.cardDesign;
                 $scope.allowLineReturn = Folder2.allowLineReturn;
                 $scope.showSearch = Folder2.showSearch;
