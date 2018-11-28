@@ -21,7 +21,7 @@
     <a tabbar-items
        class="item item-custom item-avatar-square"
        option="item.feature"
-       ng-repeat="item in searchIndex | filter:search.searchValue as results"
+       ng-repeat="item in searchIndex | multiWordsFilter:search.searchValue as results"
        ng-class="{
             'item-avatar': item.feature.thumbnail,
             'item-center': (!item.feature.subtitle && !item.feature.message)}">

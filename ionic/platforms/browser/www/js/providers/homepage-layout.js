@@ -14,9 +14,6 @@ angular.module('starter').provider('HomepageLayout', function () {
 
                 if (currentPage.code === "folder_v2") {
                     currentPage.embed_payload.collection.forEach(function (subPage) {
-                        console.log("valueId", valueId);
-                        console.log("subPage.value_id", subPage.value_id);
-                        console.log("subPage", subPage);
                         if (subPage.value_id == valueId) {
                             layoutId = subPage.layout_id;
                             return layoutId;
