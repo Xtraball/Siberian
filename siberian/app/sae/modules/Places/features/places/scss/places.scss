@@ -397,12 +397,14 @@
   .place {
     .card {
       .text {
+        color: $card-item-custom-text;
         background-color: $card-item-custom-bg;
       }
       .image {
         background-color: darken($card-item-custom-bg, 5%);
       }
       .distance-flex {
+        color: $card-item-custom-text;
         background-color: darken($card-item-custom-bg, 5%);
       }
     }

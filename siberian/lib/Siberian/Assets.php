@@ -599,9 +599,6 @@ class Siberian_Assets
                     // SCSS Case
                     $css = self::compileScss($inFile);
                     $minifier_css->add($css);
-                    file_put_contents('/tmp/css.lol', $inFile, FILE_APPEND);
-                    file_put_contents('/tmp/css.lol', $css, FILE_APPEND);
-
                 } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
                     if ($ext === "js") {
                         $minifier_js->add($inFile);
