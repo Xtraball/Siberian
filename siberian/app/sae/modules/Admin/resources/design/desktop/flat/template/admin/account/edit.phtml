@@ -1,4 +1,6 @@
-<?php $admin = $this->getEditAdmin();
+<?php
+
+$admin = $this->getEditAdmin();
 $current_admin = $this->getAdmin();
 $admin_role = $current_admin->getRoleId();
 $role = new Acl_Model_Role();
@@ -14,6 +16,8 @@ $availableRoles = (new Acl_Model_Role())->getChilds($role);
 if ($role->getIsSelfAssignable()) {
     array_unshift($availableRoles, $role->_asArray($role));
 }
+
+$isManagement = $this->getMode() === "management";
 
 if (!($this->getMode()=="management")) {
     $class_col = "col-md-12";
@@ -187,7 +191,7 @@ if (!($this->getMode()=="management")) {
                             </div>
                         </div>
 
-                        <?php if (Siberian_Version::is('PE')): ?>
+                        <?php if (Siberian_Version::is('PE') && !$isManagement && !$admin->getParentId()): ?>
                         <div class="form-group">
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <label for="optin_email">
