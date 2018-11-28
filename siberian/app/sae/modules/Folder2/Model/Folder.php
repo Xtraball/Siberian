@@ -174,6 +174,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 $collection[] = [
                     'title' => (string) $feature->getTabbarName(),
                     'subtitle' => (string) $feature->getTabbarSubtitle(),
+                    'layout_id' => (integer) $feature->getLayoutId(),
                     'category_id' => null,
                     'parent_id' => (integer) $feature->getFolderCategoryId(),
                     'type_id' => 'feature',
@@ -190,6 +191,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_feature' => true,
                     'is_active' => (boolean) $feature->isActive(),
                     'is_locked' => (boolean) $feature->isLocked(),
+                    'value_id' => (integer) $feature->getId(),
                 ];
             }
 
