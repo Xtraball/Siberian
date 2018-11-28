@@ -230,17 +230,21 @@ angular.module('starter').directive('sbCmsText', function () {
         '       <i class="icon ion-earth"></i>' +
         '       <p>' +
         '           <a href="{{ block.website }}" ' +
-        '              target="_system">{{ websiteLabel }}</a>' +
+        '              target="_system">{{ block._label }}</a>' +
         '       </p>' +
         '   </div>' +
         '</div>',
-        controller: function (Location, Loader, LinkService, $rootScope, $scope) {
-
-            // Replace https? and trailing slashes in "text" uris.
-            $scope.websiteLabel = $scope.block.website
-                .replace(/^https?:\/\//i, "")
-                .replace(/\/$/, "");
-
+        link: function (scope) {
+            scope.$watch('block', function() {
+                // Clean-up "readable" uri with all fancy things.
+                scope.block._label = scope.block.website
+                    .replace(/^https?:\/\//i, "")
+                    .replace(/\/$/, "")
+                    .replace(/(\?.*)$/, "")
+                    .replace(/(\#.*)$/, "");
+            });
+        },
+        controller: function (Location, Loader, LinkService, $rootScope, $scope, $timeout) {
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {
                     return;

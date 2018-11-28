@@ -27,9 +27,6 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
         // retrieve playlists
         MusicPlaylist.findAll()
             .then(function (data) {
-
-                console.log("MusicPlaylist.findAll()", data);
-
                 // retrieve albums for each playlist
                 var promises = data.playlists.reduce(function (promises, playlist) {
                     promises.push(MusicAlbum.findByPlaylist(playlist.id));
@@ -39,13 +36,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
                 // synchronize all queries
                 $q.all(promises).then(function (playlistsAlbums) {
 
-                    console.log("playlistsAlbums", playlistsAlbums);
-
                     $scope.playlists = data.playlists.reduce(function (playlists, playlist) {
-
-                        console.log("$scope.playlists = data.playlists.reduce(function (playlists, playlist) {",
-                            playlists, playlist);
-
                         // add images from the 4 first albums
                         var index = playlists.length;
                         playlist.albums = playlistsAlbums[index].albums;
@@ -92,9 +83,6 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
                     MusicTracksLoader.loadTracksFromPlaylists($scope.playlists)
                         .then(function (results) {
-
-                            console.log("MusicTracksLoader.loadTracksFromPlaylists($scope.playlists)", results);
-
                             $scope.tracks_loader = results.tracksLoader;
                         }).then(function() {
                             // Paging playlists on 2 rows
@@ -164,17 +152,11 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
     $scope.loadContent = function () {
         MusicPlaylist.find($stateParams.playlist_id)
             .then(function (data) {
-
-                console.log("MusicPlaylist.find($stateParams.playlist_id)", data);
-
                 $scope.playlist = data.playlist;
                 $scope.page_title = data.playlist.name;
 
                 MusicAlbum.findByPlaylist($stateParams.playlist_id)
                     .then(function (data) {
-
-                        console.log("MusicAlbum.findByPlaylist($stateParams.playlist_id)", data);
-
                         var paged_albums = [];
                         var albums = [];
                         for(var i = 0; i < data.albums.length; i++) {
@@ -197,9 +179,6 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
                         MusicTracksLoader.loadTracksFromAlbums($scope.playlist.albums)
                             .then(function (results) {
-
-                                console.log("MusicTracksLoader.loadTracksFromAlbums($scope.playlist.albums)", results);
-
                                 $scope.tracks_loader = results.tracksLoader;
                             });
 
@@ -260,9 +239,6 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
         // retrieve albums
         MusicAlbum.findAll()
             .then(function (data) {
-
-                console.log("MusicAlbum.findAll()", data);
-
                 var paged_albums = [];
                 var albums = [];
                 for(var i = 0; i < data.albums.length; i++) {
@@ -282,9 +258,6 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
                 MusicTracksLoader.loadTracksFromAlbums($scope.albums)
                     .then(function (results) {
-
-                        console.log("MusicTracksLoader.loadTracksFromAlbums($scope.albums)", results);
-
                         $scope.tracks_loader = results.tracksLoader;
                     });
 
@@ -333,17 +306,11 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
         MusicAlbum.find(param)
             .then(function (data) {
-
-                console.log("MusicAlbum.find(param)", data);
-
                 $scope.album = data.album;
                 $scope.page_title = data.album.name;
 
                 MusicTrack.findByAlbum(param)
                     .then(function (data) {
-
-                        console.log("MusicTrack.findByAlbum(param)", data);
-
                         $scope.album.tracks = data.tracks;
 
                     }, function () {
