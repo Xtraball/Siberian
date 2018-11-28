@@ -1,78 +1,189 @@
-<?php $option_value = $this->getOptionValue(); ?>
-<?php $application = $this->getApplication(); ?>
-<?php $weblink = $option_value->getObject(); ?>
+<?php
+
+$optionValue = $this->getOptionValue();
+$application = $this->getApplication();
+$weblink = $optionValue->getObject();
+
+
+$settingsForm = new Weblink_Form_Settings();
+try {
+    $settingsForm->populate(\Siberian_Json::decode($optionValue->getSettings()));
+    $settingsForm->setValueId($optionValue->getId());
+} catch (\Exception $e) {
+    //
+    $settingsForm->setValueId($optionValue->getId());
+}
+
+?>
 <div class="form_content">
-    <div id="list" class="edit_page weblink">
-        <div class="weblinks">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('Your links') ?>
-            </h3>
-            <div class="container-fluid first-row-feature content-feature">
-                <div id="cover_crop" style="display:none;">
-                    <button type="button" id="cancel_cover_crop" class="btn color-blue pull-left"><i class="fa fa-remove"></i></button>
-                    <button type="button" id="validate_cover_crop" class="default_button pull-right btn color-blue">OK</button>
-                    <p><?php echo __('Resize your picture:') ?></p>
-                </div>
-                <div id="cover_crop_content"></div>
-                <div id="weblink_content" class="form-horizontal">
-                    <div class="form-group">
-                        <div class="col-sm-4">
-                            <!--[if gte IE 10]><!-->
-                            <button id="upload_weblink_picture" type="button" class="upload_weblink_picture bg_hd btn-grey btn">
-                                <?php echo __('Insert a cover image'); ?>
-                            </button>
-                            <!--<![endif]-->
-                            <p id="uploader_logo_ie_description" style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
-                            <input id="link_file_cover" class="uploader link_file input-flat" style="display:none" type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" data-id="cover" rel="cover" />
-                        </div>
-                        <div class="col-sm-6">
-                            <img id="cover_img" src="<?php echo $weblink->getCoverUrl(); ?>" width="220" height="186"<?php if(!$weblink->getCover()) : ?> style="display:none;"<?php endif; ?> />
-                            <a href="" style="<?php if(!$weblink->getCover()) : ?>display:none;<?php endif; ?>" id="remove_cover_img" class="btn color-blue">
+    <div id="list"
+         class="edit_page weblink">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs"
+            role="tablist">
+            <li role="presentation"
+                class="active">
+                <a href="#links"
+                   aria-controls="links"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-map-marker"></i>
+                    <?php echo __("Links") ?>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#settings"
+                   aria-controls="settings"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-cogs"></i>
+                    <?php echo __("Settings") ?>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#design"
+                   aria-controls="design"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-image"></i>
+                    <?php echo __("Design") ?>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div role="tabpanel"
+                 class="tab-pane active"
+                 id="links">
+                <div class="weblinks">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Your links') ?>
+                    </h3>
+                    <div class="container-fluid first-row-feature content-feature">
+                        <div id="cover_crop"
+                             style="display:none;">
+                            <button type="button"
+                                    id="cancel_cover_crop"
+                                    class="btn color-blue pull-left">
                                 <i class="fa fa-remove"></i>
-                            </a>
+                            </button>
+                            <button type="button"
+                                    id="validate_cover_crop"
+                                    class="default_button pull-right btn color-blue">
+                                <?php echo __("Save") ?>
+                            </button>
+                            <p><?php echo __("Resize your picture") ?></p>
+                        </div>
+                        <div id="cover_crop_content"></div>
+                        <div id="weblink_content"
+                             class="form-horizontal">
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <!--[if gte IE 10]><!-->
+                                    <button id="upload_weblink_picture"
+                                            type="button"
+                                            class="upload_weblink_picture bg_hd btn-grey btn">
+                                        <?php echo __('Insert a cover image'); ?>
+                                    </button>
+                                    <!--<![endif]-->
+                                    <p id="uploader_logo_ie_description"
+                                       style="display:none"><?php echo __("Insert a cover image"); ?></span></p>
+                                    <input id="link_file_cover"
+                                           class="uploader link_file input-flat"
+                                           style="display:none"
+                                           type="file"
+                                           name="files[]"
+                                           data-url="<?php echo $this->getUrl('template/crop/upload'); ?>"
+                                           data-id="cover"
+                                           rel="cover" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <img id="cover_img"
+                                         src="<?php echo $weblink->getCoverUrl(); ?>"
+                                         width="220"
+                                         height="186"<?php if(!$weblink->getCover()) : ?>
+                                        style="display:none;"<?php endif; ?> />
+                                    <a href=""
+                                       style="<?php if(!$weblink->getCover()) : ?>display:none;<?php endif; ?>"
+                                       id="remove_cover_img"
+                                       class="btn color-blue">
+                                        <i class="fa fa-remove"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <button type="button"
+                                            id="add_link"
+                                            class="as-link btn color-blue">+ <?php echo __("Add a link"); ?></button>
+                                </div>
+                            </div>
+                            <div class="list-group">
+                                <?php foreach($weblink->getLinks() as $link) : ?>
+                                    <?php echo $this->getLayout()->addPartial('row_'.$link->getId(), 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
+                                        ->setCurrentLink($link)
+                                        ->setCurrentOptionValue($optionValue)
+                                        ->toHtml()
+                                    ?>
+                                <?php endforeach; ?>
+                                <?php echo $this->getLayout()->addPartial('row_new', 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
+                                    ->setCurrentLink(new Weblink_Model_Weblink_Link(array('id' => 'new')))
+                                    ->setCurrentOptionValue($optionValue)
+                                    ->toHtml()
+                                ?>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                            <button type="button" id="add_link" class="as-link btn color-blue">+ <?php echo __('Add a link'); ?></button>
-                        </div>
-                    </div>
-                    <div class="list-group">
-                        <?php foreach($weblink->getLinks() as $link) : ?>
-                            <?php echo $this->getLayout()->addPartial('row_'.$link->getId(), 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
-                                ->setCurrentLink($link)
-                                ->setCurrentOptionValue($option_value)
-                                ->toHtml()
-                            ?>
-                        <?php endforeach; ?>
-                        <?php echo $this->getLayout()->addPartial('row_new', 'admin_view_default', 'weblink/application/multi/edit/row.phtml')
-                            ->setCurrentLink(new Weblink_Model_Weblink_Link(array('id' => 'new')))
-                            ->setCurrentOptionValue($option_value)
-                            ->toHtml()
-                        ?>
+                    <div id="weblinkCoverForm">
+                        <input type="hidden"
+                               id="cover_file"
+                               name="file" />
+                        <input type="hidden"
+                               id="remove_cover"
+                               name="remove_cover"
+                               value="0" />
+                        <input type="hidden"
+                               name="value_id"
+                               value="<?php echo $optionValue->getId(); ?>"/>
                     </div>
                 </div>
             </div>
-            <div id="weblinkCoverForm">
-                <input type="hidden" id="cover_file" name="file" />
-                <input type="hidden" id="remove_cover" name="remove_cover" value="0" />
-                <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>"/>
+
+            <div role="tabpanel"
+                 class="tab-pane"
+                 id="settings">
+                <div>
+                    <h3 class="title-editor title-feature-indent">
+                        <?php echo __("Settings & Options"); ?>
+                    </h3>
+                </div>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $settingsForm; ?>
+                </div>
             </div>
+
+            <div role="tabpanel"
+                 class="tab-pane"
+                 id="design">
+                <?php echo $this->importBackground($optionValue, false, false); ?>
+            </div>
+
         </div>
-        <div class="background background-images-upload">
-            <?php echo $this->importBackground($option_value); ?>
-        </div>
+
     </div>
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
-        bindForms('.background-images-upload');
+        bindForms('#settings');
+        bindForms('#design');
     });
 
-    var olddiv = $('.form_content > div#list');
-    var weblink_uploader = new Uploader();
+    let olddiv = $('.form_content > div#list');
+    let weblink_uploader = new Uploader();
 
-    var uploader_types = ['cover', 'picto'];
+    let uploader_types = ['cover', 'picto'];
     uploader_types['cover'] = {
         height: 585,
         width: 495,
@@ -323,7 +434,7 @@
             formget(
                 '<?php echo __path('weblink/application_multi/reorder'); ?>',
                 {
-                    value_id: <?php echo $option_value->getId(); ?>,
+                    value_id: <?php echo $optionValue->getId(); ?>,
                     positions: positions
                 },
                 function (response) {

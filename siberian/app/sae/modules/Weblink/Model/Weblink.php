@@ -22,18 +22,20 @@ class Weblink_Model_Weblink extends Core_Model_Default
     }
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @return bool
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($optionValue)
     {
+
+
 
         $payload = [
             "weblink" => [
                 "links" => [],
                 "cover_url" => null,
             ],
-            "page_title" => $option_value->getTabbarName()
+            "page_title" => $optionValue->getTabbarName()
         ];
 
         if ($this->getId()) {
@@ -43,6 +45,14 @@ class Weblink_Model_Weblink extends Core_Model_Default
                 $picture_file = Core_Model_Directory::getBasePathTo($this->getCoverUrl());
                 $payload["weblink"]["cover_url"] = Siberian_Image::open($picture_file)->inline("png");
             }
+
+            try {
+                $settings = \Siberian_Json::decode($optionValue->getSettings());
+            } catch (\Exception $exception) {
+                $settings = [];
+            }
+
+            $payload["settings"] = $settings;
 
             foreach ($this->getLinks() as $link) {
 
