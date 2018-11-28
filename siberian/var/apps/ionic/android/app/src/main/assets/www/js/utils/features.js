@@ -21,6 +21,12 @@ window.Features = (new (function Features() {
             $this.featuresToLoadOnStart.push(bundle);
         }
 
+        // Lazy load deps!
+        var lazyLoadBundle = angular.copy(bundle);
+        if (json.lazyLoad && json.lazyLoad.module) {
+            lazyLoadBundle = lazyLoadBundle.concat(json.lazyLoad.module);
+        }
+
         var feature_base = 'features/'+json.code+'/';
         _app.config(
             [
@@ -35,10 +41,16 @@ window.Features = (new (function Features() {
                                 'controller': r.controller
                             };
 
-                            if (angular.isDefined(bundle)) {
+                            if (angular.isDefined(lazyLoadBundle)) {
                                 route.resolve = {
                                     lazy: ['$ocLazyLoad', function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(bundle);
+                                        if (json.lazyLoad && json.lazyLoad.core) {
+                                            json.lazyLoad.core.forEach(function (bundle) {
+                                                $ocLazyLoad.load('./dist/packed/' + bundle + '.bundle.min.js')
+                                            });
+                                        }
+
+                                        return $ocLazyLoad.load(lazyLoadBundle);
                                     }]
                                 };
                             }

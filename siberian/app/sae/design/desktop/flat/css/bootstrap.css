@@ -5,6 +5,7 @@
  */
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
 html {
     font-family: sans-serif;
     -webkit-text-size-adjust: 100%;
@@ -4637,7 +4638,7 @@ a.thumbnail.active {
     border: 1px solid transparent;
     border-bottom: 3px solid transparent;
     border-radius: 2px;
-    letter-spacing: 0.7px;
+    letter-spacing: 1.2px;
 }
 .alert h4 {
     margin-top: 0;
@@ -4671,7 +4672,7 @@ a.thumbnail.active {
     border-bottom-color: #3c763d;
 }
 .alert-success hr {
-    border-top-color: #3c763d;
+    border-color: #3c763d;
 }
 .alert-success .alert-link {
     color: #ffffff;
@@ -4682,7 +4683,7 @@ a.thumbnail.active {
     border-bottom-color: #48829e;
 }
 .alert-info hr {
-    border-top-color: #48829e;
+    border-color: #48829e;
 }
 .alert-info .alert-link {
     color: #ffffff;
@@ -4693,7 +4694,7 @@ a.thumbnail.active {
     border-bottom-color: #966e25;
 }
 .alert-warning hr {
-    border-top-color: #965a25;
+    border-color: #965a25;
 }
 .alert-warning .alert-link {
     color: #ffffff;
@@ -4704,7 +4705,7 @@ a.thumbnail.active {
     border-bottom-color: #823231;
 }
 .alert-danger hr {
-    border-top-color: #823231;
+    border-color: #823231;
 }
 .alert-danger .alert-link {
     color: #ffffff;

@@ -1,24 +1,38 @@
 <?php
 
-class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page_Block_Abstract {
+/**
+ * Class Cms_Model_Application_Page_Block_Button
+ */
+class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page_Block_Abstract
+{
 
-    public function __construct($params = []) {
+    /**
+     * Cms_Model_Application_Page_Block_Button constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Button';
         return $this;
     }
-    
-    public function isValid() {
 
-        if($this->getContent()) {
-            if($this->getTypeId() == "link") {
-                
+    /**
+     * @return bool|mixed
+     */
+    public function isValid()
+    {
+
+        if ($this->getContent()) {
+            if ($this->getTypeId() == "link") {
+
             }
 
             return true;
         }
 
-        if($this->getContent()) {
+        if ($this->getContent()) {
             return true;
         }
 
@@ -29,7 +43,8 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
      * @param array $data
      * @return $this
      */
-    public function populate($data = []) {
+    public function populate($data = [])
+    {
 
         $this->setTypeId($data["type"]);
         $this->setLabel($data["label"]);
@@ -40,19 +55,19 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
 
         $this->setIcon($icon);
 
-        switch($data["type"]) {
+        switch ($data["type"]) {
             case "phone":
-                    $this->setContent($data["phone"]);
+                $this->setContent($data["phone"]);
                 break;
             case "link":
-                    $this->setContent($data["link"]);
+                $this->setContent($data["link"]);
                 break;
             case "email":
-                    $this->setContent($data["email"]);
+                $this->setContent($data["email"]);
                 break;
         }
 
         return $this;
     }
-    
+
 }

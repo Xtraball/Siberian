@@ -1,0 +1,112 @@
+<ion-view class="module-places places places-list l1"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="nextFormat(true)"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon"
+               ng-class="currentFormatBtn"></i>
+        </button>
+        <button ng-click="goToMap()"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-map"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <div class="search-action"
+         ng-click="filterModal()">
+        <i class="icon ion-sb-search"></i>
+    </div>
+
+    <ion-content>
+        <div ng-show="is_loading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div>
+            <div class="places">
+                <div ng-repeat="item in collection"
+                     ng-click="showItem(item)"
+                     ng-class="currentFormat"
+                     class="place">
+
+                    <div ng-if="currentFormat == 'place-33'">
+                        <div class="card">
+                            <div class="image"
+                                 ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-50'">
+                        <div class="card">
+                            <div class="image"
+                                 ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-100'">
+                        <div class="card">
+                            <div class="sb-row">
+                                <div class="sb-col-20">
+                                    <div class="image"
+                                         ng-style="{'background-image':'url(' + placeThumbnailSrc(item) + ')'}">
+                                    </div>
+                                </div>
+                                <div class="sb-col-60">
+                                    <div class="text">
+                                        <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                        <p ng-if="item.subtitle"
+                                           ng-bind-html="item.subtitle"
+                                           class="subtitle"></p>
+                                    </div>
+                                </div>
+                                <div class="sb-col-20 distance-flex">
+                                    <span class="distance">
+                                        {{ item.distance }}
+                                        <br />
+                                        <span class="unit">{{ item.distanceUnit }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="card"
+                 ng-if="!collection.length && !is_loading">
+                <div class="item item-custom">
+                    {{ "No results for your search!" }}
+                </div>
+            </div>
+
+            <ion-infinite-scroll ng-if="load_more"
+                                 on-infinite="loadPlaces(true)"
+                                 immediate-check="false"
+                                 distance="10%"
+                                 class="spinner-custom">
+            </ion-infinite-scroll>
+        </div>
+
+    </ion-content>
+</ion-view>

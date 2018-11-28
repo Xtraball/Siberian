@@ -12,10 +12,10 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
                 $pageRepository = new Cms_Model_Application_Page();
                 $page = $pageRepository->find($place_id);
 
-                $json = array();
+                $json = [];
 
                 $blocks = $page->getBlocks();
-                $data = array("blocks" => array());
+                $data = ["blocks" => []];
 
                 foreach($blocks as $block) {
 
@@ -26,14 +26,14 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
                     }
 
                 }
-                $data = array("place" => $json);
+                $data = ["place" => $json];
             }
             catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
 
         } else {
-            $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
+            $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
         }
 
         $this->_sendJson($data);
@@ -42,13 +42,13 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
 
     public function _toJson($page, $address) {
 
-        $json = array(
+        $json = [
             "id"=> $page->getId(),
             "title"=> $page->getTitle(),
             "content"=> $page->getContent(),
             "picture"=> $page->getPictureUrl(),
-            "url" => $this->getUrl("places/mobile_details/index", array("value_id" => $page->getValueId(), "place_id" => $page->getId())),
-            "address" => array(
+            "url" => $this->getUrl("places/mobile_details/index", ["value_id" => $page->getValueId(), "place_id" => $page->getId()]),
+            "address" => [
                 "id" => $address->getId(),
                 "position" => $address->getPosition(),
                 "block_id" => $address->getBlockId(),
@@ -58,8 +58,8 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
                 "longitude" => $address->getLongitude(),
                 "show_address" => !!($address->getShowAddress()),
                 "show_geolocation_button" => !!($address->getShowGeolocationButton())
-            )
-        );
+            ]
+        ];
 
         return $json;
 

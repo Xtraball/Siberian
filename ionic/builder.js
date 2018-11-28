@@ -107,10 +107,6 @@ let debug = true,
         'padlock': [
             './www/js/controllers/padlock.js'
         ],
-        'places': [
-            './www/js/controllers/places.js',
-            './www/js/factory/places.js'
-        ],
         'privacy_policy': [
             './www/js/controllers/privacy-policy.js'
         ],
@@ -205,7 +201,8 @@ let debug = true,
                 './www/js/libraries/lazyload.min.js',
                 './www/js/libraries/localforage.min.js',
                 './www/js/libraries/lodash.min.js',
-                './www/js/libraries/ng-img-crop.min.js'
+                './www/js/libraries/ng-img-crop.min.js',
+                './www/js/libraries/markerclusterer.js'
             ],
             dest: './www/dist/libraries.bundle.min.js'
         },

@@ -1,17 +1,29 @@
 <?php
 
+/**
+ * Class Cms_Model_Application_Page_Block_Address
+ */
 class Cms_Model_Application_Page_Block_Address extends Cms_Model_Application_Page_Block_Abstract
 {
-
-    public function __construct($params = []) {
+    /**
+     * Cms_Model_Application_Page_Block_Address constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Address';
         return $this;
     }
 
-    public function isValid() {
+    /**
+     * @return bool|mixed
+     * @throws \Siberian\Exception
+     */
+    public function isValid()
+    {
         return !is_null($this->getAddress());
-        return false;
     }
 
 }
