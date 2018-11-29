@@ -63,14 +63,70 @@ echo '<br /><br />' . __('Please check your messages before sending your app to 
         <div class="page-content-wrapper">
             <div id="ios_plist_orientation" class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __('iPhone & iPad orientation'); ?>
+                    <?php echo __('iPhone & iPad & Android orientation'); ?>
                 </h3>
                 <form id="saveorientations"
                       method="post"
                       enctype="application/x-www-form-urlencoded"
                       action="<?php echo __path('/application/settings_advanced/saveorientations'); ?>"
                       class="form sb-form onchange feature-form">
-                    <div id="advanced_ios_orientation" class="subcontent content-color">
+                    <div id="advanced_ios_orientation"
+                         class="subcontent content-color">
+
+                        <!-- Android -->
+                        <div class="col-md-12 margin-bottom-header">
+                            <h3><?php echo __('Android orientation settings') ?></h3>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone l90" src="/app/sae/design/desktop/flat/images/svg/android.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                        <?php echo ($orientations['android-landscape-left']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[android-landscape-left]" />
+                                    <?php echo __('Landscape Left'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone" src="/app/sae/design/desktop/flat/images/svg/android.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                        <?php echo ($orientations['android-portrait']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[android-portrait]" />
+                                    <?php echo __('Portrait'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone r90" src="/app/sae/design/desktop/flat/images/svg/android.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                        <?php echo ($orientations['android-landscape-right']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[android-landscape-right]" />
+                                    <?php echo __('Landscape Right'); ?>
+                                </p>
+                            </label>
+                        </div>
+                        <div class="col-md-3 center">
+                            <label>
+                                <img class="iphone ud180" src="/app/sae/design/desktop/flat/images/svg/android.svg" />
+                                <p class="orientation-checkbox">
+                                    <input class="toggle-img"
+                                        <?php echo ($orientations['android-upside-down']) ? 'checked="checked"' : '' ?>
+                                           type="checkbox"
+                                           name="orientations[android-upside-down]" />
+                                    <?php echo __('Upside Down'); ?>
+                                </p>
+                            </label>
+                        </div>
+
+                        <!-- iPhone -->
                         <div class="col-md-12 margin-bottom-header">
                             <h3><?php echo __('iPhone orientation settings') ?></h3>
                         </div>
@@ -123,6 +179,7 @@ echo '<br /><br />' . __('Please check your messages before sending your app to 
                             </label>
                         </div>
 
+                        <!-- iPad -->
                         <div class="col-md-12 margin-bottom-header">
                             <h3 class="margin-top-header"><?php echo __('iPad orientation settings') ?></h3>
                         </div>

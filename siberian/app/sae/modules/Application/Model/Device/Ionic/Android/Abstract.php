@@ -109,18 +109,47 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
     protected function androidManifest()
     {
         /** Checking if the _application_id is a valid AndroidManifest id. */
+        $device = $this->getDevice();
         $tmp_application_id = $this->_application_id;
         if (!preg_match("#^[a-z]+#", $this->_application_id)) {
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
+        $android = [];
+        $orientations = Siberian_Json::decode($device->getOrientations());
+        foreach ($orientations as $key => $value) {
+            if ($value) {
+                switch ($key) {
+                    case 'android-portrait':
+                        $android[] = 'portrait';
+                        break;
+                    case 'android-upside-down':
+                        $android[] = 'reversePortrait';
+                        break;
+                    case 'android-landscape-left':
+                        $android[] = 'landscape';
+                        break;
+                    case 'android-landscape-right':
+                        $android[] = 'reverseLandscape';
+                        break;
+                }
+            }
+        }
+
+        // Failsafe fallback!
+        if (empty($android)) {
+            $android[] = "portrait";
+        }
+
+        $androidOrientations = join("|", $android);
+
         $replacements = [
             $this->_default_bundle_name => $this->_package_name,
             '${applicationId}' => $tmp_application_id,
+            "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$androidOrientations}\"",
         ];
 
-
-        $version_name = $this->getDevice()->getVersion();
+        $version_name = $device->getVersion();
         $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
         if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
