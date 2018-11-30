@@ -17,7 +17,9 @@
              on-item-clicked="showTooltip(object)"
              ng-if="tooltip"></div>
 
-        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
             <span class="back-text">
                 <span class="default-title">{{ right_button.label }}</span>
             </span>
@@ -31,7 +33,8 @@
 
         <div ng-include="template_header"></div>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader"
+             ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
@@ -45,19 +48,27 @@
 
             <div class="list">
 
-                <div class="card" ng-click="showItem(item)" ng-repeat="item in collection">
+                <div class="card"
+                     ng-click="showItem(item)"
+                     ng-repeat="item in collection">
 
-                    <div class="item item-custom" ng-class="{ 'item-avatar': item.icon }">
-                        <img ng-src="{{ item.icon }}" ng-if="item.icon" />
+                    <div class="item item-custom"
+                         ng-class="{ 'item-avatar': item.icon }">
+                        <img ng-src="{{ item.icon }}"
+                             ng-if="item.icon" />
                         <h2>{{ item.title ? item.title : item.author }}</h2>
                         <p ng-if="item.subtitle">{{ item.subtitle }}</p>
-                        <p ng-if="item.message" ng-class="{ 'text-no-wrap':toggle_text }" ng-bind-html="item.message"></p>
+                        <p ng-if="item.message"
+                           ng-class="{ 'text-no-wrap':toggle_text }"
+                           ng-bind-html="item.message"></p>
                     </div>
 
                     <div class="item item-image item-custom">
                         <div class="col col-75 col-offset-25">
-                            <img ng-src="{{ item.picture }}" ng-if="item.picture" />
-                            <p class="padding text-right" ng-if="item.details">
+                            <img ng-src="{{ item.picture }}"
+                                 ng-if="item.picture" />
+                            <p class="padding text-right"
+                               ng-if="item.details">
                                 <span ng-if="item.details.date">
                                     <i class="ion-ios-calendar-outline"></i>
                                     <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
@@ -83,21 +94,29 @@
         </div>
 
 
-        <div class="list" ng-if="!card_design && collection.length">
+        <div class="list"
+             ng-if="!card_design && collection.length">
 
-            <div ng-click="showItem(item)" ng-repeat="item in collection">
+            <div ng-click="showItem(item)"
+                 ng-repeat="item in collection">
 
-                <div class="item item-custom" ng-class="{ 'item-avatar': item.icon }">
-                    <img ng-src="{{ item.icon }}" ng-if="item.icon" />
+                <div class="item item-custom"
+                     ng-class="{ 'item-avatar': item.icon }">
+                    <img ng-src="{{ item.icon }}"
+                         ng-if="item.icon" />
                     <h2>{{ item.title ? item.title : item.author }}</h2>
                     <p ng-if="item.subtitle">{{ item.subtitle }}</p>
-                    <p ng-if="item.message" ng-class="{ 'text-no-wrap':toggle_text }" ng-bind-html="item.message"></p>
+                    <p ng-if="item.message"
+                       ng-class="{ 'text-no-wrap':toggle_text }"
+                       ng-bind-html="item.message"></p>
                 </div>
 
                 <div class="item item-image item-custom">
                     <div class="col col-75 col-offset-25">
-                        <img ng-src="{{ item.picture }}" ng-if="item.picture" />
-                        <p class="padding text-right" ng-if="item.details">
+                        <img ng-src="{{ item.picture }}"
+                             ng-if="item.picture" />
+                        <p class="padding text-right"
+                           ng-if="item.details">
                         <span ng-if="item.details.date">
                             <i class="ion-ios-calendar-outline"></i>
                             <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
@@ -112,7 +131,6 @@
                             {{ item.details.likes.text }}
                         </span>
                         <div class="clear"></div>
-                        </p>
                     </div>
                 </div>
 
@@ -121,7 +139,9 @@
         </div>
 
 
-        <div class="list" ng-class="{'card' : card_design}" ng-if="!is_loading && !collection.length">
+        <div class="list"
+             ng-class="{'card' : card_design}"
+             ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>

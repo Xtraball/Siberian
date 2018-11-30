@@ -10,35 +10,35 @@ class Layouts_Form_Layout9Options extends Siberian_Form_Options_Abstract {
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
 
-        $title = $this->addSimpleRadio("title", __("Display titles"), array(
+        $title = $this->addSimpleRadio("title", __("Display titles"), [
             "titlevisible" => __("Visible"),
             "titlehidden" => __("Hidden"),
-        ));
+        ]);
 
-        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), array(
+        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), [
             "title-lowcase" => __("Lower case"),
             "title-uppercase" => __("Upper case"),
-        ));
+        ]);
 
-        $menuWidthUnit = $this->addSimpleSelect("sidebarWidthUnit", __("Sidebar width"), array(
+        $menuWidthUnit = $this->addSimpleSelect("sidebarWidthUnit", __("Sidebar width"), [
             "percentage" => __("Dynamic: percentage"),
             "pixel" => __("Fixed: pixels")
-        ));
+        ]);
 
-        $menuWidth = $this->addSimpleSlider("sidebarWidth", __("Width"), array(
+        $menuWidth = $this->addSimpleSlider("sidebarWidth", __("Width"), [
             "min" => 10,
             "max" => 90,
             "step" => 1,
             "unit" => "%",
-        ), true);
+        ], true);
         $menuWidth->addClass("sidebar_width");
 
-        $menuWidthPixel = $this->addSimpleSlider("sidebarWidthPixel", __("Width"), array(
+        $menuWidthPixel = $this->addSimpleSlider("sidebarWidthPixel", __("Width"), [
             "min" => 10,
             "max" => 500,
             "step" => 1,
             "unit" => "px",
-        ), true);
+        ], true);
         $menuWidthPixel->addClass("sidebar_width");
 
         $this->addNav("submit", __("Save"), false, false);

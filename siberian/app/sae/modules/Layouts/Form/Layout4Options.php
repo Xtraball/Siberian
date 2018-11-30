@@ -10,10 +10,10 @@ class Layouts_Form_Layout4Options extends Siberian_Form_Options_Abstract {
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
 
-        $title = $this->addSimpleRadio("title", __("Titles"), array(
+        $title = $this->addSimpleRadio("title", __("Titles"), [
             "titlevisible" => __("Visible"),
             "titlehidden" => __("Hidden"),
-        ));
+        ]);
 
 
         $this->addNav("submit", __("Save"), false, false);
