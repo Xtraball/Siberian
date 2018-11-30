@@ -10,13 +10,16 @@ $stores = $mcommerce->getStores();
             <?php echo __('Manage user fields'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="mcommerceFieldsForm" action="<?php echo $this->getUrl('mcommerce/application_settings_fields/save'); ?>" class="form-horizontal">
+            <form id="mcommerceFieldsForm"
+                  action="<?php echo $this->getUrl('mcommerce/application_settings_fields/save'); ?>"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-5">
                         <label for="show_search"><?php echo __("Phone number"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="phone" id="" class="form-control styled-select color-blue">
+                        <select name="phone"
+                                class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getPhone() == 'hidden') echo 'selected' ?>><?php echo __("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getPhone() == 'optional') echo 'selected' ?>><?php echo __("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getPhone() == 'mandatory') echo 'selected' ?>><?php echo __("Mandatory"); ?></option>
@@ -28,7 +31,8 @@ $stores = $mcommerce->getStores();
                         <label for="show_search"><?php echo __("Birthday"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="birthday" id="" class="form-control styled-select color-blue">
+                        <select name="birthday"
+                                class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getBirthday() == 'hidden') echo 'selected' ?>><?php echo __("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getBirthday() == 'optional') echo 'selected' ?>><?php echo __("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getBirthday() == 'mandatory') echo 'selected' ?>><?php echo __("Mandatory"); ?></option>
@@ -40,7 +44,8 @@ $stores = $mcommerce->getStores();
                         <label for="show_search"><?php echo __("Invoicing address"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="invoicing_address" id="" class="form-control styled-select color-blue">
+                        <select name="invoicing_address"
+                                class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getInvoicingAddress() == 'hidden') echo 'selected' ?>><?php echo __("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getInvoicingAddress() == 'optional') echo 'selected' ?>><?php echo __("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getInvoicingAddress() == 'mandatory') echo 'selected' ?>><?php echo __("Mandatory"); ?></option>
@@ -52,7 +57,8 @@ $stores = $mcommerce->getStores();
                         <label for="show_search"><?php echo __("Delivery address"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <select name="delivery_address" id="" class="form-control styled-select color-blue">
+                        <select name="delivery_address"
+                                class="form-control styled-select color-blue">
                             <option value="hidden" <?php if($mcommerce->getDeliveryAddress() == 'hidden') echo 'selected' ?>><?php echo __("Hidden"); ?></option>
                             <option value="optional" <?php if($mcommerce->getDeliveryAddress() == 'optional') echo 'selected' ?>><?php echo __("Optional"); ?></option>
                             <option value="mandatory" <?php if($mcommerce->getDeliveryAddress() == 'mandatory') echo 'selected' ?>><?php echo __("Mandatory"); ?></option>
@@ -61,12 +67,15 @@ $stores = $mcommerce->getStores();
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn color-blue pull-right" type="submit">
+                        <button class="btn color-blue pull-right"
+                                type="submit">
                             <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                <input type="hidden"
+                       name="option_value_id"
+                       value="<?php echo $optionValue->getId(); ?>" />
             </form>
         </div>
         <?php echo $this->getLayout()->addPartial('discount_form', 'admin_view_default', 'mcommerce/application/edit/settings/discount.phtml')
@@ -77,7 +86,9 @@ $stores = $mcommerce->getStores();
             <?php echo __('Connected Printers'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="mcommercePrintersForm" action="<?php echo $this->getUrl('mcommerce/application_settings_printer/save'); ?>" class="form-horizontal">
+            <form id="mcommercePrintersForm"
+                  action="<?php echo $this->getUrl('mcommerce/application_settings_printer/save'); ?>"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-12">
                         <?php if($stores->count() > 1) : ?>
@@ -95,42 +106,57 @@ $stores = $mcommerce->getStores();
                         <label for="printer_email_<?php echo $store->getId(); ?>"><?php echo $store->getName(); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="text" id="printer_email_<?php echo $store->getId(); ?>" value="<?php echo $printer->getEmail(); ?>" class="printer_email input-flat required email" name="email[<?php echo $store->getId(); ?>]" />
+                        <input type="text"
+                               id="printer_email_<?php echo $store->getId(); ?>"
+                               value="<?php echo $printer->getEmail(); ?>"
+                               class="printer_email input-flat required email"
+                               name="email[<?php echo $store->getId(); ?>]" />
                     </div>
                 </div>
                 <?php endforeach ?>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn color-blue pull-right" type="submit">
+                        <button class="btn color-blue pull-right"
+                                type="submit">
                             <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>
 
-                <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                <input type="hidden"
+                       name="option_value_id"
+                       value="<?php echo $optionValue->getId(); ?>" />
             </form>
         </div>
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __('Search'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="mcommerceSearchForm" action="<?php echo $this->getUrl('mcommerce/application_settings_search/save'); ?>" class="form-horizontal">
+            <form id="mcommerceSearchForm"
+                  action="<?php echo $this->getUrl('mcommerce/application_settings_search/save'); ?>"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-5">
                         <label for="show_search"><?php echo __("Show search fields on product list ?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="show_search" name="show_search" <?php if($mcommerce->getShowSearch()) echo "checked" ?> class="color-blue"/>
+                        <input type="checkbox"
+                               id="show_search"
+                               name="show_search" <?php if($mcommerce->getShowSearch()) echo "checked" ?>
+                               class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn color-blue pull-right" type="submit">
+                        <button class="btn color-blue pull-right"
+                                type="submit">
                             <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                <input type="hidden"
+                       name="option_value_id"
+                       value="<?php echo $optionValue->getId(); ?>" />
             </form>
         </div>
 
@@ -138,23 +164,31 @@ $stores = $mcommerce->getStores();
             <?php echo __('Tip'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="mcommerceTipForm" action="<?php echo $this->getUrl('mcommerce/application_settings_tip/save'); ?>" class="form-horizontal">
+            <form id="mcommerceTipForm"
+                  action="<?php echo $this->getUrl('mcommerce/application_settings_tip/save'); ?>"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-5">
                         <label for="add_tip"><?php echo __("Customer can add tip to a command?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="add_tip" name="add_tip" <?php if($mcommerce->getAddTip()) echo "checked" ?> class="color-blue"/>
+                        <input type="checkbox"
+                               id="add_tip"
+                               name="add_tip" <?php if($mcommerce->getAddTip()) echo "checked" ?>
+                               class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn color-blue pull-right" type="submit">
+                        <button class="btn color-blue pull-right"
+                                type="submit">
                             <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                <input type="hidden"
+                       name="option_value_id"
+                       value="<?php echo $optionValue->getId(); ?>" />
             </form>
         </div>
 
@@ -162,45 +196,64 @@ $stores = $mcommerce->getStores();
             <?php echo __('Guest Order'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="mcommerceGuestModeForm" action="<?php echo $this->getUrl('mcommerce/application_settings_guestmode/save'); ?>" class="form-horizontal">
+            <form id="mcommerceGuestModeForm"
+                  action="<?php echo $this->getUrl('mcommerce/application_settings_guestmode/save'); ?>"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-sm-5">
                         <label for="guest_mode"><?php echo __("Permit unregistered user to make order?"); ?></label>
                     </div>
                     <div class="col-sm-5">
-                        <input type="checkbox" id="guest_mode" name="guest_mode" <?php if($mcommerce->getGuestMode()) echo "checked" ?> class="color-blue"/>
+                        <input type="checkbox"
+                               id="guest_mode"
+                               name="guest_mode" <?php if($mcommerce->getGuestMode()) echo "checked" ?>
+                               class="color-blue"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn color-blue pull-right" type="submit">
+                        <button class="btn color-blue pull-right"
+                                type="submit">
                             <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>
-                <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                <input type="hidden"
+                       name="option_value_id"
+                       value="<?php echo $optionValue->getId(); ?>" />
             </form>
         </div>
 
 
-        <div id="settings_list" pos="1">
+        <div id="settings_list"
+             pos="1">
             <div id="tax_manager">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('My taxes'); ?>
-                    <button type="button" id="add_item" class="edit_tax color-blue pull-right bt-header-right btn">
+                    <button type="button"
+                            id="add_item"
+                            class="edit_tax color-blue pull-right bt-header-right btn">
                         <i class="fa fa-plus"></i>
                     </button>
                 </h3>
                 <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
-                <div id="section_existing_taxes" <?php if(!$taxes->count()) : ?> style="display:none"<?php endif; ?> class="margin-top">
+                <div id="section_existing_taxes" <?php if(!$taxes->count()) : ?>
+                    style="display:none"<?php endif; ?>
+                     class="margin-top">
                     <h3 class="title-editor no-border-radius title-feature-indent">
                         <?php echo __(('Manage content')); ?>
-                        <button type="button" id="toggle_existing_taxes" class="color-blue pull-right bt-header-right btn">
+                        <button type="button"
+                                id="toggle_existing_taxes"
+                                class="color-blue pull-right bt-header-right btn">
                             <i class="fa fa-angle-down"></i>
-                            <input type="hidden" name="option_value_id" value="<?php echo $optionValue->getId(); ?>" />
+                            <input type="hidden"
+                                   name="option_value_id"
+                                   value="<?php echo $optionValue->getId(); ?>" />
                         </button>
                     </h3>
-                    <div id="existing_taxes" style="display:none;" class="container-fluid first-row-feature content-feature">
+                    <div id="existing_taxes"
+                         style="display:none;"
+                         class="container-fluid first-row-feature content-feature">
                         <ul class="list-group taxes_list">
                             <?php foreach ($taxes as $tax) : ?>
                             <?php echo $this->getLayout()->addPartial('row_tax_'.$tax->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/tax/li.phtml')
@@ -216,10 +269,12 @@ $stores = $mcommerce->getStores();
             </div>
         </div>
     </div>
-    <div id="tax_edit" pos="2">
+    <div id="tax_edit"
+         pos="2">
 
     </div>
-    <div id="promo_edit" pos="2">
+    <div id="promo_edit"
+         pos="2">
 
     </div>
 

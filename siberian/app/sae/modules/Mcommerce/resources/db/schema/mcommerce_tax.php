@@ -35,7 +35,7 @@ $schemas['mcommerce_tax'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'rate' => [
-        'type' => 'decimal(5,3)',
+        'type' => 'double',
     ],
     'type' => [
         'type' => 'tinyint(1)',

@@ -1,30 +1,36 @@
-<?php $option = $this->getOptionValue(); ?>
-<?php $mcommerce = $option->getObject(); ?>
-<?php $orders = $mcommerce->getOrders(); ?>
+<?php
+$option = $this->getOptionValue();
+$mcommerce = $option->getObject();
+$orders = $mcommerce->getOrders();
+?>
 
 
 <div id="orders_list">
     <h3 class="title-editor no-border-radius title-feature-indent">
-        <?php echo $this->_('My orders'); ?>
+        <?php echo __("My orders"); ?>
     </h3>
     <div class="container-fluid first-row-feature content-feature">
-        <table id="table_orders_list" class="table content-white-bkg">
+        <table id="table_orders_list" 
+               class="table content-white-bkg">
             <col width="20px" />
             <col width="40%" />
             <col width="40%" />
             <col width="50px" />
             <thead>
                 <tr class="border-grey">
-                    <td><?php echo $this->_('Number'); ?></td>
-                    <td><?php echo $this->_('Status'); ?></td>
-                    <td><?php echo $this->_('Customer'); ?></td>
-                    <td><?php echo $this->_('Total'); ?></td>
+                    <td><?php echo __("Number"); ?></td>
+                    <td><?php echo __("Status"); ?></td>
+                    <td><?php echo __("Customer"); ?></td>
+                    <td><?php echo __("Total"); ?></td>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($orders as $order) : ?>
                     <?php $customer = $order->getCustomer(); ?>
-                    <tr class="edit_order" rel="<?php echo $order->getId() ?>" data-store-id="<?php echo $order->getStoreId(); ?>" data-status="<?php echo $order->getStatusId(); ?>">
+                    <tr class="edit_order"
+                        rel="<?php echo $order->getId() ?>"
+                        data-store-id="<?php echo $order->getStoreId(); ?>"
+                        data-status="<?php echo $order->getStatusId(); ?>">
                         <td><?php echo $order->getNumber(); ?></td>
                         <td><?php echo $order->getStatus(); ?></td>
                         <td>

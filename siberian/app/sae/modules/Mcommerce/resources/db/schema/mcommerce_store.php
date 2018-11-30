@@ -78,15 +78,15 @@ $schemas['mcommerce_store'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'delivery_fees' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'default' => '0.00',
     ],
     'min_amount' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'default' => '0.00',
     ],
     'min_amount_free_delivery' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'default' => '0.00',
     ],
     'clients_calculate_change' => [
@@ -94,11 +94,11 @@ $schemas['mcommerce_store'] = [
         'is_null' => true,
     ],
     'delivery_area' => [
-        'type' => 'decimal(8,4)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'delivery_time' => [
-        'type' => 'decimal(4,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'opening_hours' => [
