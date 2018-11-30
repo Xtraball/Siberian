@@ -730,6 +730,14 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 throw new \Siberian\Exception(__("Missing font family!"));
             }
 
+            $fontFamily = trim($fontFamily);
+
+            // Testing google font!
+            \Siberian_Request::get("https://fonts.googleapis.com/css?family=" . str_replace(" ", "+", $fontFamily));
+            if (\Siberian_Request::$statusCode === 400) {
+                throw new \Siberian\Exception(__("This Google Font do not exists!"));
+            }
+
             $application = $this->getApplication();
             $application
                 ->setFontFamily(str_replace(" ", "+", $fontFamily))
@@ -739,7 +747,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
             $payload = [
                 'success' => true,
-                'message' => __('Success'),
+                'message' => __("Font saved!"),
             ];
         } catch (\Exception $e) {
             $payload = [
