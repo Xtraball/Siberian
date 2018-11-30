@@ -43,8 +43,11 @@ class Application_Customization_Design_StyleController extends Application_Contr
         "savesliderimages" => [
             "tags" => ["app_#APP_ID#"],
         ],
-        "savefont" => [
-            "tags" => ["app_#APP_ID#"],
+        "save-font" => [
+            "tags" => [
+                "css_app_#APP_ID#",
+                "app_#APP_ID#"
+            ],
         ],
         "savelocale" => [
             "tags" => ["app_#APP_ID#"],
@@ -717,29 +720,35 @@ class Application_Customization_Design_StyleController extends Application_Contr
     /**
      *
      */
-    public function savefontAction()
+    public function saveFontAction()
     {
-        if ($datas = $this->getRequest()->getPost()) {
+        try {
+            $request = $this->getRequest();
+            $fontFamily = $request->getParam("font", null);
 
-            try {
-                if (!empty($datas['font_family'])) $this->getApplication()->setFontFamily($datas['font_family']);
-
-                $application = $this->getApplication();
-
-                $application->save();
-
-                if ($application->useIonicDesign()) {
-                    Template_Model_Design::generateCss($application, false, false, true);
-                }
-
-                $html = ['success' => '1'];
-
-            } catch (Exception $e) {
-                $html = ['message' => $e->getMessage()];
+            if (empty($fontFamily)) {
+                throw new \Siberian\Exception(__("Missing font family!"));
             }
 
-            $this->_sendHtml($html);
+            $application = $this->getApplication();
+            $application
+                ->setFontFamily(str_replace(" ", "+", $fontFamily))
+                ->save();
+
+            Template_Model_Design::generateCss($application, false, false, true);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
     /**

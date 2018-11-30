@@ -146,12 +146,16 @@ class Template_Model_Design extends Core_Model_Default
 
         }
 
+        // Prepend google font
+        $fontFamily = $application->getFontFamily();
+        $fontImport = "";
+        if (!empty($fontFamily)) {
+            $replace = str_replace("+", " ", $fontFamily);
 
-        $font_family = '"Helvetica Neue", "Roboto", "Segoe UI", sans-serif';
-        if ($application->getFontFamily()) {
-            $font_family = '"' . $application->getFontFamily() . '", ' . $font_family;
+            $fontImport = file_get_contents("https://fonts.googleapis.com/css?family=$fontFamily");
+
+            $variables['$font-family'] = "'$replace', sans-serif";
         }
-        $variables['$font-family'] = $font_family;
 
         $content = [];
 
@@ -220,6 +224,8 @@ class Template_Model_Design extends Core_Model_Default
             );
             $result = false;
         }
+
+        $css = $fontImport . "\n" . $css;
 
         if ($javascript) {
             return $css;
