@@ -289,32 +289,42 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initDesign()
     {
-        // Ensure 'flat' design is used for everyone!
-        try {
-            __set('editor_design', 'flat');
-        } catch (\Exception $e) {
-            // Silent it's probably an installation!
-        }
+        if (!$this->_request->isInstalling()) {
+            // Ensure 'flat' design is used for everyone!
+            try {
+                __set('editor_design', 'flat');
+            } catch (\Exception $e) {
+                // Nope!
+            }
 
-        // Check default role
-        try {
-            $fixDefaultRole = __get('fix_default_role_4.15.3');
-            if ($fixDefaultRole !== 'done') {
-                $roleId = __get('admin_default_role_id');
-                $role = (new Acl_Model_Role())->find($roleId);
-                if (!$role->getId()) {
-                    // Get admin role
-                    $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
-                    if ($adminRole->getId()) {
-                        __set('admin_default_role_id', $adminRole->getId());
+            // Monkey patch admin with wrong parentId
+            try {
+                $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
+                $adminRole->setParentId(null)->save();
+            } catch (\Exception $e) {
+                // Nope!
+            }
+
+            // Check default role
+            try {
+                $fixDefaultRole = __get('fix_default_role_4.15.3');
+                if ($fixDefaultRole !== 'done') {
+                    $roleId = __get('admin_default_role_id');
+                    $role = (new Acl_Model_Role())->find($roleId);
+                    if (!$role->getId()) {
+                        // Get admin role
+                        $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
+                        if ($adminRole->getId()) {
+                            __set('admin_default_role_id', $adminRole->getId());
+                            __set('fix_default_role_4.15.3', 'done');
+                        }
+                    } else {
                         __set('fix_default_role_4.15.3', 'done');
                     }
-                } else {
-                    __set('fix_default_role_4.15.3', 'done');
                 }
+            } catch (\Exception $e) {
+                // Nope!
             }
-        } catch (\Exception $e) {
-            // Nope!
         }
 
         Siberian_Cache_Design::init();
