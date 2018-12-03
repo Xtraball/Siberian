@@ -766,53 +766,108 @@ img#layout_overview {
 }
 
 /* couleurs */
-.control input:checked ~ .color-red.control__indicator, .color-red, .input-flat.color-red {
+.color-red,
+.input-flat.color-red {
     background-color: #ff3a2e!important;
     color: white;
     border: none;
 }
 
-.color-red-hover:hover, .color-red-hover.active {
+input[type=radio].color-red:before,
+input[type=checkbox].color-red:before {
+    background-color: white !important;
+    border: 2px solid #ff3a2e !important;
+}
+input[type=checkbox].color-red:after {
+    border-color: #ff3a2e !important;
+}
+
+.color-red-hover:hover,
+.color-red-hover.active {
     color: #ff3a2e;
 }
 
-.control input:checked ~ .color-yellow.control__indicator, .color-yellow, .input-flat.color-yellow {
+.color-yellow,
+.input-flat.color-yellow {
     background-color: #F7DE36!important;
     color: white;
     border: none;
 }
 
-.color-yellow-hover:hover, .color-yellow-hover.active {
+input[type=radio].color-yellow:before,
+input[type=checkbox].color-yellow:before {
+    background-color: white !important;
+    border: 2px solid #F7DE36 !important;
+}
+input[type=checkbox].color-yellow:after {
+    border-color: #F7DE36 !important;
+}
+
+.color-yellow-hover:hover,
+.color-yellow-hover.active {
     color: #F7DE36;
 }
 
-.control input:checked ~ .color-blue.control__indicator, .color-blue, .input-flat.color-blue {
+.color-blue,
+.input-flat.color-blue {
     background-color: #0099C7!important;
     color: white;
     border: none;
 }
 
-.color-blue-hover:hover, .color-blue-hover.active {
+input[type=radio].color-blue:before,
+input[type=checkbox].color-blue:before {
+    background-color: white !important;
+    border: 2px solid #0099C7 !important;
+}
+input[type=checkbox].color-blue:after {
+    border-color: #0099C7 !important;
+}
+
+.color-blue-hover:hover,
+.color-blue-hover.active {
     color: #0099C7;
 }
 
-.control input:checked ~ .color-purple.control__indicator, .color-purple, .input-flat.color-purple {
+.color-purple,
+.input-flat.color-purple {
     background-color: #9D5CAD!important;
     color: white;
     border: none;
 }
 
-.color-purple-hover:hover, .color-purple-hover.active {
+input[type=radio].color-purple:before,
+input[type=checkbox].color-purple:before {
+    background-color: white !important;
+    border: 2px solid #9D5CAD !important;
+}
+input[type=checkbox].color-purple:after {
+    border-color: #9D5CAD !important;
+}
+
+.color-purple-hover:hover,
+.color-purple-hover.active {
     color: #9D5CAD;
 }
 
-.control input:checked ~ .color-green.control__indicator, .color-green, .input-flat.color-green {
+.color-green,
+.input-flat.color-green {
     background-color: #4dd300!important;
     color: white;
     border: none;
 }
 
-.color-green-hover:hover, .color-green-hover.active {
+input[type=radio].color-green:before,
+input[type=checkbox].color-green:before {
+    background-color: white !important;
+    border: 2px solid #4dd300 !important;
+}
+input[type=checkbox].color-green:after {
+    border-color: #4dd300 !important;
+}
+
+.color-green-hover:hover,
+.color-green-hover.active {
     color: #4dd300;
 }
 
@@ -2902,7 +2957,8 @@ input[type=checkbox]:before {
     height: 20px;
     position: absolute;
     border-radius: 3px;
-    background-color: inherit;
+    background-color: white;
+    border: 2px solid #0099c7;
 }
 
 input[type=checkbox]:after {
@@ -2910,7 +2966,7 @@ input[type=checkbox]:after {
     content: "";
     width: 14px;
     height: 6px;
-    border-color: white;
+    border-color: inherit;
     border-bottom-width: 2px;
     border-left-width: 2px;
     border-style: solid;
@@ -2939,7 +2995,7 @@ input[type=radio]:after {
     z-index: 2;
     position: absolute;
     margin: 5px 0 0 5px;
-    background-color: white;
+    background-color: inherit;
     border-radius: 50%;
 }
 
