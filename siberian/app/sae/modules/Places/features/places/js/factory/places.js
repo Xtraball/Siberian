@@ -64,7 +64,7 @@ angular.module('starter').factory('Places', function ($pwaRequest) {
             return $pwaRequest.reject('[Factory::Places.findAll] missing value_id');
         }
 
-        var parameters = Object.assign({
+        var parameters = angular.extend({
             value_id: this.value_id,
             maps: true
         }, filters);
