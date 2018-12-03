@@ -480,7 +480,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                         $scope.page_title = data.page_title;
                         $scope.collection = data.places;
 
-                        Places.mapCollection($scope.collection);
+                        Places.setMapCollection($scope.collection);
 
                         var markers = [];
 

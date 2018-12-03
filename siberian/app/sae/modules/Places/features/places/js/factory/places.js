@@ -35,7 +35,7 @@ angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
      *
      * @param items
      */
-    factory.mapCollection = function (collection) {
+    factory.setMapCollection = function (collection) {
         factory.mapCollection = collection;
     };
 
