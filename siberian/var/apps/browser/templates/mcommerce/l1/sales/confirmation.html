@@ -1,20 +1,34 @@
-<ion-view sb-page-background cache-view="false" >
+<ion-view sb-page-background
+          cache-view="false"
+          class="mcommerce-view mcommerce-sales-confirmation">
+
     <ion-nav-title>{{ page_title }}</ion-nav-title>
+
     <ion-nav-buttons side="secondary">
-        <button ng-click="right_button.action()" class="button button-clear header-item" ng-if="right_button">
-            <span class="back-text"><span class="default-title">{{ right_button.label }}</span></span>
-            <i class="icon" ng-class="right_button.icon"></i>
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
         </button>
     </ion-nav-buttons>
 
     <ion-content>
 
-        <div class="card" ng-if="cart.lines.length" ng-repeat="line in cart.lines">
+        <div class="card"
+             ng-if="cart.lines.length"
+             ng-repeat="line in cart.lines">
             <div class="item item-divider item-divider-custom">
-                <p><strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong></p>
+                <p>
+                    <strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong>
+                </p>
             </div>
             <div class="item item-thumbnail-left item-icon-right item-custom">
-                <img ng-if="line.product.picture.url" ng-src="{{ line.product.picture.url }}" />
+                <img ng-if="line.product.picture.url"
+                     ng-src="{{ line.product.picture.url }}" />
                 <p ng-show="line.format[0].title && line.format[0].title != ''">{{ "Format:" | translate }} {{ line.format[0].title }}</p>
                 <p ng-repeat="option in line.options">
                     {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
@@ -29,11 +43,13 @@
                 {{ "Qty" | translate }} : {{ line.qty }}
             </div>
         </div>
-        <div class="card" ng-if="cart.lines.length">
+        <div class="card"
+             ng-if="cart.lines.length">
             <div class="item item-divider item-divider-custom">
               <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
             </div>
-            <div class="item item-custom" ng-if="cart.deliveryCost > 0">
+            <div class="item item-custom"
+                 ng-if="cart.deliveryCost > 0">
               {{ "Delivery fees" | translate }}
               <span class="item-note"> {{ cart.formattedDeliveryTTC }}</span>
             </div>
@@ -41,7 +57,8 @@
               <strong>{{ "Subtotal" | translate }}</strong>
               <span class="item-note"><strong>{{ cart.formattedSubtotal }}</strong></span>
             </div>
-            <div class="item item-custom" ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
+            <div class="item item-custom"
+                 ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
               {{ "Discount" | translate }} ({{ cart.discount_message }})
               <span class="item-note">- {{ cart.discount }}</span>
             </div>
@@ -57,7 +74,8 @@
                 {{ "Tax" | translate }}
                 <span class="item-note">{{ cart.formattedDeductedTva }}</span>
             </div>
-            <div class="item item-custom" ng-if="cart.add_tip">
+            <div class="item item-custom"
+                 ng-if="cart.add_tip">
                 {{ "Gratuity" | translate }}
                 <span class="item-note">{{ cart.formattedTip }}</span>
             </div>
@@ -66,12 +84,15 @@
                 <span class="item-note"><strong>{{ cart.formattedTotal }}</strong></span>
             </div>
 
-            <div class="item item-divider item-divider-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due"></div>
-            <div class="row item-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+            <div class="item item-divider item-divider-custom"
+                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due"></div>
+            <div class="row item-custom"
+                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
                 <div class="col-75 text-right">{{ "I will pay" | translate }}</div>
                 <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
             </div>
-            <div class="row item-custom" ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+            <div class="row item-custom"
+                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
                 <div class="col-75 text-right">{{ "Remaining due" | translate }}</div>
                 <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
             </div>
@@ -89,7 +110,8 @@
             <div class="item">
                 <p>
                     <label class="item item-input">
-                        <textarea placeholder="Notes" ng-model="$parent.notes"></textarea>
+                        <textarea placeholder="Notes"
+                                  ng-model="$parent.notes"></textarea>
                     </label>
                 </p>
             </div>

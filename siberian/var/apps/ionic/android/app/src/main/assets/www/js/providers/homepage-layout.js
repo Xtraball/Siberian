@@ -7,8 +7,18 @@ angular.module('starter').provider('HomepageLayout', function () {
         var layoutId = 1;
         try {
             for (var i in self.pages) {
-                if (self.pages[i].value_id == valueId) {
-                    layoutId = self.pages[i].layout_id;
+                var currentPage = self.pages[i];
+                if (currentPage.value_id == valueId) {
+                    return currentPage.layout_id;
+                }
+
+                if (currentPage.code === "folder_v2") {
+                    currentPage.embed_payload.collection.forEach(function (subPage) {
+                        if (subPage.value_id == valueId) {
+                            layoutId = subPage.layout_id;
+                            return layoutId;
+                        }
+                    });
                 }
             }
         } catch (e) {
