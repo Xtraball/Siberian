@@ -18,7 +18,7 @@
 
             <?php $existing_steps = new Tour_Model_Step(); ?>
             <?php $existing_steps = $existing_steps->findAllForJS(Core_Model_Language::getCurrentLanguage(), $_SERVER['REQUEST_URI']); ?>
-            var existing_steps = new Array();
+            var existing_steps = [];
             <?php
                 if(count($existing_steps)):
             ?>

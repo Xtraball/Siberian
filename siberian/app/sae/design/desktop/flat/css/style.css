@@ -2867,24 +2867,19 @@ fieldset legend {
     font-weight:200;
 }
 
-/** Custom checkbox/radio */
-input[type=checkbox]:hover:before,
-input[type=radio]:hover:before {
-    border-color: white !important;
-}
 
+input[type=checkbox]:hover:before,
+input[type=radio]:hover:before,
 input[type=checkbox]:hover:after,
 input[type=radio]:hover:after {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
-    /*-ms-filter: grayscale(100%);*/
+    filter: grayscale(50%);
 }
 
 input[type=checkbox]:disabled:after,
 input[type=checkbox]:disabled:before,
 input[type=radio]:disabled:after,
 input[type=radio]:disabled:before {
-    border-color: grey !important;
+    filter: grayscale(100%);
 }
 
 input[type=checkbox]:checked:after,
@@ -2939,11 +2934,11 @@ input[type=radio]:before {
 input[type=radio]:after {
     display: none;
     content: "";
-    width: 14px;
-    height: 14px;
+    width: 10px;
+    height: 10px;
     z-index: 2;
     position: absolute;
-    margin: 3px 0 0 3px;
+    margin: 5px 0 0 5px;
     background-color: white;
     border-radius: 50%;
 }
