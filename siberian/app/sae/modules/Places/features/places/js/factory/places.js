@@ -1,13 +1,9 @@
-/* global
-    App, angular
- */
-
 /**
  * Places
  *
  * @author Xtraball SAS
  */
-angular.module('starter').factory('Places', function ($pwaRequest, Cms) {
+angular.module('starter').factory('Places', function ($pwaRequest) {
     var factory = {
         value_id: null,
         collection: [],

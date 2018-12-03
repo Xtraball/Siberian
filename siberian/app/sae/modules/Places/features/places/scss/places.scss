@@ -94,6 +94,9 @@
       .card {
         height: calc((25vw / 1.5909) + 2vw);
         margin: 2vw 2vw 0 0;
+        .sb-col-20 {
+          background-color: darken($card-item-custom-bg, 5%);
+        }
         .image {
           width: 100%;
           height: 100%;
@@ -107,7 +110,7 @@
         }
         .text {
           width: 100%;
-          height: 100%;
+          height: calc((25vw / 1.5909) + 2vw);
           padding: 1vw;
           .title {
             font-size: calc((25vw / 1.5909) / 5);
@@ -204,6 +207,9 @@
       .card {
         height: calc((25vh / 1.5909) + 2vh);
         margin: 2vh 2vh 0 0;
+        .sb-col-20 {
+          background-color: darken($card-item-custom-bg, 5%);
+        }
         .image {
           width: 100%;
           height: 100%;
@@ -217,7 +223,7 @@
         }
         .text {
           width: 100%;
-          height: 100%;
+          height: calc((25vh / 1.5909) + 2vh);
           padding: 1vh;
           .title {
             font-size: calc((25vh / 1.5909) / 5);
@@ -244,8 +250,8 @@
       height: 100%;
       align-items: center;
       justify-content: center;
-      background-color: rgba(0,0,0,0.08);
-      border-left: 1px solid rgba(0,0,0,0.1);
+      background-color: rgba(0,0,0,.08);
+      border-left: 1px solid rgba(0,0,0,.1);
       .distance {
         font-size: calc(25vh / 1.5909 / 4);
         line-height: calc(25vh / 1.5909 / 4);
