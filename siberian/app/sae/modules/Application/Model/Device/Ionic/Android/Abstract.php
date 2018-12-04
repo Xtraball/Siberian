@@ -115,38 +115,27 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
-        $android = [];
         $orientations = Siberian_Json::decode($device->getOrientations());
-        foreach ($orientations as $key => $value) {
-            if ($value) {
-                switch ($key) {
-                    case 'android-portrait':
-                        $android[] = 'portrait';
-                        break;
-                    case 'android-upside-down':
-                        $android[] = 'reversePortrait';
-                        break;
-                    case 'android-landscape-left':
-                        $android[] = 'landscape';
-                        break;
-                    case 'android-landscape-right':
-                        $android[] = 'reverseLandscape';
-                        break;
-                }
-            }
-        }
+        $android = $orientations["android"];
 
-        // Failsafe fallback!
-        if (empty($android)) {
-            $android[] = "portrait";
-        }
+        $androidValids = [
+            "landscape",
+            "portrait",
+            "reverseLandscape",
+            "reversePortrait",
+            "sensorPortrait",
+            "sensorLandscape",
+            "fullSensor",
+        ];
 
-        $androidOrientations = join("|", $android);
+        if (!in_array($android, $androidValids)) {
+            $android = "fullSensor";
+        }
 
         $replacements = [
             $this->_default_bundle_name => $this->_package_name,
             '${applicationId}' => $tmp_application_id,
-            "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$androidOrientations}\"",
+            "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$android}\"",
         ];
 
         $version_name = $device->getVersion();

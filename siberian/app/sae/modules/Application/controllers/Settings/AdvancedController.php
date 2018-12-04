@@ -143,6 +143,22 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                 throw new \Siberian\Exception(__('You must select at least one orientation for Android!'));
             }
 
+            // Special android!
+            $defaults['android'] = $params['android'];
+
+            $androidValids = [
+                "landscape",
+                "portrait",
+                "reverseLandscape",
+                "reversePortrait",
+                "sensorPortrait",
+                "sensorLandscape",
+                "fullSensor",
+            ];
+            if (!in_array($defaults['android'], $androidValids)) {
+                throw new \Siberian\Exception(__('Android orientation is invalid!'));
+            }
+
             if (!$defaults['iphone-portrait'] &&
                 !$defaults['iphone-upside-down'] &&
                 !$defaults['iphone-landscape-left'] &&
