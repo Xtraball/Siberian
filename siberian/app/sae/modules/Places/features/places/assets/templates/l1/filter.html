@@ -32,11 +32,13 @@
                 </div>
             </div>
 
-            <div class="item item-divider item-divider-custom">
+            <div class="item item-divider item-divider-custom"
+                 ng-if="categories.length > 0">
                 {{ "Categories" | translate }}
             </div>
 
-            <div class="categories-container item item-custom">
+            <div class="categories-container item item-custom"
+                 ng-if="categories.length > 0">
                 <div class="category-item-block "
                      ng-repeat="category in categories">
                     <div class="card">

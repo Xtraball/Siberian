@@ -149,14 +149,14 @@
       }
     }
     .search-action {
-      width: 7vh;
-      height: 7vh;
-      padding-top: 1vh;
+      width: 10vh;
+      height: 10vh;
       bottom: 2vh;
       right: 2vh;
-      font-size: 5vh;
+      font-size: 8vh;
+      line-height: 8vh;
       i {
-        margin-left: -1px;
+        margin-left: -1vh;
       }
     }
     /** Maps section */
@@ -267,14 +267,14 @@
     }
 
     .search-action {
-      width: 7vw;
-      height: 7vw;
-      padding-top: 1vw;
+      width: 10vw;
+      height: 10vw;
       bottom: 2vw;
       right: 2vw;
-      font-size: 5vw;
+      font-size: 8vw;
+      line-height: 8vw;
       i {
-        margin-left: -1px;
+        margin-left: -1vw;
       }
     }
 

@@ -52,7 +52,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
 
             $isMaps = $request->getParam("maps", false);
-            $limit = $request->getParam("limit", 25);
+            $limit = $request->getParam("limit", 20);
             $offset = $request->getParam("offset", 0);
             $fulltext = $request->getParam("fulltext", null);
             $categories = $request->getParam("categories", []);

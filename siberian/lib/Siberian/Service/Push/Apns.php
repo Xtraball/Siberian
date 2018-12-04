@@ -49,17 +49,28 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
         $message->setValueId($push_message->getValueId());
 
         # Action
-        if(is_numeric($push_message->getActionValue())) {
+        $application = new Application_Model_Application();
+        $application->find($push_message->getAppId());
+        if (is_numeric($push_message->getActionValue())) {
             $option_value = new Application_Model_Option_Value();
             $option_value->find($push_message->getActionValue());
 
-            $application = new Application_Model_Application();
-            $application->find($push_message->getAppId());
-
-            $action_url = sprintf("/%s/%sindex/value_id/%s", $application->getKey(), $option_value->getMobileUri(), $option_value->getId());
+            $mobileUri = $option_value->getMobileUri();
+            if (preg_match('/^goto\/feature/', $mobileUri)) {
+                $action_url = sprintf("/%s/%s/value_id/%s",
+                    $application->getKey(),
+                    $mobileUri,
+                    $option_value->getId());
+            } else {
+                $action_url = sprintf("/%s/%sindex/value_id/%s",
+                    $application->getKey(),
+                    $option_value->getMobileUri(),
+                    $option_value->getId());
+            }
         } else {
             $action_url = $push_message->getActionValue();
         }
+
         $message->setActionValue($action_url);
 
         # Whether the action should open a webview
