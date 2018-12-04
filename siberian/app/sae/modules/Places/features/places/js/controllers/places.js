@@ -412,15 +412,25 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.share = function () {
         var file;
+        var address = "";
+        var link = undefined;
         angular.forEach($scope.blocks, function (block) {
             if (block.gallery) {
                 if (block.gallery.length > 0 && file === null) {
                     file = block.gallery[0].url;
                 }
             }
+            if (block.type === "address") {
+                address = block.address;
+                if (block.website !== "" && block.show_website) {
+                    link = block.website;
+                }
+            }
         });
 
-        SocialSharing.share(undefined, undefined, undefined, file);
+        var message = "Check this place!\n" + $scope.place.title + "\n" + address;
+
+        SocialSharing.share(undefined, message, undefined, link, file);
     };
 
     $scope.onShowMap = function (block) {
