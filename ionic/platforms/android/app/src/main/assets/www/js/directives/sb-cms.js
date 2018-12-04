@@ -229,8 +229,7 @@ angular.module('starter').directive('sbCmsText', function () {
         '        ng-if="block.website.length && block.show_website">' +
         '       <i class="icon ion-earth"></i>' +
         '       <p>' +
-        '           <a href="{{ block.website }}" ' +
-        '              target="_system">{{ block._label }}</a>' +
+        '           <a ng-click="openWebsite(block.website)">{{ block._label }}</a>' +
         '       </p>' +
         '   </div>' +
         '</div>',
@@ -278,6 +277,10 @@ angular.module('starter').directive('sbCmsText', function () {
 
             $scope.openItinary = function () {
                 LinkService.openLink($scope.itinerary_link, {use_external_app: true});
+            };
+
+            $scope.openWebsite = function (url) {
+                LinkService.openLink(url, {use_external_app: true});
             };
 
             $scope.addToContact = function () {
