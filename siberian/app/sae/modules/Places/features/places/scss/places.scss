@@ -154,7 +154,7 @@
       bottom: 2vh;
       right: 2vh;
       font-size: 8vh;
-      line-height: 8vh;
+      line-height: 10vh;
       i {
         margin-left: -1vh;
       }
@@ -272,7 +272,7 @@
       bottom: 2vw;
       right: 2vw;
       font-size: 8vw;
-      line-height: 8vw;
+      line-height: 10vw;
       i {
         margin-left: -1vw;
       }
@@ -531,6 +531,10 @@
         top: 8px;
       }
     }
+  }
+
+  i.button-share:before {
+    font-size: 1.25rem !important;
   }
 
 }

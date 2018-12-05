@@ -924,6 +924,26 @@ class Siberian_Assets
 
     /**
      * @param $index_content
+     * @param $asset_path
+     * @param $type
+     * @param null $feature
+     * @return mixed
+     */
+    public static function __removeAsset($index_content, $asset_path, $type, $feature = null)
+    {
+        $asset_path = __ss($asset_path);
+        $search = "</head>";
+        $replace = self::___assetLine($asset_path, $type, $feature) . "</head>";
+
+        if (strpos($index_content, $asset_path) === false) {
+            $index_content = str_replace($search, $replace, $index_content);
+        }
+
+        return $index_content;
+    }
+
+    /**
+     * @param $index_content
      * @return null|string|string[]
      */
     public static function __cleanAppOnly($index_content)

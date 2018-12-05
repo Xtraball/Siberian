@@ -54,7 +54,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
             - <?php echo __("A place can belong to multiple categories.") ?>
 
             <hr />
-            <?php echo __("What will the upgrade do?") ?>
+            <?php echo __("What will the full upgrade do?") ?>
             <br />
             - <?php echo __("Tags will be de-duplicated, migrated to categories & associated to existing places.") ?>
             <br />
@@ -62,17 +62,17 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
             <br />
             <br />
-            <button class="btn color-blue pull-right place-upgrade"><?php echo __("Proceed to ugrade!") ?></button>
+            <button class="btn color-blue pull-right place-upgrade"><?php echo __("Proceed to full ugrade!") ?></button>
 
             <div style="clear:both;"></div>
         </div>
 
         <div class="alert alert-warning">
-            <?php echo __("What if I skip the upgrade?") ?>
+            <?php echo __("What if I choose the minimal upgrade?") ?>
             <br />
             - <?php echo __("Only tags will be copied in the `tag` field, which are now used to improve the full-text search.") ?>
             <br />
-            <button class="btn color-red pull-right place-skip"><?php echo __("Ok, skip automated upgrade!") ?></button>
+            <button class="btn color-red pull-right place-skip"><?php echo __("Ok, proceed to minimal upgrade!") ?></button>
 
             <div style="clear:both;"></div>
         </div>
