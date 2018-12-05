@@ -231,7 +231,6 @@ class Push_Model_Android_Message
                     $option_value->getMobileUri(),
                     $option_value->getId());
             }
-
         } else {
             $action_url = $message->getActionValue();
         }

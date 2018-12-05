@@ -81,16 +81,16 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
                         $location.path(features.options[feat_index].path).replace();
                     }
                 }
-
-                // When done, call layout hooks!
-                $timeout(function () {
-                    HomepageLayout.callHooks();
-                }, 100);
             }
 
             $scope.menu_is_visible = true;
 
             $scope.is_loading = false;
+
+            // When done, call layout hooks!
+            $timeout(function () {
+                HomepageLayout.callHooks();
+            });
         });
 
         $ionicNavBarDelegate.showBar(true);

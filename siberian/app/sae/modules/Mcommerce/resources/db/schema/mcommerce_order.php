@@ -133,22 +133,22 @@ $schemas['mcommerce_order'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'subtotal_excl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'total_excl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'total_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'delivery_cost' => [
-        'type' => 'decimal(12,2) unsigned',
+        'type' => 'double',
     ],
     'total' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'paid_amount' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     // TG-459
@@ -170,7 +170,7 @@ $schemas['mcommerce_order'] = [
     ],
     // pourboire
     'tip' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
         'default' => 0
     ],

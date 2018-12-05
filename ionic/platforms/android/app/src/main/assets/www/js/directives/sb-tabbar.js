@@ -169,7 +169,6 @@ angular.module('starter').directive('tabbarItems', function ($rootScope, $timeou
         },
         link: function (scope, element) {
             element.on('click', function () {
-                $log.debug('Clicked Option: ', scope.option);
                 $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
 
                 $timeout(function () {

@@ -129,9 +129,10 @@
     </div>
 
     <div class="list"
+         ng-if="is_logged_in"
          ng-class="{'padding': card_design}">
         <div class="item item-divider item-divider-custom">
-            <p>{{ 'Privacy' | translate }}:</p>
+            <p>{{ "Privacy" | translate }}:</p>
         </div>
         <div class="item item-custom item-icon-left"
              ng-click="displayPrivacyPolicy('account')"

@@ -1,4 +1,6 @@
-<ion-view sb-page-background cache-view="false" >
+<ion-view sb-page-background
+          cache-view="false"
+          class="mcommerce-view mcommerce-sales-history-details">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-content>
@@ -16,13 +18,15 @@
             <div class="item item-custom">
                 {{ "Status" | translate }}: {{ order.details.status_label }}
             </div>
-            <div class="item item-custom" ng-if="order.details.discount">
+            <div class="item item-custom"
+                 ng-if="order.details.discount">
                 {{ "Discount used" | translate }}: {{ order.details.discount }}
             </div>
             <div class="item item-divider item-divider-custom item-custom">
                 <h2><strong>{{ "Order Details" | translate }}</strong></h2>
             </div>
-            <div class="item item-custom item-icon-left" ng-repeat="line in order.lines">
+            <div class="item item-custom item-icon-left"
+                 ng-repeat="line in order.lines">
                 <i class="icon ion-pricetag"></i>
                 <h2 ng-bind-html="line.title"></h2>
                 <p>{{ "Qty" | translate }}: {{ line.qty}}</p>
@@ -37,10 +41,12 @@
             <div class="item item-custom">
                 {{ "Total tax" | translate }}: <span class="pull-right">{{ order.details.total_tax }}</span>
             </div>
-            <div class="item item-custom" ng-if="order.details.discount">
+            <div class="item item-custom"
+                 ng-if="order.details.discount">
                 {{ "Discount amount" | translate }}: <span class="pull-right">{{ order.details.discount_total }}</span>
             </div>
-            <div class="item item-custom" ng-if="order.details.tip">
+            <div class="item item-custom"
+                 ng-if="order.details.tip">
                 {{ "Gratuity" | translate }}: <span class="pull-right">{{ order.details.tip }}</span>
             </div>
             <div class="item item-custom">

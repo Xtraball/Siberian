@@ -30,13 +30,13 @@ $schemas['mcommerce_promo_log'] = [
         ],
     ],
     'ttc' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'discount' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'total' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'customer_identifier' => [
         'type' => 'varchar(255)',

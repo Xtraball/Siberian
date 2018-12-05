@@ -23,7 +23,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
         <?php if (empty($rawData)): ?>
         <div class="col-md-12">
             <div class="alert alert-warning">
-                <?php echo __('Before publishing your Application you must upload a splashscreen.') ?>
+                <?php echo __("Before publishing your Application you must upload a splashscreen.") ?>
             </div>
         </div>
         <?php endif; ?>
@@ -48,19 +48,19 @@ $startupImage = $this->getApplication()->getData('startup_image');
             <div class="content-options content-white-bkg">
 
                 <div class="overlay-help alert alert-info">
-                    <?php echo __('The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries.') ?>
+                    <?php echo __("The overlay helps you check if important content and/or text on your homepage image is inside the safe boundaries.") ?>
                     <br />
                     <a href="javascript:void(0);"
-                       class="dismiss-help pull-right btn btn-sm btn-default color-red"><?php echo __('dismiss') ?></a>
+                       class="dismiss-help pull-right btn btn-sm btn-default color-red"><?php echo __("dismiss") ?></a>
                     <div style="clear: both;"></div>
                 </div>
 
-                <h4 class="toggle-overlay"><?php echo __('Safe zone overlay') ?>
+                <h4 class="toggle-overlay"><?php echo __("Safe zone overlay") ?>
                     <i class="fa fa-question-circle show-help"></i>
                 </h4>
 
                 <fieldset>
-                    <b><?php echo __('Overlay color') ?></b>
+                    <b><?php echo __("Overlay color") ?></b>
                     <br />
                     <label for="radio_black">
                         <input id="radio_black"
@@ -69,7 +69,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                name="safe_color"
                                checked="checked"
                                value="black" />
-                        <?php echo __('Black') ?>
+                        <?php echo __("Black") ?>
                     </label>
                     <br />
                     <label for="radio_white">
@@ -78,11 +78,11 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                type="radio"
                                name="safe_color"
                                value="white" />
-                        <?php echo __('White') ?>
+                        <?php echo __("White") ?>
                     </label>
                 </fieldset>
                 <fieldset>
-                    <b><?php echo __('Zone overlay') ?></b>
+                    <b><?php echo __("Zone overlay") ?></b>
                     <br />
                     <label for="radio_all">
                         <input id="radio_all"
@@ -90,7 +90,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                type="radio"
                                name="safe_zone"
                                value="" />
-                        <?php echo __('Hide overlay') ?>
+                        <?php echo __("Hide overlay") ?>
                     </label>
                     <br />
                     <label for="radio_portrait">
@@ -100,7 +100,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                name="safe_zone"
                                checked="checked"
                                value="portrait" />
-                        <?php echo __('Safe in portrait') ?>
+                        <?php echo __("Safe in portrait") ?>
                     </label>
                     <br />
                     <label for="radio_portrait_locked">
@@ -109,7 +109,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                type="radio"
                                name="safe_zone"
                                value="portrait_locked" />
-                        <?php echo __('Safe in portrait (locked)') ?>
+                        <?php echo __("Safe in portrait (locked)") ?>
                     </label>
                     <br />
                     <label for="radio_landscape">
@@ -118,7 +118,7 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                type="radio"
                                name="safe_zone"
                                value="landscape" />
-                        <?php echo __('Safe in landscape') ?>
+                        <?php echo __("Safe in landscape") ?>
                     </label>
                     <br />
                     <label for="radio_any">
@@ -127,27 +127,27 @@ $startupImage = $this->getApplication()->getData('startup_image');
                                type="radio"
                                name="safe_zone"
                                value="any" />
-                        <?php echo __('Safe in portrait & landscape') ?>
+                        <?php echo __("Safe in portrait & landscape") ?>
                     </label>
                 </fieldset>
 
                 <p class="clear recommended_size">
-                    <b><?php echo __('Recommended size:'); ?> </b> 2732 x 2732px
+                    <b><?php echo __("Recommended size:"); ?> </b> 2732 x 2732px
                 </p>
                 <button type="button"
                         class="bg_hd btn-grey upload_bg btn btn-full-width sb-tour"
                         rel="unified">
-                    <?php echo __('Change your startup image'); ?><br/>
+                    <?php echo __("Change your startup image"); ?><br/>
                 </button>
 
                 <div class="alert alert-info"
                      style="margin-top: 20px; margin-bottom: 0; text-align: center;">
-                    <?php echo __('Download template as') ?>
+                    <?php echo __("Download template as") ?>
                     <a href="/external/resources/template-unified.png"
                        class="btn btn-xs color-red"
                        style="cursor: pointer !important;"
                        target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PNG</b></a>
-                    <?php echo __('or') ?>
+                    <?php echo __("or") ?>
                     <a href="/external/resources/template-unified.psd"
                        class="btn btn-xs color-red"
                        style="cursor: pointer !important;"
@@ -158,10 +158,10 @@ $startupImage = $this->getApplication()->getData('startup_image');
             <?php if (!empty($startupImage)): ?>
                 <br />
                 <div class="content-options content-white-bkg">
-                    <h4 class="toggle-overlay"><?php echo __('Previous version') ?></h4>
+                    <h4 class="toggle-overlay"><?php echo __("Previous version") ?></h4>
                     <div class="alert alert-info"
                          style="margin-top: 20px; margin-bottom: 0; text-align: center;">
-                        <?php echo __('Download images archive') ?>
+                        <?php echo __("Download images archive") ?>
                         <a href="/application/customization_design_style/downloadhomepage"
                            class="btn btn-xs color-red"
                            style="cursor: pointer !important;"

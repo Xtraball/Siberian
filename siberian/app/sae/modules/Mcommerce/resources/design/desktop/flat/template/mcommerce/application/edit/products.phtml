@@ -1,18 +1,23 @@
-<?php $option = $this->getOptionValue(); ?>
-<?php $mcommerce = $option->getObject(); ?>
-<?php $catalog_option = $mcommerce->getCatalog(); ?>
-<?php $products = $mcommerce->getProducts() ?>
-
+<?php
+$option = $this->getOptionValue();
+$mcommerce = $option->getObject();
+$catalog_option = $mcommerce->getCatalog();
+$products = $mcommerce->getProducts()
+?>
 <div class="products">
-    <div id="products_list" class="products_list">
+    <div id="products_list"
+         class="products_list">
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo $this->_('My products'); ?>
-            <button type="button" id="add_product" class="color-blue pull-right bt-header-right btn">
+            <button type="button"
+                    id="add_product"
+                    class="color-blue pull-right bt-header-right btn">
                 <i class="fa fa-plus"></i>
             </button>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <table id="table_products_list" class="table content-white-bkg">
+            <table id="table_products_list"
+                   class="table content-white-bkg">
                 <col width="20px" />
                 <col width="35%" />
                 <col width="40%" />
@@ -29,12 +34,23 @@
                 </thead>
                 <tbody>
                     <?php foreach($products as $k => $product) : ?>
-                    <tr class="edit_product" rel="<?php echo $product->getId() ?>">
-                        <td><?php echo $product->getId(); ?></td>
-                        <td><?php echo Core_Model_Lib_String::truncate(strip_tags($product->getName()), 25); ?></td>
-                        <td><?php echo Core_Model_Lib_String::truncate(strip_tags($product->getDescription()), 25); ?></td>
-                        <td align="right"><?php echo $product->getFormattedPrice($this->getApplication()->getCountryCode()); ?></td>
-                        <td align="center"><i class="fa fa-pencil"></i></i></td>
+                    <tr class="edit_product"
+                        rel="<?php echo $product->getId() ?>">
+                        <td>
+                            <?php echo $product->getId(); ?>
+                        </td>
+                        <td>
+                            <?php echo Core_Model_Lib_String::truncate(strip_tags($product->getName()), 25); ?>
+                        </td>
+                        <td>
+                            <?php echo Core_Model_Lib_String::truncate(strip_tags($product->getDescription()), 25); ?>
+                        </td>
+                        <td align="right">
+                            <?php echo $product->getFormattedPrice($this->getApplication()->getCountryCode()); ?>
+                        </td>
+                        <td align="center">
+                            <i class="fa fa-pencil"></i>
+                        </td>
                     </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -42,7 +58,8 @@
 
         </div>
     </div>
-    <div id="product_edit" class="product_edit"></div>
+    <div id="product_edit"
+         class="product_edit"></div>
     <div id="group_edit"></div>
 </div>
 

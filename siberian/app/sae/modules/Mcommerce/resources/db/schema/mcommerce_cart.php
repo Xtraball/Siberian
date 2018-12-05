@@ -116,26 +116,26 @@ $schemas['mcommerce_cart'] = [
         ],
     ],
     'subtotal_excl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'delivery_cost' => [
-        'type' => 'decimal(12,2) unsigned',
+        'type' => 'double',
     ],
     'delivery_tax_rate' => [
-        'type' => 'decimal(5,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'total_excl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'total_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'total' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'paid_amount' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'discount_code' => [
@@ -144,7 +144,7 @@ $schemas['mcommerce_cart'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'tip' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
         'default' => 0
     ],

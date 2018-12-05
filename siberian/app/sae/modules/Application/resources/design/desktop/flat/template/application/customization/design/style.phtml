@@ -273,7 +273,9 @@ $splashVersion = (integer) $application->getSplashVersion();
                 <div class="row">
                     <div class="col-md-5">
                         <label for="select_locale"><?php echo __('Choose a country'); ?> : </label>
-                        <select id="select_locale" name="locale" class="styled-select color-red sb-tour">
+                        <select id="select_locale"
+                                name="locale"
+                                class="styled-select color-red sb-tour">
                             <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
                                 <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
                             <?php endforeach; ?>
@@ -284,27 +286,156 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
     </div>
 
-    <div id="font_content" class="content sb-tour">
+    <div id="font_content"
+         class="content sb-tour">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your font style'); ?>
+            <?php echo __('Choose your font family'); ?>
         </h3>
-        <div id="fonts" class="subcontent content-color">
+        <div id="fonts"
+             class="subcontent content-color">
+            <?php
+                $fontFamilies = Core_Model_Lib_Fonts::getFonts();
+                $fontGroupFamilies = Core_Model_Lib_Fonts::getFonts(true);
+                $current = $application->getFontFamily();
+            ?>
+            <?php foreach($fontGroupFamilies as $groupName => $families) : ?>
+                <div class="col-md-12 clear">
+                    <h4 class="font-group"><?php echo __($groupName) ?></h4>
+                </div>
+                <?php foreach ($families as $fontFamily): ?>
+                <div class="col-md-6">
+                    <label for="<?php echo slugify($fontFamily) ?>"
+                           class="font-label <?php if ($current === $fontFamily): ?>checked<?php endif; ?>">
+                        <input id="<?php echo slugify($fontFamily) ?>"
+                               type="radio"
+                               name="font_family"
+                               value="<?php echo $fontFamily ?>"
+                               <?php if ($current === $fontFamily): ?>checked="checked" <?php endif; ?>
+                               class="color-red font-family" />
+                        <span class="font-name"><?php echo str_replace("+", " ", $fontFamily); ?></span>
+                        <span class="font-example"
+                           style="font-family: '<?php echo str_replace("+", " ", $fontFamily); ?>' !important;">
+                            Lorem Ipsum DOLOR SIT AMET
+                        </span>
+                    </label>
+                </div>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+
+
+        </div>
+
+        <div class="subcontent content-color">
+
+            <div class="col-md-12"
+                 style="margin-top: 15px;">
+                <div class="alert alert-info">
+                    <?php echo __("You can also use another Google Font not listed up there") ?>,
+                    <b class="text-danger"><?php echo __("please respect the font name case!") ?></b>
+                </div>
+            </div>
+
             <div class="col-md-12">
-                <?php $fontFamilies = Core_Model_Lib_Fonts::getFonts(); ?>
-                <div class="row">
-                    <div class="col-md-5">
-                        <label for="icon_text_font" class="inlineblock mountain"><?php echo __('Choose a font family'); ?> : </label>
-                        <select id="font_family" name="font_family" tabindex="1" class="sb-tour styled-select color-red">
-                            <?php foreach($fontFamilies as $fontFamily) : ?>
-                                <option value="<?php echo $fontFamily ?>"<?php if($application->getFontFamily() == $fontFamily OR !$application->getFontFamily() AND $fontFamily == 'Signika') : ?> selected="selected"<?php endif; ?>><?php echo $fontFamily ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                <div class="custom-box <?php if (!in_array($current, $fontFamilies) && !empty($current)): ?>checked<?php endif; ?>">
+                    <div class="col-md-3">
+                        <label for="custom_<?php echo slugify($current) ?>"
+                               class="custom-box-label form-group">
+                            <?php echo __("Custom font") ?>
+                        </label>
                     </div>
+                    <div class="col-md-7">
+                        <input id="custom_<?php echo slugify($current) ?>"
+                               type="text"
+                               name="font_family_custom"
+                               value="<?php echo !in_array($current, $fontFamilies) ? $current : "" ?>"
+                               class="col-md-7 input-flat" />
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <button class="btn color-red save-custom-font"><?php echo __("Save") ?></button>
+                    </div>
+
+                    <div style="clear: both;"></div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+<style type="text/css">
+    @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>');
+
+    .font-group {
+        border: 1px solid rgba(0,0,0,0.1);
+        text-align: center;
+        background-color: #f0f0f0;
+        font-style: italic;
+        padding: 10px;
+        letter-spacing: 2px;
+    }
+
+    .font-label {
+        background-color: #f0f0f0;
+        padding: 6px 12px 0 8px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 2px;
+        width: 100%;
+    }
+
+    .custom-box-label {
+        margin: 0;
+        line-height: 34px;
+        font-weight: bold;
+    }
+
+    .custom-box {
+        background-color: #f0f0f0;
+        padding: 6px;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 2px;
+        width: 100%;
+    }
+
+    .custom-box.checked {
+        border-color: #ff3a2e;
+    }
+
+    .font-example-custom {
+
+    }
+
+    .font-label.checked,
+    .font-label:hover {
+        border-color: #ff3a2e;
+        cursor: pointer;
+    }
+
+    .font-label input {
+        transform: translateY(13px);
+    }
+
+    .font-name {
+        display: inline-block;
+        transform: translate(5px, 1px);
+        font-weight: bold;
+        letter-spacing: 1px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 0;
+        padding: 0;
+        width: calc(100% - 40px);
+    }
+
+    .font-example {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-bottom: 6px;
+        margin-left: 29px;
+    }
+</style>
+
 <script type="text/javascript">
     var carousel = null;
     var modal_preview;
@@ -335,17 +466,60 @@ $splashVersion = (integer) $application->getSplashVersion();
             min_size: 48
         });
 
-        $('#font_family').change(function() {
-            var font_loader = $('#'+this.id+'_loader');
-            font_loader.show();
-            iframe.setFont($(this).val());
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savefont'); ?>', false, function() {
-                font_loader.fadeOut();
-            }, function() {
-                font_loader.fadeOut();
-            });
-        }).keyup(function() {
-            iframe.setFont($(this).val());
+        let fontFamilySelectors = $(".font-family");
+
+        fontFamilySelectors.off("click");
+        fontFamilySelectors.on("click", function () {
+            let el = $(this);
+            let value = el.val();
+
+            $(".font-label").removeClass("checked");
+            $(".custom-box-label").removeClass("checked");
+            $("input[name='font_family_custom']").val("");
+            el.parent().addClass("checked");
+
+            formget('<?php echo $this->getUrl('application/customization_design_style/save-font?font='); ?>' + value,
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
+                },
+                false);
+
+            setTimeout(function () {
+                iframe.reload();
+            }, 1000)
+        });
+
+        let saveCustomFont = $(".save-custom-font");
+
+        saveCustomFont.off("click");
+        saveCustomFont.on("click", function () {
+            let el = $("input[name='font_family_custom']");
+            let value = el.val();
+
+            $(".font-label").removeClass("checked");
+            $(".font-family").removeAttr("checked");
+            $(".custom-box").addClass("checked");
+
+            formget('<?php echo $this->getUrl('application/customization_design_style/save-font?font='); ?>' + value,
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
+
+                    $(".custom-box").removeClass("checked");
+                    el.val("");
+                },
+                false);
+
+            setTimeout(function () {
+                iframe.reload();
+            }, 1000)
         });
 
         $('#select_locale').change(function() {

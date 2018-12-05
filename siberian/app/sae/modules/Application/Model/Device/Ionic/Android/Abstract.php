@@ -109,18 +109,36 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
     protected function androidManifest()
     {
         /** Checking if the _application_id is a valid AndroidManifest id. */
+        $device = $this->getDevice();
         $tmp_application_id = $this->_application_id;
         if (!preg_match("#^[a-z]+#", $this->_application_id)) {
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
+        $orientations = Siberian_Json::decode($device->getOrientations());
+        $android = $orientations["android"];
+
+        $androidValids = [
+            "landscape",
+            "portrait",
+            "reverseLandscape",
+            "reversePortrait",
+            "sensorPortrait",
+            "sensorLandscape",
+            "fullSensor",
+        ];
+
+        if (!in_array($android, $androidValids)) {
+            $android = "fullSensor";
+        }
+
         $replacements = [
             $this->_default_bundle_name => $this->_package_name,
             '${applicationId}' => $tmp_application_id,
+            "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$android}\"",
         ];
 
-
-        $version_name = $this->getDevice()->getVersion();
+        $version_name = $device->getVersion();
         $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
 
         if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {

@@ -10,20 +10,20 @@ class Layouts_Form_Layout7Options extends Siberian_Form_Options_Abstract {
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
 
-        $title = $this->addSimpleRadio("title", __("Display titles"), array(
+        $title = $this->addSimpleRadio("title", __("Display titles"), [
             "titlevisible" => __("Visible"),
             "titlehidden" => __("Hidden"),
-        ));
+        ]);
 
-        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), array(
+        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), [
             "title-lowcase" => __("Lower case"),
             "title-uppercase" => __("Upper case"),
-        ));
+        ]);
 
-        $borders = $this->addSimpleMultiCheckbox("borders", __("Display borders"), array(
+        $borders = $this->addSimpleMultiCheckbox("borders", __("Display borders"), [
             "border-right" => __("Right"),
             "border-bottom" => __("Bottom"),
-        ));
+        ]);
 
         $this->addNav("submit", __("Save"), false, false);
 

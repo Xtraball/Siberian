@@ -46,6 +46,6 @@ $schemas['mcommerce_store_tax'] = [
         ],
     ],
     'rate' => [
-        'type' => 'decimal(5,2)',
+        'type' => 'double',
     ],
 ];

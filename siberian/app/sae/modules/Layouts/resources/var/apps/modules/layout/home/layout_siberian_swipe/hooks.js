@@ -4,7 +4,7 @@
  *
  * All the following functions are required in order for the Layout to work
  */
-angular.module('starter').service('layout_siberian_swipe', function ($rootScope, $timeout) {
+angular.module('starter').service('layout_siberian_swipe', function ($rootScope, $timeout, $session) {
     var service = {};
 
     /**
@@ -50,36 +50,34 @@ angular.module('starter').service('layout_siberian_swipe', function ($rootScope,
      * onResize is used for css/js callbacks when orientation change
      */
     service.onResize = function () {
-        console.log('last index', service.last_index);
         var options = _features.layoutOptions;
         // Do nothing for this particular one!
-        var time_out = ($rootScope.isOverview) ? 1000 : 200;
-        $timeout(function () {
-            if ((swipe_instance !== null) && (typeof swipe_instance.destroy === 'function')) {
-                swipe_instance.destroy(true, false);
-            }
-            swipe_instance = new Swiper('.layout.layout_siberian_swipe .swiper-container', {
-                direction: 'vertical',
-                loop: (options.loop === '1'),
-                effect: 'coverflow',
-                centeredSlides: true,
-                initialSlide: (options.backcurrent === '1') ? service.last_index : 0,
-                slidesPerView: 'auto',
-                loopedSlides: 6,
-                /** freeMode: true,
-                 freeModeMomentum: true,
-                 freeModeMomentumRatio: 0.5,
-                 freeModeMomentumVelocityRatio: 0.3,
-                 freeModeSticky: true,*/
-                coverflow: {
-                    rotate: options.angle,
-                    stretch: options.stretch,
-                    depth: options.depth,
-                    modifier: 1,
-                    slideShadows: false
-                }
+        $session
+            .getItem("swipeLastIndex")
+            .then(function (lastIndex) {
+                $timeout(function () {
+                    if ((swipe_instance !== null) && (typeof swipe_instance.destroy === 'function')) {
+                        swipe_instance.destroy(true, false);
+                    }
+                    swipe_instance = new Swiper('.layout.layout_siberian_swipe .swiper-container', {
+                        direction: 'vertical',
+                        loop: (options.loop === '1'),
+                        effect: 'coverflow',
+                        centeredSlides: true,
+                        initialSlide: lastIndex,
+                        slidesPerView: 'auto',
+                        loopedSlides: 6,
+                        coverflow: {
+                            rotate: options.angle,
+                            stretch: options.stretch,
+                            depth: options.depth,
+                            modifier: 1,
+                            slideShadows: false
+                        }
+                    });
+                }, 1);
             });
-        }, time_out);
+
     };
 
     /**
@@ -102,7 +100,7 @@ angular.module('starter').service('layout_siberian_swipe', function ($rootScope,
 
     $rootScope.$on('OPTION_POSITION', function (event, args) {
         $timeout(function () {
-            service.last_index = (args*1)-1;
+            $session.setItem("swipeLastIndex", (args * 1) - 1);
         });
     });
 

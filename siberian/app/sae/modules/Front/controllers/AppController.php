@@ -263,9 +263,19 @@ class Front_AppController extends Front_Controller_App_Default
         return $loadBlock;
     }
 
+    /**
+     * @param $application
+     * @param $currentLanguage
+     * @param Siberian_Controller_Request_Http $request
+     * @return array|false|string
+     * @throws Zend_Exception
+     */
     private function _featureBlock($application, $currentLanguage, $request)
     {
+        $appVersion = $request->getBodyParams()["version"];
+
         $appId = $application->getId();
+        $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
         $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {
@@ -465,6 +475,20 @@ class Front_AppController extends Front_Controller_App_Default
         } else {
             $dataHomepage = $result;
             $dataHomepage['x-cache'] = 'HIT';
+        }
+
+        // Dynamic patches (non-cached) for specific app versions
+        if (version_compare($appVersion, "4.15.6", "<")) {
+            // Apply patches.
+
+            # 1. Places
+            foreach ($dataHomepage["pages"] as &$page) {
+                if ($page["code"] === "places") {
+                    $page["path"] = sprintf("/%s/places/mobile_list/index/value_id/%s",
+                        $appKey,
+                        $page["value_id"]);
+                }
+            }
         }
 
         // Don't cache customer informations!

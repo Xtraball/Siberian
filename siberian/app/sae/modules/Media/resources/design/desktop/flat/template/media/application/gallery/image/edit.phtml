@@ -31,7 +31,7 @@
             </h3>
             <div id="albums_found" style="display: none;">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Choose an album'); ?> :
+                    <?php echo __("Choose an album"); ?> :
                 </h3>
                 <ul id="albums_found_list">
                 </ul>
@@ -42,28 +42,28 @@
             <div id="new_images_galery" style="display:none;" class="container-fluid subcontent content-feature">
                 <div id="choose_type">
                     <ul class="list-group">
-                        <li class="color-blue list-group-item btn capitalize" rel="picasa">
+                        <!--li class="color-blue list-group-item btn capitalize" rel="picasa">
                             <a href="javascript:void(0);" rel="picasa" class="block select_type image_type_select capitalize">
                                 <i title="Picasa" class="icofont icofont-social-picasa block img_icon"></i>
                                 <p><?php echo __('Picasa') ?></p>
                             </a>
-                        </li>
+                        </li-->
                         <li class="color-blue list-group-item btn capitalize" rel="instagram" <?php if(!$instagram_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
                             <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
                                 <i title="Instagram" class="fa fa-instagram block img_icon"></i>
-                                <p><?php echo __('Instagram') ?></p>
+                                <p><?php echo __("Instagram") ?></p>
                             </a>
                         </li>
                         <li class="color-blue list-group-item btn capitalize" rel="flickr" <?php if(!$flickrIsAvailable) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
                             <a href="javascript:void(0);" rel="flickr" class="block select_type<?php if($flickrIsAvailable) : ?> image_type_select<?php endif; ?>">
                                 <i title="flickr" class="fa fa-flickr block img_icon"></i>
-                                <p><?php echo __('Flickr') ?></p>
+                                <p><?php echo __("Flickr") ?></p>
                             </a>
                         </li>
                         <li class="color-blue list-group-item btn capitalize" rel="custom">
                             <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select capitalize">
                                 <i title="<?php echo __("My images"); ?>" class="fa fa-camera block img_icon"></i>
-                                <p><?php echo __('My images') ?></p>
+                                <p><?php echo __("My images") ?></p>
                             </a>
                         </li>
                     </ul>

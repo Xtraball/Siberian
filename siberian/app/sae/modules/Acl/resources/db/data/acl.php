@@ -23,7 +23,7 @@ $resource_data = [
             ],
             [
                 "code" => "application_copy",
-                "label" => "Copy an application",
+                "label" => "Copy an application (deprecated)",
                 "url" => "admin/application/duplicate",
             ],
             [

@@ -599,9 +599,6 @@ class Siberian_Assets
                     // SCSS Case
                     $css = self::compileScss($inFile);
                     $minifier_css->add($css);
-                    file_put_contents('/tmp/css.lol', $inFile, FILE_APPEND);
-                    file_put_contents('/tmp/css.lol', $css, FILE_APPEND);
-
                 } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
                     if ($ext === "js") {
                         $minifier_js->add($inFile);
@@ -771,6 +768,11 @@ class Siberian_Assets
 
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
 
+                // For browser/overview remove cdvfile
+                if ($type === "browser") {
+                    $index_content = self::__cleanAppOnly($index_content);
+                }
+
                 foreach (self::$preBuildCallbacks as $callback) {
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
@@ -936,6 +938,17 @@ class Siberian_Assets
         if (strpos($index_content, $asset_path) === false) {
             $index_content = str_replace($search, $replace, $index_content);
         }
+
+        return $index_content;
+    }
+
+    /**
+     * @param $index_content
+     * @return null|string|string[]
+     */
+    public static function __cleanAppOnly($index_content)
+    {
+        $index_content = preg_replace("/(<script.*cdvfile.*<\/script>)/mi", "", $index_content);
 
         return $index_content;
     }

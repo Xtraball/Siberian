@@ -5,19 +5,22 @@
 angular.module('starter').controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
                                                                               $translate, $timeout, Dialog,
                                                                               McommerceCart, Customer) {
-    // Counter of pending tip calls!
-    var updateTipTimoutFn = null;
-    $scope.is_loading = true;
 
-    $scope.points_data = {
-        use_points: false,
-        nb_points_used: null
-    };
+    angular.extend($scope, {
+        is_loading: false,
+        value_id: $stateParams.value_id,
+        page_title: $translate.instant("Cart"),
+        points_data: {
+            use_points: false,
+            nb_points_used: null
+        },
+        nb_stores: null,
+        object: {
+            cart: null
+        },
+    });
 
     McommerceCart.value_id = $stateParams.value_id;
-    $scope.value_id = $stateParams.value_id;
-
-    $scope.page_title = $translate.instant('Cart');
 
     $scope.loadContent = function () {
         Loader.show('Updating price');
@@ -37,21 +40,21 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                         }
 
                         if (
-                            angular.isObject($scope.cart) &&
+                            angular.isObject($scope.object.cart) &&
                                 (!angular.isString(data.cart.discount_code) ||
                                  data.cart.discount_code.trim().length < 1)
                         ) {
-                            data.cart.discount_code = $scope.cart.discount_code;
+                            data.cart.discount_code = $scope.object.cart.discount_code;
                         }
 
-                        $scope.cart = data.cart;
+                        $scope.object.cart = data.cart;
 
-                        $scope.cart.discount_message = $scope.computation.message;
-                        $scope.cart.discount = $scope.computation.discount;
+                        $scope.object.cart.discount_message = $scope.computation.message;
+                        $scope.object.cart.discount = $scope.computation.discount;
 
                         $scope.nb_stores = data.nb_stores;
 
-                        if ($scope.cart.lines.length > 0) {
+                        if ($scope.object.cart.lines.length > 0) {
                             $scope.right_button = {
                                 action: $scope.proceed,
                                 label: $translate.instant('Proceed')
@@ -60,10 +63,10 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                     }).then(function () {
                         Customer.find()
                             .then(function (data) {
-                                $scope.cart.customer_fidelity_points = (data.metadatas && data.metadatas.fidelity_points) ?
+                                $scope.object.cart.customer_fidelity_points = (data.metadatas && data.metadatas.fidelity_points) ?
                                     data.metadatas.fidelity_points.points : null;
                                 if (!$scope.points_data.use_points) {
-                                    $scope.points_data.nb_points_used = $scope.cart.customer_fidelity_points;
+                                    $scope.points_data.nb_points_used = $scope.object.cart.customer_fidelity_points;
                                 }
                                 $scope.updateEstimatedDiscount();
                             })
@@ -77,15 +80,15 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
 
     $scope.updateEstimatedDiscount = function () {
         if ($scope.points_data.nb_points_used > 0) {
-            $scope.cart.estimated_fidelity_discount =
-                (Math.round($scope.points_data.nb_points_used * $scope.cart.fidelity_rate * 100)/100) +
-                ' ' + $scope.cart.currency_code;
+            $scope.object.cart.estimated_fidelity_discount =
+                (Math.round($scope.points_data.nb_points_used * $scope.object.cart.fidelity_rate * 100)/100) +
+                ' ' + $scope.object.cart.currency_code;
         }
     };
 
     $scope.useFidelityChange = function () {
         if ($scope.points_data.use_points) {
-            $scope.cart.discount_code = null;
+            $scope.object.cart.discount_code = null;
             $scope.updateTipAndDiscount();
         }
     };
@@ -94,9 +97,9 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         Loader.show('Updating price');
 
         $scope.is_loading = true;
-        McommerceCart.adddiscount($scope.cart.discount_code, true)
+        McommerceCart.adddiscount($scope.object.cart.discount_code, true)
             .then(function () {
-                McommerceCart.addTip($scope.cart)
+                McommerceCart.addTip($scope.object.cart)
                     .then(function (data) {
                         if (data.success) {
                             if (angular.isDefined(data.message)) {
@@ -131,7 +134,7 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         Loader.show();
 
         var gotToNext = function () {
-            if (!$scope.cart.valid) {
+            if (!$scope.object.cart.valid) {
                 $scope.cartIdInvalid();
             } else if ($scope.nb_stores > 1) {
                 $scope.goToStoreChoice();
@@ -140,8 +143,8 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
             }
         };
 
-        if ($scope.cart && $scope.cart.discount_code) {
-            McommerceCart.adddiscount($scope.cart.discount_code, true)
+        if ($scope.object.cart && $scope.object.cart.discount_code) {
+            McommerceCart.adddiscount($scope.object.cart.discount_code, true)
                 .then(function (data) {
                     if (data && data.success) {
                         gotToNext();
@@ -242,13 +245,15 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
 
         return McommerceCart.modifyLine(localLine)
             .then(function (data) {
-                $scope.cart.formattedSubtotalExclTax = data.cart.formattedSubtotalExclTax;
-                $scope.cart.formattedDeliveryCost = data.cart.formattedDeliveryCost;
-                $scope.cart.formattedTotalExclTax = data.cart.formattedTotalExclTax;
-                $scope.cart.formattedTotalTax = data.cart.formattedTotalTax;
-                $scope.cart.formattedTotal = data.cart.formattedTotal;
-                $scope.cart.deliveryCost = data.cart.deliveryCost;
-                $scope.cart.valid = data.cart.valid;
+                $timeout(function () {
+                    $scope.object.cart.formattedSubtotalExclTax = data.cart.formattedSubtotalExclTax;
+                    $scope.object.cart.formattedDeliveryCost = data.cart.formattedDeliveryCost;
+                    $scope.object.cart.formattedTotalExclTax = data.cart.formattedTotalExclTax;
+                    $scope.object.cart.formattedTotalTax = data.cart.formattedTotalTax;
+                    $scope.object.cart.formattedTotal = data.cart.formattedTotal;
+                    $scope.object.cart.deliveryCost = data.cart.deliveryCost;
+                    $scope.object.cart.valid = data.cart.valid;
+                });
 
                 return data;
             }, function (data) {
@@ -259,17 +264,16 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                         .show();
                 }
             }).then(function (data) {
-                var scopeLineIndex = _.findIndex($scope.cart.lines, function (line) {
+                var scopeLineIndex = _.findIndex($scope.object.cart.lines, function (line) {
                     return line.id == data.line.id;
                 });
 
                 $timeout(function () {
-                    $scope.cart.lines[scopeLineIndex] = data.line;
-                    $scope.cart.lines[scopeLineIndex].qty = data.line.qty;
+                    $scope.object.cart.lines[scopeLineIndex] = data.line;
 
                     Loader.hide();
                     $scope.is_loading = false;
-                }, 500);
+                });
 
                 return data;
             }).catch(function () {

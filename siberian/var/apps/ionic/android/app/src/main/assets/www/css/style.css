@@ -103,9 +103,18 @@ ion-content.has-background-image, [sb-page-background] {
     transform: translateY(-50%);
 }
 
-.item.item-image-gallery {
-    height: 210px;
-    padding: 5px;
+@media screen and (orientation:portrait) {
+    .item.item-image-gallery {
+        height: 50vw;
+        padding: 5px;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    .item.item-image-gallery {
+        height: 50vh;
+        padding: 5px;
+    }
 }
 
 .item-avatar.item-avatar-square > img:first-child,

@@ -10,15 +10,15 @@ class Layouts_Form_Layout6Options extends Siberian_Form_Options_Abstract {
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
 -
-        $label = $this->addSimpleSelect("label", __("Title position"), array(
+        $label = $this->addSimpleSelect("label", __("Title position"), [
             "label-left" => __("Left position"),
             "label-right" => __("Right position"),
-        ));
+        ]);
 
-        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), array(
+        $textTransform = $this->addSimpleSelect("textTransform", __("Title case"), [
             "title-lowcase" => __("Lower case"),
             "title-uppercase" => __("Upper case"),
-        ));
+        ]);
 
         $this->addNav("submit", __("Save"), false, false);
 

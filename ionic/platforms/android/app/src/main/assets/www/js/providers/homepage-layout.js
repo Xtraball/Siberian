@@ -6,11 +6,25 @@ angular.module('starter').provider('HomepageLayout', function () {
     self.getLayoutIdForValueId = function (valueId) {
         var layoutId = 1;
         try {
-            for (var i in self.pages) {
-                if (self.pages[i].value_id == valueId) {
-                    layoutId = self.pages[i].layout_id;
-                }
+            // Well search in short index first!
+            if (self.layout_ids.hasOwnProperty(valueId)) {
+                return self.layout_ids[valueId] * 1;
             }
+
+            self.pages.forEach(function (page) {
+                if (page.value_id == valueId) {
+                    return page.layout_id * 1;
+                }
+
+                if (currentPage.code === "folder_v2" && currentPage.embed_payload) {
+                    currentPage.embed_payload.collection.forEach(function (subPage) {
+                        if (subPage.value_id == valueId) {
+                            layoutId = subPage.layout_id;
+                            return layoutId * 1;
+                        }
+                    });
+                }
+            });
         } catch (e) {
             layoutId = 1;
         }

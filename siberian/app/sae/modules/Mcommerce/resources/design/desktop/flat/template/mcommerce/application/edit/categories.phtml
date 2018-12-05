@@ -1,16 +1,24 @@
-<?php $option = $this->getOptionValue(); ?>
-<?php $mcommerce = $option->getObject(); ?>
-<?php $category = $mcommerce->getRootCategory(); ?>
+<?php
+$option = $this->getOptionValue();
+$mcommerce = $option->getObject();
+$category = $mcommerce->getRootCategory();
+?>
 
-<div id="category_list" pos="1">
+<div id="category_list"
+     pos="1">
     <h3 class="title-editor no-border-radius title-feature-indent">
         <?php echo $this->_('My categories'); ?>
-        <button type="button" id="add_category" onclick="categories.edit(null);" class="edit_category color-blue pull-right bt-header-right btn" rel="new">
+        <button type="button"
+                id="add_category"
+                onclick="categories.edit(null);"
+                class="edit_category color-blue pull-right bt-header-right btn"
+                rel="new">
             <i class="fa fa-plus"></i>
         </button>
     </h3>
     <div class="container-fluid first-row-feature content-feature">
-        <ul id="category_root" class="tree list-group">
+        <ul id="category_root"
+            class="tree list-group">
             <?php echo $this->getLayout()->addPartial('root_category_'.$category->getId(), get_class($this), 'mcommerce/application/edit/catalog/categories/list.phtml')
                 ->setCategory($category)
                 ->toHtml()
@@ -18,10 +26,19 @@
             ?>
         </ul>
 
-        <form id="editCategoryForm" action="<?php echo $this->getUrl('mcommerce/application_catalog_category/edit'); ?>">
-            <input id="edit_category_id" type="hidden" name="category_id" value="" />
-            <input id="edit_parent_id" type="hidden" name="parent_id" value="" />
-            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>" />
+        <form id="editCategoryForm"
+              action="<?php echo $this->getUrl('mcommerce/application_catalog_category/edit'); ?>">
+            <input id="edit_category_id"
+                   type="hidden"
+                   name="category_id"
+                   value="" />
+            <input id="edit_parent_id"
+                   type="hidden"
+                   name="parent_id"
+                   value="" />
+            <input type="hidden"
+                   name="option_value_id"
+                   value="<?php echo $option->getId(); ?>" />
         </form>
     </div>
 </div>

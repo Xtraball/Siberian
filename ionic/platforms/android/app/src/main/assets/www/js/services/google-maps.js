@@ -1,19 +1,20 @@
 /*global
     google, App, angular
 */
-angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $location, $q, $rootScope, $translate, $window, Application) {
+angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $location, $q, $rootScope, $translate,
+                                                          $window, Application) {
     "use strict";
 
     var __self = {
         is_loaded: false,
         reset: function() {
 
-            if(service.directionsRenderer) {
+            if (service.directionsRenderer) {
                 service.directionsRenderer.setPanel(null);
                 service.directionsRenderer.setMap(null);
             }
 
-            for(var i = 0; i < service.markers; i++) {
+            for (var i = 0; i < service.markers; i++) {
                 google.maps.event.removeListener(service.markers[i], 'click');
                 service.markers[i].setMap(null);
             }
@@ -121,7 +122,6 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
     $window.initGMapCallback = function() {
         if(gmap_script_appended) {
             gmap_loaded = true;
-            console.log("Gmap loaded, calling callbacks");
             while(gmap_callbacks.length > 0)  {
                 var func = gmap_callbacks.shift();
                 if(_.isFunction(func)) {
@@ -137,6 +137,7 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
         directionsRenderer: null,
         panel_id: null,
         markers: [],
+        markerCluster: null,
         lastInfoWindow: null,
         init: function () {
             if(typeof GoogleMaps == "undefined" && !gmap_script_appended) {
@@ -144,13 +145,14 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
                     return;
 
                 _init_called = true;
-                Application.loaded.then(function() {
-                    var google_maps = document.createElement('script');
-                    google_maps.type = "text/javascript";
-                    google_maps.src = "https://maps.googleapis.com/maps/api/js?libraries=places&key="+Application.googlemaps_key+"&callback=initGMapCallback";
-                    document.body.appendChild(google_maps);
-                    gmap_script_appended = true;
-                });
+                Application.loaded
+                    .then(function() {
+                        var google_maps = document.createElement('script');
+                        google_maps.type = "text/javascript";
+                        google_maps.src = "https://maps.googleapis.com/maps/api/js?libraries=places&key="+Application.googlemaps_key+"&callback=initGMapCallback";
+                        document.body.appendChild(google_maps);
+                        gmap_script_appended = true;
+                    });
             }
 
             if(gmap_loaded) {
@@ -211,10 +213,20 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
         isLoaded: function() {
             return __self.is_loaded;
         },
+        addCluster: function () {
+            service.markerCluster = new MarkerClusterer(
+                service.map,
+                service.markers,
+                {
+                    maxZoom: 16,
+                    minimumClusterSize: 3,
+                    imagePath: "./img/cluster/m"
+                }
+            );
+        },
         addMarker: function (marker, index) {
 
             var latlng = new google.maps.LatLng(marker.latitude, marker.longitude);
-
             var icon = null;
 
             if (marker.icon && marker.icon.url) {
@@ -233,52 +245,13 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
             }, marker.markerOptions);
 
             var mapMarker = new google.maps.Marker(options);
+            mapMarker.onClick = marker.onClick;
+            mapMarker.config = marker.config;
 
-            if (marker.title) {
-
-                var marker_id = 'info-marker-' + index;
-
-                var infoWindowContent = '<div id="' + marker_id + '"><p style="color:black;">';
-
-                if (marker.link) {
-                    infoWindowContent += '<a href="' + marker.link + '">';
-                }
-
-                infoWindowContent += marker.title;
-                if (marker.link) {
-                    infoWindowContent += '</a>';
-                }
-
-                var markerHasAction = _.isObject(marker.action) && _.isString(marker.action.label) && _.isFunction(marker.action.onclick);
-
-                if (markerHasAction) {
-                    var id = "map_marker_infowindow_action_"+Math.ceil((+new Date())*Math.random());
-                    infoWindowContent += '<div style="margin-top: 15px; "><button id="'+id+'" class="button button-custom">'+marker.action.label+'</button></div>';
-                }
-
-                infoWindowContent += '</p></div>';
-
-                var infoWindows = new google.maps.InfoWindow({
-                    content: infoWindowContent
-                });
-
-                if (markerHasAction) {
-                    google.maps.event.addListener(infoWindows, 'domready', function () {
-                        document.getElementById(id).addEventListener('click', marker.action.onclick);
-                    });
-                }
-
+            if (_.isFunction(marker.onClick)) {
                 google.maps.event.addListener(mapMarker, 'click', function () {
-                    if(service.lastInfoWindow !== null) {
-                        service.lastInfoWindow.close();
-                    }
-                    infoWindows.open(service.map, mapMarker);
-                    service.lastInfoWindow = infoWindows;
-                    if (marker.hasOwnProperty('onClick') && (typeof marker.onClick === 'function')) {
-                        google.maps.event.addDomListener(document.getElementById(marker_id), 'click', function (event) {
-                            marker.onClick(angular.extend({}, marker.config));
-                        });
-                    }
+                    // Populate the info-block!
+                    mapMarker.onClick(mapMarker);
                 });
             }
 

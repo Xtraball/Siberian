@@ -58,31 +58,31 @@ $schemas['mcommerce_order_line'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'base_price' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'base_price_incl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'price' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'price_incl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'qty' => [
-        'type' => 'decimal(4,2)',
+        'type' => 'double',
         'default' => '1.00',
     ],
     'total' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'total_incl_tax' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'choices' => [
@@ -120,6 +120,6 @@ $schemas['mcommerce_order_line'] = [
         ],
     ],
     'tax_rate' => [
-        'type' => 'decimal(5,2)',
+        'type' => 'double',
     ],
 ];

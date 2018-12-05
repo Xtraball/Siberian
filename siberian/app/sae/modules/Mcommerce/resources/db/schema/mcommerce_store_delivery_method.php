@@ -50,11 +50,11 @@ $schemas['mcommerce_store_delivery_method'] = [
         'is_null' => true,
     ],
     'price' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
     'min_amount_for_free_delivery' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
         'is_null' => true,
     ],
 ];

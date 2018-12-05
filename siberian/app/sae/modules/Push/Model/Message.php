@@ -374,9 +374,9 @@ class Push_Model_Message extends Core_Model_Default
                             $instance->setMessage($this);
                             $instance->push();
                         } else {
-                            throw new Siberian_Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
+                            throw new \Siberian\Exception("You must provide an APNS Certificate for the App ID: {$this->getAppId()}");
                         }
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(), date("Y-m-d H:i:s")), "cron_push");
                         $this->_log("Siberian_Service_Push_Apns", $e->getMessage());
                         $errors[] = $e->getMessage();
@@ -409,7 +409,7 @@ class Push_Model_Message extends Core_Model_Default
                             $fcmInstance = new \Siberian\CloudMessaging\Sender\Fcm($fcmKey);
                         }else {
                             // Only FCM is mandatory by now!
-                            throw new Siberian_Exception("You must provide FCM Credentials");
+                            throw new \Siberian\Exception("You must provide FCM Credentials");
                         }
 
                         if ($fcmInstance || $gcmInstance) {
@@ -418,7 +418,7 @@ class Push_Model_Message extends Core_Model_Default
                             $instance->push();
                         }
 
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         print_r($e->getTraceAsString());
                         $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(),
                             date("Y-m-d H:i:s")), "cron_push");
@@ -673,14 +673,14 @@ class Push_Model_Message extends Core_Model_Default
 
             try {
                 $result = Siberian_Yaml::encode($dataset);
-            } catch (Exception $e) {
-                throw new Exception("#089-03: An error occured while exporting dataset to YAML.");
+            } catch (\Exception $e) {
+                throw new \Siberian\Exception("#089-03: An error occured while exporting dataset to YAML.");
             }
 
             return $result;
 
         } else {
-            throw new Exception("#089-01: Unable to export the feature, non-existing id.");
+            throw new \Siberian\Exception("#089-01: Unable to export the feature, non-existing id.");
         }
     }
 
@@ -694,8 +694,8 @@ class Push_Model_Message extends Core_Model_Default
 
         try {
             $dataset = Siberian_Yaml::decode($content);
-        } catch (Exception $e) {
-            throw new Exception("#089-04: An error occured while importing YAML dataset '$path'.");
+        } catch (\Exception $e) {
+            throw new \Siberian\Exception("#089-04: An error occured while importing YAML dataset '$path'.");
         }
 
         $application = $this->getApplication();
@@ -710,7 +710,7 @@ class Push_Model_Message extends Core_Model_Default
                 ->save();
 
         } else {
-            throw new Exception("#089-02: Missing option, unable to import data.");
+            throw new \Siberian\Exception("#089-02: Missing option, unable to import data.");
         }
     }
 }

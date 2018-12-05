@@ -10,10 +10,10 @@ class Layouts_Form_ApartmentsOptions extends Siberian_Form_Options_Abstract {
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
 
-        $icons = $this->addSimpleSelect("icons", __("Icons & Images"), array(
+        $icons = $this->addSimpleSelect("icons", __("Icons & Images"), [
             "default" => __("Square icons"),
             "cover" => __("Cover background images"),
-        ));
+        ]);
 
         $this->addSimpleCheckbox("visible", __("Display titles"));
 

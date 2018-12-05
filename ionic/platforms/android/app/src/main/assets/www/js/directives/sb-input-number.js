@@ -17,11 +17,16 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
         '<div class="item item-input item-custom input-number-sb">' +
         '   <div class="input-label"><i class="ion-plus"></i> {{ label }}</div>' +
         '   <div class="input-container text-right">' +
-        '       <button class="button button-small button-custom button-left" ng-click="down()">-</button>' +
+        '       <button class="button button-small button-custom button-left" ' +
+        '               ng-click="down()">-</button>' +
         '       <div class="item-input-wrapper">' +
-        '           <input type="text" value="{{ dirValue }}" class="text-center input" readonly />' +
+        '           <input type="text" ' +
+        '                  value="{{ dirValue }}" ' +
+        '                  class="text-center input" ' +
+        '                  readonly />' +
         '       </div>' +
-        '       <button class="button button-small button-custom button-right" ng-click="up()">+</button>' +
+        '       <button class="button button-small button-custom button-right" ' +
+        '               ng-click="up()">+</button>' +
         '   </div>' +
         '</div>',
         replace: true,
@@ -34,26 +39,34 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
             scope.params = scope.params ? scope.params : {};
             scope.label = attrs.label ? attrs.label + ':' : '';
 
-            scope.up = function () {
-                if (scope.dirValue < scope.max) {
-                    scope.dirValue = scope.dirValue + 1;
-                    scope.callBack(scope.dirValue);
+            scope.$watch('params', function() {
+                scope.params = scope.params ? scope.params : {};
+            });
+            scope.$watch('value', function() {
+                scope.value = scope.value ? angular.copy(scope.value) : 0;
+            });
+        },
+        controller: function ($scope) {
+            $scope.up = function () {
+                if ($scope.dirValue < $scope.max) {
+                    $scope.dirValue = $scope.dirValue + 1;
+                    $scope.callBack($scope.dirValue);
                 }
             };
 
-            scope.down = function () {
-                if (scope.dirValue > scope.min) {
-                    scope.dirValue = scope.dirValue - 1;
-                    scope.callBack(scope.dirValue);
+            $scope.down = function () {
+                if ($scope.dirValue > $scope.min) {
+                    $scope.dirValue = $scope.dirValue - 1;
+                    $scope.callBack($scope.dirValue);
                 }
             };
 
-            scope.callBack = function (value) {
-                if (typeof scope.changeQty === 'function') {
+            $scope.callBack = function (value) {
+                if (typeof $scope.changeQty === 'function') {
                     $timeout(function () {
-                        scope.changeQty({
+                        $scope.changeQty({
                             qty: value,
-                            params: scope.params
+                            params: $scope.params
                         });
                     }, 500);
                 }

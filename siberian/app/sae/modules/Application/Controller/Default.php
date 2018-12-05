@@ -19,7 +19,8 @@ class Application_Controller_Default extends Admin_Controller_Default
     /**
      * @return $this|void
      */
-    public function init() {
+    public function init()
+    {
 
         parent::init();
 
@@ -38,7 +39,7 @@ class Application_Controller_Default extends Admin_Controller_Default
 
         // Options ACL
         $application_acl_option = new Application_Model_Acl_Option();
-        $denied_options = $application_acl_option->findAllByAppAndAdminId($this->getApplication()->getId(),$this->getAdmin()->getId());
+        $denied_options = $application_acl_option->findAllByAppAndAdminId($this->getApplication()->getId(), $this->getAdmin()->getId());
         $this->_getAcl()->denyResources($denied_options, true);
 
         $excluded = array(
@@ -51,7 +52,7 @@ class Application_Controller_Default extends Admin_Controller_Default
         );
 
         // Test si un id de value est passé en paramètre
-        if($id = $this->getRequest()->getParam('option_value_id') OR
+        if ($id = $this->getRequest()->getParam('option_value_id') OR
             $id = $this->getRequest()->getParam('value_id')) {
             // Créé et charge l'objet
             $this->_current_option_value = new Application_Model_Option_Value();
@@ -61,11 +62,11 @@ class Application_Controller_Default extends Admin_Controller_Default
         $this->getSession()->editing_app_id = $this->getApplication()->getId();
 
         $admin_id = null;
-        if($this->getSession()->getAdmin() && $this->getSession()->getAdmin()->getId()) {
+        if ($this->getSession()->getAdmin() && $this->getSession()->getAdmin()->getId()) {
             $admin_id = $this->getSession()->getAdmin()->getId();
         }
 
-        if($this->getApplication()->isSomeoneElseEditingIt($admin_id)) {
+        if ($this->getApplication()->isSomeoneElseEditingIt($admin_id)) {
             $this->getSession()->addWarning(__("Careful, someone else is working on this application."), "two_editing_the_same_app");
         }
     }
@@ -73,7 +74,8 @@ class Application_Controller_Default extends Admin_Controller_Default
     /**
      * Generic edit Action, loading form for features
      */
-    public function editAction() {
+    public function editAction()
+    {
         try {
             if ($this->getCurrentOptionValue()) {
                 $this->loadPartials(null, false);
@@ -111,7 +113,7 @@ class Application_Controller_Default extends Admin_Controller_Default
                     'message' => __('The feature doesn\'t esixts')
                 ];
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => __('An unknown error occurred, please try again later.')
@@ -124,7 +126,8 @@ class Application_Controller_Default extends Admin_Controller_Default
     /**
      * @return Application_Model_Option_Value
      */
-    public function getCurrentOptionValue() {
+    public function getCurrentOptionValue()
+    {
         return $this->_current_option_value;
     }
 
@@ -135,16 +138,17 @@ class Application_Controller_Default extends Admin_Controller_Default
      *
      * @param $partial
      */
-    public function assignVars($partial) {
-        if(!isset($partial)) {
+    public function assignVars($partial)
+    {
+        if (!isset($partial)) {
             return;
         }
 
-        if($this->getCurrentOptionValue()) {
+        if ($this->getCurrentOptionValue()) {
             $partial->setOptionValue($this->getCurrentOptionValue());
         }
 
-        foreach(get_object_vars($this->view) as $name => $value) {
+        foreach (get_object_vars($this->view) as $name => $value) {
             if (substr($name, 0, 1) == '_') {
                 continue;
             }

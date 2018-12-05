@@ -1,8 +1,18 @@
 <?php
 
-class Job_Model_Job extends Core_Model_Default {
+/**
+ * Class Job_Model_Job
+ */
+class Job_Model_Job extends Core_Model_Default
+{
 
-    public function __construct($params = array()) {
+    /**
+     * Job_Model_Job constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Job_Model_Db_Table_Job';
         return $this;
@@ -14,7 +24,8 @@ class Job_Model_Job extends Core_Model_Default {
      * @param $option_value
      * @return $this
      */
-    public function prepareFeature($option_value) {
+    public function prepareFeature($option_value)
+    {
 
         parent::prepareFeature($option_value);
 
@@ -26,12 +37,31 @@ class Job_Model_Job extends Core_Model_Default {
     }
 
     /**
+     * @param $valueId
+     * @return array
+     */
+    public function getInappStates($valueId) {
+        $inAppStates = [
+            [
+                'state' => 'job-list',
+                'offline' => true,
+                'params' => [
+                    'value_id' => $valueId,
+                ],
+            ]
+        ];
+
+        return $inAppStates;
+    }
+
+    /**
      * @param $option
      * @return string
      * @throws Exception
      */
-    public function exportAction($option, $export_type = null) {
-        if($option && $option->getId()) {
+    public function exportAction($option, $export_type = null)
+    {
+        if ($option && $option->getId()) {
 
             $current_option = $option;
             $value_id = $current_option->getId();
@@ -44,11 +74,11 @@ class Job_Model_Job extends Core_Model_Default {
 
             $job = $job_model->find($value_id, "value_id");
 
-            $categories = $category_model->findAll(array(
+            $categories = $category_model->findAll([
                 "job_id = ?" => $job->getId(),
-            ));
-            $data_categories = array();
-            foreach($categories as $category) {
+            ]);
+            $data_categories = [];
+            foreach ($categories as $category) {
 
                 $category_data = $category->getData();
                 $category_data["icon"] = $category->_getIcon();
@@ -56,13 +86,13 @@ class Job_Model_Job extends Core_Model_Default {
                 $data_categories[] = $category_data;
             }
 
-            $companies = $company_model->findAll(array(
+            $companies = $company_model->findAll([
                 "job_id = ?" => $job->getId(),
-            ));
+            ]);
 
-            $companies_id = array();
-            $data_companies = array();
-            foreach($companies as $company) {
+            $companies_id = [];
+            $data_companies = [];
+            foreach ($companies as $company) {
                 $companies_id[] = $company->getId();
 
                 $company_data = $company->getData();
@@ -72,14 +102,14 @@ class Job_Model_Job extends Core_Model_Default {
                 $data_companies[] = $company_data;
             }
 
-            $data_places = array();
-            if(!empty($companies_id)) {
-                $places = $place_model->findAll(array(
+            $data_places = [];
+            if (!empty($companies_id)) {
+                $places = $place_model->findAll([
                     "company_id IN (?)" => array_values($companies_id),
-                ));
+                ]);
 
-                $places_id = array();
-                foreach($places as $place) {
+                $places_id = [];
+                foreach ($places as $place) {
                     $places_id[] = $place->getId();
 
                     $place_data = $place->getData();
@@ -90,29 +120,29 @@ class Job_Model_Job extends Core_Model_Default {
                 }
             }
 
-            $data_place_contacts = array();
-            if(!empty($places_id)) {
-                $place_contacts = $place_contact_model->findAll(array(
+            $data_place_contacts = [];
+            if (!empty($places_id)) {
+                $place_contacts = $place_contact_model->findAll([
                     "place_id IN (?)" => array_values($places_id),
-                ));
+                ]);
 
-                foreach($place_contacts as $place_contact) {
+                foreach ($place_contacts as $place_contact) {
                     $data_place_contacts[] = $place_contact->getData();
                 }
             }
 
-            $dataset = array(
+            $dataset = [
                 "option" => $current_option->getData(),
                 "job" => $job->getData(),
                 "categories" => $data_categories,
                 "companies" => $data_companies,
                 "places" => $data_places,
                 "place_contacts" => $data_place_contacts,
-            );
+            ];
 
             try {
                 $result = Siberian_Yaml::encode($dataset);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 throw new Exception("#087-03: An error occured while exporting dataset to YAML.");
             }
 
@@ -127,12 +157,13 @@ class Job_Model_Job extends Core_Model_Default {
      * @param $path
      * @throws Exception
      */
-    public function importAction($path) {
+    public function importAction($path)
+    {
         $content = file_get_contents($path);
 
         try {
             $dataset = Siberian_Yaml::decode($content);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("#087-04: An error occured while importing YAML dataset '$path'.");
         }
 
@@ -141,32 +172,30 @@ class Job_Model_Job extends Core_Model_Default {
         $application_option = new Application_Model_Option_Value();
         $job_model = new Job_Model_Job();
 
-        if(isset($dataset["option"])) {
+        if (isset($dataset["option"])) {
             $new_application_option = $application_option
                 ->setData($dataset["option"])
                 ->unsData("value_id")
                 ->unsData("id")
                 ->setData('app_id', $application->getId())
-                ->save()
-            ;
+                ->save();
 
             $new_value_id = $new_application_option->getId();
 
             /** Create Job/Options */
-            if(isset($dataset["job"]) && $new_value_id) {
+            if (isset($dataset["job"]) && $new_value_id) {
                 $new_job = $job_model
                     ->setData($dataset["job"])
                     ->unsData("job_id")
                     ->unsData("id")
                     ->setData("value_id", $new_value_id)
-                    ->save()
-                ;
+                    ->save();
 
                 /** Insert categories */
-                $match_category_ids = array();
-                if(isset($dataset["categories"]) && $new_job->getId()) {
+                $match_category_ids = [];
+                if (isset($dataset["categories"]) && $new_job->getId()) {
 
-                    foreach($dataset["categories"] as $category) {
+                    foreach ($dataset["categories"] as $category) {
 
                         $new_category = new Job_Model_Category();
                         $new_category
@@ -175,8 +204,7 @@ class Job_Model_Job extends Core_Model_Default {
                             ->unsData("id")
                             ->setData("job_id", $new_job->getId())
                             ->_setIcon($category["icon"], $new_application_option)
-                            ->save()
-                        ;
+                            ->save();
 
                         $match_category_ids[$category["category_id"]] = $new_category->getId();
                     }
@@ -186,22 +214,21 @@ class Job_Model_Job extends Core_Model_Default {
                 }
 
                 /** Insert companies */
-                $match_company_ids = array();
-                if(isset($dataset["companies"]) && $new_job->getId()) {
+                $match_company_ids = [];
+                if (isset($dataset["companies"]) && $new_job->getId()) {
 
-                    foreach($dataset["companies"] as $company) {
+                    foreach ($dataset["companies"] as $company) {
 
                         $new_company = new Job_Model_Company();
                         $new_company
                             ->setData($company)
                             ->unsData("company_id")
                             ->unsData("id")
-                            ->unsData("administrators") /** clear admins */
+                            ->unsData("administrators")/** clear admins */
                             ->setData("job_id", $new_job->getId())
                             ->_setLogo($company["logo"], $new_application_option)
                             ->_setHeader($company["header"], $new_application_option)
-                            ->save()
-                        ;
+                            ->save();
 
                         $match_company_ids[$company["company_id"]] = $new_company->getId();
                     }
@@ -211,17 +238,17 @@ class Job_Model_Job extends Core_Model_Default {
                 }
 
                 /** Insert places */
-                $match_place_ids = array();
-                if(isset($dataset["places"]) && $new_job->getId()) {
+                $match_place_ids = [];
+                if (isset($dataset["places"]) && $new_job->getId()) {
 
-                    foreach($dataset["places"] as $place) {
+                    foreach ($dataset["places"] as $place) {
 
                         $old_category_id = $place["category_id"];
                         $old_company_id = $place["company_id"];
 
                         $category_id = (isset($match_category_ids[$old_category_id])) ? $match_category_ids[$old_category_id] : null;
 
-                        if(isset($match_company_ids[$old_company_id])) {
+                        if (isset($match_company_ids[$old_company_id])) {
                             $new_place = new Job_Model_Place();
                             $new_place
                                 ->setData($place)
@@ -231,8 +258,7 @@ class Job_Model_Job extends Core_Model_Default {
                                 ->setData("company_id", $match_company_ids[$old_company_id])
                                 ->_setIcon($place["icon"], $new_application_option)
                                 ->_setBanner($place["banner"], $new_application_option)
-                                ->save()
-                            ;
+                                ->save();
 
                             $match_place_ids[$place["place_id"]] = $new_place->getId();
                         } else {
@@ -246,21 +272,20 @@ class Job_Model_Job extends Core_Model_Default {
                 }
 
                 /** Insert place contacts */
-                if(isset($dataset["place_contacts"]) && $new_job->getId()) {
+                if (isset($dataset["place_contacts"]) && $new_job->getId()) {
 
-                    foreach($dataset["place_contacts"] as $place_contact) {
+                    foreach ($dataset["place_contacts"] as $place_contact) {
 
                         $old_place_id = $place_contact["place_id"];
 
-                        if(isset($match_place_ids[$old_place_id])) {
+                        if (isset($match_place_ids[$old_place_id])) {
                             $new_place_contact = new Job_Model_PlaceContact();
                             $new_place_contact
                                 ->setData($place_contact)
                                 ->unsData("place_contact_id")
                                 ->unsData("id")
                                 ->setData("place_id", $match_place_ids[$old_place_id])
-                                ->save()
-                            ;
+                                ->save();
 
                         } else {
                             /** Log, no matching place */

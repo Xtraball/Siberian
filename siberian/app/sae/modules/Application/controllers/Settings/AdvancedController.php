@@ -15,11 +15,17 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         ],
     ];
 
+    /**
+     *
+     */
     public function indexAction()
     {
         $this->loadPartials();
     }
 
+    /**
+     * @throws Zend_Form_Exception
+     */
     public function saveformAction()
     {
         $request = $this->getRequest();
@@ -49,6 +55,9 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($data);
     }
 
+    /**
+     *
+     */
     public function savensdescriptionAction()
     {
         try {
@@ -94,12 +103,16 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function saveorientationsAction()
     {
         try {
             $request = $this->getRequest();
             $application = $this->getApplication();
             $iosDevice = $application->getDevice(1);
+            $androidDevice = $application->getDevice(2);
             $params = $request->getParams();
 
             $defaults = [
@@ -111,10 +124,10 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                 'ipad-upside-down' => false,
                 'ipad-landscape-left' => false,
                 'ipad-landscape-right' => false,
-                'android-portrait' => true,
-                'android-upside-down' => true,
-                'android-landscape-left' => true,
-                'android-landscape-right' => true,
+                'android-portrait' => false,
+                'android-upside-down' => false,
+                'android-landscape-left' => false,
+                'android-landscape-right' => false,
             ];
 
             foreach ($params['orientations'] as $key => $value) {
@@ -123,21 +136,48 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                 }
             }
 
+            if (!$defaults['android-portrait'] &&
+                !$defaults['android-upside-down'] &&
+                !$defaults['android-landscape-left'] &&
+                !$defaults['android-landscape-right']) {
+                throw new \Siberian\Exception(__('You must select at least one orientation for Android!'));
+            }
+
+            // Special android!
+            $defaults['android'] = $params['android'];
+
+            $androidValids = [
+                "landscape",
+                "portrait",
+                "reverseLandscape",
+                "reversePortrait",
+                "sensorPortrait",
+                "sensorLandscape",
+                "fullSensor",
+            ];
+            if (!in_array($defaults['android'], $androidValids)) {
+                throw new \Siberian\Exception(__('Android orientation is invalid!'));
+            }
+
             if (!$defaults['iphone-portrait'] &&
                 !$defaults['iphone-upside-down'] &&
                 !$defaults['iphone-landscape-left'] &&
                 !$defaults['iphone-landscape-right']) {
-                throw new Siberian_Exception(__('You must select at least one orientation for iPhone!'));
+                throw new \Siberian\Exception(__('You must select at least one orientation for iPhone!'));
             }
 
             if (!$defaults['ipad-portrait'] &&
                 !$defaults['ipad-upside-down'] &&
                 !$defaults['ipad-landscape-left'] &&
                 !$defaults['ipad-landscape-right']) {
-                throw new Siberian_Exception(__('You must select at least one orientation for iPad!'));
+                throw new \Siberian\Exception(__('You must select at least one orientation for iPad!'));
             }
 
             $iosDevice
+                ->setOrientations(Siberian_Json::encode($defaults))
+                ->save();
+
+            $androidDevice
                 ->setOrientations(Siberian_Json::encode($defaults))
                 ->save();
 
@@ -155,6 +195,9 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function saveAction()
     {
 

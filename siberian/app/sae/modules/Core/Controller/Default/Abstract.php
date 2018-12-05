@@ -145,6 +145,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         if (isset($this->cache_triggers) && is_array($this->cache_triggers)) {
 
             $action_name = $this->getRequest()->getActionName();
+
             $current_language = Core_Model_Language::getCurrentLanguage();
 
             if (isset($this->cache_triggers[$action_name])) {

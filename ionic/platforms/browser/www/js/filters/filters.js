@@ -160,6 +160,28 @@ angular.module("starter").filter("parseUrlFilter", function() {
         }
         return date;
     };
+}).filter('multiWordsFilter', function($filter) {
+    return function(inputArray, searchText, booleanOp) {
+        booleanOp = booleanOp || 'AND';
+
+        var result;
+        var searchTerms = (searchText || '').toLowerCase().split(/\s+/);
+
+        if (booleanOp === 'AND') {
+            result = inputArray;
+            searchTerms.forEach(function(searchTerm) {
+                result = $filter('filter')(result, searchTerm);
+            });
+
+        } else {
+            result = [];
+            searchTerms.forEach(function(searchTerm) {
+                result = result.concat($filter('filter')(inputArray, searchTerm));
+            });
+        }
+
+        return result;
+    };
 }).filter('moment', function () {
     return function (date) {
         if (window.momentjs_loaded) {

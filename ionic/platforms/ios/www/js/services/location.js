@@ -34,7 +34,8 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             maximumAge: 0
         }, config);
 
-        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 420000) > Date.now())) {
+        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
+            console.log("send immediate value, then repoll in background: ", Date.now(), service.position);
             // fresh poll, send direct
             deferred.resolve(service.position);
             isResolved = true;
@@ -42,12 +43,14 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
 
         $cordovaGeolocation.getCurrentPosition(localConfig)
             .then(function (position) {
+                console.log("repoll location service: ", Date.now(), position);
                 service.lastFetch = Date.now();
                 service.position = position;
                 if (!isResolved) {
                     deferred.resolve(service.position);
                 }
             }, function () {
+                console.log("repoll location service: ", Date.now(), "ERRORRRRRr");
                 if (!isResolved) {
                     deferred.reject();
                 }

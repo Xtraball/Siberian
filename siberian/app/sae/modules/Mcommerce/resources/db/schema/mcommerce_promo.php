@@ -37,10 +37,10 @@ $schemas['mcommerce_promo'] = [
     ],
     'minimum_amount' => [
         'default' => 0,
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'discount' => [
-        'type' => 'decimal(12,2)',
+        'type' => 'double',
     ],
     'label' => [
         'type' => 'varchar(255)',
