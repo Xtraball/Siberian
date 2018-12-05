@@ -12,7 +12,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                     return currentPage.layout_id;
                 }
 
-                if (currentPage.code === "folder_v2") {
+                if (currentPage.code === "folder_v2" && currentPage.embed_payload) {
                     currentPage.embed_payload.collection.forEach(function (subPage) {
                         if (subPage.value_id == valueId) {
                             layoutId = subPage.layout_id;
@@ -20,6 +20,11 @@ angular.module('starter').provider('HomepageLayout', function () {
                         }
                     });
                 }
+            }
+
+            // Not found? search in self.layout_ids
+            if (self.layout_ids.hasOwnProperty(valueId)) {
+                return self.layout_ids[valueId];
             }
         } catch (e) {
             layoutId = 1;
