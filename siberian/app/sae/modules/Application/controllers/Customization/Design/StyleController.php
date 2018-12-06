@@ -91,7 +91,9 @@ class Application_Customization_Design_StyleController extends Application_Contr
                     $application->setHomepageSliderIsVisible($datas["homepage_slider_is_visible"]);
                 }
 
-                if (isset($datas["layout_visibility"]) && ($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) && $datas["layout_visibility"] == "1") {
+                if (isset($datas["layout_visibility"]) &&
+                    ($layout->getVisibility() == Application_Model_Layout_Homepage::VISIBILITY_ALWAYS) &&
+                    $datas["layout_visibility"] == "1") {
                     $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_ALWAYS);
                 } else {
                     $application->setLayoutVisibility(Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE);
@@ -120,7 +122,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
     }
 
@@ -148,7 +150,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
         }
     }
 

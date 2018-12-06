@@ -141,7 +141,7 @@
                 </div>
             </div>
         <script type="text/javascript">
-            var tour = null;
+            let tour = null;
             <?php
                 if($this->getApplication()) {
                     $application = $this->getApplication();
@@ -155,17 +155,17 @@
             (function() {
 
                 <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
-                var timeout = 12000;
+                let timeout = 120000;
                 setInterval(function () {
                     $.ajax({
                         "url":"/application/security/check?app_id=<?php echo $app_id; ?>"
                     })
-                }, 12000);
+                }, 120000);
 
                 $.ajaxSetup({
                     statusCode: {
                         400: function (err) {
-                            var refresh = JSON.parse(err.responseText).refresh;
+                            let refresh = JSON.parse(err.responseText).refresh;
                             // If the refresh flag is set, ie response is like {"refresh": true}
                             if (refresh) {
                                 // alert the user and refresh the page
@@ -184,21 +184,16 @@
             <?php endif; ?>
 
             $(document).ready(function() {
-
                 loader.init();
-
                 $('#change_language').change(function() {
                     $('#loader').show();
                     window.location = $(this).val();
                 });
-
                 $("input, textarea").placeholder();
-
                 $('#up').children('a').click(function() {
                     $('html').animate({scrollTop:0}, 'slow');
                     return false;
                 });
-
                 // Instance the tour
                 <?php if(System_Model_Config::getValueFor("bootstraptour_active") == "1"): ?>
                     launchBootstrapTour();
@@ -214,10 +209,7 @@
             }
         </script>
         <?php if(!$this->getRequest()->isWhiteLabelEditor()) : ?>
-        <?php echo System_Model_Config::getValueFor("support_chat_code") ?>
+        <?php echo __get("support_chat_code") ?>
         <?php endif; ?>
-
-        <script type="text/javascript" src="/app/sae/design/desktop/flat/js/preloader.js"></script>
-
     </body>
 </html>

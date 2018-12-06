@@ -92,7 +92,6 @@ window.Features = (new (function Features() {
                     }, routes);
 
                     angular.forEach(routes, function (route, state) {
-                        console.log('creating state '+state+' with route', route);
                         $stateProvider.state(state, route);
                     });
                 }

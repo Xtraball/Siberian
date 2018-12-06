@@ -1,13 +1,35 @@
 <?php
 
-class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstract {
+/**
+ * Class Application_Model_Layout_Homepage
+ */
+class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstract
+{
 
+    /**
+     *
+     */
     const VISIBILITY_HOMEPAGE = "homepage";
+    /**
+     *
+     */
     const VISIBILITY_ALWAYS = "always";
+    /**
+     *
+     */
     const VISIBILITY_TOGGLE = "toggle";
+    /**
+     *
+     */
     const VISIBILITY_FULLSCREEN = "fullscreen";
 
-    public function __construct($params = array()) {
+    /**
+     * Application_Model_Layout_Homepage constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Application_Model_Db_Table_Layout_Homepage';
 
@@ -19,11 +41,19 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
         return $this;
     }
 
-    public function getNumberOfDisplayedIcons() {
-        return (int) $this->getData('number_of_displayed_icons');
+    /**
+     * @return int
+     */
+    public function getNumberOfDisplayedIcons()
+    {
+        return (int)$this->getData('number_of_displayed_icons');
     }
 
-    public function isActive() {
+    /**
+     * @return array|bool|mixed|null|string
+     */
+    public function isActive()
+    {
         return $this->getData("is_active");
     }
 
