@@ -1,9 +1,33 @@
 {
-  "build_hash": "2344fbabb08e1a266abc07c1e316600b",
+  "build_hash": "f2afb552a99d126842eb429d9074c9ed",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
   "icons": [
+    {
+      "code": "0xf156",
+      "name": "001-analytics"
+    },
+    {
+      "code": "0xf157",
+      "name": "002-setting"
+    },
+    {
+      "code": "0xf158",
+      "name": "003-graphic-design"
+    },
+    {
+      "code": "0xf159",
+      "name": "004-career"
+    },
+    {
+      "code": "0xf15a",
+      "name": "005-team"
+    },
+    {
+      "code": "0xf15b",
+      "name": "006-two-gears"
+    },
     {
       "code": "0xf101",
       "name": "alert"
@@ -2437,6 +2461,14 @@
       "name": "sad-outline"
     },
     {
+      "code": "0xf161",
+      "name": "sb-app"
+    },
+    {
+      "code": "0xf162",
+      "name": "sb-blocks"
+    },
+    {
       "code": "0xf152",
       "name": "sb-clear"
     },
@@ -2449,12 +2481,32 @@
       "name": "sb-close-modal"
     },
     {
+      "code": "0xf15c",
+      "name": "sb-cogs"
+    },
+    {
+      "code": "0xf15d",
+      "name": "sb-data"
+    },
+    {
       "code": "0xf145",
       "name": "sb-grid-33"
     },
     {
       "code": "0xf146",
       "name": "sb-grid-50"
+    },
+    {
+      "code": "0xf15e",
+      "name": "sb-group"
+    },
+    {
+      "code": "0xf163",
+      "name": "sb-layout1"
+    },
+    {
+      "code": "0xf164",
+      "name": "sb-layout2"
     },
     {
       "code": "0xf14c",
@@ -2465,6 +2517,10 @@
       "name": "sb-map"
     },
     {
+      "code": "0xf15f",
+      "name": "sb-megaphone"
+    },
+    {
       "code": "0xf14e",
       "name": "sb-more"
     },
@@ -2473,8 +2529,20 @@
       "name": "sb-more-round"
     },
     {
+      "code": "0xf165",
+      "name": "sb-origami"
+    },
+    {
+      "code": "0xf166",
+      "name": "sb-palette"
+    },
+    {
       "code": "0xf14d",
       "name": "sb-refresh"
+    },
+    {
+      "code": "0xf160",
+      "name": "sb-ruler"
     },
     {
       "code": "0xf14f",

@@ -323,10 +323,12 @@ i.fa.fa-plus {
 }
 
 .sidebar-nav li a {
-    padding: 10px;
+    padding: 2px 0;
     display: block;
     text-decoration: none;
     position: relative;
+    font-size: 15px !important;
+    letter-spacing: 1.2px;
 }
 
 .sidebar-nav li a:hover {
@@ -342,10 +344,24 @@ i.fa.fa-plus {
     background: #2D2C32 none repeat scroll 0 0;
 }
 
-.sidebar-nav .fa.fa-angle-right, .sidebar-nav .fa.fa-angle-down {
+.sidebar-nav .icon.ion-chevron-right {
     position: absolute;
     right: 5%;
-    top: 35%;
+    top: 2px;
+}
+
+/**
+ * Change icon in CSS rather than in JS
+ */
+.sidebar-nav a[aria-expanded="true"] .icon.ion-chevron-right:before {
+    content: "\f123" !important;
+}
+
+.sub-bar i.icon {
+    width: 34px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
 }
 
 .sidebar-nav > .sidebar-brand {
@@ -364,7 +380,8 @@ li .sub-bar {
 }
 
 li .sub-bar a {
-    padding-left: 2em;
+    padding-left: 22px;
+    font-size: 13px !important;
 }
 
 .sub-bar > .sub-bar {
@@ -1790,12 +1807,12 @@ a.details.add_page {
 
 /* OVERVIEW */
 #iphone {
-    right: 100px;
+    right: 60px;
 }
 
 #iphone .btn-group-vertical {
     position: absolute;
-    right: -75px;
+    right: -55px;
     top: 0;
 }
 
@@ -1808,7 +1825,7 @@ a.details.add_page {
 /** OVERVIEW **/
 #overview #iphone {
     position: absolute;
-    top: -116px;
+    top: 20px;
     width: 381px;
     height: 805px;
     background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent;
@@ -1859,7 +1876,8 @@ a.details.add_page {
 }
 
 #overview #iphone .iphone_content iframe#mobile_overview {
-    border-radius: 3px;
+    border-radius: 0;
+    border: 2px solid #555555;
 }
 
 #overview .touch_icon {
@@ -2511,7 +2529,7 @@ div.pp_pic_holder {
 
     #overview #iphone {
         background: url("/app/sae/design/desktop/flat/images/customization/overview/responsive_overview/iphone5.svg") no-repeat right top transparent;
-        top: -113px;
+        top: 20px;
     }
 
     #overview #iphone .iphone_content {
