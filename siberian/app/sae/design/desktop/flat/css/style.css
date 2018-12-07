@@ -232,7 +232,7 @@ i.fa.fa-plus {
 }
 
 #wrapper.left-toggled {
-    padding-left: 250px;
+    /**padding-left: 250px;*/
 }
 
 .navbar-header.unleft-toggled {
@@ -1807,8 +1807,35 @@ a.details.add_page {
 /** MENU STEPS **/
 
 /* OVERVIEW */
-#iphone {
-    right: 60px;
+#overview #iphone {
+    right: 80px;
+    top: 105px;
+}
+
+#overview #iphone.phone-fixed {
+    top: 60px !important;
+}
+
+@media (min-width: 1450px) and (max-width: 1700px) {
+    #overview #iphone {
+        right: 70px !important;
+        top: 115px !important;
+    }
+
+    #overview #iphone.phone-fixed {
+        top: 60px !important;
+    }
+}
+
+@media (min-width: 1700px) {
+    #overview #iphone {
+        right: 60px !important;
+        top: 120px !important;
+    }
+
+    #overview #iphone.phone-fixed {
+        top: 60px !important;
+    }
 }
 
 #iphone .btn-group-vertical {
@@ -1818,15 +1845,12 @@ a.details.add_page {
 }
 
 #overview #iphone.phone-fixed {
-    position: fixed;
-    top: 60px;
     z-index: 1;
 }
 
 /** OVERVIEW **/
 #overview #iphone {
-    position: absolute;
-    top: 50px;
+    position: fixed;
     width: 381px;
     height: 805px;
     background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent;
@@ -2487,6 +2511,7 @@ div.pp_pic_holder {
     }
 }
 
+/**
 @media (min-width: 768px) and (max-width: 960px) {
     .navbar-header {
         left: -100px;
@@ -2512,6 +2537,10 @@ div.pp_pic_holder {
         position: absolute;
         left: 100px;
     }
+}*/
+
+.app-features {
+    padding-left: 250px;
 }
 
 @media (max-width: 960px) {
@@ -2527,16 +2556,6 @@ div.pp_pic_holder {
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {
-
-    #overview #iphone {
-        background: url("/app/sae/design/desktop/flat/images/customization/overview/responsive_overview/iphone5.svg") no-repeat right top transparent;
-        top: 20px;
-    }
-
-    #overview #iphone .iphone_content {
-        margin-top: 58px;
-    }
-
     button.mobile-advice:nth-child(2) {
         display: none;
     }
