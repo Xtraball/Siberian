@@ -133,7 +133,7 @@ $editorTree = [
                 'label' => __('Terms & Conditions'),
                 'icon' => 'fa fa-file-text',
                 'url' => $this->getUrl('application/settings_tc'),
-                'is_current' => ('editor_settings_tc' === $currentLink),
+                'is_current' => ('settings_tc' === $currentLink),
             ],
             'editor_settings_apis' => [
                 'hasChilds' => false,
@@ -141,7 +141,7 @@ $editorTree = [
                 'label' => __('APIs'),
                 'icon' => 'fa fa-key',
                 'url' => $this->getUrl('application/settings_apis'),
-                'is_current' => ('editor_settings_apis' === $currentLink),
+                'is_current' => ('settings_apis' === $currentLink),
             ],
             'editor_settings_domain' => [
                 'hasChilds' => false,
@@ -149,7 +149,7 @@ $editorTree = [
                 'label' => __('Domain'),
                 'icon' => 'fa fa-link',
                 'url' => $this->getUrl('application/settings_domain'),
-                'is_current' => ('editor_settings_domain' === $currentLink),
+                'is_current' => ('settings_domain' === $currentLink),
             ],
             'editor_settings_messages' => [
                 'hasChilds' => false,
@@ -157,7 +157,7 @@ $editorTree = [
                 'label' => __('Messages'),
                 'icon' => 'fa fa-envelope',
                 'url' => $this->getUrl('message/application'),
-                'is_current' => ('editor_settings_messages' === $currentLink),
+                'is_current' => ('settings_message' === $currentLink),
             ],
             'editor_settings_advanced' => [
                 'hasChilds' => false,
@@ -165,7 +165,7 @@ $editorTree = [
                 'label' => __('Advanced'),
                 'icon' => 'fa fa-cogs',
                 'url' => $this->getUrl('application/settings_advanced'),
-                'is_current' => ('editor_settings_advanced' === $currentLink),
+                'is_current' => ('settings_advanced' === $currentLink),
             ],
         ],
     ],
@@ -181,7 +181,7 @@ if ($customLinks) {
             $isCurrent = isset($link['code']) ? ($link['code'] === $currentLink) : false;
             $title = $link['title'];
             $icon = $link['icon'];
-            $url = $link['url'];
+            $url = $link['link'];
             $slug = slugify($title);
 
             $childs[$slug] = [
@@ -189,7 +189,7 @@ if ($customLinks) {
                 'isVisible' => $acl,
                 'label' => $title,
                 'icon' => $icon,
-                'url' => $url,
+                'url' => $this->getUrl($url),
                 'is_current' => $isCurrent,
             ];
 
@@ -257,7 +257,7 @@ if (!function_exists('renderRecursiveLeft')) {
                            ' . $isCurrent . '
                            class="collapsed">
                             <i class="' . $menu['icon'] . '"></i>
-                            ' . $label . '
+                            <span class="sb-left-title">' . $label . '</span>
                             <i class="icon ion-chevron-right"></i>
                         </a>
                         ' . $childs . '
@@ -274,7 +274,7 @@ if (!function_exists('renderRecursiveLeft')) {
                     <a href="' . $menu['url'] . '" 
                        class="' . $isCurrent . '">
                         <i class="' . $menu['icon'] . '"></i>
-                        ' . $label . '
+                        <span class="sb-left-title">' . $label . '</span>
                     </a>';
                 } else {
                     $markup .= '
@@ -282,7 +282,7 @@ if (!function_exists('renderRecursiveLeft')) {
                     <a href="' . $menu['url'] . '" 
                        class="' . $isCurrent . '">
                         <i class="' . $menu['icon'] . '"></i>
-                        ' . $label . '
+                        <span class="sb-left-title">' . $label . '</span>
                     </a>
                 </li>';
                 }

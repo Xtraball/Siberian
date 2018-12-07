@@ -111,7 +111,7 @@
                         <?php echo $this->getPartialHtml('sb_tour_sidebar') ?>
                     <?php endif; ?>
                     <div class="right-toggled">
-                        <div class="sidebars">
+                        <div class="sidebars <?php echo $sidebar_left_partial ? 'has-sidebar' : '' ?>">
                             <?php if($sidebar_left_partial) echo $sidebar_left_partial->renderHtml(); ?>
                         </div>
                         <div class="subcontent">

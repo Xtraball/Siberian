@@ -101,6 +101,7 @@ class Siberian_Module
                 "title" => __($title),
                 "link" => $link,
                 "icon" => $icon,
+                "code" => $code,
                 "acl_code" => $aclCode,
             ];
         }

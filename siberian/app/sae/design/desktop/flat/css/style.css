@@ -231,10 +231,6 @@ i.fa.fa-plus {
     transition: all 0.5s ease 0s;
 }
 
-#wrapper.left-toggled {
-    /**padding-left: 250px;*/
-}
-
 .navbar-header.unleft-toggled {
     left: -200px;
     transition: all 0.5s ease 0s;
@@ -347,7 +343,8 @@ i.fa.fa-plus {
 .sidebar-nav .icon.ion-chevron-right {
     position: absolute;
     right: 5%;
-    top: 2px;
+    top: 0;
+    font-size: 11px;
 }
 
 /**
@@ -362,6 +359,20 @@ i.fa.fa-plus {
     text-align: center;
     display: inline-block;
     font-size: 15px;
+}
+
+.sub-bar i.icofont {
+    width: 34px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+}
+
+.sub-bar i.fa {
+    width: 39px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
 }
 
 .sidebar-nav > .sidebar-brand {
@@ -2539,7 +2550,7 @@ div.pp_pic_holder {
     }
 }*/
 
-.app-features {
+.sidebars.has-sidebar ~ .subcontent {
     padding-left: 250px;
 }
 
@@ -2573,7 +2584,7 @@ div.pp_pic_holder {
     }
 }
 
-@media (max-width: 1214px) {
+@media (max-width: 1200px) {
     #overview {
         display: none;
     }
@@ -2597,6 +2608,68 @@ div.pp_pic_holder {
     #step li {
         width: 140px;
         padding: 10px;
+    }
+}
+
+/**
+Side bar left menu small screen
+ */
+@media (max-width: 900px) {
+    #wrapper.left-toggled #left-sidebar-wrapper {
+        width: 68px;
+    }
+    #left-sidebar-wrapper {
+        height: 100%;
+        left: 68px;
+        margin-left: -68px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav a span.sb-left-title {
+        display: none;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav {
+        width: 68px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav .icon.ion-chevron-right {
+        right: 8px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav li .sub-bar a {
+        padding-left: 3px;
+    }
+
+    .sidebars.has-sidebar ~ .subcontent {
+        padding-left: 68px;
+    }
+
+    #left-sidebar-wrapper .sub-bar i.fa {
+        width: 49px;
+    }
+
+    #left-sidebar-wrapper img.icon {
+        width: 46px;
+    }
+
+    span#header_app_name {
+        display: none;
+    }
+
+    .menu_steps .step_menu_feature a {
+        font-size: 12px;
+    }
+
+    .step_menu_feature .fa {
+        top: 5px;
+    }
+
+    .menu_steps .step_menu_feature a li {
+        padding: 6px;
+    }
+
+    .development-responsive {
+        display: none;
     }
 }
 
