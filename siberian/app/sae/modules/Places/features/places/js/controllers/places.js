@@ -380,7 +380,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     $scope.searchPlaces(false);
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
-                                                $location, Places) {
+                                                $location, Places, SocialSharing) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,

@@ -624,30 +624,21 @@ $(document).ready(function(){
 
 function bindScrollOverview() {
     $(window).bind('scroll', function() {
-        var navHeight = 100;
+        var navHeight = 60;
         var navHeightLeft = 93;
         if ($(window).scrollTop() > navHeight) {
             $('#iphone').addClass('phone-fixed');
-            $('#previewer').css({position:"fixed", top:"25px"});
-        }
-        else {
+        } else {
             $('#iphone').removeClass('phone-fixed');
-            $('#previewer').css({position:"absolute", right: "302px", top: "-150px"});
         }
 
         if ($(window).scrollTop() > navHeightLeft) {
             $('#left-sidebar-wrapper,#right-sidebar-wrapper').addClass('fixed');
             $('#customization_label span').addClass('fixed');
-        }
-        else {
+        } else {
             $('#left-sidebar-wrapper,#right-sidebar-wrapper').removeClass('fixed');
             $('#customization_label span').removeClass('fixed');
         }
-
-        if($(window).scrollTop() > 60) {
-            if(!$('#up').is(':visible')) $('#up').stop().fadeIn();
-        }
-        else if($('#up').is(':visible')) $('#up').stop().fadeOut();
     });
 }
 

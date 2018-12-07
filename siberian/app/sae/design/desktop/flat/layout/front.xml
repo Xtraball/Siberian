@@ -38,6 +38,7 @@
                     <bootstraptour link="js/bootstrap-tour.js" />
                     <featherlight link="js/featherlight/featherlight.js" />
                     <tingle link="js/tingle/tingle.min.js" />
+                    <toastr link="js/toastr/toastr.js" />
                 </js>
                 <css>
                     <bootstrap link="css/bootstrap.css" />
@@ -59,6 +60,7 @@
                     <icofont link="css/icofont/css/icofont.css" />
                     <featherlight link="js/featherlight/featherlight.css" />
                     <tingle link="css/tingle/tingle.min.css" />
+                    <toastr link="js/toastr/toastr.css" />
                 </css>
             </scripts>
             <metas>

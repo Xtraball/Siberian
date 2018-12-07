@@ -3,6 +3,7 @@ $currentLink = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
 $request = $this->getRequest();
 $session = $this->getSession();
+$customLinks = Siberian_Module::getEditorMenus();
 
 /**
 * <?php $settings_links = array('push', 'url', 'api_keys', 'module'); ?>
@@ -170,6 +171,48 @@ $editorTree = [
     ],
 ];
 
+if ($customLinks) {
+    $oneIsvisible = false;
+    $childs = [];
+    foreach ($customLinks as $module => $links) {
+        foreach ($links as $link) {
+
+            $acl = isset($link['acl_code']) ? $this->_canAccess($link['acl_code']) : true;
+            $isCurrent = isset($link['code']) ? ($link['code'] === $currentLink) : false;
+            $title = $link['title'];
+            $icon = $link['icon'];
+            $url = $link['url'];
+            $slug = slugify($title);
+
+            $childs[$slug] = [
+                'hasChilds' => false,
+                'isVisible' => $acl,
+                'label' => $title,
+                'icon' => $icon,
+                'url' => $url,
+                'is_current' => $isCurrent,
+            ];
+
+            if ($acl) {
+                $oneIsvisible = true;
+            }
+        }
+    }
+
+    if ($oneIsvisible) {
+        $editorTree['modules'] = [
+            'hasChilds' => true,
+            'isVisible' => true,
+            'label' => __('Modules'),
+            'id' => 'sidebar-left-group-modules',
+            'is_current' => false,
+            'url' => $this->getUrl('/'),
+            'icon' => 'fa fa-cubes',
+            'childs' => $childs
+        ];
+    }
+}
+
 $editorTree = \Siberian\Hook::trigger('editor.left.menu.ready', $editorTree);
 
 /**
@@ -256,11 +299,6 @@ $outputHtml = renderRecursiveLeft('', $editorTree);
 $isDevelopment = (APPLICATION_ENV !== 'production');
 ?>
 
-
-
-
-
-
 <!-- Sidebar -->
 <div id="left-sidebar-wrapper"
      class="bkg-sidebar-left sb-tour">
@@ -277,80 +315,3 @@ $isDevelopment = (APPLICATION_ENV !== 'production');
     </ul>
 </div>
 
-<!-- Menu Toggle Script + Active -->
-<script>
-//$("#left-menu-toggle").click(function(e) {
-//    e.preventDefault();
-//    $("#wrapper").toggleClass("left-toggled");
-//    $(".navbar-header").toggleClass("unleft-toggled");
-//    if($("#wrapper").hasClass("left-toggled")) {
-//        $("#logo").show();
-//    } else {
-//        $("#logo").hide();
-//    }
-//});
-
-// media query
-//if (matchMedia) {
-//  var mq = window.matchMedia("(min-width: 760px)");
-//  var mql = window.matchMedia("(max-width: 1216px)");
-//  mq.addListener(WidthChange);
-//  mql.addListener(WidthChangeV2);
-//  WidthChange(mq);
-//  WidthChangeV2(mql);
-//}
-
-//function WidthChange(mq) {
-//  if (mq.matches) {
-//    $('#wrapper').addClass('left-toggled');
-//    $('.navbar-header').removeClass('unleft-toggled');
-//  } else {
-//    $('#wrapper').removeClass('left-toggled');
-//    $('.navbar-header').addClass('unleft-toggled');
-//  }
-//}
-
-//function WidthChangeV2(mql) {
-//  if (mql.matches) {
-//    $('.right-toggled .row .responsive-part.col-md-8:nth-child(1)').addClass('col-md-12').removeClass('col-md-8');
-//    $('#iphone').hasClass('phone-fixed');
-//  } else {
-//    $('.right-toggled .row .responsive-part.col-md-12:nth-child(1)').addClass('col-md-8').removeClass('col-md-12');
-//    $('#iphone').removeClass('phone-fixed');
-//  }
-//}
-
-//let togglers = $('.toggler');
-//togglers.off("click");
-//togglers.on("click", function () {
-//    let el = $(this);
-//    let a = el.children('a');
-//
-//    a.toggleClass('down');
-//    if(a.hasClass('down')) {
-//        a.children('i:nth-child(2)').removeClass('fa-angle-down').addClass('fa-angle-right');
-//    } else {
-//        a.children('i:nth-child(2)').removeClass('fa-angle-right').addClass('fa-angle-down');
-//    }
-//});
-
-
-//var $sidebar = $('#left-sidebar-wrapper');
-//$sidebar.on("mousewheel DOMMouseScroll",function(event) {
-//    if($sidebar.hasClass("fixed")) {
-//        var prevScroll = $sidebar.scrollTop();
-//        if (event.originalEvent.wheelDelta > 0 || event.originalEvent.detail < 0) {
-//            $sidebar.scrollTop($sidebar.scrollTop() - 30);
-//        } else {
-//            $sidebar.scrollTop($sidebar.scrollTop() + 30);
-//        }
-//        if($sidebar.scrollTop() !== prevScroll) {
-//            event.preventDefault();
-//            event.stopPropagation();
-//        }
-//    }
-//});
-   
-
-
-</script>

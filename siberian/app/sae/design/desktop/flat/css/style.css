@@ -323,7 +323,7 @@ i.fa.fa-plus {
 }
 
 .sidebar-nav li a {
-    padding: 2px 0;
+    padding: 0;
     display: block;
     text-decoration: none;
     position: relative;
@@ -380,7 +380,7 @@ li .sub-bar {
 }
 
 li .sub-bar a {
-    padding-left: 22px;
+    padding-left: 14px;
     font-size: 13px !important;
 }
 
@@ -1763,8 +1763,8 @@ a.details.add_page {
 
 /* MENU STEPS */
 .menu_steps {
-    margin-bottom: 5em;
-    margin-top: 4em;
+    margin-bottom: 3em;
+    margin-top: 2em;
     text-align: center;
 }
 
@@ -1776,6 +1776,7 @@ a.details.add_page {
     display: inline-block;
     position: relative;
     transition: all 0.3s ease 0s;
+    min-width: 12%;
 }
 
 .step_menu_feature  .fa {
@@ -1792,11 +1793,11 @@ a.details.add_page {
 }
 
 .step_menu_feature  li {
-    width: auto;
     border-bottom: 2px solid;
     display: inline-block;
     padding: 10px 15px;
     text-transform: uppercase;
+    width: 100%;
 }
 
 .step-background {
@@ -1825,7 +1826,7 @@ a.details.add_page {
 /** OVERVIEW **/
 #overview #iphone {
     position: absolute;
-    top: 20px;
+    top: 50px;
     width: 381px;
     height: 805px;
     background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent;
@@ -2792,10 +2793,6 @@ div#iphone {
         transform-origin: 100% 0;
         margin-right: -20px;
     }
-
-    #previewer {
-        right: 248px !important;
-    }
 }
 
 @media (max-width: 1450px) {
@@ -2811,10 +2808,6 @@ div#iphone {
         -webkit-transform-origin: 100% 0;
         transform-origin: 100% 0;
         margin-right: -40px;
-    }
-
-    #previewer {
-        right: 192px !important;
     }
 }
 
