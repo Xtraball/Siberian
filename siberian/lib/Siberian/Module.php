@@ -88,8 +88,9 @@ class Siberian_Module
      * @param $title
      * @param $link
      * @param $icon
+     * @param $aclCode
      */
-    public static function addEditorMenu($module, $code, $title, $link, $icon = '')
+    public static function addEditorMenu($module, $code, $title, $link, $icon = '', $aclCode = null)
     {
         if (!isset(self::$editor_menus[$module])) {
             self::$editor_menus[$module] = [];
@@ -100,6 +101,7 @@ class Siberian_Module
                 "title" => __($title),
                 "link" => $link,
                 "icon" => $icon,
+                "acl_code" => $aclCode,
             ];
         }
     }

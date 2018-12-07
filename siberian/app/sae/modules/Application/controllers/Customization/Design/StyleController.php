@@ -681,7 +681,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -712,11 +712,11 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 }
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $html = ['message' => $e->getMessage()];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
