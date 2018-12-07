@@ -727,6 +727,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
         try {
             $request = $this->getRequest();
             $fontFamily = $request->getParam("font", null);
+            $fontFamily = preg_replace("#https://fonts.googleapis.com/css\?family=#i", "", $fontFamily);
 
             if (empty($fontFamily)) {
                 throw new \Siberian\Exception(__("Missing font family!"));

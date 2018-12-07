@@ -66,6 +66,7 @@ $formAdmob->fill($application);
             </div>
         </div>
     </div>
+
     <div id="sb-tour-monetize-source"
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
@@ -80,7 +81,8 @@ $formAdmob->fill($application);
     </div>
 
     <?php if (!$mustUpgrade): ?>
-    <div id="sb-tour-mobile-source" class="content sb-tour">
+    <div id="sb-tour-mobile-source"
+         class="content sb-tour">
         <h3 class="title-editor border-green text-center">
             <?php echo __('Mobile source codes'); ?>
         </h3>
@@ -296,6 +298,7 @@ $formAdmob->fill($application);
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
+        </div>
         </div>
     </div>
     <?php else: ?>

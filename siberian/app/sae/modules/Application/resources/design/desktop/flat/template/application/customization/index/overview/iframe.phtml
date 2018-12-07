@@ -188,6 +188,8 @@ if($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance
         let lastChoice = localStorage.getItem('overview_last_choice');
         if (lastChoice) {
             setSize(lastChoice);
+        } else {
+            setSize('iphone5');
         }
     });
 

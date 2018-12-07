@@ -7,21 +7,21 @@
             if ($this->hasSuccess()) {
                 foreach($this->getSuccess() as $success) {
                     ?>
-                    toastr.success('<?php echo __jss($success) ?>', '<?php echo __jss("Success") ?>');
+                    toastr.success('<?php echo __jss($success) ?>', null);
                     <?php
                 }
             }
             if ($this->hasWarning()) {
                 foreach($this->getWarning() as $warning) {
                     ?>
-                    toastr.warning('<?php echo __jss($warning) ?>', '<?php echo __jss("Warning") ?>');
+                    toastr.warning('<?php echo __jss($warning) ?>', null);
                     <?php
                 }
             }
             if ($this->hasError()) {
                 foreach($this->getError() as $error) {
                     ?>
-                    toastr.error('<?php echo __jss($error) ?>', '<?php echo __jss("Error") ?>',
+                    toastr.error('<?php echo __jss($error) ?>', null,
                         {timeOut: 6000, positionClass: "toast-top-center"});
                     <?php
                 }
