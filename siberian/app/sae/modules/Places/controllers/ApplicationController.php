@@ -2,6 +2,8 @@
 
 /**
  * Class Places_ApplicationController
+ *
+ * @version 4.15.7
  */
 class Places_ApplicationController extends Application_Controller_Default
 {
@@ -79,8 +81,10 @@ class Places_ApplicationController extends Application_Controller_Default
 
                 $tags = $optionValue->getTagNames($page);
                 if (!empty($tags)) {
+                    $hasTag = false;
                     foreach ($tags as $tag) {
                         if (!empty($tag)) {
+                            $hasTag = true;
                             if (!array_key_exists($tag, $allTags)) {
                                 $allTags[$tag] = [
                                     'index' => $tagIndex++,
@@ -89,6 +93,13 @@ class Places_ApplicationController extends Application_Controller_Default
                             }
                             $allTags[$tag]['pages'][] = $page->getId();
                         }
+                    }
+                    if (!$hasTag) {
+                        $pagePlace = (new Places_Model_Place())
+                            ->find($page->getId());
+                        $pagePlace
+                            ->setPlaceVersion(2)
+                            ->save();
                     }
                 } else {
                     $pagePlace = (new Places_Model_Place())

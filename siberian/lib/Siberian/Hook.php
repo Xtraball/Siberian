@@ -54,8 +54,6 @@ class Hook
             });
 
             foreach ($actions as $index => $action) {
-                Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > ' .
-                    $action['name']);
                 try {
                     return $action['callback']($payload);
                 } catch (\Exception $e) {

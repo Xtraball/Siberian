@@ -1,3 +1,6 @@
+/**
+ * @version 4.15.7
+ */
 angular.module('starter').provider('HomepageLayout', function () {
     var self = this;
 
@@ -77,9 +80,6 @@ angular.module('starter').provider('HomepageLayout', function () {
             var doClearHistory = false;
 
             // Clear history for side-menu feature!
-            console.log(Pages);
-            console.log(Pages.data);
-            console.log(Pages.data.layout);
             switch (Pages.data.layout.position) {
                 case 'left':
                 case 'right':
@@ -166,7 +166,6 @@ angular.module('starter').provider('HomepageLayout', function () {
                     break;
 
                 default:
-
                     Analytics.storePageOpening(feature);
 
                     if (!$injector.get('Application').is_customizing_colors &&
@@ -178,7 +177,6 @@ angular.module('starter').provider('HomepageLayout', function () {
                                     disableAnimate: false
                                 });
                             }
-
                             $location.path(feature.path).replace();
                         }
                     } else {

@@ -2,6 +2,12 @@
 // --------------------------
 
 .ionicons,
+.#{$ionicons-prefix}001-analytics:before,
+.#{$ionicons-prefix}002-setting:before,
+.#{$ionicons-prefix}003-graphic-design:before,
+.#{$ionicons-prefix}004-career:before,
+.#{$ionicons-prefix}005-team:before,
+.#{$ionicons-prefix}006-two-gears:before,
 .#{$ionicons-prefix}alert:before,
 .#{$ionicons-prefix}alert-circled:before,
 .#{$ionicons-prefix}android-add:before,
@@ -610,16 +616,27 @@
 .#{$ionicons-prefix}ribbon-b:before,
 .#{$ionicons-prefix}sad:before,
 .#{$ionicons-prefix}sad-outline:before,
+.#{$ionicons-prefix}sb-app:before,
+.#{$ionicons-prefix}sb-blocks:before,
 .#{$ionicons-prefix}sb-clear:before,
 .#{$ionicons-prefix}sb-clear-brush:before,
 .#{$ionicons-prefix}sb-close-modal:before,
+.#{$ionicons-prefix}sb-cogs:before,
+.#{$ionicons-prefix}sb-data:before,
 .#{$ionicons-prefix}sb-grid-33:before,
 .#{$ionicons-prefix}sb-grid-50:before,
+.#{$ionicons-prefix}sb-group:before,
+.#{$ionicons-prefix}sb-layout1:before,
+.#{$ionicons-prefix}sb-layout2:before,
 .#{$ionicons-prefix}sb-list1:before,
 .#{$ionicons-prefix}sb-map:before,
+.#{$ionicons-prefix}sb-megaphone:before,
 .#{$ionicons-prefix}sb-more:before,
 .#{$ionicons-prefix}sb-more-round:before,
+.#{$ionicons-prefix}sb-origami:before,
+.#{$ionicons-prefix}sb-palette:before,
 .#{$ionicons-prefix}sb-refresh:before,
+.#{$ionicons-prefix}sb-ruler:before,
 .#{$ionicons-prefix}sb-search:before,
 .#{$ionicons-prefix}sb-turn-right:before,
 .#{$ionicons-prefix}scissors:before,
@@ -752,6 +769,12 @@
 {
   @extend .ion;
 }
+.#{$ionicons-prefix}001-analytics:before { content: $ionicon-var-001-analytics; }
+.#{$ionicons-prefix}002-setting:before { content: $ionicon-var-002-setting; }
+.#{$ionicons-prefix}003-graphic-design:before { content: $ionicon-var-003-graphic-design; }
+.#{$ionicons-prefix}004-career:before { content: $ionicon-var-004-career; }
+.#{$ionicons-prefix}005-team:before { content: $ionicon-var-005-team; }
+.#{$ionicons-prefix}006-two-gears:before { content: $ionicon-var-006-two-gears; }
 .#{$ionicons-prefix}alert:before { content: $ionicon-var-alert; }
 .#{$ionicons-prefix}alert-circled:before { content: $ionicon-var-alert-circled; }
 .#{$ionicons-prefix}android-add:before { content: $ionicon-var-android-add; }
@@ -1360,16 +1383,27 @@
 .#{$ionicons-prefix}ribbon-b:before { content: $ionicon-var-ribbon-b; }
 .#{$ionicons-prefix}sad:before { content: $ionicon-var-sad; }
 .#{$ionicons-prefix}sad-outline:before { content: $ionicon-var-sad-outline; }
+.#{$ionicons-prefix}sb-app:before { content: $ionicon-var-sb-app; }
+.#{$ionicons-prefix}sb-blocks:before { content: $ionicon-var-sb-blocks; }
 .#{$ionicons-prefix}sb-clear:before { content: $ionicon-var-sb-clear; }
 .#{$ionicons-prefix}sb-clear-brush:before { content: $ionicon-var-sb-clear-brush; }
 .#{$ionicons-prefix}sb-close-modal:before { content: $ionicon-var-sb-close-modal; }
+.#{$ionicons-prefix}sb-cogs:before { content: $ionicon-var-sb-cogs; }
+.#{$ionicons-prefix}sb-data:before { content: $ionicon-var-sb-data; }
 .#{$ionicons-prefix}sb-grid-33:before { content: $ionicon-var-sb-grid-33; }
 .#{$ionicons-prefix}sb-grid-50:before { content: $ionicon-var-sb-grid-50; }
+.#{$ionicons-prefix}sb-group:before { content: $ionicon-var-sb-group; }
+.#{$ionicons-prefix}sb-layout1:before { content: $ionicon-var-sb-layout1; }
+.#{$ionicons-prefix}sb-layout2:before { content: $ionicon-var-sb-layout2; }
 .#{$ionicons-prefix}sb-list1:before { content: $ionicon-var-sb-list1; }
 .#{$ionicons-prefix}sb-map:before { content: $ionicon-var-sb-map; }
+.#{$ionicons-prefix}sb-megaphone:before { content: $ionicon-var-sb-megaphone; }
 .#{$ionicons-prefix}sb-more:before { content: $ionicon-var-sb-more; }
 .#{$ionicons-prefix}sb-more-round:before { content: $ionicon-var-sb-more-round; }
+.#{$ionicons-prefix}sb-origami:before { content: $ionicon-var-sb-origami; }
+.#{$ionicons-prefix}sb-palette:before { content: $ionicon-var-sb-palette; }
 .#{$ionicons-prefix}sb-refresh:before { content: $ionicon-var-sb-refresh; }
+.#{$ionicons-prefix}sb-ruler:before { content: $ionicon-var-sb-ruler; }
 .#{$ionicons-prefix}sb-search:before { content: $ionicon-var-sb-search; }
 .#{$ionicons-prefix}sb-turn-right:before { content: $ionicon-var-sb-turn-right; }
 .#{$ionicons-prefix}scissors:before { content: $ionicon-var-scissors; }

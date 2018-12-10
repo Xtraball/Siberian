@@ -231,10 +231,6 @@ i.fa.fa-plus {
     transition: all 0.5s ease 0s;
 }
 
-#wrapper.left-toggled {
-    padding-left: 250px;
-}
-
 .navbar-header.unleft-toggled {
     left: -200px;
     transition: all 0.5s ease 0s;
@@ -323,10 +319,12 @@ i.fa.fa-plus {
 }
 
 .sidebar-nav li a {
-    padding: 10px;
+    padding: 0;
     display: block;
     text-decoration: none;
     position: relative;
+    font-size: 15px !important;
+    letter-spacing: 1.2px;
 }
 
 .sidebar-nav li a:hover {
@@ -342,10 +340,39 @@ i.fa.fa-plus {
     background: #2D2C32 none repeat scroll 0 0;
 }
 
-.sidebar-nav .fa.fa-angle-right, .sidebar-nav .fa.fa-angle-down {
+.sidebar-nav .icon.ion-chevron-right {
     position: absolute;
     right: 5%;
-    top: 35%;
+    top: 0;
+    font-size: 11px;
+}
+
+/**
+ * Change icon in CSS rather than in JS
+ */
+.sidebar-nav a[aria-expanded="true"] .icon.ion-chevron-right:before {
+    content: "\f123" !important;
+}
+
+.sub-bar i.icon {
+    width: 34px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+}
+
+.sub-bar i.icofont {
+    width: 34px;
+    text-align: center;
+    display: inline-block;
+    font-size: 15px;
+}
+
+.sub-bar i.fa {
+    width: 39px;
+    text-align: center;
+    display: inline-block;
+    font-size: 13px;
 }
 
 .sidebar-nav > .sidebar-brand {
@@ -364,7 +391,8 @@ li .sub-bar {
 }
 
 li .sub-bar a {
-    padding-left: 2em;
+    padding-left: 14px;
+    font-size: 13px !important;
 }
 
 .sub-bar > .sub-bar {
@@ -1746,8 +1774,8 @@ a.details.add_page {
 
 /* MENU STEPS */
 .menu_steps {
-    margin-bottom: 5em;
-    margin-top: 4em;
+    margin-bottom: 3em;
+    margin-top: 2em;
     text-align: center;
 }
 
@@ -1759,6 +1787,7 @@ a.details.add_page {
     display: inline-block;
     position: relative;
     transition: all 0.3s ease 0s;
+    min-width: 12%;
 }
 
 .step_menu_feature  .fa {
@@ -1775,11 +1804,11 @@ a.details.add_page {
 }
 
 .step_menu_feature  li {
-    width: auto;
     border-bottom: 2px solid;
     display: inline-block;
     padding: 10px 15px;
     text-transform: uppercase;
+    width: 100%;
 }
 
 .step-background {
@@ -1789,26 +1818,50 @@ a.details.add_page {
 /** MENU STEPS **/
 
 /* OVERVIEW */
-#iphone {
-    right: 100px;
+#overview #iphone {
+    right: 80px;
+    top: 105px;
+}
+
+#overview #iphone.phone-fixed {
+    top: 60px !important;
+}
+
+@media (min-width: 1450px) and (max-width: 1700px) {
+    #overview #iphone {
+        right: 70px !important;
+        top: 115px !important;
+    }
+
+    #overview #iphone.phone-fixed {
+        top: 60px !important;
+    }
+}
+
+@media (min-width: 1700px) {
+    #overview #iphone {
+        right: 60px !important;
+        top: 120px !important;
+    }
+
+    #overview #iphone.phone-fixed {
+        top: 60px !important;
+    }
 }
 
 #iphone .btn-group-vertical {
     position: absolute;
-    right: -75px;
+    right: -55px;
     top: 0;
 }
 
 #overview #iphone.phone-fixed {
-    position: fixed;
-    top: 60px;
     z-index: 1;
 }
 
 /** OVERVIEW **/
 #overview #iphone {
-    position: absolute;
-    top: -116px;
+    position: fixed;
     width: 381px;
     height: 805px;
     background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent;
@@ -1859,7 +1912,8 @@ a.details.add_page {
 }
 
 #overview #iphone .iphone_content iframe#mobile_overview {
-    border-radius: 3px;
+    border-radius: 0;
+    border: 2px solid #555555;
 }
 
 #overview .touch_icon {
@@ -2468,6 +2522,7 @@ div.pp_pic_holder {
     }
 }
 
+/**
 @media (min-width: 768px) and (max-width: 960px) {
     .navbar-header {
         left: -100px;
@@ -2493,6 +2548,10 @@ div.pp_pic_holder {
         position: absolute;
         left: 100px;
     }
+}*/
+
+.sidebars.has-sidebar ~ .subcontent {
+    padding-left: 250px;
 }
 
 @media (max-width: 960px) {
@@ -2508,16 +2567,6 @@ div.pp_pic_holder {
 }
 
 @media (min-width: 768px) and (max-width: 1440px) {
-
-    #overview #iphone {
-        background: url("/app/sae/design/desktop/flat/images/customization/overview/responsive_overview/iphone5.svg") no-repeat right top transparent;
-        top: -113px;
-    }
-
-    #overview #iphone .iphone_content {
-        margin-top: 58px;
-    }
-
     button.mobile-advice:nth-child(2) {
         display: none;
     }
@@ -2535,7 +2584,7 @@ div.pp_pic_holder {
     }
 }
 
-@media (max-width: 1214px) {
+@media (max-width: 1200px) {
     #overview {
         display: none;
     }
@@ -2559,6 +2608,68 @@ div.pp_pic_holder {
     #step li {
         width: 140px;
         padding: 10px;
+    }
+}
+
+/**
+Side bar left menu small screen
+ */
+@media (max-width: 900px) {
+    #wrapper.left-toggled #left-sidebar-wrapper {
+        width: 68px;
+    }
+    #left-sidebar-wrapper {
+        height: 100%;
+        left: 68px;
+        margin-left: -68px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav a span.sb-left-title {
+        display: none;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav {
+        width: 68px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav .icon.ion-chevron-right {
+        right: 8px;
+    }
+
+    #left-sidebar-wrapper .sidebar-nav li .sub-bar a {
+        padding-left: 3px;
+    }
+
+    .sidebars.has-sidebar ~ .subcontent {
+        padding-left: 68px;
+    }
+
+    #left-sidebar-wrapper .sub-bar i.fa {
+        width: 49px;
+    }
+
+    #left-sidebar-wrapper img.icon {
+        width: 46px;
+    }
+
+    span#header_app_name {
+        display: none;
+    }
+
+    .menu_steps .step_menu_feature a {
+        font-size: 12px;
+    }
+
+    .step_menu_feature .fa {
+        top: 5px;
+    }
+
+    .menu_steps .step_menu_feature a li {
+        padding: 6px;
+    }
+
+    .development-responsive {
+        display: none;
     }
 }
 
@@ -2774,10 +2885,6 @@ div#iphone {
         transform-origin: 100% 0;
         margin-right: -20px;
     }
-
-    #previewer {
-        right: 248px !important;
-    }
 }
 
 @media (max-width: 1450px) {
@@ -2793,10 +2900,6 @@ div#iphone {
         -webkit-transform-origin: 100% 0;
         transform-origin: 100% 0;
         margin-right: -40px;
-    }
-
-    #previewer {
-        right: 192px !important;
     }
 }
 

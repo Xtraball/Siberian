@@ -3,7 +3,7 @@
  *
  * @author Xtraball SAS
  *
- * @version 4.12.21
+ * @version 4.15.7
  */
 angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
                                                            $translate, $window, $session, Application, Dialog,

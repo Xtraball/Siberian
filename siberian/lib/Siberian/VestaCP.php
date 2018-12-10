@@ -49,8 +49,6 @@ class Siberian_VestaCP
 
         $this->api = new Siberian_VestaCP_Api(
             $this->config["host"], $this->config["username"], $this->config["password"], $this->config["webspace"]);
-
-        //$this->api->login();
     }
 
     /**

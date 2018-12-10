@@ -1,27 +1,34 @@
 <?php if($this->canView()) : ?>
-<div class="messages">
-    <?php if($this->hasSuccess()) : ?>
-    <ul class="message bg-success">
-        <?php foreach($this->getSuccess() as $success) : ?>
-        <li><?php echo $success; ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php endif ?>
+<!-- Ok let's convert old style messages to new sliding info -->
+<script type="text/javascript">
+    $(document).ready(function () {
 
-    <?php if($this->hasWarning()) : ?>
-    <ul class="message bg-warning">
-        <?php foreach($this->getWarning() as $warning) : ?>
-        <li><?php echo $warning; ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php endif ?>
+        <?php
+            if ($this->hasSuccess()) {
+                foreach($this->getSuccess() as $success) {
+                    ?>
+                    toastr.success('<?php echo __jss($success) ?>', null);
+                    <?php
+                }
+            }
+            if ($this->hasWarning()) {
+                foreach($this->getWarning() as $warning) {
+                    ?>
+                    toastr.warning('<?php echo __jss($warning) ?>', null);
+                    <?php
+                }
+            }
+            if ($this->hasError()) {
+                foreach($this->getError() as $error) {
+                    ?>
+                    toastr.error('<?php echo __jss($error) ?>', null,
+                        {timeOut: 6000, positionClass: "toast-top-center"});
+                    <?php
+                }
+            }
+        ?>
 
-    <?php if($this->hasError()) : ?>
-    <ul class="message bg-danger">
-        <?php foreach($this->getError() as $error) : ?>
-        <li><?php echo $error; ?></li>
-        <?php endforeach; ?>
-    </ul>
-    <?php endif ?>
-</div>
+
+    });
+</script>
 <?php endif ?>

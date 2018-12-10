@@ -359,6 +359,7 @@ $splashVersion = (integer) $application->getSplashVersion();
             </div>
         </div>
     </div>
+</div>
 
 <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>');
@@ -482,15 +483,16 @@ $splashVersion = (integer) $application->getSplashVersion();
                 {},
                 function (data) {
                     feature_form_success(data.message);
+
+                    // Reload only on success and when done!
+                    setTimeout(function () {
+                        iframe.reload();
+                    }, 1000)
                 },
                 function (data) {
                     feature_form_error(JSON.parse(data.responseText).message);
                 },
                 false);
-
-            setTimeout(function () {
-                iframe.reload();
-            }, 1000)
         });
 
         let saveCustomFont = $(".save-custom-font");
@@ -508,6 +510,11 @@ $splashVersion = (integer) $application->getSplashVersion();
                 {},
                 function (data) {
                     feature_form_success(data.message);
+
+                    // Reload only on success and when done!
+                    setTimeout(function () {
+                        iframe.reload();
+                    }, 1000)
                 },
                 function (data) {
                     feature_form_error(JSON.parse(data.responseText).message);
@@ -516,10 +523,6 @@ $splashVersion = (integer) $application->getSplashVersion();
                     el.val("");
                 },
                 false);
-
-            setTimeout(function () {
-                iframe.reload();
-            }, 1000)
         });
 
         $('#select_locale').change(function() {

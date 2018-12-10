@@ -7,7 +7,7 @@ namespace Siberian;
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.14.0
+ * @version 4.15.7
  */
 class Cron
 {
@@ -447,6 +447,8 @@ class Cron
      * Let's Encrypt certificates renewal
      *
      * @param $task
+     * @throws \Exception
+     * @throws \Zend_Exception
      */
     public function letsencrypt($task)
     {
@@ -475,28 +477,25 @@ class Cron
                 exec("chmod -R 775 {$root}/.well-known");
             }
 
-            $lets_encrypt = new \Siberian_LetsEncrypt($base, $root, false);
-            $le_is_init = false;
+            $letsEncrypt = new \Siberian_LetsEncrypt($base, $root, false);
+            $leIsInit = false;
 
             // Use staging environment
             $letsencrypt_env = __get("letsencrypt_env");
             if ($letsencrypt_env == "staging") {
-                $lets_encrypt->setIsStaging();
+                $letsEncrypt->setIsStaging();
             }
 
             if (!empty($email)) {
-                $lets_encrypt->contact = ["mailto:{$email}"];
+                $letsEncrypt->contact = ["mailto:{$email}"];
             }
 
             try {
-                $ssl_certificates = new \System_Model_SslCertificates();
-
-                $to_renew = new \Zend_Db_Expr("renew_date < updated_at");
-                $certs = $ssl_certificates->findAll(
+                $certs = (new \System_Model_SslCertificates())->findAll(
                     [
                         "source = ?" => \System_Model_SslCertificates::SOURCE_LETSENCRYPT,
                         "status = ?" => "enabled",
-                        $to_renew
+                        "renew_date < updated_at"
                     ]
                 );
 
@@ -507,19 +506,22 @@ class Cron
                         // Before generating certificate again, compare $hostnames
                         $renew = false;
                         $domains = $cert->getDomains();
-                        $retain_domains = array();
-                        if (is_readable($cert->getCertificate()) && !empty($domains)) {
+                        $retainDomains = [];
+                        if (is_readable($cert->getCertificate()) &&
+                            !empty($domains)) {
 
-                            $cert_content = openssl_x509_parse(file_get_contents($cert->getCertificate()));
+                            $certContent = openssl_x509_parse(file_get_contents($cert->getCertificate()));
 
-                            if (isset($cert_content["extensions"]) && $cert_content["extensions"]["subjectAltName"]) {
-                                $certificate_hosts = explode(",", str_replace("DNS:", "", $cert_content["extensions"]["subjectAltName"]));
+                            if (isset($certContent["extensions"]) &&
+                                $certContent["extensions"]["subjectAltName"]) {
+
+                                $certificateHosts = explode(",", str_replace("DNS:", "", $certContent["extensions"]["subjectAltName"]));
                                 $hostnames = \Siberian_Json::decode($cert->getDomains());
 
                                 foreach ($hostnames as $hostname) {
                                     $hostname = trim($hostname);
 
-                                    $isNotInArray = !in_array($hostname, $certificate_hosts);
+                                    $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
                                     $r = dns_get_record($hostname, DNS_CNAME);
                                     $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $cert->getHostname()));
@@ -529,7 +531,7 @@ class Cron
                                         $renew = true;
                                         $this->log(__("[Let's Encrypt] will add %s to SAN.", $hostname));
 
-                                        $retain_domains[] = $hostname;
+                                        $retainDomains[] = $hostname;
                                     }
 
                                     if ($endWithDot) {
@@ -541,14 +543,14 @@ class Cron
                             // Or compare expiration date (will expire in 5/30 days or less)
                             if (!$renew) {
 
-                                $diff = $cert_content["validTo_time_t"] - time();
+                                $diff = $certContent["validTo_time_t"] - time();
 
                                 //$thirty_days = 2592000;
-                                $eight_days = 691200;
+                                $eightDays = 691200;
                                 //$five_days = 432000;
 
                                 # Go with five days for now.
-                                if ($diff < $eight_days) {
+                                if ($diff < $eightDays) {
                                     # Should renew
                                     $renew = true;
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
@@ -561,22 +563,21 @@ class Cron
 
 
                         if ($renew) {
-                            $result = false;
-                            if (!$le_is_init) {
-                                $lets_encrypt->initAccount();
-                                $le_is_init = true;
+                            if (!$leIsInit) {
+                                $letsEncrypt->initAccount();
+                                $leIsInit = true;
                             }
 
                             # Save back domains
-                            if (sizeof($domains) != sizeof($retain_domains)) {
+                            if (sizeof($domains) != sizeof($retainDomains)) {
                                 $cert
-                                    ->setDomains(\Siberian_Json::encode($retain_domains))
+                                    ->setDomains(\Siberian_Json::encode($retainDomains))
                                     ->save();
                             }
 
                             // Clear log between hostnames.
-                            $lets_encrypt->clearLog();
-                            $result = $lets_encrypt->signDomains($retain_domains);
+                            $letsEncrypt->clearLog();
+                            $result = $letsEncrypt->signDomains(array_merge([$cert->getHostname()], $retainDomains));
                         } else {
                             $result = true;
                         }
@@ -627,7 +628,7 @@ class Cron
                                 ->setErrorCount($cert->getErrorCount() + 1)
                                 ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
                                 ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
-                                ->setErrorLog($lets_encrypt->getLog())
+                                ->setErrorLog($letsEncrypt->getLog())
                                 ->save();
                         }
 
@@ -642,7 +643,7 @@ class Cron
                         $cert
                             ->setErrorCount($cert->getErrorCount() + 1)
                             ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
-                            ->setErrorLog($lets_encrypt->getLog())
+                            ->setErrorLog($letsEncrypt->getLog())
                             ->save();
                     }
 

@@ -166,9 +166,13 @@ class Siberian_VestaCP_Api
                 curl_setopt($curl, CURLOPT_POST, true);
                 curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
                 $answer = curl_exec($curl);
+                if ($answer == 0) {
+                    return true;
+                }
             }
-            throw new \Siberian\Exception("Error SSL : Vesta API Query returned error code: " . $answer);
         }
+
+        throw new \Siberian\Exception("Error SSL : Vesta API Query returned error code: " . $answer);
     }
 
 }

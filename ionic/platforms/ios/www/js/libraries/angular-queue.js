@@ -69,9 +69,6 @@
                      */
                     this.callback = function(item) {
                         var _this = this;
-
-                        console.info("remain in queue: ", this.size());
-
                         $timeout(function() {
                             _this.user_callback.call(_this, item);
                         }, 1);
@@ -99,8 +96,6 @@
                      * @return<Number> queue size
                      */
                     this.add = function(item) {
-                        console.log("Add item to queue: ", item);
-
                         return this.addEach([item]);
                     };
 
@@ -172,7 +167,6 @@
                      *
                      */
                     this.pause = function() {
-                        console.info("queue pause");
                         stop();
                         this.paused = true;
                     };

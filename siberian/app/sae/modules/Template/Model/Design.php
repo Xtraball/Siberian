@@ -1,14 +1,31 @@
 <?php
 
+/**
+ * Class Template_Model_Design
+ */
 class Template_Model_Design extends Core_Model_Default
 {
 
+    /**
+     *
+     */
     const PATH_IMAGE = '/images/templates';
 
+    /**
+     * @var array
+     */
     public static $variables = [];
 
+    /**
+     * @var
+     */
     protected $_blocks;
 
+    /**
+     * Template_Model_Design constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
@@ -62,7 +79,14 @@ class Template_Model_Design extends Core_Model_Default
         return self::generateCss($application, false, true, true);
     }
 
-    public static function generateCss($application, $javascript = false, $return_variables = false, $new_scss = false)
+    /**
+     * @param $application
+     * @param bool $javascript
+     * @param bool $return_variables
+     * @param bool $new_scss
+     * @return bool|string
+     */
+    public static function generateCss($application, $javascript = false, $return_variables = false, $new_scss = true)
     {
 
         $variables = [];
@@ -160,17 +184,9 @@ class Template_Model_Design extends Core_Model_Default
         $content = [];
 
         $scss_files = [
-            "ionic.siberian.variables.scss",
+            "ionic.siberian.variables-opacity.scss",
             "ionic.siberian.style.scss"
         ];
-
-        # Do not break old apps css rebuild.
-        if ($new_scss) {
-            $scss_files = [
-                "ionic.siberian.variables-opacity.scss",
-                "ionic.siberian.style.scss"
-            ];
-        }
 
         foreach ($scss_files as $file) {
             $f = fopen(Core_Model_Directory::getBasePathTo("var/apps/browser/scss/{$file}"), "r");
@@ -215,7 +231,7 @@ class Template_Model_Design extends Core_Model_Default
                 @import "_mixins.scss";
                 ' . $custom_app
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             /** Meanwhile, fallback without custom scss */
             $css = $compiler->compile('
                 @import "_variables.scss";
@@ -266,6 +282,9 @@ class Template_Model_Design extends Core_Model_Default
         return $final_templates;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBlocks()
     {
 
@@ -278,6 +297,10 @@ class Template_Model_Design extends Core_Model_Default
 
     }
 
+    /**
+     * @param $name
+     * @return Template_Model_Block
+     */
     public function getBlock($name)
     {
 
@@ -303,16 +326,28 @@ class Template_Model_Design extends Core_Model_Default
         return Core_Model_Directory::getPathTo(self::PATH_IMAGE . $data);
     }
 
+    /**
+     * @param bool $base
+     * @return string
+     */
     public function getBackgroundImage($base = false)
     {
         return $base ? Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $this->getData('background_image')) : Core_Model_Directory::getPathTo($this->getData('background_image'));
     }
 
+    /**
+     * @param bool $base
+     * @return string
+     */
     public function getBackgroundImageHd($base = false)
     {
         return $base ? Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $this->getData('background_image_hd')) : Core_Model_Directory::getPathTo($this->getData('background_image_hd'));
     }
 
+    /**
+     * @param bool $base
+     * @return string
+     */
     public function getBackgroundImageTablet($base = false)
     {
         return $base ? Core_Model_Directory::getBasePathTo(self::PATH_IMAGE . $this->getData('background_image_tablet')) : Core_Model_Directory::getPathTo($this->getData('background_image_tablet'));

@@ -1,3 +1,6 @@
+/**
+ * @version 4.15.7
+ */
 angular.module('starter').controller('PlacesHomeController', function ($scope, $state, $stateParams, $ionicHistory, Places) {
 
     angular.extend($scope, {
@@ -250,12 +253,25 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         return IMAGE_URL + 'images/application' + picture;
     };
 
+    /**
+     *
+     * @param item
+     * @returns {*}
+     */
     $scope.placeThumbnailSrc = function (item) {
+        var url = null;
         if (item.thumbnail && item.thumbnail.length) {
-            return item.thumbnail;
+            url = item.thumbnail;
         }
         if (item.picture && item.picture.length) {
-            return item.picture;
+            url = item.picture;
+        }
+        if (url !== null) {
+            // Monkey Patch non-well formatted uris
+            if (!url.match(/^https?:\/\//)){
+                url = IMAGE_URL + url;
+            }
+            return url;
         }
         return './features/places/assets/templates/l1/img/no-place.png';
     };
@@ -380,7 +396,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     $scope.searchPlaces(false);
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
-                                                $location, Places) {
+                                                $location, Places, SocialSharing) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,

@@ -2,6 +2,7 @@
  * Places
  *
  * @author Xtraball SAS
+ * @version 4.15.7
  */
 angular.module('starter').factory('Places', function ($pwaRequest) {
     var factory = {

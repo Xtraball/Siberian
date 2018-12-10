@@ -27,7 +27,6 @@ angular.module('starter').factory('Pages', function ($pwaRequest, $rootScope, $q
     Object.defineProperty(factory, 'ready', {
         get: function () {
             if (_ready) {
-                $log.info('Pages ready, resolving promise');
                 return $q.resolve();
             }
             return _ready_resolver.promise;
@@ -35,7 +34,6 @@ angular.module('starter').factory('Pages', function ($pwaRequest, $rootScope, $q
         set: function (value) {
             _ready = !!value;
             if (_ready === true) {
-                $log.info('Pages ready, resolving promise');
                 _ready_resolver.resolve();
             }
         }
