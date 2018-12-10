@@ -1,5 +1,6 @@
 /**
  * CMS Directives
+ * @version 4.15.7
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {

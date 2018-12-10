@@ -87,10 +87,10 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
 
         switch ($sortingType) {
             case "alpha":
-                $select->order(["title ASC"]);
+                $select->order(["page.title ASC"]);
                 break;
             case "date":
-                $select->order(["page_id DESC"]);
+                $select->order(["page.page_id DESC"]);
                 break;
             case "distance":
                 $select->order(["distance ASC"]);

@@ -87,7 +87,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
     Object.defineProperty(service, 'loaded', {
         get: function () {
             if (_loaded) {
-                $log.info('Application loaded, resolving promise');
                 return $q.resolve();
             }
             return _loaded_resolver.promise;
@@ -95,7 +94,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
         set: function (value) {
             _loaded = !!value;
             if (_loaded === true) {
-                $log.info('Application loaded, resolving promise');
                 _loaded_resolver.resolve();
             }
         }
@@ -104,7 +102,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
     Object.defineProperty(service, 'ready', {
         get: function () {
             if (_ready) {
-                $log.info('Application ready, resolving promise');
                 return $q.resolve();
             }
             return _ready_resolver.promise;
@@ -112,7 +109,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
         set: function (value) {
             _ready = !!value;
             if (_ready === true) {
-                $log.info('Application ready, resolving promise');
                 _ready_resolver.resolve();
             }
         }
@@ -252,8 +248,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
             cache: false,
             timeout: 30000
         }).then(function (data) {
-            $log.debug('application/mobile_data/findall', data);
-
             var total = data.paths.length + data.assets.length;
             if (isNaN(total)) {
                 total = 100;
@@ -286,7 +280,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
 
                 // Restart queue
                 if (pathQueue.paused && (requestCount <= maxRequest)) {
-                    $log.debug('Start ' + requestCount);
                     pathQueue.start();
                 }
 
@@ -303,7 +296,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
 
                 // Restart queue!
                 if (pathQueue.paused && (requestCount <= maxRequest)) {
-                    $log.debug('Start ' + requestCount);
                     pathQueue.start();
                 }
 
@@ -406,7 +398,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
                 }
 
                 if (requestCount >= maxRequest) {
-                    $log.debug('Paused ' + requestCount);
                     pathQueue.pause();
                 }
             };
@@ -415,8 +406,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
                 delay: delay,
                 paused: true,
                 complete: function () {
-                    $log.debug('Queue ends.');
-
                     updateProgress();
                     retry = false;
                     var _retryQueue = retryQueue;
@@ -425,8 +414,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
                             delay: 1000,
                             paused: true,
                             complete: function () {
-                                $log.debug('Retry queue ends.');
-
                                 updateProgress();
                                 endProgress();
                             }

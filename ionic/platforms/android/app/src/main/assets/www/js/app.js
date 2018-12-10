@@ -1,5 +1,7 @@
 /**
  * Application Bootstrap
+ *
+ * @version 4.15.7
  */
 
 window.momentjs_loaded = false;
@@ -242,8 +244,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             }
 
             var loadApp = function (refresh) {
-                $log.debug('$ionicPlatform.ready');
-
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
@@ -254,9 +254,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 // Session is ready we can initiate first request!
                 $session.loaded.then(function () {
                     var deviceScreen = $session.getDeviceScreen();
-
-                    $log.debug('device_uid', $session.getDeviceUid());
-                    $log.debug('start: front/app/init');
 
                     $pwaRequest.post('front/app/init', {
                         data: {
@@ -363,7 +360,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             $rootScope.onPause = false;
                             $ionicPlatform.on('pause', function (pauseResult) {
                                 $rootScope.onPause = true;
-                                $log.info('-- app is on pause --');
                                 Analytics.storeClosing();
 
                                 var runChcp = function () {
@@ -794,16 +790,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             ], {
                                 rerun: true
                             }).then(function (success) {
-                                console.log('bundle onload success', bundle, success);
                             }).catch(function (error) {
-                                console.log('bundle onload error', bundle, error);
                             });
                         });
 
                         var ProgressbarService = $injector.get('ProgressbarService');
                         ProgressbarService.init(load.application.colors.loader);
-
-                        $log.debug((new Date()).getTime(), 'end.');
 
                         // Check for padlock!
                         var currentState = $ionicHistory.currentStateName();
@@ -822,13 +814,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
                         }
                     }).catch(function (error) {
-                        $log.error('main promise caught error, ', error);
-
                         // In case we are unable to refresh loadApp, use cached version and refresh only once
                         if (refresh === true) {
                             $timeout(loadApp(false), 1);
-                        } else {
-                            $log.error('main promise caught error, refresh: false failed.', error);
                         }
                     }); // Main load, then
                 }); // Session loaded

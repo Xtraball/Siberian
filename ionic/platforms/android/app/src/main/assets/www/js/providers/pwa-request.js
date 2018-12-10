@@ -68,13 +68,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                 });
 
                 $http(options).then(function(response) {
-
-                    if(options.first_cache) {
-                        $log.debug("caching: response success", response, cachedResponse);
-                    } else {
-                        $log.debug("caching again: response success", response, cachedResponse);
-                    }
-
                     var cachedResponse = {
                         expires_at: options.expires_at,
                         touched_at: options.touched_at,
@@ -92,7 +85,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                 }, function(response) {
 
-                    $log.debug("response error", response);
+                    //$log.debug("response error", response);
 
                     var data = {
                         error: true,
@@ -104,7 +97,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                     if(_.isObject(response) && (response.status === 410)) {
-                        $log.debug("remove gone resource");
                         provider.defaultCache.removeItem(options.cacheKey);
                     }
 
@@ -122,7 +114,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                 }).catch(function(errrrrr) {
-                    $log.error("Catched error: " + errrrrr);
+                    $log.error("Caught error: " + errrrrr);
                 });
 
             };
@@ -163,8 +155,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     /** Return direct request when cache is not active */
                     if (!provider.cacheIsEnabled || !options.cache) {
                         if ($rootScope.isOnline) {
-                            $log.debug("direct request, no cache.", options.url);
-
                             $http(requestOptions)
                                 .then(function(response) {
 
@@ -191,13 +181,13 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                                 }).catch(function(err) {
 
-                                var error = {
-                                    error       : true,
-                                    message     : $translate.instant("[Network] The resource is not reachable, check your network connection.")
-                                };
+                                    var error = {
+                                        error       : true,
+                                        message     : $translate.instant("[Network] The resource is not reachable, check your network connection.")
+                                    };
 
-                                options.deferred_promise.reject(error);
-                            });
+                                    options.deferred_promise.reject(error);
+                                });
 
                         } else {
                             var error = {
@@ -207,8 +197,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                             options.deferred_promise.reject(error);
                         }
-
-                        console.log("deferred", options.deferred_promise);
 
                         return options.deferred_promise.promise;
                     }
@@ -293,14 +281,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                             /** We need to cache the object */
                             if(cached_object === null) {
-
-                                $log.debug("network: ", cacheKey);
-
                                 options.return_response = true;
                                 options.first_cache = true;
 
                                 provider.queue.addFirst(options);
-
                             } else {
 
                                 data_break = angular.copy(cached_object);
@@ -309,8 +293,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                                 var will_refresh = false;
 
-                                if(options.imageProxy) {
-
+                                if (options.imageProxy) {
                                     angular.extend(cached_object, {
                                         expires_at  : options.expires_at,
                                         touched_at  : options.touched_at
@@ -322,43 +305,14 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                     options.deferred_promise.resolve(data_break.data);
 
                                     return;
-
                                 } else {
-
-
-                                    if(cached_object.expires_at === -1) {
-
-                                        if(options.touched_at > cached_object.touched_at) {
-                                            $log.debug("content is newer, we will refresh it.",
-                                                options.touched_at, " > ", cached_object.touched_at, cacheKey);
-
-                                            will_refresh = true;
-                                        } else {
-                                            $log.debug("content will not be refreshed, already up-to-date.",
-                                                cached_object);
-
-                                            will_refresh = true;
-                                        }
-                                    } else {
-
-                                        var current_time = Math.trunc((new Date()).getTime()/1000);
-                                        if(cached_object.expires_at < current_time) {
-                                            $log.debug("cache expired, renewing ",
-                                                cached_object.expires_at, " < ", current_time, cacheKey);
-
-                                            will_refresh = true;
-                                        } else {
-                                            $log.debug("cache is not expired, won't refresh.", cached_object);
-
-                                            will_refresh = true;
-                                        }
-                                    }
-
+                                    // @note check git history for previous logic (always ending with will_refresh = true)
+                                    will_refresh = true;
                                 }
 
-                                if(will_refresh || options.pullToRefresh) {
+                                if (will_refresh || options.pullToRefresh) {
 
-                                    if(options.pullToRefresh) {
+                                    if (options.pullToRefresh) {
 
                                         // increase timeout for refresh
                                         options.timeout = 60000;
@@ -396,8 +350,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                             });
 
                         });
-
-                    console.log("options.deferred_promise", options.deferred_promise);
 
                     return options.deferred_promise.promise;
                 };
@@ -483,7 +435,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                 });
 
                 httpWrapper.cache = function(uri, config) {
-
                     return httpWrapper.get(uri, {
                         cache: !$rootScope.isOverview
                     });
@@ -496,13 +447,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param uri
                  */
                 httpWrapper.cacheImage = function(uri) {
-
-                    if(isNativeApp && window.OfflineMode) {
+                    if (isNativeApp && window.OfflineMode) {
                         return $q(function(resolve, reject) { window.OfflineMode.cacheURL(uri, function() {
-                            $log.info("cached URL succesfully : ", uri);
                             resolve();
                         }, function() {
-                            $log.info("Failed to cache URL : ", uri);
                             reject();
                         }); });
                     }

@@ -1,22 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "file": "plugins/Push/www/push.js",
-        "id": "Push.PushNotification",
-        "pluginId": "Push",
-        "clobbers": [
-            "PushNotification"
-        ]
-    },
-    {
-        "file": "plugins/Push/www/browser/push.js",
-        "id": "Push.BrowserPush",
-        "pluginId": "Push",
-        "clobbers": [
-            "PushNotification"
-        ]
-    },
-    {
         "file": "plugins/Promises/www/promise.js",
         "id": "Promises.Promise",
         "pluginId": "Promises",
@@ -278,7 +262,6 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "Push": "1.10.0",
     "Promises": "4.2.2",
     "BarcodeScanner": "7.1.2",
     "Camera": "4.0.3",

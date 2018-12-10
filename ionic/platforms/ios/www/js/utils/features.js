@@ -1,5 +1,6 @@
 /* global
  angular, console, BASE_PATH
+ @version 4.15.7
  */
 window.Features = (new (function Features() {
     var _app = angular.module('starter'); // WARNING: Must be the same as in app.js
@@ -92,7 +93,6 @@ window.Features = (new (function Features() {
                     }, routes);
 
                     angular.forEach(routes, function (route, state) {
-                        console.log('creating state '+state+' with route', route);
                         $stateProvider.state(state, route);
                     });
                 }

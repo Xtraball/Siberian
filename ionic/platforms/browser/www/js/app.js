@@ -1,5 +1,7 @@
 /**
  * Application Bootstrap
+ *
+ * @version 4.15.7
  */
 
 window.momentjs_loaded = false;

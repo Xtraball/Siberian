@@ -7,7 +7,7 @@ namespace Siberian;
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.14.0
+ * @version 4.15.7
  */
 class Cron
 {
