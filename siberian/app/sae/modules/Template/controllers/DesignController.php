@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Template_DesignController
+ */
 class Template_DesignController extends Application_Controller_Default
 {
 
@@ -15,6 +18,9 @@ class Template_DesignController extends Application_Controller_Default
         ],
     ];
 
+    /**
+     *
+     */
     public function listAction()
     {
 
