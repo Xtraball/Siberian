@@ -93,12 +93,12 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
                 $select->order(["page.page_id DESC"]);
                 break;
             case "distance":
-                $select->order(["page.distance ASC"]);
+                $select->order(["distance ASC"]);
                 break;
         }
 
         if ($searchByDistance && $sortingType === "distance") {
-            $select->order(["page.distance ASC"]);
+            $select->order(["distance ASC"]);
         }
 
         $select
