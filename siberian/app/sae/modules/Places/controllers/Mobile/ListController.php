@@ -120,7 +120,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     }
 
     /**
-     * @deprecated in Siberian 5.0 only act as fallback
+     * @deprecated only act as fallback
      */
     public function settingsAction()
     {
