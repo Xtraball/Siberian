@@ -2,6 +2,8 @@
 
 /**
  * Class Places_ApplicationController
+ *
+ * @version 4.15.7
  */
 class Places_ApplicationController extends Application_Controller_Default
 {

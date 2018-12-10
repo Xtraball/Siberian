@@ -1,3 +1,6 @@
+/**
+ * @version 4.15.7
+ */
 angular.module('starter').provider('HomepageLayout', function () {
     var self = this;
 

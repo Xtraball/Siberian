@@ -2,6 +2,8 @@
 
 /**
  * Class Places_Mobile_ListController
+ *
+ * @version 4.15.7
  */
 class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 {
