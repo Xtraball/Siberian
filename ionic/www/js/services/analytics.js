@@ -153,6 +153,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             });
         });
 
+        // Empty the pool!
         $session.setItem("analytics_pool", []);
     };
 
