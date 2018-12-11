@@ -37,17 +37,45 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
 
         if (service.isEnabled === false) {
             deferred.reject();
-        } else if (service.isEnabled === null) {
-            var permissions = cordova.plugins.permissions;
-            permissions.hasPermission(permissions.ACCESS_FINE_LOCATION, function(status) {
-                if (status.hasPermission) {
-                    if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
-                        // fresh poll, send direct
-                        deferred.resolve(service.position);
-                        isResolved = true;
-                    }
+        } else {
+            if (cordova.plugins.permissions !== undefined) {
+                var permissions = cordova.plugins.permissions;
+                permissions.hasPermission(permissions.ACCESS_FINE_LOCATION, function(status) {
+                    if (status.hasPermission) {
+                        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
+                            // fresh poll, send direct
+                            deferred.resolve(service.position);
+                            isResolved = true;
+                        }
 
-                    $cordovaGeolocation.getCurrentPosition(localConfig)
+                        $cordovaGeolocation
+                            .getCurrentPosition(localConfig)
+                            .then(function (position) {
+                                service.lastFetch = Date.now();
+                                service.position = position;
+                                if (!isResolved) {
+                                    deferred.resolve(service.position);
+                                }
+                            }, function () {
+                                if (!isResolved) {
+                                    deferred.reject();
+                                }
+                            });
+                    } else {
+                        // Disable for all next requests!
+                        service.isEnabled = false;
+                        deferred.reject();
+                    }
+                });
+            } else {
+                if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
+                    // fresh poll, send direct
+                    deferred.resolve(service.position);
+                    isResolved = true;
+                }
+
+                $cordovaGeolocation
+                    .getCurrentPosition(localConfig)
                     .then(function (position) {
                         service.lastFetch = Date.now();
                         service.position = position;
@@ -59,12 +87,8 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                             deferred.reject();
                         }
                     });
-                } else {
-                    deferred.reject();
-                }
-            });
+            }
         }
-
 
         return deferred.promise;
     };
