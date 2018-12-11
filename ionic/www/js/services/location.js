@@ -12,7 +12,8 @@
 angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
         lastFetch: null,
-        position: null
+        position: null,
+        isEnabled: null,
     };
 
     /**
@@ -34,27 +35,36 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             maximumAge: 0
         }, config);
 
-        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
-            console.log("send immediate value, then repoll in background: ", Date.now(), service.position);
-            // fresh poll, send direct
-            deferred.resolve(service.position);
-            isResolved = true;
-        }
+        if (service.isEnabled === false) {
+            deferred.reject();
+        } else if (service.isEnabled === null) {
+            var permissions = cordova.plugins.permissions;
+            permissions.hasPermission(permissions.ACCESS_FINE_LOCATION, function(status) {
+                if (status.hasPermission) {
+                    if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
+                        // fresh poll, send direct
+                        deferred.resolve(service.position);
+                        isResolved = true;
+                    }
 
-        $cordovaGeolocation.getCurrentPosition(localConfig)
-            .then(function (position) {
-                console.log("repoll location service: ", Date.now(), position);
-                service.lastFetch = Date.now();
-                service.position = position;
-                if (!isResolved) {
-                    deferred.resolve(service.position);
-                }
-            }, function () {
-                console.log("repoll location service: ", Date.now(), "ERRORRRRRr");
-                if (!isResolved) {
+                    $cordovaGeolocation.getCurrentPosition(localConfig)
+                    .then(function (position) {
+                        service.lastFetch = Date.now();
+                        service.position = position;
+                        if (!isResolved) {
+                            deferred.resolve(service.position);
+                        }
+                    }, function () {
+                        if (!isResolved) {
+                            deferred.reject();
+                        }
+                    });
+                } else {
                     deferred.reject();
                 }
             });
+        }
+
 
         return deferred.promise;
     };

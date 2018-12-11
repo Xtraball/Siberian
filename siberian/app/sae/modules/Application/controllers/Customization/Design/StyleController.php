@@ -746,12 +746,19 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 ->setFontFamily(str_replace(" ", "+", $fontFamily))
                 ->save();
 
-            Template_Model_Design::generateCss($application, false, false, true);
+            $result = Template_Model_Design::generateCss($application, false, false, true);
 
-            $payload = [
-                'success' => true,
-                'message' => __("Font saved!"),
-            ];
+            if ($result === false) {
+                $payload = [
+                    'success' => false,
+                    'message' => __("Your SCSS seems invalid!"),
+                ];
+            } else {
+                $payload = [
+                    'success' => true,
+                    'message' => __("Font saved!"),
+                ];
+            }
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
