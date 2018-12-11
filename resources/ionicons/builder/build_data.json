@@ -1,33 +1,9 @@
 {
-  "build_hash": "f2afb552a99d126842eb429d9074c9ed",
+  "build_hash": "130bbb88c41e763a401663863a8cb1aa",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
   "icons": [
-    {
-      "code": "0xf156",
-      "name": "001-analytics"
-    },
-    {
-      "code": "0xf157",
-      "name": "002-setting"
-    },
-    {
-      "code": "0xf158",
-      "name": "003-graphic-design"
-    },
-    {
-      "code": "0xf159",
-      "name": "004-career"
-    },
-    {
-      "code": "0xf15a",
-      "name": "005-team"
-    },
-    {
-      "code": "0xf15b",
-      "name": "006-two-gears"
-    },
     {
       "code": "0xf101",
       "name": "alert"
@@ -2549,8 +2525,20 @@
       "name": "sb-search"
     },
     {
+      "code": "0xf167",
+      "name": "sb-sun"
+    },
+    {
+      "code": "0xf168",
+      "name": "sb-temperature"
+    },
+    {
       "code": "0xf150",
       "name": "sb-turn-right"
+    },
+    {
+      "code": "0xf169",
+      "name": "sb-weather"
     },
     {
       "code": "0xf34b",

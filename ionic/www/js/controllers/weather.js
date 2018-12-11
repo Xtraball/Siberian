@@ -47,14 +47,11 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
                     $scope.woeid = data.collection.woeid;
                     $scope.getWeather();
                 }
-
-                $scope.is_loading = false;
-
-                //$scope.runRain();
             });
     };
 
     $scope.getWeather = function () {
+        $scope.is_loading = true;
         Weather
         .getWeather($scope.woeid, $scope.unit)
         .then(function (data) {
@@ -66,6 +63,8 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
             $scope.forecast_3_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[3].code + ".png");
             $scope.forecast_4_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[4].code + ".png");
             $scope.is_loading = false;
+
+            //$scope.runRain();
         }, function (message) {
             $scope.error = true;
             $scope.error_message = message;

@@ -1,6 +1,12 @@
 <ion-view sb-page-background
           class="weather-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="openChangeLocationForm()"
+                class="button button-clear header-item">
+            <i class="icon ion-location"></i>
+        </button>
+    </ion-nav-buttons>
     <ion-content>
 
         <div class="loader"
@@ -24,6 +30,7 @@
                     <p class="justify"
                        ng-if="error_message">{{ error_message | translate }}</p>
                 </div>
+
                 <div class="item item-icon-left item-custom"
                      ng-click="openChangeLocationForm()">
                     <i class="icon ion-location"></i>
@@ -34,21 +41,10 @@
             <div class="list"
                  ng-class="{'card': card_design}"
                  ng-show="!error">
-                <div>
-                    <div class="item item-custom">
-                        <h2>{{ weather.location.city }}</h2>
-                        <p>{{ weather.location.country }}</p>
-                    </div>
-
-                    <div class="item item-custom">
-                        <p>{{ weather_date }}</p>
-                    </div>
-
-                    <div class="item item-icon-left item-custom"
-                         ng-click="openChangeLocationForm()">
-                        <i class="icon ion-location"></i>
-                        <p>{{ "Change location" | translate }}</p>
-                    </div>
+                <div class="item item-custom text-center"
+                     ng-click="openChangeLocationForm()">
+                    <h2 style="font-size: 1.25em;">{{ weather.location.city }}, {{ weather.location.country }}</h2>
+                    <i style="font-size: .9em;">{{ weather_date }}</i>
                 </div>
 
                 <div class="item item-custom current-weather">
@@ -73,7 +69,11 @@
                             <tr>
                                 <td colspan="2"
                                     class="text-center more-details"
-                                    ng-click="openDetails()">{{ "Click here to view more details on current weather." | translate }}</td>
+                                    ng-click="openDetails()">
+                                    <button class="button button-small button-assertive">
+                                        {{ "Click here to view more details on current weather." | translate }}
+                                    </button>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -251,90 +251,101 @@
                     <h1 class="title">{{ "Weather information" | translate }}</h1>
                 </ion-header-bar>
                 <ion-content>
-                    <div class="card">
-                        <div class="item item-divider item-divider-custom item-icon-left">
-                            <i class="icon ion-ios-moon-outline"></i>
+                    <div class="card weather-astronomy">
+                        <div class="item item-divider item-divider-custom item-icon-right">
+                            <i class="icon ion-sb-sun"></i>
                             <h2>{{ "Astronomy" | translate }}</h2>
                         </div>
 
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.astronomy.sunrise">
                             <div class="row">
-                                <p class="col-50">{{ "Sunrise:" | translate }}</p>
-                                <p class="col-50">{{ weather.astronomy.sunrise }}</p>
+                                <p class="col-75">{{ "Sunrise" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.astronomy.sunrise }}</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.astronomy.sunset">
                             <div class="row">
-                                <p class="col-50">{{ "Sunset:" | translate }}</p>
-                                <p>{{ weather.astronomy.sunset }}</p>
+                                <p class="col-75">{{ "Sunset" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.astronomy.sunset }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="item item-divider item-divider-custom item-icon-left">
-                            <i class="icon ion-thermometer"></i>
+                    <div class="card weather-astronomy">
+                        <div class="item item-divider item-divider-custom item-icon-right">
+                            <i class="icon ion-sb-temperature"></i>
                             <h2>{{ "Atmosphere" | translate }}</h2>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.atmosphere.humidity">
                             <div class="row">
-                                <p class="col-50">{{ "Humidity:" | translate }}</p>
-                                <p class="col-50">{{ weather.atmosphere.humidity }}%</p>
+                                <p class="col-75">{{ "Humidity" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.atmosphere.humidity }}%</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.atmosphere.pressure">
                             <div class="row">
-                                <p class="col-50">{{ "Pressure:" | translate }}</p>
-                                <p>{{ weather.atmosphere.pressure }}</p>
+                                <p class="col-75">{{ "Pressure" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.atmosphere.pressure }}</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.atmosphere.visibility">
                             <div class="row">
-                                <p class="col-50">{{ "Visibility:" | translate }}</p>
-                                <p>{{ weather.atmosphere.visibility }}</p>
+                                <p class="col-75">{{ "Visibility" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.atmosphere.visibility }}</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.atmosphere.rising">
                             <div class="row">
-                                <p class="col-50">{{ "Rising:" | translate }}</p>
-                                <p>{{ weather.atmosphere.rising }}</p>
+                                <p class="col-75">{{ "Rising" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.atmosphere.rising }}</p>
                             </div>
                         </div>
                     </div>
 
-                    <div class="card">
-                        <div class="item item-divider item-divider-custom item-icon-left">
-                            <i class="icon ion-arrow-graph-up-right"></i>
+                    <div class="card weather-astronomy">
+                        <div class="item item-divider item-divider-custom item-icon-right">
+                            <i class="icon ion-sb-weather"></i>
                             <h2>{{ "Wind" | translate }}</h2>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.wind.chill">
                             <div class="row">
-                                <p class="col-50">{{ "Chill:" | translate }}</p>
-                                <p>{{ weather.wind.chill }}°</p>
+                                <p class="col-75">{{ "Chill" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.wind.chill }}°</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.wind.direction">
                             <div class="row">
-                                <p class="col-50">{{ "Direction:" | translate }}</p>
-                                <p>{{ weather.wind.direction }}°</p>
+                                <p class="col-75">{{ "Direction" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.wind.direction }}°</p>
                             </div>
                         </div>
-                        <div class="item item-custom"
+                        <div class="item item-custom line-item"
                              ng-show="weather.wind.speed">
                             <div class="row">
-                                <p class="col-50">{{ "Speed:" | translate }}</p>
-                                <p>{{ weather.wind.speed }}</p>
+                                <p class="col-75">{{ "Speed" | translate }}</p>
+                                <p class="col-25 text-right">{{ weather.wind.speed }}</p>
                             </div>
                         </div>
                     </div>
+
+                    <style type="text/css">
+                        .weather-astronomy .line-item {
+                            padding: 5px 7px;
+                        }
+
+                        .weather-astronomy .item-icon-right i {
+                            font-size: 1.25em;
+                        }
+                    </style>
+
                 </ion-content>
             </ion-modal-view>
         </script>
