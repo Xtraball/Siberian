@@ -14,7 +14,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
 
     service.storeInstallation = function () {
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             OS: device.platform,
             OSVersion: device.version,
             Device: device.platform,
@@ -23,13 +23,13 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             latitude: null,
             longitude: null
         };
-        service.postData('analytics/mobile_store/installation', params);
+        service.postData('_installation', params);
     };
 
     service.storeOpening = function () {
         var deferred = $q.defer();
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
             Device: cordova.device ? device.platform : 'Browser',
@@ -40,7 +40,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             locale: CURRENT_LANGUAGE
         };
 
-        service.postData('analytics/mobile_store/opening', params)
+        service.postData('_opening', params)
             .then(function (result) {
                 deferred.resolve(result);
             }).catch(function (error) {
@@ -57,16 +57,16 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
         }
 
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             id: service.data.storeClosingId
         };
 
-        service.postData('analytics/mobile_store/closing', params);
+        service.postData('_closing', params);
     };
 
     service.storePageOpening = function (page) {
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             featureId: page.value_id,
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
@@ -78,12 +78,12 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             locale: CURRENT_LANGUAGE
         };
 
-        service.postData('analytics/mobile_store/pageopening', params);
+        service.postData('_pageopening', params);
     };
 
     service.storeProductOpening = function (product) {
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             productId: product.id,
             name: product.name,
             OS: cordova.device ? device.platform : 'Browser',
@@ -96,12 +96,12 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             locale: CURRENT_LANGUAGE
         };
 
-        service.postData('analytics/mobile_store/productopening', params);
+        service.postData('_productopening', params);
     };
 
     service.storeProductSold = function (products) {
         var params = {
-            date: Date.now(),
+            date: Math.round(Date.now()/1000),
             products: products,
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
@@ -113,9 +113,14 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             locale: CURRENT_LANGUAGE
         };
 
-        service.postData('analytics/mobile_store/productsold', params);
+        service.postData('_productsold', params);
     };
 
+    /**
+     *
+     * @param url
+     * @param params
+     */
     service.postData = function (url, params) {
         if (!isOverview) {
             var request = {
@@ -126,16 +131,19 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             if (service.pool.length < 10) {
                 service.pool.push(request);
 
-                $session.setItem("analytics_pool", service.pool);
+                $session
+                    .setItem("analytics_pool", service.pool);
             } else {
-                var pool = $session.getItem("analytics_pool").then(function(pool) {
-                    if (pool) {
-                        service.pool = pool;
-                    }
+                $session
+                    .getItem("analytics_pool")
+                    .then(function(pool) {
+                        if (pool) {
+                            service.pool = pool;
+                        }
 
-                    service.pool.push(request);
-                    service.commitPool();
-                });
+                        service.pool.push(request);
+                        service.commitPool();
+                    });
             }
         }
 
@@ -143,14 +151,12 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
     };
 
     service.commitPool = function () {
-        service.pool.forEach(function(value) {
-            return $pwaRequest.post(value.url, {
-                data: value.params,
-                cache: false,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            });
+        $pwaRequest.post('analytics/mobile_pool/submit', {
+            data: service.pool,
+            cache: false,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         });
 
         // Empty the pool!
@@ -164,8 +170,6 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $session, 
             if (pool) {
                 service.pool = pool;
             }
-
-            service.pool.push(request);
             service.commitPool();
         });
 
