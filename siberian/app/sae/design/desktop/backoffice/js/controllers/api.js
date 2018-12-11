@@ -21,11 +21,8 @@ App.config(function ($routeProvider) {
     });
 
     $scope.toggle = function (object) {
-        console.log(object);
-
         $timeout(function () {
             object.value = !object.value;
-            console.log(object);
         }, 0);
     };
 

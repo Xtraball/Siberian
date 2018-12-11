@@ -9,8 +9,9 @@ var loader = {
         }.bind(this));
     },
     show: function(log) {
-        if(typeof log == 'undefined') log = 'inconnu';
-        console.log('show ' + log);
+        if(typeof log == 'undefined') {
+            log = 'inconnu';
+        }
         if(this.timeout_id) clearTimeout(this.timeout_id);
         this.timeout_id = setTimeout(this.timeout.bind(this), 10000);
         $('#hide_mask').hide();

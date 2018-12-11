@@ -44,9 +44,7 @@ $toggledown = $this->getToggleDown();
             try {
                 this.processEvents();
                 this.is_initialized = true;
-            } catch (e) {
-                console.log('option_layout.init: exception: ' + e.message);
-            }
+            } catch (e) {}
         },
         processEvents: function() {
             try {
@@ -82,9 +80,7 @@ $toggledown = $this->getToggleDown();
 
                     return false;
                 });
-            } catch (e) {
-                console.log('option_layout.processEvents: exception: ' + e.message);
-            }
+            } catch (e) {}
         },
         destroy: function() {
             try {
@@ -93,9 +89,7 @@ $toggledown = $this->getToggleDown();
                     $('#change_layout').find(".layout").unbind("click");
                     this.is_initialized = false;
                 }
-            } catch (e) {
-                console.log('option_layout.destroy: exception: ' + e.message);
-            }
+            } catch (e) {}
         }
     }
 

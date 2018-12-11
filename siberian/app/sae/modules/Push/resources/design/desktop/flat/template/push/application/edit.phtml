@@ -530,8 +530,6 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                 var total = customerIdCheckboxes.length,
                     checked = $('input.customerid-checkbox:checked').length;
 
-                console.log('total', total, 'checked', checked);
-
                 sendToAll.prop('checked', (total === checked));
             });
         });

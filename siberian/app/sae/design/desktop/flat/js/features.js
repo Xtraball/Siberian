@@ -291,9 +291,7 @@ var _bindRow = function (default_parent) {
                             if (typeof callback !== 'undefined') {
                                 try {
                                     eval(callback);
-                                } catch (e) {
-                                    console.log('unable to eval callback '+callback);
-                                }
+                                } catch (e) {}
                             }
                         }, 100);
                     } else if (data.error) {
@@ -311,9 +309,7 @@ var _bindRow = function (default_parent) {
                 if (typeof callback !== 'undefined') {
                     try {
                         eval(callback);
-                    } catch (e) {
-                        console.log('unable to eval callback '+callback);
-                    }
+                    } catch (e) {}
                 }
             }, 100);
         }
@@ -496,7 +492,6 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
                     var $el = $(el.target);
                     if (typeof $el.attr('data-imagecolor') !== 'undefined') {
-                        console.log($el.attr('data-imagecolor'));
                         params.image_color = $el.attr('data-imagecolor');
                         params.is_colorizable = true;
                     }
@@ -566,15 +561,11 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                         if (typeof callback === 'function') {
                             try {
                                 callback(data);
-                            } catch (e) {
-                                console.log('unable to execute callback ' + callback);
-                            }
+                            } catch (e) {}
                         } else if (typeof callback !== 'undefined') {
                             try {
                                 eval(callback);
-                            } catch (e) {
-                                console.log('unable to eval callback ' + callback);
-                            }
+                            } catch (e) {}
                         }
                     } else if (form.hasClass('delete')) {
                         remove_row(form.data('rowid'));
@@ -598,9 +589,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                 if (typeof success_cb === 'function') {
                     try {
                         success_cb(data);
-                    } catch (e) {
-                        console.log('An error occurred while executing the success callback.');
-                    }
+                    } catch (e) {}
                 }
 
                 loader.hide('sb-features');
@@ -616,9 +605,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                 if (typeof error_cb === 'function') {
                     try {
                         error_cb(data);
-                    } catch (e) {
-                        console.log('An error occurred while executing the error callback.');
-                    }
+                    } catch (e) {}
                 }
 
                 loader.hide('sb-features');

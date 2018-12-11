@@ -368,8 +368,6 @@ App.config(function ($routeProvider) {
                 // Continue update, recall itself!
                 $scope.installPoller();
                 $scope.installRetry += 1;
-
-                console.log('Installer recall ' + $scope.installRetry + ' time.');
             } else if (angular.isObject(data) && data.success) {
                 $scope.message
                     .setText(data.message)

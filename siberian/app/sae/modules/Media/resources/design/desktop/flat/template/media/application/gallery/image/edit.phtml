@@ -293,7 +293,6 @@
                 if (pendingReload) {
                     return;
                 }
-                console.log('Will reload Images');
                 pendingReload = true;
 
                 iframeLoaded.then(function() {
@@ -301,7 +300,6 @@
                         try {
                             iframe.f.overview.features.image.loadContent();
                             pendingReload = false;
-                            console.log('Images are reloaded');
                         } catch (e) {
                             pendingReload = false;
                         }

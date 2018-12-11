@@ -343,7 +343,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 var items_per_page = 10;
                 var is_folder = true;
                 $('#option_values li[rel="' + category_id + '"]').show();
-                console.log('setFolderId', category_id);
                 carouselSearch.setFolderId(category_id);
                 $('#go_up_root').removeClass('hide');
             }

@@ -61,7 +61,6 @@
                 }
             },
             fail: function(el, data) {
-                console.log(data);
                 if(data.result.error) {
                     feature_form_error(data.result.message);
                 }
