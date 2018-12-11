@@ -147,7 +147,7 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
      * @param states
      */
     service.forbidStates = function (states) {
-        service.forbiddenStates.concat(states);
+        service.forbiddenStates = service.forbiddenStates.concat(states);
     };
 
     /**

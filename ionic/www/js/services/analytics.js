@@ -1,13 +1,20 @@
 /**
  * Analytics request handler!
  */
-angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootScope, $log) {
+angular.module('starter').service('Analytics', function ($pwaRequest, $session, $q, $rootScope, $log) {
     var service = {};
 
     service.data = {};
 
+    /**
+     *
+     * @type {Array}
+     */
+    service.pool = [];
+
     service.storeInstallation = function () {
         var params = {
+            date: Date.now(),
             OS: device.platform,
             OSVersion: device.version,
             Device: device.platform,
@@ -16,13 +23,13 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
             latitude: null,
             longitude: null
         };
-
         service.postData('analytics/mobile_store/installation', params);
     };
 
     service.storeOpening = function () {
         var deferred = $q.defer();
         var params = {
+            date: Date.now(),
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
             Device: cordova.device ? device.platform : 'Browser',
@@ -50,6 +57,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
         }
 
         var params = {
+            date: Date.now(),
             id: service.data.storeClosingId
         };
 
@@ -58,6 +66,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
 
     service.storePageOpening = function (page) {
         var params = {
+            date: Date.now(),
             featureId: page.value_id,
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
@@ -74,6 +83,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
 
     service.storeProductOpening = function (product) {
         var params = {
+            date: Date.now(),
             productId: product.id,
             name: product.name,
             OS: cordova.device ? device.platform : 'Browser',
@@ -91,6 +101,7 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
 
     service.storeProductSold = function (products) {
         var params = {
+            date: Date.now(),
             products: products,
             OS: cordova.device ? device.platform : 'Browser',
             OSVersion: cordova.device ? device.version : null,
@@ -107,16 +118,55 @@ angular.module('starter').service('Analytics', function ($pwaRequest, $q, $rootS
 
     service.postData = function (url, params) {
         if (!isOverview) {
-            return $pwaRequest.post(url, {
-                data: params,
+            var request = {
+                url: url,
+                params: params
+            };
+
+            if (service.pool.length < 10) {
+                service.pool.push(request);
+
+                $session.setItem("analytics_pool", service.pool);
+            } else {
+                var pool = $session.getItem("analytics_pool").then(function(pool) {
+                    if (pool) {
+                        service.pool = pool;
+                    }
+
+                    service.pool.push(request);
+                    service.commitPool();
+                });
+            }
+        }
+
+        return $pwaRequest.reject('Analytics are disabled in Overview!');
+    };
+
+    service.commitPool = function () {
+        service.pool.forEach(function(value) {
+            return $pwaRequest.post(value.url, {
+                data: value.params,
                 cache: false,
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
             });
-        }
-        return $pwaRequest.reject('Analytics are disabled in Overview!');
+        });
+
+        $session.setItem("analytics_pool", []);
     };
+
+    // Onload check for old pool not committed
+    $session
+        .getItem("analytics_pool")
+        .then(function(pool) {
+            if (pool) {
+                service.pool = pool;
+            }
+
+            service.pool.push(request);
+            service.commitPool();
+        });
 
     return service;
 });
