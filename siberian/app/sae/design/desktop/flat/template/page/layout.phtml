@@ -14,14 +14,14 @@
         <?php endforeach ?>
 
         <script type="text/javascript">
-            var version = "<?php echo Siberian_Version::VERSION ?>";
-            var current_release = "<?php echo __get("current_release") ?>";
-            var tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
-            var datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+            let version = "<?php echo Siberian_Version::VERSION ?>";
+            let current_release = "<?php echo __get("current_release") ?>";
+            let tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+            let datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
 
             <?php $existing_steps = new Tour_Model_Step(); ?>
             <?php $existing_steps = $existing_steps->findAllForJS(Core_Model_Language::getCurrentLanguage(), $_SERVER['REQUEST_URI']); ?>
-            var existing_steps = [];
+            let existing_steps = [];
             <?php
                 if(count($existing_steps)):
             ?>
@@ -33,10 +33,10 @@
             function launchBootstrapTour() {
                 if(!window.localStorage.getItem("sb-tour")) {
 
-                    var step_to_display = [];
+                    let step_to_display = [];
 
-                    for(var key in existing_steps) {
-                        var step = {
+                    for(let key in existing_steps) {
+                        let step = {
                             "element": "#" + existing_steps[key].elem_id,
                             "title": existing_steps[key].title,
                             "content": existing_steps[key].text,
@@ -46,8 +46,8 @@
                         step_to_display.push(step);
                     }
 
-                    if(step_to_display.length) {
-                        if(tour && tour.ended()) {
+                    if (step_to_display.length) {
+                        if (tour && tour.ended()) {
                             tour.restart();
                         } else {
                             tour = new Tour({
@@ -84,7 +84,7 @@
         <link rel="icon"
               type="image/png"
               href="<?php echo $this->getFavicon() ?>" />
-        <script type="text/javascript">var login_urls = {};</script>
+        <script type="text/javascript">let login_urls = {};</script>
         <?php echo $this->getPartialHtml("css"); ?>
 
         <?php echo Siberian_Debug::renderHead(); ?>
