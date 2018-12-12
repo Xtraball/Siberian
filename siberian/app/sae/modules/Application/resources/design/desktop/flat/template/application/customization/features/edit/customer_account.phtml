@@ -1,7 +1,19 @@
+<?php
+$optionValue = (new Application_Model_Option_Value)->findTabbarAccount();
+?>
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 text-justify">
-            <p><?php echo $this->_('This page will be displayed to mobile users to enable them to login and manage their account. It is automatically added when you use features which need user login.'); ?></p>
-        </div>
+    <div class="alert alert-info">
+        <?php echo __('This page will be displayed to mobile users to enable them to login and manage their account. It is automatically added when you use features which need user login.'); ?>
+    </div>
+
+    <div id="design">
+        <?php echo $this->importBackground($optionValue, false); ?>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        bindForms("#design");
+    });
+</script>

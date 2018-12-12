@@ -73,4 +73,13 @@
             <header_menu name="setCurrentLink"><code>edit</code></header_menu>
         </actions>
     </customer_application_edit>
+
+    <customer_account_edit>
+        <views>
+            <content class="application_view_customization_features_edit_tabbareditor"
+                     template="application/customization/features/edit/tabbar_editor.phtml" />
+            <content_editor class="core_view_default"
+                            template="customer/account/edit.phtml" />
+        </views>
+    </customer_account_edit>
 </layout>

@@ -1,0 +1,70 @@
+<?php
+$optionValue = (new Application_Model_Option_Value)->findTabbarAccount();
+?>
+
+<div id="customer_account">
+
+    <div class="alert alert-info">
+        <?php echo __("This feature will be displayed to mobile users to enable them to login and manage their account."); ?>
+        <br />
+        <?php echo __("It is automatically added when you use features which need user login.") ?>
+    </div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+        <li role="presentation"
+            class="active">
+            <a href="#settings"
+               aria-controls="settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-folder-open-o"></i>
+                <?php echo __('Settings') ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#design"
+               aria-controls="design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo __('Design') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- START SETTINGS TAB -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="settings">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Settings'); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    Super account!
+                </div>
+            </div>
+        </div>
+        <!-- /END SETTINGS TAB -->
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="design">
+            <?php /**echo $this->importLayout($optionValue, false);*/ ?>
+
+            <?php echo $this->importBackground($optionValue, false, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        bindForms("#design");
+    });
+</script>

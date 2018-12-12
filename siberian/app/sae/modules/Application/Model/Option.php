@@ -8,40 +8,81 @@
 class Application_Model_Option extends Core_Model_Default
 {
 
-    protected $_category_ids = array(
+    /**
+     * @var array
+     */
+    protected $_category_ids = [
         1 => ''
-    );
+    ];
+    /**
+     * @var
+     */
     protected $_object;
+    /**
+     * @var
+     */
     protected $_library;
+    /**
+     * @var
+     */
     protected $_layouts;
+    /**
+     * @var
+     */
     protected $_preview;
+    /**
+     * @var
+     */
     protected $_image;
+    /**
+     * @var
+     */
     protected $_icon_url;
+    /**
+     * @var bool
+     */
     protected $_xml_is_loaded = false;
+    /**
+     * @var null
+     */
     protected $_xml = null;
 
-    public function __construct($datas = array()) {
+    /**
+     * Application_Model_Option constructor.
+     * @param array $datas
+     * @throws Zend_Exception
+     */
+    public function __construct($datas = [])
+    {
         parent::__construct($datas);
         $this->_db_table = 'Application_Model_Db_Table_Option';
     }
 
-    public function prepareUri() {
+    /**
+     * @return $this
+     */
+    public function prepareUri()
+    {
 
-        if(defined("APPLICATION_TYPE")) {
-            $this->setUri($this->getData(APPLICATION_TYPE.'_uri'));
+        if (defined("APPLICATION_TYPE")) {
+            $this->setUri($this->getData(APPLICATION_TYPE . '_uri'));
         }
 
         return $this;
     }
 
-    public function find($id, $field = null) {
-        if($id == 'customer_account') {
+    /**
+     * @param $id
+     * @param null $field
+     * @return $this|null
+     */
+    public function find($id, $field = null)
+    {
+        if ($id == 'customer_account') {
             $this->findTabbarAccount();
-        }
-        else if($id == 'more_items') {
+        } else if ($id == 'more_items') {
             $this->findTabbarMore();
-        }
-        else {
+        } else {
             parent::find($id, $field);
         }
 
@@ -49,10 +90,15 @@ class Application_Model_Option extends Core_Model_Default
         return $this;
     }
 
-    public function findTabbarAccount() {
-        $user_account = (design_code() == "flat") ? '/tabbar/user_account-flat.png' : '/tabbar/user_account.png';
+    /**
+     * @return $this
+     */
+    public function findTabbarAccount()
+    {
+        $application = $this->getApplication();
+        //if ()
 
-        $datas = array(
+        $datas = [
             'option_id' => 'customer_account',
             'design_code' => design_code(),
             'value_id' => 'customer_account',
@@ -63,13 +109,13 @@ class Application_Model_Option extends Core_Model_Default
             'price' => 0.00,
             'is_active' => 1,
             'desktop_uri' => 'application/customization_features_tabbar_account/',
-        );
+        ];
 
         $this
             ->setData($datas)
             ->setId('customer_account');
 
-        if($this->getApplication()->getAccountIconId()) {
+        if ($this->getApplication()->getAccountIconId()) {
             $icon_id = $this->getApplication()->getAccountIconId();
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
@@ -79,17 +125,21 @@ class Application_Model_Option extends Core_Model_Default
             $this->setBaseIconUrl($icon_url);
 
         } else {
-            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($user_account));
-            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($user_account));
+            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo('/tabbar/user_account-flat.png'));
+            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo('/tabbar/user_account-flat.png'));
         }
 
         return $this;
     }
 
-    public function findTabbarMore() {
+    /**
+     * @return $this
+     */
+    public function findTabbarMore()
+    {
         $more_items = (design_code() == "flat") ? '/tabbar/more_items-flat.png' : '/tabbar/more_items.png';
 
-        $datas = array(
+        $datas = [
             'option_id' => 'more_items',
             'design_code' => design_code(),
             'value_id' => 'more_items',
@@ -100,13 +150,13 @@ class Application_Model_Option extends Core_Model_Default
             'price' => 0.00,
             'is_active' => 1,
             'desktop_uri' => 'application/customization_features_tabbar_more/',
-        );
+        ];
 
         $this
             ->setData($datas)
             ->setId('more_items');
 
-        if($this->getApplication()->getMoreIconId()) {
+        if ($this->getApplication()->getMoreIconId()) {
             $icon_id = $this->getApplication()->getMoreIconId();
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
@@ -123,9 +173,12 @@ class Application_Model_Option extends Core_Model_Default
         return $this;
     }
 
-
-    public function delete() {
-        if($this->getObject()->getId()) {
+    /**
+     * @return $this
+     */
+    public function delete()
+    {
+        if ($this->getObject()->getId()) {
             $this->getObject()->delete();
         }
         return parent::delete();
@@ -137,8 +190,9 @@ class Application_Model_Option extends Core_Model_Default
      * @param null $request
      * @return bool
      */
-    public function getEmbedPayload($request = null) {
-        if($request !== null) {
+    public function getEmbedPayload($request = null)
+    {
+        if ($request !== null) {
             $this->setBaseUrl($request->getBaseUrl());
             $this->setRequest($request);
         } else {
@@ -149,12 +203,17 @@ class Application_Model_Option extends Core_Model_Default
         return $this->getObject()->getEmbedPayload($this);
     }
 
-    public function getObject() {
-        if(!$this->_object) {
-            if($class = $this->getModel()) {
+    /**
+     * @return Core_Model_Default
+     * @throws Zend_Exception
+     */
+    public function getObject()
+    {
+        if (!$this->_object) {
+            if ($class = $this->getModel()) {
 
                 try {
-                    if(!class_exists($class)) {
+                    if (!class_exists($class)) {
                         throw new Siberian_Exception("The current class doesn't exists {$class}");
                     }
                     $this->_object = new $class();
@@ -170,32 +229,52 @@ class Application_Model_Option extends Core_Model_Default
         return $this->_object;
     }
 
-    public function getName() {
+    /**
+     * @return mixed|string
+     */
+    public function getName()
+    {
         return __($this->getData('name'));
     }
 
-    public function getUri() {
-        if(!$this->getData("uri")) {
+    /**
+     * @return array|mixed|null|string
+     */
+    public function getUri()
+    {
+        if (!$this->getData("uri")) {
             $this->prepareUri();
         }
 
         return $this->getData("uri");
     }
 
-    public function getTabbarName() {
+    /**
+     * @return mixed|null|string
+     */
+    public function getTabbarName()
+    {
         return $this->getData('tabbar_name') ? __(mb_convert_encoding($this->getData('tabbar_name'), 'UTF-8', 'UTF-8')) : null;
     }
 
-    public function getShortTabbarName() {
+    /**
+     * @return string
+     */
+    public function getShortTabbarName()
+    {
         $name = $this->getTabbarName();
         return Core_Model_Lib_String::formatShortName($name);
     }
 
-    public function getLayouts() {
+    /**
+     * @return mixed
+     */
+    public function getLayouts()
+    {
 
-        if(empty($this->_layouts)) {
+        if (empty($this->_layouts)) {
             $layout = new Application_Model_Option_Layout();
-            $this->_layouts = $layout->findAll(array("option_id = ?" => $this->getOptionId()));
+            $this->_layouts = $layout->findAll(["option_id = ?" => $this->getOptionId()]);
         }
 
         return $this->_layouts;
@@ -210,13 +289,13 @@ class Application_Model_Option extends Core_Model_Default
      * @param bool $base
      * @return string
      */
-    public function getIconUrl($base = false) {
+    public function getIconUrl($base = false)
+    {
 
-        if(empty($this->_icon_url) AND $this->getIconId()) {
-            if($this->getIcon() AND !$base) {
+        if (empty($this->_icon_url) AND $this->getIconId()) {
+            if ($this->getIcon() AND !$base) {
                 $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
-            }
-            else {
+            } else {
                 $icon = new Media_Model_Library_Image();
                 $icon->find($this->getDefaultIconId());
                 $this->_icon_url = $icon->getUrl();
@@ -226,7 +305,11 @@ class Application_Model_Option extends Core_Model_Default
         return $this->_icon_url;
     }
 
-    public function getDefaultIconId() {
+    /**
+     * @return mixed
+     */
+    public function getDefaultIconId()
+    {
         $library = $this->getLibrary();
 
         $icon = $library->getFirstIcon();
@@ -234,67 +317,108 @@ class Application_Model_Option extends Core_Model_Default
         return $icon->getId();
     }
 
-    public function setIconUrl($url) {
+    /**
+     * @param $url
+     * @return $this
+     */
+    public function setIconUrl($url)
+    {
         $this->_icon_url = $url;
         return $this;
     }
 
-    public function resetIconUrl() {
+    /**
+     * @return $this
+     */
+    public function resetIconUrl()
+    {
         $this->_icon_url = null;
         return $this;
     }
 
-    public function getImage() {
+    /**
+     * @return Media_Model_Library_Image
+     */
+    public function getImage()
+    {
 
-        if(empty($this->_image)) {
+        if (empty($this->_image)) {
             $this->_image = new Media_Model_Library_Image();
-            if($this->getIconId()) $this->_image->find($this->getIconId());
+            if ($this->getIconId()) $this->_image->find($this->getIconId());
         }
 
         return $this->_image;
     }
 
-    public function resetImage() {
+    /**
+     * @return $this
+     */
+    public function resetImage()
+    {
         $this->_image = null;
         return $this;
     }
 
-    public function onlyOnce() {
+    /**
+     * @return array|mixed|null|string
+     */
+    public function onlyOnce()
+    {
         return $this->getData('only_once');
     }
 
-    public function isLink() {
-        return (bool) $this->getObject() && $this->getObject()->getLink();
+    /**
+     * @return bool
+     * @throws Zend_Exception
+     */
+    public function isLink()
+    {
+        return (bool)$this->getObject() && $this->getObject()->getLink();
     }
 
-    public function getUrl($action, $params = array(), $feature_url = true, $env = null) {
+    /**
+     * @param string $action
+     * @param array $params
+     * @param bool $feature_url
+     * @param null $env
+     * @return array|mixed|null|string
+     * @throws Zend_Exception
+     */
+    public function getUrl($action, $params = [], $feature_url = true, $env = null)
+    {
 
         $url = null;
 //        if($this->getIsDummy()) {
 //            $url = '#';
 //        }
 //        else
-        if($this->getUri()) {
+        if ($this->getUri()) {
             $uri = $this->getUri();
-            if(!is_null($env) AND $this->getData("{$env}_uri")) {
+            if (!is_null($env) AND $this->getData("{$env}_uri")) {
                 $uri = $this->getData("{$env}_uri");
             }
 
-            if(!$feature_url AND $env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) {
-                $url = (string) $this->getObject()->getLink()->getUrl();
-            }
-            else $url = parent::getUrl($uri.$action, $params);
-        }
-        else {
+            if (!$feature_url AND $env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) {
+                $url = (string)$this->getObject()->getLink()->getUrl();
+            } else $url = parent::getUrl($uri . $action, $params);
+        } else {
             $url = '/front/index/noroute';
         }
 
         return $url;
     }
 
-    public function getPath($action, $params = array(), $env = null) {
+    /**
+     * @param string $action
+     * @param array $params
+     * @param null $env
+     * @return array|mixed|null|string
+     * @throws Zend_Exception
+     */
+    public function getPath($action, $params = [], $env = null)
+    {
 
-        if($this->getValueId()) {
+        if ($this->getValueId()) {
             $params["value_id"] = $this->getValueId();
         }
 
@@ -305,9 +429,9 @@ class Application_Model_Option extends Core_Model_Default
 
         $uri = $force_uri ? $action : $this->getUri();
 
-        if($uri) {
+        if ($uri) {
 
-            if(!is_null($env)) {
+            if (!is_null($env)) {
 
                 if (!$force_uri) {
                     $uri .= $action;
@@ -329,8 +453,7 @@ class Application_Model_Option extends Core_Model_Default
             } else {
                 $path = parent::getPath($uri, $params);
             }
-        }
-        else {
+        } else {
             $path = '/front/index/noroute';
         }
 
@@ -339,24 +462,34 @@ class Application_Model_Option extends Core_Model_Default
         return $path;
     }
 
-    public function getMobileViewUri($action, $params = array()) {
+    /**
+     * @param $action
+     * @param array $params
+     * @return array|mixed|null|string
+     */
+    public function getMobileViewUri($action, $params = [])
+    {
         $uri = null;
 
-        if($uri = $this->getData("mobile_view_uri")) $uri .= $action;
+        if ($uri = $this->getData("mobile_view_uri")) $uri .= $action;
 
-        foreach($params as $key => $value) {
-            if(!empty($value)) $uri .= "/$key/$value";
+        foreach ($params as $key => $value) {
+            if (!empty($value)) $uri .= "/$key/$value";
         }
 
         return $uri;
     }
 
-    public function getPreview() {
-        if(!$this->_preview) {
+    /**
+     * @return $this|null
+     */
+    public function getPreview()
+    {
+        if (!$this->_preview) {
             $preview = new Preview_Model_Preview();
             $language = Core_Model_Language::getCurrentLanguage();
-            $this->_preview = $preview->find(array(
-                "aop.option_id" => $this->getId(),"aopl.language_code" => $language));
+            $this->_preview = $preview->find([
+                "aop.option_id" => $this->getId(), "aopl.language_code" => $language]);
         }
         return $this->_preview;
     }
@@ -365,8 +498,9 @@ class Application_Model_Option extends Core_Model_Default
     /**
      * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
      */
-    public function getLibrary() {
-        if(empty($this->_library)) {
+    public function getLibrary()
+    {
+        if (empty($this->_library)) {
             $library = new Media_Model_Library();
             $this->_library = $library->getLibraryForDesign($this->getLibraryId());
         }
@@ -374,8 +508,12 @@ class Application_Model_Option extends Core_Model_Default
         return $this->_library;
     }
 
-    public function getCustomFields() {
+    /**
+     * @return array|mixed
+     */
+    public function getCustomFields()
+    {
         $custom_fields = json_decode($this->getData('custom_fields'), true);
-        return is_array($custom_fields) ? $custom_fields : array();
+        return is_array($custom_fields) ? $custom_fields : [];
     }
 }

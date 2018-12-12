@@ -465,7 +465,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         $backofficeUser = (new Backoffice_Model_User())
             ->find($this->getEmail(), 'email');
 
-        return (boolean)$backofficeUser->getId();
+        return (boolean) $backofficeUser->getId();
     }
 
 }

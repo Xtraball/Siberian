@@ -344,7 +344,7 @@ class Front_AppController extends Front_Controller_App_Default
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     // Silently fail missing modules!
                     log_alert('A module is probably missing, ' . $e->getMessage());
                 }
