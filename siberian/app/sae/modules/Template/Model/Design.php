@@ -193,7 +193,7 @@ class Template_Model_Design extends Core_Model_Default
             if ($f) {
                 while (($line = fgets($f)) !== false) {
                     preg_match("/([\$a-zA-Z0-9_-]*)/", $line, $matches);
-                    if (!empty($matches[0]) AND !empty($variables[$matches[0]])) {
+                    if (!empty($matches[0]) && !empty($variables[$matches[0]])) {
                         $line = "{$matches[0]}: {$variables[$matches[0]]} !default;";
                     }
                     $content[] = $line;
@@ -219,8 +219,8 @@ class Template_Model_Design extends Core_Model_Default
         $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/scss"));
 
         // Import custom modules SCSS files!
-        foreach (Siberian_Assets::$assets_scss as $scss) {
-            $path = Core_Model_Directory::getBasePathTo($scss);
+        foreach (Siberian_Assets::$assets_scss as $scssFile) {
+            $path = Core_Model_Directory::getBasePathTo($scssFile);
             $custom_app .= file_get_contents($path);
         }
 
