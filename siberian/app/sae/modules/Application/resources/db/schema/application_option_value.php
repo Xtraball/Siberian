@@ -100,7 +100,7 @@ $schemas['application_option_value'] = [
         'default' => '1',
     ],
     'position' => [
-        'type' => 'tinyint(1) unsigned',
+        'type' => 'int(11) unsigned',
         'default' => '0',
     ],
     'settings' => [
