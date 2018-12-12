@@ -110,6 +110,35 @@ class Customer_ApplicationController extends Application_Controller_Default
 
     }
 
+    public function deleteNewAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $customerId = $request->getParam("customer_id", null);
+
+            $customer = (new Customer_Model_Customer())
+                ->find($customerId);
+            if (!$customer->getId() || $customer->getAppId() != $application->getId()) {
+                throw new \Siberian\Exception("#07888-01" . __("We are unable to delete this customer!"));
+            }
+
+            $customer->delete();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function deleteAction()
     {
 
@@ -140,7 +169,6 @@ class Customer_ApplicationController extends Application_Controller_Default
             die;
 
         }
-
     }
 
     public function getuserslistpaginateAction()
@@ -175,6 +203,62 @@ class Customer_ApplicationController extends Application_Controller_Default
 
         $this->getResponse()->setBody(Zend_Json::encode($html))->sendResponse();
         die;
+    }
+    
+    public function fetchCustomersAction () 
+    {
+        try {
+            $request = $this->getRequest();
+            $limit = $request->getParam("perPage", 25);
+            $offset = $request->getParam("offset", 0);
+            $sorts = $request->getParam("sorts", []);
+            $queries = $request->getParam("queries", []);
+
+            $filter = null;
+            if (array_key_exists("search", $queries)) {
+                $filter = $queries["search"];
+            }
+
+            //foreach ()
+
+            $params = [
+                "limit" => $limit,
+                "offset" => $offset,
+                "sorts" => $sorts,
+                "filter" => $filter,
+            ];
+
+            $application = $this->getApplication();
+            $customers = (new Customer_Model_Customer())
+                ->findAllForApp($application->getId(), $params);
+
+            $countAll = (new Customer_Model_Customer())
+                ->countAllForApp($application->getId());
+
+            $countFiltered = (new Customer_Model_Customer())
+                ->countAllForApp($application->getId(), $params);
+
+            $customersJson = [];
+            foreach ($customers as $customer) {
+                $data = $customer->getData();
+                $data["name"] = $customer->getName();
+                $data["created_at"] = datetime_to_format($data["created_at"]);
+                $customersJson[] = $data;
+            }
+
+            $payload = [
+                "records" => $customersJson,
+                "queryRecordCount" => $countFiltered[0],
+                "totalRecordCount" => $countAll[0]
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+        
+        $this->_sendJson($payload);
     }
 
 }
