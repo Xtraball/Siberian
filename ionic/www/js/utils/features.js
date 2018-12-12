@@ -17,6 +17,15 @@ window.Features = (new (function Features() {
         document.head.appendChild(css);
     };
 
+    /**
+     * Check if a bundle is registered
+     * @param code
+     * @returns {boolean}
+     */
+    $this.isRegistered = function (code) {
+        return __features.hasOwnProperty(code);
+    };
+
     $this.register = function (json, bundle) {
         if (angular.isDefined(json.load_on_start) && json.load_on_start) {
             $this.featuresToLoadOnStart.push(bundle);
