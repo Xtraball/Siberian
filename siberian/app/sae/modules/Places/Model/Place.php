@@ -787,7 +787,7 @@ WHERE cap.value_id = {$value_id}
         $json = [];
 
         foreach ($blocks as $block) {
-            $json[] = $block->_toJson("");
+            $json[] = $block->_toJson($baseUrl);
         }
 
         try {
@@ -901,8 +901,8 @@ WHERE cap.value_id = {$value_id}
     public function getBlocks()
     {
         if (is_null($this->_blocks) && $this->getId()) {
-            $block = new Cms_Model_Application_Block();
-            $this->_blocks = $block->findByPage($this->getId());
+            $this->_blocks = (new Cms_Model_Application_Block())
+                ->findByPage($this->getId());
         }
 
         return $this->_blocks;

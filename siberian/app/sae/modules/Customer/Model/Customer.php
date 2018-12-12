@@ -4,6 +4,7 @@
  * Class Customer_Model_Customer
  *
  * @method integer getId()
+ * @method Customer_Model_Db_Table_Customer getTable()
  */
 class Customer_Model_Customer extends Core_Model_Default
 {
@@ -81,6 +82,26 @@ class Customer_Model_Customer extends Core_Model_Default
     public function findAllCustomersByApp($values = null, $params = null)
     {
         return $this->getTable()->findAllCustomersByApp($values, $params);
+    }
+
+    /**
+     * @param $appId
+     * @param array $params
+     * @return Customer_Model_Customer[]
+     */
+    public function findAllForApp($appId, $params = [])
+    {
+        return $this->getTable()->findAllForApp($appId, $params);
+    }
+
+    /**
+     * @param $appId
+     * @param array $params
+     * @return mixed
+     */
+    public function countAllForApp($appId, $params = [])
+    {
+        return $this->getTable()->countAllForApp($appId, $params);
     }
 
     /**

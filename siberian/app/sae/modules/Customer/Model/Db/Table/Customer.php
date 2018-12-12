@@ -73,6 +73,74 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 
+    /**
+     * @param $appId
+     * @param array $params
+     * @return Customer_Model_Customer[]
+     */
+    public function findAllForApp($appId, $params = [])
+    {
+        $select = $this
+            ->select()
+            ->from(
+                $this->_name,
+                [
+                    'customer_id',
+                    'email',
+                    'civility',
+                    'firstname',
+                    'lastname',
+                    'nickname',
+                    'is_active',
+                    'created_at',
+                ]
+            )
+            ->where('app_id = ?', $appId);
+
+        if (array_key_exists("sorts", $params) && !empty($params["sorts"])) {
+            $orders = [];
+            foreach ($params["sorts"] as $key => $dir) {
+                $order = ($dir == -1) ? "DESC" : "ASC";
+                $orders = "{$key} {$order}";
+            }
+            $select->order($orders);
+        } else {
+            $select->order('customer_id DESC');
+        }
+
+        if (array_key_exists("limit", $params) && array_key_exists("offset", $params)) {
+            $select->limit($params["limit"], $params["offset"]);
+        }
+
+        if (array_key_exists("filter", $params)) {
+            $select->where("(customer_id LIKE ? OR firstname LIKE ? OR lastname LIKE ? OR nickname LIKE ? OR email LIKE ? OR created_at LIKE ?)", "%" . $params["filter"] . "%");
+        }
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
+     * @param $appId
+     */
+    public function countAllForApp($appId, $params = [])
+    {
+        $select = $this
+            ->select()
+            ->from(
+                $this->_name,
+                [
+                    'COUNT(customer_id)',
+                ]
+            )
+            ->where('app_id = ?', $appId);
+
+        if (array_key_exists("filter", $params)) {
+            $select->where("(customer_id LIKE ? OR firstname LIKE ? OR lastname LIKE ? OR nickname LIKE ? OR email LIKE ? OR created_at LIKE ?)", "%" . $params["filter"] . "%");
+        }
+
+        return $this->_db->fetchCol($select);
+    }
+
     public function findSocialDatas($customer_id) {
 
         $social_datas = array();
