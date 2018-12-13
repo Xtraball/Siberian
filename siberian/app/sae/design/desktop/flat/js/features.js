@@ -59,7 +59,7 @@ ckeditor_config.complete = {
     language: ckeditor_language
 };
 
-var feature_picture_uploader = new Uploader();
+let feature_picture_uploader = new Uploader();
 
 (function ($) {
     var uniqueCntr = 0;
@@ -108,43 +108,41 @@ var handleFormError = function (form, data) {
     }
 };
 
-var feature_form_error = function (html, timer) {
-    message.addLoader(true);
-    message.setNoBackground(false);
-    message.isError(true);
-    message.setMessage(html);
-    message.show();
-    message.addButton(true);
-    var localTimer = (timer !== undefined) ? timer : 3;
-    message.setTimer(localTimer);
+let feature_form_error = function (html) {
+    toastr.error(
+        html,
+        null,
+        {
+            timeOut: 3000,
+            positionClass: "toast-top-center"
+        });
 };
 
-var feature_form_success = function (html, timer) {
-    message.addLoader(true);
-    message.setNoBackground(false);
-    message.isError(false);
-    message.setMessage(html);
-    message.show();
-    message.addButton(false);
-    var localTimer = (timer !== undefined) ? timer : 3;
-    message.setTimer(localTimer);
+let feature_form_success = function (html) {
+    toastr.success(
+        html,
+        null,
+        {
+            timeOut: 3000,
+            positionClass: "toast-top-center"
+        });
 };
 
-var feature_reload = function () {
+let feature_reload = function () {
     if (typeof page !== 'undefined') {
         page.reload();
     }
 };
 
-var last_tab = -1;
+let last_tab = -1;
 
-var remove_row = function (rowid) {
-    var row = $('#'+rowid);
+let remove_row = function (rowid) {
+    let row = $('#'+rowid);
     if (typeof row !== 'undefined') {
-        var table = $(row.closest('table'));
+        let table = $(row.closest('table'));
         row.remove();
 
-        var row_count = table.find('tbody tr').not('.edit-form').length;
+        let row_count = table.find('tbody tr').not('.edit-form').length;
         if (row_count <= 0) {
             page.reload();
         }

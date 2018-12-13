@@ -85,18 +85,22 @@ var loader = {
         }.bind(this));
     },
     show: function(log) {
-//        return this;
-        if(typeof log == 'undefined') log = 'inconnu';
-        if(this.timeout_id) clearTimeout(this.timeout_id);
+        if (typeof log == 'undefined') {
+            log = 'inconnu';
+        }
+        if (this.timeout_id) {
+            clearTimeout(this.timeout_id);
+        }
         this.timeout_id = setTimeout(this.timeout.bind(this), 10000);
         $('#hide_mask').hide();
         this.cpt++;
         $('#mask').show();
     },
     hide: function(log) {
-//        return this;
-        if(typeof log == 'undefined') log = 'inconnu';
-        if(--this.cpt <= 0) {
+        if (typeof log == 'undefined') {
+            log = 'inconnu';
+        }
+        if (--this.cpt <= 0) {
             this.cpt = 0;
             $('#mask').hide();
             if(this.timeout_id) {
@@ -108,7 +112,7 @@ var loader = {
     timeout: function() {
         $('#hide_mask').fadeIn();
     }
-}
+};
 
 function reload(element, url, showLoader, success_callback, error_callback) {
     if (showLoader) {
@@ -174,144 +178,90 @@ function reload(element, url, showLoader, success_callback, error_callback) {
 
 }
 
-var AlertMessage = Class.extend({
-
+let AlertMessage = Class.extend({
+    type: 'success',
     init: function(message, addButton, timer) {
-
-        if($('#alert').is(':visible')) this.hide();
-
+        // Migration to toastr!
+        this.message = message;
         this.timer = timer ? timer * 1000 : null;
-         $('#alert_message').html(message);
-        this.timeoutId = null;
-
         this.showLoader = true;
-        this.noBackground = false;
-
-        if(addButton) $('#close_alert_message').show();
-        else $('#close_alert_message').hide();
-
-        this.is_visible = false;
-
     },
-
     show: function() {
-
-        var _that = this;
-
-    	if(this.showLoader) loader.show('message');
-//    	else loader.hide('message');
-
-    	if(this.is_visible && this.timeoutId) {
-            clearTimeout(this.timeoutId);
-            this.timeoutId = null;
-            $('#alert').hide();
+        if (this.showLoader) {
+            loader.show('message');
         }
-
-        if(!$('#close_alert_message').is(':visible') && !this.timer) {
-            $('#close_alert_message').unbind('click');
-            $('#close_alert_message').click(function() {
-                    _that.hide();
-                    loader.hide('message');
-                }
-            );
-            $('#close_alert_message').show();
+        switch (this.type) {
+            case 'success':
+                toastr.success(
+                    this.message,
+                    null,
+                    {
+                        timeOut: this.timer,
+                        positionClass: "toast-top-center"
+                    });
+                break;
+            case 'error':
+                toastr.error(
+                    this.message,
+                    null,
+                    {
+                        timeOut: this.timer,
+                        positionClass: "toast-top-center"
+                    });
+                break;
         }
-
-        this.is_visible = true;
-        $('#alert').css('top', $('#alert').outerHeight() * -1);
-        $('#alert').show();
-
-        $('#alert').animate({top: 0}, 400, function() {
-            if(this.timer) this.timeoutId = window.setTimeout(this.hide.bind(this), this.timer);
-        }.bind(this));
-
         return this;
     },
 
     hide: function() {
-        if(typeof(this.willHide) === "function") {
-            this.willHide();
-        }
-        $('#alert').animate({top: $('#alert').outerHeight() * -1 + 'px'}, 400, this.didHide.bind(this));
-        loader.hide('message');
+        // Toastr handles this
         return this;
     },
-
     didAppear: function() {
-
-        this.hide();
-
-        if(this.timeoutId) {
-            clearTimeout(this.timeoutId);
-            this.timeoutId = null;
-        }
-    },
-
-    didHide: function() {
-
-        $('#alert').hide();
-        this.setNoBackground(false);
-        this.is_visible = false;
-
-        if(typeof(this.afterHide) === "function") {
-            this.afterHide();
-        }
-
-        if(this.showLoader) loader.hide('message');
-
-    },
-
-    addLoader: function(addLoader) {
-    	if(addLoader) this.showLoader = true;
-    	else this.showLoader = false;
-    },
-
-    addButton: function(addButton) {
-    	if(addButton || addButton == 1) $('#close_alert_message').show();
-    	else $('#close_alert_message').hide();
-
-    },
-
-    setTimer: function(timer) {
-    	if(timer) timer *= 1000;
-    	this.timer = timer;
-    },
-
-    isError: function(isError) {
-        if(!this.noBackground) {
-            if (isError) {
-                $('#alert').removeClass('header').css('background-color', '#ed5f55');
-                $("#error_icon").removeClass("fa-check").addClass("fa-exclamation-triangle");
-            } else {
-                $('#alert').removeClass('header').css('background-color', '#3bb85d');
-                $("#error_icon").removeClass("fa-exclamation-triangle").addClass("fa-check");
-            }
-        } else {
-            $('#alert').removeClass('header').css('background-color', 'transparent');
-            $("#error_icon").removeClass("fa-check fa-exclamation-triangle");
-        }
+        // Toastr handles this
         return this;
     },
-
+    didHide: function() {
+        // Toastr handles this
+        return this;
+    },
+    addLoader: function(addLoader) {
+    	this.showLoader = addLoader;
+        return this;
+    },
+    addButton: function(addButton) {
+        // Toastr handles this
+        return this;
+    },
+    setTimer: function(timer) {
+    	if (timer) {
+            timer *= 1000;
+        }
+    	this.timer = timer;
+        return this;
+    },
+    isError: function(isError) {
+        this.type = (isError) ? 'error' : 'success';
+        return this;
+    },
     setMessage: function(message) {
-         $('#alert_message').html(message);
+         this.message = message;
     },
-
     isVisible: function() {
-        return this.is_visible;
+        // Toastr handles this
+        return this;
     },
-
     setNoBackground: function(has_background) {
-        this.noBackground = has_background;
+        // Toastr handles this
+        return this;
     },
-
     reset: function() {
-
+        this.type = 'success';
+        return this;
     }
-
 });
 
-var message = new AlertMessage();
+let message = new AlertMessage();
 
 var Uploader = Class.extend({
     init: function() {

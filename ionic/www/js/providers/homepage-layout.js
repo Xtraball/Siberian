@@ -358,9 +358,9 @@ angular.module('starter').provider('HomepageLayout', function () {
                         HomepageLayout.data.customer_account.edit_path :
                         HomepageLayout.data.customer_account.login_path;
 
-                    if (HomepageLayout.data.customer_account.is_visible) {
-                        options.push(HomepageLayout.data.customer_account);
-                    }
+                    //if (HomepageLayout.data.customer_account.is_visible) {
+                    //    options.push(HomepageLayout.data.customer_account);
+                    //}
 
                     deferred.resolve(options);
                 });
