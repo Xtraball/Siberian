@@ -32,6 +32,12 @@ $data = [
 
 $option = Siberian_Feature::install($category, $data, ['code']);
 
+# Layouts
+$layoutData = [1, 2];
+$slug = "tabbar_account";
+
+Siberian_Feature::installLayouts($option->getId(), $slug, $layoutData);
+
 # Icons Flat
 $icons = [
     '/tabbar/user_flat1.png',
