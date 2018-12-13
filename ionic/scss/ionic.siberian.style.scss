@@ -11,9 +11,11 @@ button, input, select, textarea {
 ion-modal-view {
   background-color: opacify($general-custom-bg, 1) !important;
 }
+
 ion-side-menu-content {
   background-color: $general-custom-bg !important;
 }
+
 ion-content {
   background-color: transparent !important;
 }
@@ -27,6 +29,7 @@ ion-content {
     }
   }
 }
+
 .bar-custom {
   .button {
     @include button-style($bar-custom-bg, $bar-custom-border, $bar-custom-active-bg, $bar-custom-active-border, $bar-custom-text);
@@ -118,7 +121,7 @@ ion-content {
 
 .item-text {
   &.item-text-custom {
-  @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
+    @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
     * {
       color: $list-item-custom-text;
     }
@@ -139,6 +142,7 @@ ion-content {
     @include item-active-style($list-item-custom-bg-active, $list-item-custom-border-active);
   }
 }
+
 .item-complex {
   &.item-custom > .item-content {
     @include item-style($list-item-custom-bg, $list-item-custom-border, $list-item-custom-text);
@@ -264,15 +268,18 @@ ion-content {
     color: $checkbox-general-custom-text;
   }
 }
+
 .checkbox-custom .checkbox {
   @include checkbox-style($checkbox-off-custom-border, $checkbox-on-custom-bg, $checkbox-on-custom-border);
 }
+
 .checkbox-custom .checkbox input,
 .checkbox-custom .checkbox-icon {
   &:before {
     background: $checkbox-off-custom-bg;
   }
 }
+
 .checkbox-custom .checkbox input:disabled:before,
 .checkbox-custom .checkbox input:disabled + .checkbox-icon:before {
   border-color: $checkbox-off-custom-border;
@@ -282,6 +289,7 @@ ion-content {
 input:checked + .checkbox-icon:after {
   border-color: $checkbox-on-custom-text;
 }
+
 .checkbox-custom .checkbox input:disabled:checked:before,
 .checkbox-custom .checkbox input:disabled:checked + .checkbox-icon:before {
   background: $checkbox-on-custom-border;
@@ -335,9 +343,10 @@ input:checked + .checkbox-icon:after {
 .spinner-ios.spinner-custom,
 .spinner-ios-small.spinner-custom,
 .spinner-custom .spinner-ios,
-.spinner-custom .spinner-ios-small{
+.spinner-custom .spinner-ios-small {
   stroke: $spinner-custom-ios-bg;
 }
+
 .spinner-android.spinner-custom,
 .spinner-android-small.spinner-custom,
 .spinner-custom .spinner-android,
@@ -417,7 +426,6 @@ input:checked + .checkbox-icon:after {
   }
 }
 
-
 /* MINI LOADER */
 
 @-webkit-keyframes uilsquare {
@@ -437,6 +445,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-webkit-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -454,6 +463,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-moz-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -471,6 +481,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-ms-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -488,6 +499,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-moz-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -505,6 +517,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-webkit-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -522,6 +535,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @-o-keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -539,6 +553,7 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 @keyframes uilsquare {
   0% {
     background-color: $dialog-custom-text;
@@ -556,12 +571,14 @@ input:checked + .checkbox-icon:after {
     background-color: $dialog-custom-text;
   }
 }
+
 .uil-squares-css {
   background: none;
   position: relative;
   width: 200px;
   height: 200px;
 }
+
 .uil-squares-css div {
   position: absolute;
   z-index: 1;
@@ -569,6 +586,7 @@ input:checked + .checkbox-icon:after {
   height: 40px;
   background-color: $dialog-custom-text;
 }
+
 .uil-squares-css div > div {
   position: absolute;
   top: 0;
@@ -581,10 +599,12 @@ input:checked + .checkbox-icon:after {
   width: 40px;
   height: 40px;
 }
+
 .uil-squares-css > div:nth-of-type(1) {
   top: 30px;
   left: 30px;
 }
+
 .uil-squares-css > div:nth-of-type(1) > div {
   -ms-animation-delay: 0s;
   -moz-animation-delay: 0s;
@@ -592,10 +612,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0s;
   animation-delay: 0s;
 }
+
 .uil-squares-css > div:nth-of-type(2) {
   top: 30px;
   left: 80px;
 }
+
 .uil-squares-css > div:nth-of-type(2) > div {
   -ms-animation-delay: 0.1125s;
   -moz-animation-delay: 0.1125s;
@@ -603,10 +625,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.1125s;
   animation-delay: 0.1125s;
 }
+
 .uil-squares-css > div:nth-of-type(3) {
   top: 30px;
   left: 130px;
 }
+
 .uil-squares-css > div:nth-of-type(3) > div {
   -ms-animation-delay: 0.225s;
   -moz-animation-delay: 0.225s;
@@ -614,10 +638,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.225s;
   animation-delay: 0.225s;
 }
+
 .uil-squares-css > div:nth-of-type(4) {
   top: 80px;
   left: 130px;
 }
+
 .uil-squares-css > div:nth-of-type(4) > div {
   -ms-animation-delay: 0.3375s;
   -moz-animation-delay: 0.3375s;
@@ -625,10 +651,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.3375s;
   animation-delay: 0.3375s;
 }
+
 .uil-squares-css > div:nth-of-type(5) {
   top: 130px;
   left: 130px;
 }
+
 .uil-squares-css > div:nth-of-type(5) > div {
   -ms-animation-delay: 0.45s;
   -moz-animation-delay: 0.45s;
@@ -636,10 +664,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.45s;
   animation-delay: 0.45s;
 }
+
 .uil-squares-css > div:nth-of-type(6) {
   top: 130px;
   left: 80px;
 }
+
 .uil-squares-css > div:nth-of-type(6) > div {
   -ms-animation-delay: 0.5625s;
   -moz-animation-delay: 0.5625s;
@@ -647,10 +677,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.5625s;
   animation-delay: 0.5625s;
 }
+
 .uil-squares-css > div:nth-of-type(7) {
   top: 130px;
   left: 30px;
 }
+
 .uil-squares-css > div:nth-of-type(7) > div {
   -ms-animation-delay: 0.675s;
   -moz-animation-delay: 0.675s;
@@ -658,10 +690,12 @@ input:checked + .checkbox-icon:after {
   -o-animation-delay: 0.675s;
   animation-delay: 0.675s;
 }
+
 .uil-squares-css > div:nth-of-type(8) {
   top: 80px;
   left: 30px;
 }
+
 .uil-squares-css > div:nth-of-type(8) > div {
   -ms-animation-delay: 0.7875s;
   -moz-animation-delay: 0.7875s;
@@ -778,4 +812,59 @@ div.ui-background-loader {
   margin-left: 15px !important;
   min-height: 20px !important;
   margin-bottom: 15px !important;
+}
+
+.slide-tabs {
+  transition: height 1s linear;
+  height: 100%;
+  position: relative;
+  top: 60px;
+
+  .indicator-wrapper {
+    width: 100%;
+    height: 2px;
+    background: #fff;
+
+    #slide-tab-indicator {
+      height: 100%;
+      width: 0;
+      background-color: $bar-custom-text;
+      position: relative;
+      transform: translate(0%, 0);
+      transition: width 0.3s, transform 0.1s linear !important;
+    }
+  }
+
+  .slide-tab-list {
+    list-style: none;
+    width: 100%;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 13px;
+
+    .label {
+      display: inline-block;
+      color: lighten($bar-custom-text, 10%);
+      div {
+        padding: 15px 0 12px;
+      }
+    }
+
+    .selected-tab {
+      color: $bar-custom-text;
+      font-weight: 700;
+    }
+  }
+
+  .fixed-header {
+    top: 50px;
+  }
+
+  #slide-box-content {
+    height: 90%;
+    .slider {
+      min-height: 100%;
+    }
+  }
+
 }

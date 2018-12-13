@@ -72,7 +72,7 @@ angular.module('lodash', []).factory('_', ['$window', function ($window) {
 var semver = {compare: function (a, b, specificity) {var pa = a.split('.');var pb = b.split('.');var sentinels = {'major': 1, 'minor': 2, 'patch': 3};for (var i = 0; i < (sentinels[specificity] || 3); i++) {na = Number(pa[i]);nb = Number(pb[i]);if (na > nb || !isNaN(na) && isNaN(nb)) {return 1;}if (na < nb || isNaN(na) && !isNaN(nb)) {return -1;}}return 0;}, isGreater: function (a, b, specificity) {return this.compare(a, b, specificity) === 1;}, isLess: function (a, b, specificity) {return this.compare(a, b, specificity) === -1;}, isEqual: function (a, b, specificity) {return this.compare(a, b, specificity) === 0;}};
 
 var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 'ngSanitize', 'ngQueue',
-    'ion-gallery', 'ngImgCrop', 'ionic-zoom-view', 'tmh.dynamicLocale', 'templates', 'oc.lazyLoad'])
+    'ion-gallery', 'ion-slide-box-tabs', 'ngImgCrop', 'ionic-zoom-view', 'tmh.dynamicLocale', 'templates', 'oc.lazyLoad'])
     .constant('$ionicLoadingConfig', { template: '<ion-spinner></ion-spinner>' })
     .constant('SB', {
         EVENTS: {
