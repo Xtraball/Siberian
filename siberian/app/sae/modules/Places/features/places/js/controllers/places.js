@@ -8,6 +8,16 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         settings: null,
     });
 
+    /** Routing history to be sure we don't enter inside a loop */
+    var previousState = $ionicHistory.backView().stateName;
+    var states = [
+        "places-categories",
+        "places-list"
+    ];
+    if (states.indexOf(previousState) !== -1) {
+        return $ionicHistory.goBack();
+    }
+
     Places.setValueId($stateParams.value_id);
 
     // Router page only!
@@ -262,8 +272,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         var url = null;
         if (item.thumbnail && item.thumbnail.length) {
             url = item.thumbnail;
-        }
-        if (item.picture && item.picture.length) {
+        } else if (item.picture && item.picture.length) {
             url = item.picture;
         }
         if (url !== null) {

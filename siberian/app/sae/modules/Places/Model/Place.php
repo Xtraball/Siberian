@@ -140,9 +140,11 @@ class Places_Model_Place extends Core_Model_Default
     }
 
     /**
-     * @return array
+     * @param $valueId
+     * @return array|bool
+     * @throws Zend_Exception
      */
-    public function getInappStates($value_id)
+    public function getInappStates($valueId)
     {
 
         $childrens = [];
@@ -151,13 +153,12 @@ class Places_Model_Place extends Core_Model_Default
             "state" => "places-list-map",
             "offline" => false,
             "params" => [
-                "value_id" => $value_id,
+                "value_id" => $valueId,
             ],
         ];
 
-        $page_model = new Cms_Model_Application_Page();
-        $pages = $page_model->findAll([
-            "value_id" => $value_id
+        $pages = (new Cms_Model_Application_Page())->findAll([
+            "value_id" => $valueId
         ], null, null);
 
         foreach ($pages as $page) {
@@ -166,24 +167,24 @@ class Places_Model_Place extends Core_Model_Default
                 "state" => "places-view",
                 "offline" => true,
                 "params" => [
-                    "value_id" => $value_id,
+                    "value_id" => $valueId,
                     "page_id" => $page->getId(),
                 ],
             ];
         }
 
-        $in_app_states = [
+        $inAppStates = [
             [
                 "state" => "places-list",
                 "offline" => true,
                 "params" => [
-                    "value_id" => $value_id,
+                    "value_id" => $valueId,
                 ],
                 "childrens" => $childrens
             ],
         ];
 
-        return $in_app_states;
+        return $inAppStates;
     }
 
     public function getFeaturePaths($option_value)
