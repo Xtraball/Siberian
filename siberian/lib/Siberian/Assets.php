@@ -245,7 +245,7 @@ class Siberian_Assets
         "lib/ionic/js/.*",
         "lib/ionic/scss/.*",
         "lib/ionic/version.json",
-        "templates/.*",
+        "^templates/.*",
     ];
 
     public static $assets = [];
