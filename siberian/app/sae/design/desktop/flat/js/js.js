@@ -183,7 +183,7 @@ let AlertMessage = Class.extend({
     init: function(message, addButton, timer) {
         // Migration to toastr!
         this.message = message;
-        this.timer = timer ? timer * 1000 : null;
+        this.timer = 3000;
         this.showLoader = true;
     },
     show: function() {

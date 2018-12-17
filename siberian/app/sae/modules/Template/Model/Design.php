@@ -80,7 +80,7 @@ class Template_Model_Design extends Core_Model_Default
     }
 
     /**
-     * @param $application
+     * @param Application_Model_Application $application
      * @param bool $javascript
      * @param bool $return_variables
      * @param bool $new_scss
@@ -95,25 +95,31 @@ class Template_Model_Design extends Core_Model_Default
         if (!$javascript) {
             foreach ($blocks as $block) {
 
-                if ($block->getColorVariableName() AND $block->getColorRGBA()) {
+                if ($block->getColorVariableName() && $block->getColorRGBA()) {
                     $variables[$block->getColorVariableName()] = $block->getColorRGBA();
                 }
-                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColorRGBA()) {
+                if ($block->getBackgroundColorVariableName() && $block->getBackgroundColorRGBA()) {
                     $variables[$block->getBackgroundColorVariableName()] = $block->getBackgroundColorRGBA();
                 }
-                if ($block->getBorderColorVariableName() AND $block->getBorderColorRGBA()) {
+                if ($block->getBorderColorVariableName() && $block->getBorderColorRGBA()) {
                     $variables[$block->getBorderColorVariableName()] = $block->getBorderColorRGBA();
+                }
+                if ($block->getImageColorVariableName() && $block->getImageColorRGBA()) {
+                    $variables[$block->getImageColorVariableName()] = $block->getImageColorRGBA();
                 }
 
                 foreach ($block->getChildren() as $child) {
-                    if ($child->getColorVariableName() AND $child->getColorRGBA()) {
+                    if ($child->getColorVariableName() && $child->getColorRGBA()) {
                         $variables[$child->getColorVariableName()] = $child->getColorRGBA();
                     }
-                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColorRGBA()) {
+                    if ($child->getBackgroundColorVariableName() && $child->getBackgroundColorRGBA()) {
                         $variables[$child->getBackgroundColorVariableName()] = $child->getBackgroundColorRGBA();
                     }
-                    if ($child->getBorderColorVariableName() AND $child->getBorderColorRGBA()) {
+                    if ($child->getBorderColorVariableName() && $child->getBorderColorRGBA()) {
                         $variables[$child->getBorderColorVariableName()] = $child->getBorderColorRGBA();
+                    }
+                    if ($child->getImageColorVariableName() && $child->getImageColorRGBA()) {
+                        $variables[$child->getImageColorVariableName()] = $child->getImageColorRGBA();
                     }
                 }
 
@@ -124,41 +130,48 @@ class Template_Model_Design extends Core_Model_Default
                 $block_id = (strlen(dechex($block->getId())) == 2) ? dechex($block->getId()) : "0" . dechex($block->getId());
 
 
-                if ($block->getColorVariableName() AND $block->getColor()) {
+                if ($block->getColorVariableName() && $block->getColor()) {
                     $block_pos = "01";
                     $hex = "#" . $block_id . "00" . $block_pos;
 
                     $variables[$block->getColorVariableName()] = $hex;
                 }
-                if ($block->getBackgroundColorVariableName() AND $block->getBackgroundColor()) {
+                if ($block->getBackgroundColorVariableName() && $block->getBackgroundColor()) {
                     $block_pos = "02";
                     $hex = "#" . $block_id . "00" . $block_pos;
 
                     $variables[$block->getBackgroundColorVariableName()] = $hex;
                 }
-                if ($block->getBorderColorVariableName() AND $block->getBorderColor()) {
+                if ($block->getBorderColorVariableName() && $block->getBorderColor()) {
                     $block_pos = "03";
                     $hex = "#" . $block_id . "00" . $block_pos;
 
                     $variables[$block->getBorderColorVariableName()] = $hex;
                 }
 
+                if ($block->getImageColorVariableName() && $block->getImageColor()) {
+                    $block_pos = "04";
+                    $hex = "#" . $block_id . "00" . $block_pos;
+
+                    $variables[$block->getImageColorVariableName()] = $hex;
+                }
+
                 foreach ($block->getChildren() as $child) {
                     $child_id = (strlen(dechex($child->getId())) == 2) ? dechex($child->getId()) : "0" . dechex($child->getId());
 
-                    if ($child->getColorVariableName() AND $child->getColor()) {
+                    if ($child->getColorVariableName() && $child->getColor()) {
                         $child_pos = "01";
                         $hex = "#" . $block_id . $child_id . $child_pos;
 
                         $variables[$child->getColorVariableName()] = $hex;
                     }
-                    if ($child->getBackgroundColorVariableName() AND $child->getBackgroundColor()) {
+                    if ($child->getBackgroundColorVariableName() && $child->getBackgroundColor()) {
                         $child_pos = "02";
                         $hex = "#" . $block_id . $child_id . $child_pos;
 
                         $variables[$child->getBackgroundColorVariableName()] = $hex;
                     }
-                    if ($child->getBorderColorVariableName() AND $child->getBorderColor()) {
+                    if ($child->getBorderColorVariableName() && $child->getBorderColor()) {
                         $child_pos = "03";
                         $hex = "#" . $block_id . $child_id . $child_pos;
 

@@ -262,8 +262,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         var url = null;
         if (item.thumbnail && item.thumbnail.length) {
             url = item.thumbnail;
-        }
-        if (item.picture && item.picture.length) {
+        } else if (item.picture && item.picture.length) {
             url = item.picture;
         }
         if (url !== null) {

@@ -842,7 +842,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @param null $type_id
-     * @return mixed
+     * @return Template_Model_Block[]
      */
     public function getBlocks($type_id = null)
     {

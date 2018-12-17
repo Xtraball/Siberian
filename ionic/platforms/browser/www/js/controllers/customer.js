@@ -97,6 +97,8 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                         $scope.customer.delete_avatar = true;
                         $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id, {ignore_stored: true});
                     }
+
+                    $rootScope.$broadcast(SB.EVENTS.AUTH.editSuccess);
                 }
                 return true;
             }

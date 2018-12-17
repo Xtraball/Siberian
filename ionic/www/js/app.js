@@ -79,7 +79,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             AUTH: {
                 loginSuccess: 'auth-login-success',
                 logoutSuccess: 'auth-logout-success',
-                registerSuccess: 'auth-register-success'
+                registerSuccess: 'auth-register-success',
+                editSuccess: 'auth-edit-success'
             },
             CACHE: {
                 pagesReload: 'pages-reload',
