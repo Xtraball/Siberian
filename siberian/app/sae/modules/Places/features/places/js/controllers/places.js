@@ -572,9 +572,9 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                                     }
                                     break;
                                 case "image":
-                                    if (place.image) {
+                                    if (place.picture) {
                                         marker.icon = {
-                                            url: place.image,
+                                            url: place.picture,
                                             width: 70,
                                             height: 44
                                         };
