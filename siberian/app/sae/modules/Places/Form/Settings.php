@@ -64,15 +64,18 @@ class Places_Form_Settings extends Siberian_Form_Abstract
             __("Default pin for new places"),
             $defaultPins);
 
-        $pinApplyHtml = '
+        $applyText1 = __("Apply default pin to all existing places.");
+        $applyButton1 = __("Apply");
+        $pinApplyHtml = <<<RAW
 <div class="col-md-7 col-md-offset-3">
     <div class="alert alert-warning">
-        ' . __("Apply default pin to all existing places.") . '
-        <a class="btn color-blue apply-default-pin">' . __("Apply") . '</a>
+        {$applyText1}
+        <a class="btn color-blue apply-default-pin">{$applyButton1}</a>
     </div>
-</div>';
+</div>
+RAW;
 
-        $pinApply = $this->addSimpleHtml("pin_apply", $pinApplyHtml);
+        $pinApply = $this->addSimpleHtml("pin_apply_" . uniqid(), $pinApplyHtml);
 
         // Featured places are disabled for now.
 
