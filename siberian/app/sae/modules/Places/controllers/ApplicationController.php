@@ -542,9 +542,20 @@ class Places_ApplicationController extends Application_Controller_Default
             $page = (new Cms_Model_Application_Page())
                 ->find($placeId);
 
+            $settings = $optionValue->getSettings();
+            try {
+                $settings = \Siberian_Json::decode($settings);
+            } catch (\Exception $e) {
+                $settings = [
+                    "defaultPin" => "image"
+                ];
+            }
+
             $isNew = false;
             if (!$page->getId()) {
-                $page->setId("new");
+                $page
+                    ->setId("new")
+                    ->setMapIcon($settings["defaultPin"]);
                 $isNew = true;
             }
 
