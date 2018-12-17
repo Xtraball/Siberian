@@ -848,6 +848,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
     {
         $picture = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_file']);
         $thumbnail = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_thumbnail']);
+        $pin = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_pin']);
 
         $this
             ->setTitle($datas['title'])
@@ -855,6 +856,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
             ->setIsFeatured($datas['is_featured'])
             ->setPicture($picture)
             ->setThumbnail($thumbnail)
+            ->setPin($pin)
+            ->setMapIcon($datas['map_icon'])
             ->setPlaceVersion(2)
             ->setTags($datas['tags'])
             ->save();

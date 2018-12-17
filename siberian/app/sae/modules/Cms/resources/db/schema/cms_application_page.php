@@ -53,6 +53,19 @@ $schemas['cms_application_page'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'pin' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'map_icon' => [
+        'type' => 'varchar(32)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'image',
+    ],
     'is_featured' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',

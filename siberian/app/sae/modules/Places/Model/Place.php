@@ -818,14 +818,22 @@ WHERE cap.value_id = {$value_id}
             $picture = $baseUrl . $this->getPictureUrl();
         }
 
+        $pin = null;
+        if (!empty($this->getPinUrl())) {
+            $pin = $baseUrl . $this->getPinUrl();
+        }
+
         $embedPayload = [
             "blocks" => $json,
             "page" => [
                 "title" => $this->getTitle(),
                 "subtitle" => $this->getContent(),
                 "picture" => $picture,
+                "pin" => $pin,
                 "show_image" => (boolean) $this->getMetadataValue('show_image'),
                 "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+                "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
+                "mapIcon" => $this->getMapIcon(),
             ],
             "page_title" => $this->getTitle(),
             "picture" => $picture,
@@ -838,6 +846,7 @@ WHERE cap.value_id = {$value_id}
             "subtitle" => $this->getContent(),
             "picture" => $picture,
             "thumbnail" => $thumbnail,
+            "pin" => $pin,
             "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
             "address" => [
                 "id" => (integer) $address->getId(),
@@ -856,6 +865,8 @@ WHERE cap.value_id = {$value_id}
             ],
             "show_image" => (boolean) $this->getMetadataValue('show_image'),
             "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+            "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
+            "mapIcon" => $this->getMapIcon(),
             "distance" => $distance,
             "distanceUnit" => $settings["distance_unit"],
             "embed_payload" => $embedPayload
@@ -915,8 +926,8 @@ WHERE cap.value_id = {$value_id}
     public function getPictureUrl()
     {
         $path = Application_Model_Application::getImagePath() . $this->getPicture();
-        $base_path = Application_Model_Application::getBaseImagePath() . $this->getPicture();
-        return is_file($base_path) ? $path : null;
+        $basePath = Application_Model_Application::getBaseImagePath() . $this->getPicture();
+        return is_file($basePath) ? $path : null;
     }
 
     /**
@@ -925,8 +936,18 @@ WHERE cap.value_id = {$value_id}
     public function getThumbnailUrl()
     {
         $path = Application_Model_Application::getImagePath() . $this->getThumbnail();
-        $base_path = Application_Model_Application::getBaseImagePath() . $this->getThumbnail();
-        return is_file($base_path) ? $path : null;
+        $basePath = Application_Model_Application::getBaseImagePath() . $this->getThumbnail();
+        return is_file($basePath) ? $path : null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPinUrl()
+    {
+        $path = Application_Model_Application::getImagePath() . $this->getPin();
+        $basePath = Application_Model_Application::getBaseImagePath() . $this->getPin();
+        return is_file($basePath) ? $path : null;
     }
 
     /**

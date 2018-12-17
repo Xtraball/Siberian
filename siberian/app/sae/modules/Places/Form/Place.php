@@ -15,42 +15,70 @@ class Places_Form_Place extends Cms_Form_Cms
      */
     public function init()
     {
-        $this->addNav('nav-places', __('Save'));
+        $this->addNav('nav-places', __("Save"));
 
         $cms_type = $this->addSimpleHidden('cms_type');
         $cms_type->setValue('places');
         $cms_type->addClass('cms-include');
 
-        $title = $this->addSimpleText('title', __('Title'));
+        $title = $this->addSimpleText('title', __("Title"));
         $title->setRequired(true);
         $title->addClass('cms-include');
 
-        $subtitle = $this->addSimpleText('content', __('Subtitle'));
+        $show_titles = $this->addSimpleCheckbox('show_titles', __("Display title in page"));
+        $show_titles->setBelongsTo('metadata');
+        $show_titles->addClass('cms-include');
+
+        $subtitle = $this->addSimpleText('content', __("Subtitle"));
         $subtitle->addClass('cms-include');
 
-        $this->addSimpleImage('places_file', __('Add an image'), __('Add an image'), [
+        $show_subtitle = $this->addSimpleCheckbox('show_subtitle', __("Display subtitle in page"));
+        $show_subtitle->setBelongsTo('metadata');
+        $show_subtitle->addClass('cms-include');
+
+        $this->addSimpleImage('places_file', __("Add an illustration"), __("Add an illustration"), [
             'width' => 700,
             'height' => 440,
             'cms-include' => true,
         ]);
 
-        $this->addSimpleImage('places_thumbnail', __('Add a thumbnail'), __('Add a thumbnail'), [
+        $show_image = $this->addSimpleCheckbox('show_image', __("Display illustration in page"));
+        $show_image->setBelongsTo('metadata');
+        $show_image->addClass('cms-include');
+
+        $this->addSimpleImage('places_thumbnail', __('Add a thumbnail'), __("Add a thumbnail"), [
+            'width' => 256,
+            'height' => 256,
+            'cms-include' => true,
+        ]);
+
+        $this->addSimpleImage('places_pin', __('Add a pin'), __("Add a pin"), [
             'width' => 128,
             'height' => 128,
             'cms-include' => true,
         ]);
 
-        $show_image = $this->addSimpleCheckbox('show_image', __('Display image in page'));
-        $show_image->setBelongsTo('metadata');
-        $show_image->addClass('cms-include');
+        //if not available will fallback to defaults Google Maps pin
 
-        $show_titles = $this->addSimpleCheckbox('show_titles', __('Display title and subtitle in page'));
-        $show_titles->setBelongsTo('metadata');
-        $show_titles->addClass('cms-include');
+        $mapIcon = $this->addSimpleSelect(
+            'map_icon',
+            __('Map icon'),
+            [
+                "pin" => __("Pin"),
+                "thumbnail" => __("Thumbnail"),
+                "image" => __("Illustration"),
+                "default" => __("Google default pin"),
+            ]
+        );
+        $mapIcon->addClass('cms-include');
 
-        $show_picto = $this->addSimpleCheckbox('show_picto', __('Display pictogram instead of image in map'));
-        $show_picto->setBelongsTo('metadata');
-        $show_picto->addClass('cms-include');
+        $pinsHintHtml = '
+<div class="col-md-7 col-md-offset-3">
+    <div class="alert alert-info">' . __("If the map icon is not uploaded, it will fallback to default Google Maps pin.") . '</div>
+</div>';
+
+        $pinsHint = $this->addSimpleHtml("super-pins", $pinsHintHtml);
+
 
 
         // Featured places are disabled for now.
@@ -113,9 +141,11 @@ class Places_Form_Place extends Cms_Form_Cms
 
         $this->getElement('places_file')->setValue($values['picture']);
         $this->getElement('places_thumbnail')->setValue($values['thumbnail']);
+        $this->getElement('places_pin')->setValue($values['pin']);
         $this->getElement('show_image')->setValue($page->getMetadata('show_image')->getPayload());
         $this->getElement('show_titles')->setValue($page->getMetadata('show_titles')->getPayload());
-        $this->getElement('show_picto')->setValue($page->getMetadata('show_picto')->getPayload());
+        $this->getElement('show_subtitle')->setValue($page->getMetadata('show_subtitle')->getPayload());
+        $this->getElement('map_icon')->setValue($values['map_icon']);
         $this->getElement('tags')->setValue($page->getData("tags"));
         $this->getElement('place_categories')->setValue($catValues);
 

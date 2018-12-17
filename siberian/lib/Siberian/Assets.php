@@ -418,8 +418,11 @@ class Siberian_Assets
                             mkdir(__ss($dir_dest), 0777, true);
                         }
 
-                        exec("cp -r {$path_from} {$path_to}");
-                        exec("chmod -R 775 {$path_to}");
+                        // Ensure folders exists
+                        if (file_exists(preg_replace("#/\*$#", "", $path_from))) {
+                            exec("cp -r {$path_from} {$path_to}");
+                            exec("chmod -R 775 {$path_to}");
+                        }
                     }
                 }
             }
@@ -442,9 +445,10 @@ class Siberian_Assets
                 foreach ($platforms as $platform) {
                     $path = Core_Model_Directory::getBasePathTo($platform . $www . $dirpath);
 
-                    if (is_dir($path)) {
-                        if ($base != $path) {
-                            exec("rm -r {$path}");
+                    if (is_dir($path) && ($base != $path)) {
+                        exec("rm -r {$path}");
+                        // Ensure folders exists
+                        if (file_exists($path)) {
                             exec("chmod -R 775 {$path}");
                         }
                     }

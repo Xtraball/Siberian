@@ -253,6 +253,47 @@ class Places_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function updatePinsAction()
+    {
+        // Upgrade feature if necessary!
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $pages = (new Cms_Model_Application_Page())
+                ->findAllOrderedByRank($optionValue->getId());
+
+            $request = $this->getRequest();
+            $pinValue = $request->getParam("pinValue", false);
+
+            if (!$pinValue) {
+                throw new \Siberian\Exception(__("The pin value is required"));
+            }
+
+            // Associate tags with pages
+            foreach ($pages as $page) {
+                $pagePlace = (new Places_Model_Place())
+                    ->find($page->getId());
+                $pagePlace
+                    ->setMapIcon($pinValue)
+                    ->save();
+            }
+
+            $payload = [
+                "success" => true,
+                "message" => __("Upgrade done!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "success" => false,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function updateCategoryPositionsAction()
     {
         try {
