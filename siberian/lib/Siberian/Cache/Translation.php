@@ -128,7 +128,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                 static::fetch(self::SAE_PATH);
                 static::fetch(self::MAE_PATH);
                 break;
-            case "SAE":default:
+            case "SAE": default:
                 static::fetch(self::SAE_PATH);
                 break;
         }
