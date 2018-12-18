@@ -302,7 +302,7 @@ $splashVersion = (integer) $application->getSplashVersion();
                 <div class="col-md-12 clear">
                     <h4 class="font-group"><?php echo __($groupName) ?></h4>
                 </div>
-                <?php foreach ($families as $fontFamily): ?>
+                <?php foreach ($families as $fontFamily => $options): ?>
                 <div class="col-md-6">
                     <label for="<?php echo slugify($fontFamily) ?>"
                            class="font-label <?php if ($current === $fontFamily): ?>checked<?php endif; ?>">
@@ -316,6 +316,9 @@ $splashVersion = (integer) $application->getSplashVersion();
                         <span class="font-example"
                            style="font-family: '<?php echo str_replace("+", " ", $fontFamily); ?>' !important;">
                             Lorem Ipsum DOLOR SIT AMET
+                            <?php if ($options["cyrillic"] === true): ?>
+                            <span class="cyrillic"> + <?php echo __("CYRILLIC") ?></span>
+                            <?php endif; ?>
                         </span>
                     </label>
                 </div>
@@ -362,7 +365,7 @@ $splashVersion = (integer) $application->getSplashVersion();
 </div>
 
 <style type="text/css">
-    @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>');
+    @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>&subset=latin,greek,cyrillic');
 
     .font-group {
         border: 1px solid rgba(0,0,0,0.1);

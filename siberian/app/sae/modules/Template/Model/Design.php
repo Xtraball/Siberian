@@ -189,7 +189,7 @@ class Template_Model_Design extends Core_Model_Default
         if (!empty($fontFamily)) {
             $replace = str_replace("+", " ", $fontFamily);
 
-            $fontImport = file_get_contents("https://fonts.googleapis.com/css?family=$fontFamily");
+            $fontImport = file_get_contents("https://fonts.googleapis.com/css?family=$fontFamily&subset=latin,greek,cyrillic");
 
             $variables['$font-family'] = "'$replace', sans-serif";
         }

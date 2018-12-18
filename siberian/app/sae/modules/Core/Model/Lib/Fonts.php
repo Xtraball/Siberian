@@ -18,51 +18,113 @@ class Core_Model_Lib_Fonts
     {
         $fonts = [
             "Serif" => [
-                "Merriweather",
-                "Playfair+Display",
-                "Bitter",
-                "Cinzel",
-                "Cardo",
-                "Mate",
+                "Merriweather" => [
+                    "cyrillic" => true,
+                ],
+                "Playfair+Display" => [
+                    "cyrillic" => true,
+                ],
+                "Bitter" => [
+                    "cyrillic" => false,
+                ],
+                "Cinzel" => [
+                    "cyrillic" => false,
+                ],
+                "Cardo" => [
+                    "cyrillic" => true,
+                ],
+                "Mate" => [
+                    "cyrillic" => false,
+                ],
             ],
             "Sans Serif" => [
-                "Montserrat",
-                "Text+Me+One",
-                "Dosis",
-                "Fjalla+One",
-                "Play",
-                "Nunito",
+                "Montserrat" => [
+                    "cyrillic" => true,
+                ],
+                "Text+Me+One" => [
+                    "cyrillic" => false,
+                ],
+                "Dosis" => [
+                    "cyrillic" => false,
+                ],
+                "Fjalla+One" => [
+                    "cyrillic" => false,
+                ],
+                "Play" => [
+                    "cyrillic" => true,
+                ],
+                "Nunito" => [
+                    "cyrillic" => false,
+                ],
             ],
             "Display" => [
-                "Ranga",
-                "Comfortaa",
-                "Righteous",
-                "Code",
-                "Overlock",
-                "Forum",
+                "Ranga" => [
+                    "cyrillic" => false,
+                ],
+                "Comfortaa" => [
+                    "cyrillic" => true,
+                ],
+                "Righteous" => [
+                    "cyrillic" => false,
+                ],
+                "Code" => [
+                    "cyrillic" => false,
+                ],
+                "Overlock" => [
+                    "cyrillic" => false,
+                ],
+                "Forum" => [
+                    "cyrillic" => true,
+                ],
             ],
             "Handwriting" => [
-                "Patrick+Hand",
-                "Tangerine",
-                "Mali",
-                "Itim",
-                "Short+Stack",
-                "Dancing+Script",
+                "Patrick+Hand" => [
+                    "cyrillic" => false,
+                ],
+                "Tangerine" => [
+                    "cyrillic" => false,
+                ],
+                "Mali" => [
+                    "cyrillic" => false,
+                ],
+                "Itim" => [
+                    "cyrillic" => false,
+                ],
+                "Short+Stack" => [
+                    "cyrillic" => false,
+                ],
+                "Dancing+Script" => [
+                    "cyrillic" => false,
+                ],
             ],
             "Monospace" => [
-                "Roboto+Mono",
-                "Inconsolata",
-                "Cousine",
-                "Oxygen+Mono",
-                "Fira+Mono",
-                "Nova+Mono",
+                "Roboto+Mono" => [
+                    "cyrillic" => true,
+                ],
+                "Inconsolata" => [
+                    "cyrillic" => false,
+                ],
+                "Cousine" => [
+                    "cyrillic" => true,
+                ],
+                "Oxygen+Mono" => [
+                    "cyrillic" => false,
+                ],
+                "Fira+Mono" => [
+                    "cyrillic" => true,
+                ],
+                "Nova+Mono" => [
+                    "cyrillic" => true,
+                ],
             ],
         ];
 
         if (!$withGroups) {
             $allFonts = [];
-            foreach ($fonts as $group => $values) {
-                $allFonts = array_merge($allFonts, $values);
+            foreach ($fonts as $group => $families) {
+                foreach ($families as $fontFamily => $options) {
+                    $allFonts = array_merge($allFonts, [$fontFamily]);
+                }
             }
             return $allFonts;
         }
