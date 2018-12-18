@@ -42,6 +42,41 @@ class Places_Form_Settings extends Siberian_Form_Abstract
 
         $distanceUnit = $this->addSimpleSelect("distance_unit", __("Distance unit"), $distance);
 
+        $imagePriority = [
+            'thumbnail' => __("Thumbnail > Illustration"),
+            'image' => __("Illustration > Thumbnail"),
+        ];
+
+        $listImagePriority = $this->addSimpleSelect(
+            "listImagePriority",
+            __("Places image priority in list"),
+            $imagePriority);
+
+        $defaultPins = [
+            'pin' => __("Pin"),
+            'thumbnail' => __("Thumbnail"),
+            'image' => __("Illustration"),
+            'default' => __("Google default pin"),
+        ];
+
+        $defaultPin = $this->addSimpleSelect(
+            "defaultPin",
+            __("Default pin for new places"),
+            $defaultPins);
+
+        $applyText1 = __("Apply default pin to all existing places.");
+        $applyButton1 = __("Apply");
+        $pinApplyHtml = <<<RAW
+<div class="col-md-7 col-md-offset-3">
+    <div class="alert alert-warning">
+        {$applyText1}
+        <a class="btn color-blue apply-default-pin">{$applyButton1}</a>
+    </div>
+</div>
+RAW;
+
+        $pinApply = $this->addSimpleHtml("pin_apply_" . uniqid(), $pinApplyHtml);
+
         // Featured places are disabled for now.
 
         //$showFeatured = $this->addSimpleCheckbox("show_featured", __("Show featured labels"));

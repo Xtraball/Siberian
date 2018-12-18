@@ -3,16 +3,24 @@
 /**
  * Class Siberian_Cache_Translation
  *
- * @version 4.2.0
+ * @version 4.15.9
  *
  * Adding inheritance system in the translations
- *
  */
 
 class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cache_Interface
 {
+    /**
+     *
+     */
     const CODE = "translation";
+    /**
+     *
+     */
     const CACHE_PATH = "var/cache/translation.cache";
+    /**
+     *
+     */
     const CACHING = true;
 
     /**
@@ -45,14 +53,14 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                         /** Looping trough files */
                         $files = new DirectoryIterator($modules_translation->getPathname());
                         foreach ($files as $file) {
-                            if ($file->getExtension() == "csv") {
+                            if ($file->getExtension() === "csv") {
                                 $basename = $file->getFilename();
                                 if (!isset($cache[$language][$basename])) {
                                     $cache[$language][$basename] = $file->getPathname();
                                 }
                             }
 
-                            if ($file->getExtension() == "list") {
+                            if ($file->getExtension() === "list") {
                                 $cache["mobile_list"][] = $file->getPathname();
                             }
                         }
@@ -64,6 +72,9 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
         static::setCache($cache);
     }
 
+    /**
+     * @return mixed|void
+     */
     public static function preWalk()
     {
         $languages = Core_Model_Directory::getBasePathTo("languages");
@@ -100,6 +111,33 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
         static::setCache($cache);
     }
 
+    /**
+     * Common method for TYPE walkers
+     *
+     * We refresh only local cache, sae/mae/pe are pre-built for convenience.
+     */
+    public static function walk()
+    {
+        switch(\Siberian_Version::VERSION) {
+            case "PE":
+                static::fetch(self::SAE_PATH);
+                static::fetch(self::MAE_PATH);
+                static::fetch(self::PE_PATH);
+                break;
+            case "MAE":
+                static::fetch(self::SAE_PATH);
+                static::fetch(self::MAE_PATH);
+                break;
+            case "SAE": default:
+                static::fetch(self::SAE_PATH);
+                break;
+        }
+        static::fetch(self::LOCAL_PATH);
+    }
+
+    /**
+     * @return mixed|void
+     */
     public static function postWalk()
     {
 
