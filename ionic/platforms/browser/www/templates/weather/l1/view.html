@@ -59,7 +59,7 @@
                                 </td>
                                 <td width="55%"
                                     class="temp text-center">
-                                    {{ weather.item.condition.temp }}°
+                                    {{ weather.item.condition.temp }}° {{ weather.units.temperature }}
                                 </td>
                             </tr>
                             <tr>
@@ -289,14 +289,17 @@
                              ng-show="weather.atmosphere.pressure">
                             <div class="row">
                                 <p class="col-75">{{ "Pressure" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.atmosphere.pressure }}</p>
+                                <p ng-if="weather.units.pressure == 'mb'"
+                                   class="col-25 text-right">{{ (weather.atmosphere.pressure / 33.8639).toFixed(1) }} {{ weather.units.pressure }}</p>
+                                <p ng-if="weather.units.pressure == 'in'"
+                                   class="col-25 text-right">{{ (weather.atmosphere.pressure * 0.0295301).toFixed(1) }} {{ weather.units.pressure }}</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
                              ng-show="weather.atmosphere.visibility">
                             <div class="row">
                                 <p class="col-75">{{ "Visibility" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.atmosphere.visibility }}</p>
+                                <p class="col-25 text-right">{{ weather.atmosphere.visibility }} {{ weather.units.distance }}</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
@@ -331,7 +334,7 @@
                              ng-show="weather.wind.speed">
                             <div class="row">
                                 <p class="col-75">{{ "Speed" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.wind.speed }}</p>
+                                <p class="col-25 text-right">{{ weather.wind.speed }} {{ weather.units.speed }}</p>
                             </div>
                         </div>
                     </div>

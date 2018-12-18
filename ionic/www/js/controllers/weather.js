@@ -22,7 +22,6 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
     Weather.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
-
         $scope.is_loading = true;
 
         Country

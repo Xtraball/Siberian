@@ -37,12 +37,9 @@ angular.module("starter").factory("Weather", function($q, $pwaRequest, $cordovaG
         }
 
         var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
-        if(payload !== false) {
-
+        if (payload !== false) {
             return $pwaRequest.resolve(payload);
-
         } else {
-
             /** Otherwise fallback on PWA */
             return $pwaRequest.get("weather/mobile_view/find", angular.extend({
                 urlParams: {
