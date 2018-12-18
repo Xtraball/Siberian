@@ -24,7 +24,13 @@
                 <img class="image-placeholder"
                      ng-src="{{ blankImage }}" />
                 <div class="place-title"
-                     ng-if="place.show_titles">{{ place.title }}</div>
+                     ng-if="place.show_titles || place.show_subtitle">
+                    <span ng-if="place.show_titles"
+                          class="span-title">{{ place.title }}</span>
+                    <br />
+                    <span ng-if="place.show_subtitle"
+                          class="span-subtitle">{{ place.subtitle }}</span>
+                </div>
             </div>
         </div>
 

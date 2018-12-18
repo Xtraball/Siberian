@@ -253,6 +253,47 @@ class Places_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function updatePinsAction()
+    {
+        // Upgrade feature if necessary!
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $pages = (new Cms_Model_Application_Page())
+                ->findAllOrderedByRank($optionValue->getId());
+
+            $request = $this->getRequest();
+            $pinValue = $request->getParam("pinValue", false);
+
+            if (!$pinValue) {
+                throw new \Siberian\Exception(__("The pin value is required"));
+            }
+
+            // Associate tags with pages
+            foreach ($pages as $page) {
+                $pagePlace = (new Places_Model_Place())
+                    ->find($page->getId());
+                $pagePlace
+                    ->setMapIcon($pinValue)
+                    ->save();
+            }
+
+            $payload = [
+                "success" => true,
+                "message" => __("Upgrade done!"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "success" => false,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function updateCategoryPositionsAction()
     {
         try {
@@ -501,9 +542,20 @@ class Places_ApplicationController extends Application_Controller_Default
             $page = (new Cms_Model_Application_Page())
                 ->find($placeId);
 
+            $settings = $optionValue->getSettings();
+            try {
+                $settings = \Siberian_Json::decode($settings);
+            } catch (\Exception $e) {
+                $settings = [
+                    "defaultPin" => "image"
+                ];
+            }
+
             $isNew = false;
             if (!$page->getId()) {
-                $page->setId("new");
+                $page
+                    ->setId("new")
+                    ->setMapIcon($settings["defaultPin"]);
                 $isNew = true;
             }
 

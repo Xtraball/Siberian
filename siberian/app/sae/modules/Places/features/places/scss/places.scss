@@ -158,9 +158,6 @@
       right: 2vh;
       font-size: 8vh;
       line-height: 10vh;
-      i {
-        margin-left: -1vh;
-      }
     }
     /** Maps section */
     .info-window {
@@ -276,9 +273,6 @@
       right: 2vw;
       font-size: 8vw;
       line-height: 10vw;
-      i {
-        margin-left: -1vw;
-      }
     }
 
     /** LandScape places two columns */
@@ -465,12 +459,25 @@
       color: white;
       font-weight: 700;
       text-align: left;
-      padding: .25rem 2vh .25rem 2vh;
-      background: rgba(25,0,0,0.6);
       display: inline-block;
-      max-width: calc(100vw + 2px);
-      overflow: hidden;
-      text-overflow: ellipsis;
+
+      .span-title {
+        background: rgba(25,0,0,0.6);
+        max-width: calc(100vw + 2px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: .25rem 2vh .25rem 2vh;
+        display: inline-block;
+      }
+      .span-subtitle {
+        font-size: .75rem;
+        background: rgba(25,0,0,0.6);
+        max-width: calc(100vw + 2px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: .25rem 2vh .25rem 2vh;
+        display: inline-block;
+      }
     }
   }
   .places-filters {

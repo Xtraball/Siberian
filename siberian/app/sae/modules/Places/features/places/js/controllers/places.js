@@ -8,6 +8,24 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         settings: null,
     });
 
+    /** Routing history to be sure we don't enter inside a loop */
+    var backView = $ionicHistory.backView();
+    var forwardView = $ionicHistory.forwardView();
+    if (backView) {
+        var backState = backView.stateName;
+    }
+    if (forwardView) {
+        var forwardState = forwardView.stateName;
+    }
+    var states = [
+        "places-categories",
+        "places-list-map",
+        "places-list"
+    ];
+    if (states.indexOf(backState) !== -1) {
+        return $ionicHistory.goBack();
+    }
+
     Places.setValueId($stateParams.value_id);
 
     // Router page only!
@@ -260,10 +278,21 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
      */
     $scope.placeThumbnailSrc = function (item) {
         var url = null;
-        if (item.thumbnail && item.thumbnail.length) {
-            url = item.thumbnail;
-        } else if (item.picture && item.picture.length) {
-            url = item.picture;
+        switch ($scope.settings.listImagePriority) {
+            case "thumbnail": default:
+                if (item.thumbnail && item.thumbnail.length) {
+                    url = item.thumbnail;
+                } else if (item.picture && item.picture.length) {
+                    url = item.picture;
+                }
+                break;
+            case "image":
+                if (item.picture && item.picture.length) {
+                    url = item.picture;
+                } else if (item.thumbnail && item.thumbnail.length) {
+                    url = item.thumbnail;
+                }
+                break;
         }
         if (url !== null) {
             // Monkey Patch non-well formatted uris
@@ -309,7 +338,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
             }
 
             // To ensure a fast loading even when GPS is off, we neeeeeed to decrease the GPS timeout!
-            Location.getLocation()
+            Location.getLocation({timeout: 3200})
                 .then(function (position) {
                     $scope.filters.latitude = position.coords.latitude;
                     $scope.filters.longitude = position.coords.longitude;
@@ -324,7 +353,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     // Search places
     $scope.searchPlaces = function (loadMore) {
         Location
-            .getLocation()
+            .getLocation({timeout: 3200})
             .then(function (position) {
                 $scope.filters.latitude = position.coords.latitude;
                 $scope.filters.longitude = position.coords.longitude;
@@ -470,7 +499,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.loadContent();
 
-}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Location, Places) {
+}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Location, Places,
+                                               GoogleMaps) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -491,7 +521,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.loadContent = function () {
         Location
-            .getLocation()
+            .getLocation({timeout: 3200})
             .then(function (position) {
                 $scope.filters.latitude = position.coords.latitude;
                 $scope.filters.longitude = position.coords.longitude;
@@ -531,12 +561,37 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                                 marker.address = place.address.address;
                             }
 
-                            if (place.picture) {
-                                marker.icon = {
-                                    url: place.picture,
-                                    width: 70,
-                                    height: 44
-                                };
+                            switch (place.mapIcon) {
+                                case "pin":
+                                    if (place.pin) {
+                                        marker.icon = {
+                                            url: place.pin,
+                                            width: 42,
+                                            height: 42
+                                        };
+                                    }
+                                    break;
+                                case "image":
+                                    if (place.picture) {
+                                        marker.icon = {
+                                            url: place.picture,
+                                            width: 70,
+                                            height: 44
+                                        };
+                                    }
+                                    break;
+                                case "thumbnail":
+                                    if (place.thumbnail) {
+                                        marker.icon = {
+                                            url: place.thumbnail,
+                                            width: 42,
+                                            height: 42
+                                        };
+                                    }
+                                    break;
+                                case "default": default:
+                                    // Defaults to google map icons
+                                    break;
                             }
 
                             markers.push(marker);

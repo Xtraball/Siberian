@@ -500,6 +500,29 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                 false);
         };
 
+        let updatePin = function () {
+            let val = $("#defaultPin").val();
+            let url = '/places/application/update-pins';
+
+            formget(
+                url,
+                {
+                    value_id: '<?php echo $optionValue->getId() ?>',
+                    pinValue: val
+                },
+                function() {
+                    swal({
+                        title: '<?php echo __jss("Success") ?>',
+                        text: '<?php echo __jss("Your pin settings are applied.") ?>',
+                        animation: 'none'
+                    }, function () {
+                        swal.close();
+                        page.reload();
+                    });
+                },
+                false);
+        };
+
         // Upgrade / Skip
         let placeUpgrade = $(".place-upgrade");
         placeUpgrade.off("click");
@@ -525,6 +548,20 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                 animation: 'none'
             });
             updatePlaces(true);
+        });
+
+        // Upgrade / Skip
+        let applyPin = $(".apply-default-pin");
+        applyPin.off("click");
+        applyPin.on("click", function () {
+            swal({
+                title: '<?php echo __jss("Please wait") ?>',
+                html: true,
+                text: '<?php echo __jss("Upgrade can take a while depending on the places count!") ?><br /><?php echo __jss("Please wait until the page reloads!") ?>',
+                showConfirmButton: false,
+                animation: 'none'
+            });
+            updatePin(false);
         });
     });
 </script>
