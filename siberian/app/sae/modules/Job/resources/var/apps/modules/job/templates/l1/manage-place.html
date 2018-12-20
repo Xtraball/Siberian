@@ -1,8 +1,11 @@
-<ion-modal-view sb-page-background class="layout modal slide-top">
+<ion-modal-view sb-page-background
+                class="layout modal slide-top job-view job-manage-place">
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
-            <button class="button button-clear" ng-click="closeManageModal();">{{ "Close" | translate }}</button>
+            <button class="button button-clear" ng-click="closeManageModal();">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
         </div>
         <h1 class="title">{{ "Manage place" | translate }}</h1>
     </ion-header-bar>
