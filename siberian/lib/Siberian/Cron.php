@@ -7,7 +7,7 @@ namespace Siberian;
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.15.7
+ * @version 4.15.9
  */
 class Cron
 {
@@ -375,6 +375,10 @@ class Cron
 
                     # +After generation**
                     exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+
+                    # Chmod things
+                    $baseApps = \Core_Model_Directory::getBasePathTo("/var/tmp/applications/ionic/android");
+                    exec("chmod -R 777 '{$baseApps}/*-{$apk->getAppId()}'");
 
                 } catch (Exception $e) {
                     $this->log($e->getMessage());
