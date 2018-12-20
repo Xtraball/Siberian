@@ -43,11 +43,9 @@
                 <css>
                     <bootstrap link="css/bootstrap.css" />
                     <style link="css/style.css" />
-                    <gfonts_breeserif href="//fonts.googleapis.com/css?family=Bree+Serif|Open+Sans+Condensed:700,300,300italic" />
-                    <gfonts_oleo href="//fonts.googleapis.com/css?family=Oleo+Script" />
+                    <gfonts_opensans href="https://fonts.googleapis.com/css?family=Open+Sans:700,300,300italic" />
                     <font_awesome link="css/font-awesome.min.css" />
                     <font_ionicon link="css/webfonts/ionicons/css/ionicons.min.css" />
-                    <gfonts_poiret href="//fonts.googleapis.com/css?family=Didact+Gothic" />
                     <colors link="css/colors.css" />
                     <colorpicker link="css/colorpicker.css" />
                     <prettyPhoto link="css/prettyPhoto.css" />
