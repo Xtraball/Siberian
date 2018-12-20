@@ -787,10 +787,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         window.Features.featuresToLoadOnStart.forEach(function (bundle) {
                             $log.info('Loading on Start: ', bundle);
                             $ocLazyLoad.load([
-                                bundle
+                                bundle.path
                             ], {
-                                rerun: true
+                                cache: false
                             }).then(function (success) {
+                                // Call onRun action
+                                if ($injector.has(bundle.factory)) {
+                                    try {
+                                        $injector.get(bundle.factory).onStart();
+                                    } catch (e) {
+                                        // Unable to find/start onStart();
+                                    }
+                                }
                             }).catch(function (error) {
                             });
                         });

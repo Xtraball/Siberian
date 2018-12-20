@@ -28,7 +28,13 @@ window.Features = (new (function Features() {
 
     $this.register = function (json, bundle) {
         if (angular.isDefined(json.load_on_start) && json.load_on_start) {
-            $this.featuresToLoadOnStart.push(bundle);
+            var onStart = {
+                path: bundle
+            };
+            if (json.on_start_factory) {
+                onStart.factory = json.on_start_factory
+            }
+            $this.featuresToLoadOnStart.push(onStart);
         }
 
         // Lazy load deps!

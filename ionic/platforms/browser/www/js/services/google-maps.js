@@ -437,6 +437,24 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
         }
     };
 
+    var ready = false;
+    var readyResolver = $q.defer();
+
+    Object.defineProperty(service, 'ready', {
+        get: function () {
+            if (ready) {
+                return $q.resolve();
+            }
+            return readyResolver.promise;
+        },
+        set: function (value) {
+            ready = !!value;
+            if (ready === true) {
+                readyResolver.resolve();
+            }
+        }
+    });
+
     service.init();
 
     return service;
