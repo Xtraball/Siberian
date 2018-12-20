@@ -14,9 +14,9 @@
         <?php endforeach ?>
 
         <script type="text/javascript">
+            tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             let version = "<?php echo Siberian_Version::VERSION ?>";
             let current_release = "<?php echo __get("current_release") ?>";
-            let tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             let datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
 
             <?php $existing_steps = new Tour_Model_Step(); ?>

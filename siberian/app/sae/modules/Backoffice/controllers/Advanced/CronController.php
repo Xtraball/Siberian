@@ -24,6 +24,7 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
         'alertswatcher' => 'System monitor to send alerts.',
         'checkpayments' => 'Callback for recurrences.',
         'diskusage' => 'Disk usage watcher.',
+        'Application_Model_Application::getSizeOnDisk' => 'Get Application disk usage',
     ];
 
     public function loadAction()
@@ -63,6 +64,20 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
         foreach ($cron_tasks as $cron_task) {
             $name = $cron_task->getCommand();
             $_data = $cron_task->getData();
+
+
+            // Humanize cron schedule
+            $cronString = sprintf("%s %s %s %s %s",
+                $_data["minute"],
+                $_data["hour"],
+                $_data["month_day"],
+                $_data["month"],
+                $_data["week_day"]);
+            $cronString = str_replace("-1", "*", $cronString);
+            $schedule = \Siberian\Cron\Human::fromCronString($cronString);
+            $_data["cron_expr"] = $cronString;
+            $_data["human"] = $schedule->asNaturalLanguage();
+
             $_data["show_info"] = false;
             $_data["last_success"] = ("0000-00-00 00:00:00" != $_data["last_success"]) ? datetime_to_format($_data["last_success"]) : __("never");
             $_data["last_trigger"] = ("0000-00-00 00:00:00" != $_data["last_trigger"]) ? datetime_to_format($_data["last_trigger"]) : __("never");
