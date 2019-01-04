@@ -35,6 +35,7 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
                 'latitude',
                 'longitude');
             $searchByDistance = true;
+            $sortingType = "distance";
         } else {
             // If we don't have geo, remove distance sorting, fallback on alpha
             if ($sortingType === "distance") {
