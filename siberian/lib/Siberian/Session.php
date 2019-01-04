@@ -14,10 +14,10 @@ class Siberian_Session
      */
     public static function init($configSession = [])
     {
-        if (System_Model_Config::getValueFor('session_handler') === 'redis') {
+        if (__get('session_handler') === 'redis') {
             $redisConfig = [
-                'keyPrefix' => System_Model_Config::getValueFor('redis_prefix'),
-                'endpoint' => System_Model_Config::getValueFor('redis_endpoint')
+                'keyPrefix' => __get('redis_prefix'),
+                'endpoint' => __get('redis_endpoint')
             ];
 
             Zend_Session::setSaveHandler(new Zend_Session_SaveHandler_Redis($redisConfig));

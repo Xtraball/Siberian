@@ -254,6 +254,7 @@ class Template_Model_Design extends Core_Model_Default
                 ' . $custom_app
             );
         } catch (\Exception $e) {
+            throw $e;
             /** Meanwhile, fallback without custom scss */
             $css = $compiler->compile('
                 @import "_variables.scss";
