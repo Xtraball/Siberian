@@ -364,7 +364,7 @@ $formAdmob->fill($application);
                 device_id: device_id,
                 no_ads: no_ads,
                 type: type,
-                apk: isApkService
+                apk: (type==='apk') ? isApkService : false
             },
             success: function (data) {
                 // reload
