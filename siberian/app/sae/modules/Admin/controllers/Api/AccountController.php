@@ -57,45 +57,46 @@ class Admin_Api_AccountController extends Api_Controller_Default
 
     public function authenticateAction()
     {
+        $request = $this->getRequest();
+        try {
+            $data = $request->getPost();
+            $domain = $request->getBaseUrl();
 
-        if ($data = $this->getRequest()->getPost()) {
-
-            try {
-
-                if (empty($data["email"])) {
-                    throw new \Siberian\Exception(__("The email is required"));
-                }
-                if (empty($data["password"])) {
-                    throw new \Siberian\Exception(__("The password is required"));
-                }
-
-                $email = $data["email"];
-                $password = $data["password"];
-                $data = ["success" => 1];
-                $admin = new Admin_Model_Admin();
-                $admin->find($email, "email");
-
-                if (!$admin->getId()) {
-                    throw new \Siberian\Exception("The user doesn't exist.");
-                }
-
-                if (!$admin->authenticate($password)) {
-                    throw new \Siberian\Exception(__("Authentication failed."));
-                }
-
-                $data["token"] = $admin->getLoginToken();
-
-            } catch (\Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                ];
+            if (empty($data["email"])) {
+                throw new \Siberian\Exception(__("The email is required"));
+            }
+            if (empty($data["password"])) {
+                throw new \Siberian\Exception(__("The password is required"));
             }
 
-            $this->_sendJson($data);
+            $email = $data["email"];
+            $password = $data["password"];
+            $data = ["success" => 1];
+            $admin = new Admin_Model_Admin();
+            $admin->find($email, "email");
 
+            if (!$admin->getId()) {
+                throw new \Siberian\Exception("The user doesn't exist.");
+            }
+
+            if (!$admin->authenticate($password)) {
+                throw new \Siberian\Exception(__("Authentication failed."));
+            }
+
+            $token = $admin->getLoginToken();
+            $data = [
+                "success" => 1,
+                "token" => $token,
+                "redirect_url" => "{$domain}/admin/api_account/autologin?email={$email}&token={$token}",
+            ];
+
+        } catch (\Exception $e) {
+            $data = [
+                "error" => 1,
+                "message" => $e->getMessage()
+            ];
         }
-
+        $this->_sendJson($data);
     }
 
     public function createAction()
@@ -129,10 +130,14 @@ class Admin_Api_AccountController extends Api_Controller_Default
                 ->setPassword($data["password"])
                 ->save();
 
+            $domain = $this->getRequest()->getBaseUrl();
+
+            $token = $admin->getLoginToken();
             $data = [
                 "success" => 1,
                 "user_id" => $admin->getId(),
-                "token" => $admin->getLoginToken()
+                "token" => $admin->getLoginToken(),
+                "redirect_url" => "{$domain}/admin/api_account/autologin?email={$data['email']}&token={$token}",
             ];
 
         } catch (\Exception $e) {
