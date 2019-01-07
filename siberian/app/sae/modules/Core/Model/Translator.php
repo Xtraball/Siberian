@@ -72,13 +72,20 @@ class Core_Model_Translator
             $frontController = Zend_Controller_Front::getInstance();
             $moduleNames = $frontController->getDispatcher()->getModuleDirectories();
 
+            // Load all defaults first!
+            foreach ($moduleNames as $moduleName) {
+                self::addModuleDefaults($frontController->getModuleDirectory($moduleName));
+            }
+
+            // Then load all user translations!
             foreach ($moduleNames as $moduleName) {
                 $dashName = strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', '$1-', $moduleName));
-                self::addModule($dashName);
                 $lowerName = strtolower($moduleName);
+
+                self::addModule($dashName);
                 self::addModule($lowerName);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($moduleName != 'application') {
                 self::addModule('application');
             }
@@ -94,21 +101,42 @@ class Core_Model_Translator
     }
 
     /**
-     * @param $module_name
+     * @param $modulePath
      */
-    public static function addModule($module_name)
+    public static function addModuleDefaults($modulePath)
     {
-        $current_language = Core_Model_Language::getCurrentLanguage();
-        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/{$module_name}.csv"))) {
+        $currentLanguage = Core_Model_Language::getCurrentLanguage();
+        $folder = "{$modulePath}/resources/translations/{$currentLanguage}";
+        if (is_dir($folder)) {
+            // Get all translations folders
+            $files = new DirectoryIterator($folder);
+            foreach ($files as $file) {
+                if (!$file->isDot()) {
+                    self::$_translator->addTranslation([
+                        'content' => $file->getPathname(),
+                        'locale' => $currentLanguage
+                    ]);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param $moduleName
+     */
+    public static function addModule($moduleName)
+    {
+        $currentLanguage = Core_Model_Language::getCurrentLanguage();
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.csv"))) {
             self::$_translator->addTranslation([
-                'content' => Core_Model_Directory::getBasePathTo("/languages/$current_language/{$module_name}.csv"),
-                'locale' => $current_language
+                'content' => Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.csv"),
+                'locale' => $currentLanguage
             ]);
         }
-        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"))) {
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/emails/{$moduleName}.csv"))) {
             self::$_translator->addTranslation([
-                'content' => Core_Model_Directory::getBasePathTo("/languages/{$current_language}/emails/{$module_name}.csv"),
-                'locale' => $current_language
+                'content' => Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/emails/{$moduleName}.csv"),
+                'locale' => $currentLanguage
             ]);
         }
     }
