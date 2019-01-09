@@ -130,12 +130,23 @@ class Core_Model_Translator
         $currentLanguage = Core_Model_Language::getCurrentLanguage();
         if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.csv"))) {
             self::$_translator->addTranslation([
+                'adapter' => 'csv',
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.csv"),
                 'locale' => $currentLanguage
             ]);
         }
+
+        if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.mo"))) {
+            self::$_translator->addTranslation([
+                'adapter' => 'gettext',
+                'content' => Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.mo"),
+                'locale' => $currentLanguage
+            ]);
+        }
+
         if (file_exists(Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/emails/{$moduleName}.csv"))) {
             self::$_translator->addTranslation([
+                'adapter' => 'csv',
                 'content' => Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/emails/{$moduleName}.csv"),
                 'locale' => $currentLanguage
             ]);
@@ -253,41 +264,145 @@ class Core_Model_Translator
     protected static function _getIonicTranslations()
     {
         $translation_cache = Siberian_Cache_Translation::getCache();
-        $mobile_files = $translation_cache["mobile_list"];
+        $mobileFiles = $translation_cache["mobile_list"];
 
         $keys = [];
-        $translations = [];
-
-        foreach ($mobile_files as $mobile_file) {
-            $resource = fopen($mobile_file, "r");
+        foreach ($mobileFiles as $mobileFile) {
+            $resource = fopen($mobileFile, "r");
             while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                if (!empty($data[0]) AND stripos($data[0], "%s") === false) {
+                if (!empty($data[0]) && stripos($data[0], "%s") === false) {
                     $keys[] = $data[0];
                 }
             }
         }
 
-        $flipped_keys = array_flip($keys);
+        $allTranslations = [];
+        $allFilesTranslations = self::parseTranslations(Core_Model_Language::getCurrentLanguage());
 
-        $current_language = Core_Model_Language::getCurrentLanguage();
-        $translation_files_path = Core_Model_Directory::getBasePathTo("languages/{$current_language}");
-        if (is_dir($translation_files_path)) {
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($translation_files_path), RecursiveIteratorIterator::SELF_FIRST);
+        foreach ($allFilesTranslations as $file => $translations) {
+            $allTranslations = array_merge($allTranslations, $translations);
+        }
 
-            foreach ($files as $file) {
-                if (!$file->isFile()) continue;
-                if (pathinfo($file->getPathName(), PATHINFO_EXTENSION) != "csv") continue;
+        $translations = array_intersect_key($allTranslations, array_flip($keys));
 
-                $resource = fopen($file->getPathName(), "r");
-                while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                    if (!empty($data[0]) AND !empty($data[1]) AND isset($flipped_keys[$data[0]])) {
-                        $translations[$data[0]] = $data[1];
-                    }
-                }
+        return $translations;
+    }
 
+    /**
+     * @param $langId
+     * @return array
+     * @throws Zend_Translate_Exception
+     */
+    public static function parseTranslations($langId)
+    {
+        $translations = [];
+        $userTranslationsDirectory = Core_Model_Directory::getBasePathTo("languages/{$langId}/");
+
+        $cachedFiles = Siberian_Cache_Translation::getCache();
+
+        $base = $cachedFiles["base"];
+        $default = $cachedFiles["default"];
+
+        foreach ($default as $filename => $path) {
+            $moVariant = str_replace(".csv", ".mo", $filename);
+
+            // Re-inject old "default" files if they are still using old .csv format!
+            if (!array_key_exists($moVariant, $base)) {
+                $base[$filename] = $path;
+            }
+        }
+
+        // Fetching all keys!
+        foreach ($base as $filename => $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $pathinfo = pathinfo($path);
+            $type = $pathinfo["extension"];
+            $fileBase = basename($filename, ".{$type}");
+            if (!in_array($type, ["csv", "mo"])) {
+                continue;
+            }
+
+            // Easy
+            $tmpTranslationData = self::parseType([], $filename, $path, $type);
+
+            // Default translation (if exists) mixed csv/mo, mo being more recent!
+            $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
+            if (is_file($defaultTranslationCSV)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationCSV, "csv");
+            }
+            $defaultTranslationMO = $cachedFiles[$langId]["{$fileBase}.mo"];
+            if (is_file($defaultTranslationMO)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationMO, "mo");
+            }
+
+            // User translations (if exists)!
+            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
+            $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
+
+            if (is_file($userTranslationMO)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationMO, "mo");
+            } else if (is_file($userTranslationCSV)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationCSV, "csv");
+            }
+
+            if (!empty($tmpTranslationData)) {
+                $translations = array_merge($translations, $tmpTranslationData);
             }
         }
 
         return $translations;
+    }
+
+    /**
+     * @param $tmpTranslationData
+     * @param $filename
+     * @param $path
+     * @param $type
+     * @return mixed
+     * @throws Zend_Translate_Exception
+     */
+    public static function parseType($tmpTranslationData, $filename, $path, $type)
+    {
+        // Gettext / CSV selector! MsgID!
+        if (!array_key_exists($filename, $tmpTranslationData)) {
+            $tmpTranslationData[$filename] = [];
+        }
+
+        switch ($type) {
+            case "csv":
+                $csvResource = fopen($path, "r");
+                while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
+                    $key = str_replace('\"', '"', $line[0]);
+                    $tmpTranslationData[$filename][$key] = null;
+                    if (isset($line[1])) {
+                        $tmpTranslationData[$filename][$key] = str_replace('\"', '"', $line[1]);
+                    }
+
+                }
+                fclose($csvResource);
+
+                break;
+            case "mo":
+                /**
+                 * @var $translator Zend_Translate_Adapter_Gettext
+                 */
+                $translator = new \Zend_Translate([
+                    "adapter" => "gettext",
+                    "content" => $path,
+                    "locale" => "en"
+                ]);
+                $_tmp = $translator->getData("en");
+                foreach ($_tmp as $key => $value) {
+                    $key = str_replace('\"', '"', $key);
+                    $tmpTranslationData[$filename][$key] = $value;
+                }
+
+                break;
+        }
+
+        return $tmpTranslationData;
     }
 }

@@ -32,7 +32,6 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
     {
         try {
             $request = $this->getRequest();
-            $sectionTitle = "";
             $isEdit = true;
 
             $langId = $request->getParam("langId", null);
@@ -135,16 +134,9 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
                 $translations[] = $tmp;
             }
-            $extension = pathinfo($translationFile, PATHINFO_EXTENSION);
 
-            switch ($extension) {
-                case "mo":
-                    $translations->toMoFile("{$translationDir}/$translationFile");
-                    break;
-                case "csv":
-                    $translations->toCsvDictionaryFile("{$translationDir}/$translationFile");
-                    break;
-            }
+            $translationFile = str_replace(".csv", ".mo", $translationFile);
+            $translations->toMoFile("{$translationDir}/$translationFile");
 
             # Clean "*_translation" cache tags
             $this->cache->clean(
@@ -175,103 +167,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
      */
     public function parseTranslations($langId)
     {
-        $translations = [];
-        $userTranslationsDirectory = Core_Model_Directory::getBasePathTo("languages/{$langId}/");
-
-        $cachedFiles = Siberian_Cache_Translation::getCache();
-
-        // Fetching all keys!
-        foreach ($cachedFiles["base"] as $filename => $path) {
-            if (!is_file($path)) {
-                continue;
-            }
-
-            $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
-            $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "mo"])) {
-                continue;
-            }
-
-            // Easy
-            $tmpTranslationData = $this->parseType([], $filename, $path, $type);
-
-            // Default translation (if exists) mixed csv/mo, mo being more recent!
-            $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
-            if (is_file($defaultTranslationCSV)) {
-                $tmpTranslationData = $this->parseType($tmpTranslationData, $filename, $defaultTranslationCSV, "csv");
-            }
-            $defaultTranslationMO = $cachedFiles[$langId]["{$fileBase}.mo"];
-            if (is_file($defaultTranslationMO)) {
-                $tmpTranslationData = $this->parseType($tmpTranslationData, $filename, $defaultTranslationMO, "mo");
-            }
-
-            // User translations (if exists)!
-            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
-            $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
-
-            if (is_file($userTranslationMO)) {
-                $tmpTranslationData = $this->parseType($tmpTranslationData, $filename, $userTranslationMO, "mo");
-            } else if (is_file($userTranslationCSV)) {
-                $tmpTranslationData = $this->parseType($tmpTranslationData, $filename, $userTranslationCSV, "csv");
-            }
-
-            if (!empty($tmpTranslationData)) {
-                $translations = array_merge($translations, $tmpTranslationData);
-            }
-        }
-
-        return $translations;
-    }
-
-    /**
-     * @param $tmpTranslationData
-     * @param $filename
-     * @param $path
-     * @param $type
-     * @return mixed
-     * @throws Zend_Translate_Exception
-     */
-    public function parseType($tmpTranslationData, $filename, $path, $type)
-    {
-        // Gettext / CSV selector! MsgID!
-        if (!array_key_exists($filename, $tmpTranslationData)) {
-            $tmpTranslationData[$filename] = [];
-        }
-
-        switch ($type) {
-            case "csv":
-                $csvResource = fopen($path, "r");
-                while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
-                    $key = str_replace('\"', '"', $line[0]);
-                    $tmpTranslationData[$filename][$key] = null;
-                    if (isset($line[1])) {
-                        $tmpTranslationData[$filename][$key] = str_replace('\"', '"', $line[1]);
-                    }
-
-                }
-                fclose($csvResource);
-
-                break;
-            case "mo":
-                /**
-                 * @var $translator Zend_Translate_Adapter_Gettext
-                 */
-                $translator = new \Zend_Translate([
-                    "adapter" => "gettext",
-                    "content" => $path,
-                    "locale" => "en"
-                ]);
-                $_tmp = $translator->getData("en");
-                foreach ($_tmp as $key => $value) {
-                    $key = str_replace('\"', '"', $key);
-                    $tmpTranslationData[$filename][$key] = $value;
-                }
-
-                break;
-        }
-
-        return $tmpTranslationData;
+        return Core_Model_Translator::parseTranslations($langId);
     }
 
     /**
