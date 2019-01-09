@@ -71,6 +71,19 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 $files[$file] = ucfirst(basename(basename($file, ".csv"), ".mo"));
             }
 
+            $merged = [];
+            foreach ($translations as $file => $keyValues) {
+                $title = ucfirst(basename(basename($file, ".csv"), ".mo"));
+                foreach ($keyValues as $key => $value) {
+                    $merged[] = [
+                        "file" => $file,
+                        "title" => $title,
+                        "key" => $key,
+                        "value" => $value,
+                    ];
+                }
+            }
+
             $payload = [
                 "success" => true,
                 "section_title" => $sectionTitle,
@@ -79,6 +92,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 "country_codes" => $languages,
                 "translation_files" => $files,
                 "translations" => $translations,
+                "search_context" => array_values($merged),
             ];
         } catch (\Exception $e) {
             $payload = [

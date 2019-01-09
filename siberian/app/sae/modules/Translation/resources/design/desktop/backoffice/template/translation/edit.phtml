@@ -14,11 +14,62 @@
             </div>
         </div>
 
-        <div class="col-md-6"
+        <div class="col-md-12"
              ng-show="translation.country_code || is_edit">
+
+            <div class="form-group">
+                <label for="files_list"><?php echo __("Search/Filter translations"); ?></label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="<?php echo __("Sentence, words, etc... (3 characters required, multi-terms supported)") ?>"
+                       ng-model="filter.search" />
+
+                <div ng-show="filter.search.length > 2 && results.length > 0"
+                     class="results">
+                    <table class="table table-striped"
+                           style="margin-bottom: 0;">
+                        <thead>
+                            <tr>
+                                <th style="width: 25%;"><b><?php echo __("File"); ?></b></th>
+                                <th style="width: 65%;"><b><?php echo __("Text"); ?></b></th>
+                                <th style="width: 10%;"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <div style="max-height: 200px; overflow-x: hidden; overflow-y: scroll;">
+                        <table class="table table-striped"
+                               style="margin-bottom: 0;">
+                            <tbody>
+                                <tr ng-if="filter.search.length > 2"
+                                    ng-repeat="item in search_context | multiWordsFilter:filter.search as results">
+                                    <td style="width: 25%;">{{ item.title }}</td>
+                                    <td style="width: 65%; white-space: normal;">
+                                        <span style="color: #000000;">{{ item.key }}</span>
+                                        <br />
+                                        <i>{{ item.value }}</i>
+                                    </td>
+                                    <td class="text-right"
+                                        style="width: 10%; white-space: normal;">
+                                        <a class="btn btn-sm btn-primary"
+                                           ng-click="openFile(item.file)"><?php echo __("OPEN") ?></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div ng-show="filter.search.length > 2 && results.length == 0">
+                    <h3><?php echo __("No match.") ?></h3>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="files_list"><?php echo __("Select a file"); ?></label>
-                <select id="files_list" class="form-control" ng-model="translation.file" ng-options="k as v for (k, v) in translation_files" ng-change="selectFile();">
+                <select id="files_list"
+                        class="form-control"
+                        ng-model="translation.file"
+                        ng-options="k as v for (k, v) in translation_files"
+                        ng-change="selectFile();">
                     <option value=""></option>
                 </select>
             </div>
@@ -98,3 +149,30 @@
     <div class="clear"></div>
 
 </sb-section>
+
+<style type="text/css">
+    .btn-sm {
+        padding: 1px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        font-weight: bold;
+        border: 0 !important;
+
+    }
+
+    a.btn-sm,
+    a.btn-sm:hover {
+        text-decoration: none !important;
+    }
+
+    .tos-optin {
+        font-weight: bold;
+        font-style: italic;
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .tos-optin span {
+        font-weight: bold;
+    }
+</style>

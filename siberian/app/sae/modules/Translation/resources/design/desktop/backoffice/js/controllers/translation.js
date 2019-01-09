@@ -53,6 +53,10 @@ App.config(function($routeProvider) {
         progress: 0
     };
 
+    $scope.filter = {
+        search: "",
+    };
+
     $scope.currentClass = [];
 
     $scope.updateClass = function(key) {
@@ -69,6 +73,7 @@ App.config(function($routeProvider) {
         $scope.languages = data;
         $scope.section_title = data.section_title;
         $scope.countries = data.country_codes;
+        $scope.search_context = data.search_context;
         $scope.translation_files = data.translation_files;
         $scope.translation_files_data = data.translations;
         $scope.is_edit = data.is_edit;
@@ -94,6 +99,11 @@ App.config(function($routeProvider) {
             return [];
         }
         return Object.keys(obj);
+    };
+
+    $scope.openFile = function(file) {
+        $scope.translation.file = file;
+        $scope.selectFile();
     };
     
     $scope.save = function() {
@@ -251,3 +261,27 @@ App.config(function($routeProvider) {
     };
 
 });
+
+App.filter('multiWordsFilter', function($filter) {
+    return function(inputArray, searchText, booleanOp) {
+        booleanOp = booleanOp || 'AND';
+
+        var result;
+        var searchTerms = (searchText || '').toLowerCase().split(/\s+/);
+
+        if (booleanOp === 'AND') {
+            result = inputArray;
+            searchTerms.forEach(function(searchTerm) {
+                result = $filter('filter')(result, searchTerm);
+            });
+
+        } else {
+            result = [];
+            searchTerms.forEach(function(searchTerm) {
+                result = result.concat($filter('filter')(inputArray, searchTerm));
+            });
+        }
+
+        return result;
+    };
+})
