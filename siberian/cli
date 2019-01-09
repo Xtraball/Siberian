@@ -204,6 +204,9 @@ try {
         case 'i18n:extract':
             \Siberian\Translation::extractAll();
             break;
+        case 'test':
+            \Siberian\Translation::testGettext();
+            break;
         case 'app:manifest':
             \Siberian\Manifest::rebuild();
             break;

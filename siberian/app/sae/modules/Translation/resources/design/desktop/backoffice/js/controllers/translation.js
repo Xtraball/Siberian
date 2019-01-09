@@ -8,7 +8,7 @@ App.config(function($routeProvider) {
         controller: 'TranslationEditController',
         templateUrl: BASE_URL+"/translation/backoffice_edit/template",
         code: "edit"
-    }).when(BASE_URL+"/translation/backoffice_edit/lang_id/:lang_id", {
+    }).when(BASE_URL+"/translation/backoffice_edit/langId/:lang_id", {
         controller: 'TranslationEditController',
         templateUrl: BASE_URL+"/translation/backoffice_edit/template",
         code: "edit"
@@ -70,8 +70,7 @@ App.config(function($routeProvider) {
         $scope.section_title = data.section_title;
         $scope.countries = data.country_codes;
         $scope.translation_files = data.translation_files;
-        $scope.translation_files_data = data.translation_files_data;
-        $scope.info = data.info;
+        $scope.translation_files_data = data.translations;
         $scope.is_edit = data.is_edit;
         if($scope.translation.country_code) {
             $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);

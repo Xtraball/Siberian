@@ -1,21 +1,23 @@
 <sb-section title="section_title">
-
     <form ng-submit="save();">
-
-
-
-        <div class="col-md-6" ng-show="!is_edit">
+        <div class="col-md-6" 
+             ng-show="!is_edit">
             <div class="form-group">
-                <label for="country_code"><?php echo $this->_("Select a language"); ?></label>
-                <select id="country_code" class="form-control" ng-model="translation.country_code" ng-options="k as v for (k, v) in countries" ng-change="changeCountry();">
+                <label for="country_code"><?php echo __("Select a language"); ?></label>
+                <select id="country_code" 
+                        class="form-control"
+                        ng-model="translation.country_code"
+                        ng-options="k as v for (k, v) in countries"
+                        ng-change="changeCountry();">
                     <option value=""></option>
                 </select>
             </div>
         </div>
 
-        <div class="col-md-6" ng-show="translation.country_code || is_edit">
+        <div class="col-md-6"
+             ng-show="translation.country_code || is_edit">
             <div class="form-group">
-                <label for="files_list"><?php echo $this->_("Select a file"); ?></label>
+                <label for="files_list"><?php echo __("Select a file"); ?></label>
                 <select id="files_list" class="form-control" ng-model="translation.file" ng-options="k as v for (k, v) in translation_files" ng-change="selectFile();">
                     <option value=""></option>
                 </select>
@@ -61,15 +63,15 @@
 
         <div class="col-md-12" ng-show="translation.file">
             <div class="form-group" >
-                <label for="file_datas"><?php echo $this->_("Text translation"); ?></label>
+                <label for="file_datas"><?php echo __("Text translation"); ?></label>
                 <h4 class="a-center bold" ng-if="info[translation.file]"><i class="fa fa-warning"></i> {{ info[translation.file] }}</h4>
                 <table class="table" id="file_datas">
                     <col width="50%" />
                     <col width="50%" />
                     <thead>
                         <tr>
-                            <th class="text-center"><?php echo $this->_("Default text"); ?></th>
-                            <th class="text-center"><?php echo $this->_("Your translation"); ?></th>
+                            <th class="text-center"><?php echo __("Default text"); ?></th>
+                            <th class="text-center"><?php echo __("Your translation"); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,7 +88,7 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary right" ng-disabled="!translation.file"><?php echo $this->_("Save"); ?></button>
+                <button type="submit" class="btn btn-primary right" ng-disabled="!translation.file"><?php echo __("Save"); ?></button>
                 <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>

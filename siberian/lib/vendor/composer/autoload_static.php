@@ -74,6 +74,8 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
             'Goutte\\' => 7,
+            'Gettext\\Languages\\' => 18,
+            'Gettext\\' => 8,
         ),
         'E' => 
         array (
@@ -205,6 +207,14 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Goutte\\' => 
         array (
             0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
+        ),
+        'Gettext\\Languages\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/languages/src',
+        ),
+        'Gettext\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
         'Endroid\\QrCode\\' => 
         array (

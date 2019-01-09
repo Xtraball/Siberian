@@ -113,6 +113,7 @@ class Core_Model_Translator
             foreach ($files as $file) {
                 if (!$file->isDot()) {
                     self::$_translator->addTranslation([
+                        'adapter' => ($file->getExtension() === "csv") ? "csv" : "gettext",
                         'content' => $file->getPathname(),
                         'locale' => $currentLanguage
                     ]);

@@ -31,7 +31,7 @@ App.factory('Translations', function($http, Url) {
 
         var param = {};
         if(lang_id) {
-            param = {lang_id: lang_id+""};
+            param = {langId: lang_id+""};
         }
         var url = "translation/backoffice_"+this.type;
 

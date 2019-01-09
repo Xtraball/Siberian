@@ -60,6 +60,13 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                                 }
                             }
 
+                            if ($file->getExtension() === "mo") {
+                                $basename = $file->getFilename();
+                                if (!isset($cache[$language][$basename])) {
+                                    $cache[$language][$basename] = $file->getPathname();
+                                }
+                            }
+
                             if ($file->getExtension() === "list") {
                                 $cache["mobile_list"][] = $file->getPathname();
                             }
@@ -94,14 +101,21 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
                 /** Looping trough files */
                 $files = new DirectoryIterator($translation->getPathname());
                 foreach ($files as $file) {
-                    if ($file->getExtension() == "csv") {
+                    if ($file->getExtension() === "csv") {
                         $basename = $file->getFilename();
                         if (!isset($cache[$language][$basename])) {
                             $cache[$language][$basename] = $file->getPathname();
                         }
                     }
 
-                    if ($file->getExtension() == "list") {
+                    if ($file->getExtension() === "mo") {
+                        $basename = $file->getFilename();
+                        if (!isset($cache[$language][$basename])) {
+                            $cache[$language][$basename] = $file->getPathname();
+                        }
+                    }
+
+                    if ($file->getExtension() === "list") {
                         $cache["mobile_list"][] = $file->getPathname();
                     }
                 }
