@@ -23,7 +23,7 @@ class Manifest
 
         \Siberian_Cache::__clearCache();
 
-        (\Zend_Registry::get('cache'))
+        \Zend_Registry::get('cache')
             ->clean(\Zend_Cache::CLEANING_MODE_ALL);
 
         $protocol = __get('use_https') === '1' ? 'https://' : 'http://';

@@ -108,4 +108,19 @@ class Translation
             }
         }
     }
+
+    public static function testGettext() {
+        $translator = new \Zend_Translate([
+            'adapter' => 'gettext',
+            'content' => '/Volumes/SSD2/Developments/repos/xtraball.com/siberian/siberian/languages/base/acl.mo',
+            'locale' => 'en'
+        ]);
+
+        $allMessages = $translator->getData('en');
+
+        print_r($allMessages);
+        die;
+
+        //getAllMessages
+    }
 }
