@@ -91,7 +91,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
         $translations = new DirectoryIterator("{$languages}");
 
         foreach ($translations as $translation) {
-            if ($translation->isDir() && !$translation->isDot()) {
+            if ($translation->isDir() && !$translation->isDot() && in_array($translation->getFilename(), ["base", "default"])) {
                 /** Init the array if not. */
                 $language = $translation->getFilename();
                 if (!isset($cache[$language])) {

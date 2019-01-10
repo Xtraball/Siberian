@@ -235,8 +235,7 @@ abstract class Core_View_Default_Abstract extends Siberian_View
      */
     public function _($text)
     {
-        $args = func_get_args();
-        return Core_Model_Translator::translate($text, $args);
+        return __($text, func_get_args());
     }
 
     /**

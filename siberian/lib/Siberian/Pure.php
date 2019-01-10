@@ -267,14 +267,14 @@ function isGdpr()
 /**
  * Classic hook for translations
  *
+ * no more use for me
+ *
  * @param $text
  * @return mixed|string
  */
-function __($string)
+function __old($string)
 {
-    $args = func_get_args();
-
-    return \Core_Model_Translator::translate($string, $args);
+    return __($text, func_get_args());
 }
 
 /**
@@ -291,7 +291,7 @@ function __js($string, $escape = '"')
     unset($args[0]);
     unset($args[1]);
 
-    return addcslashes(\Core_Model_Translator::translate($string, $args), $escape);
+    return addcslashes(__($string, $args), $escape);
 }
 
 /**

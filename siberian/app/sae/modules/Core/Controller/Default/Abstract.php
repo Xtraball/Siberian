@@ -218,8 +218,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function _($text)
     {
-        $args = func_get_args();
-        return Core_Model_Translator::translate($text, $args);
+        return __($text, func_get_args());
     }
 
     /**
@@ -861,7 +860,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _initTranslator()
     {
-        Core_Model_Translator::prepare(strtolower($this->getRequest()->getModuleName()));
         return $this;
     }
 
