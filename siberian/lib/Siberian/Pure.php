@@ -265,16 +265,11 @@ function isGdpr()
 }
 
 /**
- * Classic hook for translations
- *
- * no more use for me
- *
- * @param $text
- * @return mixed|string
+ * @return mixed
  */
-function __old($string)
+function __old()
 {
-    return __($text, func_get_args());
+    return call_user_func_array("__", func_get_args());
 }
 
 /**
@@ -287,11 +282,12 @@ function __js($string, $escape = '"')
 {
     $args = func_get_args();
 
-    # Remove default args
-    unset($args[0]);
+    # Remove $escape arg
     unset($args[1]);
 
-    return addcslashes(__($string, $args), $escape);
+    $translation = call_user_func_array("__", func_get_args());
+
+    return addcslashes($translation, $escape);
 }
 
 /**

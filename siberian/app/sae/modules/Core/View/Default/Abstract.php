@@ -235,7 +235,7 @@ abstract class Core_View_Default_Abstract extends Siberian_View
      */
     public function _($text)
     {
-        return __($text, func_get_args());
+        return call_user_func_array("__", func_get_args());
     }
 
     /**
