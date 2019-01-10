@@ -29,8 +29,6 @@ class Core_Model_Translator
      */
     public static function init()
     {
-
-
         self::$_translator = new Translator();
         self::$_translator->register();
 
@@ -57,13 +55,13 @@ class Core_Model_Translator
     }
 
     /**
-     *
+     * @param null|string $overrideLang
      */
-    public static function loadDefaultsAndUser()
+    public static function loadDefaultsAndUser($overrideLang = null)
     {
         $translations = new Translations();
 
-        $currentLanguage = Core_Model_Language::getCurrentLanguage();
+        $currentLanguage = ($overrideLang === null) ? Core_Model_Language::getCurrentLanguage() : $overrideLang;
         $translations->setLanguage($currentLanguage);
 
         $files = Siberian_Cache_Translation::getCache();

@@ -132,10 +132,6 @@ class Core_Model_Language
         if (self::$__session) {
             self::$__session->current_language = $territory;
         }
-
-        // When changing "current language"
-        // We also load values in the translator
-        Core_Model_Translator::loadDefaultsAndUser();
     }
 
     /**
