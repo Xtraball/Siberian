@@ -160,6 +160,10 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
     protected function _initLanguages()
     {
         Core_Model_Language::prepare();
+
+        // Translator
+        Siberian_Cache_Translation::init();
+        Core_Model_Translator::init();
     }
 
     // Loading individual bootstrappers!
