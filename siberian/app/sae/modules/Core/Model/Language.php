@@ -1,23 +1,51 @@
 <?php
 
-class Core_Model_Language {
+/**
+ * Class Core_Model_Language
+ */
+class Core_Model_Language
+{
 
+    /**
+     *
+     */
     const DEFAULT_LOCALE = 'en_US';
+    /**
+     *
+     */
     const DEFAULT_LANGUAGE = 'en';
 
+    /**
+     * @var
+     */
     protected static $_countries_list;
+    /**
+     * @var
+     */
     protected static $_current_currency;
+    /**
+     * @var null
+     */
     protected static $__session = null;
+    /**
+     * @var array
+     */
     protected static $_languages = [];
+    /**
+     * @var array
+     */
     protected static $_language_codes = [];
 
-    public static function prepare() {
-
+    /**
+     * @throws Zend_Exception
+     */
+    public static function prepare()
+    {
         $territories = Zend_Locale::getTranslationList('language');
         $directories = new DirectoryIterator(Core_Model_Directory::getBasePathTo('languages'));
-        foreach($directories as $directory) {
+        foreach ($directories as $directory) {
             $dir_name = $directory->getFileName();
-            if(!$directory->isDot() AND isset($territories[$dir_name])) {
+            if (!$directory->isDot() && isset($territories[$dir_name])) {
                 $locale = Zend_Locale::getLocaleToTerritory($dir_name);
                 self::$_languages[$directory->getFileName()] = new Core_Model_Default([
                     'code' => $directory->getFileName(),
@@ -36,46 +64,83 @@ class Core_Model_Language {
         self::$_language_codes[] = self::DEFAULT_LANGUAGE;
 
         asort(self::$_languages);
-
     }
 
-    public static function setSession($session) {
+    /**
+     * @param $session
+     */
+    public static function setSession($session)
+    {
         self::$__session = $session;
     }
 
-    public static function getSession() {
+    /**
+     * @return null
+     */
+    public static function getSession()
+    {
         return self::$__session;
     }
 
-    public static function getLanguages() {
+    /**
+     * @return array
+     */
+    public static function getLanguages()
+    {
         return self::$_languages;
     }
 
-    public static function getLanguage($language_code) {
+    /**
+     * @param $language_code
+     * @return Core_Model_Default|mixed
+     * @throws Zend_Exception
+     */
+    public static function getLanguage($language_code)
+    {
         return isset(self::$_languages[$language_code]) ? self::$_languages[$language_code] : new Core_Model_Default();
     }
 
-    public static function getLanguageCodes() {
+    /**
+     * @return array
+     */
+    public static function getLanguageCodes()
+    {
         return self::$_language_codes;
     }
 
-    public static function getDefaultLanguage() {
+    /**
+     * @return string
+     */
+    public static function getDefaultLanguage()
+    {
         return self::DEFAULT_LANGUAGE;
     }
 
-    public static function getDefaultLocale() {
+    /**
+     * @return string
+     */
+    public static function getDefaultLocale()
+    {
         return self::DEFAULT_LOCALE;
     }
 
-    public static function setCurrentLanguage($territory) {
-        if(self::$__session) {
+    /**
+     * @param $territory
+     */
+    public static function setCurrentLanguage($territory)
+    {
+        if (self::$__session) {
             self::$__session->current_language = $territory;
         }
     }
 
-    public static function getCurrentLanguage() {
+    /**
+     * @return string
+     */
+    public static function getCurrentLanguage()
+    {
         $current_language = self::getDefaultLanguage();
-        if(self::$__session) {
+        if (self::$__session) {
             $current_language = self::$__session->current_language;
         }
 
@@ -85,41 +150,74 @@ class Core_Model_Language {
     /**
      * @return mixed
      */
-    public static function getCurrentLanguageDatepicker() {
+    public static function getCurrentLanguageDatepicker()
+    {
         $parts = explode("_", self::getCurrentLanguage());
 
         return $parts[0];
     }
 
-    public static function getCurrentLocale() {
+    /**
+     * @return mixed|string
+     * @throws Zend_Exception
+     */
+    public static function getCurrentLocale()
+    {
         return Zend_Registry::isRegistered("Zend_Locale") ? Zend_Registry::get('Zend_Locale') : self::getDefaultLocale();
         $language = self::getLanguage(self::getCurrentLanguage());
         return $language->getLocale() ? $language->getLocale() : self::getDefaultLocale();
     }
 
-    public static function getCurrentLocaleCode() {
+    /**
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public static function getCurrentLocaleCode()
+    {
         return Zend_Registry::get('Zend_Locale')->toString();
     }
 
-    public static function setCurrentCurrency($currency, $locale = null) {
-        if(!is_null($locale)) $currency->setLocale($locale);
+    /**
+     * @param $currency
+     * @param null $locale
+     */
+    public static function setCurrentCurrency($currency, $locale = null)
+    {
+        if (!is_null($locale)) $currency->setLocale($locale);
         self::$_current_currency = $currency;
     }
 
-    public static function getCurrentCurrency() {
-        if(!self::$_current_currency instanceof Zend_Currency) {
+    /**
+     * @return Zend_Currency
+     * @throws Zend_Currency_Exception
+     */
+    public static function getCurrentCurrency()
+    {
+        if (!self::$_current_currency instanceof Zend_Currency) {
             self::$_current_currency = new Zend_Currency();
         }
         return self::$_current_currency;
     }
 
-    public static function getCurrencySymbol() {
+    /**
+     * @return string
+     * @throws Zend_Currency_Exception
+     */
+    public static function getCurrencySymbol()
+    {
         return self::getCurrentCurrency()->getSymbol();
     }
 
-    public static function normalizePrice($price, $locale = null) {
+    /**
+     * @param $price
+     * @param null $locale
+     * @return mixed
+     * @throws Zend_Currency_Exception
+     */
+    public static function normalizePrice($price, $locale = null)
+    {
 
-        foreach(self::getCountriesList() as $country) {
+        foreach (self::getCountriesList() as $country) {
             $price = str_replace($country->getSymbol(), '', $price);
         }
 
@@ -173,7 +271,13 @@ class Core_Model_Language {
 
 }
 
-function cmp($a, $b) {
+/**
+ * @param $a
+ * @param $b
+ * @return int
+ */
+function cmp($a, $b)
+{
     $cmp = strcmp($a['name'], $b['name']);
     if ($cmp == 0) {
         return 0;

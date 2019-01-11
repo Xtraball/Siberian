@@ -19,7 +19,8 @@
         "2checkout/2checkout-php": "^0.3.1",
         "romeoz/rock-sanitize": "^0.11.1",
         "ezyang/htmlpurifier": "^4.10",
-        "stripe/stripe-php": "^6.19"
+        "stripe/stripe-php": "^6.19",
+        "gettext/gettext": "^4.6"
     },
     "config": {
         "vendor-dir": "lib/vendor"

@@ -45,6 +45,18 @@ $formGeneralInformation->populate($application->getData());
 $formAdmob = new Application_Form_Admob();
 $formAdmob->fill($application);
 
+// Firebase Validation!
+$credentials = (new Push_Model_Firebase())
+    ->find(0, 'admin_id');
+
+$firebaseOk = true;
+try {
+    $credentials->checkFirebase();
+} catch (\Exception $e) {
+    $firebaseOk = false;
+}
+
+
 ?>
 <div class="application">
 
@@ -178,48 +190,62 @@ $formAdmob->fill($application);
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-4">
+
+                                <div class="col-sm-4 <?php echo (!$firebaseOk) ? "text-danger " : ""; ?>">
                                     <?php echo __('Android Version'); ?>
                                 </div>
-                                <div class="col-sm-4">
-                                    <?php if (!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
-                                        <a href="<?php echo $this->getUrl("") . $zip["android"]["path"]; ?>"
-                                           class="btn default_button color-green">
-                                            <i class="fa fa-download"></i> <?php echo __('Download latest'); ?>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col-sm-4 text-right">
-                                    <?php if ($positions["android"] == 0): ?>
-                                        <a class="generate-source btn default_button color-green"
-                                           onclick="generateSource(2, 0);"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
-                                        </a>
-                                    <?php endif; ?>
-                                    <?php if ($positions["android"] == 1): ?>
-                                        <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["android"] > 1): ?>
-                                        <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["android"] > 1): ?>
-                                        <a class="cancel-queue"
-                                           onclick="cancelQueue(2, 0);"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
+                                <?php if ($firebaseOk): ?>
+                                    <div class="col-sm-4">
+                                        <?php if (!empty($zip["android"]["path"]) && $positions["android"] == 0): ?>
+                                            <a href="<?php echo $this->getUrl("") . $zip["android"]["path"]; ?>"
+                                               class="btn default_button color-green">
+                                                <i class="fa fa-download"></i> <?php echo __('Download latest'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <?php if ($positions["android"] == 0): ?>
+                                            <a class="generate-source btn default_button color-green"
+                                               onclick="generateSource(2, 0);"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($positions["android"] == 1): ?>
+                                            <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["android"] > 1): ?>
+                                            <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["android"], $total); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["android"] > 1): ?>
+                                            <a class="cancel-queue"
+                                               onclick="cancelQueue(2, 0);"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if (!$firebaseOk): ?>
+                                    <div class="col-sm-12"
+                                         style="margin-top: 15px;">
+                                        <div class="alert alert-warning">
+                                            <?php echo __("Firebase is not yet configured, please contact your Administrator.") ?>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
 
-                    <?php if ($this->getAdmin()->canGenerateApk()): ?>
+                    <?php if ($this->getAdmin()->canGenerateApk() && $firebaseOk): ?>
                     <h4 class="title-editor no-border-radius title-feature-indent"
                         style="margin-top: 15px;"><?php echo __("Generate builds") ?></h4>
                     <div class="container-fluid content-feature">
-                        <div class="form-horizontal" style="margin-top: 15px;">
+
+                        <div class="form-horizontal"
+                             style="margin-top: 15px;">
                             <div class="form-group">
                                 <div class="col-sm-4">
                                     <label for="name"><?php echo __("Android APK version"); ?> : </label>
@@ -364,7 +390,7 @@ $formAdmob->fill($application);
                 device_id: device_id,
                 no_ads: no_ads,
                 type: type,
-                apk: isApkService
+                apk: (type==='apk') ? isApkService : false
             },
             success: function (data) {
                 // reload

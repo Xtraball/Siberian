@@ -728,8 +728,7 @@ abstract class Core_Model_Default_Abstract
      */
     public function _($text)
     {
-        $args = func_get_args();
-        return Core_Model_Translator::translate($text, $args);
+        return call_user_func_array("__", func_get_args());
     }
 
     /**

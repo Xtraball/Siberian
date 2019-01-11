@@ -154,6 +154,7 @@ let cli = function (inputArgs) {
             'packall': Boolean,
             'prod': Boolean,
             'prepare': Boolean,
+            'pulllang': Boolean,
             'patchios': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
@@ -304,6 +305,8 @@ let cli = function (inputArgs) {
             init();
         } else if (args.cleanlang) {
             cleanLang();
+        } else if (args.pulllang) {
+            pullLang();
         } else if (args.install) {
             install();
         } else if (args.pack) {
@@ -413,14 +416,26 @@ let deploy = function () {
 let cleanLang = function () {
     sprint(clc.blue('Cleaning duplicates in language files'));
 
-    let languagePath = ROOT + '/siberian/languages/default/';
+    let languagePath = ROOT + '/siberian/languages/base/';
     fs.readdir(languagePath, function (err, files) {
         files.forEach(function (file) {
-            cleanDupesSort(file);
+            if (file.match(/\.po$/)) {
+                console.log("PO to rebuild. > " + file);
+                sh.exec("msgfmt -o " + languagePath + file.replace(".po", ".mo") + " " + languagePath + file);
+            }
         });
     });
 
     sprint(clc.green('Clean-up done.'));
+};
+
+/**
+ * Copy latest .po files from weblate
+ */
+let pullLang = function () {
+    sprint(clc.blue('Updating lang files.'));
+    sprint(clc.blue('... TODO ...'));
+    sprint(clc.blue('EOF'));
 };
 
 /**
