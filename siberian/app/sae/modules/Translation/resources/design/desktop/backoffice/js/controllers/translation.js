@@ -37,8 +37,8 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-}).controller("TranslationEditController", function($http, $scope, $location, $routeParams, $queue, Header, Label,
-                                                    SectionButton, Translations, Url) {
+}).controller("TranslationEditController", function($http, $rootScope, $scope, $location, $routeParams, $queue, Header, Label,
+                                                    SectionButton, $timeout, Translations, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -109,7 +109,15 @@ App.config(function($routeProvider) {
         $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
     };
 
+    $scope.getRowColor = function (item) {
+        if (item.user === null) {
+            return (item.default === item.original || item.default === null) ? "warning" : "info";
+        }
+        return "success";
+    };
+
     $scope.selectFile = function() {
+        $scope.resize();
         $scope.translation.collection = $scope.translation_files_data[$scope.translation.file];
     };
 
@@ -313,8 +321,13 @@ App.config(function($routeProvider) {
 
     };
 
-    document.querySelector('.wrapper.inner_content').style.width = "calc(100% - 80px)";
+    $scope.resize = function () {
+        document.querySelector('.wrapper.inner_content').style.width = "calc(100% - 80px)";
+    };
 
+    $timeout(function () {
+        $scope.resize();
+    }, 1000);
 });
 
 App.filter('multiWordsFilter', function($filter) {

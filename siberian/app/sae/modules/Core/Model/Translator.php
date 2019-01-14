@@ -483,7 +483,7 @@ class Core_Model_Translator
                         "default" => null,
                         "user" => null,
                     ];
-                    if (isset($line[1])) {
+                    if (isset($line[1]) && !empty($line[1])) {
                         $tmpTranslationData[$filename][$key][$fillKey] = str_replace('\"', '"', $line[1]);
                     }
 
@@ -511,7 +511,9 @@ class Core_Model_Translator
                     }
 
                     $key = str_replace('\"', '"', $key);
-                    $tmpTranslationData[$filename][$key][$fillKey] = $value;
+                    if (!empty($value)) {
+                        $tmpTranslationData[$filename][$key][$fillKey] = $value;
+                    }
                 }
 
                 break;
