@@ -350,4 +350,173 @@ class Core_Model_Translator
 
         return $tmpTranslationData;
     }
+
+    /**
+     * @param $langId
+     * @return array
+     * @throws Zend_Translate_Exception
+     */
+    public static function parseTranslationsForBackoffice($langId)
+    {
+        $translations = [];
+        $userTranslationsDirectory = Core_Model_Directory::getBasePathTo("languages/{$langId}/");
+
+        $cachedFiles = Siberian_Cache_Translation::getCache();
+
+        $base = $cachedFiles["base"];
+        $default = $cachedFiles["default"];
+
+        foreach ($default as $filename => $path) {
+            $moVariant = str_replace(".csv", ".mo", $filename);
+
+            // Re-inject old "default" files if they are still using old .csv format!
+            if (!array_key_exists($moVariant, $base)) {
+                $base[$filename] = $path;
+            }
+        }
+
+        // $tmpTranslationData
+        $tmpTranslationData = [];
+
+        // Base
+        foreach ($base as $filename => $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $pathinfo = pathinfo($path);
+            $type = $pathinfo["extension"];
+            if (!in_array($type, ["csv", "mo"])) {
+                continue;
+            }
+
+            // Easy
+            $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $path, $type, "original");
+
+            if (!empty($tmpTranslationData)) {
+                $translations = array_merge($translations, $tmpTranslationData);
+            }
+        }
+
+        // Defaults values
+        foreach ($base as $filename => $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $pathinfo = pathinfo($path);
+            $type = $pathinfo["extension"];
+            $fileBase = basename($filename, ".{$type}");
+            if (!in_array($type, ["csv", "mo"])) {
+                continue;
+            }
+
+            // Default translation (if exists) mixed csv/mo, mo being more recent!
+            $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
+            if (is_file($defaultTranslationCSV)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, "csv", "default");
+            }
+            $defaultTranslationMO = $cachedFiles[$langId]["{$fileBase}.mo"];
+            if (is_file($defaultTranslationMO)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationMO, "mo", "default");
+            }
+
+            if (!empty($tmpTranslationData)) {
+                $translations = array_merge($translations, $tmpTranslationData);
+            }
+        }
+
+        // User
+        foreach ($base as $filename => $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+
+            $pathinfo = pathinfo($path);
+            $type = $pathinfo["extension"];
+            $fileBase = basename($filename, ".{$type}");
+            if (!in_array($type, ["csv", "mo"])) {
+                continue;
+            }
+
+            // User translations (if exists)!
+            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
+            $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
+
+            if (is_file($userTranslationMO)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationMO, "mo", "user");
+            } else if (is_file($userTranslationCSV)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationCSV, "csv", "user");
+            }
+
+            if (!empty($tmpTranslationData)) {
+                $translations = array_merge($translations, $tmpTranslationData);
+            }
+        }
+
+        return $translations;
+    }
+
+    /**
+     * @param $tmpTranslationData
+     * @param $filename
+     * @param $path
+     * @param $type
+     * @param string $fillKey
+     * @return mixed
+     * @throws Zend_Translate_Exception
+     */
+    public static function parseTypeForBackoffice($tmpTranslationData, $filename, $path, $type, $fillKey = "user")
+    {
+        // Gettext / CSV selector! MsgID!
+        if (!array_key_exists($filename, $tmpTranslationData)) {
+            $tmpTranslationData[$filename] = [];
+        }
+
+        switch ($type) {
+            case "csv":
+                $csvResource = fopen($path, "r");
+                while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
+                    $key = str_replace('\"', '"', $line[0]);
+                    $tmpTranslationData[$filename][$key] = [
+                        "original" => $key,
+                        "default" => null,
+                        "user" => null,
+                    ];
+                    if (isset($line[1])) {
+                        $tmpTranslationData[$filename][$key][$fillKey] = str_replace('\"', '"', $line[1]);
+                    }
+
+                }
+                fclose($csvResource);
+
+                break;
+            case "mo":
+                /**
+                 * @var $translator Zend_Translate_Adapter_Gettext
+                 */
+                $translator = new \Zend_Translate([
+                    "adapter" => "gettext",
+                    "content" => $path,
+                    "locale" => "en"
+                ]);
+                $_tmp = $translator->getData("en");
+                foreach ($_tmp as $key => $value) {
+                    if (!isset($tmpTranslationData[$filename][$key])) {
+                        $tmpTranslationData[$filename][$key] = [
+                            "original" => $key,
+                            "default" => null,
+                            "user" => null,
+                        ];
+                    }
+
+                    $key = str_replace('\"', '"', $key);
+                    $tmpTranslationData[$filename][$key][$fillKey] = $value;
+                }
+
+                break;
+        }
+
+        return $tmpTranslationData;
+    }
 }

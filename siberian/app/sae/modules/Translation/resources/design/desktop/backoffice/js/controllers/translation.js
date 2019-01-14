@@ -55,6 +55,21 @@ App.config(function($routeProvider) {
 
     $scope.filter = {
         search: "",
+        isStrict: false,
+        isCaseSensitive: false,
+        useComparator: function() {
+            return $scope.filter.isStrict || $scope.filter.isCaseSensitive;
+        },
+        comparator: function(actual, expected) {
+            if (!$scope.filter.isCaseSensitive) {
+                expected = actual.toLowerCase();
+            }
+
+            if (!$scope.filter.isStrict) {
+                return actual.indexOf(expected) >= 0;
+            }
+            return angular.equals(actual, expected);
+        }
     };
 
     $scope.currentClass = [];
@@ -68,23 +83,27 @@ App.config(function($routeProvider) {
         $scope.header.icon = data.icon;
     });
 
-    Translations.find($routeParams.lang_id).success(function(data) {
-        $scope.translation.country_code = data.country_code;
-        $scope.languages = data;
-        $scope.section_title = data.section_title;
-        $scope.countries = data.country_codes;
-        $scope.search_context = data.search_context;
-        $scope.translation_files = data.translation_files;
-        $scope.translation_files_data = data.translations;
-        $scope.is_edit = data.is_edit;
-        if($scope.translation.country_code) {
-            $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
-        } else {
-            $scope.can_translate = false;
-        }
-    }).finally(function() {
-        $scope.content_loader_is_visible = false;
-    });
+    Translations
+        .find($routeParams.lang_id)
+        .success(function(data) {
+
+            $scope.translation.country_code = data.country_code;
+            $scope.languages = data;
+            $scope.section_title = data.section_title;
+            $scope.countries = data.country_codes;
+            $scope.search_context = data.search_context;
+            $scope.translation_files = data.translation_files;
+            $scope.translation_files_data = data.translations;
+            $scope.is_edit = data.is_edit;
+
+            if ($scope.translation.country_code) {
+                $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
+            } else {
+                $scope.can_translate = false;
+            }
+        }).finally(function() {
+            $scope.content_loader_is_visible = false;
+        });
 
     $scope.changeCountry = function() {
         $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
@@ -140,7 +159,12 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.available_target = ["be", "ca", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl", "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr", "uk"];
+    $scope.available_target = [
+        "be", "ca", "cs", "da", "de", "el", "es", "et",
+        "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl",
+        "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr",
+        "uk"
+    ];
 
     $scope.translate = function(key, target) {
         return $http({
@@ -260,28 +284,30 @@ App.config(function($routeProvider) {
 
     };
 
+    document.querySelector('.wrapper.inner_content').style.width = "calc(100% - 80px)";
+
 });
 
 App.filter('multiWordsFilter', function($filter) {
-    return function(inputArray, searchText, booleanOp) {
-        booleanOp = booleanOp || 'AND';
-
+    return function(inputArray, searchTerms, isStrict, isCaseSensitive) {
         var result;
-        var searchTerms = (searchText || '').toLowerCase().split(/\s+/);
-
-        if (booleanOp === 'AND') {
-            result = inputArray;
-            searchTerms.forEach(function(searchTerm) {
-                result = $filter('filter')(result, searchTerm);
-            });
-
+        if (!isStrict) {
+            searchTerms = (searchTerms || '').split(/\s+/);
         } else {
-            result = [];
-            searchTerms.forEach(function(searchTerm) {
-                result = result.concat($filter('filter')(inputArray, searchTerm));
-            });
+            searchTerms = [searchTerms];
         }
+
+        result = [];
+        searchTerms.forEach(function(searchTerm) {
+            if (!isCaseSensitive) {
+                result = result.concat($filter('filter')(inputArray, searchTerm));
+            } else {
+                result = result.concat($filter('filter')(inputArray, searchTerm, function (actual, expected) {
+                    return actual.indexOf(expected) >= 0;
+                }));
+            }
+        });
 
         return result;
     };
-})
+});

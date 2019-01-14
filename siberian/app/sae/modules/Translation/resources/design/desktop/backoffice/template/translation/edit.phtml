@@ -17,50 +17,88 @@
         <div class="col-md-12"
              ng-show="translation.country_code || is_edit">
 
-            <div class="form-group">
-                <label for="files_list"><?php echo __("Search/filter translations"); ?></label>
-                <input type="text"
-                       class="form-control"
-                       placeholder="<?php echo __("Sentence, words, etc... (3 characters required, multi-terms supported)") ?>"
-                       ng-model="filter.search" />
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label for="files_list"><?php echo __("Search/filter translations"); ?></label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="<?php echo __("Sentence, words, etc... (3 characters required, multi-terms supported)") ?>"
+                           ng-model="filter.search" />
+                </div>
 
-                <div ng-show="filter.search.length > 2 && results.length > 0"
-                     class="results">
+                <div class="form-group col-md-4">
+                    <label for="strict_case_sensitive"
+                           class="checkbox-inline">
+                        <input type="checkbox"
+                               id="strict_case_sensitive"
+                               class="form-control"
+                               ng-model="filter.isCaseSensitive" />
+                        &nbsp;&nbsp;<?php echo __("Case sensitive"); ?>
+                    </label>
+
+                    <br />
+
+                    <label for="strict_search"
+                           class="checkbox-inline"
+                           style="margin-top: 10px;">
+                        <input type="checkbox"
+                               id="strict_search"
+                               class="form-control"
+                               ng-model="filter.isStrict" />
+                        &nbsp;&nbsp;<?php echo __("Strict match"); ?>
+                    </label>
+                </div>
+            </div>
+
+            <div ng-show="filter.search.length > 2 && results.length > 0"
+                 class="results">
+                <table class="table table-striped"
+                       style="margin-bottom: 0;">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;"><b><?php echo __("File"); ?></b></th>
+                            <th style="width: 75%;"><b><?php echo __("Text"); ?></b></th>
+                            <th style="width: 10%;"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="max-height: 200px; overflow-x: hidden; overflow-y: scroll;">
                     <table class="table table-striped"
                            style="margin-bottom: 0;">
-                        <thead>
-                            <tr>
-                                <th style="width: 25%;"><b><?php echo __("File"); ?></b></th>
-                                <th style="width: 65%;"><b><?php echo __("Text"); ?></b></th>
-                                <th style="width: 10%;"></th>
+                        <tbody>
+                            <tr ng-if="filter.search.length > 2"
+                                ng-repeat="item in search_context | multiWordsFilter:filter.search:filter.isStrict:filter.isCaseSensitive as results">
+                                <td style="width: 15%;">{{ item.title }}</td>
+                                <td style="width: 75%; white-space: normal;">
+                                    <table>
+                                        <tr>
+                                            <td class="search-title"><?php echo __("Key / Original") ?></td>
+                                            <td>{{ item.value.original }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="search-title"><?php echo __("Default translation") ?></td>
+                                            <td>{{ item.value.default }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="search-title">
+                                                <?php echo __("Your translation") ?>
+                                            </td>
+                                            <td>{{ item.value.user }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="text-right"
+                                    style="width: 10%; white-space: normal;">
+                                    <a class="btn btn-sm btn-primary"
+                                       ng-click="openFile(item.file)"><?php echo __("OPEN") ?></a>
+                                </td>
                             </tr>
-                        </thead>
+                        </tbody>
                     </table>
-                    <div style="max-height: 200px; overflow-x: hidden; overflow-y: scroll;">
-                        <table class="table table-striped"
-                               style="margin-bottom: 0;">
-                            <tbody>
-                                <tr ng-if="filter.search.length > 2"
-                                    ng-repeat="item in search_context | multiWordsFilter:filter.search as results">
-                                    <td style="width: 25%;">{{ item.title }}</td>
-                                    <td style="width: 65%; white-space: normal;">
-                                        <span style="color: #000000;">{{ item.key }}</span>
-                                        <br />
-                                        <i>{{ item.value }}</i>
-                                    </td>
-                                    <td class="text-right"
-                                        style="width: 10%; white-space: normal;">
-                                        <a class="btn btn-sm btn-primary"
-                                           ng-click="openFile(item.file)"><?php echo __("OPEN") ?></a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
-                <div ng-show="filter.search.length > 2 && results.length == 0">
-                    <h3><?php echo __("No match.") ?></h3>
-                </div>
+            </div>
+            <div ng-show="filter.search.length > 2 && results.length == 0">
+                <h3><?php echo __("No match.") ?></h3>
             </div>
 
             <div class="form-group">
@@ -112,24 +150,60 @@
             </div>
         </div>
 
-        <div class="col-md-12" ng-show="translation.file">
+        <div class="col-md-12"
+             ng-show="translation.file">
             <div class="form-group" >
-                <label for="file_datas"><?php echo __("Text translation"); ?></label>
-                <h4 class="a-center bold" ng-if="info[translation.file]"><i class="fa fa-warning"></i> {{ info[translation.file] }}</h4>
-                <table class="table" id="file_datas">
-                    <col width="50%" />
-                    <col width="50%" />
+                <h4 class="a-center bold"
+                    ng-if="info[translation.file]">
+                    <i class="fa fa-warning"></i> {{ info[translation.file] }}
+                </h4>
+                <table class="table"
+                       style="width: 20%">
+                    <tr class="warning">
+                        <td><?php echo __("Looks default and/or not untranslated") ?></td>
+                    </tr>
+                    <tr class="info">
+                        <td><?php echo __("A default translation is provided") ?></td>
+                    </tr>
+                    <tr class="success">
+                        <td><?php echo __("You have translated it") ?></td>
+                    </tr>
+                </table>
+                <table class="table"
+                       id="file_datas">
+                    <col width="33%" />
+                    <col width="33%" />
+                    <col width="34%" />
                     <thead>
                         <tr>
-                            <th class="text-center"><?php echo __("Default text"); ?></th>
-                            <th class="text-center"><?php echo __("Your translation"); ?></th>
+                            <th class="text-left"
+                                style="font-weight: bold;"><?php echo __("Key / Original"); ?></th>
+                            <th class="text-left"
+                                style="font-weight: bold;"><?php echo __("Default translation"); ?></th>
+                            <th class="text-left"
+                                style="font-weight: bold;">
+                                <?php echo __("Your translation"); ?>
+                                <i>(<?php echo __("leave blank to use default translation") ?>)</i>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="slide-left" ng-repeat="key in notSorted(translation.collection)" ng-init="file_data = translation.collection[key]">
-                            <td class="valign-middle wrap">{{ key }}</td>
-                            <td class="valign-middle text-center">
-                                <input type="text" ng-model="translation.collection[key]" class="form-control" placeholder="{{ file_data }}" value="{{ file_data }}" ng-class="currentClass[key]" ng-change="updateClass(key)" />
+                        <tr class="slide-left"
+                            ng-init="fileData = translation.collection[key]"
+                            ng-class="{
+                                'warning' : fileData.user == null && fileData.default == fileData.original,
+                                'info' : fileData.user == null &&  fileData.default != fileData.original,
+                                'success' : fileData.user != null }"
+                            ng-repeat="key in notSorted(translation.collection)">
+                            <td class="valign-middle wrap">{{ fileData.original }}</td>
+                            <td class="valign-middle wrap">{{ fileData.default }}</td>
+                            <td class="valign-middle text-left">
+                                <input type="text"
+                                       ng-model="translation.collection[key].user"
+                                       class="form-control"
+                                       value="{{ fileData.user !== null ? fileData.user : '' }}"
+                                       ng-class="currentClass[key]"
+                                       ng-change="updateClass(key)" />
                             </td>
                         </tr>
                     </tbody>
@@ -139,8 +213,14 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary right" ng-disabled="!translation.file"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary right"
+                        ng-disabled="!translation.file"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
@@ -170,6 +250,12 @@
         font-style: italic;
         font-size: 11px;
         line-height: 16px;
+    }
+    
+    table .search-title {
+        font-weight: bold;
+        font-style: italic;
+        padding: 0 15px 0 0;
     }
 
     .tos-optin span {

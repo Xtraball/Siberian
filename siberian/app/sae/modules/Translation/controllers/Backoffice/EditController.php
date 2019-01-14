@@ -80,6 +80,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                         "title" => $title,
                         "key" => $key,
                         "value" => $value,
+                        "search" => sprintf("%s %s %s", $title, $key, $value)
                     ];
                 }
             }
@@ -142,11 +143,17 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
             // Yeah!
             $translations = new Translations();
-            foreach ($translationData as $key => $value) {
-                $tmp = new Translation(null, $key);
-                $tmp->setTranslation($value);
+            foreach ($translationData as $key => $values) {
+                $originalValue = trim($values["original"]);
+                $defaultValue = trim($values["default"]);
+                $userValue = trim($values["user"]);
+                // Saving only filled user values & if different from default!
+                if (!empty($userValue) && $defaultValue != $userValue) {
+                    $tmp = new Translation(null, $values["original"]);
+                    $tmp->setTranslation($values["user"]);
 
-                $translations[] = $tmp;
+                    $translations[] = $tmp;
+                }
             }
 
             $translationFile = str_replace(".csv", ".mo", $translationFile);
@@ -181,7 +188,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
      */
     public function parseTranslations($langId)
     {
-        return Core_Model_Translator::parseTranslations($langId);
+        return Core_Model_Translator::parseTranslationsForBackoffice($langId);
     }
 
     /**
