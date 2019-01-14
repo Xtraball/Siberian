@@ -302,4 +302,56 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         $this->_sendHtml($html);
     }
 
+    public function suggestAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+
+            $component = strtolower(str_replace(".mo", "", str_replace(".csv", "", $data['file'])));
+            $language = base64_decode($data['langId']);
+            $original = $data['original'];
+            $user = $data['user'];
+
+            $fileContent = [
+                $original => $user,
+            ];
+
+            $tmpFile = Core_Model_Directory::getBasePathTo("/var/tmp/" . uniqid() . ".json");
+            file_put_contents($tmpFile, json_encode($fileContent));
+
+            // Public API
+            Siberian_Request::post(
+                "https://translate.siberiancms.com/api/translations/siberian/{$component}/{$language}/file/",
+                [
+                    "method" => "suggest",
+                    "file" => curl_file_create($tmpFile),
+                ],
+                null,
+                null,
+                [
+                    "Authorization: Token 4qG1U0sToBEKZOhkvIkseWs4tOTQLkRhoE6V37zU",
+                ],
+                [
+                    "json_body" => true,
+                ]
+            );
+
+            // Clean-up
+            unlink($tmpFile);
+
+            $payload = [
+                "success" => true,
+                "message" => __("Your suggestion has been sent for review, thank you."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
 }

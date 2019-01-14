@@ -169,11 +169,17 @@
                         <td><?php echo __("You have translated it") ?></td>
                     </tr>
                 </table>
+
+                <div class="alert alert-info">
+                    <?php echo __("The `suggest` action let you share individual translations with the community to improve the overall quality.") ?>
+                </div>
+
                 <table class="table"
                        id="file_datas">
-                    <col width="33%" />
-                    <col width="33%" />
-                    <col width="34%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="30%" />
+                    <col width="10%" />
                     <thead>
                         <tr>
                             <th class="text-left"
@@ -185,6 +191,7 @@
                                 <?php echo __("Your translation"); ?>
                                 <i>(<?php echo __("leave blank to use default translation") ?>)</i>
                             </th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -204,6 +211,12 @@
                                        value="{{ fileData.user !== null ? fileData.user : '' }}"
                                        ng-class="currentClass[key]"
                                        ng-change="updateClass(key)" />
+                            </td>
+                            <td class="valign-middle text-right"
+                                style="width: 10%; white-space: normal;">
+                                <a class="btn btn-sm btn-primary"
+                                   ng-if="translation.collection[key].user.length > 0"
+                                   ng-click="suggest(fileData)"><?php echo __("SUGGEST") ?></a>
                             </td>
                         </tr>
                     </tbody>

@@ -159,6 +159,35 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.suggest = function (item) {
+        $scope.form_loader_is_visible = true;
+
+        item.langId = $routeParams.lang_id;
+        item.file = $scope.translation.file;
+
+        Translations
+        .suggest(item)
+        .success(function(data) {
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            } else {
+                $scope.message.isError(true);
+            }
+            $scope.message.setText(message).show();
+        }).error(function(data) {
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message).isError(true).show();
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
+    };
+
     $scope.available_target = [
         "be", "ca", "cs", "da", "de", "el", "es", "et",
         "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl",
