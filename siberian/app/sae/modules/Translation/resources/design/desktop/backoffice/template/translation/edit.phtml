@@ -201,7 +201,7 @@
                                 'warning' : fileData.user == null && fileData.default == fileData.original,
                                 'info' : fileData.user == null &&  fileData.default != fileData.original,
                                 'success' : fileData.user != null }"
-                            ng-repeat="key in notSorted(translation.collection)">
+                            ng-repeat="key in notSorted(translation.collection) track by $index">
                             <td class="valign-middle wrap">{{ fileData.original }}</td>
                             <td class="valign-middle wrap">{{ fileData.default }}</td>
                             <td class="valign-middle text-left">
