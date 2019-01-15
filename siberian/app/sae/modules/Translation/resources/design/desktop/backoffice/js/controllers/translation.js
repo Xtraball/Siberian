@@ -215,11 +215,9 @@ App.config(function($routeProvider) {
 
     $scope.translateAll = function() {
 
-        var keys = [];
         var size = 0;
         var remain = 0;
         var callbackTranslate = function (key) {
-            var value = keys[key];
             if(!breakOnError) {
                 $scope.translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
@@ -242,11 +240,9 @@ App.config(function($routeProvider) {
                 $scope.yandexTranslation.progress = 0;
                 $scope.yandexTranslation.showProgress = false;
             }
-
         };
 
         var breakOnError = false,
-            currentLanguage = $scope.translation.country_code.split("_")[0],
             translateQueue = $queue.queue(callbackTranslate, {
                 delay: 100,
                 paused: true,
@@ -256,28 +252,28 @@ App.config(function($routeProvider) {
             });
 
         angular.forEach($scope.translation.collection, function(value, key) {
-            keys[key] = value;
             translateQueue.add(key);
         });
 
-        size = translateQueue.size();
-        remain = size;
-        translateQueue.start();
-        $scope.yandexTranslation.showProgress = true;
-
+        if (size > 0) {
+            size = translateQueue.size();
+            remain = size;
+            translateQueue.start();
+            $scope.yandexTranslation.showProgress = true;
+        }
     };
 
     $scope.translateMissing = function() {
 
-        var keys = [];
         var size = 0;
         var remain = 0;
         var callbackTranslate = function (key) {
             if(!breakOnError) {
-                $scope.translate(key, $scope.translation.country_code.split("_")[0])
+                $scope
+                    .translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
                         if(response.data && response.data.result && response.data.result.text) {
-                            $scope.translation.collection[key] = response.data.result.text[0];
+                            $scope.translation.collection[key].user = response.data.result.text[0];
                         }
                         $scope.updateClass(key);
                         $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
@@ -298,7 +294,6 @@ App.config(function($routeProvider) {
         };
 
         var breakOnError = false,
-            currentLanguage = $scope.translation.country_code.split("_")[0],
             translateQueue = $queue.queue(callbackTranslate, {
                 delay: 100,
                 paused: true,
@@ -308,17 +303,19 @@ App.config(function($routeProvider) {
             });
 
         angular.forEach($scope.translation.collection, function(value, key) {
-            if(value === null || value === "") {
-                keys[key] = value;
+            if ((value.user === null || value.user === "") &&
+                (value.default === value.original || value.default === null)) {
                 translateQueue.add(key);
             }
         });
 
         size = translateQueue.size();
         remain = size;
-        translateQueue.start();
-        $scope.yandexTranslation.showProgress = true;
 
+        if (size > 0) {
+            translateQueue.start();
+            $scope.yandexTranslation.showProgress = true;
+        }
     };
 
     $scope.resize = function () {
