@@ -1,282 +1,391 @@
+msgctxt ""
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-10T10:50:00+00:00\n"
+"PO-Revision-Date: 2019-01-11 10:48+0000\n"
+"Last-Translator: Weblate Admin <anders@xtraball.com>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgctxt "+ Add a track"
 msgid "+ Add a track"
 msgstr "+ Add a track"
 
+msgctxt "Add albums and tracks to the playlist:"
 msgid "Add albums and tracks to the playlist:"
 msgstr "Add albums and tracks to the playlist:"
 
+msgctxt "Album"
 msgid "Album"
 msgstr "Album"
 
+msgctxt "Albums"
 msgid "Albums"
 msgstr "Albums"
 
+msgctxt "An error occurred while deleting you images gallery. Please try again later."
 msgid "An error occurred while deleting you images gallery. Please try again later."
 msgstr "An error occurred while deleting you images gallery. Please try again later."
 
+msgctxt "An error occurred while deleting your album. Thanks for trying later."
 msgid "An error occurred while deleting your album. Thanks for trying later."
 msgstr "An error occurred while deleting your album. Thanks for trying later."
 
+msgctxt "An error occurred while deleting your playlist. Thanks for trying later."
 msgid "An error occurred while deleting your playlist. Thanks for trying later."
 msgstr "An error occurred while deleting your playlist. Thanks for trying later."
 
+msgctxt "An error occurred while deleting your track. Thanks for trying later."
 msgid "An error occurred while deleting your track. Thanks for trying later."
 msgstr "An error occurred while deleting your track. Thanks for trying later."
 
+msgctxt "An error occurred while loading pictures. Please try later."
 msgid "An error occurred while loading pictures. Please try later."
 msgstr "An error occurred while loading pictures. Please try later."
 
+msgctxt "An error occurred while loading the media."
 msgid "An error occurred while loading the media."
 msgstr "An error occurred while loading the media."
 
+msgctxt "An error occurred while loading the radio."
 msgid "An error occurred while loading the radio."
 msgstr "An error occurred while loading the radio."
 
+msgctxt "An error occurred while loading videos. Please try later."
 msgid "An error occurred while loading videos. Please try later."
 msgstr "An error occurred while loading videos. Please try later."
 
+msgctxt "An error occurred while retrieving your page. Please check your page id."
 msgid "An error occurred while retrieving your page. Please check your page id."
 msgstr "An error occurred while retrieving your page. Please check your page id."
 
+msgctxt "An error occurred while saving your images gallery. Please try again later."
 msgid "An error occurred while saving your images gallery. Please try again later."
 msgstr "An error occurred while saving your images gallery. Please try again later."
 
+msgctxt "An error occurred while saving your playlist. Thanks for trying later."
 msgid "An error occurred while saving your playlist. Thanks for trying later."
 msgstr "An error occurred while saving your playlist. Thanks for trying later."
 
+msgctxt "An error occurred while saving your videos gallery. Please try again later."
 msgid "An error occurred while saving your videos gallery. Please try again later."
 msgstr "An error occurred while saving your videos gallery. Please try again later."
 
+msgctxt "Are you sure you don't want to create an album for these tracks?"
 msgid "Are you sure you don't want to create an album for these tracks?"
 msgstr "Are you sure you don't want to create an album for these tracks?"
 
+msgctxt "Are you sure you don't want to create an album for this track?"
 msgid "Are you sure you don't want to create an album for this track?"
 msgstr "Are you sure you don't want to create an album for this track?"
 
+msgctxt "Are you sure you want to delete this album?"
 msgid "Are you sure you want to delete this album?"
 msgstr "Are you sure you want to delete this album?"
 
+msgctxt "Are you sure you want to delete this album (this won't delete tracks)?"
 msgid "Are you sure you want to delete this album (this won't delete tracks)?"
 msgstr "Are you sure you want to delete this album (this won't delete tracks)?"
 
+msgctxt "Are you sure you want to delete this playlist?"
 msgid "Are you sure you want to delete this playlist?"
 msgstr "Are you sure you want to delete this playlist?"
 
+msgctxt "Are you sure you want to delete this track?"
 msgid "Are you sure you want to delete this track?"
 msgstr "Are you sure you want to delete this track?"
 
+msgctxt "Artist:"
 msgid "Artist:"
 msgstr "Artist:"
 
+msgctxt "Audio"
 msgid "Audio"
 msgstr "Audio"
 
+msgctxt "Channel"
 msgid "Channel"
 msgstr "Channel"
 
+msgctxt "Choose an album"
 msgid "Choose an album"
 msgstr "Choose an album"
 
+msgctxt "Custom"
 msgid "Custom"
 msgstr "Custom"
 
+msgctxt "Delete this gallery?"
 msgid "Delete this gallery?"
 msgstr "Delete this gallery?"
 
+msgctxt "Facebook page ID"
 msgid "Facebook page ID"
 msgstr "Facebook page ID"
 
+msgctxt "Feed URL"
 msgid "Feed URL"
 msgstr "Feed URL"
 
+msgctxt "Flickr"
 msgid "Flickr"
 msgstr "Flickr"
 
+msgctxt "Flickr API settings can't be found."
 msgid "Flickr API settings can't be found."
 msgstr "Flickr API settings can't be found."
 
+msgctxt "Flickr user"
 msgid "Flickr user"
 msgstr "Flickr user"
 
+msgctxt "Gallery Name"
 msgid "Gallery Name"
 msgstr "Gallery Name"
 
+msgctxt "Group"
 msgid "Group"
 msgstr "Group"
 
+msgctxt "If set, will appear instead of the Facebook page Id in app."
 msgid "If set, will appear instead of the Facebook page Id in app."
 msgstr "If set, will appear instead of the Facebook page Id in app."
 
+msgctxt "I'm listening to"
 msgid "I'm listening to"
 msgstr "I'm listening to"
 
+msgctxt "I'm listening to $1 from $2 on $3 app."
 msgid "I'm listening to $1 from $2 on $3 app."
 msgstr "I'm listening to $1 from $2 on $3 app."
 
+msgctxt "I'm listening to $1 on $2 app."
 msgid "I'm listening to $1 on $2 app."
 msgstr "I'm listening to $1 on $2 app."
 
+msgctxt "Images gallery has been saved successfully"
 msgid "Images gallery has been saved successfully"
 msgstr "Images gallery has been saved successfully"
 
+msgctxt "Instagram"
 msgid "Instagram"
 msgstr "Instagram"
 
+msgctxt "Instagram API settings can't be found."
 msgid "Instagram API settings can't be found."
 msgstr "Instagram API settings can't be found."
 
+msgctxt "Last update:"
 msgid "Last update:"
 msgstr "Last update:"
 
+msgctxt "Login"
 msgid "Login"
 msgstr "Login"
 
+msgctxt "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 msgstr "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 
+msgctxt "My images"
 msgid "My images"
 msgstr "My images"
 
+msgctxt "No album found"
 msgid "No album found"
 msgstr "No album found"
 
+msgctxt "No artist found"
 msgid "No artist found"
 msgstr "No artist found"
 
+msgctxt "No current stream to play so far."
 msgid "No current stream to play so far."
 msgstr "No current stream to play so far."
 
+msgctxt "No track found"
 msgid "No track found"
 msgstr "No track found"
 
+msgctxt "No valid Facebook API key and secret."
 msgid "No valid Facebook API key and secret."
 msgstr "No valid Facebook API key and secret."
 
+msgctxt "PLAYER"
 msgid "PLAYER"
 msgstr "PLAYER"
 
+msgctxt "Page ID"
 msgid "Page ID"
 msgstr "Page ID"
 
+msgctxt "Page not found"
 msgid "Page not found"
 msgstr "Page not found"
 
+msgctxt "Parameter"
 msgid "Parameter"
 msgstr "Parameter"
 
+msgctxt "Parameter/Feed Url"
 msgid "Parameter/Feed Url"
 msgstr "Parameter/Feed Url"
 
+msgctxt "Picasa"
 msgid "Picasa"
 msgstr "Picasa"
 
+msgctxt "Playlist"
 msgid "Playlist"
 msgstr "Playlist"
 
+msgctxt "Playlist successfully saved."
 msgid "Playlist successfully saved."
 msgstr "Playlist successfully saved."
 
+msgctxt "Playlist title:"
 msgid "Playlist title:"
 msgstr "Playlist title:"
 
+msgctxt "Playlists"
 msgid "Playlists"
 msgstr "Playlists"
 
+msgctxt "Please specify the page ID"
 msgid "Please specify the page ID"
 msgstr "Please specify the page ID"
 
+msgctxt "Podcast"
 msgid "Podcast"
 msgstr "Podcast"
 
+msgctxt "Podcast URL (iTunes format)"
 msgid "Podcast URL (iTunes format)"
 msgstr "Podcast URL (iTunes format)"
 
+msgctxt "Read all"
 msgid "Read all"
 msgstr "Read all"
 
+msgctxt "Reload album list?"
 msgid "Reload album list?"
 msgstr "Reload album list?"
 
+msgctxt "Required field"
 msgid "Required field"
 msgstr "Required field"
 
+msgctxt "Search/Url"
 msgid "Search/Url"
 msgstr "Search/Url"
 
+msgctxt "The entered name is not a valid Instagram user."
 msgid "The entered name is not a valid Instagram user."
 msgstr "The entered name is not a valid Instagram user."
 
+msgctxt "This element is not an album."
 msgid "This element is not an album."
 msgstr "This element is not an album."
 
+msgctxt "Track"
 msgid "Track"
 msgstr "Track"
 
+msgctxt "Tracks"
 msgid "Tracks"
 msgstr "Tracks"
 
+msgctxt "Type"
 msgid "Type"
 msgstr "Type"
 
+msgctxt "URL (.mp3):"
 msgid "URL (.mp3):"
 msgstr "URL (.mp3):"
 
+msgctxt "Videos gallery has been saved successfully"
 msgid "Videos gallery has been saved successfully"
 msgstr "Videos gallery has been saved successfully"
 
+msgctxt "Vimeo"
 msgid "Vimeo"
 msgstr "Vimeo"
 
+msgctxt "buy"
 msgid "buy"
 msgstr "buy"
 
+msgctxt "by"
 msgid "by"
 msgstr "by"
 
+msgctxt "close"
 msgid "close"
 msgstr "close"
 
+msgctxt "empty"
 msgid "empty"
 msgstr "empty"
 
+msgctxt "from"
 msgid "from"
 msgstr "from"
 
+msgctxt "hide"
 msgid "hide"
 msgstr "hide"
 
+msgctxt "loop"
 msgid "loop"
 msgstr "loop"
 
+msgctxt "music"
 msgid "music"
 msgstr "music"
 
+msgctxt "next"
 msgid "next"
 msgstr "next"
 
+msgctxt "on"
 msgid "on"
 msgstr "on"
 
+msgctxt "pause"
 msgid "pause"
 msgstr "pause"
 
+msgctxt "play"
 msgid "play"
 msgstr "play"
 
+msgctxt "previous"
 msgid "previous"
 msgstr "previous"
 
+msgctxt "%s by %s"
 msgid "%s by %s"
 msgstr "%s by %s"
 
+msgctxt "share"
 msgid "share"
 msgstr "share"
 
+msgctxt "shuffle"
 msgid "shuffle"
 msgstr "shuffle"
 
+msgctxt "track"
 msgid "track"
 msgstr "track"
 
+msgctxt "tracks"
 msgid "tracks"
 msgstr "tracks"
 
