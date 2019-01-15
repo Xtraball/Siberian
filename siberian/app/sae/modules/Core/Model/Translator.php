@@ -323,18 +323,14 @@ class Core_Model_Translator
 
                 break;
             case "mo":
-                /**
-                 * @var $translator Zend_Translate_Adapter_Gettext
-                 */
-                $translator = new \Zend_Translate([
-                    "adapter" => "gettext",
-                    "content" => $path,
-                    "locale" => "en"
-                ]);
-                $_tmp = $translator->getData("en");
-                foreach ($_tmp as $key => $value) {
-                    $key = str_replace('\"', '"', $key);
-                    $tmpTranslationData[$filename][$key] = $value;
+                $userTranslations = new Translations();
+                $userTranslations->addFromMoFile($path);
+                foreach ($userTranslations as $userTranslation) {
+                    $key = str_replace('\"', '"', $userTranslation->getOriginal());
+                    $value = str_replace('\"', '"', $userTranslation->getTranslation());
+                    if (!empty($value)) {
+                        $tmpTranslationData[$filename][$key] = $value;
+                    }
                 }
 
                 break;
@@ -464,6 +460,7 @@ class Core_Model_Translator
         if (!array_key_exists($filename, $tmpTranslationData)) {
             $tmpTranslationData[$filename] = [];
         }
+        echo "<pre>";
 
         switch ($type) {
             case "csv":
@@ -484,16 +481,10 @@ class Core_Model_Translator
 
                 break;
             case "mo":
-                /**
-                 * @var $translator Zend_Translate_Adapter_Gettext
-                 */
-                $translator = new \Zend_Translate([
-                    "adapter" => "gettext",
-                    "content" => $path,
-                    "locale" => "en"
-                ]);
-                $_tmp = $translator->getData("en");
-                foreach ($_tmp as $key => $value) {
+                $userTranslations = new Translations();
+                $userTranslations->addFromMoFile($path);
+                foreach ($userTranslations as $userTranslation) {
+                    $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
                             "original" => $key,
@@ -502,7 +493,7 @@ class Core_Model_Translator
                         ];
                     }
 
-                    $key = str_replace('\"', '"', $key);
+                    $value = str_replace('\"', '"', $userTranslation->getTranslation());
                     if (!empty($value)) {
                         $tmpTranslationData[$filename][$key][$fillKey] = $value;
                     }
