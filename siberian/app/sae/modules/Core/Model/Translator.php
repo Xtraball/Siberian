@@ -92,12 +92,6 @@ class Core_Model_Translator
                 switch ($file->getExtension()) {
                     case "csv";
                         $userTranslations->addFromCsvDictionaryFile($file->getPathname(), ["delimiter" => ";"]);
-                        foreach ($userTranslations as $userTranslation) {
-                            /**
-                             * @var $userTranslation Translation
-                             */
-                            $userTranslation->setContext($userTranslation->getOriginal());
-                        }
                         break;
                     case "mo":
                         $userTranslations->addFromMoFile($file->getPathname());
@@ -460,18 +454,19 @@ class Core_Model_Translator
         if (!array_key_exists($filename, $tmpTranslationData)) {
             $tmpTranslationData[$filename] = [];
         }
-        echo "<pre>";
 
         switch ($type) {
             case "csv":
                 $csvResource = fopen($path, "r");
                 while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
                     $key = str_replace('\"', '"', $line[0]);
-                    $tmpTranslationData[$filename][$key] = [
-                        "original" => $key,
-                        "default" => null,
-                        "user" => null,
-                    ];
+                    if (!isset($tmpTranslationData[$filename][$key])) {
+                        $tmpTranslationData[$filename][$key] = [
+                            "original" => $key,
+                            "default" => null,
+                            "user" => null,
+                        ];
+                    }
                     if (isset($line[1]) && !empty($line[1])) {
                         $tmpTranslationData[$filename][$key][$fillKey] = str_replace('\"', '"', $line[1]);
                     }

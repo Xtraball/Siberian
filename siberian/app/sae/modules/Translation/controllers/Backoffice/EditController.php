@@ -139,13 +139,13 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             // Yeah!
             $translations = new Translations();
             foreach ($translationData as $key => $values) {
-                //$originalValue = trim($values["original"]);
+                $originalValue = trim($values["original"]);
                 $defaultValue = trim($values["default"]);
                 $userValue = trim($values["user"]);
                 // Saving only filled user values & if different from default!
                 if (!empty($userValue) && $defaultValue != $userValue) {
-                    $tmp = new Translation($values["original"], $values["original"]);
-                    $tmp->setTranslation($values["user"]);
+                    $tmp = new Translation(null, $originalValue);
+                    $tmp->setTranslation($userValue);
 
                     $translations[] = $tmp;
                 }

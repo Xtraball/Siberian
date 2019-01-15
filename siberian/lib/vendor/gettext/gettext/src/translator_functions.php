@@ -11,8 +11,7 @@ use Gettext\BaseTranslator;
  */
 function __($original)
 {
-    // Translations without a context!
-    $text = BaseTranslator::$current->pgettext($original, $original);
+    $text = BaseTranslator::$current->gettext($original);
 
     if (func_num_args() === 1) {
         return $text;
