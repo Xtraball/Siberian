@@ -1,6 +1,7 @@
 <?php
 
 use Gettext\Translator;
+use Gettext\Translation;
 use Gettext\Translations;
 use Gettext\Merge;
 
@@ -91,6 +92,12 @@ class Core_Model_Translator
                 switch ($file->getExtension()) {
                     case "csv";
                         $userTranslations->addFromCsvDictionaryFile($file->getPathname(), ["delimiter" => ";"]);
+                        foreach ($userTranslations as $userTranslation) {
+                            /**
+                             * @var $userTranslation Translation
+                             */
+                            $userTranslation->setContext($userTranslation->getOriginal());
+                        }
                         break;
                     case "mo":
                         $userTranslations->addFromMoFile($file->getPathname());
@@ -133,22 +140,7 @@ class Core_Model_Translator
      */
     public static function addModule($moduleName)
     {
-        /**$currentLanguage = Core_Model_Language::getCurrentLanguage();
-        $moduleCsv = Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.csv");
-        $moduleMo = Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/{$moduleName}.mo");
-        if (is_file($moduleMo)) {
-            $translations = Translations::fromMoFile($moduleMo);
-            self::$_translations->mergeWith($translations, Merge::TRANSLATION_OVERRIDE);
-        } else if (is_file($moduleCsv)) {
-            $translations = Translations::fromCsvDictionaryFile($moduleCsv);
-            self::$_translations->mergeWith($translations, Merge::TRANSLATION_OVERRIDE);
-        }
-
-        $emailCsv = Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}/emails/{$moduleName}.csv");
-        if (file_exists($emailCsv)) {
-            $translations = Translations::fromCsvDictionaryFile($emailCsv);
-            self::$_translations->mergeWith($translations, Merge::TRANSLATION_OVERRIDE);
-        }*/
+        // Deprecated do nothing!
     }
 
     /**

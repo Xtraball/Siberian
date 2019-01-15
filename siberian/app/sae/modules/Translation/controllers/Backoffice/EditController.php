@@ -144,7 +144,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 $userValue = trim($values["user"]);
                 // Saving only filled user values & if different from default!
                 if (!empty($userValue) && $defaultValue != $userValue) {
-                    $tmp = new Translation(null, $values["original"]);
+                    $tmp = new Translation($values["original"], $values["original"]);
                     $tmp->setTranslation($values["user"]);
 
                     $translations[] = $tmp;
