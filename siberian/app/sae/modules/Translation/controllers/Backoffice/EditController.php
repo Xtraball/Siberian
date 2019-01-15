@@ -40,11 +40,6 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 $isEdit = false;
             } else {
                 $langId = base64_decode($langId);
-                $langId = explode("_", strtolower($langId));
-                if (count($langId) == 2) {
-                    $langId[1] = strtoupper($langId[1]);
-                }
-                $langId = implode("_", $langId);
                 $sectionTitle = __("Edit the language: %s",
                     Core_Model_Language::getLanguage($langId)->getName());
             }
@@ -144,7 +139,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             // Yeah!
             $translations = new Translations();
             foreach ($translationData as $key => $values) {
-                $originalValue = trim($values["original"]);
+                //$originalValue = trim($values["original"]);
                 $defaultValue = trim($values["default"]);
                 $userValue = trim($values["user"]);
                 // Saving only filled user values & if different from default!
