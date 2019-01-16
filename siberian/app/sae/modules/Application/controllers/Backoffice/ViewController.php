@@ -51,7 +51,10 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
         $admin_list = [];
         foreach ($admins as $admin) {
-            $admin_list[] = $admin;
+            $_dataAdmin = $admin;
+            $_dataAdmin["key"] = sha1($admin["firstname"] . $admin["admin_id"]);
+
+            $admin_list[] = $_dataAdmin;
         }
 
         $admin = [

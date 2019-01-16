@@ -229,6 +229,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $frontController->setRequest($this->_request);
         Siberian_View::setRequest($this->_request);
         Core_Model_Default::setBaseUrl($this->_request->getBaseUrl());
+
+        // Translator
+        Siberian_Cache_Translation::init();
+        Core_Model_Translator::init();
     }
 
     // Loading individual bootstrappers!

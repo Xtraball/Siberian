@@ -1,5 +1,8 @@
 <?php
 
+use Gettext\Translation;
+use Gettext\Translations;
+
 /**
  * Class Translation_Backoffice_EditController
  */
@@ -11,48 +14,14 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
     protected $_xml_files;
 
     /**
-     *
-     */
-    public function preDispatch()
-    {
-        $this->_xml_files = [
-            "android-app.xml" => [
-                "is_translatable" => true,
-                "name" => "android-app.xml",
-                "base_path" => Core_Model_Directory::getBasePathTo("var/apps/angular/android/Siberian/app/src/main/res/values/"),
-                "user_path" => Core_Model_Directory::getBasePathTo("var/apps/angular/android/Siberian/app/src/main/res/"),
-                "file_name" => "strings.xml",
-                "info" => $this->_("Translate the 'e.g.' between parentheses only.")
-            ],
-            "android-ionic-app.xml" => [
-                "is_translatable" => true,
-                "name" => "android-ionic-app.xml",
-                "base_path" => Core_Model_Directory::getBasePathTo("var/apps/ionic/android/res/values/"),
-                "user_path" => Core_Model_Directory::getBasePathTo("var/apps/ionic/android/res/"),
-                "file_name" => "strings.xml",
-                "info" => $this->_("Translate the 'e.g.' between parentheses only.")
-            ],
-            "android-previewer.xml" => [
-                "is_translatable" => Installer_Model_Installer::hasModule('Previewer'),
-                "name" => "android-previewer.xml",
-                "base_path" => Core_Model_Directory::getBasePathTo("var/apps/ionic/previewer/android/res/values/"),
-                "user_path" => Core_Model_Directory::getBasePathTo("var/apps/ionic/previewer/android/res/"),
-                "file_name" => "strings.xml",
-                "info" => $this->_("Translate the 'e.g.' between parentheses only.")
-            ],
-        ];
-        parent::preDispatch();
-    }
-
-    /**
-     *
+     * Default tree
      */
     public function loadAction()
     {
         $payload = [
-            'title' => sprintf('%s > %s',
-                __('Settings'),
-                __('Translations')),
+            "title" => sprintf("%s > %s",
+                __("Settings"),
+                __("Translations")),
             "icon" => "fa-language",
         ];
 
@@ -61,366 +30,168 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
     public function findAction()
     {
-
-        $data = $data_csv = $data_all = [];
-        if ($lang_id = $this->getRequest()->getParam("lang_id")) {
-
-            $lang_id = base64_decode($lang_id);
-            $lang_id = explode("_", strtolower($lang_id));
-            if (count($lang_id) == 2) {
-                $lang_id[1] = strtoupper($lang_id[1]);
-            }
-            $lang_id = implode("_", $lang_id);
-
-            $data["section_title"] = $this->_("Edit the language: %s", Core_Model_Language::getLanguage($lang_id)->getName());
-            $data["is_edit"] = true;
-
-        } else {
-            $data["section_title"] = $this->_("Create a new language");
-            $data["is_edit"] = false;
-        }
-        $data["country_code"] = $lang_id;
-
-        $locale = Zend_Registry::get("Zend_Locale");
-        $languages = $locale->getTranslationList('language');
-        $existing_languages = Core_Model_Language::getLanguageCodes();
-        foreach ($languages as $k => $language) {
-            if (!$locale->isLocale($k) OR in_array($k, $existing_languages)) {
-                unset($languages[$k]);
-            }
-        }
-
-        asort($languages, SORT_LOCALE_STRING);
-        $data["country_codes"] = $languages;
-
-        $data_csv = $this->_parseCsv($lang_id);
-        $data_xml = $this->_parseXml($lang_id);
-
-        if (isset ($data_xml["translation_files"])) {
-            $data_all["translation_files"] = array_merge($data_csv["translation_files"], $data_xml["translation_files"]);
-        } else {
-            $data_all["translation_files"] = $data_csv["translation_files"];
-        }
-        if (isset ($data_xml["translation_files_data"])) {
-            $data_all["translation_files_data"] = array_merge($data_csv["translation_files_data"], $data_xml["translation_files_data"]);
-        } else {
-            $data_all["translation_files_data"] = $data_csv["translation_files_data"];
-        }
-
-        ksort($data_all["translation_files"]);
-        $data["translation_files"] = $data_all["translation_files"];
-        ksort($data_all["translation_files_data"]);
-        $data["translation_files_data"] = $data_all["translation_files_data"];
-
-        $data["info"] = array_merge($data_csv["info"], $data_xml["info"]);
-
-        $this->_sendJson($data);
-    }
-
-    public function migrateAction()
-    {
         try {
-            $data = $data_csv = $data_all = [];
+            $request = $this->getRequest();
+            $isEdit = true;
 
-            $locale = Zend_Registry::get('Zend_Locale');
-            $languages = $locale->getTranslationList('language');
-            $existing_languages = Core_Model_Language::getLanguageCodes();
+            $langId = $request->getParam("langId", null);
+            if (empty($langId)) {
+                $sectionTitle = __("Create a new language");
+                $isEdit = false;
+            } else {
+                $langId = base64_decode($langId);
+                $sectionTitle = __("Edit the language: %s",
+                    Core_Model_Language::getLanguage($langId)->getName());
+            }
+
+            $countryCode = $langId;
+
+            $locale = Zend_Registry::get("Zend_Locale");
+            $languages = $locale->getTranslationList("language");
+            $existingLanguages = Core_Model_Language::getLanguageCodes();
             foreach ($languages as $k => $language) {
-                if (!$locale->isLocale($k) OR in_array($k, $existing_languages)) {
+                if (!$locale->isLocale($k) || in_array($k, $existingLanguages)) {
                     unset($languages[$k]);
                 }
             }
 
             asort($languages, SORT_LOCALE_STRING);
-            $data['country_codes'] = $languages;
 
-            foreach ($existing_languages as $langId) {
-                $data_csv = $this->_parseCsv($langId);
-                $data_xml = $this->_parseXml($langId);
+            // Parsing .mo base files!
+            $translations = $this->parseTranslations($langId);
 
-                $data_all['translation_files'] = array_merge($data_csv['translation_files'], $data_xml['translation_files']);
-                $data_all['translation_files_data'] = array_merge($data_csv['translation_files_data'], $data_xml['translation_files_data']);
+            // Available files
+            $files = [];
+            foreach (array_keys($translations) as $file) {
+                $files[$file] = ucfirst(basename(basename($file, ".csv"), ".mo"));
+            }
 
-                ksort($data_all['translation_files']);
-                $data['translation_files'] = $data_all['translation_files'];
-                ksort($data_all['translation_files_data']);
-                $data['translation_files_data'] = $data_all['translation_files_data'];
-
-                foreach ($data['translation_files_data'] as $fileName => $translations) {
-                    foreach ($translations as $source => $value) {
-                        $translation = (new Translation_Model_TranslationApp())
-                            ->find([
-                                'filename' => $fileName,
-                                'target' => $langId,
-                                'source' => $source
-                            ]);
-
-                        // Upsert!
-                        $translation
-                            ->setFilename($fileName)
-                            ->setOrigin('en')
-                            ->setTarget($langId)
-                            ->setSource($source)
-                            ->setValue($value)
-                            ->save();
-                    }
+            $merged = [];
+            foreach ($translations as $file => $keyValues) {
+                $title = ucfirst(basename(basename($file, ".csv"), ".mo"));
+                foreach ($keyValues as $key => $value) {
+                    $merged[] = [
+                        "file" => $file,
+                        "title" => $title,
+                        "key" => $key,
+                        "value" => $value,
+                        "search" => sprintf("%s %s %s", $title, $key, $value)
+                    ];
                 }
             }
 
             $payload = [
-                'success' => true,
-                'message' => __('Migration done!')
+                "success" => true,
+                "section_title" => $sectionTitle,
+                "is_edit" => $isEdit,
+                "country_code" => $countryCode,
+                "country_codes" => $languages,
+                "translation_files" => $files,
+                "translations" => $translations,
+                "search_context" => array_values($merged),
             ];
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
-                'error' => true,
-                'message' => __('An unknown error occurred, please try again later.')
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function saveAction()
     {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            try {
-
-                if (__getConfig('is_demo')) {
-                    // Demo version
-                    throw new Exception(__("You cannot change translation, it's a demo version."));
-                }
-
-                $base_path = Core_Model_Directory::getBasePathTo("languages/");
-                $country_code = $data["country_code"];
-                $translation_dir = $base_path . $country_code;
-                $translation_file = $data["file"];
-                $translation_datas = $data["collection"];
-                ksort($translation_datas);
-
-                if (empty($country_code)) throw new Exception($this->_("Please, choose a language."));
-                if (empty($translation_file)) throw new Exception($this->_("Please, choose a file."));
-
-                //android translations
-                $pathinfo = pathinfo($translation_file);
-                if (!empty($pathinfo["extension"]) AND $pathinfo["extension"] == "xml") {
-
-                    $base_path = $this->_xml_files[$translation_file]["base_path"];
-                    $default_translation_dir = $base_path;
-                    $translation_dir = $this->_xml_files[$translation_file]["user_path"] . "values-" . Core_Model_Lib_String::formatLanguageCodeForAndroid($country_code) . DS;
-                    $translation_file = $this->_xml_files[$translation_file]["file_name"];
-                    if (!is_dir($translation_dir)) {
-                        mkdir($translation_dir);
-                    }
-
-                    $xml = new DOMDocument();
-                    $xml->load($default_translation_dir . $translation_file);
-
-                    foreach ($translation_datas as $key => $value) {
-
-                        $modified_key = str_replace(" ", "_", strtolower(trim(current(explode("(", $key)))));
-                        foreach ($xml->getElementsByTagName("string") as $node) {
-                            if ((empty($value) && $node->getAttribute("name") == $modified_key) || stripos($node->nodeValue, '{#--') !== false) {
-                                $node->parentNode->removeChild($node);
-                                continue;
-                            }
-
-                            if ($node->getAttribute("name") == $modified_key) {
-                                $cdata = $xml->createCDataSection(addcslashes($value, '"'));
-
-                                $node->nodeValue = "";
-                                $node->appendChild($cdata);
-                            }
-                        }
-                    }
-
-                    $xml->save($translation_dir . $translation_file);
-                } else {
-
-                    if (!is_dir($translation_dir)) {
-                        mkdir($translation_dir);
-                    }
-
-                    $ressource = fopen($translation_dir . DS . $translation_file, "w");
-                    foreach ($translation_datas as $key => $value) {
-                        if (empty($value)) continue;
-                        $this->_putCsv($ressource, [$key, $value]);
-                    }
-                    fclose($ressource);
-
-                    if (!file_exists($translation_dir . DS . "default.csv")) {
-                        $ressource = fopen($translation_dir . DS . "default.csv", "w");
-                        $this->_putCsv($ressource, ["", ""]);
-                        fclose($ressource);
-                    }
-                }
-
-                # Clean "*_translation" cache tags
-                $this->cache->clean(
-                    Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-                    [
-                        "mobile_translation"
-                    ]
-                );
-
-                $data = [
-                    "success" => 1,
-                    "message" => $this->_("Language successfully saved")
-                ];
-
-            } catch (Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                ];
+            if (__getConfig("is_demo")) {
+                // Demo version
+                throw new \Siberian\Exception(__("You cannot change translation, this is a demo version."));
             }
 
-            $this->_sendJson($data);
+            if (empty($data)) {
+                throw new \Siberian\Exception(__("Missing data, unable to save!"));
+            }
+
+            $base_path = Core_Model_Directory::getBasePathTo("languages/");
+            $countryCode = $data["country_code"];
+            $translationDir = $base_path . $countryCode;
+            $translationFile = $data["file"];
+            $translationData = $data["collection"];
+            ksort($translationData);
+
+            if (empty($countryCode)) {
+                throw new \Siberian\Exception(__("Please, choose a language."));
+            }
+            if (empty($translationFile)) {
+                throw new \Siberian\Exception(__("Please, choose a file."));
+            }
+
+            if (!is_dir($translationDir)) {
+                mkdir($translationDir);
+            }
+
+            // Yeah!
+            $translations = new Translations();
+            foreach ($translationData as $key => $values) {
+                $originalValue = trim($values["original"]);
+                $defaultValue = trim($values["default"]);
+                $userValue = trim($values["user"]);
+                // Saving only filled user values & if different from default!
+                if (!empty($userValue) && $defaultValue != $userValue) {
+                    $tmp = new Translation(null, $originalValue);
+                    $tmp->setTranslation($userValue);
+
+                    $translations[] = $tmp;
+                }
+            }
+
+            $translationFile = str_replace(".csv", ".mo", $translationFile);
+            $translations->toMoFile("{$translationDir}/$translationFile");
+
+            # Clean "*_translation" cache tags
+            $this->cache->clean(
+                Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
+                [
+                    "mobile_translation"
+                ]
+            );
+
+            $payload = [
+                "success" => true,
+                "message" => __("Language successfully saved"),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
-    protected function _parseCsv($lang_id)
+    /**
+     * @param $langId
+     * @return array
+     * @throws Zend_Translate_Exception
+     */
+    public function parseTranslations($langId)
     {
-
-        $data = $translation_files_data = $translation_files = [];
-
-        $user_translation_dir = Core_Model_Directory::getBasePathTo("languages/{$lang_id}/");
-
-        $files = Siberian_Cache_Translation::getCache();
-
-        foreach ($files["default"] as $filename => $file) {
-
-            if (!is_file($file)) {
-                continue;
-            }
-
-            $pathinfo = pathinfo($file);
-            if (empty($pathinfo["extension"]) || ($pathinfo["extension"] != "csv")) {
-                continue;
-            }
-
-            $translation_files[$filename] = $filename;
-
-            $resource = fopen($file, "r");
-            $translation_files_data[$filename] = [];
-            while ($content = fgetcsv($resource, 1024, ";", '"')) {
-                $key = str_replace('\"', '"', $content[0]);
-                $translation_files_data[$filename][$key] = null;
-            }
-            fclose($resource);
-
-            $default_language = $files[$lang_id][$filename];
-            $user_language = $user_translation_dir . $filename;
-
-            if (!is_file($default_language) && !is_file($user_language)) {
-                continue;
-            }
-
-            /** First for "default" values */
-            $resource = fopen($default_language, "r");
-            while ($content = fgetcsv($resource, 1024, ";", '"')) {
-                $key = str_replace('\"', '"', $content[0]);
-
-                $translation_files_data[$filename][$key] = str_replace('\"', '"', $content[1]);
-                asort($translation_files_data[$filename]);
-            }
-
-            /** Second for "user" values */
-            $resource = fopen($user_language, "r");
-            while ($content = fgetcsv($resource, 1024, ";", '"')) {
-                $key = str_replace('\"', '"', $content[0]);
-
-                $translation_files_data[$filename][$key] = str_replace('\"', '"', $content[1]);
-                asort($translation_files_data[$filename]);
-            }
-
-            fclose($resource);
-        }
-
-        $data["translation_files"] = $translation_files;
-        $data["translation_files_data"] = $translation_files_data;
-        $data["info"] = [];
-
-        return ($data);
+        return Core_Model_Translator::parseTranslationsForBackoffice($langId);
     }
 
-    protected function _parseXml($lang_id)
-    {
-
-        $data = $translation_files_data = $translation_files = [];
-
-        $lang_id = Core_Model_Lib_String::formatLanguageCodeForAndroid($lang_id);
-
-        foreach ($this->_xml_files as $file) {
-
-            if ($file["is_translatable"]) {
-
-                $file_name = $file["name"];
-                $user_translation_dir = $file["user_path"] . "values-" . $lang_id . DS;
-                $default_base_path = $file["base_path"];
-                $translation_file_name = $file["file_name"];
-                $default_file = $default_base_path . $translation_file_name;
-                $user_file = $user_translation_dir . $translation_file_name;
-
-                $pathinfo = pathinfo($default_file);
-                if (empty($pathinfo["extension"]) OR $pathinfo["extension"] != "xml") return;
-
-                $translation_files[$file_name] = $file_name;
-
-                if (!file_exists($default_file)) { # Skip missing Angular files TG-185
-                    continue;
-                }
-
-                $file_xml_data = simplexml_load_file($default_file);
-                $user_file_xml_data = null;
-                if (is_file($user_file)) {
-                    $user_file_xml_data = simplexml_load_file($user_file);
-                }
-
-                $i = 0;
-                foreach ($file_xml_data->children() as $string) {
-
-                    if (!in_array((string)$string->attributes()->name, ["app_name", "url"]) AND stripos((string)$string, "@string/") === false) {
-
-                        if (stripos((string)$string, '{#--') !== false) continue;
-
-                        $key = (str_replace("_", " ", ucfirst((string)$string->attributes()->name))) . " (e.g.: " . (string)$string . ")";
-
-                        if ($user_file_xml_data != null) {
-
-                            foreach ($user_file_xml_data as $user_string) {
-                                if ((string)$string->attributes()->name == (string)$user_string->attributes()->name) {
-                                    $translation_files_data[$file_name][$key] = stripslashes((string)$user_string);
-                                    break;
-                                } else {
-                                    $translation_files_data[$file_name][$key] = null;
-                                }
-                            }
-
-                        } else {
-                            $translation_files_data[$file_name][$key] = null;
-                        }
-                    }
-                    $i++;
-                }
-
-                $data["translation_files"] = $translation_files;
-                $data["translation_files_data"] = $translation_files_data;
-                $data["info"][$file_name] = $file["info"];
-
-            }
-        }
-
-        return ($data);
-    }
-
+    /**
+     * @param $resource
+     * @param $data
+     */
     protected function _putCsv($resource, $data)
     {
-
         $enclosure = '"';
         $separator = ';';
         $br = "\n";
@@ -441,9 +212,11 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         ];
 
         fputs($resource, join("", $str));
-
     }
 
+    /**
+     *
+     */
     public function translateAction()
     {
         $api = Api_Model_Key::findKeysFor("yandex");
@@ -522,6 +295,58 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         }
 
         $this->_sendHtml($html);
+    }
+
+    public function suggestAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+
+            $component = strtolower(str_replace(".mo", "", str_replace(".csv", "", $data['file'])));
+            $language = base64_decode($data['langId']);
+            $original = $data['original'];
+            $user = $data['user'];
+
+            $fileContent = [
+                $original => $user,
+            ];
+
+            $tmpFile = Core_Model_Directory::getBasePathTo("/var/tmp/" . uniqid() . ".json");
+            file_put_contents($tmpFile, json_encode($fileContent));
+
+            // Public API
+            Siberian_Request::post(
+                "https://translate.siberiancms.com/api/translations/siberian/{$component}/{$language}/file/",
+                [
+                    "method" => "suggest",
+                    "file" => curl_file_create($tmpFile),
+                ],
+                null,
+                null,
+                [
+                    "Authorization: Token 4qG1U0sToBEKZOhkvIkseWs4tOTQLkRhoE6V37zU",
+                ],
+                [
+                    "json_body" => true,
+                ]
+            );
+
+            // Clean-up
+            unlink($tmpFile);
+
+            $payload = [
+                "success" => true,
+                "message" => __("Your suggestion has been sent for review, thank you."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
 }

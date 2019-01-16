@@ -218,8 +218,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function _($text)
     {
-        $args = func_get_args();
-        return Core_Model_Translator::translate($text, $args);
+        return call_user_func_array("__", func_get_args());
     }
 
     /**
@@ -812,6 +811,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         } else {
             Core_Model_Language::setCurrentLanguage(Core_Model_Language::getDefaultLanguage());
         }
+
+        // We also load language values in the translator
+        Core_Model_Translator::loadDefaultsAndUser();
     }
 
     /**
@@ -861,7 +863,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _initTranslator()
     {
-        Core_Model_Translator::prepare(strtolower($this->getRequest()->getModuleName()));
         return $this;
     }
 

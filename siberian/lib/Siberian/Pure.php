@@ -265,16 +265,11 @@ function isGdpr()
 }
 
 /**
- * Classic hook for translations
- *
- * @param $text
- * @return mixed|string
+ * @return mixed
  */
-function __($string)
+function __old()
 {
-    $args = func_get_args();
-
-    return \Core_Model_Translator::translate($string, $args);
+    return call_user_func_array("__", func_get_args());
 }
 
 /**
@@ -287,11 +282,12 @@ function __js($string, $escape = '"')
 {
     $args = func_get_args();
 
-    # Remove default args
-    unset($args[0]);
+    # Remove $escape arg
     unset($args[1]);
 
-    return addcslashes(\Core_Model_Translator::translate($string, $args), $escape);
+    $translation = call_user_func_array("__", func_get_args());
+
+    return addcslashes($translation, $escape);
 }
 
 /**

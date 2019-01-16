@@ -1,0 +1,50 @@
+<sb-section title="'<?php echo addslashes(__("List of your languages")); ?>'"
+            button="button">
+    <br />
+    <div class="form-group">
+        <label for="filter"><?php echo __("Search"); ?></label>
+        <input type="text"
+               id="filter"
+               class="form-control"
+               ng-model="filter"
+               placeholder="<?php echo __("Search"); ?>" />
+    </div>
+    <br />
+    <table class="table">
+        <col width="80%" />
+        <col width="20%" />
+        <thead>
+            <tr>
+                <th class="pointer"
+                    ng-click="order = 'id'; by = !by"><?php echo __("Language"); ?></th>
+                <th class="text-right"><?php echo __("Actions"); ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slide-left"
+                ng-repeat="language in languages | filter:filter | orderBy:order:by">
+                <td>{{ language.name }}</td>
+                <td class="text-right">
+                    <a href="<?php echo $this->getUrl("translation/backoffice_edit"); ?>/langId/{{ language.id }}"
+                       class="btn btn-sm btn-primary"><?php echo __("EDIT") ?></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <style type="text/css">
+        .btn-sm {
+            padding: 1px 5px !important;
+            font-size: 11px !important;
+            line-height: 1.4 !important;
+            font-weight: bold;
+            border: 0 !important;
+
+        }
+
+        a.btn-sm,
+        a.btn-sm:hover {
+            text-decoration: none !important;
+        }
+    </style>
+</sb-section>

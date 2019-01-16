@@ -1,0 +1,299 @@
+<sb-section title="section_title">
+    <form ng-submit="save();">
+        <div class="col-md-6" 
+             ng-show="!is_edit">
+            <div class="form-group">
+                <label for="country_code"><?php echo __("Select a language"); ?></label>
+                <select id="country_code" 
+                        class="form-control"
+                        ng-model="translation.country_code"
+                        ng-options="k as v for (k, v) in countries"
+                        ng-change="changeCountry();">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-12"
+             ng-show="translation.country_code || is_edit">
+
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label for="files_list"><?php echo __("Search/filter translations"); ?></label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="<?php echo __("Sentence, words, etc... (3 characters required, multi-terms supported)") ?>"
+                           ng-model="filter.search" />
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="strict_case_sensitive"
+                           class="checkbox-inline">
+                        <input type="checkbox"
+                               id="strict_case_sensitive"
+                               class="form-control"
+                               ng-model="filter.isCaseSensitive" />
+                        &nbsp;&nbsp;<?php echo __("Case sensitive"); ?>
+                    </label>
+
+                    <br />
+
+                    <label for="strict_search"
+                           class="checkbox-inline"
+                           style="margin-top: 10px;">
+                        <input type="checkbox"
+                               id="strict_search"
+                               class="form-control"
+                               ng-model="filter.isStrict" />
+                        &nbsp;&nbsp;<?php echo __("Strict match"); ?>
+                    </label>
+                </div>
+            </div>
+
+            <div ng-show="filter.search.length > 2 && results.length > 0"
+                 style="margin-bottom: 15px;"
+                 class="results">
+                <table class="table table-striped"
+                       style="margin-bottom: 0;">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;"><b><?php echo __("File"); ?></b></th>
+                            <th style="width: 75%;"><b><?php echo __("Text"); ?></b></th>
+                            <th style="width: 10%;"></th>
+                        </tr>
+                    </thead>
+                </table>
+                <div style="max-height: 200px; overflow-x: hidden; overflow-y: scroll;">
+                    <table class="table table-striped"
+                           style="margin-bottom: 0;">
+                        <tbody>
+                            <tr ng-if="filter.search.length > 2"
+                                ng-repeat="item in search_context | multiWordsFilter:filter.search:filter.isStrict:filter.isCaseSensitive as results">
+                                <td style="width: 15%;">{{ item.title }}</td>
+                                <td style="width: 75%; white-space: normal;">
+                                    <table>
+                                        <tr>
+                                            <td class="search-title"><?php echo __("Key / Original") ?></td>
+                                            <td>{{ item.value.original }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="search-title"><?php echo __("Default translation") ?></td>
+                                            <td>{{ item.value.default.length > 0 ? item.value.default : "-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="search-title">
+                                                <?php echo __("Your translation") ?>
+                                            </td>
+                                            <td>{{ item.value.user }}</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td class="text-right"
+                                    style="width: 10%; white-space: normal;">
+                                    <a class="btn btn-sm btn-primary"
+                                       ng-click="openFile(item.file)"><?php echo __("OPEN") ?></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="alert alert-danger"
+                 ng-show="filter.search.length > 2 && results.length == 0">
+                <?php echo __("No match") ?>
+            </div>
+
+            <div class="form-group">
+                <label for="files_list"><?php echo __("Select a file"); ?></label>
+                <select id="files_list"
+                        class="form-control"
+                        ng-model="translation.file"
+                        ng-options="k as v for (k, v) in translation_files"
+                        ng-change="openFile(translation.file);">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+
+        <div ng-show="translation.file">
+            <div class="form-group">
+
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <?php echo __("The %s action let you share individual translations with the community to improve the overall quality.",
+                            '<a class="btn btn-sm btn-primary">' . __("SUGGEST") . '</a>') ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <table class="table">
+                        <tr class="translation warning">
+                            <td><?php echo __("May need to be translated") ?></td>
+                        </tr>
+                        <tr class="translation info">
+                            <td><?php echo __("A default translation is provided") ?></td>
+                        </tr>
+                        <tr class="translation success">
+                            <td><?php echo __("You have translated it") ?></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="col-md-6"
+                     ng-show="translation.file && can_translate">
+                    <div class="form-group" style="margin-top: 24px;">
+                        <a class="btn btn-primary left pull-right"
+                           style="margin-right: 15px;"
+                           ng-show="!yandexTranslation.showProgress"
+                           ng-click="translateAll();">
+                            <?php echo __("Translate all"); ?>
+                        </a>
+                        <a class="btn btn-primary left pull-right"
+                           style="margin-right: 15px;"
+                           ng-show="!yandexTranslation.showProgress"
+                           ng-click="translateMissing();">
+                            <?php echo __("Translate missing entries"); ?>
+                        </a>
+                        <a class="btn btn-primary left pull-right"
+                           style="margin-right: 15px;"
+                           ng-show="yandexTranslation.showProgress">
+                            <i class="fa fa-spinner fa-spin"></i>
+                            <?php echo __("Translation in progress ... "); ?>
+                            {{ yandexTranslation.progress + '%' }}
+                        </a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <div class="col-md-6"
+                     ng-show="translation.file && !can_translate">
+                    <div class="form-group"
+                         style="margin-top: 24px;">
+                        <div><?php echo __("<b>Warning:</b> translation API is experimental for the current language and may fail.") ?></div>
+                        <a class="btn btn-primary left pull-right"
+                           style="margin-right: 15px;"
+                           ng-click="translateAll();"><?php echo __("Translate all"); ?></a>
+                        <a class="btn btn-primary left pull-right"
+                           style="margin-right: 15px;"
+                           ng-click="translateMissing();"><?php echo __("Translate missing entries"); ?></a>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <table class="table"
+                           id="file_datas">
+                        <col width="30%" />
+                        <col width="30%" />
+                        <col width="30%" />
+                        <col width="10%" />
+                        <thead>
+                            <tr>
+                                <th class="text-left"
+                                    style="font-weight: bold;"><?php echo __("Key / Original"); ?></th>
+                                <th class="text-left"
+                                    style="font-weight: bold;"><?php echo __("Default translation"); ?></th>
+                                <th class="text-left"
+                                    style="font-weight: bold;">
+                                    <?php echo __("Your translation"); ?>
+                                    <i>(<?php echo __("leave blank to use default translation") ?>)</i>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="translation slide-left {{ getRowColor(translation.collection[key]) }}"
+                                ng-repeat="key in notSorted(translation.collection) track by $index">
+                                <td class="valign-middle wrap">{{ translation.collection[key].original }}</td>
+                                <td class="valign-middle wrap">{{ translation.collection[key].default.length > 0 ? translation.collection[key].default : "-" }}</td>
+                                <td class="valign-middle text-left">
+                                    <input type="text"
+                                           ng-model="translation.collection[key].user"
+                                           class="form-control"
+                                           value="{{ translation.collection[key].user !== null ? translation.collection[key].user : '' }}"
+                                           ng-class="currentClass[key]"
+                                           ng-change="updateClass(key)" />
+                                </td>
+                                <td class="valign-middle text-right"
+                                    style="width: 10%; white-space: normal;">
+                                    <a class="btn btn-sm btn-primary"
+                                       ng-if="translation.collection[key].user.length > 0"
+                                       ng-click="suggest(translation.collection[key])"><?php echo __("SUGGEST") ?></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary right"
+                        ng-disabled="!translation.file"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+
+</sb-section>
+
+<style type="text/css">
+    .btn-sm {
+        padding: 1px 5px !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
+        font-weight: bold;
+        border: 0 !important;
+
+    }
+
+    a.btn-sm,
+    a.btn-sm:hover {
+        text-decoration: none !important;
+    }
+
+    .tos-optin {
+        font-weight: bold;
+        font-style: italic;
+        font-size: 11px;
+        line-height: 16px;
+    }
+    
+    table .search-title {
+        font-weight: bold;
+        font-style: italic;
+        padding: 0 15px 0 0;
+    }
+
+    tr.translation.warning,
+    tr.translation.success,
+    tr.translation.info {
+        border-left-style: solid;
+        border-left-width: 4px;
+    }
+
+    tr.translation.warning {
+        border-left-color: #e5ba36;
+    }
+
+    tr.translation.success {
+        border-left-color: #84c826;
+    }
+
+    tr.translation.info {
+        border-left-color: #3698f2;
+    }
+
+    .tos-optin span {
+        font-weight: bold;
+    }
+</style>

@@ -148,6 +148,20 @@ class Zend_Translate_Adapter_Gettext extends Zend_Translate_Adapter {
     }
 
     /**
+     * @Siberian
+     *
+     * @param null $locale
+     * @return array|mixed
+     */
+    public function getData($locale = null)
+    {
+        if (isset($this->_data[$locale])) {
+            return $this->_data[$locale];
+        }
+        return $this->_data;
+    }
+
+    /**
      * Returns the adapter informations
      *
      * @return array Each loaded adapter information as array value
