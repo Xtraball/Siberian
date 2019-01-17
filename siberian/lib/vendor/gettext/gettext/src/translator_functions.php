@@ -11,7 +11,7 @@ use Gettext\BaseTranslator;
  */
 function __($original)
 {
-    $text = BaseTranslator::$current->gettext($original);
+    $text = BaseTranslator::$current->gettext((string) $original);
 
     if (func_num_args() === 1) {
         return $text;
@@ -45,7 +45,7 @@ function noop__($original)
  */
 function n__($original, $plural, $value)
 {
-    $text = BaseTranslator::$current->ngettext($original, $plural, $value);
+    $text = BaseTranslator::$current->ngettext((string) $original, (string) $plural, (string) $value);
 
     if (func_num_args() === 3) {
         return $text;
@@ -66,7 +66,8 @@ function n__($original, $plural, $value)
  */
 function p__($context, $original)
 {
-    $text = BaseTranslator::$current->pgettext($context, $original);
+    extract_p__($context, $original);
+    $text = BaseTranslator::$current->pgettext((string) $context, (string) $original);
 
     if (func_num_args() === 2) {
         return $text;
@@ -87,7 +88,7 @@ function p__($context, $original)
  */
 function d__($domain, $original)
 {
-    $text = BaseTranslator::$current->dgettext($domain, $original);
+    $text = BaseTranslator::$current->dgettext((string) $domain, (string) $original);
 
     if (func_num_args() === 2) {
         return $text;
@@ -109,7 +110,7 @@ function d__($domain, $original)
  */
 function dp__($domain, $context, $original)
 {
-    $text = BaseTranslator::$current->dpgettext($domain, $context, $original);
+    $text = BaseTranslator::$current->dpgettext((string) $domain, (string) $context, (string) $original);
 
     if (func_num_args() === 3) {
         return $text;
@@ -132,7 +133,7 @@ function dp__($domain, $context, $original)
  */
 function dn__($domain, $original, $plural, $value)
 {
-    $text = BaseTranslator::$current->dngettext($domain, $original, $plural, $value);
+    $text = BaseTranslator::$current->dngettext((string) $domain, (string) $original, (string) $plural, (string) $value);
 
     if (func_num_args() === 4) {
         return $text;
@@ -155,7 +156,7 @@ function dn__($domain, $original, $plural, $value)
  */
 function np__($context, $original, $plural, $value)
 {
-    $text = BaseTranslator::$current->npgettext($context, $original, $plural, $value);
+    $text = BaseTranslator::$current->npgettext((string) $context, (string) $original, (string) $plural, (string) $value);
 
     if (func_num_args() === 4) {
         return $text;
@@ -179,7 +180,7 @@ function np__($context, $original, $plural, $value)
  */
 function dnp__($domain, $context, $original, $plural, $value)
 {
-    $text = BaseTranslator::$current->dnpgettext($domain, $context, $original, $plural, $value);
+    $text = BaseTranslator::$current->dnpgettext((string) $domain, (string) $context, (string) $original, (string) $plural, (string) $value);
 
     if (func_num_args() === 5) {
         return $text;

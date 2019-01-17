@@ -4,6 +4,8 @@
         <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
         <li <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> class="active"<?php endif; ?>>
             <a href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>">
+                <img src="/app/sae/design/desktop/flat/images/flags/svg/<?php echo strtolower(explode("_", $language->getCode())[0]) ?>.svg"
+                     style="width: 24px; height: 16px; margin-right: 15px; border-radius: 1px;" />
                 <?php echo $language->getName(); ?>
             </a>
         </li>
