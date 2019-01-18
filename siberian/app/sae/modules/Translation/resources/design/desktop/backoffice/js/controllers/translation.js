@@ -37,8 +37,8 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
-}).controller("TranslationEditController", function($http, $scope, $location, $routeParams, $queue, Header, Label,
-                                                    SectionButton, Translations, Url) {
+}).controller("TranslationEditController", function($http, $rootScope, $scope, $location, $routeParams, $queue, Header, Label,
+                                                    SectionButton, $timeout, Translations, Url) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -55,6 +55,21 @@ App.config(function($routeProvider) {
 
     $scope.filter = {
         search: "",
+        isStrict: false,
+        isCaseSensitive: false,
+        useComparator: function() {
+            return $scope.filter.isStrict || $scope.filter.isCaseSensitive;
+        },
+        comparator: function(actual, expected) {
+            if (!$scope.filter.isCaseSensitive) {
+                expected = actual.toLowerCase();
+            }
+
+            if (!$scope.filter.isStrict) {
+                return actual.indexOf(expected) >= 0;
+            }
+            return angular.equals(actual, expected);
+        }
     };
 
     $scope.currentClass = [];
@@ -68,29 +83,41 @@ App.config(function($routeProvider) {
         $scope.header.icon = data.icon;
     });
 
-    Translations.find($routeParams.lang_id).success(function(data) {
-        $scope.translation.country_code = data.country_code;
-        $scope.languages = data;
-        $scope.section_title = data.section_title;
-        $scope.countries = data.country_codes;
-        $scope.search_context = data.search_context;
-        $scope.translation_files = data.translation_files;
-        $scope.translation_files_data = data.translations;
-        $scope.is_edit = data.is_edit;
-        if($scope.translation.country_code) {
-            $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
-        } else {
-            $scope.can_translate = false;
-        }
-    }).finally(function() {
-        $scope.content_loader_is_visible = false;
-    });
+    Translations
+        .find($routeParams.lang_id)
+        .success(function(data) {
+
+            $scope.translation.country_code = data.country_code;
+            $scope.languages = data;
+            $scope.section_title = data.section_title;
+            $scope.countries = data.country_codes;
+            $scope.search_context = data.search_context;
+            $scope.translation_files = data.translation_files;
+            $scope.translation_files_data = data.translations;
+            $scope.is_edit = data.is_edit;
+
+            if ($scope.translation.country_code) {
+                $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
+            } else {
+                $scope.can_translate = false;
+            }
+        }).finally(function() {
+            $scope.content_loader_is_visible = false;
+        });
 
     $scope.changeCountry = function() {
         $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
     };
 
+    $scope.getRowColor = function (item) {
+        if (item.user === null) {
+            return (item.default === item.original || item.default === null) ? "warning" : "info";
+        }
+        return "success";
+    };
+
     $scope.selectFile = function() {
+        $scope.resize();
         $scope.translation.collection = $scope.translation_files_data[$scope.translation.file];
     };
 
@@ -140,7 +167,41 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.available_target = ["be", "ca", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl", "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr", "uk"];
+    $scope.suggest = function (item) {
+        $scope.form_loader_is_visible = true;
+
+        item.langId = $routeParams.lang_id;
+        item.file = $scope.translation.file;
+
+        Translations
+        .suggest(item)
+        .success(function(data) {
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+                $scope.message.isError(false);
+            } else {
+                $scope.message.isError(true);
+            }
+            $scope.message.setText(message).show();
+        }).error(function(data) {
+            var message = Label.save.error;
+            if(angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message).isError(true).show();
+        }).finally(function() {
+            $scope.form_loader_is_visible = false;
+        });
+    };
+
+    $scope.available_target = [
+        "be", "ca", "cs", "da", "de", "el", "es", "et",
+        "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl",
+        "no", "pt", "ru", "sk", "sl", "sq", "sv", "tr",
+        "uk"
+    ];
 
     $scope.translate = function(key, target) {
         return $http({
@@ -154,11 +215,9 @@ App.config(function($routeProvider) {
 
     $scope.translateAll = function() {
 
-        var keys = [];
         var size = 0;
         var remain = 0;
         var callbackTranslate = function (key) {
-            var value = keys[key];
             if(!breakOnError) {
                 $scope.translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
@@ -181,11 +240,9 @@ App.config(function($routeProvider) {
                 $scope.yandexTranslation.progress = 0;
                 $scope.yandexTranslation.showProgress = false;
             }
-
         };
 
         var breakOnError = false,
-            currentLanguage = $scope.translation.country_code.split("_")[0],
             translateQueue = $queue.queue(callbackTranslate, {
                 delay: 100,
                 paused: true,
@@ -195,28 +252,28 @@ App.config(function($routeProvider) {
             });
 
         angular.forEach($scope.translation.collection, function(value, key) {
-            keys[key] = value;
             translateQueue.add(key);
         });
 
-        size = translateQueue.size();
-        remain = size;
-        translateQueue.start();
-        $scope.yandexTranslation.showProgress = true;
-
+        if (size > 0) {
+            size = translateQueue.size();
+            remain = size;
+            translateQueue.start();
+            $scope.yandexTranslation.showProgress = true;
+        }
     };
 
     $scope.translateMissing = function() {
 
-        var keys = [];
         var size = 0;
         var remain = 0;
         var callbackTranslate = function (key) {
             if(!breakOnError) {
-                $scope.translate(key, $scope.translation.country_code.split("_")[0])
+                $scope
+                    .translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
                         if(response.data && response.data.result && response.data.result.text) {
-                            $scope.translation.collection[key] = response.data.result.text[0];
+                            $scope.translation.collection[key].user = response.data.result.text[0];
                         }
                         $scope.updateClass(key);
                         $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
@@ -237,7 +294,6 @@ App.config(function($routeProvider) {
         };
 
         var breakOnError = false,
-            currentLanguage = $scope.translation.country_code.split("_")[0],
             translateQueue = $queue.queue(callbackTranslate, {
                 delay: 100,
                 paused: true,
@@ -247,41 +303,81 @@ App.config(function($routeProvider) {
             });
 
         angular.forEach($scope.translation.collection, function(value, key) {
-            if(value === null || value === "") {
-                keys[key] = value;
+            if ((value.user === null || value.user === "") &&
+                (value.default === value.original || value.default === null)) {
                 translateQueue.add(key);
             }
         });
 
         size = translateQueue.size();
         remain = size;
-        translateQueue.start();
-        $scope.yandexTranslation.showProgress = true;
 
+        if (size > 0) {
+            translateQueue.start();
+            $scope.yandexTranslation.showProgress = true;
+        }
     };
 
+    $scope.resize = function () {
+        document.querySelector('.wrapper.inner_content').style.width = "calc(100% - 80px)";
+    };
+
+    $timeout(function () {
+        $scope.resize();
+    }, 1000);
 });
 
 App.filter('multiWordsFilter', function($filter) {
-    return function(inputArray, searchText, booleanOp) {
-        booleanOp = booleanOp || 'AND';
-
+    return function(inputArray, searchTerms, isStrict, isCaseSensitive) {
         var result;
-        var searchTerms = (searchText || '').toLowerCase().split(/\s+/);
-
-        if (booleanOp === 'AND') {
-            result = inputArray;
-            searchTerms.forEach(function(searchTerm) {
-                result = $filter('filter')(result, searchTerm);
-            });
-
+        if (!isStrict) {
+            searchTerms = (searchTerms || '').split(/\s+/);
         } else {
-            result = [];
-            searchTerms.forEach(function(searchTerm) {
+            searchTerms = [searchTerms];
+        }
+
+        result = [];
+        searchTerms.forEach(function(searchTerm) {
+            if (!isCaseSensitive) {
                 result = result.concat($filter('filter')(inputArray, searchTerm));
-            });
+            } else {
+                result = result.concat($filter('filter')(inputArray, searchTerm, function (actual, expected) {
+                    return actual.indexOf(expected) >= 0;
+                }));
+            }
+        });
+
+        if (result.length > 0) {
+            result = $filter('repeatUnique')(result, 'search')
         }
 
         return result;
     };
-})
+}).filter('repeatUnique', function() {
+    // we will return a function which will take in a collection
+    // and a keyname
+    return function(collection, keyName) {
+        // we define our output and keys array;
+        var output = [],
+            keys = [];
+
+        // we utilize angular's foreach function
+        // this takes in our original collection and an iterator function
+        angular.forEach(collection, function(item) {
+            if (item) {
+                // we check to see whether our object exists
+                var key = item[keyName];
+                // if it's not already part of our keys array
+                if(keys.indexOf(key) === -1) {
+                    // add it to our keys array
+                    keys.push(key);
+                    // push this item to our final output array
+                    output.push(item);
+                }
+            }
+        });
+        // return our array which should be devoid of
+        // any duplicates
+        return output;
+    };
+});

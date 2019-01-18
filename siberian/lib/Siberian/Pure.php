@@ -9,6 +9,27 @@ function app()
     return \Application_Model_Application::getSingleton();
 }
 
+/**
+ * Logs all strings for extraction
+ *
+ * @param $context
+ * @param $original
+ */
+global $extract_translations;
+function extract_p__($context, $original)
+{
+    global $extract_translations;
+    $file = Core_Model_Directory::getBasePathTo("/var/tmp/extract.po");
+    if (!is_file($file)) {
+        touch($file);
+    }
+    if ($extract_translations === null) {
+        $extract_translations = \Gettext\Translations::fromPoFile($file);
+    }
+
+    $extract_translations->insert($context, $original);
+    $extract_translations->toPoFile($file);
+}
 
 function log_emerg($message)
 {
