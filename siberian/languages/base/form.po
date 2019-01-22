@@ -99,27 +99,435 @@ msgstr "Your app's form"
 msgid "Your form has been filled out, here are the answers:"
 msgstr "Your form has been filled out, here are the answers:"
 
-msgid "<strong>%s</strong> is not a numerical value<br />"
-msgstr "<strong>%s</strong> is not a numerical value<br />"
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer or float expected"
+msgstr "Invalid type given. String, integer or float expected"
 
-msgid "<strong>%s</strong> is not valid email address<br />"
-msgstr "<strong>%s</strong> is not valid email address<br />"
+msgctxt "zend_validate"
+msgid "'%value%' contains characters which are non alphabetic and no digits"
+msgstr "'%value%' contains characters which are non alphabetic and no digits"
 
-msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong> is required<br />"
+msgctxt "zend_validate"
+msgid "'%value%' is an empty string"
+msgstr "'%value%' is an empty string"
 
-msgid "<strong>%s</strong> must be a numerical value<br />"
-msgstr "<strong>%s</strong> must be a numerical value<br />"
+msgctxt "zend_validate"
+msgid "Invalid type given. String expected"
+msgstr "Invalid type given. String expected"
 
-msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgctxt "zend_validate"
+msgid "'%value%' contains non alphabetic characters"
+msgstr "'%value%' contains non alphabetic characters"
 
-msgid "<strong>%s</strong> must be a valid date<br />"
-msgstr "<strong>%s</strong> must be a valid date<br />"
+msgctxt "zend_validate"
+msgid "'%value%' failed checksum validation"
+msgstr "'%value%' failed checksum validation"
 
-msgid "<strong>%s</strong> must be a valid email address<br />"
-msgstr "<strong>%s</strong> must be a valid email address<br />"
+msgctxt "zend_validate"
+msgid "'%value%' contains invalid characters"
+msgstr "'%value%' contains invalid characters"
 
-msgid "<strong>%s</strong> must be filled<br />"
-msgstr "<strong>%s</strong> must be filled<br />"
+msgctxt "zend_validate"
+msgid "'%value%' should have a length of %length% characters"
+msgstr "'%value%' should have a length of %length% characters"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not between '%min%' and '%max%', inclusively"
+msgstr "'%value%' is not between '%min%' and '%max%', inclusively"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not strictly between '%min%' and '%max%'"
+msgstr "'%value%' is not strictly between '%min%' and '%max%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not valid"
+msgstr "'%value%' is not valid"
+
+msgctxt "zend_validate"
+msgid "An exception has been raised within the callback"
+msgstr "An exception has been raised within the callback"
+
+msgctxt "zend_validate"
+msgid "'%value%' must contain between 13 and 19 digits"
+msgstr "'%value%' must contain between 13 and 19 digits"
+
+msgctxt "zend_validate"
+msgid "Luhn algorithm (mod-10 checksum) failed on '%value%'"
+msgstr "Luhn algorithm (mod-10 checksum) failed on '%value%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' seems to contain an invalid checksum"
+msgstr "'%value%' seems to contain an invalid checksum"
+
+msgctxt "zend_validate"
+msgid "'%value%' must contain only digits"
+msgstr "'%value%' must contain only digits"
+
+msgctxt "zend_validate"
+msgid "'%value%' contains an invalid amount of digits"
+msgstr "'%value%' contains an invalid amount of digits"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not from an allowed institute"
+msgstr "'%value%' is not from an allowed institute"
+
+msgctxt "zend_validate"
+msgid "'%value%' seems to be an invalid creditcard number"
+msgstr "'%value%' seems to be an invalid creditcard number"
+
+msgctxt "zend_validate"
+msgid "An exception has been raised while validating '%value%'"
+msgstr "An exception has been raised while validating '%value%'"
+
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, array or Zend_Date expected"
+msgstr "Invalid type given. String, integer, array or Zend_Date expected"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid date"
+msgstr "'%value%' does not appear to be a valid date"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not fit the date format '%format%'"
+msgstr "'%value%' does not fit the date format '%format%'"
+
+msgctxt "zend_validate"
+msgid "No record matching '%value%' was found"
+msgstr "No record matching '%value%' was found"
+
+msgctxt "zend_validate"
+msgid "A record matching '%value%' was found"
+msgstr "A record matching '%value%' was found"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid email address in the basic format local-part@hostname"
+msgstr "'%value%' is not a valid email address in the basic format local-part@hostname"
+
+msgctxt "zend_validate"
+msgid "'%hostname%' is not a valid hostname for email address '%value%'"
+msgstr "'%hostname%' is not a valid hostname for email address '%value%'"
+
+msgctxt "zend_validate"
+msgid "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
+msgstr "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
+
+msgctxt "zend_validate"
+msgid "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
+msgstr "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
+
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against dot-atom format"
+msgstr "'%localPart%' can not be matched against dot-atom format"
+
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against quoted-string format"
+msgstr "'%localPart%' can not be matched against quoted-string format"
+
+msgctxt "zend_validate"
+msgid "'%localPart%' is not a valid local part for email address '%value%'"
+msgstr "'%localPart%' is not a valid local part for email address '%value%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' exceeds the allowed length"
+msgstr "'%value%' exceeds the allowed length"
+
+msgctxt "zend_validate"
+msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
+msgstr "Too many files, maximum '%max%' are allowed but '%count%' are given"
+
+msgctxt "zend_validate"
+msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
+msgstr "Too few files, minimum '%min%' are expected but '%count%' are given"
+
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given crc32 hashes"
+msgstr "File '%value%' does not match the given crc32 hashes"
+
+msgctxt "zend_validate"
+msgid "A crc32 hash could not be evaluated for the given file"
+msgstr "A crc32 hash could not be evaluated for the given file"
+
+msgctxt "zend_validate"
+msgid "File '%value%' is not readable or does not exist"
+msgstr "File '%value%' is not readable or does not exist"
+
+msgctxt "zend_validate"
+msgid "File '%value%' has a false extension"
+msgstr "File '%value%' has a false extension"
+
+msgctxt "zend_validate"
+msgid "File '%value%' has a false mimetype of '%type%'"
+msgstr "File '%value%' has a false mimetype of '%type%'"
+
+msgctxt "zend_validate"
+msgid "The mimetype of file '%value%' could not be detected"
+msgstr "The mimetype of file '%value%' could not be detected"
+
+msgctxt "zend_validate"
+msgid "File '%value%' does not exist"
+msgstr "File '%value%' does not exist"
+
+msgctxt "zend_validate"
+msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+msgstr "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+
+msgctxt "zend_validate"
+msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+msgstr "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+
+msgctxt "zend_validate"
+msgid "One or more files can not be read"
+msgstr "One or more files can not be read"
+
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given hashes"
+msgstr "File '%value%' does not match the given hashes"
+
+msgctxt "zend_validate"
+msgid "A hash could not be evaluated for the given file"
+msgstr "A hash could not be evaluated for the given file"
+
+msgctxt "zend_validate"
+msgid "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
+msgstr "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
+
+msgctxt "zend_validate"
+msgid "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
+msgstr "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
+
+msgctxt "zend_validate"
+msgid "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
+msgstr "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
+
+msgctxt "zend_validate"
+msgid "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
+msgstr "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
+
+msgctxt "zend_validate"
+msgid "The size of image '%value%' could not be detected"
+msgstr "The size of image '%value%' could not be detected"
+
+msgctxt "zend_validate"
+msgid "File '%value%' is not compressed, '%type%' detected"
+msgstr "File '%value%' is not compressed, '%type%' detected"
+
+msgctxt "zend_validate"
+msgid "File '%value%' is no image, '%type%' detected"
+msgstr "File '%value%' is no image, '%type%' detected"
+
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given md5 hashes"
+msgstr "File '%value%' does not match the given md5 hashes"
+
+msgctxt "zend_validate"
+msgid "A md5 hash could not be evaluated for the given file"
+msgstr "A md5 hash could not be evaluated for the given file"
+
+msgctxt "zend_validate"
+msgid "File '%value%' exists"
+msgstr "File '%value%' exists"
+
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given sha1 hashes"
+msgstr "File '%value%' does not match the given sha1 hashes"
+
+msgctxt "zend_validate"
+msgid "A sha1 hash could not be evaluated for the given file"
+msgstr "A sha1 hash could not be evaluated for the given file"
+
+msgctxt "zend_validate"
+msgid "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
+msgstr "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
+
+msgctxt "zend_validate"
+msgid "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
+msgstr "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
+
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined ini size"
+msgstr "File '%value%' exceeds the defined ini size"
+
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined form size"
+msgstr "File '%value%' exceeds the defined form size"
+
+msgctxt "zend_validate"
+msgid "File '%value%' was only partially uploaded"
+msgstr "File '%value%' was only partially uploaded"
+
+msgctxt "zend_validate"
+msgid "File '%value%' was not uploaded"
+msgstr "File '%value%' was not uploaded"
+
+msgctxt "zend_validate"
+msgid "No temporary directory was found for file '%value%'"
+msgstr "No temporary directory was found for file '%value%'"
+
+msgctxt "zend_validate"
+msgid "File '%value%' can't be written"
+msgstr "File '%value%' can't be written"
+
+msgctxt "zend_validate"
+msgid "A PHP extension returned an error while uploading the file '%value%'"
+msgstr "A PHP extension returned an error while uploading the file '%value%'"
+
+msgctxt "zend_validate"
+msgid "File '%value%' was illegally uploaded. This could be a possible attack"
+msgstr "File '%value%' was illegally uploaded. This could be a possible attack"
+
+msgctxt "zend_validate"
+msgid "File '%value%' was not found"
+msgstr "File '%value%' was not found"
+
+msgctxt "zend_validate"
+msgid "Unknown error while uploading file '%value%'"
+msgstr "Unknown error while uploading file '%value%'"
+
+msgctxt "zend_validate"
+msgid "Too much words, maximum '%max%' are allowed but '%count%' were counted"
+msgstr "Too much words, maximum '%max%' are allowed but '%count%' were counted"
+
+msgctxt "zend_validate"
+msgid "Too less words, minimum '%min%' are expected but '%count%' were counted"
+msgstr "Too less words, minimum '%min%' are expected but '%count%' were counted"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a float"
+msgstr "'%value%' does not appear to be a float"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not greater than '%min%'"
+msgstr "'%value%' is not greater than '%min%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' has not only hexadecimal digit characters"
+msgstr "'%value%' has not only hexadecimal digit characters"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be an IP address, but IP addresses are not allowed"
+msgstr "'%value%' appears to be an IP address, but IP addresses are not allowed"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
+msgstr "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
+msgstr "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+msgstr "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot extract TLD part"
+msgstr "'%value%' appears to be a DNS hostname but cannot extract TLD part"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not match the expected structure for a DNS hostname"
+msgstr "'%value%' does not match the expected structure for a DNS hostname"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid local network name"
+msgstr "'%value%' does not appear to be a valid local network name"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a local network name but local network names are not allowed"
+msgstr "'%value%' appears to be a local network name but local network names are not allowed"
+
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
+msgstr "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
+
+msgctxt "zend_validate"
+msgid "Unknown country within the IBAN '%value%'"
+msgstr "Unknown country within the IBAN '%value%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' has a false IBAN format"
+msgstr "'%value%' has a false IBAN format"
+
+msgctxt "zend_validate"
+msgid "'%value%' has failed the IBAN check"
+msgstr "'%value%' has failed the IBAN check"
+
+msgctxt "zend_validate"
+msgid "The two given tokens do not match"
+msgstr "The two given tokens do not match"
+
+msgctxt "zend_validate"
+msgid "No token was provided to match against"
+msgstr "No token was provided to match against"
+
+msgctxt "zend_validate"
+msgid "'%value%' was not found in the haystack"
+msgstr "'%value%' was not found in the haystack"
+
+msgctxt "zend_validate"
+msgid "Invalid type given. String or integer expected"
+msgstr "Invalid type given. String or integer expected"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be an integer"
+msgstr "'%value%' does not appear to be an integer"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid IP address"
+msgstr "'%value%' does not appear to be a valid IP address"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid ISBN number"
+msgstr "'%value%' is not a valid ISBN number"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not less than '%max%'"
+msgstr "'%value%' is not less than '%max%'"
+
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, float, boolean or array expected"
+msgstr "Invalid type given. String, integer, float, boolean or array expected"
+
+msgctxt "zend_validate"
+msgid "Value is required and can't be empty"
+msgstr "Value is required and can't be empty"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a postal code"
+msgstr "'%value%' does not appear to be a postal code"
+
+msgctxt "zend_validate"
+msgid "'%value%' does not match against pattern '%pattern%'"
+msgstr "'%value%' does not match against pattern '%pattern%'"
+
+msgctxt "zend_validate"
+msgid "There was an internal error while using the pattern '%pattern%'"
+msgstr "There was an internal error while using the pattern '%pattern%'"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap changefreq"
+msgstr "'%value%' is not a valid sitemap changefreq"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap lastmod"
+msgstr "'%value%' is not a valid sitemap lastmod"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap location"
+msgstr "'%value%' is not a valid sitemap location"
+
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap priority"
+msgstr "'%value%' is not a valid sitemap priority"
+
+msgctxt "zend_validate"
+msgid "Invalid type given. Numeric string, integer or float expected"
+msgstr "Invalid type given. Numeric string, integer or float expected"
+
+msgctxt "zend_validate"
+msgid "'%value%' is less than %min% characters long"
+msgstr "'%value%' is less than %min% characters long"
+
+msgctxt "zend_validate"
+msgid "'%value%' is more than %max% characters long"
+msgstr "'%value%' is more than %max% characters long"
 

@@ -85,6 +85,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             'DebugBar\\' => 9,
         ),
+        'B' => 
+        array (
+            'Braintree\\' => 10,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -224,6 +228,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
         ),
+        'Braintree\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -268,6 +276,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
         'B' => 
         array (
+            'Braintree' => 
+            array (
+                0 => __DIR__ . '/..' . '/braintree/braintree_php/lib',
+            ),
             'Behat\\Transliterator' => 
             array (
                 0 => __DIR__ . '/..' . '/behat/transliterator/src',

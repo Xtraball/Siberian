@@ -382,9 +382,12 @@ $delete_category_form->setValueId($option_value->getId());
                                             ?>
                                         </td>
                                     </tr>
-                                    <tr class="edit-form" data-id="category_<?php echo $category->getId(); ?>" style="display: none;">
+                                    <tr class="edit-form"
+                                        data-id="category_<?php echo $category->getId(); ?>"
+                                        style="display: none;">
                                         <td colspan="5">
-                                            <p class="close-edit" data-id="place_<?php echo $category->getId(); ?>">
+                                            <p class="close-edit"
+                                               data-id="place_<?php echo $category->getId(); ?>">
                                                 <i class="fa fa-times"></i><?php echo __("Close") ?>
                                             </p>
                                         </td>

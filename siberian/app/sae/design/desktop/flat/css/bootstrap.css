@@ -2759,7 +2759,7 @@ select[multiple].input-lg {
     -ms-user-select: none;
     user-select: none;
     background-image: none;
-    border: 1px solid transparent;
+    border: 0;
     border-radius: 2px;
 }
 .btn:focus,
@@ -3090,7 +3090,10 @@ fieldset[disabled] .btn-link:focus {
     padding: 1px 5px;
     font-size: 12px;
     line-height: 1.5;
-    border-radius: 3px;
+    border-radius: 2px;
+}
+.btn-xs {
+    letter-spacing: .125em;
 }
 .btn-block {
     display: block;
