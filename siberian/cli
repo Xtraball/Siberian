@@ -202,10 +202,15 @@ try {
             }
             break;
         case 'i18n:extract':
-            \Siberian\Translation::extractAll();
-            break;
-        case 'test':
-            \Siberian\Translation::testGettext();
+            $module = null;
+            $context = false;
+            if (isset($argv[2])) {
+                $module = (string) $argv[2];
+            }
+            if (isset($argv[3])) {
+                $context = (string) $argv[3];
+            }
+            \Siberian\Translation::extractAll($module, $context);
             break;
         case 'app:manifest':
             \Siberian\Manifest::rebuild();

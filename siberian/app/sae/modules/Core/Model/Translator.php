@@ -79,7 +79,7 @@ class Core_Model_Translator
             }
         }
 
-        self::$_translations->mergeWith($translations, Merge::TRANSLATION_OVERRIDE);
+        self::$_translations->mergeWith($translations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
         // Load user translation files!
         $userTranslations = new Translations();
@@ -100,7 +100,7 @@ class Core_Model_Translator
             }
         }
 
-        self::$_translations->mergeWith($userTranslations, Merge::TRANSLATION_OVERRIDE);
+        self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
         // Then load into the translator!
         self::$_translator->loadTranslations(self::$_translations);
@@ -462,6 +462,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $line[0]);
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "context" => null,
                             "original" => $key,
                             "default" => null,
                             "user" => null,
@@ -482,6 +483,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "context" => $userTranslation->getContext(),
                             "original" => $key,
                             "default" => null,
                             "user" => null,

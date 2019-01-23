@@ -10,8 +10,11 @@ class Translation
 {
     /**
      * Compare existing translations with all __() / ->_() calls and extract missing!
+     *
+     * @param null $module
+     * @param bool $context
      */
-    public static function extractAll ()
+    public static function extractAll ($module = null, $context = false)
     {
         $allKeys = [];
 
@@ -71,7 +74,12 @@ class Translation
 
         $extractTranslate = [];
 
-        $appPath = \Core_Model_Directory::getBasePathTo('/app');
+        if ($module !== null) {
+            $appPath = \Core_Model_Directory::getBasePathTo("/app/local/modules/{$module}");
+        } else {
+            $appPath = \Core_Model_Directory::getBasePathTo('/app');
+        }
+
         $files = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($appPath, 4096),
             \RecursiveIteratorIterator::SELF_FIRST);
@@ -83,7 +91,11 @@ class Translation
             $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             if (in_array($extension, ['php', 'phtml', 'csv'])) {
                 $textContent = file_get_contents($file->getPathname());
-                $count = preg_match_all('/((__|->_|__js)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
+                if ($context !== false) {
+                    $count = preg_match_all('/((p__)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
+                } else {
+                    $count = preg_match_all('/((__|->_|__js)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
+                }
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {
@@ -91,7 +103,12 @@ class Translation
                         }
                     }
                 }
-                $count = preg_match_all('/((__|->_|__js)\(\'([!\w\s\d"<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(\',|\'\)))/mi', $textContent, $matches);
+                if ($context !== false) {
+                    $count = preg_match_all('/((p__)\("([!\w\s\d\'<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(",|"\)))/mi', $textContent, $matches);
+                } else {
+                    $count = preg_match_all('/((__|->_|__js)\(\'([!\w\s\d"<>\/\\\,~|°¨^?:;.%\-@#$€£&=+*(){}\[\]]+)(\',|\'\)))/mi', $textContent, $matches);
+                }
+
                 if ($count > 0) {
                     foreach ($matches[3] as $element) {
                         if (!in_array($element, $extractTranslate)) {
@@ -104,23 +121,12 @@ class Translation
 
         foreach ($extractTranslate as $extract) {
             if (!in_array(addcslashes($extract, '"'), $allKeys)) {
-                echo '"' . addcslashes($extract, '"') . '"' . PHP_EOL;
+                if ($context !== false) {
+                    echo 'msgctxt "' . $context . '"' . PHP_EOL;
+                }
+                echo 'msgid "' . addcslashes($extract, '"') . '"' . PHP_EOL;
+                echo 'msgstr "' . addcslashes($extract, '"') . '"' . PHP_EOL . PHP_EOL;
             }
         }
-    }
-
-    public static function testGettext() {
-        $translator = new \Zend_Translate([
-            'adapter' => 'gettext',
-            'content' => '/Volumes/SSD2/Developments/repos/xtraball.com/siberian/siberian/languages/base/acl.mo',
-            'locale' => 'en'
-        ]);
-
-        $allMessages = $translator->getData('en');
-
-        print_r($allMessages);
-        die;
-
-        //getAllMessages
     }
 }
