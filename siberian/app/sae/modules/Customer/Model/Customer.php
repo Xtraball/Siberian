@@ -39,6 +39,22 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * @return array
+     */
+    public function getInappStates($valueId)
+    {
+        $inAppStates = [
+            [
+                "state" => "my-account",
+                "offline" => true,
+                "params" => [],
+            ],
+        ];
+
+        return $inAppStates;
+    }
+
+    /**
      * @param $app_id
      * @return mixed
      */
@@ -227,7 +243,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param array $datas => ('type' => 'facebook', 'id' => $id, 'data' => $data);
      * @return Customer_Model_Customer
      */
-    public function setSocialDatas(array $datas) 
+    public function setSocialDatas(array $datas)
     {
         $this->_social_datas = $datas;
         return $this;
@@ -239,7 +255,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param array $datas => ('id' => $id, 'data' => $data);
      * @return Customer_Model_Customer
      */
-    public function setSocialData($type, array $datas) 
+    public function setSocialData($type, array $datas)
     {
         $this->_social_datas[$type] = $datas;
         return $this;
@@ -248,7 +264,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return bool
      */
-    public function canPostSocialMessage() 
+    public function canPostSocialMessage()
     {
         foreach ($this->_types as $type) {
             if ($this->getSocialObject($type)->isValid()) {
@@ -265,7 +281,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param null $points
      * @return $this
      */
-    public function addSocialPost($customer_message, $message_type, $points = null) 
+    public function addSocialPost($customer_message, $message_type, $points = null)
     {
         if ($this->canPostSocialMessage()) {
             $this->getTable()->addSocialPost($this->getId(), $customer_message, $message_type, $points);
@@ -277,7 +293,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $post_id
      * @return $this
      */
-    public function deleteSocialPost($post_id) 
+    public function deleteSocialPost($post_id)
     {
         $this->getTable()->deleteSocialPost($this->getId(), $post_id);
         return $this;
@@ -288,7 +304,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $datas
      * @return bool
      */
-    public function postSocialMessage($pos, $datas) 
+    public function postSocialMessage($pos, $datas)
     {
         $isOk = true;
 
@@ -307,7 +323,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return mixed
      */
-    public function findAllPosts() 
+    public function findAllPosts()
     {
         return $this->getTable()->findAllPosts();
     }
@@ -316,7 +332,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param null $app_id
      * @return mixed
      */
-    public function findAllWithDeviceUid($app_id = null) 
+    public function findAllWithDeviceUid($app_id = null)
     {
         return $this->getTable()->findAllWithDeviceUid($app_id);
     }
@@ -325,7 +341,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $password
      * @return bool
      */
-    public function isSamePassword($password) 
+    public function isSamePassword($password)
     {
         return $this->getPassword() === $this->_encrypt($password);
     }
@@ -335,7 +351,8 @@ class Customer_Model_Customer extends Core_Model_Default
      * @return $this
      * @throws Exception
      */
-    public function setPassword($password) {
+    public function setPassword($password)
+    {
         if (strlen($password) < 6) throw new Exception($this->_('The password must be at least 6 characters'));
         $this->setData('password', $this->_encrypt($password));
         return $this;
@@ -344,7 +361,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return string
      */
-    public function getImagePath() 
+    public function getImagePath()
     {
         return Core_Model_Directory::getPathTo(self::IMAGE_PATH);
     }
@@ -352,7 +369,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return string
      */
-    public function getBaseImagePath() 
+    public function getBaseImagePath()
     {
         return Core_Model_Directory::getBasePathTo(self::IMAGE_PATH);
     }
@@ -360,7 +377,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return string
      */
-    public function getImageLink() 
+    public function getImageLink()
     {
         if ($this->getData('image') && is_file($this->getBaseImagePath() . '/' . $this->getImage())) {
             return $this->getImagePath() . '/' . $this->getImage();
@@ -371,7 +388,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return null|string
      */
-    public function getFullImagePath() 
+    public function getFullImagePath()
     {
         if ($this->getData('image') && is_file($this->getBaseImagePath() . '/' . $this->getImage())) {
             return $this->getBaseImagePath() . '/' . $this->getImage();
@@ -382,7 +399,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return string
      */
-    public function getNoImage() 
+    public function getNoImage()
     {
         return $this->getImagePath() . '/placeholder/no-image.png';
     }
@@ -391,15 +408,15 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param bool $sanityCheck
      * @return $this|void
      */
-    public function save($sanityCheck = true) 
+    public function save($sanityCheck = true)
     {
         parent::save();
         if (!is_null($this->_social_datas)) {
             $datas = [];
             foreach ($this->_social_datas as $type => $data) {
                 $datas[] = [
-                    'type' => $type, 
-                    'social_id' => $data['id'], 
+                    'type' => $type,
+                    'social_id' => $data['id'],
                     'datas' => serialize(!empty($data['datas']) ? $data['datas'] : [])
                 ];
             }
@@ -409,7 +426,7 @@ class Customer_Model_Customer extends Core_Model_Default
             $datas = [];
             foreach ($this->_metadatas as $module_code => $data) {
                 $datas[] = [
-                    'code' => $module_code, 
+                    'code' => $module_code,
                     'datas' => serialize(!empty($data) ? $data : null)
                 ];
             }
@@ -422,7 +439,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $hash
      * @return bool
      */
-    private function _checkPassword($password, $hash) 
+    private function _checkPassword($password, $hash)
     {
         return $this->_encrypt($password) === $hash;
     }
@@ -431,7 +448,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $password
      * @return string
      */
-    private function _encrypt($password) 
+    private function _encrypt($password)
     {
         return sha1($password);
     }
@@ -439,7 +456,7 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return mixed
      */
-    public function getAppIdByCustomerId() 
+    public function getAppIdByCustomerId()
     {
         return $this->getTable()->getAppIdByCustomerId();
     }
@@ -448,7 +465,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param null $module_code
      * @return null
      */
-    public function getMetadatas($module_code = null) 
+    public function getMetadatas($module_code = null)
     {
         if (empty($this->_metadatas) || (!empty($module_code) && empty($this->_metadatas[$module_code]))) {
             $this->_metadatas = $this->getTable()->findMetadatas($this->getId());
@@ -467,7 +484,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $key
      * @return mixed
      */
-    public function getMetadata($module_code, $key) 
+    public function getMetadata($module_code, $key)
     {
         $metadatas = $this->getMetadatas($module_code);
         return $metadatas[$key];
@@ -478,7 +495,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $datas_for_module_code
      * @return $this
      */
-    public function setMetadatas($module_code_or_datas, $datas_for_module_code) 
+    public function setMetadatas($module_code_or_datas, $datas_for_module_code)
     {
         if (is_array($module_code_or_datas)) {
             $this->_metadatas = $module_code_or_datas;
@@ -494,7 +511,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $value
      * @return Customer_Model_Customer
      */
-    public function setMetadata($module_code, $key, $value) 
+    public function setMetadata($module_code, $key, $value)
     {
         $datas = $this->getMetadatas($module_code);
         $datas[$key] = $value;
@@ -506,7 +523,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $key
      * @return Customer_Model_Customer
      */
-    public function removeMetadata($module_code, $key) 
+    public function removeMetadata($module_code, $key)
     {
         $datas = $this->getMetadatas($module_code);
         unset($datas[$key]);
@@ -518,7 +535,7 @@ class Customer_Model_Customer extends Core_Model_Default
      *
      * @return array
      */
-    public static function getCurrent() 
+    public static function getCurrent()
     {
         $customer = self::_getSession()->getCustomer();
 
@@ -533,8 +550,8 @@ class Customer_Model_Customer extends Core_Model_Default
             }
 
             //hide stripe customer id for secure purpose
-            if ($metadatas->stripe && 
-                array_key_exists('customerId', $metadatas->stripe) && 
+            if ($metadatas->stripe &&
+                array_key_exists('customerId', $metadatas->stripe) &&
                 $metadatas->stripe['customerId']) {
                 unset($metadatas->stripe['customerId']);
             }
@@ -546,10 +563,10 @@ class Customer_Model_Customer extends Core_Model_Default
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
                 'email' => $customer->getEmail(),
-                'show_in_social_gaming' => (bool) $customer->getShowInSocialGaming(),
-                'is_custom_image' => (bool) $customer->getIsCustomImage(),
-                'can_access_locked_features' => (bool) $customer->canAccessLockedFeatures(),
-                'token' => (string) Zend_Session::getId(),
+                'show_in_social_gaming' => (bool)$customer->getShowInSocialGaming(),
+                'is_custom_image' => (bool)$customer->getIsCustomImage(),
+                'can_access_locked_features' => (bool)$customer->canAccessLockedFeatures(),
+                'token' => (string)Zend_Session::getId(),
                 'metadatas' => $metadatas
             ];
 

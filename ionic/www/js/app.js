@@ -568,7 +568,14 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 params = parts[1].replace(/(^\?)/,'').split(',').map(function (n){return n = n.split(':'),this[n[0].trim()] = n[1],this}.bind({}))[0];
                             }
 
-                            var offline = (typeof params.offline !== 'undefined') ? (params.offline === 'true') : false;
+                            var offline = (typeof params.offline !== 'undefined') ?
+                                (params.offline === 'true') : false;
+
+                            // Special in-app link for my account!
+                            if (params.state === "my-account") {
+                                Customer.loginModal();
+                                return;
+                            }
 
                             switch (action) {
                                 case 'state-go':
