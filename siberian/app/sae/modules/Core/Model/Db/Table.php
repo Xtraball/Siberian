@@ -208,7 +208,7 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
      * @param $params
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function findAll($values, $order, $params)
+    public function findAll($values, $order = null, $params = [])
     {
         $where = [];
         $limit = null;

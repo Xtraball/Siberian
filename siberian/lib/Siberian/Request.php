@@ -112,7 +112,13 @@ class Siberian_Request
         curl_setopt($request, CURLOPT_URL, $endpoint);
         curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($request, CURLOPT_TIMEOUT, 3);
+
+        $timeout = 3;
+        if (array_key_exists("timeout", $options)) {
+            $timeout = intval($options["timeout"]);
+        }
+
+        curl_setopt($request, CURLOPT_TIMEOUT, $timeout);
         //curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         //curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 

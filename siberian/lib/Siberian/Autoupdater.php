@@ -35,7 +35,7 @@ class Siberian_Autoupdater
     public static function configure($host)
     {
         $current_release = "" . Siberian_Version::VERSION . "." . time();
-        System_Model_Config::setValueFor("current_release", $current_release);
+        __set("current_release", $current_release);
 
         # Clear
         Siberian_Cache_Design::clearCache();
@@ -67,7 +67,6 @@ class Siberian_Autoupdater
      */
     public static function manifest($host)
     {
-
         foreach (Siberian_Assets::$platforms as $type => $platforms) {
 
             foreach ($platforms as $platform) {

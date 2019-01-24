@@ -79,7 +79,7 @@ class Core_Model_Translator
             }
         }
 
-        self::$_translations->mergeWith($translations, Merge::TRANSLATION_OVERRIDE);
+        self::$_translations->mergeWith($translations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
         // Load user translation files!
         $userTranslations = new Translations();
@@ -100,7 +100,7 @@ class Core_Model_Translator
             }
         }
 
-        self::$_translations->mergeWith($userTranslations, Merge::TRANSLATION_OVERRIDE);
+        self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
         // Then load into the translator!
         self::$_translator->loadTranslations(self::$_translations);
@@ -168,6 +168,9 @@ class Core_Model_Translator
                 }
             }
         }
+
+        // Ensure unique keys
+        $keys = array_unique($keys);
 
         $allTranslations = [];
         $allFilesTranslations = self::parseTranslations(Core_Model_Language::getCurrentLanguage());
@@ -270,8 +273,8 @@ class Core_Model_Translator
             }
 
             // User translations (if exists)!
-            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
             $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
+            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
 
             if (is_file($userTranslationMO)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationMO, "mo");
@@ -304,16 +307,19 @@ class Core_Model_Translator
 
         switch ($type) {
             case "csv":
-                $csvResource = fopen($path, "r");
-                while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
-                    $key = str_replace('\"', '"', $line[0]);
-                    $tmpTranslationData[$filename][$key] = null;
-                    if (isset($line[1])) {
-                        $tmpTranslationData[$filename][$key] = str_replace('\"', '"', $line[1]);
-                    }
+                $userTranslations = new Translations();
+                $userTranslations->addFromCsvDictionaryFile($path, ["delimiter" => ";"]);
+                foreach ($userTranslations as $userTranslation) {
+                    $key = str_replace('\"', '"', $userTranslation->getOriginal());
+                    $value = trim(str_replace('\"', '"', $userTranslation->getTranslation()));
 
+                    if (strlen($value) > 0) {
+                        if (!array_key_exists($key, $tmpTranslationData[$filename])) {
+                            $tmpTranslationData[$filename][$key] = null;
+                        }
+                        $tmpTranslationData[$filename][$key] = $value;
+                    }
                 }
-                fclose($csvResource);
 
                 break;
             case "mo":
@@ -321,8 +327,12 @@ class Core_Model_Translator
                 $userTranslations->addFromMoFile($path);
                 foreach ($userTranslations as $userTranslation) {
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
-                    $value = str_replace('\"', '"', $userTranslation->getTranslation());
-                    if (!empty($value)) {
+                    $value = trim(str_replace('\"', '"', $userTranslation->getTranslation()));
+
+                    if (strlen($value) > 0) {
+                        if (!array_key_exists($key, $tmpTranslationData[$filename])) {
+                            $tmpTranslationData[$filename][$key] = null;
+                        }
                         $tmpTranslationData[$filename][$key] = $value;
                     }
                 }
@@ -330,7 +340,7 @@ class Core_Model_Translator
                 break;
         }
 
-        return $tmpTranslationData;
+        return array_filter($tmpTranslationData);
     }
 
     /**
@@ -462,6 +472,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $line[0]);
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "context" => null,
                             "original" => $key,
                             "default" => null,
                             "user" => null,
@@ -482,6 +493,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "context" => $userTranslation->getContext(),
                             "original" => $key,
                             "default" => null,
                             "user" => null,

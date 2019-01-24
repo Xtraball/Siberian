@@ -150,13 +150,26 @@ class Siberian_Cache
      */
     public static function __clearFolder($folder)
     {
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($folder, 4096), RecursiveIteratorIterator::SELF_FIRST);
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($folder, 4096),
+            RecursiveIteratorIterator::SELF_FIRST);
+
         foreach ($files as $file) {
             $filename = $file->getFileName();
-            if (!preg_match("/android_pwd|\.gitignore/", $filename) && file_exists($file->getPathName())) {
+            if (!preg_match("/android_pwd|\.gitignore/", $filename) &&
+                file_exists($file->getPathName())) {
                 unlink($file->getPathName());
             }
         }
+    }
+
+    /**
+     * @param $pathFromSiberian
+     */
+    public static function __clearFolderSystem($pathFromSiberian)
+    {
+        $base = Core_Model_Directory::getBasePathTo($pathFromSiberian);
+        exec("rm -rf {$base}/*");
     }
 
     /**
@@ -222,9 +235,7 @@ class Siberian_Cache
      */
     public static function __clearTmp()
     {
-        $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
-
-        return self::__clearFolder($folder);
+        return self::__clearFolderSystem("/var/tmp");
     }
 
     /**
