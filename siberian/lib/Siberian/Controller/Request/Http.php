@@ -48,6 +48,17 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
         return Siberian_Json::decode($rawBody);
     }
 
+    /**
+     * @param $rawBody
+     * @return $this
+     */
+    public function setRawBody ($rawBody)
+    {
+        $this->_rawBody = $rawBody;
+
+        return $this;
+    }
+
     public function setPathInfo($pathInfo = null)
     {
 
