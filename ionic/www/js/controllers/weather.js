@@ -2,178 +2,233 @@
  App, angular, moment, BASE_PATH, BASE_URL
  */
 
-angular.module("starter").controller("WeatherController", function(Modal, $scope, $stateParams, $window, Country,
-                                                                   RainEffect, LinkService, Weather) {
+angular.module("starter").controller("WeatherController", function (Modal, $scope, $stateParams, $window, $q, Country,
+                                                                    RainEffect, Loader, Dialog, LinkService, Location, Weather) {
 
     angular.extend($scope, {
-        is_loading              : true,
-        value_id                : $stateParams.value_id,
-        error                   : false,
-        woeid                   : null,
-        show_weather_details    : null,
-        show_change_location    : null,
-        new_location            : {},
-        card_design             : false
+        isLoading: true,
+        value_id: $stateParams.value_id,
+        error: false,
+        errorMessage: "",
+        newLocation: {
+            unit: "F",
+            units: "imperial",
+            country: "",
+            city: "",
+        },
+        iconBase: "https://openweathermap.org/img/w/%ICON%.png",
+        weatherData: null,
+        forecastData: null,
+        weatherDate: null,
+        card_design: false
     });
 
     Weather.setValueId($stateParams.value_id);
 
-    $scope.loadContent = function() {
+    $scope.loadContent = function () {
+        $scope.isLoading = true;
 
-        $scope.is_loading = true;
-
-        /** Seriously ? one call for this :'( */
-        Country.findAll()
-            .then(function(data) {
-                $scope.country_list = data;
+        Country
+            .findAll()
+            .then(function (data) {
+                $scope.countryList = data;
             });
 
-        /** This one too hop hop hop embed ! */
-        Weather.find()
-            .then(function(data) {
-                $scope.page_title           = data.page_title;
-                $scope.unit                 = data.collection.unit;
-                $scope.icon_url             = data.icon_url;
-                $scope.icon_error_url       = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_3200.png");
-                $scope.icon_wind            = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "wind.png");
-                $scope.icon_atmosphere      = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "atmosphere.png");
-                $scope.icon_astronomy       = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "astronomy.png");
+        Weather
+            .find()
+            .then(function (data) {
+                $scope.page_title = data.page_title;
+                $scope.newLocation.unit = data.unit;
+                $scope.newLocation.units = data.units;
+                $scope.newLocation.country = data.country;
+                $scope.newLocation.city = data.city;
 
-                if(data.collection.woeid) {
-                    $scope.woeid = data.collection.woeid;
-                    $scope.getWeather();
+                if ($scope.newLocation.country !== "" && $scope.newLocation.city !== "") {
+                    var q = $scope.newLocation.city + "," +$scope.newLocation.country;
+                    $scope.getWeather({q: q});
                 }
-
-                $scope.is_loading = false;
-
-                $scope.runRain();
-
             });
     };
 
-    $scope.getWeather = function() {
-        Weather.getWeather($scope.woeid, $scope.unit)
-            .then(function(data) {
+    $scope.getIconUrl = function (code) {
+        return $scope.iconBase.replace("%ICON%", code);
+    };
 
-                $scope.weather = data.query.results.channel;
-                $scope.weather_date = moment(data.query.created).calendar();
-                $scope.current_icon_url = BASE_URL+"/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.condition.code + ".png");
-                $scope.forecast_1_icon_url = BASE_URL+"/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[1].code + ".png");
-                $scope.forecast_2_icon_url = BASE_URL+"/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[2].code + ".png");
-                $scope.forecast_3_icon_url = BASE_URL+"/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[3].code + ".png");
-                $scope.forecast_4_icon_url = BASE_URL+"/template/block/colorize/color/" + $window.colors.list_item.color.replace("#","") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[4].code + ".png");
-                $scope.is_loading = false;
-            }, function(message) {
-                $scope.error = true;
-                $scope.error_message = message;
-                $scope.is_loading = false;
-            });
+    $scope.getSuntime = function (timestamp) {
+        return moment(timestamp).format("LT");
+    };
+
+    $scope.roundDegrees = function (degrees) {
+        return Math.round(degrees);
+    };
+
+    $scope.dayForDate = function (date) {
+        var date = moment(date).format("ddd");
+        date[0] = date[0].toUpperCase();
+        return date;
+    };
+
+    $scope.d2d = function (d) {
+        if (typeof d !== 'number' || isNaN(d)) {
+            return -1;
+        }
+
+        // keep within the range: 0 <= d < 360
+        d = d % 360;
+
+        if (11.25 <= d && d < 33.75) {
+            return "NNE";
+        } else if (33.75 <= d && d < 56.25) {
+            return "NE";
+        } else if (56.25 <= d && d < 78.75) {
+            return "ENE";
+        } else if (78.75 <= d && d < 101.25) {
+            return "E";
+        } else if (101.25 <= d && d < 123.75) {
+            return "ESE";
+        } else if (123.75 <= d && d < 146.25) {
+            return "SE";
+        } else if (146.25 <= d && d < 168.75) {
+            return "SSE";
+        } else if (168.75 <= d && d < 191.25) {
+            return "S";
+        } else if (191.25 <= d && d < 213.75) {
+            return "SSW";
+        } else if (213.75 <= d && d < 236.25) {
+            return "SW";
+        } else if (236.25 <= d && d < 258.75) {
+            return "WSW";
+        } else if (258.75 <= d && d < 281.25) {
+            return "W";
+        } else if (281.25 <= d && d < 303.75) {
+            return "WNW";
+        } else if (303.75 <= d && d < 326.25) {
+            return "NW";
+        } else if (326.25 <= d && d < 348.75) {
+            return "NNW";
+        } else {
+            return "N";
+        }
+    };
+
+    $scope.getWeather = function (query, closeModal) {
+        $scope.isLoading = true;
+
+        Weather
+        .getWeather(angular.extend({
+            units: $scope.newLocation.units
+        }, query))
+        .then(function (data) {
+
+            $scope.weatherData = data.weather;
+            $scope.forecastData = data.forecast;
+            $scope.weatherDate = moment($scope.weatherData.dt * 1000).calendar();
+
+            $scope.error = false;
+            $scope.errorMessage = "";
+
+            $scope.isLoading = false;
+
+        }, function (message) {
+            $scope.error = true;
+            $scope.errorMessage = message;
+
+            $scope.isLoading = false;
+        }).then(function () {
+            if (closeModal === true) {
+                $scope.closeChangeLocationForm();
+            }
+        });
+
     };
 
     /** Wheather details ok */
-    $scope.openDetails = function() {
+    $scope.openDetails = function () {
 
         Modal
-            .fromTemplateUrl("weather-details.html", {
-                scope: $scope
-            }).then(function(modal) {
-                $scope.details_modal = modal;
-                $scope.details_modal.show();
-            });
+        .fromTemplateUrl("weather-details.html", {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.detailsModal = modal;
+            $scope.detailsModal.show();
+        });
     };
 
-    $scope.closeDetails = function() {
-        $scope.details_modal.remove();
+    $scope.closeDetails = function () {
+        $scope.detailsModal.remove();
     };
 
-    $scope.openChangeLocationForm = function() {
+    $scope.openChangeLocationForm = function () {
         Modal
-            .fromTemplateUrl("weather-change-location-form.html", {
-                scope: $scope
-            }).then(function(modal) {
-                $scope.location_form_modal = modal;
-                $scope.location_form_modal.show();
-            });
+        .fromTemplateUrl("weather-change-location-form.html", {
+            scope: $scope
+        }).then(function (modal) {
+            $scope.locationFormModal = modal;
+            $scope.locationFormModal.show();
+        });
     };
 
-    $scope.closeChangeLocationForm = function() {
-        $scope.location_form_modal.remove();
+    $scope.closeChangeLocationForm = function () {
+        $scope.locationFormModal.remove();
     };
 
-    $scope.changeLocation = function() {
+    $scope.changeLocation = function (useGps) {
+        Loader.show();
 
-        $scope.is_loading = true;
-
-        if($scope.new_location.country && !$scope.new_location.use_user_location) {
-            var param = "";
-            if($scope.new_location.city) {
-                param = $scope.new_location.city + "," + $scope.new_location.country;
-            } else {
-                param = $scope.new_location.country;
-            }
-
-            Weather.getWoeid(param)
-                .then(function(data) {
-                    var woeid = null;
-                    if(data["query"]["count"]> 0) {
-                        if(data["query"]["results"]["place"].length > 1) {
-                            woeid = data["query"]["results"]["place"][0]["woeid"];
-                        } else {
-                            woeid = data["query"]["results"]["place"]["woeid"];
-                        }
-                    }
-
-                    if(woeid) {
-                        $scope.woeid = woeid;
-                        $scope.getWeather();
-                    } else {
-                        $scope.error = true;
-                        $scope.error_message = "Unable to get woeid.";
-                    }
+        var deferred = $q.defer();
+        var q = null;
+        if (useGps) {
+            Location
+                .getLocation()
+                .then(function (position) {
+                    q = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
+                    Loader.hide();
+                    deferred.resolve();
+                }, function (error) {
+                    Loader.hide();
+                    Dialog.alert("Error", "We were unable to fetch your current location", "Dismiss");
+                    deferred.reject();
                 });
         } else {
-            $scope.woeid = null;
-            $scope.getWeather();
+            if ($scope.newLocation.city.trim() !== "") {
+                //var reg = new RegExp("[a-z]{4,}", "i");
+                /**if (!reg.test($scope.newLocation.city)) {
+                    q = {
+                        zip: $scope.newLocation.city.trim()
+                    };
+                    if ($scope.newLocation.country.trim() !== "") {
+                        q.zip += "," + $scope.newLocation.country.trim();
+                    }
+                } else {*/
+                    q = {
+                        q: $scope.newLocation.city.trim()
+                    };
+                    if ($scope.newLocation.country.trim() !== "") {
+                        q.q += "," + $scope.newLocation.country.trim();
+                    }
+                //}
+
+                Loader.hide();
+                deferred.resolve();
+            } else {
+                Loader.hide();
+                Dialog.alert("Error", "We were unable to find this location", "Dismiss");
+                deferred.reject();
+            }
         }
 
-        $scope.closeChangeLocationForm();
-
-    };
-
-    $scope.openYahooWebsite = function() {
-        LinkService.openLink("https://www.yahoo.com/?ilc=401");
+        deferred.promise
+            .then(function () {
+                $scope.getWeather(q, true);
+            });
     };
 
     $scope.runRain = function () {
         RainEffect.run();
     };
-
-    $scope.currentEffect = 'rain';
-
-    var currentIndex = 0;
-    var effects = [
-        'rain',
-        'storm',
-        'fallout',
-        'drizzle',
-        'sunny'
-    ];
-
-    setInterval(function () {
-        var eff = effects[currentIndex];
-        $scope.currentEffect = eff;
-        currentIndex = currentIndex + 1;
-        if (currentIndex > 4) {
-            currentIndex = 0;
-        }
-
-        var event = new CustomEvent('weatherChange', {
-            detail: {
-                type: eff
-            }
-        });
-        window.dispatchEvent(event);
-    }, 3000);
 
     $scope.loadContent();
 
