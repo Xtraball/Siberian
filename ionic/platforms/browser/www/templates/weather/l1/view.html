@@ -52,13 +52,13 @@
                     <div class="display-current">
                         <table width="100%">
                             <tr>
-                                <td width="45%">
-                                    <img ng-src="{{ getIconUrl(weatherData.weather[0].icon) }}"
-                                         width="100%"/>
+                                <td width="45%"
+                                    class="text-center">
+                                    <i class="{{ getIcon(weatherData.weather[0].id) }} big-icon" />
                                 </td>
                                 <td width="55%"
                                     class="temp text-center">
-                                    {{ roundDegrees(weatherData.main.temp) }}° {{ newLocation.unit }}
+                                    {{ roundDegrees(weatherData.main.temp) }}°{{ newLocation.unit }}
                                 </td>
                             </tr>
                             <tr>
@@ -90,48 +90,44 @@
                                         </colgroup>
                                         <tr>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ dayForDate(weatherForecast.list[1].dt_txt) }}
+                                                {{ forecastBuild[1].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ dayForDate(weatherForecast.list[2].dt_txt) }}
+                                                {{ forecastBuild[2].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ dayForDate(weatherForecast.list[3].dt_txt) }}
+                                                {{ forecastBuild[3].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ dayForDate(weatherForecast.list[4].dt_txt) }}
+                                                {{ forecastBuild[4].day }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img ng-src="{{ getIconUrl(weatherForecast.list[1].weather[0].icon) }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[1].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-src="{{ getIconUrl(weatherForecast.list[2].weather[0].icon) }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[2].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-src="{{ getIconUrl(weatherForecast.list[3].weather[0].icon) }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[3].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-src="{{ getIconUrl(weatherForecast.list[4].weather[0].icon) }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[4].weather.id) }} small-icon" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                {{ weatherForecast.list[1].main.temp_min }}°/{{ weatherForecast.list[1].main.temp_max }}°
+                                                {{ forecastBuild[1].min }}°/{{ forecastBuild[1].max }}°
                                             </td>
                                             <td>
-                                                {{ weatherForecast.list[2].main.temp_min }}°/{{ weatherForecast.list[2].main.temp_max }}°
+                                                {{ forecastBuild[2].min }}°/{{ forecastBuild[2].max }}°
                                             </td>
                                             <td>
-                                                {{ weatherForecast.list[3].main.temp_min }}°/{{ weatherForecast.list[3].main.temp_max }}°
+                                                {{ forecastBuild[3].min }}°/{{ forecastBuild[3].max }}°
                                             </td>
                                             <td>
-                                                {{ weatherForecast.list[4].main.temp_min }}°/{{ weatherForecast.list[4].main.temp_max }}°
+                                                {{ forecastBuild[4].min }}°/{{ forecastBuild[4].max }}°
                                             </td>
                                         </tr>
                                     </table>
@@ -313,7 +309,7 @@
                             <div class="row">
                                 <p class="col-75">{{ "Speed" | translate }}</p>
                                 <p ng-if="newLocation.unit == 'C'"
-                                   class="col-25 text-right">{{ weatherData.wind.speed }} m/s</p>
+                                   class="col-25 text-right">{{ speedKmh(weatherData.wind.speed) }} km/h</p>
                                 <p ng-if="newLocation.unit == 'F'"
                                    class="col-25 text-right">{{ weatherData.wind.speed }} mi/h</p>
                             </div>
@@ -333,6 +329,28 @@
                 </ion-content>
             </ion-modal-view>
         </script>
+
+        <style type="text/css">
+            @media (orientation: landscape) {
+                i.big-icon {
+                    font-size: 45vh;
+                }
+
+                i.small-icon {
+                    font-size: 20vh;
+                }
+            }
+
+            @media (orientation: portrait) {
+                i.big-icon {
+                    font-size: 45vw;
+                }
+
+                i.small-icon {
+                    font-size: 20vw;
+                }
+            }
+        </style>
 
     </ion-content>
 </ion-view>
