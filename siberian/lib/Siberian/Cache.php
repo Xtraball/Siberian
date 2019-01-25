@@ -169,7 +169,7 @@ class Siberian_Cache
     public static function __clearFolderSystem($pathFromSiberian)
     {
         $base = Core_Model_Directory::getBasePathTo($pathFromSiberian);
-        exec("rm -rf '{$base}/*'");
+        exec("rm -rf {$base}/*");
     }
 
     /**
