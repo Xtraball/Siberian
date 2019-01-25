@@ -55,6 +55,8 @@ class Application_Settings_ApisController extends Application_Controller_Default
 
                     $application
                         ->setGooglemapsKey($data["googlemaps_key"]);
+                } else {
+                    $application->setGooglemapsKey("");
                 }
 
                 if (!empty($data["openweathermap_key"])) {
@@ -62,6 +64,9 @@ class Application_Settings_ApisController extends Application_Controller_Default
 
                     $application
                         ->setOwmKey($data["openweathermap_key"]);
+                } else {
+                    $application
+                        ->setOwmKey("");
                 }
 
 

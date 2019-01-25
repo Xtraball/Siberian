@@ -111,6 +111,7 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
                 $payload = [
                     "success" => true,
+                    "cache" => "MISS",
                     "weather" => $responseWeather,
                     "forecast" => $responseForecast,
                 ];
@@ -119,6 +120,8 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $this->cache->save($payload, $cacheIdWeather, ["weather"], 3600);
             } else {
                 $payload = $result;
+
+                $payload["cache"] = "HIT";
             }
 
         } catch (\Exception $e) {
