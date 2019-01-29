@@ -19,7 +19,7 @@ global $extract_translations;
 function extract_p__($context, $original)
 {
     global $extract_translations;
-    $file = Core_Model_Directory::getBasePathTo("/var/tmp/extract.po");
+    $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
     if (!is_file($file)) {
         touch($file);
     }
