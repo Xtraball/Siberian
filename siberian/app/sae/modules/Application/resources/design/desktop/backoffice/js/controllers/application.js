@@ -242,11 +242,11 @@ App.config(function($routeProvider) {
     };
 
     $scope.refreshPublish = false;
-    $scope.saveInfoIosAutopublish = function () {
+    $scope.requestPublication = function () {
         $scope.refreshPublish = true;
 
         Application
-            .saveInfoIosAutopublish(
+            .requestPublication(
                 $scope.application.id,
                 $scope.ios_publish_informations)
             .success(function (data) {
