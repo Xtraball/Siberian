@@ -295,6 +295,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
                 'JOB_NAME' => slugify($app->getName()),
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
+                'VERSION' => "2",
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {

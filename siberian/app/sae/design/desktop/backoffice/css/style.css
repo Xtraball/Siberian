@@ -1324,3 +1324,20 @@ th.pointer-down {
 textarea.ta-bind {
     width: 100%;
 }
+
+
+
+h4.section-title {
+    background: #808080;
+    padding: 10px 15px;
+    margin: 0;
+    border-left: 1px solid #808080;
+    color: white;
+}
+
+div.section-content {
+    padding: 15px;
+    margin: 0;
+    border-left: 1px solid #808080;
+    background-color: #f0f0f0;
+}
