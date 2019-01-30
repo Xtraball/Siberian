@@ -177,9 +177,7 @@ class Siberian_Cache
      */
     public static function __clearCache()
     {
-        $folder = Core_Model_Directory::getBasePathTo("var/cache/");
-
-        return self::__clearFolder($folder);
+        self::__clearFolderSystem("/var/cache");
     }
 
     /**
@@ -201,7 +199,7 @@ class Siberian_Cache
             }
         }
 
-        return self::__clearFolder($folder);
+        self::__clearFolderSystem("/var/log");
     }
 
     /**
@@ -235,7 +233,7 @@ class Siberian_Cache
      */
     public static function __clearTmp()
     {
-        return self::__clearFolderSystem("/var/tmp");
+        self::__clearFolderSystem("/var/tmp");
     }
 
     /**

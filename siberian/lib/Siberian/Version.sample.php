@@ -29,5 +29,3 @@ class Version
         return self::TYPE == strtoupper($type);
     }
 }
-
-class_alias("\Siberian\Version", "Siberian_Version");
