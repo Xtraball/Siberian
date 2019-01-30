@@ -172,6 +172,11 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default {
 
         $response->setHeader("Content-type", "application/json");
 
+        if (array_key_exists("cache", $data) &&
+            in_array($data["cache"], ["HIT", "MISS"])) {
+            $response->setHeader("X-Cache", $data["cache"]);
+        }
+
         if(isset($data["error"]) && !empty($data["error"])) {
 
             if(isset($data["gone"]) && $data["gone"]) {

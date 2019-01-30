@@ -34,9 +34,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
 
+
         $include_paths = [get_include_path()];
         $include_paths[] = realpath(APPLICATION_PATH . '/local/modules');
-        switch (Siberian_Version::TYPE) {
+        switch (\Siberian\Version::TYPE) {
             case 'PE':
                 $include_paths[] = realpath(APPLICATION_PATH . '/pe/modules');
             case 'MAE':
@@ -69,9 +70,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Directory::setPath($path);
 
         // External vendor, from composer!
-        $autoloader = Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
-
-        require_once $autoloader;
+        require_once \Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
 
         // Init debugger if needed!
         Siberian_Debug::init();

@@ -10,12 +10,12 @@
     <ion-content>
 
         <div class="loader"
-             ng-show="is_loading">
+             ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <div class="weather"
-             ng-show="!is_loading">
+             ng-show="!isLoading">
 
             <div class="list"
                  ng-class="{'card': card_design}"
@@ -28,7 +28,7 @@
                     </p>
                     <p class="justify">{{ "Sorry, but the weather service is not available for the moment. Please try again later." | translate }}</p>
                     <p class="justify"
-                       ng-if="error_message">{{ error_message | translate }}</p>
+                       ng-if="errorMessage">{{ errorMessage | translate }}</p>
                 </div>
 
                 <div class="item item-icon-left item-custom"
@@ -43,8 +43,8 @@
                  ng-show="!error">
                 <div class="item item-custom text-center"
                      ng-click="openChangeLocationForm()">
-                    <h2 style="font-size: 1.25em;">{{ weather.location.city }}, {{ weather.location.country }}</h2>
-                    <i style="font-size: .9em;">{{ weather_date }}</i>
+                    <h2 style="font-size: 1.25em;">{{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+                    <i style="font-size: .9em;">{{ weatherDate }}</i>
                 </div>
 
                 <div class="item item-custom current-weather">
@@ -52,19 +52,18 @@
                     <div class="display-current">
                         <table width="100%">
                             <tr>
-                                <td width="45%">
-                                    <img ng-if="current_icon_url"
-                                         ng-src="{{ current_icon_url }}"
-                                         width="100%"/>
+                                <td width="45%"
+                                    class="text-center">
+                                    <i class="{{ getIcon(weatherData.weather[0].id) }} big-icon" />
                                 </td>
                                 <td width="55%"
                                     class="temp text-center">
-                                    {{ weather.item.condition.temp }}° {{ weather.units.temperature }}
+                                    {{ roundDegrees(weatherData.main.temp) }}°{{ newLocation.unit }}
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2"
-                                    class="text-center temp-fork">{{ weather.item.forecast[0].low }}°/{{ weather.item.forecast[0].high }}°</td>
+                                    class="text-center temp-fork">{{ roundDegrees(weatherData.main.temp_min) }}°/{{ roundDegrees(weatherData.main.temp_max) }}°</td>
                             </tr>
                             <tr>
                                 <td colspan="2"
@@ -91,66 +90,47 @@
                                         </colgroup>
                                         <tr>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ weather.item.forecast[1].day | translate }}
+                                                {{ forecastBuild[1].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ weather.item.forecast[2].day | translate }}
+                                                {{ forecastBuild[2].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ weather.item.forecast[3].day | translate }}
+                                                {{ forecastBuild[3].day }}
                                             </td>
                                             <td class="forecast-padding forecast-heading text-center">
-                                                {{ weather.item.forecast[4].day | translate }}
+                                                {{ forecastBuild[4].day }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img ng-if="current_icon_url"
-                                                     ng-src="{{ forecast_1_icon_url }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[1].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-if="current_icon_url"
-                                                     ng-src="{{ forecast_2_icon_url }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[2].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-if="current_icon_url"
-                                                     ng-src="{{ forecast_3_icon_url }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[3].weather.id) }} small-icon" />
                                             </td>
                                             <td>
-                                                <img ng-if="current_icon_url"
-                                                     ng-src="{{ forecast_4_icon_url }}"
-                                                     width="100%" />
+                                                <i class="{{ getIcon(forecastBuild[4].weather.id) }} small-icon" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                {{ weather.item.forecast[1].low }}°/{{ weather.item.forecast[1].high }}°
+                                                {{ forecastBuild[1].min }}°/{{ forecastBuild[1].max }}°
                                             </td>
                                             <td>
-                                                {{ weather.item.forecast[2].low }}°/{{ weather.item.forecast[2].high }}°
+                                                {{ forecastBuild[2].min }}°/{{ forecastBuild[2].max }}°
                                             </td>
                                             <td>
-                                                {{ weather.item.forecast[3].low }}°/{{ weather.item.forecast[3].high }}°
+                                                {{ forecastBuild[3].min }}°/{{ forecastBuild[3].max }}°
                                             </td>
                                             <td>
-                                                {{ weather.item.forecast[4].low }}°/{{ weather.item.forecast[4].high }}°
+                                                {{ forecastBuild[4].min }}°/{{ forecastBuild[4].max }}°
                                             </td>
                                         </tr>
                                     </table>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="4"
-                                    class="text-center provider-right">
-                                    <a ng-click="openYahooWebsite()">
-                                        <img
-                                            src="https://poweredby.yahoo.com/white.png"
-                                            width="134"
-                                            height="29"/>
-                                    </a>
                                 </td>
                             </tr>
                         </table>
@@ -187,26 +167,24 @@
                         <label class="item item-input item-custom">
                             <input type="text"
                                    class=""
-                                   placeholder="{{ 'Postal code or city' | translate }}"
-                                   ng-model="new_location.city"
-                                   ng-disabled="new_location.use_user_location" />
+                                   placeholder="{{ 'City' | translate }}"
+                                   ng-model="newLocation.city" />
                         </label>
 
                         <label class="item item-input item-select item-custom">
                             <div class="input-label">
                                 {{ "Country" | translate }}
                             </div>
-                            <select ng-model="new_location.country"
-                                    ng-disabled="new_location.use_user_location">
+                            <select ng-model="newLocation.country">
                                 <option>{{ "Select a country" | translate }}</option>
-                                <option ng-repeat="country in country_list"
+                                <option ng-repeat="country in countryList"
                                         value="{{ country.code }}">{{ country.label }}</option>
                             </select>
                         </label>
 
                         <div ng-class="{'padding': card_design}">
                             <button class="button button-positive button-positive-custom"
-                                    ng-disabled="new_location.city.length === 0"
+                                    ng-disabled="newLocation.city.length === 0"
                                     ng-class="{'button-block': card_design, 'button-full': !card_design}"
                                     ng-click="changeLocation(false)">
                                 {{ "Validate" | translate }}
@@ -258,17 +236,17 @@
                         </div>
 
                         <div class="item item-custom line-item"
-                             ng-show="weather.astronomy.sunrise">
+                             ng-show="weatherData.sys.sunrise">
                             <div class="row">
                                 <p class="col-75">{{ "Sunrise" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.astronomy.sunrise }}</p>
+                                <p class="col-25 text-right">{{ getSuntime(weatherData.sys.sunrise * 1000) }}</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.astronomy.sunset">
+                             ng-show="weatherData.sys.sunset">
                             <div class="row">
                                 <p class="col-75">{{ "Sunset" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.astronomy.sunset }}</p>
+                                <p class="col-25 text-right">{{ getSuntime(weatherData.sys.sunset * 1000) }}</p>
                             </div>
                         </div>
                     </div>
@@ -279,34 +257,30 @@
                             <h2>{{ "Atmosphere" | translate }}</h2>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.atmosphere.humidity">
+                             ng-show="weatherData.main.humidity">
                             <div class="row">
                                 <p class="col-75">{{ "Humidity" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.atmosphere.humidity }}%</p>
+                                <p class="col-25 text-right">{{ weatherData.main.humidity }}%</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.atmosphere.pressure">
+                             ng-show="weatherData.main.pressure">
                             <div class="row">
                                 <p class="col-75">{{ "Pressure" | translate }}</p>
-                                <p ng-if="weather.units.pressure == 'mb'"
-                                   class="col-25 text-right">{{ (weather.atmosphere.pressure / 33.8639).toFixed(1) }} {{ weather.units.pressure }}</p>
-                                <p ng-if="weather.units.pressure == 'in'"
-                                   class="col-25 text-right">{{ (weather.atmosphere.pressure * 0.0295301).toFixed(1) }} {{ weather.units.pressure }}</p>
+                                <p ng-if="newLocation.unit == 'C'"
+                                   class="col-25 text-right">{{ weatherData.main.pressure }} hPa</p>
+                                <p ng-if="newLocation.unit == 'F'"
+                                   class="col-25 text-right">{{ weatherData.main.pressure }} mBar</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.atmosphere.visibility">
+                             ng-show="weatherData.visibility">
                             <div class="row">
                                 <p class="col-75">{{ "Visibility" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.atmosphere.visibility }} {{ weather.units.distance }}</p>
-                            </div>
-                        </div>
-                        <div class="item item-custom line-item"
-                             ng-show="weather.atmosphere.rising">
-                            <div class="row">
-                                <p class="col-75">{{ "Rising" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.atmosphere.rising }}</p>
+                                <p ng-if="weatherData.visibility <= 1000"
+                                   class="col-25 text-right">{{ weatherData.visibility }} m</p>
+                                <p ng-if="weatherData.visibility > 1000"
+                                   class="col-25 text-right">{{ (weatherData.visibility/1000).toFixed(2) }} km</p>
                             </div>
                         </div>
                     </div>
@@ -324,17 +298,20 @@
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.wind.direction">
+                             ng-show=" weatherData.wind.deg">
                             <div class="row">
                                 <p class="col-75">{{ "Direction" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.wind.direction }}°</p>
+                                <p class="col-25 text-right">{{ d2d(weatherData.wind.deg) }} ({{ weatherData.wind.deg }}°)</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weather.wind.speed">
+                             ng-show="weatherData.wind.speed">
                             <div class="row">
                                 <p class="col-75">{{ "Speed" | translate }}</p>
-                                <p class="col-25 text-right">{{ weather.wind.speed }} {{ weather.units.speed }}</p>
+                                <p ng-if="newLocation.unit == 'C'"
+                                   class="col-25 text-right">{{ speedKmh(weatherData.wind.speed) }} km/h</p>
+                                <p ng-if="newLocation.unit == 'F'"
+                                   class="col-25 text-right">{{ weatherData.wind.speed }} mi/h</p>
                             </div>
                         </div>
                     </div>
@@ -352,6 +329,28 @@
                 </ion-content>
             </ion-modal-view>
         </script>
+
+        <style type="text/css">
+            @media (orientation: landscape) {
+                i.big-icon {
+                    font-size: 45vh;
+                }
+
+                i.small-icon {
+                    font-size: 20vh;
+                }
+            }
+
+            @media (orientation: portrait) {
+                i.big-icon {
+                    font-size: 45vw;
+                }
+
+                i.small-icon {
+                    font-size: 20vw;
+                }
+            }
+        </style>
 
     </ion-content>
 </ion-view>

@@ -99,7 +99,7 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
-    factory.saveInfoIosAutopublish = function (app_id, ios_infos) {
+    factory.requestPublication = function (app_id, ios_infos) {
 
         return $http({
             method: 'POST',
@@ -107,7 +107,7 @@ App.factory('Application', function($http, Url, DataLoader) {
                 'app_id':app_id,
                 'infos':ios_infos,
             },
-            url: Url.get("application/backoffice_iosautopublish/saveinfoiosautopublish"),
+            url: Url.get("application/backoffice_iosautopublish/requestpublication"),
             responseType:'json'
         });
     };

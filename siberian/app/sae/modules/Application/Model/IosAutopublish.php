@@ -51,43 +51,6 @@ class Application_Model_IosAutopublish extends Core_Model_Default
     }
 
     /**
-     * @param $loginOrCypher
-     * @param null $password
-     * @return array|mixed
-     */
-    public function getTeams ($loginOrCypher, $password = null)
-    {
-        if ($password === null) {
-            $base64cypher = $loginOrCypher;
-        } else {
-            $base64cypher = self::cypher($loginOrCypher . ':' . $password);
-        }
-
-        dbg($base64cypher);
-
-        $result = Siberian_Request::post(
-            $this->autopublishApiEndpoint,
-            [
-                'credentials' => $base64cypher
-            ],
-            null,
-            null,
-            null,
-            [
-                'timeout' => 30
-            ]);
-
-        $response = Siberian_Json::decode($result);
-
-        if (array_key_exists('success', $response)) {
-            // Adds cyphered data to payload for further save!
-            $response['cypheredCredentials'] = $base64cypher;
-        }
-
-        return $response;
-    }
-
-    /**
      * @param $teamId
      * @param $providerId
      * @return $this

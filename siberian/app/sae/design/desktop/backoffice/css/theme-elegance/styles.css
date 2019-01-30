@@ -316,3 +316,17 @@ input[type="radio"]:checked:after {
 .overview-grid-toggler {
     background: #e6e6e6 !important;
 }
+
+h4.section-title {
+    background: #3dcc6d;
+    padding: 10px 15px;
+    margin: 0;
+    border-left: 2px solid #3dcc6d;
+}
+
+div.section-content {
+    padding: 15px;
+    margin: 0;
+    border-left: 2px solid #3dcc6d;
+    background-color: #f0f0f0;
+}

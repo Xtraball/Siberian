@@ -6,111 +6,555 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
                                                                     RainEffect, Loader, Dialog, LinkService, Location, Weather) {
 
     angular.extend($scope, {
-        is_loading: true,
+        isLoading: true,
         value_id: $stateParams.value_id,
         error: false,
-        woeid: null,
-        show_weather_details: null,
-        show_change_location: null,
-        new_location: {
+        errorMessage: "",
+        newLocation: {
+            unit: "F",
+            units: "imperial",
             country: "",
             city: "",
         },
+        iconBase: "https://openweathermap.org/img/w/%ICON%.png",
+        weatherData: null,
+        forecastData: null,
+        forecastBuild: null,
+        weatherDate: null,
         card_design: false
     });
 
     Weather.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
-        $scope.is_loading = true;
+        $scope.isLoading = true;
 
         Country
             .findAll()
             .then(function (data) {
-                $scope.country_list = data;
+                $scope.countryList = data;
             });
 
-        /** This one too hop hop hop embed ! */
         Weather
             .find()
             .then(function (data) {
                 $scope.page_title = data.page_title;
-                $scope.unit = data.collection.unit;
-                $scope.icon_url = data.icon_url;
-                $scope.icon_error_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_3200.png");
-                $scope.icon_wind = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "wind.png");
-                $scope.icon_atmosphere = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "atmosphere.png");
-                $scope.icon_astronomy = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "astronomy.png");
+                $scope.newLocation.unit = data.unit;
+                $scope.newLocation.units = data.units;
+                $scope.newLocation.country = data.country;
+                $scope.newLocation.city = data.city;
 
-                if (data.collection.woeid) {
-                    $scope.woeid = data.collection.woeid;
-                    $scope.getWeather();
+                if ($scope.newLocation.country !== "" && $scope.newLocation.city !== "") {
+                    var q = $scope.newLocation.city + "," + $scope.newLocation.country;
+                    $scope.getWeather({q: q});
                 }
             });
     };
 
-    $scope.getWeather = function () {
-        $scope.is_loading = true;
-        Weather
-        .getWeather($scope.woeid, $scope.unit)
-        .then(function (data) {
-            $scope.weather = data.query.results.channel;
-            $scope.weather_date = moment(data.query.created).calendar();
-            $scope.current_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.condition.code + ".png");
-            $scope.forecast_1_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[1].code + ".png");
-            $scope.forecast_2_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[2].code + ".png");
-            $scope.forecast_3_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[3].code + ".png");
-            $scope.forecast_4_icon_url = BASE_URL + "/template/block/colorize/color/" + $window.colors.list_item.color.replace("#", "") + "/path/" + btoa($scope.icon_url + "weather_" + $scope.weather.item.forecast[4].code + ".png");
-            $scope.is_loading = false;
+    $scope.buildForecast = function () {
+        var list = $scope.forecastData.list;
+        var days = {
+            0: {
+                min: null,
+                max: null
+            },
+            1: {
+                min: null,
+                max: null
+            },
+            2: {
+                min: null,
+                max: null
+            },
+            3: {
+                min: null,
+                max: null
+            },
+            4: {
+                min: null,
+                max: null
+            },
+            5: {
+                min: null,
+                max: null
+            }
+        };
 
-            //$scope.runRain();
-        }, function (message) {
-            $scope.error = true;
-            $scope.error_message = message;
-            $scope.is_loading = false;
+        var previous = moment($scope.weatherData.dt * 1000);
+        var currentDay = 0;
+        list.forEach(function (segment) {
+            var dateSegment = segment.dt * 1000;
+            if (!previous.isSame(dateSegment, "day")) {
+                currentDay = currentDay + 1;
+                days[currentDay].day = $scope.dayForDate(dateSegment);
+                days[currentDay].weather = segment.weather[0];
+                days[currentDay].min = segment.main.temp_min.toFixed(0);
+                days[currentDay].max = segment.main.temp_max.toFixed(0);
+
+                previous = moment(dateSegment);
+            } else {
+                if (segment.main.temp_min < days[currentDay].min) {
+                    days[currentDay].min = segment.main.temp_min.toFixed(0);
+                }
+                if (segment.main.temp_max > days[currentDay].max) {
+                    days[currentDay].max = segment.main.temp_max.toFixed(0);
+                }
+            }
         });
+
+        $scope.forecastBuild = days;
+    };
+
+    $scope.getIcon = function (id) {
+        var icon = null;
+        try {
+            icon = $scope.iconMap[id].icon;
+        } catch (e) {}
+
+        // If we are not in the ranges mentioned above, add a day/night prefix.
+        if (!(id > 699 && id < 800) && !(id > 899 && id < 1000)) {
+            icon = "day-" + icon;
+        }
+
+        return "icon ion-wi-" + icon;
+    };
+
+    $scope.speedKmh = function (speedMs) {
+        return Math.round(speedMs * 3.6);
+    };
+
+    $scope.getSuntime = function (timestamp) {
+        return moment(timestamp).format("LT");
+    };
+
+    $scope.roundDegrees = function (degrees) {
+        return Math.round(degrees);
+    };
+
+    $scope.dayForDate = function (date) {
+        var date = moment(date).format("ddd");
+        date[0] = date[0].toUpperCase();
+        return date;
+    };
+
+    $scope.d2d = function (d) {
+        if (typeof d !== 'number' || isNaN(d)) {
+            return -1;
+        }
+
+        // keep within the range: 0 <= d < 360
+        d = d % 360;
+
+        if (11.25 <= d && d < 33.75) {
+            return "NNE";
+        } else if (33.75 <= d && d < 56.25) {
+            return "NE";
+        } else if (56.25 <= d && d < 78.75) {
+            return "ENE";
+        } else if (78.75 <= d && d < 101.25) {
+            return "E";
+        } else if (101.25 <= d && d < 123.75) {
+            return "ESE";
+        } else if (123.75 <= d && d < 146.25) {
+            return "SE";
+        } else if (146.25 <= d && d < 168.75) {
+            return "SSE";
+        } else if (168.75 <= d && d < 191.25) {
+            return "S";
+        } else if (191.25 <= d && d < 213.75) {
+            return "SSW";
+        } else if (213.75 <= d && d < 236.25) {
+            return "SW";
+        } else if (236.25 <= d && d < 258.75) {
+            return "WSW";
+        } else if (258.75 <= d && d < 281.25) {
+            return "W";
+        } else if (281.25 <= d && d < 303.75) {
+            return "WNW";
+        } else if (303.75 <= d && d < 326.25) {
+            return "NW";
+        } else if (326.25 <= d && d < 348.75) {
+            return "NNW";
+        } else {
+            return "N";
+        }
+    };
+
+    $scope.iconMap = {
+        "200": {
+            "label": "thunderstorm with light rain",
+            "icon": "storm-showers"
+        },
+        "201": {
+            "label": "thunderstorm with rain",
+            "icon": "storm-showers"
+        },
+        "202": {
+            "label": "thunderstorm with heavy rain",
+            "icon": "storm-showers"
+        },
+        "210": {
+            "label": "light thunderstorm",
+            "icon": "storm-showers"
+        },
+        "211": {
+            "label": "thunderstorm",
+            "icon": "thunderstorm"
+        },
+        "212": {
+            "label": "heavy thunderstorm",
+            "icon": "thunderstorm"
+        },
+        "221": {
+            "label": "ragged thunderstorm",
+            "icon": "thunderstorm"
+        },
+        "230": {
+            "label": "thunderstorm with light drizzle",
+            "icon": "storm-showers"
+        },
+        "231": {
+            "label": "thunderstorm with drizzle",
+            "icon": "storm-showers"
+        },
+        "232": {
+            "label": "thunderstorm with heavy drizzle",
+            "icon": "storm-showers"
+        },
+        "300": {
+            "label": "light intensity drizzle",
+            "icon": "sprinkle"
+        },
+        "301": {
+            "label": "drizzle",
+            "icon": "sprinkle"
+        },
+        "302": {
+            "label": "heavy intensity drizzle",
+            "icon": "sprinkle"
+        },
+        "310": {
+            "label": "light intensity drizzle rain",
+            "icon": "sprinkle"
+        },
+        "311": {
+            "label": "drizzle rain",
+            "icon": "sprinkle"
+        },
+        "312": {
+            "label": "heavy intensity drizzle rain",
+            "icon": "sprinkle"
+        },
+        "313": {
+            "label": "shower rain and drizzle",
+            "icon": "sprinkle"
+        },
+        "314": {
+            "label": "heavy shower rain and drizzle",
+            "icon": "sprinkle"
+        },
+        "321": {
+            "label": "shower drizzle",
+            "icon": "sprinkle"
+        },
+        "500": {
+            "label": "light rain",
+            "icon": "rain"
+        },
+        "501": {
+            "label": "moderate rain",
+            "icon": "rain"
+        },
+        "502": {
+            "label": "heavy intensity rain",
+            "icon": "rain"
+        },
+        "503": {
+            "label": "very heavy rain",
+            "icon": "rain"
+        },
+        "504": {
+            "label": "extreme rain",
+            "icon": "rain"
+        },
+        "511": {
+            "label": "freezing rain",
+            "icon": "rain-mix"
+        },
+        "520": {
+            "label": "light intensity shower rain",
+            "icon": "showers"
+        },
+        "521": {
+            "label": "shower rain",
+            "icon": "showers"
+        },
+        "522": {
+            "label": "heavy intensity shower rain",
+            "icon": "showers"
+        },
+        "531": {
+            "label": "ragged shower rain",
+            "icon": "showers"
+        },
+        "600": {
+            "label": "light snow",
+            "icon": "snow"
+        },
+        "601": {
+            "label": "snow",
+            "icon": "snow"
+        },
+        "602": {
+            "label": "heavy snow",
+            "icon": "snow"
+        },
+        "611": {
+            "label": "sleet",
+            "icon": "sleet"
+        },
+        "612": {
+            "label": "shower sleet",
+            "icon": "sleet"
+        },
+        "615": {
+            "label": "light rain and snow",
+            "icon": "rain-mix"
+        },
+        "616": {
+            "label": "rain and snow",
+            "icon": "rain-mix"
+        },
+        "620": {
+            "label": "light shower snow",
+            "icon": "rain-mix"
+        },
+        "621": {
+            "label": "shower snow",
+            "icon": "rain-mix"
+        },
+        "622": {
+            "label": "heavy shower snow",
+            "icon": "rain-mix"
+        },
+        "701": {
+            "label": "mist",
+            "icon": "sprinkle"
+        },
+        "711": {
+            "label": "smoke",
+            "icon": "smoke"
+        },
+        "721": {
+            "label": "haze",
+            "icon": "day-haze"
+        },
+        "731": {
+            "label": "sand, dust whirls",
+            "icon": "cloudy-gusts"
+        },
+        "741": {
+            "label": "fog",
+            "icon": "fog"
+        },
+        "751": {
+            "label": "sand",
+            "icon": "cloudy-gusts"
+        },
+        "761": {
+            "label": "dust",
+            "icon": "dust"
+        },
+        "762": {
+            "label": "volcanic ash",
+            "icon": "smog"
+        },
+        "771": {
+            "label": "squalls",
+            "icon": "day-windy"
+        },
+        "781": {
+            "label": "tornado",
+            "icon": "tornado"
+        },
+        "800": {
+            "label": "clear sky",
+            "icon": "sunny"
+        },
+        "801": {
+            "label": "few clouds",
+            "icon": "cloudy"
+        },
+        "802": {
+            "label": "scattered clouds",
+            "icon": "cloudy"
+        },
+        "803": {
+            "label": "broken clouds",
+            "icon": "cloudy"
+        },
+        "804": {
+            "label": "overcast clouds",
+            "icon": "cloudy"
+        },
+        "900": {
+            "label": "tornado",
+            "icon": "tornado"
+        },
+        "901": {
+            "label": "tropical storm",
+            "icon": "hurricane"
+        },
+        "902": {
+            "label": "hurricane",
+            "icon": "hurricane"
+        },
+        "903": {
+            "label": "cold",
+            "icon": "snowflake-cold"
+        },
+        "904": {
+            "label": "hot",
+            "icon": "hot"
+        },
+        "905": {
+            "label": "windy",
+            "icon": "windy"
+        },
+        "906": {
+            "label": "hail",
+            "icon": "hail"
+        },
+        "951": {
+            "label": "calm",
+            "icon": "sunny"
+        },
+        "952": {
+            "label": "light breeze",
+            "icon": "cloudy-gusts"
+        },
+        "953": {
+            "label": "gentle breeze",
+            "icon": "cloudy-gusts"
+        },
+        "954": {
+            "label": "moderate breeze",
+            "icon": "cloudy-gusts"
+        },
+        "955": {
+            "label": "fresh breeze",
+            "icon": "cloudy-gusts"
+        },
+        "956": {
+            "label": "strong breeze",
+            "icon": "cloudy-gusts"
+        },
+        "957": {
+            "label": "high wind, near gale",
+            "icon": "cloudy-gusts"
+        },
+        "958": {
+            "label": "gale",
+            "icon": "cloudy-gusts"
+        },
+        "959": {
+            "label": "severe gale",
+            "icon": "cloudy-gusts"
+        },
+        "960": {
+            "label": "storm",
+            "icon": "thunderstorm"
+        },
+        "961": {
+            "label": "violent storm",
+            "icon": "thunderstorm"
+        },
+        "962": {
+            "label": "hurricane",
+            "icon": "cloudy-gusts"
+        }
+    };
+
+    $scope.getWeather = function (query, closeModal) {
+        $scope.isLoading = true;
+
+        Weather
+            .getWeather(angular.extend({
+                units: $scope.newLocation.units
+            }, query))
+            .then(function (data) {
+
+                $scope.weatherData = data.weather;
+                $scope.forecastData = data.forecast;
+                $scope.weatherDate = moment($scope.weatherData.dt * 1000).calendar();
+
+                $scope.buildForecast();
+
+                $scope.error = false;
+                $scope.errorMessage = "";
+
+                $scope.isLoading = false;
+
+            }, function (message) {
+                $scope.error = true;
+                try {
+                    $scope.errorMessage = JSON.parse(message).message;
+                } catch (e) {
+                    $scope.errorMessage = null;
+                }
+
+                $scope.isLoading = false;
+            }).then(function () {
+            if (closeModal === true) {
+                $scope.closeChangeLocationForm();
+            }
+        });
+
     };
 
     /** Wheather details ok */
     $scope.openDetails = function () {
 
         Modal
-        .fromTemplateUrl("weather-details.html", {
-            scope: $scope
-        }).then(function (modal) {
-            $scope.details_modal = modal;
-            $scope.details_modal.show();
+            .fromTemplateUrl("weather-details.html", {
+                scope: $scope
+            }).then(function (modal) {
+            $scope.detailsModal = modal;
+            $scope.detailsModal.show();
         });
     };
 
     $scope.closeDetails = function () {
-        $scope.details_modal.remove();
+        $scope.detailsModal.remove();
     };
 
     $scope.openChangeLocationForm = function () {
         Modal
-        .fromTemplateUrl("weather-change-location-form.html", {
-            scope: $scope
-        }).then(function (modal) {
-            $scope.location_form_modal = modal;
-            $scope.location_form_modal.show();
+            .fromTemplateUrl("weather-change-location-form.html", {
+                scope: $scope
+            }).then(function (modal) {
+            $scope.locationFormModal = modal;
+            $scope.locationFormModal.show();
         });
     };
 
     $scope.closeChangeLocationForm = function () {
-        $scope.location_form_modal.remove();
+        $scope.locationFormModal.remove();
     };
 
     $scope.changeLocation = function (useGps) {
         Loader.show();
 
         var deferred = $q.defer();
-        var _location = null;
+        var q = null;
         if (useGps) {
             Location
                 .getLocation()
                 .then(function (position) {
-                    _location = "(" + position.coords.latitude + "," + position.coords.longitude + ")";
+                    q = {
+                        lat: position.coords.latitude,
+                        lon: position.coords.longitude
+                    };
                     Loader.hide();
                     deferred.resolve();
                 }, function (error) {
@@ -119,12 +563,25 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
                     deferred.reject();
                 });
         } else {
-            if ($scope.new_location.city.trim() !== "") {
-                _location = $scope.new_location.city.trim();
-
-                if ($scope.new_location.country.trim() !== "") {
-                    _location += "," + $scope.new_location.country.trim();
+            if ($scope.newLocation.city.trim() !== "") {
+                /** ZipCode search on OWM is bugged for now ... 25/01/2019 */
+                /**var reg = new RegExp("[a-z]{4,}", "i");
+                 if (!reg.test($scope.newLocation.city)) {
+                    q = {
+                        zip: $scope.newLocation.city.trim()
+                    };
+                    if ($scope.newLocation.country.trim() !== "") {
+                        q.zip += "," + $scope.newLocation.country.trim();
+                    }
+                } else {*/
+                q = {
+                    q: $scope.newLocation.city.trim()
+                };
+                if ($scope.newLocation.country.trim() !== "") {
+                    q.q += "," + $scope.newLocation.country.trim();
                 }
+                //}
+
                 Loader.hide();
                 deferred.resolve();
             } else {
@@ -136,115 +593,13 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
 
         deferred.promise
             .then(function () {
-                Weather
-                .getWoeid(_location)
-                .then(function (data) {
-                    var woeid = null;
-                    if (data["query"]["count"] > 0) {
-                        if (data["query"]["results"]["place"].length > 1) {
-                            woeid = data["query"]["results"]["place"][0]["woeid"];
-                        } else {
-                            woeid = data["query"]["results"]["place"]["woeid"];
-                        }
-                    }
-
-                    if (woeid) {
-                        $scope.woeid = woeid;
-                        $scope.getWeather();
-                        $scope.closeChangeLocationForm();
-                    } else {
-                        Dialog.alert("Error", "We were unable to find this location", "Dismiss");
-                    }
-                });
+                $scope.getWeather(q, true);
             });
-    };
-
-    $scope.openYahooWebsite = function () {
-        LinkService.openLink("https://www.yahoo.com/?ilc=401");
     };
 
     $scope.runRain = function () {
         RainEffect.run();
     };
-
-    $scope.currentEffect = 'rain';
-
-    var yahooCodes = {
-        0: '', //tornado
-        1: '', //tropical storm
-        2: '', //hurricane
-        3: '', //severe thunderstorms
-        4: '', //thunderstorms
-        5: 'rain', //mixed rain and snow
-        6: 'rain', //mixed rain and sleet
-        7: '', //mixed snow and sleet
-        8: '', //freezing drizzle
-        9: 'drizzle', //drizzle
-        10: 'rain', //freezing rain
-        11: '', //showers
-        12: '', //showers
-        13: '', //snow flurries
-        14: '', //light snow showers
-        15: '', //blowing snow
-        16: '', //snow
-        17: '', //hail
-        18: '', //sleet
-        19: '', //dust
-        20: '', //foggy
-        21: '', //haze
-        22: '', //smoky
-        23: '', //blustery
-        24: '', //windy
-        25: '', //cold
-        26: 'drizzle', //cloudy
-        27: 'drizzle', //mostly cloudy (night)
-        28: 'drizzle', //mostly cloudy (day)
-        29: 'drizzle', //partly cloudy (night)
-        30: 'drizzle', //partly cloudy (day)
-        31: '', //clear (night)
-        32: 'sunny', //sunny
-        33: '', //fair (night)
-        34: '', //fair (day)
-        35: '', //mixed rain and hail
-        36: '', //hot
-        37: '', //isolated thunderstorms
-        38: '', //scattered thunderstorms
-        39: '', //scattered thunderstorms
-        40: '', //scattered showers
-        41: '', //heavy snow
-        42: '', //scattered snow showers
-        43: '', //heavy snow
-        44: '', //partly cloudy
-        45: '', //thundershowers
-        46: '', //snow showers
-        47: '', //isolated thundershowers
-        3200: '', //not available
-    };
-
-    var currentIndex = 0;
-    var effects = [
-        'rain',
-        'storm',
-        //'fallout',
-        'drizzle',
-        'sunny'
-    ];
-
-    setInterval(function () {
-        var eff = effects[currentIndex];
-        $scope.currentEffect = eff;
-        currentIndex = currentIndex + 1;
-        if (currentIndex > 4) {
-            currentIndex = 0;
-        }
-
-        var event = new CustomEvent('weatherChange', {
-            detail: {
-                type: eff
-            }
-        });
-        window.dispatchEvent(event);
-    }, 3000);
 
     $scope.loadContent();
 

@@ -306,10 +306,12 @@ class Packager
 
         $versionClass = '<?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Version
+ * Class \Siberian\Version
  */
-class Siberian_Version
+class Version
 {
     const TYPE = \'' . strtoupper($type) . '\';
     const NAME = \'' . $name . '\';
@@ -323,6 +325,13 @@ class Siberian_Version
      */
     static function is($type)
     {
+        if (is_array($type)) {
+            foreach ($type as $t) {
+                if (self::TYPE == strtoupper($t)) {
+                    return true;
+                }
+            }
+        }
         return self::TYPE == strtoupper($type);
     }
 }
