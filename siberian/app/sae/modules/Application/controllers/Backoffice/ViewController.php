@@ -169,6 +169,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'teams' => $appIosAutopublish->getTeamsArray(),
             'itcProviders' => $appIosAutopublish->getItcProvidersArray(),
             'selected_team' => $appIosAutopublish->getTeamId(),
+            'selected_team_name' => $appIosAutopublish->getTeamName(),
             'selected_provider' => $appIosAutopublish->getItcProvider(),
             'stats' => $appIosAutopublish->getStats(),
         ];

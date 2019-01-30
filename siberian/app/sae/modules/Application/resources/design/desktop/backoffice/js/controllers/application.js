@@ -215,6 +215,10 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.toCalendar = function (date) {
+        return moment(date).calendar();
+    };
+
     $scope.refreshCredentialsLoader = false;
     $scope.saveCredentialsAutopublish = function () {
         $scope.refreshCredentialsLoader = true;
@@ -222,14 +226,8 @@ App.config(function($routeProvider) {
         Application
             .saveCredentialsAutopublish(
                 $scope.application.id,
-                $scope.ios_publish_informations.itunes_login,
-                $scope.ios_publish_informations.itunes_password)
+                $scope.ios_publish_informations)
             .success(function (data) {
-                $scope.ios_publish_informations.teams = data.teams;
-                $scope.ios_publish_informations.selected_team = data.selected_team;
-                $scope.ios_publish_informations.itcProviders = data.itcProviders;
-                $scope.ios_publish_informations.selected_provider = data.selected_provider;
-
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show();
@@ -243,36 +241,12 @@ App.config(function($routeProvider) {
             });
     };
 
-    $scope.refreshTeamsLoader = false;
-    $scope.refreshTeams = function () {
-        $scope.refreshTeamsLoader = true;
-
-        Application
-            .refreshTeams($scope.application.id)
-            .success(function (data) {
-                $scope.ios_publish_informations.teams = data.teams;
-                $scope.ios_publish_informations.selected_team = data.selected_team;
-                $scope.ios_publish_informations.itcProviders = data.itcProviders;
-                $scope.ios_publish_informations.selected_provider = data.selected_provider;
-
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show();
-            }).error(function (data) {
-                $scope.message.setText(data.message)
-                    .isError(true)
-                    .show();
-            }).finally(function () {
-                $scope.refreshTeamsLoader = false;
-            });
-    };
-
     $scope.refreshPublish = false;
-    $scope.saveInfoIosAutopublish = function () {
+    $scope.requestPublication = function () {
         $scope.refreshPublish = true;
 
         Application
-            .saveInfoIosAutopublish(
+            .requestPublication(
                 $scope.application.id,
                 $scope.ios_publish_informations)
             .success(function (data) {

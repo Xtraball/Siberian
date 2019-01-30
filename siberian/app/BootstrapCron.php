@@ -35,7 +35,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
 
         $include_paths = [get_include_path()];
         $include_paths[] = realpath(APPLICATION_PATH . '/local/modules');
-        switch (Siberian_Version::TYPE) {
+        switch (\Siberian\Version::TYPE) {
             case 'PE':
                 $include_paths[] = realpath(APPLICATION_PATH . '/pe/modules');
             case 'MAE':
@@ -59,14 +59,13 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
 
         // include Stubs
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
-        require_once Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
+        require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
         //for cron we are always at root directory
         Core_Model_Directory::setPath('');
 
         // External vendor, from composer!
-        $autoloader = Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
-        require_once $autoloader;
+        require_once \Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
     }
 
     protected function _initLogger()
