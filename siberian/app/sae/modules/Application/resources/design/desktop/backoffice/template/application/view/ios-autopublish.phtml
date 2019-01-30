@@ -107,6 +107,15 @@
                                        ng-model="ios_publish_informations.selected_provider" />
                             </div>
                         </div>
+
+                        <div class="col-md-12">
+                            <div class="alert alert-info highlight-a">
+                                <?php echo p__(
+                                    "backoffice_application",
+                                    "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>",
+                                    "https://doc.siberiancms.com/knowledge-base/find-apple-team-id-name-provider/") ?>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -257,4 +266,11 @@
     </div>
 
     <div class="clear"></div>
+    
+    <style type="text/css">
+        .highlight-a a {
+            text-decoration: underline;
+            font-weight: bold;
+        }
+    </style>
 </sb-section>

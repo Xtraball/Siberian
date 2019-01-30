@@ -66,7 +66,7 @@ function n__($original, $plural, $value)
  */
 function p__($context, $original)
 {
-    //extract_p__($context, $original);
+    extract_p__($context, $original);
     $text = BaseTranslator::$current->pgettext((string) $context, (string) $original);
 
     if (func_num_args() === 2) {

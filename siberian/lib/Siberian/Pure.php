@@ -11,24 +11,29 @@ function app()
 
 /**
  * Logs all strings for extraction
+ * If you want contextual translations to be automatically extracted
+ * add `$_config["extract"] = true;` to your config.php file
  *
  * @param $context
  * @param $original
  */
-global $extract_translations;
+global $extractTranslations;
 function extract_p__($context, $original)
 {
-    global $extract_translations;
-    $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
-    if (!is_file($file)) {
-        touch($file);
-    }
-    if ($extract_translations === null) {
-        $extract_translations = \Gettext\Translations::fromPoFile($file);
-    }
+    if (__getConfig("extract") === true) {
+        global $extractTranslations;
+        $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+        if (!is_file($file)) {
+            touch($file);
+        }
+        if ($extractTranslations === null) {
+            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        }
 
-    $extract_translations->insert($context, $original);
-    $extract_translations->toPoFile($file);
+        $translation = $extractTranslations->insert($context, $original);
+        $translation->setTranslation($original);
+        $extractTranslations->toPoFile($file);
+    }
 }
 
 function log_emerg($message)
