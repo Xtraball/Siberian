@@ -22,7 +22,18 @@ function extract_p__($context, $original)
 {
     if (__getConfig("extract") === true) {
         global $extractTranslations;
-        $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+        $modules = [
+            "cabride" => "Cabride",
+        ];
+
+        // Special binding for modules
+        if (in_array($context, array_keys($modules))) {
+            $moduleFolder = $modules[$context];
+            $file = Core_Model_Directory::getBasePathTo("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+        } else {
+            $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+        }
+
         if (!is_file($file)) {
             touch($file);
         }
@@ -311,7 +322,25 @@ function __js($string, $escape = '"')
     # Remove $escape arg
     unset($args[1]);
 
-    $translation = call_user_func_array("__", func_get_args());
+    $translation = call_user_func_array("__", $args);
+
+    return addcslashes($translation, $escape);
+}
+
+/**
+ * Classic hook for translations
+ *
+ * @param $text
+ * @return mixed|string
+ */
+function p__js($context, $string, $escape = '"')
+{
+    $args = func_get_args();
+
+    # Remove $escape arg
+    unset($args[2]);
+
+    $translation = call_user_func_array("p__", $args);
 
     return addcslashes($translation, $escape);
 }
