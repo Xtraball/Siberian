@@ -310,10 +310,20 @@ function __old()
 }
 
 /**
- * Classic hook for translations
- *
- * @param $text
- * @return mixed|string
+ * @param $string
+ * @return string
+ */
+function __title($string)
+{
+    $translation = call_user_func_array("__", func_get_args());
+
+    return str_replace(["'", '"'], ["&acute;", "&quot;"], $translation);
+}
+
+/**
+ * @param $string
+ * @param string $escape
+ * @return string
  */
 function __js($string, $escape = '"')
 {
@@ -416,9 +426,8 @@ function __replace($replacements, $file, $regex = false)
 }
 
 /**
- * Strip multiple slashes into one.
- *
  * @param $string
+ * @return null|string|string[]
  */
 function __ss($string)
 {
@@ -437,11 +446,12 @@ function __get($code)
 }
 
 /**
- * Short alias for Config setter
- *
  * @param $code
  * @param $value
- * @return \System_Model_Config
+ * @param null $label
+ * @return $this|null
+ * @throws Exception
+ * @throws Zend_Exception
  */
 function __set($code, $value, $label = null)
 {
@@ -450,7 +460,8 @@ function __set($code, $value, $label = null)
 
 /**
  * @param $code
- * @return bool|mixed
+ * @return bool
+ * @throws Zend_Exception
  */
 function __getConfig($code)
 {
@@ -465,6 +476,7 @@ function __getConfig($code)
  * @param $time
  * @param string $format
  * @return string
+ * @throws Zend_Date_Exception
  */
 function time_to_date($time, $format = 'y-MM-dd')
 {
@@ -474,8 +486,11 @@ function time_to_date($time, $format = 'y-MM-dd')
 
 /**
  * @param $datetime
+ * @param string $format
  * @param null $locale
  * @return string
+ * @throws Zend_Date_Exception
+ * @throws Zend_Locale_Exception
  */
 function datetime_to_format($datetime, $format = \Zend_Date::DATETIME_SHORT, $locale = null)
 {
