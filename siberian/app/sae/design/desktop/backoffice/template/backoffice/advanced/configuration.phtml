@@ -1,6 +1,6 @@
 <form ng-submit="save()"
       class="form-horizontal">
-    <sb-section title="'<?php echo addcslashes(__("Application settings"), "'"); ?>'">
+    <sb-section title="'<?php echo __title("Application settings"); ?>'">
 
         <div class="form-group">
 
@@ -102,7 +102,7 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo addcslashes(__("Session settings"), "'"); ?>'">
+    <sb-section title="'<?php echo __title("Session settings"); ?>'">
 
         <div class="form-group">
 
@@ -172,7 +172,7 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo addcslashes(__("HTTPS & SSL Certificates"), "'"); ?>'">
+    <sb-section title="'<?php echo __title("HTTPS & SSL Certificates"); ?>'">
 
         <div class="form-group">
 
@@ -381,7 +381,7 @@
 
 </form>
 
-    <sb-section title="'<?php echo addcslashes(__("Issued certificates"), "'"); ?>'">
+    <sb-section title="'<?php echo __title("Issued certificates"); ?>'">
         <table class="table ssl-certificates">
             <thead>
             <tr>
@@ -479,7 +479,7 @@
 
     </sb-section>
 
-    <sb-section title="'<?php echo addcslashes(__("Upload your own certificates"), "'"); ?>'"
+    <sb-section title="'<?php echo __title("Upload your own certificates"); ?>'"
                 class="cert-upload" >
 
 
