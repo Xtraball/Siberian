@@ -37,7 +37,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $stats = null;
 
             $appIosAutopublish = (new Application_Model_IosAutopublish())
-                ->find($params["app_id"],"app_id");
+                ->find($params["app_id"], "app_id");
 
             if ($ios["itunes_password"] != Application_Model_IosAutopublish::$fakePassword) {
                 // Save password only if different from fake!
@@ -46,8 +46,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
                 $appIosAutopublish
                     ->setCypheredCredentials($cypheredCredentials)
-                    ->setItunesLogin($ios["itunes_login"])
-                    ->save();
+                    ->setItunesLogin($ios["itunes_login"]);
             }
 
             $appIosAutopublish
@@ -67,6 +66,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $payload = [
                 "success" => true,
                 "message" => __("Credentials successfully saved!"),
+                "id" => $appIosAutopublish->getId(),
                 "stats" => $stats
             ];
 

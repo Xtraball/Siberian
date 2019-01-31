@@ -1,4 +1,4 @@
-<sb-section title="'<?php echo __js("Generate and publish iOS Application"); ?>'">
+<sb-section title="'<?php echo __title("Generate and publish iOS Application"); ?>'">
 
     <div class="row">
         <div class="col-md-12">
@@ -40,7 +40,8 @@
         <div class="col-md-12">
             <div class="section-content">
 
-                <form autocomplete="off">
+                <form autocomplete="off"
+                      ng-submit="noop()">
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -219,14 +220,12 @@
 
                         <div class="col-md-12">
                             <button ng-click="saveCredentialsAutopublish()"
-                                    type="submit"
                                     class="btn btn-primary left">
                                 <i class="icofont icofont-save"></i> <?php echo __("Save credentials & settings"); ?>
                             </button>
 
-                            <!--ng-disabled="!ios_publish_informations.stats.isOnline"-->
-                            <button ng-click="requestPublication()"
-                                    type="submit"
+                            <button ng-disabled="disableRequest()"
+                                    ng-click="requestPublication()"
                                     style="margin-left: 15px;"
                                     class="btn btn-primary left">
                                 <i class="fa fa-send"></i> <?php echo __("Request a publication"); ?>

@@ -1,4 +1,4 @@
-<sb-section title="'<?php echo __js("Banner settings"); ?>'">
+<sb-section title="'<?php echo __title("Banner settings"); ?>'">
     <form ng-submit="saveBannerInfo()">
         <div class="form-group">
             <div class="col-md-4">
@@ -42,19 +42,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="banner-label-ios"
+                    <label for="banner-label-{{ device.name }}"
                            class="control-label"><?php echo __("Banner %s store label", "{{ device.name }}"); ?></label>
                     <input type="text"
                            placeholder="<?php echo __("e.g: On %s", "{{ device.store_name }}"); ?>"
-                           id="banner-label-ios"
+                           id="banner-label-{{ device.name }}"
                            class="form-control"
                            ng-model="device.banner_store_label"/>
                 </div>
                 <div class="form-group">
-                    <label for="banner-price-ios"
+                    <label for="banner-price-{{ device.name }}"
                            class="control-label"><?php echo __("Banner %s price", "{{ device.name }}"); ?></label>
                     <input type="text"
-                           id="banner-price-ios"
+                           id="banner-price-{{ device.name }}"
                            class="form-control"
                            ng-model="device.banner_store_price"/>
                 </div>
