@@ -1,0 +1,27 @@
+<sb-section title="'<?php echo __title("Media"); ?>'">
+
+    <div class="form-group">
+        <div class="col-md-2">
+            <label class="control-label"><?php echo __("App Store Icon"); ?></label>
+        </div>
+        <div class="col-md-2 text-right">
+            <img ng-src="{{ application.app_store_icon }}"
+                 width="100"/>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="form-group">
+        <div class="col-md-2">
+            <label class="control-label"><?php echo __("Google Play Icon"); ?></label>
+        </div>
+        <div class="col-md-2 text-right">
+            <img ng-src="{{ application.google_play_icon }}"
+                 width="100"/>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+</sb-section>

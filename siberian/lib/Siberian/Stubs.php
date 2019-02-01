@@ -1,33 +1,12 @@
 <?php
 
 /**
- * A collection of stubs & extends for backward compatibility with "un-namespaced" classes!
+ * A collection of stubs, extents & aliases for backward compatibility with "un-namespaced" classes!
  */
 
-/**
- * Class Siberian_Exception
- *
- * @deprecated please use \Siberian\Exception
- */
-class Siberian_Exception extends \Siberian\Exception {}
-
-/**
- * Class Core_Model_Default
- */
-class Core_Model_Default extends \Core\Model\Base {}
-
-/**
- * Class Siberian_Cron
- */
-class Siberian_Cron extends \Siberian\Cron {}
-
-/**
- * Class Siberian_Utils
- */
-class Siberian_Utils extends \Siberian\Utils {}
-
-/**
- * Class Utils
- */
-class Utils extends \Siberian\Utils {}
-
+class_alias("\Siberian\Utils", "Utils");
+class_alias("\Siberian\Utils", "Siberian_Utils");
+class_alias("\Siberian\Cron", "Siberian_Cron");
+class_alias("\Core\Model\Base", "Core_Model_Default");
+class_alias("\Siberian\Exception", "Siberian_Exception");
+class_alias("\Siberian\Version", "Siberian_Version");

@@ -1,0 +1,129 @@
+<sb-section title="'<?php echo __title("Certificate"); ?>'"
+            class="upload_area">
+    <p class="help-block"><?php echo __("Send here your iOS certificate to enable the push notifications for this application."); ?></p>
+    <p class="help-block"><?php echo __("<b>File type:</b> %s", "pem"); ?></p>
+
+    <div class="col-md-12"
+         ng-if="application.has_ios_certificate || application.pem_infos">
+        <span ng-if="application.pem_infos.is_valid">
+            <b><?php echo __("APNS Port 2195 is:") ?></b>
+                <span ng-show="application.pem_infos.port_open"
+                      class="pem-valid"><?php echo __("Open"); ?>,</span>
+                <span ng-show="!application.pem_infos.port_open"
+                      class="pem-invalid"><?php echo __("Closed"); ?>,</span>
+            <b><?php echo __("APNS Feedback port 2196 is:") ?></b>
+                <span ng-show="application.pem_infos.apns_feedback"
+                      class="pem-valid"><?php echo __("Open"); ?>,</span>
+                <span ng-show="!application.pem_infos.apns_feedback"
+                      class="pem-invalid"><?php echo __("Closed"); ?>
+                    ,</span>
+            <b><?php echo __("PEM test:") ?></b>
+                <span ng-show="application.pem_infos.test_pem"
+                      class="pem-valid"><?php echo __("Success"); ?></span>
+                <span ng-show="!application.pem_infos.test_pem"
+                      class="pem-invalid"><?php echo __("Error"); ?></span>
+            <br/>
+            <b><?php echo __("Your certificate is valid until:") ?></b> <span
+                    class="{{ application.pem_infos.is_valid ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.valid_until }}</span>,
+            <b><?php echo __("for the bundle id:") ?></b> <span
+                    class="{{ (application.pem_infos.package_name == tmp_application.bundle_id) ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.package_name }}</span>
+        </span>
+
+        <span ng-if="!application.pem_infos.is_valid"
+              class="pem-invalid">
+            <b><?php echo __("Your certificate is invalid") ?>
+        </span>
+
+        <br/><br/>
+    </div>
+
+    <br/>
+    <div class="col-md-3">
+        <div class="upload_a_file">
+            <label for="certificate_uploader"><?php echo __("Click here to send your certificate"); ?></label>
+            <input id="certificate_uploader"
+                   type="file"
+                   nv-file-select=""
+                   uploader="certificate_uploader"/>
+        </div>
+    </div>
+
+    <div class="col-md-1">
+        <div class="drop_a_file">
+            <label><?php echo __("OR"); ?></label>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="drop_a_file">
+            <label><?php echo __("Drop your certificate here"); ?></label>
+            <div ng-show="certificate_uploader.isHTML5">
+                <div class="well drop-zone"
+                     nv-file-drop=""
+                     nv-file-over=""
+                     uploader="certificate_uploader">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toggle col-md-3"
+         ng-if="application.has_ios_certificate || application.just_sent_the_certificate">
+        <label ng-show="application.has_ios_certificate"><?php echo __("You already have sent a certificate."); ?></label>
+        <label ng-show="application.just_sent_the_certificate"><?php echo __("You have sent a certificate."); ?></label>
+        <div class="text-center">
+            <img src="<?php echo $this->getImage("push/certificate.png"); ?>"
+                 width="100"/>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <table class="table"
+           ng-show="certificate_uploader.queue.length">
+        <thead>
+        <tr>
+            <th width="50%">Name</th>
+            <th ng-show="certificate_uploader.isHTML5">Size</th>
+            <th ng-show="certificate_uploader.isHTML5">Progress</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in certificate_uploader.queue"
+            ng-show="certificate_uploader.queue.length">
+            <td><strong>{{ item.file.name }}</strong></td>
+            <td ng-show="certificate_uploader.isHTML5"
+                nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+            <td ng-show="certificate_uploader.isHTML5">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped"
+                         role="progressbar"
+                         ng-style="{ 'width': item.progress + '%' }"></div>
+                </div>
+            </td>
+            <td class="text-center">
+                <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+            </td>
+            <td nowrap>
+                <button type="button"
+                        class="btn btn-warning btn-xs"
+                        ng-click="item.cancel()"
+                        ng-disabled="!item.isUploading">
+                    <span class="fa fa-ban"></span>
+                </button>
+                <button type="button"
+                        class="btn btn-danger btn-xs"
+                        ng-click="item.remove()"
+                        ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                    <span class="fa fa-remove"></span>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</sb-section>

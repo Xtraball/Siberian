@@ -1,0 +1,37 @@
+<sb-section title="'<?php echo __title("Developer Accounts"); ?>'">
+
+    <div class="form-group"
+         ng-repeat="device in application.devices">
+
+        <div class="col-md-4"
+             ng-class="{'text-danger': device.has_missing_information}">
+            <h4 class="bold">{{ device.brand_name }}</h4>
+        </div>
+
+        <div class="col-md-4"
+             ng-if="!device.has_missing_information && device.use_our_developer_account == 0">
+            <label class="control-label"><?php echo __("Username"); ?></label>
+            <p>{{ device.developer_account_username }}</p>
+        </div>
+        <div class="col-md-4"
+             ng-if="!device.has_missing_information && device.use_our_developer_account == 0">
+            <label class="control-label"><?php echo __("Password"); ?></label>
+            <p>{{ device.developer_account_password }}</p>
+        </div>
+
+        <div class="col-md-8"
+             ng-if="!device.has_missing_information && device.use_our_developer_account == 1">
+            <h4><?php echo __("Publish under our account"); ?></h4>
+        </div>
+
+        <div class="col-md-4"
+             ng-if="device.has_missing_information">
+            <h4 class="text-danger"><?php echo __("Missing Information"); ?></h4>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <div class="clear"></div>
+
+</sb-section>

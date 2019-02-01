@@ -152,6 +152,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         }
 
         $data["ios_publish_informations"] = [
+            "id" => $appIosAutopublish->getId(),
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
             "itunes_login" => $appIosAutopublish->getItunesLogin(),
             "itunes_password" => Application_Model_IosAutopublish::$fakePassword,
@@ -169,6 +170,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'teams' => $appIosAutopublish->getTeamsArray(),
             'itcProviders' => $appIosAutopublish->getItcProvidersArray(),
             'selected_team' => $appIosAutopublish->getTeamId(),
+            'selected_team_name' => $appIosAutopublish->getTeamName(),
             'selected_provider' => $appIosAutopublish->getItcProvider(),
             'stats' => $appIosAutopublish->getStats(),
         ];

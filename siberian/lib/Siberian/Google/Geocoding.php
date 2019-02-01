@@ -145,7 +145,7 @@ class Siberian_Google_Geocoding
     {
         $apiKey = trim($apiKey);
         if (empty($apiKey)) {
-            throw new \Siberian\Exception('#807-101: ' . __('Missing and/or empty API key.'));
+            throw new \Siberian\Exception('#807-101 [GoogleMaps]: ' . __('Missing and/or empty API key.'));
         }
 
         $response = \Siberian_Request::get("https://maps.googleapis.com/maps/api/geocode/json", [
@@ -155,17 +155,17 @@ class Siberian_Google_Geocoding
         ]);
 
         if (empty($response)) {
-            throw new \Siberian\Exception('#807-102: ' . __('Something went wrong with the API.'));
+            throw new \Siberian\Exception('#807-102 [GoogleMaps]: ' . __('Something went wrong with the API.'));
         }
 
         $result = \Siberian_Json::decode($response);
 
         if (!array_key_exists('status', $result)) {
-            throw new \Siberian\Exception('#807-103: ' . __('Something went wrong with the API.'));
+            throw new \Siberian\Exception('#807-103 [GoogleMaps]: ' . __('Something went wrong with the API.'));
         }
 
         if ($result['status'] !== 'OK') {
-            throw new \Siberian\Exception('#807-104: ' . $result['error_message']);
+            throw new \Siberian\Exception('#807-104 [GoogleMaps]: ' . $result['error_message']);
         }
 
         return true;

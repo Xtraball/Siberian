@@ -1,8 +1,16 @@
 <?php
 
+/**
+ * Class Weather_Model_Weather
+ */
 class Weather_Model_Weather extends Core_Model_Default
 {
 
+    /**
+     * Weather_Model_Weather constructor.
+     * @param array $params
+     * @throws Zend_Exception
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
@@ -30,25 +38,32 @@ class Weather_Model_Weather extends Core_Model_Default
     }
 
     /**
-     * @param null $option_value
+     * @param null $optionValue
      * @return array
      */
-    public function getEmbedPayload($option_value = null)
+    public function getEmbedPayload($optionValue = null)
     {
-
-        $payload = [
-            "collection" => [],
-            "page_title" => $option_value->getTabbarName(),
-            "icon_url" => Core_Model_Directory::getBasePathTo('/app/sae/design/desktop/flat/images/weather/')
-        ];
-
         if ($this->getId()) {
-            $payload["collection"] = $this->getData();
+            $payload = [
+                "page_title" => (string) $optionValue->getTabbarName(),
+                "unit" => (string) strtoupper($this->getUnit()),
+                "units" => (string) ($this->getUnit() === "c") ? "metric" : "imperial",
+                "country" => (string) $this->getCountryCode(),
+                "city" => (string) $this->getCity(),
+            ];
+        } else {
+            return false;
         }
 
         return $payload;
     }
 
+    /**
+     * @param $name
+     * @param bool $base
+     * @return string
+     * @throws Zend_Exception
+     */
     protected function _getImage($name, $base = false)
     {
 
@@ -62,6 +77,10 @@ class Weather_Model_Weather extends Core_Model_Default
 
     }
 
+    /**
+     * @param $option
+     * @return $this
+     */
     public function copyTo($option)
     {
 
@@ -70,6 +89,11 @@ class Weather_Model_Weather extends Core_Model_Default
 
     }
 
+    /**
+     * @param $option_value
+     * @return array|string[]
+     * @throws Zend_Exception
+     */
     public function getFeaturePaths($option_value)
     {
         $paths = parent::getFeaturePaths($option_value);
@@ -160,6 +184,27 @@ class Weather_Model_Weather extends Core_Model_Default
 
         } else {
             throw new Exception("#089-02: Missing option, unable to import data.");
+        }
+    }
+
+    /**
+     * Testing OWM API Key on saving!
+     *
+     * @param $key
+     * @throws \Siberian\Exception
+     */
+    public static function testApiKey ($key)
+    {
+        $request = \Siberian_Request::get("https://api.openweathermap.org/data/2.5/weather?q=London&appid={$key}");
+        $result = \Siberian_Json::decode($request);
+
+        // Transfer error code if cod match 40x
+        if (strpos($result["cod"], "40") === 0) {
+            throw new \Siberian\Exception(__("OpenWeatherMap") . "<br />" . $result["message"]);
+        }
+
+        if (\Siberian_Request::$statusCode != "200") {
+            throw new \Siberian\Exception(__(__("OpenWeatherMap") . "<br />" . "We were unable to communicate with the OpenWeatherMap API! Please try again later!"));
         }
     }
 

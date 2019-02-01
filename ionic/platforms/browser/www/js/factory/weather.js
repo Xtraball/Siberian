@@ -7,7 +7,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").factory("Weather", function($q, $pwaRequest, $cordovaGeolocation, GoogleMaps) {
+angular.module("starter").factory("Weather", function($q, $pwaRequest) {
 
     var factory = {
         value_id        : null,
@@ -50,44 +50,9 @@ angular.module("starter").factory("Weather", function($q, $pwaRequest, $cordovaG
         }
     };
 
-    factory.getWeather = function(woeid, unit) {
-        var deferred = $q.defer();
-
-        factory
-            .getWeatherFromWoeid(woeid, unit)
-            .then(function(data) {
-                if(!data.query.results.channel.astronomy) {
-                    deferred.reject("Unable to get weather for this location.");
-                } else {
-                    deferred.resolve(data);
-                }
-            }, function() {
-                deferred.reject("Unable to get weather.");
-            });
-
-        return deferred.promise;
-    };
-
-    factory.getWoeid = function(param) {
-
-        var yql = encodeURI("SELECT woeid FROM geo.places WHERE text='" + param + "'");
-
-        return $pwaRequest.post("/weather/mobile_view/proxy", {
-            data: {
-                request: btoa("https://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json")
-            },
-            cache: false
-        });
-    };
-
-    factory.getWeatherFromWoeid = function(woeid, unit) {
-
-        var yql = encodeURI("SELECT * FROM weather.forecast WHERE woeid='" + woeid + "' AND u='" + unit + "'");
-
-        return $pwaRequest.post("/weather/mobile_view/proxy", {
-            data: {
-                request: btoa("https://query.yahooapis.com/v1/public/yql?q=" + yql + "&format=json&lang=fr-FR")
-            },
+    factory.getWeather = function (params) {
+        return $pwaRequest.post("weather/mobile_view/getweather", {
+            data: params,
             cache: false
         });
     };

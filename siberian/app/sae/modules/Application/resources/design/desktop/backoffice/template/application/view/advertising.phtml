@@ -1,0 +1,93 @@
+<sb-section title="'<?php echo __title("Advertising"); ?>'">
+    <form ng-submit="saveAdvertisingInfo()">
+        <div class="form-group">
+            <div class="col-md-12">
+                <label for="owner_use_ads"
+                       class="control-label">
+                    <input type="checkbox"
+                           id="owner_use_ads"
+                           ng-model="application_admob.owner_use_ads"
+                           ng-checked="application_admob.owner_use_ads"/>
+                    <?php echo __("Use Owner AdMob"); ?>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <div class="alert alert-info"
+                     role="alert">
+                    <?php echo __("If user doesn't use AdMob, split revenue will default to 100.") ?>
+                </div>
+            </div>
+        </div>
+
+        <div ng-repeat="device in application_admob.devices"
+             ng-if="application_admob.owner_use_ads">
+
+            <div class="col-md-{{ 12 / application_admob.devices.length }}">
+
+                <div class="subtitle">
+                    <h4>{{ device.name }}</h4>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-weight-{{ device.name }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
+                    <input type="number"
+                           min="0"
+                           max="100"
+                           step="1"
+                           id="admob-weight-{{ device.name }}"
+                           ng-model="device.owner_admob_weight"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-id-{{ device.name }}"
+                           class="control-label"><?php echo __("AdMob Banner ID"); ?></label>
+                    <input type="text"
+                           id="admob-id-{{ device.name }}"
+                           class="form-control"
+                           ng-model="device.owner_admob_id"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-interstitial-id-{{ device.name }}"
+                           class="control-label"><?php echo __("AdMob Interstitial ID"); ?></label>
+                    <input type="text"
+                           id="admob-interstitial-id-{{ device.name }}"
+                           class="form-control"
+                           ng-model="device.owner_admob_interstitial_id"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-type-{{ device.name }}"
+                           class="control-label"><?php echo __("AdMob Type"); ?></label>
+                    <select id="admob-type-{{ device.name }}"
+                            class="form-control"
+                            ng-model="device.owner_admob_type">
+                        <option value="banner"><?php echo __("Banner") ?></option>
+                        <option value="interstitial"><?php echo __("Interstitial") ?></option>
+                        <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="device_form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+</sb-section>

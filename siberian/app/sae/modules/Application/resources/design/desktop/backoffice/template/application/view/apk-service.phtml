@@ -1,0 +1,56 @@
+<sb-section ng-show="showApkService"
+            title="'<?php echo __title("Service APK generator"); ?>'">
+    <form ng-submit="sendApkToService()"
+          autocomplete="off">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label"><?php echo __('Build information'); ?></label>
+                    <div>
+                        <div class="alert alert-info">
+                            <b><?php echo __('Status'); ?></b>: {{ application.apk_service.status }}
+                            <span ng-if="application.apk_service.message">
+                                    <br />
+                                    <b><?php echo __('Message'); ?></b>: {{ application.apk_service.message }}
+                                </span>
+                            <span ng-if="application.apk_service.path">
+                                    <br />
+                                    <a href="{{ application.apk_service.path }}"
+                                       target="_self"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
+                                </span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-primary left">
+                    <i class="fa fa-send"></i> <?php echo __('Request APK generation'); ?>
+                </button>
+                <sb-loader is_visible="refreshPublishApk"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+
+        </div>
+
+        <br/>
+        <br/>
+
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <label ng-if="showApkServiceMessage.length"
+                       class="control-label"><?php echo __('Service notes'); ?></label>
+                <div ng-repeat="message in showApkServiceMessage"
+                     ng-class="message.colors">
+                    <b>{{ message.title }}</b>
+                    <br/>
+                    {{ message.message }}
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+</sb-section>

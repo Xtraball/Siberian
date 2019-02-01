@@ -1,0 +1,39 @@
+<sb-section title="'<?php echo __title("Manage Access"); ?>'">
+
+    <p class="help-block"><?php echo __("Manage Admins access feature by feature."); ?></p>
+
+    <br/>
+
+    <table class="table">
+        <colgroup>
+            <col width="3%">
+            <col width="40%">
+            <col width="30%">
+            <col width="17%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th><?php echo __('Id') ?></th>
+            <th><?php echo __('Name') ?></th>
+            <th><?php echo __('Email') ?></th>
+            <th class="text-right"><?php echo __('Actions') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="admin in application.admin_list">
+            <td>
+                <b>#{{ admin.admin_id }}</b>
+            </td>
+            <td>{{ admin.firstname }} {{ admin.lastname }}</td>
+            <td>{{ admin.email }}</td>
+            <td class="text-right">
+                <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.admin_id }}"
+                   target="_blank"
+                   class="btn btn-sm btn-info"><?php echo __('IMPERSONATE') ?></a>
+                <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
+                   class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</sb-section>

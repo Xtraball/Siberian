@@ -1,0 +1,80 @@
+<sb-section title="'<?php echo __title("Banner settings"); ?>'">
+    <form ng-submit="saveBannerInfo()">
+        <div class="form-group">
+            <div class="col-md-4">
+                <label for="banner-title"
+                       class="control-label"><?php echo __("Banner title"); ?></label>
+                <input type="text"
+                       id="banner-title"
+                       class="form-control"
+                       ng-model="application_banner.banner_title"/>
+            </div>
+            <div class="col-md-4">
+                <label for="banner-author"
+                       class="control-label"><?php echo __("Banner author"); ?></label>
+                <input type="text"
+                       id="banner-author"
+                       class="form-control"
+                       ng-model="application_banner.banner_author"/>
+            </div>
+            <div class="col-md-4">
+                <label for="banner-button-label"
+                       class="control-label"><?php echo __("Banner button label"); ?></label>
+                <input type="text"
+                       id="banner-button-label"
+                       class="form-control"
+                       ng-model="application_banner.banner_button_label"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;
+            </div>
+        </div>
+
+        <div ng-repeat="device in application_banner.devices">
+
+            <div class="col-md-{{ 12 / application_banner.devices.length }}">
+
+                <div class="subtitle">
+                    <h4>{{ device.name }}</h4>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="banner-label-{{ device.name }}"
+                           class="control-label"><?php echo __("Banner %s store label", "{{ device.name }}"); ?></label>
+                    <input type="text"
+                           placeholder="<?php echo __("e.g: On %s", "{{ device.store_name }}"); ?>"
+                           id="banner-label-{{ device.name }}"
+                           class="form-control"
+                           ng-model="device.banner_store_label"/>
+                </div>
+                <div class="form-group">
+                    <label for="banner-price-{{ device.name }}"
+                           class="control-label"><?php echo __("Banner %s price", "{{ device.name }}"); ?></label>
+                    <input type="text"
+                           id="banner-price-{{ device.name }}"
+                           class="form-control"
+                           ng-model="device.banner_store_price"/>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="device_form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+
+</sb-section>

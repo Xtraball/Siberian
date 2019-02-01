@@ -1,13 +1,13 @@
-<sb-section title="'<?php echo addslashes($this->_("People who are allowed to access the backoffice")); ?>'"
+<sb-section title="'<?php echo __title("People who are allowed to access the backoffice"); ?>'"
             button="button">
     <br />
     <div class="form-group">
-        <label for="filter"><?php echo $this->_("Search"); ?></label>
+        <label for="filter"><?php echo __("Search"); ?></label>
         <input type="text"
                id="filter"
                class="form-control"
                ng-model="filter"
-               placeholder="<?php echo $this->_("Search"); ?>" />
+               placeholder="<?php echo __("Search"); ?>" />
     </div>
     <br />
     <table class="table">

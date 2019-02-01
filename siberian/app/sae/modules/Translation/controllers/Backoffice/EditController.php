@@ -63,19 +63,39 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             // Available files
             $files = [];
             foreach (array_keys($translations) as $file) {
-                $files[$file] = ucfirst(basename(basename($file, ".csv"), ".mo"));
+                $baseName = basename(basename($file, ".csv"), ".mo");
+                if (strpos($baseName, "c_") === 0) {
+                    $_tmp = str_replace("c_", "[Context] ", $baseName);
+                    $_tmp = str_replace("_", " > ", $_tmp);
+                    $_tmp = str_replace("-", " > ", $_tmp);
+                } else {
+                    $_tmp = ucfirst($baseName);
+                    $_tmp = str_replace("_", " ", $_tmp);
+                    $_tmp = str_replace("-", " ", $_tmp);
+                }
+                $files[$file] = $_tmp;
             }
 
             $merged = [];
             foreach ($translations as $file => $keyValues) {
-                $title = ucfirst(basename(basename($file, ".csv"), ".mo"));
+                $baseName = basename(basename($file, ".csv"), ".mo");
+                if (strpos($baseName, "c_") === 0) {
+                    $_tmp = str_replace("c_", "[Context] ", $baseName);
+                    $_tmp = str_replace("_", " > ", $_tmp);
+                    $_tmp = str_replace("-", " > ", $_tmp);
+                } else {
+                    $_tmp = ucfirst($baseName);
+                    $_tmp = str_replace("_", " ", $_tmp);
+                    $_tmp = str_replace("-", " ", $_tmp);
+                }
+
                 foreach ($keyValues as $key => $value) {
                     $merged[] = [
                         "file" => $file,
-                        "title" => $title,
+                        "title" => $_tmp,
                         "key" => $key,
                         "value" => $value,
-                        "search" => sprintf("%s %s %s", $title, $key, $value)
+                        "search" => sprintf("%s %s %s", $_tmp, $key, $value)
                     ];
                 }
             }

@@ -1,5 +1,5 @@
 {
-  "build_hash": "c4ba88dedfc881809b05dbf1fad4bc32",
+  "build_hash": "2b924fc802037ae004b8f0bfd5d72092",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
@@ -3063,6 +3063,882 @@
     {
       "code": "0xf25b",
       "name": "waterdrop"
+    },
+    {
+      "code": "0xf1a5",
+      "name": "wi-alien"
+    },
+    {
+      "code": "0xf1a6",
+      "name": "wi-barometer"
+    },
+    {
+      "code": "0xf1a7",
+      "name": "wi-celsius"
+    },
+    {
+      "code": "0xf1ab",
+      "name": "wi-cloud"
+    },
+    {
+      "code": "0xf1a8",
+      "name": "wi-cloud-down"
+    },
+    {
+      "code": "0xf1a9",
+      "name": "wi-cloud-refresh"
+    },
+    {
+      "code": "0xf1aa",
+      "name": "wi-cloud-up"
+    },
+    {
+      "code": "0xf1ae",
+      "name": "wi-cloudy"
+    },
+    {
+      "code": "0xf1ac",
+      "name": "wi-cloudy-gusts"
+    },
+    {
+      "code": "0xf1ad",
+      "name": "wi-cloudy-windy"
+    },
+    {
+      "code": "0xf1b2",
+      "name": "wi-day-cloudy"
+    },
+    {
+      "code": "0xf1af",
+      "name": "wi-day-cloudy-gusts"
+    },
+    {
+      "code": "0xf1b0",
+      "name": "wi-day-cloudy-high"
+    },
+    {
+      "code": "0xf1b1",
+      "name": "wi-day-cloudy-windy"
+    },
+    {
+      "code": "0xf1b3",
+      "name": "wi-day-fog"
+    },
+    {
+      "code": "0xf1b4",
+      "name": "wi-day-hail"
+    },
+    {
+      "code": "0xf1b5",
+      "name": "wi-day-haze"
+    },
+    {
+      "code": "0xf1b6",
+      "name": "wi-day-light-wind"
+    },
+    {
+      "code": "0xf1b7",
+      "name": "wi-day-lightning"
+    },
+    {
+      "code": "0xf1ba",
+      "name": "wi-day-rain"
+    },
+    {
+      "code": "0xf1b8",
+      "name": "wi-day-rain-mix"
+    },
+    {
+      "code": "0xf1b9",
+      "name": "wi-day-rain-wind"
+    },
+    {
+      "code": "0xf1bb",
+      "name": "wi-day-showers"
+    },
+    {
+      "code": "0xf1bd",
+      "name": "wi-day-sleet"
+    },
+    {
+      "code": "0xf1bc",
+      "name": "wi-day-sleet-storm"
+    },
+    {
+      "code": "0xf1c0",
+      "name": "wi-day-snow"
+    },
+    {
+      "code": "0xf1be",
+      "name": "wi-day-snow-thunderstorm"
+    },
+    {
+      "code": "0xf1bf",
+      "name": "wi-day-snow-wind"
+    },
+    {
+      "code": "0xf1c1",
+      "name": "wi-day-sprinkle"
+    },
+    {
+      "code": "0xf1c2",
+      "name": "wi-day-storm-showers"
+    },
+    {
+      "code": "0xf1c4",
+      "name": "wi-day-sunny"
+    },
+    {
+      "code": "0xf1c3",
+      "name": "wi-day-sunny-overcast"
+    },
+    {
+      "code": "0xf1c5",
+      "name": "wi-day-thunderstorm"
+    },
+    {
+      "code": "0xf1c6",
+      "name": "wi-day-windy"
+    },
+    {
+      "code": "0xf1c7",
+      "name": "wi-degrees"
+    },
+    {
+      "code": "0xf1ca",
+      "name": "wi-direction-down"
+    },
+    {
+      "code": "0xf1c8",
+      "name": "wi-direction-down-left"
+    },
+    {
+      "code": "0xf1c9",
+      "name": "wi-direction-down-right"
+    },
+    {
+      "code": "0xf1cb",
+      "name": "wi-direction-left"
+    },
+    {
+      "code": "0xf1cc",
+      "name": "wi-direction-right"
+    },
+    {
+      "code": "0xf1cf",
+      "name": "wi-direction-up"
+    },
+    {
+      "code": "0xf1cd",
+      "name": "wi-direction-up-left"
+    },
+    {
+      "code": "0xf1ce",
+      "name": "wi-direction-up-right"
+    },
+    {
+      "code": "0xf1d0",
+      "name": "wi-dust"
+    },
+    {
+      "code": "0xf1d1",
+      "name": "wi-earthquake"
+    },
+    {
+      "code": "0xf1d2",
+      "name": "wi-fahrenheit"
+    },
+    {
+      "code": "0xf1d3",
+      "name": "wi-fire"
+    },
+    {
+      "code": "0xf1d4",
+      "name": "wi-flood"
+    },
+    {
+      "code": "0xf1d5",
+      "name": "wi-fog"
+    },
+    {
+      "code": "0xf1d6",
+      "name": "wi-gale-warning"
+    },
+    {
+      "code": "0xf1d7",
+      "name": "wi-hail"
+    },
+    {
+      "code": "0xf1d9",
+      "name": "wi-horizon"
+    },
+    {
+      "code": "0xf1d8",
+      "name": "wi-horizon-alt"
+    },
+    {
+      "code": "0xf1da",
+      "name": "wi-hot"
+    },
+    {
+      "code": "0xf1db",
+      "name": "wi-humidity"
+    },
+    {
+      "code": "0xf1dd",
+      "name": "wi-hurricane"
+    },
+    {
+      "code": "0xf1dc",
+      "name": "wi-hurricane-warning"
+    },
+    {
+      "code": "0xf1de",
+      "name": "wi-lightning"
+    },
+    {
+      "code": "0xf1df",
+      "name": "wi-lunar-eclipse"
+    },
+    {
+      "code": "0xf1e0",
+      "name": "wi-meteor"
+    },
+    {
+      "code": "0xf1e1",
+      "name": "wi-moon-alt-first-quarter"
+    },
+    {
+      "code": "0xf1e2",
+      "name": "wi-moon-alt-full"
+    },
+    {
+      "code": "0xf1e3",
+      "name": "wi-moon-alt-new"
+    },
+    {
+      "code": "0xf1e4",
+      "name": "wi-moon-alt-third-quarter"
+    },
+    {
+      "code": "0xf1e5",
+      "name": "wi-moon-alt-waning-crescent-1"
+    },
+    {
+      "code": "0xf1e6",
+      "name": "wi-moon-alt-waning-crescent-2"
+    },
+    {
+      "code": "0xf1e7",
+      "name": "wi-moon-alt-waning-crescent-3"
+    },
+    {
+      "code": "0xf1e8",
+      "name": "wi-moon-alt-waning-crescent-4"
+    },
+    {
+      "code": "0xf1e9",
+      "name": "wi-moon-alt-waning-crescent-5"
+    },
+    {
+      "code": "0xf1ea",
+      "name": "wi-moon-alt-waning-crescent-6"
+    },
+    {
+      "code": "0xf1eb",
+      "name": "wi-moon-alt-waning-gibbous-1"
+    },
+    {
+      "code": "0xf1ec",
+      "name": "wi-moon-alt-waning-gibbous-2"
+    },
+    {
+      "code": "0xf1ed",
+      "name": "wi-moon-alt-waning-gibbous-3"
+    },
+    {
+      "code": "0xf1ee",
+      "name": "wi-moon-alt-waning-gibbous-4"
+    },
+    {
+      "code": "0xf1ef",
+      "name": "wi-moon-alt-waning-gibbous-5"
+    },
+    {
+      "code": "0xf1f0",
+      "name": "wi-moon-alt-waning-gibbous-6"
+    },
+    {
+      "code": "0xf1f1",
+      "name": "wi-moon-alt-waxing-crescent-1"
+    },
+    {
+      "code": "0xf1f2",
+      "name": "wi-moon-alt-waxing-crescent-2"
+    },
+    {
+      "code": "0xf1f3",
+      "name": "wi-moon-alt-waxing-crescent-3"
+    },
+    {
+      "code": "0xf1f4",
+      "name": "wi-moon-alt-waxing-crescent-4"
+    },
+    {
+      "code": "0xf1f5",
+      "name": "wi-moon-alt-waxing-crescent-5"
+    },
+    {
+      "code": "0xf1f6",
+      "name": "wi-moon-alt-waxing-crescent-6 "
+    },
+    {
+      "code": "0xf1f7",
+      "name": "wi-moon-alt-waxing-gibbous-1"
+    },
+    {
+      "code": "0xf1f8",
+      "name": "wi-moon-alt-waxing-gibbous-2"
+    },
+    {
+      "code": "0xf27e",
+      "name": "wi-moon-alt-waxing-gibbous-3"
+    },
+    {
+      "code": "0xf27f",
+      "name": "wi-moon-alt-waxing-gibbous-4"
+    },
+    {
+      "code": "0xf280",
+      "name": "wi-moon-alt-waxing-gibbous-5"
+    },
+    {
+      "code": "0xf281",
+      "name": "wi-moon-alt-waxing-gibbous-6 "
+    },
+    {
+      "code": "0xf282",
+      "name": "wi-moon-first-quarter"
+    },
+    {
+      "code": "0xf283",
+      "name": "wi-moon-full"
+    },
+    {
+      "code": "0xf284",
+      "name": "wi-moon-new"
+    },
+    {
+      "code": "0xf285",
+      "name": "wi-moon-third-quarter"
+    },
+    {
+      "code": "0xf286",
+      "name": "wi-moon-waning-crescent-1"
+    },
+    {
+      "code": "0xf287",
+      "name": "wi-moon-waning-crescent-2"
+    },
+    {
+      "code": "0xf288",
+      "name": "wi-moon-waning-crescent-3"
+    },
+    {
+      "code": "0xf289",
+      "name": "wi-moon-waning-crescent-4 "
+    },
+    {
+      "code": "0xf28a",
+      "name": "wi-moon-waning-crescent-5"
+    },
+    {
+      "code": "0xf28b",
+      "name": "wi-moon-waning-crescent-6"
+    },
+    {
+      "code": "0xf28c",
+      "name": "wi-moon-waning-gibbous-1"
+    },
+    {
+      "code": "0xf28d",
+      "name": "wi-moon-waning-gibbous-2"
+    },
+    {
+      "code": "0xf28e",
+      "name": "wi-moon-waning-gibbous-3"
+    },
+    {
+      "code": "0xf28f",
+      "name": "wi-moon-waning-gibbous-4"
+    },
+    {
+      "code": "0xf290",
+      "name": "wi-moon-waning-gibbous-5 "
+    },
+    {
+      "code": "0xf291",
+      "name": "wi-moon-waning-gibbous-6"
+    },
+    {
+      "code": "0xf292",
+      "name": "wi-moon-waxing-crescent-1"
+    },
+    {
+      "code": "0xf293",
+      "name": "wi-moon-waxing-crescent-2"
+    },
+    {
+      "code": "0xf294",
+      "name": "wi-moon-waxing-crescent-3"
+    },
+    {
+      "code": "0xf2bb",
+      "name": "wi-moon-waxing-crescent-4"
+    },
+    {
+      "code": "0xf2bc",
+      "name": "wi-moon-waxing-crescent-5"
+    },
+    {
+      "code": "0xf2bd",
+      "name": "wi-moon-waxing-crescent-6 "
+    },
+    {
+      "code": "0xf2c6",
+      "name": "wi-moon-waxing-gibbous-1"
+    },
+    {
+      "code": "0xf2c8",
+      "name": "wi-moon-waxing-gibbous-2"
+    },
+    {
+      "code": "0xf2cb",
+      "name": "wi-moon-waxing-gibbous-3"
+    },
+    {
+      "code": "0xf2cc",
+      "name": "wi-moon-waxing-gibbous-4 "
+    },
+    {
+      "code": "0xf2cd",
+      "name": "wi-moon-waxing-gibbous-5"
+    },
+    {
+      "code": "0xf2ce",
+      "name": "wi-moon-waxing-gibbous-6"
+    },
+    {
+      "code": "0xf2cf",
+      "name": "wi-moonrise"
+    },
+    {
+      "code": "0xf2d0",
+      "name": "wi-moonset"
+    },
+    {
+      "code": "0xf2d5",
+      "name": "wi-na"
+    },
+    {
+      "code": "0xf2dc",
+      "name": "wi-night-alt-cloudy"
+    },
+    {
+      "code": "0xf2d6",
+      "name": "wi-night-alt-cloudy-gusts"
+    },
+    {
+      "code": "0xf2da",
+      "name": "wi-night-alt-cloudy-high"
+    },
+    {
+      "code": "0xf2db",
+      "name": "wi-night-alt-cloudy-windy"
+    },
+    {
+      "code": "0xf2de",
+      "name": "wi-night-alt-hail"
+    },
+    {
+      "code": "0xf2df",
+      "name": "wi-night-alt-lightning"
+    },
+    {
+      "code": "0xf2e1",
+      "name": "wi-night-alt-partly-cloudy"
+    },
+    {
+      "code": "0xf2e6",
+      "name": "wi-night-alt-rain"
+    },
+    {
+      "code": "0xf2e2",
+      "name": "wi-night-alt-rain-mix"
+    },
+    {
+      "code": "0xf2e5",
+      "name": "wi-night-alt-rain-wind"
+    },
+    {
+      "code": "0xf2e7",
+      "name": "wi-night-alt-showers"
+    },
+    {
+      "code": "0xf2ea",
+      "name": "wi-night-alt-sleet"
+    },
+    {
+      "code": "0xf2e8",
+      "name": "wi-night-alt-sleet-storm"
+    },
+    {
+      "code": "0xf2ef",
+      "name": "wi-night-alt-snow"
+    },
+    {
+      "code": "0xf2ed",
+      "name": "wi-night-alt-snow-thunderstorm"
+    },
+    {
+      "code": "0xf2ee",
+      "name": "wi-night-alt-snow-wind"
+    },
+    {
+      "code": "0xf2f1",
+      "name": "wi-night-alt-sprinkle"
+    },
+    {
+      "code": "0xf2f2",
+      "name": "wi-night-alt-storm-showers"
+    },
+    {
+      "code": "0xf2f3",
+      "name": "wi-night-alt-thunderstorm"
+    },
+    {
+      "code": "0xf2f9",
+      "name": "wi-night-clear"
+    },
+    {
+      "code": "0xf2ff",
+      "name": "wi-night-cloudy"
+    },
+    {
+      "code": "0xf2fa",
+      "name": "wi-night-cloudy-gusts"
+    },
+    {
+      "code": "0xf2fb",
+      "name": "wi-night-cloudy-high"
+    },
+    {
+      "code": "0xf2fe",
+      "name": "wi-night-cloudy-windy"
+    },
+    {
+      "code": "0xf300",
+      "name": "wi-night-fog"
+    },
+    {
+      "code": "0xf301",
+      "name": "wi-night-hail"
+    },
+    {
+      "code": "0xf302",
+      "name": "wi-night-lightning"
+    },
+    {
+      "code": "0xf303",
+      "name": "wi-night-partly-cloudy"
+    },
+    {
+      "code": "0xf308",
+      "name": "wi-night-rain"
+    },
+    {
+      "code": "0xf304",
+      "name": "wi-night-rain-mix"
+    },
+    {
+      "code": "0xf307",
+      "name": "wi-night-rain-wind"
+    },
+    {
+      "code": "0xf309",
+      "name": "wi-night-showers"
+    },
+    {
+      "code": "0xf30e",
+      "name": "wi-night-sleet"
+    },
+    {
+      "code": "0xf30d",
+      "name": "wi-night-sleet-storm"
+    },
+    {
+      "code": "0xf312",
+      "name": "wi-night-snow"
+    },
+    {
+      "code": "0xf310",
+      "name": "wi-night-snow-thunderstorm"
+    },
+    {
+      "code": "0xf311",
+      "name": "wi-night-snow-wind"
+    },
+    {
+      "code": "0xf31e",
+      "name": "wi-night-sprinkle"
+    },
+    {
+      "code": "0xf31f",
+      "name": "wi-night-storm-showers"
+    },
+    {
+      "code": "0xf320",
+      "name": "wi-night-thunderstorm"
+    },
+    {
+      "code": "0xf323",
+      "name": "wi-rain"
+    },
+    {
+      "code": "0xf321",
+      "name": "wi-rain-mix"
+    },
+    {
+      "code": "0xf322",
+      "name": "wi-rain-wind"
+    },
+    {
+      "code": "0xf324",
+      "name": "wi-raindrop"
+    },
+    {
+      "code": "0xf325",
+      "name": "wi-raindrops"
+    },
+    {
+      "code": "0xf327",
+      "name": "wi-refresh"
+    },
+    {
+      "code": "0xf326",
+      "name": "wi-refresh-alt"
+    },
+    {
+      "code": "0xf328",
+      "name": "wi-sandstorm"
+    },
+    {
+      "code": "0xf329",
+      "name": "wi-showers"
+    },
+    {
+      "code": "0xf32a",
+      "name": "wi-sleet"
+    },
+    {
+      "code": "0xf32b",
+      "name": "wi-small-craft-advisory"
+    },
+    {
+      "code": "0xf32c",
+      "name": "wi-smog"
+    },
+    {
+      "code": "0xf32d",
+      "name": "wi-smoke"
+    },
+    {
+      "code": "0xf32f",
+      "name": "wi-snow"
+    },
+    {
+      "code": "0xf32e",
+      "name": "wi-snow-wind"
+    },
+    {
+      "code": "0xf330",
+      "name": "wi-snowflake-cold"
+    },
+    {
+      "code": "0xf331",
+      "name": "wi-solar-eclipse"
+    },
+    {
+      "code": "0xf332",
+      "name": "wi-sprinkle"
+    },
+    {
+      "code": "0xf333",
+      "name": "wi-stars"
+    },
+    {
+      "code": "0xf334",
+      "name": "wi-storm-showers"
+    },
+    {
+      "code": "0xf335",
+      "name": "wi-storm-warning"
+    },
+    {
+      "code": "0xf336",
+      "name": "wi-strong-wind"
+    },
+    {
+      "code": "0xf337",
+      "name": "wi-sunrise"
+    },
+    {
+      "code": "0xf338",
+      "name": "wi-sunset"
+    },
+    {
+      "code": "0xf33b",
+      "name": "wi-thermometer"
+    },
+    {
+      "code": "0xf339",
+      "name": "wi-thermometer-exterior"
+    },
+    {
+      "code": "0xf33a",
+      "name": "wi-thermometer-internal"
+    },
+    {
+      "code": "0xf33c",
+      "name": "wi-thunderstorm"
+    },
+    {
+      "code": "0xf33d",
+      "name": "wi-time-1"
+    },
+    {
+      "code": "0xf33e",
+      "name": "wi-time-10"
+    },
+    {
+      "code": "0xf4f8",
+      "name": "wi-time-11"
+    },
+    {
+      "code": "0xf4f9",
+      "name": "wi-time-12"
+    },
+    {
+      "code": "0xf4fa",
+      "name": "wi-time-2"
+    },
+    {
+      "code": "0xf4fb",
+      "name": "wi-time-3"
+    },
+    {
+      "code": "0xf4fc",
+      "name": "wi-time-4"
+    },
+    {
+      "code": "0xf4fd",
+      "name": "wi-time-5"
+    },
+    {
+      "code": "0xf4fe",
+      "name": "wi-time-6"
+    },
+    {
+      "code": "0xf4ff",
+      "name": "wi-time-7"
+    },
+    {
+      "code": "0xf500",
+      "name": "wi-time-8"
+    },
+    {
+      "code": "0xf501",
+      "name": "wi-time-9"
+    },
+    {
+      "code": "0xf502",
+      "name": "wi-tornado"
+    },
+    {
+      "code": "0xf503",
+      "name": "wi-train"
+    },
+    {
+      "code": "0xf504",
+      "name": "wi-tsunami"
+    },
+    {
+      "code": "0xf505",
+      "name": "wi-umbrella"
+    },
+    {
+      "code": "0xf506",
+      "name": "wi-volcano"
+    },
+    {
+      "code": "0xf507",
+      "name": "wi-wind-beaufort-0"
+    },
+    {
+      "code": "0xf508",
+      "name": "wi-wind-beaufort-1"
+    },
+    {
+      "code": "0xf509",
+      "name": "wi-wind-beaufort-10"
+    },
+    {
+      "code": "0xf50a",
+      "name": "wi-wind-beaufort-11"
+    },
+    {
+      "code": "0xf50b",
+      "name": "wi-wind-beaufort-12"
+    },
+    {
+      "code": "0xf50c",
+      "name": "wi-wind-beaufort-2"
+    },
+    {
+      "code": "0xf50d",
+      "name": "wi-wind-beaufort-3"
+    },
+    {
+      "code": "0xf50e",
+      "name": "wi-wind-beaufort-4"
+    },
+    {
+      "code": "0xf50f",
+      "name": "wi-wind-beaufort-5"
+    },
+    {
+      "code": "0xf510",
+      "name": "wi-wind-beaufort-6"
+    },
+    {
+      "code": "0xf511",
+      "name": "wi-wind-beaufort-7"
+    },
+    {
+      "code": "0xf512",
+      "name": "wi-wind-beaufort-8"
+    },
+    {
+      "code": "0xf513",
+      "name": "wi-wind-beaufort-9"
+    },
+    {
+      "code": "0xf514",
+      "name": "wi-wind-deg"
+    },
+    {
+      "code": "0xf515",
+      "name": "wi-windy"
     },
     {
       "code": "0xf25c",

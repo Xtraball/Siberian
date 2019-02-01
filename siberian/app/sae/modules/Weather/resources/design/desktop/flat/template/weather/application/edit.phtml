@@ -1,23 +1,46 @@
-<?php $option_value = $this->getOptionValue(); ?>
-<?php $application = $this->getApplication(); ?>
-<?php $weather = new Weather_Model_Weather(); ?>
-<?php $weather->find($option_value->getId(),"value_id"); ?>
-<?php $countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2); ?>
-<?php asort($countries, SORT_LOCALE_STRING); ?>
-<div id="list" class="edit_page weather">
-    <form id="weatherForm" name="weatherForm" method="post" action="<?php echo $this->getUrl('weather/application/editpost') ?>">
+<?php
+$option_value = $this->getOptionValue();
+$application = $this->getApplication();
+$weather = new Weather_Model_Weather();
+$weather->find($option_value->getId(),"value_id");
+$countries = Zend_Registry::get('Zend_Locale')->getTranslationList('Territory', null, 2);
+asort($countries, SORT_LOCALE_STRING);
+
+$owmKey = $application->getOwmKey();
+
+?>
+<div id="list"
+     class="edit_page weather">
+
+    <?php if (empty($owmKey)): ?>
+    <div class="alert alert-danger">
+        <?php echo __("You must set an OpenWeatherMap API key in order to use the Weather feature.") ?>
+        <a href="/application/settings_apis"
+           target="_blank"
+           class="btn color-blue"><?php echo __("Add an API Key") ?></a>
+    </div>
+    <?php endif; ?>
+
+    <form id="weatherForm"
+          name="weatherForm"
+          method="post"
+          action="<?php echo $this->getUrl('weather/application/editpost') ?>">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_("Weather information") ?>
+            <?php echo __("Weather information") ?>
         </h3>
-        <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+        <input type="hidden"
+               name="value_id"
+               value="<?php echo $option_value->getId(); ?>" />
         <div class="container-fluid first-row-feature content-feature">
             <div class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-3">
-                        <label for="address"><?php echo $this->_("Country:"); ?></label>
+                        <label for="address"><?php echo __("Country:"); ?></label>
                     </div>
                     <div class="col-md-9">
-                        <select id="country_code" name="country_code" class="styled-select color-blue">
+                        <select id="country_code"
+                                name="country_code"
+                                class="styled-select color-blue">
                             <option value=""></option>
                             <?php foreach($countries as $key => $country): ?>
                                 <option value="<?php echo $key; ?>" <?php if($key == $weather->getCountryCode()) echo "selected"; ?>><?php echo $country; ?></option>
@@ -27,27 +50,33 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <label for="address"><?php echo $this->_("Postal code or city:"); ?></label>
+                        <label for="address"><?php echo __("Postal code or city:"); ?></label>
                     </div>
                     <div class="col-md-9">
-                        <input type="text" id="city" name="city" class="input-flat" value="<?php echo $weather->getCity(); ?>"/>
+                        <input type="text"
+                               id="city"
+                               name="city"
+                               class="input-flat"
+                               value="<?php echo $weather->getCity(); ?>"/>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        <label for="address"><?php echo $this->_("Units:"); ?></label>
+                        <label for="address"><?php echo __("Units:"); ?></label>
                     </div>
                     <div class="col-md-9">
-                        <select id="unit" name="unit" class="styled-select color-blue">
-                            <option value="f" <?php if($weather->getUnit() == "f") echo "selected"; ?>>°F, mph, mi</option>
-                            <option value="c" <?php if($weather->getUnit() == "c") echo "selected"; ?>>°C, km/h, km</option>
+                        <select id="unit"
+                                name="unit"
+                                class="styled-select color-blue">
+                            <option value="f" <?php if ($weather->getUnit() == "f") echo "selected"; ?>>°F, mph, mi</option>
+                            <option value="c" <?php if ($weather->getUnit() == "c") echo "selected"; ?>>°C, km/h, km</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group"> 
                     <div class="col-md-12">
                         <button class="pull-right btn color-blue" type="submit">
-                            <?php echo $this->_('Save'); ?>
+                            <?php echo __('Save'); ?>
                         </button>
                     </div>
                 </div>

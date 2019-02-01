@@ -1,0 +1,167 @@
+<sb-section title="'<?php echo __title("General Information"); ?>'">
+    <form ng-submit="saveInfo()">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"
+                       for="name"><?php echo __("Name"); ?></label>
+                <input type="text"
+                       value="{{ tmp_application.name }}"
+                       ng-model="tmp_application.name"
+                       class="form-control"
+                       name="name"
+                       id="name"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"
+                       for="bundle_id"><?php echo __("Bundle Id"); ?></label>
+                <input type="text"
+                       value="{{ tmp_application.bundle_id }}"
+                       ng-model="tmp_application.bundle_id"
+                       class="form-control"
+                       name="bundle_id"
+                       id="bundle_id"/>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"
+                       for="package_name"><?php echo __("Package Name"); ?></label>
+                <input type="text"
+                       value="{{ tmp_application.package_name }}"
+                       ng-model="tmp_application.package_name"
+                       class="form-control"
+                       name="package_name"
+                       id="package_name"/>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"
+                       for="domain"><?php echo __("Domain"); ?></label>
+                <input type="text"
+                       value="{{ tmp_application.domain }}"
+                       ng-model="tmp_application.domain"
+                       class="form-control"
+                       name="domain"
+                       id="domain">
+            </div>
+        </div>
+
+        <?php if (\Siberian\Version::is(["MAE", "PE"])): ?>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label"
+                           for="key"><?php echo __("URL Key"); ?></label>
+                    <input type="text"
+                           value="{{ tmp_application.key }}"
+                           ng-model="tmp_application.key"
+                           class="form-control"
+                           name="key" id="key">
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div class="clear"></div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="control-label"><?php echo __("URL"); ?></label>
+                <a href="{{ tmp_application.url }}"
+                   class="block"
+                   target="_blank">{{ tmp_application.url }}</a>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="form-group">
+                <label class="control-label"><?php echo __("Privacy policy URL"); ?>: <i></i></label>
+                <div>
+                    <span><?php echo $this->getUrl("application/privacypolicy") . "?id=" ?>{{ tmp_application.key }}</span>
+                </div>
+            </div>
+        </div>
+
+        <?php if (\Siberian\Version::is("PE")): ?>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label"><?php echo __("Free until"); ?></label>
+                    <input type="text"
+                           value="{{ tmp_application.free_until }}"
+                           class="form-control"
+                           name="free_until"
+                           id="free_until"
+                           ng-model="tmp_application.free_until_displayed_date"
+                           ng-focus="datepicker_visible = true"
+                           ng-change="datepicker_visible = false"/>
+
+                    <datetimepicker data-ng-model="tmp_application.free_until"
+                                    data-displayed-date="tmp_application.free_until_displayed_date"
+                                    data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
+                                    data-is-visible="datepicker_visible"/>
+                </div>
+            </div>
+        <?php endif; ?>
+
+        <div class="clear col-md-4">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="application_is_active">
+                        <input type="checkbox"
+                               id="application_is_active"
+                               ng-model="tmp_application.is_active"
+                               ng-checked="tmp_application.is_active"/>
+                        <?php echo __("This application is visible on the front"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="application_is_locked">
+                        <input type="checkbox"
+                               id="application_is_locked"
+                               ng-model="tmp_application.is_locked"
+                               ng-checked="tmp_application.is_locked"/>
+                        <?php echo __("Lock the entire application"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="application_can_be_published">
+                        <input type="checkbox"
+                               id="application_can_be_published"
+                               ng-model="tmp_application.can_be_published"
+                               ng-checked="tmp_application.can_be_published"/>
+                        <?php echo __("Allow user to request app publication"); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="application_form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+
+</sb-section>

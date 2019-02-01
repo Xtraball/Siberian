@@ -1,0 +1,88 @@
+<sb-section title="'<?php echo __title("Device Information"); ?>'">
+
+    <form ng-submit="saveDeviceInfo()">
+        <div class="row">
+            <div ng-repeat="device in application_banner.devices"
+                 class="col-md-6">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="section-title">{{ device.name }}</h4>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="section-content">
+                            <div class="form-group">
+                                <label for="{{ device.id }}_status"><?php echo __('Status'); ?></label>
+                                <select id="{{ device.id }}_status"
+                                        class="form-control"
+                                        ng-model="device.status_id"
+                                        ng-options="k as v for (k, v) in statuses"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ device.id }}_version"><?php echo __('Version'); ?></label>
+                                <input type="text"
+                                       ng-model="device.version"
+                                       class="form-control"
+                                       name="version"
+                                       id="{{ device.id }}_version"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ device.id }}_store_url"><?php echo __('Store URL'); ?></label>
+                                <input type="url"
+                                       ng-model="device.store_url"
+                                       class="form-control"
+                                       name="store_url"
+                                       id="{{ device.id }}_store_url"/>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-if="device.store_pass">
+                                <label for="{{ device.id }}_store_pass"><?php echo __('Store Password'); ?></label>
+                                <p>{{ device.store_pass }}</p>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-if="device.key_pass">
+                                <label for="{{ device.id }}_key_pass"><?php echo __('Key Password'); ?></label>
+                                <p>{{ device.key_pass }}</p>
+                            </div>
+
+                            <div class="form-group"
+                                 ng-if="device.type_id=='1'">
+                                <label for="app_id"><?php echo __("Store App ID"); ?></label>
+                                <input type="text"
+                                       ng-model="device.store_app_id"
+                                       class="form-control"
+                                       name="app_id"
+                                       id="app_id"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br />
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <button type="submit"
+                            class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                    <sb-loader is_visible="device_form_loader_is_visible"
+                               type="'inner_content'"
+                               size="'small'"
+                               animation="'no'"
+                               class="form_loader"></sb-loader>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="clear"></div>
+
+</sb-section>

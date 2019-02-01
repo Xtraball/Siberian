@@ -1,0 +1,264 @@
+<sb-section title="'<?php echo __title("Mobile Source Codes"); ?>'">
+
+    <div class="row"
+         ng-if="tmp_application.design_code != 'ionic'">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label class="control-label"><?php echo __("Source type:"); ?></label>
+                <select class="form-control"
+                        ng-model="mobile_source.design_code"
+                        ng-options="k as v for (k, v) in design_codes"></select>
+            </div>
+        </div>
+    </div>
+
+    <table class="table queue">
+        <colgroup>
+            <col width="20%">
+            <col width="50%">
+            <col width="30%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th>
+                <?php echo __("Sources"); ?>
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr>
+            <td>
+                <label class="control-label"><?php echo __("iPhone"); ?></label>
+                <br/>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?>
+                    , <?php echo __('iOS 9+') ?></span>
+            </td>
+            <td>
+                <a ng-if="application.zip.ios"
+                   href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}"
+                   class="help-block"
+                   target="_self">
+                    <i class="fa fa-cloud-download"></i> <?php echo __("Download latest sources"); ?> {{
+                    application.zip.ios.date }}
+                </a>
+
+                <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.ios == 0"
+                   ng-click="generateSource(1, 0)"
+                   href="javascript:void(0)"
+                   class="block"
+                   target="_self"><i
+                            class="fa fa-gears"></i> <?php echo __("Generate sources"); ?></a>
+                <span ng-show="application.queued.positions.ios == 1">
+                        <img class="gear-loader"
+                             src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
+                    </span>
+                <span ng-show="application.queued.positions.ios > 1">
+                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
+                    </span>
+                <a ng-show="application.queued.positions.ios > 1"
+                   ng-click="cancelQueue(1, 0)"
+                   href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label class="control-label"><?php echo __("iPhone (No Ads)"); ?>
+                    <i class="fa fa-question-circle"
+                       ng-click="show_ads_tip = !show_ads_tip"></i></label>
+                <br/>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Xcode 9.2') ?>
+                    , <?php echo __('iOS 9+') ?></span>
+            </td>
+            <td>
+                <a ng-if="application.zip.iosnoads"
+                   href="<?php echo $this->getUrl("") ?>{{ application.zip.iosnoads.path }}"
+                   class="help-block"
+                   target="_self">
+                    <i class="fa fa-cloud-download"></i> <?php echo __("Download latest sources"); ?> {{
+                    application.zip.iosnoads.date }}
+                </a>
+
+                <span ng-if="!application.zip.iosnoads"><?php echo __("Not yet generated.") ?></span>
+
+                <div ng-show="show_ads_tip">
+                    <p class="help-block"><?php echo __("Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."); ?></p>
+                    <p class="help-block"><?php echo __("Note that if you want to add ads later, you will have to publish the app again."); ?></p>
+                </div>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.iosnoads == 0"
+                   ng-click="generateSource(1, 1)"
+                   href="javascript:void(0)"
+                   class="block"
+                   target="_self">
+                    <i class="fa fa-gears"></i> <?php echo __("Generate sources"); ?>
+                </a>
+                <span ng-show="application.queued.positions.iosnoads == 1">
+                        <img class="gear-loader"
+                             src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
+                    </span>
+                <span ng-show="application.queued.positions.iosnoads > 1">
+                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosnoads }}/{{ application.queued.total }}
+                    </span>
+                <a ng-show="application.queued.positions.iosnoads > 1"
+                   ng-click="cancelQueue(1, 1)"
+                   href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <label class="control-label"><?php echo __("Android"); ?></label>
+                <br/>
+                <span style="font-style: italic; font-size: 11px;"><?php echo __('Android Studio 3+') ?>
+                    , <?php echo __('Android 4.4+') ?></span>
+            </td>
+            <td>
+                <a ng-if="application.zip.android"
+                   href="<?php echo $this->getUrl("") ?>{{ application.zip.android.path }}"
+                   class="help-block"
+                   target="_self">
+                    <i class="fa fa-cloud-download"></i> <?php echo __("Download latest sources"); ?> {{
+                    application.zip.android.date }}
+                </a>
+                <span ng-if="!application.zip.android"><?php echo __("Not yet generated.") ?></span>
+            </td>
+            <td class="text-right">
+                <a ng-if="application.queued.positions.android == 0"
+                   ng-click="generateSource(2, 0)"
+                   href="javascript:void(0)"
+                   class="block"
+                   target="_self">
+                    <i class="fa fa-gears"></i> <?php echo __("Generate sources"); ?>
+                </a>
+                <span ng-show="application.queued.positions.android == 1">
+                        <img class="gear-loader"
+                             src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
+                    </span>
+                <span ng-show="application.queued.positions.android > 1">
+                            <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.android }}/{{ application.queued.total }}
+                        </span>
+                <a ng-show="application.queued.positions.android > 1"
+                   ng-click="cancelQueue(2, 0)"
+                   href="javascript:void(0)">
+                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                </a>
+            </td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <?php if (Siberian_Version::is('MAE') || Siberian_Version::is('PE')): ?>
+        <table class="table queue"
+               ng-show="licenseType !== 'mae-hosted' && licenseType !== 'pe-hosted'">
+            <colgroup>
+                <col width="20%">
+                <col width="50%">
+                <col width="30%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>
+                    <?php echo __("Local APK build"); ?>
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td colspan="3">
+                    <?php
+                    try {
+                        exec('ldd --version', $o);
+                        $version = $o[0];
+                        preg_match('/(\d+\.\d+){1,}/', $version, $matches);
+                        $match = false;
+                        if (isset($matches[0])) {
+                            $match = true;
+                            $result = version_compare($matches[0], '2.14', '>=');
+                        }
+
+                        $showApk = true;
+                        if (!$match) {
+                            $showApk = false;
+                            echo '<div class="alert alert-danger">';
+                            echo __('We were unable to determine your %s version.', '<b>glibc</b>');
+                            echo __('The local APK generator ' .
+                                'requires %s, you can check the version via SSH with ' .
+                                'the following command %s.', '<b>glibc >= 2.14</b>', '`ldd --version`');
+                            echo '</div>';
+
+                        } else {
+                            if (!$result) {
+                                $showApk = false;
+                                echo '<div class="alert alert-danger">';
+                                echo __('Your %s version is %s.', '<b>glibc</b>', $matches[0]);
+                                echo __('The local APK generator requires %s', '<b>glibc >= 2.14</b>');
+                                echo '</div>';
+                            }
+                        }
+                    } catch (\Exception $e) {
+                        // Silent!
+                    }
+                    ?>
+                </td>
+            </tr>
+            <?php if ($showApk): ?>
+                <tr>
+                    <td>
+                        <label class="control-label"><?php echo __("Android APK"); ?></label>
+                    </td>
+                    <td>
+                        <p class="help-block"
+                           ng-if="!application.android_sdk"><?php echo __("Android SDK is not installed") ?></p>
+                        <a href="{{ application.apk.path }}"
+                           class="help-block"
+                           target="_self"
+                           ng-if="application.android_sdk && application.apk.path">
+                            <i class="fa fa-cloud-download"></i> <?php echo __("Download latest APK"); ?> {{
+                            application.apk.date }}
+                        </a>
+                        <span ng-if="!application.apk.path"><?php echo __("No build.") ?></span>
+                    </td>
+                    <td class="text-right">
+                        <a ng-if="application.android_sdk && application.queued.positions.apk == 0"
+                           ng-click="downloadAndroidApk()"
+                           href="javascript:void(0)"
+                           class="block">
+                            <i class="fa fa-android"></i> <?php echo __("Generate build"); ?></a>
+                        <span ng-show="application.android_sdk && application.queued.positions.apk == 1">
+                                <img class="gear-loader"
+                                     src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
+                            </span>
+                        <span ng-show="application.android_sdk && application.queued.positions.apk > 1">
+                                <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.apk }}/{{ application.queued.total }}
+                            </span>
+                        <a ng-show="application.queued.positions.apk > 1"
+                           ng-click="cancelQueue(2, 0, 'apk')"
+                           href="javascript:void(0)">
+                            <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                        </a>
+                    </td>
+                </tr>
+            <?php endif; ?>
+            </tbody>
+
+        </table>
+    <?php endif; ?>
+    <div class="clear"></div>
+
+</sb-section>

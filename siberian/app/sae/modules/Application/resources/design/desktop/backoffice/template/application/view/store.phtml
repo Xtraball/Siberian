@@ -1,0 +1,36 @@
+<sb-section title="'<?php echo __title("Stores Info"); ?>'">
+
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><?php echo __("Application Name"); ?></label>
+            <p>{{ application.name }}</p>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><?php echo __("Description"); ?></label>
+            <p style="word-break: break-word;">{{ application.description }}</p>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><?php echo __("Keywords"); ?></label>
+            <p>{{ application.keywords }}</p>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><?php echo __("Main category"); ?></label>
+            <p>{{ application.main_category_name }}</p>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label"><?php echo __("Secondary category"); ?></label>
+            <p>{{ application.secondary_category_name }}</p>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+</sb-section>

@@ -11,24 +11,40 @@ function app()
 
 /**
  * Logs all strings for extraction
+ * If you want contextual translations to be automatically extracted
+ * add `$_config["extract"] = true;` to your config.php file
  *
  * @param $context
  * @param $original
  */
-global $extract_translations;
+global $extractTranslations;
 function extract_p__($context, $original)
 {
-    global $extract_translations;
-    $file = Core_Model_Directory::getBasePathTo("/var/tmp/extract.po");
-    if (!is_file($file)) {
-        touch($file);
-    }
-    if ($extract_translations === null) {
-        $extract_translations = \Gettext\Translations::fromPoFile($file);
-    }
+    if (__getConfig("extract") === true) {
+        global $extractTranslations;
+        $modules = [
+            "cabride" => "Cabride",
+        ];
 
-    $extract_translations->insert($context, $original);
-    $extract_translations->toPoFile($file);
+        // Special binding for modules
+        if (in_array($context, array_keys($modules))) {
+            $moduleFolder = $modules[$context];
+            $file = Core_Model_Directory::getBasePathTo("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+        } else {
+            $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+        }
+
+        if (!is_file($file)) {
+            touch($file);
+        }
+        if ($extractTranslations === null) {
+            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        }
+
+        $translation = $extractTranslations->insert($context, $original);
+        $translation->setTranslation($original);
+        $extractTranslations->toPoFile($file);
+    }
 }
 
 function log_emerg($message)
@@ -294,10 +310,20 @@ function __old()
 }
 
 /**
- * Classic hook for translations
- *
- * @param $text
- * @return mixed|string
+ * @param $string
+ * @return string
+ */
+function __title($string)
+{
+    $translation = call_user_func_array("__", func_get_args());
+
+    return str_replace(["'", '"'], ["&acute;", "&quot;"], $translation);
+}
+
+/**
+ * @param $string
+ * @param string $escape
+ * @return string
  */
 function __js($string, $escape = '"')
 {
@@ -306,7 +332,25 @@ function __js($string, $escape = '"')
     # Remove $escape arg
     unset($args[1]);
 
-    $translation = call_user_func_array("__", func_get_args());
+    $translation = call_user_func_array("__", $args);
+
+    return addcslashes($translation, $escape);
+}
+
+/**
+ * Classic hook for translations
+ *
+ * @param $text
+ * @return mixed|string
+ */
+function p__js($context, $string, $escape = '"')
+{
+    $args = func_get_args();
+
+    # Remove $escape arg
+    unset($args[2]);
+
+    $translation = call_user_func_array("p__", $args);
 
     return addcslashes($translation, $escape);
 }
@@ -382,9 +426,8 @@ function __replace($replacements, $file, $regex = false)
 }
 
 /**
- * Strip multiple slashes into one.
- *
  * @param $string
+ * @return null|string|string[]
  */
 function __ss($string)
 {
@@ -403,11 +446,12 @@ function __get($code)
 }
 
 /**
- * Short alias for Config setter
- *
  * @param $code
  * @param $value
- * @return \System_Model_Config
+ * @param null $label
+ * @return $this|null
+ * @throws Exception
+ * @throws Zend_Exception
  */
 function __set($code, $value, $label = null)
 {
@@ -416,7 +460,8 @@ function __set($code, $value, $label = null)
 
 /**
  * @param $code
- * @return bool|mixed
+ * @return bool
+ * @throws Zend_Exception
  */
 function __getConfig($code)
 {
@@ -431,6 +476,7 @@ function __getConfig($code)
  * @param $time
  * @param string $format
  * @return string
+ * @throws Zend_Date_Exception
  */
 function time_to_date($time, $format = 'y-MM-dd')
 {
@@ -440,8 +486,11 @@ function time_to_date($time, $format = 'y-MM-dd')
 
 /**
  * @param $datetime
+ * @param string $format
  * @param null $locale
  * @return string
+ * @throws Zend_Date_Exception
+ * @throws Zend_Locale_Exception
  */
 function datetime_to_format($datetime, $format = \Zend_Date::DATETIME_SHORT, $locale = null)
 {

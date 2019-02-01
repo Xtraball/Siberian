@@ -14,8 +14,12 @@
             $request->getHttpHost(),
             $application->getKey())
     );
+
+    $appData = $application->getData();
+    $appData["openweathermap_key"] = $appData["owm_key"];
+
     $form->localInit();
-    $form->populate($application->getData());
+    $form->populate($appData);
 ?>
 <div class="row">
     <div class="col-md-12">

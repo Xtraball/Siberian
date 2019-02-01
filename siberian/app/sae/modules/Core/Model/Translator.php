@@ -81,26 +81,38 @@ class Core_Model_Translator
 
         self::$_translations->mergeWith($translations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
-        // Load user translation files!
-        $userTranslations = new Translations();
-        $userTranslations->setLanguage($currentLanguage);
-
         $userTranslationFolder = Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}");
+        $isLoaded = [];
         if (is_dir($userTranslationFolder)) {
             $files = new DirectoryIterator($userTranslationFolder);
             foreach ($files as $file) {
-                switch ($file->getExtension()) {
-                    case "csv";
-                        $userTranslations->addFromCsvDictionaryFile($file->getPathname(), ["delimiter" => ";"]);
-                        break;
-                    case "mo":
-                        $userTranslations->addFromMoFile($file->getPathname());
-                        break;
+                $name = str_replace([".mo", ".csv"], "", $file->getFilename());
+                if (!in_array($name, $isLoaded) && !$file->isDot()) {
+                    $isLoaded[] = $name;
+
+                    // Load user translation files!
+                    $userTranslations = new Translations();
+                    $userTranslations->setLanguage($currentLanguage);
+
+                    switch ($file->getExtension()) {
+                        case "csv";
+                            $moVariant = str_replace(".csv", ".mo", $file->getPathname());
+                            if (is_file($moVariant))  {
+                                $userTranslations->addFromMoFile($moVariant);
+                            } else {
+                                $userTranslations->addFromCsvDictionaryFile($file->getPathname(), ["delimiter" => ";"]);
+                            }
+                            break;
+                        case "mo":
+                            $userTranslations->addFromMoFile($file->getPathname());
+                            break;
+                    }
+
+                    self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
                 }
+
             }
         }
-
-        self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
 
         // Then load into the translator!
         self::$_translator->loadTranslations(self::$_translations);

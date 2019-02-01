@@ -101,6 +101,14 @@ class Application_Form_Apis extends Siberian_Form_Abstract
                 "googlemaps_key"
             ],
             __("Google Maps settings"));
+
+        $openWeatherMap = $this->addSimpleText("openweathermap_key", __("OpenWeatherMap API Key"));
+        $this->groupElements(
+            "openweathermap",
+            [
+                "openweathermap_key"
+            ],
+            __("OpenWeatherMap settings"));
         $something = true;
 
         if ($something) {
