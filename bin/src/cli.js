@@ -1512,10 +1512,16 @@ let archiveSources = function () {
 
     let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
     sh.cd(ROOT + '/siberian/var/apps/ionic');
+    sh.rm('-rf', './android/features/*');
+    sh.rm('-rf', './android/modules/*');
+    sh.rm('-rf', './ios/features/*');
+    sh.rm('-rf', './ios/modules/*');
     sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
     sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
 
     sh.cd(ROOT + '/siberian/var/apps');
+    sh.rm('-rf', './browser/features/*');
+    sh.rm('-rf', './browser/modules/*');
     sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
 
     sprint(clc.green('Archives done!'));
