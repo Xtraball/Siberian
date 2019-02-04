@@ -26,8 +26,9 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 throw new \Siberian\Exception("#325-02: " . __("App Id is required!"));
             }
 
-            if (empty($ios["itunes_login"]) || empty($ios["itunes_password"])) {
-                throw new \Siberian\Exception("#325-03: " . __("Please fill iTunes Connect Credentials."));
+            if (in_array($ios["account_type"], ["non2fa", "2fa"]) &&
+                (empty($ios["itunes_login"]) || empty($ios["itunes_password"]))) {
+                throw new \Siberian\Exception("#325-03: " . __("Please fill App Store Connect Credentials."));
             }
 
             if (empty($ios["selected_team"]) || empty($ios["selected_team_name"]) || empty($ios["selected_provider"])) {
@@ -39,7 +40,8 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $appIosAutopublish = (new Application_Model_IosAutopublish())
                 ->find($params["app_id"], "app_id");
 
-            if ($ios["itunes_password"] != Application_Model_IosAutopublish::$fakePassword) {
+            if (in_array($ios["account_type"], ["non2fa", "2fa"]) &&
+                $ios["itunes_password"] != Application_Model_IosAutopublish::$fakePassword) {
                 // Save password only if different from fake!
                 $cypheredCredentials = Application_Model_IosAutopublish::cypher(
                     $ios["itunes_login"] . ":" . $ios["itunes_password"]);
@@ -51,9 +53,11 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
 
             $appIosAutopublish
                 ->setAppId($params["app_id"])
+                ->setAccountType($ios["account_type"])
                 ->setTeams(Siberian_Json::encode([]))
                 ->setItunesLogin($ios["itunes_login"])
                 ->setItunesPassword("") // Clear old "clear" login
+                ->setItunesOriginalLogin($ios["itunes_original_login"])
                 ->setTeamId($ios["selected_team"])
                 ->setTeamName($ios["selected_team_name"])
                 ->setItcProvider($ios["selected_provider"])
