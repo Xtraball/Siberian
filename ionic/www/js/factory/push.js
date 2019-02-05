@@ -76,7 +76,7 @@ angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
                 device_uid  : $session.getDeviceUid(),
                 offset      : offset
             },
-            refresh: refresh
+            refresh: true
         }, factory.extendedOptions));
     };
 
