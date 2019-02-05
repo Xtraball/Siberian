@@ -43,7 +43,24 @@
                 <form autocomplete="off"
                       ng-submit="noop()">
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
+                            <label for="{{ device.id }}_status">
+                                <?php echo p__("backoffice_application","I am publishing for/with ..."); ?>
+                            </label>
+                            <div class="form-group">
+                                <select name="languages"
+                                        class="form-control"
+                                        ng-model="ios_publish_informations.account_type">
+                                        <option value="non2fa"><?php echo p__("backoffice_application","an account without 2FA/2SV"); ?></option>
+                                        <option value="2fa"><?php echo p__("backoffice_application","a 2FA/2SV protected account, I will enter the granted account below"); ?></option>
+                                        <option value="2facontact"><?php echo p__("backoffice_application","a 2FA/2SV protected account, which is granted to %s", "contact@siberiancms.com"); ?></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row"
+                         ng-if="ios_publish_informations.account_type == 'non2fa'">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label"
                                        for="iTunesConnectLogin"><?php echo p__("backoffice_application", "App Store Connect login"); ?></label>
@@ -55,7 +72,7 @@
                                        autocomplete="new-password">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label"
                                        for="iTunesConnectPassword"><?php echo p__("backoffice_application", "Password"); ?></label>
@@ -69,7 +86,57 @@
                         </div>
                     </div>
 
+                    <div class="row"
+                         ng-if="ios_publish_informations.account_type == '2fa'">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"
+                                       for="iTunesConnectLogin"><?php echo p__("backoffice_application", "App store connect e-mail"); ?></label>
+                                <input type="text"
+                                       value=""
+                                       ng-model="ios_publish_informations.itunes_login"
+                                       class="form-control"
+                                       id="iTunesConnectLogin"
+                                       autocomplete="new-password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label"
+                                       for="iTunesConnectPassword"><?php echo p__("backoffice_application", "Password"); ?></label>
+                                <input type="password"
+                                       value=""
+                                       ng-model="ios_publish_informations.itunes_password"
+                                       class="form-control"
+                                       id="iTunesConnectPassword"
+                                       autocomplete="new-password">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row"
+                         ng-if="ios_publish_informations.account_type == '2fa' ||
+                                ios_publish_informations.account_type == '2facontact'">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label"
+                                       for="iTunesConnectOriginalLogin">
+                                    <?php echo p__("backoffice_application", "Protected App store connect e-mail"); ?>
+                                </label>
+                                <input type="text"
+                                       value=""
+                                       ng-model="ios_publish_informations.itunes_original_login"
+                                       class="form-control"
+                                       id="iTunesConnectOriginalLogin"
+                                       autocomplete="new-password">
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="control-label"

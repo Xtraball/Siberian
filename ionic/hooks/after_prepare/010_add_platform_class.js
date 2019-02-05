@@ -77,11 +77,10 @@ if (rootdir) {
     // open up the index.html file at the www root
     try {
       var platform = platforms[x].trim().toLowerCase();
-      var platformBase = platform.split('-')[0];
       var indexPath;
 
-      if(platformBase == 'android') {
-        indexPath = path.join('platforms', platform, 'assets', 'www', 'index.html');
+      if(platform === 'android') {
+        indexPath = path.join('platforms', platform, 'app', 'src', 'main', 'assets', 'www', 'index.html');
       } else {
         indexPath = path.join('platforms', platform, 'www', 'index.html');
       }

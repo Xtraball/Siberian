@@ -19,7 +19,9 @@ angular.module("starter").factory("McommerceCategory", function($pwaRequest) {
                 value_id: this.value_id,
                 category_id: this.category_id,
                 offset: offset
-            }
+            },
+            cache: false,
+            refresh: true
         }).then(function(data) {
             if(data.displayed_per_page) {
                 factory.displayed_per_page = data.displayed_per_page;
