@@ -379,10 +379,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                     return httpWrapper(_.extend({
-                        method          : "GET",
-                        url             : url,
-                        cache           : !$rootScope.isOverview,
-                        responseType    : "json"
+                        method: "GET",
+                        url: url,
+                        cache: !$rootScope.isOverview,
+                        responseType: "json"
                     }, config || {}));
                 };
 
@@ -411,10 +411,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                     return httpWrapper(_.extend({
-                        method          : "POST",
-                        url             : url,
-                        cache           : !$rootScope.isOverview,
-                        responseType    : "json",
+                        method: "POST",
+                        url: url,
+                        cache: !$rootScope.isOverview,
+                        responseType: "json",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded; charset=utf-8"
                         },

@@ -31,7 +31,8 @@ angular.module('starter').factory('McommerceSalesCustomer', function ($pwaReques
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 
@@ -44,7 +45,8 @@ angular.module('starter').factory('McommerceSalesCustomer', function ($pwaReques
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 
@@ -58,7 +60,8 @@ angular.module('starter').factory('McommerceSalesCustomer', function ($pwaReques
                 value_id: this.value_id,
                 offset: offset
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 
@@ -72,7 +75,8 @@ angular.module('starter').factory('McommerceSalesCustomer', function ($pwaReques
                 value_id: this.value_id,
                 order_id: order_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 

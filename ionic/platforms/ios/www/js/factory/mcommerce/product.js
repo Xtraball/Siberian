@@ -17,7 +17,9 @@ angular.module("starter").factory("McommerceProduct", function($pwaRequest) {
             urlParams: {
                 value_id: this.value_id,
                 product_id: product_id
-            }
+            },
+            cache: false,
+            refresh: true
         });
     };
 

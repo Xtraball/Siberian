@@ -17,7 +17,8 @@ angular.module("starter").factory("McommerceSalesDelivery", function($pwaRequest
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
     
