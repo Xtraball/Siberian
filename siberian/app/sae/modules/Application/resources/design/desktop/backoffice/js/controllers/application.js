@@ -229,18 +229,7 @@ App.config(function($routeProvider) {
             return true;
         }
         var val =
-            ($scope.ios_publish_informations.id === null ||
-                $scope.ios_publish_informations.id == undefined ||
-                $scope.ios_publish_informations.itunes_login == "" ||
-                $scope.ios_publish_informations.itunes_login == undefined ||
-                $scope.ios_publish_informations.itunes_password == "" ||
-                $scope.ios_publish_informations.itunes_password == undefined ||
-                $scope.ios_publish_informations.selected_team == "" ||
-                $scope.ios_publish_informations.selected_team == undefined ||
-                $scope.ios_publish_informations.selected_team_name == "" ||
-                $scope.ios_publish_informations.selected_team_name == undefined ||
-                $scope.ios_publish_informations.selected_provider == "" ||
-                $scope.ios_publish_informations.selected_provider == undefined);
+            ($scope.ios_publish_informations.id === null || $scope.ios_publish_informations.id === undefined);
         return val;
     };
 

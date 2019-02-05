@@ -17,7 +17,8 @@ angular.module("starter").factory("McommerceCart", function($pwaRequest, $sessio
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
     
@@ -66,7 +67,6 @@ angular.module("starter").factory("McommerceCart", function($pwaRequest, $sessio
             data: {
                 discount_code: discount_code,
                 customer_uuid: $session.getDeviceUid()
-
             }
         });
     };
@@ -111,7 +111,9 @@ angular.module("starter").factory("McommerceCart", function($pwaRequest, $sessio
             urlParams: {
                 value_id: this.value_id,
                 line_id: line_id
-            }
+            },
+            cache: false,
+            refresh: true
         });
                                           
     };

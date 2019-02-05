@@ -13,7 +13,8 @@ angular.module('starter').factory('McommerceSalesPayment', function ($pwaRequest
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 
@@ -26,7 +27,8 @@ angular.module('starter').factory('McommerceSalesPayment', function ($pwaRequest
             urlParams: {
                 value_id: this.value_id
             },
-            cache: false
+            cache: false,
+            refresh: true
         });
     };
 

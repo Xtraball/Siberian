@@ -30,11 +30,20 @@ $schemas['application_ios_autobuild_information'] = [
         'type' => 'boolean',
         'default' => '0'
     ],
+    'account_type' => [
+        'type' => 'varchar(16)',
+    ],
     'itunes_login' => [
         'type' => 'varchar(255)',
+        'is_null' => true,
     ],
     'itunes_password' => [
         'type' => 'varchar(255)',
+        'is_null' => true,
+    ],
+    'itunes_original_login' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
     ],
     'cyphered_credentials' => [
         'type' => 'text',

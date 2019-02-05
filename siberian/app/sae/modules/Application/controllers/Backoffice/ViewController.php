@@ -151,10 +151,22 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $data['infos']["itunes_password"] = "";
         }
 
+        $accountType = $appIosAutopublish->getAccountType();
+        $itunesLogin = $appIosAutopublish->getItunesLogin();
+        if (empty($accountType)) {
+            if ($itunesLogin === "contact@siberiancms.com") {
+                $accountType = "2facontact";
+            } else {
+                $accountType = "non2fa";
+            }
+        }
+
         $data["ios_publish_informations"] = [
             "id" => $appIosAutopublish->getId(),
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
-            "itunes_login" => $appIosAutopublish->getItunesLogin(),
+            "account_type" => $accountType,
+            "itunes_login" => $itunesLogin,
+            "itunes_original_login" => $appIosAutopublish->getItunesOriginalLogin(),
             "itunes_password" => Application_Model_IosAutopublish::$fakePassword,
             "has_ads" => (bool)$appIosAutopublish->getHasAds(),
             "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),

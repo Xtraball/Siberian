@@ -250,6 +250,8 @@ class Application_Model_SourceQueue extends Core_Model_Default
             'team_id' => $appIosAutopublish->getTeamId(),
             'team_name' => $appIosAutopublish->getTeamName(),
             'itc_provider' => $appIosAutopublish->getItcProvider(),
+            'account_type' => $appIosAutopublish->getAccountType(),
+            'original_login' => $appIosAutopublish->getItunesOriginalLogin(),
             'has_bg_locate' => $appIosAutopublish->getHasBgLocate(),
             'has_audio' => $appIosAutopublish->getHasAudio(),
             'languages' => $fastlane_languages,
@@ -295,7 +297,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 'token' => 'O0cRwnWPjcfMmXc89SQ3RbVRPGXLQF6a',
                 'JOB_NAME' => slugify($app->getName()),
                 'SIBERIAN_JOB_URL' => $jobUrlEncoded,
-                'VERSION' => "2",
+                'VERSION' => "3",
             ]);
 
         if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
