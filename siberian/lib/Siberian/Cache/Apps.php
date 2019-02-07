@@ -1,7 +1,13 @@
 <?php
 
+namespace Siberian\Cache;
+
+use Siberian\Cache as Cache;
+use \RecursiveIteratorIterator;
+use \RecursiveDirectoryIterator;
+
 /**
- * Class Siberian_Cache_Apps
+ * Class Siberian\Cache_Apps
  *
  * @version 4.2.0
  *
@@ -9,7 +15,7 @@
  *
  */
 
-class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Interface
+class Apps extends Cache implements CacheInterface
 {
     const CODE = "assets";
     const CACHE_PATH = "var/cache/assets.cache";
@@ -17,7 +23,7 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
 
     public static function fetch($version, $cache = null)
     {
-        $version = Core_Model_Directory::getBasePathTo("{$version}modules/");
+        $version = path("{$version}modules/");
 
         $modules_assets = glob("$version*/resources/var/apps/*", GLOB_ONLYDIR);
 
@@ -36,7 +42,7 @@ class Siberian_Cache_Apps extends Siberian_Cache implements Siberian_Cache_Inter
                 $cache[$type] = [];
             }
 
-            $base_path = Core_Model_Directory::getBasePathTo("{$version}resources/var/apps/");
+            $base_path = path("{$version}resources/var/apps/");
             $base_path = str_replace("modules/resources", "modules/{$module_name}/resources", $base_path);
 
             /** Looping trough files */

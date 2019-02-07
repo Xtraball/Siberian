@@ -1,15 +1,17 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Feature
+ * Class \Siberian\Feature
  *
- * @version 4.14.0
+ * @version 4.16.0
  *
  * Utility class to install/update modules & features
  *
  */
 
-class Siberian_Feature
+class Feature
 {
     const PATH_ASSETS = '/images/assets';
 
@@ -33,7 +35,7 @@ class Siberian_Feature
      */
     public static function installIcons($name, $icons = [], $can_be_colorized = true)
     {
-        $library = new Media_Model_Library();
+        $library = new \Media_Model_Library();
         $library
             ->setData([
                 "name" => $name,
@@ -48,7 +50,7 @@ class Siberian_Feature
                 'can_be_colorized' => $can_be_colorized
             ];
 
-            $image = new Media_Model_Library_Image();
+            $image = new \Media_Model_Library_Image();
             $image
                 ->setData($data)
                 ->insertOrUpdate(["library_id", "link"]);
@@ -69,7 +71,7 @@ class Siberian_Feature
      */
     public static function removeIcons($name)
     {
-        $library = new Media_Model_Library();
+        $library = new \Media_Model_Library();
         $library = $library->find($name, "name");
         $library->delete();
     }
@@ -79,14 +81,14 @@ class Siberian_Feature
      */
     public static function installApplicationLayout($datas, $category_code = "custom")
     {
-        $category_model = new Application_Model_Layout_Category();
+        $category_model = new \Application_Model_Layout_Category();
         $category = $category_model->find($category_code, "code");
 
         if (empty($datas["category_id"])) {
             $datas["category_id"] = $category->getId();
         }
 
-        $layout = new Application_Model_Layout_Homepage();
+        $layout = new \Application_Model_Layout_Homepage();
         $layout
             ->setData($datas)
             ->insertOrUpdate(["code"]);
@@ -114,7 +116,7 @@ class Siberian_Feature
         }
 
         foreach ($layouts as $data) {
-            $application_option_layout = new Application_Model_Option_Layout();
+            $application_option_layout = new \Application_Model_Option_Layout();
             $application_option_layout
                 ->setData($data)
                 ->insertOnce(["preview", "option_id"]);
@@ -130,7 +132,7 @@ class Siberian_Feature
      */
     public static function removeLayouts($option_id, $slug, $layout_data = [])
     {
-        $application_option_layout = new Application_Model_Option_Layout();
+        $application_option_layout = new \Application_Model_Option_Layout();
 
         foreach ($layout_data as $layout_code) {
             $search = "/customization/layout/{$slug}/layout-{$layout_code}.png";
@@ -159,14 +161,14 @@ class Siberian_Feature
     public static function installFeature($category, $feature_data, $icons)
     {
         $name = $feature_data["name"];
-        $feature_icons = Siberian_Feature::installIcons($name . "-flat", $icons);
+        $feature_icons = self::installIcons($name . "-flat", $icons);
         $feature_data["library_id"] = $feature_icons["library_id"];
         $feature_data["icon_id"] = $feature_icons["icon_id"];
 
-        $option = Siberian_Feature::install($category, $feature_data, ['code']);
-        Siberian_Feature::installAcl($option);
+        $option = self::install($category, $feature_data, ['code']);
+        self::installAcl($option);
 
-        Siberian_Assets::copyAssets("/app/local/modules/resources/var/apps/");
+        Assets::copyAssets("/app/local/modules/resources/var/apps/");
 
         return $option;
     }
@@ -180,7 +182,7 @@ class Siberian_Feature
     public static function install($category_code, $data, $keys = [])
     {
 
-        $category = new Application_Model_Option_Category();
+        $category = new \Application_Model_Option_Category();
         $category
             ->find($category_code, "code");
 
@@ -188,7 +190,7 @@ class Siberian_Feature
 
         /** Setting position if not. */
         if (!isset($data["position"])) {
-            $amo = new Application_Model_Option();
+            $amo = new \Application_Model_Option();
             $db = $amo->getTable();
             $select = $db->select()
                 ->order(["position DESC"]);
@@ -203,7 +205,7 @@ class Siberian_Feature
             $data["custom_fields"] = json_encode($data["custom_fields"]);
         }
 
-        $option = new Application_Model_Option();
+        $option = new \Application_Model_Option();
         $option
             ->setData($data)
             ->insertOrUpdate($keys);
@@ -234,7 +236,7 @@ class Siberian_Feature
         }
 
         // Create feature resource in case it doesn't exists
-        $resource = new Acl_Model_Resource();
+        $resource = new \Acl_Model_Resource();
         $resource->setData($features_resources)
             ->insertOrUpdate(["code"]);
 
@@ -243,20 +245,20 @@ class Siberian_Feature
         if (empty($parent_id)) {
             $child_resource["parent_id"] = $resource->getId();
         } elseif (!is_numeric($parent_id)) { // If parent_id is not numeric, search existing ACL using code
-            $tmp_res = new Acl_Model_Resource();
+            $tmp_res = new \Acl_Model_Resource();
             $tmp_res->find($parent_id, "code");
             $tmp_res_id = $tmp_res->getId();
             if (empty($tmp_res_id)) {
                 $tmp_res->find("feature_" . $parent_id, "code");
                 if (empty($tmp_res_id))
-                    throw new ErrorException("Cannot find Acl Resource with code: " . $parent_id . " or feature_" . $parent_id);
+                    throw new \ErrorException("Cannot find Acl Resource with code: " . $parent_id . " or feature_" . $parent_id);
             }
             $child_resource["parent_id"] = $tmp_res->getId();
         } elseif (is_numeric($parent_id)) {
             $child_resource["parent_id"] = intval($parent_id, 10);
         }
 
-        $child = new Acl_Model_Resource();
+        $child = new \Acl_Model_Resource();
         $child->setData($child_resource)
             ->insertOrUpdate(["code"]);
 
@@ -273,17 +275,18 @@ class Siberian_Feature
      */
     public static function uninstallFeature($code)
     {
-        $option = new Application_Model_Option();
+        $option = new \Application_Model_Option();
         $option->find($code, "code");
         $option->delete();
     }
 
     /**
-     * @param $code
+     * @param $name
+     * @throws \Zend_Exception
      */
     public static function uninstallModule($name)
     {
-        $module = new Installer_Model_Installer_Module();
+        $module = new \Installer_Model_Installer_Module();
         $module->find($name, "name");
         $module->delete();
     }
@@ -293,7 +296,7 @@ class Siberian_Feature
      */
     public static function dropTables($tables = [])
     {
-        $db = Zend_Db_Table::getDefaultAdapter();
+        $db = \Zend_Db_Table::getDefaultAdapter();
         $db->query("SET FOREIGN_KEY_CHECKS = 0;");
         foreach ($tables as $table) {
             $statement = $db->prepare("DROP TABLE ?;");
@@ -303,53 +306,50 @@ class Siberian_Feature
     }
 
     /**
-     * @param Application_Model_Option_Value $option_value
+     * @param \Application_Model_Option_Value $option_value
      * @param $tmp_path
      * @return null|string
-     * @throws exception
+     * @throws Exception
      */
-    public static function moveUploadedFile(Application_Model_Option_Value $option_value, $tmp_path)
+    public static function moveUploadedFile(\Application_Model_Option_Value $option_value, $tmp_path)
     {
         $path = null;
 
         $filename = pathinfo($tmp_path, PATHINFO_BASENAME);
         $relative_path = $option_value->getImagePathTo();
-        $folder = Application_Model_Application::getBaseImagePath() . $relative_path;
+        $folder = \Application_Model_Application::getBaseImagePath() . $relative_path;
         $img_dst = $folder . '/' . $filename;
-        $img_src = Core_Model_Directory::getTmpDirectory(true) . '/' . $filename;
+        $img_src = \Core_Model_Directory::getTmpDirectory(true) . '/' . $filename;
 
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
 
         if (!file_exists($img_dst) && !copy($img_src, $img_dst)) {
-            throw new Siberian_Exception('#343-01: ' .
+            throw new Exception('#343-01: ' .
                 __('An error occurred while saving your picture. Please try again later.'));
         } else {
             $path = $relative_path . '/' . $filename;
-            try {
-                unlink($img_src);
-            } catch (Exception $e) {
-                // Will be cleared later then!
-            }
+            unlink($img_src);
         }
 
         return $path;
     }
 
     /**
-     * @param Application_Model_Option_Value $option_value
-     * @param $tmp_path
-     * @return null|string
-     * @throws exception
+     * @param \Application_Model_Option_Value $optionValue
+     * @param $content
+     * @param null $filename
+     * @return string
+     * @throws Exception
      */
-    public static function createFile(Application_Model_Option_Value $optionValue, $content, $filename = null)
+    public static function createFile(\Application_Model_Option_Value $optionValue, $content, $filename = null)
     {
         $path = null;
 
         $filename = is_null($filename) ? uniqid() : $filename;
         $relativePath = $optionValue->getImagePathTo();
-        $folder = Application_Model_Application::getBaseImagePath() . $relativePath;
+        $folder = \Application_Model_Application::getBaseImagePath() . $relativePath;
         $imgDst = $folder . '/' . $filename;
 
         if (!is_dir($folder)) {
@@ -357,7 +357,7 @@ class Siberian_Feature
         }
 
         if (file_exists($imgDst)) {
-            throw new Siberian_Exception('#343-54: ' . __('An error occurred while saving your picture. Please try again later.'));
+            throw new Exception('#343-54: ' . __('An error occurred while saving your picture. Please try again later.'));
         } else {
             file_put_contents($imgDst, $content);
         }
@@ -366,10 +366,10 @@ class Siberian_Feature
     }
 
     /**
-     * @param Application_Model_Option_Value $option_value
+     * @param $app_id
      * @param $tmp_path
      * @return null|string
-     * @throws exception
+     * @throws Exception
      */
     public static function moveUploadedIcon($app_id, $tmp_path)
     {
@@ -377,16 +377,16 @@ class Siberian_Feature
 
         $filename = pathinfo($tmp_path, PATHINFO_BASENAME);
         $relative_path = sprintf('/%s/icons/', $app_id);
-        $folder = Application_Model_Application::getBaseImagePath() . $relative_path;
+        $folder = \Application_Model_Application::getBaseImagePath() . $relative_path;
         $img_dst = $folder . '/' . $filename;
-        $img_src = Core_Model_Directory::getTmpDirectory(true) . '/' . $filename;
+        $img_src = tmp(true) . '/' . $filename;
 
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
 
         if (!copy($img_src, $img_dst)) {
-            throw new Siberian_Exception('#343-02: ' . __('An error occurred while saving your picture. Please try again later.'));
+            throw new Exception('#343-02: ' . __('An error occurred while saving your picture. Please try again later.'));
         } else {
             $path = $relative_path . '/' . $filename;
         }
@@ -395,11 +395,9 @@ class Siberian_Feature
     }
 
     /**
-     * Move a tmp file into the assets folder!
-     *
      * @param $tmpPath
      * @return string
-     * @throws \Siberian\Exception
+     * @throws Exception
      */
     public static function moveAsset($tmpPath)
     {
@@ -407,16 +405,16 @@ class Siberian_Feature
 
         // Create a folder for each year-month to spread assets accross time
         $monthFolder = sprintf("%s/%s", self::PATH_ASSETS, date('Y-m'));
-        $monthFolderAbs = Core_Model_Directory::getBasePathTo($monthFolder);
+        $monthFolderAbs = path($monthFolder);
         if (!is_dir($monthFolderAbs)) {
             mkdir($monthFolderAbs, 0777, true);
         }
 
         $destination = sprintf("%s/%s", $monthFolderAbs, $filename);
-        $source = sprintf("%s/%s", Core_Model_Directory::getTmpDirectory(true), $filename);
+        $source = sprintf("%s/%s", tmp(true), $filename);
 
         if (!copy($source, $destination)) {
-            throw new \Siberian\Exception('#343-20: ' .
+            throw new Exception('#343-20: ' .
                 __('An error occurred while saving your picture. Please try again later.'));
         }
 
@@ -424,18 +422,17 @@ class Siberian_Feature
     }
 
     /**
-     * Wrapper to upload or not an image, with delete
-     *
      * @param $option_value
      * @param $image
      * @return null|string
+     * @throws Exception
      */
     public static function saveImageForOptionDelete($option_value, $image)
     {
         # If the file already exists in images/application
-        if ($image == '_delete_') {
+        if ($image === "_delete_") {
             $image_path = '';
-        } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $image))) {
+        } else if (file_exists(path("images/application{$image}"))) {
             $image_path = $image;
         } else {
             $image_path = self::moveUploadedFile($option_value, $image);
@@ -454,33 +451,32 @@ class Siberian_Feature
      */
     public static function formImageForOption($optionValue, $object, $params, $key, $delete = true)
     {
-        if ($delete && ($params[$key] === '_delete_')) {
+        if ($delete && ($params[$key] === "_delete_")) {
             $object->setData($key, '');
-        } else if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $params[$key]))) {
+        } else if (file_exists(path("images/application{$params[$key]}"))) {
             // Nothing changed, skip!
         } else {
             $background = self::moveUploadedFile(
                 $optionValue,
-                Core_Model_Directory::getTmpDirectory() . '/' . $params[$key]);
+                tmp() . '/' . $params[$key]);
             $object->setData($key, $background);
         }
     }
 
     /**
-     * Wrapper to upload or not an image
-     *
      * @param $option_value
      * @param $image
      * @return null|string
+     * @throws Exception
      */
     public static function saveImageForOption($option_value, $image)
     {
         # If the file already exists in images/application
-        if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $image))) {
+        if (file_exists(path('images/application' . $image))) {
             # Nothing changed, skip
             $image_path = $image;
         } else {
-            $image_path = Siberian_Feature::moveUploadedFile($option_value, $image);
+            $image_path = self::moveUploadedFile($option_value, $image);
         }
 
         return $image_path;
@@ -490,23 +486,22 @@ class Siberian_Feature
      * @param $option_value
      * @param $file
      * @return null|string
+     * @throws Exception
      */
     public static function saveFileForOption($option_value, $file)
     {
         # If the file already exists in images/application
-        if (file_exists(Core_Model_Directory::getBasePathTo('images/application' . $file))) {
+        if (file_exists(path('images/application' . $file))) {
             # Nothing changed, skip
             $file_path = $file;
         } else {
-            $file_path = Siberian_Feature::moveUploadedFile($option_value, $file);
+            $file_path = self::moveUploadedFile($option_value, $file);
         }
 
         return $file_path;
     }
 
     /**
-     * Installing a cronjob, defaults to every 5 minutes, active, low priority.
-     *
      * @param $name
      * @param $command
      * @param int $minute
@@ -517,24 +512,26 @@ class Siberian_Feature
      * @param bool $is_active
      * @param int $priority
      * @param bool $standalone
+     * @param null $module_id
+     * @throws \Zend_Exception
      */
     public static function installCronjob($name, $command, $minute = 5, $hour = -1, $month_day = -1, $month = -1,
                                           $week_day = -1, $is_active = true, $priority = 5, $standalone = false,
                                           $module_id = null)
     {
-        $job = new Cron_Model_Cron();
+        $job = new \Cron_Model_Cron();
         $job->setData([
-            'name' => $name,
-            'command' => $command,
-            'minute' => $minute,
-            'hour' => $hour,
-            'month_day' => $month_day,
-            'month' => $month,
-            'week_day' => $week_day,
-            'is_active' => $is_active,
-            'priority' => $priority,
-            'standalone' => $standalone,
-            'module_id' => $module_id
+            "name" => $name,
+            "command" => $command,
+            "minute" => $minute,
+            "hour" => $hour,
+            "month_day" => $month_day,
+            "month" => $month,
+            "week_day" => $week_day,
+            "is_active" => $is_active,
+            "priority" => $priority,
+            "standalone" => $standalone,
+            "module_id" => $module_id
         ]);
 
         $job->insertOrUpdate(['command']);
@@ -542,10 +539,11 @@ class Siberian_Feature
 
     /**
      * @param $command
+     * @throws \Zend_Exception
      */
     public static function removeCronjob($command)
     {
-        $job = new Cron_Model_Cron();
+        $job = new \Cron_Model_Cron();
         $job->find($command, "command");
         $job->delete();
     }
@@ -557,12 +555,12 @@ class Siberian_Feature
     public static function export_filter($array)
     {
         array_walk_recursive($array, function (&$item, $key) {
-            if ($key == 'id') {
+            if ($key === "id") {
                 $item = false;
             }
         });
 
-        $array = array_map('array_filter', $array);
+        $array = array_map("array_filter", $array);
 
         return $array;
     }

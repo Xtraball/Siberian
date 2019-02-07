@@ -113,7 +113,9 @@ let feature_form_error = function (html) {
         html,
         null,
         {
-            timeOut: 3000,
+            timeOut: 4500,
+            extendedTimeOut: 15000,
+            progressBar: true,
             positionClass: "toast-top-center"
         });
 };
@@ -123,7 +125,9 @@ let feature_form_success = function (html) {
         html,
         null,
         {
-            timeOut: 3000,
+            timeOut: 4500,
+            extendedTimeOut: 15000,
+            progressBar: true,
             positionClass: "toast-top-center"
         });
 };

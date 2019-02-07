@@ -1,5 +1,7 @@
 <?php
 
+namespace Siberian;
+
 include_once __DIR__ . '/../Scss/Base/Range.php';
 include_once __DIR__ . '/../Scss/Block.php';
 include_once __DIR__ . '/../Scss/Colors.php';
@@ -25,15 +27,15 @@ include_once __DIR__ . '/../Scss/Version.php';
 include_once __DIR__ . '/../Scss/Server.php';
 
 /**
- * Class Siberian_Scss
+ * Class \Siberian\Scss
  */
-class Siberian_Scss
+class Scss
 {
     /**
      * @return \Leafo\ScssPhp\Compiler
      */
     static function getCompiler()
     {
-        return new Leafo\ScssPhp\Compiler();
+        return new \Leafo\ScssPhp\Compiler();
     }
 }

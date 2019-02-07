@@ -1,15 +1,17 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Assets
+ * Class \Siberian\Assets
  *
  * @id 1000
  *
- * @version 4.15.7
+ * @version 4.16.0
  *
  */
 
-class Siberian_Assets
+class Assets
 {
     /**
      * Default excluded assets
@@ -394,13 +396,13 @@ class Siberian_Assets
         if (!is_array($exclude_types)) {
             $exclude_types = [];
         }
-        $base = Core_Model_Directory::getBasePathTo("");
+        $base = path("");
         foreach (self::$platforms as $type => $platforms) {
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
                 foreach ($platforms as $platform) {
-                    $path_from = __ss(Core_Model_Directory::getBasePathTo($from));
-                    $path_to = __ss(Core_Model_Directory::getBasePathTo(
+                    $path_from = __ss(path($from));
+                    $path_to = __ss(path(
                         $platform . $www . (strlen(trim($to)) > 0 ? "/" . $to : "")
                     ));
 
@@ -438,12 +440,12 @@ class Siberian_Assets
         if (!is_array($exclude_types)) {
             $exclude_types = [];
         }
-        $base = Core_Model_Directory::getBasePathTo("");
+        $base = path("");
         foreach (self::$platforms as $type => $platforms) {
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
                 foreach ($platforms as $platform) {
-                    $path = Core_Model_Directory::getBasePathTo($platform . $www . $dirpath);
+                    $path = path($platform . $www . $dirpath);
 
                     if (is_dir($path) && ($base != $path)) {
                         exec("rm -r {$path}");
@@ -458,11 +460,12 @@ class Siberian_Assets
     }
 
     /**
-     *
+     * @throws Exception
+     * @throws \Zend_Exception
      */
     public static function buildFeatures()
     {
-        $module = new Installer_Model_Installer_Module();
+        $module = new \Installer_Model_Installer_Module();
         $modules = $module->findAll();
 
         $features = [];
@@ -485,7 +488,7 @@ class Siberian_Assets
 
             $icons = $feature["icons"];
             if (is_array($icons)) {
-                $basePath = "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $feature["__DIR__"]);
+                $basePath = "/" . str_replace(path(""), "", $feature["__DIR__"]);
                 $icons = array_map(
                     function ($icon) use ($basePath) {
                         return $basePath . "/" . $icon;
@@ -511,7 +514,7 @@ class Siberian_Assets
             }
 
             // build index.js here
-            $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
+            $out_dir = path("var/tmp/out");
             if (!is_dir($out_dir)) {
                 mkdir($out_dir, 0777, true);
             }
@@ -559,14 +562,14 @@ class Siberian_Assets
                 $data["custom_fields"] = json_encode($custom_fields);
             }
 
-            $option = Siberian_Feature::installFeature(
+            $option = Feature::installFeature(
                 $category,
                 $data,
                 $icons
             );
 
             if (!empty($layouts)) {
-                Siberian_Feature::installLayouts(
+                Feature::installLayouts(
                     $option->getId(),
                     $code,
                     $layouts
@@ -586,10 +589,10 @@ class Siberian_Assets
 
         $code = $feature["code"];
         $feature_dir = "features/" . $code;
-        $minifier_js = new MatthiasMullie\Minify\JS();
-        $minifier_css = new MatthiasMullie\Minify\CSS();
+        $minifier_js = new \MatthiasMullie\Minify\JS();
+        $minifier_css = new \MatthiasMullie\Minify\CSS();
 
-        $out_dir = Core_Model_Directory::getBasePathTo("var/tmp/out");
+        $out_dir = path("var/tmp/out");
         if (!is_dir($out_dir)) {
             mkdir($out_dir, 0777, true);
         }
@@ -659,12 +662,12 @@ class Siberian_Assets
      */
     public static function compileScss($path)
     {
-        $compiler = Siberian_Scss::getCompiler();
-        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));
-        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/scss"));
+        $compiler = Scss::getCompiler();
+        $compiler->addImportPath(path("var/apps/browser/lib/ionic/scss"));
+        $compiler->addImportPath(path("var/apps/browser/scss"));
 
         $content = [];
-        $f = fopen(Core_Model_Directory::getBasePathTo("var/apps/browser/scss/ionic.siberian.variables-opacity.scss"), "r");
+        $f = fopen(path("var/apps/browser/scss/ionic.siberian.variables-opacity.scss"), "r");
         if ($f) {
             while (($line = fgets($f)) !== false) {
                 preg_match("/([\$a-zA-Z0-9_-]*)/", $line, $matches);
@@ -700,13 +703,13 @@ class Siberian_Assets
      */
     public static function buildTemplateCaches($source)
     {
-        $phulp = new Phulp\Phulp();
+        $phulp = new \Phulp\Phulp();
 
         $phulp->task('angular-template-cache', function ($phulp) use ($source) {
 
             $phulp
                 ->src([$source . '/templates/'], '/html$/')
-                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-templates.js', [
                         'module' => 'templates',
                         'root' => 'templates/'
@@ -716,7 +719,7 @@ class Siberian_Assets
 
             $phulp
                 ->src([$source . '/modules/'], '/html$/')
-                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-modules.js', [
                         'module' => 'templates',
                         'root' => 'modules/'
@@ -730,7 +733,7 @@ class Siberian_Assets
 
             $phulp
                 ->src([$source . '/features/'], '/html$/')
-                ->pipe(new Phulp\AngularTemplateCache\AngularTemplateCache(
+                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-features.js', [
                         'module' => 'templates',
                         'root' => 'features/'
@@ -766,7 +769,7 @@ class Siberian_Assets
             $www_folder = self::$www[$type];
             foreach ($platforms as $platform) {
 
-                $path = Core_Model_Directory::getBasePathTo($platform);
+                $path = path($platform);
                 $index_path = $path . $www_folder . "index.html";
                 $index_content = file_get_contents($index_path);
 
@@ -832,10 +835,10 @@ class Siberian_Assets
     public static function registerPreBuildCallback($code, $callback)
     {
         if (!is_string($code) || strlen(trim($code)) < 1) {
-            throw new InvalidArgumentException("code should be a non empty string. Input was: " . $code);
+            throw new \InvalidArgumentException("code should be a non empty string. Input was: " . $code);
         }
         if (!is_callable($callback)) {
-            throw new InvalidArgumentException("callback should be callable");
+            throw new \InvalidArgumentException("callback should be callable");
         }
 
         self::$preBuildCallbacks[$code] = $callback;
@@ -857,10 +860,10 @@ class Siberian_Assets
     public static function registerPostBuildCallback($code, $callback)
     {
         if (!is_string($code) || strlen(trim($code)) < 1) {
-            throw new InvalidArgumentException("code should be a non empty string. Input was: " . $code);
+            throw new \InvalidArgumentException("code should be a non empty string. Input was: " . $code);
         }
         if (!is_callable($callback)) {
-            throw new InvalidArgumentException("callback should be callable");
+            throw new \InvalidArgumentException("callback should be callable");
         }
 
         self::$postBuildCallbacks[$code] = $callback;

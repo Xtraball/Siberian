@@ -1,9 +1,20 @@
 <?php
 
+namespace Siberian;
+
+require path("/lib/vendor/matthiasmullie/minify/src/Minify.php");
+
+use MatthiasMullie\Minify\Minify as AbstractMinify;
+use MatthiasMullie\Minify\CSS as CSS;
+use MatthiasMullie\Minify\JS as JS;
+
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+
 /**
- * Class Siberian_Minify
+ * Class \Siberian\Minify
  */
-class Siberian_Minify extends \MatthiasMullie\Minify\Minify
+class Minify extends AbstractMinify
 {
 
     /**
@@ -93,7 +104,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
     public function __construct()
     {
         if (is_null(self::$instance)) {
-            self::$basepath = Core_Model_Directory::getBasePathTo("");
+            self::$basepath = path("");
 
             foreach (self::$PLATFORMS as $platform => $path) {
                 $basepath = self::$basepath;
@@ -158,7 +169,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
     }
 
     /**
-     *
+     * @ignore
      */
     public function buildServiceWorker()
     {
@@ -166,7 +177,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
         //$manifest_file = $base . "/" . Siberian_Autoupdater::$pwa_manifest;
         //$current_release = System_Model_Config::getValueFor("current_release");
 
-        $app_shell_files = Siberian_Json::decode(file_get_contents(Core_Model_Directory::getBasePathTo($manifest_file)));
+        $app_shell_files = Json::decode(file_get_contents(path($manifest_file)));
 
         # Modules
         if (file_exists($base . "/modules")) {
@@ -216,11 +227,11 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
         $app_shell_files[] = "dist/app.bundle-min.js?version=" . $current_release;
 
         # Write to file
-        //$template = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker-template.js");
-        //$destination = Core_Model_Directory::getBasePathTo($base . "/" . "pwa-worker.js");
+        //$template = path($base . "/" . "pwa-worker-template.js");
+        //$destination = path($base . "/" . "pwa-worker.js");
         //$service_worker = file_get_contents($template);
 
-        $toreplace = Siberian_Json::encode($app_shell_files);
+        $toreplace = Json::encode($app_shell_files);
 
 
         /**$service_worker = str_replace("var filesToCache = [];",
@@ -272,13 +283,13 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
         $basepath = dirname($content);
 
         switch ($type) {
-            case 'css':
-                $minifier = new MatthiasMullie\Minify\CSS();
+            case "css":
+                $minifier = new CSS();
                 $minifier->setMaxImportSize(5000);
                 $exclude = self::$EXCLUDE_CSS;
                 break;
-            case 'js':
-                $minifier = new MatthiasMullie\Minify\JS();
+            case "js":
+                $minifier = new JS();
                 $exclude = self::$EXCLUDE_JS;
                 break;
         }
@@ -292,7 +303,8 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
         /** Match all css */
         if (preg_match_all($regex, $index_content, $matches)) {
             foreach ($matches[1] as $match) {
-                if (!in_array($match, $exclude) && file_exists("{$basepath}/{$match}")) {
+                if (!in_array($match, $exclude) &&
+                    file_exists("{$basepath}/{$match}")) {
                     $minifier->add("{$basepath}/{$match}");
                 }
             }
@@ -344,7 +356,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
             $file_js = "dist/app.bundle-min.js";
         }
 
-        $current_release = System_Model_Config::getValueFor("current_release");
+        $current_release = __get("current_release");
 
         if ($css) {
             $content = preg_replace('/(\s*<(!--)?link href="[a-z0-9\.\/\-_]+\.css" rel="stylesheet"(--)?>\s*)+/mi', '', $content);
@@ -356,7 +368,7 @@ class Siberian_Minify extends \MatthiasMullie\Minify\Minify
             $content = preg_replace('/(\s*<(!--)?script[^>]+src="[a-z0-9\.\/\-_]+\.js"[^>]*><\/script(--)?>\s*)+/mi', '', $content);
             $app_files .= '
         <script src="' . $file_js . '?version=' . $current_release . '"></script>
-        <script type="text/javascript">var cacheName = "pwa-worker-' . System_Model_Config::getValueFor("current_release") . '";</script>';
+        <script type="text/javascript">var cacheName = "pwa-worker-' . __get("current_release") . '";</script>';
         }
 
         $app_files .= '

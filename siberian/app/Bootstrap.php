@@ -60,6 +60,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
+        // Then load class aliases
+        \Siberian\Stubs::loadAliases();
+
         $path = '';
         if (isset($_SERVER['SCRIPT_NAME'])) {
             $path = $_SERVER['SCRIPT_NAME'];

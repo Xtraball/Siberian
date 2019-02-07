@@ -1,9 +1,11 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Date
+ * Class \Siberian\Date
  */
-class Siberian_Date extends Zend_Date
+class Date extends \Zend_Date
 {
     /**
      * @var integer
@@ -22,8 +24,8 @@ class Siberian_Date extends Zend_Date
 
     /**
      * @param null $locale
-     * @return Siberian_Date|Zend_Date
-     * @throws Zend_Date_Exception
+     * @return Date|\Zend_Date
+     * @throws \Zend_Date_Exception
      */
     public static function now($locale = null)
     {
@@ -32,16 +34,17 @@ class Siberian_Date extends Zend_Date
 
     /**
      * @return $this
-     * @throws Zend_Date_Exception
+     * @throws \Zend_Date_Exception
      */
-    public function toGmt() {
+    public function toGmt()
+    {
         $this->addSecond($this->getGmtOffset());
         return $this;
     }
 
     /**
      * @return $this
-     * @throws Zend_Date_Exception
+     * @throws \Zend_Date_Exception
      */
     public function setBeginningOfTheDay()
     {
@@ -53,7 +56,7 @@ class Siberian_Date extends Zend_Date
 
     /**
      * @return $this
-     * @throws Zend_Date_Exception
+     * @throws \Zend_Date_Exception
      */
     public function setEndOfTheDay()
     {
@@ -67,11 +70,11 @@ class Siberian_Date extends Zend_Date
      * @param null $date
      * @param string $format
      * @return string
-     * @throws Zend_Date_Exception
+     * @throws \Zend_Date_Exception
      */
     public static function format($date = null, $format = 'y-MM-dd')
     {
-        $date = new Zend_Date($date, 'y-MM-dd HH:mm:ss');
+        $date = new \Zend_Date($date, 'y-MM-dd HH:mm:ss');
         return $date->toString($format);
     }
 

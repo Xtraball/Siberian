@@ -1,12 +1,14 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Debug
+ * Class \Siberian\Debug
  *
  * Siberian debugger class, enabling MySQL profiler and various logger.
  *
  */
-class Siberian_Debug {
+class Debug {
 
     /**
      * @var boolean
@@ -14,17 +16,17 @@ class Siberian_Debug {
     public static $render = false;
 
     /**
-     * @var DebugBar\StandardDebugBar
+     * @var \DebugBar\StandardDebugBar
      */
     public static $debugBar;
 
     /**
-     * @var DebugBar\JavascriptRenderer
+     * @var \DebugBar\JavascriptRenderer
      */
     public static $debugBarRenderer;
 
     /**
-     * @var DebugBar\OpenHandler
+     * @var \DebugBar\OpenHandler
      */
     public static $openHandler;
 
@@ -39,16 +41,17 @@ class Siberian_Debug {
     public static $config;
 
     /**
-     * Initialize debug renderer in function of the env/debug
+     * @throws \DebugBar\DebugBarException
+     * @throws \Zend_Exception
      */
     public static function init() {
-        self::$config = Zend_Registry::get('_config');
+        self::$config = \Zend_Registry::get('_config');
 
         if(isset(self::$config["debug"]) && self::$config["debug"]) {
-            self::$debugBar = new DebugBar\StandardDebugBar();
+            self::$debugBar = new \DebugBar\StandardDebugBar();
 
-            self::$debugBar->setStorage(new DebugBar\Storage\FileStorage(Core_Model_Directory::getBasePathTo(self::$streamPath)));
-            self::$debugBar->addCollector(new Siberian_Debug_Collector_Sql());
+            self::$debugBar->setStorage(new \DebugBar\Storage\FileStorage(path(self::$streamPath)));
+            self::$debugBar->addCollector(new \Siberian_Debug_Collector_Sql());
 
             self::$debugBarRenderer = self::$debugBar->getJavascriptRenderer();
 
@@ -73,20 +76,20 @@ class Siberian_Debug {
      */
     public static function setProfiler($resource) {
         if(self::$render) {
-            $resource->setProfiler(array(
+            $resource->setProfiler([
                 "class" => "Siberian_Db_Profiler",
                 "enabled" => true,
-            ));
+            ]);
         }
 
         return $resource;
     }
 
     /**
-     * Stream Ajax handler
+     * @throws \DebugBar\DebugBarException
      */
     public static function handle() {
-        self::$openHandler = new DebugBar\OpenHandler(self::$debugBar);
+        self::$openHandler = new \DebugBar\OpenHandler(self::$debugBar);
         self::$openHandler->handle();
     }
 
@@ -104,17 +107,17 @@ class Siberian_Debug {
      * @return string
      */
     public static function render() {
-        if(self::$render) {
+        if (self::$render) {
             return self::$debugBarRenderer->render();
         }
         return "";
     }
 
     /**
-     * Send data in ajax queries
+     *
      */
     public static function sendDataInHeaders() {
-        if(self::$render) {
+        if (self::$render) {
             self::$debugBar->sendDataInHeaders(true);
         }
     }
@@ -123,34 +126,36 @@ class Siberian_Debug {
      * @return array
      */
     public static function getDataAsHeaders() {
-        if(self::$render) {
+        if (self::$render) {
             return self::$debugBar->getDataAsHeaders();
         }
     }
 
     /**
      * @param $message
+     * @param string $label
+     * @param bool $isString
      */
     public static function message($message, $label = "info", $isString = true) {
-        if(self::$render) {
+        if (self::$render) {
             self::$debugBar["messages"]->addMessage($message, $label, $isString);
         }
     }
 
     /**
-     * @param $message
+     * @param $profile
      */
     public static function addProfile($profile) {
-        if(self::$render) {
+        if (self::$render) {
             self::$debugBar["sql"]->addProfile($profile);
         }
     }
 
     /**
-     * @param Exception $e
+     * @param \Exception $e
      */
-    public static function addException(Exception $e) {
-        if(self::$render) {
+    public static function addException(\Exception $e) {
+        if (self::$render) {
             self::$debugBar["exceptions"]->addException($e);
         }
     }

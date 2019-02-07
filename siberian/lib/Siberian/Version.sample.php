@@ -1,4 +1,8 @@
 <?php
+/**
+ * @ignore
+ */
+
 
 namespace Siberian;
 

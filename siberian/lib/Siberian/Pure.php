@@ -400,6 +400,25 @@ function __path($url = "", array $params = [], $locale = null)
 }
 
 /**
+ * @param $relativePath
+ * @return string
+ */
+function path($relativePath)
+{
+    return \Core_Model_Directory::getBasePathTo($relativePath);
+}
+
+/**
+ * @param bool $base
+ * @return string
+ */
+function tmp($base = false)
+{
+    return $base ? \Core_Model_Directory::getBasePathTo("/var/tmp") :
+        \Core_Model_Directory::getPathTo("/var/tmp");
+}
+
+/**
  * @param $replacements
  * @param $file
  * @param bool $regex
@@ -450,8 +469,6 @@ function __get($code)
  * @param $value
  * @param null $label
  * @return $this|null
- * @throws Exception
- * @throws Zend_Exception
  */
 function __set($code, $value, $label = null)
 {

@@ -50,9 +50,7 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
      * @param $code
      * @param $value
      * @param null $label
-     * @return $this|null
-     * @throws Exception
-     * @throws Zend_Exception
+     * @return mixed
      */
     public static function setValueFor($code, $value, $label = null)
     {

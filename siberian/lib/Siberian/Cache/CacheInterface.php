@@ -1,13 +1,15 @@
 <?php
 
+namespace Siberian\Cache;
+
 /**
- * Interface Siberian_Cache_Interface
+ * Interface \Siberian\Cache\CacheInterface
  *
- * @version 4.14.0
+ * @version 4.16.0
  *
  */
 
-interface Siberian_Cache_Interface
+interface CacheInterface
 {
     /**
      * @return mixed

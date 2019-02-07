@@ -1,13 +1,21 @@
 <?php
 
+namespace Siberian;
+
+use Siberian\Cache\Design;
+use Siberian\Cache\Translation;
+
+use RecursiveIteratorIterator;
+use RecursiveDirectoryIterator;
+
 /**
- * Class Siberian_Autoupdater
+ * Class \Siberian\Autoupdater
  *
- * @version 4.4.0
+ * @version 4.16.0
  *
  */
 
-class Siberian_Autoupdater
+class Autoupdater
 {
     /**
      * @var string
@@ -31,47 +39,47 @@ class Siberian_Autoupdater
 
     /**
      * @param $host
+     * @throws \Exception
      */
     public static function configure($host)
     {
-        $current_release = "" . Siberian_Version::VERSION . "." . time();
+        $current_release = "" . Version::VERSION . "." . time();
         __set("current_release", $current_release);
 
         # Clear
-        Siberian_Cache_Design::clearCache();
-        Siberian_Cache_Design::init();
+        Design::clearCache();
+        Design::init();
 
         # Clear tmp (web app manifest, and temporary archives)
-        Siberian_Cache::__clearTmp();
+        Cache::__clearTmp();
 
         # Rebuild index
-        Siberian_Assets::copyAllAssets();
-        Siberian_Assets::buildIndex();
+        Assets::copyAllAssets();
+        Assets::buildIndex();
 
         # Siberian Translations
-        Siberian_Cache_Translation::clearCache();
-        Siberian_Cache_Translation::init();
+        Translation::clearCache();
+        Translation::init();
 
         # Rebuild minified
-        $minifier = new Siberian_Minify();
-        Siberian_Minify::clearCache();
+        $minifier = new Minify();
+        Minify::clearCache();
         $minifier->build();
 
         self::manifest($host);
     }
 
     /**
-     * CHCP Manifest builder
-     *
      * @param $host
+     * @throws \Exception
      */
     public static function manifest($host)
     {
-        foreach (Siberian_Assets::$platforms as $type => $platforms) {
+        foreach (Assets::$platforms as $type => $platforms) {
 
             foreach ($platforms as $platform) {
-                $www_folder = Siberian_Assets::$www[$type];
-                $path = Core_Model_Directory::getBasePathTo($platform);
+                $www_folder = Assets::$www[$type];
+                $path = path($platform);
                 $json_path = __ss($path . $www_folder . self::$manifest_json);
                 $manifest_path = __ss($path . $www_folder . self::$manifest_name);
 
@@ -101,24 +109,24 @@ class Siberian_Autoupdater
 
                 }
 
-                $manifest = Siberian_Json::encode($hash, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                $manifest = Json::encode($hash, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
                 file_put_contents($manifest_path, $manifest);
 
                 # Release version change
                 $release = [
                     "content_url" => $host . __ss($platform . $www_folder),
-                    "min_native_interface" => Siberian_Version::NATIVE_VERSION,
-                    "release" => System_Model_Config::getValueFor("current_release"),
+                    "min_native_interface" => Version::NATIVE_VERSION,
+                    "release" => __get("current_release"),
                 ];
 
-                $release = Siberian_Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                $release = Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
                 file_put_contents($json_path, $release);
 
                 # Editing config.xml path
-                if (isset(Siberian_Assets::$config_xml[$type])) {
-                    $confix_xml_path = $path . Siberian_Assets::$config_xml[$type];
+                if (isset(Assets::$config_xml[$type])) {
+                    $confix_xml_path = $path . Assets::$config_xml[$type];
                     $path = $host . __ss($platform . $www_folder . self::$manifest_json);
                     __replace(
                         [
@@ -141,7 +149,7 @@ class Siberian_Autoupdater
      */
     public static function exclude($file)
     {
-        foreach (Siberian_Assets::$exclude_files as $pattern) {
+        foreach (Assets::$exclude_files as $pattern) {
             if (preg_match("#" . $pattern . "#i", $file)) {
                 return true;
             }

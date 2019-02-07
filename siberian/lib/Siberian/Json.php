@@ -1,11 +1,15 @@
 <?php
 
+namespace Siberian;
+
+use \Zend_Json;
+
 /**
  * Class Siberian_Json
  *
  * Id: 
  */
-class Siberian_Json extends Zend_Json
+class Json extends Zend_Json
 {
     /**
      * @param mixed $data
