@@ -142,24 +142,36 @@ button.toast-close-button {
 .toast {
   background-color: #030303;
 }
-.toast-success {
-  background-color: #5baf5d;
-}
-.toast-error {
-  background-color: #e04441;
-}
-.toast-info {
-  background-color: #68b0d4;
-}
-.toast-warning {
-  background-color: #dea435;
-}
 .toast-progress {
   position: absolute;
   left: 0;
   bottom: 0;
   height: 4px;
-  background-color: #000000;
+  background-color: #303030;
+}
+.toast-success {
+  background-color: #5baf5d;
+}
+.toast-success .toast-progress {
+  background-color: #417d42;
+}
+.toast-error {
+  background-color: #e04441;
+}
+.toast-error .toast-progress {
+  background-color: #ad3432;
+}
+.toast-info {
+  background-color: #68b0d4;
+}
+.toast-info .toast-progress {
+  background-color: #4f85a1;
+}
+.toast-warning {
+  background-color: #dea435;
+}
+.toast-warning .toast-progress {
+  background-color: #ab7d29;
 }
 /*Responsive Design*/
 @media all and (max-width: 240px) {
