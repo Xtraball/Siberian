@@ -1,9 +1,14 @@
 <?php
 
+namespace Siberian;
+
+use Zend_Mail;
+
 /**
- *
+ * Class Mail
+ * @package Siberian
  */
-class Siberian_Mail extends Zend_Mail
+class Mail extends Zend_Mail
 {
 
     /**

@@ -1,9 +1,16 @@
 <?php
 
+namespace Siberian;
+
+use Core_Model_Default;
+use Core_Model_Lib_String;
+use \Siberian\Cache\Design as Design;
+
 /**
- * Class Siberian_View
+ * Class View
+ * @package Siberian
  */
-class Siberian_View extends Zend_View
+class View extends \Zend_View
 {
     public $_file = null;
     public $_filter = [];
@@ -171,7 +178,7 @@ class Siberian_View extends Zend_View
     /**
      * @param string $path
      * @param string $classPrefix
-     * @return $this|Zend_View_Abstract
+     * @return $this|\Zend_View_Abstract
      */
     public function setBasePath($path, $classPrefix = 'Siberian_View')
     {
@@ -188,7 +195,7 @@ class Siberian_View extends Zend_View
     /**
      * @param string $path
      * @param string $classPrefix
-     * @return $this|Zend_View_Abstract
+     * @return $this|\Zend_View_Abstract
      */
     public function addBasePath($path, $classPrefix = 'Siberian_View')
     {
@@ -291,7 +298,7 @@ class Siberian_View extends Zend_View
     {
         if ($key === '') {
             return $this->_data;
-        } elseif (isset($this->_data[$key]) AND !is_null($this->_data[$key])) {
+        } else if (isset($this->_data[$key]) && !is_null($this->_data[$key])) {
             return is_string($this->_data[$key]) ? stripslashes($this->_data[$key]) : $this->_data[$key];
         } else {
             return null;
@@ -316,16 +323,14 @@ class Siberian_View extends Zend_View
     }
 
     /**
-     * Finds a view script from the available directories.
-     *
-     * @override
-     * @param string $name The base name of the script.
-     * @return void
+     * @param string $name
+     * @return string\void
+     * @throws \Zend_View_Exception
      */
     protected function _script($name)
     {
         /** Siberian local inheritance test */
-        $base_path = Siberian_Cache_Design::getBasePath("template/{$name}", self::getDesignType());
+        $base_path = Design::getBasePath("template/{$name}", self::getDesignType());
         if (is_readable($base_path)) {
             return $base_path;
         }

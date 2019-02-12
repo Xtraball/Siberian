@@ -1,6 +1,12 @@
 <?php
 
-class Siberian_Exec {
+namespace Siberian;
+
+/**
+ * Class Exec
+ * @package Siberian
+ */
+class Exec {
 
     /**
      * @var float

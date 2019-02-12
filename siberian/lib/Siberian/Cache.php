@@ -244,19 +244,16 @@ class Cache
     }
 
     /**
-     * Fetch disk usage
-     *
      * @param bool $cache
      * @return array|mixed
-     * @throws Exception
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public static function getDiskUsage($cache = false)
     {
         if (!$cache) {
             $cachedValue = __get('disk_usage_cache');
             if (!empty($cachedValue)) {
-                return Siberian_Json::decode($cachedValue);
+                return Json::decode($cachedValue);
             }
             return [
                 'total' => '-',
@@ -272,7 +269,7 @@ class Cache
             function timeout($start)
             {
                 if ((time() - $start) > 300) {
-                    throw new \Siberian\Exception('timelimit hit');
+                    throw new Exception('timelimit hit');
                 }
             }
 

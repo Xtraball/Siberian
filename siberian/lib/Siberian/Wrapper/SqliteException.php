@@ -1,9 +1,11 @@
 <?php
 
+namespace Siberian\Wrapper;
+
 /**
  * Class Siberian_Wrapper_Sqlite_Exception
  */
-class Siberian_Wrapper_Sqlite_Exception extends Exception
+class SqliteException extends \Exception
 {
     /**
      * Siberian_Wrapper_Sqlite_Exception constructor.

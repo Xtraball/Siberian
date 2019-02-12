@@ -1,8 +1,15 @@
 <?php
 
-use Gregwar\Cache\CacheInterface;
+namespace Siberian;
 
-class Siberian_ZebraImage
+use Core_Model_Directory;
+use Zebra_Image;
+
+/**
+ * Class ZebraImage
+ * @package Siberian
+ */
+class ZebraImage
 {
 
     /**
@@ -43,8 +50,9 @@ class Siberian_ZebraImage
     /**
      * @param int $width
      * @param int $height
-     * @param int|string $method
-     * @param string $background_color
+     * @param int $method
+     * @param int $background_color
+     * @return $this
      */
     public function resize($width = 0, $height = 0, $method = ZEBRA_IMAGE_CROP_CENTER,
                            $background_color = -1)

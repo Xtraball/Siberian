@@ -1,11 +1,15 @@
 <?php
 
-/**
- * Class Siberian_VestaCP_Api
- */
-class Siberian_VestaCP_Api
-{
+namespace Siberian\VestaCP;
 
+use Siberian\Exception;
+
+/**
+ * Class Api
+ * @package Siberian\VestaCP
+ */
+class Api
+{
     /**
      * @var Client
      */
@@ -17,12 +21,9 @@ class Siberian_VestaCP_Api
     public $crawler;
 
     /**
-     * Apps constructor.
-     *
-     * Login into dashboard
-     *
+     * Api constructor.
      * @param $host
-     * @param $password
+     * @param $username
      * @param $password
      * @param $webspace
      */
@@ -32,9 +33,7 @@ class Siberian_VestaCP_Api
         $this->username = $username;
         $this->password = $password;
         $this->webspace = $webspace;
-        $this->client = new Siberian_VestaCP_Client();
-
-        //$this->login();
+        $this->client = new Client();
     }
 
     /**
@@ -64,6 +63,7 @@ class Siberian_VestaCP_Api
 
     /**
      * @param $ssl_certificate
+     * @return bool
      */
     public function updateDomain($ssl_certificate)
     {
@@ -101,7 +101,7 @@ class Siberian_VestaCP_Api
     /**
      * @param $ssl_certificate
      * @return bool
-     * @throws \Siberian\Exception
+     * @throws Exception
      */
     public function updateDomainVesta($ssl_certificate)
     {
@@ -110,7 +110,7 @@ class Siberian_VestaCP_Api
             $webspace = $this->webspace;
         }
 
-        $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
+        $base = path("/var/apps/certificates/");
         $folder = $base . '/' . $ssl_certificate->getHostname();
 
         // Coy the files
@@ -172,7 +172,7 @@ class Siberian_VestaCP_Api
             }
         }
 
-        throw new \Siberian\Exception("Error SSL : Vesta API Query returned error code: " . $answer);
+        throw new Exception("Error SSL : Vesta API Query returned error code: " . $answer);
     }
 
 }

@@ -1,9 +1,13 @@
 <?php
 
+namespace Siberian\Wrapper;
+
+use \Siberian\Exception as Exception;
+
 /**
- * Class Siberian_Wrapper_Sqlite
+ * Class \Siberian\Wrapper\Sqlite
  */
-class Siberian_Wrapper_Sqlite
+class Sqlite
 {
     private $_binPath = null;
     private $_binWinPath = "lib/Siberian/Wrapper/Sqlite/bin/sqlite3.exe";
@@ -19,12 +23,12 @@ class Siberian_Wrapper_Sqlite
     private $_fallback = false;
 
     /**
-     * @var SQLite3
+     * @var \SQLite3
      */
     private $_handle = null;
 
     /**
-     * @var null|Siberian_Wrapper_Sqlite
+     * @var null|Sqlite
      */
     static private $_instance = null;
 
@@ -42,29 +46,29 @@ class Siberian_Wrapper_Sqlite
             $is_darwin = exec("uname");
             # MacOSX
             if (strpos($is_darwin, "arwin") !== false) {
-                $this->_binPath = Core_Model_Directory::getBasePathTo($this->_binOSXPath);
+                $this->_binPath = path($this->_binOSXPath);
                 # Windows
             } elseif (false/** Windows */) {
-                $this->_binPath = Core_Model_Directory::getBasePathTo($this->_binWinPath);
+                $this->_binPath = path($this->_binWinPath);
                 # Linux 32bits or 64bits
             } else {
-                exec(Core_Model_Directory::getBasePathTo($this->_bin32Path) . " --version", $output, $return_val);
+                exec(path($this->_bin32Path) . " --version", $output, $return_val);
                 if ($return_val === 0) {
-                    $this->_binPath = Core_Model_Directory::getBasePathTo($this->_bin32Path);
+                    $this->_binPath = path($this->_bin32Path);
                 } else {
-                    $this->_binPath = Core_Model_Directory::getBasePathTo($this->_bin64Path);
+                    $this->_binPath = path($this->_bin64Path);
                 }
             }
         }
     }
 
     /**
-     * @return null|Siberian_Wrapper_Sqlite
+     * @return null|Sqlite
      */
     public function getInstance()
     {
         if (!isset(self::$_instance)) {
-            self::$_instance = new Siberian_Wrapper_Sqlite();
+            self::$_instance = new self();
         }
         return self::$_instance;
     }
@@ -79,14 +83,14 @@ class Siberian_Wrapper_Sqlite
 
     /**
      * @param $dbPath
-     * @return Siberian_Wrapper_Sqlite
+     * @return Sqlite
      */
     public function setDbPath($dbPath)
     {
         $this->_dbPath = $dbPath;
 
         if (!$this->_fallback && $this->dbExists()) {
-            $this->_handle = new SQLite3($this->_dbPath);
+            $this->_handle = new \SQLite3($this->_dbPath);
         }
 
         return $this;
@@ -94,7 +98,7 @@ class Siberian_Wrapper_Sqlite
 
     /**
      * @param $schema
-     * @return Siberian_Wrapper_Sqlite
+     * @return Sqlite
      */
     public function setSchema($schema)
     {
@@ -110,10 +114,10 @@ class Siberian_Wrapper_Sqlite
     {
         try {
             if (!$this->_fallback) {
-                $this->_handle = new SQLite3($this->_dbPath);
+                $this->_handle = new \SQLite3($this->_dbPath);
             }
             $this->query($this->_schema, true);
-        } catch (Siberian_Wrapper_Sqlite_Exception $e) {
+        } catch (SqliteException $e) {
             throw new Exception("Cannot create sqlite db\n" . $e->getMessage());
         }
         return $this;
@@ -124,7 +128,7 @@ class Siberian_Wrapper_Sqlite
      * @param bool $create_db
      * @return array|bool
      * @throws Exception
-     * @throws Siberian_Wrapper_Sqlite_Exception
+     * @throws SqliteException
      */
     public function query($query, $create_db = false)
     {
@@ -161,7 +165,7 @@ class Siberian_Wrapper_Sqlite
             exec($cmd, $output, $return_val);
 
             if ($return_val !== 0) {
-                throw new Siberian_Wrapper_Sqlite_Exception($query, $output);
+                throw new SqliteException($query, $output);
             }
 
             if (is_array($output)) {

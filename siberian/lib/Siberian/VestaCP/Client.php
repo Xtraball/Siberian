@@ -1,13 +1,15 @@
 <?php
+
+namespace Siberian\VestaCP;
+
+use \Goutte\Client as VestaClient;
+
 /**
- * Xtraball SAS <dev@xtraball.com>
- *
- * Version 1.0
+ * Class Client
+ * @package Siberian\VestaCP
  */
-
-use Goutte\Client as VestaClient;
-
-class Siberian_VestaCP_Client extends VestaClient {
+class Client extends VestaClient
+{
 
     /**
      * @param $method
@@ -19,7 +21,8 @@ class Siberian_VestaCP_Client extends VestaClient {
      * @param bool $changeHistory
      * @return \Symfony\Component\DomCrawler\Crawler
      */
-    public function _request($method, $endpoint, array $parameters = array(), array $files = array(), array $server = array(), $content = null, $changeHistory = true) {
+    public function _request($method, $endpoint, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
+    {
         return $this->request($method, $endpoint, $parameters, $files, $server, $content, $changeHistory);
     }
 }

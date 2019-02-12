@@ -111,7 +111,7 @@ function log_debug($message)
 function log_exception(Exception $e)
 {
     log_debug(sprintf("[Siberian_Exception] %s", $e->getMessage()));
-    \Siberian_Debug::addException($e);
+    \Siberian\Debug::addException($e);
 }
 
 /**

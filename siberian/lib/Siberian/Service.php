@@ -1,13 +1,15 @@
 <?php
+namespace Siberian;
+
 /**
- * Class Siberian_Service
+ * Class \Siberian\Service
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.14.0
+ * @version 4.16.0
  */
 
-class Siberian_Service
+class Service
 {
     /**
      * @var array
@@ -16,17 +18,18 @@ class Siberian_Service
 
     /**
      * @return array
+     * @throws \Zend_Db_Select_Exception
      */
     public static function getServices()
     {
         try {
             $services = [
-                "cron" => Cron_Model_Cron::isRunning(),
-                "cron_error" => Cron_Model_Cron::getLastError(),
-                "average_build_time" => Application_Model_Queue::getBuildTime(),
-                "push" => Push_Model_Message::getStatistics(),
+                "cron" => \Cron_Model_Cron::isRunning(),
+                "cron_error" => \Cron_Model_Cron::getLastError(),
+                "average_build_time" => \Application_Model_Queue::getBuildTime(),
+                "push" => \Push_Model_Message::getStatistics(),
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $services = [
                 "cron" => false,
                 "cron_error" => false,
@@ -57,7 +60,7 @@ class Siberian_Service
             if (!$php_sqlite3) {
                 try {
                     $sqlite = Siberian_Wrapper_Sqlite::getInstance();
-                    $sqlite->setDbPath(Core_Model_Directory::getBasePathTo("var/tmp/test.db"));
+                    $sqlite->setDbPath(\Core_Model_Directory::getBasePathTo("var/tmp/test.db"));
                     $result = $sqlite->query("SELECT 1;");
                     if (!empty($result)) {
                         $bin_sqlite3 = true;

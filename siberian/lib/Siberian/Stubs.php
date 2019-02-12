@@ -41,6 +41,23 @@ class Stubs {
         class_alias("\Siberian\Currency", "Siberian_Currency");
         class_alias("\Siberian\Date", "Siberian_Date");
         class_alias("\Siberian\Debug", "Siberian_Debug");
+        class_alias("\Siberian\Service", "Siberian_Service");
+        class_alias("\Siberian\Wrapper\Sqlite", "Siberian_Wrapper_Sqlite");
+        class_alias("\Siberian\Wrapper\SqliteException", "Siberian_Wrapper_Sqlite_Exception");
+        class_alias("\Siberian\Cpanel", "Siberian_Cpanel");
+        class_alias("\Siberian\Cpanel\Api", "Siberian_Cpanel_Api");
+        class_alias("\Siberian\ZebraImage", "Siberian_ZebraImage");
+        class_alias("\Siberian\View", "Siberian_View");
+        class_alias("\Siberian\VestaCP", "Siberian_VestaCP");
+        class_alias("\Siberian\VestaCP\Api", "Siberian_VestaCP_Api");
+        class_alias("\Siberian\VestaCP\Client", "Siberian_VestaCP_Client");
+        class_alias("\Siberian\Exec", "Siberian_Exec");
+        class_alias("\Siberian\Log", "Siberian_Log");
+        class_alias("\Siberian\Request", "Siberian_Request");
+        class_alias("\Siberian\Mail", "Siberian_Mail");
+        class_alias("\Siberian\Session", "Siberian_Session");
+        class_alias("\Siberian\Resource", "Siberian_Resource");
+        class_alias("\Siberian\Privacy", "Siberian_Privacy");
     }
 }
 
