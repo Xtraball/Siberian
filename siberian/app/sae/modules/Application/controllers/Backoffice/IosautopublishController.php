@@ -36,6 +36,10 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 throw new \Siberian\Exception("#325-05: " . __("Please fill Protected App Store Connect."));
             }
 
+            if ($ios["account_type"] === "2fa" && ($ios["itunes_login"] === $ios["itunes_original_login"])) {
+                throw new \Siberian\Exception("#325-06: " . __("Protected account must be different than the un-protected one."));
+            }
+
             if (empty($ios["selected_team"]) || empty($ios["selected_team_name"]) || empty($ios["selected_provider"])) {
                 throw new \Siberian\Exception("#325-04: " . __("Please fill Dev team & Provider."));
             }
