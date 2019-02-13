@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.15.7
+ * @version 4.16.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -81,7 +81,7 @@ function dbg($data)
         FILE_APPEND);
 }
 
-// When you need to catch fatal errors create the corresponding congif line `$_config['handle_fatal_errors'] = true;`!
+// When you need to catch fatal errors create the corresponding config line `$_config['handle_fatal_errors'] = true;`!
 if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] === true) {
     // Handle fatal errors!
     function shutdownFatalHandler()

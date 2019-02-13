@@ -149,7 +149,7 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
                     .then(function() {
                         var google_maps = document.createElement('script');
                         google_maps.type = "text/javascript";
-                        google_maps.src = "https://maps.googleapis.com/maps/api/js?libraries=places&key="+Application.googlemaps_key+"&callback=initGMapCallback";
+                        google_maps.src = "https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key="+Application.googlemaps_key+"&callback=initGMapCallback";
                         document.body.appendChild(google_maps);
                         gmap_script_appended = true;
                     });

@@ -159,7 +159,7 @@ class Customer_AccountController extends Application_Controller_Default
      */
     public function getBaseLayout ($customer, $baseData = [])
     {
-        $layout = new Siberian_Layout();
+        $layout = new Siberian\Layout();
 
         $layout->setViewBasePath($layout->getViewBasePath() . 'app/sae/modules/Customer/resources/desktop/flat/template/customer/');
         $layout->setViewScriptPath($layout->getViewBasePath());
@@ -182,7 +182,7 @@ class Customer_AccountController extends Application_Controller_Default
      */
     public function getLoginLayout ()
     {
-        $layout = new Siberian_Layout();
+        $layout = new Siberian\Layout();
 
         $layout->setViewBasePath($layout->getViewBasePath() . 'app/sae/modules/Customer/resources/desktop/flat/template/customer/');
         $layout->setViewScriptPath($layout->getViewBasePath());

@@ -5,12 +5,11 @@ require_once 'Zend/Layout/Controller/Plugin/Layout.php';
 
 class Siberian_Layout_Controller_Plugin_Layout extends Zend_Layout_Controller_Plugin_Layout
 {
-
     /**
-     * postDispatch() plugin hook -- render layout
-     *
-     * @param  Zend_Controller_Request_Abstract $request
-     * @return void
+     * @param Zend_Controller_Request_Abstract $request
+     * @return $this|void
+     * @throws Exception
+     * @throws Zend_Layout_Exception
      */
     public function postDispatch(Zend_Controller_Request_Abstract $request)
     {

@@ -139,6 +139,7 @@ class Siberian_Google_Geocoding
 
     /**
      * @param null $apiKey
+     * @return bool
      * @throws \Siberian\Exception
      */
     public static function testApiKey($apiKey = null)

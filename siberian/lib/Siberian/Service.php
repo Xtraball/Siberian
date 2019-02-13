@@ -1,14 +1,17 @@
 <?php
+
 namespace Siberian;
 
-/**
- * Class \Siberian\Service
- *
- * @author Xtraball SAS <dev@xtraball.com>
- *
- * @version 4.16.0
- */
+use Cron_Model_Cron;
+use Application_Model_Queue;
+use Push_Model_Message;
+use Application_Model_Tools;
+use Api_Model_User;
 
+/**
+ * Class Service
+ * @package Siberian
+ */
 class Service
 {
     /**
@@ -24,10 +27,10 @@ class Service
     {
         try {
             $services = [
-                "cron" => \Cron_Model_Cron::isRunning(),
-                "cron_error" => \Cron_Model_Cron::getLastError(),
-                "average_build_time" => \Application_Model_Queue::getBuildTime(),
-                "push" => \Push_Model_Message::getStatistics(),
+                "cron" => Cron_Model_Cron::isRunning(),
+                "cron_error" => Cron_Model_Cron::getLastError(),
+                "average_build_time" => Application_Model_Queue::getBuildTime(),
+                "push" => Push_Model_Message::getStatistics(),
             ];
         } catch (\Exception $e) {
             $services = [
@@ -59,8 +62,8 @@ class Service
             $bin_sqlite3 = false;
             if (!$php_sqlite3) {
                 try {
-                    $sqlite = Siberian_Wrapper_Sqlite::getInstance();
-                    $sqlite->setDbPath(\Core_Model_Directory::getBasePathTo("var/tmp/test.db"));
+                    $sqlite = Wrapper\Sqlite::getInstance();
+                    $sqlite->setDbPath(path("var/tmp/test.db"));
                     $result = $sqlite->query("SELECT 1;");
                     if (!empty($result)) {
                         $bin_sqlite3 = true;
@@ -131,13 +134,13 @@ class Service
         // API Diagnostic is not necessary without API Users!
         if ($apiUsers->count() > 0) {
             // Basic Auth
-            $responseBasic = Siberian_Request::get(__url('/backoffice/advanced_tools/testbasicauth'), [], null, [
+            $responseBasic = Request::get(__url('/backoffice/advanced_tools/testbasicauth'), [], null, [
                 'type' => 'basic',
                 'username' => 'dummy',
                 'password' => 'azerty',
             ]);
 
-            $resultBasic = Siberian_Json::decode($responseBasic);
+            $resultBasic = Json::decode($responseBasic);
             if ($resultBasic['credentials'] !== 'dummyazerty') {
                 $systemDiagnostic['basic_auth'] = [
                     'valid' => false,
@@ -153,12 +156,12 @@ class Service
             }
 
             // Bearer Token
-            $responseBearer = Siberian_Request::get(__url('/backoffice/advanced_tools/testbearerauth'), [], null, [
+            $responseBearer = Request::get(__url('/backoffice/advanced_tools/testbearerauth'), [], null, [
                 'type' => 'bearer',
                 'bearer' => 'dummyazerty',
             ]);
 
-            $resultBearer = Siberian_Json::decode($responseBearer);
+            $resultBearer = Json::decode($responseBearer);
             if ($resultBearer['credentials'] !== 'Bearer dummyazerty') {
                 $systemDiagnostic['bearer_token'] = [
                     'valid' => false,

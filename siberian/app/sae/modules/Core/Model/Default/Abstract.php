@@ -680,7 +680,6 @@ abstract class Core_Model_Default_Abstract
 
                 $this->addData($row->getData())->setId($row->getId());
                 $this->setOrigData($this->getData());
-
             }
         }
 

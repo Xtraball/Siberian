@@ -49,9 +49,9 @@ class Cron
     {
         $this->cron = new \Cron_Model_Cron();
         $this->logger = \Zend_Registry::get('logger');
-        $this->lock_base = \Core_Model_Directory::getBasePathTo($this->lock_base);
+        $this->lock_base = path($this->lock_base);
         $this->start = microtime(true);
-        $this->root_path = \Core_Model_Directory::getBasePathTo();
+        $this->root_path = path();
 
         # Set the same timezone as in the Application settings.
         $timezone = __get('system_timezone');
@@ -79,11 +79,11 @@ class Cron
         }
 
         try {
-            $minute = (int)date("i");
-            $hour = (int)date("G");
-            $month_day = (int)date("j");
-            $month = (int)date('m');
-            $week_day = (int)date('w');
+            $minute = (int) date("i");
+            $hour = (int) date("G");
+            $month_day = (int) date("j");
+            $month = (int) date('m');
+            $week_day = (int) date('w');
 
             $all = $this->cron->getActiveActions($minute, $hour, $month_day, $month, $week_day);
 
@@ -141,6 +141,8 @@ class Cron
             try {
                 $command = $task->getCommand();
                 if (strpos($command, "::") !== false) {
+                    $this->log("Class method to run {$command}");
+
                     # Split Class::method
                     $parts = explode("::", $command);
                     $class = $parts[0];
@@ -148,6 +150,7 @@ class Cron
 
                     # Tests.
                     if (method_exists($class, $method)) {
+                        $this->log("Method exists {$command}");
                         call_user_func($command, $this, $task);
                     }
 

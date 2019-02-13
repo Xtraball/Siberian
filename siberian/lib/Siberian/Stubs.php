@@ -58,6 +58,8 @@ class Stubs {
         class_alias("\Siberian\Session", "Siberian_Session");
         class_alias("\Siberian\Resource", "Siberian_Resource");
         class_alias("\Siberian\Privacy", "Siberian_Privacy");
+        class_alias("Siberian_Layout", "\Siberian\Layout");
+        class_alias("\Siberian\Layout\Email", "Siberian_Layout_Email");
     }
 }
 

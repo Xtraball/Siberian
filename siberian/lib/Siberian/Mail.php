@@ -3,6 +3,11 @@
 namespace Siberian;
 
 use Zend_Mail;
+use Zend_Mail_Transport_Smtp;
+use Core_Model_Default;
+use Api_Model_Key;
+use Backoffice_Model_User;
+use Mail_Model_Log;
 
 /**
  * Class Mail
@@ -66,7 +71,7 @@ class Mail extends Zend_Mail
         $configure = false;
 
         //$application = Siberian::getApplication();
-        $whitelabel = Siberian::getWhitelabel();
+        $whitelabel = \Siberian::getWhitelabel();
 
         // Name & E-mails, enable & test
         /**if($application !== false) { // 1. Application standalone settings!
@@ -88,7 +93,7 @@ class Mail extends Zend_Mail
          * } else */
 
         if ($whitelabel !== false) { // 2. Whitelabel!
-            $values = Siberian_Json::decode($whitelabel->getData("smtp_credentials"));
+            $values = Json::decode($whitelabel->getData("smtp_credentials"));
             $smtp_credentials = new Core_Model_Default();
             $smtp_credentials->setData($values);
 
@@ -102,12 +107,12 @@ class Mail extends Zend_Mail
                 $this->_sender_email = $sender_email;
             }
         } else { // 3. Platform Wide!
-            $sender_name = System_Model_Config::getValueFor("support_name");
+            $sender_name = __get("support_name");
             if (!empty($sender_name)) {
                 $this->_sender_name = $sender_name;
             }
 
-            $sender_email = System_Model_Config::getValueFor("support_email");
+            $sender_email = __get("support_email");
             if (!empty($sender_email)) {
                 $this->_sender_email = $sender_email;
             }
@@ -122,12 +127,12 @@ class Mail extends Zend_Mail
          * $configure = true;
          * } else */
         if (($whitelabel !== false) && $whitelabel->getEnableCustomSmtp()) {
-            $values = Siberian_Json::decode($whitelabel->getData("smtp_credentials"));
+            $values = Json::decode($whitelabel->getData("smtp_credentials"));
             $smtp_credentials = new Core_Model_Default();
             $smtp_credentials->setData($values);
 
             $configure = true;
-        } else if (System_Model_Config::getValueFor("enable_custom_smtp") == "1") {
+        } else if (__get("enable_custom_smtp") == "1") {
             $api_model = new Api_Model_Key();
             $smtp_credentials = $api_model::findKeysFor("smtp_credentials");
 
@@ -136,11 +141,11 @@ class Mail extends Zend_Mail
 
         # Default sender_email/sender_name from backoffice configuration
         if (empty($this->_sender_name)) {
-            $this->_sender_name = System_Model_Config::getValueFor("support_name");
+            $this->_sender_name = __get("support_name");
         }
 
         if (empty($this->_sender_email)) {
-            $this->_sender_email = System_Model_Config::getValueFor("support_email");
+            $this->_sender_email = __get("support_email");
         }
 
         # Last chance to have a default e-mail. Product owner
@@ -191,6 +196,7 @@ class Mail extends Zend_Mail
      * @param string $subject
      * @param array $params
      * @return Zend_Mail
+     * @throws \Zend_Mail_Exception
      */
     public function setSubject($subject, $params = [])
     {
@@ -210,6 +216,7 @@ class Mail extends Zend_Mail
      * @param string $email
      * @param null $name
      * @return Zend_Mail
+     * @throws \Zend_Mail_Exception
      */
     public function setFrom($email, $name = null)
     {
@@ -239,6 +246,7 @@ class Mail extends Zend_Mail
     /**
      * @param null $transport
      * @return Zend_Mail
+     * @throws \Zend_Exception
      */
     public function send($transport = null)
     {
@@ -295,9 +303,8 @@ class Mail extends Zend_Mail
     }
 
     /**
-     * Send test e-mail
-     *
      * @return Zend_Mail
+     * @throws \Zend_Mail_Exception
      */
     public function test()
     {
@@ -324,11 +331,12 @@ class Mail extends Zend_Mail
      * @param string $sender_name
      * @return Zend_Mail
      * @throws Zend_Layout_Exception
+     * @throws \Zend_Mail_Exception
      */
     public function simpleEmail($module, $template, $subject, $recipients = [], $values = [], $sender = "",
                                 $sender_name = "")
     {
-        $layout = new Siberian_Layout();
+        $layout = new Layout();
         $layout = $layout->loadEmail($module, $template);
         $layout
             ->getPartial("content_email")

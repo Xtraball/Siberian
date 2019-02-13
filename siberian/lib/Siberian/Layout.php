@@ -1,14 +1,18 @@
 <?php
 
+use Siberian\View;
+use Siberian\Cache\Design as CacheDesign;
+
 /**
- * Class Siberian_Layout
+ * Class Layout
+ * @package Siberian
  */
 class Siberian_Layout extends Zend_Layout
 {
     /**
      *
      */
-    const DEFAULT_CLASS_VIEW = 'Siberian_View';
+    const DEFAULT_CLASS_VIEW = "Siberian_View";
 
     /**
      * @var null
@@ -51,7 +55,7 @@ class Siberian_Layout extends Zend_Layout
     protected $_otherLayout = [];
 
     /**
-     * @var null|SimpleXMLElement
+     * @var null|\SimpleXMLElement
      */
     public $_xml = null;
 
@@ -85,22 +89,22 @@ class Siberian_Layout extends Zend_Layout
     protected $_is_loaded = false;
 
     /**
-     * Siberian_Layout constructor.
+     * Layout constructor.
      * @param null $options
      * @param bool $initMvc
-     * @throws Zend_Layout_Exception
+     * @throws \Zend_Layout_Exception
      */
     public function __construct($options = null, $initMvc = false)
     {
         $this->_xml = simplexml_load_string('<?xml version="1.0" encoding="UTF-8"?><xml/>');
-        Siberian_View::setLayout($this);
+        View::setLayout($this);
         parent::__construct($options, $initMvc);
     }
 
     /**
      * @param null $options
-     * @return Siberian_Layout|Zend_Layout
-     * @throws Zend_Layout_Exception
+     * @return Layout|Zend_Layout
+     * @throws \Zend_Layout_Exception
      */
     public static function startMvc($options = null)
     {
@@ -138,7 +142,7 @@ class Siberian_Layout extends Zend_Layout
     /**
      * @param $use_base
      * @return $this
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public function load($use_base)
     {
@@ -174,7 +178,7 @@ class Siberian_Layout extends Zend_Layout
                     foreach ($files as $file) {
                         if ($file->attributes()->link) {
                             $link = (String) $file->attributes()->link;
-                            $link = Siberian_Cache_Design::getPath($link);
+                            $link = CacheDesign::getPath($link);
 
                             $jsToMerge['local'][] = $link;
                         } else if ($file->attributes()->href) {
@@ -185,7 +189,7 @@ class Siberian_Layout extends Zend_Layout
 
                         if ($file->attributes()->folder) {
                             $folder = (String) $file->attributes()->folder;
-                            $files = Siberian_Cache_Design::searchForFolder($folder);
+                            $files = CacheDesign::searchForFolder($folder);
 
                             foreach ($files as $basename => $fullpath) {
                                 $pathinfo = pathinfo($fullpath);
@@ -212,17 +216,17 @@ class Siberian_Layout extends Zend_Layout
             $js_file = Core_Model_Directory::getCacheDirectory() . '/js_' . APPLICATION_TYPE . '.js';
 
             if ($mergeFiles) {
-                if (!file_exists(Core_Model_Directory::getBasePathTo($js_file))) {
+                if (!file_exists(path($js_file))) {
                     // Merging javascript files
-                    $js = fopen(Core_Model_Directory::getBasePathTo($js_file), 'w');
+                    $js = fopen(path($js_file), 'w');
                     foreach ($jsToMerge['local'] as $file) {
-                        fputs($js, file_get_contents(Core_Model_Directory::getBasePathTo($file)) . PHP_EOL);
+                        fputs($js, file_get_contents(path($file)) . PHP_EOL);
                     }
                     fclose($js);
                 }
 
                 // Appending the JS files to the view
-                $js_file .= '?' . filemtime(Core_Model_Directory::getBasePathTo($js_file));
+                $js_file .= '?' . filemtime(path($js_file));
                 if (preg_match("#^app/#", $js_file)) {
                     $js_file = '/' . $js_file;
                 }
@@ -230,7 +234,7 @@ class Siberian_Layout extends Zend_Layout
                 $baseView->headScript()->appendFile($js_file);
             } else {
                 foreach ($jsToMerge['local'] as $file) {
-                    $file .= '?' . filemtime(Core_Model_Directory::getBasePathTo($file));
+                    $file .= '?' . filemtime(path($file));
                     if (preg_match("#^app/#", $file)) {
                         $file = '/' . $file;
                     }
@@ -254,7 +258,7 @@ class Siberian_Layout extends Zend_Layout
                     foreach ($files as $file) {
                         if ($file->attributes()->link) {
                             $link = (String) $file->attributes()->link;
-                            $link = Siberian_Cache_Design::getPath($link);
+                            $link = CacheDesign::getPath($link);
 
                             $cssToMerge['local'][] = $link;
                         } else {
@@ -265,7 +269,7 @@ class Siberian_Layout extends Zend_Layout
 
                         if ($file->attributes()->folder) {
                             $folder = (String) $file->attributes()->folder;
-                            $files = Siberian_Cache_Design::searchForFolder($folder);
+                            $files = CacheDesign::searchForFolder($folder);
 
                             foreach ($files as $basename => $fullpath) {
                                 $pathinfo = pathinfo($fullpath);
@@ -296,13 +300,13 @@ class Siberian_Layout extends Zend_Layout
                     // Merging css files
                     $css = fopen($base_css_file, 'w');
                     foreach ($cssToMerge['local'] as $file) {
-                        fputs($css, file_get_contents(Core_Model_Directory::getBasePathTo($file)) . PHP_EOL);
+                        fputs($css, file_get_contents(path($file)) . PHP_EOL);
                     }
                     fclose($css);
                 }
 
                 // Appending the CSS files to the view
-                $css_file .= '?' . filemtime(Core_Model_Directory::getBasePathTo($css_file));
+                $css_file .= '?' . filemtime(path($css_file));
                 if (preg_match("#^app/#", $css_file)) {
                     $css_file = '/' . $css_file;
                 }
@@ -311,7 +315,7 @@ class Siberian_Layout extends Zend_Layout
 
             } else {
                 foreach ($cssToMerge['local'] as $file) {
-                    $file .= '?' . filemtime(Core_Model_Directory::getBasePathTo($file));
+                    $file .= '?' . filemtime(path($file));
                     if(preg_match("#^app/#", $file)) {
                         $file = '/' . $file;
                     }
@@ -428,23 +432,20 @@ class Siberian_Layout extends Zend_Layout
         $this->_html = null;
         $this->_is_loaded = false;
 
-        Siberian_View::setLayout($this);
+        View::setLayout($this);
 
         return $this;
     }
 
     /**
-     * @todo create a standalone file not using Siberian_Layout_Email
-     * which can be confusing
-     *
      * @param $filename
      * @param $nodename
-     * @return Siberian_Layout_Email
+     * @return \Siberian\Layout\Email
      */
     public function loadPartial($filename, $nodename)
     {
-        $layout = new Siberian_Layout_Email($filename, $nodename);
-        Siberian_View::setDesignType('desktop');
+        $layout = new Siberian\Layout\Email($filename, $nodename);
+        View::setDesignType('desktop');
         $layout->load();
         return $layout;
     }
@@ -456,8 +457,8 @@ class Siberian_Layout extends Zend_Layout
      */
     public function loadEmail($filename, $nodename)
     {
-        $layout = new Siberian_Layout_Email($filename, $nodename);
-        Siberian_View::setDesignType('email');
+        $layout = new Siberian\Layout\Email($filename, $nodename);
+        View::setDesignType('email');
         $layout->load();
         return $layout;
     }
@@ -571,7 +572,8 @@ class Siberian_Layout extends Zend_Layout
     /**
      * @param null $name
      * @return mixed|null|string
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Filter_Exception
      */
     public function render($name = null)
     {
@@ -645,15 +647,15 @@ class Siberian_Layout extends Zend_Layout
 
         $keys = [];
         if ($use_base) {
-            $front_xml = Siberian_Cache_Design::getBasePath('/layout/front.xml');
+            $front_xml = CacheDesign::getBasePath('/layout/front.xml');
             $this->_baseDefaultLayout = new SimpleXMLElement(file_get_contents($front_xml));
             $this->_defaultLayout = $this->_baseDefaultLayout->default;
         }
 
         if ($use_base && isset($this->_baseDefaultLayout->$action)) {
             $this->_actionLayout = $this->_baseDefaultLayout->$action;
-        } elseif (file_exists(Siberian_Cache_Design::getBasePath('/layout/' . $filename))) {
-            $layout_xml = Siberian_Cache_Design::getBasePath('/layout/' . $filename);
+        } elseif (file_exists(CacheDesign::getBasePath('/layout/' . $filename))) {
+            $layout_xml = CacheDesign::getBasePath('/layout/' . $filename);
             $this->_baseActionLayout = new SimpleXMLElement(file_get_contents($layout_xml));
             $this->_actionLayout = $this->_baseActionLayout->$action;
         } else {
@@ -755,7 +757,7 @@ class Siberian_Layout extends Zend_Layout
      * @param $use_base
      * @param bool $forceAddNode
      */
-    protected function _process($key, $use_base, $forceAddNode = false)
+    public function _process($key, $use_base, $forceAddNode = false)
     {
         $child = $this->_xml->addChild($key);
 

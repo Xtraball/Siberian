@@ -425,7 +425,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
                               $title,
                               $message = '')
     {
-        $layout = new \Siberian_Layout();
+        $layout = new Siberian\Layout();
         $layout = $layout->loadEmail('admin', $nodeName);
         $layout
             ->setContentFor('base', 'email_title', $title)

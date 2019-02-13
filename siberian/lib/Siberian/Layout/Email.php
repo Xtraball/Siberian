@@ -1,9 +1,16 @@
 <?php
 
+namespace Siberian\Layout;
+
+use Siberian\Layout;
+use Siberian\View;
+use Siberian\Cache\Design as CacheDesign;
+
 /**
- * Class Siberian_Layout_Email
+ * Class Email
+ * @package Siberian\Layout
  */
-class Siberian_Layout_Email extends Siberian_Layout
+class Email extends Layout
 {
     /**
      * @var
@@ -20,8 +27,8 @@ class Siberian_Layout_Email extends Siberian_Layout
         $this->_xml = simplexml_load_string('<?xml version="1.0" encoding="UTF-8"?><xml/>');
         $this->_filename = $filename;
         $this->_action = $action;
-        Siberian_View::setLayout($this);
-        Siberian_View::setDesignType("email");
+        View::setLayout($this);
+        View::setDesignType("email");
 
         return $this;
     }
@@ -54,8 +61,8 @@ class Siberian_Layout_Email extends Siberian_Layout
             foreach ($this->_xml->actions->children() as $partial => $values) {
                 if ($partial = $this->getPartial($partial)) {
                     $method = (string)$values->attributes()->name;
-                    if (is_callable(array($partial, $method))) {
-                        $params = array();
+                    if (is_callable([$partial, $method])) {
+                        $params = [];
                         foreach ($values as $key => $value) {
                             $params[$key] = (string)$value;
                         }
@@ -67,7 +74,7 @@ class Siberian_Layout_Email extends Siberian_Layout
 
         // Classes dans le body
         if (isset($this->_xml->classes)) {
-            $classes = array($baseView->default_class_name);
+            $classes = [$baseView->default_class_name];
             foreach ($this->_xml->classes->children() as $class) {
                 $classes[] = $class->attributes()->name;
             }
@@ -96,22 +103,23 @@ class Siberian_Layout_Email extends Siberian_Layout
     }
 
     /**
-     * @return null|SimpleXMLElement
+     * @param bool $useBase
+     * @return null|\Siberian\SimpleXMLElement|\SimpleXMLElement
      */
     protected function _createXml($useBase = true)
     {
         $filename = $this->_filename . '.xml';
         $action = $this->_action;
-        $this->_otherLayout = array();
-        $keys = array();
-        $email_path = Siberian_Cache_Design::getBasePath("layout/default.xml", "email");
+        $this->_otherLayout = [];
+        $keys = [];
+        $email_path = CacheDesign::getBasePath("layout/default.xml", "email");
         $this->_baseDefaultLayout = simplexml_load_file($email_path, null, LIBXML_COMPACT);
         $this->_defaultLayout = $this->_baseDefaultLayout->default;
 
         if (isset($this->_baseDefaultLayout->$action)) {
             $this->_actionLayout = $this->_baseDefaultLayout->$action;
-        } elseif (file_exists(Siberian_Cache_Design::getBasePath("layout/{$filename}", "email"))) {
-            $email_path = Siberian_Cache_Design::getBasePath("layout/{$filename}", "email");
+        } elseif (file_exists(CacheDesign::getBasePath("layout/{$filename}", "email"))) {
+            $email_path = CacheDesign::getBasePath("layout/{$filename}", "email");
             $this->_baseActionLayout = simplexml_load_file($email_path);
             $this->_actionLayout = $this->_baseActionLayout->$action;
         } else {
@@ -119,10 +127,10 @@ class Siberian_Layout_Email extends Siberian_Layout
         }
 
         // Récupération des noms des balises
-        $nodes = array(
+        $nodes = [
             $action => $this->_actionLayout,
             'default' => $this->_defaultLayout
-        );
+        ];
 
         $path = '/layout/' . $action . '/addLayout';
         $datas = $this->_actionLayout->xpath($path);
@@ -180,8 +188,10 @@ class Siberian_Layout_Email extends Siberian_Layout
     }
 
     /**
+     * @param null $name
      * @return mixed|null|string
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Filter_Exception
      */
     public function render($name = null)
     {
