@@ -12,8 +12,8 @@
  */
 angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $translate, $q) {
     var service = {
-        is_open : false,
-        stack   : []
+        is_open: false,
+        stack: []
     };
 
     /**
@@ -27,7 +27,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
             $timeout(function () {
                 var dialog = service.stack.shift();
 
-                switch(dialog.type) {
+                switch (dialog.type) {
                     case 'alert':
                         service.renderAlert(dialog.data);
                         break;
@@ -60,11 +60,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
         service.stack.push({
             type: 'alert',
             data: {
-                title           : title,
-                message         : message,
-                button          : button,
-                dismiss         : dismiss,
-                promise         : deferred
+                title: title,
+                message: message,
+                button: button,
+                dismiss: dismiss,
+                promise: deferred
             }
         });
 
@@ -89,10 +89,10 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         alertPromise = $ionicPopup
             .alert({
-                title       : $translate.instant(data.title),
-                template    : $translate.instant(data.message),
-                cssClass    : cssClass,
-                okText      : $translate.instant(data.button)
+                title: $translate.instant(data.title),
+                template: $translate.instant(data.message),
+                cssClass: cssClass,
+                okText: $translate.instant(data.button)
             });
 
         data.promise.resolve(alertPromise);
@@ -133,11 +133,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
         service.stack.push({
             type: 'prompt',
             data: {
-                title           : title,
-                message         : message,
-                type            : localType,
-                value           : localValue,
-                promise         : deferred
+                title: title,
+                message: message,
+                type: localType,
+                value: localValue,
+                promise: deferred
             }
         });
 
@@ -158,12 +158,12 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         return $ionicPopup
             .prompt({
-                title               : $translate.instant(data.title),
-                template            : $translate.instant(data.message),
-                okText              : $translate.instant(data.button),
-                cssClass            : cssClass,
-                inputType           : data.type,
-                inputPlaceholder    : $translate.instant(data.value)
+                title: $translate.instant(data.title),
+                template: $translate.instant(data.message),
+                okText: $translate.instant(data.button),
+                cssClass: cssClass,
+                inputType: data.type,
+                inputPlaceholder: $translate.instant(data.value)
             }).then(function (result) {
                 if (result === undefined) {
                     data.promise.reject(result);
@@ -190,11 +190,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
         service.stack.push({
             type: 'confirm',
             data: {
-                title           : title,
-                message         : message,
-                buttons_array   : buttonsArray,
-                css_class       : cssClass,
-                promise         : deferred
+                title: title,
+                message: message,
+                buttons_array: buttonsArray,
+                css_class: cssClass,
+                promise: deferred
             }
         });
 
@@ -217,11 +217,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         return $ionicPopup
             .confirm({
-                title       : $translate.instant(data.title),
-                cssClass    : data.css_class + ' ' + cssClass,
-                template    : data.message,
-                okText      : $translate.instant(data.buttons_array[0]),
-                cancelText  : $translate.instant(data.buttons_array[1])
+                title: $translate.instant(data.title),
+                cssClass: data.css_class + ' ' + cssClass,
+                template: data.message,
+                okText: $translate.instant(data.buttons_array[0]),
+                cancelText: $translate.instant(data.buttons_array[1])
             }).then(function (result) {
                 data.promise.resolve(result);
                 service.unStack();
@@ -240,8 +240,8 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
         service.stack.push({
             type: 'ionicPopup',
             data: {
-                config  : config,
-                promise : deferred
+                config: config,
+                promise: deferred
             }
         });
 
