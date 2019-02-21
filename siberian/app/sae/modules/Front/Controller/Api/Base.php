@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Hook;
+use Siberian\Account;
+
 /**
  * Class Front_Controller_Api_Base
  */
@@ -18,8 +21,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * - Features / Options
      * - Translations
      * - Customer (never cached)
-     *
-     * @throws Zend_Exception
      */
     public function initAction()
     {
@@ -29,7 +30,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $application = $this->getApplication();
         $appId = $application->getId();
         $request = $this->getRequest();
+        $session = $this->getSession();
         $currentLanguage = Core_Model_Language::getCurrentLanguage();
+
+        // Triggered at the very first
+        Hook::trigger("app.init", [
+            "application" => $application,
+            "request" => $request,
+            "session" => $session,
+        ]);
 
         try {
             $cssBlock = $this->_cssBlock($application);
@@ -76,6 +85,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             'translationBlock' => $translationBlock,
             'manifestBlock' => $manifestBlock,
         ];
+
+        // Init is ready, trigger the hook
+        $data = Hook::trigger("app.init.ready", $data);
 
         /** Force no cache */
         $response = $this->getResponse();
@@ -599,6 +611,11 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean) ($customerId && $customer->canAccessLockedFeatures()),
+                "extendedFields" => Account::getFields([
+                    "application" => $application,
+                    "request" => $this->getRequest(),
+                    "session" => $session,
+                ]),
             ]);
 
             if (Siberian_CustomerInformation::isRegistered('stripe')) {

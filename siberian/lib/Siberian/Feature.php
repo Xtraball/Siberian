@@ -78,6 +78,8 @@ class Feature
 
     /**
      * @param $datas
+     * @param string $category_code
+     * @throws \Zend_Exception
      */
     public static function installApplicationLayout($datas, $category_code = "custom")
     {
@@ -144,19 +146,23 @@ class Feature
 
     }
 
+    /**
+     * @param $code
+     * @param $name
+     * @param $icon
+     * @param null $position
+     */
     public static function installCategory($code, $name, $icon, $position = null)
     {
         /** @todo */
     }
 
-
     /**
-     * Fully install a feature, including icons and ACL
-     *
      * @param $category
      * @param $feature_data
      * @param $icons
-     * @return Application_Model_Option
+     * @return \Application_Model_Option
+     * @throws \ErrorException
      */
     public static function installFeature($category, $feature_data, $icons)
     {
@@ -177,7 +183,7 @@ class Feature
      * @param $category_code
      * @param $data
      * @param array $keys
-     * @return Application_Model_Option
+     * @return \Application_Model_Option
      */
     public static function install($category_code, $data, $keys = [])
     {
@@ -214,8 +220,8 @@ class Feature
     }
 
     /**
-     * Create ACL for a given option, or manually with an array
-     * @param Application_Model_Option|array $option
+     * @param $option
+     * @throws \ErrorException
      */
     public static function installAcl($option)
     {
@@ -539,7 +545,6 @@ class Feature
 
     /**
      * @param $command
-     * @throws \Zend_Exception
      */
     public static function removeCronjob($command)
     {

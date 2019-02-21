@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Account;
+
 /**
  * Class Customer_Mobile_AccountController
  */
@@ -541,9 +543,18 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
     /**
      * @return array
+     * @throws Zend_Session_Exception
      */
     private function _getCustomer() {
-        return Customer_Model_Customer::getCurrent();
+        $payload = Customer_Model_Customer::getCurrent();
+
+        $payload["extendedFields"] = Account::getFields([
+            "application" => $this->getApplication(),
+            "request" => $this->getRequest(),
+            "session" => $this->getSession(),
+        ]);
+
+        return $payload;
     }
 
 }
