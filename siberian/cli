@@ -278,10 +278,6 @@ try {
                 \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Siberian_Cron());
             }
             break;
-        case 'test:method':
-            var_dump(time_to_date(1550070229, "y-MM-dd HH:mm:ss"));
-
-            break;
         case 'google:test-api-key':
             if (isset($argv[2])) {
                 $apiKey = (string) $argv[2];

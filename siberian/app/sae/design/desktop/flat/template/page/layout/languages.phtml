@@ -1,11 +1,19 @@
 <li class="dropdown languages">
-    <a id="dLabel" data-target="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="capitalize reverse sb-tour"><?php echo Core_Model_Language::getCurrentLanguage(); ?> <span class="caret"></span></a>
+    <a id="dLabel"
+       data-target="#"
+       data-toggle="dropdown"
+       role="button"
+       aria-haspopup="true"
+       aria-expanded="false"
+       class="capitalize reverse sb-tour"><?php echo Core_Model_Language::getCurrentLanguage(); ?> <span class="caret"></span></a>
     <ul class="dropdown-menu content-white-bkg">
         <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
         <li <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) : ?> class="active"<?php endif; ?>>
             <a href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>">
+                <!-- Nope, not ready yet ...
                 <img src="/app/sae/design/desktop/flat/images/flags/svg/<?php echo strtolower(explode("_", $language->getCode())[0]) ?>.svg"
                      style="width: 24px; height: 16px; margin-right: 15px; border-radius: 1px;" />
+                -->
                 <?php echo $language->getName(); ?>
             </a>
         </li>

@@ -72,7 +72,6 @@ angular.module("starter").filter("parseUrlFilter", function() {
  * Convert seconds to datetime.
  */
 }).filter("secondsToDateTime", [function() {
-
     return function(seconds) {
         return new Date(1970, 0, 1).setSeconds(seconds);
     };
@@ -80,8 +79,29 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Translator
  */
-}]).filter('translate', function ($translate) {
+}]).filter("translate", function ($translate) {
     return function (text) {
+        /**
+         * Blind extract of the processed strings
+         * Nope for now!!!!
+        try {
+            if (window.extractI18n === true) {
+                var _t = btoa(text);
+                var _c = (context === undefined) ? '' : btoa(context);
+                $pwaRequest.get("/translation/extract/index", {
+                    urlParams: {
+                        text: _t,
+                        context: _c
+                    }
+                });
+            }
+        } catch (e) {
+            // Do nothing!
+            console.error("$translate extract error", e);
+        }
+        if (text !== undefined) {
+            return $translate.instant(text, context);
+        }*/
         return $translate.instant(text);
     };
 

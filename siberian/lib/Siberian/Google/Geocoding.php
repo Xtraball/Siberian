@@ -172,5 +172,40 @@ class Siberian_Google_Geocoding
         return true;
     }
 
+    /**
+     * Generates a static map image!
+     *
+     * @param null $apiKey
+     * @param array $options
+     * @return string
+     */
+    public static function mapStatic ($apiKey = null, $options = [])
+    {
+        $endpoint = "https://maps.googleapis.com/maps/api/staticmap";
+        $parts = [
+            "size" => "560x240",
+            "key" => $apiKey,
+        ];
+
+        $_m = [];
+        if (array_key_exists("markers", $options)) {
+            $markers = $options["markers"];
+            unset($options["markers"]);
+            foreach ($markers as $marker) {
+                $_m[] = "markers={$marker}";
+            }
+        }
+        if (!empty($_m)) {
+            $_m = "&" . join("&", $_m);
+        } else {
+            $_m = "";
+        }
+
+        $parts = array_merge($parts, $options);
+        $builtUri = $endpoint . "?" . http_build_query($parts) . $_m;
+
+        return $builtUri;
+    }
+
 
 }

@@ -18,6 +18,28 @@ function app()
  * @param $original
  */
 global $extractTranslations;
+
+function extract___($original)
+{
+    if (__getConfig("extract") === true) {
+        global $extractTranslations;
+
+        // Special binding for modules
+        $file = path("/var/tmp/orphans.po");
+
+        if (!is_file($file)) {
+            touch($file);
+        }
+        if ($extractTranslations === null) {
+            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        }
+
+        $translation = $extractTranslations->insert(null, $original);
+        $translation->setTranslation($original);
+        $extractTranslations->toPoFile($file);
+    }
+}
+
 function extract_p__($context, $original)
 {
     if (__getConfig("extract") === true) {
@@ -499,6 +521,11 @@ function time_to_date($time, $format = 'y-MM-dd')
 {
     $date = new \Zend_Date($time);
     return $date->toString($format);
+}
+
+function mysqlToTimestamp($mysql)
+{
+
 }
 
 /**
