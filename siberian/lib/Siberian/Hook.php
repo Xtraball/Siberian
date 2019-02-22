@@ -14,13 +14,6 @@ class Hook
     public static $hooks = [];
 
     /**
-     * Track triggered hooks to ensure, they are triggered only once!
-     *
-     * @var array
-     */
-    public static $triggered = [];
-
-    /**
      * @param $actionName
      * @param $name
      * @param $callback callback function must return the payload, altered or not!
@@ -51,12 +44,6 @@ class Hook
     public static function trigger ($actionName, $payload = null)
     {
         if (array_key_exists($actionName, self::$hooks)) {
-            // Do not trigger more than once!
-            if (in_array($actionName, self::$triggered)) {
-                return $payload;
-            }
-            self::$triggered[] = $actionName;
-
             $actions = self::$hooks[$actionName];
 
             usort($actions, function ($item1, $item2) {

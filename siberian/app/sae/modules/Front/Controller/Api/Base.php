@@ -33,13 +33,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $session = $this->getSession();
         $currentLanguage = Core_Model_Language::getCurrentLanguage();
 
-        // Triggered at the very first
-        Hook::trigger("app.init", [
-            "application" => $application,
-            "request" => $request,
-            "session" => $session,
-        ]);
-
         try {
             $cssBlock = $this->_cssBlock($application);
         } catch (\Exception $e) {

@@ -51,9 +51,9 @@ function extract_p__($context, $original)
         // Special binding for modules
         if (in_array($context, array_keys($modules))) {
             $moduleFolder = $modules[$context];
-            $file = Core_Model_Directory::getBasePathTo("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+            $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
         } else {
-            $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+            $file = path("/languages/base/c_{$context}.po");
         }
 
         if (!is_file($file)) {
@@ -422,10 +422,10 @@ function __path($url = "", array $params = [], $locale = null)
 }
 
 /**
- * @param $relativePath
+ * @param string $relativePath
  * @return string
  */
-function path($relativePath)
+function path($relativePath = "/")
 {
     return \Core_Model_Directory::getBasePathTo($relativePath);
 }

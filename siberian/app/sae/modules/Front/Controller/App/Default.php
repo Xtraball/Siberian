@@ -3,7 +3,7 @@
 /**
  * Class Front_Controller_App_Default
  */
-class Front_Controller_App_Default extends Core_Controller_Default
+class Front_Controller_App_Default extends Application_Controller_Mobile_Default
 {
     /**
      * @var Application_Model_Option_Value
@@ -11,20 +11,16 @@ class Front_Controller_App_Default extends Core_Controller_Default
     public $currentOptionValue;
 
     /**
-     * @return $this|void
+     * @return Application_Controller_Mobile_Default|void
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
     public function init()
     {
-        $request = $this->getRequest();
-        $application = $this->getApplication();
-
-        // Prevent CORS conversion method in dev environment!
-        if ($request->getMethod() === 'OPTIONS') {
-            die;
-        }
-
         parent::init();
 
+        $request = $this->getRequest();
+        $application = $this->getApplication();
         $params = $request->getParams();
         $rawBody = $request->getBodyParams();
 
@@ -71,6 +67,7 @@ class Front_Controller_App_Default extends Core_Controller_Default
 
     /**
      * @return mixed
+     * @throws Zend_Session_Exception
      */
     public function isOverview()
     {
