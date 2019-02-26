@@ -1,13 +1,11 @@
 <?php
-/**
- * @ignore
- */
-
 
 namespace Siberian;
 
 /**
  * Class \Siberian\Version
+ *
+ * @ignore
  */
 class Version
 {

@@ -135,8 +135,13 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
             });
         });
 
+        var layout = 'templates/customer/account/l1/login.html';
+
+        // @todo for 4.16+
+        //var layout = 'templates/customer/account/l2/customer.html';
+
         var loginPromise = Modal
-            .fromTemplateUrl('templates/customer/account/l1/login.html', {
+            .fromTemplateUrl(layout, {
                 scope: angular.extend(localScope, {
                     _pcustomer_close: function () {
                         factory.login_modal.hide();

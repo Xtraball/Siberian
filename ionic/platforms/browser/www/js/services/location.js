@@ -35,58 +35,64 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             maximumAge: 0
         }, config);
 
+        var localRequestLocation = function (deferred) {
+            if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
+                // fresh poll, send direct
+                deferred.resolve(service.position);
+                isResolved = true;
+            }
+
+            $cordovaGeolocation
+            .getCurrentPosition(localConfig)
+            .then(function (position) {
+                service.lastFetch = Date.now();
+                service.position = position;
+                if (!isResolved) {
+                    deferred.resolve(service.position);
+                }
+            }, function () {
+                if (!isResolved) {
+                    deferred.reject();
+                }
+            });
+        };
+
+        var localReject = function (deferred) {
+            // Disable for all next requests!
+            service.isEnabled = false;
+            deferred.reject();
+        };
+
         if (service.isEnabled === false) {
             deferred.reject();
         } else {
             if (cordova.plugins.permissions !== undefined) {
                 var permissions = cordova.plugins.permissions;
-                permissions.hasPermission(permissions.ACCESS_FINE_LOCATION, function(status) {
-                    if (status.hasPermission) {
-                        if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
-                            // fresh poll, send direct
-                            deferred.resolve(service.position);
-                            isResolved = true;
+                permissions.hasPermission(
+                    permissions.ACCESS_FINE_LOCATION,
+                    function(status) {
+                        if (status.hasPermission) {
+                            localRequestLocation(deferred);
+                        } else {
+                            permissions.requestPermission(
+                                permissions.ACCESS_FINE_LOCATION,
+                                function (success) {
+                                    localRequestLocation(deferred);
+                                }, function (error) {
+                                    localReject(deferred);
+                                });
                         }
-
-                        $cordovaGeolocation
-                            .getCurrentPosition(localConfig)
-                            .then(function (position) {
-                                service.lastFetch = Date.now();
-                                service.position = position;
-                                if (!isResolved) {
-                                    deferred.resolve(service.position);
-                                }
-                            }, function () {
-                                if (!isResolved) {
-                                    deferred.reject();
-                                }
+                    }, function (error) {
+                        permissions.requestPermission(
+                            permissions.ACCESS_FINE_LOCATION,
+                            function (success) {
+                                localRequestLocation(deferred);
+                            }, function (error) {
+                                localReject(deferred);
                             });
-                    } else {
-                        // Disable for all next requests!
-                        service.isEnabled = false;
-                        deferred.reject();
-                    }
-                });
-            } else {
-                if (!localForce && (service.lastFetch !== null) && ((service.lastFetch + 42000) > Date.now())) {
-                    // fresh poll, send direct
-                    deferred.resolve(service.position);
-                    isResolved = true;
-                }
-
-                $cordovaGeolocation
-                    .getCurrentPosition(localConfig)
-                    .then(function (position) {
-                        service.lastFetch = Date.now();
-                        service.position = position;
-                        if (!isResolved) {
-                            deferred.resolve(service.position);
-                        }
-                    }, function () {
-                        if (!isResolved) {
-                            deferred.reject();
-                        }
                     });
+            } else {
+                localRequestLocation(deferred);
             }
         }
 

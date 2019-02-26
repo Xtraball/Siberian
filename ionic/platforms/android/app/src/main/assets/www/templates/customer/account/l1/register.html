@@ -126,6 +126,13 @@
             </label>
         </section>
 
+        <!-- Version #2 of the custom login fields -->
+        <section ng-repeat="fields in customer.extendedFields track by $index">
+            <div ng-class="{'card': card_design}"
+                 ng-repeat="field in fields track by field.key"
+                 ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
+        </section>
+
     </div>
 
     <div class="list"

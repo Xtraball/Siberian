@@ -75,6 +75,12 @@
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
     </feature>
+    <feature name="Navigator">
+        <param name="android-package" value="com.xtraball.cordova.plugin.Navigator" />
+    </feature>
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>
     <author>Apps Mobile Company Dev Team</author>
@@ -85,11 +91,17 @@
     <access launch-external="yes" origin="geo:*" />
     <access launch-external="yes" origin="mailto:*" />
     <access launch-external="yes" origin="sms:*" />
+    <access launch-external="yes" origin="waze:*" />
+    <access launch-external="yes" origin="google.navigation:*" />
+    <access launch-external="yes" origin="whatsapp:*" />
     <allow-navigation href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="sms:*" />
+    <allow-intent href="waze:*" />
+    <allow-intent href="google.navigation:*" />
+    <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
         <native-interface version="9" />

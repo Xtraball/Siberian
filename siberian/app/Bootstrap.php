@@ -198,7 +198,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         // Priorities are inverted for controllers!
-        switch (Siberian_Version::TYPE) {
+        switch (\Siberian\Version::TYPE) {
             default:
             case 'SAE':
                 $this->_front_controller->addModuleDirectory($base . '/sae/modules');
