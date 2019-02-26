@@ -1,11 +1,10 @@
 cordova.define("com.xtraball.cordova.plugin.navigator.Navigator", function(require, exports, module) {
 /**
  *
- * @type {{navigateByPosition: Navigator.navigateByPosition}}
+ * @type {{navigateByPosition: Navigator.navigate}}
  */
 Navigator = {
-    navigateByPosition: function (to) {
-
+    navigate: function (to) {
         try {
             if (!isNaN(to.lat) && !isNaN(to.lng)) {
                 cordova.exec(

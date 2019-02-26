@@ -402,6 +402,22 @@ module.exports = [
     "clobbers": [
       "MusicControls"
     ]
+  },
+  {
+    "id": "com.xtraball.cordova.plugin.navigator.Navigator",
+    "file": "plugins/com.xtraball.cordova.plugin.navigator/www/navigator.js",
+    "pluginId": "com.xtraball.cordova.plugin.navigator",
+    "clobbers": [
+      "Navigator"
+    ]
+  },
+  {
+    "id": "Permissions.Permissions",
+    "file": "plugins/Permissions/www/permissions.js",
+    "pluginId": "Permissions",
+    "clobbers": [
+      "cordova.plugins.permissions"
+    ]
   }
 ];
 module.exports.metadata = 
@@ -431,6 +447,8 @@ module.exports.metadata =
   "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
   "MusicControls": "2.1.4",
+  "com.xtraball.cordova.plugin.navigator": "0.1.0",
+  "Permissions": "1.0.0",
   "Siberian": "1.0.0"
 };
 // BOTTOM OF METADATA

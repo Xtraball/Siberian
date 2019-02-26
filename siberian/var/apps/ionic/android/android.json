@@ -313,6 +313,14 @@
             {
               "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Navigator\"><param name=\"android-package\" value=\"com.xtraball.cordova.plugin.Navigator\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -393,6 +401,12 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "com.xtraball.cordova.plugin.navigator": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Permissions": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Siberian": {
@@ -803,6 +817,22 @@
       "clobbers": [
         "MusicControls"
       ]
+    },
+    {
+      "id": "com.xtraball.cordova.plugin.navigator.Navigator",
+      "file": "plugins/com.xtraball.cordova.plugin.navigator/www/navigator.js",
+      "pluginId": "com.xtraball.cordova.plugin.navigator",
+      "clobbers": [
+        "Navigator"
+      ]
+    },
+    {
+      "id": "Permissions.Permissions",
+      "file": "plugins/Permissions/www/permissions.js",
+      "pluginId": "Permissions",
+      "clobbers": [
+        "cordova.plugins.permissions"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -830,6 +860,8 @@
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "MusicControls": "2.1.4",
+    "com.xtraball.cordova.plugin.navigator": "0.1.0",
+    "Permissions": "1.0.0",
     "Siberian": "1.0.0"
   }
 }
