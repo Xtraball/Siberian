@@ -260,7 +260,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                         throw new Exception(__("Please enter a valid URL"));
                     }
 
-                    $dummy = new Application_Model_Application();
+                    $dummy = new Application_Model_Application()s;
                     $dummy->find($data["domain"], "domain");
                     if ($dummy->getId() AND $dummy->getId() != $application->getId()) {
                         throw new Exception("The domain is already used by another application.");

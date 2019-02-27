@@ -852,6 +852,475 @@ msgid "App Store Connect provider"
 msgstr "App Store Connect provider"
 
 msgctxt "backoffice_application"
+msgid "Ho"
+msgstr ""
+
+msgctxt "cabride"
+msgid "Driver informations"
+msgstr "Driver informations"
+
+msgctxt "cabride"
+msgid "Driving license"
+msgstr "Driving license"
+
+msgctxt "cabride"
+msgid "Mobile number"
+msgstr "Mobile number"
+
+msgctxt "cabride"
+msgid "Base address"
+msgstr "Base address"
+
+msgctxt "cabride"
+msgid "Pickup radius"
+msgstr "Pickup radius"
+
+msgid "Привет"
+msgstr "Привет"
+
+msgid "Cabride"
+msgstr "Cabride"
+
+msgid "My Account"
+msgstr "My Account"
+
+msgid "About us"
+msgstr "About us"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "Job"
+msgstr "Job"
+
+msgid "Custom Page"
+msgstr "Custom Page"
+
+msgid "Classifieds"
+msgstr "Classifieds"
+
+msgid "Cabride, uws Server."
+msgstr "Cabride, uws Server."
+
+msgid "Cabride, watcher."
+msgstr "Cabride, watcher."
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+msgctxt "cabride"
+msgid "Vehicle type"
+msgstr "Vehicle type"
+
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+msgctxt "cabride"
+msgid "No results for your search."
+msgstr "No results for your search."
+
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+msgctxt "cabride"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+msgctxt "cabride"
+msgid "No, go back!"
+msgstr "No, go back!"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+msgid "CabRide Drivers"
+msgstr "CabRide Drivers"
+
+msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+
+msgid "This field is required."
+msgstr "This field is required."
+
+msgid "Please fix this field."
+msgstr "Please fix this field."
+
+msgid "Please enter a valid email address."
+msgstr "Please enter a valid email address."
+
+msgid "Please enter a valid URL."
+msgstr "Please enter a valid URL."
+
+msgid "Please enter a valid date."
+msgstr "Please enter a valid date."
+
+msgid "Please enter a valid date (ISO)."
+msgstr "Please enter a valid date (ISO)."
+
+msgid "Please enter a valid number."
+msgstr "Please enter a valid number."
+
+msgid "Please enter only digits."
+msgstr "Please enter only digits."
+
+msgid "Please enter a valid credit card number."
+msgstr "Please enter a valid credit card number."
+
+msgid "Please enter the same value again."
+msgstr "Please enter the same value again."
+
+msgid "Please enter no more than {0} characters."
+msgstr "Please enter no more than {0} characters."
+
+msgid "Please enter at least {0} characters."
+msgstr "Please enter at least {0} characters."
+
+msgid "Please enter a value between {0} and {1} characters long."
+msgstr "Please enter a value between {0} and {1} characters long."
+
+msgid "Please enter a value between {0} and {1}."
+msgstr "Please enter a value between {0} and {1}."
+
+msgid "Please enter a value less than or equal to {0}."
+msgstr "Please enter a value less than or equal to {0}."
+
+msgid "Please enter a value greater than or equal to {0}."
+msgstr "Please enter a value greater than or equal to {0}."
+
+msgid "HTTPS is not available on your server."
+msgstr "HTTPS is not available on your server."
+
+msgid "New messages"
+msgstr "New messages"
+
+msgid "Read"
+msgstr "Read"
+
+msgid "You have no new messages."
+msgstr "You have no new messages."
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Cron scheduler"
+msgstr "Cron scheduler"
+
+msgid "Push messages:"
+msgstr "Push messages:"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Average build time in seconds:"
+msgstr "Average build time in seconds:"
+
+msgid "[Sources]"
+msgstr "[Sources]"
+
+msgid "[APK]"
+msgstr "[APK]"
+
+msgid "[Global]"
+msgstr "[Global]"
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+
+msgid "Remove locks"
+msgstr "Remove locks"
+
+msgid "Last cron error"
+msgstr "Last cron error"
+
+msgid "Show more"
+msgstr "Show more"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Not running"
+msgstr "Not running"
+
+msgid "How to install the cron scheduler ?"
+msgstr "How to install the cron scheduler ?"
+
+msgid "Required extensions"
+msgstr "Required extensions"
+
+msgid "PHP version %s:"
+msgstr "PHP version %s:"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Installed, version"
+msgstr "Installed, version"
+
+msgid "You must upgrade Java to 1.8"
+msgstr "You must upgrade Java to 1.8"
+
+msgid "Not found"
+msgstr "Not found"
+
+msgid "Android SDK:"
+msgstr "Android SDK:"
+
+msgid "PHP SQLite3:"
+msgstr "PHP SQLite3:"
+
+msgid "Bin SQLite3:"
+msgstr "Bin SQLite3:"
+
+msgid "Optional binaries"
+msgstr "Optional binaries"
+
+msgid "OptiPNG:"
+msgstr "OptiPNG:"
+
+msgid "JpegOptim:"
+msgstr "JpegOptim:"
+
+msgid "PNGQuant:"
+msgstr "PNGQuant:"
+
+msgid "ClamAV:"
+msgstr "ClamAV:"
+
+msgid "System Diagnostic"
+msgstr "System Diagnostic"
+
+msgid "External extensions"
+msgstr "External extensions"
+
+msgid "Web space"
+msgstr "Web space"
+
+msgid "Disk usage & Cache:"
+msgstr "Disk usage & Cache:"
+
+msgid "values are refreshed once a day only!"
+msgstr "values are refreshed once a day only!"
+
+msgid "Total usage:"
+msgstr "Total usage:"
+
+msgid "Log (var/log, log files)"
+msgstr "Log (var/log, log files)"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Cache (var/cache, system cache)"
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Temp (var/tmp, application sources & apk)"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to wipe all your temporary files, this includes the generated sources & apk builds !\n"
+"Are you sure ?"
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+
+msgid "Are you sure ?"
+msgstr "Are you sure ?"
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Applications/Previewer manifest for automatic updates."
+
+msgid "Rebuild"
+msgstr "Rebuild"
+
+msgid "Statistics"
+msgstr "Statistics"
+
+msgid "Cron scheduler help"
+msgstr "Cron scheduler help"
+
+msgid "Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"
+msgstr "Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"
+
+msgid "Otherwise install it manually, from your panel, or directly from your ssh access."
+msgstr "Otherwise install it manually, from your panel, or directly from your ssh access."
+
+msgid "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it."
+msgstr "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it."
+
+msgid "Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."
+msgstr "Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Running"
+msgstr "Running"
+
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth is valid."
+
+msgid "Bearer Token Auth (API)"
+msgstr "Bearer Token Auth (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Bearer Token Auth is valid."
+
+msgid "List of your applications"
+msgstr "List of your applications"
+
+msgid "Size on disk"
+msgstr "Size on disk"
+
+msgid "is updated once a day"
+msgstr "is updated once a day"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Show the applications waiting for publication only."
+msgstr "Show the applications waiting for publication only."
+
+msgid "Show applications removed from the editor."
+msgstr "Show applications removed from the editor."
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "EDIT"
+msgstr "EDIT"
+
+msgid "DELETE"
+msgstr "DELETE"
+
+msgid "You don't have any applications yet"
+msgstr "You don't have any applications yet"
+
+msgid "Yes, Delete!"
+msgstr "Yes, Delete!"
+
+msgid "No, go back!"
+msgstr "No, go back!"
+
+msgid "Confirmation required"
+msgstr "Confirmation required"
+
+msgid "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
+msgstr "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
+
+msgctxt "backoffice_application"
 msgid "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
 msgstr "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
 
@@ -995,192 +1464,3 @@ msgstr "Request a publication"
 msgctxt "backoffice_application"
 msgid "Service notes"
 msgstr "Service notes"
-
-msgid "Upgrade required for Sources APK / IPA"
-msgstr "Upgrade required for Sources APK / IPA"
-
-msgid "This application was not upgraded to the unified splashscreens & can't be published right now."
-msgstr "This application was not upgraded to the unified splashscreens & can't be published right now."
-
-msgid "Certificate"
-msgstr "Certificate"
-
-msgid "Send here your iOS certificate to enable the push notifications for this application."
-msgstr "Send here your iOS certificate to enable the push notifications for this application."
-
-msgid "<b>File type:</b> %s"
-msgstr "<b>File type:</b> %s"
-
-msgid "APNS Port 2195 is:"
-msgstr "APNS Port 2195 is:"
-
-msgid "Open"
-msgstr "Open"
-
-msgid "Closed"
-msgstr "Closed"
-
-msgid "APNS Feedback port 2196 is:"
-msgstr "APNS Feedback port 2196 is:"
-
-msgid "PEM test:"
-msgstr "PEM test:"
-
-msgid "Error"
-msgstr "Error"
-
-msgid "Your certificate is valid until:"
-msgstr "Your certificate is valid until:"
-
-msgid "for the bundle id:"
-msgstr "for the bundle id:"
-
-msgid "Your certificate is invalid"
-msgstr "Your certificate is invalid"
-
-msgid "Click here to send your certificate"
-msgstr "Click here to send your certificate"
-
-msgid "OR"
-msgstr "OR"
-
-msgid "Drop your certificate here"
-msgstr "Drop your certificate here"
-
-msgid "You already have sent a certificate."
-msgstr "You already have sent a certificate."
-
-msgid "You have sent a certificate."
-msgstr "You have sent a certificate."
-
-msgid "Manage Access"
-msgstr "Manage Access"
-
-msgid "Manage Admins access feature by feature."
-msgstr "Manage Admins access feature by feature."
-
-msgid "Id"
-msgstr "Id"
-
-msgid "Actions"
-msgstr "Actions"
-
-msgid "IMPERSONATE"
-msgstr "IMPERSONATE"
-
-msgid "EDIT"
-msgstr "EDIT"
-
-msgid "Business"
-msgstr "Business"
-
-msgid "Catalogs"
-msgstr "Catalogs"
-
-msgid "Education"
-msgstr "Education"
-
-msgid "Entertainment"
-msgstr "Entertainment"
-
-msgid "Finance"
-msgstr "Finance"
-
-msgid "Food & Drink"
-msgstr "Food & Drink"
-
-msgid "Games"
-msgstr "Games"
-
-msgid "Health & Fitness"
-msgstr "Health & Fitness"
-
-msgid "Lifestyle"
-msgstr "Lifestyle"
-
-msgid "Medical"
-msgstr "Medical"
-
-msgid "Audio"
-msgstr "Audio"
-
-msgid "Navigation"
-msgstr "Navigation"
-
-msgid "News"
-msgstr "News"
-
-msgid "Photo & Video"
-msgstr "Photo & Video"
-
-msgid "Productivity"
-msgstr "Productivity"
-
-msgid "Reference"
-msgstr "Reference"
-
-msgid "Social Networking"
-msgstr "Social Networking"
-
-msgid "Sports"
-msgstr "Sports"
-
-msgid "Travel"
-msgstr "Travel"
-
-msgid "Utilities"
-msgstr "Utilities"
-
-msgid "Weather"
-msgstr "Weather"
-
-msgid "Book"
-msgstr "Book"
-
-msgid "If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?"
-msgstr "If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?"
-
-msgid "low"
-msgstr "low"
-
-msgid "online"
-msgstr "online"
-
-msgid "Folders (v2)"
-msgstr "Folders (v2)"
-
-msgid "Places"
-msgstr "Places"
-
-msgid "WordPress (v2)"
-msgstr "WordPress (v2)"
-
-msgid "Cabride"
-msgstr "Cabride"
-
-msgid "Quiz"
-msgstr "Quiz"
-
-msgid "Inbox"
-msgstr "Inbox"
-
-msgid "Classifieds"
-msgstr "Classifieds"
-
-msgid "iOS Source"
-msgstr "iOS Source"
-
-msgid "Build succeed"
-msgstr "Build succeed"
-
-msgid "Sources Generation"
-msgstr "Sources Generation"
-
-msgid "The Source code for the application %s has been generated !"
-msgstr "The Source code for the application %s has been generated !"
-
-msgid "Download the Source code"
-msgstr "Download the Source code"
-
-msgid "Build succeed!"
-msgstr "Build succeed!"

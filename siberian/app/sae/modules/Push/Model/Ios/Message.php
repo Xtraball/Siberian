@@ -48,9 +48,10 @@ class Push_Model_Ios_Message {
      */
     public function push() {
         $device = new Push_Model_Iphone_Device();
-        $app_id = $this->getMessage()->getAppId();
+        $message = $this->getMessage();
+        $app_id = $message->getAppId();
 
-        if ($this->getMessage()->getSendToAll() == 0) {
+        if ($message->getSendToAll() == 0) {
             $category_message = new Topic_Model_Category_Message();
             $allowed_categories = $category_message->findCategoryByMessageId($this->getMessage()->getId());
         } else {
@@ -60,15 +61,23 @@ class Push_Model_Ios_Message {
         # Individual push, push to user(s)
         $selected_users = null;
         if(Push_Model_Message::hasIndividualPush()) {
-            if ($this->getMessage()->getSendToSpecificCustomer() == 1) {
+            if ($message->getSendToSpecificCustomer() == 1) {
                 $customer_message = new Push_Model_Customer_Message();
                 $selected_users = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
             }
         }
 
-        $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
-        foreach($devices as $device) {
-            $this->service_apns->addMessage($this->message, $device);
+        // New standalone push
+        if ($message->getIsStandalone() === true) {
+            $device = (new Push_Model_Iphone_Device())
+                ->find($message->getToken(), "device_token");
+            $devices = [$device];
+            $this->service_apns->addMessage($this->message, $message->getDevice());
+        } else {
+            $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            foreach($devices as $device) {
+                $this->service_apns->addMessage($this->message, $device);
+            }
         }
 
         # Send all queued messages

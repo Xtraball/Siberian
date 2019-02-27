@@ -261,6 +261,45 @@ ion-content {
   }
 }
 
+/* BADGES */
+.badge {
+  &.badge-custom {
+    @include badge-style($badge-custom-bg, $badge-custom-text);
+  }
+
+  &.badge-light-custom {
+    @include badge-style($badge-light-custom-bg, $badge-light-custom-text);
+  }
+
+  &.badge-positive-custom {
+    @include badge-style($badge-positive-custom-bg, $badge-positive-custom-text);
+  }
+
+  &.badge-calm-custom {
+    @include badge-style($badge-calm-custom-bg, $badge-calm-custom-text);
+  }
+
+  &.badge-balanced-custom {
+    @include badge-style($badge-balanced-custom-bg, $badge-balanced-custom-text);
+  }
+
+  &.badge-energized-custom {
+    @include badge-style($badge-energized-custom-bg, $badge-energized-custom-text);
+  }
+
+  &.badge-assertive-custom {
+    @include badge-style($badge-assertive-custom-bg, $badge-assertive-custom-text);
+  }
+
+  &.badge-royal-custom {
+    @include badge-style($badge-royal-custom-bg, $badge-royal-custom-text);
+  }
+
+  &.badge-dark-custom {
+    @include badge-style($badge-dark-custom-bg, $badge-dark-custom-text);
+  }
+}
+
 /* CHECKBOX */
 .checkbox-custom {
   background-color: $checkbox-general-custom-bg;

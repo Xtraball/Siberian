@@ -68,7 +68,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         } else {
             if (cordova.plugins.permissions !== undefined) {
                 var permissions = cordova.plugins.permissions;
-                permissions.hasPermission(
+                permissions.checkPermission(
                     permissions.ACCESS_FINE_LOCATION,
                     function(status) {
                         if (status.hasPermission) {
