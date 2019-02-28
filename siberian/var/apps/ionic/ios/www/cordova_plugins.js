@@ -416,11 +416,11 @@ module.exports = [
     ]
   },
   {
-    "id": "com.xtraball.cordova.plugin.navigator.WazeNavigator",
+    "id": "com.xtraball.cordova.plugin.navigator.Navigator",
     "file": "plugins/com.xtraball.cordova.plugin.navigator/www/navigator.js",
     "pluginId": "com.xtraball.cordova.plugin.navigator",
     "clobbers": [
-      "WazeNavigator"
+      "Navigator"
     ]
   },
   {
