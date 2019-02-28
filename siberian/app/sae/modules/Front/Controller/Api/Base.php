@@ -2,6 +2,7 @@
 
 use Siberian\Hook;
 use Siberian\Account;
+use Siberian\Json;
 
 /**
  * Class Front_Controller_Api_Base
@@ -127,8 +128,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @return array|false|string
+     * @throws Zend_Exception
      */
     public function _loadBlock ($application)
     {
@@ -139,9 +141,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             // Homepage image url!
             if ($application->getSplashVersion() == '2') {
-                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundUnified());
+                $homepageImage = path($application->getHomepageBackgroundUnified());
             } else {
-                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl());
+                $homepageImage = path($application->getHomepageBackgroundImageUrl());
             }
 
             $homepageImageB64 = Siberian_Image::open($homepageImage)
@@ -274,9 +276,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @param $currentLanguage
-     * @param Siberian_Controller_Request_Http $request
+     * @param $request
      * @return array|false|string
      * @throws Zend_Exception
      */
@@ -322,6 +324,12 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $embedPayload = $optionValue->getEmbedPayload($request);
                     }
 
+                    try {
+                        $settings = Json::decode($optionValue->getSettings());
+                    } catch (\Exception $e) {
+                        $settings = [];
+                    }
+
                     // End link special code!
                     $featureBlock[] = [
                         'value_id' => (integer) $optionValue->getId(),
@@ -351,6 +359,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'embed_payload' => $embedPayload,
                         'position' => (integer) $optionValue->getPosition(),
                         'homepage' => (boolean) ($optionValue->getFolderCategoryId() === null),
+                        'settings' => $settings,
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
@@ -519,7 +528,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @param $application
      * @param $currentLanguage
-     * @return array|false|string
+     * @return array|false|mixed|string
+     * @throws Zend_Translate_Exception
      */
     public function _translationBlock ($application, $currentLanguage)
     {
@@ -559,6 +569,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $application
      * @param $loadBlock
      * @return mixed
+     * @throws Zend_Session_Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function _customerBlock ($application, $loadBlock)
     {

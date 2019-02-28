@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Application_Model_Application_Abstract
  *
@@ -1134,13 +1136,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             if (!$customerAccount->getId()) {
                 $newOptionValue = new Application_Model_Option_Value();
 
-                // Ajoute les données
+                // Ajoutes les données
                 $newOptionValue
                     ->setAppId($this->getId())
                     ->setOptionId($option->getId())
                     ->setPosition($newOptionValue->getPosition() ? $newOptionValue->getPosition() : 0)
                     ->setIsvisible(1)
                     ->setIconId($option->getDefaultIconId())
+                    ->setSettings(Json::encode([
+                        "enable_facebook_login" => true,
+                        "enable_registration" => true,
+                    ]))
                     ->save();
 
                 $this->_options = (new Application_Model_Option_Value())
@@ -1160,6 +1166,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array
+     * @throws \Siberian\Exception
      */
     public function getOptionIds()
     {

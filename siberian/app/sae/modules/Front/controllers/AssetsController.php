@@ -15,8 +15,8 @@ class Front_AssetsController extends Front_Controller_App_Default
             $base_url = $request->getBaseUrl();
             $application = $this->getApplication();
             $useBackgroundForAll = $application->getUseHomepageBackgroundImageInSubpages();
-            $device_width = $request->getParam('device_width');
-            $device_height = $request->getParam('device_height');
+            $device_width = $request->getParam("device_width");
+            $device_height = $request->getParam("device_height");
 
             if ($device_height > $device_width) {
                 $ratio = $device_height / $device_width;
@@ -34,7 +34,7 @@ class Front_AssetsController extends Front_Controller_App_Default
             try {
                 $backgrounds['home'] = Siberian_Image::getForMobileUnified(
                     $base_url,
-                    Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundUnified())
+                    path($application->getHomepageBackgroundUnified())
                 );
                 $backgrounds['landscape_home'] = $backgrounds['home'];
             } catch (Exception $e) {
@@ -77,6 +77,12 @@ class Front_AssetsController extends Front_Controller_App_Default
                     $backgrounds[$value_id] = $background;
                     $backgrounds['landscape_' . $value_id] = ($landscape_background === null) ?
                         $background : $landscape_background;
+
+                    // Special case for tabbar_account
+                    if ($option->getCode() === "tabbar_account") {
+                        $backgrounds["account"] = $backgrounds[$value_id];
+                        $backgrounds["landscape_account"] = $backgrounds['landscape_' . $value_id];
+                    }
                 }
             }
 
