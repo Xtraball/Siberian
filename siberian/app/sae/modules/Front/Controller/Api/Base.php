@@ -510,6 +510,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
         }
 
+        if (version_compare($appVersion, "4.16.0", "<")) {
+            // Apply patches.
+
+            # 1. Places
+            $fixedPages = [];
+            foreach ($dataHomepage["pages"] as &$page) {
+                if ($page["code"] !== "tabbar_account") {
+                    $fixedPages[] = $page;
+                }
+            }
+            $dataHomepage["pages"] = $fixedPages;
+        }
+
         // Don't cache customer informations!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);

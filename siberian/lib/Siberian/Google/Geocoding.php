@@ -11,7 +11,6 @@ class Siberian_Google_Geocoding
      */
     public static function getLatLng($address, $apiKey = null)
     {
-
         if (!empty($address["address"])) {
             $address = str_replace(PHP_EOL, " ", $address["address"]);
         } else {
@@ -57,7 +56,6 @@ class Siberian_Google_Geocoding
         }
 
         return $data;
-
     }
 
     /**

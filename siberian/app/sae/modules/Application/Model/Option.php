@@ -96,15 +96,14 @@ class Application_Model_Option extends Core_Model_Default
     public function findTabbarAccount()
     {
         $application = $this->getApplication();
-        //if ()
 
         $datas = [
             'option_id' => 'customer_account',
             'design_code' => design_code(),
             'value_id' => 'customer_account',
             'code' => 'tabbar_account',
-            'name' => $this->getApplication()->getTabbarAccountName(),
-            'tabbar_name' => $this->getApplication()->getTabbarAccountName(),
+            'name' => $application->getTabbarAccountName(),
+            'tabbar_name' => $application->getTabbarAccountName(),
             'is_ajax' => 0,
             'price' => 0.00,
             'is_active' => 1,
@@ -115,8 +114,8 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('customer_account');
 
-        if ($this->getApplication()->getAccountIconId()) {
-            $icon_id = $this->getApplication()->getAccountIconId();
+        if ($application->getAccountIconId()) {
+            $icon_id = $application->getAccountIconId();
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
             $icon_url = $icon->getUrl();
