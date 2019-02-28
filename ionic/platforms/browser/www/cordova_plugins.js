@@ -257,6 +257,14 @@ module.exports = [
         "id": "InAppBrowser.InAppBrowserProxy",
         "pluginId": "InAppBrowser",
         "runs": true
+    },
+    {
+        "file": "plugins/Permissions/www/permissions-dummy.js",
+        "id": "Permissions.Permissions",
+        "pluginId": "Permissions",
+        "clobbers": [
+            "cordova.plugins.permissions"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -267,7 +275,8 @@ module.exports.metadata =
     "Camera": "4.0.3",
     "Device": "2.0.2",
     "File": "6.0.1",
-    "InAppBrowser": "3.0.0"
+    "InAppBrowser": "3.0.0",
+    "Permissions": "1.0.0"
 }
 // BOTTOM OF METADATA
 });
