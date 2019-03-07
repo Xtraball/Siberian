@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Siberian_Google_Geocoding
  */
@@ -25,8 +27,8 @@ class Siberian_Google_Geocoding
         $data = ['', ''];
 
         /** First search in geocache */
-        $geocoding = new Cache_Model_Geocoding();
-        $geocoding->find($address, "key");
+        $geocoding = (new Cache_Model_Geocoding())
+            ->find($address, "key");
 
         if ($geocoding->getId()) {
             return [
@@ -56,6 +58,83 @@ class Siberian_Google_Geocoding
         }
 
         return $data;
+    }
+
+    /**
+     * @param $address
+     * @param null $apiKey
+     * @return bool
+     */
+    public static function validateAddress($address, $apiKey = null)
+    {
+        if (!empty($address["address"])) {
+            $address = str_replace(PHP_EOL, " ", $address["address"]);
+        } else {
+            $address = join(", ", [
+                $address["street"],
+                $address["postcode"],
+                $address["city"],
+                !empty($address["country"]) ? $address["country"] : null
+            ]);
+        }
+        $address = str_replace(" ", "+", $address);
+
+        /** First search in geocache */
+        $geoCoding = (new Cache_Model_Geocoding())
+            ->find($address, "key");
+
+        if ($geoCoding->getId()) {
+            return $geoCoding;
+        }
+
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
+        $rawResponse = @file_get_contents($url);
+        if ($rawResponse && $coordinatesDatas = @json_decode($rawResponse)) {
+            if (!empty($coordinatesDatas->results[0]->geometry->location)) {
+                $latlng = $coordinatesDatas->results[0]->geometry->location;
+                $precision = $coordinatesDatas->results[0]->geometry->location_type;
+                $data = [
+                    !empty($latlng->lat) ? $latlng->lat : '',
+                    !empty($latlng->lng) ? $latlng->lng : ''
+                ];
+
+                $geoCoding->setKey($address);
+                $geoCoding->setRawResult($rawResponse);
+                $geoCoding->setLatitude($data[0]);
+                $geoCoding->setLongitude($data[1]);
+                $geoCoding->setPrecision($precision);
+                $geoCoding->save();
+
+                return $geoCoding;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Utility method to extract address components from google answer!
+     *
+     * @param $rawJson
+     * @return array
+     */
+    public static function rawToParts ($rawJson)
+    {
+        $parts = Json::decode($rawJson);
+        $components = $parts["results"][0]["address_components"];
+
+        $simpleParts = [];
+        foreach ($components as $component) {
+            $types = $component["types"];
+            foreach ($types as $type) {
+                if ($type === "political") {
+                    continue;
+                }
+                $simpleParts[$type] = $component["long_name"];
+            }
+        }
+
+        return $simpleParts;
     }
 
     /**
