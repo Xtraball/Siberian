@@ -300,6 +300,136 @@ ion-content {
   }
 }
 
+/** UTILS */
+.light,
+a.light {
+  &.light-custom {
+    color: $util-custom-text;
+  }
+}
+.light-bg {
+  &.light-bg-custom {
+    background-color: $util-custom-bg;
+  }
+}
+.light-border {
+  &.light-border-custom {
+    border-color: $util-custom-border;
+  }
+}
+
+.positive, a.positive {
+  &.positive-custom {
+    color: $util-positive-custom-text;
+  }
+}
+.positive-bg {
+  &.positive-bg-custom {
+    background-color: $util-positive-custom-bg;
+  }
+}
+.positive-border {
+  &.positive-border-custom {
+    border-color: $util-positive-custom-border;
+  }
+}
+
+.calm, a.calm {
+  &.calm-custom {
+    color: $util-calm-custom-text;
+  }
+}
+.calm-bg {
+  &.calm-bg-custom {
+    background-color: $util-calm-custom-bg;
+  }
+}
+.calm-border {
+  &.calm-border-custom {
+    border-color: $util-calm-custom-border;
+  }
+}
+
+.assertive, a.assertive {
+  &.assertive-custom {
+    color: $util-assertive-custom-text;
+  }
+}
+.assertive-bg {
+  &.assertive-bg-custom {
+    background-color: $util-assertive-custom-bg;
+  }
+}
+.assertive-border {
+  &.assertive-border-custom {
+    border-color: $util-assertive-custom-border;
+  }
+}
+
+.balanced, a.balanced {
+  &.balanced-custom {
+    color: $util-balanced-custom-text;
+  }
+}
+.balanced-bg {
+  &.balanced-bg-custom {
+    background-color: $util-balanced-custom-bg;
+  }
+}
+.balanced-border {
+  &.balanced-border-custom {
+    border-color: $util-balanced-custom-border;
+  }
+}
+
+.energized, a.energized {
+  &.energized-custom {
+    color: $util-energized-custom-text;
+  }
+}
+.energized-bg {
+  &.energized-bg-custom {
+    background-color: $util-energized-custom-bg;
+  }
+}
+.energized-border {
+  &.energized-border-custom {
+    border-color: $util-energized-custom-border;
+  }
+}
+
+.royal, a.royal {
+  &.royal-custom {
+    color: $util-royal-custom-text;
+  }
+}
+.royal-bg {
+  &.royal-bg-custom {
+    background-color: $util-royal-custom-bg;
+  }
+}
+.royal-border {
+  &.royal-border-custom {
+    border-color: $util-royal-custom-border;
+  }
+}
+
+.dark, a.dark {
+  &.dark-custom {
+    color: $util-dark-custom-text;
+  }
+}
+.dark-bg {
+  &.dark-bg-custom {
+    background-color: $util-dark-custom-bg;
+  }
+}
+.dark-border {
+  &.dark-border-custom {
+    border-color: $util-dark-custom-border;
+  }
+}
+
 /* CHECKBOX */
 .checkbox-custom {
   background-color: $checkbox-general-custom-bg;
