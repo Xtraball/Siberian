@@ -9,6 +9,9 @@
 
 global $_config;
 
+$here = __DIR__;
+putenv("TMP={$here}/var/tmp");
+
 $oldUmask = umask(003);
 
 if (!file_exists('./config.php')) {
