@@ -259,6 +259,12 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/com.xtraball.cordova.plugin.navigator/src/browser/NavigatorProxy.js",
+        "id": "com.xtraball.cordova.plugin.navigator.NavigatorProxy",
+        "pluginId": "com.xtraball.cordova.plugin.navigator",
+        "runs": true
+    },
+    {
         "file": "plugins/Permissions/www/permissions-dummy.js",
         "id": "Permissions.Permissions",
         "pluginId": "Permissions",
@@ -276,6 +282,7 @@ module.exports.metadata =
     "Device": "2.0.2",
     "File": "6.0.1",
     "InAppBrowser": "3.0.0",
+    "com.xtraball.cordova.plugin.navigator": "0.1.0",
     "Permissions": "1.0.0"
 }
 // BOTTOM OF METADATA
