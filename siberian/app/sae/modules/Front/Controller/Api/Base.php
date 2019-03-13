@@ -285,7 +285,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public function _featureBlock($application, $currentLanguage, $request)
     {
         $appVersion = $request->getBodyParams()["version"];
-
         $appId = $application->getId();
         $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
@@ -330,6 +329,40 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $settings = [];
                     }
 
+                    // Special uri places
+                    $_featureUrl = $optionValue->getUrl(null, [
+                        "value_id" => $optionValue->getId()
+                    ], false);
+                    $_featurePath = $optionValue->getPath(null, [
+                        "value_id" => $optionValue->getId()
+                    ], "mobile");
+
+                    // Special feature for places!
+                    if ($optionValue->getCode() === "places") {
+                        if (array_key_exists("default_page", $settings)) {
+                            switch ($settings["default_page"]) {
+                                case "categories":
+                                    $_featureUrl = __url("/places/mobile_list/categories", [
+                                        "value_id" => $optionValue->getId()
+                                    ]);
+                                    $_featurePath = __path("/places/mobile_list/categories", [
+                                        "value_id" => $optionValue->getId()
+                                    ]);
+                                    break;
+                                case "places":
+                                    $_featureUrl = __url("/places/mobile_list/index", [
+                                        "value_id" => $optionValue->getId(),
+                                        "category_id" => ""
+                                    ]);
+                                    $_featurePath = __path("/places/mobile_list/index", [
+                                        "value_id" => $optionValue->getId(),
+                                        "category_id" => ""
+                                    ]);
+                                    break;
+                            }
+                        }
+                    }
+
                     // End link special code!
                     $featureBlock[] = [
                         'value_id' => (integer) $optionValue->getId(),
@@ -339,14 +372,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
-                        'url' => $optionValue->getUrl(null, [
-                            'value_id' => $optionValue->getId()
-                        ], false),
+                        'url' => $_featureUrl,
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
-                        'path' => $optionValue->getPath(null, [
-                            'value_id' => $optionValue->getId()
-                        ], 'mobile'),
+                        'path' => $_featurePath,
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
                         'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
                         'is_locked' => (boolean) $optionValue->isLocked(),

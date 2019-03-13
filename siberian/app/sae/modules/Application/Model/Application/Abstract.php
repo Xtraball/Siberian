@@ -1134,7 +1134,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                     ]);
 
             if (!$customerAccount->getId()) {
-                // Ajoutes les données
+
+                // Create the account feature
                 $customerAccount
                     ->setAppId($this->getId())
                     ->setTabbarName(__($option->getName()))
@@ -1150,8 +1151,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
                 $this->_options = (new Application_Model_Option_Value())
                     ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+
+                return $customerAccount;
             }
         }
+        return false;
     }
 
     /**
@@ -1326,45 +1330,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @return Application_Model_Option_Value
+     * @return $this|bool|null
      * @throws \Siberian\Exception
      */
     public function getMyAccount ()
     {
-        $option = (new Application_Model_Option())
-            ->find("tabbar_account", "code");
-        if (!$option->getId()) {
-            throw new \Siberian\Exception(__("My account feature is missing!"));
-        }
-
-        $customerAccount = (new Application_Model_Option_Value())
-            ->find(
-                [
-                    "app_id" => $this->getId(),
-                    "option_id" => $option->getId()
-                ]);
-
-        if (!$customerAccount->getId()) {
-            // Ajoutes les données
-            $customerAccount
-                ->setAppId($this->getId())
-                ->setTabbarName(__($option->getName()))
-                ->setOptionId($option->getId())
-                ->setPosition($customerAccount->getPosition() ? $customerAccount->getPosition() : 0)
-                ->setIsvisible(1)
-                ->setIconId($option->getDefaultIconId())
-                ->setSettings(Json::encode([
-                    "enable_facebook_login" => true,
-                    "enable_registration" => true,
-                ]))
-                ->save();
-
-            // Full refresh;
-            $customerAccount = (new Application_Model_Option_Value())
-                ->find($customerAccount->getId());
-        }
-
-        return $customerAccount;
+        return $this->checkCustomerAccount();
     }
 
     /**

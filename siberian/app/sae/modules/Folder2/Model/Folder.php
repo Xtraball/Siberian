@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Folder2_Model_Folder
  *
@@ -89,8 +91,9 @@ class Folder2_Model_Folder extends Core_Model_Default {
     }
 
     /**
-     * @param Application_Model_Option_Value $optionValue
-     * @return bool|array
+     * @param null $optionValue
+     * @return array|bool
+     * @throws Zend_Exception
      */
     public function getEmbedPayload($optionValue = null) {
         if (!$optionValue) {
@@ -162,9 +165,33 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     $useExternalApp = $objectLink->getUseExternalApp();
                 }
 
+                try {
+                    $settings = Json::decode($feature->getSettings());
+                } catch (\Exception $e) {
+                    $settings = [];
+                }
+
                 $url = $feature->getPath(null, [
                     'value_id' => $feature->getId()
                 ], 'mobile');
+
+                // Special feature for places!
+                if ($feature->getCode() === "places") {
+                    if (array_key_exists("default_page", $settings)) {
+                        switch ($settings["default_page"]) {
+                            case "categories":
+                                $url = $feature->getPath("/places/mobile_list/categories", [
+                                    "value_id" => $feature->getId()
+                                ], "mobile_custom");
+                                break;
+                            case "places":
+                                $url = $feature->getPath("/places/mobile_list/index", [
+                                    "value_id" => $feature->getId()
+                                ], "mobile_custom");
+                                break;
+                        }
+                    }
+                }
 
                 $pictureFile = null;
                 if ($feature->getIconId()) {
@@ -189,6 +216,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_link' => !(boolean) $feature->getIsAjax(),
                     'has_parent_folder' => true,
                     'is_feature' => true,
+                    'settings' => $settings,
                     'is_active' => (boolean) $feature->isActive(),
                     'is_locked' => (boolean) $feature->isLocked(),
                     'value_id' => (integer) $feature->getId(),

@@ -201,15 +201,17 @@ class Application_Customization_FeaturesController extends Application_Controlle
             if ($useMysAccount) {
                 $myAccount = $application->getMyAccount();
 
-                $rowAccount = $this
-                    ->getLayout()
-                    ->addPartial(
-                        'row_' . $myAccount->getId(),
-                        'application_view_customization_features_list_options',
-                        'application/customization/features/list/options/li.phtml')
-                    ->setOptionValue($myAccount)
-                    ->setIsSortable(1)
-                    ->toHtml();
+                if ($myAccount !== false) {
+                    $rowAccount = $this
+                        ->getLayout()
+                        ->addPartial(
+                            'row_' . $myAccount->getId(),
+                            'application_view_customization_features_list_options',
+                            'application/customization/features/list/options/li.phtml')
+                        ->setOptionValue($myAccount)
+                        ->setIsSortable(1)
+                        ->toHtml();
+                }
             }
 
             $payload = [

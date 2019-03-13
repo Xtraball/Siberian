@@ -67,13 +67,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
 
-            $sortingType = 'date';
-            if ($optionValue->getMetadataValue("places_order_alpha")) {
-                $sortingType = 'alpha';
-            } else if ($optionValue->getMetadataValue("places_order")) {
-                $sortingType = 'distance';
-            }
-
+            // Default sort is distance, model will determine if location is sent and sort by alpha ion fallback!
+            $sortingType = "distance";
             $params = [
                 "offset" => $offset,
                 "limit" => $limit,
