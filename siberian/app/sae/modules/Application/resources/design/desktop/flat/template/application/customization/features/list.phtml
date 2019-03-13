@@ -570,7 +570,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                 }
 
                                 $('#option_value_' + datas.value_id).remove();
-                                if (!datas.use_my_account) $('#option_value_customer_account').hide();
+
                                 carouselSearch.clearSearch(function () {
                                     carousel.update().slideToPage(1);
                                 });
@@ -644,8 +644,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             $("#option_values").append(li);
 
                             // Appends my account is required
-                            if (datas.use_my_account) {
-                                $('#option_value_customer_account').show();
+                            if (datas.use_my_account &&
+                                datas.my_account) {
 
                                 var liAccount = createElementFromHTML(datas.my_account);
                                 liAccount = $(liAccount);

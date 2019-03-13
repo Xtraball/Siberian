@@ -350,6 +350,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                                     ]);
                                     break;
                                 case "places":
+                                default:
                                     $_featureUrl = __url("/places/mobile_list/index", [
                                         "value_id" => $optionValue->getId(),
                                         "category_id" => ""
@@ -360,6 +361,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                                     ]);
                                     break;
                             }
+                        } else {
+                            $_featureUrl = __url("/places/mobile_list/index", [
+                                "value_id" => $optionValue->getId(),
+                                "category_id" => ""
+                            ]);
+                            $_featurePath = __path("/places/mobile_list/index", [
+                                "value_id" => $optionValue->getId(),
+                                "category_id" => ""
+                            ]);
                         }
                     }
 

@@ -241,9 +241,11 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     /** Reset filters */
     $scope.clearFilters = function(skipSearch) {
-        $scope.categories.forEach(function (category) {
-            category.isSelected = false;
-        });
+        if ($scope.categories) {
+            $scope.categories.forEach(function (category) {
+                category.isSelected = false;
+            });
+        }
 
         $scope.filters.categories = null;
         $scope.filters.fulltext = "";
@@ -332,11 +334,13 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
             // Select the category if needed
             if ($stateParams.category_id !== undefined) {
                 $scope.clearFilters(true);
-                $scope.categories.forEach(function (category) {
-                    if (category.id == $stateParams.category_id) {
-                        category.isSelected = true;
-                    }
-                });
+                if ($scope.categories) {
+                    $scope.categories.forEach(function (category) {
+                        if (category.id == $stateParams.category_id) {
+                            category.isSelected = true;
+                        }
+                    });
+                }
             }
 
             // To ensure a fast loading even when GPS is off, we neeeeeed to decrease the GPS timeout!

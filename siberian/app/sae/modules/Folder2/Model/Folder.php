@@ -185,12 +185,18 @@ class Folder2_Model_Folder extends Core_Model_Default {
                                 ]);
                                 break;
                             case "places":
+                            default:
                                 $url = __path("/places/mobile_list/index", [
                                     "value_id" => $feature->getId(),
                                     "category_id" => ""
                                 ]);
                                 break;
                         }
+                    } else {
+                        $url = __path("/places/mobile_list/index", [
+                            "value_id" => $optionValue->getId(),
+                            "category_id" => ""
+                        ]);
                     }
                 }
 
