@@ -180,14 +180,15 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     if (array_key_exists("default_page", $settings)) {
                         switch ($settings["default_page"]) {
                             case "categories":
-                                $url = $feature->getPath("/places/mobile_list/categories", [
+                                $url = __path("/places/mobile_list/categories", [
                                     "value_id" => $feature->getId()
-                                ], "mobile_custom");
+                                ]);
                                 break;
                             case "places":
-                                $url = $feature->getPath("/places/mobile_list/index", [
-                                    "value_id" => $feature->getId()
-                                ], "mobile_custom");
+                                $url = __path("/places/mobile_list/index", [
+                                    "value_id" => $feature->getId(),
+                                    "category_id" => ""
+                                ]);
                                 break;
                         }
                     }
