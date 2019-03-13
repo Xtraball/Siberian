@@ -48,7 +48,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                                                       Places) {
 
     /** Routing history for forward action */
-    if ($ionicHistory.backView().stateName === 'places-home') {
+    if ($ionicHistory.backView() &&
+        $ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
 
@@ -155,7 +156,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                                                 $stateParams, $translate, $timeout, Places, Modal) {
 
     /** Routing history for forward action */
-    if ($ionicHistory.backView().stateName === 'places-home') {
+    if ($ionicHistory.backView() &&
+        $ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
 
