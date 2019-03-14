@@ -570,7 +570,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                 }
 
                                 $('#option_value_' + datas.value_id).remove();
-                                if (!datas.use_my_account) $('#option_value_customer_account').hide();
+
                                 carouselSearch.clearSearch(function () {
                                     carousel.update().slideToPage(1);
                                 });
@@ -627,7 +627,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                     reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                         if (datas.page_html) {
-                            if (datas.use_my_account) $('#option_value_customer_account').show();
 
                             function createElementFromHTML(htmlString) {
                                 var div = document.createElement('div');
@@ -642,7 +641,22 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                             var a = li.children('a');
 
-                            $('#option_value_customer_account').before(li);
+                            $("#option_values").append(li);
+
+                            // Appends my account is required
+                            if (datas.use_my_account &&
+                                datas.my_account) {
+
+                                var liAccount = createElementFromHTML(datas.my_account);
+                                liAccount = $(liAccount);
+
+                                var myAccountId = liAccount.attr("id");
+
+                                if ($("#" + myAccountId).length === 0) {
+                                    $("#option_values").append(liAccount);
+                                }
+                            }
+
                             this.close();
                             preview.close(true);
 

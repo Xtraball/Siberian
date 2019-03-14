@@ -24,19 +24,23 @@ function extract___($original)
     if (__getConfig("extract") === true) {
         global $extractTranslations;
 
+        if (!is_array($extractTranslations)) {
+            $extractTranslations = [];
+        }
+
         // Special binding for modules
         $file = path("/var/tmp/orphans.po");
 
         if (!is_file($file)) {
             touch($file);
         }
-        if ($extractTranslations === null) {
-            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        if (!array_key_exists($file, $extractTranslations)) {
+            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
         }
 
-        $translation = $extractTranslations->insert(null, $original);
+        $translation = $extractTranslations[$file]->insert(null, $original);
         $translation->setTranslation($original);
-        $extractTranslations->toPoFile($file);
+        $extractTranslations[$file]->toPoFile($file);
     }
 }
 
@@ -44,6 +48,11 @@ function extract_p__($context, $original)
 {
     if (__getConfig("extract") === true) {
         global $extractTranslations;
+
+        if (!is_array($extractTranslations)) {
+            $extractTranslations = [];
+        }
+
         $modules = [
             "cabride" => "Cabride",
         ];
@@ -59,13 +68,13 @@ function extract_p__($context, $original)
         if (!is_file($file)) {
             touch($file);
         }
-        if ($extractTranslations === null) {
-            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        if (!array_key_exists($file, $extractTranslations)) {
+            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
         }
 
-        $translation = $extractTranslations->insert($context, $original);
+        $translation = $extractTranslations[$file]->insert($context, $original);
         $translation->setTranslation($original);
-        $extractTranslations->toPoFile($file);
+        $extractTranslations[$file]->toPoFile($file);
     }
 }
 

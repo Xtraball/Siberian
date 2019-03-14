@@ -2,6 +2,7 @@
 
 use Siberian\Hook;
 use Siberian\Account;
+use Siberian\Json;
 
 /**
  * Class Front_Controller_Api_Base
@@ -127,8 +128,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @return array|false|string
+     * @throws Zend_Exception
      */
     public function _loadBlock ($application)
     {
@@ -139,9 +141,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             // Homepage image url!
             if ($application->getSplashVersion() == '2') {
-                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundUnified());
+                $homepageImage = path($application->getHomepageBackgroundUnified());
             } else {
-                $homepageImage = Core_Model_Directory::getBasePathTo($application->getHomepageBackgroundImageUrl());
+                $homepageImage = path($application->getHomepageBackgroundImageUrl());
             }
 
             $homepageImageB64 = Siberian_Image::open($homepageImage)
@@ -274,16 +276,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @param $currentLanguage
-     * @param Siberian_Controller_Request_Http $request
+     * @param $request
      * @return array|false|string
      * @throws Zend_Exception
      */
     public function _featureBlock($application, $currentLanguage, $request)
     {
         $appVersion = $request->getBodyParams()["version"];
-
         $appId = $application->getId();
         $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
@@ -322,6 +323,56 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $embedPayload = $optionValue->getEmbedPayload($request);
                     }
 
+                    try {
+                        $settings = Json::decode($optionValue->getSettings());
+                    } catch (\Exception $e) {
+                        $settings = [];
+                    }
+
+                    // Special uri places
+                    $_featureUrl = $optionValue->getUrl(null, [
+                        "value_id" => $optionValue->getId()
+                    ], false);
+                    $_featurePath = $optionValue->getPath(null, [
+                        "value_id" => $optionValue->getId()
+                    ], "mobile");
+
+                    // Special feature for places!
+                    if ($optionValue->getCode() === "places") {
+                        if (array_key_exists("default_page", $settings)) {
+                            switch ($settings["default_page"]) {
+                                case "categories":
+                                    $_featureUrl = __url("/places/mobile_list/categories", [
+                                        "value_id" => $optionValue->getId()
+                                    ]);
+                                    $_featurePath = __path("/places/mobile_list/categories", [
+                                        "value_id" => $optionValue->getId()
+                                    ]);
+                                    break;
+                                case "places":
+                                default:
+                                    $_featureUrl = __url("/places/mobile_list/index", [
+                                        "value_id" => $optionValue->getId(),
+                                        "category_id" => ""
+                                    ]);
+                                    $_featurePath = __path("/places/mobile_list/index", [
+                                        "value_id" => $optionValue->getId(),
+                                        "category_id" => ""
+                                    ]);
+                                    break;
+                            }
+                        } else {
+                            $_featureUrl = __url("/places/mobile_list/index", [
+                                "value_id" => $optionValue->getId(),
+                                "category_id" => ""
+                            ]);
+                            $_featurePath = __path("/places/mobile_list/index", [
+                                "value_id" => $optionValue->getId(),
+                                "category_id" => ""
+                            ]);
+                        }
+                    }
+
                     // End link special code!
                     $featureBlock[] = [
                         'value_id' => (integer) $optionValue->getId(),
@@ -331,14 +382,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
-                        'url' => $optionValue->getUrl(null, [
-                            'value_id' => $optionValue->getId()
-                        ], false),
+                        'url' => $_featureUrl,
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
-                        'path' => $optionValue->getPath(null, [
-                            'value_id' => $optionValue->getId()
-                        ], 'mobile'),
+                        'path' => $_featurePath,
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
                         'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
                         'is_locked' => (boolean) $optionValue->isLocked(),
@@ -351,6 +398,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'embed_payload' => $embedPayload,
                         'position' => (integer) $optionValue->getPosition(),
                         'homepage' => (boolean) ($optionValue->getFolderCategoryId() === null),
+                        'settings' => $settings,
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
@@ -501,6 +549,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
         }
 
+        if (version_compare($appVersion, "4.16.0", "<")) {
+            // Apply patches.
+
+            # 1. Places
+            $fixedPages = [];
+            foreach ($dataHomepage["pages"] as &$page) {
+                if ($page["code"] !== "tabbar_account") {
+                    $fixedPages[] = $page;
+                }
+            }
+            $dataHomepage["pages"] = $fixedPages;
+        }
+
         // Don't cache customer informations!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
@@ -519,7 +580,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @param $application
      * @param $currentLanguage
-     * @return array|false|string
+     * @return array|false|mixed|string
+     * @throws Zend_Translate_Exception
      */
     public function _translationBlock ($application, $currentLanguage)
     {
@@ -559,6 +621,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $application
      * @param $loadBlock
      * @return mixed
+     * @throws Zend_Session_Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function _customerBlock ($application, $loadBlock)
     {

@@ -96,15 +96,14 @@ class Application_Model_Option extends Core_Model_Default
     public function findTabbarAccount()
     {
         $application = $this->getApplication();
-        //if ()
 
         $datas = [
             'option_id' => 'customer_account',
             'design_code' => design_code(),
             'value_id' => 'customer_account',
             'code' => 'tabbar_account',
-            'name' => $this->getApplication()->getTabbarAccountName(),
-            'tabbar_name' => $this->getApplication()->getTabbarAccountName(),
+            'name' => $application->getTabbarAccountName(),
+            'tabbar_name' => $application->getTabbarAccountName(),
             'is_ajax' => 0,
             'price' => 0.00,
             'is_active' => 1,
@@ -115,8 +114,8 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('customer_account');
 
-        if ($this->getApplication()->getAccountIconId()) {
-            $icon_id = $this->getApplication()->getAccountIconId();
+        if ($application->getAccountIconId()) {
+            $icon_id = $application->getAccountIconId();
             $icon = new Media_Model_Library_Image();
             $icon->find($icon_id);
             $icon_url = $icon->getUrl();
@@ -386,21 +385,23 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function getUrl($action, $params = [], $feature_url = true, $env = null)
     {
-
         $url = null;
-//        if($this->getIsDummy()) {
-//            $url = '#';
-//        }
-//        else
         if ($this->getUri()) {
             $uri = $this->getUri();
-            if (!is_null($env) AND $this->getData("{$env}_uri")) {
+            if (!is_null($env) &&
+                $this->getData("{$env}_uri")) {
                 $uri = $this->getData("{$env}_uri");
             }
 
-            if (!$feature_url AND $env != "desktop" AND !$this->getIsAjax() AND $this->getObject()->getLink()) {
+            if (!$feature_url &&
+                $env !== "desktop" &&
+                !$this->getIsAjax() &&
+                $this->getObject()->getLink()) {
+
                 $url = (string)$this->getObject()->getLink()->getUrl();
-            } else $url = parent::getUrl($uri . $action, $params);
+            } else {
+                $url = parent::getUrl($uri . $action, $params);
+            }
         } else {
             $url = '/front/index/noroute';
         }
@@ -442,6 +443,10 @@ class Application_Model_Option extends Core_Model_Default
                 }
 
                 if ($env == "mobile") {
+                    $request->useApplicationKey(true);
+                }
+
+                if ($env == "mobile_custom") {
                     $request->useApplicationKey(true);
                 }
             }

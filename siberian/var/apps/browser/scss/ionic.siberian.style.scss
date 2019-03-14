@@ -300,6 +300,136 @@ ion-content {
   }
 }
 
+/** UTILS */
+.light,
+a.light {
+  &.light-custom {
+    color: $util-custom-text;
+  }
+}
+.light-bg {
+  &.light-bg-custom {
+    background-color: $util-custom-bg;
+  }
+}
+.light-border {
+  &.light-border-custom {
+    border-color: $util-custom-border;
+  }
+}
+
+.positive, a.positive {
+  &.positive-custom {
+    color: $util-positive-custom-text;
+  }
+}
+.positive-bg {
+  &.positive-bg-custom {
+    background-color: $util-positive-custom-bg;
+  }
+}
+.positive-border {
+  &.positive-border-custom {
+    border-color: $util-positive-custom-border;
+  }
+}
+
+.calm, a.calm {
+  &.calm-custom {
+    color: $util-calm-custom-text;
+  }
+}
+.calm-bg {
+  &.calm-bg-custom {
+    background-color: $util-calm-custom-bg;
+  }
+}
+.calm-border {
+  &.calm-border-custom {
+    border-color: $util-calm-custom-border;
+  }
+}
+
+.assertive, a.assertive {
+  &.assertive-custom {
+    color: $util-assertive-custom-text;
+  }
+}
+.assertive-bg {
+  &.assertive-bg-custom {
+    background-color: $util-assertive-custom-bg;
+  }
+}
+.assertive-border {
+  &.assertive-border-custom {
+    border-color: $util-assertive-custom-border;
+  }
+}
+
+.balanced, a.balanced {
+  &.balanced-custom {
+    color: $util-balanced-custom-text;
+  }
+}
+.balanced-bg {
+  &.balanced-bg-custom {
+    background-color: $util-balanced-custom-bg;
+  }
+}
+.balanced-border {
+  &.balanced-border-custom {
+    border-color: $util-balanced-custom-border;
+  }
+}
+
+.energized, a.energized {
+  &.energized-custom {
+    color: $util-energized-custom-text;
+  }
+}
+.energized-bg {
+  &.energized-bg-custom {
+    background-color: $util-energized-custom-bg;
+  }
+}
+.energized-border {
+  &.energized-border-custom {
+    border-color: $util-energized-custom-border;
+  }
+}
+
+.royal, a.royal {
+  &.royal-custom {
+    color: $util-royal-custom-text;
+  }
+}
+.royal-bg {
+  &.royal-bg-custom {
+    background-color: $util-royal-custom-bg;
+  }
+}
+.royal-border {
+  &.royal-border-custom {
+    border-color: $util-royal-custom-border;
+  }
+}
+
+.dark, a.dark {
+  &.dark-custom {
+    color: $util-dark-custom-text;
+  }
+}
+.dark-bg {
+  &.dark-bg-custom {
+    background-color: $util-dark-custom-bg;
+  }
+}
+.dark-border {
+  &.dark-border-custom {
+    border-color: $util-dark-custom-border;
+  }
+}
+
 /* CHECKBOX */
 .checkbox-custom {
   background-color: $checkbox-general-custom-bg;
@@ -851,93 +981,4 @@ div.ui-background-loader {
   margin-left: 15px !important;
   min-height: 20px !important;
   margin-bottom: 15px !important;
-}
-
-/** ionSlideBoxTabs */
-
-$slidingTabsHeight: 48px;
-
-ion-slide {
-  background-color: #f0f0f0;
-
-  &:nth-child(2n) {
-    background-color: #fff;
-  }
-}
-
-.slider {
-  height: 100%;
-}
-
-
-.slidingTabs {
-  height: $slidingTabsHeight;
-
-  .scroll {
-    height: auto;
-    min-width: 100%;
-  }
-
-  z-index: 10;
-
-  ul {
-    background-color: $bar-custom-bg;
-    height: $slidingTabsHeight;
-
-    li {
-      height: $slidingTabsHeight;
-      line-height: $slidingTabsHeight;
-      text-align: center;
-      float: left;
-      margin: 0;
-      padding: 0 12px 20px 12px;
-      font-size: 11px;
-      text-transform: uppercase;
-      color: $bar-custom-text;
-      @include transition(color .25s ease-in-out);
-      position: relative;
-      overflow: hidden;
-
-      &.tab-active {
-        color: $bar-custom-text;
-      }
-
-      .ink {
-        display: block;
-        position: absolute;
-        background: $bar-custom-text;
-        border-radius: 100%;
-        transform: scale(0);
-      }
-
-      .ink.animate {
-        @include animation(ripple 0.65s linear);
-      }
-
-    }
-  }
-
-  .tab-indicator-wrapper {
-    width: 100%;
-    height: 2px;
-    background-color: $bar-custom-text;
-    -webkit-transform: translateY(-2px);
-    position: absolute;
-
-    .tab-indicator {
-      height: 100%;
-
-      background-color: $bar-custom-text;
-      width: 70px;
-      position: relative;
-    }
-  }
-
-}
-
-@-webkit-keyframes ripple {
-  100% {
-    opacity: 0;
-    transform: scale(2.5);
-  }
 }

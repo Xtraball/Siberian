@@ -8,7 +8,7 @@
 
     <div class="item item-custom item-icon-left"
          ng-click="displayAccountForm()"
-         ng-if="displayed_from == 'account'">
+         ng-if="displayed_from == 'account' && myAccount.settings.enable_registration">
         <i class="icon ion-ios-plus-empty"></i>
         {{ "Create an account" | translate }}
     </div>
@@ -16,15 +16,15 @@
     <div ng-include="'templates/cms/privacypolicy/l1/view.html'"></div>
 
     <div class="item item-custom item-icon-left"
-         ng-click="scrollTop();displayLoginForm()"
+         ng-click="displayLoginForm()"
          ng-if="displayed_from == 'login'">
         <i class="icon ion-ios-person"></i>
         {{ "Click here to log-in" | translate }}
     </div>
 
     <div class="item item-custom item-icon-left"
-         ng-click="scrollTop();displayAccountForm()"
-         ng-if="displayed_from == 'account'">
+         ng-click="displayAccountForm()"
+         ng-if="displayed_from == 'account' && myAccount.settings.enable_registration">
         <i class="icon ion-ios-plus-empty"></i>
         {{ "Create an account" | translate }}
     </div>

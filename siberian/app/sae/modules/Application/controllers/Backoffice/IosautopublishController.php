@@ -537,7 +537,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             throw new Exception("Wrong params.");
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 

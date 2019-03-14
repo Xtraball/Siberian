@@ -263,7 +263,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.15.6'
+                            version: '4.16.0'
                         },
                         timeout: 20000,
                         cache: !isOverview,

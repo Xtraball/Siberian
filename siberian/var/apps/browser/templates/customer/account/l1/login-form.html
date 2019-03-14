@@ -6,18 +6,20 @@
     <div class="list"
          ng-class="{'card': card_design}">
 
+        <div style="margin-bottom: 20px;"></div>
+
         <div class="item item-text-wrap item-icon-left item-custom"
              ng-click="_pcustomer_login_fb()"
-             ng-if="!is_logged_in"
+             ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
             <i class="icon ion-social-facebook-outline"></i>
             {{ "Log-in with Facebook" | translate }}
         </div>
 
-        <div class="item item-divider item-divider-custom"
-             ng-if="!is_logged_in"
+        <div class="item item-divider item-divider-custom text-center"
+             ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
-            <p>{{ "Or with your account" | translate }} :</p>
+            <p>{{ "Or with your account" | translate }}</p>
         </div>
 
         <label class="item item-input item-custom">
@@ -52,6 +54,7 @@
             {{ "Forgot your password?" | translate }}
         </div>
         <div class="item item-custom item-icon-left"
+             ng-if="myAccount.settings.enable_registration"
              ng-click="displayAccountForm()">
             <i class="icon ion-ios-plus-empty"></i>
             {{ "Create an account" | translate }}

@@ -9,6 +9,9 @@
 
 global $_config;
 
+$here = __DIR__;
+putenv("TMP={$here}/var/tmp");
+
 $oldUmask = umask(003);
 
 if (!file_exists('./config.php')) {
@@ -77,7 +80,7 @@ function dbg($data)
 {
     file_put_contents(
         '/tmp/debug.log',
-        print_r($data, true) . PHP_EOL,
+        date("d/m/Y H:i:s") . ": " . print_r($data, true) . PHP_EOL,
         FILE_APPEND);
 }
 

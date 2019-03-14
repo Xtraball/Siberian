@@ -41,6 +41,11 @@ class ClamAV
     private $clamd_port = 3310;
     private $message = "";
 
+    /**
+     * @var bool
+     */
+    protected static $temporaryDisabled = false;
+
     // Your basic constructor.
     // Pass in an array of options to change the default settings.  You probably will only ever need to change the socket
     public function __construct($opts = [])
@@ -87,6 +92,11 @@ class ClamAV
     // Function to ping Clamd to make sure its functioning
     public function ping()
     {
+        // Temporary disabling security!
+        if (self::isTemporaryDisabled()) {
+            return false;
+        }
+
         $ping = $this->send("PING");
         if ($ping == "PONG") {
             return true;
@@ -128,5 +138,46 @@ class ClamAV
             }
         }
         return false;
+    }
+
+
+
+    /**
+     * Disable until next reload
+     */
+    public static function disableTemporary()
+    {
+        if (!self::$temporaryDisabled) {
+            self::log("disableTemporary");
+
+            self::$temporaryDisabled = true;
+        }
+    }
+
+    /**
+     * Re enable from a previous disable
+     */
+    public static function enable()
+    {
+        self::$temporaryDisabled = false;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isTemporaryDisabled()
+    {
+        return self::$temporaryDisabled;
+    }
+
+    /**
+     * @param $message
+     */
+    public static function log($message)
+    {
+        log_info($message);
+        if (defined("CRON")) {
+            echo sprintf("[Siberian\ClamAV] %s \n", $message);
+        }
     }
 }

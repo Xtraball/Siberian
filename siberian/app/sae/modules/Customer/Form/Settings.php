@@ -14,7 +14,7 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path('/customer/application/editsettings'))
+            ->setAction(__path('/customer/application/edit-settings'))
             ->setAttrib('id', 'form-customer-settings');
 
         // Bind as a create form!

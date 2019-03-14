@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Application_Model_Application_Abstract
  *
@@ -1132,21 +1134,28 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                     ]);
 
             if (!$customerAccount->getId()) {
-                $newOptionValue = new Application_Model_Option_Value();
 
-                // Ajoute les données
-                $newOptionValue
+                // Create the account feature
+                $customerAccount
                     ->setAppId($this->getId())
+                    ->setTabbarName(__($option->getName()))
                     ->setOptionId($option->getId())
-                    ->setPosition($newOptionValue->getPosition() ? $newOptionValue->getPosition() : 0)
+                    ->setPosition($customerAccount->getPosition() ? $customerAccount->getPosition() : 0)
                     ->setIsvisible(1)
                     ->setIconId($option->getDefaultIconId())
+                    ->setSettings(Json::encode([
+                        "enable_facebook_login" => true,
+                        "enable_registration" => true,
+                    ]))
                     ->save();
 
                 $this->_options = (new Application_Model_Option_Value())
                     ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+
+                return $customerAccount;
             }
         }
+        return false;
     }
 
     /**
@@ -1160,6 +1169,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array
+     * @throws \Siberian\Exception
      */
     public function getOptionIds()
     {
@@ -1320,45 +1330,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @return Application_Model_Option_Value
+     * @return $this|bool|null
      * @throws \Siberian\Exception
      */
     public function getMyAccount ()
     {
-        $option = (new Application_Model_Option())
-            ->find("tabbar_account", "code");
-        if (!$option->getId()) {
-            throw new \Siberian\Exception(__("My account feature is missing!"));
-        }
-
-        $customerAccount = (new Application_Model_Option_Value())
-            ->find(
-                [
-                    "app_id" => $this->getId(),
-                    "option_id" => $option->getId()
-                ]);
-
-        if (!$customerAccount->getId()) {
-            // Ajoute les données
-            $customerAccount
-                ->setAppId($this->getId())
-                ->setTabbarName(__($option->getName()))
-                ->setOptionId($option->getId())
-                ->setPosition($customerAccount->getPosition() ? $customerAccount->getPosition() : 0)
-                ->setIsvisible(1)
-                ->setIconId($option->getDefaultIconId())
-                ->save();
-
-            // Full refresh;
-            $customerAccount = (new Application_Model_Option_Value())
-                ->find($customerAccount->getId());
-        }
-
-        return $customerAccount;
+        return $this->checkCustomerAccount();
     }
 
     /**
-     * @return array|mixed|null|string
+     * @return mixed
+     * @throws Zend_Exception
      */
     public function getCountryCode()
     {
@@ -1374,13 +1356,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function isPublished()
     {
-
         foreach ($this->getDevices() as $device) {
             if ($device->isPublished()) return true;
         }
 
         return false;
-
     }
 
     /**
@@ -1416,7 +1396,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public static function getBaseImagePath()
     {
-        return Core_Model_Directory::getBasePathTo(static::PATH_IMAGE);
+        return path(static::PATH_IMAGE);
     }
 
     /**
@@ -1432,7 +1412,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public static function getBaseTemplatePath()
     {
-        return Core_Model_Directory::getBasePathTo(self::PATH_TEMPLATES);
+        return path(self::PATH_TEMPLATES);
     }
 
     /**
@@ -1449,11 +1429,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * @param $code
      * @return bool
+     * @throws Zend_Exception
      */
     public static function hasModuleInstalled($code)
     {
-        $module = new Installer_Model_Installer_Module();
-        $module->prepare($code, false);
+        $module = (new Installer_Model_Installer_Module())
+            ->prepare($code, false);
 
         return $module->isInstalled();
     }
@@ -1463,8 +1444,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getLogo()
     {
-        $logo = self::getImagePath() . $this->getData('logo');
-        $baseLogo = self::getBaseImagePath() . $this->getData('logo');
+        $logo = self::getImagePath() . $this->getData("logo");
+        $baseLogo = self::getBaseImagePath() . $this->getData("logo");
         if (is_file($baseLogo)) {
             return $logo;
         }
@@ -1480,7 +1461,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getIcon($size = null, $name = null, $base = false)
     {
-
         if (!$size) {
             $size = 114;
         }
@@ -1521,13 +1501,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array
+     * @throws Zend_Exception
      */
     public function getAllPictos()
     {
         $picto_urls = [];
         foreach ($this->getBlocks() as $block) {
             $dir = Core_Model_Directory::getDesignPath(true, "/images/pictos/", "mobile");
-            $pictos = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, 4096), RecursiveIteratorIterator::SELF_FIRST);
+            $pictos = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($dir, 4096),
+                RecursiveIteratorIterator::SELF_FIRST);
             foreach ($pictos as $picto) {
                 $colorized_color = Core_Model_Lib_Image::getColorizedUrl($picto->getPathName(), $block->getColor());
                 $colorized_background_color = Core_Model_Lib_Image::getColorizedUrl($picto->getPathName(), $block->getBackgroundColor());
@@ -1569,18 +1552,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         try {
-            $image = '';
+            $image = "";
 
-            if ($type == "standard") {
-                $image_name = $this->getData('startup_image');
+            if ($type === "standard") {
+                $image_name = $this->getData("startup_image");
             } else {
-                $image_name = $this->getData('startup_image_' . $type);
+                $image_name = $this->getData("startup_image_" . $type);
             }
 
             if (!empty($image_name) && file_exists(self::getBaseImagePath() . $image_name)) {
                 $image = $base ? self::getBaseImagePath() . $image_name : self::getImagePath() . $image_name;
             }
-
         } catch (Exception $e) {
             $image = '';
         }

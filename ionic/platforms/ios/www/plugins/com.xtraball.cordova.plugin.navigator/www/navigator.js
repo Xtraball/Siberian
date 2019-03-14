@@ -1,4 +1,4 @@
-cordova.define("com.xtraball.cordova.plugin.navigator.WazeNavigator", function(require, exports, module) {
+cordova.define("com.xtraball.cordova.plugin.navigator.Navigator", function(require, exports, module) {
 /**
  *
  * @type {{navigateByPosition: Navigator.navigate}}
@@ -19,9 +19,7 @@ Navigator = {
         } catch (e) {
             console.error("Error on navigate by position: " + e.message);
         }
-
     }
-
 };
 module.exports = Navigator;
 

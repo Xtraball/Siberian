@@ -119,12 +119,33 @@ angular.module('starter').factory('Places', function ($pwaRequest) {
     };
 
     factory.settings = function () {
+        var defaults = {
+            "default_page": "places",
+            "default_layout": "place-100",
+            "distance_unit": "km",
+            "listImagePriority": "thumbnail",
+            "defaultPin": "pin",
+            "categories": []
+        };
+
         /* The url and agent must be non-null */
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Places.settings] missing value_id');
+            return $pwaRequest.reject({settings: defaults});
         }
 
-        return $pwaRequest.resolve($pwaRequest.getPayloadForValueId(factory.value_id).settings);
+        var settings = $pwaRequest.getPayloadForValueId(factory.value_id).settings;
+        if (!settings ||
+            !settings.hasOwnProperty("default_layout") ||
+            !settings.hasOwnProperty("default_page")) {
+
+            return $pwaRequest.get('places/mobile_list/fetch-settings', {
+                urlParams: {
+                    value_id: this.value_id,
+                }
+            });
+        }
+
+        return $pwaRequest.resolve({settings: settings});
     };
 
     return factory;

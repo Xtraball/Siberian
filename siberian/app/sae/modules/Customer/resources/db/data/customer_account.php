@@ -33,7 +33,7 @@ $data = [
 $option = Siberian_Feature::install($category, $data, ['code']);
 
 # Layouts
-$layoutData = [1, 2];
+$layoutData = [1];
 $slug = "tabbar_account";
 
 Siberian_Feature::installLayouts($option->getId(), $slug, $layoutData);

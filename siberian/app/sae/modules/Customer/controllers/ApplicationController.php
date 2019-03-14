@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Customer_ApplicationController
  */
@@ -32,6 +34,49 @@ class Customer_ApplicationController extends Application_Controller_Default
 
     }
 
+    /**
+     *
+     */
+    public function editSettingsAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $optionValue = $this->getCurrentOptionValue();
+
+            $form = new Customer_Form_Settings();
+            $values = $request->getParams();
+            if ($form->isValid($values)) {
+
+                $settings = [
+                    "enable_facebook_login" => filter_var($values["enable_facebook_login"], FILTER_VALIDATE_BOOLEAN),
+                    "enable_registration" => filter_var($values["enable_registration"], FILTER_VALIDATE_BOOLEAN),
+                ];
+
+                $optionValue
+                    ->setSettings(Json::encode($settings))
+                    ->save();
+
+                $payload = [
+                    "success" => true,
+                    "message" => __("Settings saved!"),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+        
+        $this->_sendJson($payload);
+    }
+    
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {

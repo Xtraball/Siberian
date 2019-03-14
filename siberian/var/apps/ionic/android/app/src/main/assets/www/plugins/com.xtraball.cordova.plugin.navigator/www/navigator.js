@@ -19,9 +19,7 @@ Navigator = {
         } catch (e) {
             console.error("Error on navigate by position: " + e.message);
         }
-
     }
-
 };
 module.exports = Navigator;
 

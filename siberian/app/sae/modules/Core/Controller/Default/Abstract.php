@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\ClamAV;
+
 /**
  * Class Core_Controller_Default_Abstract
  *
@@ -100,6 +102,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         if ($session->getAdminId()) {
             $session->getAdmin()->updateLastAction();
+        }
+
+        // Upload APK clamav trigger
+        if ("application/backoffice_iosautopublish/uploadapk" === $this->getFullActionName()) {
+            ClamAv::disableTemporary();
         }
 
         if (!empty($_FILES)) {
