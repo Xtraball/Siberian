@@ -2,7 +2,7 @@
 
 namespace Siberian;
 
-use Siberian\Cpanel\Api;
+use Siberian\Cpanel\Api as CpanelApi;
 
 /**
  * Class \Siberian\Cpanel
@@ -48,7 +48,7 @@ class Cpanel
      */
     public function updateCertificate($ssl_certificate)
     {
-        $cpanel = new Api($this->config["username"], $this->config["password"], $this->config["host"], true);
+        $cpanel = new CpanelApi($this->config["username"], $this->config["password"], $this->config["host"], true);
 
         // @note From here, server may reload, and then interrupt the connection
         // This is normal behavior, as it's reloading the SSL Certificate.
