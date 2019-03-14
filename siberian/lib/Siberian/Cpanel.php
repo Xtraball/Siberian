@@ -5,9 +5,11 @@ namespace Siberian;
 use Siberian\Cpanel\Api as CpanelApi;
 
 /**
- * Class \Siberian\Cpanel
+ * Class Cpanel
+ * @package Siberian
+ *
+ * @replay 4.16.1
  */
-
 class Cpanel
 {
 

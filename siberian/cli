@@ -98,6 +98,12 @@ try {
             echo 'Export done.' . PHP_EOL;
             break;
         case 'version':
+            $newVersion = $argv[2];
+            if (empty($newVersion)) {
+                echo 'Nw version is empty, aborting.' . PHP_EOL;
+                die();
+            }
+
             $versionContent = file_get_contents('./lib/Siberian/Version.php');
             $versionContent = preg_replace("#const VERSION = '([0-9a-z\.\-]+)';#im",
                 'const VERSION = \'' . $argv[2] . '\';', $versionContent);
