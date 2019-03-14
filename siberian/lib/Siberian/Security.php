@@ -94,7 +94,7 @@ class Security
     }
 
     /**
-     * @param $_post
+     * @param $_get
      * @param $session
      * @throws Exception
      * @throws \Zend_Exception

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Places_Mobile_ListController
  *
@@ -111,6 +113,61 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             ];
         }
 
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function fetchSettingsAction ()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+
+            // Set default settings
+            $defaults = [
+                "default_page" => (string) "places",
+                "default_layout" => (string) "place-100",
+                "distance_unit" => (string) "km",
+                "listImagePriority" => (string) "thumbnail",
+                "defaultPin" => (string) "pin",
+                "categories" => []
+            ];
+
+            if (!$optionValue->getId()) {
+                $settings = $defaults;
+            } else {
+                try {
+                    $settings = Json::decode($optionValue->getSettings());
+                } catch (\Exception $e) {
+                    $settings = $defaults;
+                }
+
+                $categories = (new Places_Model_Category())
+                    ->findAll(['value_id' => $optionValue->getId()], 'position ASC');
+
+                $settings["categories"] = [];
+                foreach ($categories as $category) {
+                    $settings["categories"][] = [
+                        'id' => (integer) $category->getId(),
+                        'title' => (string) $category->getTitle(),
+                        'subtitle' => (string) $category->getSubtitle(),
+                        'picture' => (string) $category->getPicture(),
+                    ];
+                }
+            }
+            
+            $payload = [
+                "success" => true,
+                "settings" => $settings,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+        
         $this->_sendJson($payload);
     }
 
