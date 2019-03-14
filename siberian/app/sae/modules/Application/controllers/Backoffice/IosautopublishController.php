@@ -1,7 +1,5 @@
 <?php
 
-use Siberian\ClamAV;
-
 /**
  * Class Application_Backoffice_IosautopublishController
  */
@@ -201,9 +199,6 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
      */
     public function uploadapkAction ()
     {
-        // Some APK are triggering false positive with dex files.
-        ClamAV::disableTemporary();
-
         $request = $this->getRequest();
         try {
             $appId = $request->getParam('appId', false);
