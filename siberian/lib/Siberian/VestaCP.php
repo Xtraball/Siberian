@@ -8,8 +8,10 @@ use Api_Model_Key;
 
 /**
  * Class VestaCP
+ * @package Siberian
+ *
+ * @replay 4.16.1
  */
-
 class VestaCP
 {
 

@@ -3,17 +3,18 @@
 namespace Siberian;
 
 /**
- * Class \Siberian\Version
+ * Class Version
+ * @package Siberian
  *
- * @ignore
+ * @replay 4.16.1
  */
 class Version
 {
     const TYPE = 'SAE';
     const NAME = 'Single App Edition';
-    const VERSION = '4.16.0';
+    const VERSION = '4.16.1';
     const NATIVE_VERSION = '10';
-    const API_VERSION = '1';
+    const API_VERSION = '4';
 
     /**
      * @param string|array $type
