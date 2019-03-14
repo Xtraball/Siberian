@@ -204,7 +204,6 @@ class Application_Model_Option extends Core_Model_Default
 
     /**
      * @return Core_Model_Default
-     * @throws Zend_Exception
      */
     public function getObject()
     {
@@ -215,7 +214,7 @@ class Application_Model_Option extends Core_Model_Default
                     if (!class_exists($class)) {
                         throw new Siberian_Exception("The current class doesn't exists {$class}");
                     }
-                    $this->_object = new $class();
+                    $this->_object = new $class(); // New class on line ensure the object exists at least!
                     $this->_object->find($this->getValueId(), 'value_id');
                 } catch (Exception $e) {
                     $this->_object = class_exists($class) ? new $class() : new Core_Model_Default();
@@ -223,6 +222,12 @@ class Application_Model_Option extends Core_Model_Default
             } else {
                 $this->_object = new Core_Model_Default();
             }
+        }
+
+        // Last failsafe!
+        if (empty($this->_object) ||
+            is_null($this->_object)) {
+            $this->_object = new Core_Model_Default();
         }
 
         return $this->_object;
