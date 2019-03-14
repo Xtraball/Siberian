@@ -120,11 +120,8 @@
                 <tr>
                     <th style="width:14%;"><?php echo __("UID") ?></th>
                     <th style="width:20%;"><?php echo __("Name") ?></th>
-                    <th><?php echo __("Minute") ?></th>
-                    <th><?php echo __("Hour") ?></th>
-                    <th><?php echo __("Day of month") ?></th>
-                    <th><?php echo __("Month") ?></th>
-                    <th><?php echo __("Day of week") ?></th>
+                    <th style="width:30%;"><?php echo __("Schedule") ?></th>
+                    <th><?php echo __("Cron expression") ?></th>
                     <th><?php echo __("Active ?") ?></th>
                     <th style="text-align:right;"><?php echo __("Actions") ?></th>
                 </tr>
@@ -134,11 +131,8 @@
                 <tr>
                     <td>{{ system_task.command }}</td>
                     <td>{{ system_task.name }}</td>
-                    <td>{{ system_task.minute }}</td>
-                    <td>{{ system_task.hour }}</td>
-                    <td>{{ system_task.month_day }}</td>
-                    <td>{{ system_task.month }}</td>
-                    <td>{{ system_task.week_day }}</td>
+                    <td>{{ system_task.human }}</td>
+                    <td>{{ system_task.cron_expr }}</td>
                     <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td>
                     <td ng-show="system_task.is_active != '1'"><?php echo __("No"); ?></td>
                     <td style="text-align:right;">
@@ -150,7 +144,7 @@
                     </td>
                 </tr>
                 <tr ng-show="system_task.show_info">
-                    <td colspan="9">
+                    <td colspan="6">
                         <table class="info-table">
                             <tr ng-show="system_task.more_info.length">
                                 <td><b><?php echo __("Note:") ?></b></td>
@@ -187,29 +181,24 @@
             <tr>
                 <th style="width:14%;"><?php echo __("UID") ?></th>
                 <th style="width:20%;"><?php echo __("Name") ?></th>
-                <th><?php echo __("Minute") ?></th>
-                <th><?php echo __("Hour") ?></th>
-                <th><?php echo __("Day of month") ?></th>
-                <th><?php echo __("Month") ?></th>
-                <th><?php echo __("Day of week") ?></th>
+                <th style="width:30%;"><?php echo __("Schedule") ?></th>
+                <th><?php echo __("Cron expression") ?></th>
                 <th><?php echo __("Active ?") ?></th>
                 <th style="text-align:right;"><?php echo __("Actions") ?></th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="task in tasks" ng-show="tasks.length">
+            <tr ng-repeat="task in tasks"
+                ng-show="tasks.length">
                 <td>{{ task.command }}</td>
                 <td>{{ task.name }}</td>
-                <td>{{ task.minute }}</td>
-                <td>{{ task.hour }}</td>
-                <td>{{ task.month_day }}</td>
-                <td>{{ task.month }}</td>
-                <td>{{ task.week_day }}</td>
+                <td>{{ task.human }}</td>
+                <td>{{ task.cron_expr }}</td>
                 <td ng-show="task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="task.is_active != '1'"><?php echo __("No"); ?></td>
                 <td style="text-align:right;"></td>
             </tr>
             <tr ng-show="!tasks.length">
-                <td colspan="9"><?php echo __("No module/user tasks") ?></td>
+                <td colspan="6"><?php echo __("No module/user tasks") ?></td>
             </tr>
             </tbody>
         </table>

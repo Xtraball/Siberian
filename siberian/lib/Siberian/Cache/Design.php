@@ -1,16 +1,23 @@
 <?php
 
+namespace Siberian\Cache;
+
+use Siberian\Cache as Cache;
+use Siberian\Version as Version;
+
+use \DirectoryIterator;
+use \RecursiveIteratorIterator;
+use \RecursiveDirectoryIterator;
+
 /**
- * Class Siberian_Cache_Design
+ * Class \Siberian\Cache\Design
  *
- * @version 4.14.0
+ * @version 4.16.0
  *
  * Adding inheritance system in the design folders
  *
  */
-class Siberian_Cache_Design
-    extends Siberian_Cache
-    implements Siberian_Cache_Interface
+class Design extends Cache implements CacheInterface
 {
     /**
      * @var
@@ -44,7 +51,7 @@ class Siberian_Cache_Design
      */
     public static function init()
     {
-        $editionCache = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
+        $editionCache = path(static::CACHE_PATH);
         if (!is_file($editionCache)) {
             static::saveCache('local', self::LOCAL_PATH);
         }
@@ -63,7 +70,7 @@ class Siberian_Cache_Design
             $cache = static::getCache();
         }
 
-        $base = Core_Model_Directory::getBasePathTo('');
+        $base = path("");
         chdir($base);
         $version = "{$version}design/";
 
@@ -158,14 +165,14 @@ class Siberian_Cache_Design
         $cache = static::fetch($path, []);
 
         // Write cache!
-        $editionCache = Core_Model_Directory::getBasePathTo('app/' . $type . '/design/design-cache.json');
+        $editionCache = path('app/' . $type . '/design/design-cache.json');
         $options = (APPLICATION_ENV === 'development') ? JSON_PRETTY_PRINT : 0;
         try {
             $jsonCache = json_encode($cache, $options);
             if ($jsonCache !== false) {
                 file_put_contents($editionCache, $jsonCache);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Something went wrong while saving cache!
         }
 
@@ -178,16 +185,16 @@ class Siberian_Cache_Design
      */
     public static function loadCache ($type, $path)
     {
-        $editionCache = Core_Model_Directory::getBasePathTo('app/' . $type . '/design/design-cache.json');
+        $editionCache = path('app/' . $type . '/design/design-cache.json');
         try {
             if (is_file($editionCache)) {
                 $cache = file_get_contents($editionCache);
                 $cachedContent = json_decode($cache, true);
                 if ($cachedContent === null) {
-                    throw new Siberian_Exception(__('Unable to read %s cache file', $editionCache));
+                    throw new \Exception(__('Unable to read %s cache file', $editionCache));
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Error!
             $cachedContent = self::saveCache($type, $path);
         }
@@ -231,7 +238,7 @@ class Siberian_Cache_Design
     public static function preWalk()
     {
         // Load edition pre-built caches
-        $localType = strtolower(Siberian_Version::TYPE);
+        $localType = strtolower(Version::TYPE);
         switch ($localType) {
             default:
             case 'sae':
@@ -375,6 +382,6 @@ class Siberian_Cache_Design
      */
     public static function getBasePath($base_file, $type = null, $design_code = null)
     {
-        return Core_Model_Directory::getBasePathTo(self::getPath($base_file, $type, $design_code));
+        return path(self::getPath($base_file, $type, $design_code));
     }
 }

@@ -143,22 +143,21 @@ class Zend_Cache_Core
             Zend_Cache::throwException("Options passed were not an array"
             . " or Zend_Config instance.");
         }
-        while (list($name, $value) = each($options)) {
+        foreach($options as $name => $value) {
             $this->setOption($name, $value);
         }
         $this->_loggerSanity();
     }
 
     /**
-     * Set options using an instance of type Zend_Config
-     *
      * @param Zend_Config $config
-     * @return Zend_Cache_Core
+     * @return $this
+     * @throws Zend_Cache_Exception
      */
     public function setConfig(Zend_Config $config)
     {
         $options = $config->toArray();
-        while (list($name, $value) = each($options)) {
+        foreach($options as $name => $value) {
             $this->setOption($name, $value);
         }
         return $this;

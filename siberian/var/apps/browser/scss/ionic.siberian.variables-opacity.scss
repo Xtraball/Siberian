@@ -10,6 +10,7 @@ $bar-custom-active-border:        $bar-custom-border !default;
 
 /* HOMEPAGE */
 $homepage-custom-text:            #111 !default;
+$homepage-custom-image:           #111 !default;
 $homepage-custom-bg:              #fff !default;
 $homepage-custom-border:          #ddd !default;
 $homepage-custom-bg-translucent:  $homepage-custom-bg !default;
@@ -89,6 +90,71 @@ $button-dark-custom-text:              #ffffff !default;
 $button-dark-custom-border:            #111111 !default;
 $button-dark-custom-active-bg:         darken($button-dark-custom-bg, 10%) !default;
 $button-dark-custom-active-border:     darken($button-dark-custom-bg, 30%) !default;
+
+/* BADGES */
+$badge-custom-bg:                #f8f8f8 !default;
+$badge-custom-text:              #444 !default;
+
+$badge-light-custom-bg:                #ffffff !default;
+$badge-light-custom-text:              #444 !default;
+
+$badge-positive-custom-bg:                #387ef5 !default;
+$badge-positive-custom-text:              #ffffff !default;
+
+$badge-calm-custom-bg:                #11c1f3 !default;
+$badge-calm-custom-text:              #ffffff !default;
+
+$badge-balanced-custom-bg:                #33cd5f !default;
+$badge-balanced-custom-text:              #ffffff !default;
+
+$badge-energized-custom-bg:                #ffc900 !default;
+$badge-energized-custom-text:              #ffffff !default;
+
+$badge-assertive-custom-bg:                #ef473a !default;
+$badge-assertive-custom-text:              #ffffff !default;
+
+$badge-royal-custom-bg:                #886aea !default;
+$badge-royal-custom-text:              #ffffff !default;
+
+$badge-dark-custom-bg:                #444444 !default;
+$badge-dark-custom-text:              #ffffff !default;
+
+/* UTILS */
+$util-custom-bg:                #f8f8f8 !default;
+$util-custom-text:              #444 !default;
+$util-custom-border:            #b2b2b2 !default;
+
+$util-light-custom-bg:                #ffffff !default;
+$util-light-custom-text:              #444 !default;
+$util-light-custom-border:            #dddddd !default;
+
+$util-positive-custom-bg:                #387ef5 !default;
+$util-positive-custom-text:              #ffffff !default;
+$util-positive-custom-border:            #0c60ee !default;
+
+$util-calm-custom-bg:                #11c1f3 !default;
+$util-calm-custom-text:              #ffffff !default;
+$util-calm-custom-border:            #0a9dc7 !default;
+
+$util-balanced-custom-bg:                #33cd5f !default;
+$util-balanced-custom-text:              #ffffff !default;
+$util-balanced-custom-border:            #28a54c !default;
+
+$util-energized-custom-bg:                #ffc900 !default;
+$util-energized-custom-text:              #ffffff !default;
+$util-energized-custom-border:            #e6b500 !default;
+
+$util-assertive-custom-bg:                #ef473a !default;
+$util-assertive-custom-text:              #ffffff !default;
+$util-assertive-custom-border:            #e42112 !default;
+
+$util-royal-custom-bg:                #886aea !default;
+$util-royal-custom-text:              #ffffff !default;
+$util-royal-custom-border:            #6b46e5 !default;
+
+$util-dark-custom-bg:                #444444 !default;
+$util-dark-custom-text:              #ffffff !default;
+$util-dark-custom-border:            #111111 !default;
 
 /* CHECKBOX */
 $checkbox-general-custom-bg:      #fff !default;

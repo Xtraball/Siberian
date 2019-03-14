@@ -126,13 +126,20 @@
             </label>
         </section>
 
+        <!-- Version #2 of the custom login fields -->
+        <section ng-repeat="fields in customer.extendedFields track by $index">
+            <div ng-class="{'card': card_design}"
+                 ng-repeat="field in fields track by field.key"
+                 ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
+        </section>
+
     </div>
 
     <div class="list"
          ng-if="is_logged_in"
          ng-class="{'padding': card_design}">
         <div class="item item-divider item-divider-custom">
-            <p>{{ "Privacy" | translate }}:</p>
+            <p>{{ "Privacy" | translate }}</p>
         </div>
         <div class="item item-custom item-icon-left"
              ng-click="displayPrivacyPolicy('account')"

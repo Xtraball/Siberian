@@ -784,9 +784,7 @@
                     $("#total_visits").html("0");
                 }
             }
-        }).error(function() {
-            console.log("Error updating total visits metric");
-        });
+        }).error(function() {});
     }
 
     function updateAverageCartMetric(params) {
@@ -806,9 +804,7 @@
                     $("#total_cart").html("0");
                 }
             }
-        }).error(function() {
-            console.log("Error updating average cart metric");
-        });
+        }).error(function() {});
     }
 
     function updateLoyaltyMetric(params) {

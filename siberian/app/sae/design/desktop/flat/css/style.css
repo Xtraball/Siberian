@@ -244,11 +244,28 @@ i.fa.fa-plus {
     height: 100%;
     left: 250px;
     margin-left: -250px;
-    overflow-y: hidden;
     position: absolute;
     transition: all 0.5s ease 0s;
     width: 0;
     z-index: 10;
+}
+
+#left-sidebar-wrapper ul.sidebar-nav {
+    overflow-y: hidden;
+}
+
+.super-toggler {
+    width: 32px;
+    height: 32px;
+    display: block;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #525358;
+    border: 2px solid #f0f0f0;
+    right: -16px;
+    top: 16px;
+    text-align: center;
+    line-height: 28px;
 }
 
 #left-sidebar-wrapper.fixed, #right-sidebar-wrapper.fixed {
@@ -359,6 +376,7 @@ i.fa.fa-plus {
     text-align: center;
     display: inline-block;
     font-size: 15px;
+    margin-right: 4px;
 }
 
 .sub-bar i.icofont {
@@ -2614,16 +2632,17 @@ div.pp_pic_holder {
 /**
 Side bar left menu small screen
  */
+
 @media (max-width: 900px) {
     #wrapper.left-toggled #left-sidebar-wrapper {
         width: 68px;
     }
+
     #left-sidebar-wrapper {
         height: 100%;
         left: 68px;
         margin-left: -68px;
     }
-
     #left-sidebar-wrapper .sidebar-nav a span.sb-left-title {
         display: none;
     }
@@ -2887,7 +2906,7 @@ div#iphone {
     }
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1420px) {
     div#iphone {
         -ms-transform: scale(0.70);
         -moz-transform: scale(0.70);

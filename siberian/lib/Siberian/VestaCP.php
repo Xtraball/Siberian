@@ -1,14 +1,20 @@
 <?php
 
+namespace Siberian;
+
+use \Siberian\VestaCP\Api as Api;
+use Zend_Registry;
+use Api_Model_Key;
+
 /**
- * Class Siberian_VestaCP
+ * Class VestaCP
  */
 
-class Siberian_VestaCP
+class VestaCP
 {
 
     /**
-     * @var Siberian_VestaCP_Api
+     * @var Api
      */
     protected $api;
 
@@ -47,7 +53,7 @@ class Siberian_VestaCP
         $this->config["password"] = $vestacp_api->getPassword();
         $this->config["webspace"] = $vestacp_api->getWebspace();
 
-        $this->api = new Siberian_VestaCP_Api(
+        $this->api = new Api(
             $this->config["host"], $this->config["username"], $this->config["password"], $this->config["webspace"]);
     }
 

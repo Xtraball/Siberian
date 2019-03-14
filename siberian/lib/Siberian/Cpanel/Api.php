@@ -1,4 +1,7 @@
 <?php
+
+namespace Siberian\Cpanel;
+
 /**
  * PHP class to handle connections with cPanel's UAPI and API2 specifically through cURL requests as seamlessly and simply as possible.
  *
@@ -17,9 +20,9 @@
  */
 
 /**
- * Class Siberian_Cpanel_Api
+ * Class \Siberian\Cpanel\Api
  */
-class Siberian_Cpanel_Api {
+class Api {
 
     /**
      * @var string

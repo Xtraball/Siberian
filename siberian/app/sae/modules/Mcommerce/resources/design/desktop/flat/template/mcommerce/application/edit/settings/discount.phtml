@@ -138,8 +138,9 @@ $promos = $mcommerce->getPromos();
                     $('#edit_promo_'+datas.promo_id).unbind('click');
                     $('#remove_promo_'+datas.promo_id).unbind('click');
                     $('#promo_row_'+datas.promo_id).remove();
-                    console.log('#promo_row_'+datas.promo_id)
-                    if(!$('#existing_promos').find('li').length) $('#section_existing_promos').fadeOut();
+                    if(!$('#existing_promos').find('li').length) {
+                        $('#section_existing_promos').fadeOut();
+                    }
                 }
             });
         },

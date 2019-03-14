@@ -1,9 +1,17 @@
 <?php
 
+namespace Siberian;
+
+use Zend_Log;
+use Zend_Log_Writer_Stream;
+use System_Model_Config;
+use Core_Model_Secret;
+
 /**
- * Class Siberian_Log
+ * Class Log
+ * @package Siberian
  */
-class Siberian_Log extends Zend_Log
+class Log extends Zend_Log
 {
     /**
      * @var string
@@ -17,7 +25,7 @@ class Siberian_Log extends Zend_Log
      * @param int $level
      * @param bool $keep_filename
      * @return $this
-     * @throws Zend_Log_Exception
+     * @throws \Zend_Log_Exception
      */
     public function sendException($message, $prefix = "error_", $exception = true, $level = Zend_Log::CRIT,
                                   $keep_filename = false)
@@ -26,7 +34,7 @@ class Siberian_Log extends Zend_Log
         if (!$keep_filename || is_null($this->_filename)) {
             $this->_filename = sprintf("%s_%s.log", $prefix, uniqid());
         }
-        $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo("/var/log/{$this->_filename}"));
+        $writer = new Zend_Log_Writer_Stream(path("/var/log/{$this->_filename}"));
         $this->addWriter($writer);
         switch ($level) {
             case Zend_Log::INFO:
@@ -40,7 +48,7 @@ class Siberian_Log extends Zend_Log
         }
 
         if ($exception) {
-            if (APPLICATION_ENV == "production") {
+            if (APPLICATION_ENV === "production") {
                 # Submit bug report automatically. (Only when in production)
                 ob_start();
                 phpinfo();
@@ -59,7 +67,7 @@ class Siberian_Log extends Zend_Log
                 }
 
                 # error file content
-                $path = Core_Model_Directory::getBasePathTo("/var/log/{$this->_filename}");
+                $path = path("/var/log/{$this->_filename}");
                 $_error = file_get_contents($path);
 
                 $bug_report = [
@@ -67,15 +75,15 @@ class Siberian_Log extends Zend_Log
                     "data" => [
                         "servername" => $_SERVER["SERVER_NAME"],
                         "config" => $_config,
-                        "type" => Siberian_Version::TYPE,
-                        "version" => Siberian_Version::VERSION,
+                        "type" => Version::TYPE,
+                        "version" => Version::VERSION,
                         "raw_error" => base64_encode($_error),
                         "phpinfo" => base64_encode($phpinfo)
                     ]
                 ];
 
-                $request = new Siberian_Request();
-                $request->post(sprintf("http://stats.xtraball.com/errors.php?type=%s", Siberian_Version::TYPE), $bug_report);
+                $request = new Request();
+                $request->post(sprintf("http://stats.xtraball.com/errors.php?type=%s", Version::TYPE), $bug_report);
 
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 header("Location: /errors/500.php?log={$this->_filename}");
@@ -95,7 +103,7 @@ class Siberian_Log extends Zend_Log
      * @param $message
      * @param string $name
      * @param bool $keep_filename
-     * @throws Zend_Log_Exception
+     * @throws \Zend_Log_Exception
      */
     public function info($message, $name = "info", $keep_filename = true)
     {

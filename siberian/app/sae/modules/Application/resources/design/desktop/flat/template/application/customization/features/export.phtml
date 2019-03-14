@@ -34,8 +34,6 @@
 </div>
 
 <script type="text/javascript">
-    var tmp_directory = '<?php echo Core_Model_Directory::getTmpDirectory() ?>';
-
     $(document).ready(function() {
         bindForms("#feature_exporter_modal");
 
@@ -61,7 +59,6 @@
                 }
             },
             fail: function(el, data) {
-                console.log(data);
                 if(data.result.error) {
                     feature_form_error(data.result.message);
                 }

@@ -184,7 +184,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                               $title,
                               $message)
     {
-        $layout = new \Siberian_Layout();
+        $layout = new Siberian\Layout();
         $layout = $layout->loadEmail('queue', $nodeName);
         $layout
             ->setContentFor('base', 'email_title', __('Sources Generation') . ' - ' . $title)

@@ -1,12 +1,14 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Currency
+ * Class \Siberian\Currency
  *
  * @description Utility class for pricing.
  *
  */
-class Siberian_Currency
+class Currency
 {
 
     /**

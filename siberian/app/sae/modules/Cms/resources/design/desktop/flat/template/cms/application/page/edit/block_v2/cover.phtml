@@ -43,7 +43,6 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Cover::$image_
             $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
                 dataType: 'json',
                 add: function (el, data) {
-                    console.log(el, data);
                     data.submit();
                 },
                 done: function (el, data) {

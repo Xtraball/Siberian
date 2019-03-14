@@ -1,14 +1,21 @@
 <?php
 
+namespace Siberian\Cache;
+
+use Siberian\Cache as Cache;
+use Siberian\Version as Version;
+
+use \DirectoryIterator;
+
 /**
- * Class Siberian_Cache_Translation
+ * Class \Siberian\Cache\Translation
  *
- * @version 4.15.9
+ * @version 4.16.0
  *
  * Adding inheritance system in the translations
  */
 
-class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cache_Interface
+class Translation extends Cache implements CacheInterface
 {
     /**
      *
@@ -30,7 +37,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
      */
     public static function fetch($version, $cache = null)
     {
-        $version = Core_Model_Directory::getBasePathTo("{$version}modules/");
+        $version = path("{$version}modules/");
 
         $module_folders = new DirectoryIterator("$version");
 
@@ -38,7 +45,9 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
 
         /** Translations */
         foreach ($module_folders as $module_folder) {
-            if ($module_folder->isDir() && !$module_folder->isDot() && is_readable("{$module_folder->getPathname()}/resources/translations/")) {
+            if ($module_folder->isDir() &&
+                !$module_folder->isDot() &&
+                is_readable("{$module_folder->getPathname()}/resources/translations/")) {
 
                 $modules_translations = new DirectoryIterator("{$module_folder->getPathname()}/resources/translations/");
 
@@ -84,7 +93,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
      */
     public static function preWalk()
     {
-        $languages = Core_Model_Directory::getBasePathTo("languages");
+        $languages = path("languages");
 
         $cache = static::getCache();
 
@@ -132,7 +141,7 @@ class Siberian_Cache_Translation extends Siberian_Cache implements Siberian_Cach
      */
     public static function walk()
     {
-        switch(\Siberian_Version::VERSION) {
+        switch(Version::VERSION) {
             case "PE":
                 static::fetch(self::SAE_PATH);
                 static::fetch(self::MAE_PATH);

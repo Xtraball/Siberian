@@ -343,7 +343,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 var items_per_page = 10;
                 var is_folder = true;
                 $('#option_values li[rel="' + category_id + '"]').show();
-                console.log('setFolderId', category_id);
                 carouselSearch.setFolderId(category_id);
                 $('#go_up_root').removeClass('hide');
             }
@@ -512,9 +511,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 //Supprime option slider
                 pagesList.off('click', '.delete_page');
                 pagesList.on('click', '.delete_page', function (e) {
-                    var confirm_message = '<?php echo __('Delete this page?') ?>';
+                    var confirm_message = '<?php echo __jss('Delete this page?') ?>';
                     if ($(e.currentTarget).parent().parent().attr('rel').length > 0) {
-                        confirm_message = '<?php echo __(' "Remove this page from this folder?"'); ?>';
+                        confirm_message = '<?php echo __jss(' "Remove this page from this folder?"'); ?>';
                     }
 
                     if (confirm(confirm_message)) {
@@ -571,7 +570,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                 }
 
                                 $('#option_value_' + datas.value_id).remove();
-                                if (!datas.use_my_account) $('#option_value_customer_account').hide();
+
                                 carouselSearch.clearSearch(function () {
                                     carousel.update().slideToPage(1);
                                 });
@@ -628,7 +627,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                     reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                         if (datas.page_html) {
-                            if (datas.use_my_account) $('#option_value_customer_account').show();
 
                             function createElementFromHTML(htmlString) {
                                 var div = document.createElement('div');
@@ -643,7 +641,22 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                             var a = li.children('a');
 
-                            $('#option_value_customer_account').before(li);
+                            $("#option_values").append(li);
+
+                            // Appends my account is required
+                            if (datas.use_my_account &&
+                                datas.my_account) {
+
+                                var liAccount = createElementFromHTML(datas.my_account);
+                                liAccount = $(liAccount);
+
+                                var myAccountId = liAccount.attr("id");
+
+                                if ($("#" + myAccountId).length === 0) {
+                                    $("#option_values").append(liAccount);
+                                }
+                            }
+
                             this.close();
                             preview.close(true);
 

@@ -98,7 +98,7 @@ class Application_CustomizationController extends Application_Controller_Default
     public function baseEmail($nodeName,
                               $title)
     {
-        $layout = new \Siberian_Layout();
+        $layout = new Siberian\Layout();
         $layout = $layout->loadEmail('application', $nodeName);
         $layout
             ->setContentFor('base', 'email_title', __('Publication request') . ' - ' . $title)

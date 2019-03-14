@@ -119,9 +119,7 @@ $(document).ready(function () {
             success: function (data) {
                 updateProductCount();
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     };
 
@@ -196,9 +194,7 @@ $(document).ready(function () {
 
                 document.querySelector('ul.nested-categories').scrollTop = 2000000000;
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 
@@ -259,9 +255,7 @@ $(document).ready(function () {
 
                     updateProductCount();
                 },
-                error: function (response) {
-                    console.log(response);
-                }
+                error: function (response) {}
             });
         });
     });
@@ -352,9 +346,7 @@ $(document).ready(function () {
                     addFormat.trigger('click');
                 }, 100);
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 
@@ -416,9 +408,7 @@ $(document).ready(function () {
                     $('#enable_format').trigger('click');
                 }
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 

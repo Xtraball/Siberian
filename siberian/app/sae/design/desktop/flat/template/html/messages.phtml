@@ -7,22 +7,33 @@
             if ($this->hasSuccess()) {
                 foreach($this->getSuccess() as $success) {
                     ?>
-                    toastr.success('<?php echo __jss($success) ?>', null);
+                    toastr.success('<?php echo __jss($success) ?>', null, {
+                        timeOut: 4500,
+                        extendedTimeOut: 15000,
+                        progressBar: true
+                    });
                     <?php
                 }
             }
             if ($this->hasWarning()) {
                 foreach($this->getWarning() as $warning) {
                     ?>
-                    toastr.warning('<?php echo __jss($warning) ?>', null);
+                    toastr.warning('<?php echo __jss($warning) ?>', null, {
+                        timeOut: 4500,
+                        extendedTimeOut: 15000,
+                        progressBar: true
+                    });
                     <?php
                 }
             }
             if ($this->hasError()) {
                 foreach($this->getError() as $error) {
                     ?>
-                    toastr.error('<?php echo __jss($error) ?>', null,
-                        {timeOut: 6000, positionClass: "toast-top-center"});
+                    toastr.error('<?php echo __jss($error) ?>', null, {
+                        timeOut: 4500,
+                        extendedTimeOut: 15000,
+                        positionClass: "toast-top-center"
+                    });
                     <?php
                 }
             }

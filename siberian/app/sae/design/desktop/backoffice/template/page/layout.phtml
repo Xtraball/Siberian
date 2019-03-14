@@ -1,9 +1,9 @@
 <?php echo $this->doctype() ?>
 <html>
     <head>
-        <title><?php echo $this->_($this->getTitle()) ?></title>
+        <title><?php echo __($this->getTitle()) ?></title>
         <?php foreach($this->getMetas() as $meta) : ?>
-        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo $this->_($meta->getContent()); ?>" />
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo __($meta->getContent()); ?>" />
         <?php endforeach ?>
 
         <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>

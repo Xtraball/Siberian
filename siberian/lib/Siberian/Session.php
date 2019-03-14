@@ -1,16 +1,21 @@
 <?php
-/**
- * Class Siberian_Session
- *
- * @author Xtraball SAS <dev@xtraball.com>
- *
- * Release: <package_version>
- */
-class Siberian_Session
-{
 
+namespace Siberian;
+
+use Zend_Session;
+use Zend_Session_SaveHandler_DbTable;
+use Zend_Session_SaveHandler_Redis;
+
+/**
+ * Class Session
+ * @package Siberian
+ */
+class Session
+{
     /**
      * @param array $configSession
+     * @throws \Zend_Session_Exception
+     * @throws \Zend_Session_SaveHandler_Exception
      */
     public static function init($configSession = [])
     {

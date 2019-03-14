@@ -102,9 +102,17 @@
 /* By default each grid column will evenly distribute */
 /* across the grid. However, you can specify individual */
 /* columns to take up a certain size of the available area */
+.col-5 {
+  @include flex(0, 0, 5%);
+  max-width: 5%;
+}
 .col-10 {
   @include flex(0, 0, 10%);
   max-width: 10%;
+}
+.col-15 {
+  @include flex(0, 0, 15%);
+  max-width: 15%;
 }
 .col-20 {
   @include flex(0, 0, 20%);
@@ -114,25 +122,49 @@
   @include flex(0, 0, 25%);
   max-width: 25%;
 }
+.col-30 {
+  @include flex(0, 0, 30%);
+  max-width: 30%;
+}
 .col-33, .col-34 {
   @include flex(0, 0, 33.3333%);
   max-width: 33.3333%;
+}
+.col-35 {
+  @include flex(0, 0, 35%);
+  max-width: 35%;
 }
 .col-40 {
   @include flex(0, 0, 40%);
   max-width: 40%;
 }
+.col-45 {
+  @include flex(0, 0, 45%);
+  max-width: 45%;
+}
 .col-50 {
   @include flex(0, 0, 50%);
   max-width: 50%;
+}
+.col-55 {
+  @include flex(0, 0, 55%);
+  max-width: 55%;
 }
 .col-60 {
   @include flex(0, 0, 60%);
   max-width: 60%;
 }
+.col-65 {
+  @include flex(0, 0, 65%);
+  max-width: 65%;
+}
 .col-66, .col-67 {
   @include flex(0, 0, 66.6666%);
   max-width: 66.6666%;
+}
+.col-70 {
+  @include flex(0, 0, 70%);
+  max-width: 70%;
 }
 .col-75 {
   @include flex(0, 0, 75%);
@@ -142,9 +174,21 @@
   @include flex(0, 0, 80%);
   max-width: 80%;
 }
+.col-85 {
+  @include flex(0, 0, 85%);
+  max-width: 85%;
+}
 .col-90 {
   @include flex(0, 0, 90%);
   max-width: 90%;
+}
+.col-95 {
+  @include flex(0, 0, 95%);
+  max-width: 95%;
+}
+.col-100 {
+  @include flex(0, 0, 100%);
+  max-width: 100%;
 }
 
 

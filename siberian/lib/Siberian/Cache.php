@@ -1,16 +1,23 @@
 <?php
 
+namespace Siberian;
+
+use \RecursiveIteratorIterator;
+use \RecursiveDirectoryIterator;
+use \DirectoryIterator;
+use \Zend_Registry;
+
 /**
- * Class Siberian_Cache
+ * Class \Siberian\Cache
  *
- * @version 4.14.0
+ * @version 4.16.0
  *
  * Cache system for inheritance
  *
  * Contains all common references for Siberian_Cache_*
  */
 
-class Siberian_Cache
+class Cache
 {
     /**
      * @var string
@@ -62,7 +69,7 @@ class Siberian_Cache
      */
     public static function init()
     {
-        $basePathCache = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
+        $basePathCache = path(static::CACHE_PATH);
         // Never cache in development!
         if (static::CACHING && is_readable($basePathCache)) {
             $cached = json_decode(file_get_contents($basePathCache), true);
@@ -137,7 +144,7 @@ class Siberian_Cache
      */
     public static function clearCache()
     {
-        $path = Core_Model_Directory::getBasePathTo(static::CACHE_PATH);
+        $path = path(static::CACHE_PATH);
         if (file_exists($path)) {
             unlink($path);
         }
@@ -168,7 +175,7 @@ class Siberian_Cache
      */
     public static function __clearFolderSystem($pathFromSiberian)
     {
-        $base = Core_Model_Directory::getBasePathTo($pathFromSiberian);
+        $base = path($pathFromSiberian);
         exec("rm -rf {$base}/*");
     }
 
@@ -185,10 +192,10 @@ class Siberian_Cache
      */
     public static function __clearLog()
     {
-        $folder = Core_Model_Directory::getBasePathTo("var/log/");
+        $folder = path("var/log/");
 
         /** Backup android_pwd files */
-        $android_pwd_backup = Core_Model_Directory::getBasePathTo("var/apps/android/pwd");
+        $android_pwd_backup = path("var/apps/android/pwd");
         $logs = new DirectoryIterator($folder);
         foreach ($logs as $log) {
             if (!$log->isDir() && !$log->isDot()) {
@@ -209,7 +216,7 @@ class Siberian_Cache
      */
     public static function __clearLocks($name = null)
     {
-        $folder = Core_Model_Directory::getBasePathTo("var/tmp/");
+        $folder = path("var/tmp/");
 
         $locks = new DirectoryIterator($folder);
         foreach ($locks as $lock) {
@@ -237,19 +244,16 @@ class Siberian_Cache
     }
 
     /**
-     * Fetch disk usage
-     *
      * @param bool $cache
      * @return array|mixed
-     * @throws Exception
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
     public static function getDiskUsage($cache = false)
     {
         if (!$cache) {
             $cachedValue = __get('disk_usage_cache');
             if (!empty($cachedValue)) {
-                return Siberian_Json::decode($cachedValue);
+                return Json::decode($cachedValue);
             }
             return [
                 'total' => '-',
@@ -265,7 +269,7 @@ class Siberian_Cache
             function timeout($start)
             {
                 if ((time() - $start) > 300) {
-                    throw new \Siberian\Exception('timelimit hit');
+                    throw new Exception('timelimit hit');
                 }
             }
 
@@ -277,28 +281,28 @@ class Siberian_Cache
             try {
                 $start = time();
 
-                $var_log = Core_Model_Directory::getBasePathTo('var/log');
+                $var_log = path('var/log');
                 exec("du -cksh {$var_log}", $output);
                 $parts = explode("\t", end($output));
                 $var_log_size = $parts[0];
 
                 timeout($start);
 
-                $var_cache = Core_Model_Directory::getBasePathTo('var/cache');
+                $var_cache = path('var/cache');
                 exec("du -cksh {$var_cache}", $output);
                 $parts = explode("\t", end($output));
                 $var_cache_size = $parts[0];
 
                 timeout($start);
 
-                $var_tmp = Core_Model_Directory::getBasePathTo('var/tmp');
+                $var_tmp = path('var/tmp');
                 exec("du -cksh {$var_tmp}", $output);
                 $parts = explode("\t", end($output));
                 $var_tmp_size = $parts[0];
 
                 timeout($start);
 
-                $total = Core_Model_Directory::getBasePathTo('');
+                $total = path('');
                 exec("du -cksh {$total}", $output);
                 $parts = explode("\t", end($output));
                 $total_size = $parts[0];
@@ -317,7 +321,7 @@ class Siberian_Cache
                 'cache_size' => $var_cache_size,
                 'tmp_size' => $var_tmp_size,
             ];
-            $encodedResult = Siberian_Json::encode($result);
+            $encodedResult = Json::encode($result);
             __set('disk_usage_cache', $encodedResult);
 
             return $result;

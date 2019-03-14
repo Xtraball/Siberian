@@ -31,7 +31,7 @@ class Client extends BaseClient
 {
     protected $client;
 
-    private $headers = array();
+    private $headers = [];
     private $auth = null;
 
     public function setClient(GuzzleClientInterface $client)

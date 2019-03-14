@@ -3,7 +3,7 @@
 /**
  * Class Core_View_Default_Abstract
  */
-abstract class Core_View_Default_Abstract extends Siberian_View
+abstract class Core_View_Default_Abstract extends Siberian\View
 {
 
     /**

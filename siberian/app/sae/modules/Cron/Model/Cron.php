@@ -10,7 +10,6 @@ class Cron_Model_Cron extends Core_Model_Default
     /**
      * Cron_Model_Cron constructor.
      * @param array $params
-     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {
@@ -117,9 +116,8 @@ class Cron_Model_Cron extends Core_Model_Default
     }
 
     /**
-     * Test if the Cron scheduler is running
-     *
      * @return bool
+     * @throws Zend_Date_Exception
      */
     public static function isRunning()
     {
@@ -154,7 +152,9 @@ class Cron_Model_Cron extends Core_Model_Default
     }
 
     /**
-     * @return bool|string
+     * @return array|bool
+     * @throws Zend_Date_Exception
+     * @throws Zend_Locale_Exception
      */
     public static function getLastError()
     {

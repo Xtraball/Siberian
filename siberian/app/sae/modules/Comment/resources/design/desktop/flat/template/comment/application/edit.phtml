@@ -12,7 +12,8 @@ $appKey = $application->getGooglemapsKey();
 
         <?php if (empty($appKey)): ?>
             <div class="alert alert-danger">
-                <?php echo __('You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature.') ?>
+                <?php echo __("You must set a Google Maps API Key in %s in order to use this feature.",
+                    "<b>".__("Settings")." > ".__("API")."</b>") ?>
             </div>
         <?php endif; ?>
 

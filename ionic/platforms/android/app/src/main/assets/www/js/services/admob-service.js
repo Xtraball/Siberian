@@ -68,7 +68,8 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
         },
         interstitialState: 'start',
         viewEnterCount: 0,
-        options: {}
+        options: {},
+        forbiddenStates: []
     };
 
     service.getWeight = function (probs) {
@@ -135,6 +136,23 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
     /**
      *
      */
+    service.removeBanner = function () {
+        if (service.options.banner) {
+            $window.AdMob.removeBanner();
+        }
+    };
+
+    /**
+     * Add states that must never load Ads!
+     * @param states
+     */
+    service.forbidStates = function (states) {
+        service.forbiddenStates = service.forbiddenStates.concat(states);
+    };
+
+    /**
+     *
+     */
     service.prepareInterstitial = function () {
         if (service.options.interstitial) {
             $log.info('init interstitial banner');
@@ -143,7 +161,18 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
                 autoShow: false
             });
 
-            $rootScope.$on('$ionicView.enter', function () {
+            $rootScope.$on('$ionicView.enter', function (event, data) {
+
+                // Check for any forbidden stateName
+                var canReloadBanner = false;
+                if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
+                    service.removeBanner();
+                    // Return
+                    return;
+                } else {
+                    canReloadBanner = true;
+                }
+
                 service.viewEnterCount = service.viewEnterCount + 1;
 
                 // After 12 views, increase chances to show an Interstitial ad!
@@ -170,6 +199,8 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
                     }
 
                     service.viewEnterCount = 0;
+                } else if (canReloadBanner) {
+                    service._reload();
                 }
             });
         } else {
@@ -185,7 +216,6 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope, $w
         service.loadBanner();
         // Remove the event listener until next interstitial load!
         document.removeEventListener('onAdDismiss', service._reload);
-        console.log('dismissed Interstitial, reload Banner!');
     };
 
     return service;

@@ -26,7 +26,6 @@ $(document).ready(function () {
                         return false;
                     }
                 } catch (e) {
-                    console.log(e.message);
                     return false;
                 }
 
@@ -84,9 +83,7 @@ $(document).ready(function () {
                 $('#add_page_to_folder').html(content);
                 $tmp.remove();
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     }
 
@@ -127,9 +124,7 @@ $(document).ready(function () {
                 $('.folder-form-container').removeData('binded');
                 bindForms('.folder-form-container');
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 
@@ -164,9 +159,7 @@ $(document).ready(function () {
                 $('li.folder-sortable[rel="' + data.categoryId + '"] .folder-edit')
                     .trigger('click');
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 
@@ -203,9 +196,7 @@ $(document).ready(function () {
                     loadRootForm();
                     refreshPages();
                 },
-                error: function (response) {
-                    console.log(response);
-                }
+                error: function (response) {}
             });
         });
     });
@@ -255,9 +246,7 @@ $(document).ready(function () {
                 featureSearch.clearSearch();
                 updateFeatureCount();
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     });
 
@@ -300,9 +289,7 @@ $(document).ready(function () {
             success: function (data) {
                 updateFeatureCount();
             },
-            error: function (response) {
-                console.log(response);
-            }
+            error: function (response) {}
         });
     };
 

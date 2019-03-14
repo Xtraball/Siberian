@@ -759,16 +759,9 @@ class Zend_Layout
     }
 
     /**
-     * Render layout
-     *
-     * Sets internal script path as last path on script path stack, assigns
-     * layout variables to view, determines layout name using inflector, and
-     * renders layout view script.
-     *
-     * $name will be passed to the inflector as the key 'script'.
-     *
-     * @param  mixed $name
-     * @return mixed
+     * @param null $name
+     * @return string
+     * @throws Zend_Filter_Exception
      */
     public function render($name = null)
     {

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Application_Model_Application_Abstract
  *
@@ -14,12 +16,33 @@
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
+    /**
+     *
+     */
     const PATH_IMAGE = '/images/application';
+    /**
+     *
+     */
     const PATH_TEMPLATES = '/images/templates';
+    /**
+     *
+     */
     const OVERVIEW_PATH = 'overview';
+    /**
+     *
+     */
     const BO_DISPLAYED_PER_PAGE = 1000;
+    /**
+     *
+     */
     const PATH_TO_SOURCE_CODE = "/var/apps/browser/index-prod.html#/";
+    /**
+     *
+     */
     const DESIGN_CODE_ANGULAR = "angular";
+    /**
+     *
+     */
     const DESIGN_CODE_IONIC = "ionic";
 
     /**
@@ -43,14 +66,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         'ion-ios-home',
     ];
 
+    /**
+     * @var
+     */
     protected $_startup_image;
+    /**
+     * @var
+     */
     protected $_customers;
+    /**
+     * @var
+     */
     protected $_options;
+    /**
+     * @var
+     */
     protected $_pages;
+    /**
+     * @var
+     */
     protected $_layout;
+    /**
+     * @var
+     */
     protected $_devices;
+    /**
+     * @var
+     */
     protected $_design;
+    /**
+     * @var
+     */
     protected $_design_blocks;
+    /**
+     * @var array
+     */
     protected $_admin_ids = [];
 
     /**
@@ -91,6 +141,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $result;
     }
 
+    /**
+     * @param $host
+     * @param null $path
+     * @return $this
+     */
     public function findByHost($host, $path = null)
     {
 
@@ -134,11 +189,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getTable()->findAllByAdmin($admin_id, $where, $order, $count, $offset);
     }
 
+    /**
+     * @return mixed
+     */
     public function findAllToPublish()
     {
         return $this->getTable()->findAllToPublish();
     }
 
+    /**
+     * @return Admin_Model_Admin
+     */
     public function getOwner()
     {
 
@@ -483,8 +544,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
 
-
-/**
+    /**
      * @param $admin
      * @return $this
      */
@@ -502,12 +562,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this;
     }
 
+    /**
+     * @param $admin
+     * @return $this
+     */
     public function removeAdmin($admin)
     {
         $this->getTable()->removeAdmin($this->getId(), $admin->getId());
         return $this;
     }
 
+    /**
+     * @param $adminIds
+     * @return $this
+     */
     public function setAdminIds($adminIds)
     {
         $this->_admin_ids = $adminIds;
@@ -591,11 +659,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $this->getDevice(1);
     }
 
+    /**
+     * @return bool
+     */
     public function useIonicDesign()
     {
         return $this->getDesignCode() == self::DESIGN_CODE_IONIC;
     }
 
+    /**
+     * @return Template_Model_Design
+     * @throws Zend_Exception
+     */
     public function getDesign()
     {
 
@@ -714,6 +789,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
     }
 
+    /**
+     * @return string
+     */
     public function getRealLayoutVisibility()
     {
         $layout = $this->getLayout();
@@ -764,6 +842,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
     }
 
+    /**
+     * @param null $type_id
+     * @return Template_Model_Block[]
+     */
     public function getBlocks($type_id = null)
     {
 
@@ -812,12 +894,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return (new Template_Model_Block());
     }
 
+    /**
+     * @param $blocks
+     * @return $this
+     */
     public function setBlocks($blocks)
     {
         $this->_design_blocks = $blocks;
         return $this;
     }
 
+    /**
+     * @return Application_Model_Layout_Homepage
+     * @throws Zend_Exception
+     */
     public function getLayout()
     {
 
@@ -952,26 +1042,42 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return implode(".", $parts);
     }
 
+    /**
+     * @return array|bool|mixed|null|string
+     */
     public function isActive()
     {
         return (bool)$this->getData("is_active");
     }
 
+    /**
+     * @return bool
+     */
     public function isLocked()
     {
         return (bool)$this->getData("is_locked");
     }
 
+    /**
+     * @return bool
+     */
     public function canBePublished()
     {
         return (bool)$this->getData("can_be_published");
     }
 
+    /**
+     * @param null $admin_id
+     * @return mixed
+     */
     public function isSomeoneElseEditingIt($admin_id = null)
     {
         return $this->getTable()->isSomeoneElseEditingIt($this->getId(), Zend_Session::getId(), $admin_id);
     }
 
+    /**
+     * @return mixed
+     */
     public function getCustomers()
     {
 
@@ -984,24 +1090,87 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @return Application_Model_Option_Value[]
+     * @throws \Siberian\Exception
+     */
     public function getOptions()
     {
-
         if (empty($this->_options)) {
-            $option = new Application_Model_Option_Value();
-            $this->_options = $option->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+            $this->_options = (new Application_Model_Option_Value())
+                ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
         }
 
-        return $this->_options;
+        // Check if customer account is required
+        $this->checkCustomerAccount();
 
+        return $this->_options;
     }
 
+    /**
+     * @throws \Siberian\Exception
+     */
+    public function checkCustomerAccount ()
+    {
+        $useMyAccount = false;
+        foreach ($this->_options as $option) {
+            if ($option->getUseMyAccount() == 1) {
+                $useMyAccount = true;
+                break;
+            }
+        }
+
+        if ($useMyAccount) {
+            $option = (new Application_Model_Option())->find("tabbar_account", "code");
+            if (!$option->getId()) {
+                throw new \Siberian\Exception(__("My account feature is missing!"));
+            }
+
+            $customerAccount = (new Application_Model_Option_Value())
+                ->find(
+                    [
+                        "app_id" => $this->getId(),
+                        "option_id" => $option->getId()
+                    ]);
+
+            if (!$customerAccount->getId()) {
+
+                // Create the account feature
+                $customerAccount
+                    ->setAppId($this->getId())
+                    ->setTabbarName(__($option->getName()))
+                    ->setOptionId($option->getId())
+                    ->setPosition($customerAccount->getPosition() ? $customerAccount->getPosition() : 0)
+                    ->setIsvisible(1)
+                    ->setIconId($option->getDefaultIconId())
+                    ->setSettings(Json::encode([
+                        "enable_facebook_login" => true,
+                        "enable_registration" => true,
+                    ]))
+                    ->save();
+
+                $this->_options = (new Application_Model_Option_Value())
+                    ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+
+                return $customerAccount;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getUsedOptions()
     {
         $option = new Application_Model_Option_Value();
         return $option->findAllWithOptionsInfos(["a.app_id" => $this->getId(), "a.is_visible" => 1]);
     }
 
+    /**
+     * @return array
+     * @throws \Siberian\Exception
+     */
     public function getOptionIds()
     {
 
@@ -1015,6 +1184,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $code
+     * @return Application_Model_Option|Application_Model_Option_Value
+     */
     public function getOption($code)
     {
 
@@ -1031,7 +1204,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @param int $samples
+     * @param bool $with_folder
      * @return Application_Model_Option_Value[]
+     * @throws \Siberian\Exception
      */
     public function getPages($samples = 0, $with_folder = false)
     {
@@ -1045,6 +1220,9 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         if ($with_folder) {
             unset($options["remove_folder"]);
         }
+
+        // Ensure all options are up!
+        $this->getOptions();
 
         if (empty($this->_pages)) {
             $option = new Application_Model_Option_Value();
@@ -1062,6 +1240,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @param $code
+     * @return $this|null
+     */
     public function getPage($code)
     {
 
@@ -1073,6 +1255,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     }
 
+    /**
+     * @return Application_Model_Option_Value
+     * @throws Zend_Session_Exception
+     */
     public function getFirstActivePage()
     {
         foreach ($this->getPages() as $page) {
@@ -1085,30 +1271,54 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return new Application_Model_Option_Value();
     }
 
+    /**
+     * @return array|mixed|null|string
+     */
     public function getTabbarAccountName()
     {
-        if ($this->hasTabbarAccountName()) return $this->getData('tabbar_account_name');
-        else return __('My account');
+        if ($this->hasTabbarAccountName()) {
+            return $this->getData('tabbar_account_name');
+        } else {
+            return __('My account');
+        }
     }
 
+    /**
+     * @return string
+     */
     public function getShortTabbarAccountName()
     {
         return Core_Model_Lib_String::formatShortName($this->getTabbarAccountName());
     }
 
+    /**
+     * @return array|mixed|null|string
+     */
     public function getTabbarMoreName()
     {
-        if ($this->hasTabbarMoreName()) return $this->getData('tabbar_more_name');
-        else return __('More');
+        if ($this->hasTabbarMoreName()) {
+            return $this->getData('tabbar_more_name');
+        } else {
+            return __('More');
+        }
     }
 
+    /**
+     * @return string
+     */
     public function getShortTabbarMoreName()
     {
         return Core_Model_Lib_String::formatShortName($this->getTabbarMoreName());
     }
 
+    /**
+     * @return bool
+     */
     public function usesUserAccount()
     {
+        /**
+         * @var $options Application_Model_Option_Value[]
+         */
         $options = $this->getUsedOptions();
         foreach ($options as $option) {
             if ($option->getUseMyAccount()) {
@@ -1119,6 +1329,19 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return false;
     }
 
+    /**
+     * @return $this|bool|null
+     * @throws \Siberian\Exception
+     */
+    public function getMyAccount ()
+    {
+        return $this->checkCustomerAccount();
+    }
+
+    /**
+     * @return mixed
+     * @throws Zend_Exception
+     */
     public function getCountryCode()
     {
         $code = $this->getData('country_code');
@@ -1128,17 +1351,24 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         return $code;
     }
 
+    /**
+     * @return bool
+     */
     public function isPublished()
     {
-
         foreach ($this->getDevices() as $device) {
             if ($device->isPublished()) return true;
         }
 
         return false;
-
     }
 
+    /**
+     * @param null $uri
+     * @param array $params
+     * @return string
+     * @throws \rock\sanitize\SanitizeException
+     */
     public function getQrcode($uri = null, $params = [])
     {
         $qrcode = new Core_Model_Lib_Qrcode();
@@ -1166,7 +1396,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public static function getBaseImagePath()
     {
-        return Core_Model_Directory::getBasePathTo(static::PATH_IMAGE);
+        return path(static::PATH_IMAGE);
     }
 
     /**
@@ -1182,7 +1412,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public static function getBaseTemplatePath()
     {
-        return Core_Model_Directory::getBasePathTo(self::PATH_TEMPLATES);
+        return path(self::PATH_TEMPLATES);
     }
 
     /**
@@ -1199,11 +1429,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * @param $code
      * @return bool
+     * @throws Zend_Exception
      */
     public static function hasModuleInstalled($code)
     {
-        $module = new Installer_Model_Installer_Module();
-        $module->prepare($code, false);
+        $module = (new Installer_Model_Installer_Module())
+            ->prepare($code, false);
 
         return $module->isInstalled();
     }
@@ -1213,8 +1444,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getLogo()
     {
-        $logo = self::getImagePath() . $this->getData('logo');
-        $baseLogo = self::getBaseImagePath() . $this->getData('logo');
+        $logo = self::getImagePath() . $this->getData("logo");
+        $baseLogo = self::getBaseImagePath() . $this->getData("logo");
         if (is_file($baseLogo)) {
             return $logo;
         }
@@ -1230,7 +1461,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function getIcon($size = null, $name = null, $base = false)
     {
-
         if (!$size) {
             $size = 114;
         }
@@ -1271,13 +1501,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return array
+     * @throws Zend_Exception
      */
     public function getAllPictos()
     {
         $picto_urls = [];
         foreach ($this->getBlocks() as $block) {
             $dir = Core_Model_Directory::getDesignPath(true, "/images/pictos/", "mobile");
-            $pictos = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, 4096), RecursiveIteratorIterator::SELF_FIRST);
+            $pictos = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator($dir, 4096),
+                RecursiveIteratorIterator::SELF_FIRST);
             foreach ($pictos as $picto) {
                 $colorized_color = Core_Model_Lib_Image::getColorizedUrl($picto->getPathName(), $block->getColor());
                 $colorized_background_color = Core_Model_Lib_Image::getColorizedUrl($picto->getPathName(), $block->getBackgroundColor());
@@ -1319,18 +1552,17 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         try {
-            $image = '';
+            $image = "";
 
-            if ($type == "standard") {
-                $image_name = $this->getData('startup_image');
+            if ($type === "standard") {
+                $image_name = $this->getData("startup_image");
             } else {
-                $image_name = $this->getData('startup_image_' . $type);
+                $image_name = $this->getData("startup_image_" . $type);
             }
 
             if (!empty($image_name) && file_exists(self::getBaseImagePath() . $image_name)) {
                 $image = $base ? self::getBaseImagePath() . $image_name : self::getImagePath() . $image_name;
             }
-
         } catch (Exception $e) {
             $image = '';
         }

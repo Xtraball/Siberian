@@ -680,7 +680,6 @@ abstract class Core_Model_Default_Abstract
 
                 $this->addData($row->getData())->setId($row->getId());
                 $this->setOrigData($this->getData());
-
             }
         }
 
@@ -855,6 +854,7 @@ abstract class Core_Model_Default_Abstract
      * @param null $currency
      * @return mixed
      * @throws Zend_Currency_Exception
+     * @throws Zend_Exception
      */
     public static function _formatPrice($price, $currency = null)
     {
@@ -889,7 +889,7 @@ abstract class Core_Model_Default_Abstract
      * @param $option_value
      * @param $design
      * @param $category
-     * @throws Exception
+     * @return bool
      */
     public function createDummyContents($option_value, $design, $category)
     {

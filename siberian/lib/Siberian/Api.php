@@ -1,13 +1,15 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Api
+ * Class \Siberian\Api
  *
- * @version 4.14.0
+ * @version 4.16.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-class Siberian_Api
+class Api
 {
 
     /**

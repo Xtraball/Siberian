@@ -151,6 +151,10 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
         return $this->_is_native;
     }
 
+    /**
+     * @return Application_Model_Application
+     * @throws Zend_Exception
+     */
     public function getApplication()
     {
         /** @migration sae/mae/pe */

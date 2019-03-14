@@ -10,6 +10,8 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                                                            LinkService, Pages, Push, SB) {
     var service = {
         push: null,
+        isReady: null,
+        isReadyPromise: null,
         settings: {
             android: {
                 senderID: '01234567890',
@@ -65,6 +67,8 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
      * Handle registration, and various push events
      */
     service.register = function () {
+        service.isReady = $q.defer();
+        service.isReadyPromise = service.isReady.promise;
         service.init();
 
         if (service.push && $rootScope.isNativeApp) {
@@ -73,11 +77,17 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
                 Push.device_token = data.registrationId;
                 service.registerDevice();
+
+                // Resolve promise!
+                service.isReady.resolve();
             });
 
             service.onNotificationReceived();
             service.push.on('error', function (error) {
                 $log.debug(error.message);
+
+                // Reject
+                service.isReady.reject();
             });
 
             service.updateUnreadCount();
@@ -102,6 +112,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             });
         } else {
             $log.debug('Unable to initialize push service.');
+            service.isReady.reject();
         }
 
         if (!$rootScope.isNativeApp) {
@@ -109,6 +120,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                 // When Application is loaded, register at least for InApp
                 service.fetchMessagesOnStart();
             });
+            service.isReady.reject();
         }
     };
 

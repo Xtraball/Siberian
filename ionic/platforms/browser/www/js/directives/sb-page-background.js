@@ -75,6 +75,12 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
                 });
 
             var updateBackground = function () {
+
+                // Special case for my account / tabbar_account
+                if (angular.element(element).attr("code") === "tabbar_account") {
+                    scope.valueId = "account";
+                }
+
                 backgroundImages
                     .then(function (data) {
                         Application.ready

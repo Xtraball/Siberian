@@ -417,7 +417,7 @@ class Admin_AccountController extends Admin_Controller_Default
      */
     public function getBaseLayout($admin)
     {
-        $layout = new Siberian_Layout();
+        $layout = new Siberian\Layout();
 
         $layout
             ->setBaseRender('gdpr', 'admin/account/gdpr/base.phtml', 'core_view_default');

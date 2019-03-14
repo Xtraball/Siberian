@@ -3,11 +3,14 @@
 /**
  * Siberian
  *
- * @version 4.15.7
+ * @version 4.16.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
 global $_config;
+
+$here = __DIR__;
+putenv("TMP={$here}/var/tmp");
 
 $oldUmask = umask(003);
 
@@ -77,11 +80,11 @@ function dbg($data)
 {
     file_put_contents(
         '/tmp/debug.log',
-        print_r($data, true) . PHP_EOL,
+        date("d/m/Y H:i:s") . ": " . print_r($data, true) . PHP_EOL,
         FILE_APPEND);
 }
 
-// When you need to catch fatal errors create the corresponding congif line `$_config['handle_fatal_errors'] = true;`!
+// When you need to catch fatal errors create the corresponding config line `$_config['handle_fatal_errors'] = true;`!
 if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] === true) {
     // Handle fatal errors!
     function shutdownFatalHandler()

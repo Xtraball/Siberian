@@ -161,13 +161,15 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             }
         }
 
+        $isFilled = (boolean) !empty($appIosAutopublish->getCypheredCrendetials());
+
         $data["ios_publish_informations"] = [
             "id" => $appIosAutopublish->getId(),
             "want_to_autopublish" => $appIosAutopublish->getWantToAutopublish(),
             "account_type" => $accountType,
             "itunes_login" => $itunesLogin,
             "itunes_original_login" => $appIosAutopublish->getItunesOriginalLogin(),
-            "itunes_password" => Application_Model_IosAutopublish::$fakePassword,
+            "itunes_password" => $isFilled ? Application_Model_IosAutopublish::$fakePassword : '',
             "has_ads" => (bool)$appIosAutopublish->getHasAds(),
             "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),
             "has_audio" => (bool)$appIosAutopublish->getHasAudio(),
@@ -179,12 +181,13 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             "last_builded_version" => $appIosAutopublish->getLastBuildedVersion(),
             "last_builded_ipa_link" => $appIosAutopublish->getLastBuildedIpaLink(),
             "error_message" => $appIosAutopublish->getErrorMessage(),
-            'teams' => $appIosAutopublish->getTeamsArray(),
-            'itcProviders' => $appIosAutopublish->getItcProvidersArray(),
-            'selected_team' => $appIosAutopublish->getTeamId(),
-            'selected_team_name' => $appIosAutopublish->getTeamName(),
-            'selected_provider' => $appIosAutopublish->getItcProvider(),
-            'stats' => $appIosAutopublish->getStats(),
+            "teams" => $appIosAutopublish->getTeamsArray(),
+            "itcProviders" => $appIosAutopublish->getItcProvidersArray(),
+            "selected_team" => $appIosAutopublish->getTeamId(),
+            "selected_team_name" => $appIosAutopublish->getTeamName(),
+            "selected_provider" => $appIosAutopublish->getItcProvider(),
+            "password_filled" => $isFilled,
+            "stats" => $appIosAutopublish->getStats(),
         ];
 
         $this->_sendJson($data);
@@ -257,7 +260,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                         throw new Exception(__("Please enter a valid URL"));
                     }
 
-                    $dummy = new Application_Model_Application();
+                    $dummy = new Application_Model_Application()s;
                     $dummy->find($data["domain"], "domain");
                     if ($dummy->getId() AND $dummy->getId() != $application->getId()) {
                         throw new Exception("The domain is already used by another application.");

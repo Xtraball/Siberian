@@ -1,9 +1,12 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Resource
+ * Class Resource
+ * @package Siberian
  */
-class Siberian_Resource
+class Resource
 {
     /**
      * Siberian_Resource constructor.

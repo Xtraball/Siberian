@@ -1,13 +1,12 @@
 <?php
 
-/**
- * Class Siberian_Privacy
- *
- * @version 4.13.14
- *
- */
+namespace Siberian;
 
-class Siberian_Privacy
+/**
+ * Class Privacy
+ * @package Siberian
+ */
+class Privacy
 {
     /**
      * @var array
@@ -16,14 +15,16 @@ class Siberian_Privacy
 
     /**
      * @param $module
+     * @param $title
+     * @param null $templatePath
      */
     public static function registerModule($module, $title, $templatePath = null)
     {
         if (!array_key_exists($module, self::$registeredModules)) {
             self::$registeredModules[$module] = [
-                'code' => $module,
-                'label' => $title,
-                'templatePath' => $templatePath,
+                "code" => $module,
+                "label" => $title,
+                "templatePath" => $templatePath,
             ];
         }
     }

@@ -1,6 +1,7 @@
 <ion-modal-view sb-page-background
+                code="tabbar_account"
                 ng-controller="CustomerController"
-                class="customer-view">
+                class="customer-view customer-layout1">
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
@@ -30,7 +31,7 @@
              ng-include="'templates/customer/account/l1/forgot-password.html'"></div>
 
         <!-- Register partial -->
-        <div ng-show="display_account_form"
+        <div ng-show="display_account_form && (myAccount.settings.enable_registration || is_logged_in)"
              ng-include="'templates/customer/account/l1/register.html'"></div>
 
         <!-- Privacy policy partial -->

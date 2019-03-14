@@ -40,4 +40,5 @@ return array(
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qrcode/src'),
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
+    'Braintree\\' => array($vendorDir . '/braintree/braintree_php/lib/Braintree'),
 );

@@ -7,7 +7,7 @@ namespace Siberian;
  *
  * @author Xtraball SAS <dev@xtraball.com>
  *
- * @version 4.15.9
+ * @version 4.16.0
  */
 class Cron
 {
@@ -49,9 +49,9 @@ class Cron
     {
         $this->cron = new \Cron_Model_Cron();
         $this->logger = \Zend_Registry::get('logger');
-        $this->lock_base = \Core_Model_Directory::getBasePathTo($this->lock_base);
+        $this->lock_base = path($this->lock_base);
         $this->start = microtime(true);
-        $this->root_path = \Core_Model_Directory::getBasePathTo();
+        $this->root_path = path();
 
         # Set the same timezone as in the Application settings.
         $timezone = __get('system_timezone');
@@ -79,11 +79,11 @@ class Cron
         }
 
         try {
-            $minute = (int)date("i");
-            $hour = (int)date("G");
-            $month_day = (int)date("j");
-            $month = (int)date('m');
-            $week_day = (int)date('w');
+            $minute = (int) date("i");
+            $hour = (int) date("G");
+            $month_day = (int) date("j");
+            $month = (int) date('m');
+            $week_day = (int) date('w');
 
             $all = $this->cron->getActiveActions($minute, $hour, $month_day, $month, $week_day);
 
@@ -141,6 +141,8 @@ class Cron
             try {
                 $command = $task->getCommand();
                 if (strpos($command, "::") !== false) {
+                    $this->log("Class method to run {$command}");
+
                     # Split Class::method
                     $parts = explode("::", $command);
                     $class = $parts[0];
@@ -148,6 +150,7 @@ class Cron
 
                     # Tests.
                     if (method_exists($class, $method)) {
+                        $this->log("Method exists {$command}");
                         call_user_func($command, $this, $task);
                     }
 
@@ -560,11 +563,9 @@ class Cron
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
                                 }
                             }
-
                         } else {
                             $renew = true;
                         }
-
 
                         if ($renew) {
                             if (!$leIsInit) {
@@ -582,66 +583,65 @@ class Cron
                             // Clear log between hostnames.
                             $letsEncrypt->clearLog();
                             $result = $letsEncrypt->signDomains(array_merge([$cert->getHostname()], $retainDomains));
-                        } else {
-                            $result = true;
-                        }
 
-                        if ($result) {
-                            // Change updated_at date, time()+10 to ensure renew is newer than updated_at
-                            $cert
-                                ->setErrorCount(0)
-                                ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
-                                ->save();
+                            if ($result) {
+                                // Change updated_at date, time()+10 to ensure renew is newer than updated_at
+                                $cert
+                                    ->setErrorCount(0)
+                                    ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
+                                    ->save();
 
-                            // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
-                            try {
-                                switch ($panel_type) {
-                                    case "plesk":
-                                        $siberian_plesk = new \Siberian_Plesk();
-                                        $siberian_plesk->removeCertificate($cert);
-                                        $siberian_plesk->updateCertificate($cert);
-                                        $siberian_plesk->selectCertificate($cert);
-                                        break;
-                                    case "cpanel":
-                                        $cpanel = new \Siberian_Cpanel();
-                                        $cpanel->updateCertificate($cert);
-                                        break;
-                                    case "vestacp":
-                                        $vestacp = new \Siberian_VestaCP();
-                                        $vestacp->updateCertificate($cert);
-                                        break;
-                                    case "directadmin":
-                                        $directadmin = new \Siberian_DirectAdmin();
-                                        $directadmin->updateCertificate($cert);
-                                        break;
-                                    case "self":
-                                        $this->log("Self-managed sync is not available for now.");
-                                        break;
+                                // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
+                                try {
+                                    switch ($panel_type) {
+                                        case "plesk":
+                                            $siberian_plesk = new \Siberian_Plesk();
+                                            $siberian_plesk->removeCertificate($cert);
+                                            $siberian_plesk->updateCertificate($cert);
+                                            $siberian_plesk->selectCertificate($cert);
+                                            break;
+                                        case "cpanel":
+                                            $cpanel = new \Siberian_Cpanel();
+                                            $cpanel->updateCertificate($cert);
+                                            break;
+                                        case "vestacp":
+                                            $vestacp = new \Siberian_VestaCP();
+                                            $vestacp->updateCertificate($cert);
+                                            break;
+                                        case "directadmin":
+                                            $directadmin = new \Siberian_DirectAdmin();
+                                            $directadmin->updateCertificate($cert);
+                                            break;
+                                        case "self":
+                                            $this->log("Self-managed sync is not available for now.");
+                                            break;
+                                    }
+                                } catch (\Exception $e) {
+                                    $this->log(__("[Let's Encrypt] Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup.", $panel_type));
                                 }
-                            } catch (Exception $e) {
-                                $this->log(__("[Let's Encrypt] Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup.", $panel_type));
-                            }
 
-                            // SocketIO
-                            if (class_exists("SocketIO_Model_SocketIO_Module") && method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
-                                \SocketIO_Model_SocketIO_Module::killServer();
-                            }
+                                // SocketIO
+                                if (class_exists("SocketIO_Model_SocketIO_Module") &&
+                                    method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
+                                    \SocketIO_Model_SocketIO_Module::killServer();
+                                }
 
-                        } else {
-                            $cert
-                                ->setErrorCount($cert->getErrorCount() + 1)
-                                ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
-                                ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
-                                ->setErrorLog($letsEncrypt->getLog())
-                                ->save();
+                            } else {
+                                $cert
+                                    ->setErrorCount($cert->getErrorCount() + 1)
+                                    ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
+                                    ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
+                                    ->setErrorLog($letsEncrypt->getLog())
+                                    ->save();
+                            }
                         }
 
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         if ((strpos($e->getMessage(), "many currently pending authorizations") !== false) ||
                             (strpos($e->getMessage(), "many certificates already issued") !== false)) {
                             # We hit the rate limit, disable for the next seven days
                             $in_a_week = time() + 604800;
-                            \System_Model_Config::setValueFor("letsencrypt_disabled", $in_a_week);
+                            __set("letsencrypt_disabled", $in_a_week);
                         }
 
                         $cert

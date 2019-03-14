@@ -11,6 +11,7 @@ use Gettext\BaseTranslator;
  */
 function __($original)
 {
+    extract___($original);
     $text = BaseTranslator::$current->gettext((string) $original);
 
     if (func_num_args() === 1) {

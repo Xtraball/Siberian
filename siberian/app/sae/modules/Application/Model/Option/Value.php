@@ -16,6 +16,7 @@
  * @method $this setFolderCategoryPosition(integer $folderCategoryPosition)
  * @method integer getFolderCategoryId()
  * @method integer getOptionId()
+ * @method integer getUseMyAccount()
  * @method $this setIconId(integer $iconId)
  *
  */

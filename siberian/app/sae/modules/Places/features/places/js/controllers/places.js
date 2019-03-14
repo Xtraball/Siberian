@@ -1,5 +1,5 @@
 /**
- * @version 4.15.9
+ * @version 4.15.7
  */
 angular.module('starter').controller('PlacesHomeController', function ($scope, $state, $stateParams, $ionicHistory, Places) {
 
@@ -30,10 +30,12 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     // Router page only!
     Places.settings()
-        .then(function (settings) {
-            $scope.settings = settings;
+        .then(function (payload) {
+            $scope.settings = payload.settings;
 
-            if ($scope.settings.default_page === "categories") {
+            if ($scope.settings &&
+                $scope.settings.default_page &&
+                $scope.settings.default_page === "categories") {
                 $state.go('places-categories', {
                     value_id: $scope.value_id
                 });
@@ -48,7 +50,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                                                       Places) {
 
     /** Routing history for forward action */
-    if ($ionicHistory.backView().stateName === 'places-home') {
+    if ($ionicHistory.backView() &&
+        $ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
 
@@ -133,7 +136,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     // Loading places feature settings
     Places.settings()
-        .then(function (settings) {
+        .then(function (payload) {
 
             $session
                 .getItem("places_category_format_" + $stateParams.value_id)
@@ -141,21 +144,22 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                     if (value) {
                         $scope.setFormat(value);
                     } else {
-                        $scope.setFormat(settings.default_layout);
+                        $scope.setFormat(payload.settings.default_layout);
                     }
                 }).catch(function () {
-                    $scope.setFormat(settings.default_layout);
+                    $scope.setFormat(payload.settings.default_layout);
                 });
 
-            $scope.settings = settings;
-            $scope.categories = settings.categories;
+            $scope.settings = payload.settings;
+            $scope.categories = payload.settings.categories;
         });
 
 }).controller('PlacesListController', function (Location, $q, $ionicHistory, $scope, $rootScope, $session, $state,
                                                 $stateParams, $translate, $timeout, Places, Modal) {
 
     /** Routing history for forward action */
-    if ($ionicHistory.backView().stateName === 'places-home') {
+    if ($ionicHistory.backView() &&
+        $ionicHistory.backView().stateName === 'places-home') {
         $ionicHistory.removeBackView();
     }
 
@@ -239,9 +243,11 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     /** Reset filters */
     $scope.clearFilters = function(skipSearch) {
-        $scope.categories.forEach(function (category) {
-            category.isSelected = false;
-        });
+        if ($scope.categories) {
+            $scope.categories.forEach(function (category) {
+                category.isSelected = false;
+            });
+        }
 
         $scope.filters.categories = null;
         $scope.filters.fulltext = "";
@@ -310,7 +316,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     // Loading places feature settings
     Places.settings()
-        .then(function (settings) {
+        .then(function (payload) {
 
             $session
                 .getItem("places_place_format_" + $stateParams.value_id)
@@ -318,23 +324,27 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                     if (value) {
                         $scope.setFormat(value);
                     } else {
-                        $scope.setFormat(settings.default_layout);
+                        $scope.setFormat(payload.settings.default_layout);
                     }
                 }).catch(function () {
-                    $scope.setFormat(settings.default_layout);
+                    $scope.setFormat(payload.settings.default_layout);
                 });
 
-            $scope.settings = settings;
-            $scope.categories = settings.categories;
+            $scope.settings = payload.settings;
+            if ($scope.settings) {
+                $scope.categories = payload.settings.categories;
+            }
 
             // Select the category if needed
             if ($stateParams.category_id !== undefined) {
                 $scope.clearFilters(true);
-                $scope.categories.forEach(function (category) {
-                    if (category.id == $stateParams.category_id) {
-                        category.isSelected = true;
-                    }
-                });
+                if ($scope.categories) {
+                    $scope.categories.forEach(function (category) {
+                        if (category.id == $stateParams.category_id) {
+                            category.isSelected = true;
+                        }
+                    });
+                }
             }
 
             // To ensure a fast loading even when GPS is off, we neeeeeed to decrease the GPS timeout!
@@ -378,12 +388,16 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         }
 
         // Group categories
-        $scope.filters.categories = $scope.categories
+        if ($scope.categories) {
+            $scope.filters.categories = $scope.categories
             .filter(function (category) {
                 return category.isSelected;
             }).map(function (category) {
                 return category.id;
             }).join(",");
+        } else {
+            $scope.filters.categories = "";
+        }
 
         Places.findAll($scope.filters, false)
             .then(function (data) {

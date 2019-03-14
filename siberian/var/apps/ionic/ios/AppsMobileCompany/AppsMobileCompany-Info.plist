@@ -206,6 +206,12 @@
     </array>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Use the GPS for live navigation</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>waze</string>
+      <string>comgooglemaps</string>
+      <string>comgooglemaps-x-callback</string>
+    </array>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Background location is used to send you geolocated push notifications.</string>
     <key>NSLocationAlwaysUsageDescription</key>

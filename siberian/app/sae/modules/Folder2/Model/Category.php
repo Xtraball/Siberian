@@ -74,6 +74,8 @@ class Folder2_Model_Category extends Core_Model_Default {
 
     /**
      * @param $optionValue
+     * @throws Exception
+     * @throws \Siberian\Exception
      */
     public function setDefaultImages($optionValue) {
         // Default image pattern!

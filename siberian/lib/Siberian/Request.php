@@ -1,9 +1,12 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Request
+ * Class Request
+ * @package Siberian
  */
-class Siberian_Request
+class Request
 {
 
     /**

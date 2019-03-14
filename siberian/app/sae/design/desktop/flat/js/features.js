@@ -59,7 +59,7 @@ ckeditor_config.complete = {
     language: ckeditor_language
 };
 
-var feature_picture_uploader = new Uploader();
+let feature_picture_uploader = new Uploader();
 
 (function ($) {
     var uniqueCntr = 0;
@@ -108,43 +108,45 @@ var handleFormError = function (form, data) {
     }
 };
 
-var feature_form_error = function (html, timer) {
-    message.addLoader(true);
-    message.setNoBackground(false);
-    message.isError(true);
-    message.setMessage(html);
-    message.show();
-    message.addButton(true);
-    var localTimer = (timer !== undefined) ? timer : 3;
-    message.setTimer(localTimer);
+let feature_form_error = function (html) {
+    toastr.error(
+        html,
+        null,
+        {
+            timeOut: 4500,
+            extendedTimeOut: 15000,
+            progressBar: true,
+            positionClass: "toast-top-center"
+        });
 };
 
-var feature_form_success = function (html, timer) {
-    message.addLoader(true);
-    message.setNoBackground(false);
-    message.isError(false);
-    message.setMessage(html);
-    message.show();
-    message.addButton(false);
-    var localTimer = (timer !== undefined) ? timer : 3;
-    message.setTimer(localTimer);
+let feature_form_success = function (html) {
+    toastr.success(
+        html,
+        null,
+        {
+            timeOut: 4500,
+            extendedTimeOut: 15000,
+            progressBar: true,
+            positionClass: "toast-top-center"
+        });
 };
 
-var feature_reload = function () {
+let feature_reload = function () {
     if (typeof page !== 'undefined') {
         page.reload();
     }
 };
 
-var last_tab = -1;
+let last_tab = -1;
 
-var remove_row = function (rowid) {
-    var row = $('#'+rowid);
+let remove_row = function (rowid) {
+    let row = $('#'+rowid);
     if (typeof row !== 'undefined') {
-        var table = $(row.closest('table'));
+        let table = $(row.closest('table'));
         row.remove();
 
-        var row_count = table.find('tbody tr').not('.edit-form').length;
+        let row_count = table.find('tbody tr').not('.edit-form').length;
         if (row_count <= 0) {
             page.reload();
         }
@@ -291,9 +293,7 @@ var _bindRow = function (default_parent) {
                             if (typeof callback !== 'undefined') {
                                 try {
                                     eval(callback);
-                                } catch (e) {
-                                    console.log('unable to eval callback '+callback);
-                                }
+                                } catch (e) {}
                             }
                         }, 100);
                     } else if (data.error) {
@@ -311,9 +311,7 @@ var _bindRow = function (default_parent) {
                 if (typeof callback !== 'undefined') {
                     try {
                         eval(callback);
-                    } catch (e) {
-                        console.log('unable to eval callback '+callback);
-                    }
+                    } catch (e) {}
                 }
             }, 100);
         }
@@ -496,7 +494,6 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
                     var $el = $(el.target);
                     if (typeof $el.attr('data-imagecolor') !== 'undefined') {
-                        console.log($el.attr('data-imagecolor'));
                         params.image_color = $el.attr('data-imagecolor');
                         params.is_colorizable = true;
                     }
@@ -566,15 +563,11 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                         if (typeof callback === 'function') {
                             try {
                                 callback(data);
-                            } catch (e) {
-                                console.log('unable to execute callback ' + callback);
-                            }
+                            } catch (e) {}
                         } else if (typeof callback !== 'undefined') {
                             try {
                                 eval(callback);
-                            } catch (e) {
-                                console.log('unable to eval callback ' + callback);
-                            }
+                            } catch (e) {}
                         }
                     } else if (form.hasClass('delete')) {
                         remove_row(form.data('rowid'));
@@ -598,9 +591,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                 if (typeof success_cb === 'function') {
                     try {
                         success_cb(data);
-                    } catch (e) {
-                        console.log('An error occurred while executing the success callback.');
-                    }
+                    } catch (e) {}
                 }
 
                 loader.hide('sb-features');
@@ -616,9 +607,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                 if (typeof error_cb === 'function') {
                     try {
                         error_cb(data);
-                    } catch (e) {
-                        console.log('An error occurred while executing the error callback.');
-                    }
+                    } catch (e) {}
                 }
 
                 loader.hide('sb-features');

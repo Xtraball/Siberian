@@ -2,7 +2,7 @@
     App, ionic, angular
  */
 
-angular.module("starter").directive("sbAClick", function($filter, $rootScope, $timeout, $window, $state, LinkService) {
+angular.module("starter").directive("sbAClick", function($filter, $rootScope, $timeout, $window, $state, LinkService, Customer) {
     return {
         restrict: 'A',
         scope: {
@@ -22,7 +22,11 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
 
                         angular.element(elem).bind("click", function (e) {
                             e.preventDefault();
-                            if(!offline && $rootScope.isOffline) {
+
+                            // Special in-app link for my account!
+                            if (state === "my-account") {
+                                Customer.loginModal();
+                            } else if (!offline && $rootScope.isOffline) {
                                 $rootScope.onlineOnly();
                             } else {
                                 $state.go(state, params);

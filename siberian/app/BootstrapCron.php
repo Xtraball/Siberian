@@ -26,27 +26,33 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initPaths()
     {
-        $loader = Zend_Loader_Autoloader::getInstance();
+        $loader = \Zend_Loader_Autoloader::getInstance();
 
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('PListEditor');
 
-        $include_paths = [get_include_path()];
-        $include_paths[] = realpath(APPLICATION_PATH . '/local/modules');
+
+        $includePaths = [get_include_path()];
+        $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
         switch (\Siberian\Version::TYPE) {
-            case 'PE':
-                $include_paths[] = realpath(APPLICATION_PATH . '/pe/modules');
-            case 'MAE':
-                $include_paths[] = realpath(APPLICATION_PATH . '/mae/modules');
-            case 'SAE':
+            case "PE":
+                $includePaths[] = realpath(APPLICATION_PATH . "/pe/modules");
+                $includePaths[] = realpath(APPLICATION_PATH . "/mae/modules");
+                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
+                break;
+            case "MAE":
+                $includePaths[] = realpath(APPLICATION_PATH . "/mae/modules");
+                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
+                break;
+            case "SAE":
             default:
-                $include_paths[] = realpath(APPLICATION_PATH . '/sae/modules');
+                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
         }
 
         // Updating the include_paths!
-        set_include_path(implode(PATH_SEPARATOR, $include_paths));
+        set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
@@ -55,17 +61,18 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         } else {
             $base_path = substr(dirname(__FILE__), 0, -3);
         }
-        Core_Model_Directory::setBasePath($base_path);
+        \Core_Model_Directory::setBasePath($base_path);
 
         // include Stubs
+        require_once \Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Pure.php');
         require_once \Core_Model_Directory::getBasePathTo('/lib/Siberian/Stubs.php');
 
-        //for cron we are always at root directory
-        Core_Model_Directory::setPath('');
+        // Then load class aliases
+        \Siberian\Stubs::loadAliases();
 
-        // External vendor, from composer!
-        require_once \Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
+        //for cron we are always at root directory
+        \Core_Model_Directory::setPath('');
     }
 
     protected function _initLogger()
@@ -202,7 +209,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
                             }
                         }
                     } else {
-                        throw new Siberian_Exception('The bootstrap file located at \'' . $path .
+                        throw new \Siberian\Exception('The bootstrap file located at \'' . $path .
                             '\' redefines/or is already loaded, Class \'' . $classname .
                             '\', please remove it or rename it.');
                     }

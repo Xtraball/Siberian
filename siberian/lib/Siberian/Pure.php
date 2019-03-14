@@ -18,21 +18,63 @@ function app()
  * @param $original
  */
 global $extractTranslations;
+
+function extract___($original)
+{
+    if (__getConfig("extract") === true) {
+        global $extractTranslations;
+
+        if (!is_array($extractTranslations)) {
+            $extractTranslations = [];
+        }
+
+        // Special binding for modules
+        $file = path("/var/tmp/orphans.po");
+
+        if (!is_file($file)) {
+            touch($file);
+        }
+        if (!array_key_exists($file, $extractTranslations)) {
+            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
+        }
+
+        $translation = $extractTranslations[$file]->insert(null, $original);
+        $translation->setTranslation($original);
+        $extractTranslations[$file]->toPoFile($file);
+    }
+}
+
 function extract_p__($context, $original)
 {
     if (__getConfig("extract") === true) {
         global $extractTranslations;
-        $file = Core_Model_Directory::getBasePathTo("/languages/base/c_{$context}.po");
+
+        if (!is_array($extractTranslations)) {
+            $extractTranslations = [];
+        }
+
+        $modules = [
+            "cabride" => "Cabride",
+        ];
+
+        // Special binding for modules
+        if (in_array($context, array_keys($modules))) {
+            $moduleFolder = $modules[$context];
+            $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+        } else {
+            $file = path("/languages/base/c_{$context}.po");
+        }
+
         if (!is_file($file)) {
             touch($file);
         }
-        if ($extractTranslations === null) {
-            $extractTranslations = \Gettext\Translations::fromPoFile($file);
+        if (!array_key_exists($file, $extractTranslations)) {
+            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
         }
 
-        $translation = $extractTranslations->insert($context, $original);
+        $translation = $extractTranslations[$file]->insert($context, $original);
         $translation->setTranslation($original);
-        $extractTranslations->toPoFile($file);
+        $extractTranslations[$file]->toPoFile($file);
     }
 }
 
@@ -100,7 +142,7 @@ function log_debug($message)
 function log_exception(Exception $e)
 {
     log_debug(sprintf("[Siberian_Exception] %s", $e->getMessage()));
-    \Siberian_Debug::addException($e);
+    \Siberian\Debug::addException($e);
 }
 
 /**
@@ -327,6 +369,24 @@ function __js($string, $escape = '"')
 }
 
 /**
+ * Classic hook for translations
+ *
+ * @param $text
+ * @return mixed|string
+ */
+function p__js($context, $string, $escape = '"')
+{
+    $args = func_get_args();
+
+    # Remove $escape arg
+    unset($args[2]);
+
+    $translation = call_user_func_array("p__", $args);
+
+    return addcslashes($translation, $escape);
+}
+
+/**
  * Alias: Force single quote escape
  *
  * @param $string
@@ -368,6 +428,25 @@ function __url($url = "", array $params = [], $locale = null)
 function __path($url = "", array $params = [], $locale = null)
 {
     return \Core_Model_Url::createPath($url, $params, $locale);
+}
+
+/**
+ * @param string $relativePath
+ * @return string
+ */
+function path($relativePath = "/")
+{
+    return \Core_Model_Directory::getBasePathTo($relativePath);
+}
+
+/**
+ * @param bool $base
+ * @return string
+ */
+function tmp($base = false)
+{
+    return $base ? \Core_Model_Directory::getBasePathTo("/var/tmp") :
+        \Core_Model_Directory::getPathTo("/var/tmp");
 }
 
 /**
@@ -421,8 +500,6 @@ function __get($code)
  * @param $value
  * @param null $label
  * @return $this|null
- * @throws Exception
- * @throws Zend_Exception
  */
 function __set($code, $value, $label = null)
 {
@@ -453,6 +530,11 @@ function time_to_date($time, $format = 'y-MM-dd')
 {
     $date = new \Zend_Date($time);
     return $date->toString($format);
+}
+
+function mysqlToTimestamp($mysql)
+{
+
 }
 
 /**

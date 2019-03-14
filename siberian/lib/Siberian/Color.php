@@ -1,4 +1,6 @@
 <?php
+namespace Siberian;
+
 /**
  * Plugin Name:   ariColor
  * Plugin URI:    http://aristath.github.io/ariColor/
@@ -19,7 +21,7 @@
  * @since       1.0
  */
 
-class Siberian_Color {
+class Color {
 
     /**
      * An array of our instances.

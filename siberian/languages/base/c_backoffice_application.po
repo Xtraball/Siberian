@@ -7,89 +7,793 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-01-28T12:02:37+01:00\n"
-"PO-Revision-Date: 2019-01-28T12:02:37+01:00\n"
+"POT-Creation-Date: 2019-02-26T13:25:50+00:00\n"
+"PO-Revision-Date: 2019-02-26T13:25:50+00:00\n"
 "Language: \n"
 
-msgctxt "backoffice_application"
-msgid "App Store Connect login"
-msgstr "App Store Connect login"
+msgid "All data"
+msgstr "All data"
 
-msgctxt "backoffice_application"
+msgid "Clean-up sensible data"
+msgstr "Clean-up sensible data"
+
+msgid "Fanwall"
+msgstr "Fanwall"
+
+msgid "M-Commerce"
+msgstr "M-Commerce"
+
+msgid "Appointment Activation Key"
+msgstr "Appointment Activation Key"
+
+msgid "CabRide"
+msgstr "CabRide"
+
+msgid "Settings"
+msgstr "Settings"
+
+msgid "Join lobby"
+msgstr "Join lobby"
+
+msgid "Send request"
+msgstr "Send request"
+
+msgid "Chatrooms"
+msgstr "Chatrooms"
+
+msgid "Get user"
+msgstr "Get user"
+
+msgid "Realtime Chat"
+msgstr "Realtime Chat"
+
+msgid "Device preview"
+msgstr "Device preview"
+
+msgid "Satispay"
+msgstr "Satispay"
+
+msgid "User Styler"
+msgstr "User Styler"
+
+msgid "Contact e-mail"
+msgstr "Contact e-mail"
+
+msgid "Log in"
+msgstr "Log in"
+
+msgid "Sign up"
+msgstr "Sign up"
+
+msgid "Email"
+msgstr "Email"
+
 msgid "Password"
 msgstr "Password"
 
-msgctxt "backoffice_application"
-msgid "Save credentials"
-msgstr "Save credentials"
+msgid "Forgot your password ?"
+msgstr "Forgot your password ?"
 
-msgctxt "backoffice_application"
-msgid "Publication settings"
-msgstr "Publication settings"
+msgid "Confirm your password"
+msgstr "Confirm your password"
 
-msgctxt "backoffice_application"
-msgid "Apple Development team"
-msgstr "Apple Development team"
+msgid "I agree to receive information & commercial offers about the WhiteLabel program."
+msgstr "I agree to receive information & commercial offers about the WhiteLabel program."
 
-msgctxt "backoffice_application"
-msgid "App Store Connect provider"
-msgstr "App Store Connect provider"
+msgid "I have read & agree the Terms of Service"
+msgstr "I have read & agree the Terms of Service"
 
-msgctxt "backoffice_application"
-msgid "Service notes"
-msgstr "Service notes"
+msgid "You must agree our Terms of Service"
+msgstr "You must agree our Terms of Service"
 
-msgctxt "backoffice_application"
-msgid "Languages"
-msgstr "Languages"
+msgid "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
+msgstr "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
 
-msgctxt "backoffice_application"
-msgid "Options"
-msgstr "Options"
+msgid "Back"
+msgstr "Back"
 
-msgctxt "backoffice_application"
-msgid "With ads functionality"
-msgstr "With ads functionality"
+msgid "Send"
+msgstr "Send"
 
-msgctxt "backoffice_application"
-msgid "* If apple doesn't detect any ads configurate, your application will be refused"
-msgstr "* If apple doesn't detect any ads configurate, your application will be refused"
+msgid "Close"
+msgstr "Close"
 
-msgctxt "backoffice_application"
-msgid "With background audio playing"
-msgstr "With background audio playing"
+msgid "Edit step for this element"
+msgstr "Edit step for this element"
 
-msgctxt "backoffice_application"
-msgid "* You have to justify why you need this background audio playing to Apple."
-msgstr "* You have to justify why you need this background audio playing to Apple."
+msgid "Step title"
+msgstr "Step title"
 
-msgctxt "backoffice_application"
+msgid "Step text"
+msgstr "Step text"
+
+msgid "Step placement (optional)"
+msgstr "Step placement (optional)"
+
+msgid "By default, popups steps try to use a smart placement. You can force this placement if needed."
+msgstr "By default, popups steps try to use a smart placement. You can force this placement if needed."
+
+msgid "Top"
+msgstr "Top"
+
+msgid "Right"
+msgstr "Right"
+
+msgid "Bottom"
+msgstr "Bottom"
+
+msgid "Left"
+msgstr "Left"
+
+msgid "Remove this step"
+msgstr "Remove this step"
+
+msgid "Save"
+msgstr "Save"
+
+msgid "Tour Edition"
+msgstr "Tour Edition"
+
+msgid "Element n°"
+msgstr "Element n°"
+
+msgid "No linkable element found on this page."
+msgstr "No linkable element found on this page."
+
+msgid "A step requires at least a title and a text."
+msgstr "A step requires at least a title and a text."
+
+msgid "An error occurred while saving. Please try again later."
+msgstr "An error occurred while saving. Please try again later."
+
+msgid "Login to your admin interface"
+msgstr "Login to your admin interface"
+
+msgid "text/html; charset=utf-8"
+msgstr "text/html; charset=utf-8"
+
+msgid "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
+msgstr "width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0"
+
+msgid "Next"
+msgstr "Next"
+
+msgid "End tour"
+msgstr "End tour"
+
+msgid "Please create the API keys to enable this feature."
+msgstr "Please create the API keys to enable this feature."
+
+msgid "(DEMO)"
+msgstr "(DEMO)"
+
+msgid "My Applications"
+msgstr "My Applications"
+
+msgid "Create a new application"
+msgstr "Create a new application"
+
+msgid "Application Name"
+msgstr "Application Name"
+
+msgid "Create"
+msgstr "Create"
+
+msgid "Filter your apps..."
+msgstr "Filter your apps..."
+
+msgid "Created at %s"
+msgstr "Created at %s"
+
+msgid "Free until %s"
+msgstr "Free until %s"
+
+msgid "[Siberian_Media] optimizing media %s"
+msgstr "[Siberian_Media] optimizing media %s"
+
+msgid "From"
+msgstr "From"
+
+msgid "to"
+msgstr "to"
+
+msgid "Filter metrics"
+msgstr "Filter metrics"
+
+msgid "Total visits"
+msgstr "Total visits"
+
+msgid "Total installs"
+msgstr "Total installs"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "Top installs"
+msgstr "Top installs"
+
+msgid "Top visits"
+msgstr "Top visits"
+
+msgid "No data for this metrics for now."
+msgstr "No data for this metrics for now."
+
+msgid "Are you sure you want to delete this application?"
+msgstr "Are you sure you want to delete this application?"
+
+msgid "Are you sure you want to duplicate this application?"
+msgstr "Are you sure you want to duplicate this application?"
+
+msgid "Visits"
+msgstr "Visits"
+
+msgid "Installs"
+msgstr "Installs"
+
+msgid "Start date must be lower than end date."
+msgstr "Start date must be lower than end date."
+
+msgid "You have to chose a start and an end date."
+msgstr "You have to chose a start and an end date."
+
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgid "Push notifications"
+msgstr "Push notifications"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Activity"
+msgstr "Activity"
+
+msgid "My account"
+msgstr "My account"
+
+msgid "Users"
+msgstr "Users"
+
+msgid "Subscriptions"
+msgstr "Subscriptions"
+
+msgid "Invoices"
+msgstr "Invoices"
+
+msgid "Manage tour"
+msgstr "Manage tour"
+
+msgid "Profile"
+msgstr "Profile"
+
+msgid "Log-out"
+msgstr "Log-out"
+
+msgid "Support"
+msgstr "Support"
+
+msgid "Customization mode activated"
+msgstr "Customization mode activated"
+
+msgid "Customize My Editor"
+msgstr "Customize My Editor"
+
+msgid "You current working environment is"
+msgstr "You current working environment is"
+
+msgid "Development"
+msgstr "Development"
+
+msgid "be careful or set it back to"
+msgstr "be careful or set it back to"
+
+msgid "Production"
+msgstr "Production"
+
+msgid "REDUCE"
+msgstr "REDUCE"
+
+msgid "Environment is"
+msgstr "Environment is"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Send your logo"
+msgstr "Send your logo"
+
+msgid "Favicon"
+msgstr "Favicon"
+
+msgid "Send your favicon"
+msgstr "Send your favicon"
+
+msgid "General"
+msgstr "General"
+
+msgid "Background Color"
+msgstr "Background Color"
+
+msgid "Text Color"
+msgstr "Text Color"
+
+msgid "Color blue"
+msgstr "Color blue"
+
+msgid "Color red"
+msgstr "Color red"
+
+msgid "Color yellow"
+msgstr "Color yellow"
+
+msgid "Color green"
+msgstr "Color green"
+
+msgid "Titles"
+msgstr "Titles"
+
+msgid "Border Red"
+msgstr "Border Red"
+
+msgid "Border Color"
+msgstr "Border Color"
+
+msgid "Border Blue"
+msgstr "Border Blue"
+
+msgid "Border Yellow"
+msgstr "Border Yellow"
+
+msgid "Border Purple"
+msgstr "Border Purple"
+
+msgid "Border Green"
+msgstr "Border Green"
+
+msgid "Border Grey"
+msgstr "Border Grey"
+
+msgid "Content background"
+msgstr "Content background"
+
+msgid "Grey buttons"
+msgstr "Grey buttons"
+
+msgid "Background Color - Hover"
+msgstr "Background Color - Hover"
+
+msgid "Text Color - Hover"
+msgstr "Text Color - Hover"
+
+msgid "Font Color blue"
+msgstr "Font Color blue"
+
+msgid "Content color"
+msgstr "Content color"
+
+msgid "Input flat"
+msgstr "Input flat"
+
+msgid "Color purple"
+msgstr "Color purple"
+
+msgid "Step menu background"
+msgstr "Step menu background"
+
+msgid "Sidebar background"
+msgstr "Sidebar background"
+
+msgid "Background Color - Active"
+msgstr "Background Color - Active"
+
+msgid "Text Color - Active"
+msgstr "Text Color - Active"
+
+msgid "Loading your white label editor."
+msgstr "Loading your white label editor."
+
+msgid "Your customization has been applied to your white label panel."
+msgstr "Your customization has been applied to your white label panel."
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Manage"
+msgstr "Manage"
+
+msgid "Editor access"
+msgstr "Editor access"
+
+msgid "Roles"
+msgstr "Roles"
+
+msgid "Backoffice access"
+msgstr "Backoffice access"
+
+msgid "Accounts"
+msgstr "Accounts"
+
+msgid "API"
+msgstr "API"
+
+msgid "Previewer"
+msgstr "Previewer"
+
+msgid "Modal"
+msgstr "Modal"
+
+msgid "Applications"
+msgstr "Applications"
+
+msgid "Templates"
+msgstr "Templates"
+
+msgid "Sales"
+msgstr "Sales"
+
+msgid "Appearance"
+msgstr "Appearance"
+
+msgid "Previews"
+msgstr "Previews"
+
+msgid "Tour"
+msgstr "Tour"
+
+msgid "Modules"
+msgstr "Modules"
+
+msgid "APIs"
+msgstr "APIs"
+
+msgid "Push"
+msgstr "Push"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Global push"
+msgstr "Global push"
+
+msgid "Taxes"
+msgstr "Taxes"
+
+msgid "Plans"
+msgstr "Plans"
+
+msgid "Discounts"
+msgstr "Discounts"
+
+msgid "T&C's"
+msgstr "T&C's"
+
+msgid "Advanced"
+msgstr "Advanced"
+
+msgid "Tools"
+msgstr "Tools"
+
+msgid "Cron"
+msgstr "Cron"
+
+msgid "Firewall"
+msgstr "Firewall"
+
+msgid "Mail logs"
+msgstr "Mail logs"
+
+msgid "Whitelabels"
+msgstr "Whitelabels"
+
+msgid "Communication"
+msgstr "Communication"
+
+msgid "Translations"
+msgstr "Translations"
+
+msgid "Log-in"
+msgstr "Log-in"
+
+msgid "Forgot your password?"
+msgstr "Forgot your password?"
+
+msgid "%s - v%s"
+msgstr "%s - v%s"
+
+msgid "development"
+msgstr "development"
+
+msgid "Siberian - Backoffice"
+msgstr "Siberian - Backoffice"
+
+msgid "An error occurred while loading. Please, try again later."
+msgstr "An error occurred while loading. Please, try again later."
+
+msgid "Info successfully saved"
+msgstr "Info successfully saved"
+
+msgid "You can upload a zip archive only."
+msgstr "You can upload a zip archive only."
+
+msgid "You can upload a pem certificate only."
+msgstr "You can upload a pem certificate only."
+
+msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
+msgstr "You can upload an image only (.jpg, .jpeg, .gif and .png)."
+
+msgid "You can upload an icon only (.ico and .png)."
+msgstr "You can upload an icon only (.ico and .png)."
+
+msgid "You can upload a png only (.png)."
+msgstr "You can upload a png only (.png)."
+
+msgid "You can't upload more than one file at a time."
+msgstr "You can't upload more than one file at a time."
+
+msgid "An error occurred while uploading your file. Please, try again later."
+msgstr "An error occurred while uploading your file. Please, try again later."
+
+msgid "Your APK is being generated. Please come back in a few minutes."
+msgstr "Your APK is being generated. Please come back in a few minutes."
+
+msgid "Are you sure you want to delete this admin?"
+msgstr "Are you sure you want to delete this admin?"
+
+msgid "General Information"
+msgstr "General Information"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Bundle Id"
+msgstr "Bundle Id"
+
+msgid "Package Name"
+msgstr "Package Name"
+
+msgid "Domain"
+msgstr "Domain"
+
+msgid "URL Key"
+msgstr "URL Key"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Privacy policy URL"
+msgstr "Privacy policy URL"
+
+msgid "Free until"
+msgstr "Free until"
+
+msgid "MM/dd/yyyy"
+msgstr "MM/dd/yyyy"
+
+msgid "This application is visible on the front"
+msgstr "This application is visible on the front"
+
+msgid "Lock the entire application"
+msgstr "Lock the entire application"
+
+msgid "Allow user to request app publication"
+msgstr "Allow user to request app publication"
+
+msgid "Device Information"
+msgstr "Device Information"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Version"
+msgstr "Version"
+
+msgid "Store URL"
+msgstr "Store URL"
+
+msgid "Store Password"
+msgstr "Store Password"
+
+msgid "Key Password"
+msgstr "Key Password"
+
+msgid "Store App ID"
+msgstr "Store App ID"
+
+msgid "Stores Info"
+msgstr "Stores Info"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Keywords"
+msgstr "Keywords"
+
+msgid "Main category"
+msgstr "Main category"
+
+msgid "Secondary category"
+msgstr "Secondary category"
+
+msgid "Advertising"
+msgstr "Advertising"
+
+msgid "Use Owner AdMob"
+msgstr "Use Owner AdMob"
+
+msgid "If user doesn't use AdMob, split revenue will default to 100."
+msgstr "If user doesn't use AdMob, split revenue will default to 100."
+
+msgid "Split Ad revenue (percent for you)"
+msgstr "Split Ad revenue (percent for you)"
+
+msgid "AdMob Banner ID"
+msgstr "AdMob Banner ID"
+
+msgid "AdMob Interstitial ID"
+msgstr "AdMob Interstitial ID"
+
+msgid "AdMob Type"
+msgstr "AdMob Type"
+
+msgid "Banner"
+msgstr "Banner"
+
+msgid "Interstitial"
+msgstr "Interstitial"
+
+msgid "Banner & Interstitial"
+msgstr "Banner & Interstitial"
+
+msgid "Banner settings"
+msgstr "Banner settings"
+
+msgid "Banner title"
+msgstr "Banner title"
+
+msgid "Banner author"
+msgstr "Banner author"
+
+msgid "Banner button label"
+msgstr "Banner button label"
+
+msgid "Banner %s store label"
+msgstr "Banner %s store label"
+
+msgid "e.g: On %s"
+msgstr "e.g: On %s"
+
+msgid "Banner %s price"
+msgstr "Banner %s price"
+
+msgid "User Information"
+msgstr "User Information"
+
+msgid "Company"
+msgstr "Company"
+
+msgid "Phone"
+msgstr "Phone"
+
+msgid "Developer Accounts"
+msgstr "Developer Accounts"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Publish under our account"
+msgstr "Publish under our account"
+
+msgid "Missing Information"
+msgstr "Missing Information"
+
+msgid "Media"
+msgstr "Media"
+
+msgid "App Store Icon"
+msgstr "App Store Icon"
+
+msgid "Google Play Icon"
+msgstr "Google Play Icon"
+
+msgid "Mobile Source Codes"
+msgstr "Mobile Source Codes"
+
+msgid "Source type:"
+msgstr "Source type:"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "iPhone"
+msgstr "iPhone"
+
+msgid "Xcode 9.2"
+msgstr "Xcode 9.2"
+
+msgid "iOS 9+"
+msgstr "iOS 9+"
+
+msgid "Download latest sources"
+msgstr "Download latest sources"
+
+msgid "Not yet generated."
+msgstr "Not yet generated."
+
+msgid "Generate sources"
+msgstr "Generate sources"
+
+msgid "Generating"
+msgstr "Generating"
+
+msgid "Queued"
+msgstr "Queued"
+
+msgid "Cancel"
+msgstr "Cancel"
+
+msgid "iPhone (No Ads)"
+msgstr "iPhone (No Ads)"
+
+msgid "Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."
+msgstr "Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."
+
+msgid "Note that if you want to add ads later, you will have to publish the app again."
+msgstr "Note that if you want to add ads later, you will have to publish the app again."
+
+msgid "Android"
+msgstr "Android"
+
+msgid "Android Studio 3+"
+msgstr "Android Studio 3+"
+
+msgid "Android 4.4+"
+msgstr "Android 4.4+"
+
+msgid "Local APK build"
+msgstr "Local APK build"
+
+msgid "Android APK"
+msgstr "Android APK"
+
+msgid "Android SDK is not installed"
+msgstr "Android SDK is not installed"
+
+msgid "Download latest APK"
+msgstr "Download latest APK"
+
+msgid "No build."
+msgstr "No build."
+
+msgid "Generate build"
+msgstr "Generate build"
+
+msgid "Service APK generator"
+msgstr "Service APK generator"
+
 msgid "Build information"
 msgstr "Build information"
 
-msgctxt "backoffice_application"
-msgid "idle"
-msgstr "idle"
+msgid "Message"
+msgstr "Message"
 
-msgctxt "backoffice_application"
-msgid "* If Apple doesn't detect any configured ads, your application will be refused."
-msgstr "* If Apple doesn't detect any configured ads, your application will be refused."
+msgid "Download APK"
+msgstr "Download APK"
 
-msgctxt "backoffice_application"
-msgid "* You have to tell Apple why you need the background audio playing."
-msgstr "* You have to tell Apple why you need the background audio playing."
+msgid "Request APK generation"
+msgstr "Request APK generation"
 
-msgctxt "backoffice_application"
-msgid "* You must tell Apple why you need the background audio playing."
-msgstr "* You must tell Apple why you need the background audio playing."
+msgid "Service notes"
+msgstr "Service notes"
+
+msgid "Generate and publish iOS Application"
+msgstr "Generate and publish iOS Application"
 
 msgctxt "backoffice_application"
 msgid "Licensing"
 msgstr "Licensing"
-
-msgctxt "backoffice_application"
-msgid "Language"
-msgstr "Language"
 
 msgctxt "backoffice_application"
 msgid "Remaining builds"
@@ -100,68 +804,32 @@ msgid "You can change your license in <b>%s > %s</b>"
 msgstr "You can change your license in <b>%s > %s</b>"
 
 msgctxt "backoffice_application"
-msgid "Apple Development team id"
-msgstr "Apple Development team id"
-
-msgctxt "backoffice_application"
-msgid "Team name"
-msgstr "Team name"
-
-msgctxt "backoffice_application"
-msgid "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
-msgstr "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
-
-msgctxt "backoffice_application"
-msgid "Account E-mail (for 2FA if delegated)"
-msgstr "Account E-mail (for 2FA if delegated)"
-
-msgctxt "backoffice_application"
-msgid "If you are delegating the publication from a 2FA/2SV protected account, please enter the delegate Apple account e-mail here."
-msgstr "If you are delegating the publication from a 2FA/2SV protected account, please enter the delegate Apple account e-mail here."
-
-msgctxt "backoffice_application"
-msgid "Account e-mail (for 2FA/2SV if delegated)"
-msgstr "Account e-mail (for 2FA/2SV if delegated)"
-
-msgctxt "backoffice_application"
-msgid "If you are delegating the publication for a 2FA/2SV protected account, please enter the delegated Apple account e-mail below."
-msgstr "If you are delegating the publication for a 2FA/2SV protected account, please enter the delegated Apple account e-mail below."
-
-msgctxt "backoffice_application"
-msgid "App Store Connect e-mail (for 2FA/2SV if delegated)"
-msgstr "App Store Connect e-mail (for 2FA/2SV if delegated)"
+msgid "Publication settings"
+msgstr "Publication settings"
 
 msgctxt "backoffice_application"
 msgid "I am publishing for/with ..."
 msgstr "I am publishing for/with ..."
 
 msgctxt "backoffice_application"
-msgid "a non 2FA/2SV protected account"
-msgstr "a non 2FA/2SV protected account"
-
-msgctxt "backoffice_application"
-msgid "a 2FA/SV protected account"
-msgstr "a 2FA/SV protected account"
-
-msgctxt "backoffice_application"
-msgid "a 2FA/SV protected account granted to contact@siberiancms.com"
-msgstr "a 2FA/SV protected account granted to contact@siberiancms.com"
-
-msgctxt "backoffice_application"
-msgid "an non account without 2FA/2SV"
-msgstr "an non account without 2FA/2SV"
-
-msgctxt "backoffice_application"
-msgid "Apple account without 2FA/2SV"
-msgstr "Apple account without 2FA/2SV"
-
-msgctxt "backoffice_application"
-msgid "2FA/2SV App Store Connect e-mail"
-msgstr "2FA/2SV App Store Connect e-mail"
-
-msgctxt "backoffice_application"
 msgid "an account without 2FA/2SV"
 msgstr "an account without 2FA/2SV"
+
+msgctxt "backoffice_application"
+msgid "a 2FA/2SV protected account, I will enter the granted account below"
+msgstr "a 2FA/2SV protected account, I will enter the granted account below"
+
+msgctxt "backoffice_application"
+msgid "a 2FA/2SV protected account, which is granted to %s"
+msgstr "a 2FA/2SV protected account, which is granted to %s"
+
+msgctxt "backoffice_application"
+msgid "App Store Connect login"
+msgstr "App Store Connect login"
+
+msgctxt "backoffice_application"
+msgid "Password"
+msgstr "Password"
 
 msgctxt "backoffice_application"
 msgid "App store connect e-mail"
@@ -172,13 +840,627 @@ msgid "Protected App store connect e-mail"
 msgstr "Protected App store connect e-mail"
 
 msgctxt "backoffice_application"
-msgid "a 2FA/2SV protected account, I will enter the granted account below"
-msgstr "a 2FA/2SV protected account, I will enter the granted account below"
+msgid "Apple Development team id"
+msgstr "Apple Development team id"
 
 msgctxt "backoffice_application"
-msgid "a 2FA/2SV protected account, Which is granted to contact@siberiancms.com"
-msgstr "a 2FA/2SV protected account, Which is granted to contact@siberiancms.com"
+msgid "Team name"
+msgstr "Team name"
 
 msgctxt "backoffice_application"
-msgid "a 2FA/2SV protected account, which is granted to %s"
-msgstr "a 2FA/2SV protected account, which is granted to %s"
+msgid "App Store Connect provider"
+msgstr "App Store Connect provider"
+
+msgctxt "backoffice_application"
+msgid "Ho"
+msgstr ""
+
+msgctxt "cabride"
+msgid "Driver informations"
+msgstr "Driver informations"
+
+msgctxt "cabride"
+msgid "Driving license"
+msgstr "Driving license"
+
+msgctxt "cabride"
+msgid "Mobile number"
+msgstr "Mobile number"
+
+msgctxt "cabride"
+msgid "Base address"
+msgstr "Base address"
+
+msgctxt "cabride"
+msgid "Pickup radius"
+msgstr "Pickup radius"
+
+msgid "Привет"
+msgstr "Привет"
+
+msgid "Cabride"
+msgstr "Cabride"
+
+msgid "My Account"
+msgstr "My Account"
+
+msgid "About us"
+msgstr "About us"
+
+msgid "Links"
+msgstr "Links"
+
+msgid "Job"
+msgstr "Job"
+
+msgid "Custom Page"
+msgstr "Custom Page"
+
+msgid "Classifieds"
+msgstr "Classifieds"
+
+msgid "Cabride, uws Server."
+msgstr "Cabride, uws Server."
+
+msgid "Cabride, watcher."
+msgstr "Cabride, watcher."
+
+msgctxt "cabride"
+msgid "Drivers"
+msgstr "Drivers"
+
+msgctxt "cabride"
+msgid "ID"
+msgstr "ID"
+
+msgctxt "cabride"
+msgid "Customer ID"
+msgstr "Customer ID"
+
+msgctxt "cabride"
+msgid "Vehicle type"
+msgstr "Vehicle type"
+
+msgctxt "cabride"
+msgid "Vehicle model"
+msgstr "Vehicle model"
+
+msgctxt "cabride"
+msgid "License plate"
+msgstr "License plate"
+
+msgctxt "cabride"
+msgid "Photo"
+msgstr "Photo"
+
+msgctxt "cabride"
+msgid "EDIT"
+msgstr "EDIT"
+
+msgctxt "cabride"
+msgid "DELETE"
+msgstr "DELETE"
+
+msgctxt "cabride"
+msgid "No results for your search."
+msgstr "No results for your search."
+
+msgctxt "cabride"
+msgid "Search ..."
+msgstr "Search ..."
+
+msgctxt "cabride"
+msgid "Delete driver"
+msgstr "Delete driver"
+
+msgctxt "cabride"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+msgctxt "cabride"
+msgid "Yes, Delete"
+msgstr "Yes, Delete"
+
+msgctxt "cabride"
+msgid "No, go back!"
+msgstr "No, go back!"
+
+msgid "Editor"
+msgstr "Editor"
+
+msgid "Design"
+msgstr "Design"
+
+msgid "Colors"
+msgstr "Colors"
+
+msgid "Features"
+msgstr "Features"
+
+msgid "Application"
+msgstr "Application"
+
+msgid "Publication"
+msgstr "Publication"
+
+msgid "Promote"
+msgstr "Promote"
+
+msgid "Analytics"
+msgstr "Analytics"
+
+msgid "App analytics"
+msgstr "App analytics"
+
+msgid "Feature Analytics"
+msgstr "Feature Analytics"
+
+msgid "Terms & Conditions"
+msgstr "Terms & Conditions"
+
+msgctxt "cabride"
+msgid "Cab-Ride"
+msgstr "Cab-Ride"
+
+msgctxt "cabride"
+msgid "Dashboard"
+msgstr "Dashboard"
+
+msgctxt "cabride"
+msgid "Rides"
+msgstr "Rides"
+
+msgctxt "cabride"
+msgid "Payments"
+msgstr "Payments"
+
+msgctxt "cabride"
+msgid "Users"
+msgstr "Users"
+
+msgctxt "cabride"
+msgid "Vehicle types"
+msgstr "Vehicle types"
+
+msgctxt "cabride"
+msgid "Settings"
+msgstr "Settings"
+
+msgid "CabRide Drivers"
+msgstr "CabRide Drivers"
+
+msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+msgstr "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
+
+msgid "This field is required."
+msgstr "This field is required."
+
+msgid "Please fix this field."
+msgstr "Please fix this field."
+
+msgid "Please enter a valid email address."
+msgstr "Please enter a valid email address."
+
+msgid "Please enter a valid URL."
+msgstr "Please enter a valid URL."
+
+msgid "Please enter a valid date."
+msgstr "Please enter a valid date."
+
+msgid "Please enter a valid date (ISO)."
+msgstr "Please enter a valid date (ISO)."
+
+msgid "Please enter a valid number."
+msgstr "Please enter a valid number."
+
+msgid "Please enter only digits."
+msgstr "Please enter only digits."
+
+msgid "Please enter a valid credit card number."
+msgstr "Please enter a valid credit card number."
+
+msgid "Please enter the same value again."
+msgstr "Please enter the same value again."
+
+msgid "Please enter no more than {0} characters."
+msgstr "Please enter no more than {0} characters."
+
+msgid "Please enter at least {0} characters."
+msgstr "Please enter at least {0} characters."
+
+msgid "Please enter a value between {0} and {1} characters long."
+msgstr "Please enter a value between {0} and {1} characters long."
+
+msgid "Please enter a value between {0} and {1}."
+msgstr "Please enter a value between {0} and {1}."
+
+msgid "Please enter a value less than or equal to {0}."
+msgstr "Please enter a value less than or equal to {0}."
+
+msgid "Please enter a value greater than or equal to {0}."
+msgstr "Please enter a value greater than or equal to {0}."
+
+msgid "HTTPS is not available on your server."
+msgstr "HTTPS is not available on your server."
+
+msgid "New messages"
+msgstr "New messages"
+
+msgid "Read"
+msgstr "Read"
+
+msgid "You have no new messages."
+msgstr "You have no new messages."
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Cron scheduler"
+msgstr "Cron scheduler"
+
+msgid "Push messages:"
+msgstr "Push messages:"
+
+msgid "Failed"
+msgstr "Failed"
+
+msgid "Average build time in seconds:"
+msgstr "Average build time in seconds:"
+
+msgid "[Sources]"
+msgstr "[Sources]"
+
+msgid "[APK]"
+msgstr "[APK]"
+
+msgid "[Global]"
+msgstr "[Global]"
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+
+msgid "Remove locks"
+msgstr "Remove locks"
+
+msgid "Last cron error"
+msgstr "Last cron error"
+
+msgid "Show more"
+msgstr "Show more"
+
+msgid "Hide"
+msgstr "Hide"
+
+msgid "Clear"
+msgstr "Clear"
+
+msgid "Not running"
+msgstr "Not running"
+
+msgid "How to install the cron scheduler ?"
+msgstr "How to install the cron scheduler ?"
+
+msgid "Required extensions"
+msgstr "Required extensions"
+
+msgid "PHP version %s:"
+msgstr "PHP version %s:"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Installed, version"
+msgstr "Installed, version"
+
+msgid "You must upgrade Java to 1.8"
+msgstr "You must upgrade Java to 1.8"
+
+msgid "Not found"
+msgstr "Not found"
+
+msgid "Android SDK:"
+msgstr "Android SDK:"
+
+msgid "PHP SQLite3:"
+msgstr "PHP SQLite3:"
+
+msgid "Bin SQLite3:"
+msgstr "Bin SQLite3:"
+
+msgid "Optional binaries"
+msgstr "Optional binaries"
+
+msgid "OptiPNG:"
+msgstr "OptiPNG:"
+
+msgid "JpegOptim:"
+msgstr "JpegOptim:"
+
+msgid "PNGQuant:"
+msgstr "PNGQuant:"
+
+msgid "ClamAV:"
+msgstr "ClamAV:"
+
+msgid "System Diagnostic"
+msgstr "System Diagnostic"
+
+msgid "External extensions"
+msgstr "External extensions"
+
+msgid "Web space"
+msgstr "Web space"
+
+msgid "Disk usage & Cache:"
+msgstr "Disk usage & Cache:"
+
+msgid "values are refreshed once a day only!"
+msgstr "values are refreshed once a day only!"
+
+msgid "Total usage:"
+msgstr "Total usage:"
+
+msgid "Log (var/log, log files)"
+msgstr "Log (var/log, log files)"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Cache (var/cache, system cache)"
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Temp (var/tmp, application sources & apk)"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+"You are about to wipe all your temporary files, this includes the generated sources & apk builds !\n"
+"Are you sure ?"
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+
+msgid "Are you sure ?"
+msgstr "Are you sure ?"
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Applications/Previewer manifest for automatic updates."
+
+msgid "Rebuild"
+msgstr "Rebuild"
+
+msgid "Statistics"
+msgstr "Statistics"
+
+msgid "Cron scheduler help"
+msgstr "Cron scheduler help"
+
+msgid "Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"
+msgstr "Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"
+
+msgid "Otherwise install it manually, from your panel, or directly from your ssh access."
+msgstr "Otherwise install it manually, from your panel, or directly from your ssh access."
+
+msgid "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it."
+msgstr "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it."
+
+msgid "Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."
+msgstr "Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."
+
+msgid "Offline"
+msgstr "Offline"
+
+msgid "Running"
+msgstr "Running"
+
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth is valid."
+
+msgid "Bearer Token Auth (API)"
+msgstr "Bearer Token Auth (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Bearer Token Auth is valid."
+
+msgid "List of your applications"
+msgstr "List of your applications"
+
+msgid "Size on disk"
+msgstr "Size on disk"
+
+msgid "is updated once a day"
+msgstr "is updated once a day"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "Show the applications waiting for publication only."
+msgstr "Show the applications waiting for publication only."
+
+msgid "Show applications removed from the editor."
+msgstr "Show applications removed from the editor."
+
+msgid "Id"
+msgstr "Id"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "EDIT"
+msgstr "EDIT"
+
+msgid "DELETE"
+msgstr "DELETE"
+
+msgid "You don't have any applications yet"
+msgstr "You don't have any applications yet"
+
+msgid "Yes, Delete!"
+msgstr "Yes, Delete!"
+
+msgid "No, go back!"
+msgstr "No, go back!"
+
+msgid "Confirmation required"
+msgstr "Confirmation required"
+
+msgid "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
+msgstr "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
+
+msgctxt "backoffice_application"
+msgid "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
+msgstr "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
+
+msgctxt "backoffice_application"
+msgid "Language"
+msgstr "Language"
+
+msgid "Brazilian Portuguese"
+msgstr "Brazilian Portuguese"
+
+msgid "Danish"
+msgstr "Danish"
+
+msgid "Dutch"
+msgstr "Dutch"
+
+msgid "English"
+msgstr "English"
+
+msgid "English_Australian"
+msgstr "English_Australian"
+
+msgid "English_CA"
+msgstr "English_CA"
+
+msgid "English_UK"
+msgstr "English_UK"
+
+msgid "German"
+msgstr "German"
+
+msgid "Greek"
+msgstr "Greek"
+
+msgid "Finnish"
+msgstr "Finnish"
+
+msgid "French"
+msgstr "French"
+
+msgid "French_CA"
+msgstr "French_CA"
+
+msgid "Indonesian"
+msgstr "Indonesian"
+
+msgid "Italian"
+msgstr "Italian"
+
+msgid "Japanese"
+msgstr "Japanese"
+
+msgid "Korean"
+msgstr "Korean"
+
+msgid "Malay"
+msgstr "Malay"
+
+msgid "Spanish"
+msgstr "Spanish"
+
+msgid "Spanish_MX"
+msgstr "Spanish_MX"
+
+msgid "Portuguese"
+msgstr "Portuguese"
+
+msgid "Russian"
+msgstr "Russian"
+
+msgid "Swedish"
+msgstr "Swedish"
+
+msgid "Norwegian"
+msgstr "Norwegian"
+
+msgid "Thai"
+msgstr "Thai"
+
+msgid "Turkish"
+msgstr "Turkish"
+
+msgid "Vietnamese"
+msgstr "Vietnamese"
+
+msgid "Simplified Chinese"
+msgstr "Simplified Chinese"
+
+msgid "Traditional Chinese"
+msgstr "Traditional Chinese"
+
+msgctxt "backoffice_application"
+msgid "Options"
+msgstr "Options"
+
+msgctxt "backoffice_application"
+msgid "With ads functionality"
+msgstr "With ads functionality"
+
+msgctxt "backoffice_application"
+msgid "* If Apple doesn't detect any configured ads, your application will be refused."
+msgstr "* If Apple doesn't detect any configured ads, your application will be refused."
+
+msgctxt "backoffice_application"
+msgid "With background audio playing"
+msgstr "With background audio playing"
+
+msgctxt "backoffice_application"
+msgid "* You must tell Apple why you need the background audio playing."
+msgstr "* You must tell Apple why you need the background audio playing."
+
+msgctxt "backoffice_application"
+msgid "Build information"
+msgstr "Build information"
+
+msgctxt "backoffice_application"
+msgid "idle"
+msgstr "idle"
+
+msgid "Last error"
+msgstr "Last error"
+
+msgid "Service status / load"
+msgstr "Service status / load"
+
+msgid "Current load is"
+msgstr "Current load is"
+
+msgid "Your build should be ready"
+msgstr "Your build should be ready"
+
+msgid "Current status is"
+msgstr "Current status is"
+
+msgid "Save credentials & settings"
+msgstr "Save credentials & settings"
+
+msgid "Request a publication"
+msgstr "Request a publication"
+
+msgctxt "backoffice_application"
+msgid "Service notes"
+msgstr "Service notes"

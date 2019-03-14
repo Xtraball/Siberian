@@ -72,25 +72,33 @@ class Push_Model_Android_Message
     {
         $error = null;
         $device = new Push_Model_Android_Device();
-        $app_id = $this->getMessage()->getAppId();
+        $message = $this->getMessage();
+        $app_id = $message->getAppId();
 
-        if ($this->getMessage()->getSendToAll() == 0) {
-            $category_message = new Topic_Model_Category_Message();
-            $allowed_categories = $category_message->findCategoryByMessageId($this->getMessage()->getId());
+        // New standalone push
+        if ($message->getIsStandalone() === true) {
+            $_device = (new Push_Model_Android_Device())
+                ->find($message->getToken(), "registration_id");
+            $devices = [$_device];
         } else {
-            $allowed_categories = null;
-        }
-
-        # Individual push, push to user(s)
-        $selected_users = null;
-        if (Push_Model_Message::hasIndividualPush()) {
-            if ($this->getMessage()->getSendToSpecificCustomer() == 1) {
-                $customer_message = new Push_Model_Customer_Message();
-                $selected_users = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
+            if ($message->getSendToAll() == 0) {
+                $category_message = new Topic_Model_Category_Message();
+                $allowed_categories = $category_message->findCategoryByMessageId($message->getId());
+            } else {
+                $allowed_categories = null;
             }
-        }
 
-        $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            # Individual push, push to user(s)
+            $selected_users = null;
+            if (Push_Model_Message::hasIndividualPush()) {
+                if ($message->getSendToSpecificCustomer() == 1) {
+                    $customer_message = new Push_Model_Customer_Message();
+                    $selected_users = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
+                }
+            }
+
+            $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+        }
 
         $messagePayload = $this->buildMessage();
 
@@ -245,8 +253,13 @@ class Push_Model_Android_Message
             ->setDelayWithIdle(false)
             ->setTimeToLive(0)
             ->setSendUntil($message->getSendUntil() ? $message->getSendUntil() : "0")
-            ->setActionValue($action_url)
-            ->setOpenWebview(!is_numeric($message->getActionValue()));
+            ->setActionValue($action_url);
+
+        if ($message->getForceAppRoute() === true) {
+            $messagePayload->setOpenWebview(false);
+        } else {
+            $messagePayload->setOpenWebview(!is_numeric($message->getActionValue()));
+        }
 
         # Priority to custom image
         $customImage = $message->getCustomImage();

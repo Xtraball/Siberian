@@ -28,6 +28,12 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         privacy_policy_gdpr: Application.privacyPolicy.gdpr,
         gdpr: {
             isEnabled: Application.gdpr.isEnabled
+        },
+        myAccount: {
+            settings: {
+                enable_facebook_login: true,
+                enable_registration: true,
+            }
         }
     });
 
@@ -97,6 +103,8 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                         $scope.customer.delete_avatar = true;
                         $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id, {ignore_stored: true});
                     }
+
+                    $rootScope.$broadcast(SB.EVENTS.AUTH.editSuccess);
                 }
                 return true;
             }
@@ -216,6 +224,15 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
 
     $scope.loadContent = function () {
         if (!$scope.is_logged_in) {
+            HomepageLayout
+            .getOptions()
+            .then(function (options) {
+                /** Feature & Settings */
+                $scope.myAccount = _.find(options, function (option) {
+                    return option.code === "tabbar_account";
+                });
+            });
+
             return;
         }
 
@@ -227,7 +244,8 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
         $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
 
-        return HomepageLayout.getActiveOptions()
+        return HomepageLayout
+            .getActiveOptions()
             .then(function (options) {
                 $scope.optional_fields = {
                     ranking: !!_.find(options, {
@@ -239,6 +257,13 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
                 };
 
                 $scope.custom_fields = [];
+
+                /** Feature & Settings */
+                $scope.myAccount = _.find(options, function (option) {
+                    return option.code === "tabbar_account";
+                });
+
+                console.log("$scope.myAccount", $scope.myAccount);
 
                 _.forEach(options, function (opt) {
                     var fields = _.get(opt, 'custom_fields');
@@ -300,6 +325,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     };
 
     $scope.displayLoginForm = function () {
+        $scope.scrollTop();
         $scope.display_forgot_password_form = false;
         $scope.display_account_form = false;
         $scope.display_privacy_policy = false;
@@ -311,6 +337,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     });
 
     $scope.displayForgotPasswordForm = function () {
+        $scope.scrollTop();
         $scope.display_login_form = false;
         $scope.display_account_form = false;
         $scope.display_privacy_policy = false;
@@ -318,6 +345,10 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     };
 
     $scope.displayAccountForm = function () {
+        $scope.scrollTop();
+        if (!$scope.myAccount.settings.enable_registration) {
+            $scope.displayLoginForm();
+        }
         $scope.display_login_form = false;
         $scope.display_forgot_password_form = false;
         $scope.display_privacy_policy = false;
@@ -325,6 +356,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     };
 
     $scope.displayPrivacyPolicy = function (from) {
+        $scope.scrollTop();
         $scope.displayed_from = from || '';
         $scope.display_login_form = false;
         $scope.display_forgot_password_form = false;

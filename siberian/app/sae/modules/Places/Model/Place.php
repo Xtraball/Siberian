@@ -1,11 +1,14 @@
 <?php
 
+use Siberian\Json;
+use Core\Model\Base;
+
 /**
  * Class Places_Model_Place
  *
  * @method Places_Model_Db_Table_Place getTable()
  */
-class Places_Model_Place extends Core_Model_Default
+class Places_Model_Place extends Base
 {
 
     /**
@@ -71,6 +74,28 @@ class Places_Model_Place extends Core_Model_Default
         $this->_db_table = 'Places_Model_Db_Table_Place';
         $this->float_validator = new Zend_Validate_Float();
         $this->int_validator = new Zend_Validate_Int();
+        return $this;
+    }
+
+    /**
+     * @param $optionValue
+     * @return $this
+     */
+    public function prepareFeature($optionValue)
+    {
+        // Set default settings
+        $defaults = [
+            "default_page" => "places",
+            "default_layout" => "place-100",
+            "distance_unit" => "km",
+            "listImagePriority" => "thumbnail",
+            "defaultPin" => "pin",
+        ];
+
+        $optionValue
+            ->setSettings(Json::encode($defaults))
+            ->save();
+
         return $this;
     }
 

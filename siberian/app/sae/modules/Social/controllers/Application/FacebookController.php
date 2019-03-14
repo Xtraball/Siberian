@@ -16,11 +16,9 @@ class Social_Application_FacebookController extends Application_Controller_Defau
                 $isNew = false;
                 $application = $this->getApplication();
 
-                //https://graph.facebook.com/v2.7/propsfactory?fields=id,about,name,genre,cover,fan_count,likes,talking_about_count&access_token=972458572808643|RFO87sasWNc0AJke8Uk99QhCzqc
-
                 // Test s'il y a un value_id
                 if (empty($datas['value_id'])) {
-                    throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
+                    throw new \Siberian\Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
                 // Récupère l'option_value en cours
@@ -36,7 +34,7 @@ class Social_Application_FacebookController extends Application_Controller_Defau
                     $datas['value_id'] = $option_value->getId();
                 }
                 if ($facebook->getId() AND $facebook->getValueId() != $option_value->getId()) {
-                    throw new Siberian_Exception("Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement.");
+                    throw new \Siberian\Exception("Une erreur est survenue lors de la sauvegarde de votre galerie vidéos. Merci de réessayer ultérieurement.");
                 }
 
                 // Test connection
@@ -50,9 +48,9 @@ class Social_Application_FacebookController extends Application_Controller_Defau
                 if (array_key_exists('error', $response)) {
                     $data = $response['error'];
                     if (array_key_exists('message', $data)) {
-                        throw new Siberian_Exception($data['message']);
+                        throw new \Siberian\Exception($data['message']);
                     } else {
-                        throw new Siberian_Exception(__('An unknown error occured with the Facebook API.<br />' . print_r($response, true)));
+                        throw new \Siberian\Exception(__('An unknown error occured with the Facebook API.<br />' . print_r($response, true)));
                     }
                 }
 
