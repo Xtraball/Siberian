@@ -177,6 +177,10 @@ class Zend_Http_Response
         $this->body = $body;
 
         // Set the HTTP version
+        if ($version == "2") {
+            $version = "2.0";
+        }
+
         if (! preg_match('|^\d\.\d$|', $version)) {
             require_once 'Zend/Http/Exception.php';
             throw new Zend_Http_Exception("Invalid HTTP response version: $version");
