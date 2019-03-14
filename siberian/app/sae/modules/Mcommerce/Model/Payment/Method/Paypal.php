@@ -14,6 +14,7 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
         'HKD',
         'HUF',
         'ILS',
+        'INR',
         'JPY',
         'MYR',
         'MXN',

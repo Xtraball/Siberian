@@ -7,7 +7,9 @@ use Siberian\Json;
  */
 class Customer_ApplicationController extends Application_Controller_Default
 {
-
+    /**
+     *
+     */
     public function listAction()
     {
         $this->loadPartials();
@@ -20,7 +22,6 @@ class Customer_ApplicationController extends Application_Controller_Default
 
     public function editAction()
     {
-
         $customer = new Customer_Model_Customer();
         if ($customer_id = $this->getRequest()->getParam('customer_id')) {
             $customer->find($customer_id);
@@ -31,13 +32,12 @@ class Customer_ApplicationController extends Application_Controller_Default
 
         $this->loadPartials();
         $this->getLayout()->getPartial('content')->setCurrentCustomer($customer);
-
     }
 
     /**
      *
      */
-    public function editSettingsAction ()
+    public function editSettingsAction()
     {
         try {
             $request = $this->getRequest();
@@ -73,10 +73,13 @@ class Customer_ApplicationController extends Application_Controller_Default
                 'message' => $e->getMessage(),
             ];
         }
-        
+
         $this->_sendJson($payload);
     }
-    
+
+    /**
+     *
+     */
     public function saveAction()
     {
         if ($data = $this->getRequest()->getPost()) {
@@ -137,7 +140,10 @@ class Customer_ApplicationController extends Application_Controller_Default
                 $customer->save();
 
                 $this->getSession()->addSuccess(__("Info successfully saved"));
-                $html = ["success" => 1];
+
+                $html = [
+                    "success" => 1
+                ];
 
             } catch (Exception $e) {
                 $html = [
@@ -249,8 +255,8 @@ class Customer_ApplicationController extends Application_Controller_Default
         $this->getResponse()->setBody(Zend_Json::encode($html))->sendResponse();
         die;
     }
-    
-    public function fetchCustomersAction () 
+
+    public function fetchCustomersAction()
     {
         try {
             $request = $this->getRequest();
@@ -302,7 +308,7 @@ class Customer_ApplicationController extends Application_Controller_Default
                 'message' => $e->getMessage(),
             ];
         }
-        
+
         $this->_sendJson($payload);
     }
 
