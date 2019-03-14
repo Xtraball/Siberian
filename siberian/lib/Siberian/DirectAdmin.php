@@ -65,6 +65,7 @@ class Siberian_DirectAdmin {
 
     /**
      * @param $ssl_certificate
+     * @return bool
      */
     public function updateCertificate($ssl_certificate) {
 
