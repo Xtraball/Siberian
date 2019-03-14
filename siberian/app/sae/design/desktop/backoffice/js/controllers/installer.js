@@ -265,8 +265,25 @@ App.config(function ($routeProvider) {
                 $scope.permissions.error = true;
             }
         }).error(function (data) {
-            $scope.permissions.error_message = data.message;
-            $scope.permissions.error = true;
+            if (!data || !data.message) {
+                // Seems we got an issue, try to rebuild manifest once
+                Backoffice.clearCache("app_manifest")
+                .success(function (data) {
+                    $scope.content_loader_is_visible = true;
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                }).finally(function () {
+                    $scope.installation.install.running = false;
+                    $timeout(function () {
+                        location.reload();
+                    }, 1500);
+                });
+            } else {
+                $scope.permissions.error_message = data.message;
+                $scope.permissions.error = true;
+            }
         }).finally(function () {
             $interval.cancel($scope.permissions.interval_id);
             $scope.permissions.running = false;
