@@ -69,8 +69,15 @@ session_cache_limiter(false);
 
 $application->bootstrap();
 
+echo color('Siberian CLI', 'blue') . "\n\n";
+
 try {
     $action = isset($argv[1]) ? $argv[1] : '';
+
+    if (!empty($action)) {
+        echo color("[Action] {$action}", 'green') . "\n";
+    }
+
     switch ($action) {
         case 'export:schemas':
         case 'export-schemas':
@@ -364,3 +371,5 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }
+
+echo color('done.', 'green') . "\n";
