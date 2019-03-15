@@ -194,7 +194,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                         }
                     } else {
                         $url = __path("/places/mobile_list/index", [
-                            "value_id" => $optionValue->getId(),
+                            "value_id" => $feature->getId(),
                             "category_id" => ""
                         ]);
                     }
