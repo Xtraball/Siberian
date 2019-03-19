@@ -46,15 +46,16 @@ class Template_CropController extends Admin_Controller_Default
                 $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$file);
 
                 $datas = [
-                    'success' => 1,
-                    'files' => $file,
-                    'source_width' => $image_sizes[0],
-                    'source_height' => $image_sizes[1],
+                    "success" => 1,
+                    "message" => __("File uploaded."),
+                    "files" => $file,
+                    "source_width" => $image_sizes[0],
+                    "source_height" => $image_sizes[1],
                 ];
             } catch (Exception $e) {
                 $datas = [
-                    'error' => 1,
-                    'message' => $e->getMessage()
+                    "error" => 1,
+                    "message" => $e->getMessage()
                 ];
             }
             $this->getLayout()->setHtml(Zend_Json::encode($datas));
