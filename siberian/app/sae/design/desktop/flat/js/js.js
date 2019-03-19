@@ -213,49 +213,49 @@ let AlertMessage = Class.extend({
         return this;
     },
 
-    hide: function() {
+    hide: function () {
         // Toastr handles this
         return this;
     },
-    didAppear: function() {
+    didAppear: function () {
         // Toastr handles this
         return this;
     },
-    didHide: function() {
+    didHide: function () {
         // Toastr handles this
         return this;
     },
-    addLoader: function(addLoader) {
+    addLoader: function (addLoader) {
     	this.showLoader = addLoader;
         return this;
     },
-    addButton: function(addButton) {
+    addButton: function (addButton) {
         // Toastr handles this
         return this;
     },
-    setTimer: function(timer) {
+    setTimer: function (timer) {
     	if (timer) {
             timer *= 1000;
         }
     	this.timer = timer;
         return this;
     },
-    isError: function(isError) {
+    isError: function (isError) {
         this.type = (isError) ? 'error' : 'success';
         return this;
     },
-    setMessage: function(message) {
+    setMessage: function (message) {
          this.message = message;
     },
-    isVisible: function() {
+    isVisible: function () {
         // Toastr handles this
         return this;
     },
-    setNoBackground: function(has_background) {
+    setNoBackground: function (has_background) {
         // Toastr handles this
         return this;
     },
-    reset: function() {
+    reset: function () {
         this.type = 'success';
         return this;
     }
