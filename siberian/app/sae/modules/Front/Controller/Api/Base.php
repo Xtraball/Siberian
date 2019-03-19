@@ -276,7 +276,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param $application
+     * @param Application_Model_Application $application
      * @param $currentLanguage
      * @param $request
      * @return array|false|string

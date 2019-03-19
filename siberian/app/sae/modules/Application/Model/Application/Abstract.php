@@ -1151,9 +1151,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
                 $this->_options = (new Application_Model_Option_Value())
                     ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
-
-                return $customerAccount;
             }
+            return $customerAccount;
         }
         return false;
     }

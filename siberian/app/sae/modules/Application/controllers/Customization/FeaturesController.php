@@ -263,8 +263,23 @@ class Application_Customization_FeaturesController extends Application_Controlle
             }
 
             // Prevents My Account delete when a features still requires it.
-            if ($application->usesUserAccount() && $optionValue->getCode() === "tabbar_account") {
-                throw new \Siberian\Exception(__("A feature requires My account, you can't delete it."));
+            if ($application->usesUserAccount() &&
+                $optionValue->getCode() === "tabbar_account") {
+
+                $options = $application->getOptions();
+
+                $canDelete = false;
+                foreach ($options as $option) {
+                    if ($option->getCode() === "tabbar_account" &&
+                        $optionValue->getValueId() != $option->getValueId()) {
+                        // Ok we have another my account, we can delete!
+                        $canDelete = true;
+                    }
+                }
+
+                if (!$canDelete) {
+                    throw new \Siberian\Exception(__("A feature requires My account, you can't delete it."));
+                }
             }
 
             $payload = [
