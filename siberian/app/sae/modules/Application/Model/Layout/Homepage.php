@@ -26,7 +26,6 @@ class Application_Model_Layout_Homepage extends Application_Model_Layout_Abstrac
     /**
      * Application_Model_Layout_Homepage constructor.
      * @param array $params
-     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {

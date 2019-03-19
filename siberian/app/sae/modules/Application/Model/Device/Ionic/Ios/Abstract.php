@@ -129,7 +129,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
                 $iconResource = imagecreatefromstring(file_get_contents($iconSrc));
                 imagecopyresized($newIcon, $iconResource, 0, 0, 0, 0, $width, $height, $width, $height);
                 imagepng($newIcon, $iconDst);
-            } else if(!copy($iconSrc, $iconDst)) {
+            } else if (!copy($iconSrc, $iconDst)) {
                 throw new \Siberian\Exception(
                     __('An error occured while copying your app icon. Please check the icon, try to send it again and try again.') .
                     "\n" . $iconSrc . "\n" . $iconDst);
@@ -160,15 +160,14 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
             $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
-            $destStartup = $tmpDest .'/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpg';
+            $destStartup = $tmpDest . '/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpg';
 
             Siberian_Media::optimize($_tmpStartup);
 
             if (!copy($_tmpStartup, $destStartup)) {
-                throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.', "{$image["width"]}x{$image["height"]}");
+                throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.');
             }
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception('An error occurred while generating the startup image. Please check the image, try to send it again and try again.');
         }
 
@@ -179,7 +178,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
      *
      * @throws Exception
      */
-    protected function removeAds ()
+    protected function removeAds()
     {
         // Remove feature from config.xml
         $this->__replace(
@@ -256,7 +255,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             false);
     }
 
-    protected function buildPList() {
+    protected function buildPList()
+    {
         $plistPath = $this->_dest_source_amc . '/AppsMobileCompany-Info.plist';
         $device = $this->getDevice();
 
@@ -310,7 +310,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
 
         // iPhone X UILaunchStoryboardName
         $root->removeProperty('UILaunchStoryboardName');
-        $root->addProperty( \PListEditor\PListProperty::PL_STRING, 'CDVLaunchScreen', 'UILaunchStoryboardName');
+        $root->addProperty(\PListEditor\PListProperty::PL_STRING, 'CDVLaunchScreen', 'UILaunchStoryboardName');
 
         // NS*Descriptions!
         $NSDescriptions = [
