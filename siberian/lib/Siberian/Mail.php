@@ -330,7 +330,9 @@ class Mail extends Zend_Mail
      * @param string $sender
      * @param string $sender_name
      * @return Zend_Mail
-     * @throws Zend_Layout_Exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Filter_Exception
+     * @throws \Zend_Layout_Exception
      * @throws \Zend_Mail_Exception
      */
     public function simpleEmail($module, $template, $subject, $recipients = [], $values = [], $sender = "",
