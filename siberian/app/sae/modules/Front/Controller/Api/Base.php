@@ -276,7 +276,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @param $currentLanguage
      * @param $request
      * @return array|false|string
@@ -296,7 +296,18 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $backgroundColor = $application->getBlock('tabbar')->getBackgroundColor();
 
             $touchedValues = [];
+            $myAccountIgnore = false;
+
             foreach ($optionValues as $optionValue) {
+                if ($myAccountIgnore === true) {
+                    continue;
+                }
+
+                // We will ignore next tabbar_accounts iterations (ie: duplicates)
+                if ($optionValue->getCode() === "tabbar_account") {
+                    $myAccountIgnore = true;
+                }
+
                 $touchedValues[$optionValue->getId()] = [
                     'touched_at' => (integer)$optionValue->getTouchedAt(),
                     'expires_at' => (integer)$optionValue->getExpiresAt()
