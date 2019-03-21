@@ -858,6 +858,9 @@ abstract class Core_Model_Default_Abstract
      */
     public static function _formatPrice($price, $currency = null)
     {
+        if (empty($price)) {
+            $price = 0;
+        }
         $self = new static();
         return $self->formatPrice($price, $currency);
     }

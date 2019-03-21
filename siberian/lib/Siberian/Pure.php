@@ -440,6 +440,15 @@ function path($relativePath = "/")
 }
 
 /**
+ * @param string $relativePath
+ * @return string
+ */
+function rpath($relativePath = "/")
+{
+    return \Core_Model_Directory::getPathTo($relativePath);
+}
+
+/**
  * @param bool $base
  * @return string
  */

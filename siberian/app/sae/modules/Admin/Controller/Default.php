@@ -82,7 +82,7 @@ class Admin_Controller_Default extends Core_Controller_Default
     /**
      * @return mixed
      */
-    protected function _getAcl()
+    public function _getAcl()
     {
         return self::$_acl;
     }

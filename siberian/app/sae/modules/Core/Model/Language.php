@@ -158,6 +158,14 @@ class Core_Model_Language
     }
 
     /**
+     * @return mixed
+     */
+    public static function getCurrentLanguageDatepickerLocale()
+    {
+        return str_replace("_", "-", self::getCurrentLanguage());
+    }
+
+    /**
      * @return mixed|string
      * @throws Zend_Exception
      */

@@ -483,6 +483,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
                 if (data.result.success) {
                     feature_picture_uploader.hide();
+                    toastr.clear();
 
                     var params = [];
                     params.url = '/template/crop/cropv2';

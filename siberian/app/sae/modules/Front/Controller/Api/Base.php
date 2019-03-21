@@ -296,7 +296,17 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $backgroundColor = $application->getBlock('tabbar')->getBackgroundColor();
 
             $touchedValues = [];
+            $myAccountIgnore = false;
+
             foreach ($optionValues as $optionValue) {
+                // We will ignore next tabbar_accounts iterations (ie: duplicates)
+                if ($optionValue->getCode() === "tabbar_account") {
+                    if ($myAccountIgnore === true) {
+                        continue;
+                    }
+                    $myAccountIgnore = true;
+                }
+
                 $touchedValues[$optionValue->getId()] = [
                     'touched_at' => (integer)$optionValue->getTouchedAt(),
                     'expires_at' => (integer)$optionValue->getExpiresAt()
@@ -562,7 +572,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataHomepage["pages"] = $fixedPages;
         }
 
-        // Don't cache customer informations!
+        // Don't cache customer information!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
         if (!empty($deviceUid)) {
