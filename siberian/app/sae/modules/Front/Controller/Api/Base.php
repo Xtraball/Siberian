@@ -299,12 +299,11 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $myAccountIgnore = false;
 
             foreach ($optionValues as $optionValue) {
-                if ($myAccountIgnore === true) {
-                    continue;
-                }
-
                 // We will ignore next tabbar_accounts iterations (ie: duplicates)
                 if ($optionValue->getCode() === "tabbar_account") {
+                    if ($myAccountIgnore === true) {
+                        continue;
+                    }
                     $myAccountIgnore = true;
                 }
 
