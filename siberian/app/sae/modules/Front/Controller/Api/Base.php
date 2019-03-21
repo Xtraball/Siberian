@@ -573,7 +573,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataHomepage["pages"] = $fixedPages;
         }
 
-        // Don't cache customer informations!
+        // Don't cache customer information!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
         if (!empty($deviceUid)) {
