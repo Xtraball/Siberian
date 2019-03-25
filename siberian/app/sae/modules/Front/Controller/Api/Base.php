@@ -290,6 +290,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
         $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {
+            /**
+             * @var $optionValues Application_Model_Option_Value[]
+             */
             $optionValues = $application->getPages(10, true);
             $featureBlock = [];
             $color = $application->getBlock('tabbar')->getImageColor();
@@ -340,48 +343,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     }
 
                     // Special uri places
-                    $_featureUrl = $optionValue->getUrl(null, [
-                        "value_id" => $optionValue->getId()
-                    ], false);
-                    $_featurePath = $optionValue->getPath(null, [
-                        "value_id" => $optionValue->getId()
-                    ], "mobile");
-
-                    // Special feature for places!
-                    if ($optionValue->getCode() === "places") {
-                        if (array_key_exists("default_page", $settings)) {
-                            switch ($settings["default_page"]) {
-                                case "categories":
-                                    $_featureUrl = __url("/places/mobile_list/categories", [
-                                        "value_id" => $optionValue->getId()
-                                    ]);
-                                    $_featurePath = __path("/places/mobile_list/categories", [
-                                        "value_id" => $optionValue->getId()
-                                    ]);
-                                    break;
-                                case "places":
-                                default:
-                                    $_featureUrl = __url("/places/mobile_list/index", [
-                                        "value_id" => $optionValue->getId(),
-                                        "category_id" => ""
-                                    ]);
-                                    $_featurePath = __path("/places/mobile_list/index", [
-                                        "value_id" => $optionValue->getId(),
-                                        "category_id" => ""
-                                    ]);
-                                    break;
-                            }
-                        } else {
-                            $_featureUrl = __url("/places/mobile_list/index", [
-                                "value_id" => $optionValue->getId(),
-                                "category_id" => ""
-                            ]);
-                            $_featurePath = __path("/places/mobile_list/index", [
-                                "value_id" => $optionValue->getId(),
-                                "category_id" => ""
-                            ]);
-                        }
-                    }
+                    $uris = $optionValue->getAppInitUris();
 
                     // End link special code!
                     $featureBlock[] = [
@@ -392,10 +354,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
-                        'url' => $_featureUrl,
+                        'url' => $uris["featureUrl"],
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
-                        'path' => $_featurePath,
+                        'path' => $uris["featurePath"],
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
                         'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
                         'is_locked' => (boolean) $optionValue->isLocked(),

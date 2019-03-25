@@ -153,10 +153,10 @@ class Places_Model_Place extends Base
 
             foreach ($categories as $category) {
                 $payload["settings"]["categories"][] = [
-                    'id' => (integer) $category->getId(),
-                    'title' => (string) $category->getTitle(),
-                    'subtitle' => (string) $category->getSubtitle(),
-                    'picture' => (string) $category->getPicture(),
+                    'id' => (integer)$category->getId(),
+                    'title' => (string)$category->getTitle(),
+                    'subtitle' => (string)$category->getSubtitle(),
+                    'picture' => (string)$category->getPicture(),
                 ];
             }
         }
@@ -171,10 +171,8 @@ class Places_Model_Place extends Base
      */
     public function getInappStates($valueId)
     {
-
-        $childrens = [];
-        $childrens[] = [
-            "label" => __("Map"),
+        $mapView = [
+            "label" => p__("places", "Map view"),
             "state" => "places-list-map",
             "offline" => false,
             "params" => [
@@ -186,9 +184,27 @@ class Places_Model_Place extends Base
             "value_id" => $valueId
         ], null, null);
 
+        $categories = (new Places_Model_Category())->findAll([
+            "value_id" => $valueId
+        ], null, null);
+
+        $childCats = [];
+        foreach ($categories as $category) {
+            $childCats[] = [
+                "label" => p__("places", "[Category]") . " " . $category->getTitle(),
+                "state" => "places-list",
+                "offline" => true,
+                "params" => [
+                    "value_id" => $valueId,
+                    "category_id" => $category->getId(),
+                ],
+            ];
+        }
+
+        $childPlaces = [];
         foreach ($pages as $page) {
-            $childrens[] = [
-                "label" => $page->getTitle(),
+            $childPlaces[] = [
+                "label" => p__("places", "[Place]") . " " . $page->getTitle(),
                 "state" => "places-view",
                 "offline" => true,
                 "params" => [
@@ -205,7 +221,27 @@ class Places_Model_Place extends Base
                 "params" => [
                     "value_id" => $valueId,
                 ],
-                "childrens" => $childrens
+                "childrens" => [
+                    $mapView,
+                    [
+                        "label" => p__("places", "All categories view"),
+                        "state" => "places-categories",
+                        "offline" => true,
+                        "params" => [
+                            "value_id" => $valueId,
+                        ],
+                        "childrens" => $childCats,
+                    ],
+                    [
+                        "label" => p__("places", "All places view"),
+                        "state" => "places-list",
+                        "offline" => true,
+                        "params" => [
+                            "value_id" => $valueId,
+                        ],
+                        "childrens" => $childPlaces,
+                    ]
+                ]
             ],
         ];
 
@@ -718,7 +754,7 @@ WHERE cap.value_id = {$value_id}
             ],
             "page_title" => $page->getTitle() ? $page->getTitle() : $optionValue->getTabbarName(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive()
+            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive()
         ];
 
         $representation = [
@@ -729,22 +765,22 @@ WHERE cap.value_id = {$value_id}
             "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
             "url" => $url,
             "address" => [
-                "id" => (integer) $address->getId(),
+                "id" => (integer)$address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer) $address->getBlockId(),
+                "block_id" => (integer)$address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
-                "show_phone" => (boolean) $address->getShowPhone(),
-                "show_website" => (boolean) $address->getShowWebsite(),
-                "show_address" => (boolean) $address->getShowAddress(),
-                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton()
+                "show_phone" => (boolean)$address->getShowPhone(),
+                "show_website" => (boolean)$address->getShowWebsite(),
+                "show_address" => (boolean)$address->getShowAddress(),
+                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
             ],
-            "show_image" => (boolean) $this->getPage()->getMetadataValue('show_image'),
-            "show_titles" => (boolean) $this->getPage()->getMetadataValue('show_titles'),
+            "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
+            "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
             "distance" => $distance,
             "distanceUnit" => $distanceUnit,
             "embed_payload" => $embed_payload
@@ -855,18 +891,18 @@ WHERE cap.value_id = {$value_id}
                 "subtitle" => $this->getContent(),
                 "picture" => $picture,
                 "pin" => $pin,
-                "show_image" => (boolean) $this->getMetadataValue('show_image'),
-                "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
-                "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
+                "show_image" => (boolean)$this->getMetadataValue('show_image'),
+                "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
+                "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
                 "mapIcon" => $this->getMapIcon(),
             ],
             "page_title" => $this->getTitle(),
             "picture" => $picture,
-            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive()
+            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive()
         ];
 
         $representation = [
-            "id" => (integer) $this->getId(),
+            "id" => (integer)$this->getId(),
             "title" => $this->getTitle(),
             "subtitle" => $this->getContent(),
             "picture" => $picture,
@@ -874,23 +910,23 @@ WHERE cap.value_id = {$value_id}
             "pin" => $pin,
             "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
             "address" => [
-                "id" => (integer) $address->getId(),
+                "id" => (integer)$address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer) $address->getBlockId(),
+                "block_id" => (integer)$address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => $address->getLatitude(),
                 "longitude" => $address->getLongitude(),
-                "show_phone" => (boolean) $address->getShowPhone(),
-                "show_website" => (boolean) $address->getShowWebsite(),
-                "show_address" => (boolean) $address->getShowAddress(),
-                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton()
+                "show_phone" => (boolean)$address->getShowPhone(),
+                "show_website" => (boolean)$address->getShowWebsite(),
+                "show_address" => (boolean)$address->getShowAddress(),
+                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
             ],
-            "show_image" => (boolean) $this->getMetadataValue('show_image'),
-            "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
-            "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
+            "show_image" => (boolean)$this->getMetadataValue('show_image'),
+            "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
+            "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
             "mapIcon" => $this->getMapIcon(),
             "distance" => $distance,
             "distanceUnit" => $settings["distance_unit"],
@@ -1015,6 +1051,68 @@ WHERE cap.value_id = {$value_id}
         $tags = array_merge($tags, $newTags);
 
         return $this->setTags($tags);
+    }
+
+    /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        try {
+            $settings = Json::decode($optionValue->getSettings());
+        } catch (\Exception $e) {
+            $settings = [];
+        }
+
+        // Special feature for places!
+        if (array_key_exists("default_page", $settings)) {
+            switch ($settings["default_page"]) {
+                case "categories":
+                    $featureUrl = __url("/places/mobile_list/categories", [
+                        "value_id" => $optionValue->getId()
+                    ]);
+                    $featurePath = __path("/places/mobile_list/categories", [
+                        "value_id" => $optionValue->getId()
+                    ]);
+                    break;
+                case "map":
+                    $featureUrl = __url("/places/mobile_list_map/index", [
+                        "value_id" => $optionValue->getId()
+                    ]);
+                    $featurePath = __path("/places/mobile_list_map/index", [
+                        "value_id" => $optionValue->getId()
+                    ]);
+                    break;
+                case "places":
+                default:
+                    $featureUrl = __url("/places/mobile_list/index", [
+                        "value_id" => $optionValue->getId(),
+                        "category_id" => ""
+                    ]);
+                    $featurePath = __path("/places/mobile_list/index", [
+                        "value_id" => $optionValue->getId(),
+                        "category_id" => ""
+                    ]);
+                    break;
+            }
+        } else {
+            $featureUrl = __url("/places/mobile_list/index", [
+                "value_id" => $this->getValueId(),
+                "category_id" => ""
+            ]);
+            $featurePath = __path("/places/mobile_list/index", [
+                "value_id" => $this->getValueId(),
+                "category_id" => ""
+            ]);
+        }
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
     }
 
 }

@@ -260,6 +260,10 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         }
     };
 
+    $scope.searchIcon = function () {
+        return './features/places/assets/templates/l1/img/search.svg';
+    };
+
     $scope.filterModal = function() {
         Modal.fromTemplateUrl('features/places/assets/templates/l1/filter.html', {
             scope: $scope
@@ -362,6 +366,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     // Search places
     $scope.searchPlaces = function (loadMore) {
+        $scope.is_loading = true;
         Location
             .getLocation({timeout: 3200})
             .then(function (position) {

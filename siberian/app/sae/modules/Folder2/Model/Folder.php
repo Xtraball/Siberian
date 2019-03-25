@@ -171,34 +171,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     $settings = [];
                 }
 
-                $url = $feature->getPath(null, [
-                    'value_id' => $feature->getId()
-                ], 'mobile');
-
-                // Special feature for places!
-                if ($feature->getCode() === "places") {
-                    if (array_key_exists("default_page", $settings)) {
-                        switch ($settings["default_page"]) {
-                            case "categories":
-                                $url = __path("/places/mobile_list/categories", [
-                                    "value_id" => $feature->getId()
-                                ]);
-                                break;
-                            case "places":
-                            default:
-                                $url = __path("/places/mobile_list/index", [
-                                    "value_id" => $feature->getId(),
-                                    "category_id" => ""
-                                ]);
-                                break;
-                        }
-                    } else {
-                        $url = __path("/places/mobile_list/index", [
-                            "value_id" => $feature->getId(),
-                            "category_id" => ""
-                        ]);
-                    }
-                }
+                // Special uri places
+                $uris = $feature->getAppInitUris();
 
                 $pictureFile = null;
                 if ($feature->getIconId()) {
@@ -214,8 +188,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'type_id' => 'feature',
                     'picture' => null,
                     'thumbnail' => $pictureFile,
-                    'url' => $url,
-                    'path' => $url,
+                    'url' => $uris["featureUrl"],
+                    'path' => $uris["featurePath"],
                     'code' => $feature->getCode(),
                     'offline_mode' => (boolean) $feature->getObject()->isCacheable(),
                     'hide_navbar' => (boolean) $hideNavbar,

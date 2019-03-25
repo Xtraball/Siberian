@@ -11,11 +11,6 @@
   }
 
   .search-action {
-    background-color: $button-energized-custom-bg;
-    color: $button-energized-custom-text;
-    text-align: center;
-    border-radius: 50%;
-    box-shadow: 1px 1px 2px $button-energized-custom-border;
     position: fixed;
     z-index: 100;
   }
@@ -25,6 +20,14 @@
     bottom: 0;
     z-index: 100;
     margin: 0 !important;
+  }
+
+  .svg_filter_text {
+    fill: $button-energized-custom-text;
+  }
+
+  .svg_filter_bg {
+    fill: $button-energized-custom-bg;
   }
 
   .sb-row {
@@ -552,4 +555,25 @@
 /** Extra namespace */
 button.places-secondary-button {
   margin-left: 8px !important;
+}
+
+/** Special case footer fixed */
+@media screen and (orientation:landscape) {
+  .has-footer-fixed {
+    .module-places {
+      .search-action {
+        bottom: calc(2vw + 60px);
+      }
+    }
+  }
+}
+
+@media screen and (orientation:portrait) {
+  .has-footer-fixed {
+    .module-places {
+      .search-action {
+        bottom: calc(2vh + 60px);
+      }
+    }
+  }
 }
