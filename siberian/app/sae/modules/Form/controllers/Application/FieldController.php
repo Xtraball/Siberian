@@ -5,18 +5,18 @@ class Form_Application_FieldController extends Application_Controller_Default {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "editpost" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
-            ),
-        ),
-        "sortfields" => array(
-            "tags" => array(
+            ],
+        ],
+        "sortfields" => [
+            "tags" => [
                 "homepage_app_#APP_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     /**
      * Affichage de la boxe
@@ -49,7 +49,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
         if ($datas = $this->getRequest()->getPost()) {
             try {
 
-                $html = array();
+                $html = [];
 
                 // Recherche d'un champ déjà configuré
                 $field = new Form_Model_Field();
@@ -69,7 +69,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
 
                     // Si pas besoin d'option, on supprime
                     if ($datas['type'] != 'checkbox' && $datas['type'] != 'radio' && $datas['type'] != 'select') {
-                        $datas['option'] = array();
+                        $datas['option'] = [];
                     }
                     // Gestion des options
                     if (is_array($datas['option'])) {
@@ -95,7 +95,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
                     ->expires(-1);
 
                 // Success
-                $html = array('success' => 1);
+                $html = ['success' => 1];
 
                 if (!$isDeleted) {
 
@@ -103,11 +103,11 @@ class Form_Application_FieldController extends Application_Controller_Default {
                     $field = new Form_Model_Field();
                     $field->find($field_id);
 
-                    $html = array(
+                    $html = [
                         'success' => 1,
                         'field_id' => $field->getId(),
                         'section_id' => $datas['section_id']
-                    );
+                    ];
 
                     $html['field_html'] = $this->getLayout()
                             ->addPartial('row', 'admin_view_default', 'form/application/edit/section/field.phtml')
@@ -133,7 +133,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
 
         if ($rows = $this->getRequest()->getParam('field')) {
 
-            $html = array();
+            $html = [];
             try {
 
                 if(!$this->getCurrentOptionValue()) {
@@ -143,7 +143,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
                 $field = new Form_Model_Field();
 
                 $fields = $field->findBySectionId($this->getRequest()->getParam('section_id'));
-                $fields_id = array();
+                $fields_id = [];
 
                 foreach ($fields as $currField) {
                     $fields_id[] = $currField->getId();
@@ -156,11 +156,11 @@ class Form_Application_FieldController extends Application_Controller_Default {
                 }
                 $field->updatePosition($rows);
 
-                $html = array(
+                $html = [
                     'success' => 1
-                );
+                ];
             } catch (Exception $e) {
-                $html = array('message' => $e->getMessage());
+                $html = ['message' => $e->getMessage()];
             }
 
 

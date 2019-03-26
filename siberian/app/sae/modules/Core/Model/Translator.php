@@ -68,6 +68,9 @@ class Core_Model_Translator
         $files = Siberian_Cache_Translation::getCache();
         $currentDefaults = $files[$currentLanguage];
         foreach ($currentDefaults as $file) {
+            if (!is_file($file)) {
+                continue; // skip missing files.
+            }
             $extension = pathinfo($file, PATHINFO_EXTENSION);
             switch ($extension) {
                 case "csv";

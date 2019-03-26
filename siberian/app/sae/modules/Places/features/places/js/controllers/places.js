@@ -351,8 +351,8 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                 }
             }
 
-            // To ensure a fast loading even when GPS is off, we neeeeeed to decrease the GPS timeout!
-            Location.getLocation({timeout: 3200})
+            // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
+            Location.getLocation({timeout: 10000}, true)
                 .then(function (position) {
                     $scope.filters.latitude = position.coords.latitude;
                     $scope.filters.longitude = position.coords.longitude;
@@ -368,7 +368,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     $scope.searchPlaces = function (loadMore) {
         $scope.is_loading = true;
         Location
-            .getLocation({timeout: 3200})
+            .getLocation({timeout: 10000}, true)
             .then(function (position) {
                 $scope.filters.latitude = position.coords.latitude;
                 $scope.filters.longitude = position.coords.longitude;
@@ -540,7 +540,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.loadContent = function () {
         Location
-            .getLocation({timeout: 3200})
+            .getLocation({timeout: 10000}, true)
             .then(function (position) {
                 $scope.filters.latitude = position.coords.latitude;
                 $scope.filters.longitude = position.coords.longitude;
