@@ -13,6 +13,11 @@ class Siberian_Google_Geocoding
      */
     public static function getLatLng($address, $apiKey = null)
     {
+        $refresh = false;
+        if (array_key_exists("refresh", $address)) {
+            $refresh = true;
+        }
+
         if (!empty($address["address"])) {
             $address = str_replace(PHP_EOL, " ", $address["address"]);
         } else {
@@ -26,15 +31,17 @@ class Siberian_Google_Geocoding
         $address = str_replace(' ', '+', $address);
         $data = ['', ''];
 
-        /** First search in geocache */
-        $geocoding = (new Cache_Model_Geocoding())
-            ->find($address, "key");
+        /** First search in geocache (or not if refresh) */
+        $geoCoding = new Cache_Model_Geocoding();
+        if (!$refresh) {
+            $geoCoding->find($address, "key");
 
-        if ($geocoding->getId()) {
-            return [
-                $geocoding->getLatitude(),
-                $geocoding->getLongitude(),
-            ];
+            if ($geoCoding->getId()) {
+                return [
+                    $geoCoding->getLatitude(),
+                    $geoCoding->getLongitude(),
+                ];
+            }
         }
 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
@@ -48,12 +55,12 @@ class Siberian_Google_Geocoding
                     !empty($latlng->lng) ? $latlng->lng : ''
                 ];
 
-                $geocoding->setKey($address);
-                $geocoding->setRawResult($raw_response);
-                $geocoding->setLatitude($data[0]);
-                $geocoding->setLongitude($data[1]);
-                $geocoding->setPrecision($precision);
-                $geocoding->save();
+                $geoCoding->setKey($address);
+                $geoCoding->setRawResult($raw_response);
+                $geoCoding->setLatitude($data[0]);
+                $geoCoding->setLongitude($data[1]);
+                $geoCoding->setPrecision($precision);
+                $geoCoding->save();
             }
         }
 
@@ -63,10 +70,15 @@ class Siberian_Google_Geocoding
     /**
      * @param $address
      * @param null $apiKey
-     * @return bool
+     * @return bool|Cache_Model_Geocoding
      */
     public static function validateAddress($address, $apiKey = null)
     {
+        $refresh = false;
+        if (array_key_exists("refresh", $address)) {
+            $refresh = true;
+        }
+
         if (!empty($address["address"])) {
             $address = str_replace(PHP_EOL, " ", $address["address"]);
         } else {
@@ -79,20 +91,22 @@ class Siberian_Google_Geocoding
         }
         $address = str_replace(" ", "+", $address);
 
-        /** First search in geocache */
-        $geoCoding = (new Cache_Model_Geocoding())
-            ->find($address, "key");
+        /** First search in geocache (or not if refresh) */
+        $geoCoding = new Cache_Model_Geocoding();
+        if (!$refresh) {
+            $geoCoding->find($address, "key");
 
-        if ($geoCoding->getId()) {
-            return $geoCoding;
+            if ($geoCoding->getId()) {
+                return $geoCoding;
+            }
         }
 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
         $rawResponse = @file_get_contents($url);
-        if ($rawResponse && $coordinatesDatas = @json_decode($rawResponse)) {
-            if (!empty($coordinatesDatas->results[0]->geometry->location)) {
-                $latlng = $coordinatesDatas->results[0]->geometry->location;
-                $precision = $coordinatesDatas->results[0]->geometry->location_type;
+        if ($rawResponse && $coordinatesData = @json_decode($rawResponse)) {
+            if (!empty($coordinatesData->results[0]->geometry->location)) {
+                $latlng = $coordinatesData->results[0]->geometry->location;
+                $precision = $coordinatesData->results[0]->geometry->location_type;
                 $data = [
                     !empty($latlng->lat) ? $latlng->lat : '',
                     !empty($latlng->lng) ? $latlng->lng : ''

@@ -154,11 +154,17 @@ class Siberian_Form_Element_Textarea extends Zend_Form_Element_Textarea {
 		return parent::setDescription($description);
 	}
 
-	/**
-	 * @return $this
-	 */
-	public function setRichtext() {
-		$this->setNewDesignLarge();
+    /**
+     * @return $this
+     * @throws Zend_Form_Exception
+     */
+	public function setRichtext($large = true) {
+	    if ($large) {
+            $this->setNewDesignLarge();
+        } else {
+            $this->setNewDesign();
+        }
+
 		$this->addClass("richtext");
 		$this->removeFilter("StripTags");
 
