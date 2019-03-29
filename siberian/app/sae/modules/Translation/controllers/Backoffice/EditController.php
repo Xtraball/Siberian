@@ -160,12 +160,18 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             $translations = new Translations();
             foreach ($translationData as $key => $values) {
                 $context = trim($values["context"]);
+                $flags = $values["flags"];
                 $originalValue = trim($values["original"]);
                 $defaultValue = trim($values["default"]);
                 $userValue = trim($values["user"]);
                 // Saving only filled user values & if different from default!
                 if (!empty($userValue) && $defaultValue != $userValue) {
                     $tmp = new Translation(null, $originalValue);
+                    if (!empty($flags)) {
+                        foreach ($flags as $flag) {
+                            $tmp->addFlag($flag);
+                        }
+                    }
                     if (!empty($context)) {
                         $tmp->setContext($context);
                     }
@@ -175,8 +181,8 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 }
             }
 
-            $translationFile = str_replace(".csv", ".mo", $translationFile);
-            $translations->toMoFile("{$translationDir}/$translationFile");
+            $translationFile = str_replace(".csv", ".po", $translationFile);
+            $translations->toPoFile("{$translationDir}/$translationFile");
 
             # Clean "*_translation" cache tags
             $this->cache->clean(

@@ -48,7 +48,16 @@ class Core_Model_Translator
         $files = Siberian_Cache_Translation::getCache();
         $baseFiles = $files["base"];
         foreach ($baseFiles as $file) {
-            self::$_translations->addFromMoFile($file);
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            switch ($extension) {
+                case "po":
+                    self::$_translations->addFromPoFile($file);
+                    break;
+                case "mo":
+                    self::$_translations->addFromMoFile($file);
+                    break;
+            }
+
         }
 
         // Then load into the translator!
@@ -76,20 +85,23 @@ class Core_Model_Translator
                 case "csv";
                     $translations->addFromCsvDictionaryFile($file, ["delimiter" => ";"]);
                     break;
+                case "po":
+                    $translations->addFromPoFile($file);
+                    break;
                 case "mo":
                     $translations->addFromMoFile($file);
                     break;
             }
         }
 
-        self::$_translations->mergeWith($translations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
+        self::$_translations->mergeWith($translations, Merge::ADD | Merge::TRANSLATION_OVERRIDE | Merge::FLAGS_THEIRS);
 
         $userTranslationFolder = Core_Model_Directory::getBasePathTo("/languages/{$currentLanguage}");
         $isLoaded = [];
         if (is_dir($userTranslationFolder)) {
             $files = new DirectoryIterator($userTranslationFolder);
             foreach ($files as $file) {
-                $name = str_replace([".mo", ".csv"], "", $file->getFilename());
+                $name = str_replace([".po", ".mo", ".csv"], "", $file->getFilename());
                 if (!in_array($name, $isLoaded) && !$file->isDot()) {
                     $isLoaded[] = $name;
 
@@ -100,18 +112,24 @@ class Core_Model_Translator
                     switch ($file->getExtension()) {
                         case "csv";
                             $moVariant = str_replace(".csv", ".mo", $file->getPathname());
-                            if (is_file($moVariant))  {
+                            $poVariant = str_replace(".csv", ".po", $file->getPathname());
+                            if (is_file($poVariant))  {
+                                $userTranslations->addFromPoFile($poVariant);
+                            } else if (is_file($moVariant))  {
                                 $userTranslations->addFromMoFile($moVariant);
                             } else {
                                 $userTranslations->addFromCsvDictionaryFile($file->getPathname(), ["delimiter" => ";"]);
                             }
+                            break;
+                        case "po":
+                            $userTranslations->addFromPoFile($file->getPathname());
                             break;
                         case "mo":
                             $userTranslations->addFromMoFile($file->getPathname());
                             break;
                     }
 
-                    self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE);
+                    self::$_translations->mergeWith($userTranslations, Merge::ADD | Merge::TRANSLATION_OVERRIDE | Merge::FLAGS_THEIRS);
                 }
 
             }
@@ -184,17 +202,44 @@ class Core_Model_Translator
             }
         }
 
+        $allFilesTranslations = self::parseTranslations(Core_Model_Language::getCurrentLanguage());
+
+        $withoutContextTranslations = [];
+        $withContextTranslations = [];
+        foreach ($allFilesTranslations as $file => $translations) {
+            foreach ($translations as $key => $translation) {
+                $context = $translation["context"];
+                $flags = $translation["flags"];
+
+                // Adding this new key
+                $mobile = false;
+                if (in_array("mobile", $flags)) {
+                    $mobile = true;
+                    $keys[] = $key;
+                }
+
+                // If we have no context, but STILL the flag is mobile, will add it.
+                if (empty($context)) {
+                    $withoutContextTranslations[$key] = $translation["value"];
+                } else {
+                    if ($mobile) {
+                        if (!array_key_exists($context, $withContextTranslations)) {
+                            $withContextTranslations[$context] = [];
+                        }
+                        $withContextTranslations[$context][$key] = $translation["value"];
+                    }
+                }
+
+            }
+        }
+
         // Ensure unique keys
         $keys = array_unique($keys);
 
-        $allTranslations = [];
-        $allFilesTranslations = self::parseTranslations(Core_Model_Language::getCurrentLanguage());
+        $translations = array_filter(array_intersect_key($withoutContextTranslations, array_flip($keys)));
 
-        foreach ($allFilesTranslations as $file => $translations) {
-            $allTranslations = array_merge($allTranslations, $translations);
-        }
-
-        $translations = array_filter(array_intersect_key($allTranslations, array_flip($keys)));
+        // New contextual values!
+        $translations["_context"] = $withContextTranslations;
 
         return $translations;
     }
@@ -216,9 +261,11 @@ class Core_Model_Translator
 
         foreach ($default as $filename => $path) {
             $moVariant = str_replace(".csv", ".mo", $filename);
+            $poVariant = str_replace(".csv", ".po", $filename);
 
             // Re-inject old "default" files if they are still using old .csv format!
-            if (!array_key_exists($moVariant, $base)) {
+            if (!array_key_exists($moVariant, $base) ||
+                !array_key_exists($poVariant, $base)) {
                 $base[$filename] = $path;
             }
         }
@@ -234,7 +281,7 @@ class Core_Model_Translator
 
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
@@ -255,7 +302,7 @@ class Core_Model_Translator
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
@@ -264,8 +311,11 @@ class Core_Model_Translator
             if (is_file($defaultTranslationCSV)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationCSV, "csv");
             }
+            $defaultTranslationPO = $cachedFiles[$langId]["{$fileBase}.po"];
             $defaultTranslationMO = $cachedFiles[$langId]["{$fileBase}.mo"];
-            if (is_file($defaultTranslationMO)) {
+            if (is_file($defaultTranslationPO)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationPO, "po");
+            } else if (is_file($defaultTranslationMO)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationMO, "mo");
             }
 
@@ -283,15 +333,18 @@ class Core_Model_Translator
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
             // User translations (if exists)!
+            $userTranslationPO = $userTranslationsDirectory . $fileBase . ".po";
             $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
             $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
 
-            if (is_file($userTranslationMO)) {
+            if (is_file($userTranslationPO)) {
+                $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationPO, "po");
+            } elseif (is_file($userTranslationMO)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationMO, "mo");
             } else if (is_file($userTranslationCSV)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $userTranslationCSV, "csv");
@@ -332,7 +385,31 @@ class Core_Model_Translator
                         if (!array_key_exists($key, $tmpTranslationData[$filename])) {
                             $tmpTranslationData[$filename][$key] = null;
                         }
-                        $tmpTranslationData[$filename][$key] = $value;
+                        $tmpTranslationData[$filename][$key] = [
+                            "flags" => [],
+                            "context" => null,
+                            "value" => $value,
+                        ];
+                    }
+                }
+
+                break;
+            case "po":
+                $userTranslations = new Translations();
+                $userTranslations->addFromPoFile($path);
+                foreach ($userTranslations as $userTranslation) {
+                    $key = str_replace('\"', '"', $userTranslation->getOriginal());
+                    $value = trim(str_replace('\"', '"', $userTranslation->getTranslation()));
+
+                    if (strlen($value) > 0) {
+                        if (!array_key_exists($key, $tmpTranslationData[$filename])) {
+                            $tmpTranslationData[$filename][$key] = null;
+                        }
+                        $tmpTranslationData[$filename][$key] = [
+                            "flags" => $userTranslation->getFlags(),
+                            "context" => $userTranslation->getContext(),
+                            "value" => $value,
+                        ];
                     }
                 }
 
@@ -348,7 +425,11 @@ class Core_Model_Translator
                         if (!array_key_exists($key, $tmpTranslationData[$filename])) {
                             $tmpTranslationData[$filename][$key] = null;
                         }
-                        $tmpTranslationData[$filename][$key] = $value;
+                        $tmpTranslationData[$filename][$key] = [
+                            "flags" => [], // Nope only for PO
+                            "context" => null, // Nope only for PO
+                            "value" => $value,
+                        ];
                     }
                 }
 
@@ -375,9 +456,11 @@ class Core_Model_Translator
 
         foreach ($default as $filename => $path) {
             $moVariant = str_replace(".csv", ".mo", $filename);
+            $poVariant = str_replace(".csv", ".po", $filename);
 
             // Re-inject old "default" files if they are still using old .csv format!
-            if (!array_key_exists($moVariant, $base)) {
+            if (!array_key_exists($moVariant, $base) ||
+                !array_key_exists($poVariant, $base)) {
                 $base[$filename] = $path;
             }
         }
@@ -393,7 +476,7 @@ class Core_Model_Translator
 
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
@@ -414,7 +497,7 @@ class Core_Model_Translator
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
@@ -423,8 +506,11 @@ class Core_Model_Translator
             if (is_file($defaultTranslationCSV)) {
                 $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, "csv", "default");
             }
+            $defaultTranslationPO = $cachedFiles[$langId]["{$fileBase}.po"];
             $defaultTranslationMO = $cachedFiles[$langId]["{$fileBase}.mo"];
-            if (is_file($defaultTranslationMO)) {
+            if (is_file($defaultTranslationPO)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationPO, "po", "default");
+            } else if (is_file($defaultTranslationMO)) {
                 $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationMO, "mo", "default");
             }
 
@@ -442,15 +528,18 @@ class Core_Model_Translator
             $pathinfo = pathinfo($path);
             $type = $pathinfo["extension"];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "mo"])) {
+            if (!in_array($type, ["csv", "po", "mo"])) {
                 continue;
             }
 
             // User translations (if exists)!
             $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
             $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
+            $userTranslationPO = $userTranslationsDirectory . $fileBase . ".po";
 
-            if (is_file($userTranslationMO)) {
+            if (is_file($userTranslationPO)) {
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationPO, "po", "user");
+            } else if (is_file($userTranslationMO)) {
                 $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationMO, "mo", "user");
             } else if (is_file($userTranslationCSV)) {
                 $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationCSV, "csv", "user");
@@ -487,6 +576,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $line[0]);
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "flags" => null,
                             "context" => null,
                             "original" => $key,
                             "default" => null,
@@ -501,6 +591,28 @@ class Core_Model_Translator
                 fclose($csvResource);
 
                 break;
+            case "po":
+                $userTranslations = new Translations();
+                $userTranslations->addFromPoFile($path);
+                foreach ($userTranslations as $userTranslation) {
+                    $key = str_replace('\"', '"', $userTranslation->getOriginal());
+                    if (!isset($tmpTranslationData[$filename][$key])) {
+                        $tmpTranslationData[$filename][$key] = [
+                            "flags" => $userTranslation->getFlags(),
+                            "context" => $userTranslation->getContext(),
+                            "original" => $key,
+                            "default" => null,
+                            "user" => null,
+                        ];
+                    }
+
+                    $value = str_replace('\"', '"', $userTranslation->getTranslation());
+                    if (!empty($value)) {
+                        $tmpTranslationData[$filename][$key][$fillKey] = $value;
+                    }
+                }
+
+                break;
             case "mo":
                 $userTranslations = new Translations();
                 $userTranslations->addFromMoFile($path);
@@ -508,6 +620,7 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
+                            "flags" => null,
                             "context" => $userTranslation->getContext(),
                             "original" => $key,
                             "default" => null,

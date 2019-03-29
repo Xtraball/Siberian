@@ -69,6 +69,13 @@ class Translation extends Cache implements CacheInterface
                                 }
                             }
 
+                            if ($file->getExtension() === "po") {
+                                $basename = $file->getFilename();
+                                if (!isset($cache[$language][$basename])) {
+                                    $cache[$language][$basename] = $file->getPathname();
+                                }
+                            }
+
                             if ($file->getExtension() === "mo") {
                                 $basename = $file->getFilename();
                                 if (!isset($cache[$language][$basename])) {

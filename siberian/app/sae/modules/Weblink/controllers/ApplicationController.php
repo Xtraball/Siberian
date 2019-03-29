@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Weblink_ApplicationController
  */
@@ -33,8 +35,11 @@ class Weblink_ApplicationController extends Application_Controller_Default
 
                 $filteredValues = $form->getValues();
 
+                $filteredValues["showSearch"] = filter_var($filteredValues["showSearch"], FILTER_VALIDATE_BOOLEAN);
+                $filteredValues["cardDesign"] = filter_var($filteredValues["cardDesign"], FILTER_VALIDATE_BOOLEAN);
+
                 $optionValue
-                    ->setSettings(\Siberian_Json::encode($filteredValues))
+                    ->setSettings(Json::encode($filteredValues))
                     ->save();
 
                 /** Update touch date, then never expires (until next touch) */

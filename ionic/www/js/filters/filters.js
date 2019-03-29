@@ -79,8 +79,8 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Translator
  */
-}]).filter("translate", function ($translate) {
-    return function (text) {
+}]).filter('translate', function ($translate) {
+    return function (text, context) {
         /**
          * Blind extract of the processed strings
          * Nope for now!!!!
@@ -102,7 +102,10 @@ angular.module("starter").filter("parseUrlFilter", function() {
         if (text !== undefined) {
             return $translate.instant(text, context);
         }*/
-        return $translate.instant(text);
+        if (context === undefined) {
+            return $translate.instant(text);
+        }
+        return $translate.instant(text, context);
     };
 
 /**

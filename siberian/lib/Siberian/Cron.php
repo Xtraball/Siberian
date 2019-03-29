@@ -54,7 +54,7 @@ class Cron
         $this->root_path = path();
 
         # Set the same timezone as in the Application settings.
-        $timezone = __get('system_timezone');
+        $timezone = __get("system_timezone");
         if ($timezone) {
             date_default_timezone_set($timezone);
         }

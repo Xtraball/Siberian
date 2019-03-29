@@ -1,4 +1,5 @@
-<ion-view sb-page-background class="contact-view">
+<ion-view sb-page-background
+          class="contact-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-content>
 
@@ -16,7 +17,7 @@
                 <i class="icon ion-person"></i>
                 <h2>{{ contact.name }}</h2>
             </div>
-            <div class="item item-icon-left item-custom"
+            <div class="item item-custom text-center"
                  ng-show="!contact.name">
                 <h2>{{ "Nothing to display." | translate }}</h2>
             </div>
@@ -29,9 +30,7 @@
             <div class="item item-icon-left item-custom"
                  ng-show="contact.street">
                 <i class="icon ion-ios-location"></i>
-                <p>{{ contact.street }}</p>
-                <p>{{ contact.postcode }}</p>
-                <p>{{ contact.city }}</p>
+                <p ng-bind-html="contact.address | trusted_html"></p>
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom"
