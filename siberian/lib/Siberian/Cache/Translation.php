@@ -4,6 +4,7 @@ namespace Siberian\Cache;
 
 use Siberian\Cache as Cache;
 use Siberian\Version as Version;
+use Gettext\Translations;
 
 use \DirectoryIterator;
 
@@ -76,10 +77,24 @@ class Translation extends Cache implements CacheInterface
                                 }
                             }
 
+                            // Migration tool for .mo files
                             if ($file->getExtension() === "mo") {
-                                $basename = $file->getFilename();
-                                if (!isset($cache[$language][$basename])) {
-                                    $cache[$language][$basename] = $file->getPathname();
+                                // Try to convert to po if "po" do not already exists.
+                                $basename = $file->getPathname();
+                                $poBasename = str_replace(".mo", ".po", $basename);
+                                if (!is_file($poBasename)) {
+                                    $_translationToMigrate = new Translations();
+                                    $_translationToMigrate->addFromMoFile($basename);
+                                    $_translationToMigrate->toPoFile($poBasename);
+
+                                    // Then add to cache!
+                                    if (!isset($cache[$language][$poBasename])) {
+                                        $cache[$language][$poBasename] = $file->getPathname();
+                                    }
+
+                                    // Move old mo file to backup
+                                    $backupBasename = str_replace(".mo", ".mo.backup", $basename);
+                                    rename($basename, $backupBasename);
                                 }
                             }
 
@@ -124,10 +139,31 @@ class Translation extends Cache implements CacheInterface
                         }
                     }
 
-                    if ($file->getExtension() === "mo") {
+                    if ($file->getExtension() === "po") {
                         $basename = $file->getFilename();
                         if (!isset($cache[$language][$basename])) {
                             $cache[$language][$basename] = $file->getPathname();
+                        }
+                    }
+
+                    // Migration tool for .mo files
+                    if ($file->getExtension() === "mo") {
+                        // Try to convert to po if "po" do not already exists.
+                        $basename = $file->getPathname();
+                        $poBasename = str_replace(".mo", ".po", $basename);
+                        if (!is_file($poBasename)) {
+                            $_translationToMigrate = new Translations();
+                            $_translationToMigrate->addFromMoFile($basename);
+                            $_translationToMigrate->toPoFile($poBasename);
+
+                            // Then add to cache!
+                            if (!isset($cache[$language][$poBasename])) {
+                                $cache[$language][$poBasename] = $file->getPathname();
+                            }
+
+                            // Move old mo file to backup
+                            $backupBasename = str_replace(".mo", ".mo.backup", $basename);
+                            rename($basename, $backupBasename);
                         }
                     }
 

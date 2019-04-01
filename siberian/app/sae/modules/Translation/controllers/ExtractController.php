@@ -12,17 +12,18 @@ class Translation_ExtractController extends Application_Controller_Mobile_Defaul
     {
         try {
             $request = $this->getRequest();
-            $params = $request->getParams();
+            $bulk = $request->getBodyParams();
 
-            if (empty($params["context"])) {
-                __(base64_decode($params["text"]));
-            } else {
-                p__(base64_decode($params["context"]), base64_decode($params["text"]));
+            foreach ($bulk as $translation) {
+                // Extract only context lines!
+                if (!empty($translation["context"])) {
+                    p__(base64_decode($translation["context"]), base64_decode($translation["text"]), "mobile");
+                }
             }
         } catch (\Exception $e) {
 
         }
 
-        die("thanks");
+        die("Thanks");
     }
 }

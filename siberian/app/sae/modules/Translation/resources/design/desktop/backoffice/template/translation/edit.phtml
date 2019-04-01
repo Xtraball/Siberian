@@ -69,7 +69,12 @@
                         <tbody>
                             <tr ng-if="filter.search.length > 2"
                                 ng-repeat="item in search_context | multiWordsFilter:filter.search:filter.isStrict:filter.isCaseSensitive as results">
-                                <td style="width: 15%;">{{ item.title }}</td>
+                                <td style="width: 15%;">
+                                    <span>{{ item.title }}</span>
+                                    <br />
+                                    <span ng-if="item.value.flags.length"
+                                          class="badge">{{ item.value.flags.join(", ") }}</span>
+                                </td>
                                 <td style="width: 75%; white-space: normal;">
                                     <table>
                                         <tr>
@@ -183,14 +188,17 @@
                 <div class="col-md-12">
                     <table class="table"
                            id="file_datas">
-                        <col width="30%" />
-                        <col width="30%" />
+                        <col width="27.5%" />
+                        <col width="5%" />
+                        <col width="27.5%" />
                         <col width="30%" />
                         <col width="10%" />
                         <thead>
                             <tr>
                                 <th class="text-left"
                                     style="font-weight: bold;"><?php echo __("Key / Original"); ?></th>
+                                <th class="text-left"
+                                    style="font-weight: bold;"><?php echo __("Flag"); ?></th>
                                 <th class="text-left"
                                     style="font-weight: bold;"><?php echo __("Default translation"); ?></th>
                                 <th class="text-left"
@@ -205,6 +213,10 @@
                             <tr class="translation slide-left {{ getRowColor(translation.collection[key]) }}"
                                 ng-repeat="key in notSorted(translation.collection) track by $index">
                                 <td class="valign-middle wrap">{{ translation.collection[key].original }}</td>
+                                <td class="valign-middle wrap">
+                                    <span ng-if="translation.collection[key].flags.length"
+                                          class="badge">{{  translation.collection[key].flags.join(", ") }}</span>
+                                </td>
                                 <td class="valign-middle wrap">{{ translation.collection[key].default.length > 0 ? translation.collection[key].default : "-" }}</td>
                                 <td class="valign-middle text-left">
                                     <input type="text"

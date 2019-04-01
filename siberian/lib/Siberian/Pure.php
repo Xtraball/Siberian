@@ -13,12 +13,16 @@ function app()
  * Logs all strings for extraction
  * If you want contextual translations to be automatically extracted
  * add `$_config["extract"] = true;` to your config.php file
- *
- * @param $context
- * @param $original
  */
-global $extractTranslations;
 
+global $extractTranslations;
+global $extractModules;
+$extractModules = [];
+
+/**
+ * @param $original
+ * @throws Zend_Exception
+ */
 function extract___($original)
 {
     if (__getConfig("extract") === true) {
@@ -44,8 +48,15 @@ function extract___($original)
     }
 }
 
-function extract_p__($context, $original)
+/**
+ * @param $context
+ * @param $original
+ * @param $flag
+ * @throws Zend_Exception
+ */
+function extract_p__($context, $original, $flag = null)
 {
+    global $extractModules;
     if (__getConfig("extract") === true) {
         global $extractTranslations;
 
@@ -53,13 +64,9 @@ function extract_p__($context, $original)
             $extractTranslations = [];
         }
 
-        $modules = [
-            "cabride" => "Cabride",
-        ];
-
         // Special binding for modules
-        if (in_array($context, array_keys($modules))) {
-            $moduleFolder = $modules[$context];
+        if (in_array($context, array_keys($extractModules))) {
+            $moduleFolder = $extractModules[$context]["module"];
             $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
         } else {
             $file = path("/languages/base/c_{$context}.po");
@@ -74,10 +81,18 @@ function extract_p__($context, $original)
 
         $translation = $extractTranslations[$file]->insert($context, $original);
         $translation->setTranslation($original);
+
+        if ($flag === "mobile") {
+            $translation->addFlag("mobile");
+        }
+
         $extractTranslations[$file]->toPoFile($file);
     }
 }
 
+/**
+ * @param $message
+ */
 function log_emerg($message)
 {
     \Siberian\Utils::log_emerg($message);
@@ -231,6 +246,14 @@ function dirSize($directory)
 function design_code()
 {
     return 'flat';
+}
+
+/**
+ * @return bool
+ */
+function isDev()
+{
+    return APPLICATION_ENV === "development";
 }
 
 /**

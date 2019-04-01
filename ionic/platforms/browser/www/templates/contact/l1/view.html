@@ -19,7 +19,7 @@
             </div>
             <div class="item item-custom text-center"
                  ng-show="!contact.name">
-                <h2>{{ "Nothing to display." | translate }}</h2>
+                <h2>{{ "Nothing to display." | translate:"contact" }}</h2>
             </div>
 
             <div class="item item-image item-custom"
@@ -49,7 +49,7 @@
                     ng-click="call()"
                     ng-if="contact.phone">
                 <i class="icon ion-ios-telephone-outline"></i>
-                {{ "Phone" | translate }}
+                {{ "Phone" | translate:"contact" }}
             </button>
 
             <button class="button button-custom item-icon-left"
@@ -57,7 +57,7 @@
                     ng-if="!contact.handle_geo_protocol && (contact.coordinates || contact.street && contact.postcode && contact.city)"
                     ng-click="showMap();">
                 <i class="icon ion-ios-location-outline"></i>
-                {{ "Locate" | translate }}
+                {{ "Locate" | translate:"contact" }}
             </button>
 
             <button class="button button-custom item-icon-left"
@@ -65,28 +65,28 @@
                     ng-click="openForm(contact.form_url)"
                     ng-if="contact.email">
                 <i class="icon ion-ios-email-outline"></i>
-                {{ "Email" | translate }}
+                {{ "Email" | translate:"contact" }}
             </button>
             <button class="button button-custom item-icon-left"
                     ng-class="{'button-full': !card_design, 'button-block': card_design}"
                     ng-click="openLink(contact.website_url)"
                     ng-if="contact.website_url">
                 <i class="icon ion-ios-world-outline"></i>
-                {{ "Website" | translate }}
+                {{ "Website" | translate:"contact" }}
             </button>
             <button class="button button-custom item-icon-left"
                     ng-class="{'button-full': !card_design, 'button-block': card_design}"
                     ng-click="openLink(contact.facebook_url)"
                     ng-if="contact.facebook_url">
                 <i class="icon ion-social-facebook-outline"></i>
-                {{ "Facebook" | translate }}
+                {{ "Facebook" | translate:"contact" }}
             </button>
             <button class="button button-custom item-icon-left"
                     ng-class="{'button-full': !card_design, 'button-block': card_design}"
                     ng-click="openLink(contact.twitter_url);"
                     ng-if="contact.twitter_url">
                 <i class="icon ion-social-twitter-outline"></i>
-                {{ "Twitter" | translate }}
+                {{ "Twitter" | translate:"contact" }}
             </button>
 
         </div>

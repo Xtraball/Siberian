@@ -9,10 +9,10 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
      */
     public function loadAction() {
         $payload = [
-            'title' => sprintf('%s > %s',
-                __('Settings'),
-                __('Translations')),
-            'icon' => 'fa-language',
+            "title" => sprintf("%s > %s",
+                __("Settings"),
+                __("Translations")),
+            "icon" => "fa-language",
         ];
 
         $this->_sendJson($payload);
@@ -27,9 +27,9 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         foreach($languages as $lang) {
             $payload[] = [
-                'id' => base64_encode($lang->getCode()),
-                'code' => $lang->getCode(),
-                'name' => $lang->getName()
+                "id" => base64_encode($lang->getCode()),
+                "code" => $lang->getCode(),
+                "name" => $lang->getName()
             ];
         }
 

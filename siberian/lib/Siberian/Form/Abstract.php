@@ -679,8 +679,6 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     }
 
     /**
-     * @todo fix inclusive & step values, this was made only for integers ...
-     *
      * @param $name
      * @param $label
      * @param null $min
@@ -688,6 +686,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param bool $inclusive
      * @param string $step
      * @return Siberian_Form_Element_Number
+     * @throws Zend_Form_Exception
+     * @throws Zend_Validate_Exception
      */
     public function addSimpleNumber($name, $label, $min = null, $max = null, $inclusive = true, $step = 'any')
     {
@@ -700,20 +700,20 @@ abstract class Siberian_Form_Abstract extends Zend_Form
             ->setNewDesign();
 
         if (is_numeric($min)) {
+            $el->setAttrib('min', $min);
             if ($inclusive) {
                 $min = $min - $this->getUnit($min);
             }
 
-            $el->setAttrib('min', $min);
             $el->addValidator(new Zend_Validate_GreaterThan($min));
         }
 
         if (is_numeric($max)) {
+            $el->setAttrib("max", $max);
             if ($inclusive) {
                 $max = $max + $this->getUnit($max);
             }
 
-            $el->setAttrib("max", $max);
             $el->addValidator(new Zend_Validate_LessThan($max));
         }
 

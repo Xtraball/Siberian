@@ -63,7 +63,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             // Available files
             $files = [];
             foreach (array_keys($translations) as $file) {
-                $baseName = basename(basename($file, ".csv"), ".mo");
+                $baseName = basename(basename($file, ".csv"), ".po");
                 if (strpos($baseName, "c_") === 0) {
                     $_tmp = str_replace("c_", "[Context] ", $baseName);
                     $_tmp = str_replace("_", " > ", $_tmp);
@@ -78,7 +78,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
 
             $merged = [];
             foreach ($translations as $file => $keyValues) {
-                $baseName = basename(basename($file, ".csv"), ".mo");
+                $baseName = basename(basename($file, ".csv"), ".po");
                 if (strpos($baseName, "c_") === 0) {
                     $_tmp = str_replace("c_", "[Context] ", $baseName);
                     $_tmp = str_replace("_", " > ", $_tmp);

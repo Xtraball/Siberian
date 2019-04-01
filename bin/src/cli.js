@@ -137,7 +137,6 @@ let cli = function (inputArgs) {
             'archivesources': Boolean,
             'clearcache': Boolean,
             'clearlog': Boolean,
-            'cleanlang': Boolean,
             'db': Boolean,
             'dev': Boolean,
             'deploy': Boolean,
@@ -154,7 +153,6 @@ let cli = function (inputArgs) {
             'packall': Boolean,
             'prod': Boolean,
             'prepare': Boolean,
-            'pulllang': Boolean,
             'patchios': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
@@ -303,10 +301,6 @@ let cli = function (inputArgs) {
             checkDb();
         } else if (args.init) {
             init();
-        } else if (args.cleanlang) {
-            cleanLang();
-        } else if (args.pulllang) {
-            pullLang();
         } else if (args.install) {
             install();
         } else if (args.pack) {
@@ -411,57 +405,11 @@ let deploy = function () {
 };
 
 /**
- * Clean sort & unique language files
- */
-let cleanLang = function () {
-    sprint(clc.blue('Cleaning duplicates in language files'));
-
-    let languagePath = ROOT + '/siberian/languages/base/';
-    fs.readdir(languagePath, function (err, files) {
-        files.forEach(function (file) {
-            if (file.match(/\.po$/)) {
-                console.log("PO to rebuild. > " + file);
-                sh.exec("msgfmt -o " + languagePath + file.replace(".po", ".mo") + " " + languagePath + file);
-            }
-        });
-    });
-
-    sprint(clc.green('Clean-up done.'));
-};
-
-/**
- * Copy latest .po files from weblate
- */
-let pullLang = function () {
-    sprint(clc.blue('Updating lang files.'));
-    sprint(clc.blue('... TODO ...'));
-    sprint(clc.blue('EOF'));
-};
-
-/**
  * Eport DB Schema to php schemes
  */
 let exportDb = function () {
     sh.cd(ROOT + '/siberian');
     sh.exec('php -f cli export-database');
-};
-
-/**
- *
- * @param file
- */
-let cleanDupesSort = function (file) {
-    try {
-        let languagePath = ROOT + '/siberian/languages/default/';
-
-        sprint('File: ' + languagePath + file);
-
-        // Silent for the session
-        sh.config.silent = true;
-        sh.exec('sort -bdiu -o ' + languagePath + file + ' ' + languagePath + file, { silent: true });
-    } catch (e) {
-        sprint(clc.red('An error occured while cleaning-up language files: ' + e));
-    }
 };
 
 /**
@@ -511,6 +459,7 @@ let builder = function () {
  * @param platform
  * @param copy
  * @param prepare
+ * @param skipRebuild
  */
 let rebuild = function (platform, copy, prepare, skipRebuild) {
     let localPrepare = (prepare === undefined) ? false : prepare;
@@ -1589,8 +1538,6 @@ alias                   Prints bash aliases to help development
 clearcache, cc          Clear siberian/var/cache
 
 clearlog, cl            Clear siberian/var/log
-
-cleanlang               Clean-up duplicates & sort languages CSV files
 
 db                      Check if databases exists, otherwise create them
 
