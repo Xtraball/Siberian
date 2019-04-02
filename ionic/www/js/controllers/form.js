@@ -64,14 +64,15 @@ angular.module("starter").controller("FormViewController", function (Location, $
     };
 
     $scope.fieldChanged = function (field) {
-        field.isFilled = false;
+        /**field.isFilled = false;
         if (!_.isEmpty($scope.formData[field.id])) {
             field.isFilled = true;
-        }
+        }*/
     };
 
     $scope.requiredFieldIsEmpty = function () {
-        console.log($scope.sections);
+        return false;
+        /**console.log($scope.sections);
         var emptyRequired = false;
         $scope.sections.forEach(function (section) {
             section.fields.forEach(function (field) {
@@ -81,7 +82,7 @@ angular.module("starter").controller("FormViewController", function (Location, $
             });
         });
 
-        return emptyRequired;
+        return emptyRequired;*/
     };
 
     /**

@@ -51,9 +51,10 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
      * @param message
      * @param button
      * @param dismiss if -1 dismiss duration will be automatically calculated.
+     * @param context
      * @returns {*}
      */
-    service.alert = function (title, message, button, dismiss) {
+    service.alert = function (title, message, button, dismiss, context) {
         var deferred = $q.defer();
 
         /** Stack alert */
@@ -64,6 +65,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
                 message: message,
                 button: button,
                 dismiss: dismiss,
+                context: context,
                 promise: deferred
             }
         });
@@ -89,10 +91,10 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         alertPromise = $ionicPopup
             .alert({
-                title: $translate.instant(data.title),
-                template: $translate.instant(data.message),
+                title: $translate.instant(data.title, data.context),
+                template: $translate.instant(data.message, data.context),
                 cssClass: cssClass,
-                okText: $translate.instant(data.button)
+                okText: $translate.instant(data.button, data.context)
             });
 
         data.promise.resolve(alertPromise);
@@ -158,12 +160,12 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         return $ionicPopup
             .prompt({
-                title: $translate.instant(data.title),
-                template: $translate.instant(data.message),
-                okText: $translate.instant(data.button),
+                title: $translate.instant(data.title, data.context),
+                template: $translate.instant(data.message, data.context),
+                okText: $translate.instant(data.button, data.context),
                 cssClass: cssClass,
                 inputType: data.type,
-                inputPlaceholder: $translate.instant(data.value)
+                inputPlaceholder: $translate.instant(data.value, data.context)
             }).then(function (result) {
                 if (result === undefined) {
                     data.promise.reject(result);
@@ -180,10 +182,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
      * @param title
      * @param buttonsArray - ex: ['Ok', 'Cancel']
      * @param cssClass
+     * @param context
      *
      * @returns Integer: 0 - no button, 1 - button 1, 2 - button 2
      */
-    service.confirm = function (title, message, buttonsArray, cssClass) {
+    service.confirm = function (title, message, buttonsArray, cssClass, context) {
         var deferred = $q.defer();
 
         /** Stack alert */
@@ -194,6 +197,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
                 message: message,
                 buttons_array: buttonsArray,
                 css_class: cssClass,
+                context: context,
                 promise: deferred
             }
         });
@@ -217,11 +221,11 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
 
         return $ionicPopup
             .confirm({
-                title: $translate.instant(data.title),
+                title: $translate.instant(data.title, data.context),
                 cssClass: data.css_class + ' ' + cssClass,
                 template: data.message,
-                okText: $translate.instant(data.buttons_array[0]),
-                cancelText: $translate.instant(data.buttons_array[1])
+                okText: $translate.instant(data.buttons_array[0], data.context),
+                cancelText: $translate.instant(data.buttons_array[1], data.context)
             }).then(function (result) {
                 data.promise.resolve(result);
                 service.unStack();
