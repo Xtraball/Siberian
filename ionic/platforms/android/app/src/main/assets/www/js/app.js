@@ -5,7 +5,7 @@
  */
 
 window.momentjs_loaded = false;
-/**window.extractI18n = true;*/
+window.extractI18n = true;
 var DEBUG = true;
 
 // Fallback for non re-published apps

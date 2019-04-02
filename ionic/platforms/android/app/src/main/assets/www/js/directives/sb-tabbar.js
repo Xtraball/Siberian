@@ -167,6 +167,14 @@ angular.module('starter').directive('tabbarItems', function ($rootScope, $timeou
         scope: {
             option: '='
         },
+        /**
+         * Preparing code for advanced notification bubbles.
+         * compile: function (element, attrs) {
+            var customCounter =
+                angular.element('<div ng-if="feature.customCounter > 0" ' +
+                    'class="badge badge-custom">{{ feature.customCounter }}</div>');
+            element.append(customCounter);
+        },*/
         link: function (scope, element) {
             element.on('click', function () {
                 $rootScope.$broadcast('OPTION_POSITION', scope.option.position);

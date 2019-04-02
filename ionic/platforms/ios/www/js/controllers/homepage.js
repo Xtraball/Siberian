@@ -5,6 +5,12 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
 
     $ionicHistory.clearHistory();
 
+    $scope.features = {
+        overview: {
+            options: {}
+        }
+    };
+
     $scope.loadContent = function () {
         $scope.is_loading = true;
 
@@ -97,4 +103,21 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
     };
 
     $scope.loadContent();
+
+    /**
+     * Preparing code for advanced notification bubbles.
+    $rootScope.$on("custom.counter.changed", function (event, payload) {
+        var currentOption = _.find($scope.features.overview.options, function (option) {
+            return option.value_id == payload.value_id;
+        });
+        if (currentOption) {
+            $timeout(function () {
+                currentOption.customCounter = payload.counter;
+            });
+        }
+    });
+
+    window.testCounter = function (payload) {
+        $rootScope.$broadcast("custom.counter.changed", {"value_id": 40, "counter": 12});
+    };*/
 });
