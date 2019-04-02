@@ -40,13 +40,17 @@ angular.module("starter").controller("FormViewController", function (Location, $
                 .reverseGeocode(position.coords)
                 .then(function (results) {
                     if (results[0]) {
-                        $scope.formData[field.id] = results[0].formatted_address + "<br />" + position.coords.latitude + ", " + position.coords.longitude + "";
+                        $scope.formData[field.id] = results[0].formatted_address +
+                            "<br />" + Number.parseFloat(position.coords.latitude).toPrecision(5) +
+                            ", " + Number.parseFloat(position.coords.longitude).toPrecision(5) + "";
                     } else {
-                        $scope.formData[field.id] = position.coords.latitude + ", " + position.coords.longitude;
+                        $scope.formData[field.id] = Number.parseFloat(position.coords.latitude).toPrecision(5) +
+                            ", " + Number.parseFloat(position.coords.longitude).toPrecision(5);
                     }
                     $scope.fieldChanged(field);
                 }, function (data) {
-                    $scope.formData[field.id] = position.coords.latitude + ", " + position.coords.longitude;
+                    $scope.formData[field.id] = Number.parseFloat(position.coords.latitude).toPrecision(5) +
+                        ", " + Number.parseFloat(position.coords.longitude).toPrecision(5);
                     $scope.fieldChanged(field);
                 });
             }, function (e) {
