@@ -33,29 +33,31 @@ class Siberian_Form_Element_Textarea extends Zend_Form_Element_Textarea {
 	 */
 	public function init(){
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->addFilters(array('StringTrim','StripTags'));
+		$this->addFilters(['StringTrim','StripTags']);
 		$this
-			->setDecorators(array(
+			->setDecorators([
 		  		'ViewHelper',
-	           	array('Errors',array(
+	           	['Errors', [
 	           		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
-	           		'class'=>'alert alert-error form-error')
-	          	),
-	            array('Description', array(
+	           		'class'=>'alert alert-error form-error']
+                ],
+	            ['Description', [
 	                'placement' => Zend_Form_Decorator_Abstract::APPEND,
-	                'class' => 'help-block'
-	            )),
-	            array(array('controls' => 'HtmlTag'), array(
+	                'class' => 'help-block',
+                    'escape' => false,
+                ]],
+	            [['controls' => 'HtmlTag'], [
 	                'tag'   => 'div',
 	                'class' => 'controls',
-	            )),
-	            array('Label', array(
+                ]],
+	            ['Label', [
 	                'class' => 'control-label',
 	                'requiredSuffix' => ' *',
+                    'escape' => false,
 	                'placement' => Zend_Form_Decorator_Abstract::PREPEND
-	            )),
-	            array('ControlGroup')
-		  	))
+                ]],
+	            ['ControlGroup']
+            ])
 		  	->setAttrib('COLS', '')
 		  	->setAttrib('ROWS', '5')
 		  	->setAttrib('class', 'input-xlarge')
@@ -79,32 +81,34 @@ class Siberian_Form_Element_Textarea extends Zend_Form_Element_Textarea {
             $error_class = "";
         }
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => ' '.$element_class
-			)),
-            array('Description', array(
+            ]],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'sb-form-line-complement'
-            )),
-            array('Label', array(
+                'class' => 'sb-form-line-complement',
+                'escape' => false,
+            ]],
+            ['Label', [
                 'class' => 'sb-form-line-title '.$label_class,
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-            )),
-           	array('Errors',array(
+            ]],
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
            		'class'=>'alert alert-error'
-          	)),
-            array(array('cb' => 'HtmlTag'),array(
+            ]],
+            [['cb' => 'HtmlTag'], [
             	'class' => 'sb-cb',
             	'placement' => Zend_Form_Decorator_Abstract::APPEND,
-            )),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line'
-            ))
-	  	));
+            ]]
+        ]);
 	  	
 	}
 
@@ -116,32 +120,34 @@ class Siberian_Form_Element_Textarea extends Zend_Form_Element_Textarea {
 		$this->setAttrib('class', '');
 		$this->addClass("input-flat");
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 			'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => 'col-sm-12'
-			)),
-			array('Description', array(
+            ]],
+			['Description', [
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
-				'class' => 'sb-form-line-complement'
-			)),
-			array('Label', array(
+				'class' => 'sb-form-line-complement',
+                'escape' => false,
+            ]],
+			['Label', [
 				'class' => 'sb-form-line-title col-sm-12',
 				'requiredSuffix' => ' *',
+                'escape' => false,
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-			)),
-			array('Errors',array(
+            ]],
+			['Errors', [
 				'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
 				'class'=>'alert alert-error'
-			)),
-			array(array('cb' => 'HtmlTag'),array(
+            ]],
+			[['cb' => 'HtmlTag'], [
 				'class' => 'sb-cb',
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
-			)),
-			array('ControlGroup',array(
+            ]],
+			['ControlGroup', [
 				'class' => 'form-group sb-form-line'
-			))
-		));
+            ]]
+        ]);
 
 	}
 

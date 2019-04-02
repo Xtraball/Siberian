@@ -90,6 +90,7 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 				[
 					'tag' => 'label',
 					'class' => 'checkbox',
+                    'escape' => false,
 					'for' => $this->getName()
                 ],
             ],
@@ -146,6 +147,7 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 			['Label', [
 				'class' => 'sb-form-line-title '.$label_class,
 				'requiredSuffix' => ' *',
+                'escape' => false,
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND,
             ]],
 			['Errors', [
@@ -200,6 +202,7 @@ class Siberian_Form_Element_Checkbox extends Zend_Form_Element_Checkbox {
 			['Label', [
 				'class' => 'control-label control',
 				'requiredSuffix' => ' *',
+                'escape' => false,
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND
             ]],
 			['ControlGroup']

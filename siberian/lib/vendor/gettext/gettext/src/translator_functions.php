@@ -72,9 +72,10 @@ function p__($context, $original, $flag = null)
     $text = BaseTranslator::$current->pgettext((string) $context, (string) $original);
 
     // In development, returns the context!
-    //if (isDev()) {
-    //    $text = "[{$context}] {$text}";
-    //}
+    if (isDev() &&
+        __getConfig("show_context") === true) {
+        $text = "[{$context}] {$text}";
+    }
 
     if (func_num_args() === 2) {
         return $text;

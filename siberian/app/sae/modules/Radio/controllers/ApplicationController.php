@@ -51,15 +51,13 @@ class Radio_ApplicationController extends Application_Controller_Default
                 // Set version 2 on create/save, means it's been updated
                 $radio->setVersion(2);
 
-                if ($values["background"] == "_delete_") {
-                    $radio->setData("background", "");
-                } else if (is_file(Core_Model_Directory::getBasePathTo("images/application" . $values["background"]))) {
-                    # Nothing changed, skip
-                } else {
-                    $background = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(),
-                        Core_Model_Directory::getTmpDirectory() . "/" . $values["background"]);
-                    $radio->setData("background", $background);
-                }
+                \Siberian\Feature::formImageForOption(
+                    $this->getCurrentOptionValue(),
+                    $radio,
+                    $values,
+                    "background",
+                    true
+                );
 
                 /** Alert ipv4 */
                 $warning_message = Siberian_Network::testipv4($values['link']);

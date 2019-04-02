@@ -1,7 +1,7 @@
 /**
  * $translate service
  */
-angular.module("starter").service("$translate", function ($injector, $timeout) {
+angular.module("starter").service("$translate", function ($injector) {
     var service = {};
 
     /**
@@ -26,13 +26,24 @@ angular.module("starter").service("$translate", function ($injector, $timeout) {
         // Extracting translations!
         service.debugExtract(text, context);
 
+        var translated = text;
         if (context === undefined) {
-            return angular.isDefined(service.translations[text]) ?
-                service.translations[text] : text;
+            if (angular.isDefined(service.translations[text])) {
+                translated = service.translations[text];
+            }
+
+            return translated;
         }
-        return angular.isDefined(service.translations["_context"][context]) &&
-        angular.isDefined(service.translations["_context"][context][text]) ?
-            service.translations["_context"][context][text] : text;
+
+        if (angular.isDefined(service.translations["_context"][context]) &&
+            angular.isDefined(service.translations["_context"][context][text])) {
+            translated = service.translations["_context"][context][text];
+        } else if (angular.isDefined(service.translations[text])) {
+            // Will however try to fallback on translation with no context (backward compat') !
+            translated = service.translations[text];
+        }
+
+        return translated;
     };
 
     /**

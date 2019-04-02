@@ -65,12 +65,12 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
 			->setAttrib('class', 'btn')
 		;
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->setDecorators(array(
+		$this->setDecorators([
   			'ViewHelper',
-			array('HtmlTag',array(
+			['HtmlTag', [
 				'class'=>'form-actions'
-			))
-  		));
+            ]]
+        ]);
 	}
 
 	/**
@@ -78,33 +78,35 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
 	 */
 	public function setBackDesign(){
 		$this->addClass($this->color);
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 			'ViewHelper',
-			array('HtmlTag',array(
+			['HtmlTag', [
 				'class' => 'sb-back-button'
-			))
-		));
+            ]]
+        ]);
 	}
 
-	/**
-	 * @return Siberian_Form_Element_Button
-	 */
+    /**
+     * @return Zend_Form_Element
+     * @throws Zend_Form_Exception
+     */
 	public function setMiniDeleteDesign(){
 		$this->setAttrib("class", "");
 		$this->setAttrib("type", "submit");
 		$this->setAttrib("escape", false);
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 			'ViewHelper',
-			array('HtmlTag',array(
+			['HtmlTag', [
 				'class' => 'sb-mini-delete'
-			))
-		));
+            ]]
+        ]);
 	}
 
-	/**
-	 * @return Siberian_Form_Element_Button
-	 */
+    /**
+     * @param string $class
+     * @return Zend_Form_Element
+     */
 	public function setNewDesign($class = ""){
 		$this->addClass($this->color);
 
@@ -112,33 +114,33 @@ class Siberian_Form_Element_Button extends Zend_Form_Element_Button {
         $element_class = $this->element_class;
         $error_class = $this->error_class;
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 			'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => ' '.$element_class
-			)),
-			array('Description', array(
+            ]],
+			['Description', [
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
 				'class' => 'sb-form-line-complement sb-form-description '.$error_class,
 				'escape' => false
-			)),
-			array('Label', array(
+            ]],
+			['Label', [
 				'class' => 'sb-form-line-title '.$label_class,
 				'requiredSuffix' => ' *',
 				'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-			)),
-			array('Errors',array(
+            ]],
+			['Errors', [
 				'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
 				'class'=>'alert alert-error'
-			)),
-			array(array('cb' => 'HtmlTag'),array(
+            ]],
+			[['cb' => 'HtmlTag'], [
 				'class' => 'sb-cb',
 				'placement' => Zend_Form_Decorator_Abstract::APPEND,
-			)),
-			array('ControlGroup',array(
+            ]],
+			['ControlGroup', [
 				'class' => 'form-group sb-form-line '.$class
-			))
-		));
+            ]]
+        ]);
 	}
 
 	/**

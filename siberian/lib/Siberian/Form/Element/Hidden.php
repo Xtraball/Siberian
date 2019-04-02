@@ -32,7 +32,7 @@ class Siberian_Form_Element_Hidden extends Zend_Form_Element_Hidden {
 	 * @throws Zend_Form_Exception
 	 */
 	public function init() {
-		$this->addFilters(array('StringTrim','StripTags'));
+		$this->addFilters(['StringTrim','StripTags']);
 	}
 
 	/**
@@ -50,30 +50,31 @@ class Siberian_Form_Element_Hidden extends Zend_Form_Element_Hidden {
 	 * @return Siberian_Form_Element_Hidden
 	 */
 	public function setNewDesign() {
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-            array('Description', array(
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
                 'class' => 'sb-form-line-complement',
             	'escape' => false
-            )),
-            array('Label', array(
+            ]],
+            ['Label', [
                 'class' => 'sb-form-line-title',
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-            )),
-           	array('Errors',array(
+            ]],
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
            		'class'=>'alert alert-error'
-          	)),
-            array(array('cb' => 'HtmlTag'),array(
+            ]],
+            [['cb' => 'HtmlTag'], [
             	'class' => 'sb-cb',
             	'placement' => Zend_Form_Decorator_Abstract::APPEND,
-            )),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line'
-            ))
-	  	));
+            ]]
+        ]);
 	}
 
 	/**
@@ -90,12 +91,12 @@ class Siberian_Form_Element_Hidden extends Zend_Form_Element_Hidden {
 	 */
 	public function setMinimalDecorator($withError = false) {
 		if($withError) {
-			return $this->setDecorators(array(
+			return $this->setDecorators([
 					'ViewHelper',
-					array('Errors', array('class' => 'alert alert-error form-error', 'placement' => Zend_Form_Decorator_Abstract::PREPEND))
-			));
+					['Errors', ['class' => 'alert alert-error form-error', 'placement' => Zend_Form_Decorator_Abstract::PREPEND]]
+            ]);
 		} else {
-			return $this->setDecorators(array('ViewHelper'));
+			return $this->setDecorators(['ViewHelper']);
 		}
 	}
 	

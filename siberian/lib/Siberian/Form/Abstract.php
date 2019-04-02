@@ -209,7 +209,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form
 
     /**
      * @param null $label
-     * @return Siberian_Form_Element_Submit
+     * @param null $label_off
+     * @param null $label_on
+     * @return Siberian_Form_Element_Button
      * @throws Zend_Form_Exception
      */
     public function addMiniSubmit($label = null, $label_off = null, $label_on = null)
@@ -230,9 +232,9 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     }
 
     /**
-     * Default generic toggle state
-     *
      * @param $element
+     * @param string $on_text
+     * @param string $off_text
      * @return mixed
      */
     public function defaultToggle($element, $on_text = "Enable", $off_text = "Disable")
@@ -320,6 +322,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param string $label
      * @param bool $placeholder
      * @return Siberian_Form_Element_Button
+     * @throws Zend_Form_Exception
      */
     public function addSimpleButton($name, $label = "", $placeholder = false)
     {
@@ -342,8 +345,10 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     /**
      * @param $name
      * @param string $label
-     * @param bool $placeholder
+     * @param array $options
+     * @param bool $with_indicator
      * @return Siberian_Form_Element_Slider
+     * @throws Zend_Form_Exception
      */
     public function addSimpleSlider($name, $label = "", $options = [], $with_indicator = true)
     {
@@ -393,7 +398,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param $name
      * @param string $label
      * @param bool $placeholder
-     * @return Siberian_Form_Element_Text
+     * @return Siberian_Form_Element_Password
      * @throws Zend_Form_Exception
      */
     public function addSimplePassword($name, $label = "", $placeholder = false)
@@ -487,6 +492,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param $html
      * @param array $attributes
      * @return Siberian_Form_Element_Html
+     * @throws Zend_Form_Exception
      */
     public function addSimpleHtml($name, $html, $attributes = [])
     {
@@ -643,6 +649,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param string $label
      * @param array $options
      * @return Siberian_Form_Element_Button
+     * @throws Zend_Form_Exception
      */
     public function addSimpleFile($name, $label = "", $options = [])
     {

@@ -36,28 +36,30 @@ class Siberian_Form_Element_Slider extends Zend_Form_Element_Text {
 	public function init(){
         $this->getView()->addHelperPath('Siberian/View/Helper/', 'Siberian_View_Helper');
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->addFilters(array('StringTrim','StripTags'));
-		$this->setDecorators(array(
+		$this->addFilters(['StringTrim','StripTags']);
+		$this->setDecorators([
 	  		'ViewHelper',
-           	array('Errors',array(
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
-           		'class'=>'alert alert-error form-error')
-          	),
-            array('Description', array(
+           		'class'=>'alert alert-error form-error']
+            ],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'help-inline'
-            )),
-            array(array('controls' => 'HtmlTag'), array(
+                'class' => 'help-inline',
+                'escape' => false,
+            ]],
+            [['controls' => 'HtmlTag'], [
                 'tag'   => 'div',
                 'class' => 'controls',
-            )),
-            array('Label', array(
+            ]],
+            ['Label', [
                 'class' => 'control-label',
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND
-            )),
-            array('ControlGroup')
-	  	));
+            ]],
+            ['ControlGroup']
+        ]);
 	}
 	
 	/**
@@ -77,33 +79,34 @@ class Siberian_Form_Element_Slider extends Zend_Form_Element_Text {
             $error_class = "";
         }
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => ' '.$element_class
-			)),
-            array('Description', array(
+            ]],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
                 'class' => 'sb-form-line-complement sb-form-description '.$error_class,
                 'escape' => false
-            )),
-            array('Label', array(
+            ]],
+            ['Label', [
                 'class' => 'sb-form-line-title '.$label_class,
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-            )),
-           	array('Errors',array(
+            ]],
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
            		'class'=>'alert alert-error'
-          	)),
-            array(array('cb' => 'HtmlTag'),array(
+            ]],
+            [['cb' => 'HtmlTag'], [
             	'class' => 'sb-cb',
             	'placement' => Zend_Form_Decorator_Abstract::APPEND,
-            )),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line xb-slider'
-            ))
-	  	));
+            ]]
+        ]);
 	  	
 	}
 
@@ -144,7 +147,7 @@ class Siberian_Form_Element_Slider extends Zend_Form_Element_Text {
 	 * @throws Zend_Form_Exception
 	 */
 	public function setRegex($regexPhp, $regexJs, $error, $empty = false){
-		$regexValidator = new Zend_Validate_Regex(array('pattern' => $regexPhp));
+		$regexValidator = new Zend_Validate_Regex(['pattern' => $regexPhp]);
 		
 		$this
 			->addvalidator($regexValidator)

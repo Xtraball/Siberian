@@ -53,7 +53,8 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 	                'Description',
                     [
                         'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                        'class' => 'help-block'
+                        'class' => 'help-block',
+                        'escape' => false,
                     ]
                 ],
 	            [
@@ -70,6 +71,7 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
                     [
                         'class' => 'control-label',
                         'requiredSuffix' => ' *',
+                        'escape' => false,
                         'placement' => Zend_Form_Decorator_Abstract::PREPEND,
                         'disableFor' => true
                     ]
@@ -81,9 +83,10 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
 	  		->setAttrib('label_class','pull-left radio-label');
 	}
 
-	/**
-	 * @return Siberian_Form_Element_Radio
-	 */
+    /**
+     * @return mixed
+     * @throws Zend_Form_Exception
+     */
 	public function setNewDesign() {
 
         if($this->is_form_horizontal) {
@@ -108,6 +111,7 @@ class Siberian_Form_Element_Radio extends Zend_Form_Element_Radio {
                 ['Label', [
                     'class' => 'sb-form-line-title '.$label_class,
                     'requiredSuffix' => ' *',
+                    'escape' => false,
                     'placement' => Zend_Form_Decorator_Abstract::PREPEND,
                 ]],
                	['Errors', [
