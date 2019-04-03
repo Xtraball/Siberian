@@ -6,13 +6,13 @@ namespace Siberian;
  * Class Version
  * @package Siberian
  *
- * @replay 4.16.1
+ * @replay 4.16.5
  */
 class Version
 {
     const TYPE = 'SAE';
     const NAME = 'Single App Edition';
-    const VERSION = '4.16.1';
+    const VERSION = '4.16.5';
     const NATIVE_VERSION = '10';
     const API_VERSION = '4';
 

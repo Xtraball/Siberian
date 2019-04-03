@@ -11,6 +11,7 @@
  */
 angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
+        debug: true,
         lastFetch: null,
         position: null,
         isEnabled: null,
@@ -47,10 +48,16 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             .then(function (position) {
                 service.lastFetch = Date.now();
                 service.position = position;
+                if (service.debug) {
+                    console.log("position ok", position);
+                }
                 if (!isResolved) {
                     deferred.resolve(service.position);
                 }
             }, function () {
+                if (service.debug) {
+                    console.log("position ko");
+                }
                 if (!isResolved) {
                     deferred.reject();
                 }
@@ -64,6 +71,9 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         };
 
         if (service.isEnabled === false) {
+            if (service.debug) {
+                console.log("service disabled");
+            }
             deferred.reject();
         } else {
             if (cordova.plugins.permissions !== undefined) {

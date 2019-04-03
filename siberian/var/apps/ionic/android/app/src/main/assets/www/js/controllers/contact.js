@@ -2,34 +2,35 @@
  App, angular, BASE_PATH, IMAGE_URL
  */
 
-angular.module("starter").controller("ContactViewController", function($rootScope, $scope, $state, $stateParams,
-                                                                       $window, Contact, LinkService) {
+angular.module("starter").controller("ContactViewController", function ($rootScope, $scope, $state, $stateParams,
+                                                                        $window, Contact, LinkService) {
 
     angular.extend($scope, {
-        is_loading      : true,
-        value_id        : $stateParams.value_id,
-        card_design     : true
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        card_design: true
     });
 
     Contact.setValueId($stateParams.value_id);
 
     Contact.find()
-        .then(function(data) {
-            /** Don not alter cached data */
-            $scope.contact = angular.extend({}, data.contact);
-            $scope.page_title   = data.page_title;
+    .then(function (data) {
+        /** Don not alter cached data */
+        $scope.contact = angular.extend({}, data.contact);
+        $scope.card_design = data.card_design;
+        $scope.page_title = data.page_title;
 
-        }).then(function() {
-            $scope.is_loading = false;
-        });
+    }).then(function () {
+        $scope.is_loading = false;
+    });
 
 
-    $scope.call = function() {
-        $window.location = "tel:"+$scope.contact.phone;
+    $scope.call = function () {
+        $window.location = "tel:" + $scope.contact.phone;
     };
 
-    $scope.openForm = function() {
-        if($rootScope.isNotAvailableOffline()) {
+    $scope.openForm = function () {
+        if ($rootScope.isNotAvailableOffline()) {
             return;
         }
 
@@ -38,30 +39,30 @@ angular.module("starter").controller("ContactViewController", function($rootScop
         });
     };
 
-    $scope.openLink = function(link) {
-        if($rootScope.isNotAvailableInOverview()) {
+    $scope.openLink = function (link) {
+        if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
 
         LinkService.openLink(link);
     };
 
-    $scope.getGeoData = function() {
+    $scope.getGeoData = function () {
 
         var params = "";
-        if($scope.contact.coordinates) {
+        if ($scope.contact.coordinates) {
             params = $scope.contact.coordinates.latitude + "," + $scope.contact.coordinates.longitude;
-            params += "?q="+$scope.contact.coordinates.latitude + "," + $scope.contact.coordinates.longitude;
+            params += "?q=" + $scope.contact.coordinates.latitude + "," + $scope.contact.coordinates.longitude;
         } else {
-            var address = $scope.contact.street+", "+$scope.contact.postcode+", "+$scope.contact.city;
-            params = "0,0?q="+encodeURI(address);
+            var address = $scope.contact.street + ", " + $scope.contact.postcode + ", " + $scope.contact.city;
+            params = "0,0?q=" + encodeURI(address);
         }
 
         return params;
     };
 
-    $scope.showMap = function() {
-        if($rootScope.isNotAvailableOffline()) {
+    $scope.showMap = function () {
+        if ($rootScope.isNotAvailableOffline()) {
             return;
         }
 
@@ -70,109 +71,109 @@ angular.module("starter").controller("ContactViewController", function($rootScop
         });
     };
 
-    if($rootScope.isOverview) {
+    if ($rootScope.isOverview) {
 
-        $window.setCoverUrl = function(cover_url) {
+        $window.setCoverUrl = function (cover_url) {
             $scope.contact.cover_url = cover_url;
             $scope.$apply();
         };
 
-        $window.setAttribute = function(attribute, value) {
+        $window.setAttribute = function (attribute, value) {
             $scope.contact[attribute] = value;
             $scope.$apply();
         };
 
-        $scope.$on("$destroy", function() {
+        $scope.$on("$destroy", function () {
             $window.setCoverUrl = null;
             $window.setAttribute = null;
         });
     }
 
-}).controller("ContactFormController", function($translate, $scope, $state, $stateParams, Contact, Dialog, Loader) {
+}).controller("ContactFormController", function ($translate, $scope, $state, $stateParams, Contact, Dialog, Loader) {
 
     angular.extend($scope, {
-        value_id        : $stateParams.value_id,
-        is_loading      : false,
-        card_design     : false,
+        value_id: $stateParams.value_id,
+        is_loading: false,
+        card_design: false,
         form: {
-            name    : "",
-            email   : "",
-            info    : ""
+            name: "",
+            email: "",
+            info: ""
         }
     });
 
     Contact.setValueId($stateParams.value_id);
 
-    $scope.submitForm = function() {
+    $scope.submitForm = function () {
 
         Loader.show();
 
         Contact.submitForm($scope.form)
-            .then(function(data) {
+        .then(function (data) {
 
-                $scope.form = {
-                    name: "",
-                    email: "",
-                    info: ""
-                };
+            $scope.form = {
+                name: "",
+                email: "",
+                info: ""
+            };
 
-                Dialog.alert($translate.instant("Success"), data.message, $translate.instant("OK"), -1)
-                    .then(function() {
-                        /** On auto-dismiss or click. */
-                        $state.go("contact-view", {
-                            value_id: $stateParams.value_id
-                        });
-                    });
-
-            }, function(data) {
-
-                if(data && angular.isDefined(data.message)) {
-                    Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"), -1);
-                }
-
-            }).then(function() {
-                Loader.hide();
+            Dialog.alert($translate.instant("Success"), data.message, $translate.instant("OK"), -1)
+            .then(function () {
+                /** On auto-dismiss or click. */
+                $state.go("contact-view", {
+                    value_id: $stateParams.value_id
+                });
             });
+
+        }, function (data) {
+
+            if (data && angular.isDefined(data.message)) {
+                Dialog.alert($translate.instant("Error"), data.message, $translate.instant("OK"), -1);
+            }
+
+        }).then(function () {
+            Loader.hide();
+        });
     };
 
-}).controller("ContactMapController", function($scope, $stateParams, Contact) {
+}).controller("ContactMapController", function ($scope, $stateParams, Contact) {
 
-    $scope.value_id     = $stateParams.value_id;
-    Contact.value_id    = $stateParams.value_id;
+    $scope.value_id = $stateParams.value_id;
+    Contact.value_id = $stateParams.value_id;
 
     Contact.find()
-        .then(function(data) {
+    .then(function (data) {
 
-            $scope.contact = data.contact;
-            $scope.page_title = data.page_title;
-            var address = $scope.contact.street + ", " + $scope.contact.postcode + ", " + $scope.contact.city;
+        $scope.contact = data.contact;
+        $scope.page_title = data.page_title;
+        var address = $scope.contact.street + ", " + $scope.contact.postcode + ", " + $scope.contact.city;
 
-            var marker = {
-                title: data.contact.name + "<br />" + address,
-                is_centered: true
+        var marker = {
+            title: data.contact.name + "<br />" + address,
+            is_centered: true
+        };
+
+        if (data.contact.coordinates) {
+            marker.latitude = data.contact.coordinates.latitude;
+            marker.longitude = data.contact.coordinates.longitude;
+        } else {
+            marker.address = address;
+        }
+
+        if (data.contact.cover_url) {
+            marker.icon = {
+                url: data.contact.cover_url,
+                width: 49,
+                height: 49
             };
+        }
 
-            if(data.contact.coordinates) {
-                marker.latitude = data.contact.coordinates.latitude;
-                marker.longitude = data.contact.coordinates.longitude;
-            } else {
-                marker.address = address;
-            }
+        $scope.map_config = {
+            markers: [marker]
+        };
 
-            if(data.contact.cover_url) {
-                marker.icon = {
-                    url: data.contact.cover_url,
-                    width: 49,
-                    height: 49
-                };
-            }
+        $scope.is_loading = false;
 
-            $scope.map_config = {
-                markers: [marker]
-            };
-
-            $scope.is_loading = false;
-
-        });
+    });
 
 });

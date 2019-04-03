@@ -1,11 +1,11 @@
 /**
  * Application Bootstrap
  *
- * @version 4.15.7
+ * @version 4.16.5
  */
 
 window.momentjs_loaded = false;
-window.extractI18n = true;
+window.extractI18n = false;
 var DEBUG = true;
 
 // Fallback for non re-published apps
@@ -263,7 +263,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.16.0'
+                            version: '4.16.5'
                         },
                         timeout: 20000,
                         cache: !isOverview,

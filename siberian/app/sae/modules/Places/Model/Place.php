@@ -837,6 +837,7 @@ WHERE cap.value_id = {$value_id}
             "featured_label" => "",
             "show_non_featured" => "0",
             "non_featured_label" => "",
+            "listImagePriority" => "thumbnail",
         ];
 
         $valueId = $optionValue->getId();

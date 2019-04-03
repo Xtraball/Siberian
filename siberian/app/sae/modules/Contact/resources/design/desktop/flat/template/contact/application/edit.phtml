@@ -16,6 +16,8 @@ if ($contact->getId()) {
     $formContact->populate($data);
     $formDesign->populate($data);
 }
+$formContact->setValueId($optionValue->getId());
+$formDesign->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
 
