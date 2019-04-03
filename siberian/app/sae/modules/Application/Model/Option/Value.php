@@ -75,6 +75,31 @@ class Application_Model_Option_Value extends Application_Model_Option
     }
 
     /**
+     * @return array
+     * @throws Zend_Exception
+     */
+    public function getAppInitUris()
+    {
+        $object = $this->getObject();
+        if (method_exists($object, "getAppInitUris")) {
+            return $object->getAppInitUris($this);
+        }
+
+        // Special uri places
+        $featureUrl = $this->getUrl(null, [
+            "value_id" => $this->getId()
+        ], false);
+        $featurePath = $this->getPath(null, [
+            "value_id" => $this->getId()
+        ], "mobile");
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param bool $base
      * @return string
      */

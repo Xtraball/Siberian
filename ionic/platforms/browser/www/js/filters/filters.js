@@ -79,30 +79,12 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Translator
  */
-}]).filter("translate", function ($translate) {
-    return function (text) {
-        /**
-         * Blind extract of the processed strings
-         * Nope for now!!!!
-        try {
-            if (window.extractI18n === true) {
-                var _t = btoa(text);
-                var _c = (context === undefined) ? '' : btoa(context);
-                $pwaRequest.get("/translation/extract/index", {
-                    urlParams: {
-                        text: _t,
-                        context: _c
-                    }
-                });
-            }
-        } catch (e) {
-            // Do nothing!
-            console.error("$translate extract error", e);
+}]).filter('translate', function ($translate) {
+    return function (text, context) {
+        if (context === undefined) {
+            return $translate.instant(text);
         }
-        if (text !== undefined) {
-            return $translate.instant(text, context);
-        }*/
-        return $translate.instant(text);
+        return $translate.instant(text, context);
     };
 
 /**

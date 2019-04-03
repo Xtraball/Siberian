@@ -129,4 +129,17 @@ class Translation
             }
         }
     }
+
+    /**
+     * @param $context
+     * @param $module
+     */
+    public static function registerExtractor ($context, $module, $path = null)
+    {
+        global $extractModules;
+        $extractModules[$context] = [
+            "module" => $module,
+            "path" => $path,
+        ];
+    }
 }

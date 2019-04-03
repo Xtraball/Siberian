@@ -1,133 +1,172 @@
 <?php
 
+use Siberian\Exception;
+use Siberian\Feature;
+use Siberian\Json;
+use Siberian_Google_Geocoding as Geocoding;
+use Contact_Model_Contact as Contact;
+use Application_Model_Application as Application;
+
+/**
+ * Class Contact_ApplicationController
+ */
 class Contact_ApplicationController extends Application_Controller_Default
 {
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "edit-post" => [
+            "tags" => [
                 "feature_paths_valueid_#VALUE_ID#",
                 "assets_paths_valueid_#VALUE_ID#",
                 "homepage_app_#APP_ID#",
-            ),
-        ),
-    );
+            ],
+        ],
+        "edit-design" => [
+            "tags" => [
+                "feature_paths_valueid_#VALUE_ID#",
+                "assets_paths_valueid_#VALUE_ID#",
+                "homepage_app_#APP_ID#",
+            ],
+        ],
+    ];
 
-    public function editpostAction() {
+    /**
+     *
+     */
+    public function editPostAction()
+    {
+        try {
+            $application = $this->getApplication();
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $values = $request->getPost();
 
-        if($data = $this->getRequest()->getPost()) {
+            if (!$optionValue->getId()) {
+                throw new Exception(p__("contact","This feature doesn't exists!"));
+            }
 
-            try {
-                $application = $this->getApplication();
+            if (empty($values)) {
+                throw new Exception(p__("contact","Values are required!"));
+            }
 
-                // Test s'il y a un value_id
-                if(empty($data['value_id'])) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+            $form = new Contact_Form_Contact();
+            if ($form->isValid($values)) {
 
-                // Récupère l'option_value en cours
-                $option_value = new Application_Model_Option_Value();
-                $option_value->find($data['value_id']);
+                $contact = new Contact();
+                $contact->find($optionValue->getId(), "value_id");
+                $contact->setData($values);
 
-                $html = '';
-                $contact = new Contact_Model_Contact();
-                $contact->find($option_value->getId(), 'value_id');
+                if ($contact->getAddress()) {
 
-                if(!empty($data['file'])) {
+                    $validate = Geocoding::validateAddress([
+                        "refresh" => true,
+                        "address" => $contact->getAddress()
+                    ], $application->getGooglemapsKey());
 
-                    $file = pathinfo($data['file']);
-                    $filename = $file['basename'];
-                    $relative_path = $option_value->getImagePathTo();
-                    $folder = Application_Model_Application::getBaseImagePath().$relative_path;
-                    $img_dst = $folder.'/'.$filename;
-                    $img_src = Core_Model_Directory::getTmpDirectory(true).'/'.$filename;
-
-                    if(!is_dir($folder)) {
-                        mkdir($folder, 0777, true);
+                    if ($validate === false) {
+                        throw new Exception(p__("contact","We are unable to validate your address!"));
                     }
 
-                    if(!copy($img_src, $img_dst)) {
-                        throw new exception($this->_('An error occurred while saving your picture. Please try again later.'));
-                    } else {
-                        $data['cover'] = $relative_path.'/'.$filename;
-                    }
-                }
-                else if(!empty($data['remove_cover'])) {
-                    $data['cover'] = null;
-                }
+                    $parts = Geocoding::rawToParts($validate->getRawResult());
 
-                $contact->setData($data);
+                    $contact
+                        ->setLatitude($validate->getLatitude())
+                        ->setLongitude($validate->getLongitude());
 
-                if($contact->getStreet() AND $contact->getPostcode() AND $contact->getCity()) {
-                    $latlon = Siberian_Google_Geocoding::getLatLng(array(
-                        "street" => $contact->getStreet(),
-                        "postcode" => $contact->getPostcode(),
-                        "city" => $contact->getCity()
-                    ), $this->getApplication()->getGooglemapsKey());
-
-                    if(!empty($latlon[0]) && !empty($latlon[1])) {
-                        $contact->setLatitude($latlon[0])
-                            ->setLongitude($latlon[1])
-                        ;
-                    }
+                    // Set like previous version too!
+                    $contact
+                        ->setStreet($parts["street_number"] . " " . $parts["route"])
+                        ->setPostcode($parts["postal_code"])
+                        ->setCity($parts["locality"]);
                 } else {
-                    $contact->setLatitude(null)
-                        ->setLongitude(null)
-                    ;
+                    $contact
+                        ->setLatitude(null)
+                        ->setLongitude(null);
                 }
 
+                $cover = Feature::saveImageForOptionDelete($optionValue, $values["cover"]);
+
+                $contact->setCover($cover);
+                $contact->setVersion(2);
                 $contact->save();
 
                 /** Update touch date, then never expires (until next touch) */
-                $option_value
+                $optionValue
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => $this->_('Info successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                );
-
+                $payload = [
+                    "success" => true,
+                    "message" => p__("contact","Contact saved"),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                ];
             }
-            catch(Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+        
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function editDesignAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            if (!$optionValue->getId()) {
+                throw new Exception(p__("contact","This feature doesn't exists!"));
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            if (empty($values)) {
+                throw new Exception(p__("contact","Values are required!"));
+            }
 
+            $form = new Contact_Form_Design();
+            if ($form->isValid($values)) {
+
+                $contact = new Contact();
+                $contact->find($optionValue->getId(), "value_id");
+                $contact->setDesign($values["design"]);
+                $contact->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $optionValue
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = [
+                    "success" => true,
+                    "message" => p__("contact","Settings saved"),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
 
+        $this->_sendJson($payload);
     }
-
-    public function cropAction() {
-
-        if($datas = $this->getRequest()->getPost()) {
-            try {
-                $uploader = new Core_Model_Lib_Uploader();
-                $file = $uploader->savecrop($datas);
-                $datas = array(
-                    'success' => 1,
-                    'file' => $file,
-                    'message_success' => $this->_('Info successfully saved'),
-                    'message_button' => 0,
-                    'message_timeout' => 2,
-                );
-            } catch (Exception $e) {
-                $datas = array(
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                );
-            }
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
-         }
-
-    }
-
 }

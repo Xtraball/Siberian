@@ -168,8 +168,6 @@ class Request
 
     /**
      * @param $endpoint
-     * @param $data
-     * @param null $cookie_path
      * @return mixed
      */
     public static function testStream($endpoint)

@@ -56,6 +56,14 @@
             </div>
         </div>
 
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="!showSearch && weblink.links.length <= 0">
+            <div class="item text-center item-custom">
+                {{ "No link." | translate }}
+            </div>
+        </div>
+
         <style type="text/css">
             .links-view .clear-search {
                 margin-right: 6px;

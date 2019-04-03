@@ -33,28 +33,30 @@ class Siberian_Form_Element_Multiselect extends Zend_Form_Element_Multiselect {
 	 */
 	public function init() {
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->addFilters(array('StringTrim','StripTags'));
-		$this->setDecorators(array(
+		$this->addFilters(['StringTrim','StripTags']);
+		$this->setDecorators([
 	  		'ViewHelper',
-           	array('Errors',array(
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
-           		'class'=>'alert alert-error form-error')
-          	),
-            array('Description', array(
+           		'class'=>'alert alert-error form-error']
+            ],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
-                'class' => 'help-block'
-            )),
-            array(array('controls' => 'HtmlTag'), array(
+                'class' => 'help-block',
+                'escape' => false,
+            ]],
+            [['controls' => 'HtmlTag'], [
                 'tag'   => 'div',
                 'class' => 'controls',
-            )),
-            array('Label', array(
+            ]],
+            ['Label', [
                 'class' => 'control-label',
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND
-            )),
-            array('ControlGroup',array('class' => 'control-group'))
-	  	));
+            ]],
+            ['ControlGroup', ['class' => 'control-group']]
+        ]);
 	}
 	
 	/**
@@ -75,34 +77,35 @@ class Siberian_Form_Element_Multiselect extends Zend_Form_Element_Multiselect {
             $error_class = "";
         }
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => ' '.$element_class
-			)),
-            array('Description', array(
+            ]],
+            ['Description', [
                 'placement' => Zend_Form_Decorator_Abstract::APPEND,
                 'class' => 'sb-form-line-complement sb-form-description '.$error_class,
                 'escape' => false
-            )),
-            array('Label', array(
+            ]],
+            ['Label', [
                 'class' => 'sb-form-line-title '.$label_class,
                 'requiredSuffix' => ' *',
+                'escape' => false,
                 'placement' => Zend_Form_Decorator_Abstract::PREPEND,
-            )),
-           	array('Errors',array(
+            ]],
+           	['Errors', [
            		'placement'=>Zend_Form_Decorator_Abstract::PREPEND,
            		'class'=>'alert alert-error'
-          	)),
-            array(array('cb' => 'HtmlTag'),array(
+            ]],
+            [['cb' => 'HtmlTag'], [
             	'class' => 'sb-cb',
             	'placement' => Zend_Form_Decorator_Abstract::APPEND,
-            )),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line',
             	'id'=>'control-group_'.$this->getId()
-            ))
-	  	));
+            ]]
+        ]);
 	}
 
 	/**

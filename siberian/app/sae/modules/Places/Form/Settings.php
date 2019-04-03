@@ -23,6 +23,7 @@ class Places_Form_Settings extends Siberian_Form_Abstract
         $pages = [
             'places' => __("All places"),
             'categories' => __("Categories"),
+            'map' => __("Map"),
         ];
 
         $defaultPage = $this->addSimpleSelect("default_page", __("Default page"), $pages);

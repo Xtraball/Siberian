@@ -62,13 +62,20 @@ function n__($original, $plural, $value)
  *
  * @param string $context
  * @param string $original
+ * @param string $flag
  *
  * @return string
  */
-function p__($context, $original)
+function p__($context, $original, $flag = null)
 {
-    extract_p__($context, $original);
+    extract_p__($context, $original, $flag);
     $text = BaseTranslator::$current->pgettext((string) $context, (string) $original);
+
+    // In development, returns the context!
+    if (isDev() &&
+        __getConfig("show_context") === true) {
+        $text = "[{$context}] {$text}";
+    }
 
     if (func_num_args() === 2) {
         return $text;
@@ -76,7 +83,9 @@ function p__($context, $original)
 
     $args = array_slice(func_get_args(), 2);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    $result = is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+
+    return $result;
 }
 
 /**

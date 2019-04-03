@@ -127,12 +127,12 @@ function reload(element, url, showLoader, success_callback, error_callback) {
     $.post(url,
         datas,
         function (data) {
-            if (data.message || data.success_message) {
+            if (data.message || data.success_message || data.success) {
                 message.setMessage(data.message ? data.message : data.success_message);
                 message.addButton(data.message_button ? true : false);
                 message.setTimer(data.message_timeout ? data.message_timeout : false);
                 message.addLoader(data.message_loader == 0 ? false : true);
-                message.isError(data.message ? true : false);
+                message.isError(data.message && !data.success ? true : false);
                 message.show();
             }
 

@@ -36,14 +36,14 @@ class Siberian_Form_Element_Html extends Zend_Form_Element_Xhtml {
 	public function init(){
         $this->getView()->addHelperPath('Siberian/View/Helper/', 'Siberian_View_Helper');
 		$this->addPrefixPath('Siberian_Form_Decorator_', 'Siberian/Form/Decorator/', 'decorator');
-		$this->setDecorators(array(
+		$this->setDecorators([
 	  		'ViewHelper',
-            array(array('controls' => 'HtmlTag'), array(
+            [['controls' => 'HtmlTag'], [
                 'tag'   => 'div',
                 'class' => 'controls',
-            )),
-            array('ControlGroup')
-	  	));
+            ]],
+            ['ControlGroup']
+        ]);
 	}
 	
 	/**
@@ -52,15 +52,15 @@ class Siberian_Form_Element_Html extends Zend_Form_Element_Xhtml {
 	public function setNewDesign($class = ""){
 		$this->addClass('sb-form-html');
 
-		return $this->setDecorators(array(
+		return $this->setDecorators([
 	  		'ViewHelper',
-			array(array('wrapper'=>'HtmlTag'),array(
+			[['wrapper'=>'HtmlTag'], [
 				'class' => ""
-			)),
-            array('ControlGroup',array(
+            ]],
+            ['ControlGroup', [
             	'class' => 'form-group sb-form-line '.$class
-            ))
-	  	));
+            ]]
+        ]);
 	  	
 	}
 

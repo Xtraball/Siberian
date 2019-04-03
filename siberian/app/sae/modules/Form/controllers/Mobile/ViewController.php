@@ -9,14 +9,23 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
      */
     public function findAction()
     {
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        try {
+            $request = $this->getRequest();
+            $valueId = $request->getParam("value_id", null);
 
-            $data = [
-                'sections' => []
-            ];
+            if (!$valueId) {
+                throw new Exception(__("Invalid value_id!"));
+            }
+
             $option = $this->getCurrentOptionValue();
             $form = $option->getObject();
             $sections = $form->getSections();
+
+            $payload = [
+                "success" => true,
+                "page_title" => $option->getTabbarName(),
+                "sections" => [],
+            ];
 
             foreach ($sections as $section) {
                 $section_data = [
@@ -27,27 +36,33 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                 $fields = $section->getFields();
 
                 foreach ($fields as $field) {
-                    $field_data = [
-                        'id' => $field->getId(),
-                        'type' => $field->getType(),
-                        'name' => $field->getName(),
-                        'options' => $field->hasOptions() ? $field->getOptions() : []
+                    $fieldData = [
+                        "id" => (integer) $field->getId(),
+                        "type" => (string) $field->getType(),
+                        "name" => (string) $field->getName(),
+                        "isFilled" => false,
+                        "isRequired" => (boolean) $field->isRequired(),
+                        "options" => $field->hasOptions() ? $field->getOptions() : []
                     ];
 
                     if ($field->isRequired()) {
-                        $field_data['name'] .= ' *';
+                        $fieldData["name"] .= " *";
                     }
 
-                    $section_data['fields'][] = $field_data;
+                    $section_data["fields"][] = $fieldData;
                 }
 
-                $data['sections'][] = $section_data;
+                $payload["sections"][] = $section_data;
             }
 
-            $data['page_title'] = $option->getTabbarName();
-
-            $this->_sendJson($data);
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
     /**
@@ -213,6 +228,10 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                 if (empty($errors)) {
 
                     $form = $this->getCurrentOptionValue()->getObject();
+
+                    // Save db values.
+
+                    // !END
 
                     $layout = $this->getLayout()->loadEmail('form', 'send_email');
                     $layout->getPartial('content_email')

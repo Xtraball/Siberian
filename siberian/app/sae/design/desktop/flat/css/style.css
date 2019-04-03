@@ -3731,3 +3731,8 @@ h4.subtitle {
     margin-bottom: 18px;
     border-bottom-width: 2px;
 }
+
+.tippy-content {
+    font-size: 13px !important;
+    padding: 1px 3px 3px !important;
+}

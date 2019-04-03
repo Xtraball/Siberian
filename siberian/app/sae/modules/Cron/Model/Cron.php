@@ -23,7 +23,7 @@ class Cron_Model_Cron extends Core_Model_Default
      */
     public static function is_active()
     {
-        return (System_Model_Config::getValueFor("disable_cron") == "0");
+        return (__get("disable_cron") == "0");
     }
 
     /**

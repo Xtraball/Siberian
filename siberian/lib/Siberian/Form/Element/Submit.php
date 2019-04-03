@@ -38,12 +38,12 @@ class Siberian_Form_Element_Submit extends Zend_Form_Element_Submit {
 			->setAttrib('class', 'btn')
 			->setAttrib('data-loading-text', __("Patientez ..."))
 		;
-		$this->setDecorators(array(
+		$this->setDecorators([
   			'ViewHelper',
-			array('HtmlTag',array(
+			['HtmlTag', [
 				'class'=>'form-actions'
-			))
-  		));
+            ]]
+        ]);
 	}
 
 	/**
@@ -51,12 +51,12 @@ class Siberian_Form_Element_Submit extends Zend_Form_Element_Submit {
 	 */
 	public function setNewDesign(){
 		$this->addClass($this->color);
-		return $this->setDecorators(array(
+		return $this->setDecorators([
   			'ViewHelper',
-			array('HtmlTag',array(
+			['HtmlTag', [
 				'class' => 'sb-save-info-button'
-			))
-  		));
+            ]]
+        ]);
 	}
 
 	/**

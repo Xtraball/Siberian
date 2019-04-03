@@ -120,7 +120,7 @@ try {
 
     $payload = [
         'error' => true,
-        'message' => $exception->getMessage(),
+        'message' => $exception->getTraceAsString(),
     ];
 
     if ($previous) {
