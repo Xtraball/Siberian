@@ -9,11 +9,9 @@
  */
 class Places_Model_Category extends Core_Model_Default
 {
-
     /**
-     * Places_Model_Place constructor.
+     * Places_Model_Category constructor.
      * @param array $params
-     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {

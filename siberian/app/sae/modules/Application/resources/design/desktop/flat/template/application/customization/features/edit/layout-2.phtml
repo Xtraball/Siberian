@@ -29,6 +29,7 @@ $toggledown = $this->getToggleDown();
                          alt="<?php echo $layout->getName(); ?>" />
                     <input type="hidden" name="layout_id" value="<?php echo $layout->getCode(); ?>" />
                     <input type="hidden" name="value_id" value="<?php echo $option_value->getId(); ?>" />
+                    <p class="option-layout-name"><?php echo $layout->getName(); ?></p>
                 </a>
                 <?php endforeach; ?>
             </div>
@@ -112,6 +113,19 @@ $toggledown = $this->getToggleDown();
 
     .design .layouts a.layout img {
         border-radius: 3px;
+    }
+
+    .design a.layout .option-layout-name {
+        background-color: #303030;
+        color: #f0f0f0;
+
+        text-align: center;
+
+        margin: 0;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 2px;
     }
 
 </style>

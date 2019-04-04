@@ -77,6 +77,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
         ),
+        'F' => 
+        array (
+            'FeedIo\\' => 7,
+        ),
         'E' => 
         array (
             'Endroid\\QrCode\\' => 15,
@@ -219,6 +223,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Gettext\\' => 
         array (
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
+        ),
+        'FeedIo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/debril/feed-io/src/FeedIo',
         ),
         'Endroid\\QrCode\\' => 
         array (

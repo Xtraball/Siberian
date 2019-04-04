@@ -106,7 +106,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * Application_Model_Application_Abstract constructor.
      * @param array $params
-     * @throws Zend_Exception
      */
     public function __construct($params = [])
     {
@@ -210,15 +209,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @return array|mixed|null|string
-     * @throws \Siberian\Exception
+     * @return mixed
      */
     public function getPrivacyPolicy()
     {
         $data = $this->getData("privacy_policy");
         $data = trim(strip_tags($data));
         if (empty($data)) {
-            $config_pp = System_Model_Config::getValueFor("privacy_policy");
+            $config_pp = __get("privacy_policy");
             $this->setData("privacy_policy", $config_pp)->save();
         }
 
@@ -288,11 +286,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         $name = \rock\sanitize\Sanitize::removeTags()->sanitize(trim($name));
 
         if (is_numeric(substr($name, 0, 1))) {
-            throw new \Siberian\Exception("The application's name cannot start with a number");
+            throw new \Siberian\Exception(p__("application", "The application's name cannot start with a number"));
         }
 
         if (strlen($name) < 6) {
-            throw new \Siberian\Exception("The application's name must be at least 6 characters long.");
+            throw new \Siberian\Exception(p__("application", "The application's name must be at least 6 characters long."));
         }
 
         return $this->setData('name', $name);
@@ -308,14 +306,15 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param string $description
-     * @return $this
+     * @param $description
+     * @return mixed
      * @throws \Siberian\Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function setDescription($description)
     {
         if (strlen($description) < 200) {
-            throw new \Siberian\Exception('The description must be at least 200 characters');
+            throw new \Siberian\Exception(p__("application","The description must be at least 200 characters"));
         }
 
         $description = \rock\sanitize\Sanitize::removeTags()->sanitize($description);
@@ -791,6 +790,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return string
+     * @throws Zend_Exception
      */
     public function getRealLayoutVisibility()
     {

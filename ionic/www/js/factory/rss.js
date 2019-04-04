@@ -10,6 +10,7 @@
 angular.module('starter').factory('Rss', function ($pwaRequest) {
     var factory = {
         value_id: null,
+        feed_id: null,
         extendedOptions: {},
         collection: []
     };
@@ -20,6 +21,14 @@ angular.module('starter').factory('Rss', function ($pwaRequest) {
      */
     factory.setValueId = function (value_id) {
         factory.value_id = value_id;
+    };
+
+    /**
+     *
+     * @param feed_id
+     */
+    factory.setFeedId = function (feed_id) {
+        factory.feed_id = feed_id;
     };
 
     /**
@@ -46,8 +55,10 @@ angular.module('starter').factory('Rss', function ($pwaRequest) {
 
         return $pwaRequest.get('rss/mobile_feed_list/findall', angular.extend({
             urlParams: {
-                value_id: this.value_id
-            }
+                value_id: this.value_id,
+                feed_id: this.feed_id
+            },
+            cache: false
         }, factory.extendedOptions));
     };
 
@@ -60,6 +71,22 @@ angular.module('starter').factory('Rss', function ($pwaRequest) {
             urlParams: {
                 value_id: this.value_id,
                 feed_id: feed_id
+            },
+            cache: false
+        });
+    };
+
+    /**
+     * @returns {*}
+     */
+    factory.findGroups = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Rss.findGroups] missing value_id');
+        }
+
+        return $pwaRequest.get('rss/mobile_feed_group/find', {
+            urlParams: {
+                value_id: this.value_id
             }
         });
     };

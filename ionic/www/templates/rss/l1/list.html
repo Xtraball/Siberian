@@ -1,0 +1,73 @@
+<ion-view sb-page-background
+          class="rss-list rss-l1">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="getState() == 'LOADING'">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-show="!is_loading && cover">
+            <div ng-click="showItem(cover)">
+                <div class="item item-image item-custom"
+                     ng-if="cover.picture">
+                    <img ng-src="{{ cover.picture }}" />
+                </div>
+                <div class="item item-custom">
+                    <h2>{{ cover.title }}</h2>
+                    <p>{{ cover.subtitle }}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list"
+             ng-show="!is_loading && collection.length">
+
+            <div class="item item-custom"
+                 ng-click="showItem(item)"
+                 ng-if="(!cover || !(cover.id)) || (cover.id != item.id)"
+                 ng-repeat="item in collection"
+                 ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
+
+                <img ng-src="{{ item.thumbnail }}"
+                     ng-if="item.thumbnail.length" />
+                <img ng-src="{{ item.picture }}"
+                     ng-if="item.picture && !item.thumbnail.length" />
+                <h2>{{ item.title ? item.title : item.author }}</h2>
+                <p class="three-lines"
+                   ng-if="item.subtitle"
+                   ng-bind-html="item.subtitle"></p>
+                <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
+                <p class="text-align-right"
+                   ng-if="item.details">
+                    <span ng-if="item.details.date">
+                        <i class="ion-ios-calendar-outline"></i>
+                        <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                        <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | from_now }}</span>
+                    </span>
+                    <span ng-if="item.details.comments">
+                        <i class="ion-ios-chatboxes-outline"></i>
+                        {{ item.details.comments.text }}
+                    </span>
+                    <span ng-if="item.details.likes"
+                          style="clear: both;">
+                        <i class="ion-ios-heart-outline"></i>
+                        {{ item.details.likes.text }}
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate:"rss" }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

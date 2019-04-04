@@ -38,6 +38,7 @@ return array(
     'Goutte\\' => array($vendorDir . '/fabpot/goutte/Goutte'),
     'Gettext\\Languages\\' => array($vendorDir . '/gettext/languages/src'),
     'Gettext\\' => array($vendorDir . '/gettext/gettext/src'),
+    'FeedIo\\' => array($vendorDir . '/debril/feed-io/src/FeedIo'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qrcode/src'),
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
     'Braintree\\' => array($vendorDir . '/braintree/braintree_php/lib/Braintree'),
