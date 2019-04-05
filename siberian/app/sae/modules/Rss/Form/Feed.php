@@ -28,7 +28,7 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
 
         $subtitle = $this->addSimpleTextarea("subtitle", p__("rss","Description / Subtitle"));
 
-        $link = $this->addSimpleText("link", p__("rss","Feed URL, Atom / RSS"));
+        $link = $this->addSimpleText("link", p__("rss","Feed URL (RSS)"));
         $link
             ->setRequired(true);
 

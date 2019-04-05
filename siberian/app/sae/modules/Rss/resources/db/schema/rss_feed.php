@@ -59,6 +59,10 @@ $schemas["rss_feed"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "version" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
     "created_at" => [
         "type" => "datetime",
     ],

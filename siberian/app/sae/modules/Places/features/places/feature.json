@@ -5,25 +5,18 @@
         "core": ["cms"],
         "module": ["./features/places/places.bundle.min.js"]
     },
-    "version": "4.15.7",
+    "version": "4.16.5",
     "category": "misc",
     "model": "Places_Model_Place",
     "desktop_uri": "places/application/",
     "routes": [
         {
-            "root": true,
-            "state": "places-home",
-            "controller": "PlacesHomeController",
-            "url": "places/mobile_list/home/value_id/:value_id",
-            "template": "l1/categories.html",
-            "cache": false
-        },
-        {
             "state": "places-categories",
             "controller": "PlacesCategoriesController",
             "url": "places/mobile_list/categories/value_id/:value_id",
             "template": "l1/categories.html",
-            "cache": true
+            "cache": true,
+            "root": true
         },
         {
             "state": "places-list",

@@ -118,34 +118,13 @@ angular.module('starter').factory('Places', function ($pwaRequest) {
         return $pwaRequest.resolve(place);
     };
 
-    factory.settings = function () {
-        var defaults = {
-            "default_page": "places",
-            "default_layout": "place-100",
-            "distance_unit": "km",
-            "listImagePriority": "thumbnail",
-            "defaultPin": "pin",
-            "categories": []
-        };
-
-        /* The url and agent must be non-null */
-        if (!this.value_id) {
-            return $pwaRequest.reject({settings: defaults});
-        }
-
-        var settings = $pwaRequest.getPayloadForValueId(factory.value_id).settings;
-        if (!settings ||
-            !settings.hasOwnProperty("default_layout") ||
-            !settings.hasOwnProperty("default_page")) {
-
-            return $pwaRequest.get('places/mobile_list/fetch-settings', {
-                urlParams: {
-                    value_id: this.value_id,
-                }
-            });
-        }
-
-        return $pwaRequest.resolve({settings: settings});
+    factory.load = function () {
+        return $pwaRequest.get('places/mobile_list/fetch-settings', {
+            urlParams: {
+                value_id: this.value_id,
+                t: Date.now()
+            }
+        });
     };
 
     return factory;

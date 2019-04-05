@@ -303,4 +303,26 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
         ];
     }
 
+    /**
+     * @param $content
+     * @return null|string
+     */
+    public static function extractMedia ($content) 
+    {
+        $domContent = new DOMDocument();
+        $domContent->loadHTML($content);
+        $description = $domContent->documentElement;
+
+        $images = $description->getElementsByTagName("img");
+
+        foreach ($images as $image) {
+            $srcAttr = $image->getAttribute("src");
+            if (!empty($srcAttr)) {
+                return $srcAttr;
+            }
+        }
+
+        return null;
+    }
+
 }

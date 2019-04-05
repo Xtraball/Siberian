@@ -28,18 +28,14 @@ class Rss_Form_Settings extends Siberian_Form_Abstract
 
         $cardDesignHint = p__("rss", "Card & list only applies to layout 1");
         $html = <<<RAW
-<div class="form-group sb-form-line">
-    <label class="col-sm-3">&nbsp;</label>
-    <div class="col-sm-7" 
-         style="margin: 0 9px 0 7px;">
-        <div class="alert alert-warning">
-            $cardDesignHint
-        </div>
-    </div>
+<div class="alert alert-warning">
+    $cardDesignHint
 </div>
 RAW;
 
-        $this->addSimpleHtml("card_design_hint", $html);
+        $this->addSimpleHtml("card_design_hint", $html, [
+            "class" => "col-sm-7 col-sm-offset-3"
+        ]);
 
         $this->addSimpleSelect("aggregation", p__("rss","Feeds aggregation"), [
             "merge" => p__("rss", "Merge all feeds (defaults)"),

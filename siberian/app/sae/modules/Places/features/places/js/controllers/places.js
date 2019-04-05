@@ -1,60 +1,8 @@
 /**
- * @version 4.15.7
+ * @version 4.16.6
  */
-angular.module('starter').controller('PlacesHomeController', function ($scope, $state, $stateParams, $ionicHistory, Places) {
-
-    angular.extend($scope, {
-        value_id: $stateParams.value_id,
-        settings: null,
-    });
-
-    /** Routing history to be sure we don't enter inside a loop */
-    var backView = $ionicHistory.backView();
-    var forwardView = $ionicHistory.forwardView();
-    if (backView) {
-        var backState = backView.stateName;
-    }
-    if (forwardView) {
-        var forwardState = forwardView.stateName;
-    }
-    var states = [
-        "places-categories",
-        "places-list-map",
-        "places-list"
-    ];
-    if (states.indexOf(backState) !== -1) {
-        return $ionicHistory.goBack();
-    }
-
-    Places.setValueId($stateParams.value_id);
-
-    // Router page only!
-    Places.settings()
-        .then(function (payload) {
-            $scope.settings = payload.settings;
-
-            if ($scope.settings &&
-                $scope.settings.default_page &&
-                $scope.settings.default_page === "categories") {
-                $state.go('places-categories', {
-                    value_id: $scope.value_id
-                });
-            } else {
-                $state.go('places-list', {
-                    value_id: $scope.value_id
-                });
-            }
-        });
-
-}).controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $ionicHistory, $rootScope,
-                                                      Places) {
-
-    /** Routing history for forward action */
-    if ($ionicHistory.backView() &&
-        $ionicHistory.backView().stateName === 'places-home') {
-        $ionicHistory.removeBackView();
-    }
-
+angular.module('starter')
+    .controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $rootScope, $pwaRequest, Places) {
     angular.extend($scope, {
         value_id: $stateParams.value_id,
         settings: null,
@@ -135,34 +83,31 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
     };
 
     // Loading places feature settings
-    Places.settings()
-        .then(function (payload) {
-
+        $pwaRequest.get('places/mobile_list/fetch-settings', {
+            urlParams: {
+                value_id: $scope.value_id,
+                t: Date.now()
+            },
+            cache: false
+        }).then(function (payload) {
+            $scope.settings = payload.settings;
             $session
                 .getItem("places_category_format_" + $stateParams.value_id)
                 .then(function (value) {
                     if (value) {
                         $scope.setFormat(value);
                     } else {
-                        $scope.setFormat(payload.settings.default_layout);
+                        $scope.setFormat($scope.settings.default_layout);
                     }
                 }).catch(function () {
-                    $scope.setFormat(payload.settings.default_layout);
+                    $scope.setFormat($scope.settings.default_layout);
                 });
 
-            $scope.settings = payload.settings;
-            $scope.categories = payload.settings.categories;
+            $scope.categories = $scope.settings.categories;
         });
 
-}).controller('PlacesListController', function (Location, $q, $ionicHistory, $scope, $rootScope, $session, $state,
+}).controller('PlacesListController', function (Location, $q, $scope, $rootScope, $session, $state, $pwaRequest,
                                                 $stateParams, $translate, $timeout, Places, Modal) {
-
-    /** Routing history for forward action */
-    if ($ionicHistory.backView() &&
-        $ionicHistory.backView().stateName === 'places-home') {
-        $ionicHistory.removeBackView();
-    }
-
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -176,6 +121,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         currentFormatBtn: 'ion-sb-grid-33',
         currentFormat: 'place-100',
         categories: [],
+        total: 0,
         filters: {
             fulltext: "",
             categories: null,
@@ -318,52 +264,6 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
 
     $scope.geolocationAvailable = true;
 
-    // Loading places feature settings
-    Places.settings()
-        .then(function (payload) {
-
-            $session
-                .getItem("places_place_format_" + $stateParams.value_id)
-                .then(function (value) {
-                    if (value) {
-                        $scope.setFormat(value);
-                    } else {
-                        $scope.setFormat(payload.settings.default_layout);
-                    }
-                }).catch(function () {
-                    $scope.setFormat(payload.settings.default_layout);
-                });
-
-            $scope.settings = payload.settings;
-            if ($scope.settings) {
-                $scope.categories = payload.settings.categories;
-            }
-
-            // Select the category if needed
-            if ($stateParams.category_id !== undefined) {
-                $scope.clearFilters(true);
-                if ($scope.categories) {
-                    $scope.categories.forEach(function (category) {
-                        if (category.id == $stateParams.category_id) {
-                            category.isSelected = true;
-                        }
-                    });
-                }
-            }
-
-            // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
-            Location.getLocation({timeout: 10000}, true)
-                .then(function (position) {
-                    $scope.filters.latitude = position.coords.latitude;
-                    $scope.filters.longitude = position.coords.longitude;
-                    $scope.geolocationAvailable = true;
-                }, function (error) {
-                    $scope.filters.latitude = 0;
-                    $scope.filters.longitude = 0;
-                    $scope.geolocationAvailable = false;
-                });
-        });
-
     // Search places
     $scope.searchPlaces = function (loadMore) {
         $scope.is_loading = true;
@@ -409,7 +309,7 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
                 Places.collection = Places.collection.concat(angular.copy(data.places));
                 $scope.collection = Places.collection;
 
-                $scope.load_more = (data.places.length > 0);
+                $scope.load_more = (data.total > $scope.collection.length);
 
             }).then(function () {
                 if (loadMore) {
@@ -439,8 +339,56 @@ angular.module('starter').controller('PlacesHomeController', function ($scope, $
         });
     };
 
-    // Initiate the first loading!
-    $scope.searchPlaces(false);
+    // Loading places feature settings
+    $pwaRequest.get('places/mobile_list/fetch-settings', {
+        urlParams: {
+            value_id: $scope.value_id,
+            t: Date.now()
+        },
+        cache: false
+    }).then(function (payload) {
+            $scope.settings = payload.settings;
+            $session
+                .getItem("places_place_format_" + $stateParams.value_id)
+                .then(function (value) {
+                    if (value) {
+                        $scope.setFormat(value);
+                    } else {
+                        $scope.setFormat($scope.settings.default_layout);
+                    }
+                }).catch(function () {
+                $scope.setFormat($scope.settings.default_layout);
+            });
+
+            $scope.categories = $scope.settings.categories;
+
+            // Select the category if needed
+            if ($stateParams.category_id !== undefined) {
+                $scope.clearFilters(true);
+                if ($scope.categories) {
+                    $scope.categories.forEach(function (category) {
+                        if (category.id == $stateParams.category_id) {
+                            category.isSelected = true;
+                        }
+                    });
+                }
+            }
+
+            // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
+            Location.getLocation({timeout: 10000}, true)
+                .then(function (position) {
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                    $scope.geolocationAvailable = true;
+                }, function (error) {
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                    $scope.geolocationAvailable = false;
+                }).then(function () {
+                    // Initiate the first loading!
+                    $scope.searchPlaces(false);
+                });
+        });
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
                                                 $location, Places, SocialSharing) {

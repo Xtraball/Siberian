@@ -63,9 +63,8 @@ class Rss_ApplicationController extends Application_Controller_Default
                 $feed->find($values["feed_id"]);
                 $feed->setData($values);
 
-                $thumbnail = Feature::saveImageForOptionDelete($optionValue, $values["thumbnail"]);
+                Feature::formImageForOption($optionValue, $feed, $values, "thumbnail", true);
 
-                $feed->setPicture($thumbnail);
                 $feed->setPosition($lastPosition + 1);
                 $feed->setVersion(2);
                 $feed->save();

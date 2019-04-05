@@ -94,6 +94,16 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     'longitude' => $position['longitude'],
                 ], $params);
 
+            $countParams = $params;
+            unset($countParams["offset"]);
+            unset($countParams["limit"]);
+            $count = (new Places_Model_Place())
+                ->findAllWithFilters($valueId, [
+                    'search_by_distance' => true,
+                    'latitude' => $position['latitude'],
+                    'longitude' => $position['longitude'],
+                ], $params);
+
             $collection = [];
             foreach ($places as $place) {
                 $collection[] = $place->toJson($optionValue, $request->getBaseUrl());
@@ -104,6 +114,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
+                "total" => $count->count(),
                 "places" => $collection
             ];
         } catch (\Exception $e) {

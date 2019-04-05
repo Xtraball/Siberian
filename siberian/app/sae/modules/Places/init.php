@@ -1,11 +1,13 @@
 <?php
 
+use Siberian\Assets;
+
 /**
  * @param $bootstrap
  */
 $init = function ($bootstrap) {
     // Register places scss for dynamic rebuild in colors page!
-    \Siberian_Assets::registerScss([
+    Assets::registerScss([
         "/app/sae/modules/Places/features/places/scss/places.scss"
     ]);
 };
