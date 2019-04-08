@@ -2,7 +2,8 @@
  * @version 4.16.6
  */
 angular.module('starter')
-    .controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $rootScope, $pwaRequest, Places) {
+    .controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $rootScope,
+                                                        $pwaRequest, Places) {
     angular.extend($scope, {
         value_id: $stateParams.value_id,
         settings: null,
@@ -60,11 +61,11 @@ angular.module('starter')
         if (item.picture && item.picture.length) {
             return IMAGE_URL + "images/application" + item.picture;
         }
-        return './features/places/assets/templates/l1/img/no-category.png';
+        return "./features/places/assets/templates/l1/img/no-category.png";
     };
 
     $scope.selectCategory = function (category) {
-        $state.go('places-list', {
+        $state.go("places-list", {
             value_id: $scope.value_id,
             page_id: $stateParams.page_id,
             category_id: category.id
@@ -83,30 +84,30 @@ angular.module('starter')
     };
 
     // Loading places feature settings
-        $pwaRequest.get('places/mobile_list/fetch-settings', {
-            urlParams: {
-                value_id: $scope.value_id,
-                t: Date.now()
-            },
-            cache: false
-        }).then(function (payload) {
-            $scope.settings = payload.settings;
-            $session
-                .getItem("places_category_format_" + $stateParams.value_id)
-                .then(function (value) {
-                    if (value) {
-                        $scope.setFormat(value);
-                    } else {
-                        $scope.setFormat($scope.settings.default_layout);
-                    }
-                }).catch(function () {
+    $pwaRequest.get("places/mobile_list/fetch-settings", {
+        urlParams: {
+            value_id: $scope.value_id,
+            t: Date.now()
+        },
+        cache: false
+    }).then(function (payload) {
+        $scope.settings = payload.settings;
+        $session
+            .getItem("places_category_format_" + $stateParams.value_id)
+            .then(function (value) {
+                if (value) {
+                    $scope.setFormat(value);
+                } else {
                     $scope.setFormat($scope.settings.default_layout);
-                });
+                }
+            }).catch(function () {
+                $scope.setFormat($scope.settings.default_layout);
+            });
 
-            $scope.categories = $scope.settings.categories;
-        });
+        $scope.categories = $scope.settings.categories;
+    });
 
-}).controller('PlacesListController', function (Location, $q, $scope, $rootScope, $session, $state, $pwaRequest,
+}).controller("PlacesListController", function (Location, $q, $scope, $rootScope, $session, $state, $pwaRequest,
                                                 $stateParams, $translate, $timeout, Places, Modal) {
     angular.extend($scope, {
         is_loading: true,
@@ -206,12 +207,8 @@ angular.module('starter')
         }
     };
 
-    $scope.searchIcon = function () {
-        return './features/places/assets/templates/l1/img/search.svg';
-    };
-
     $scope.filterModal = function() {
-        Modal.fromTemplateUrl('features/places/assets/templates/l1/filter.html', {
+        Modal.fromTemplateUrl("features/places/assets/templates/l1/filter.html", {
             scope: $scope
         }).then(function(modal) {
             $scope.modal = modal;
@@ -221,10 +218,10 @@ angular.module('starter')
 
     $scope.imageSrc = function (picture) {
         if (!picture.length) {
-            return './features/places/assets/templates/l1/img/no-category.png';
+            return "./features/places/assets/templates/l1/img/no-category.png";
         }
 
-        return IMAGE_URL + 'images/application' + picture;
+        return IMAGE_URL + "images/application" + picture;
     };
 
     /**
@@ -234,34 +231,37 @@ angular.module('starter')
      */
     $scope.placeThumbnailSrc = function (item) {
         var url = null;
-        switch ($scope.settings.listImagePriority) {
-            case "thumbnail": default:
+        try {
+            switch ($scope.settings.listImagePriority) {
+                case "thumbnail": default:
                 if (item.thumbnail && item.thumbnail.length) {
                     url = item.thumbnail;
                 } else if (item.picture && item.picture.length) {
                     url = item.picture;
                 }
                 break;
-            case "image":
-                if (item.picture && item.picture.length) {
-                    url = item.picture;
-                } else if (item.thumbnail && item.thumbnail.length) {
-                    url = item.thumbnail;
-                }
-                break;
-        }
-        if (url !== null) {
-            // Monkey Patch non-well formatted uris
-            if (!url.match(/^https?:\/\//)){
-                url = IMAGE_URL + url;
+                case "image":
+                    if (item.picture && item.picture.length) {
+                        url = item.picture;
+                    } else if (item.thumbnail && item.thumbnail.length) {
+                        url = item.thumbnail;
+                    }
+                    break;
             }
-            return url;
+            if (url !== null) {
+                // Monkey Patch non-well formatted uris
+                if (!url.match(/^https?:\/\//)){
+                    url = IMAGE_URL + url;
+                }
+                return url;
+            }
+        } catch (e) {
+            // Continue to fallback!
         }
-        return './features/places/assets/templates/l1/img/no-place.png';
+        return "./features/places/assets/templates/l1/img/no-place.png";
     };
 
     // Version 2
-
     $scope.geolocationAvailable = true;
 
     // Search places
@@ -326,8 +326,7 @@ angular.module('starter')
         }
 
         $state.go('places-list-map', {
-            value_id: $scope.value_id,
-            page_id: $stateParams.page_id
+            value_id: $scope.value_id
         });
     };
 
@@ -340,7 +339,7 @@ angular.module('starter')
     };
 
     // Loading places feature settings
-    $pwaRequest.get('places/mobile_list/fetch-settings', {
+    $pwaRequest.get("places/mobile_list/fetch-settings'", {
         urlParams: {
             value_id: $scope.value_id,
             t: Date.now()
@@ -482,6 +481,12 @@ angular.module('starter')
 
     Places.setValueId($stateParams.value_id);
 
+    $scope.goToList = function () {
+        $state.go("places-list", {
+            value_id: $scope.value_id
+        });
+    };
+
     $scope.hideInfoWindow = function () {
         $scope.showInfoWindow = false;
     };
@@ -580,7 +585,7 @@ angular.module('starter')
     $scope.loadContent();
 
     $scope.goToPlace = function (placeId) {
-        $state.go('places-view', {
+        $state.go("places-view", {
             value_id: $scope.value_id,
             page_id: placeId
         });

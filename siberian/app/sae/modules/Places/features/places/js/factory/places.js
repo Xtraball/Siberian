@@ -118,14 +118,5 @@ angular.module('starter').factory('Places', function ($pwaRequest) {
         return $pwaRequest.resolve(place);
     };
 
-    factory.load = function () {
-        return $pwaRequest.get('places/mobile_list/fetch-settings', {
-            urlParams: {
-                value_id: this.value_id,
-                t: Date.now()
-            }
-        });
-    };
-
     return factory;
 });
