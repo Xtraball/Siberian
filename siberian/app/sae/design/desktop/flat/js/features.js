@@ -62,17 +62,17 @@ ckeditor_config.complete = {
 let feature_picture_uploader = new Uploader();
 
 (function ($) {
-    var uniqueCntr = 0;
+    let uniqueCntr = 0;
     $.fn.scrolled = function (waitTime, fn) {
         if (typeof waitTime === 'function') {
             fn = waitTime;
             waitTime = 10;
         }
         uniqueCntr = uniqueCntr + 1;
-        var tag = 'scrollTimer' + uniqueCntr.toString();
+        let tag = 'scrollTimer' + uniqueCntr.toString();
         this.scroll(function () {
-            var self = $(this);
-            var timer = self.data(tag);
+            let self = $(this);
+            let timer = self.data(tag);
             if (timer) {
                 clearTimeout(timer);
             }
@@ -85,17 +85,17 @@ let feature_picture_uploader = new Uploader();
     };
 }(jQuery));
 
-var handleFormError = function (form, data) {
+let handleFormError = function (form, data) {
     feature_form_error(data.message, data.message_timeout);
     if (data.errors) {
         form.find('p.form-field-error').remove();
         Object.keys(data.errors).forEach(function (key) {
-            var input = form.find('#' + key);
+            let input = form.find('#' + key);
             if (input.length > 0) {
                 switch (input.attr('type')) {
                     case 'hidden':
                         // Search for button data-input!
-                        var alt_input = form.find('[data-input=\'' + key + '\']');
+                        let alt_input = form.find('[data-input=\'' + key + '\']');
                         if (alt_input.length > 0) {
                             input = alt_input;
                         }
@@ -113,8 +113,8 @@ let feature_form_error = function (html) {
         html,
         null,
         {
-            timeOut: 4500,
-            extendedTimeOut: 15000,
+            timeOut: 3700,
+            extendedTimeOut: 10000,
             progressBar: true,
             positionClass: "toast-top-center"
         });
@@ -125,8 +125,8 @@ let feature_form_success = function (html) {
         html,
         null,
         {
-            timeOut: 4500,
-            extendedTimeOut: 15000,
+            timeOut: 3700,
+            extendedTimeOut: 10000,
             progressBar: true,
             positionClass: "toast-top-center"
         });

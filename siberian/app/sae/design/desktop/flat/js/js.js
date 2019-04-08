@@ -183,7 +183,6 @@ let AlertMessage = Class.extend({
     init: function(message, addButton, timer) {
         // Migration to toastr!
         this.message = message;
-        this.timer = 3000;
         this.showLoader = true;
     },
     show: function() {
@@ -196,7 +195,9 @@ let AlertMessage = Class.extend({
                     this.message,
                     null,
                     {
-                        timeOut: this.timer,
+                        timeOut: 3700,
+                        extendedTimeOut: 10000,
+                        progressBar: true,
                         positionClass: "toast-top-center"
                     });
                 break;
@@ -205,7 +206,9 @@ let AlertMessage = Class.extend({
                     this.message,
                     null,
                     {
-                        timeOut: this.timer,
+                        timeOut: 3700,
+                        extendedTimeOut: 10000,
+                        progressBar: true,
                         positionClass: "toast-top-center"
                     });
                 break;

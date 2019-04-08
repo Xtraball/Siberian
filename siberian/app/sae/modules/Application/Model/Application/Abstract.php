@@ -10,7 +10,6 @@ use Siberian\Json;
  * @method integer getId()
  * @method string getFlickrKey()
  * @method string getFlickrSecret()
- * @method string getDesignCode()
  * @method $this setIsActive(boolean $isActive)
  * @method $this setLayoutVisibility(boolean $visibility)
  */
@@ -667,12 +666,20 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * Enforce "ionic" as design code to prevent db "angular"
+     * @return string
+     */
+    public function getDesignCode ()
+    {
+        return self::DESIGN_CODE_IONIC;
+    }
+
+    /**
      * @return Template_Model_Design
      * @throws Zend_Exception
      */
     public function getDesign()
     {
-
         if (!$this->_design) {
             $this->_design = new Template_Model_Design();
             if ($this->getDesignId()) {
@@ -681,7 +688,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         return $this->_design;
-
     }
 
     /**
