@@ -1,13 +1,9 @@
-/* global
- App, device, angular
- */
-
 /**
  * Rss
  *
  * @author Xtraball SAS
  */
-angular.module('starter').factory('Rss', function ($pwaRequest) {
+angular.module("starter").factory("Rss", function ($pwaRequest) {
     var factory = {
         value_id: null,
         feed_id: null,
@@ -16,19 +12,17 @@ angular.module('starter').factory('Rss', function ($pwaRequest) {
     };
 
     /**
-     *
-     * @param value_id
+     * @param valueId
      */
-    factory.setValueId = function (value_id) {
-        factory.value_id = value_id;
+    factory.setValueId = function (valueId) {
+        factory.value_id = valueId;
     };
 
     /**
-     *
-     * @param feed_id
+     * @param feedId
      */
-    factory.setFeedId = function (feed_id) {
-        factory.feed_id = feed_id;
+    factory.setFeedId = function (feedId) {
+        factory.feed_id = feedId;
     };
 
     /**
@@ -39,79 +33,59 @@ angular.module('starter').factory('Rss', function ($pwaRequest) {
         factory.extendedOptions = options;
     };
 
-    /**
-     * Pre-Fetch feature.
-     *
-     * @param page
-     */
-    factory.preFetch = function () {
-        factory.findAll();
-    };
-
-    factory.findAll = function () {
+    factory.getFeeds = function () {
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Rss.findAll] missing value_id');
+            return $pwaRequest.reject("[Factory::Rss.getFeeds] missing value_id");
         }
 
-        return $pwaRequest.get('rss/mobile_feed_list/findall', angular.extend({
+        return $pwaRequest.get("rss/mobile_rss/feeds", angular.extend({
             urlParams: {
                 value_id: this.value_id,
-                feed_id: this.feed_id
             },
             cache: false
         }, factory.extendedOptions));
     };
 
-    factory.find = function (feed_id) {
+    factory.getGroupedFeeds = function () {
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Rss.find] missing value_id');
+            return $pwaRequest.reject("[Factory::Rss.getGroupedFeeds] missing value_id");
         }
 
-        return $pwaRequest.get('rss/mobile_feed_view/find', {
+        return $pwaRequest.get("rss/mobile_rss/grouped-feeds", angular.extend({
             urlParams: {
                 value_id: this.value_id,
-                feed_id: feed_id
             },
             cache: false
-        });
+        }, factory.extendedOptions));
     };
 
-    /**
-     * @returns {*}
-     */
-    factory.findGroups = function () {
+    factory.getSingleFeed = function (feedId) {
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Rss.findGroups] missing value_id');
+            return $pwaRequest.reject("[Factory::Rss.getSingleFeed] missing value_id");
         }
 
-        return $pwaRequest.get('rss/mobile_feed_group/find', {
+        return $pwaRequest.get("rss/mobile_rss/single-feed", {
             urlParams: {
-                value_id: this.value_id
-            }
+                value_id: this.value_id,
+                feedId: feedId
+            },
+            cache: false
         });
     };
 
     /**
      * Search for feed payload inside cached collection
      *
-     * @param feed_id
+     * @param itemId
      * @returns {*}
      */
-    factory.getFeed = function (feed_id) {
-        if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Rss.getFeed] missing value_id');
-        }
+    factory.findItem = function (itemId) {
+        var item = _.filter(factory.collection, function (item) {
+            return (item.id == itemId);
+        })[0];
 
-        var feed = _.get(_.filter(factory.collection, function (item) {
-            return (item.id == feed_id);
-        })[0], 'embed_payload', false);
-
-        if (!feed) {
-            return factory.find(feed_id);
-        }
-        return $pwaRequest.resolve(feed);
+        return $pwaRequest.resolve(item);
     };
-
 
     return factory;
 });

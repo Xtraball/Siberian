@@ -267,33 +267,36 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
         }
 
         // Special feature for places!
-        if (array_key_exists("default_page", $settings)) {
-            switch ($settings["default_page"]) {
-                case "group":
+        if (array_key_exists("aggregation", $settings)) {
+            switch ($settings["aggregation"]) {
+                case "split":
                     $featureUrl = __url("/rss/mobile_feed_group/index", [
-                        "value_id" => $this->getValueId()
+                        "value_id" => $optionValue->getId()
                     ]);
                     $featurePath = __path("/rss/mobile_feed_group/index", [
-                        "value_id" => $this->getValueId()
+                        "value_id" => $optionValue->getId()
                     ]);
                     break;
+                case "merge":
                 default:
                     $featureUrl = __url("/rss/mobile_feed_list/index", [
-                        "value_id" => $this->getValueId(),
+                        "value_id" => $optionValue->getId(),
                         "feed_id" => ""
                     ]);
                     $featurePath = __path("/rss/mobile_feed_list/index", [
-                        "value_id" => $this->getValueId(),
+                        "value_id" => $optionValue->getId(),
                         "feed_id" => ""
                     ]);
                     break;
             }
         } else {
             $featureUrl = __url("/rss/mobile_feed_list/index", [
-                "value_id" => $this->getValueId()
+                "value_id" => $optionValue->getId(),
+                "feed_id" => ""
             ]);
             $featurePath = __path("/rss/mobile_feed_list/index", [
-                "value_id" => $this->getValueId()
+                "value_id" => $optionValue->getId(),
+                "feed_id" => ""
             ]);
         }
 
@@ -305,24 +308,53 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
 
     /**
      * @param $content
-     * @return null|string
+     * @return array
      */
-    public static function extractMedia ($content) 
+    public static function extract ($content)
     {
-        $domContent = new DOMDocument();
+        $domContent = new Dom_SmartDOMDocument();
         $domContent->loadHTML($content);
         $description = $domContent->documentElement;
 
+        // Just give up if this is empty!
+        if (empty($description)) {
+            return [
+                "media" => null,
+                "content" => $content,
+            ];
+        }
+
         $images = $description->getElementsByTagName("img");
 
+        $firstImage = null;
         foreach ($images as $image) {
             $srcAttr = $image->getAttribute("src");
-            if (!empty($srcAttr)) {
-                return $srcAttr;
+
+            $image->removeAttribute("width");
+            $image->removeAttribute("height");
+
+            if (!empty($srcAttr) &&
+                $firstImage === null) {
+                $firstImage = $srcAttr;
+
+                // Remove extracted image from the content to prevent duplicate!
+                $image->parentNode->removeChild($image);
             }
         }
 
-        return null;
+        $aLinks = $description->getElementsByTagName("a");
+        if ($aLinks->length > 0) {
+            foreach($aLinks as $aLink) {
+                $aLink->setAttribute("target", "_self");
+            }
+        }
+
+        $content = $domContent->saveHTMLExact();
+
+        return [
+            "media" => $firstImage,
+            "content" => $content
+        ];
     }
 
 }

@@ -38,12 +38,12 @@ RAW;
         ]);
 
         $this->addSimpleSelect("aggregation", p__("rss","Feeds aggregation"), [
-            "merge" => p__("rss", "Merge all feeds (defaults)"),
-            "split" => p__("rss", ""),
+            "merge" => p__("rss", "Merge all feeds"),
+            "split" => p__("rss", "Display feeds as groups"),
         ]);
 
         $this->addSimpleCheckbox("displayThumbnail", p__("rss","Display thumbnail"));
-        $this->addSimpleCheckbox("displayCover", p__("rss","Display cover image"));
+        $this->addSimpleCheckbox("displayCover", p__("rss","Use first entry as cover"));
 
         $value_id = $this->addSimpleHidden("value_id");
         $value_id

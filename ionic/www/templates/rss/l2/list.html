@@ -2,6 +2,13 @@
           class="rss-list rss-l2">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
     <ion-content>
         <div class="loader"
              ng-show="is_loading">

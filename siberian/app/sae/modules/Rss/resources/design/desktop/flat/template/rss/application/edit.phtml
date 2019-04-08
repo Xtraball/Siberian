@@ -1,14 +1,34 @@
 <?php
+
+use Siberian\Json;
+
 $optionValue = $this->getOptionValue();
 $application = $this->getApplication();
 $feeds = (new Rss_Model_Feed())
-    ->findAll($optionValue->getId(), ["position ASC"]);
+    ->findAll(["value_id = ?" => $optionValue->getId()], ["position ASC"]);
 
 $formFeed = new Rss_Form_Feed();
 $formSettings = new Rss_Form_Settings();
 
 $formFeed->setValueId($optionValue->getId());
 $formSettings->setValueId($optionValue->getId());
+
+if ($optionValue->getId()) {
+    try {
+        $settings = Json::decode($optionValue->getSettings());
+        $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+        $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+    } catch (\Exception $e) {
+        $settings = [
+            "design" => "card",
+            "aggregation" => "merge",
+            "displayThumbnail" => true,
+            "displayCover" => true,
+        ];
+    }
+
+    $formSettings->populate($settings);
+}
 
 ?>
 <div class="form_content">
