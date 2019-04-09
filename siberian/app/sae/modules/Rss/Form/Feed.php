@@ -15,7 +15,7 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
 
         $this
             ->setAction(__path("/rss/application/edit-post"))
-            ->setAttrib("id", "form-contact");
+            ->setAttrib("id", "form-rss");
 
         /** Bind as a create form */
         self::addClass("create", $this);
@@ -47,13 +47,13 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
     }
 
     /**
-     * @param $contactId
+     * @param $feedId
      */
-    public function setContactId($contactId)
+    public function setFeedId($feedId)
     {
         $this
-            ->getElement("contact_id")
-            ->setValue($contactId)
+            ->getElement("feed_id")
+            ->setValue($feedId)
             ->setRequired(true);
     }
 }

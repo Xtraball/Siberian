@@ -14,15 +14,18 @@ angular.module("starter")
 
     Rss.setValueId($stateParams.value_id);
 
-    $scope.loadContent = function () {
+    $scope.loadContent = function (refresh) {
         Rss
-        .getFeeds()
+        .getFeeds(refresh)
         .then(function (data) {
             $scope.feeds = data.feeds;
             $scope.settings = data.settings;
             $scope.page_title = data.page_title;
             Rss.feeds = angular.copy($scope.feeds);
             Rss.settings = angular.copy($scope.settings);
+
+            $scope.feeds_chunks = $filter("chunk")($scope.feeds, 2);
+            $scope.feeds_achunks = $filter("achunk")($scope.feeds, 2, 1);
 
         }, function (error) {
             Dialog.alert("Error", "We are unable to find this feed groups.", "OK", 2350, "rss");
@@ -33,7 +36,7 @@ angular.module("starter")
 
     $scope.refresh = function () {
         $scope.is_loading = true;
-        $scope.loadContent();
+        $scope.loadContent(true);
     };
 
     $scope.goToList = function (feed) {
@@ -43,7 +46,7 @@ angular.module("starter")
         });
     };
 
-    $scope.loadContent();
+    $scope.loadContent(false);
 })
 .controller("RssListController", function ($filter, $scope, $state, $stateParams, Rss, Pages, Dialog) {
     angular.extend($scope, {
@@ -55,10 +58,10 @@ angular.module("starter")
     Rss.setValueId($stateParams.value_id);
     Rss.setFeedId($stateParams.feed_id);
 
-    $scope.loadContent = function () {
+    $scope.loadContent = function (refresh) {
         if ($scope.feed_id !== "") {
             Rss
-            .getSingleFeed($scope.feed_id)
+            .getSingleFeed($scope.feed_id, refresh)
             .then(function (data) {
                 $scope.collection = data.collection;
                 $scope.settings = data.settings;
@@ -72,6 +75,9 @@ angular.module("starter")
                     $scope.cover = $scope.collection[0];
                     $scope.collection.shift();
                 }
+
+                $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
+                $scope.collection_achunks = $filter("achunk")($scope.collection, 2, 1);
 
             }, function (error) {
                 Dialog.alert("Error", "We are unable to find this feed groups.", "OK", 2350, "rss");
@@ -80,7 +86,7 @@ angular.module("starter")
             });
         } else {
             Rss
-            .getGroupedFeeds()
+            .getGroupedFeeds(refresh)
             .then(function (data) {
                 $scope.collection = data.collection;
                 $scope.settings = data.settings;
@@ -94,6 +100,9 @@ angular.module("starter")
                     $scope.cover = $scope.collection[0];
                     $scope.collection.shift();
                 }
+
+                $scope.collection_chunks = $filter("chunk")($scope.collection, 2);
+                $scope.collection_achunks = $filter("achunk")($scope.collection, 2, 1);
 
             }, function (error) {
                 Dialog.alert("Error", "We are unable to find this feed groups.", "OK", 2350, "rss");
@@ -105,7 +114,7 @@ angular.module("starter")
 
     $scope.refresh = function () {
         $scope.is_loading = true;
-        $scope.loadContent();
+        $scope.loadContent(true);
     };
 
     $scope.showItem = function (item) {
@@ -115,7 +124,7 @@ angular.module("starter")
         });
     };
 
-    $scope.loadContent();
+    $scope.loadContent(false);
 
 }).controller("RssViewController", function ($rootScope, $scope, $stateParams, LinkService, Rss) {
     angular.extend($scope, {

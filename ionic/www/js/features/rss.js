@@ -19,7 +19,7 @@ angular.module("starter").config(function ($stateProvider, HomepageLayoutProvide
                 }
             },
             controller: "RssGroupController",
-            cache: true,
+            cache: false,
             resolve: lazyLoadResolver("rss")
         })
         .state("rss-list", {
@@ -37,7 +37,7 @@ angular.module("starter").config(function ($stateProvider, HomepageLayoutProvide
                 }
             },
             controller: "RssListController",
-            cache: true,
+            cache: false,
             resolve: lazyLoadResolver("rss")
         }).state("rss-view", {
             url: BASE_PATH + "/rss/mobile_feed_view/index/value_id/:value_id/item_id/:item_id",
@@ -54,7 +54,7 @@ angular.module("starter").config(function ($stateProvider, HomepageLayoutProvide
             }
         },
             controller: "RssViewController",
-            cache: true,
+            cache: false,
             resolve: lazyLoadResolver("rss")
         });
 });

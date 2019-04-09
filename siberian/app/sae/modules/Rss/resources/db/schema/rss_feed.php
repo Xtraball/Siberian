@@ -35,9 +35,10 @@ $schemas["rss_feed"] = [
         "collation" => "utf8_unicode_ci",
     ],
     "subtitle" => [
-        "type" => "varchar(20)",
+        "type" => "text",
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
     "link" => [
         "type" => "varchar(100)",
@@ -55,9 +56,9 @@ $schemas["rss_feed"] = [
     ],
     "thumbnail" => [
         "type" => "text",
-        "is_null" => true,
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
     "version" => [
         "type" => "tinyint(1)",

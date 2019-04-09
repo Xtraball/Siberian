@@ -308,9 +308,10 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
 
     /**
      * @param $content
+     * @param $stripMedia
      * @return array
      */
-    public static function extract ($content)
+    public static function extract ($content, $stripMedia = true)
     {
         $domContent = new Dom_SmartDOMDocument();
         $domContent->loadHTML($content);
@@ -324,21 +325,23 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
             ];
         }
 
-        $images = $description->getElementsByTagName("img");
+        if ($stripMedia) {
+            $images = $description->getElementsByTagName("img");
 
-        $firstImage = null;
-        foreach ($images as $image) {
-            $srcAttr = $image->getAttribute("src");
+            $firstImage = null;
+            foreach ($images as $image) {
+                $srcAttr = $image->getAttribute("src");
 
-            $image->removeAttribute("width");
-            $image->removeAttribute("height");
+                $image->removeAttribute("width");
+                $image->removeAttribute("height");
 
-            if (!empty($srcAttr) &&
-                $firstImage === null) {
-                $firstImage = $srcAttr;
+                if (!empty($srcAttr) &&
+                    $firstImage === null) {
+                    $firstImage = $srcAttr;
 
-                // Remove extracted image from the content to prevent duplicate!
-                $image->parentNode->removeChild($image);
+                    // Remove extracted image from the content to prevent duplicate!
+                    $image->parentNode->removeChild($image);
+                }
             }
         }
 

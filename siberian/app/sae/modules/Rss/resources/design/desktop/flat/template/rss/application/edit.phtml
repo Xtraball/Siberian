@@ -10,9 +10,6 @@ $feeds = (new Rss_Model_Feed())
 $formFeed = new Rss_Form_Feed();
 $formSettings = new Rss_Form_Settings();
 
-$formFeed->setValueId($optionValue->getId());
-$formSettings->setValueId($optionValue->getId());
-
 if ($optionValue->getId()) {
     try {
         $settings = Json::decode($optionValue->getSettings());
@@ -29,6 +26,12 @@ if ($optionValue->getId()) {
 
     $formSettings->populate($settings);
 }
+
+$formFeed->setValueId($optionValue->getId());
+$formSettings->setValueId($optionValue->getId());
+
+$deleteForm = new Rss_Form_Feed_Delete();
+$deleteForm->setValueId($optionValue->getId());
 
 ?>
 <div class="form_content">
@@ -101,10 +104,12 @@ if ($optionValue->getId()) {
                                         <tr class="border-grey">
                                             <th style="width:32px;"></th>
                                             <th class="sortable"
-                                                style="width:26%;"><?php echo __("Title"); ?></th>
+                                                style="width:20%;"><?php echo p__("rss", "Title"); ?></th>
                                             <th class="sortable"
-                                                style="width:50%;"><?php echo __("Link"); ?></th>
-                                            <th style="width:45%;"><?php echo __("Position") ?></th>
+                                                style="width:30%;"><?php echo p__("rss","Subtitle"); ?></th>
+                                            <th class="sortable"
+                                                style="width:30%;"><?php echo p__("rss","Link"); ?></th>
+                                            <th style="width:10%;"><?php echo p__("rss","Position") ?></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
@@ -119,11 +124,12 @@ if ($optionValue->getId()) {
                                                 <i class="fa fa-sort"></i>
                                             </td>
                                             <td><?php echo $feed->getTitle(); ?></td>
+                                            <td><?php echo cut($feed->getSubtitle(), 50); ?></td>
                                             <td><?php echo $feed->getLink(); ?></td>
                                             <td class="feed-position"><?php echo $feed->getPosition() ?></td>
                                             <td class="edit-action open-edit"
                                                 data-id="feed_<?php echo $feed->getId(); ?>"
-                                                data-form-url="<?php echo __path('/rss/application/load-feed-form', [
+                                                data-form-url="<?php echo __path('/rss/application/load-form', [
                                                     'feed_id' => $feed->getId(),
                                                     'value_id' => $optionValue->getId()
                                                 ]); ?>">
@@ -131,17 +137,17 @@ if ($optionValue->getId()) {
                                             </td>
                                             <td class="delete-action">
                                                 <?php
-                                                /**$deleteForm->setAttrib('data-rowid', 'feed_manage_element_' . $feed->getId());
-                                                $deleteForm->getElement('feed_id')->setValue($feed->getId());
+                                                $deleteForm->setAttrib("data-rowid", "feed_manage_element_" . $feed->getId());
+                                                $deleteForm->getElement("feed_id")->setValue($feed->getId());
 
-                                                echo $deleteForm;*/
+                                                echo $deleteForm;
                                                 ?>
                                             </td>
                                         </tr>
                                         <tr class="edit-form"
                                             data-id="feed_<?php echo $feed->getId(); ?>"
                                             style="display: none;">
-                                            <td colspan="6">
+                                            <td colspan="7">
                                                 <p class="close-edit"
                                                    data-id="feed_<?php echo $feed->getId(); ?>">
                                                     <i class="fa fa-times"></i><?php echo __("Close") ?>
@@ -226,5 +232,21 @@ if ($optionValue->getId()) {
                 );
             }
         });
+
+        // Display cache message hint
+        let toggleNoCache = function () {
+            let el = $("#cacheLifetime");
+            if (el.val() == "0") {
+                $("#note_no_cache").show();
+            } else {
+                $("#note_no_cache").hide();
+            }
+        };
+
+        $(document).off("change", "#cacheLifetime");
+        $(document).on("change", "#cacheLifetime", function () {
+            toggleNoCache();
+        });
+        toggleNoCache();
     });
 </script>

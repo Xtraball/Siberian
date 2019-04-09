@@ -1,6 +1,7 @@
 <ion-view sb-page-background
           class="rss-view rss-view-l1">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
+
     <ion-content>
         <div class="loader"
              ng-show="is_loading">
@@ -29,16 +30,5 @@
                 {{ "View full article" | translate:"rss" }}
             </div>
         </div>
-
-        <style type="text/css">
-            .rss-view .item-description * {
-                max-width: 100% !important;
-            }
-
-            .rss-view .item-description img {
-                width: 100%;
-            }
-        </style>
-
     </ion-content>
 </ion-view>

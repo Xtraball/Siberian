@@ -1,5 +1,5 @@
 <ion-view sb-page-background
-          class="rss-list rss-l3">
+          class="rss-list rss-list-l3">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
@@ -16,108 +16,73 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-show="!is_loading && collection.length">
-
-            <div ng-repeat="item in collection"
-                 ng-if="$index % 3 === 0">
-                <div class="list row">
-                    <div class="col col-100"
-                         ng-click="showItem(item)">
-                        <div class="item item-custom item-body"
-                             ng-if="item">
-                            <div class="item-image"
-                                 ng-if="item.picture"
-                                 style="background-image:url('{{ item.picture }}')"></div>
-                            <div class="item-content">
-                                <h2>{{ $index+1 }} - {{ item.title ? item.title : item.author }}</h2>
-
-                                <p ng-if="item.subtitle && !item.subtitle_html"
-                                   ng-bind-html="item.subtitle | trusted_html"></p>
-                                <p ng-if="item.subtitle_html"
-                                   ng-bind-html="item.subtitle_html | trusted_html"></p>
-
-                                <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
-                            </div>
-                            <div class="item-image"
-                                 ng-if="!item.picture">
-                                <img ng-src="{{ picture_fallback }}" />
-                            </div>
-                        </div>
-                    </div>
+        <div class="list design-cover"
+             ng-class="{'card': settings.design == 'card'}"
+             ng-show="!is_loading && settings.displayCover">
+            <div ng-click="showItem(cover)">
+                <div class="item item-image item-custom"
+                     ng-if="cover.media">
+                    <img ng-src="{{ cover.media }}" />
                 </div>
-                <div class="list row">
-                    <div class="col col-50"
-                         ng-click="showItem(collection[$index+1])" >
-                        <div class="item item-custom item-body"
-                             ng-if="collection[$index+1]">
-                            <div class="item-image"
-                                 ng-if="collection[$index+1].picture" style="background-image:url('{{ collection[$index+1].picture }}')">
-                            </div>
-                            <div class="item-content">
-                                <h2>{{ $index+2 }} - {{ collection[$index+1].title ? collection[$index+1].title : collection[$index+1].author }}</h2>
-                                <p ng-if="collection[$index+1].subtitle">{{ collection[$index+1].subtitle }}</p>
-                                <p ng-if="!collection[$index+1].subtitle && collection[$index+1].message">{{ collection[$index+1].message }}</p>
-                            </div>
-                            <div class="item-image"
-                                 ng-if="!collection[$index+1].picture">
-                                <img ng-src="{{ picture_fallback }}" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col col-50"
-                         ng-class="{'card' : card_design}"
-                         ng-click="showItem(collection[$index+2])">
-                        <div class="item item-custom item-body"
-                             ng-if="collection[$index+2]">
-                            <div class="item-image"
-                                 ng-if="collection[$index+2].picture"
-                                 style="background-image:url('{{ collection[$index+2].picture }}')">
-                            </div>
-                            <div class="item-content">
-                                <h2>{{ $index+3 }} - {{ collection[$index+2].title ? collection[$index+2].title : collection[$index+2].author }}</h2>
-                                <p ng-if="collection[$index+2].subtitle">{{ collection[$index+2].subtitle }}</p>
-                                <p ng-if="!collection[$index+2].subtitle && collection[$index+2].message">{{ collection[$index+2].message }}</p>
-                            </div>
-                            <div class="item-image"
-                                 ng-if="!collection[$index+2].picture">
-                                <img ng-src="{{ picture_fallback }}" />
-                            </div>
-                        </div>
-                    </div>
+                <div class="item item-custom">
+                    <h2 class="rss-title">{{ cover.title }}</h2>
+                    <p class="rss-subtitle"
+                       ng-if="cover.subtitle"
+                       ng-bind-html="cover.subtitle | trusted_html"></p>
+                    <p class="rss-date"
+                       ng-if="cover.date.date">{{ cover.date.date | moment_calendar }}</p>
                 </div>
             </div>
         </div>
 
+        <div ng-show="!is_loading && collection.length"
+             ng-class="{
+                'design-card': settings.design == 'card',
+                'design-list': settings.design == 'list',
+                'no-cover': !settings.displayCover
+            }">
+
+            <div class="list row"
+                 ng-class="{'notcard': settings.design == 'list'}"
+                 ng-repeat="chunk in collection_achunks">
+
+                <div class="col"
+                     ng-class="{
+                        'card': settings.design == 'card',
+                        'col-50': chunk.length == 2
+                     }"
+                     ng-click="showItem(item)"
+                     ng-repeat="item in chunk">
+
+                    <div class="item item-custom item-body">
+                        <img ng-if="item.media && settings.displayThumbnail"
+                             src="./img/placeholder/blank-512.png"
+                             class="rss-item-thumbnail"
+                             ng-style="{'background-image': 'url({{ item.media }})'}" />
+                        <div class="item-content">
+                            <h2 class="rss-title">{{ item.title }}</h2>
+                            <p class="rss-subtitle"
+                               ng-if="item.subtitle_80 && chunk.length == 2"
+                               ng-bind-html="item.subtitle_80 | trusted_html"></p>
+                            <p class="rss-subtitle"
+                               ng-if="item.subtitle && chunk.length == 1"
+                               ng-bind-html="item.subtitle | trusted_html"></p>
+                            <p class="rss-date"
+                               ng-if="item.date.date">{{ item.date.date | moment_calendar }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
         <div class="list"
+             ng-class="{'card': settings.design == 'card'}"
              ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate:"rss" }}
             </div>
         </div>
 
-
-        <style type="text/css">
-            .rss-l3 .list.row {
-                margin-bottom: 5px;
-                padding: 0
-            }
-
-            .rss-l3 .list.row .item {
-                height: 250px
-            }
-
-            .rss-l3 .list.row .item-image {
-                height: 60%;
-                background-repeat: no-repeat;
-                background-position: center center;
-                background-size: cover;
-            }
-
-            .rss-l3 .list.row .item-content {
-                height: 40%
-            }
-        </style>
-
     </ion-content>
-
 </ion-view>

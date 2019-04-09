@@ -1,15 +1,12 @@
 <?php
 
-/**
- * Class Siberian_Exporter
- *
- * @id 1000
- *
- * @version 4.6.5
- *
- */
+namespace Siberian;
 
-class Siberian_Exporter
+/**
+ * Class Exporter
+ * @package Siberian
+ */
+class Exporter
 {
     const FLAVOR = '2.0';
     const MIN_VERSION = '4.14.0';

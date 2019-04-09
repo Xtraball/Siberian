@@ -39,6 +39,44 @@ class Rss_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function loadFormAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $feedId = $request->getParam("feed_id", null);
+
+            $feed = (new Rss_Model_Feed())->find($feedId);
+
+            if (!$feed->getId()) {
+                throw new Exception(p__("rss","This feed entry do not exists!"));
+            }
+
+            $form = new Rss_Form_Feed();
+            $form->populate($feed->getData());
+            $form->setValueId($optionValue->getId());
+            $form->addNav("rss-edit-nav", "Save", false);
+            $form->setFeedId($feed->getId());
+
+            $payload = [
+                "success" => true,
+                "form" => $form->render(),
+                "message" => __("Success."),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function editPostAction()
     {
         try {
@@ -74,6 +112,12 @@ class Rss_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    "rss",
+                    "value_id_" . $optionValue->getId(),
+                ]);
+
                 $payload = [
                     "success" => true,
                     "message" => p__("rss","Feed saved"),
@@ -83,6 +127,54 @@ class Rss_ApplicationController extends Application_Controller_Default
                     "error" => true,
                     "message" => $form->getTextErrors(),
                     "errors" => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deleteFeedAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            $form = new Rss_Form_Feed_Delete();
+            if ($form->isValid($values)) {
+                $valueId = $feed->getValueId();
+                $feed = new Rss_Model_Feed();
+                $feed->find($values["feed_id"]);
+                $feed->delete();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    "rss",
+                    "value_id_" . $valueId,
+                ]);
+
+                $payload = [
+                    "success" => true,
+                    "message" => p__("rss", "Feed deleted."),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
                 ];
             }
         } catch (\Exception $e) {
@@ -128,6 +220,12 @@ class Rss_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    "rss",
+                    "value_id_" . $optionValue->getId(),
+                ]);
+
                 $payload = [
                     "success" => true,
                     "message" => p__("rss","Settings saved"),
@@ -156,6 +254,7 @@ class Rss_ApplicationController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
+            $optionValue = $this->getCurrentOptionValue();
             $indexes = $request->getParam("indexes", null);
 
             if (empty($indexes)) {
@@ -167,13 +266,24 @@ class Rss_ApplicationController extends Application_Controller_Default
                     ->find($feedId);
 
                 if (!$feed->getId()) {
-                    throw new Exception(p__("rss", 'Something went wrong, the feed do not exists!'));
+                    throw new Exception(p__("rss", "Something went wrong, the feed do not exists!"));
                 }
 
                 $feed
                     ->setPosition($index + 1)
                     ->save();
             }
+
+            /** Update touch date, then never expires (until next touch) */
+            $optionValue
+                ->touch()
+                ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                "rss",
+                "value_id_" . $optionValue->getId(),
+            ]);
 
             $payload = [
                 "success" => true,

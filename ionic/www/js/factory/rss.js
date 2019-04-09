@@ -33,7 +33,7 @@ angular.module("starter").factory("Rss", function ($pwaRequest) {
         factory.extendedOptions = options;
     };
 
-    factory.getFeeds = function () {
+    factory.getFeeds = function (refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Rss.getFeeds] missing value_id");
         }
@@ -41,12 +41,13 @@ angular.module("starter").factory("Rss", function ($pwaRequest) {
         return $pwaRequest.get("rss/mobile_rss/feeds", angular.extend({
             urlParams: {
                 value_id: this.value_id,
+                refresh: refresh
             },
             cache: false
         }, factory.extendedOptions));
     };
 
-    factory.getGroupedFeeds = function () {
+    factory.getGroupedFeeds = function (refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Rss.getGroupedFeeds] missing value_id");
         }
@@ -54,12 +55,13 @@ angular.module("starter").factory("Rss", function ($pwaRequest) {
         return $pwaRequest.get("rss/mobile_rss/grouped-feeds", angular.extend({
             urlParams: {
                 value_id: this.value_id,
+                refresh: refresh
             },
             cache: false
         }, factory.extendedOptions));
     };
 
-    factory.getSingleFeed = function (feedId) {
+    factory.getSingleFeed = function (feedId, refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Rss.getSingleFeed] missing value_id");
         }
@@ -67,6 +69,7 @@ angular.module("starter").factory("Rss", function ($pwaRequest) {
         return $pwaRequest.get("rss/mobile_rss/single-feed", {
             urlParams: {
                 value_id: this.value_id,
+                refresh: refresh,
                 feedId: feedId
             },
             cache: false

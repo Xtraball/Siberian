@@ -18,40 +18,29 @@
 
         <div class="list"
              ng-class="{'card': settings.design == 'card'}"
-             ng-show="!is_loading && feeds.length">
+             ng-show="!is_loading && feeds.length"
+             ng-repeat="feed in feeds">
 
             <div class="item item-custom"
                  ng-click="goToList(feed)"
-                 ng-repeat="feed in feeds"
                  ng-class="{'item-thumbnail-left': feed.thumbnail && settings.displayThumbnail, 'item-center': !feed.subtitle}">
 
                 <img ng-src="{{ feed.thumbnail }}"
                      ng-if="feed.thumbnail && settings.displayThumbnail" />
-                <h2>{{ feed.title }}</h2>
-                <p ng-if="feed.subtitle"
+                <h2 class="rss-title">{{ feed.title }}</h2>
+                <p class="rss-subtitle"
+                   ng-if="feed.subtitle"
                    ng-bind-html="feed.subtitle | trusted_html"></p>
             </div>
         </div>
 
         <div class="list"
+             ng-class="{'card': settings.design == 'card'}"
              ng-if="!is_loading && !feeds.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate:"rss" }}
             </div>
         </div>
-
-        <style type="text/css">
-            .rss-group .item h2 {
-                font-size: 16px;
-                font-weight: bold;
-                margin-right: 15px;
-                white-space: normal;
-            }
-
-            .rss-group .item p {
-                white-space: normal;
-            }
-        </style>
 
     </ion-content>
 </ion-view>

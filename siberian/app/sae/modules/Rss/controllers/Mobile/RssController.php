@@ -11,6 +11,17 @@ use rock\sanitize\Sanitize;
 class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 {
     /**
+     * @var array
+     */
+    public static $defaultSettings = [
+        "design" => "card",
+        "aggregation" => "merge",
+        "displayThumbnail" => true,
+        "displayCover" => true,
+        "cacheLifetime" => null,
+    ];
+
+    /**
      *
      */
     public function feedsAction()
@@ -19,45 +30,67 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $valueId = $request->getParam("value_id", null);
             $optionValue = $this->getCurrentOptionValue();
+            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+
+            if (!$optionValue->getId()) {
+                throw new Exception(p__("rss", "This feature doesn't exists."));
+            }
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
                 $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
                 $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
-                $settings = [
-                    "design" => "card",
-                    "displayThumbnail" => true,
-                    "displayCover" => true,
+                // Do nothing!
+                $settings = [];
+            }
+
+            $settings = array_merge(self::$defaultSettings, $settings);
+
+            $cacheId = "rss_feeds_$valueId";
+            $cacheTag = "rss_feeds_$valueId";
+            $result = $this->cache->load($cacheId);
+            if (!$result || $refresh) {
+                $feeds = (new ModelFeed())
+                    ->findAll(
+                        ["value_id = ?" => $valueId],
+                        "position ASC"
+                    );
+
+                $collection =[];
+                foreach ($feeds as $feed) {
+                    $collection[]= [
+                        "id" => (integer) $feed->getId(),
+                        "title" => (string) $feed->getTitle(),
+                        "subtitle" => (string) $feed->getSubtitle(),
+                        "thumbnail" => (string) $feed->getThumbnail(),
+                    ];
+                }
+
+                $payload = [
+                    "success" => true,
+                    "page_title" => (string) $optionValue->getTabbarName(),
+                    "settings" => $settings,
+                    "feeds" => $collection,
                 ];
+
+                $cacheLifetime = $settings["cacheLifetime"];
+                if ($cacheLifetime === "null") {
+                    $cacheLifetime = null;
+                }
+
+                $this->cache->save(Json::encode($payload), $cacheId, [
+                    "rss",
+                    "feedsAction",
+                    "value_id_$valueId",
+                    $cacheTag
+                ], $cacheLifetime);
+
+                $payload["x-cache"] = "MISS";
+            } else {
+                $payload = Json::decode($result);
+                $payload["x-cache"] = "HIT";
             }
-
-            if (!$optionValue->getId()) {
-                throw new Exception(p__("rss", "This feature doesn't exists."));
-            }
-
-            $feeds = (new ModelFeed())
-                ->findAll(
-                    ["value_id = ?" => $valueId],
-                    "position ASC"
-                );
-
-            $collection =[];
-            foreach ($feeds as $feed) {
-                $collection[]= [
-                    "id" => (integer) $feed->getId(),
-                    "title" => (string) $feed->getTitle(),
-                    "subtitle" => (string) $feed->getSubtitle(),
-                    "thumbnail" => (string) $feed->getThumbnail(),
-                ];
-            }
-
-            $payload = [
-                "success" => true,
-                "page_title" => (string) $optionValue->getTabbarName(),
-                "settings" => $settings,
-                "feeds" => $collection,
-            ];
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
@@ -77,80 +110,109 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $valueId = $request->getParam("value_id", null);
             $optionValue = $this->getCurrentOptionValue();
+            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
                 $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
                 $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
-                $settings = [
-                    "design" => "card",
-                    "displayThumbnail" => true,
-                    "displayCover" => true,
+                // Do nothing!
+                $settings = [];
+            }
+
+            $settings = array_merge(self::$defaultSettings, $settings);
+
+            $cacheId = "rss_grouped_feeds_$valueId";
+            $cacheTag = "rss_grouped_feeds_$valueId";
+            $result = $this->cache->load($cacheId);
+            if (!$result || $refresh) {
+                $feeds = (new ModelFeed())->findAll(["value_id = ?" => $valueId]);
+
+                $collection = [];
+                foreach ($feeds as $feed) {
+
+                    try {
+                        $feedIo = \FeedIo\Factory::create()->getFeedIo();
+                        $result = $feedIo->read($feed->getLink());
+                    } catch (\Exception $e) {
+                        // Jump to next feed if any error occurs!
+                        continue;
+                    }
+
+                    foreach ($result->getFeed() as $item) {
+                        $itemArray = $item->toArray();
+                        $media = null;
+                        $stripMedia = true;
+                        foreach ($item->getMedias() as $_media) {
+                            $media = $_media->getUrl();
+                            $stripMedia = false;
+                            break;
+                        }
+
+                        $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"], $stripMedia);
+
+                        if (empty($media) && !empty($extract["media"])) {
+                            $media = $extract["media"];
+                        }
+
+                        if (empty($extract["content"])) {
+                            $extract["content"] = $item->getDescription();
+                        }
+
+                        $subtitle = Sanitize::removeTags()
+                            ->lowercase()
+                            ->sanitize($item->getDescription());
+
+                        $collection[] = [
+                            "id" => uniqid(),
+                            "title" => $item->getTitle(),
+                            "subtitle" => cut($subtitle, 120),
+                            "subtitle_80" => cut($subtitle, 80),
+                            "link" => $item->getLink(),
+                            "description" => $item->getDescription(),
+                            "content" => $extract["content"],
+                            "media" => $media,
+                            "author" => $item->getAuthor(),
+                            "categories" => $item->getCategories(),
+                            "date" => $item->getLastModified(),
+                            "timestamp" => $item->getLastModified()->getTimestamp(),
+                        ];
+                    }
+                }
+
+                function sortTimestamp($a, $b) {
+                    if ($a["timestamp"] == $b["timestamp"]) {
+                        return 0;
+                    }
+                    return ($a["timestamp"] > $b["timestamp"]) ? -1 : 1;
+                }
+                usort($collection, "sortTimestamp");
+
+                $payload = [
+                    "success" => true,
+                    "page_title" => (string) $optionValue->getTabbarName(),
+                    "settings" => $settings,
+                    "collection" => $collection,
                 ];
-            }
 
-            $feeds = (new ModelFeed())->findAll(["value_id = ?" => $valueId]);
-
-            $collection = [];
-            foreach ($feeds as $feed) {
-
-                try {
-                    $feedIo = \FeedIo\Factory::create()->getFeedIo();
-                    $result = $feedIo->read($feed->getLink());
-                } catch (\Exception $e) {
-                    // Jump to next feed if any error occurs!
-                    continue;
+                $cacheLifetime = $settings["cacheLifetime"];
+                if ($cacheLifetime === "null") {
+                    $cacheLifetime = null;
                 }
 
-                foreach ($result->getFeed() as $item) {
-                    $itemArray = $item->toArray();
-                    $media = null;
-                    foreach ($item->getMedias() as $_media) {
-                        $media = $_media;
-                        break;
-                    }
+                $this->cache->save(Json::encode($payload), $cacheId, [
+                    "rss",
+                    "groupedFeedsAction",
+                    "value_id_$valueId",
+                    $cacheTag
+                ], $cacheLifetime);
 
-                    $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"]);
-
-                    if (empty($media) && !empty($extract["media"])) {
-                        $media = $extract["media"];
-                    }
-
-                    $subtitle = Sanitize::removeTags()
-                        ->lowercase()
-                        ->sanitize($item->getDescription());
-
-                    $collection[] = [
-                        "id" => uniqid(),
-                        "title" => $item->getTitle(),
-                        "subtitle" => cut($subtitle, 120),
-                        "link" => $item->getLink(),
-                        "description" => $item->getDescription(),
-                        "content" => $extract["content"],
-                        "media" => $media,
-                        "author" => $item->getAuthor(),
-                        "categories" => $item->getCategories(),
-                        "date" => $item->getLastModified(),
-                        "timestamp" => $item->getLastModified()->getTimestamp(),
-                    ];
-                }
+                $payload["x-cache"] = "MISS";
+            } else {
+                $payload = Json::decode($result);
+                $payload["x-cache"] = "HIT";
             }
-
-            function sortTimestamp($a, $b) {
-                if ($a["timestamp"] == $b["timestamp"]) {
-                    return 0;
-                }
-                return ($a["timestamp"] > $b["timestamp"]) ? -1 : 1;
-            }
-            usort($collection, "sortTimestamp");
-
-            $payload = [
-                "success" => true,
-                "page_title" => (string) $optionValue->getTabbarName(),
-                "settings" => $settings,
-                "collection" => $collection,
-            ];
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
@@ -170,69 +232,106 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $feedId = $request->getParam("feedId", null);
             $optionValue = $this->getCurrentOptionValue();
+            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
                 $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
                 $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
-                $settings = [
-                    "design" => "card",
-                    "displayThumbnail" => true,
-                    "displayCover" => true,
-                ];
+                // Do nothing!
+                $settings = [];
             }
 
-            $feed = (new ModelFeed())->find($feedId);
+            $settings = array_merge(self::$defaultSettings, $settings);
 
-            if (!$feed->getId()) {
-                throw new Exception(p__("rss", "This feed doesn't exists."));
-            }
+            $cacheId = "rss_single_feed_$feedId";
+            $cacheTag = "rss_single_feed_$feedId";
+            $result = $this->cache->load($cacheId);
+            if (!$result || $refresh) {
+                $feed = (new ModelFeed())->find($feedId);
 
-            $feedIo = \FeedIo\Factory::create()->getFeedIo();
-            $result = $feedIo->read($feed->getLink());
-
-            $collection = [];
-
-            foreach ($result->getFeed() as $item) {
-                $itemArray = $item->toArray();
-                $media = null;
-                foreach ($item->getMedias() as $_media) {
-                    $media = $_media;
-                    break;
+                if (!$feed->getId()) {
+                    throw new Exception(p__("rss", "This feed doesn't exists."));
                 }
 
-                $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"]);
+                $feedIo = \FeedIo\Factory::create()->getFeedIo();
+                $result = $feedIo->read($feed->getLink());
 
-                if (empty($media) && !empty($extract["media"])) {
-                    $media = $extract["media"];
+                $collection = [];
+
+                foreach ($result->getFeed() as $item) {
+                    $itemArray = $item->toArray();
+                    $media = null;
+                    $stripMedia = true;
+                    foreach ($item->getMedias() as $_media) {
+                        $media = $_media->getUrl();
+                        $stripMedia = false;
+                        break;
+                    }
+
+                    $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"], $stripMedia);
+
+                    if (empty($media) && !empty($extract["media"])) {
+                        $media = $extract["media"];
+                    }
+
+                    if (empty($extract["content"])) {
+                        $extract["content"] = $item->getDescription();
+                    }
+
+                    $subtitle = Sanitize::removeTags()
+                        ->lowercase()
+                        ->sanitize($item->getDescription());
+
+                    $collection[] = [
+                        "id" => uniqid(),
+                        "title" => $item->getTitle(),
+                        "subtitle" => cut($subtitle, 120),
+                        "subtitle_80" => cut($subtitle, 80),
+                        "link" => $item->getLink(),
+                        "description" => $item->getDescription(),
+                        "content" => $extract["content"],
+                        "media" => $media,
+                        "author" => $item->getAuthor(),
+                        "categories" => $item->getCategories(),
+                        "date" => $item->getLastModified(),
+                        "timestamp" => $item->getLastModified()->getTimestamp(),
+                    ];
                 }
 
-                $subtitle = Sanitize::removeTags()
-                    ->lowercase()
-                    ->sanitize($item->getDescription());
-                
-                $collection[] = [
-                    "id" => uniqid(),
-                    "title" => $item->getTitle(),
-                    "subtitle" => cut($subtitle, 120),
-                    "link" => $item->getLink(),
-                    "description" => $item->getDescription(),
-                    "content" => $extract["content"],
-                    "media" => $media,
-                    "author" => $item->getAuthor(),
-                    "categories" => $item->getCategories(),
-                    "date" => $item->getLastModified(),
-                    "timestamp" => $item->getLastModified()->getTimestamp(),
-                ];
-            }
+                function sortTimestamp($a, $b) {
+                    if ($a["timestamp"] == $b["timestamp"]) {
+                        return 0;
+                    }
+                    return ($a["timestamp"] > $b["timestamp"]) ? -1 : 1;
+                }
+                usort($collection, "sortTimestamp");
 
-            $payload = [
-                "success" => true,
-                "page_title" => (string) $feed->getTitle(),
-                "settings" => $settings,
-                "collection" => $collection,
-            ];
+                $payload = [
+                    "success" => true,
+                    "page_title" => (string) $feed->getTitle(),
+                    "settings" => $settings,
+                    "collection" => $collection,
+                ];
+
+                $cacheLifetime = $settings["cacheLifetime"];
+                if ($cacheLifetime === "null") {
+                    $cacheLifetime = null;
+                }
+
+                $this->cache->save(Json::encode($payload), $cacheId, [
+                    "rss",
+                    "singleFeedAction",
+                    "value_id_{$optionValue->getId()}",
+                    $cacheTag
+                ], $cacheLifetime);
+
+                $payload["x-cache"] = "MISS";
+            } else {
+                $payload = Json::decode($result);
+                $payload["x-cache"] = "HIT";
+            }
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
