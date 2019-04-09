@@ -180,6 +180,27 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
     }
 
     /**
+     * @return mixed
+     */
+    public function _getThumbnail()
+    {
+        return $this->__getBase64Image($this->getThumbnail());
+    }
+
+    /**
+     * @param $base64
+     * @param $option
+     * @return $this
+     */
+    public function _setThumbnail($base64, $option)
+    {
+        $thumbnailPath = $this->__setImageFromBase64($base64, $option, 1080, 1920);
+        $this->setBackground($thumbnailPath);
+
+        return $this;
+    }
+
+    /**
      * @param $option Application_Model_Option_Value
      * @return string
      * @throws Exception
@@ -191,16 +212,24 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
             $current_option = $option;
             $value_id = $current_option->getId();
 
-            $rss_model = new Rss_Model_Feed();
-            $rss = $rss_model->find($value_id, "value_id");
+            $rssFeeds = (new Rss_Model_Feed())
+                ->findAll(["value_id = ?" => $value_id]);
 
-            $dataset = [
+            $dataSet = [
                 "option" => $current_option->forYaml(),
-                "rss_feed" => $rss->getData(),
             ];
 
+            $feedSet = [];
+            foreach ($rssFeeds as $rssFeed) {
+                $data = $rssFeed->getData();
+                $data["thumbnail"] = $rssFeed->_getThumbnail();
+                $feedSet[] = $data;
+            }
+
+            $dataSet["feeds"] = $feedSet;
+
             try {
-                $result = Siberian_Yaml::encode($dataset);
+                $result = Siberian_Yaml::encode($dataSet);
             } catch (Exception $e) {
                 throw new Exception("#089-03: An error occured while exporting dataset to YAML.");
             }
@@ -221,30 +250,33 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
         $content = file_get_contents($path);
 
         try {
-            $dataset = Siberian_Yaml::decode($content);
+            $dataSet = Siberian_Yaml::decode($content);
         } catch (Exception $e) {
-            throw new Exception("#089-04: An error occured while importing YAML dataset '$path'.");
+            throw new Exception("#089-04: An error occurred while importing YAML dataset '$path'.");
         }
 
         $application = $this->getApplication();
-        $application_option = new Application_Model_Option_Value();
+        $applicationOption = new Application_Model_Option_Value();
 
-        if (isset($dataset["option"])) {
-            $application_option
-                ->setData($dataset["option"])
+        if (isset($dataSet["option"])) {
+            $applicationOption
+                ->setData($dataSet["option"])
                 ->unsData("value_id")
                 ->unsData("id")
                 ->setData('app_id', $application->getId())
                 ->save();
 
-            if (isset($dataset["rss_feed"])) {
-                $new_rss = new Rss_Model_Feed();
-                $new_rss
-                    ->setData($dataset["rss_feed"])
-                    ->setData("value_id", $application_option->getId())
-                    ->unsData("id")
-                    ->unsData("feed_id")
-                    ->save();
+            if (isset($dataSet["feeds"])) {
+                foreach ($dataSet["feeds"] as $feed) {
+                    $newRss = new Rss_Model_Feed();
+                    $newRss
+                        ->setData($feed)
+                        ->setData("value_id", $applicationOption->getId())
+                        ->unsData("id")
+                        ->unsData("feed_id")
+                        ->_setThumbnail($feed["thumbnail"], $applicationOption)
+                        ->save();
+                }
             }
 
         } else {
