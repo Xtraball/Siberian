@@ -1,4 +1,7 @@
 <?php
+
+use Siberian\Json;
+
 /**
  *
  */
@@ -37,11 +40,11 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                 foreach ($fields as $field) {
                     $fieldData = [
-                        "id" => (integer) $field->getId(),
-                        "type" => (string) $field->getType(),
-                        "name" => (string) $field->getName(),
+                        "id" => (integer)$field->getId(),
+                        "type" => (string)$field->getType(),
+                        "name" => (string)$field->getName(),
                         "isFilled" => false,
-                        "isRequired" => (boolean) $field->isRequired(),
+                        "isRequired" => (boolean)$field->isRequired(),
                         "options" => $field->hasOptions() ? $field->getOptions() : []
                     ];
 
@@ -68,22 +71,27 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
     /**
      * Sauvegarde
      */
-    public function postAction() {
+    public function postAction()
+    {
 
         try {
-            if ($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+            if ($data = Json::decode($this->getRequest()->getRawBody())) {
+
+                $optionValue = $this->getCurrentOptionValue();
+                $valueId = $optionValue->getId();
 
                 $data = $data["form"];
                 $data_image = [];
                 $errors = '';
                 // Recherche des sections
                 $section = new Form_Model_Section();
-                $sections = $section->findByValueId($this->getCurrentOptionValue()->getId());
+                $sections = $section->findByValueId($valueId);
 
                 $field = new Form_Model_Field();
 
                 // Date Validator
                 $dataChanged = [];
+                $dataForDb = [];
                 $index = 0;
 
                 foreach ($sections as $k => $section) {
@@ -115,20 +123,45 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                             if (array_key_exists($option["id"], $data[$field->getId()])) {
                                                 if ($data[$field->getId()][$option["id"]]) {
                                                     $dataChanged[$index . ' - ' . $field->getName()][$option["id"]] = $option["name"];
+                                                    if (!isset($dataForDb[$index])) {
+                                                        $dataForDb[$index] = [
+                                                            "field_id" => $field->getId(),
+                                                            "label" => $field->getName(),
+                                                            "value" => [],
+                                                        ];
+                                                    }
+                                                    $dataForDb[$index]["value"][] = $option["name"];
                                                 }
                                             }
                                             // If the current option has been posted, store its value
                                         } else if ($option["id"] == $data[$field->getId()]) {
                                             $dataChanged[$index . ' - ' . $field->getName()] = $option["name"];
+                                            $dataForDb[$index] = [
+                                                "field_id" => $field->getId(),
+                                                "label" => $field->getName(),
+                                                "value" => $option["name"]
+                                            ];
                                         }
                                     }
                                 } else if ($field->isRequired()) {
                                     $errors .= __('<strong>%s</strong> is required<br />', $field->getName());
+                                } else {
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => null
+                                    ];
                                 }
 
                                 // If the field is empty and required, add an error
                             } else if ($field->isRequired()) {
                                 $errors .= __('<strong>%s</strong> is required<br />', $field->getName());
+                            } else {
+                                $dataForDb[$index] = [
+                                    "field_id" => $field->getId(),
+                                    "label" => $field->getName(),
+                                    "value" => null
+                                ];
                             }
                         } else {
                             // If the field is required
@@ -215,9 +248,25 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                     $imageUrl = $this->getRequest()->getBaseUrl() . '/images/application' . $finalPath;
 
                                     $dataChanged[$index . ' - ' . $field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $imageUrl . '" alt="' . $field->getName() . '" />';
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => $imageUrl
+                                    ];
                                 } else {
                                     $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => preg_replace("/<br( )?(\/)?>/", "\n", $data[$field->getId()])
+                                    ];
                                 }
+                            } else {
+                                $dataForDb[$index] = [
+                                    "field_id" => $field->getId(),
+                                    "label" => $field->getName(),
+                                    "value" => null
+                                ];
                             }
 
                         }
@@ -229,12 +278,24 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                     $form = $this->getCurrentOptionValue()->getObject();
 
-                    // Save db values.
+                    // Save values in db
+                    $session = $this->getSession();
+                    $customerId = null;
+                    if ($session->isLoggedIn()) {
+                        $customerId = $session->getCustomerId();
+                    }
+
+                    $formResult = new Form_Model_FormResult();
+                    $formResult
+                        ->setValueId($valueId)
+                        ->setCustomerId($customerId)
+                        ->setPayload(Json::encode($dataForDb, JSON_UNESCAPED_UNICODE))
+                        ->save();
 
                     // !END
 
-                    $layout = $this->getLayout()->loadEmail('form', 'send_email');
-                    $layout->getPartial('content_email')
+                    $layout = $this->getLayout()->loadEmail("form", "send_email");
+                    $layout->getPartial("content_email")
                         ->setFields($dataChanged);
                     $content = $layout->render();
 
