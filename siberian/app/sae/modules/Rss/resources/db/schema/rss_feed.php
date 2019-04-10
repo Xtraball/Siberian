@@ -34,11 +34,19 @@ $schemas["rss_feed"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "replace_title" => [
+        "type" => "tinyint(1)",
+        "default" => "0",
+    ],
     "subtitle" => [
         "type" => "text",
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
         "is_null" => true,
+    ],
+    "replace_subtitle" => [
+        "type" => "tinyint(1)",
+        "default" => "0",
     ],
     "link" => [
         "type" => "varchar(100)",
@@ -59,6 +67,10 @@ $schemas["rss_feed"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
         "is_null" => true,
+    ],
+    "replace_thumbnail" => [
+        "type" => "tinyint(1)",
+        "default" => "0",
     ],
     "version" => [
         "type" => "tinyint(1)",

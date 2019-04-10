@@ -26,7 +26,11 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
         $title
             ->setRequired(true);
 
+        $this->addSimpleCheckbox("replace_title", p__("rss","Replace feed title"));
+
         $subtitle = $this->addSimpleTextarea("subtitle", p__("rss","Description / Subtitle"));
+
+        $this->addSimpleCheckbox("replace_subtitle", p__("rss","Replace feed subtitle"));
 
         $link = $this->addSimpleText("link", p__("rss","Feed URL (RSS)"));
         $link
@@ -37,6 +41,8 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
             "width" => 256,
             "height" => 256,
         ]);
+
+        $this->addSimpleCheckbox("replace_thumbnail", p__("rss","Replace feed thumbnail"));
 
         $value_id = $this->addSimpleHidden("value_id");
         $value_id

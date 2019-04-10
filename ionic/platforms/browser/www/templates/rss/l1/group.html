@@ -25,7 +25,7 @@
                  ng-click="goToList(feed)"
                  ng-class="{'item-thumbnail-left': feed.thumbnail && settings.displayThumbnail, 'item-center': !feed.subtitle}">
 
-                <img ng-src="{{ feed.thumbnail }}"
+                <img ng-src="{{ thumbnailSrc(feed) }}"
                      ng-if="feed.thumbnail && settings.displayThumbnail" />
                 <h2 class="rss-title">{{ feed.title }}</h2>
                 <p class="rss-subtitle"

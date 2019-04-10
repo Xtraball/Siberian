@@ -59,11 +59,52 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
                 $collection =[];
                 foreach ($feeds as $feed) {
+                    $title = "";
+                    $subtitle = "";
+                    $thumbnail = "";
+
+                    try {
+                        $feedIo = \FeedIo\Factory::create()->getFeedIo();
+                        $result = $feedIo->read($feed->getLink());
+
+                        $title = $result->getFeed()->getTitle();
+                        $subtitle = $result->getFeed()->getDescription();
+
+                        // Popping try/catch just for the DOM manipulation
+                        try {
+                            $xpath = new DOMXpath($result->getDocument()->getDOMDocument());
+                            $elements = $xpath->query("//rss//channel//image//url");
+                            foreach ($elements as $element) {
+                                if (!empty($element->nodeValue)) {
+                                    $thumbnail = $element->nodeValue;
+                                    break;
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            // Jump to next feed if any error occurs!
+                            continue;
+                        }
+
+                    } catch (\Exception $e) {
+                        // Jump to next feed if any error occurs!
+                        continue;
+                    }
+
+                    if (empty($title) || $feed->getReplaceTitle()) {
+                        $title = $feed->getTitle();
+                    }
+                    if (empty($subtitle) || $feed->getReplaceSubtitle()) {
+                        $subtitle = $feed->getSubtitle();
+                    }
+                    if (empty($thumbnail) || $feed->getReplaceThumbnail()) {
+                        $thumbnail = $feed->getThumbnail();
+                    }
+
                     $collection[]= [
                         "id" => (integer) $feed->getId(),
-                        "title" => (string) $feed->getTitle(),
-                        "subtitle" => (string) $feed->getSubtitle(),
-                        "thumbnail" => (string) $feed->getThumbnail(),
+                        "title" => (string) $title,
+                        "subtitle" => (string) $subtitle,
+                        "thumbnail" => (string) $thumbnail,
                     ];
                 }
 

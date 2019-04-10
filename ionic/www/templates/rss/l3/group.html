@@ -38,7 +38,7 @@
                         <img ng-if="feed.thumbnail && settings.displayThumbnail"
                              src="./img/placeholder/blank-512.png"
                              class="rss-item-thumbnail"
-                             ng-style="{'background-image': 'url({{ feed.thumbnail }})'}" />
+                             ng-style="{'background-image': 'url({{ thumbnailSrc(feed) }})'}" />
                         <div class="item-content">
                             <h2 class="rss-title">{{ feed.title }}</h2>
                             <p class="rss-subtitle"

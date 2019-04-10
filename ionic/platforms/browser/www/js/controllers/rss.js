@@ -34,6 +34,13 @@ angular.module("starter")
         });
     };
 
+    $scope.thumbnailSrc = function (item) {
+        if (item.thumbnail.match(/^http/)) {
+            return item.thumbnail;
+        }
+        return IMAGE_URL + "images/application" + item.thumbnail;
+    };
+
     $scope.refresh = function () {
         $scope.is_loading = true;
         $scope.loadContent(true);
