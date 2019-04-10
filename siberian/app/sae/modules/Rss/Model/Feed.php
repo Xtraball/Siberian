@@ -195,7 +195,7 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
     public function _setThumbnail($base64, $option)
     {
         $thumbnailPath = $this->__setImageFromBase64($base64, $option, 1080, 1920);
-        $this->setBackground($thumbnailPath);
+        $this->setThumbnail($thumbnailPath);
 
         return $this;
     }
