@@ -67,7 +67,7 @@ $results = (new Form_Model_FormResult())->findAll(
                          style="<?php echo $sections->count(0) == 0 ? 'display:none' : '' ?>"
                          class="first-row-feature form-group content-feature">
                         <div class="col-sm-3">
-                            <label for="form_email"><?php echo p__("form", 'Recipient email:'); ?> *</label>
+                            <label for="form_email"><?php echo p__("form", "Recipient emails"); ?></label>
                         </div>
                         <div class="col-sm-5">
                             <input type="email"
@@ -76,12 +76,12 @@ $results = (new Form_Model_FormResult())->findAll(
                                    id="form_email"
                                    value="<?php echo $form->getEmail(); ?>"/>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 subcontent content-feature">
-                            <p>
-                                <?php echo p__("form", "Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."); ?>
-                            </p>
+
+                        <div class="col-md-offset-3 col-md-7">
+                            <br />
+                            <div class="alert alert-info">
+                                <?php echo p__("form", "You can add multiple e-mails, separated by a coma."); ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,26 +161,6 @@ $results = (new Form_Model_FormResult())->findAll(
                     <?php echo p__("form","Results") ?>
                 </h3>
                 <div class="container-fluid first-row-feature content-feature">
-                    <div class="pull-right">
-                        <label for="excludeAnonymous"
-                               style="margin-right: 15px;">
-                            <input id="excludeAnonymous"
-                                   type="checkbox"
-                                   class="color-blue checkbox-inline" />
-                            <?php echo p__("form", "Exclude anonymous results") ?>
-                        </label>
-                        <label for="lastUserRecord"
-                               style="margin-right: 15px;">
-                            <input id="lastUserRecord"
-                                   type="checkbox"
-                                   class="color-blue checkbox-inline" />
-                            <?php echo p__("form", "Keep only last entry for identified customer") ?>
-                        </label>
-                        <button class="export-csv btn color-blue"><?php echo p__("form", "Export CSV") ?></button>
-                        <input id="exportValueId"
-                               type="hidden"
-                               value="<?php echo $valueId; ?>" />
-                    </div>
                     <table class="table content-white-bkg sb-pager margin-top">
                         <thead>
                             <tr class="border-grey">
@@ -251,6 +231,38 @@ $results = (new Form_Model_FormResult())->findAll(
                     </table>
                 </div>
             </div>
+
+            <br />
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("form","Export") ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <div>
+                        <label for="excludeAnonymous"
+                               style="margin-right: 15px;">
+                            <input id="excludeAnonymous"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__("form", "Exclude anonymous results") ?>
+                        </label>
+                        <br />
+                        <label for="lastUserRecord"
+                               style="margin-right: 15px;">
+                            <input id="lastUserRecord"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__("form", "Keep only last entry for identified customer") ?>
+                        </label>
+                        <br />
+                        <button class="export-csv btn color-blue pull-right"><?php echo p__("form", "Export CSV") ?></button>
+                        <input id="exportValueId"
+                               type="hidden"
+                               value="<?php echo $valueId; ?>" />
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- END RESULTS TAB -->
     
@@ -297,6 +309,22 @@ $results = (new Form_Model_FormResult())->findAll(
             with_search: true,
             search_placeholder: search_placeholder
         });
+
+        // Toggle mail warning
+        function toggleWarning () {
+            if ($("#form_email").val() === "") {
+                $(".recipient-warning").show();
+            } else {
+                $(".recipient-warning").hide();
+            }
+        }
+
+        let formEmail = $("#form_email");
+        formEmail.off("change");
+        formEmail.on("change", function () {
+            toggleWarning();
+        });
+        toggleWarning();
 
         /**
          * Easy

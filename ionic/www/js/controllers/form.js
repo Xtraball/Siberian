@@ -9,6 +9,7 @@ angular.module("starter").controller("FormViewController", function (Location, $
         is_loading: true,
         locationIsLoading: false,
         value_id: $stateParams.value_id,
+        dummy: {},
         formData: {},
         preview_src: {},
         geolocation: {},
@@ -67,7 +68,13 @@ angular.module("starter").controller("FormViewController", function (Location, $
         }
     };
 
-    $scope.fieldChanged = function (field) {
+    $scope.fieldChanged = function (field, el) {
+        switch (field.type) {
+            case "date":
+                $scope.formData[field.id] = el.value;
+                break;
+        }
+        console.log($scope.formData);
         /**field.isFilled = false;
         if (!_.isEmpty($scope.formData[field.id])) {
             field.isFilled = true;

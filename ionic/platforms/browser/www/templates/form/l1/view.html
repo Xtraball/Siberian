@@ -56,9 +56,8 @@
                         <span class="input-label">{{ field.name }}</span>
                         <input type="datetime-local"
                                placeholder="{{ field.name }}"
-                               date="formData[field.id]"
                                ng-change="fieldChanged(field)"
-                               ng-model="formData[field.id]"/>
+                               ng-model="formData[field.id]" />
                     </label>
 
                     <div ng-switch-when="geoloc">

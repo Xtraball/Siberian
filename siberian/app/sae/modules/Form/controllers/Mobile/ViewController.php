@@ -92,6 +92,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                 // Date Validator
                 $dataChanged = [];
                 $dataForDb = [];
+                $dates = [];
                 $index = 0;
 
                 foreach ($sections as $k => $section) {
@@ -193,9 +194,15 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                             if ($field->getType() == "date") {
                                 if (isset($data[$field->getId()])) {
-                                    $new_date = new Zend_Date();
-                                    $new_date->setTimestamp(strtotime($data[$field->getId()]));
-                                    $data[$field->getId()] = datetime_to_format($new_date->toString('y-MM-dd HH:mm:ss'));
+                                    $d = date_parse_from_format(DateTime::ISO8601, $data[$field->getId()]);
+
+                                    $dt = new DateTime();
+                                    $dt
+                                        ->setDate($d["year"], $d["month"], $d["day"])
+                                        ->setTime($d["hour"], $d["minute"]);
+                                    $dt->setTimezone(new DateTimeZone(__get("system_timezone")));
+
+                                    $data[$field->getId()] = $dt->format("d/m/Y H:i:s");
                                 }
                             }
 
@@ -211,7 +218,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                                     $extension = strtolower($matches[1]);
 
-                                    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp'])) {
+                                    if (!in_array($extension, ["jpg", "jpeg", "png", "gif", "bmp"])) {
                                         throw new \Siberian\Exception(__("Forbidden image format"));
                                     }
 
@@ -258,8 +265,13 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                     $dataForDb[$index] = [
                                         "field_id" => $field->getId(),
                                         "label" => $field->getName(),
-                                        "value" => preg_replace("/<br( )?(\/)?>/", "\n", $data[$field->getId()])
+                                        "value" => preg_replace("/<br( )?(\/)?>/", " - ", $data[$field->getId()])
                                     ];
+
+                                    // Do not alter the date ...
+                                    if (array_key_exists($field->getId(), $dates)) {
+                                        $dataForDb[$index]["value"] =  $dates[$field->getId()];
+                                    }
                                 }
                             } else {
                                 $dataForDb[$index] = [
@@ -292,37 +304,39 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                         ->setPayload(Json::encode($dataForDb, JSON_UNESCAPED_UNICODE))
                         ->save();
 
-                    // !END
+                    // Send e-mail only if filled out!
+                    if (!empty($form->getEmail())) {
 
-                    $layout = $this->getLayout()->loadEmail("form", "send_email");
-                    $layout->getPartial("content_email")
-                        ->setFields($dataChanged);
-                    $content = $layout->render();
+                        $layout = $this->getLayout()->loadEmail("form", "send_email");
+                        $layout->getPartial("content_email")
+                            ->setFields($dataChanged);
+                        $content = $layout->render();
 
-                    $emails = explode(",", $form->getEmail());
-                    $subject = __('Your app\'s form') . " - " . $this->getApplication()->getName() . " - " . $this->getCurrentOptionValue()->getTabbarName();
+                        $emails = explode(",", $form->getEmail());
+                        $subject = __('Your app\'s form') . " - " . $this->getApplication()->getName() . " - " . $this->getCurrentOptionValue()->getTabbarName();
 
-                    # @version 4.8.7 - SMTP
-                    $mail = new Siberian_Mail();
-                    $mail->setBodyHtml($content);
-                    $mail->setFrom($emails[0], $this->getApplication()->getName());
-                    foreach ($emails as $email) {
-                        $mail->addTo($email, $subject);
+                        # @version 4.8.7 - SMTP
+                        $mail = new Siberian_Mail();
+                        $mail->setBodyHtml($content);
+                        $mail->setFrom($emails[0], $this->getApplication()->getName());
+                        foreach ($emails as $email) {
+                            $mail->addTo($email, $subject);
+                        }
+                        $mail->setSubject($subject);
+                        $mail->send();
                     }
-                    $mail->setSubject($subject);
-                    $mail->send();
 
-                    $payload = array(
+                    $payload = [
                         "success" => true,
                         "message" => __("The form has been sent successfully")
-                    );
+                    ];
 
                 } else {
 
-                    $payload = array(
+                    $payload = [
                         "error" => true,
                         "message" => $errors
-                    );
+                    ];
                 }
 
 
@@ -331,10 +345,10 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
             }
 
         } catch (Exception $e) {
-            $payload = array(
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($payload);
