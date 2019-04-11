@@ -23,7 +23,6 @@
                         <input type="text"
                                class=""
                                placeholder="{{ field.name }}"
-                               ng-change="fieldChanged(field)"
                                ng-model="formData[field.id]"/>
                     </label>
 
@@ -31,7 +30,6 @@
                            ng-switch-when="textarea">
                         <textarea rows="3"
                                   placeholder="{{ field.name }}"
-                                  ng-change="fieldChanged(field)"
                                   ng-model="formData[field.id]"></textarea>
                     </label>
 
@@ -39,7 +37,6 @@
                            ng-switch-when="email">
                         <input type="email"
                                placeholder="{{ field.name }}"
-                               ng-change="fieldChanged(field)"
                                ng-model="formData[field.id]"/>
                     </label>
 
@@ -47,18 +44,22 @@
                            ng-switch-when="nombre">
                         <input type="number"
                                placeholder="{{ field.name }}"
-                               ng-change="fieldChanged(field)"
                                ng-model="formData[field.id]"/>
                     </label>
 
                     <label class="item item-input item-custom"
+                           sb-datetime-picker
+                           title="field.name"
+                           headers="true"
+                           format="dateFormat"
+                           model="formData[field.id]"
                            ng-switch-when="date">
                         <span class="input-label">{{ field.name }}</span>
-                        <input type="datetime-local"
-                               placeholder="{{ field.name }}"
-                               date="formData[field.id]"
-                               ng-change="fieldChanged(field)"
-                               ng-model="formData[field.id]"/>
+                        <input type="text"
+                               class="text-right"
+                               style="cursor: pointer !important;"
+                               ng-model="formData[field.id]"
+                               readonly="readonly" />
                     </label>
 
                     <div ng-switch-when="geoloc">
@@ -66,10 +67,12 @@
                                       ng-model="geolocation[field.id]"
                                       ng-change="getLocation(field)"
                                       ng-checked="geolocation[field.id] == true">
-                            <h2 ng-show="!locationIsLoading">{{ field.name }}</h2>
-                            <h2 ng-show="locationIsLoading">{{ "Fetching location ..." | translate }}</h2>
+                            <h2>
+                                <span ng-show="!locationIsLoading">{{ field.name }}</span>
+                                <span ng-show="locationIsLoading">{{ "Fetching location ..." | translate }}</span>
+                            </h2>
                             <p ng-if="formData[field.id]"
-                               ng-bind-html="formData[field.id] | trusted_html"
+                               ng-bind-html="formatLocation(formData[field.id])"
                                style="white-space: normal !important;"></p>
                         </ion-checkbox>
                     </div>
@@ -82,7 +85,6 @@
                         <ion-checkbox class="checkbox-custom item-custom"
                                       ng-repeat="option in field.options"
                                       ng-value="option.id"
-                                      ng-change="fieldChanged(field)"
                                       ng-model="formData[field.id][option.id]">
                             {{ option.name }}
                         </ion-checkbox>
@@ -96,7 +98,6 @@
                                    class="radio-custom"
                                    ng-repeat="option in field.options"
                                    ng-model="formData[field.id]"
-                                   ng-change="fieldChanged(field)"
                                    ng-value="option.id">
                             {{ option.name }}
                         </ion-radio>
@@ -108,7 +109,6 @@
                             {{ field.name }}
                         </div>
                         <select ng-model="formData[field.id]"
-                                ng-change="fieldChanged(field)"
                                 ng-options="option.id as option.name for option in field.options">
                             <option value=""></option>
                         </select>
@@ -148,7 +148,6 @@
                         class="button button-positive button-positive-custom"
                         ng-class="{'button-full': !card_design, 'button-block': card_design}"
                         ng-click="post()"
-                        ng-disabled="requiredFieldIsEmpty()"
                         ng-show="sections.length && !is_loading">
                     {{ "Send" | translate }}
                 </button>

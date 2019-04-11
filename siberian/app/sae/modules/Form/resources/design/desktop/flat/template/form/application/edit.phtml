@@ -13,7 +13,11 @@ $results = (new Form_Model_FormResult())->findAll(
        "value_id = ?" => $valueId
     ],
     "created_at DESC"
-)
+);
+
+$formSettings = new Form_Form_Settings();
+$formSettings->populate($form->getData());
+$formSettings->setValueId($valueId);
 
 ?>
 <div id="list"
@@ -60,36 +64,17 @@ $results = (new Form_Model_FormResult())->findAll(
 
             <div class="cont_add_section form-horizontal">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo p__("form", 'Information'); ?>
+                    <?php echo p__("form", "Settings"); ?>
                 </h3>
-                <div class="container-fluid">
-                    <div id="form_email_config"
-                         style="<?php echo $sections->count(0) == 0 ? 'display:none' : '' ?>"
-                         class="first-row-feature form-group content-feature">
-                        <div class="col-sm-3">
-                            <label for="form_email"><?php echo p__("form", "Recipient emails"); ?></label>
-                        </div>
-                        <div class="col-sm-5">
-                            <input type="email"
-                                   class="input-flat"
-                                   name="email"
-                                   id="form_email"
-                                   value="<?php echo $form->getEmail(); ?>"/>
-                        </div>
-
-                        <div class="col-md-offset-3 col-md-7">
-                            <br />
-                            <div class="alert alert-info">
-                                <?php echo p__("form", "You can add multiple e-mails, separated by a coma."); ?>
-                            </div>
-                        </div>
-                    </div>
+                <div class="container-fluid content-feature">
+                    <br />
+                    <?php echo $formSettings; ?>
                 </div>
             </div>
         
             <div class="cont_add_section margin-bkg">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo p__("form", 'Manage fields'); ?>
+                    <?php echo p__("form", "Manage fields"); ?>
                 </h3>
                 <div class="container-fluid content-feature">
                     <div class="row first-row-feature">
@@ -202,9 +187,10 @@ $results = (new Form_Model_FormResult())->findAll(
                                         $payload = Json::decode($result->getPayload());
                                         foreach ($payload as $index => $field) {
                                             if (is_array($field["value"])) {
-                                                $v = join("<br />", $field["value"]);
+                                                $flatArray = array_flat($field["value"]);
+                                                $v = join("<br />", $flatArray);
                                             } else {
-                                                $v = nl2br($field["value"]);
+                                                $v = $field["value"];
                                             }
                                             echo "
                                             <tr>

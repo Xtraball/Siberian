@@ -58,7 +58,8 @@ class Form_ApplicationController extends Application_Controller_Default
                 foreach ($fields as $field) {
                     $fieldId = $field["field_id"];
                     if (is_array($field["value"])) {
-                        $v = join(",", $field["value"]);
+                        $flatArray = array_flat($field["value"]);
+                        $v = join(", ", $flatArray);
                     } else {
                         $v = $field["value"];
                     }

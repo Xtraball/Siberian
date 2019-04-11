@@ -559,6 +559,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     {
         // Cache is based on locale + appId.
         $appId = $application->getId();
+
+        $currentLanguage = "fr";
+
         $cacheId = 'v4_application_mobile_translation_findall_app_' . $appId . '_locale_' . $currentLanguage;
         $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {

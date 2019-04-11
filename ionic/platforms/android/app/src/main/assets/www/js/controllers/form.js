@@ -2,13 +2,14 @@
  App, angular, isOverview, BASE_PATH, IS_NATIVE_APP, Camera
  */
 
-angular.module("starter").controller("FormViewController", function (Location, $timeout, $scope, $stateParams, $translate, Dialog,
+angular.module("starter").controller("FormViewController", function (Location, $filter, $timeout, $scope, $stateParams, $translate, Dialog,
                                                                      Form, GoogleMaps, Picture) {
 
     angular.extend($scope, {
         is_loading: true,
         locationIsLoading: false,
         value_id: $stateParams.value_id,
+        dummy: {},
         formData: {},
         preview_src: {},
         geolocation: {},
@@ -25,6 +26,7 @@ angular.module("starter").controller("FormViewController", function (Location, $
         .then(function (data) {
             $scope.sections = data.sections;
             $scope.page_title = data.page_title;
+            $scope.dateFormat = data.dateFormat;
         }).then(function () {
             $scope.is_loading = false;
         });
@@ -36,57 +38,46 @@ angular.module("starter").controller("FormViewController", function (Location, $
             Location
             .getLocation()
             .then(function (position) {
+                var lat = Number.parseFloat(position.coords.latitude).toFixed(5);
+                var lng = Number.parseFloat(position.coords.longitude).toFixed(5);
+
+                $scope.formData[field.id] = {
+                    address: null,
+                    coords: {
+                        lat: lat,
+                        lng: lng
+                    }
+                };
+
                 GoogleMaps
                 .reverseGeocode(position.coords)
                 .then(function (results) {
                     if (results[0]) {
-                        $scope.formData[field.id] = results[0].formatted_address +
-                            "<br />" + Number.parseFloat(position.coords.latitude).toPrecision(5) +
-                            ", " + Number.parseFloat(position.coords.longitude).toPrecision(5) + "";
-                    } else {
-                        $scope.formData[field.id] = Number.parseFloat(position.coords.latitude).toPrecision(5) +
-                            ", " + Number.parseFloat(position.coords.longitude).toPrecision(5);
+                        $scope.formData[field.id].address = results[0].formatted_address;
                     }
-                    $scope.fieldChanged(field);
-                }, function (data) {
-                    $scope.formData[field.id] = Number.parseFloat(position.coords.latitude).toPrecision(5) +
-                        ", " + Number.parseFloat(position.coords.longitude).toPrecision(5);
-                    $scope.fieldChanged(field);
                 });
+
             }, function (e) {
                 $scope.formData[field.id] = null;
                 $scope.geolocation[field.id] = false;
-                $scope.fieldChanged(field);
             }).then(function () {
                 $scope.locationIsLoading = false;
             });
         } else {
             $scope.formData[field.id] = null;
             $scope.locationIsLoading = false;
-            $scope.fieldChanged(field);
         }
     };
 
-    $scope.fieldChanged = function (field) {
-        /**field.isFilled = false;
-        if (!_.isEmpty($scope.formData[field.id])) {
-            field.isFilled = true;
-        }*/
-    };
+    $scope.formatLocation = function (field) {
+        var html;
+        if (field.address) {
+            html = field.address + "<br />" + field.coords.lat + ", " + field.coords.lng;
+        } else {
+            html = field.coords.lat + ", " + field.coords.lng;
+        }
 
-    $scope.requiredFieldIsEmpty = function () {
-        return false;
-        /**console.log($scope.sections);
-        var emptyRequired = false;
-        $scope.sections.forEach(function (section) {
-            section.fields.forEach(function (field) {
-                if (field.isRequired && !field.isFilled) {
-                    emptyRequired = true;
-                }
-            });
-        });
-
-        return emptyRequired;*/
+        return $filter("trusted_html")(html);
     };
 
     /**
@@ -98,8 +89,6 @@ angular.module("starter").controller("FormViewController", function (Location, $
         .then(function (success) {
             $scope.preview_src[field.id] = success.image;
             $scope.formData[field.id] = success.image;
-
-            $scope.fieldChanged(field);
         });
     };
 

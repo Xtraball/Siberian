@@ -27,6 +27,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
             $payload = [
                 "success" => true,
                 "page_title" => $option->getTabbarName(),
+                "dateFormat" => $form->getDateFormat(),
                 "sections" => [],
             ];
 
@@ -192,20 +193,6 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                 }
                             }
 
-                            if ($field->getType() == "date") {
-                                if (isset($data[$field->getId()])) {
-                                    $d = date_parse_from_format(DateTime::ISO8601, $data[$field->getId()]);
-
-                                    $dt = new DateTime();
-                                    $dt
-                                        ->setDate($d["year"], $d["month"], $d["day"])
-                                        ->setTime($d["hour"], $d["minute"]);
-                                    $dt->setTimezone(new DateTimeZone(__get("system_timezone")));
-
-                                    $data[$field->getId()] = $dt->format("d/m/Y H:i:s");
-                                }
-                            }
-
                             // If not empty, store its value
                             if (!empty($data[$field->getId()])) {
                                 // If the field is an image
@@ -260,6 +247,30 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                         "label" => $field->getName(),
                                         "value" => $imageUrl
                                     ];
+                                    // In progress!
+                                } else if ($field->getType() == "geoloc") {
+
+                                    if (!is_array($data[$field->getId()])) {
+                                        $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
+                                        $dataForDb[$index] = [
+                                            "field_id" => $field->getId(),
+                                            "label" => $field->getName(),
+                                            "value" => preg_replace("/<br( )?(\/)?>/", " - ", $data[$field->getId()])
+                                        ];
+                                    } else {
+                                        $tmpData = $data[$field->getId()];
+                                        $dataChanged[$index . ' - ' . $field->getName()] = sprintf("%s<br />%s, %s",
+                                            $tmpData["address"],
+                                            $tmpData["coords"]["lat"],
+                                            $tmpData["coords"]["lng"]);
+
+                                        $dataForDb[$index] = [
+                                            "field_id" => $field->getId(),
+                                            "label" => $field->getName(),
+                                            "value" => $tmpData
+                                        ];
+                                    }
+
                                 } else {
                                     $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
                                     $dataForDb[$index] = [

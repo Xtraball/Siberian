@@ -273,8 +273,7 @@ function array_flat($array, $prefix = '')
 
         if (is_array($value)) {
             $result = array_merge($result, array_flat($value, $new_key));
-        }
-        else {
+        } else {
             $result[$new_key] = $value;
         }
     }
