@@ -10,6 +10,70 @@ class Form_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function editSettingsAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            if (!$optionValue->getId()) {
+                throw new Exception(p__("form","This feature doesn't exists!"));
+            }
+
+            if (empty($values)) {
+                throw new Exception(p__("form","Values are required!"));
+            }
+
+            $currentForm = (new Form_Model_Form())->find($valueId, "value_id");
+            if (!$currentForm->getId()) {
+                $currentForm->setValueId($valueId)->save();
+            }
+
+            $form = new Form_Form_Settings();
+            if ($form->isValid($values)) {
+
+                $currentForm
+                    ->setEmail($values["email"])
+                    ->setDateFormat($values["date_format"])
+                    ->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $optionValue
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    "form",
+                    "value_id_" . $optionValue->getId(),
+                ]);
+
+                $payload = [
+                    "success" => true,
+                    "message" => p__("form","Settings saved"),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function exportCsvAction()
     {
         try {
