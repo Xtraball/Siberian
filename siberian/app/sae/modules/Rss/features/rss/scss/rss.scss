@@ -10,6 +10,8 @@
 
     .rss-subtitle {
       white-space: normal;
+      margin-top: 5px;
+      font-size: 12px;
     }
 
     .rss-date {
@@ -59,6 +61,8 @@
     }
     .rss-subtitle {
       /**white-space: normal;*/
+      margin-top: 5px;
+      font-size: 12px;
     }
     .rss-date {
       font-size: 13px;
@@ -101,6 +105,10 @@
       margin-top: 10px;
     }
 
+    .row+.row {
+      margin-top: -12px;
+    }
+
     .list.row {
       .col.col-50 {
         margin: 0 5px;
@@ -112,20 +120,25 @@
           height: 100%;
           margin: 0;
           padding: 0;
+          overflow: hidden;
 
           .item-content {
             padding: 10px;
           }
 
           .rss-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             margin: 0 15px 0 0;
-            white-space: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
           }
 
           .rss-subtitle {
             white-space: normal;
+            margin-top: 5px;
+            font-size: 12px;
           }
 
           .rss-date {
@@ -174,6 +187,7 @@
           height: 100%;
           margin: 0;
           padding: 0;
+          overflow: hidden;
 
           .item-content {
             padding: 10px;
@@ -216,20 +230,25 @@
           height: 100%;
           margin: 0;
           padding: 0;
+          overflow: hidden;
 
           .item-content {
             padding: 10px;
           }
 
           .rss-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             margin: 0 15px 0 0;
-            white-space: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
           }
 
           .rss-subtitle {
             white-space: normal;
+            margin-top: 5px;
+            font-size: 12px;
           }
 
           .rss-date {
@@ -287,20 +306,25 @@
           height: 100%;
           margin: 0;
           padding: 0;
+          overflow: hidden;
 
           .item-content {
             padding: 10px;
           }
 
           .rss-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             margin: 0 15px 0 0;
-            white-space: normal;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
           }
 
           .rss-subtitle {
             white-space: normal;
+            margin-top: 5px;
+            font-size: 12px;
           }
 
           .rss-date {

@@ -39,8 +39,8 @@ $formSettings->setValueId($valueId);
             </a>
         </li>
         <li role="presentation">
-            <a href="#design"
-               aria-controls="design"
+            <a href="#tab-design"
+               aria-controls="tab-design"
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-pencil"></i>
@@ -53,7 +53,7 @@ $formSettings->setValueId($valueId);
         <!-- START FORM TAB -->
         <div role="tabpanel"
              class="tab-pane active"
-             id="form">
+             id="booking">
 
             <div class="cont_add_section form-horizontal">
                 <h3 class="title-editor no-border-radius title-feature-indent">
@@ -158,25 +158,42 @@ $formSettings->setValueId($valueId);
                     </div>
                 </div>
             </div>
-
         </div>
         <!-- END FORM TAB -->
 
         <!-- START DESIGN TAB -->
         <div role="tabpanel"
              class="tab-pane"
-             id="design">
+             id="tab-design">
 
             <?php echo $this->importBackground($optionValue, false, false); ?>
         </div>
         <!-- END DESIGN TAB -->
-
+    </div>
 </div>
-<style>
-    .booking h4 { font-size: 1em; margin: 10px 0px; }
-    #row_new { margin-top: 20px; }
-    #booking_people_dummy, #booking_store_dummy {margin-right:0 !important}
-    #booking_comment {margin-top:0 !important;}
+
+<style type="text/css">
+    .booking h4 {
+        font-size: 1em;
+        margin: 10px 0px;
+    }
+
+    #row_new {
+        margin-top: 20px;
+    }
+
+    #booking_people_dummy,
+    #booking_store_dummy {
+        margin-right: 0 !important
+    }
+
+    #booking_comment {
+        margin-top: 0 !important;
+    }
+
+    .booking .content-feature {
+        padding-bottom: 0;
+    }
 </style>
 <script type="text/javascript">
 
@@ -255,8 +272,3 @@ $formSettings->setValueId($valueId);
     }
 
 </script>
-<style>
-    .booking .content-feature {
-        padding-bottom: 0;
-    }
-</style>

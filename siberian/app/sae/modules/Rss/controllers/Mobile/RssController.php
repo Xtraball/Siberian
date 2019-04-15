@@ -208,8 +208,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                         $collection[] = [
                             "id" => uniqid(),
                             "title" => $item->getTitle(),
-                            "subtitle" => cut($subtitle, 120),
-                            "subtitle_80" => cut($subtitle, 80),
+                            "subtitle" => cut($subtitle, 60),
+                            "subtitle_30" => cut($subtitle, 30),
                             "link" => $item->getLink(),
                             "description" => $item->getDescription(),
                             "content" => $extract["content"],
@@ -328,8 +328,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                     $collection[] = [
                         "id" => uniqid(),
                         "title" => $item->getTitle(),
-                        "subtitle" => cut($subtitle, 120),
-                        "subtitle_80" => cut($subtitle, 80),
+                        "subtitle" => cut($subtitle, 60),
+                        "subtitle_30" => cut($subtitle, 30),
                         "link" => $item->getLink(),
                         "description" => $item->getDescription(),
                         "content" => $extract["content"],
