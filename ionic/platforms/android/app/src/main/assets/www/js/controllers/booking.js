@@ -5,7 +5,7 @@
  * @version 4.16.6
  *
  */
-angular.module("starter").controller("BookingController", function ($scope, $stateParams, Booking, Customer,
+angular.module("starter").controller("BookingController", function ($scope, $stateParams, $translate, Booking, Customer,
                                                                     Dialog, Loader) {
     angular.extend($scope, {
         is_loading: false,
@@ -17,6 +17,9 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
         settings: {
             design: "list",
             date_format: "MM/DD/YYYY HH:mm",
+        },
+        dateTime: {
+            title: $translate.instant("Date & time", "booking")
         }
     });
 
