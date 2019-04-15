@@ -64,20 +64,6 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
 
         data.value_id = this.value_id;
 
-        if (data.date) {
-            var date = new Date(data.date);
-            var zeroPad = function (e) {
-                return ('00' + e).slice(-2);
-            };
-            // Send date with unknown timezone (timezone will be replaced server side)!
-            data.date = date.getFullYear()+ '-' +
-                zeroPad(date.getMonth()+1) + '-' +
-                zeroPad(date.getDate()) + 'T' +
-                zeroPad(date.getHours()) + ':' +
-                zeroPad(date.getMinutes()) + ':' +
-                zeroPad(date.getSeconds()) + '-00:00';
-        }
-
         return $pwaRequest.post('booking/mobile_view/post', {
             urlParams: {
                 value_id: this.value_id

@@ -27,6 +27,8 @@ angular.module("starter").controller("FormViewController", function (Location, $
             $scope.sections = data.sections;
             $scope.page_title = data.page_title;
             $scope.dateFormat = data.dateFormat;
+            $scope.design = data.design;
+            $scope.card_design = (data.design === "card");
         }).then(function () {
             $scope.is_loading = false;
         });
