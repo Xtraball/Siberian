@@ -40,7 +40,9 @@ class Form_Model_Form extends Core_Model_Default
 
         $payload = [
             "sections" => [],
-            "page_title" => $option_value->getTabbarName()
+            "page_title" => $option_value->getTabbarName(),
+            "dateFormat" => $this->getDateFormat(),
+            "design" => $this->getDesign(),
         ];
 
         if ($this->getId()) {

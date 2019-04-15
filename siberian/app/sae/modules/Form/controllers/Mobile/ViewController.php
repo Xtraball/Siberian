@@ -28,6 +28,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                 "success" => true,
                 "page_title" => $option->getTabbarName(),
                 "dateFormat" => $form->getDateFormat(),
+                "design" => $form->getDesign(),
                 "sections" => [],
             ];
 

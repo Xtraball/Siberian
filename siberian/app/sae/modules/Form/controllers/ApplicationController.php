@@ -36,6 +36,7 @@ class Form_ApplicationController extends Application_Controller_Default
 
                 $currentForm
                     ->setEmail($values["email"])
+                    ->setDesign($values["design"])
                     ->setDateFormat($values["date_format"])
                     ->save();
 

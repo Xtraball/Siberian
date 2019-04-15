@@ -118,7 +118,7 @@
                         <div class="item item-image item-custom"
                              ng-if="preview_src[field.id]">
                             <img ng-src="{{ preview_src[field.id] }}"
-                                 style="max-height: 20vh; margin: 0 auto;"/>
+                                 style="max-height: 20vh; width: auto; max-width: 100%; margin: 0 auto;" />
                         </div>
 
                         <div class="item item-icon-left item-custom"
@@ -136,7 +136,8 @@
                 </div>
             </div>
 
-            <div class="list" ng-class="{'padding': card_design}"
+            <div class="list"
+                 ng-class="{'padding': card_design}"
                  ng-if="!is_loading && !sections.length">
                 <div class="item text-center item-custom">
                     {{ "No form available" | translate }}

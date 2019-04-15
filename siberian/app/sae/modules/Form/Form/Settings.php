@@ -31,7 +31,12 @@ HTML;
 
         $this->addSimpleHtml("raw_hint", $rawHint, ["class" => "col-md-offset-3 col-md-7"]);
 
-        $this->addSimpleSelect("date_format", p__("rss","Date format"), [
+        $this->addSimpleSelect("design", p__("form","Design"), [
+            "list" => p__("form", "List"),
+            "card" => p__("form", "Card"),
+        ]);
+
+        $this->addSimpleSelect("date_format", p__("form","Date format"), [
             "MM/DD/YYYY HH:mm" => "MM/DD/YYYY HH:mm",
             "DD/MM/YYYY HH:mm" => "DD/MM/YYYY HH:mm",
             "MM DD YYYY HH:mm" => "MM DD YYYY HH:mm",

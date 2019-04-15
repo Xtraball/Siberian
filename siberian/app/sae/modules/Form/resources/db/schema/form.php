@@ -19,6 +19,12 @@ $schemas["form"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "design" => [
+        "type" => "varchar(16)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "list",
+    ],
     "date_format" => [
         "type" => "varchar(32)",
         "charset" => "utf8",
