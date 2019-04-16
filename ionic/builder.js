@@ -181,14 +181,6 @@ let debug = true,
         ]
     },
     bundles = {
-        directives: {
-            files: ['./www/js/directives/*.js'],
-            dest: './www/dist/directives.bundle.min.js'
-        },
-        features: {
-            files: ['./www/js/features/*.js'],
-            dest: './www/dist/features.bundle.min.js'
-        },
         libraries: {
             files: [
                 './www/js/libraries/angular-queue.js',
@@ -206,23 +198,14 @@ let debug = true,
             ],
             dest: './www/dist/libraries.bundle.min.js'
         },
-        providers: {
-            files: ['./www/js/providers/*.js'],
-            dest: './www/dist/providers.bundle.min.js'
-        },
-        services: {
-            files: ['./www/js/services/*.js'],
-            dest: './www/dist/services.bundle.min.js'
-        },
-        utils: {
+        core: {
             files: [
                 './www/js/utils/features.js',
-                './www/js/utils/form-post.js'
-            ],
-            dest: './www/dist/utils.bundle.min.js'
-        },
-        onloadchunks: {
-            files: [
+                './www/js/utils/form-post.js',
+                './www/js/services/*.js',
+                './www/js/directives/*.js',
+                './www/js/providers/*.js',
+                './www/js/features/*.js',
                 './www/js/factory/facebook.js',
                 './www/js/factory/padlock.js',
                 './www/js/factory/pages.js',
@@ -235,7 +218,7 @@ let debug = true,
                 './www/js/factory/customer.js',
                 './www/js/filters/filters.js'
             ],
-            dest: './www/dist/onloadchunks.bundle.min.js'
+            dest: './www/dist/core.bundle.min.js'
         },
         libs: {
             files: [
@@ -252,11 +235,30 @@ let debug = true,
             dest: './www/dist/app.min.js'
         }
     },
+    bundlesCordova = {
+        cdvAndroid: {
+            files: [
+                './platforms/android/app/src/main/assets/www/cordova.js',
+                './platforms/android/app/src/main/assets/www/cordova_plugins.js',
+                './platforms/android/app/src/main/assets/www/plugins/**/*.js'
+            ],
+            dest: './platforms/android/app/src/main/assets/www/dist/cordova.js'
+        },
+        cdvIos: {
+            files: [
+                './platforms/ios/www/cordova.js',
+                './platforms/ios/www/cordova_plugins.js',
+                './platforms/ios/www/plugins/**/*.js'
+            ],
+            dest: './platforms/ios/www/dist/cordova.js'
+        }
+    },
     help = `
 Available options:
     --prod
     --bundlecss
     --bundlejs
+    --bundlecordova
     --packfeatures
     --sass
     --watch
@@ -309,6 +311,7 @@ let tasks = {
                 'prod': Boolean,
                 'bundlecss': Boolean,
                 'bundlejs': Boolean,
+                'bundlecordova': Boolean,
                 'packfeatures': Boolean,
                 'sass': Boolean,
                 'version': Boolean,
@@ -318,6 +321,7 @@ let tasks = {
                 'p': '--prod',
                 'bcss': '--bundlecss',
                 'bjs': '--bundlejs',
+                'bc': '--bundlecordova',
                 'pf': '--packfeatures',
                 's': '--sass',
                 'v': '--version',
@@ -346,6 +350,9 @@ let tasks = {
                 break;
             case args.watch:
                     tasks.watch();
+                break;
+            case args.bundlecordova:
+                    tasks.bundleCordovaJs();
                 break;
             default:
                     tasks.log(help);
@@ -590,6 +597,66 @@ let tasks = {
             }).catch(function () {
                 tasks.log(redColor('bundleJs error'));
             });
+
+        return promise;
+    },
+    bundleCordovaJs: function (segment) {
+        tasks.log(blueColor('bundleCordovaJs start'));
+
+        let promise = new Deferred(),
+            promises = [];
+
+        let uglify = function (filename, result, instancePromise) {
+            let output = UglifyJS.minify(result, {
+                mangle: false
+            });
+            fs.writeFile(filename, output.code, function (wfError) {
+                if (wfError) {
+                    tasks.log(redColor('wfError'), wfError);
+                    instancePromise.reject();
+                } else {
+                    instancePromise.resolve();
+                }
+            });
+        };
+
+        let internalBuilder = function (files, dest) {
+            let instancePromise = new Deferred();
+            promises.push(instancePromise);
+            let globFiles = globArray.sync(files);
+            concat(globFiles)
+            .then(function (result) {
+                uglify(dest, result, instancePromise);
+            })
+            .catch(function (error) {
+                tasks.log(redColor('something went wrong'), error);
+                instancePromise.reject();
+            });
+        };
+
+        if (segment !== undefined && bundlesCordova.hasOwnProperty(segment)) {
+            tasks.log(blueColor('bundling segment: ' + segment));
+            internalBuilder(bundlesCordova[segment].files, bundlesCordova[segment].dest);
+        } else {
+            Object.keys(bundlesCordova)
+            .forEach(function (segment) {
+                internalBuilder(bundlesCordova[segment].files, bundlesCordova[segment].dest);
+            });
+        }
+
+        Promise.all(promises)
+        .then(function () {
+            promise.resolve();
+        }).catch(function () {
+            promise.reject();
+        });
+
+        promise
+        .then(function () {
+            tasks.log(greenColor('bundleCordovaJs success'));
+        }).catch(function () {
+            tasks.log(redColor('bundleCordovaJs error'));
+        });
 
         return promise;
     }
