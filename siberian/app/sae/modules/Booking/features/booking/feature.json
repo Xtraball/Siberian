@@ -11,7 +11,7 @@
             "state": "booking-view",
             "controller": "BookingController",
             "url": "booking/mobile_view/index/value_id/:value_id",
-            "template": "l1/list.html",
+            "template": "l1/view.html",
             "cache": false
         }
     ],

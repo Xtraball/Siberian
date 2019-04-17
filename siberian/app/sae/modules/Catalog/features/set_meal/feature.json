@@ -1,0 +1,53 @@
+{
+    "name": "Set Meal",
+    "code": "set_meal",
+    "version": "4.17.0",
+    "category": "monetization",
+    "model": "Catalog_Model_Product",
+    "desktop_uri": "catalog/application_menu/",
+    "routes": [
+        {
+            "root": true,
+            "state": "set-meal-list",
+            "controller": "SetMealListController",
+            "url": "catalog/mobile_setmeal_list/index/value_id/:value_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3"
+            },
+            "cache": false
+        },
+        {
+            "state": "set-meal-view",
+            "controller": "SetMealViewController",
+            "url": "catalog/mobile_setmeal_view/index/value_id/:value_id/set_meal_id/:set_meal_id",
+            "template": "view.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l1",
+                "3": "l1"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3
+    ],
+    "icons": [
+        "icons/setmeal1-flat.png",
+        "icons/setmeal2-flat.png",
+        "icons/setmeal3-flat.png"
+    ],
+    "files": [
+        "js/controllers/set-meal-list.js",
+        "js/controllers/set-meal-view.js",
+        "js/factory/set-meal.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

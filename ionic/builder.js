@@ -30,18 +30,11 @@ let debug = true,
         './www/css/ionic.app.min.css',
         './www/css/ng-animation.css',
         './www/css/ion-gallery.css',
-        './www/css/angular-carousel.min.css',
         './www/css/app.css'
     ],
     features = {
         'application': [
             './www/js/controllers/application.js'
-        ],
-        'catalog': [
-            './www/js/controllers/catalog.js',
-            './www/js/factory/catalog.js',
-            './www/js/controllers/set-meal.js',
-            './www/js/factory/set-meal.js'
         ],
         'cms': [
             './www/js/controllers/cms.js'
