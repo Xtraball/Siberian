@@ -65,7 +65,10 @@ function extract_p__($context, $original, $flag = null)
         }
 
         // Special binding for modules
-        if (in_array($context, array_keys($extractModules))) {
+        if (array_key_exists("path", $extractModules) &&
+            is_file($extractModules["path"])) {
+            $file = $extractModules["path"];
+        } else if (in_array($context, array_keys($extractModules))) {
             $moduleFolder = $extractModules[$context]["module"];
             $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
         } else {
@@ -270,8 +273,7 @@ function array_flat($array, $prefix = '')
 
         if (is_array($value)) {
             $result = array_merge($result, array_flat($value, $new_key));
-        }
-        else {
+        } else {
             $result[$new_key] = $value;
         }
     }

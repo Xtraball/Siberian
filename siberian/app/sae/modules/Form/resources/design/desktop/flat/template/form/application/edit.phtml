@@ -1,310 +1,591 @@
-<?php $option_value = $this->getOptionValue(); ?>
-<?php $form = $option_value->getObject(); ?>
-<?php $section = new Form_Model_Section(); ?>
-<?php $sections = $section->findByValueId($option_value->getId()); ?>
-<div id="list" class="edit_page formulaire">
+<?php
 
-    <div class="cont_add_section form-horizontal">
-        <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Information'); ?>
-        </h3>
-        <div class="container-fluid">
-            <div id="form_email_config" style="<?php echo $sections->count(0) == 0 ? 'display:none' : ''?>" class="first-row-feature form-group content-feature">
-                <div class="col-sm-3">
-                    <label for="form_email"><?php echo $this->_('Recipient email:'); ?> *</label>
-                </div>
-                <div class="col-sm-5">
-                    <input type="email" class="input-flat" name="email" id="form_email" value="<?php echo $form->getEmail(); ?>" />
+use Siberian\Json;
+
+$optionValue = $this->getOptionValue();
+$valueId = $optionValue->getId();
+$form = $optionValue->getObject();
+$section = new Form_Model_Section();
+$sections = $section->findByValueId($optionValue->getId());
+
+$results = (new Form_Model_FormResult())->findAll(
+    [
+       "value_id = ?" => $valueId
+    ],
+    "created_at DESC"
+);
+
+$formSettings = new Form_Form_Settings();
+$formSettings->populate($form->getData());
+$formSettings->setValueId($valueId);
+
+?>
+<div id="list"
+     class="edit_page formulaire">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+        <li role="presentation"
+            class="active">
+            <a href="#form"
+               aria-controls="form"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-feed"></i>
+                <?php echo p__("form","Manage sections & fields") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#results"
+               aria-controls="results"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-cogs"></i>
+                <?php echo p__("form","Results") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#tab-design"
+               aria-controls="tab-design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-pencil"></i>
+                <?php echo p__("form","Design") ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- START FORM TAB -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="form">
+
+            <div class="cont_add_section form-horizontal">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("form", "Settings"); ?>
+                </h3>
+                <div class="container-fluid content-feature">
+                    <br />
+                    <?php echo $formSettings; ?>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-12 subcontent content-feature">
-                    <p>
-                        <?php echo $this->_("Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."); ?>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="cont_add_section margin-bkg">
-        <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('Manage fields'); ?>
-        </h3>
-        <div class="container-fluid content-feature">
-            <div class="row first-row-feature">
-                <div class="col-md-3">
-                    <button type="button" class="addSection color-blue btn" onclick="$('#create_section').fadeIn(300, function() {$('#section_name').focus()});"><?php echo $this->_('Add a section'); ?></button>
-                </div>
-                <div class="col-md-9">
-                    <div id="create_section" style="display: none;">
-                        <form id="createSectionForm" action="<?php echo $this->getUrl('form/application_section/editpost'); ?>" method="post" class="form-horizontal">
-                            <div class="form-group">
-                                <div class="col-sm-8">
-                                    <input id="section_name" type="text" name="name" class="section_name required input-flat" value="" />
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="submit" class="btn color-blue bt-margin">OK</button>
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="reset" class="btn color-blue" onclick="$('#create_section').fadeOut();">X</button>
-                                </div>
-                                <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+        
+            <div class="cont_add_section margin-bkg">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("form", "Manage fields"); ?>
+                </h3>
+                <div class="container-fluid content-feature">
+                    <div class="row first-row-feature">
+                        <div class="col-md-3">
+                            <button type="button"
+                                    class="addSection color-blue btn"
+                                    onclick="$('#create_section').fadeIn(300, function() {$('#section_name').focus()});"><?php echo p__("form", 'Add a section'); ?></button>
+                        </div>
+                        <div class="col-md-9">
+                            <div id="create_section"
+                                 style="display: none;">
+                                <form id="createSectionForm"
+                                      action="<?php echo $this->getUrl('form/application_section/editpost'); ?>"
+                                      method="post"
+                                      class="form-horizontal">
+                                    <div class="form-group">
+                                        <div class="col-sm-8">
+                                            <input id="section_name"
+                                                   type="text"
+                                                   name="name"
+                                                   class="section_name required input-flat"
+                                                   value="" />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit"
+                                                    class="btn color-blue bt-margin">OK</button>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="reset"
+                                                    class="btn color-blue"
+                                                    onclick="$('#create_section').fadeOut();">X
+                                            </button>
+                                        </div>
+                                        <input type="hidden"
+                                               name="option_value_id"
+                                               value="<?php echo $optionValue->getId(); ?>"/>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sections"
+                 class="sections container-fluid subcontent content-feature">
+                <?php if ($sections->count() > 0) : ?>
+                    <?php foreach ($sections as $section) : ?>
+                        <?php
+                        echo $this->getLayout()
+                            ->addPartial('section_' . $section->getId(), 'admin_view_default', 'form/application/edit/section.phtml')
+                            ->setSection($section)
+                            ->setOptionValue($optionValue)
+                            ->toHtml();
+                        ?>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </div>
+            
+        </div>
+        <!-- END FORM TAB -->
+
+        <!-- START RESULTS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="results">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("form","Results") ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <table class="table content-white-bkg sb-pager margin-top">
+                        <thead>
+                            <tr class="border-grey">
+                                <th class="sortable numeric"
+                                    style="width: 60px;"><?php echo p__("form", "ID"); ?></th>
+                                <th class="sortable"
+                                    style="width: 120px;"><?php echo p__("form", "Customer"); ?></th>
+                                <th style="width: 70%;"><?php echo p__("form", "Result"); ?></th>
+                                <th class="sortable date text-right"
+                                    style="width: 120px;"><?php echo p__("cabride", "Date"); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($results as $result): ?>
+                            <tr class="sb-pager">
+                                <td>
+                                    <b>#<?php echo $result->getId(); ?></b>
+                                </td>
+                                <td>
+                                    <?php if (!empty($result->getCustomerId())): ?>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/customer/application/edit/", [
+                                               "customer_id" => $result->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $result->getCustomerId(); ?>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="btn btn-xs btn-warning">
+                                            <?php echo p__("form", "anonymous"); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <button class="toggler btn btn-xs btn-info"
+                                            style="float: right;"
+                                            rel="toggle-table-<?php echo $result->getId(); ?>"><?php echo p__("form", "MORE") ?></button>
+                                    <table class="sub-table toggle-table toggle-table-<?php echo $result->getId(); ?>">
+                                        <?php
+                                        $payload = Json::decode($result->getPayload());
+                                        foreach ($payload as $index => $field) {
+                                            if (is_array($field["value"])) {
+                                                $flatArray = array_flat($field["value"]);
+                                                $v = join("<br />", $flatArray);
+                                            } else {
+                                                $v = $field["value"];
+                                            }
+                                            echo "
+                                            <tr>
+                                                <th>{$field["label"]}</th>
+                                                <td>{$v}</td>
+                                            </tr>";
+                                        }
+                                        ?>
+                                    </table>
+                                </td>
+                                <td class="text-right">
+                                    <?php echo datetime_to_format($result->getCreatedAt(), Zend_Date::DATETIME_SHORT) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">
+                                    <?php echo p__("form", "No results.") ?>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("form","Export") ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <div>
+                        <label for="excludeAnonymous"
+                               style="margin-right: 15px;">
+                            <input id="excludeAnonymous"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__("form", "Exclude anonymous results") ?>
+                        </label>
+                        <br />
+                        <label for="lastUserRecord"
+                               style="margin-right: 15px;">
+                            <input id="lastUserRecord"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__("form", "Keep only last entry for identified customer") ?>
+                        </label>
+                        <br />
+                        <button class="export-csv btn color-blue pull-right"><?php echo p__("form", "Export CSV") ?></button>
+                        <input id="exportValueId"
+                               type="hidden"
+                               value="<?php echo $valueId; ?>" />
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="sections" class="sections container-fluid subcontent content-feature">
-        <?php if ($sections->count() > 0) : ?>
-            <?php foreach ($sections as $section) : ?>
-                <?php
-                echo $this->getLayout()
-                        ->addPartial('section_' . $section->getId(), 'admin_view_default', 'form/application/edit/section.phtml')
-                        ->setSection($section)
-                        ->setOptionValue($option_value)
-                        ->toHtml()
-                ;
-                ?>
-            <?php endforeach; ?>
-        <?php endif; ?>
-    </div>
-    <div class="section">
-        <?php echo $this->importBackground($option_value); ?>
+        <!-- END RESULTS TAB -->
+    
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-design">
+    
+            <?php /**echo $this->importLayout($optionValue, false);*/ ?>
+    
+            <?php echo $this->importBackground($optionValue, false, false); ?>
+        </div>
+        <!-- END DESIGN TAB -->
+
     </div>
 </div>
+
+<style type="text/css">
+    .toggle-table {
+        display: block;
+        overflow: hidden;
+        height: 20px;
+    }
+
+    table.sub-table tr {
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    table.sub-table tr:nth-child(even) td,
+    table.sub-table tr:nth-child(even) th {
+        background-color: #f0f0f0;
+    }
+</style>
+
 <script type="text/javascript">
 
+    var search_placeholder = '<?php echo p__js("form","Search ...", "'") ?>';
+    var togglerMore = '<?php echo p__js("form","MORE", "'") ?>';
+    var togglerLess = '<?php echo p__js("form","LESS", "'") ?>';
     $(document).ready(function () {
         bindForms('#list');
+
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: search_placeholder
+        });
+
+        // Toggle mail warning
+        function toggleWarning () {
+            if ($("#form_email").val() === "") {
+                $(".recipient-warning").show();
+            } else {
+                $(".recipient-warning").hide();
+            }
+        }
+
+        let formEmail = $("#form_email");
+        formEmail.off("change");
+        formEmail.on("change", function () {
+            toggleWarning();
+        });
+        toggleWarning();
+
+        /**
+         * Easy
+         * @param klass
+         */
+        function toggleTable (toggler, klass) {
+            let el = $("." + klass);
+            if (el.hasClass("toggle-table")) {
+                toggler.removeClass("btn-info");
+                toggler.addClass("btn-warning");
+                toggler.text(togglerLess);
+                el.removeClass("toggle-table");
+            } else {
+                toggler.removeClass("btn-warning");
+                toggler.addClass("btn-info");
+                toggler.text(togglerMore);
+                el.addClass("toggle-table");
+            }
+        }
+
+        let togglers = $(".toggler");
+        togglers.off("click");
+        togglers.on("click", function () {
+            let toggler = $(this);
+            let klass = toggler.attr("rel");
+            console.log("toggleTable("+klass+")");
+            toggleTable(toggler, klass);
+        });
+
+        let exportCsv = $(".export-csv");
+        exportCsv.off("click");
+        exportCsv.on("click", function () {
+            let valueId = $("#exportValueId").val();
+            let excludeAnonymous = $("#excludeAnonymous").is(":checked");
+            let lastUserRecord = $("#lastUserRecord").is(":checked");
+
+            let uri = "/form/application/export-csv?value_id=" + valueId +
+                "&excludeAnonymous=" + excludeAnonymous +
+                "&lastUserRecord=" + lastUserRecord;
+
+            console.log(uri);
+            window.open(uri, "_blank");
+        });
+
     });
-            // Page callback
-            page.setCallback('didappear', function() {
-                section.processEvents();
-                field.processEvents();
+    // Page callback
+    page.setCallback('didappear', function () {
+        section.processEvents();
+        field.processEvents();
 
-                $('#form_email').hover(function() {
-                    $(this).addClass('focus');
-                }, function() {
-                    $(this).removeClass('focus');
-                }).focus(function() {
-                    $(this).addClass('selected');
-                }).change(function(e) {
-                    var input = $(e.target);
-                    input.removeAttr('style').addClass('loading');
+        $('#form_email').hover(function () {
+            $(this).addClass('focus');
+        }, function () {
+            $(this).removeClass('focus');
+        }).focus(function () {
+            $(this).addClass('selected');
+        }).change(function (e) {
+            var input = $(e.target);
+            input.removeAttr('style').addClass('loading');
 
-                    reload(input.parent(), '<?php echo $this->getUrl('form/application_section/editpost', array('option_value_id' => $option_value->getId())); ?>', false);
-                }.bind(this)).keypress(function(e) {
-                    if (e.keyCode == 13)
-                        $(e.target).blur();
+            reload(input.parent(), '<?php echo $this->getUrl('form/application_section/editpost', ['option_value_id' => $optionValue->getId()]); ?>', false);
+        }.bind(this)).keypress(function (e) {
+            if (e.keyCode == 13)
+                $(e.target).blur();
+        });
+    });
+
+    page.setCallback('willdisappear', function () {
+        section.unbindAll();
+    });
+
+    // Event sections
+    section = {
+        processEvents: function () {
+            this.unbindAll();
+
+            // Création d'une section
+            $('#createSectionForm').submit(function () {
+                if (!$(this).valid())
+                    return false;
+                reload(this, this.action, true, function (datas) {
+                    if (datas.success) {
+                        $('#sections').append('<div>' + datas.section_html + '</div>');
+                        field.bindAddField($('#add_field_section_' + datas.section_id));
+                        $('#section_name').val('').focus();
+                        iframe.f.reload();
+                        section.processEvents();
+                    }
+                });
+                return false;
+            });
+
+            // Focus sur le nom d'une section
+            $('.main_section_name').hover(function () {
+                $(this).addClass('focus');
+            }, function () {
+                $(this).removeClass('focus');
+            }).focus(function () {
+                $(this).addClass('selected');
+            }).blur(function (e) {
+                var input = $(e.target);
+                var section_id = input.attr('rel');
+                input.removeAttr('style').addClass('loading');
+                if (input.val().isEmpty()) {
+                    this.remove(section_id);
+                } else {
+                    this.save(section_id);
+                }
+            }.bind(this)).keypress(function (e) {
+                if (e.keyCode == 13)
+                    $(e.target).blur();
+            });
+
+        },
+        unbindAll: function () {
+            // MouseOut sur nom de section
+            $('.main_section_name').unbind('mouseenter mouseout')
+            .unbind('focus')
+            .unbind('blur')
+            ;
+            $('#createSectionForm').unbind('submit');
+        },
+        remove: function (section_id) {
+            var input = $('#main_section_name_' + section_id);
+            if (confirm('<?php echo addslashes(p__("form", 'Are you sure you want to remove this section?')); ?>')) {
+                var div = $('#section_details_' + section_id);
+                input.val('');
+                div.append($('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1'));
+                $('#section_' + section_id).fadeOut(300);
+
+                // On re-cache l'email
+                if ($('#sections .section').length == 1) {
+                    $('#form_email_config').hide();
+                    $('#form_email').attr('rel', '');
+                }
+
+                this.save(section_id);
+            }
+            else {
+                var color = input.attr('data-color');
+                input.stop().animate({'background-color': 'transparent', color: color});
+            }
+
+        },
+        save: function (section_id) {
+
+            var div = $('#section_details_' + section_id);
+            reload(div, '<?php echo $this->getUrl('form/application_section/editpost'); ?>', false, function (datas) {
+                if (datas.success) {
+                    if (datas.category_id && div.find('.section_id').attr('id'))
+                        div.find('.section_id').val(datas.category_id);
+                    var input = $('#main_section_name_' + section_id);
+                    input.removeClass('selected');
+                    var color = input.attr('data-color');
+                    input.stop().animate({'background-color': 'transparent', color: color}).removeClass('loading');
+                    iframe.f.reload();
+                }
+                else if (datas.is_deleted) {
+                    div.remove();
+                    iframe.f.reload();
+                }
+                else {
+                    // Alert;
+                }
+            });
+
+
+        }
+    };
+
+    field = {
+        processEvents: function () {
+            currentField = this;
+
+            // Ajout d'un champ
+            $('.add_field').each(function (i, el) {
+                this.bindAddField($(el));
+            }.bind(this));
+
+            var editField = $('.edit_field');
+            editField.off('click');
+            editField.on('click', function (event) {
+                event.preventDefault();
+                var el = $(this);
+                $.featherlight(el.attr('href'), {
+                    type: 'ajax'
                 });
             });
 
-            page.setCallback('willdisappear', function() {
-                section.unbindAll();
+            $(".fields_list").sortable({
+                handle: '.handle_field',
+                placeholder: "field_placeholder field",
+                axis: 'y',
+                update: function (e, ui) {
+                    var order = $(e.target).sortable('serialize');
+                    $(e.target).sortable("refresh");
+                    reload($(e.target), "<?php echo $this->getUrl('form/application_field/sortfields', ['option_value_id' => $optionValue->getId()]); ?>/section_id/" + $(ui.item).attr('rel') + "?" + order, false, function () {
+                        iframe.f.reload();
+                    });
+                }
             });
 
-            // Event sections
-            section = {
-                processEvents: function() {
-                    this.unbindAll();
+            return this;
 
-                    // Création d'une section
-                    $('#createSectionForm').submit(function() {
-                        if (!$(this).valid())
-                            return false;
-                        reload(this, this.action, true, function(datas) {
-                            if (datas.success) {
-                                $('#sections').append('<div>' + datas.section_html + '</div>');
-                                field.bindAddField($('#add_field_section_'+datas.section_id));
-                                $('#section_name').val('').focus();
-                                iframe.f.reload();
-                                section.processEvents();
-                            }
-                        });
-                        return false;
-                    });
+        },
+        cancel: function () {
+            $('#fieldForm').unbind('submit');
+            $.featherlight.current().close();
+        },
+        remove: function (id) {
+            if (confirm("<?php echo addslashes(p__("form", 'Are you sure you want to remove this field?')); ?>")) {
+                var li = $('#field_' + id);
+                $('<input />').attr('type', 'hidden')
+                .attr('name', 'is_deleted')
+                .val('1')
+                .appendTo(li)
+                ;
+                $('<input />').attr('type', 'hidden')
+                .attr('name', 'option_value_id')
+                .val('<?php echo $optionValue->getId(); ?>')
+                .appendTo(li)
+                ;
 
-                    // Focus sur le nom d'une section
-                    $('.main_section_name').hover(function() {
-                        $(this).addClass('focus');
-                    }, function() {
-                        $(this).removeClass('focus');
-                    }).focus(function() {
-                        $(this).addClass('selected');
-                    }).blur(function(e) {
-                        var input = $(e.target);
-                        var section_id = input.attr('rel');
-                        input.removeAttr('style').addClass('loading');
-                        if (input.val().isEmpty()) {
-                            this.remove(section_id);
-                        } else {
-                            this.save(section_id);
-                        }
-                    }.bind(this)).keypress(function(e) {
-                        if (e.keyCode == 13)
-                            $(e.target).blur();
-                    });
-
-                },
-                unbindAll: function() {
-                    // MouseOut sur nom de section
-                    $('.main_section_name').unbind('mouseenter mouseout')
-                            .unbind('focus')
-                            .unbind('blur')
-                            ;
-                    $('#createSectionForm').unbind('submit');
-                },
-                remove: function(section_id) {
-                    var input = $('#main_section_name_' + section_id);
-                    if (confirm('<?php echo addslashes($this->_('Are you sure you want to remove this section?')); ?>')) {
-                        var div = $('#section_details_' + section_id);
-                        input.val('');
-                        div.append($('<input />').attr('type', 'hidden').attr('name', 'is_deleted').val('1'));
-                        $('#section_' + section_id).fadeOut(300);
-
-                        // On re-cache l'email
-                        if($('#sections .section').length == 1) {
-                             $('#form_email_config').hide();
-                             $('#form_email').attr('rel', '');
-                        }
-
-                        this.save(section_id);
-                    }
-                    else {
-                        var color = input.attr('data-color');
-                        input.stop().animate({'background-color': 'transparent', color: color});
-                    }
-
-                },
-                save: function(section_id) {
-
-                    var div = $('#section_details_' + section_id);
-                    reload(div, '<?php echo $this->getUrl('form/application_section/editpost'); ?>', false, function(datas) {
-                        if (datas.success) {
-                            if (datas.category_id && div.find('.section_id').attr('id'))
-                                div.find('.section_id').val(datas.category_id);
-                            var input = $('#main_section_name_' + section_id);
-                            input.removeClass('selected');
-                            var color = input.attr('data-color');
-                            input.stop().animate({'background-color': 'transparent', color: color}).removeClass('loading');
+                reload(li, '<?php echo $this->getUrl('form/application_field/editpost'); ?>', true, function (datas) {
+                    if (datas.success) {
+                        li.css('background-color', '#C41313').animate({
+                            'background-color': 'transparent',
+                            height: 0,
+                            padding: 0,
+                            opacity: 0
+                        }, 500, null, function () {
+                            li.remove();
                             iframe.f.reload();
-                        }
-                        else if (datas.is_deleted) {
-                            div.remove();
-                            iframe.f.reload();
-                        }
-                        else {
-                            // Alert;
-                        }
-                    });
-
-
-                }
-            };
-
-            field = {
-                processEvents: function() {
-                    currentField = this;
-
-                    // Ajout d'un champ
-                    $('.add_field').each(function(i, el) {
-                        this.bindAddField($(el));
-                    }.bind(this));
-
-                    var editField = $('.edit_field');
-                    editField.off('click');
-                    editField.on('click', function(event) {
-                        event.preventDefault();
-                        var el = $(this);
-                        $.featherlight(el.attr('href'), {
-                            type: 'ajax'
-                        });
-                    });
-
-                    $(".fields_list").sortable({
-                        handle: '.handle_field',
-                        placeholder: "field_placeholder field",
-                        axis: 'y',
-                        update: function(e, ui) {
-                            var order = $(e.target).sortable('serialize');
-                            $(e.target).sortable("refresh");
-                            reload($(e.target), "<?php echo $this->getUrl('form/application_field/sortfields', array('option_value_id' => $option_value->getId())); ?>/section_id/" + $(ui.item).attr('rel') + "?" + order, false, function() {
-                                iframe.f.reload();
-                            });
-                        }
-                    });
-
-                    return this;
-
-                },
-                cancel: function() {
-                    $('#fieldForm').unbind('submit');
-                    $.featherlight.current().close();
-                },
-                remove: function(id) {
-                    if (confirm("<?php echo addslashes($this->_('Are you sure you want to remove this field?')); ?>")) {
-                        var li = $('#field_' + id);
-                        $('<input />').attr('type', 'hidden')
-                                .attr('name', 'is_deleted')
-                                .val('1')
-                                .appendTo(li)
-                                ;
-                        $('<input />').attr('type', 'hidden')
-                                .attr('name', 'option_value_id')
-                                .val('<?php echo $option_value->getId(); ?>')
-                                .appendTo(li)
-                                ;
-
-                        reload(li, '<?php echo $this->getUrl('form/application_field/editpost'); ?>', true, function(datas) {
-                            if (datas.success) {
-                                li.css('background-color', '#C41313').animate({'background-color': 'transparent', height: 0, padding: 0, opacity: 0}, 500, null, function() {
-                                    li.remove();
-                                    iframe.f.reload();
-                                });
-                            }
                         });
                     }
-
-                },
-                showOption: function() {
-                    $('#options').show();
-                },
-                hideOption: function() {
-                    $('#options').hide();
-                },
-                addOption: function() {
-                    html = '<div class="form-group"><div class="col-md-12"><input type="text" name="option[]" class="input-flat" placeholder="Option"></div></div>';
-                    $('#optionList').append(html);
-                    return false;
-                },
-                setType: function(e) {
-                    if(/(select)|(radio)|(checkbox)/.test(e)) this.showOption();
-                    else this.hideOption();
-                    $('#typeField').val(e);
-                    $('.choose_type li').removeClass(' active');
-                    $('#field_' + e).addClass(' active');
-                },
-                bindAddField: function(a) {
-                    a.off('click');
-                    a.on('click', function(event) {
-                        event.preventDefault();
-                        var link = $(this);
-                        var section_id = link.attr('section_id');
-                        var url = '<?php echo $this->getUrl('form/application_field/edit', ['option_value_id' => $this->getOptionValue()->getId()]); ?>';
-                        url += '/section_id/' + section_id;
-                        link.attr('href', url + '?ajax=true');
-
-                        $.featherlight(link.attr('href'), {
-                            type: 'ajax'
-                        });
-
-                        return false;
-                    });
-                }
+                });
             }
+
+        },
+        showOption: function () {
+            $('#options').show();
+        },
+        hideOption: function () {
+            $('#options').hide();
+        },
+        addOption: function () {
+            html = '<div class="form-group"><div class="col-md-12"><input type="text" name="option[]" class="input-flat" placeholder="Option"></div></div>';
+            $('#optionList').append(html);
+            return false;
+        },
+        setType: function (e) {
+            if (/(select)|(radio)|(checkbox)/.test(e)) this.showOption();
+            else this.hideOption();
+            $('#typeField').val(e);
+            $('.choose_type li').removeClass(' active');
+            $('#field_' + e).addClass(' active');
+        },
+        bindAddField: function (a) {
+            a.off('click');
+            a.on('click', function (event) {
+                event.preventDefault();
+                var link = $(this);
+                var section_id = link.attr('section_id');
+                var url = '<?php echo $this->getUrl('form/application_field/edit', ['option_value_id' => $this->getOptionValue()->getId()]); ?>';
+                url += '/section_id/' + section_id;
+                link.attr('href', url + '?ajax=true');
+
+                $.featherlight(link.attr('href'), {
+                    type: 'ajax'
+                });
+
+                return false;
+            });
+        }
+    }
 
 
 </script>

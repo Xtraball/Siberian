@@ -1,8 +1,10 @@
 <?php
 
-class Form_MobileController extends Application_Controller_Mobile_Default {
+class Form_MobileController extends Application_Controller_Mobile_Default
+{
 
-    public function viewAction() {
+    public function viewAction()
+    {
         $this->loadPartials($this->getFullActionName('_') . '_l' . $this->_layout_id, false);
         $option = $this->getCurrentOptionValue();
 
@@ -19,7 +21,7 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
         if ($url = $option->getBackgroundImageUrl()) {
             $html['background_image_url'] = $url;
         }
-        $html['use_homepage_background_image'] = (int) $option->getUseHomepageBackgroundImage() && !$option->getHasBackgroundImage();
+        $html['use_homepage_background_image'] = (int)$option->getUseHomepageBackgroundImage() && !$option->getHasBackgroundImage();
         $html['title'] = $option->getTabbarName();
 
         $this->getLayout()->setHtml(Zend_Json::encode($html));
@@ -28,7 +30,8 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
     /**
      * Sauvegarde
      */
-    public function postAction() {
+    public function postAction()
+    {
 
         if ($datas = $this->getRequest()->getPost()) {
             try {
@@ -46,24 +49,24 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
                     // Recherche les fields de la section
                     $section->findFields($section->getId());
                     // Boucle sur les fields
-                    foreach($section->getFields() as $key => $field) {
-                        if($field->isRequired() == 1 && $datas['field_'.$k.'_'.$key] == '') {
+                    foreach ($section->getFields() as $key => $field) {
+                        if ($field->isRequired() == 1 && $datas['field_' . $k . '_' . $key] == '') {
                             $errors .= __('<strong>%s</strong> must be filled<br />', $field->getName());
                         }
-                        if($field->getType() == 'email' && !Zend_Validate::is($datas['field_'.$k.'_'.$key], 'EmailAddress')) {
+                        if ($field->getType() == 'email' && !Zend_Validate::is($datas['field_' . $k . '_' . $key], 'EmailAddress')) {
                             $errors .= __('<strong>%s</strong> must be a valid email address<br />', $field->getName());
                         }
-                        if($field->getType() == 'nombre' && !Zend_Validate::is($datas['field_'.$k.'_'.$key], 'Digits')) {
+                        if ($field->getType() == 'nombre' && !Zend_Validate::is($datas['field_' . $k . '_' . $key], 'Digits')) {
                             $errors .= __('<strong>%s</strong> must be a numerical value<br />', $field->getName());
                         }
-                        if($field->getType() == 'date' && !$validator->isValid($datas['field_'.$k.'_'.$key])) {
+                        if ($field->getType() == 'date' && !$validator->isValid($datas['field_' . $k . '_' . $key])) {
                             $errors .= __('<strong>%s</strong> must be a valid date<br />', $field->getName());
                         }
-                        $datasChanged['field_'.$k.'_'.$key] = array('name' => $field->getName(), 'value' => $datas['field_'.$k.'_'.$key]);
+                        $datasChanged['field_' . $k . '_' . $key] = array('name' => $field->getName(), 'value' => $datas['field_' . $k . '_' . $key]);
                     }
                 }
 
-                if(empty($errors)) {
+                if (empty($errors)) {
 
                     $form = $this->getCurrentOptionValue()->getObject();
 
@@ -78,7 +81,7 @@ class Form_MobileController extends Application_Controller_Mobile_Default {
                     $mail = new Siberian_Mail();
                     $mail->setBodyHtml($content);
                     $mail->setFrom($emails[0], $this->getApplication()->getName());
-                    foreach($emails as $email) {
+                    foreach ($emails as $email) {
                         $mail->addTo($email, __('Your app\'s form'));
                     }
                     $mail->setSubject(__('Your app\'s form'));

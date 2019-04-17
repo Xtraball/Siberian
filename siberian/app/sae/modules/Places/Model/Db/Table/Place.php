@@ -32,8 +32,8 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
                 $values["latitude"],
                 $values["longitude"],
                 "page_block_address",
-                'latitude',
-                'longitude');
+                "latitude",
+                "longitude");
             $searchByDistance = true;
             $sortingType = "distance";
         } else {

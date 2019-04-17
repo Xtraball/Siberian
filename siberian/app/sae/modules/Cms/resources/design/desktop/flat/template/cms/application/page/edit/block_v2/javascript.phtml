@@ -1,6 +1,6 @@
 <?php
-$api = Api_Model_Key::findKeysFor("googlemaps");
-$googlemaps_key = $api->getSecretKey();
+$application = $this->getApplication();
+$gmapsKey = $application->getGooglemapsKey();
 ?>
 
 <script type="text/javascript">
@@ -20,7 +20,7 @@ var bindcmsblockAddress = function(block) {
             var script_tag = document.createElement("script");
             script_tag.setAttribute("id","gmaps_libraries");
             script_tag.setAttribute("type","text/javascript");
-            script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $googlemaps_key; ?>");
+            script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $gmapsKey; ?>");
             (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
         }
 
@@ -59,7 +59,7 @@ $(document).ready(function() {
         var script_tag = document.createElement("script");
         script_tag.setAttribute("id","gmaps_libraries");
         script_tag.setAttribute("type","text/javascript");
-        script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $googlemaps_key; ?>");
+        script_tag.setAttribute("src","https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $gmapsKey; ?>");
         (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
     }
 

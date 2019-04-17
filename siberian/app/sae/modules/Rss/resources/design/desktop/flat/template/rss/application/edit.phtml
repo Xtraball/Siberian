@@ -1,0 +1,252 @@
+<?php
+
+use Siberian\Json;
+
+$optionValue = $this->getOptionValue();
+$application = $this->getApplication();
+$feeds = (new Rss_Model_Feed())
+    ->findAll(["value_id = ?" => $optionValue->getId()], ["position ASC"]);
+
+$formFeed = new Rss_Form_Feed();
+$formSettings = new Rss_Form_Settings();
+
+if ($optionValue->getId()) {
+    try {
+        $settings = Json::decode($optionValue->getSettings());
+        $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+        $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+    } catch (\Exception $e) {
+        $settings = [
+            "design" => "card",
+            "aggregation" => "merge",
+            "displayThumbnail" => true,
+            "displayCover" => true,
+        ];
+    }
+
+    $formSettings->populate($settings);
+}
+
+$formFeed->setValueId($optionValue->getId());
+$formSettings->setValueId($optionValue->getId());
+
+$deleteForm = new Rss_Form_Feed_Delete();
+$deleteForm->setValueId($optionValue->getId());
+
+?>
+<div class="form_content">
+    <div id="list"
+         class="rss">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs"
+            role="tablist">
+            <li role="presentation"
+                class="active">
+                <a href="#rss"
+                   aria-controls="rss"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-feed"></i>
+                    <?php echo p__("rss","Manage content") ?>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#tab-design"
+                   aria-controls="tab-design"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-pencil"></i>
+                    <?php echo p__("rss","Design") ?>
+                </a>
+            </li>
+            <li role="presentation">
+                <a href="#settings"
+                   aria-controls="settings"
+                   role="tab"
+                   data-toggle="tab">
+                    <i class="fa fa-cogs"></i>
+                    <?php echo p__("rss","Settings") ?>
+                </a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <!-- START CONTACT TAB -->
+            <div role="tabpanel"
+                 class="tab-pane active"
+                 id="rss">
+
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo p__("rss","Add a feed") ?>
+                        <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </h3>
+                    <div class="container-fluid subcontent content-feature">
+                        <?php echo $formFeed; ?>
+                    </div>
+                </div>
+
+                <?php if ($feeds->count() > 0): ?>
+                    <div class="feature-block-list">
+                        <div class="margin-top">
+                            <h3 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("rss", "Manage feeds"); ?>
+                                <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                    <i class="fa fa-angle-down"></i>
+                                </button>
+                            </h3>
+                            <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                                <table class="table content-white-bkg sb-pager">
+                                    <thead>
+                                        <tr class="border-grey">
+                                            <th style="width:32px;"></th>
+                                            <th class="sortable"
+                                                style="width:20%;"><?php echo p__("rss", "Title"); ?></th>
+                                            <th class="sortable"
+                                                style="width:30%;"><?php echo p__("rss","Subtitle"); ?></th>
+                                            <th class="sortable"
+                                                style="width:30%;"><?php echo p__("rss","Link"); ?></th>
+                                            <th style="width:10%;"><?php echo p__("rss","Position") ?></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="feeds-sortable">
+                                    <?php foreach($feeds as $feed) : ?>
+                                        <tr id="feed_manage_element_<?php echo $feed->getId(); ?>"
+                                            rel="<?php echo $feed->getId(); ?>"
+                                            class="feed-manage-element sb-pager feed-container">
+                                            <td class="feed-handle"
+                                                style="text-align: center;">
+                                                <i class="fa fa-sort"></i>
+                                            </td>
+                                            <td><?php echo $feed->getTitle(); ?></td>
+                                            <td><?php echo cut($feed->getSubtitle(), 50); ?></td>
+                                            <td><?php echo $feed->getLink(); ?></td>
+                                            <td class="feed-position"><?php echo $feed->getPosition() ?></td>
+                                            <td class="edit-action open-edit"
+                                                data-id="feed_<?php echo $feed->getId(); ?>"
+                                                data-form-url="<?php echo __path('/rss/application/load-form', [
+                                                    'feed_id' => $feed->getId(),
+                                                    'value_id' => $optionValue->getId()
+                                                ]); ?>">
+                                                <i class="fa fa-pencil"></i>
+                                            </td>
+                                            <td class="delete-action">
+                                                <?php
+                                                $deleteForm->setAttrib("data-rowid", "feed_manage_element_" . $feed->getId());
+                                                $deleteForm->getElement("feed_id")->setValue($feed->getId());
+
+                                                echo $deleteForm;
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr class="edit-form"
+                                            data-id="feed_<?php echo $feed->getId(); ?>"
+                                            style="display: none;">
+                                            <td colspan="7">
+                                                <p class="close-edit"
+                                                   data-id="feed_<?php echo $feed->getId(); ?>">
+                                                    <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+
+            </div>
+            <!-- END CONTACT TAB -->
+
+            <!-- START DESIGN TAB -->
+            <div role="tabpanel"
+                 class="tab-pane"
+                 id="tab-design">
+
+                <?php echo $this->importLayout($optionValue, false); ?>
+
+                <?php echo $this->importBackground($optionValue, false); ?>
+            </div>
+            <!-- END DESIGN TAB -->
+
+            <!-- START SETTINGS TAB -->
+            <div role="tabpanel"
+                 class="tab-pane"
+                 id="settings">
+
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo p__("rss","Settings") ?>
+                    </h3>
+                    <div class="container-fluid first-row-feature content-feature">
+                        <?php echo $formSettings; ?>
+                    </div>
+                </div>
+            </div>
+            <!-- END SETTINGS TAB -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        bindForms("#rss");
+        bindForms("#design");
+        bindForms("#settings");
+
+        // Sections
+        $('.feeds-sortable').sortable({
+            handle: ".feed-handle",
+            axis: "y",
+            items: " .feed-container",
+            opacity: 0.7,
+            start: function() {
+                // Clear all forms inside elements!
+                $("#feeds .close-edit").trigger("click");
+            },
+            stop: function() {
+                let sections = $('.feeds-sortable tr[rel]');
+                let data = {
+                    indexes: []
+                };
+                let index = 1;
+                sections.each(function() {
+                    let el = $(this);
+                    data.indexes.push(el.attr('rel'));
+
+                    el.find('.feed-position').text(index++);
+                });
+
+                formget(
+                    '/rss/application/update-feed-positions',
+                    data,
+                    function(result) {},
+                    function(result) {}
+                );
+            }
+        });
+
+        // Display cache message hint
+        let toggleNoCache = function () {
+            let el = $("#cacheLifetime");
+            if (el.val() == "0") {
+                $("#note_no_cache").show();
+            } else {
+                $("#note_no_cache").hide();
+            }
+        };
+
+        $(document).off("change", "#cacheLifetime");
+        $(document).on("change", "#cacheLifetime", function () {
+            toggleNoCache();
+        });
+        toggleNoCache();
+    });
+</script>

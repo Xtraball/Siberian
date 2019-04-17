@@ -1,9 +1,12 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Booking_Mobile_ViewController
  */
-class Booking_Mobile_ViewController extends Application_Controller_Mobile_Default {
+class Booking_Mobile_ViewController extends Application_Controller_Mobile_Default
+{
 
     /**
      * Fetch the current booking information
@@ -11,38 +14,51 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
      * Only for a refresh purpose.
      *
      */
-    public function findAction() {
+    public function findAction()
+    {
 
         try {
 
-            if($value_id = $this->getRequest()->getParam('value_id')) {
+            if ($value_id = $this->getRequest()->getParam('value_id')) {
+
+                $optionValue = $this->getCurrentOptionValue();
 
                 $booking = $this->getCurrentOptionValue()->getObject();
                 $data = ["stores" => []];
 
-                if($booking->getId()) {
+                if ($booking->getId()) {
 
                     $store = new Booking_Model_Store();
                     $stores = $store->findAll([
                         "booking_id" => $booking->getId()
                     ]);
 
-                    foreach($stores as $store) {
+                    foreach ($stores as $store) {
                         $data["stores"][] = [
-                            "id"    => $store->getId(),
-                            "name"  => $store->getStoreName()
+                            "id" => $store->getId(),
+                            "name" => $store->getStoreName()
                         ];
                     }
-
                 }
 
-                $data["page_title"] = $this->getCurrentOptionValue()->getTabbarName();
+                $data["page_title"] = $optionValue->getTabbarName();
+
+                try {
+                    $settings = Json::decode($optionValue->getSettings());
+                } catch (\Exception $e) {
+                    $settings = [
+                        "design" => "list",
+                        "date_format" => "MM/DD/YYYY HH:mm"
+                    ];
+                }
+
+                $data["settings"] = $settings;
 
             } else {
                 throw new \Siberian\Exception("The value_id is required.");
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $data = [
                 "error" => true,
                 "message" => __("Booking::findAction An unknown error occurred, please try again later."),
@@ -63,42 +79,43 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
      * - Allow user to list his booking requests
      *
      */
-    public function postAction() {
+    public function postAction()
+    {
 
         try {
 
-            if($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+            if ($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
 
                 $errors = [];
 
-                if(empty($data["name"])) {
+                if (empty($data["name"])) {
                     $errors[] = __("Name");
                 }
 
-                if((empty($data["email"]) && empty($data["phone"])) ||
+                if ((empty($data["email"]) && empty($data["phone"])) ||
                     (!empty($data["email"]) && !Zend_Validate::is($data["email"], "emailAddress")) && !empty($data["phone"])) {
 
                     $errors[] = __("Phone and/or E-mail");
                 }
 
-                if(empty($data["store"])) {
+                if (empty($data["store"])) {
                     $errors[] = __("Location");
                 }
 
-                if(empty($data["people"])) {
+                if (empty($data["people"])) {
                     $errors[] = __("Number of people");
                 }
 
-                if(empty($data["date"])) {
+                if (empty($data["date"])) {
                     $errors[] = __("Date and time");
                 }
 
-                if(empty($data["prestation"])) {
+                if (empty($data["prestation"])) {
                     $errors[] = __("Booking details");
                 }
 
-                if(!empty($errors)) {
-                    $message = __("Please fill out the following fields")."<br />-&nbsp;";
+                if (!empty($errors)) {
+                    $message = __("Please fill out the following fields") . "<br />-&nbsp;";
                     $message .= join("<br />-&nbsp;", $errors);
 
                     $data = [
@@ -106,29 +123,17 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                         "message" => $message
                     ];
 
-                }
-                else {
+                } else {
                     $store = new Booking_Model_Store();
                     $store->find($data["store"], "store_id");
-                    if(!$store->getId()) {
+                    if (!$store->getId()) {
                         throw new Siberian_Exception(__("An error occurred during process.<br />Please try again later."));
                     }
                     $data["location"] = $store->getStoreName();
 
-                    $new_date = new Zend_Date();
-                    /**
-                     * Replace unknown timezone with server timezone, as it"s a booking date*
-                     * @todo This particular date should be sent as-is, however language/date
-                     *       and formats are not clearly defined, and are missing specifications.
-                     */
-                    $date_str = preg_replace("/-00:00$/", $new_date->get(Zend_Date::GMT_DIFF_SEP), $data["date"]);
-
-                    $data["date"] = $new_date->set($date_str);
-
-                    //vérif value
                     $booking = new Booking_Model_Booking();
                     $booking->find($store->getBookingId(), "booking_id");
-                    if(!$booking->getId()) {
+                    if (!$booking->getId()) {
                         throw new \Siberian\Exception(__("An error occurred during process.<br />Please try again later."));
                     }
                     $dest_email = $store->getEmail();
@@ -144,7 +149,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $mail->setBodyHtml($content);
                     $mail->setFrom($data["email"], $data["name"]);
                     $mail->addTo($dest_email, $app_name);
-                    $mail->setSubject($app_name." - ".$booking->getName()." - ".$store->getStoreName());
+                    $mail->setSubject($app_name . " - " . $booking->getName() . " - " . $store->getStoreName());
                     $mail->send();
 
                     $data = [
@@ -158,7 +163,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 throw new \Siberian\Exception("The sent request is empty.");
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
 
             $message = $e->getMessage();
             $message = (empty($message)) ? __("%s An unknown error occurred, please try again later.", "Booking::postAction") : $message;

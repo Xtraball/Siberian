@@ -781,14 +781,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
 
                         // Loads momentjs/progressbar async.
-                        $ocLazyLoad.load('./dist/lazy/moment.min.js')
+                        $ocLazyLoad.load("./dist/lazy/moment.min.js")
                             .then(function () {
                                 window.momentjs_loaded = true;
                                 try {
-                                    moment.locale([language, 'en']);
+                                    var tmpLang = language.replace("_", "-").toLowerCase();
+                                    moment.locale([tmpLang, "en"]);
                                 } catch (e) {
-                                    moment.locale('en');
+                                    moment.locale("en");
                                 }
+
+                                console.log("moment locale", moment.locale());
                             });
 
                         $ocLazyLoad.load('./dist/lazy/angular-carousel.min.js');

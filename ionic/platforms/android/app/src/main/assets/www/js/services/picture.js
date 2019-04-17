@@ -17,12 +17,12 @@ angular.module('starter').service('Picture', function ($cordovaCamera, $ionicAct
      * @param quality
      */
     service.takePicture = function (width, height, quality) {
-        if (service.isOpen || $rootScope.isNotAvailableInOverview()) {
+        if (service.isOpen) {
             return $q.reject();
         }
 
         if (Camera === undefined) {
-            Dialog.alert('Error', 'Camera is not available.', 'OK', -1)
+            Dialog.alert("Error", "Camera is not available.", "OK", -1)
                 .then(function () {
                     return $q.reject();
                 });
@@ -41,24 +41,24 @@ angular.module('starter').service('Picture', function ($cordovaCamera, $ionicAct
 
         var _buttons = [
             {
-                text: $translate.instant('Import from Library')
+                text: $translate.instant("Import from Library")
             }
         ];
 
         if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
             _buttons.unshift({
-                text: $translate.instant('Take a picture')
+                text: $translate.instant("Take a picture")
             });
         }
 
         service.sheetResolver = $ionicActionSheet.show({
             buttons: _buttons,
-            cancelText: $translate.instant('Cancel'),
+            cancelText: $translate.instant("Cancel"),
             cancel: function () {
                 service.sheetResolver();
 
                 deferred.reject({
-                    message: $translate.instant('Cancelled')
+                    message: $translate.instant("Cancelled")
                 });
 
                 service.isOpen = false;

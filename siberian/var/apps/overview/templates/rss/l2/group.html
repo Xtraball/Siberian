@@ -1,0 +1,60 @@
+<ion-view sb-page-background
+          class="rss-group rss-group-l2">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-show="!is_loading && feeds.length"
+             ng-class="{
+                'design-card': settings.design == 'card',
+                'design-list': settings.design == 'list'
+                }">
+
+            <div class="list row"
+                 ng-class="{'notcard': settings.design == 'list'}"
+                 ng-repeat="chunk in feeds_chunks">
+
+                <div class="col col-50"
+                     ng-class="{'card': settings.design == 'card', 'notcard': settings.design == 'list'}"
+                     ng-click="goToList(feed)"
+                     ng-repeat="feed in chunk">
+
+                    <div class="item item-custom item-body">
+                        <img ng-if="feed.thumbnail && settings.displayThumbnail"
+                             src="./img/placeholder/blank-512.png"
+                             class="rss-item-thumbnail"
+                             ng-style="{'background-image': 'url({{ thumbnailSrc(feed) }})'}" />
+                        <div class="item-content">
+                            <h2 class="rss-title">{{ feed.title }}</h2>
+                            <p class="rss-subtitle"
+                               ng-if="feed.subtitle"
+                               ng-bind-html="feed.subtitle | trusted_html"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list"
+             ng-class="{'card': settings.design == 'card'}"
+             ng-if="!is_loading && !feeds.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate:"rss" }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

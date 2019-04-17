@@ -1,7 +1,19 @@
 <?php
-class Booking_Model_Booking extends Core_Model_Default {
 
-    public function __construct($params = []) {
+use Siberian\Json;
+
+/**
+ * Class Booking_Model_Booking
+ */
+class Booking_Model_Booking extends Core_Model_Default
+{
+
+    /**
+     * Booking_Model_Booking constructor.
+     * @param array $params
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Booking_Model_Db_Table_Booking';
         return $this;
@@ -10,7 +22,8 @@ class Booking_Model_Booking extends Core_Model_Default {
     /**
      * @return array
      */
-    public function getInappStates($value_id) {
+    public function getInappStates($value_id)
+    {
 
         $in_app_states = [
             [
@@ -27,34 +40,50 @@ class Booking_Model_Booking extends Core_Model_Default {
 
     /**
      * @param $option_value
-     * @return bool
+     * @return array
      */
-    public function getEmbedPayload($option_value) {
-
+    public function getEmbedPayload($option_value)
+    {
         $payload = [
             "stores" => [],
             "page_title" => $option_value->getTabbarName()
         ];
 
-        if($this->getId()) {
+        try {
+            $settings = Json::decode($option_value->getSettings());
+        } catch (\Exception $e) {
+            $settings = [
+                "design" => "list",
+                "date_format" => "MM/DD/YYYY HH:mm"
+            ];
+        }
+
+        $payload["settings"] = $settings;
+
+        if ($this->getId()) {
             $store = new Booking_Model_Store();
             $stores = $store->findAll([
                 "booking_id" => $this->getId()
             ]);
 
-            foreach($stores as $store) {
+            foreach ($stores as $store) {
                 $payload["stores"][] = [
-                    "id"    => $store->getId(),
-                    "name"  => $store->getStoreName()
+                    "id" => $store->getId(),
+                    "name" => $store->getStoreName()
                 ];
             }
         }
 
         return $payload;
-
     }
 
-    public function createDummyContents($option_value, $design, $category) {
+    /**
+     * @param $option_value
+     * @param $design
+     * @param $category
+     */
+    public function createDummyContents($option_value, $design, $category)
+    {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
@@ -68,25 +97,27 @@ class Booking_Model_Booking extends Core_Model_Default {
             }
 
             $store->setBookingId($this->getId())
-                ->save()
-            ;
+                ->save();
         }
     }
 
-    public function copyTo($option) {
+    /**
+     * @param $option
+     * @return $this
+     */
+    public function copyTo($option)
+    {
         $store = new Booking_Model_Store();
         $stores = $store->findAll(['booking_id' => $this->getId()]);
 
         $this->setId(null)
             ->setValueId($option->getId())
-            ->save()
-        ;
+            ->save();
 
-        foreach($stores as $store) {
+        foreach ($stores as $store) {
             $store->setId(null)
                 ->setBookingId($this->getId())
-                ->save()
-            ;
+                ->save();
         }
 
         return $this;
@@ -97,8 +128,9 @@ class Booking_Model_Booking extends Core_Model_Default {
      * @return string
      * @throws Exception
      */
-    public function exportAction($option, $export_type = null) {
-        if($option && $option->getId()) {
+    public function exportAction($option, $export_type = null)
+    {
+        if ($option && $option->getId()) {
 
             $current_option = $option;
             $value_id = $current_option->getId();
@@ -113,10 +145,10 @@ class Booking_Model_Booking extends Core_Model_Default {
             ]);
 
             $stores_data = [];
-            foreach($stores as $store) {
+            foreach ($stores as $store) {
                 $store_data = $store->getData();
 
-                if($export_type === "safe") {
+                if ($export_type === "safe") {
                     $store_data["store_name"] = "Praesent sed neque.";
                     $store_data["email"] = "test@lorem-ipsum.test";
                 }
@@ -132,7 +164,7 @@ class Booking_Model_Booking extends Core_Model_Default {
 
             try {
                 $result = Siberian_Yaml::encode($dataset);
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 throw new Exception("#100-00: An error occured while exporting dataset to YAML.");
             }
 
@@ -147,26 +179,26 @@ class Booking_Model_Booking extends Core_Model_Default {
      * @param $path
      * @throws Exception
      */
-    public function importAction($path) {
+    public function importAction($path)
+    {
         $content = file_get_contents($path);
 
         try {
             $dataset = Siberian_Yaml::decode($content);
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("#100-03: An error occured while importing YAML dataset '$path'.");
         }
 
         $application = $this->getApplication();
         $application_option = new Application_Model_Option_Value();
 
-        if(isset($dataset["option"])) {
+        if (isset($dataset["option"])) {
             $new_application_option = $application_option
                 ->setData($dataset["option"])
                 ->unsData("value_id")
                 ->unsData("id")
                 ->setData('app_id', $application->getId())
-                ->save()
-            ;
+                ->save();
 
             $new_value_id = $new_application_option->getId();
 
@@ -175,13 +207,12 @@ class Booking_Model_Booking extends Core_Model_Default {
                 ->setData($dataset["booking"])
                 ->unsData("booking_id")
                 ->unsData("id")
-                ->save()
-            ;
+                ->save();
 
             /** Create Stores */
-            if(isset($dataset["stores"]) && $new_value_id && $new_booking->getId()) {
+            if (isset($dataset["stores"]) && $new_value_id && $new_booking->getId()) {
 
-                foreach($dataset["stores"] as $store) {
+                foreach ($dataset["stores"] as $store) {
 
                     $new_store = new Booking_Model_Store();
                     $new_store
@@ -189,8 +220,7 @@ class Booking_Model_Booking extends Core_Model_Default {
                         ->unsData("store_id")
                         ->unsData("id")
                         ->setData("booking_id", $new_booking->getId())
-                        ->save()
-                    ;
+                        ->save();
                 }
 
             }

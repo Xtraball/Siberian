@@ -1,0 +1,39 @@
+{
+    "name": "debril/feed-io",
+    "description": "PHP library built to consume and serve JSONFeed / RSS / Atom feeds",
+    "keywords": ["rss", "atom","jsonfeed", "feed", "news", "CLI", "client"],
+    "homepage": "https://feed-io.net",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexandre Debril",
+            "email": "alex.debril@gmail.com"
+        }
+    ],
+    "bin" : [
+        "bin/feedio"
+    ],
+    "require": {
+        "php": ">=5.6.0",
+        "guzzlehttp/guzzle": "~6.2",
+        "psr/log": "~1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=5.5.0",
+        "monolog/monolog": "1.*"
+    },
+    "suggest": {
+        "monolog/monolog": "Allows to handle logs",
+        "symfony/console": "Allows to use the command line interface"
+    },
+    "autoload": {
+        "psr-4": {"FeedIo\\": "src/FeedIo"}
+    },
+    
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        }
+    }    
+}

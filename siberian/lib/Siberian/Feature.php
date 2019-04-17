@@ -234,7 +234,7 @@ class Feature
         if (!is_array($option)) {
             $child_resource = [
                 "code" => "feature_" . $option->getCode(),
-                "label" => $option->getName(),
+                "label" => $option->getData("name"),
                 "url" => $option->getDesktopUri() . "*"
             ];
         } else {

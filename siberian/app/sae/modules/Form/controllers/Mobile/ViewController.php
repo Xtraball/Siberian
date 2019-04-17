@@ -1,4 +1,7 @@
 <?php
+
+use Siberian\Json;
+
 /**
  *
  */
@@ -24,6 +27,8 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
             $payload = [
                 "success" => true,
                 "page_title" => $option->getTabbarName(),
+                "dateFormat" => $form->getDateFormat(),
+                "design" => $form->getDesign(),
                 "sections" => [],
             ];
 
@@ -37,11 +42,11 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                 foreach ($fields as $field) {
                     $fieldData = [
-                        "id" => (integer) $field->getId(),
-                        "type" => (string) $field->getType(),
-                        "name" => (string) $field->getName(),
+                        "id" => (integer)$field->getId(),
+                        "type" => (string)$field->getType(),
+                        "name" => (string)$field->getName(),
                         "isFilled" => false,
-                        "isRequired" => (boolean) $field->isRequired(),
+                        "isRequired" => (boolean)$field->isRequired(),
                         "options" => $field->hasOptions() ? $field->getOptions() : []
                     ];
 
@@ -68,22 +73,28 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
     /**
      * Sauvegarde
      */
-    public function postAction() {
+    public function postAction()
+    {
 
         try {
-            if ($data = Siberian_Json::decode($this->getRequest()->getRawBody())) {
+            if ($data = Json::decode($this->getRequest()->getRawBody())) {
+
+                $optionValue = $this->getCurrentOptionValue();
+                $valueId = $optionValue->getId();
 
                 $data = $data["form"];
                 $data_image = [];
                 $errors = '';
                 // Recherche des sections
                 $section = new Form_Model_Section();
-                $sections = $section->findByValueId($this->getCurrentOptionValue()->getId());
+                $sections = $section->findByValueId($valueId);
 
                 $field = new Form_Model_Field();
 
                 // Date Validator
                 $dataChanged = [];
+                $dataForDb = [];
+                $dates = [];
                 $index = 0;
 
                 foreach ($sections as $k => $section) {
@@ -115,20 +126,45 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                             if (array_key_exists($option["id"], $data[$field->getId()])) {
                                                 if ($data[$field->getId()][$option["id"]]) {
                                                     $dataChanged[$index . ' - ' . $field->getName()][$option["id"]] = $option["name"];
+                                                    if (!isset($dataForDb[$index])) {
+                                                        $dataForDb[$index] = [
+                                                            "field_id" => $field->getId(),
+                                                            "label" => $field->getName(),
+                                                            "value" => [],
+                                                        ];
+                                                    }
+                                                    $dataForDb[$index]["value"][] = $option["name"];
                                                 }
                                             }
                                             // If the current option has been posted, store its value
                                         } else if ($option["id"] == $data[$field->getId()]) {
                                             $dataChanged[$index . ' - ' . $field->getName()] = $option["name"];
+                                            $dataForDb[$index] = [
+                                                "field_id" => $field->getId(),
+                                                "label" => $field->getName(),
+                                                "value" => $option["name"]
+                                            ];
                                         }
                                     }
                                 } else if ($field->isRequired()) {
                                     $errors .= __('<strong>%s</strong> is required<br />', $field->getName());
+                                } else {
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => null
+                                    ];
                                 }
 
                                 // If the field is empty and required, add an error
                             } else if ($field->isRequired()) {
                                 $errors .= __('<strong>%s</strong> is required<br />', $field->getName());
+                            } else {
+                                $dataForDb[$index] = [
+                                    "field_id" => $field->getId(),
+                                    "label" => $field->getName(),
+                                    "value" => null
+                                ];
                             }
                         } else {
                             // If the field is required
@@ -158,14 +194,6 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                 }
                             }
 
-                            if ($field->getType() == "date") {
-                                if (isset($data[$field->getId()])) {
-                                    $new_date = new Zend_Date();
-                                    $new_date->setTimestamp(strtotime($data[$field->getId()]));
-                                    $data[$field->getId()] = datetime_to_format($new_date->toString('y-MM-dd HH:mm:ss'));
-                                }
-                            }
-
                             // If not empty, store its value
                             if (!empty($data[$field->getId()])) {
                                 // If the field is an image
@@ -178,7 +206,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                                     $extension = strtolower($matches[1]);
 
-                                    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp'])) {
+                                    if (!in_array($extension, ["jpg", "jpeg", "png", "gif", "bmp"])) {
                                         throw new \Siberian\Exception(__("Forbidden image format"));
                                     }
 
@@ -215,9 +243,54 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                     $imageUrl = $this->getRequest()->getBaseUrl() . '/images/application' . $finalPath;
 
                                     $dataChanged[$index . ' - ' . $field->getName()] = '<br/><img width="' . $image_width . '" height="' . $image_height . '" src="' . $imageUrl . '" alt="' . $field->getName() . '" />';
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => $imageUrl
+                                    ];
+                                    // In progress!
+                                } else if ($field->getType() == "geoloc") {
+
+                                    if (!is_array($data[$field->getId()])) {
+                                        $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
+                                        $dataForDb[$index] = [
+                                            "field_id" => $field->getId(),
+                                            "label" => $field->getName(),
+                                            "value" => preg_replace("/<br( )?(\/)?>/", " - ", $data[$field->getId()])
+                                        ];
+                                    } else {
+                                        $tmpData = $data[$field->getId()];
+                                        $dataChanged[$index . ' - ' . $field->getName()] = sprintf("%s<br />%s, %s",
+                                            $tmpData["address"],
+                                            $tmpData["coords"]["lat"],
+                                            $tmpData["coords"]["lng"]);
+
+                                        $dataForDb[$index] = [
+                                            "field_id" => $field->getId(),
+                                            "label" => $field->getName(),
+                                            "value" => $tmpData
+                                        ];
+                                    }
+
                                 } else {
                                     $dataChanged[$index . ' - ' . $field->getName()] = $data[$field->getId()];
+                                    $dataForDb[$index] = [
+                                        "field_id" => $field->getId(),
+                                        "label" => $field->getName(),
+                                        "value" => preg_replace("/<br( )?(\/)?>/", " - ", $data[$field->getId()])
+                                    ];
+
+                                    // Do not alter the date ...
+                                    if (array_key_exists($field->getId(), $dates)) {
+                                        $dataForDb[$index]["value"] =  $dates[$field->getId()];
+                                    }
                                 }
+                            } else {
+                                $dataForDb[$index] = [
+                                    "field_id" => $field->getId(),
+                                    "label" => $field->getName(),
+                                    "value" => null
+                                ];
                             }
 
                         }
@@ -229,39 +302,53 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                     $form = $this->getCurrentOptionValue()->getObject();
 
-                    // Save db values.
-
-                    // !END
-
-                    $layout = $this->getLayout()->loadEmail('form', 'send_email');
-                    $layout->getPartial('content_email')
-                        ->setFields($dataChanged);
-                    $content = $layout->render();
-
-                    $emails = explode(",", $form->getEmail());
-                    $subject = __('Your app\'s form') . " - " . $this->getApplication()->getName() . " - " . $this->getCurrentOptionValue()->getTabbarName();
-
-                    # @version 4.8.7 - SMTP
-                    $mail = new Siberian_Mail();
-                    $mail->setBodyHtml($content);
-                    $mail->setFrom($emails[0], $this->getApplication()->getName());
-                    foreach ($emails as $email) {
-                        $mail->addTo($email, $subject);
+                    // Save values in db
+                    $session = $this->getSession();
+                    $customerId = null;
+                    if ($session->isLoggedIn()) {
+                        $customerId = $session->getCustomerId();
                     }
-                    $mail->setSubject($subject);
-                    $mail->send();
 
-                    $payload = array(
+                    $formResult = new Form_Model_FormResult();
+                    $formResult
+                        ->setValueId($valueId)
+                        ->setCustomerId($customerId)
+                        ->setPayload(Json::encode($dataForDb, JSON_UNESCAPED_UNICODE))
+                        ->save();
+
+                    // Send e-mail only if filled out!
+                    if (!empty($form->getEmail())) {
+
+                        $layout = $this->getLayout()->loadEmail("form", "send_email");
+                        $layout->getPartial("content_email")
+                            ->setFields($dataChanged);
+                        $content = $layout->render();
+
+                        $emails = explode(",", $form->getEmail());
+                        $subject = __('Your app\'s form') . " - " . $this->getApplication()->getName() . " - " . $this->getCurrentOptionValue()->getTabbarName();
+
+                        # @version 4.8.7 - SMTP
+                        $mail = new Siberian_Mail();
+                        $mail->setBodyHtml($content);
+                        $mail->setFrom($emails[0], $this->getApplication()->getName());
+                        foreach ($emails as $email) {
+                            $mail->addTo($email, $subject);
+                        }
+                        $mail->setSubject($subject);
+                        $mail->send();
+                    }
+
+                    $payload = [
                         "success" => true,
                         "message" => __("The form has been sent successfully")
-                    );
+                    ];
 
                 } else {
 
-                    $payload = array(
+                    $payload = [
                         "error" => true,
                         "message" => $errors
-                    );
+                    ];
                 }
 
 
@@ -270,10 +357,10 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
             }
 
         } catch (Exception $e) {
-            $payload = array(
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendJson($payload);

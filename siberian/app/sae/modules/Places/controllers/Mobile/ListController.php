@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Json;
+use Siberian\Exception;
 
 /**
  * Class Places_Mobile_ListController
@@ -24,7 +25,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 ->find($placeId);
 
             if (!$place->getId()) {
-                throw new \Siberian\Exception(__("This place do not exists!"));
+                throw new Exception(__("This place do not exists!"));
             }
 
             $place = $place->toJson($optionValue, $request->getBaseUrl());
@@ -94,6 +95,16 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     'longitude' => $position['longitude'],
                 ], $params);
 
+            $countParams = $params;
+            unset($countParams["offset"]);
+            unset($countParams["limit"]);
+            $count = (new Places_Model_Place())
+                ->findAllWithFilters($valueId, [
+                    'search_by_distance' => true,
+                    'latitude' => $position['latitude'],
+                    'longitude' => $position['longitude'],
+                ], $params);
+
             $collection = [];
             foreach ($places as $place) {
                 $collection[] = $place->toJson($optionValue, $request->getBaseUrl());
@@ -104,6 +115,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
+                "total" => $count->count(),
                 "places" => $collection
             ];
         } catch (\Exception $e) {
@@ -144,7 +156,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 }
 
                 $categories = (new Places_Model_Category())
-                    ->findAll(['value_id' => $optionValue->getId()], 'position ASC');
+                    ->findAll(["value_id" => $optionValue->getId()], "position ASC");
 
                 $settings["categories"] = [];
                 foreach ($categories as $category) {

@@ -190,6 +190,67 @@
         "description": "Braintree PHP Client Library"
     },
     {
+        "name": "debril/feed-io",
+        "version": "v3.0.0",
+        "version_normalized": "3.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/alexdebril/feed-io.git",
+            "reference": "49748780f5ce8c45b2430a7c6598506064b12674"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/alexdebril/feed-io/zipball/49748780f5ce8c45b2430a7c6598506064b12674",
+            "reference": "49748780f5ce8c45b2430a7c6598506064b12674",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/guzzle": "~6.2",
+            "php": ">=5.6.0",
+            "psr/log": "~1.0"
+        },
+        "require-dev": {
+            "monolog/monolog": "1.*",
+            "phpunit/phpunit": ">=5.5.0"
+        },
+        "suggest": {
+            "monolog/monolog": "Allows to handle logs",
+            "symfony/console": "Allows to use the command line interface"
+        },
+        "time": "2017-06-20T15:30:27+00:00",
+        "bin": [
+            "bin/feedio"
+        ],
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "FeedIo\\": "src/FeedIo"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alexandre Debril",
+                "email": "alex.debril@gmail.com"
+            }
+        ],
+        "description": "PHP library built to consume and serve JSONFeed / RSS / Atom feeds",
+        "homepage": "https://feed-io.net",
+        "keywords": [
+            "atom",
+            "cli",
+            "client",
+            "feed",
+            "jsonfeed",
+            "news",
+            "rss"
+        ]
+    },
+    {
         "name": "doctrine/collections",
         "version": "v1.4.0",
         "version_normalized": "1.4.0.0",

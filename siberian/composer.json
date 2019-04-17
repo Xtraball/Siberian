@@ -21,7 +21,8 @@
         "ezyang/htmlpurifier": "^4.10",
         "stripe/stripe-php": "^6.19",
         "gettext/gettext": "^4.6",
-        "braintree/braintree_php": "^3.38"
+        "braintree/braintree_php": "^3.38",
+        "debril/feed-io": "3.0"
     },
     "config": {
         "vendor-dir": "lib/vendor"

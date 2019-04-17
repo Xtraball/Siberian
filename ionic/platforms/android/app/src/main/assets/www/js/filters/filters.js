@@ -32,7 +32,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Create chunks of the given size
  */
-}).filter("chunk", function($log, $http) {
+}).filter("chunk", function($log) {
 
     return function(items, chunk_size) {
         var chunks = [];
@@ -51,8 +51,35 @@ angular.module("starter").filter("parseUrlFilter", function() {
     };
 
 /**
- * Parse numbers with given length
+ * Create asymetric chunks of the given sizes
  */
+}).filter("achunk", function($log) {
+
+    return function(items, size_a, size_b) {
+        var chunks = [];
+        var alternate = true;
+        if (angular.isArray(items)) {
+            if (isNaN(size_a)) {
+                size_a = 2;
+            }
+            if (isNaN(size_b)) {
+                size_b = 1;
+            }
+
+            for (var i = 0; i < items.length;) {
+                chunks.push(items.slice(i, i + (alternate ? size_a : size_b)));
+                i += alternate ? size_a : size_b;
+                alternate = !alternate;
+            }
+        } else {
+            $log.error("items is not an array: " + angular.toJson(items));
+        }
+        return chunks;
+    };
+
+    /**
+     * Parse numbers with given length
+     */
 }).filter("numberFixedLen", function () {
 
     return function (n, len) {

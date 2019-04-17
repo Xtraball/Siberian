@@ -553,7 +553,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $application
      * @param $currentLanguage
      * @return array|false|mixed|string
-     * @throws Zend_Translate_Exception
      */
     public function _translationBlock ($application, $currentLanguage)
     {
