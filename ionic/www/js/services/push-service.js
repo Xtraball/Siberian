@@ -5,7 +5,7 @@
  *
  * @version 4.15.7
  */
-angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
+angular.module('starter').service('PushService', function ($location, $log, $q, $rootScope,
                                                            $translate, $window, $session, Application, Dialog,
                                                            LinkService, Pages, Push, SB) {
     var service = {
@@ -242,7 +242,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             params.icon = 'res://icon.png';
         }
 
-        $cordovaLocalNotification.schedule(params);
+        plugin.notification.local.schedule(params);
 
         Push.markAsDisplayed(messageId);
     };

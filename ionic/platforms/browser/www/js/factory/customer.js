@@ -1,11 +1,8 @@
-/* global
-    App, angular, ionic, device
- */
-
 /**
  * Customer
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
 angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $rootScope, $session, $timeout,
                                                         $injector, Application, Loader, Modal, Dialog, Url, SB) {
@@ -21,8 +18,6 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         facebook_login_enabled: false,
         loginScope: null
     };
-
-    console.log('Application', Application);
 
     /**
      * Populate Application service on load

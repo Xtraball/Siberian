@@ -2,7 +2,7 @@
  App, angular, BASE_PATH, isNativeApp, Discount only
  */
 
-angular.module('starter').controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location,
+angular.module('starter').controller('DiscountListController', function ($filter, Modal, $location,
                                                                          $rootScope, $scope, $state, $stateParams,
                                                                          $timeout, $translate, $window, Application,
                                                                          Customer, Dialog, Discount, Url, SB, Loader,
@@ -146,7 +146,9 @@ angular.module('starter').controller('DiscountListController', function ($cordov
     };
 
     $scope.showScanCamera = function () {
-        $cordovaBarcodeScanner.scan().then(function (barcodeData) {
+        cordova.plugins.barcodeScanner
+        .scan()
+        .then(function (barcodeData) {
             if (!barcodeData.cancelled && (barcodeData.text !== '')) {
                 $timeout(function () {
                     $scope.is_loading = true;

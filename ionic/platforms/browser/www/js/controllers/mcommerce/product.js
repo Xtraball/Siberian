@@ -2,7 +2,7 @@
  App, angular, BASE_PATH, DOMAIN
  */
 
-angular.module("starter").controller("MCommerceProductViewController", function ($cordovaSocialSharing, Loader,
+angular.module("starter").controller("MCommerceProductViewController", function (SocialSharing, Loader,
                                                           $log, $state, $stateParams, $scope, $translate, Analytics,
                                                           Application, Dialog, McommerceCategory,
                                                           McommerceCart, McommerceProduct, $rootScope) {
@@ -34,7 +34,6 @@ angular.module("starter").controller("MCommerceProductViewController", function 
 
                 $scope.share = function () {
 
-                    // Fix for $cordovaSocialSharing issue that opens dialog twice
                     if($scope.is_sharing) {
                         return;
                     }
@@ -47,7 +46,7 @@ angular.module("starter").controller("MCommerceProductViewController", function 
                     var file = ($scope.product.picture[0] && $scope.product.picture[0].url)  ? $scope.product.picture[0].url : "";
                     var content = $scope.product.name;
                     var message = $translate.instant("Hi. I just found: $1 in the $2 app.").replace("$1", content).replace("$2", app_name);
-                    $cordovaSocialSharing
+                    SocialSharing
                         .share(message, subject, file, link) // Share via native share sheet
                         .then(function (result) {
                             $log.debug("MCommerce::product.js", "social sharing success");

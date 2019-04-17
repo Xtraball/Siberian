@@ -2,7 +2,7 @@
  angular, BASE_PATH
  */
 
-angular.module('starter').controller('LoyaltyViewController', function ($cordovaBarcodeScanner, Modal, $rootScope,
+angular.module('starter').controller('LoyaltyViewController', function (Modal, $rootScope,
                                                                        $scope, $state, $stateParams, $timeout,
                                                                        $translate, $window, Application, Customer,
                                                                        Dialog, LoyaltyCard, Url, SB, Tc, Pages, Loader) {
@@ -224,7 +224,9 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
     };
 
     $scope.showScanCamera = function () {
-        $cordovaBarcodeScanner.scan().then(function (barcodeData) {
+        cordova.plugins.barcodeScanner
+        .scan()
+        .then(function (barcodeData) {
             if (!barcodeData.cancelled && (barcodeData.text !== '')) {
                 $timeout(function () {
                     $scope.good_qr_code = false;

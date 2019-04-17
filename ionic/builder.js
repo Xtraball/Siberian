@@ -3,7 +3,7 @@
  *
  * @type {Object}
  */
-const VERSION = '0.0.1',
+const VERSION = '0.1.0',
     path = require('path'),
     concat = require('concat'),
     sass = require('node-sass'),
@@ -37,10 +37,6 @@ let debug = true,
         'application': [
             './www/js/controllers/application.js'
         ],
-        'booking': [
-            './www/js/controllers/booking.js',
-            './www/js/factory/booking.js'
-        ],
         'catalog': [
             './www/js/controllers/catalog.js',
             './www/js/factory/catalog.js',
@@ -67,10 +63,6 @@ let debug = true,
         ],
         'facebook': [
             './www/js/controllers/facebook.js'
-        ],
-        'folder': [
-            './www/js/controllers/folder.js',
-            './www/js/factory/folder.js'
         ],
         'form': [
             './www/js/controllers/form.js',
@@ -139,10 +131,6 @@ let debug = true,
             './www/js/controllers/radio.js',
             './www/js/factory/radio.js'
         ],
-        'rss': [
-            './www/js/controllers/rss.js',
-            './www/js/factory/rss.js'
-        ],
         'social_gaming': [
             './www/js/controllers/social-gaming.js',
             './www/js/factory/social-gaming.js'
@@ -172,10 +160,6 @@ let debug = true,
             './www/js/factory/weather.js',
             './www/js/factory/weather/rain-effect.js'
         ],
-        'wordpress': [
-            './www/js/controllers/wordpress.js',
-            './www/js/factory/wordpress.js'
-        ],
         'youtube': [
             './www/js/factory/youtube.js'
         ]
@@ -184,7 +168,6 @@ let debug = true,
         libraries: {
             files: [
                 './www/js/libraries/angular-queue.js',
-                './www/js/libraries/angular-queue.min.js',
                 './www/js/libraries/angular-touch.min.js',
                 './www/js/libraries/base64.min.js',
                 './www/js/libraries/ion-gallery.min.js',
@@ -202,6 +185,7 @@ let debug = true,
             files: [
                 './www/js/utils/features.js',
                 './www/js/utils/form-post.js',
+                './www/js/factory/fallback-ng-cordova.js', // To be removed in 4.18 for ever.
                 './www/js/services/*.js',
                 './www/js/directives/*.js',
                 './www/js/providers/*.js',
@@ -222,11 +206,9 @@ let debug = true,
         },
         libs: {
             files: [
-                './www/lib/polyfills.js',
                 './www/lib/utils.js',
                 './www/lib/ionic/js/ionic.bundle.min.js',
                 './www/lib/ionic/js/angular/angular-route.js',
-                './www/lib/ngCordova/dist/ng-cordova.js'
             ],
             dest: './www/dist/app.libs.min.js'
         },
@@ -243,6 +225,14 @@ let debug = true,
                 './platforms/android/app/src/main/assets/www/plugins/**/*.js'
             ],
             dest: './platforms/android/app/src/main/assets/www/dist/cordova.js'
+        },
+        cdvBrowser: {
+            files: [
+                './platforms/browser/www/cordova.js',
+                './platforms/browser/www/cordova_plugins.js',
+                './platforms/browser/www/plugins/**/*.js'
+            ],
+            dest: './platforms/browser/www//dist/cordova.js'
         },
         cdvIos: {
             files: [
@@ -265,10 +255,10 @@ Available options:
     --version
 `;
 
-// Siberian 4.12+ task manager!
+// Siberian 4.17+ task manager!
 let tasks = {
     /**
-     * Log function with debug toggler
+     * Log function with debug
      */
     log: function () {
         if (!debug) {

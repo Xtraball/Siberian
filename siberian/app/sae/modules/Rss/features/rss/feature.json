@@ -1,0 +1,64 @@
+{
+    "name": "RSS Feed",
+    "code": "rss_feed",
+    "version": "4.17.0",
+    "category": "media",
+    "model": "Rss_Model_Feed",
+    "desktop_uri": "rss/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "rss-group",
+            "controller": "RssGroupController",
+            "url": "rss/mobile_feed_group/index/value_id/:value_id",
+            "template": "group.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3"
+            },
+            "cache": false
+        },
+        {
+            "state": "rss-list",
+            "controller": "RssListController",
+            "url": "rss/mobile_feed_list/index/value_id/:value_id/feed_id/:feed_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3"
+            },
+            "cache": false
+        },
+        {
+            "state": "rss-view",
+            "controller": "RssViewController",
+            "url": "rss/mobile_feed_view/index/value_id/:value_id/item_id/:item_id",
+            "template": "view.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3
+    ],
+    "icons": [
+        "icons/rss1-flat.png",
+        "icons/rss2-flat.png",
+        "icons/rss3-flat.png"
+    ],
+    "files": [
+        "js/controllers/rss.js",
+        "js/factory/rss.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

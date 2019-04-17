@@ -87,13 +87,6 @@
     <content src="index.html" />
     <access origin="*" />
     <access origin="cdvfile://*" />
-    <access launch-external="yes" origin="tel:*" />
-    <access launch-external="yes" origin="geo:*" />
-    <access launch-external="yes" origin="mailto:*" />
-    <access launch-external="yes" origin="sms:*" />
-    <access launch-external="yes" origin="waze:*" />
-    <access launch-external="yes" origin="google.navigation:*" />
-    <access launch-external="yes" origin="whatsapp:*" />
     <allow-navigation href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
@@ -122,7 +115,7 @@
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
-    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="applicationId" value="${applicationId}" />
 </widget>

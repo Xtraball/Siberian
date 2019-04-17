@@ -1,14 +1,8 @@
-/*global
- angular, IS_NATIVE_APP
- */
-
 /**
  * Dialog
  *
  * @author Xtraball SAS
- *
- * @note $cordovaDialogs has been removed in favor of $ionicPopup which is consistent over all devices,
- * and can be automatically dismissed
+ * @version 4.17.0
  */
 angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $translate, $q) {
     var service = {

@@ -2,7 +2,7 @@
  App, angular, BASE_PATH
  */
 
-angular.module('starter').controller('MediaPlayerController', function ($cordovaSocialSharing, $ionicHistory, Modal,
+angular.module('starter').controller('MediaPlayerController', function ($ionicHistory, Modal,
                                                                        $location, $rootScope, $scope, $state,
                                                                        $stateParams, $timeout, $translate, $window,
                                                                        Application, HomepageLayout, MediaPlayer,

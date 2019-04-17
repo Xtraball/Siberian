@@ -5,7 +5,7 @@
 angular.module("starter").directive("sbPadlock", function(Application) {
     return {
         restrict: "A",
-        controller: function($cordovaBarcodeScanner, $ionicHistory, Modal, $rootScope, $scope, $state, $stateParams,
+        controller: function($ionicHistory, Modal, $rootScope, $scope, $state, $stateParams,
                              $timeout, $translate, $window, Application, Customer, Dialog, Padlock, SB) {
 
             $scope.is_webview = Application.is_webview;
@@ -61,7 +61,7 @@ angular.module("starter").directive("sbPadlock", function(Application) {
             $scope.openScanCamera = function() {
                 $scope.scan_protocols = ["sendback:"];
 
-                $cordovaBarcodeScanner.scan().then(function(barcodeData) {
+                cordova.plugins.barcodeScanner.scan().then(function(barcodeData) {
 
                     if(!barcodeData.cancelled && (barcodeData.text !== "")) {
 
