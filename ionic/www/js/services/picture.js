@@ -2,9 +2,11 @@
  * Picture
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
-angular.module('starter').service('Picture', function ($ionicActionSheet, $q, $rootScope,
-                                                      $translate, Dialog, SB) {
+angular
+.module("starter")
+.service("Picture", function ($ionicActionSheet, $q, $rootScope, $translate, Dialog, SB) {
     var service = {
         isOpen: false,
         sheetResolver: null,

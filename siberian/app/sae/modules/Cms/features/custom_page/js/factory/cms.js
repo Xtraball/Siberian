@@ -1,13 +1,10 @@
-/* global
-    App, angular
- */
-
 /**
- * Cms
- *
- * @author Xtraball SAS
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-angular.module('starter').factory('Cms', function ($pwaRequest) {
+angular
+.module("starter")
+.factory("Cms", function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {}

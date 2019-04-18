@@ -380,7 +380,6 @@ class Minify extends AbstractMinify
         if (file_exists($dest)) {
             chmod($dest, 0777);
         }
-
     }
 
     /**

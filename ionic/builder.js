@@ -36,9 +36,6 @@ let debug = true,
         'application': [
             './www/js/controllers/application.js'
         ],
-        'cms': [
-            './www/js/controllers/cms.js'
-        ],
         'codescan': [
             './www/js/controllers/codescan.js'
         ],

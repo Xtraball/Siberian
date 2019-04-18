@@ -460,7 +460,8 @@ class Assets
     }
 
     /**
-     * @throws Exception
+     * @throws \ErrorException
+     * @throws \Exception
      * @throws \Zend_Exception
      */
     public static function buildFeatures()
@@ -530,6 +531,9 @@ class Assets
 
             self::copyAssets($built_file, null, $feature_js_path);
 
+            // Clean-up
+            unlink($built_file);
+
             if (!is_array(self::$features_assets["js"][$code])) {
                 self::$features_assets["js"][$code] = [];
             }
@@ -582,11 +586,10 @@ class Assets
      * @param $feature
      * @param null $bundle_path
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     public static function compileFeature($feature, $bundle_path = null)
     {
-
         $code = $feature["code"];
         $feature_dir = "features/" . $code;
         $minifier_js = new \MatthiasMullie\Minify\JS();
@@ -596,6 +599,11 @@ class Assets
         if (!is_dir($out_dir)) {
             mkdir($out_dir, 0777, true);
         }
+
+        // Compile templateCache!
+        //$tplCache = self::templateCacheForFeature($feature);
+
+        //$minifier_js->add($tplCache["path"]);
 
         foreach ($feature["files"] as $file) {
             // Ignore files with ".." for security reasons!
@@ -647,10 +655,11 @@ class Assets
 
             self::copyAssets($tmp_file, null, $bundle_path);
 
-            $output = " Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']); ";
+            $tplCache = $tplCache["module"];
+            $output = "Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']);";
 
         } else {
-            $output = $minifier_js->minify() . "\n;Features.register(" . $feature["__JSON__"] . "); ";
+            $output = $minifier_js->minify() . "\nFeatures.register(" . $feature["__JSON__"] . ");";
         }
 
         return $output;
@@ -730,31 +739,51 @@ class Assets
             if (!file_exists($source . '/features/')) {
                 mkdir($source . '/features/', 0775, true);
             }
-
-            $phulp
-                ->src([$source . '/features/'], '/html$/')
-                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
-                    'templates-features.js', [
-                        'module' => 'templates',
-                        'root' => 'features/'
-                    ]
-                ))
-                ->pipe($phulp->dest($source . '/dist/'));
         });
 
         $phulp->run('angular-template-cache');
 
         # Concat & Clean-up
         $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"
-            . file_get_contents($source . "/dist/templates-modules.js") . "\n"
-            . file_get_contents($source . "/dist/templates-features.js");;
+            . file_get_contents($source . "/dist/templates-modules.js");
 
         file_put_contents($source . "/dist/templates.js", $content);
 
         unlink($source . "/dist/templates-templates.js");
         unlink($source . "/dist/templates-modules.js");
-        unlink($source . "/dist/templates-features.js");
+    }
 
+    /**
+     * @param $feature
+     * @return array
+     */
+    public static function templateCacheForFeature ($feature)
+    {
+        //$uuid = uniqid();
+        //$tmp = tmp(true) . "/out/";
+        //$code = $feature["code"];
+//
+        //$phulp = new \Phulp\Phulp();
+        //$phulp->task("angular-template-cache", function ($phulp) use ($uuid, $tmp, $code, $feature) {
+        //    $phulp
+        //        ->src([$feature["__DIR__"] . "/assets/templates/"], "/html\$/")
+        //        ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
+        //            "{$uuid}.js", [
+        //                //"module" => "tplCache_{$code}",
+        //                "module" => "templates",
+        //                "root" => "features/{$code}/assets/templates/"
+        //            ]
+        //        ))
+        //        ->pipe($phulp->dest($tmp));
+        //});
+//
+        //$phulp->run("angular-template-cache");
+//
+        //# Concat & Clean-up
+        //return [
+        //    "module" => "tplCache_{$code}",
+        //    "path" => "{$tmp}{$uuid}.js"
+        //];
     }
 
     /**

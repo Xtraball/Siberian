@@ -6,7 +6,7 @@
  * @version 4.15.7
  */
 angular.module('starter').service('PushService', function ($location, $log, $q, $rootScope,
-                                                           $translate, $window, $session, Application, Dialog,
+                                                           $translate, $window, $session, Dialog,
                                                            LinkService, Pages, Push, SB) {
     var service = {
         push: null,
@@ -25,7 +25,9 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
                 sound: true
             },
             windows: {}
-        }
+        },
+        appId: null,
+        appName: null
     };
 
     /**
@@ -34,7 +36,7 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
      * @param senderID
      * @param iconColor
      */
-    service.configure = function (senderID, iconColor) {
+    service.configure = function (senderID, iconColor, appId, appName) {
         // senderID error proof for Android!
         if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
             (senderID === '01234567890' || senderID ==='')) {
@@ -50,6 +52,9 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         } else {
             service.settings.android.iconColor = iconColor;
         }
+
+        service.appId = appId;
+        service.appName = appName;
     };
 
     /**
@@ -91,24 +96,20 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
             });
 
             service.updateUnreadCount();
+            service.fetchMessagesOnStart();
 
-            Application.loaded.then(function () {
-                // When Application is loaded, and push registered, look for missed push!
-                service.fetchMessagesOnStart();
-
-                // Register for push events!
-                $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                    // Refresh to prevent the need for pullToRefresh!
-                    var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                        return (page.code === 'push_notification');
-                    });
-                    if (pushFeature.length >= 1) {
-                        Push.setValueId(pushFeature[0].value_id);
-                        Push.findAll(0, true);
-                    }
-
-                    service.displayNotification(data);
+            // Register for push events!
+            $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+                // Refresh to prevent the need for pullToRefresh!
+                var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                    return (page.code === 'push_notification');
                 });
+                if (pushFeature.length >= 1) {
+                    Push.setValueId(pushFeature[0].value_id);
+                    Push.findAll(0, true);
+                }
+
+                service.displayNotification(data);
             });
         } else {
             $log.debug('Unable to initialize push service.');
@@ -116,10 +117,7 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         }
 
         if (!$rootScope.isNativeApp) {
-            Application.loaded.then(function () {
-                // When Application is loaded, register at least for InApp
-                service.fetchMessagesOnStart();
-            });
+            service.fetchMessagesOnStart();
             service.isReady.reject();
         }
     };
@@ -144,8 +142,8 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
      */
     service.registerAndroid = function () {
         var params = {
-            app_id: Application.app_id,
-            app_name: Application.app_name,
+            app_id: service.appId,
+            app_name: service.appName,
             registration_id: btoa(Push.device_token)
         };
         Push.registerAndroidDevice(params);
@@ -176,8 +174,8 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
                 }
 
                 var params = {
-                    app_id: Application.app_id,
-                    app_name: Application.app_name,
+                    app_id: service.appId,
+                    app_name: service.appName,
                     app_version: appVersion,
                     device_token: Push.device_token,
                     device_name: deviceName,

@@ -4,7 +4,9 @@
  * @author Xtraball SAS
  * @version 4.17.0
  */
-angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $translate, $q) {
+angular
+.module("starter")
+.service("Dialog", function ($ionicPopup, $timeout, $translate, $q) {
     var service = {
         is_open: false,
         stack: []
@@ -266,25 +268,5 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
             });
     };
 
-    return service;
-});
-
-/** @deprecated, use Dialog instead, will be removed by mid-2017, SafePopups is a proxy to Dialog. */
-angular.module('starter').service('SafePopups', function (Dialog) {
-    var service = {};
-    service.show = function (type, params) {
-        var button = {};
-        switch (type) {
-            case 'alert':
-                if (params.buttons.length === 1) {
-                    button = params.buttons[0];
-                }
-                return Dialog.alert(params.title, params.template, button);
-            case 'confirm':
-                return Dialog.confirm(params.title, params.template, params.buttons, '');
-            default:
-                return Dialog.ionicPopup(params);
-        }
-    };
     return service;
 });

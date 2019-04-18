@@ -1,9 +1,12 @@
 /**
  * $session service
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-angular.module('starter').service('$session', function ($log, $pwaCache, $q, $window) {
-    $log.debug('Init once $session');
-
+angular
+.module("starter")
+.service("$session", function ($log, $pwaCache, $q, $window) {
     var service = {
         localstorage_key: 'sb-auth-token',
         session_id: false,
@@ -42,7 +45,6 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
             (sessionId === 'null') ||
             (sessionId === null) ||
             (sessionId === '')) {
-            $log.error('Not saving invalid session_id: ', sessionId);
             return;
         }
 
@@ -50,7 +52,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
         service.setItem(service.localstorage_key, sessionId);
 
         /** Fallback */
-        $window.localStorage.setItem('sb-auth-token', sessionId);
+        $window.localStorage.setItem("sb-auth-token", sessionId);
 
         service.setDeviceUid();
     };

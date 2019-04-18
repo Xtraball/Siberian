@@ -59,14 +59,24 @@ window.Features = (new (function Features() {
 
                             if (angular.isDefined(lazyLoadBundle)) {
                                 route.resolve = {
-                                    lazy: ['$ocLazyLoad', function ($ocLazyLoad) {
+                                    lazy: ["$ocLazyLoad", "$injector", "$q", function ($ocLazyLoad, $injector, $q) {
+                                        var deferred = $q.defer();
+                                        var _bundles = [];
                                         if (json.lazyLoad && json.lazyLoad.core) {
                                             json.lazyLoad.core.forEach(function (bundle) {
-                                                $ocLazyLoad.load('./dist/packed/' + bundle + '.bundle.min.js')
+                                                _bundles.push("./dist/packed/" + bundle + ".bundle.min.js");
                                             });
                                         }
 
-                                        return $ocLazyLoad.load(lazyLoadBundle);
+                                        _bundles.push(lazyLoadBundle);
+
+                                        $ocLazyLoad
+                                        .load(_bundles)
+                                        .then(function () {
+                                            deferred.resolve();
+                                        });
+
+                                        return deferred.promise;
                                     }]
                                 };
                             }

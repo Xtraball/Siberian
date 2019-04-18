@@ -52,24 +52,23 @@ angular.module("starter").service("$translate", function ($injector) {
      * @param context
      */
     service.debugExtract = function (text, context) {
-        /**
-         * Blind extract of the processed strings
-         */
-         try {
-            if (window.extractI18n === true) {
-                // No thanks!
-                if (context === undefined) {
-                    return;
-                }
+        if (!window.extractI18n) {
+            return;
+        }
 
-                var _t = btoa(text);
-                var _c = (context === undefined) ? "" : btoa(context);
-
-                service.extractBulk.push({
-                    text: _t,
-                    context: _c,
-                });
+        try {
+            // No thanks!
+            if (context === undefined) {
+                return;
             }
+
+            var _t = btoa(text);
+            var _c = (context === undefined) ? "" : btoa(context);
+
+            service.extractBulk.push({
+                text: _t,
+                context: _c,
+            });
         } catch (e) {
             // Do nothing
         }

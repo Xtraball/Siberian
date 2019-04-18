@@ -1,6 +1,8 @@
 /**
  * CMS Directives
- * @version 4.15.7
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {
@@ -61,15 +63,17 @@ angular.module('starter').directive('sbCmsText', function () {
         },
         template: '<img width="100%" ng-src="{{ block.gallery[0].src }}" alt="{{block.name}}">'
     };
-}).directive('sbCmsSlider', function () {
+}).directive('sbCmsSlider', function ($ocLazyLoad) {
     return {
         restrict: 'A',
         scope: {
             block: '=',
-            gallery: '='
+            gallery: '=',
+            isReady: false
         },
         template:
-        '<div class="item item-image-gallery item-custom sb-cms-image">' +
+        '<div ng-if="isReady"' +
+        '     class="item item-image-gallery item-custom sb-cms-image">' +
         '   <ul rn-carousel ' +
         '       rn-carousel-index="carouselIndex" ' +
         '       class="image">' +
@@ -120,6 +124,14 @@ angular.module('starter').directive('sbCmsText', function () {
         '       </ion-content>' +
         '   </div>'+
         '</script>',
+        link: function (scope) {
+            $ocLazyLoad.load([
+                "./dist/lazy/ng-carousel/angular-carousel.min.js",
+                "./dist/lazy/ng-carousel/angular-carousel.min.css"
+            ]).then(function () {
+                scope.isReady = true;
+            });
+        },
         controller: function ($ionicGesture, Modal, $ionicScrollDelegate, $scope) {
             $scope.carouselIndex = 0;
 
@@ -145,10 +157,10 @@ angular.module('starter').directive('sbCmsText', function () {
 
             $scope.showFullscreen = function (index) {
                 Modal
-                    .fromTemplateUrl('zoom-modal.html', {
-                        scope: $scope,
-                        animation: 'block'
-                    }).then(function (modal) {
+                .fromTemplateUrl('zoom-modal.html', {
+                    scope: $scope,
+                    animation: 'block'
+                }).then(function (modal) {
                     $scope.modal = modal;
                     $scope.carouselIndexModal = index;
                     $scope.modal.show();

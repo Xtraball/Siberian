@@ -5,7 +5,9 @@
  * @author Xtraball SAS
  * @version 4.17.0
  */
-angular.module('starter').service('Location', function ($q) {
+angular
+.module("starter")
+.service("Location", function ($q) {
     var service = {
         debug: true,
         lastFetch: null,
@@ -39,7 +41,8 @@ angular.module('starter').service('Location', function ($q) {
                 isResolved = true;
             }
 
-            navigator.geolocation
+            navigator
+            .geolocation
             .getCurrentPosition(function (position) {
                 service.lastFetch = Date.now();
                 service.position = position;

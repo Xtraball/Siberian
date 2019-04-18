@@ -26,8 +26,8 @@ angular.module("starter").directive("sbAClick", function($filter, $rootScope, $t
                             // Special in-app link for my account!
                             if (state === "my-account") {
                                 Customer.loginModal();
-                            } else if (!offline && $rootScope.isOffline) {
-                                $rootScope.onlineOnly();
+                            } else if ($rootScope.isNotAvailableOffline()) {
+                                // done!
                             } else {
                                 $state.go(state, params);
                             }

@@ -2,8 +2,11 @@
  * SocialSharing
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
-angular.module('starter').service('SocialSharing', function ($translate, $q, Application) {
+angular
+.module("starter")
+.service("SocialSharing", function ($translate, $q, Application) {
     var service = {
         is_sharing: false
     };
