@@ -67,15 +67,7 @@ class Minify extends AbstractMinify
             'index' => 'var/apps/ionic/ios/www/index.html',
             'output_css' => 'var/apps/ionic/ios/www/dist/app.bundle-min.css',
             'output_js' => 'var/apps/ionic/ios/www/dist/app.bundle-min.js',
-        ],
-        'ios-noads' => [
-            'css' => true,
-            'js' => false,
-            'base' => 'var/apps/ionic/ios-noads/www',
-            'index' => 'var/apps/ionic/ios-noads/www/index.html',
-            'output_css' => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.css',
-            'output_js' => 'var/apps/ionic/ios-noads/www/dist/app.bundle-min.js',
-        ],
+        ]
     ];
 
     /**
@@ -164,8 +156,28 @@ class Minify extends AbstractMinify
 
             //$this->buildServiceWorker();
         }
+    }
 
+    /**
+     * @param \Application_Model_Application $application
+     */
+    public function buildPwa (\Application_Model_Application $application)
+    {
+        $appKey = $application->getKey();
+        $indexPath = "public/{$appKey}/index.html";
+        $outputCss = "public/{$appKey}/dist/app.bundle-min.css";
+        $outputJs = "public/{$appKey}/dist/app.bundle-min.js";
 
+        // Building PWA assets whatsoever
+        $this->minifyCss("pwa", $indexPath, $outputCss);
+        $this->minifyJs("pwa", $indexPath, $outputJs);
+        $this->replaceIndex("pwa", $indexPath, true, true);
+
+        // Then move index-prod.html to index.html
+        $indexHtml = path("public/{$appKey}/index.html");
+        $indexProdHtml = path("public/{$appKey}/index-prod.html");
+        unlink($indexHtml);
+        rename($indexProdHtml, $indexHtml);
     }
 
     /**
@@ -295,7 +307,7 @@ class Minify extends AbstractMinify
         }
 
         /** Do not exclude js for browser/pwa */
-        if ((($platform === 'browser') || ($platform === 'overview')) && ($type === 'js')) {
+        if (in_array($platform, ["browser", "overview", "pwa"]) && ($type === "js")) {
             $exclude = [];
         }
 
@@ -346,14 +358,14 @@ class Minify extends AbstractMinify
         }
 
         /** Do not exclude js for browser. */
-        if (($platform !== "browser") && ($platform !== "overview")) {
+        if (!in_array($platform, ["browser", "overview", "pwa"])) {
             foreach (self::$EXCLUDE_JS as $exclude) {
                 $app_files .= '
         <script src="' . $exclude . '"></script>';
             }
-            $file_js = "dist/app.bundle-min.js";
+            $file_js = "./dist/app.bundle-min.js";
         } else {
-            $file_js = "dist/app.bundle-min.js";
+            $file_js = "./dist/app.bundle-min.js";
         }
 
         $current_release = __get("current_release");

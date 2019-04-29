@@ -534,6 +534,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataHomepage["pages"] = $fixedPages;
         }
 
+        if (version_compare($appVersion, "4.17.0", ">=")) {
+            // Apply patches.
+
+            foreach ($dataHomepage["pages"] as &$page) {
+                $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
+                $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
+                dbg($page);
+            }
+        }
+
         // Don't cache customer information!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);

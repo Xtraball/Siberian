@@ -1,4 +1,7 @@
 <?php
+
+use Siberian\Exception;
+
 /**
  * Current Application Singleton
  *

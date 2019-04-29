@@ -179,6 +179,8 @@ angular.module('starter').directive('tabbarItems', function ($rootScope, $timeou
             element.on('click', function () {
                 $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
 
+                console.log("scope.option", scope.option);
+
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);
                 });

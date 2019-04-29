@@ -94,7 +94,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
     .constant('PUSH_EVENTS', { notificationReceived: 'push-notification-received', unreadPushs: 'push-get-unreaded', readPushs: 'push-mark-as-read' })
 
     // Start app config
-    .config(function ($provide, $compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $locationProvider) {
+    .config(function ($provide, $compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $locationProvider, $stateProvider) {
         // Add sb-token to every request
         $httpProvider.interceptors.push(function ($injector, $log, $q, $session) {
             return {
@@ -133,7 +133,13 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.backButton.text("");
         $ionicConfigProvider.backButton.previousTitleText(false);
-        $locationProvider.html5Mode(true);
+
+        // Register lazyModules states
+        window.Features.registry.forEach(function (feature) {
+            window.Features.createStates($stateProvider, feature.json, feature.bundle);
+        });
+
+        window.pwaHtml5="#";
     })
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,

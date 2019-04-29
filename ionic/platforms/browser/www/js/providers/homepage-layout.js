@@ -1,7 +1,10 @@
 /**
- * @version 4.15.7
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-angular.module('starter').provider('HomepageLayout', function () {
+angular
+    .module("starter")
+    .provider("HomepageLayout", function () {
     var self = this;
 
     self.layout_ids = {};
@@ -61,6 +64,7 @@ angular.module('starter').provider('HomepageLayout', function () {
          * @returns {boolean}
          */
         HomepageLayout.openFeature = function (feature, scope) {
+            window.$location = $location;
             if (scope === undefined) {
                 scope = $rootScope;
             }
@@ -177,9 +181,11 @@ angular.module('starter').provider('HomepageLayout', function () {
                                     disableAnimate: false
                                 });
                             }
+                            console.log("$location.path(feature.path).replace();", feature.path);
                             $location.path(feature.path).replace();
                         }
                     } else {
+                        console.log("else $location.path(feature.path).replace();", feature.path);
                         $location.path(feature.path);
                     }
             }

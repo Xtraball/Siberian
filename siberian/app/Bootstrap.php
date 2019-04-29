@@ -405,10 +405,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         // Minify Cache!
-        if (Installer_Model_Installer::isInstalled()) {
-            $minifier = new Siberian_Minify();
-            $minifier->build();
-        }
+        //if (Installer_Model_Installer::isInstalled()) {
+        //    $minifier = new Siberian_Minify();
+        //    $minifier->build();
+        //}
     }
 
     /**
