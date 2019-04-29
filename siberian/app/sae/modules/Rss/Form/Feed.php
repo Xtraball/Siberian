@@ -48,7 +48,7 @@ class Rss_Form_Feed extends Siberian_Form_Abstract
         $value_id
             ->setRequired(true);
 
-        $submit = $this->addSubmit(p__("rss", "Save"));
+        $submit = $this->addSubmit(p__("rss", "Save"), p__("rss", "Save"));
         $submit->addClass("pull-right");
     }
 
