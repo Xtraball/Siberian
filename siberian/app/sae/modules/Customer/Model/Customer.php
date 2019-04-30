@@ -484,7 +484,7 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $key
      * @return mixed
      */
-    public function getMetadata($module_code, $key)
+    public function getMetadata($module_code, $key = null)
     {
         $metadatas = $this->getMetadatas($module_code);
         return $metadatas[$key];
