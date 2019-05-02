@@ -74,14 +74,17 @@ Zend_Registry::set('_config', $_config);
 session_cache_limiter(false);
 
 /**
- * @param $data
+ *
  */
-function dbg($data)
+function dbg()
 {
-    file_put_contents(
-        '/tmp/debug.log',
-        date("d/m/Y H:i:s") . ": " . print_r($data, true) . PHP_EOL,
-        FILE_APPEND);
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        file_put_contents(
+            '/tmp/debug.log',
+            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            FILE_APPEND);
+    }
 }
 
 // When you need to catch fatal errors create the corresponding config line `$_config['handle_fatal_errors'] = true;`!
@@ -120,7 +123,7 @@ try {
 
     $payload = [
         'error' => true,
-        'message' => $exception->getTraceAsString(),
+        'message' => $exception->getTrace(),
     ];
 
     if ($previous) {

@@ -34,6 +34,7 @@ class Stubs {
         class_alias("\Siberian\Assets", "Siberian_Assets");
         class_alias("\Siberian\Autoupdater", "Siberian_Autoupdater");
         class_alias("\Siberian\Json", "Siberian_Json");
+        class_alias("\Siberian\Image", "Siberian_Image");
         class_alias("\Siberian\Minify", "Siberian_Minify");
         class_alias("\Siberian\Feature", "Siberian_Feature");
         class_alias("\Siberian\Scss", "Siberian_Scss");

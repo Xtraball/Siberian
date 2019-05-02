@@ -575,19 +575,18 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     {
         /** UID to link elements together */
         $uid = uniqid();
-
-        $button_text = !empty($button_text) ? $button_text : __("Add a picture");
+        $labelButton = $label;
 
         if (is_array($options) && isset($options["width"]) && isset($options["height"])) {
-            $label .= " " . $options["width"] . " x " . $options["height"];
+            $labelButton .= " " . $options["width"] . " x " . $options["height"];
         } else {
-            $label .= " 320 x 150";
+            $labelButton .= " 320 x 150";
         }
 
         /** Visual image button */
         $image_button = new Siberian_Form_Element_Button("{$name}_button");
         $this->addElement($image_button);
-        $image_button->setLabel($label);
+        $image_button->setLabel($labelButton);
         $image_button->setIsFormHorizontal($this->is_form_horizontal);
         $image_button->setColor($this->color);
         $image_button->setNewDesign();

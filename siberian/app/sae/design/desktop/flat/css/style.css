@@ -2773,6 +2773,10 @@ form.sb-form label {
     width: 22px;
 }
 
+.sb-cb {
+    clear: both;
+}
+
 .sb-radio-label {
     padding-left: 5px;
 }
