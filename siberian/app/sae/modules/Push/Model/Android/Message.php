@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 /**
  * Class Push_Model_Android_Message
  */
@@ -281,6 +283,14 @@ class Push_Model_Android_Message
         if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
             $messagePayload->contentAvailable(true);
         }
+
+        // Trigger an event when the push message is parsed,
+        $result = Hook::trigger("push.message.android.parsed",
+            [
+                "message" => $messagePayload,
+                "application" => $application
+            ]);
+        $messagePayload = $result["message"];
 
         return $messagePayload;
     }

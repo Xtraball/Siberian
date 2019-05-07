@@ -122,13 +122,13 @@ try {
     $previous = ($e->getPrevious()) ? $e->getPrevious() : null;
 
     $payload = [
-        'error' => true,
-        'message' => $exception->getTrace(),
+        "error" => true,
+        "message" => $exception->getMessage(),
     ];
 
     if ($previous) {
-        $payload['previous'] = $payload['message'];
-        $payload['message'] = $previous;
+        $payload["previous"] = $payload["message"];
+        $payload["message"] = $previous;
     }
 
     exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));

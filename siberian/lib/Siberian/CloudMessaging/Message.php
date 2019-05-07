@@ -126,7 +126,7 @@ class Message
      * Adds a key/value pair to the payload data.
      *
      * @param string $key
-     * @param string $value
+     * @param mixed $value
      * @return Message Returns the instance of this Message for method chaining.
      */
     public function addData($key, $value)

@@ -16,6 +16,17 @@ if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
 
+function dbg()
+{
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        file_put_contents(
+            '/tmp/debug.log',
+            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            FILE_APPEND);
+    }
+}
+
 require_once './config.php';
 
 if (isset($argv) && isset($argv[1]) && ($argv[1] == 'test')) {
