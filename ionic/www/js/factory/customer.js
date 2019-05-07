@@ -22,8 +22,6 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
         loginScope: null
     };
 
-    console.log('Application', Application);
-
     /**
      * Populate Application service on load
      *
