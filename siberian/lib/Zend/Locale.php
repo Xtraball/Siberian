@@ -485,6 +485,45 @@ class Zend_Locale
      */
     public function setLocale($locale = null)
     {
+        // Hijacking two char locales!!
+        $replacements = [
+            "aa" => "aa_ER",
+            "af" => "af_ZA",
+            "ak" => "ak_GH",
+            "am" => "am_ET",
+            "ar" => "ar_EG",
+            "as" => "as_IN",
+            "az" => "az_Latn",
+            "be" => "be_BY",
+            "bg" => "bg_BG",
+            "bn" => "bn_BD",
+            "bo" => "bo_CN",
+            "bs" => "bs_BA",
+            "byn" => "byn_ER",
+            "ca" => "ca_ES",
+            "cch" => "cch_NG",
+            "cs" => "cs_CZ",
+            "cy" => "cy_GB",
+            "da" => "da_DK",
+            "de" => "de_DE",
+            "dv" => "dv_MV",
+            "dz" => "dz_BT",
+            "ee" => "ee_GH",
+            "el" => "el_GR",
+            "en" => "en_US",
+            "es" => "es_ES",
+            "et" => "et_EE",
+            "eu" => "eu_ES",
+            "fa" => "fa_AF",
+            // @todo
+            "fr" => "fr_FR",
+        ];
+        if (strlen($locale) < 4 &&
+            array_key_exists($locale, $replacements)) {
+
+            $locale = $replacements[$locale];
+        }
+
         $locale = self::_prepareLocale($locale);
 
         if (isset(self::$_localeData[(string) $locale]) === false) {
