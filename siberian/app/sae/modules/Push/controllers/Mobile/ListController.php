@@ -68,24 +68,25 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
                 $action_value = null;
                 $url = null;
 
+
                 if (is_numeric($message->getActionValue())) {
-                    $option_value = (new Application_Model_Option_Value())
-                        ->find($message->getActionValue());
+                    $option_value = new Application_Model_Option_Value();
+                    $option_value->find($message->getActionValue());
 
                     $mobileUri = $option_value->getMobileUri();
-                    if (preg_match('/^goto\/feature/', $mobileUri)) {
-                        $action_value = sprintf("/%s/%s/value_id/%s",
+                    if (preg_match("/^goto\/feature/", $mobileUri)) {
+                        $action_url = sprintf("/%s/%s/value_id/%s",
                             $application->getKey(),
                             $mobileUri,
                             $option_value->getId());
                     } else {
-                        $action_value = sprintf("/%s/%sindex/value_id/%s",
+                        $action_url = sprintf("/%s/%sindex/value_id/%s",
                             $application->getKey(),
                             $option_value->getMobileUri(),
                             $option_value->getId());
                     }
                 } else {
-                    $url = $message->getActionValue();
+                    $action_url = $message->getActionValue();
                 }
 
                 if ($this->getApplication()->getIcon(74)) {
@@ -103,7 +104,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
                     'picture' => $picture,
                     'icon' => $icon,
                     'action_value' => $action_value,
-                    'url' => $url
+                    'url' => $action_url
                 ];
             }
 
