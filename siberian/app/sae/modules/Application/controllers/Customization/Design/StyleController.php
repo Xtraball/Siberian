@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Json;
+use Siberian\Feature;
+
 /**
  * Class Application_Customization_Design_StyleController
  */
@@ -77,8 +80,8 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $layout = $layout_model->find($layout_id);
             $layout_code = $layout->getCode();
 
-            if ($options = Siberian_Feature::getLayoutOptionsCallbacks($layout_code)) {
-                $options = Siberian_Feature::getLayoutOptionsCallbacks($layout_code);
+            if ($options = Feature::getLayoutOptionsCallbacks($layout_code)) {
+                $options = Feature::getLayoutOptionsCallbacks($layout_code);
                 $form_class = $options["form"];
                 $form = new $form_class($layout);
             } else {
@@ -105,7 +108,11 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 }
 
                 if (!isset($datas["homepageoptions"])) {
-                    $application->setLayoutOptions(Siberian_Json::encode($datas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+
+                    // Data processor
+                    $datas = Feature::processDataForLayout($layout_code, $datas, $application);
+
+                    $application->setLayoutOptions(Json::encode($datas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
                 }
 
                 $application->save();

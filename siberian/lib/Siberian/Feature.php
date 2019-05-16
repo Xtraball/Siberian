@@ -26,6 +26,11 @@ class Feature
     public static $layout_options = [];
 
     /**
+     * @var array
+     */
+    public static $layoutDataProcessor = [];
+
+    /**
      * Utility method to install icons
      *
      * @param $name
@@ -619,6 +624,30 @@ class Feature
         }
 
         return false;
+    }
+
+    /**
+     * @param $layoutCode
+     * @param $callback
+     */
+    public static function registerDataProcessorForLayout($layoutCode, $callback)
+    {
+        if (!isset(self::$layoutDataProcessor[$layoutCode])) {
+            self::$layoutDataProcessor[$layoutCode] = $callback;
+        }
+    }
+
+    /**
+     * @param $layoutCode
+     * @param $data
+     * @param $application
+     * @return mixed
+     */
+    public static function processDataForLayout($layoutCode, $data, $application)
+    {
+        if (isset(self::$layoutDataProcessor[$layoutCode])) {
+            return call_user_func_array(self::$layoutDataProcessor[$layoutCode], [$data, $application]);
+        }
     }
 
 }

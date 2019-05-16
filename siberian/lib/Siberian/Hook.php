@@ -26,9 +26,9 @@ class Hook
         }
 
         $newCallback = [
-            'name' => $name,
-            'priority' => $priority,
-            'callback' => $callback
+            "name" => $name,
+            "priority" => $priority,
+            "callback" => $callback
         ];
 
         self::$hooks[$actionName][] = $newCallback;
@@ -43,26 +43,32 @@ class Hook
      */
     public static function trigger ($actionName, $payload = null)
     {
+        $newPayload = $payload;
         if (array_key_exists($actionName, self::$hooks)) {
             $actions = self::$hooks[$actionName];
 
             usort($actions, function ($item1, $item2) {
-                if ($item1['priority'] == $item2['priority']) {
+                if ($item1["priority"] == $item2["priority"]) {
                     return 0;
                 }
-                return $item1['priority'] < $item2['priority'] ? -1 : 1;
+                return $item1["priority"] < $item2["priority"] ? -1 : 1;
             });
 
             foreach ($actions as $index => $action) {
+                $payloadBeforeCatch = $newPayload;
                 try {
-                    return $action['callback']($payload);
+                    // Payload is passed upon ALL listeners, with their respective priorities!
+                    $newPayload = $action["callback"]($newPayload);
                 } catch (\Exception $e) {
-                    Logger::info('TriggerHook::' . $actionName . '[' . $index . '] > Failed ' .
-                        $action['name'] . ' > Exception: ' . $e->getMessage());
+                    Logger::info("TriggerHook::" . $actionName . "[" . $index . "] > Failed " .
+                        $action["name"] . " > Exception: " . $e->getMessage());
+
+                    // If any error occurred, we restore the payload as per before the try!
+                    $newPayload = $payloadBeforeCatch;
                 }
             }
         }
-        return $payload;
+        return $newPayload;
     }
 
     /**

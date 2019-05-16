@@ -55,7 +55,6 @@ class Rss_ApplicationController extends Application_Controller_Default
             $form = new Rss_Form_Feed();
             $form->populate($feed->getData());
             $form->setValueId($optionValue->getId());
-            $form->addNav("rss-edit-nav", "Save", false);
             $form->setFeedId($feed->getId());
 
             $payload = [
@@ -150,9 +149,11 @@ class Rss_ApplicationController extends Application_Controller_Default
 
             $form = new Rss_Form_Feed_Delete();
             if ($form->isValid($values)) {
-                $valueId = $feed->getValueId();
                 $feed = new Rss_Model_Feed();
                 $feed->find($values["feed_id"]);
+
+                $valueId = $feed->getValueId();
+
                 $feed->delete();
 
                 /** Update touch date, then never expires (until next touch) */

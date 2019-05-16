@@ -67,7 +67,15 @@ class Siberian_Service_Push_Apns_Message extends ApnsPHP_Message_Custom {
     }
 
     /**
-     * @param $iValueId
+     * @param $aAdditionalPayload
+     */
+    public function setAdditionalPayload($aAdditionalPayload)
+    {
+        $this->_aAdditionalPayload = $aAdditionalPayload;
+    }
+
+    /**
+     * @param $iValueID
      */
     public function setValueId($iValueID)
     {
@@ -75,9 +83,7 @@ class Siberian_Service_Push_Apns_Message extends ApnsPHP_Message_Custom {
     }
 
     /**
-     * Get the payload dictionary.
-     *
-     * @return @type array The payload dictionary.
+     * @return mixed
      */
     public function _getPayload()
     {
@@ -91,6 +97,10 @@ class Siberian_Service_Push_Apns_Message extends ApnsPHP_Message_Custom {
             $aPayload['aps']['latitude'] = (string)$this->_sLatitude;
             $aPayload['aps']['longitude'] = (string)$this->_sLongitude;
             $aPayload['aps']['radius'] = (string)$this->_sRadius;
+        }
+
+        if(isset($this->_aAdditionalPayload)) {
+            $aPayload['aps']['additional_payload'] = $this->_aAdditionalPayload;
         }
 
         if(isset($this->_iMessageId)) {

@@ -67,9 +67,8 @@ class Installer_Model_Installer extends Core_Model_Default
     public static function hasRequiredPhpVersion()
     {
         $supOrEqual56 = version_compare(PHP_VERSION, '5.6', '>=');
-        $inf71 = version_compare(PHP_VERSION, '7.1', '<');
 
-        return $supOrEqual56 && $inf71;
+        return $supOrEqual56;
     }
 
     /**

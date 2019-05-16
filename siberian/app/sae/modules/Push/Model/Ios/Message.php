@@ -53,7 +53,7 @@ class Push_Model_Ios_Message {
 
         if ($message->getSendToAll() == 0) {
             $category_message = new Topic_Model_Category_Message();
-            $allowed_categories = $category_message->findCategoryByMessageId($this->getMessage()->getId());
+            $allowed_categories = $category_message->findCategoryByMessageId($message->getId());
         } else {
             $allowed_categories = null;
         }
@@ -63,7 +63,7 @@ class Push_Model_Ios_Message {
         if(Push_Model_Message::hasIndividualPush()) {
             if ($message->getSendToSpecificCustomer() == 1) {
                 $customer_message = new Push_Model_Customer_Message();
-                $selected_users = $customer_message->findCustomersByMessageId($this->getMessage()->getId());
+                $selected_users = $customer_message->findCustomersByMessageId($message->getId());
             }
         }
 
@@ -72,11 +72,11 @@ class Push_Model_Ios_Message {
             $device = (new Push_Model_Iphone_Device())
                 ->find($message->getToken(), "device_token");
             $devices = [$device];
-            $this->service_apns->addMessage($this->message, $message->getDevice());
+            $this->service_apns->addMessage($message, $message->getDevice());
         } else {
             $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
             foreach($devices as $device) {
-                $this->service_apns->addMessage($this->message, $device);
+                $this->service_apns->addMessage($message, $device);
             }
         }
 

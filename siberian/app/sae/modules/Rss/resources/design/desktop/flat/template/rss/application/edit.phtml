@@ -224,6 +224,8 @@ $deleteForm->setValueId($optionValue->getId());
                     el.find('.feed-position').text(index++);
                 });
 
+                data.value_id = '<?php echo $optionValue->getId() ?>';
+
                 formget(
                     '/rss/application/update-feed-positions',
                     data,

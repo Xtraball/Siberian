@@ -85,8 +85,25 @@ function extract_p__($context, $original, $flag = null)
             $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
         }
 
+        /**
+         * @var $translation \Gettext\Translation
+         */
         $translation = $extractTranslations[$file]->insert($context, $original);
         $translation->setTranslation($original);
+
+        // Find comments
+        $comments = $translation->getComments();
+        $hasGMT =  false;
+        foreach ($comments as $comment) {
+            if (preg_match("/GMT/", $comment) === 1) {
+                $hasGMT = true;
+            }
+        }
+
+        if (!$hasGMT) {
+            $microTime = microtime(true);
+            $translation->addComment("GMT {$microTime}");
+        }
 
         if ($flag === "mobile") {
             $translation->addFlag("mobile");
