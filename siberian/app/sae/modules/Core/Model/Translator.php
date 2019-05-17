@@ -571,6 +571,7 @@ class Core_Model_Translator
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
                             "flags" => null,
+                            "comments" => null,
                             "context" => null,
                             "original" => $key,
                             "default" => null,
@@ -589,15 +590,22 @@ class Core_Model_Translator
                 $userTranslations = new Translations();
                 $userTranslations->addFromPoFile($path);
                 foreach ($userTranslations as $userTranslation) {
+                    /**
+                     * @var $userTranslation Translation
+                     */
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
                             "flags" => $userTranslation->getFlags(),
+                            "comments" => $userTranslation->getComments(),
                             "context" => $userTranslation->getContext(),
                             "original" => $key,
                             "default" => null,
                             "user" => null,
                         ];
+                    } else {
+                        $tmpTranslationData[$filename][$key]["comments"] = array_merge($tmpTranslationData[$filename][$key]["comments"], $userTranslation->getComments());
+                        $tmpTranslationData[$filename][$key]["flags"] = array_merge($tmpTranslationData[$filename][$key]["flags"], $userTranslation->getFlags());
                     }
 
                     $value = str_replace('\"', '"', $userTranslation->getTranslation());

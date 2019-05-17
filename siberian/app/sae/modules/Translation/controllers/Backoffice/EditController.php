@@ -110,6 +110,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 "translations" => $translations,
                 "search_context" => array_values($merged),
             ];
+
         } catch (\Exception $e) {
             $payload = [
                 "error" => true,
@@ -161,15 +162,29 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             foreach ($translationData as $key => $values) {
                 $context = trim($values["context"]);
                 $flags = $values["flags"];
+                $comments = $values["comments"];
                 $originalValue = trim($values["original"]);
                 $defaultValue = trim($values["default"]);
                 $userValue = trim($values["user"]);
-                // Saving only filled user values & if different from default!
-                if (!empty($userValue) && $defaultValue != $userValue) {
+
+                // Saving only filled user values & if different from default on production!
+                $shouldSave = $defaultValue != $userValue;
+
+                // In development, we do save ALL entries!
+                if (isDev()) {
+                    $shouldSave = true;
+                }
+
+                if (!empty($userValue) && $shouldSave) {
                     $tmp = new Translation(null, $originalValue);
                     if (!empty($flags)) {
                         foreach ($flags as $flag) {
                             $tmp->addFlag($flag);
+                        }
+                    }
+                    if (!empty($comments)) {
+                        foreach ($comments as $comment) {
+                            $tmp->addComment($comment);
                         }
                     }
                     if (!empty($context)) {
