@@ -791,62 +791,77 @@ msgstr "Service notes"
 msgid "Generate and publish iOS Application"
 msgstr "Generate and publish iOS Application"
 
+# GMT 1558094535.9374
 msgctxt "backoffice_application"
 msgid "Licensing"
 msgstr "Licensing"
 
+# GMT 1558094535.9397
 msgctxt "backoffice_application"
 msgid "Remaining builds"
 msgstr "Remaining builds"
 
+# GMT 1558094535.9436
 msgctxt "backoffice_application"
 msgid "You can change your license in <b>%s > %s</b>"
 msgstr "You can change your license in <b>%s > %s</b>"
 
+# GMT 1558094535.9451
 msgctxt "backoffice_application"
 msgid "Publication settings"
 msgstr "Publication settings"
 
+# GMT 1558094535.9465
 msgctxt "backoffice_application"
 msgid "I am publishing for/with ..."
 msgstr "I am publishing for/with ..."
 
+# GMT 1558094535.9481
 msgctxt "backoffice_application"
 msgid "an account without 2FA/2SV"
 msgstr "an account without 2FA/2SV"
 
+# GMT 1558094535.9496
 msgctxt "backoffice_application"
 msgid "a 2FA/2SV protected account, I will enter the granted account below"
 msgstr "a 2FA/2SV protected account, I will enter the granted account below"
 
+# GMT 1558094535.9512
 msgctxt "backoffice_application"
 msgid "a 2FA/2SV protected account, which is granted to %s"
 msgstr "a 2FA/2SV protected account, which is granted to %s"
 
+# GMT 1558094535.9527
 msgctxt "backoffice_application"
 msgid "App Store Connect login"
 msgstr "App Store Connect login"
 
+# GMT 1558094535.9542
 msgctxt "backoffice_application"
 msgid "Password"
 msgstr "Password"
 
+# GMT 1558094535.9557
 msgctxt "backoffice_application"
 msgid "App store connect e-mail"
 msgstr "App store connect e-mail"
 
+# GMT 1558094535.9588
 msgctxt "backoffice_application"
 msgid "Protected App store connect e-mail"
 msgstr "Protected App store connect e-mail"
 
+# GMT 1558094535.9603
 msgctxt "backoffice_application"
 msgid "Apple Development team id"
 msgstr "Apple Development team id"
 
+# GMT 1558094535.9618
 msgctxt "backoffice_application"
 msgid "Team name"
 msgstr "Team name"
 
+# GMT 1558094535.9638
 msgctxt "backoffice_application"
 msgid "App Store Connect provider"
 msgstr "App Store Connect provider"
@@ -1320,10 +1335,12 @@ msgstr "Confirmation required"
 msgid "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
 msgstr "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
 
+# GMT 1558094535.9656
 msgctxt "backoffice_application"
 msgid "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
 msgstr "How to find Team ID, Team name & Provider? Follow this <a href=\"%s\" target=\"blank\">documentation</a>"
 
+# GMT 1558094535.9676
 msgctxt "backoffice_application"
 msgid "Language"
 msgstr "Language"
@@ -1412,30 +1429,37 @@ msgstr "Simplified Chinese"
 msgid "Traditional Chinese"
 msgstr "Traditional Chinese"
 
+# GMT 1558094536.0058
 msgctxt "backoffice_application"
 msgid "Options"
 msgstr "Options"
 
+# GMT 1558094536.0074
 msgctxt "backoffice_application"
 msgid "With ads functionality"
 msgstr "With ads functionality"
 
+# GMT 1558094536.009
 msgctxt "backoffice_application"
 msgid "* If Apple doesn't detect any configured ads, your application will be refused."
 msgstr "* If Apple doesn't detect any configured ads, your application will be refused."
 
+# GMT 1558094536.0106
 msgctxt "backoffice_application"
 msgid "With background audio playing"
 msgstr "With background audio playing"
 
+# GMT 1558094536.0122
 msgctxt "backoffice_application"
 msgid "* You must tell Apple why you need the background audio playing."
 msgstr "* You must tell Apple why you need the background audio playing."
 
+# GMT 1558094536.0138
 msgctxt "backoffice_application"
 msgid "Build information"
 msgstr "Build information"
 
+# GMT 1558094536.017
 msgctxt "backoffice_application"
 msgid "idle"
 msgstr "idle"
@@ -1461,6 +1485,7 @@ msgstr "Save credentials & settings"
 msgid "Request a publication"
 msgstr "Request a publication"
 
+# GMT 1558094536.0292
 msgctxt "backoffice_application"
 msgid "Service notes"
 msgstr "Service notes"

@@ -21,7 +21,6 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
         display_account_form: ($scope.is_logged_in || Customer.display_account_form),
         can_connect_with_facebook: !!Customer.can_connect_with_facebook,
-        page_title: $translate.instant('My account'),
         show_avatar: true,
         avatar_loaded: false,
         privacy_policy: Application.privacyPolicy.text,
@@ -30,6 +29,7 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
             isEnabled: Application.gdpr.isEnabled
         },
         myAccount: {
+            title: $translate.instant("My account"),
             settings: {
                 enable_facebook_login: true,
                 enable_registration: true
@@ -65,7 +65,7 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
     $scope.editAvatar = function () {
         var buttons = [
             {
-                text: $translate.instant('Edit')
+                text: $translate.instant("Edit")
             }
         ];
 
