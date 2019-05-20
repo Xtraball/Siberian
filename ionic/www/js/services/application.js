@@ -295,6 +295,7 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
         service.offline_content = data.application.offlineContent;
         service.homepage_background = data.application.useHomepageBackground;
         service.backButton = data.application.backButton;
+        service.myAccount = data.application.myAccount;
 
         // Small base64 default image, while loading the real deal!
         service.default_background = data.homepageImage;

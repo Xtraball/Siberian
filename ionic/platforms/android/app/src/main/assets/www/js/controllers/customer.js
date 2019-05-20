@@ -9,7 +9,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").controller('CustomerController', function($cordovaCamera, $ionicActionSheet, Loader,
+angular.module("starter").controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, FacebookConnect,
                                               HomepageLayout) {
@@ -21,7 +21,6 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
         display_account_form: ($scope.is_logged_in || Customer.display_account_form),
         can_connect_with_facebook: !!Customer.can_connect_with_facebook,
-        page_title: $translate.instant('My account'),
         show_avatar: true,
         avatar_loaded: false,
         privacy_policy: Application.privacyPolicy.text,
@@ -30,9 +29,10 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
             isEnabled: Application.gdpr.isEnabled
         },
         myAccount: {
+            title: $translate.instant("My account"),
             settings: {
                 enable_facebook_login: true,
-                enable_registration: true,
+                enable_registration: true
             }
         }
     });
@@ -65,7 +65,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
     $scope.editAvatar = function () {
         var buttons = [
             {
-                text: $translate.instant('Edit')
+                text: $translate.instant("Edit")
             }
         ];
 
@@ -224,17 +224,11 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
 
     $scope.loadContent = function () {
         if (!$scope.is_logged_in) {
-            HomepageLayout
-            .getOptions()
-            .then(function (options) {
-                /** Feature & Settings */
-                $scope.myAccount = _.find(options, function (option) {
-                    return option.code === "tabbar_account";
-                });
-            });
-
             return;
         }
+
+        // Loading my account settings!
+        $scope.myAccount = Application.myAccount;
 
         // Force display account when logged in!
         $scope.displayAccountForm();
@@ -244,7 +238,7 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
         $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
         $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
 
-        return HomepageLayout
+        HomepageLayout
             .getActiveOptions()
             .then(function (options) {
                 $scope.optional_fields = {
@@ -258,21 +252,14 @@ angular.module("starter").controller('CustomerController', function($cordovaCame
 
                 $scope.custom_fields = [];
 
-                /** Feature & Settings */
-                $scope.myAccount = _.find(options, function (option) {
-                    return option.code === "tabbar_account";
-                });
-
-                console.log("$scope.myAccount", $scope.myAccount);
-
                 _.forEach(options, function (opt) {
                     var fields = _.get(opt, 'custom_fields');
 
                     if (_.isArray(fields) && fields.length > 0) {
-                        $scope.custom_fields.push(_.pick(opt, ['name', 'code', 'custom_fields'])); // We keep a small copy of the option
+                        $scope.custom_fields.push(_.pick(opt, ['name', 'code', 'custom_fields']));
                         _.forEach(fields, function (field) {
                             var mpath =  opt.code + '.' + field.key;
-                            _.set(  // We create metadata with default value if it doesn't exist
+                            _.set(
                                 $scope.customer.metadatas,
                                 mpath,
                                 _.get($scope.customer.metadatas, mpath, (field.default || null))

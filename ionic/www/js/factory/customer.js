@@ -95,7 +95,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
 
                 $timeout(function () {
                     factory.login_modal.hide();
-                }, 600);
+                }, 20);
             });
 
             var logoutSuccessSubscriber = localScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
@@ -105,7 +105,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
 
                 $timeout(function () {
                     factory.login_modal.hide();
-                }, 600);
+                }, 20);
             });
 
             var registerSubscriber = localScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
@@ -115,7 +115,7 @@ angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $r
 
                 $timeout(function () {
                     factory.login_modal.hide();
-                }, 600);
+                }, 20);
             });
 
             // Listening for modal.hidden dynamically!

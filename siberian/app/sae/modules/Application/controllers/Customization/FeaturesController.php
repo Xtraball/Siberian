@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Exception;
+
 /**
  * Class Application_Customization_FeaturesController
  */
@@ -86,7 +88,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         $feature_states
                     ];
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 log_info($e->getMessage());
             }
         }
@@ -135,12 +137,11 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $deleteFeatures = [];
 
             if (empty($datas)) {
-                throw new \Siberian\Exception(__('An error occurred while adding the option'));
+                throw new Exception(__('An error occurred while adding the option'));
             }
 
-
             if (empty($datas['option_id'])) {
-                throw new \Siberian\Exception(__('An error occurred while adding the option'));
+                throw new Exception(__('An error occurred while adding the option'));
             }
 
             // Récupère l'option
@@ -149,7 +150,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $option = new Application_Model_Option();
             $option->find($option_id);
             if (!$option->getId()) {
-                throw new \Siberian\Exception(__('An error occurred while adding the option'));
+                throw new Exception(__('An error occurred while adding the option'));
             }
 
             // Récupère les données de l'application pour cette option
@@ -159,7 +160,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Test s'il n'y a pas embrouille entre les ids passés en paramètre et l'application en cours customization
                 if ($optionValue->getId() &&
                     ($optionValue->getOptionId() != $option->getId() || $optionValue->getAppId() != $appId)) {
-                    throw new \Siberian\Exception(__('An error occurred while adding the option'));
+                    throw new Exception(__('An error occurred while adding the option'));
                 }
                 unset($datas['value_id']);
             }
@@ -241,54 +242,37 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function deleteAction()
     {
         try {
-            if (!$this->_canAccess('delete_feature')) {
-                throw new \Siberian\Exception(__("You are not allowed to delete a feature!"));
+            if (!$this->_canAccess("delete_feature")) {
+                throw new Exception(__("You are not allowed to delete a feature!"));
             }
 
             $request = $this->getRequest();
             $params = $request->getPost();
             if (empty($params['value_id'])) {
-                throw new \Siberian\Exception(__('An error occurred while deleting the option'));
+                throw new Exception(p__("application",
+                    "The feature you are trying to remove doesn't exists."));
             }
 
             $application = $this->getApplication();
             $appId = $application->getId();
 
-            // Récupère les données de l'application pour cette option
+            // Fetching current options of the Application
             $optionValue = (new Application_Model_Option_Value())
                 ->find($params['value_id']);
 
-            if (!$optionValue->getId() || $optionValue->getAppId() !== $appId) {
-                throw new \Siberian\Exception(__('An error occurred while deleting the option'));
-            }
-
-            // Prevents My Account delete when a features still requires it.
-            if ($application->usesUserAccount() &&
-                $optionValue->getCode() === "tabbar_account") {
-
-                $options = $application->getOptions();
-
-                $canDelete = false;
-                foreach ($options as $option) {
-                    if ($option->getCode() === "tabbar_account" &&
-                        $optionValue->getValueId() != $option->getValueId()) {
-                        // Ok we have another my account, we can delete!
-                        $canDelete = true;
-                    }
-                }
-
-                if (!$canDelete) {
-                    throw new \Siberian\Exception(__("A feature requires My account, you can't delete it."));
-                }
+            if (!$optionValue->getId() || 
+                $optionValue->getAppId() !== $appId) {
+                throw new Exception(p__("application",
+                    "The feature you are trying to remove doesn't belong to this Application."));
             }
 
             $payload = [
-                'success' => true,
-                'value_id' => $params['value_id'],
-                'path' => $optionValue->getPath(null, [], 'mobile'),
-                'was_folder' => false,
-                'was_category' => false,
-                'was_feature' => false
+                "success" => true,
+                "value_id" => $params["value_id"],
+                "path" => $optionValue->getPath(null, [], "mobile"),
+                "was_folder" => false,
+                "was_category" => false,
+                "was_feature" => false
             ];
 
             // Option folder (safer to get the REAL categoryId if there is one)
@@ -321,7 +305,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $this->_triggerCache();
                 $this->cache_triggers["delete"] = null;
 
-                // Récupère l'option
+                // Fetching the option
                 $option = (new Application_Model_Option())
                     ->find($optionValue->getOptionId());
 
@@ -337,8 +321,31 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     Application_Model_Option_Value::extractFromFolder($optionValue->getId());
                 }
 
-                // Supprime l'option de l'application
-                $optionValue->delete();
+                // Prevents My Account delete when a features still requires it.
+                if ($application->usesUserAccount() &&
+                    $optionValue->getCode() === "tabbar_account") {
+
+                    $options = $application->getOptions();
+
+                    $canDelete = false;
+                    foreach ($options as $option) {
+                        if ($option->getCode() === "tabbar_account" &&
+                            $optionValue->getValueId() != $option->getValueId()) {
+                            // Ok we have another my account, we can delete!
+                            $canDelete = true;
+                        }
+                    }
+
+                    if (!$canDelete) {
+                        throw new Exception(__("A feature requires My account, you can't delete it."));
+                    }
+
+                    // Removing the option
+                    $optionValue->delete();
+                } else {
+                    // Removing the option
+                    $optionValue->delete();
+                }
 
                 $payload['use_my_account'] = $this->getApplication()->usesUserAccount();
 
@@ -387,7 +394,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 $html = ['success' => 1, 'option_id' => $optionValue->getId(), 'is_folder' => (int)($optionValue->getCode() == 'folder')];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
 //                    'message' => $e->getMessage(),
                     'message' => __('#109: An error occurred while saving'),
@@ -456,7 +463,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     throw new Exception(__('#111: An error occurred while saving'));
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -541,7 +548,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             return $return;
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
 
@@ -567,7 +574,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 $html = [
                     'success' => 1,
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -615,7 +622,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Renvoie OK
                 $html = ['success' => 1];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -685,7 +692,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Renvoie OK
                 $html = ['success' => 1];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -739,7 +746,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 // Renvoie OK
                 $html = ['success' => 1];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -848,7 +855,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     }
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $html = [
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -893,7 +900,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     'success' => 1,
                     'file' => $relative_path . $file,
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $datas = [
                     'error' => 1,
                     'message' => $e->getMessage()
@@ -922,7 +929,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     'success' => 1,
                     'background_image_url' => $optionValue->reload()->getBackgroundImageUrl()
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $datas = [
                     'error' => 1,
                     'message' => $e->getMessage()
@@ -964,7 +971,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                     "success" => 1
                 ];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
@@ -1022,7 +1029,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 }
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
@@ -1034,7 +1041,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
     /**
      * @param $path
-     * @throws Exception
+     * @throws \Exception
      */
     private function importApplication($path)
     {

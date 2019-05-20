@@ -390,7 +390,7 @@ angular.module('starter')
         });
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
-                                                $location, Places, SocialSharing) {
+                                                $location, Places, SocialSharing, Url) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,

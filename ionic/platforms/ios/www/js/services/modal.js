@@ -50,13 +50,13 @@ angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $t
                             service.renderFromTemplate(modal.data);
                         break;
                 }
-            }, 250);
+            }, 1);
         } else {
             service.current_modal = null;
 
             $timeout(function () {
                 return;
-            }, 250);
+            }, 1);
         }
     };
 

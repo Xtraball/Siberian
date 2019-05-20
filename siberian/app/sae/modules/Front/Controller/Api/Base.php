@@ -190,6 +190,29 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $colorStatusBar = Siberian_Color::newColor($application->getBlock('header')->getBackgroundColor(), 'hex');
             $colorStatusBarLighten = $colorStatusBar->getNew('lightness', $colorStatusBar->lightness - 10);
 
+            // My Account feature (if it exists)
+            $myAccountOption = (new Application_Model_Option())->find("tabbar_account", "code");
+            $myAccountFeature = (new Application_Model_Option_Value())->find([
+                "option_id" => $myAccountOption->getOptionId(),
+                "app_id" => $appId,
+            ]);
+
+            $defaultSettings = [
+                "title" => $myAccountFeature->getTabbarName(),
+                "settings" => [
+                    "enable_facebook_login" => true,
+                    "enable_registration" => true,
+                ],
+            ];
+            $myAccount = $defaultSettings;
+            if ($myAccountFeature->getId()) {
+                try {
+                    $myAccount["settings"] = Json::decode($myAccountFeature->getSettings());
+                } catch (\Exception $e) {
+                    $myAccount = $defaultSettings;
+                }
+            }
+
             $loadBlock = [
                 'application' => [
                     'id' => $appId,
@@ -236,6 +259,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     ],
                     'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string) $application->getBackButton(),
+                    'myAccount' => $myAccount,
                 ],
                 'homepageImage' => $homepageImageB64
             ];

@@ -198,7 +198,7 @@ module.exports = {
         // 'no-underscore-dangle': 1, // disallow dangling underscores in identifiers
         'operator-assignment': [1, 'never'], // require assignment operator shorthand where possible or prohibit it entirely (off by default)
         'padded-blocks': [1, 'never'], // enforce padding within blocks (off by default)
-        'quotes': [1, 'single'], // specify whether double or single quotes should be used
+        //'quotes': [1, 'single'], // specify whether double or single quotes should be used
         'semi': [1, 'always'], // require or disallow use of semicolons instead of ASI
         'semi-spacing': [1, { 'before': false, 'after': true }], // enforce spacing before and after semicolons
         'sort-vars': 0, // sort variables within the same declaration block (off by default)
