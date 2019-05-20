@@ -2,6 +2,9 @@
 
 namespace Siberian;
 
+use MatthiasMullie\Minify\JS as MinifyJS;
+use MatthiasMullie\Minify\CSS as MinifyCSS;
+
 /**
  * Class \Siberian\Assets
  *
@@ -584,26 +587,20 @@ class Assets
 
     /**
      * @param $feature
-     * @param null $bundle_path
+     * @param null $bundlePath
      * @return string
      * @throws \Exception
      */
-    public static function compileFeature($feature, $bundle_path = null)
+    public static function compileFeature($feature, $bundlePath = null)
     {
         $code = $feature["code"];
-        $feature_dir = "features/" . $code;
-        $minifier_js = new \MatthiasMullie\Minify\JS();
-        $minifier_css = new \MatthiasMullie\Minify\CSS();
+        $minifyJs = new MinifyJS();
+        $minifyCss = new MinifyCSS();
 
         $out_dir = path("var/tmp/out");
         if (!is_dir($out_dir)) {
             mkdir($out_dir, 0777, true);
         }
-
-        // Compile templateCache!
-        //$tplCache = self::templateCacheForFeature($feature);
-
-        //$minifier_js->add($tplCache["path"]);
 
         foreach ($feature["files"] as $file) {
             // Ignore files with ".." for security reasons!
@@ -613,24 +610,24 @@ class Assets
                 if (is_file($inFile) && in_array($ext, ['scss'])) {
                     // SCSS Case
                     $css = self::compileScss($inFile);
-                    $minifier_css->add($css);
+                    $minifyCss->add($css);
                 } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
                     if ($ext === "js") {
-                        $minifier_js->add($inFile);
+                        $minifyJs->add($inFile);
                     } elseif ($ext === 'css') {
-                        $minifier_css->add($inFile);
+                        $minifyCss->add($inFile);
                     }
                 }
             }
         }
 
         // minify assets
-        $bundle_css = $minifier_css->minify();
-        $minifier_js->add("\nFeatures.insertCSS(" . json_encode($bundle_css) . ", \"" . $code . "\");");
+        $bundleCss = $minifyCss->minify();
+        $minifyJs->add("\nFeatures.insertCSS(" . json_encode($bundleCss) . ", \"" . $code . "\");");
 
-        if ($bundle_path != null) {
-            $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
-            $minifier_js->minify($tmp_file);
+        if ($bundlePath !== null) {
+            $tmpFile = "{$out_dir}/feature.{$code}.bundle.min.js";
+            $minifyJs->minify($tmpFile);
 
             /** Replace
              * App.info,
@@ -651,15 +648,14 @@ class Assets
              * with angular.module("starter") for $ocLazyLoad */
             __replace([
                 "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1'
-            ], $tmp_file, true);
+            ], $tmpFile, true);
 
-            self::copyAssets($tmp_file, null, $bundle_path);
+            self::copyAssets($tmpFile, null, $bundlePath);
 
-            $tplCache = $tplCache["module"];
-            $output = "Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']);";
+            $output = "Features.register(" . $feature["__JSON__"] . ", ['{$bundlePath}']);";
 
         } else {
-            $output = $minifier_js->minify() . "\nFeatures.register(" . $feature["__JSON__"] . ");";
+            $output = $minifyJs->minify() . "\nFeatures.register(" . $feature["__JSON__"] . ");";
         }
 
         return $output;
@@ -706,7 +702,7 @@ class Assets
     }
 
     /**
-     * Compile all tepmlates in the $templateCache for angular
+     * Compile all templates in the $templateCache for angular
      *
      * @param $source
      */
@@ -754,40 +750,8 @@ class Assets
     }
 
     /**
-     * @param $feature
-     * @return array
-     */
-    public static function templateCacheForFeature ($feature)
-    {
-        //$uuid = uniqid();
-        //$tmp = tmp(true) . "/out/";
-        //$code = $feature["code"];
-//
-        //$phulp = new \Phulp\Phulp();
-        //$phulp->task("angular-template-cache", function ($phulp) use ($uuid, $tmp, $code, $feature) {
-        //    $phulp
-        //        ->src([$feature["__DIR__"] . "/assets/templates/"], "/html\$/")
-        //        ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
-        //            "{$uuid}.js", [
-        //                //"module" => "tplCache_{$code}",
-        //                "module" => "templates",
-        //                "root" => "features/{$code}/assets/templates/"
-        //            ]
-        //        ))
-        //        ->pipe($phulp->dest($tmp));
-        //});
-//
-        //$phulp->run("angular-template-cache");
-//
-        //# Concat & Clean-up
-        //return [
-        //    "module" => "tplCache_{$code}",
-        //    "path" => "{$tmp}{$uuid}.js"
-        //];
-    }
-
-    /**
-     * Re-build index.html with assets
+     * @throws \ErrorException
+     * @throws \Zend_Exception
      */
     public static function buildIndex()
     {
@@ -938,11 +902,10 @@ class Assets
     }
 
     /**
-     * Append assets to every registered index.html
-     *
      * @param $index_content
      * @param $asset_path
      * @param $type
+     * @param null $feature
      * @return mixed
      */
     public static function __appendAsset($index_content, $asset_path, $type, $feature = null)
@@ -1032,12 +995,14 @@ class Assets
         $asset_path = __ss($asset_path);
         $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
         switch ($type) {
-            case 'js':
+            case "js":
                 $replace = "\n\t\t<script src=\"{$asset_path}\"{$feature_data}></script>\n\t";
                 break;
-            case 'css':
+            case "css":
                 $replace = "\n\t\t<link href=\"{$asset_path}\" rel=\"stylesheet\"{$feature_data}>\n\t";
                 break;
+            default:
+                $replace = "";
         }
 
         return $replace;

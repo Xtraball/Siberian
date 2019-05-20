@@ -24,7 +24,7 @@ if (!file_exists('./lib/Siberian/Version.php')) {
 
 require_once './config.php';
 
-// Php Info!
+// PHP Info!
 if (($_config['environment'] === 'development') && isset($_GET['phpi'])) {
     phpinfo();
     die;

@@ -62,7 +62,7 @@ class VestaCP
     /**
      * @param $ssl_certificate
      * @return bool
-     * @throws \Siberian\Exception
+     * @throws Exception
      */
     public function updateCertificate($ssl_certificate)
     {
@@ -71,7 +71,7 @@ class VestaCP
 
         if (version_compare(phpversion(), "5.6", "<")) {
             $this->logger->info("[Siberian_VestaCP] requires php 5.6+");
-            throw new \Siberian\Exception(__("[Siberian_VestaCP] requires php 5.6+"));
+            throw new Exception(__("[Siberian_VestaCP] requires php 5.6+"));
         }
 
         $this->api->updateDomainVesta($ssl_certificate);
