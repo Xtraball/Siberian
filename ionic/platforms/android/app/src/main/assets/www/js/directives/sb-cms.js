@@ -244,7 +244,7 @@ angular.module('starter').directive('sbCmsText', function () {
                     .replace(/(\#.*)$/, "");
             });
         },
-        controller: function (Location, Loader, LinkService, $rootScope, $scope, $timeout) {
+        controller: function (Location, Loader, LinkService, $rootScope, $scope) {
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {
                     return;
@@ -258,11 +258,11 @@ angular.module('starter').directive('sbCmsText', function () {
                 Location
                     .getLocation()
                     .then(function (position) {
+                        Loader.hide();
                         $scope.getItineraryLink(position.coords, $scope.block);
                     }, function () {
-                        $scope.getItineraryLink({'latitude': null, 'longitude': null}, $scope.block);
-                    }).then(function () {
                         Loader.hide();
+                        $scope.getItineraryLink({'latitude': null, 'longitude': null}, $scope.block);
                     });
             };
 
