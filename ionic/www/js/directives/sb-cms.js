@@ -258,8 +258,6 @@ angular.module('starter').directive('sbCmsText', function () {
                     lng: $scope.block.longitude * 1
                 };
 
-                console.log("$scope.block", $scope.block, to);
-
                 Navigator.navigate(to);
             };
 

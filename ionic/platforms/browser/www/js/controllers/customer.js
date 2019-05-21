@@ -333,7 +333,9 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
 
     $scope.displayAccountForm = function () {
         $scope.scrollTop();
-        if (!$scope.myAccount.settings.enable_registration) {
+        if (!$scope.myAccount &&
+            !$scope.myAccount.settings &&
+            !$scope.myAccount.settings.enable_registration) {
             $scope.displayLoginForm();
         }
         $scope.display_login_form = false;
