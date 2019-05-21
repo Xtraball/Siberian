@@ -254,16 +254,7 @@ angular.module('starter').directive('sbCmsText', function () {
                     return;
                 }
 
-                Loader.show();
-                Location
-                    .getLocation()
-                    .then(function (position) {
-                        Loader.hide();
-                        $scope.getItineraryLink(position.coords, $scope.block);
-                    }, function () {
-                        Loader.hide();
-                        $scope.getItineraryLink({'latitude': null, 'longitude': null}, $scope.block);
-                    });
+                Navigator.navigate({lat: $scope.block.latitude, lng: $scope.block.longitude});
             };
 
             $scope.openIntent = function () {
@@ -288,20 +279,6 @@ angular.module('starter').directive('sbCmsText', function () {
                 if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
                     $scope.onAddToContact($scope.block);
                 }
-            };
-
-            $scope.getItineraryLink = function (point1, point2) {
-                var link = 'https://www.google.com/maps/dir/';
-
-                if (point1.latitude) {
-                    link = link + (point1.latitude + ',' + point1.longitude);
-                }
-
-                if (point2.latitude) {
-                    link = link + ('/' + point2.latitude + ',' + point2.longitude);
-                }
-
-                LinkService.openLink(link, {use_external_app: true});
             };
         } // !controller
     };

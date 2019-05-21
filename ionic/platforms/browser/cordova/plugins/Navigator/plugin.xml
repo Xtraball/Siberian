@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        id="com.xtraball.cordova.plugin.navigator"
+        id="Navigator"
         version="0.1.0">
     <engines>
         <engine name="cordova"
@@ -19,6 +19,17 @@
 
     <!-- browser -->
     <platform name="browser">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Navigator">
+                <param name="browser-package" value="Navigator" />
+            </feature>
+        </config-file>
+
+        <js-module src="www/navigator.js"
+                   name="Navigator">
+            <clobbers target="Navigator" />
+        </js-module>
+
         <js-module src="src/browser/NavigatorProxy.js"
                    name="NavigatorProxy">
             <runs />

@@ -223,12 +223,12 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
     };
 
     $scope.loadContent = function () {
+        // Loading my account settings!
+        $scope.myAccount = Application.myAccount;
+
         if (!$scope.is_logged_in) {
             return;
         }
-
-        // Loading my account settings!
-        $scope.myAccount = Application.myAccount;
 
         // Force display account when logged in!
         $scope.displayAccountForm();

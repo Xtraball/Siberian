@@ -1,13 +1,10 @@
-/* global
-    App, angular, ionic, device
- */
-
 /**
  * Customer
  *
  * @author Xtraball SAS
+ * @version 4.16.7
  */
-angular.module('starter').factory('Customer', function ($sbhttp, $pwaRequest, $rootScope, $session, $timeout,
+angular.module("starter").factory("Customer", function ($sbhttp, $pwaRequest, $rootScope, $session, $timeout,
                                                         $injector, Application, Loader, Modal, Dialog, Url, SB) {
     var factory = {
         events: [],
