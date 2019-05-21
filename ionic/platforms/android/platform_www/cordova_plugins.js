@@ -323,6 +323,14 @@ module.exports = [
     ]
   },
   {
+    "id": "StatusBar.statusbar",
+    "file": "plugins/StatusBar/www/statusbar.js",
+    "pluginId": "StatusBar",
+    "clobbers": [
+      "window.StatusBar"
+    ]
+  },
+  {
     "id": "WhiteList.whitelist",
     "file": "plugins/WhiteList/whitelist.js",
     "pluginId": "WhiteList",
@@ -416,6 +424,7 @@ module.exports.metadata =
   "InAppBrowser": "3.0.0",
   "Keyboard": "2.2.1",
   "SocialSharing": "5.4.0",
+  "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
   "LocalNotification": "0.8.4.1",
   "OfflineMode": "1.0.0",
