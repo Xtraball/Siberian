@@ -1,13 +1,17 @@
-cordova.define("com.xtraball.cordova.plugin.navigator.NavigatorProxy", function(require, exports, module) { /**
- * Browser Proxy to open intents
+cordova.define("Navigator.Navigator", function(require, exports, module) { /**
  *
  * @type {{navigate: Navigator.navigate}}
  */
-var Navigator = {
+Navigator = {
     navigate: function (to) {
         try {
             if (!isNaN(to.lat) && !isNaN(to.lng)) {
-                window.open("https://www.google.com/maps/dir/?api=1&destination="+to.lat+","+to.lng, "_system");
+                cordova.exec(
+                    function () {},
+                    function () {},
+                    'Navigator',
+                    'navigate',
+                    [to.lat, to.lng]);
             } else {
                 console.error("Latitude and longitude aren't numbers.");
             }
@@ -16,10 +20,6 @@ var Navigator = {
         }
     }
 };
-
 module.exports = Navigator;
-
-require("cordova/exec/proxy").add("Navigator", Navigator);
-
 
 });
