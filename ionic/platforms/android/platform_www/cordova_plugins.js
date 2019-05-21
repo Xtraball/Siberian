@@ -284,22 +284,6 @@ module.exports = [
     "runs": true
   },
   {
-    "id": "Geofence.TransitionType",
-    "file": "plugins/Geofence/www/TransitionType.js",
-    "pluginId": "Geofence",
-    "clobbers": [
-      "TransitionType"
-    ]
-  },
-  {
-    "id": "Geofence.geofence",
-    "file": "plugins/Geofence/www/geofence.js",
-    "pluginId": "Geofence",
-    "clobbers": [
-      "geofence"
-    ]
-  },
-  {
     "id": "Geolocation.geolocation",
     "file": "plugins/Geolocation/www/android/geolocation.js",
     "pluginId": "Geolocation",
@@ -336,14 +320,6 @@ module.exports = [
     "pluginId": "SocialSharing",
     "clobbers": [
       "window.plugins.socialsharing"
-    ]
-  },
-  {
-    "id": "StatusBar.statusbar",
-    "file": "plugins/StatusBar/www/statusbar.js",
-    "pluginId": "StatusBar",
-    "clobbers": [
-      "window.StatusBar"
     ]
   },
   {
@@ -404,9 +380,9 @@ module.exports = [
     ]
   },
   {
-    "id": "com.xtraball.cordova.plugin.navigator.Navigator",
-    "file": "plugins/com.xtraball.cordova.plugin.navigator/www/navigator.js",
-    "pluginId": "com.xtraball.cordova.plugin.navigator",
+    "id": "Navigator.Navigator",
+    "file": "plugins/Navigator/www/navigator.js",
+    "pluginId": "Navigator",
     "clobbers": [
       "Navigator"
     ]
@@ -436,18 +412,16 @@ module.exports.metadata =
   "Clipboard": "0.1.0",
   "Device": "2.0.2",
   "File": "6.0.1",
-  "Geofence": "0.6.0",
   "Geolocation": "4.0.1",
   "InAppBrowser": "3.0.0",
   "Keyboard": "2.2.1",
   "SocialSharing": "5.4.0",
-  "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
   "LocalNotification": "0.8.4.1",
   "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
   "MusicControls": "2.1.4",
-  "com.xtraball.cordova.plugin.navigator": "0.1.0",
+  "Navigator": "0.1.0",
   "Permissions": "1.0.0",
   "Siberian": "1.0.0"
 };

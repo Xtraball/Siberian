@@ -282,7 +282,6 @@ dependencies {
     compile "com.google.firebase:firebase-ads:15.0.0"
     compile "com.android.support:support-v4:27.+"
     compile "com.android.support:support-v4:24.1.1+"
-    compile "com.google.android.gms:play-services-location:15.0.1"
     compile "com.android.support:support-v13:27+"
     // SUB-PROJECT DEPENDENCIES END
 }

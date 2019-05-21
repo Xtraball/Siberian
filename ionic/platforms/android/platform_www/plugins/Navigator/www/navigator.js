@@ -1,7 +1,7 @@
-cordova.define("com.xtraball.cordova.plugin.navigator.Navigator", function(require, exports, module) {
+cordova.define("Navigator.Navigator", function(require, exports, module) {
 /**
  *
- * @type {{navigateByPosition: Navigator.navigate}}
+ * @type {{navigate: Navigator.navigate}}
  */
 Navigator = {
     navigate: function (to) {

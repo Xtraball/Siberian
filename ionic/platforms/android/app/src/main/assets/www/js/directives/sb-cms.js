@@ -253,8 +253,12 @@ angular.module('starter').directive('sbCmsText', function () {
                 if ($rootScope.isNotAvailableOffline()) {
                     return;
                 }
+                var to = {
+                    lat: $scope.block.latitude * 1,
+                    lng: $scope.block.longitude * 1
+                };
 
-                Navigator.navigate({lat: $scope.block.latitude, lng: $scope.block.longitude});
+                Navigator.navigate(to);
             };
 
             $scope.openIntent = function () {
