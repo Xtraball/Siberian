@@ -11,9 +11,9 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
     public $version = "v5";
 
     /**
-     * @param Application_Model_Application $application
+     * @param $application
      * @param $currentLanguage
-     * @param Siberian_Controller_Request_Http $request
+     * @param $request
      * @return array|false|string
      * @throws Zend_Exception
      */
@@ -44,13 +44,14 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                     // In-App-Browser / Browser options!
                     $hideNavbar = null;
                     $useExternalApp = null;
-                    if ($optionValue->getCode() === 'weblink_mono') {
+
+                    if ($optionValue->getCode() === "weblink_mono") {
                         $hideNavbar = $object->getLink()->getHideNavbar();
                         $useExternalApp = $object->getLink()->getUseExternalApp();
                     }
 
                     if (sizeof($optionValues) >= 50) {
-                        if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
+                        if (in_array($optionValue->getCode(), ["folder", "folder_v2", "custom_page"])) {
                             $embedPayload = false;
                         } else {
                             $embedPayload = $optionValue->getEmbedPayload($request);
@@ -126,40 +127,6 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                 'icon_is_colorable' => (boolean) $moreColorizable,
             ];
 
-            $option = (new Application_Model_Option())
-                ->findTabbarAccount();
-
-            $accountColorizable = true;
-            if ($application->getAccountIconId()) {
-                $library = new Media_Model_Library_Image();
-                $icon = $library->find($application->getAccountIconId());
-                if (!$icon->getCanBeColorized()) {
-                    $accountColor = null;
-                } else {
-                    $accountColor = $color;
-                }
-
-                $accountColorizable = $icon->getCanBeColorized();
-            } else {
-                $accountColor = $color;
-            }
-
-            //$dataCustomerAccount = [
-            //    'code' => $option->getCode(),
-            //    'name' => $option->getTabbarName(),
-            //    'subtitle' => $application->getAccountSubtitle(),
-            //    'is_active' => (boolean)$option->isActive(),
-            //    'url' => $this->getUrl('customer/mobile_account_login'),
-            //    'path' => $this->getPath('customer/mobile_account_login'),
-            //    'login_url' => $this->getUrl('customer/mobile_account_login'),
-            //    'login_path' => $this->getPath('customer/mobile_account_login'),
-            //    'edit_url' => $this->getUrl('customer/mobile_account_edit'),
-            //    'edit_path' => $this->getPath('customer/mobile_account_edit'),
-            //    'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
-            //    'icon_is_colorable' => (boolean)$accountColorizable,
-            //    'is_visible' => (boolean)$application->usesUserAccount()
-            //];
-
             $layout = new Application_Model_Layout_Homepage();
             $layout->find($application->getLayoutId());
 
@@ -177,11 +144,33 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                 $homepageSliderImages[] = $sliderImage->getLink();
             }
 
+            // My Account feature (if it exists)
+            $myAccountOption = (new Application_Model_Option())->find("tabbar_account", "code");
+            $myAccount = (new Application_Model_Option_Value())->find([
+                "option_id" => $myAccountOption->getOptionId(),
+                "app_id" => $appId,
+            ]);
+
+            $defaultSettings = [
+                "settings" => [
+                    "enable_facebook_login" => true,
+                    "enable_registration" => true,
+                ],
+            ];
+            $myAccountSettings = $defaultSettings;
+            if ($myAccount->getId()) {
+                try {
+                    $myAccountSettings["settings"] = Json::decode($myAccount->getSettings());
+                } catch (\Exception $e) {
+                    $myAccountSettings = $defaultSettings;
+                }
+            }
+
             $dataHomepage = [
                 'pages' => $featureBlock,
                 'touched' => $touchedValues,
                 'more_items' => $dataMoreItems,
-                //'customer_account' => $dataCustomerAccount,
+                'myAccount' => $myAccountSettings,
                 'layout' => [
                     'layout_id' => 'l' . $application->getLayoutId(),
                     'layout_code' => $application->getLayout()->getCode(),

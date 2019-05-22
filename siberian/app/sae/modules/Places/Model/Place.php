@@ -772,8 +772,8 @@ WHERE cap.value_id = {$value_id}
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
-                "latitude" => $address->getLatitude(),
-                "longitude" => $address->getLongitude(),
+                "latitude" => (float) $address->getLatitude(),
+                "longitude" => (float) $address->getLongitude(),
                 "show_phone" => (boolean)$address->getShowPhone(),
                 "show_website" => (boolean)$address->getShowWebsite(),
                 "show_address" => (boolean)$address->getShowAddress(),
@@ -918,8 +918,8 @@ WHERE cap.value_id = {$value_id}
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
-                "latitude" => $address->getLatitude(),
-                "longitude" => $address->getLongitude(),
+                "latitude" => (float) $address->getLatitude(),
+                "longitude" => (float) $address->getLongitude(),
                 "show_phone" => (boolean)$address->getShowPhone(),
                 "show_website" => (boolean)$address->getShowWebsite(),
                 "show_address" => (boolean)$address->getShowAddress(),
@@ -961,8 +961,8 @@ WHERE cap.value_id = {$value_id}
             "picture" => $picture_b64,
             "address" => [
                 "address" => $address->getAddress(),
-                "latitude" => (float)$address->getLatitude(),
-                "longitude" => (float)$address->getLongitude(),
+                "latitude" => (float) $address->getLatitude(),
+                "longitude" => (float) $address->getLongitude(),
             ]
         ];
 

@@ -246,7 +246,8 @@ class Push_Model_Message extends Core_Model_Default
     /**
      * @param $device_uid
      * @param null $message_id
-     * @return mixed
+     * @return $this
+     * @throws Zend_Db_Adapter_Exception
      */
     public function markAsRead($device_uid, $message_id = null)
     {
@@ -256,7 +257,8 @@ class Push_Model_Message extends Core_Model_Default
     /**
      * @param $device_id
      * @param $message_id
-     * @return mixed
+     * @return $this
+     * @throws Zend_Db_Adapter_Exception
      */
     public function markAsDisplayed($device_id, $message_id)
     {

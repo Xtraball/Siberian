@@ -167,7 +167,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                             </button>
                         </h3>
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                            <table class="table content-white-bkg sb-pager">
+                            <table class="table content-white-bkg sb-pager table-places">
                                 <thead>
                                 <tr class="border-grey">
                                     <th style="width:40px;"></th>
@@ -259,7 +259,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                             </button>
                         </h3>
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                            <table class="table content-white-bkg sb-pager">
+                            <table class="table content-white-bkg sb-pager table-categories">
                                 <thead>
                                     <tr class="border-grey">
                                         <th style="width:32px;"></th>
@@ -419,8 +419,17 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
         bindForms("#places_list");
 
-        $("table.sb-pager").sbpager({
+        $("table.sb-pager.table-places").sbpager({
             with_search: true,
+            search_placeholder: "<?php echo __("Search ...") ?>",
+            callback_goto_page: function() {
+                $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+
+        $("table.sb-pager.table-categories").sbpager({
+            with_search: true,
+            items_per_page: 1000,
             search_placeholder: "<?php echo __("Search ...") ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()

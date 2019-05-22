@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
 
 class Siberian_Service_Push_Apns extends ApnsPHP_Push {
@@ -105,7 +107,15 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
 
             $message = $geolocated_message;
         }
-        
+
+        // Trigger an event when the push message is parsed!
+        $result = Hook::trigger("push.message.ios.parsed",
+            [
+                "message" => $message,
+                "application" => $application
+            ]);
+        $message = $result["message"];
+
         # Add message to the message queue
         $this->add($message);
     }

@@ -32,7 +32,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             $payload = [
                 "success" => true,
-                "social_sharing_active" => false,
+                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
                 "page_title" => "title",
                 "place" => $place["embed_payload"],
                 "page" => $place["embed_payload"]["page"],
@@ -103,7 +103,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                     'search_by_distance' => true,
                     'latitude' => $position['latitude'],
                     'longitude' => $position['longitude'],
-                ], $params);
+                ], $countParams);
 
             $collection = [];
             foreach ($places as $place) {
@@ -115,6 +115,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
+                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
                 "total" => $count->count(),
                 "places" => $collection
             ];

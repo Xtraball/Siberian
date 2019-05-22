@@ -105,7 +105,6 @@ class Push_ApplicationController extends Application_Controller_Default
 
                 // Clear valueId cache tags for fresh content
                 if (preg_match('/^[0-9]*$/', $data["action_value"])) {
-                    dbg("Cleaning wide value_id cache value_id:{$data["action_value"]}, tag: value_id_{$data["action_value"]}");
                     $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
                         "value_id_" . $data["action_value"],
                     ]);

@@ -244,7 +244,7 @@ angular.module('starter').directive('sbCmsText', function () {
                     .replace(/(\#.*)$/, "");
             });
         },
-        controller: function (Location, Loader, LinkService, $rootScope, $scope, $timeout) {
+        controller: function (Location, Loader, LinkService, $rootScope, $scope) {
             $scope.showMap = function () {
                 if ($rootScope.isNotAvailableInOverview()) {
                     return;
@@ -253,17 +253,12 @@ angular.module('starter').directive('sbCmsText', function () {
                 if ($rootScope.isNotAvailableOffline()) {
                     return;
                 }
+                var to = {
+                    lat: $scope.block.latitude * 1,
+                    lng: $scope.block.longitude * 1
+                };
 
-                Loader.show();
-                Location
-                    .getLocation()
-                    .then(function (position) {
-                        $scope.getItineraryLink(position.coords, $scope.block);
-                    }, function () {
-                        $scope.getItineraryLink({'latitude': null, 'longitude': null}, $scope.block);
-                    }).then(function () {
-                        Loader.hide();
-                    });
+                Navigator.navigate(to);
             };
 
             $scope.openIntent = function () {
@@ -288,20 +283,6 @@ angular.module('starter').directive('sbCmsText', function () {
                 if ($scope.onAddToContact && angular.isFunction($scope.onAddToContact)) {
                     $scope.onAddToContact($scope.block);
                 }
-            };
-
-            $scope.getItineraryLink = function (point1, point2) {
-                var link = 'https://www.google.com/maps/dir/';
-
-                if (point1.latitude) {
-                    link = link + (point1.latitude + ',' + point1.longitude);
-                }
-
-                if (point2.latitude) {
-                    link = link + ('/' + point2.latitude + ',' + point2.longitude);
-                }
-
-                LinkService.openLink(link, {use_external_app: true});
             };
         } // !controller
     };

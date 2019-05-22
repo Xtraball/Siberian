@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.15.7
+ * @version 4.16.7
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -14,6 +14,17 @@ chdir(__DIR__);
 
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
+}
+
+function dbg()
+{
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        file_put_contents(
+            '/tmp/debug.log',
+            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            FILE_APPEND);
+    }
 }
 
 require_once './config.php';

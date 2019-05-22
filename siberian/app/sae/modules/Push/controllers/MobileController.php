@@ -1,6 +1,9 @@
 <?php
 
 
+/**
+ * Class Push_MobileController
+ */
 class Push_MobileController extends Application_Controller_Mobile_Default
 {
     /**
@@ -10,9 +13,9 @@ class Push_MobileController extends Application_Controller_Mobile_Default
     {
 
         $this->loadPartials($this->getFullActionName('_') . '_l' . $this->_layout_id, false);
-        $html = array();
+        $html = [];
         $device_uid = $this->_getDeviceUid();
-        $messages = array();
+        $messages = [];
 
         if ($device_uid) {
             $option_value = $this->getCurrentOptionValue();
@@ -24,7 +27,7 @@ class Push_MobileController extends Application_Controller_Mobile_Default
         }
 
         $this->getLayout()->getPartial('content')->setNotifs($messages);
-        $html = array('html' => $this->getLayout()->render());
+        $html = ['html' => $this->getLayout()->render()];
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
@@ -53,10 +56,10 @@ class Push_MobileController extends Application_Controller_Mobile_Default
      */
     public function lastmessagesAction()
     {
-        $data = array();
+        $data = [];
         $request = $this->getRequest();
         $baseUrl = $request->getBaseUrl();
-        if ($device_uid = $request->getParam('device_uid')) {
+        if ($device_uid = $request->getParam("device_uid")) {
             $application = $this->getApplication();
 
             $message = new Push_Model_Message();
@@ -66,35 +69,44 @@ class Push_MobileController extends Application_Controller_Mobile_Default
                 // We read this push!
                 $message->markAsRead($device_uid, $message->getMessageId());
 
+
                 if (is_numeric($message->getActionValue())) {
                     $option_value = new Application_Model_Option_Value();
                     $option_value->find($message->getActionValue());
-                    $action_url = $option_value->getPath(
-                        null,
-                        array('value_id' => $option_value->getId()),
-                        false
-                    );
+
+                    $mobileUri = $option_value->getMobileUri();
+                    if (preg_match("/^goto\/feature/", $mobileUri)) {
+                        $action_url = sprintf("/%s/%s/value_id/%s",
+                            $application->getKey(),
+                            $mobileUri,
+                            $option_value->getId());
+                    } else {
+                        $action_url = sprintf("/%s/%sindex/value_id/%s",
+                            $application->getKey(),
+                            $option_value->getMobileUri(),
+                            $option_value->getId());
+                    }
                 } else {
                     $action_url = $message->getActionValue();
                 }
 
-                $data['push_message'] = [
-                    'cover' => $message->getCoverUrl() ?
+                $data["push_message"] = [
+                    "cover" => $message->getCoverUrl() ?
                         $baseUrl . $message->getCoverUrl() :
                         null,
-                    'action_value' => $action_url,
-                    'open_webview' => !is_numeric($message->getActionValue()),
-                    'additionalData' => [
-                        'message_id' => $message->getId(),
-                        'action_value' => $action_url,
-                        'open_webview' => !is_numeric($message->getActionValue()),
-                        'cover' => $message->getCoverUrl() ?
+                    "action_value" => $action_url,
+                    "open_webview" => !is_numeric($message->getActionValue()),
+                    "additionalData" => [
+                        "message_id" => $message->getId(),
+                        "action_value" => $action_url,
+                        "open_webview" => !is_numeric($message->getActionValue()),
+                        "cover" => $message->getCoverUrl() ?
                             $baseUrl . $message->getCoverUrl() :
                             null,
                     ],
-                    'message' => $message->getText(),
-                    'title' => $message->getTitle(),
-                    'text' => $message->getText()
+                    "message" => $message->getText(),
+                    "title" => $message->getTitle(),
+                    "text" => $message->getText()
                 ];
             }
 
@@ -104,22 +116,22 @@ class Push_MobileController extends Application_Controller_Mobile_Default
             );
 
             if ($message->getId()) {
-                $data['inapp_message'] = array(
-                    'title' => $message->getTitle(),
-                    'text' => $message->getText(),
-                    'message' => $message->getText(),
-                    'message_id' => $message->getId(),
-                    'additionalData' => [
-                        'message_id' => $message->getId(),
-                        'open_webview' => false,
-                        'cover' => $message->getCoverUrl() ?
+                $data["inapp_message"] = [
+                    "title" => $message->getTitle(),
+                    "text" => $message->getText(),
+                    "message" => $message->getText(),
+                    "message_id" => $message->getId(),
+                    "additionalData" => [
+                        "message_id" => $message->getId(),
+                        "open_webview" => false,
+                        "cover" => $message->getCoverUrl() ?
                             $baseUrl . $message->getCoverUrl() :
                             null,
                     ],
-                    'cover' => $message->getCoverUrl() ?
+                    "cover" => $message->getCoverUrl() ?
                         $baseUrl . $message->getCoverUrl() :
                         null
-                );
+                ];
 
                 // Add to read messages!
                 (new Push_Model_Message())
@@ -132,19 +144,25 @@ class Push_MobileController extends Application_Controller_Mobile_Default
         $this->_sendJson($data);
     }
 
+    /**
+     * @throws Zend_Exception
+     */
     public function readinappAction()
     {
-        $data = array();
+        $data = [];
         if ($device_uid = $this->getRequest()->getParam('device_uid') AND $device_type = $this->getRequest()->getParam('device_type')) {
             $message = new Push_Model_Message();
             $message->markInAppAsRead($this->getApplication()->getId(), $device_uid, $device_type);
-            $data = array(
+            $data = [
                 "message" => "Success."
-            );
+            ];
         }
         $this->_sendJson($data);
     }
 
+    /**
+     * @return null
+     */
     protected function _getDeviceUid()
     {
 

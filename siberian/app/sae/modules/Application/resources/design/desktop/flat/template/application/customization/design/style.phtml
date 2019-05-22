@@ -92,7 +92,7 @@ $splashVersion = (integer) $application->getSplashVersion();
                             <?php if($layout_form->getPresets()): ?>
                                 <p class="preset-title"><?php echo __("Preset") ?></p>
                                 <div class="preset-sets"
-                                     data-form="<?php echo $layout_form->getId(); ?>"/>
+                                     data-form="<?php echo $layout_form->getId(); ?>">
                                     <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
                                         <tr>
                                             <td class="prev-arrow">
@@ -107,7 +107,9 @@ $splashVersion = (integer) $application->getSplashVersion();
                                                         $values .= " data-$key=\"$value\"";
                                                     }
                                                     ?>
-                                                    <a class="sb-carousel-item preset-link" style="display: none;" href="javascript:void(0)" <?php echo $values; ?>>
+                                                    <a class="sb-carousel-item preset-link"
+                                                       style="display: none;"
+                                                       href="javascript:void(0)" <?php echo $values; ?>>
                                                         <img src="<?php echo $preset["preview"] ?>" />
                                                     </a>
                                                     <?php endforeach; ?>

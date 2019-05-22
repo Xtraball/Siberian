@@ -5,8 +5,8 @@
  */
 
 window.momentjs_loaded = false;
-window.extractI18n = false;
-var DEBUG = true;
+window.extractI18n = true;
+var DEBUG = false;
 
 // Fallback for non re-published apps
 if (IS_NATIVE_APP === undefined) {

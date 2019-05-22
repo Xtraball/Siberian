@@ -79,26 +79,6 @@ angular.module('starter').controller('CmsViewController', function ($location, $
         SocialSharing.share(undefined, undefined, undefined, file);
     };
 
-    $scope.onShowMap = function (block) {
-        if ($rootScope.isNotAvailableOffline()) {
-            return;
-        }
-
-        var params = {};
-
-        if (block.latitude && block.longitude) {
-            params.latitude = block.latitude;
-            params.longitude = block.longitude;
-        } else if (block.address) {
-            params.address = encodeURI(block.address);
-        }
-
-        params.title = block.label;
-        params.value_id = $scope.value_id;
-
-        $location.path(Url.get('map/mobile_view/index', params));
-    };
-
     $scope.addToContact = function (contact) {
         contact = {
             firstname: $scope.place.title

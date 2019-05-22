@@ -1,6 +1,15 @@
 <?php
 
-class Siberian_Image extends Gregwar\Image\Image
+namespace Siberian;
+
+use Gregwar\Image\Image as GregwarImage;
+use Core_Model_Directory as SiberianDirectory;
+
+/**
+ * Class Image
+ * @package Siberian
+ */
+class Image extends GregwarImage
 {
 
     /**
@@ -40,12 +49,14 @@ class Siberian_Image extends Gregwar\Image\Image
 
         $this->originalFile = $originalFile;
 
-        $this->setCacheDir(Core_Model_Directory::getImageCacheDirectory(true));
+        $this->setCacheDir(SiberianDirectory::getImageCacheDirectory(true));
         $this->setCacheDirMode(0755);
     }
 
     /**
-     * Returns the Base64 inlinable representation.
+     * @param string $type
+     * @param int $quality
+     * @return string
      */
     public function inline($type = 'jpg', $quality = 80)
     {
@@ -64,8 +75,9 @@ class Siberian_Image extends Gregwar\Image\Image
      * @param null $format
      * @param null $device_width
      * @param null $device_height
-     * @return mixed|string
-     * @throws \Siberian\Exception(
+     * @param bool $returnInfos
+     * @return array|mixed|string
+     * @throws Exception
      */
     public static function getForMobile($base_url,
                                         $resource,
@@ -76,7 +88,7 @@ class Siberian_Image extends Gregwar\Image\Image
     {
         if (isset($resource) && is_file($resource)) {
 
-            $resource = Siberian_Image::open($resource);
+            $resource = self::open($resource);
 
             // Optimize images with the screen resolution or format!
             if (isset($format) && isset(self::$formats[$format])) {
@@ -109,7 +121,7 @@ class Siberian_Image extends Gregwar\Image\Image
              *  don't cache it locally but send the proxied url
              */
             if (strlen(base64_decode($base64)) > self::$max_size || self::$force_cache) {
-                $data = str_replace(Core_Model_Directory::getBasePathTo(''),
+                $data = str_replace(path(""),
                     $base_url . '/', $resource->guess());
             } else {
                 $data = $base64;
@@ -125,7 +137,7 @@ class Siberian_Image extends Gregwar\Image\Image
             ];
 
         } else {
-            throw new \Siberian\Exception(
+            throw new Exception(
                 __('[Error] Siberian_Image, no resource provided.'));
         }
     }
@@ -136,18 +148,19 @@ class Siberian_Image extends Gregwar\Image\Image
      * @param null $format
      * @param null $device_width
      * @param null $device_height
-     * @return mixed|string
-     * @throws \Siberian\Exception(
+     * @param bool $returnInfos
+     * @return array|mixed|string
+     * @throws Exception
      */
     public static function getForMobileUnified($base_url,
-                                        $resource,
-                                        $format = null,
-                                        $device_width = null,
-                                        $device_height = null,
-                                        $returnInfos = false)
+                                               $resource,
+                                               $format = null,
+                                               $device_width = null,
+                                               $device_height = null,
+                                               $returnInfos = false)
     {
         if (isset($resource) && is_file($resource)) {
-            $resource = Siberian_Image::open($resource);
+            $resource = self::open($resource);
 
             // Optimize images with the screen resolution or format!
             if (isset($format) && isset(self::$formats[$format])) {
@@ -182,7 +195,7 @@ class Siberian_Image extends Gregwar\Image\Image
              *  don't cache it locally but send the proxied url
              */
             if (strlen(base64_decode($base64)) > self::$max_size || self::$force_cache) {
-                $data = str_replace(Core_Model_Directory::getBasePathTo(''),
+                $data = str_replace(path(""),
                     $base_url . '/', $resource->guess());
             } else {
                 $data = $base64;
@@ -198,13 +211,13 @@ class Siberian_Image extends Gregwar\Image\Image
             ];
 
         } else {
-            throw new \Siberian\Exception(
+            throw new Exception(
                 __('[Error] Siberian_Image, no resource provided.'));
         }
     }
 
     /**
-     * Force image to be cached as URL
+     *
      */
     public static function enableForceCache()
     {
@@ -212,7 +225,7 @@ class Siberian_Image extends Gregwar\Image\Image
     }
 
     /**
-     * Disable image URL cache
+     *
      */
     public static function disableForceCache()
     {
