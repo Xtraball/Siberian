@@ -64,7 +64,6 @@ angular
          * @returns {boolean}
          */
         HomepageLayout.openFeature = function (feature, scope) {
-            window.$location = $location;
             if (scope === undefined) {
                 scope = $rootScope;
             }
@@ -85,8 +84,8 @@ angular
 
             // Clear history for side-menu feature!
             switch (Pages.data.layout.position) {
-                case 'left':
-                case 'right':
+                case "left":
+                case "right":
                     if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();
                     }
@@ -95,7 +94,7 @@ angular
                     }
 
                     // Skip clear history for specific features:
-                    var isPadlock = (feature.code === 'padlock');
+                    var isPadlock = (feature.code === "padlock");
                     var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
                     var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
 
@@ -111,7 +110,7 @@ angular
             }
 
             switch (true) {
-                case (feature.code === 'tabbar_account'):
+                case (feature.code === "tabbar_account"):
                     Analytics.storePageOpening({
                         id: 0
                     });
@@ -120,7 +119,7 @@ angular
 
                     break;
 
-                case (feature.code === 'tabbar_more'):
+                case (feature.code === "tabbar_more"):
                     HomepageLayout.getFeatures().then(function (features) {
                         scope.tabbar_is_visible = false;
                         scope.pages_list_is_visible = true;
@@ -162,8 +161,8 @@ angular
 
                 case (feature.is_link):
                     LinkService.openLink(feature.url, {
-                        'hide_navbar': !!feature.hide_navbar,
-                        'use_external_app': !!feature.use_external_app
+                        "hide_navbar": !!feature.hide_navbar,
+                        "use_external_app": !!feature.use_external_app
                     });
                     Analytics.storePageOpening(feature);
 
@@ -172,7 +171,7 @@ angular
                 default:
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get('Application').is_customizing_colors &&
+                    if (!$injector.get("Application").is_customizing_colors &&
                         HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
                             if (doClearHistory) {
@@ -181,11 +180,10 @@ angular
                                     disableAnimate: false
                                 });
                             }
-                            console.log("$location.path(feature.path).replace();", feature.path);
+
                             $location.path(feature.path).replace();
                         }
                     } else {
-                        console.log("else $location.path(feature.path).replace();", feature.path);
                         $location.path(feature.path);
                     }
             }

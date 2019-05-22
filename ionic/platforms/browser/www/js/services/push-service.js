@@ -3,7 +3,7 @@
  *
  * @author Xtraball SAS
  *
- * @version 4.15.7
+ * @version 4.17.0
  */
 angular.module('starter').service('PushService', function ($location, $log, $q, $rootScope,
                                                            $translate, $window, $session, Dialog,

@@ -2,11 +2,11 @@ window.Features = {
     registry: [],
     features: {},
     featuresToLoadOnStart: [],
-    insertCSS: function (css_content, feature_code) {
+    insertCSS: function (cssContent, featureCode) {
         var css = document.createElement("style");
-        css.type = "text/css";
-        css.setAttribute("data-feature", feature_code);
-        css.innerHTML = css_content;
+        css.setAttribute("type", "text/css");
+        css.setAttribute("data-feature", featureCode);
+        css.innerHTML = cssContent;
         document.head.appendChild(css);
     },
     register: function (json, bundle) {

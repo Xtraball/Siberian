@@ -5,14 +5,14 @@ use Siberian\Account;
 use Siberian\Json;
 
 /**
- * Class Front_Controller_Api_Base
+ * Class Front_Controller_Api_Pwa
  */
-class Front_Controller_Api_Base extends Front_Controller_App_Default
+class Front_Controller_Api_Pwa extends Front_Controller_App_Default
 {
     /**
      * @var string
      */
-    public $version = "v_base";
+    public $version = "pwa_v1";
 
     /**
      * Here we generate the Application initial payload
@@ -38,24 +38,28 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $cssBlock = $this->_cssBlock($application);
         } catch (\Exception $e) {
             // Exception CSS
+            $cssBlock = [];
         }
 
         try {
             $loadBlock = $this->_loadBlock($application);
         } catch (\Exception $e) {
             // Exception CSS
+            $loadBlock = [];
         }
 
         try {
             $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
         } catch (\Exception $e) {
             // Exception CSS
+            $featureBlock = [];
         }
 
         try {
             $translationBlock = $this->_translationBlock($application, $currentLanguage);
         } catch (\Exception $e) {
             // Exception CSS
+            $translationBlock = [];
         }
 
         try {
@@ -63,6 +67,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $loadBlock = $this->_customerBlock($application, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
+            $loadBlock = [];
         }
 
         try {
@@ -70,14 +75,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $manifestBlock = $this->_manifestBlock($application, $request);
         } catch (\Exception $e) {
             // Exception CSS
+            $manifestBlock = [];
         }
 
         $data = [
-            'cssBlock' => $cssBlock,
-            'loadBlock' => $loadBlock,
-            'featureBlock' => $featureBlock,
-            'translationBlock' => $translationBlock,
-            'manifestBlock' => $manifestBlock,
+            "cssBlock" => $cssBlock,
+            "loadBlock" => $loadBlock,
+            "featureBlock" => $featureBlock,
+            "translationBlock" => $translationBlock,
+            "manifestBlock" => $manifestBlock,
         ];
 
         // Init is ready, trigger the hook
@@ -98,31 +104,32 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function _cssBlock ($application)
     {
-        $cacheIdCss = 'v4_front_mobile_load_css_app_' . $application->getId();
+        $appId = $application->getId();
+        $cacheIdCss = "{$this->version}_front_mobile_load_css_app_{$appId}";
         $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheIdCss)) {
 
             $cssFile = Core_Model_Directory::getBasePathTo(Template_Model_Design::getCssPath($application));
             $blockCss = [
-                'css' => file_get_contents($cssFile)
+                "css" => file_get_contents($cssFile)
             ];
 
             $this->cache->save($blockCss, $cacheIdCss, [
-                'v4',
-                'front_mobile_load_css',
-                'css_app_' . $application->getId()
+                $this->version,
+                "front_mobile_load_css",
+                "css_app_" . $application->getId()
             ]);
 
             unset($cssFile);
             unset($cacheIdCss);
 
-            $blockCss['x-cache'] = 'MISS';
+            $blockCss["x-cache"] = "MISS";
         } else {
             $blockCss = $result;
-            $blockCss['x-cache'] = 'HIT';
+            $blockCss["x-cache"] = "HIT";
         }
         // Time to generate the current block!
-        $blockCss['x-delay'] = microtime(true) - $blockStart;
+        $blockCss["x-delay"] = microtime(true) - $blockStart;
 
         return $blockCss;
     }
@@ -135,19 +142,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public function _loadBlock ($application)
     {
         $appId = $application->getId();
-        $cacheId = 'v4_front_mobile_load_app_' . $appId;
+        $cacheId = "{$this->version}_front_mobile_load_app_{$appId}";
         $blockStart = microtime(true);
         if (!$result = $this->cache->load($cacheId)) {
 
-            // Homepage image url!
-            if ($application->getSplashVersion() == '2') {
-                $homepageImage = path($application->getHomepageBackgroundUnified());
-            } else {
-                $homepageImage = path($application->getHomepageBackgroundImageUrl());
-            }
+            $homepageImage = path($application->getHomepageBackgroundUnified());
 
             $homepageImageB64 = Siberian_Image::open($homepageImage)
-                ->cropResize(512)->inline('jpeg', 65);
+                ->cropResize(360)->inline("jpeg", 90);
 
             $googleMapsKey = $application->getGooglemapsKey();
 
@@ -158,37 +160,37 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $privacyPolicyTitle = trim($application->getPrivacyPolicyTitle());
             if (empty($privacyPolicyTitle)) {
-                $privacyPolicyTitle = __('Privacy policy');
+                $privacyPolicyTitle = __("Privacy policy");
             }
 
             $iconColor = strtolower($application->getAndroidPushColor());
             if (!preg_match('/^#[a-f0-9]{6}$/', $iconColor)) {
                 // Fallback with a number only color!
-                $iconColor = '#808080';
+                $iconColor = "#808080";
             }
 
-            $progressbarColor = $application->getBlock('dialog_text')->getColor();
-            $progressbarTrailColor = $application->getBlock('dialog_bg')->getColor();
-            $progressbarColor = Siberian_Color::newColor($progressbarColor, 'hex');
-            $progressbarTrailColor = Siberian_Color::newColor($progressbarTrailColor, 'hex');
+            $progressbarColor = $application->getBlock("dialog_text")->getColor();
+            $progressbarTrailColor = $application->getBlock("dialog_bg")->getColor();
+            $progressbarColor = Siberian_Color::newColor($progressbarColor, "hex");
+            $progressbarTrailColor = Siberian_Color::newColor($progressbarTrailColor, "hex");
 
             if ($progressbarTrailColor->lightness > 80) {
                 $progressbarTrailColor = $progressbarTrailColor
-                    ->getNew('lightness', $progressbarColor->lightness - 20);
+                    ->getNew("lightness", $progressbarColor->lightness - 20);
             } else {
                 $progressbarTrailColor = $progressbarTrailColor
-                    ->getNew('lightness', $progressbarColor->lightness + 20);
+                    ->getNew("lightness", $progressbarColor->lightness + 20);
             }
 
-            $bgBlock = $application->getBlock('background');
+            $bgBlock = $application->getBlock("background");
             $bgColorHex = $bgBlock->getBackgroundColor();
-            $bgColor = Siberian_Color::newColor($bgColorHex, 'hex');
+            $bgColor = Siberian_Color::newColor($bgColorHex, "hex");
             $bgColor->alpha = $bgBlock->getBackgroundOpacity() / 100;
 
-            $credentials = (new Push_Model_Firebase())->find(0, 'admin_id');
+            $credentials = (new Push_Model_Firebase())->find(0, "admin_id");
 
-            $colorStatusBar = Siberian_Color::newColor($application->getBlock('header')->getBackgroundColor(), 'hex');
-            $colorStatusBarLighten = $colorStatusBar->getNew('lightness', $colorStatusBar->lightness - 10);
+            $colorStatusBar = Siberian_Color::newColor($application->getBlock("header")->getBackgroundColor(), "hex");
+            $colorStatusBarLighten = $colorStatusBar->getNew("lightness", $colorStatusBar->lightness - 10);
 
             // My Account feature (if it exists)
             $myAccountOption = (new Application_Model_Option())->find("tabbar_account", "code");
@@ -214,59 +216,59 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             $loadBlock = [
-                'application' => [
-                    'id' => $appId,
-                    'name' => $application->getName(),
-                    'is_locked' => (boolean)$application->requireToBeLoggedIn(),
-                    'is_bo_locked' => (boolean)$application->getIsLocked(),
-                    'colors' => [
-                        'header' => [
-                            'statusBarColor' => $colorStatusBarLighten->toCSS('hex'),
-                            'backgroundColor' => $application->getBlock('header')->getBackgroundColorRGB(),
-                            'color' => $application->getBlock('header')->getColorRGB()
+                "application" => [
+                    "id" => $appId,
+                    "name" => $application->getName(),
+                    "is_locked" => (boolean)$application->requireToBeLoggedIn(),
+                    "is_bo_locked" => (boolean)$application->getIsLocked(),
+                    "colors" => [
+                        "header" => [
+                            "statusBarColor" => $colorStatusBarLighten->toCSS("hex"),
+                            "backgroundColor" => $application->getBlock("header")->getBackgroundColorRGB(),
+                            "color" => $application->getBlock("header")->getColorRGB()
                         ],
-                        'background' => [
-                            'backgroundColor' => $bgColorHex,
-                            'color' => $application->getBlock('background')->getColor(),
-                            'rgba' => $bgColor->toCSS('rgba')
+                        "background" => [
+                            "backgroundColor" => $bgColorHex,
+                            "color" => $application->getBlock("background")->getColor(),
+                            "rgba" => $bgColor->toCSS("rgba")
                         ],
-                        'loader' => [
-                            'trail' => $progressbarTrailColor->toCSS('hex'),
-                            'bar_text' => $progressbarColor->toCSS('hex'),
+                        "loader" => [
+                            "trail" => $progressbarTrailColor->toCSS("hex"),
+                            "bar_text" => $progressbarColor->toCSS("hex"),
                         ],
-                        'list_item' => [
-                            'color' => $application->getBlock('list_item')->getColor()
+                        "list_item" => [
+                            "color" => $application->getBlock("list_item")->getColor()
                         ]
                     ],
-                    'admob' => $this->_admobSettings($application),
-                    'facebook' => [
-                        'id' => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
-                        'scope' => Customer_Model_Customer_Type_Facebook::getScope()
+                    "admob" => $this->_admobSettings($application),
+                    "facebook" => [
+                        "id" => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
+                        "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
-                    'pushIconcolor' => $iconColor,
-                    'gmapsKey' => $googleMapsKey,
-                    'offlineContent' => (boolean) $application->getOfflineContent(),
-                    'fcmSenderID' => $credentials->getSenderId(),
-                    'iosStatusBarIsHidden' => (boolean) $application->getIosStatusBarIsHidden(),
-                    'androidStatusBarIsHidden' => (boolean) $application->getAndroidStatusBarIsHidden(),
-                    'privacyPolicy' => [
-                        'title' => $privacyPolicyTitle,
-                        'text' => str_replace('#APP_NAME', $application->getName(), $privacyPolicy),
-                        'gdpr' => $application->getPrivacyPolicyGdpr(),
+                    "pushIconcolor" => $iconColor,
+                    "gmapsKey" => $googleMapsKey,
+                    "offlineContent" => (boolean) $application->getOfflineContent(),
+                    "fcmSenderID" => $credentials->getSenderId(),
+                    "iosStatusBarIsHidden" => (boolean) $application->getIosStatusBarIsHidden(),
+                    "androidStatusBarIsHidden" => (boolean) $application->getAndroidStatusBarIsHidden(),
+                    "privacyPolicy" => [
+                        "title" => $privacyPolicyTitle,
+                        "text" => str_replace("#APP_NAME", $application->getName(), $privacyPolicy),
+                        "gdpr" => $application->getPrivacyPolicyGdpr(),
                     ],
-                    'gdpr' => [
-                        'isEnabled' => isGdpr(),
+                    "gdpr" => [
+                        "isEnabled" => isGdpr(),
                     ],
-                    'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
-                    'backButton' => (string) $application->getBackButton(),
-                    'myAccount' => $myAccount,
+                    "useHomepageBackground" => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
+                    "backButton" => (string) $application->getBackButton(),
+                    "myAccount" => $myAccount,
                 ],
-                'homepageImage' => $homepageImageB64
+                "homepageImage" => $homepageImageB64
             ];
             $this->cache->save($loadBlock, $cacheId, [
-                'v4',
-                'front_mobile_load',
-                'app_' . $appId
+                $this->version,
+                "front_mobile_load",
+                "app_{$appId}"
             ]);
 
             // Free!
@@ -287,14 +289,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             unset($colorStatusBar);
             unset($colorStatusBarLighten);
 
-            $loadBlock['x-cache'] = 'MISS';
+            $loadBlock["x-cache"] = "MISS";
         } else {
             $loadBlock = $result;
-            $loadBlock['x-cache'] = 'HIT';
+            $loadBlock["x-cache"] = "HIT";
         }
 
         // Time to generate the current block!
-        $loadBlock['x-delay'] = microtime(true) - $blockStart;
+        $loadBlock["x-delay"] = microtime(true) - $blockStart;
 
         return $loadBlock;
     }
@@ -313,7 +315,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $isPwa = $bodyParams["isPwa"];
         $appId = $application->getId();
         $appKey = $application->getKey();
-        $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
+        $cacheId = "v4_front_mobile_home_findall_app_" . $appId . "_locale_" . $currentLanguage;
         $blockStart = microtime(true);
 
         if (!$result = $this->cache->load($cacheId)) {
@@ -322,8 +324,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
              */
             $optionValues = $application->getPages(10, true);
             $featureBlock = [];
-            $color = $application->getBlock('tabbar')->getImageColor();
-            $backgroundColor = $application->getBlock('tabbar')->getBackgroundColor();
+            $color = $application->getBlock("tabbar")->getImageColor();
+            $backgroundColor = $application->getBlock("tabbar")->getBackgroundColor();
 
             $touchedValues = [];
             $myAccountIgnore = false;
@@ -338,8 +340,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 }
 
                 $touchedValues[$optionValue->getId()] = [
-                    'touched_at' => (integer)$optionValue->getTouchedAt(),
-                    'expires_at' => (integer)$optionValue->getExpiresAt()
+                    "touched_at" => (integer)$optionValue->getTouchedAt(),
+                    "expires_at" => (integer)$optionValue->getExpiresAt()
                 ];
 
                 try {
@@ -348,13 +350,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     // In-App-Browser / Browser options!
                     $hideNavbar = null;
                     $useExternalApp = null;
-                    if ($optionValue->getCode() === 'weblink_mono') {
+                    if ($optionValue->getCode() === "weblink_mono") {
                         $hideNavbar = $object->getLink()->getHideNavbar();
                         $useExternalApp = $object->getLink()->getUseExternalApp();
                     }
 
                     if (sizeof($optionValues) >= 50) {
-                        if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
+                        if (in_array($optionValue->getCode(), ["folder", "folder_v2", "custom_page"])) {
                             $embedPayload = false;
                         } else {
                             $embedPayload = $optionValue->getEmbedPayload($request);
@@ -374,36 +376,36 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
                     // End link special code!
                     $featureBlock[] = [
-                        'value_id' => (integer) $optionValue->getId(),
-                        'id' => (integer) $optionValue->getId(),
-                        'layout_id' => (integer) $optionValue->getLayoutId(),
-                        'code' => $optionValue->getCode(),
-                        'name' => $optionValue->getTabbarName(),
-                        'subtitle' => $optionValue->getTabbarSubtitle(),
-                        'is_active' => (boolean) $optionValue->isActive(),
-                        'url' => $uris["featureUrl"],
-                        'hide_navbar' => (boolean) $hideNavbar,
-                        'use_external_app' => (boolean) $useExternalApp,
-                        'path' => $uris["featurePath"],
-                        'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
-                        'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
-                        'is_locked' => (boolean) $optionValue->isLocked(),
-                        'is_link' => !(boolean) $optionValue->getIsAjax(),
-                        'use_my_account' => (boolean) $optionValue->getUseMyAccount(),
-                        'use_nickname' => (boolean) $optionValue->getUseNickname(),
-                        'use_ranking' => (boolean) $optionValue->getUseRanking(),
-                        'offline_mode' => (boolean) $optionValue->getObject()->isCacheable(),
-                        'custom_fields' => $optionValue->getCustomFields(),
-                        'embed_payload' => $embedPayload,
-                        'position' => (integer) $optionValue->getPosition(),
-                        'homepage' => (boolean) ($optionValue->getFolderCategoryId() === null),
-                        'settings' => $settings,
-                        'touched_at' => (integer) $optionValue->getTouchedAt(),
-                        'expires_at' => (integer) $optionValue->getExpiresAt()
+                        "value_id" => (integer) $optionValue->getId(),
+                        "id" => (integer) $optionValue->getId(),
+                        "layout_id" => (integer) $optionValue->getLayoutId(),
+                        "code" => $optionValue->getCode(),
+                        "name" => $optionValue->getTabbarName(),
+                        "subtitle" => $optionValue->getTabbarSubtitle(),
+                        "is_active" => (boolean) $optionValue->isActive(),
+                        "url" => $uris["featureUrl"],
+                        "hide_navbar" => (boolean) $hideNavbar,
+                        "use_external_app" => (boolean) $useExternalApp,
+                        "path" => $uris["featurePath"],
+                        "icon_url" => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
+                        "icon_is_colorable" => (boolean) $optionValue->getImage()->getCanBeColorized(),
+                        "is_locked" => (boolean) $optionValue->isLocked(),
+                        "is_link" => !(boolean) $optionValue->getIsAjax(),
+                        "use_my_account" => (boolean) $optionValue->getUseMyAccount(),
+                        "use_nickname" => (boolean) $optionValue->getUseNickname(),
+                        "use_ranking" => (boolean) $optionValue->getUseRanking(),
+                        "offline_mode" => (boolean) $optionValue->getObject()->isCacheable(),
+                        "custom_fields" => $optionValue->getCustomFields(),
+                        "embed_payload" => $embedPayload,
+                        "position" => (integer) $optionValue->getPosition(),
+                        "homepage" => (boolean) ($optionValue->getFolderCategoryId() === null),
+                        "settings" => $settings,
+                        "touched_at" => (integer) $optionValue->getTouchedAt(),
+                        "expires_at" => (integer) $optionValue->getExpiresAt()
                     ];
                 } catch (\Exception $e) {
                     // Silently fail missing modules!
-                    log_alert('A module is probably missing, ' . $e->getMessage());
+                    log_alert("A module is probably missing, " . $e->getMessage());
                 }
             }
 
@@ -426,14 +428,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             $dataMoreItems = [
-                'code' => $option->getCode(),
-                'name' => $option->getTabbarName(),
-                'subtitle' => $application->getMoreSubtitle(),
-                'is_active' => (boolean) $option->isActive(),
-                'url' => '',
-                'icon_url' => $request->getBaseUrl() .
+                "code" => $option->getCode(),
+                "name" => $option->getTabbarName(),
+                "subtitle" => $application->getMoreSubtitle(),
+                "is_active" => (boolean) $option->isActive(),
+                "url" => "",
+                "icon_url" => $request->getBaseUrl() .
                     $this->_getColorizedImage($option->getIconUrl(), $moreColor),
-                'icon_is_colorable' => (boolean) $moreColorizable,
+                "icon_is_colorable" => (boolean) $moreColorizable,
             ];
 
             $option = (new Application_Model_Option())
@@ -455,19 +457,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             $dataCustomerAccount = [
-                'code' => $option->getCode(),
-                'name' => $option->getTabbarName(),
-                'subtitle' => $application->getAccountSubtitle(),
-                'is_active' => (boolean)$option->isActive(),
-                'url' => $this->getUrl('customer/mobile_account_login'),
-                'path' => $this->getPath('customer/mobile_account_login'),
-                'login_url' => $this->getUrl('customer/mobile_account_login'),
-                'login_path' => $this->getPath('customer/mobile_account_login'),
-                'edit_url' => $this->getUrl('customer/mobile_account_edit'),
-                'edit_path' => $this->getPath('customer/mobile_account_edit'),
-                'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
-                'icon_is_colorable' => (boolean)$accountColorizable,
-                'is_visible' => (boolean)$application->usesUserAccount()
+                "code" => $option->getCode(),
+                "name" => $option->getTabbarName(),
+                "subtitle" => $application->getAccountSubtitle(),
+                "is_active" => (boolean)$option->isActive(),
+                "url" => $this->getUrl("customer/mobile_account_login"),
+                "path" => $this->getPath("customer/mobile_account_login"),
+                "login_url" => $this->getUrl("customer/mobile_account_login"),
+                "login_path" => $this->getPath("customer/mobile_account_login"),
+                "edit_url" => $this->getUrl("customer/mobile_account_edit"),
+                "edit_path" => $this->getPath("customer/mobile_account_edit"),
+                "icon_url" => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
+                "icon_is_colorable" => (boolean)$accountColorizable,
+                "is_visible" => (boolean)$application->usesUserAccount()
             ];
 
             $layout = new Application_Model_Layout_Homepage();
@@ -488,100 +490,73 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             $dataHomepage = [
-                'pages' => $featureBlock,
-                'touched' => $touchedValues,
-                'more_items' => $dataMoreItems,
-                'customer_account' => $dataCustomerAccount,
-                'layout' => [
-                    'layout_id' => 'l' . $application->getLayoutId(),
-                    'layout_code' => $application->getLayout()->getCode(),
-                    'layout_options' => $layoutOptions,
-                    'visibility' => $application->getLayoutVisibility(),
-                    'use_horizontal_scroll' => (boolean) $layout->getUseHorizontalScroll(),
-                    'position' => $layout->getPosition()
+                "pages" => $featureBlock,
+                "touched" => $touchedValues,
+                "more_items" => $dataMoreItems,
+                "customer_account" => $dataCustomerAccount,
+                "layout" => [
+                    "layout_id" => "l" . $application->getLayoutId(),
+                    "layout_code" => $application->getLayout()->getCode(),
+                    "layout_options" => $layoutOptions,
+                    "visibility" => $application->getLayoutVisibility(),
+                    "use_horizontal_scroll" => (boolean) $layout->getUseHorizontalScroll(),
+                    "position" => $layout->getPosition()
                 ],
-                'limit_to' => (integer) $application->getLayout()->getNumberOfDisplayedIcons(),
-                'layout_id' => 'l' . $application->getLayoutId(),
-                'layout_code' => $application->getLayout()->getCode(),
-                'tabbar_is_transparent' => (boolean) ($backgroundColor === 'transparent'),
-                'homepage_slider_is_visible' => (boolean) $application->getHomepageSliderIsVisible(),
-                'homepage_slider_duration' => $application->getHomepageSliderDuration(),
-                'homepage_slider_loop_at_beginning' => (boolean) $application->getHomepageSliderLoopAtBeginning(),
-                'homepage_slider_size' => $application->getHomepageSliderSize(),
-                'homepage_slider_opacity' => (integer) $application->getHomepageSliderOpacity(),
-                'homepage_slider_offset' => (integer) $application->getHomepageSliderOffset(),
-                'homepage_slider_is_new' => (boolean) ($application->getHomepageSliderSize() != null),
-                'homepage_slider_images' => $homepageSliderImages,
+                "limit_to" => (integer) $application->getLayout()->getNumberOfDisplayedIcons(),
+                "layout_id" => "l" . $application->getLayoutId(),
+                "layout_code" => $application->getLayout()->getCode(),
+                "tabbar_is_transparent" => (boolean) ($backgroundColor === "transparent"),
+                "homepage_slider_is_visible" => (boolean) $application->getHomepageSliderIsVisible(),
+                "homepage_slider_duration" => $application->getHomepageSliderDuration(),
+                "homepage_slider_loop_at_beginning" => (boolean) $application->getHomepageSliderLoopAtBeginning(),
+                "homepage_slider_size" => $application->getHomepageSliderSize(),
+                "homepage_slider_opacity" => (integer) $application->getHomepageSliderOpacity(),
+                "homepage_slider_offset" => (integer) $application->getHomepageSliderOffset(),
+                "homepage_slider_is_new" => (boolean) ($application->getHomepageSliderSize() != null),
+                "homepage_slider_images" => $homepageSliderImages,
             ];
 
             foreach ($application->getOptions() as $opt) {
-                $dataHomepage['layouts'][$opt->getValueId()] = $opt->getLayoutId();
+                $dataHomepage["layouts"][$opt->getValueId()] = $opt->getLayoutId();
             }
 
             $this->cache->save($dataHomepage, $cacheId, [
-                'v4',
-                'front_mobile_home_findall',
-                'app_' . $appId,
-                'homepage_app_' . $appId,
-                'css_app_' . $appId,
-                'mobile_translation',
-                'mobile_translation_locale_' . $currentLanguage
+                $this->version,
+                "front_mobile_home_findall",
+                "app_{$appId}",
+                "homepage_app_{$appId}",
+                "css_app_{$appId}",
+                "mobile_translation",
+                "mobile_translation_locale_{$currentLanguage}"
             ]);
 
-            $dataHomepage['x-cache'] = 'MISS';
+            $dataHomepage["x-cache"] = "MISS";
         } else {
             $dataHomepage = $result;
-            $dataHomepage['x-cache'] = 'HIT';
+            $dataHomepage["x-cache"] = "HIT";
         }
 
-        // Dynamic patches (non-cached) for specific app versions
-        if (version_compare($appVersion, "4.15.6", "<")) {
-            // Apply patches.
+        //if (version_compare($appVersion, "4.17.0", ">=")) {
+        //    // Apply patches.
+//
+        //    foreach ($dataHomepage["pages"] as &$page) {
+        //        $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
+        //        $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
+        //        dbg($page);
+        //    }
+        //}
 
-            # 1. Places
-            foreach ($dataHomepage["pages"] as &$page) {
-                if ($page["code"] === "places") {
-                    $page["path"] = sprintf("/%s/places/mobile_list/index/value_id/%s",
-                        $appKey,
-                        $page["value_id"]);
-                }
-            }
-        }
-
-        if (version_compare($appVersion, "4.16.0", "<")) {
-            // Apply patches.
-
-            # 1. Places
-            $fixedPages = [];
-            foreach ($dataHomepage["pages"] as &$page) {
-                if ($page["code"] !== "tabbar_account") {
-                    $fixedPages[] = $page;
-                }
-            }
-            $dataHomepage["pages"] = $fixedPages;
-        }
-
-        if (version_compare($appVersion, "4.17.0", ">=")) {
-            // Apply patches.
-
-            foreach ($dataHomepage["pages"] as &$page) {
-                $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
-                $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
-                dbg($page);
-            }
-        }
-
-        // Don't cache customer information!
+        // Never cache customer data!
         $pushNumber = 0;
-        $deviceUid = $request->getParam('device_uid', null);
+        $deviceUid = $request->getParam("device_uid", null);
         if (!empty($deviceUid)) {
             $pushNumber = (new Push_Model_Message())
                 ->countByDeviceId($deviceUid);
         }
-        $dataHomepage['push_badge'] = $pushNumber;
+        $dataHomepage["push_badge"] = $pushNumber;
 
         // Time to generate the current block!
-        $dataHomepage['x-delay'] = microtime(true) - $blockStart;
+        $dataHomepage["x-delay"] = microtime(true) - $blockStart;
 
         return $dataHomepage;
     }

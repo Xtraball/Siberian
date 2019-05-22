@@ -9,7 +9,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").controller('CustomerController', function(Picture, $ionicActionSheet, Loader,
+angular.module("starter").controller("CustomerController", function(Picture, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, FacebookConnect,
                                               HomepageLayout) {

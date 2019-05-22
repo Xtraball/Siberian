@@ -161,7 +161,7 @@ angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHis
     };
 });
 
-angular.module('starter').directive('tabbarItems', function ($rootScope, $timeout, $log, HomepageLayout) {
+angular.module("starter").directive("tabbarItems", function ($rootScope, $timeout, $log, HomepageLayout) {
     return {
         restrict: 'A',
         scope: {
@@ -176,11 +176,8 @@ angular.module('starter').directive('tabbarItems', function ($rootScope, $timeou
             element.append(customCounter);
         },*/
         link: function (scope, element) {
-            element.on('click', function () {
-                $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
-
-                console.log("scope.option", scope.option);
-
+            element.on("click", function () {
+                $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);
                 });
