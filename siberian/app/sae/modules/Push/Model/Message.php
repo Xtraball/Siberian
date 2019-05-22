@@ -601,6 +601,7 @@ class Push_Model_Message extends Core_Model_Default
 
     /**
      * @return bool
+     * @throws Zend_Exception
      */
     public static function hasIndividualPush()
     {
