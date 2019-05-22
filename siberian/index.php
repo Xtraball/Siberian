@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.16.0
+ * @version 4.17.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -14,81 +14,56 @@ putenv("TMP={$here}/var/tmp");
 
 $oldUmask = umask(003);
 
-if (!file_exists('./config.php')) {
-    copy('./config.sample.php', './config.php');
+if (!file_exists("./config.php")) {
+    copy("./config.sample.php", "./config.php");
 }
 
-if (!file_exists('./lib/Siberian/Version.php')) {
-    copy('./lib/Siberian/Version.sample.php', './lib/Siberian/Version.php');
+if (!file_exists("./lib/Siberian/Version.php")) {
+    copy("./lib/Siberian/Version.sample.php", "./lib/Siberian/Version.php");
 }
 
-require_once './config.php';
+require_once "./config.php";
 
 // PHP Info!
-if (($_config['environment'] === 'development') && isset($_GET['phpi'])) {
+if (($_config["environment"] === "development") && isset($_GET["phpi"])) {
     phpinfo();
     die;
 }
 
 set_time_limit(300);
-ini_set('max_execution_time', 300);
+ini_set("max_execution_time", 300);
 umask(0);
 
-setlocale(LC_MONETARY, 'en_US');
+setlocale(LC_MONETARY, "en_US");
 
-defined('DS')
-|| define('DS', DIRECTORY_SEPARATOR);
+defined("DS")
+|| define("DS", DIRECTORY_SEPARATOR);
 
-defined('APPLICATION_PATH')
-|| define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/app'));
+defined("APPLICATION_PATH")
+|| define("APPLICATION_PATH", realpath(dirname(__FILE__) . "/app"));
 
 // Defining ENV globally!
-defined('APPLICATION_ENV')
-|| define('APPLICATION_ENV', $_config['environment']);
+defined("APPLICATION_ENV")
+|| define("APPLICATION_ENV", $_config["environment"]);
 
 // Sourcing default libs!
 set_include_path(implode(PATH_SEPARATOR, [
-    realpath(APPLICATION_PATH . '/../lib'),
+    realpath(APPLICATION_PATH . "/../lib"),
 ]));
 
-require_once 'Zend/Application.php';
-
-// Initializing the application!
-$ini = is_readable(APPLICATION_PATH . '/configs/app.ini') ?
-    APPLICATION_PATH . '/configs/app.ini' : APPLICATION_PATH . '/configs/app.sample.ini';
-
-$application = new Zend_Application(
-    $_config['environment'],
-    [
-        'config' => [
-            $ini,
-            APPLICATION_PATH . '/configs/resources.cachemanager.ini',
-        ],
-    ]
-);
-
-$config = new Zend_Config($application->getOptions(), true);
-Zend_Registry::set('config', $config);
-Zend_Registry::set('_config', $_config);
-
-session_cache_limiter(false);
-
-/**
- * @param $data
- */
-function dbg($data)
+function dbg()
 {
     $args = func_get_args();
     foreach ($args as $arg) {
         file_put_contents(
-            '/tmp/debug.log',
+            "/tmp/debug.log",
             date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
             FILE_APPEND);
     }
 }
 
-// When you need to catch fatal errors create the corresponding config line `$_config['handle_fatal_errors'] = true;`!
-if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] === true) {
+// When you need to catch fatal errors create the corresponding config line `$_config["handle_fatal_errors"] = true;`!
+if (isset($_config["handle_fatal_errors"]) && $_config["handle_fatal_errors"] === true) {
     // Handle fatal errors!
     function shutdownFatalHandler()
     {
@@ -98,9 +73,9 @@ if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] ==
             http_response_code(400);
 
             $payload = [
-                'error' => true,
-                'fullError' => $error,
-                'message' => 'ERROR: ' . str_replace("\n", ' - ', $error['message']),
+                "error" => true,
+                "fullError" => $error,
+                "message" => "ERROR: " . str_replace("\n", " - ", $error["message"]),
             ];
 
             exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
@@ -108,11 +83,33 @@ if (isset($_config['handle_fatal_errors']) && $_config['handle_fatal_errors'] ==
     }
 
     // Handle fatal errors!
-    register_shutdown_function('shutdownFatalHandler');
+    register_shutdown_function("shutdownFatalHandler");
 }
 
 // Running!
 try {
+    require_once "./lib/Zend/Application.php";
+
+    // Initializing the application!
+    $ini = is_readable(APPLICATION_PATH . "/configs/app.ini") ?
+        APPLICATION_PATH . "/configs/app.ini" : APPLICATION_PATH . "/configs/app.sample.ini";
+
+    $application = new Zend_Application(
+        $_config["environment"],
+        [
+            "config" => [
+                $ini,
+                APPLICATION_PATH . "/configs/resources.cachemanager.ini",
+            ],
+        ]
+    );
+
+    $config = new Zend_Config($application->getOptions(), true);
+    Zend_Registry::set("config", $config);
+    Zend_Registry::set("_config", $_config);
+
+    session_cache_limiter(false);
+
     $application->bootstrap()->run();
 } catch (\Exception $e) {
     ob_clean();

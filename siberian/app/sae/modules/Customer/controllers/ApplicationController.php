@@ -8,6 +8,18 @@ use Siberian\Json;
 class Customer_ApplicationController extends Application_Controller_Default
 {
     /**
+     * @var array
+     */
+    public $cache_triggers = [
+        "edit-settings" => [
+            "tags" => [
+                "app_#APP_ID#",
+                "homepage_app_#APP_ID#"
+            ],
+        ],
+    ];
+
+    /**
      *
      */
     public function listAction()

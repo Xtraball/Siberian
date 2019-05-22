@@ -80,6 +80,8 @@ class Cms_Model_Application_Block extends Core_Model_Default
 
         switch ($this->getType()) {
             case "address":
+                $block_data["latitude"] = (float) $block_data["latitude"];
+                $block_data["longitude"] = (float) $block_data["longitude"];
                 $block_data["show_phone"] = !!($block_data["show_phone"]);
                 $block_data["show_website"] = !!($block_data["show_website"]);
                 $block_data["show_address"] = !!($block_data["show_address"]);

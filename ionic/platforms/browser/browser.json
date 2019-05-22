@@ -19,6 +19,10 @@
             {
               "xml": "<feature name=\"Device\"><param name=\"browser-package\" value=\"Device\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Navigator\"><param name=\"browser-package\" value=\"Navigator\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -44,7 +48,7 @@
     "InAppBrowser": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "com.xtraball.cordova.plugin.navigator": {
+    "Navigator": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Permissions": {
@@ -312,9 +316,17 @@
       "runs": true
     },
     {
-      "file": "plugins/com.xtraball.cordova.plugin.navigator/src/browser/NavigatorProxy.js",
-      "id": "com.xtraball.cordova.plugin.navigator.NavigatorProxy",
-      "pluginId": "com.xtraball.cordova.plugin.navigator",
+      "file": "plugins/Navigator/www/navigator.js",
+      "id": "Navigator.Navigator",
+      "pluginId": "Navigator",
+      "clobbers": [
+        "Navigator"
+      ]
+    },
+    {
+      "file": "plugins/Navigator/src/browser/NavigatorProxy.js",
+      "id": "Navigator.NavigatorProxy",
+      "pluginId": "Navigator",
       "runs": true
     },
     {
@@ -333,7 +345,7 @@
     "Device": "2.0.2",
     "File": "6.0.1",
     "InAppBrowser": "3.0.0",
-    "com.xtraball.cordova.plugin.navigator": "0.1.0",
+    "Navigator": "0.1.0",
     "Permissions": "1.0.0"
   }
 }
