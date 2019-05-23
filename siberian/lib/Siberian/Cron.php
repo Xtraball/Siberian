@@ -522,10 +522,14 @@ class Cron
                             if (isset($certContent["extensions"]) &&
                                 $certContent["extensions"]["subjectAltName"]) {
 
-                                $certificateHosts = explode(",", str_replace("DNS:", "", $certContent["extensions"]["subjectAltName"]));
-                                $hostnames = \Siberian_Json::decode($cert->getDomains());
+                                // Cleanup domain names!
+                                $certificateHosts = str_replace("DNS:", "", $certContent["extensions"]["subjectAltName"]);
+                                $certificateHosts = str_replace(" ", "", $certificateHosts);
+                                $certificateHosts = explode(",", $certificateHosts);
+                                $dbHostname = \Siberian_Json::decode($cert->getDomains());
 
-                                foreach ($hostnames as $hostname) {
+                                // Looping over to check for renew
+                                foreach ($dbHostname as $hostname) {
                                     $hostname = trim($hostname);
 
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
@@ -534,11 +538,16 @@ class Cron
                                     $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $cert->getHostname()));
                                     $isSelf = ($hostname === $cert->getHostname());
 
-                                    if ($isNotInArray && !$endWithDot && ($isCname || $isSelf)) {
-                                        $renew = true;
+                                    // If domain is valid!
+                                    if (!$endWithDot && ($isCname || $isSelf)) {
                                         $this->log(__("[Let's Encrypt] will add %s to SAN.", $hostname));
 
                                         $retainDomains[] = $hostname;
+
+                                        // If domain is not in the actual certificate file, we will force the renew!
+                                        if ($isNotInArray) {
+                                            $renew = true;
+                                        }
                                     }
 
                                     if ($endWithDot) {
@@ -573,14 +582,12 @@ class Cron
                                 $leIsInit = true;
                             }
 
-                            # Save back domains
-                            if (sizeof($domains) != sizeof($retainDomains)) {
-                                $cert
-                                    ->setDomains(\Siberian_Json::encode($retainDomains))
-                                    ->save();
-                            }
+                            # Save back domains!
+                            $cert
+                                ->setDomains(\Siberian_Json::encode($retainDomains))
+                                ->save();
 
-                            // Clear log between hostnames.
+                            // Clear log between hostNames!
                             $letsEncrypt->clearLog();
                             $result = $letsEncrypt->signDomains(array_merge([$cert->getHostname()], $retainDomains));
 
