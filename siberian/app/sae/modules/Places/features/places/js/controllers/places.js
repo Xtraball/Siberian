@@ -507,7 +507,7 @@ angular.module('starter')
                         $scope.page_title = data.page_title;
                         $scope.collection = data.places;
 
-                        Places.setMapCollection($scope.collection);
+                        Places.mapCollection = $scope.collection;
 
                         var markers = [];
 
