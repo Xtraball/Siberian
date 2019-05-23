@@ -56,7 +56,7 @@ class ApnsPHP_Push extends ApnsPHP_Abstract
 
 	protected $_aServiceURLs = array(
 		'tls://gateway.push.apple.com:2195', // Production environment
-		'tls://gateway.sandbox.push.apple.com:2195' // Sandbox environment
+		'tls://gateway.push.apple.com:2195' // Sandbox environment
 	); /**< @type array Service URLs environments. */
 
 	protected $_aMessageQueue = array(); /**< @type array Message queue. */
