@@ -8,7 +8,7 @@ $products = $mcommerce->getProducts()
     <div id="products_list"
          class="products_list">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo $this->_('My products'); ?>
+            <?php echo __('My products'); ?>
             <button type="button"
                     id="add_product"
                     class="color-blue pull-right bt-header-right btn">
@@ -25,10 +25,10 @@ $products = $mcommerce->getProducts()
                 <col width="100px" />
                 <thead>
                     <tr class="border-grey">
-                        <th><?php echo $this->_('Id'); ?></th>
-                        <th><?php echo $this->_('Product'); ?></th>
-                        <th><?php echo $this->_('Description'); ?></th>
-                        <th><?php echo $this->_('Price'); ?></th>
+                        <th><?php echo __('Id'); ?></th>
+                        <th><?php echo __('Product'); ?></th>
+                        <th><?php echo __('Description'); ?></th>
+                        <th><?php echo __('Price'); ?></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,7 +46,7 @@ $products = $mcommerce->getProducts()
                             <?php echo Core_Model_Lib_String::truncate(strip_tags($product->getDescription()), 25); ?>
                         </td>
                         <td align="right">
-                            <?php echo $product->getFormattedPrice($this->getApplication()->getCountryCode()); ?>
+                            <?php echo $product->getFormattedPrice($this->getApplication()->getLocale()); ?>
                         </td>
                         <td align="center">
                             <i class="fa fa-pencil"></i>

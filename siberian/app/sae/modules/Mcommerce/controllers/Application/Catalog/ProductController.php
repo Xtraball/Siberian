@@ -150,7 +150,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                 $html['product'] = [
                     'name' => Core_Model_Lib_String::truncate($product->getName(), 25),
                     'description' => Core_Model_Lib_String::truncate($product->getDescription(), 25),
-                    'formatted_price' => $product->getFormattedPrice($application->getCountryCode())
+                    'formatted_price' => $product->getFormattedPrice($application->getLocale())
                 ];
 
             }
@@ -257,7 +257,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
                 'product' => [
                     'name' => $product->getName(),
                     'description' => html_entity_decode($product->getDescription()),
-                    'formatted_price' => $product->getFormattedPrice($application->getCountryCode())
+                    'formatted_price' => $product->getFormattedPrice($application->getLocale())
                 ],
                 'success' => '1',
                 'success_message' => $this->_('Product successfully duplicated'),

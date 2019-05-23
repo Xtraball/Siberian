@@ -835,30 +835,40 @@ abstract class Core_Model_Default_Abstract
 
     /**
      * @param $price
-     * @param null $currency
+     * @param null $currencyOrLocale
      * @return string
      * @throws Zend_Currency_Exception
-     * @throws Zend_Locale_Exception
      */
-    public function formatPrice($price, $currency = null)
+    public function formatPrice($price, $currencyOrLocale = null)
     {
         $price = preg_replace(['/(,)/', '/[^0-9.-]/'], ['.', ''], $price);
         $language = Core_Model_Language::getCurrentLanguage();
+        $isLocale = strlen($currencyOrLocale) > 4;
 
-        if ($currency) {
-            $currency = new Zend_Currency($currency, new Zend_Locale($language));
-        } else {
-            $currency = Core_Model_Language::getCurrentCurrency();
+        try {
+            // Hijacking locale to currency, to local user format!
+            if ($isLocale) {
+                $tmpCurrency = new Zend_Currency(null, new Zend_Locale($currencyOrLocale));
+                $currencyOrLocale = $tmpCurrency->getShortName();
+            }
+
+            if ($currencyOrLocale !== null) {
+                $newCurrency = new Zend_Currency($currencyOrLocale, new Zend_Locale($language));
+            } else {
+                $newCurrency = Core_Model_Language::getCurrentCurrency();
+            }
+        } catch (Exception $e) {
+            // We need at least to default to something to display!
+            $newCurrency = new Zend_Currency();
         }
 
-        return $currency->toCurrency($price);
+        return $newCurrency->toCurrency($price);
     }
 
     /**
      * @param $price
      * @param null $currency
-     * @return mixed
-     * @throws Zend_Currency_Exception
+     * @return string
      * @throws Zend_Exception
      */
     public static function _formatPrice($price, $currency = null)
