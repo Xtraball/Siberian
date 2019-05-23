@@ -873,7 +873,10 @@ abstract class Core_Model_Default_Abstract
      */
     public static function _formatPrice($price, $currency = null)
     {
-        if (empty($price)) {
+        // Test covering PHP 5.6 -> 7+
+        if (empty($price) ||
+            !is_numeric($price) ||
+            is_nan($price)) {
             $price = 0;
         }
         $self = new static();

@@ -145,11 +145,6 @@ let debug = true,
             './www/js/controllers/video.js',
             './www/js/factory/video.js'
         ],
-        'weather': [
-            './www/js/controllers/weather.js',
-            './www/js/factory/weather.js',
-            './www/js/factory/weather/rain-effect.js'
-        ],
         'youtube': [
             './www/js/factory/youtube.js'
         ]

@@ -1,7 +1,10 @@
-/*global
- App, angular, moment, BASE_PATH, BASE_URL
+/**
+ * Weather module
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
+ * @dependency OpenWeatherMap API
  */
-
 angular.module("starter").controller("WeatherController", function (Modal, $scope, $stateParams, $window, $q, Country,
                                                                     RainEffect, Loader, Dialog, LinkService, Location, Weather) {
 
