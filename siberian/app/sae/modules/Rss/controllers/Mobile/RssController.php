@@ -1,8 +1,8 @@
 <?php
 
+use Rss_Model_Feed as ModelFeed;
 use Siberian\Exception;
 use Siberian\Json;
-use Rss_Model_Feed as ModelFeed;
 use rock\sanitize\Sanitize;
 
 /**
@@ -59,11 +59,11 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
                 $collection =[];
                 foreach ($feeds as $feed) {
-                    $title = "";
-                    $subtitle = "";
-                    $thumbnail = "";
-
                     try {
+                        $title = "";
+                        $subtitle = "";
+                        $thumbnail = "";
+
                         $feedIo = \FeedIo\Factory::create()->getFeedIo();
                         $result = $feedIo->read($feed->getLink());
 
@@ -85,27 +85,27 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                             continue;
                         }
 
+                        if (empty($title) || $feed->getReplaceTitle()) {
+                            $title = $feed->getTitle();
+                        }
+                        if (empty($subtitle) || $feed->getReplaceSubtitle()) {
+                            $subtitle = $feed->getSubtitle();
+                        }
+                        if (empty($thumbnail) || $feed->getReplaceThumbnail()) {
+                            $thumbnail = $feed->getThumbnail();
+                        }
+
+                        $collection[]= [
+                            "id" => (integer) $feed->getId(),
+                            "title" => (string) $title,
+                            "subtitle" => (string) $subtitle,
+                            "thumbnail" => (string) $thumbnail,
+                        ];
+
                     } catch (\Exception $e) {
                         // Jump to next feed if any error occurs!
                         continue;
                     }
-
-                    if (empty($title) || $feed->getReplaceTitle()) {
-                        $title = $feed->getTitle();
-                    }
-                    if (empty($subtitle) || $feed->getReplaceSubtitle()) {
-                        $subtitle = $feed->getSubtitle();
-                    }
-                    if (empty($thumbnail) || $feed->getReplaceThumbnail()) {
-                        $thumbnail = $feed->getThumbnail();
-                    }
-
-                    $collection[]= [
-                        "id" => (integer) $feed->getId(),
-                        "title" => (string) $title,
-                        "subtitle" => (string) $subtitle,
-                        "thumbnail" => (string) $thumbnail,
-                    ];
                 }
 
                 $payload = [
@@ -176,50 +176,50 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                     try {
                         $feedIo = \FeedIo\Factory::create()->getFeedIo();
                         $result = $feedIo->read($feed->getLink());
+
+                        foreach ($result->getFeed() as $item) {
+                            $itemArray = $item->toArray();
+                            $media = null;
+                            $stripMedia = true;
+                            foreach ($item->getMedias() as $_media) {
+                                $media = $_media->getUrl();
+                                $stripMedia = false;
+                                break;
+                            }
+
+                            $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"], $stripMedia);
+
+                            if (empty($media) && !empty($extract["media"])) {
+                                $media = $extract["media"];
+                            }
+
+                            if (empty($extract["content"])) {
+                                $extract["content"] = $item->getDescription();
+                            }
+
+                            $subtitle = Sanitize::removeTags()
+                                ->lowercase()
+                                ->sanitize($item->getDescription());
+
+                            $collection[] = [
+                                "id" => uniqid(),
+                                "title" => $item->getTitle(),
+                                "subtitle" => cut($subtitle, 60),
+                                "subtitle_30" => cut($subtitle, 30),
+                                "link" => $item->getLink(),
+                                "description" => $item->getDescription(),
+                                "content" => $extract["content"],
+                                "media" => $media,
+                                "author" => $item->getAuthor(),
+                                "categories" => $item->getCategories(),
+                                "date" => $item->getLastModified(),
+                                "timestamp" => ($item->getLastModified()) ?
+                                    $item->getLastModified()->getTimestamp() : null,
+                            ];
+                        }
                     } catch (\Exception $e) {
                         // Jump to next feed if any error occurs!
                         continue;
-                    }
-
-                    foreach ($result->getFeed() as $item) {
-                        $itemArray = $item->toArray();
-                        $media = null;
-                        $stripMedia = true;
-                        foreach ($item->getMedias() as $_media) {
-                            $media = $_media->getUrl();
-                            $stripMedia = false;
-                            break;
-                        }
-
-                        $extract = ModelFeed::extract($itemArray["elements"]["content:encoded"], $stripMedia);
-
-                        if (empty($media) && !empty($extract["media"])) {
-                            $media = $extract["media"];
-                        }
-
-                        if (empty($extract["content"])) {
-                            $extract["content"] = $item->getDescription();
-                        }
-
-                        $subtitle = Sanitize::removeTags()
-                            ->lowercase()
-                            ->sanitize($item->getDescription());
-
-                        $collection[] = [
-                            "id" => uniqid(),
-                            "title" => $item->getTitle(),
-                            "subtitle" => cut($subtitle, 60),
-                            "subtitle_30" => cut($subtitle, 30),
-                            "link" => $item->getLink(),
-                            "description" => $item->getDescription(),
-                            "content" => $extract["content"],
-                            "media" => $media,
-                            "author" => $item->getAuthor(),
-                            "categories" => $item->getCategories(),
-                            "date" => $item->getLastModified(),
-                            "timestamp" => ($item->getLastModified()) ?
-                                $item->getLastModified()->getTimestamp() : null,
-                        ];
                     }
                 }
 
