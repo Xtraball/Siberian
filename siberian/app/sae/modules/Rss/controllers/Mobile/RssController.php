@@ -217,7 +217,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                             "author" => $item->getAuthor(),
                             "categories" => $item->getCategories(),
                             "date" => $item->getLastModified(),
-                            "timestamp" => $item->getLastModified()->getTimestamp(),
+                            "timestamp" => ($item->getLastModified()) ?
+                                $item->getLastModified()->getTimestamp() : null,
                         ];
                     }
                 }
