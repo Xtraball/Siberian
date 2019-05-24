@@ -1,0 +1,29 @@
+{
+    "name": "Code Scan",
+    "code": "code_scan",
+    "version": "4.17.0",
+    "category": "misc",
+    "model": "Codescan_Model_Codescan",
+    "desktop_uri": "codescan/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "codescan",
+            "controller": "CodeScanController",
+            "url": "codescan/mobile_view/index/value_id/:value_id",
+            "template": "l1/loading.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/scan1-flat.png",
+        "icons/scan2-flat.png",
+        "icons/scan3-flat.png"
+    ],
+    "files": [
+        "js/controllers/codescan.js",
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

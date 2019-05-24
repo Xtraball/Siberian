@@ -27,13 +27,18 @@
 
 * PHP
 
-    * version: >=5.6, <= 7.0
+    * version: 7.0+
     
     * extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
     
     * functions: `exec()`
     
-    * parameters: `allow_url_fopen = On`, `memory_limit >= 128M`, `post_max_size = 100M`, `upload_max_filesize = 100m`, `max_execution_time = 300`
+    * parameters: 
+        * `allow_url_fopen = On`
+        * `memory_limit >= 128M`
+        * `post_max_size = 100M`
+        * `upload_max_filesize = 100m`
+        * `max_execution_time = 300`
 
 * MySQL/MariaDB >=5.5 with InnoDB/XtraDB engine
 

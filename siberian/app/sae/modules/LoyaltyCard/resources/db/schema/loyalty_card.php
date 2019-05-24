@@ -6,65 +6,65 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['loyalty_card'] = array(
-    'card_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['loyalty_card'] = [
+    'card_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'value_id' => array(
+    ],
+    'value_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'application_option_value',
             'column' => 'value_id',
             'name' => 'loyalty_card_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_VALUE_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'name' => array(
+        ],
+    ],
+    'name' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'number_of_points' => array(
+    ],
+    'number_of_points' => [
         'type' => 'smallint(5)',
-    ),
-    'advantage' => array(
+    ],
+    'advantage' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'conditions' => array(
+    ],
+    'conditions' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_active' => array(
+    ],
+    'image_active' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'image_inactive' => array(
+    ],
+    'image_inactive' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'use_once' => array(
+    ],
+    'use_once' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

@@ -1,0 +1,30 @@
+{
+    "name": "Twitter",
+    "code": "twitter",
+    "version": "4.17.0",
+    "category": "social",
+    "model": "Twitter_Model_Twitter",
+    "desktop_uri": "twitter/application_twitter/",
+    "routes": [
+        {
+            "root": true,
+            "state": "twitter-list",
+            "controller": "TwitterListController",
+            "url": "twitter/mobile_twitter_list/index/value_id/:value_id",
+            "template": "l1/list.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/twitter1-flat.png",
+        "icons/twitter2-flat.png",
+        "icons/twitter3-flat.png"
+    ],
+    "files": [
+        "js/controllers/twitter.js",
+        "js/factory/twitter.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}
