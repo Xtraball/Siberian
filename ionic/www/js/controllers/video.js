@@ -28,29 +28,28 @@ angular.module("starter").controller("VideoListController", function($scope, $st
 
     };
 
-    $scope.loadContent = function() {
-        $scope.offset =null;
-        if($scope.is_loading) {
+    $scope.loadContent = function(refresh) {
+        $scope.offset = null;
+        if ($scope.is_loading) {
             return;
         }
 
         $scope.is_loading = true;
 
-        Video.findAll()
-            .then(function(data) {
-                Youtube.key = data.youtube_key;
-                $scope.galleries = data.collection;
-                if($scope.galleries.length) {
-                    $scope.is_loading = false;
-                    $scope.showGallery($scope.galleries[0]);
-
-                }
-                $scope.page_title = data.page_title;
-            }).then(function() {
+        Video
+        .findAll(refresh)
+        .then(function(data) {
+            Youtube.key = data.youtube_key;
+            $scope.galleries = data.collection;
+            if($scope.galleries.length) {
                 $scope.is_loading = false;
+                $scope.showGallery($scope.galleries[0]);
+            }
+            $scope.page_title = data.page_title;
+        }).then(function() {
+            $scope.is_loading = false;
 
-            });
-
+        });
     };
 
     $scope.toggleGalleries = function() {
@@ -124,6 +123,10 @@ angular.module("starter").controller("VideoListController", function($scope, $st
         offset = 0;
     };
 
-    $scope.loadContent();
+    $scope.refresh = function () {
+        $scope.loadContent(true);
+    };
+
+    $scope.loadContent(false);
 
 });

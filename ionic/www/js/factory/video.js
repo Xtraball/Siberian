@@ -37,24 +37,23 @@ angular.module("starter").factory("Video", function($pwaRequest, Youtube) {
         factory.findAll();
     };
 
-    factory.findAll = function() {
+    factory.findAll = function(refresh) {
 
         if(!this.value_id) {
             return $pwaRequest.reject("[Factory::Video.findAll] missing value_id");
         }
 
         var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
-        if(payload !== false) {
-
+        if (payload !== false && !refresh) {
             return $pwaRequest.resolve(payload);
-
         } else {
 
             /** Otherwise fallback on PWA */
             return $pwaRequest.get("media/mobile_gallery_video_list/findall", angular.extend({
                 urlParams: {
                     value_id: this.value_id
-                }
+                },
+                cache: !refresh
             }, factory.extendedOptions));
 
         }
