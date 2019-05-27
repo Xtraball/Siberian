@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.16.5
+ * @version 4.16.10
  */
 
 window.momentjs_loaded = false;
@@ -168,9 +168,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
-                   Analytics, Application, ConnectionService, Customer, Dialog, Facebook, FacebookConnect, Padlock,
+                   Analytics, Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
                    Pages, Push, PushService, SB, SafePopups, tmhDynamicLocale) {
-        $log.debug('run start');
 
         // $rootScope object!
         angular.extend($rootScope, {
@@ -249,7 +248,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
-                $window.ConnectionService = ConnectionService;
 
                 var networkPromise = $q.defer();
 
@@ -263,7 +261,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.16.5'
+                            version: '4.16.10'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -845,4 +843,3 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             $timeout(loadApp(true), 1);
         });
     });
-

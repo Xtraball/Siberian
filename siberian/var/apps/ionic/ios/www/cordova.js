@@ -1386,7 +1386,8 @@ exports.reset = function() {
 
 function addEntry(strategy, moduleName, symbolPath, opt_deprecationMessage) {
     if (!(moduleName in moduleMap)) {
-        throw new Error('Module ' + moduleName + ' does not exist.');
+        //throw new Error('Module ' + moduleName + ' does not exist.');
+        console.error('[Monkey patch] Module ' + moduleName + ' does not exist.');
     }
     symbolList.push(strategy, moduleName, symbolPath);
     if (opt_deprecationMessage) {
