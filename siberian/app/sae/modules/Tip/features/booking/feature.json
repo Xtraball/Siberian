@@ -1,0 +1,30 @@
+{
+    "name": "Tips calculator",
+    "code": "tip",
+    "version": "4.17.0",
+    "category": "misc",
+    "model": "Tip_Model_Tip",
+    "desktop_uri": "tip/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "tip-view",
+            "controller": "TipController",
+            "url": "tip/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/tip1-flat.png",
+        "icons/tip2-flat.png",
+        "icons/tip3-flat.png"
+    ],
+    "files": [
+        "js/controllers/tip.js",
+        "js/factory/tip.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

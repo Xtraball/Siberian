@@ -36,13 +36,6 @@ let debug = true,
         'application': [
             './www/js/controllers/application.js'
         ],
-        'codescan': [
-            './www/js/controllers/codescan.js'
-        ],
-        'contact': [
-            './www/js/controllers/contact.js',
-            './www/js/factory/contact.js'
-        ],
         'discount': [
             './www/js/controllers/discount.js',
             './www/js/factory/discount.js'
@@ -68,10 +61,6 @@ let debug = true,
         'links': [
             './www/js/controllers/links.js',
             './www/js/factory/links.js'
-        ],
-        'loyalty_card': [
-            './www/js/controllers/loyalty-card.js',
-            './www/js/factory/loyalty-card.js'
         ],
         'maps': [
             './www/js/controllers/maps.js',
@@ -128,18 +117,6 @@ let debug = true,
         'source_code': [
             './www/js/controllers/source-code.js',
             './www/js/factory/source-code.js'
-        ],
-        'tip': [
-            './www/js/controllers/tip.js',
-            './www/js/factory/tip.js'
-        ],
-        'topic': [
-            './www/js/controllers/topic.js',
-            './www/js/factory/topic.js'
-        ],
-        'twitter': [
-            './www/js/controllers/twitter.js',
-            './www/js/factory/twitter.js'
         ],
         'video': [
             './www/js/controllers/video.js',
