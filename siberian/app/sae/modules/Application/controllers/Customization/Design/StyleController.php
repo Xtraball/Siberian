@@ -110,9 +110,10 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 if (!isset($datas["homepageoptions"])) {
 
                     // Data processor
-                    $datas = Feature::processDataForLayout($layout_code, $datas, $application);
+                    $layoutOptions = Feature::processDataForLayout($layout_code, $datas, $application);
 
-                    $application->setLayoutOptions(Json::encode($datas, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+                    $jsonString = Json::encode($layoutOptions, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+                    $application->setLayoutOptions($jsonString);
                 }
 
                 $application->save();
