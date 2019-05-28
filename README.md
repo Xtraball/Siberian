@@ -1,8 +1,13 @@
-# Siberian: SAE (Single App Edition)
+# Siberian SAE (Single App Edition)
 
-[Public Roadmap](http://board.siberiancms.com/b/7AYdMDEpFcmt3eZtb/siberiancms-public-roadmap)
+[Public Roadmap](https://www.siberiancms.com/community/d/745-roadmap-4-16-4-17)
 
 ![welcome](docs/siberiancms.png)
+
+## Community forums
+
+* [Forums](https://www.siberiancms.com/community/)
+* [Guidelines](https://www.siberiancms.com/community/d/79-siberian-community-guidelines)
 
 ## Documentation
 
@@ -27,7 +32,7 @@
 
 * PHP
 
-    * version: >=5.6, <= 7.0
+    * version: >= 7.0
     
     * extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
     
