@@ -74,6 +74,19 @@ class Sqlite
     }
 
     /**
+     * Static alias
+     *
+     * @return null|Sqlite
+     */
+    public static function sGetInstance()
+    {
+        if (!isset(self::$_instance)) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    /**
      * @return bool
      */
     public function dbExists()

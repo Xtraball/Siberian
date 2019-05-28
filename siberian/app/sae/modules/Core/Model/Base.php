@@ -8,7 +8,8 @@ namespace Core\Model;
 class Base extends \Core_Model_Default_Abstract
 {
     /**
-     * @return \Application_Model_Application
+     * @return \Application_Model_Application|mixed
+     * @throws \Zend_Exception
      */
     public function getApplication()
     {

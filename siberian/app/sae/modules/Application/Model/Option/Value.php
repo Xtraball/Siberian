@@ -391,9 +391,10 @@ class Application_Model_Option_Value extends Application_Model_Option
 
     /**
      * @param $application
+     * @param null $parent_id
      * @return $this
      */
-    public function copyTo($application)
+    public function copyTo($application, $parent_id = NULL)
     {
         $old_value_id = $this->getId();
         $old_app_id = $this->getAppId();
