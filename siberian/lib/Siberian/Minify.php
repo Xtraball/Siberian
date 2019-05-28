@@ -55,10 +55,10 @@ class Minify extends AbstractMinify
         'android' => [
             'css' => true,
             'js' => false,
-            'base' => 'var/apps/ionic/android/assets/www',
-            'index' => 'var/apps/ionic/android/assets/www/index.html',
-            'output_css' => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.css',
-            'output_js' => 'var/apps/ionic/android/assets/www/dist/app.bundle-min.js',
+            'base' => 'var/apps/ionic/android/app/src/main/assets/www',
+            'index' => 'var/apps/ionic/android/app/src/main/assets/www/index.html',
+            'output_css' => 'var/apps/ionic/android/app/src/main/assets/www/dist/app.bundle-min.css',
+            'output_js' => 'var/apps/ionic/android/app/src/main/assets/www/dist/app.bundle-min.js',
         ],
         'ios' => [
             'css' => true,

@@ -601,6 +601,7 @@ class Feature
 
     /**
      * @param $layout_code
+     * @param $form
      * @param $callback
      */
     public static function registerLayoutOptionsCallbacks($layout_code, $form, $callback)
@@ -648,6 +649,7 @@ class Feature
         if (isset(self::$layoutDataProcessor[$layoutCode])) {
             return call_user_func_array(self::$layoutDataProcessor[$layoutCode], [$data, $application]);
         }
+        return $data;
     }
 
 }

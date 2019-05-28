@@ -43,7 +43,16 @@ class Client implements ClientInterface
     public function getResponse($url, \DateTime $modifiedSince)
     {
         try {
-            return new Response($this->guzzleClient->request('get', $url));
+            return new Response($this->guzzleClient->request('get', $url, [
+                "headers" => [
+                    "accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b",
+                    "accept-encoding" => "gzip, deflate, br",
+                    "cache-control" => "no-cache",
+                    "dnt" => "1",
+                    "pragma" => "no-cache",
+                    "user-agent" => "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+                ]
+            ]));
         } catch (BadResponseException $e) {
             switch ((int) $e->getResponse()->getStatusCode()) {
                 case 404:

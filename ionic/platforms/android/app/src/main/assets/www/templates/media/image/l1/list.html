@@ -2,24 +2,29 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip
+             style="margin: 0 10px;"
              collection="galleries"
              current-item="current_gallery"
              show-tooltip="false"
              on-item-clicked="showGallery(object)"
              button-label="''"
-             button-icon="'icon ion-ios-albums-outline'"
+             button-icon="'icon ion-sb-more-round'"
              ng-if="galleries.length"></div>
     </ion-nav-buttons>
 
     <ion-content>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader"
+             ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <ion-gallery ion-gallery-items="collection" ng-if="collection.length"></ion-gallery>
+        <ion-gallery ion-gallery-items="collection"
+                     ng-if="collection.length"></ion-gallery>
 
-        <div class="list" ng-class="{'card': card_design}" ng-if="!collection.length">
+        <div class="list"
+             ng-class="{'card': card_design}"
+             ng-if="!collection.length">
             <div class="item text-center item-custom">
                 {{ "No images found" | translate }}
             </div>
