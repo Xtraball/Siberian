@@ -1,11 +1,10 @@
 # Siberian SAE (Single App Edition)
 
-[Public Roadmap](https://www.siberiancms.com/community/d/745-roadmap-4-16-4-17)
-
 ![welcome](docs/siberiancms.png)
 
-## Community forums
+## Community forums & Roadmap
 
+* [Public Roadmap](https://www.siberiancms.com/community/d/745-roadmap-4-16-4-17)
 * [Forums](https://www.siberiancms.com/community/)
 * [Guidelines](https://www.siberiancms.com/community/d/79-siberian-community-guidelines)
 
