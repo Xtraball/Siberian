@@ -30,6 +30,10 @@ angular.module("starter").service("LinkService", function ($rootScope, $translat
             var target = "_blank";
             var inAppBrowserOptions = [];
 
+            if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+                target = "_system";
+            }
+
             switch(true) {
 
                 //On android, tel link are opened in current app
