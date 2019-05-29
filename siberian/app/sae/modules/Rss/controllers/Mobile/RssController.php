@@ -1,8 +1,8 @@
 <?php
 
+use Rss_Model_Feed as ModelFeed;
 use Siberian\Exception;
 use Siberian\Json;
-use Rss_Model_Feed as ModelFeed;
 use rock\sanitize\Sanitize;
 
 /**
