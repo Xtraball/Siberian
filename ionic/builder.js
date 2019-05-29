@@ -47,10 +47,6 @@ let debug = true,
         'facebook': [
             './www/js/controllers/facebook.js'
         ],
-        'form': [
-            './www/js/controllers/form.js',
-            './www/js/factory/form.js'
-        ],
         'homepage': [
             './www/js/controllers/homepage.js'
         ],
@@ -78,9 +74,6 @@ let debug = true,
         'padlock': [
             './www/js/controllers/padlock.js'
         ],
-        'privacy_policy': [
-            './www/js/controllers/privacy-policy.js'
-        ],
         'm_commerce': [
             './www/js/controllers/mcommerce/cart.js',
             './www/js/controllers/mcommerce/category.js',
@@ -102,9 +95,6 @@ let debug = true,
             './www/js/factory/mcommerce/sales/payment.js',
             './www/js/factory/mcommerce/sales/store.js',
             './www/js/factory/mcommerce/sales/stripe.js'
-        ],
-        'push': [
-            './www/js/controllers/push.js'
         ],
         'radio': [
             './www/js/controllers/radio.js',
@@ -157,8 +147,6 @@ let debug = true,
                 './www/js/factory/pages.js',
                 './www/js/factory/tc.js',
                 './www/js/factory/cms.js',
-                './www/js/factory/push.js',
-                './www/js/controllers/push.js',
                 './www/js/factory/search.js',
                 './www/js/controllers/customer.js',
                 './www/js/factory/customer.js',
@@ -194,7 +182,7 @@ let debug = true,
                 './platforms/browser/www/cordova_plugins.js',
                 './platforms/browser/www/plugins/**/*.js'
             ],
-            dest: './platforms/browser/www//dist/cordova.js'
+            dest: './platforms/browser/www/dist/cordova.js'
         },
         cdvIos: {
             files: [

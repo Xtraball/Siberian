@@ -84,7 +84,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
     .constant('AUTH_EVENTS', { loginSuccess: 'auth-login-success', logoutSuccess: 'auth-logout-success', loginStatusChanged: 'auth-login-status-changed', notAuthenticated: 'auth-not-authenticated' })
     .constant('CACHE_EVENTS', { clearSocialGaming: 'clear-cache-socialgaming', clearDiscount: 'clear-cache-discount' })
     .constant('PADLOCK_EVENTS', { unlockFeatures: 'padlock-unlock-features' })
-    .constant('PUSH_EVENTS', { notificationReceived: 'push-notification-received', unreadPushs: 'push-get-unreaded', readPushs: 'push-mark-as-read' })
 
     // Start app config
     .config(function ($provide, $compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $locationProvider, $stateProvider) {

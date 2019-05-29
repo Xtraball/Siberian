@@ -30,6 +30,28 @@ class Privacypolicy_Model_Privacypolicy extends Core_Model_Default {
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/privacy_policy/mobile_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/privacy_policy/mobile_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param $option_value
      * @return array
      */

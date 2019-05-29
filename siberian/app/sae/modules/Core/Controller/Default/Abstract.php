@@ -715,7 +715,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     /**
+     * @throws Zend_Exception
      * @throws Zend_Session_Exception
+     * @throws Zend_Session_SaveHandler_Exception
      */
     protected function _initSession()
     {

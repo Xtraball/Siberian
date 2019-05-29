@@ -35,6 +35,8 @@ require_once 'Zend/Db/Select.php';
  */
 require_once 'Zend/Db.php';
 
+use Siberian\Cache\Describe;
+
 /**
  * Class for SQL table interface.
  *
@@ -789,6 +791,10 @@ abstract class Zend_Db_Table_Abstract
      */
     protected function _setupMetadata()
     {
+        // If $this has no metadata cache or metadata cache misses
+        $keyId = $this->_schema. '_' . $this->_name;
+        $cache = Describe::$tables;
+
         if ($this->metadataCacheInClass() && (count($this->_metadata) > 0)) {
             return true;
         }
@@ -828,8 +834,17 @@ abstract class Zend_Db_Table_Abstract
             );
         }
 
-        // If $this has no metadata cache or metadata cache misses
+        if (!array_key_exists($keyId, $cache)) {
+            $metadata = $this->_db->describeTable($this->_name, $this->_schema);
+
+            // Assign the metadata to $this
+            $this->_metadata = $metadata;
+
+            Describe::save($metadata, $keyId);
+        }
+
         if (null === $this->_metadataCache || !($metadata = $this->_metadataCache->load($cacheId))) {
+
             // Metadata are not loaded from cache
             $isMetadataFromCache = false;
             // Fetch metadata from the adapter's describeTable() method

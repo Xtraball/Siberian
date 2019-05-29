@@ -1,0 +1,30 @@
+{
+    "name": "Form",
+    "code": "form",
+    "version": "4.17.0",
+    "category": "contact",
+    "model": "Form_Model_Form",
+    "desktop_uri": "form/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "form-view",
+            "controller": "FormViewController",
+            "url": "form/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/form1-flat.png",
+        "icons/form2-flat.png",
+        "icons/form3-flat.png"
+    ],
+    "files": [
+        "js/controllers/form-view-controller.js",
+        "js/factory/form.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}
