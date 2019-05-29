@@ -26,8 +26,6 @@
  */
 require_once 'Zend/Db/Adapter/Pdo/Abstract.php';
 
-use Siberian\Cache\Describe;
-
 
 /**
  * Class for connecting to MySQL databases and performing common operations.

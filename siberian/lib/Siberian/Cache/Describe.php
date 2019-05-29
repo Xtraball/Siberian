@@ -3,15 +3,13 @@
 namespace Siberian\Cache;
 
 use Siberian\Cache as Cache;
-use Siberian\Version as Version;
-use Gettext\Translations;
 
 use \DirectoryIterator;
 
 /**
  * Class \Siberian\Cache\Describe
  *
- * @version 4.16.10
+ * @version 4.16.11
  *
  * Adding inheritance system in the translations
  */
