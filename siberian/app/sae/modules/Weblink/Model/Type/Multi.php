@@ -1,10 +1,20 @@
 <?php
 
+/**
+ * Class Weblink_Model_Type_Multi
+ */
 class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 {
 
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
 
+    /**
+     * Weblink_Model_Type_Multi constructor.
+     * @param array $params
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
@@ -31,6 +41,31 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $in_app_states;
     }
 
+    /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/weblink/mobile_multi/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/weblink/mobile_multi/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
+     * @return $this|void
+     */
     public function addLinks()
     {
         $link = new Weblink_Model_Weblink_Link();
@@ -46,6 +81,9 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCoverUrl()
     {
         $cover_path = Application_Model_Application::getImagePath() . $this->getCover();
@@ -56,6 +94,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return null;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
     public function getFeaturePaths($option_value)
     {
         if (!$this->isCacheable()) return [];
@@ -67,6 +109,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $paths;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
     public function getAssetsPaths($option_value)
     {
         if (!$this->isCacheable()) return [];
@@ -78,6 +124,11 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $paths;
     }
 
+    /**
+     * @param $option_value
+     * @param $design
+     * @param $category
+     */
     public function createDummyContents($option_value, $design, $category)
     {
 
@@ -115,6 +166,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         }
     }
 
+    /**
+     * @param $option
+     * @return $this
+     */
     public function copyTo($option)
     {
 

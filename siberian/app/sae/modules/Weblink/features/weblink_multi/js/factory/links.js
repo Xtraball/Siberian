@@ -1,13 +1,10 @@
-/* global
-    App, angular
- */
-
 /**
  * Links
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
-angular.module('starter').factory('Links', function ($pwaRequest) {
+angular.module("starter").factory("Links", function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {}

@@ -54,10 +54,6 @@ let debug = true,
             './www/js/controllers/image.js',
             './www/js/factory/image.js'
         ],
-        'links': [
-            './www/js/controllers/links.js',
-            './www/js/factory/links.js'
-        ],
         'maps': [
             './www/js/controllers/maps.js',
             './www/js/factory/maps.js'

@@ -1,0 +1,30 @@
+{
+    "name": "Links",
+    "code": "weblink_multi",
+    "version": "4.17.0",
+    "category": "integration",
+    "model": "Weblink_Model_Type_Multi",
+    "desktop_uri": "weblink/application_multi/",
+    "routes": [
+        {
+            "root": true,
+            "state": "links-view",
+            "controller": "LinksViewController",
+            "url": "weblink/mobile_multi/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/link1-flat.png",
+        "icons/link2-flat.png",
+        "icons/link3-flat.png"
+    ],
+    "files": [
+        "js/controllers/links-view-controller.js",
+        "js/factory/links.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

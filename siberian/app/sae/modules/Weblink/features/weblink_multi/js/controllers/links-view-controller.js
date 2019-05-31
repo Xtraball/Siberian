@@ -1,7 +1,9 @@
-/*global
- App, angular, BASE_PATH, IMAGE_URL
+/**
+ * Links
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-
 angular.module("starter").controller("LinksViewController", function($scope, $stateParams, $rootScope, $timeout, $window, Links, LinkService) {
 
     angular.extend($scope, {
@@ -12,7 +14,7 @@ angular.module("starter").controller("LinksViewController", function($scope, $st
         cardDesign: false,
         search: {
             searchValue: ''
-        },
+        }
     });
 
     Links.setValueId($stateParams.value_id);
