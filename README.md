@@ -17,9 +17,12 @@
 
 ### Software
 
-* Recommended OS: `Linux`
+* Production server OS: `Linux`
 
-    * Works on `OSX` with [homebrew](http://brew.sh/), and on `Windows` with [cygwin](https://www.cygwin.com/)
+* Local development:
+
+    * `OSX` with [homebrew](http://brew.sh/)
+    * `Windows` with [bash](https://docs.microsoft.com/fr-fr/windows/wsl/install-win10) 
     
 * NodeJS
     
@@ -31,13 +34,13 @@
 
 * PHP
 
-    * version: >= 7.0
+    * Version: 7.0, 7.1 & 7.2
     
-    * extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
+    * Extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
     
-    * functions: `exec()`
+    * Functions: `exec()`
     
-    * parameters: `allow_url_fopen = On`, `memory_limit >= 128M`, `post_max_size = 100M`, `upload_max_filesize = 100m`, `max_execution_time = 300`
+    * Parameters: `allow_url_fopen = On`, `memory_limit >= 128M`, `post_max_size = 100M`, `upload_max_filesize = 100m`, `max_execution_time = 300`
 
 * MySQL/MariaDB >=5.5 with InnoDB/XtraDB engine
 
@@ -93,7 +96,7 @@ If a custom development is needed for a platform, `cd` to the folder, then push 
 
 ### Note: Important
 
-Siberian uses Cordova for its applications base, we provide pre-built android & ios binaries for convenience as not everyone owns and can build using a Mac.
+Siberian uses a Cordova fork for its applications base, we provide pre-built android & ios binaries for convenience as not everyone owns and can build using a Mac.
 
 If you need to rebuild native source code for all platforms, you must have a Mac and Xcode with the Command-Line Tools installed.
 
