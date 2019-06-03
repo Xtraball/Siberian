@@ -81,7 +81,7 @@ var Carousel = Class.extend({
         this.options.next_button.unbind('click');
         return this;
     },
-    update: function() {
+    update: function(skipPage) {
         this.options.items = this.container.children('li:visible');
 
         if(this.is_responsive) {
@@ -106,8 +106,11 @@ var Carousel = Class.extend({
         this.container.css('width', this.slide_width*(this.getNumberOfPages()+1));
         this.container.parent().css('width', this.slide_width);
 
-        if(this.getCurrentPage() > this.getNumberOfPages()) this.slideToThePreviousPage();
-        else this.checkButtons();
+        if (skipPage !== true &&
+            this.getCurrentPage() > this.getNumberOfPages()) {
+            this.slideToThePreviousPage();
+        }
+        this.checkButtons();
 
         return this;
     },
@@ -132,7 +135,9 @@ var Carousel = Class.extend({
 
     slideToPage: function(nbr) {
 
-        if(this.is_locked || nbr > this.getNumberOfPages()) return;
+        if (this.is_locked || nbr > this.getNumberOfPages()) {
+            return;
+        }
 
         this.is_locked = true;
         nbr--;
@@ -181,13 +186,16 @@ var Carousel = Class.extend({
     slideToItem: function(item) {
         var pos = 0;
         item.parent().children(item.get(0).nodeName.toLowerCase()+':visible').each(function() {
-            if($(this).get(0) == item.get(0)) return false;
-            else pos++;
+            if($(this).get(0) == item.get(0)) {
+                return false;
+            } else {
+                pos++;
+            }
         });
-        if(pos) {
-            var page = Math.ceil((pos + 1) / this.options.items_per_page);
-            this.slideToPage(page);
-        }
+
+        var page = Math.ceil((pos + 1) / this.options.items_per_page);
+        console.log("slide to page " + page);
+        this.slideToPage(page);
     },
 
     canGoToThePreviousPage: function() {
