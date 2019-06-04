@@ -2,532 +2,672 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-10T10:50:00+00:00\n"
-"PO-Revision-Date: 2019-01-11 10:48+0000\n"
 "Last-Translator: Weblate Admin <anders@xtraball.com>\n"
-"Language: en\n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-01-10T10:50:00+00:00\n"
+"PO-Revision-Date: 2019-01-11 10:48+0000\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 3.3\n"
 
+# GMT 1559644710.6022
 msgid "Add a field"
 msgstr "Add a field"
 
+# GMT 1559644710.6059
 msgid "Add a section"
 msgstr "Add a section"
 
+# GMT 1559644710.6096
 msgid "Add an option"
 msgstr "Add an option"
 
+# GMT 1559644710.6139
 msgid "An error occurred while saving. A field can't be identified."
 msgstr "An error occurred while saving. A field can't be identified."
 
+# GMT 1559644710.6182
 msgid "Are you sure you want to remove this field?"
 msgstr "Are you sure you want to remove this field?"
 
+# GMT 1559644710.6226
 msgid "Are you sure you want to remove this section?"
 msgstr "Are you sure you want to remove this section?"
 
+# GMT 1559644710.6269
 msgid "Checkbox"
 msgstr "Checkbox"
 
+# GMT 1559644710.6308
 msgid "Choose a field type:"
 msgstr "Choose a field type:"
 
+# GMT 1559644710.6349
 msgid "Create a new field"
 msgstr "Create a new field"
 
+# GMT 1559644710.6393
 msgid "Date/Hour"
 msgstr "Date/Hour"
 
+# GMT 1559644710.6436
 msgid "Drop down"
 msgstr "Drop down"
 
+# GMT 1559644710.648
 msgid "Edit field %s"
 msgstr "Edit field %s"
 
+# GMT 1559644710.6524
 msgid "Field name"
 msgstr "Field name"
 
+# GMT 1559644710.6567
 msgid "Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."
 msgstr "Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."
 
+# GMT 1559644710.661
 msgid "Geolocation"
 msgstr "Geolocation"
 
+# GMT 1559644710.6654
 msgid "Hello,"
 msgstr "Hello,"
 
+# GMT 1559644710.6698
+#, mobile
 msgid "Import a picture"
 msgstr "Import a picture"
 
+# GMT 1559644710.6741
+#, mobile
 msgid "Import from Library"
 msgstr "Import from Library"
 
+# GMT 1559644710.6785
 msgid "Manage fields"
 msgstr "Manage fields"
 
+# GMT 1559644710.6828
 msgid "Manage options:"
 msgstr "Manage options:"
 
+# GMT 1559644710.6871
 msgid "Multiline text"
 msgstr "Multiline text"
 
+# GMT 1559644710.6914
 msgid "Option"
 msgstr "Option"
 
+# GMT 1559644710.6958
 msgid "Radio"
 msgstr "Radio"
 
+# GMT 1559644710.7002
 msgid "Recipient email"
 msgstr "Recipient email"
 
+# GMT 1559644710.7045
+#, mobile
 msgid "Take a picture"
 msgstr "Take a picture"
 
+# GMT 1559644710.7089
 msgid "The form has been sent successfully"
 msgstr "The form has been sent successfully"
 
+# GMT 1559644710.7132
 msgid "You have to choose a field type."
 msgstr "You have to choose a field type."
 
+# GMT 1559644710.7176
 msgid "Your app's form"
 msgstr "Your app's form"
 
+# GMT 1559644710.7219
 msgid "Your form has been filled out, here are the answers:"
 msgstr "Your form has been filled out, here are the answers:"
 
+# GMT 1559644710.7263
 msgctxt "zend_validate"
 msgid "Invalid type given. String, integer or float expected"
 msgstr "Invalid type given. String, integer or float expected"
 
+# GMT 1559644710.7306
 msgctxt "zend_validate"
 msgid "'%value%' contains characters which are non alphabetic and no digits"
 msgstr "'%value%' contains characters which are non alphabetic and no digits"
 
+# GMT 1559644710.735
 msgctxt "zend_validate"
 msgid "'%value%' is an empty string"
 msgstr "'%value%' is an empty string"
 
+# GMT 1559644710.7393
 msgctxt "zend_validate"
 msgid "Invalid type given. String expected"
 msgstr "Invalid type given. String expected"
 
+# GMT 1559644710.7437
 msgctxt "zend_validate"
 msgid "'%value%' contains non alphabetic characters"
 msgstr "'%value%' contains non alphabetic characters"
 
+# GMT 1559644710.7481
 msgctxt "zend_validate"
 msgid "'%value%' failed checksum validation"
 msgstr "'%value%' failed checksum validation"
 
+# GMT 1559644710.7524
 msgctxt "zend_validate"
 msgid "'%value%' contains invalid characters"
 msgstr "'%value%' contains invalid characters"
 
+# GMT 1559644710.7568
 msgctxt "zend_validate"
 msgid "'%value%' should have a length of %length% characters"
 msgstr "'%value%' should have a length of %length% characters"
 
+# GMT 1559644710.7611
 msgctxt "zend_validate"
 msgid "'%value%' is not between '%min%' and '%max%', inclusively"
 msgstr "'%value%' is not between '%min%' and '%max%', inclusively"
 
+# GMT 1559644710.7655
 msgctxt "zend_validate"
 msgid "'%value%' is not strictly between '%min%' and '%max%'"
 msgstr "'%value%' is not strictly between '%min%' and '%max%'"
 
+# GMT 1559644710.7698
 msgctxt "zend_validate"
 msgid "'%value%' is not valid"
 msgstr "'%value%' is not valid"
 
+# GMT 1559644710.7742
 msgctxt "zend_validate"
 msgid "An exception has been raised within the callback"
 msgstr "An exception has been raised within the callback"
 
+# GMT 1559644710.7785
 msgctxt "zend_validate"
 msgid "'%value%' must contain between 13 and 19 digits"
 msgstr "'%value%' must contain between 13 and 19 digits"
 
+# GMT 1559644710.7829
 msgctxt "zend_validate"
 msgid "Luhn algorithm (mod-10 checksum) failed on '%value%'"
 msgstr "Luhn algorithm (mod-10 checksum) failed on '%value%'"
 
+# GMT 1559644710.7864
 msgctxt "zend_validate"
 msgid "'%value%' seems to contain an invalid checksum"
 msgstr "'%value%' seems to contain an invalid checksum"
 
+# GMT 1559644710.7907
 msgctxt "zend_validate"
 msgid "'%value%' must contain only digits"
 msgstr "'%value%' must contain only digits"
 
+# GMT 1559644710.7951
 msgctxt "zend_validate"
 msgid "'%value%' contains an invalid amount of digits"
 msgstr "'%value%' contains an invalid amount of digits"
 
+# GMT 1559644710.7994
 msgctxt "zend_validate"
 msgid "'%value%' is not from an allowed institute"
 msgstr "'%value%' is not from an allowed institute"
 
+# GMT 1559644710.8038
 msgctxt "zend_validate"
 msgid "'%value%' seems to be an invalid creditcard number"
 msgstr "'%value%' seems to be an invalid creditcard number"
 
+# GMT 1559644710.8081
 msgctxt "zend_validate"
 msgid "An exception has been raised while validating '%value%'"
 msgstr "An exception has been raised while validating '%value%'"
 
+# GMT 1559644710.8125
 msgctxt "zend_validate"
 msgid "Invalid type given. String, integer, array or Zend_Date expected"
 msgstr "Invalid type given. String, integer, array or Zend_Date expected"
 
+# GMT 1559644710.8168
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be a valid date"
 msgstr "'%value%' does not appear to be a valid date"
 
+# GMT 1559644710.8212
 msgctxt "zend_validate"
 msgid "'%value%' does not fit the date format '%format%'"
 msgstr "'%value%' does not fit the date format '%format%'"
 
+# GMT 1559644710.8255
 msgctxt "zend_validate"
 msgid "No record matching '%value%' was found"
 msgstr "No record matching '%value%' was found"
 
+# GMT 1559644710.8299
 msgctxt "zend_validate"
 msgid "A record matching '%value%' was found"
 msgstr "A record matching '%value%' was found"
 
+# GMT 1559644710.8342
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid email address in the basic format local-part@hostname"
 msgstr "'%value%' is not a valid email address in the basic format local-part@hostname"
 
+# GMT 1559644710.8385
 msgctxt "zend_validate"
 msgid "'%hostname%' is not a valid hostname for email address '%value%'"
 msgstr "'%hostname%' is not a valid hostname for email address '%value%'"
 
+# GMT 1559644710.842
 msgctxt "zend_validate"
 msgid "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
 msgstr "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
 
+# GMT 1559644710.8463
 msgctxt "zend_validate"
 msgid "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
 msgstr "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
 
+# GMT 1559644710.8506
 msgctxt "zend_validate"
 msgid "'%localPart%' can not be matched against dot-atom format"
 msgstr "'%localPart%' can not be matched against dot-atom format"
 
+# GMT 1559644710.855
 msgctxt "zend_validate"
 msgid "'%localPart%' can not be matched against quoted-string format"
 msgstr "'%localPart%' can not be matched against quoted-string format"
 
+# GMT 1559644710.8593
 msgctxt "zend_validate"
 msgid "'%localPart%' is not a valid local part for email address '%value%'"
 msgstr "'%localPart%' is not a valid local part for email address '%value%'"
 
+# GMT 1559644710.8636
 msgctxt "zend_validate"
 msgid "'%value%' exceeds the allowed length"
 msgstr "'%value%' exceeds the allowed length"
 
+# GMT 1559644710.8679
 msgctxt "zend_validate"
 msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
 msgstr "Too many files, maximum '%max%' are allowed but '%count%' are given"
 
+# GMT 1559644710.8723
 msgctxt "zend_validate"
 msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
 msgstr "Too few files, minimum '%min%' are expected but '%count%' are given"
 
+# GMT 1559644710.8766
 msgctxt "zend_validate"
 msgid "File '%value%' does not match the given crc32 hashes"
 msgstr "File '%value%' does not match the given crc32 hashes"
 
+# GMT 1559644710.8811
 msgctxt "zend_validate"
 msgid "A crc32 hash could not be evaluated for the given file"
 msgstr "A crc32 hash could not be evaluated for the given file"
 
+# GMT 1559644710.8854
 msgctxt "zend_validate"
 msgid "File '%value%' is not readable or does not exist"
 msgstr "File '%value%' is not readable or does not exist"
 
+# GMT 1559644710.8898
 msgctxt "zend_validate"
 msgid "File '%value%' has a false extension"
 msgstr "File '%value%' has a false extension"
 
+# GMT 1559644710.8941
 msgctxt "zend_validate"
 msgid "File '%value%' has a false mimetype of '%type%'"
 msgstr "File '%value%' has a false mimetype of '%type%'"
 
+# GMT 1559644710.8976
 msgctxt "zend_validate"
 msgid "The mimetype of file '%value%' could not be detected"
 msgstr "The mimetype of file '%value%' could not be detected"
 
+# GMT 1559644710.902
 msgctxt "zend_validate"
 msgid "File '%value%' does not exist"
 msgstr "File '%value%' does not exist"
 
+# GMT 1559644710.9064
 msgctxt "zend_validate"
 msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
 msgstr "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
 
+# GMT 1559644710.9107
 msgctxt "zend_validate"
 msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
 msgstr "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
 
+# GMT 1559644710.915
 msgctxt "zend_validate"
 msgid "One or more files can not be read"
 msgstr "One or more files can not be read"
 
+# GMT 1559644710.9193
 msgctxt "zend_validate"
 msgid "File '%value%' does not match the given hashes"
 msgstr "File '%value%' does not match the given hashes"
 
+# GMT 1559644710.9231
 msgctxt "zend_validate"
 msgid "A hash could not be evaluated for the given file"
 msgstr "A hash could not be evaluated for the given file"
 
+# GMT 1559644710.9275
 msgctxt "zend_validate"
 msgid "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
 msgstr "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
 
+# GMT 1559644710.9318
 msgctxt "zend_validate"
 msgid "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
 msgstr "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
 
+# GMT 1559644710.9362
 msgctxt "zend_validate"
 msgid "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
 msgstr "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
 
+# GMT 1559644710.9405
 msgctxt "zend_validate"
 msgid "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
 msgstr "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
 
+# GMT 1559644710.9449
 msgctxt "zend_validate"
 msgid "The size of image '%value%' could not be detected"
 msgstr "The size of image '%value%' could not be detected"
 
+# GMT 1559644710.9491
 msgctxt "zend_validate"
 msgid "File '%value%' is not compressed, '%type%' detected"
 msgstr "File '%value%' is not compressed, '%type%' detected"
 
+# GMT 1559644710.9535
 msgctxt "zend_validate"
 msgid "File '%value%' is no image, '%type%' detected"
 msgstr "File '%value%' is no image, '%type%' detected"
 
+# GMT 1559644710.9578
 msgctxt "zend_validate"
 msgid "File '%value%' does not match the given md5 hashes"
 msgstr "File '%value%' does not match the given md5 hashes"
 
+# GMT 1559644710.9621
 msgctxt "zend_validate"
 msgid "A md5 hash could not be evaluated for the given file"
 msgstr "A md5 hash could not be evaluated for the given file"
 
+# GMT 1559644710.9664
 msgctxt "zend_validate"
 msgid "File '%value%' exists"
 msgstr "File '%value%' exists"
 
+# GMT 1559644710.9708
 msgctxt "zend_validate"
 msgid "File '%value%' does not match the given sha1 hashes"
 msgstr "File '%value%' does not match the given sha1 hashes"
 
+# GMT 1559644710.9746
 msgctxt "zend_validate"
 msgid "A sha1 hash could not be evaluated for the given file"
 msgstr "A sha1 hash could not be evaluated for the given file"
 
+# GMT 1559644710.979
 msgctxt "zend_validate"
 msgid "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
 msgstr "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
 
+# GMT 1559644710.9833
 msgctxt "zend_validate"
 msgid "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
 msgstr "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
 
+# GMT 1559644710.9877
 msgctxt "zend_validate"
 msgid "File '%value%' exceeds the defined ini size"
 msgstr "File '%value%' exceeds the defined ini size"
 
+# GMT 1559644710.992
 msgctxt "zend_validate"
 msgid "File '%value%' exceeds the defined form size"
 msgstr "File '%value%' exceeds the defined form size"
 
+# GMT 1559644710.9964
 msgctxt "zend_validate"
 msgid "File '%value%' was only partially uploaded"
 msgstr "File '%value%' was only partially uploaded"
 
+# GMT 1559644711.0008
 msgctxt "zend_validate"
 msgid "File '%value%' was not uploaded"
 msgstr "File '%value%' was not uploaded"
 
+# GMT 1559644711.0051
 msgctxt "zend_validate"
 msgid "No temporary directory was found for file '%value%'"
 msgstr "No temporary directory was found for file '%value%'"
 
+# GMT 1559644711.0094
 msgctxt "zend_validate"
 msgid "File '%value%' can't be written"
 msgstr "File '%value%' can't be written"
 
+# GMT 1559644711.0138
 msgctxt "zend_validate"
 msgid "A PHP extension returned an error while uploading the file '%value%'"
 msgstr "A PHP extension returned an error while uploading the file '%value%'"
 
+# GMT 1559644711.0181
 msgctxt "zend_validate"
 msgid "File '%value%' was illegally uploaded. This could be a possible attack"
 msgstr "File '%value%' was illegally uploaded. This could be a possible attack"
 
+# GMT 1559644711.0225
 msgctxt "zend_validate"
 msgid "File '%value%' was not found"
 msgstr "File '%value%' was not found"
 
+# GMT 1559644711.026
 msgctxt "zend_validate"
 msgid "Unknown error while uploading file '%value%'"
 msgstr "Unknown error while uploading file '%value%'"
 
+# GMT 1559644711.0304
 msgctxt "zend_validate"
 msgid "Too much words, maximum '%max%' are allowed but '%count%' were counted"
 msgstr "Too much words, maximum '%max%' are allowed but '%count%' were counted"
 
+# GMT 1559644711.0347
 msgctxt "zend_validate"
 msgid "Too less words, minimum '%min%' are expected but '%count%' were counted"
 msgstr "Too less words, minimum '%min%' are expected but '%count%' were counted"
 
+# GMT 1559644711.0391
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be a float"
 msgstr "'%value%' does not appear to be a float"
 
+# GMT 1559644711.0434
 msgctxt "zend_validate"
 msgid "'%value%' is not greater than '%min%'"
 msgstr "'%value%' is not greater than '%min%'"
 
+# GMT 1559644711.0478
 msgctxt "zend_validate"
 msgid "'%value%' has not only hexadecimal digit characters"
 msgstr "'%value%' has not only hexadecimal digit characters"
 
+# GMT 1559644711.0522
 msgctxt "zend_validate"
 msgid "'%value%' appears to be an IP address, but IP addresses are not allowed"
 msgstr "'%value%' appears to be an IP address, but IP addresses are not allowed"
 
+# GMT 1559644711.0566
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
 msgstr "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
 
+# GMT 1559644711.0609
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
 msgstr "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
 
+# GMT 1559644711.0651
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
 msgstr "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
 
+# GMT 1559644711.0686
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a DNS hostname but cannot extract TLD part"
 msgstr "'%value%' appears to be a DNS hostname but cannot extract TLD part"
 
+# GMT 1559644711.0729
 msgctxt "zend_validate"
 msgid "'%value%' does not match the expected structure for a DNS hostname"
 msgstr "'%value%' does not match the expected structure for a DNS hostname"
 
+# GMT 1559644711.0772
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be a valid local network name"
 msgstr "'%value%' does not appear to be a valid local network name"
 
+# GMT 1559644711.0812
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a local network name but local network names are not allowed"
 msgstr "'%value%' appears to be a local network name but local network names are not allowed"
 
+# GMT 1559644711.0854
 msgctxt "zend_validate"
 msgid "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
 msgstr "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
 
+# GMT 1559644711.0898
 msgctxt "zend_validate"
 msgid "Unknown country within the IBAN '%value%'"
 msgstr "Unknown country within the IBAN '%value%'"
 
+# GMT 1559644711.0932
 msgctxt "zend_validate"
 msgid "'%value%' has a false IBAN format"
 msgstr "'%value%' has a false IBAN format"
 
+# GMT 1559644711.0975
 msgctxt "zend_validate"
 msgid "'%value%' has failed the IBAN check"
 msgstr "'%value%' has failed the IBAN check"
 
+# GMT 1559644711.101
 msgctxt "zend_validate"
 msgid "The two given tokens do not match"
 msgstr "The two given tokens do not match"
 
+# GMT 1559644711.1045
 msgctxt "zend_validate"
 msgid "No token was provided to match against"
 msgstr "No token was provided to match against"
 
+# GMT 1559644711.1088
 msgctxt "zend_validate"
 msgid "'%value%' was not found in the haystack"
 msgstr "'%value%' was not found in the haystack"
 
+# GMT 1559644711.1131
 msgctxt "zend_validate"
 msgid "Invalid type given. String or integer expected"
 msgstr "Invalid type given. String or integer expected"
 
+# GMT 1559644711.1175
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be an integer"
 msgstr "'%value%' does not appear to be an integer"
 
+# GMT 1559644711.1218
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be a valid IP address"
 msgstr "'%value%' does not appear to be a valid IP address"
 
+# GMT 1559644711.1261
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid ISBN number"
 msgstr "'%value%' is not a valid ISBN number"
 
+# GMT 1559644711.1304
 msgctxt "zend_validate"
 msgid "'%value%' is not less than '%max%'"
 msgstr "'%value%' is not less than '%max%'"
 
+# GMT 1559644711.1347
 msgctxt "zend_validate"
 msgid "Invalid type given. String, integer, float, boolean or array expected"
 msgstr "Invalid type given. String, integer, float, boolean or array expected"
 
+# GMT 1559644711.1391
 msgctxt "zend_validate"
 msgid "Value is required and can't be empty"
 msgstr "Value is required and can't be empty"
 
+# GMT 1559644711.1435
 msgctxt "zend_validate"
 msgid "'%value%' does not appear to be a postal code"
 msgstr "'%value%' does not appear to be a postal code"
 
+# GMT 1559644711.1479
 msgctxt "zend_validate"
 msgid "'%value%' does not match against pattern '%pattern%'"
 msgstr "'%value%' does not match against pattern '%pattern%'"
 
+# GMT 1559644711.1522
 msgctxt "zend_validate"
 msgid "There was an internal error while using the pattern '%pattern%'"
 msgstr "There was an internal error while using the pattern '%pattern%'"
 
+# GMT 1559644711.1565
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid sitemap changefreq"
 msgstr "'%value%' is not a valid sitemap changefreq"
 
+# GMT 1559644711.1609
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid sitemap lastmod"
 msgstr "'%value%' is not a valid sitemap lastmod"
 
+# GMT 1559644711.1652
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid sitemap location"
 msgstr "'%value%' is not a valid sitemap location"
 
+# GMT 1559644711.1695
 msgctxt "zend_validate"
 msgid "'%value%' is not a valid sitemap priority"
 msgstr "'%value%' is not a valid sitemap priority"
 
+# GMT 1559644711.1735
 msgctxt "zend_validate"
 msgid "Invalid type given. Numeric string, integer or float expected"
 msgstr "Invalid type given. Numeric string, integer or float expected"
 
+# GMT 1559644711.1778
 msgctxt "zend_validate"
 msgid "'%value%' is less than %min% characters long"
 msgstr "'%value%' is less than %min% characters long"
 
+# GMT 1559644711.1821
 msgctxt "zend_validate"
 msgid "'%value%' is more than %max% characters long"
 msgstr "'%value%' is more than %max% characters long"
-
