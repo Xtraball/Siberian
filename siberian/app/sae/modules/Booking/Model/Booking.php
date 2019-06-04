@@ -39,6 +39,28 @@ class Booking_Model_Booking extends Core_Model_Default
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/booking/mobile_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/booking/mobile_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param $option_value
      * @return array
      */
@@ -57,6 +79,13 @@ class Booking_Model_Booking extends Core_Model_Default
                 "date_format" => "MM/DD/YYYY HH:mm"
             ];
         }
+
+        // Cover & description!
+        $booking = $option_value->getObject();
+        $settings["cover"] = empty($booking->getCover()) ?
+            false : $booking->getCover();
+        $settings["description"] = empty($booking->getDescription()) ?
+            false : $booking->getDescription();
 
         $payload["settings"] = $settings;
 

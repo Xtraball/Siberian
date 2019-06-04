@@ -52,6 +52,12 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     ];
                 }
 
+                // Cover & description!
+                $settings["cover"] = empty($booking->getCover()) ?
+                    false : $booking->getCover();
+                $settings["description"] = empty($booking->getDescription()) ?
+                    false : $booking->getDescription();
+
                 $data["settings"] = $settings;
 
             } else {
@@ -89,29 +95,39 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $errors = [];
 
                 if (empty($data["name"])) {
-                    $errors[] = __("Name");
+                    $errors[] = p__("booking", "Name");
                 }
 
                 if ((empty($data["email"]) && empty($data["phone"])) ||
                     (!empty($data["email"]) && !Zend_Validate::is($data["email"], "emailAddress")) && !empty($data["phone"])) {
 
-                    $errors[] = __("Phone and/or E-mail");
+                    $errors[] = p__("booking", "Phone and/or E-mail");
                 }
 
                 if (empty($data["store"])) {
-                    $errors[] = __("Location");
+                    $errors[] = p__("booking", "Location");
                 }
 
                 if (empty($data["people"])) {
-                    $errors[] = __("Number of people");
+                    $errors[] = p__("booking", "Number of people");
                 }
 
-                if (empty($data["date"])) {
-                    $errors[] = __("Date and time");
+                if ($data["version"] === "2") {
+                    if (empty($data["checkIn"])) {
+                        $errors[] = p__("booking", "Checkin");
+                    }
+
+                    //if (empty($data["checkOut"])) {
+                    //    $errors[] = p__("booking", "Checkout");
+                    //}
+                } else {
+                    if (empty($data["date"])) {
+                        $errors[] = p__("booking", "Date");
+                    }
                 }
 
                 if (empty($data["prestation"])) {
-                    $errors[] = __("Booking details");
+                    $errors[] = p__("booking", "Booking details");
                 }
 
                 if (!empty($errors)) {
@@ -120,6 +136,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
                     $data = [
                         "error" => true,
+                        "errorLines" => $errors,
                         "message" => $message
                     ];
 

@@ -1,6 +1,6 @@
 /**
  * CMS Directives
- * @version 4.15.7
+ * @version 4.16.11
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {
@@ -92,7 +92,7 @@ angular.module('starter').directive('sbCmsText', function () {
         '   <div class="sb-cms-image modal fullscreen">'+
         '       <ion-header-bar class="bar-dark">' +
         '           <button class="button button-clear pull-right" ' +
-        '                   ng-click="hideFullscreen()">{{ "Done" | translate }}' +
+        '                   ng-click="hideFullscreen()">{{ "Done" | translate:"cms" }}' +
         '           </button>' +
         '       </ion-header-bar>' +
         '       <ion-content>' +

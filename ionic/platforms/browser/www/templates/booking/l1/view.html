@@ -19,6 +19,20 @@
             <div class="list"
                  ng-class="{'card' : card_design}">
 
+                <div class="list"
+                     ng-if="settings.cover || settings.description"
+                     ng-class="{'card' : card_design}">
+                    <img ng-if="settings.cover"
+                         ng-src="{{ coverSrc(settings.cover) }}"
+                         style="width: 100vw; display: block;" />
+
+                    <div class="item item-custom"
+                         style="white-space: normal;"
+                         ng-if="settings.description">
+                        <span ng-bind-html="settings.description | trusted_html"></span>
+                    </div>
+                </div>
+
                 <div class="item item-divider item-divider-custom">
                     {{ "Information" | translate:"booking" }}
                 </div>
@@ -61,15 +75,19 @@
                     </label>
                 </label>
 
-                <label class="item item-input item-select item-custom">
+                <label class="item item-input item-custom">
                     <i class="icon ion-ios-people"></i>
                     <div class="input-label">
                         {{ "Number of people" | translate:"booking" }}
                     </div>
-                    <select ng-model="formData.people"
-                            ng-options="value for value in people track by value"
-                            ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}"
-                            required></select>
+                    <input type="number"
+                           step="1"
+                           min="1"
+                           max="100"
+                           style="text-align: right;"
+                           ng-model="formData.people"
+                           ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}"
+                           required />
                     <label class="error"
                            ng-show="bookingForm.people.$invalid && bookingForm.submitted">
                         {{ "This field is required" | translate:"booking" }}
@@ -93,18 +111,35 @@
 
                 <label class="item item-input item-custom"
                        sb-datetime-picker
-                       title="dateTime.title"
+                       title="dateTime.checkIn"
                        headers="true"
                        format="settings.date_format"
-                       model="formData.date">
+                       model="formData.checkIn">
                     <i class="icon ion-ios-clock"></i>
                     <div class="input-label">
-                        {{ "Date & time" | translate:"booking" }}
+                        {{ "Checkin" | translate:"booking" }}
                     </div>
                     <input type="text"
                            class="text-right"
                            style="cursor: pointer !important;"
-                           ng-model="formData.date"
+                           ng-model="formData.checkIn"
+                           readonly="readonly" />
+                </label>
+
+                <label class="item item-input item-custom"
+                       sb-datetime-picker
+                       title="dateTime.checkOut"
+                       headers="true"
+                       format="settings.date_format"
+                       model="formData.checkOut">
+                    <i class="icon ion-ios-clock"></i>
+                    <div class="input-label">
+                        {{ "Checkout" | translate:"booking" }}
+                    </div>
+                    <input type="text"
+                           class="text-right"
+                           style="cursor: pointer !important;"
+                           ng-model="formData.checkOut"
                            readonly="readonly" />
                 </label>
 
