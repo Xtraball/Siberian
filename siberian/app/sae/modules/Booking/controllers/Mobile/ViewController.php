@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Json;
+use Siberian\Layout;
 
 /**
  * Class Booking_Mobile_ViewController
@@ -156,22 +157,61 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $dest_email = $store->getEmail();
 
                     $app_name = $this->getApplication()->getName();
+                    $optionValue = $this->getCurrentOptionValue();
 
-                    $layout = $this->getLayout()->loadEmail("booking", "send_email");
-                    $layout->getPartial("content_email")->setData($data);
-                    $content = $layout->render();
+                    try {
+                        // E-Mail the app owner!
+                        $subject = sprintf("%s - %s - %s",
+                            $app_name, $optionValue->getTabbarName(), $store->getStoreName());
 
-                    # @version 4.8.7 - SMTP
-                    $mail = new Siberian_Mail();
-                    $mail->setBodyHtml($content);
-                    $mail->setFrom($data["email"], $data["name"]);
-                    $mail->addTo($dest_email, $app_name);
-                    $mail->setSubject($app_name . " - " . $booking->getName() . " - " . $store->getStoreName());
-                    $mail->send();
+
+                        $baseEmail = $this->baseEmail("send_email", $subject, "", true);
+                        $baseEmail->setContentFor('header', 'show_logo', true);
+
+                        foreach ($data as $key => $value) {
+                            $baseEmail->setContentFor('content_email', $key, $value);
+                        }
+
+                        $content = $baseEmail->render();
+
+                        $mail = new \Siberian_Mail();
+                        $mail->setBodyHtml($content);
+                        $mail->setFrom($data["email"], $data["name"]);
+                        $mail->addTo($dest_email, $app_name);
+                        $mail->setSubject($subject);
+                        $mail->send();
+                    } catch (\Exception $e) {
+                        // Something went wrong with the-mail!
+                    }
+
+                    try {
+                        // E-Mail back the user!
+                        $subject = sprintf("%s - %s",
+                            $optionValue->getTabbarName(), $store->getStoreName());
+
+
+                        $baseEmail = $this->baseEmail("send_email_user", $subject, "", true);
+                        $baseEmail->setContentFor('header', 'show_logo', true);
+
+                        foreach ($data as $key => $value) {
+                            $baseEmail->setContentFor('content_email', $key, $value);
+                        }
+
+                        $content = $baseEmail->render();
+
+                        $mail = new \Siberian_Mail();
+                        $mail->setBodyHtml($content);
+                        $mail->setFrom($dest_email, $app_name);
+                        $mail->addTo($data["email"], $data["name"]);
+                        $mail->setSubject($subject);
+                        $mail->send();
+                    } catch (\Exception $e) {
+                        // Something went wrong with the-mail!
+                    }
 
                     $data = [
                         "success" => true,
-                        "message" => __("Thank you for your request.<br />We'll answer you as soon as possible.")
+                        "message" => p__("booking","Thank you for your request.<br />We'll answer you as soon as possible.")
                     ];
                 }
 
@@ -196,6 +236,29 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($data);
 
 
+    }
+
+    /**
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @param $showLegals
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '',
+                              $showLegals = true)
+    {
+        $layout = new Siberian\Layout();
+        $layout = $layout->loadEmail('booking', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', $showLegals);
+
+        return $layout;
     }
 
 }
