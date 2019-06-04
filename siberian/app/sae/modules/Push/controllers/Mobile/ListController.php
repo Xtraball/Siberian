@@ -75,18 +75,18 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
 
                     $mobileUri = $option_value->getMobileUri();
                     if (preg_match("/^goto\/feature/", $mobileUri)) {
-                        $action_url = sprintf("/%s/%s/value_id/%s",
+                        $action_value = sprintf("/%s/%s/value_id/%s",
                             $application->getKey(),
                             $mobileUri,
                             $option_value->getId());
                     } else {
-                        $action_url = sprintf("/%s/%sindex/value_id/%s",
+                        $action_value = sprintf("/%s/%sindex/value_id/%s",
                             $application->getKey(),
                             $option_value->getMobileUri(),
                             $option_value->getId());
                     }
                 } else {
-                    $action_url = $message->getActionValue();
+                    $url = $message->getActionValue();
                 }
 
                 if ($this->getApplication()->getIcon(74)) {
@@ -104,7 +104,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
                     'picture' => $picture,
                     'icon' => $icon,
                     'action_value' => $action_value,
-                    'url' => $action_url
+                    'url' => $url
                 ];
             }
 
