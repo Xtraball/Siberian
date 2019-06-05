@@ -28,6 +28,11 @@ class Booking_Form_Settings extends Siberian_Form_Abstract
 
         $this->addSimpleTextarea("description", p__("booking", "Description"));
 
+        $this->addSimpleSelect("datepicker", p__("booking","Dates"), [
+            "single" => p__("booking", "Single date"),
+            "checkin" => p__("booking", "Checkin & Checkout"),
+        ]);
+
         $this->addSimpleSelect("design", p__("booking","Design"), [
             "list" => p__("booking", "List"),
             "card" => p__("booking", "Card"),

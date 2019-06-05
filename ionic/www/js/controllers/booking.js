@@ -16,9 +16,11 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
         card_design: false,
         settings: {
             design: "list",
+            datepicker: "single",
             date_format: "MM/DD/YYYY HH:mm",
         },
         dateTime: {
+            date: $translate.instant("Date & time", "booking"),
             checkIn: $translate.instant("Checkin", "booking"),
             checkOut: $translate.instant("Checkout", "booking")
         }

@@ -109,7 +109,26 @@
                     </label>
                 </label>
 
-                <label class="item item-input item-custom"
+                <label ng-if="settings.datepicker == 'single'"
+                       class="item item-input item-custom"
+                       sb-datetime-picker
+                       title="dateTime.date"
+                       headers="true"
+                       format="settings.date_format"
+                       model="formData.date">
+                    <i class="icon ion-ios-clock"></i>
+                    <div class="input-label">
+                        {{ "Date & time" | translate:"booking" }}
+                    </div>
+                    <input type="text"
+                           class="text-right"
+                           style="cursor: pointer !important;"
+                           ng-model="formData.date"
+                           readonly="readonly" />
+                </label>
+
+                <label ng-if="settings.datepicker == 'checkin'"
+                       class="item item-input item-custom"
                        sb-datetime-picker
                        title="dateTime.checkIn"
                        headers="true"
@@ -126,7 +145,8 @@
                            readonly="readonly" />
                 </label>
 
-                <label class="item item-input item-custom"
+                <label ng-if="settings.datepicker == 'checkin'"
+                       class="item item-input item-custom"
                        sb-datetime-picker
                        title="dateTime.checkOut"
                        headers="true"

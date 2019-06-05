@@ -16,6 +16,12 @@ $schemas["booking"] = [
     "value_id" => [
         "type" => "int(11) unsigned",
     ],
+    "datepicker" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "single",
+    ],
     "cover" => [
         "type" => "varchar(255)",
         "charset" => "utf8",

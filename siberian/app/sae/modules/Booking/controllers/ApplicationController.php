@@ -53,6 +53,7 @@ class Booking_ApplicationController extends Application_Controller_Default
 
                 $booking = (new Booking_Model_Booking())->find($optionValue->getId(), "value_id");
                 Feature::formImageForOption($optionValue, $booking, $values, "cover", true);
+                $booking->setDatepicker($values["datepicker"]);
                 $booking->setDescription($values["description"]);
                 $booking->setValueId($optionValue->getId());
                 $booking->save();

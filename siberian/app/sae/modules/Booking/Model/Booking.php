@@ -86,6 +86,7 @@ class Booking_Model_Booking extends Core_Model_Default
             false : $booking->getCover();
         $settings["description"] = empty($booking->getDescription()) ?
             false : $booking->getDescription();
+        $settings["datepicker"] = $booking->getDatepicker();
 
         $payload["settings"] = $settings;
 

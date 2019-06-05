@@ -113,14 +113,14 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $errors[] = p__("booking", "Number of people");
                 }
 
-                if ($data["version"] === "2") {
+                if ($data["datepicker"] === "checkin") {
                     if (empty($data["checkIn"])) {
                         $errors[] = p__("booking", "Checkin");
                     }
 
-                    //if (empty($data["checkOut"])) {
-                    //    $errors[] = p__("booking", "Checkout");
-                    //}
+                    if (empty($data["checkOut"])) {
+                        $errors[] = p__("booking", "Checkout");
+                    }
                 } else {
                     if (empty($data["date"])) {
                         $errors[] = p__("booking", "Date");
