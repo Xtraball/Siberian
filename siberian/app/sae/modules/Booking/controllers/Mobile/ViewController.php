@@ -165,8 +165,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             $app_name, $optionValue->getTabbarName(), $store->getStoreName());
 
 
-                        $baseEmail = $this->baseEmail("send_email", $subject, "", true);
-                        $baseEmail->setContentFor('header', 'show_logo', true);
+                        $baseEmail = $this->baseEmail("send_email", $subject, "", false);
 
                         foreach ($data as $key => $value) {
                             $baseEmail->setContentFor('content_email', $key, $value);
@@ -190,8 +189,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             $optionValue->getTabbarName(), $store->getStoreName());
 
 
-                        $baseEmail = $this->baseEmail("send_email_user", $subject, "", true);
-                        $baseEmail->setContentFor('header', 'show_logo', true);
+                        $baseEmail = $this->baseEmail("send_email_user", $subject, "", false);
 
                         foreach ($data as $key => $value) {
                             $baseEmail->setContentFor('content_email', $key, $value);
@@ -249,7 +247,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     public function baseEmail($nodeName,
                               $title,
                               $message = '',
-                              $showLegals = true)
+                              $showLegals = false)
     {
         $layout = new Siberian\Layout();
         $layout = $layout->loadEmail('booking', $nodeName);
