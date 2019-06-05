@@ -1,3 +1,30 @@
+<?php
+
+
+try {
+    if (!$this->getApplication()) {
+        throw new \Exception("gotodefault");
+    }
+
+    $application = $this->getApplication();
+    $variables = Template_Model_Design::getVariables($application);
+} catch (\Exception $e) {
+    // Defaults!
+    $variables = [
+        '$email-body-custom-bg' => 'rgba(225,225,225,1)',
+        '$email-header-custom-text' => 'rgba(255,255,255,1)',
+        '$email-header-custom-bg' => 'rgba(147,181,205,1)',
+        '$email-content-custom-text' => 'rgba(136,136,136,1)',
+        '$email-content-custom-bg' => 'rgba(255,255,255,1)',
+        '$email-footer-custom-text' => 'rgba(96,96,96,1)',
+        '$email-button-primary-custom-text' => '#ffffff',
+        '$email-button-primary-custom-bg' => '#3498db',
+        '$email-button-danger-custom-text' => '#ffffff',
+        '$email-button-danger-custom-bg' => '#c10600',
+    ];
+}
+
+?>
 <!doctype html>
 <html>
 <head>
@@ -15,7 +42,7 @@
         }
 
         body {
-            background-color: #e1e1e1;
+            background-color: <?php echo $variables['$email-body-custom-bg'] ?>;
             font-family: sans-serif;
             -webkit-font-smoothing: antialiased;
             font-size: 14px;
@@ -44,7 +71,7 @@
         ------------------------------------- */
 
         .body {
-            background-color: #e1e1e1;
+            background-color: <?php echo $variables['$email-body-custom-bg'] ?>;
             width: 100%;
         }
 
@@ -71,7 +98,7 @@
             HEADER, FOOTER, MAIN
         ------------------------------------- */
         .main {
-            background: #ffffff;
+            background: <?php echo $variables['$email-content-custom-bg'] ?>;
             border-radius: 0;
             width: 100%;
         }
@@ -91,14 +118,14 @@
             margin-top: 10px;
             text-align: center;
             width: 100%;
-            color: #606060;
+            color: <?php echo $variables['$email-footer-custom-text'] ?>;
         }
 
         .footer td,
         .footer p,
         .footer span,
         .footer a {
-            color: #999999;
+            color: <?php echo $variables['$email-footer-custom-text'] ?>;
             font-size: 12px;
             text-align: center;
         }
@@ -110,7 +137,7 @@
         h2,
         h3,
         h4 {
-            color: #000000;
+            color: <?php echo $variables['$email-content-custom-text'] ?>;
             font-family: sans-serif;
             font-weight: 400;
             line-height: 1.4;
@@ -164,17 +191,17 @@
         }
 
         .btn table td {
-            background-color: #ffffff;
+            background-color: #3498db;
             border-radius: 0;
             text-align: center;
         }
 
         .btn a {
-            background-color: #ffffff;
-            border: solid 1px #3498db;
+            background-color: <?php echo $variables['$email-button-primary-custom-bg'] ?>;
+            border: solid 1px <?php echo $variables['$email-button-primary-custom-bg'] ?>;
             border-radius: 0;
             box-sizing: border-box;
-            color: #3498db;
+            color: <?php echo $variables['$email-button-primary-custom-bg'] ?>;
             cursor: pointer;
             display: inline-block;
             font-size: 14px;
@@ -186,23 +213,23 @@
         }
 
         .btn-primary table td {
-            background-color: #3498db;
+            background-color: <?php echo $variables['$email-button-primary-custom-bg'] ?>;
         }
 
         .btn-primary a {
-            background-color: #3498db;
-            border-color: #3498db;
-            color: #ffffff;
+            background-color: <?php echo $variables['$email-button-primary-custom-bg'] ?>;
+            border-color: <?php echo $variables['$email-button-primary-custom-bg'] ?>;
+            color: <?php echo $variables['$email-button-primary-custom-text'] ?>;
         }
 
         .btn-danger table td {
-            background-color: #c10600;
+            background-color: <?php echo $variables['$email-button-danger-custom-bg'] ?>;
         }
 
         .btn-danger a {
-            background-color: #c10600;
-            border-color: #c10600;
-            color: #ffffff;
+            background-color: <?php echo $variables['$email-button-danger-custom-bg'] ?>;
+            border-color: <?php echo $variables['$email-button-danger-custom-bg'] ?>;
+            color: <?php echo $variables['$email-button-danger-custom-text'] ?>;
         }
 
         /* -------------------------------------
@@ -321,7 +348,7 @@
             display: inline-block;
             background: lightgrey;
             font-family: lato, monospace;
-            letter-spacing: 0.5px;
+            letter-spacing: .5px;
         }
 
         /* -------------------------------------
@@ -351,31 +378,29 @@
             }
 
             .btn-primary table td:hover {
-                background-color: #34495e !important;
+                filter: brightness(85%);
             }
 
             .btn-primary a:hover {
-                background-color: #34495e !important;
-                border-color: #34495e !important;
+                filter: brightness(85%);
             }
 
             .btn-danger table td:hover {
-                background-color: #940600 !important;
+                filter: brightness(85%);
             }
 
             .btn-danger a:hover {
-                background-color: #940600 !important;
-                border-color: #940600 !important;
+                filter: brightness(85%);
             }
         }
 
         .header-title {
-            background-color: #93b5cd;
+            background-color: <?php echo $variables['$email-header-custom-bg'] ?>;
         }
 
         .header-title h4 {
             font-size: 22px;
-            color: white;
+            color: <?php echo $variables['$email-header-custom-text'] ?>;
             text-align: center;
             margin-bottom: 0 !important;
         }

@@ -16,6 +16,8 @@ class Template_Model_Design extends Core_Model_Default
      */
     public static $variables = [];
 
+    public static $lastException = null;
+
     /**
      * @var
      */
@@ -261,6 +263,7 @@ class Template_Model_Design extends Core_Model_Default
                 ' . $scss
             );
             $result = false;
+            self::$lastException = $e->getMessage();
         }
 
         $css = $fontImport . "\n" . $css;

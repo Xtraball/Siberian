@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Job_Form_Company
+ * Class Application_Form_Advanced
  */
 class Application_Form_Advanced extends Siberian_Form_Abstract
 {
