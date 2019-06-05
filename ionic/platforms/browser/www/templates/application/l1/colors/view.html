@@ -1,4 +1,5 @@
 <ion-view sb-page-background
+          class="colors-page"
           hide-navbar="false">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
@@ -241,6 +242,314 @@
             </button>
         </div>
 
+        <div class="list utils-group"
+             ng-show="displayed_element == 'utils_group'">
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="light light-custom"
+                          data-text="$util-light-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Light" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="light-bg light-bg-custom"
+                          data-bg="$util-light-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Light" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="light-border light-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-light-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Light" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="positive positive-custom"
+                          data-text="$util-positive-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Positive" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="positive-bg positive-bg-custom"
+                          data-bg="$util-positive-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Positive" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="positive-border positive-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-positive-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Positive" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="calm calm-custom"
+                          data-text="$util-calm-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Calm" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="calm-bg calm-bg-custom"
+                          data-bg="$util-calm-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Calm" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="calm-border calm-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-calm-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Calm" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="balanced balanced-custom"
+                          data-text="$util-balanced-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "balanced" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="balanced-bg balanced-bg-custom"
+                          data-bg="$util-balanced-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Balanced" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="balanced-border balanced-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-balanced-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Balanced" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="energized energized-custom"
+                          data-text="$util-energized-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Energized" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="energized-bg energized-bg-custom"
+                          data-bg="$util-energized-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Energized" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="energized-border energized-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-energized-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Energized" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="assertive assertive-custom"
+                          data-text="$util-assertive-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Assertive" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="assertive-bg assertive-bg-custom"
+                          data-bg="$util-assertive-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Assertive" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="assertive-border assertive-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-assertive-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Assertive" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="royal royal-custom"
+                          data-text="$util-royal-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Royal" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="royal-bg royal-bg-custom"
+                          data-bg="$util-royal-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Royal" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="royal-border royal-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-royal-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Royal" | translate }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="row item item-custom">
+                <div class="col-33">
+                    <span class="dark dark-custom"
+                          data-text="$util-dark-custom-text">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Dark" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="dark-bg dark-bg-custom"
+                          data-bg="$util-dark-custom-bg">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Dark" | translate }}
+                    </span>
+                </div>
+                <div class="col-33">
+                    <span class="dark-border dark-border-custom"
+                          style="border-width: 2px; border-style: solid; border-radius: 2px;"
+                          data-border="$util-dark-custom-border">
+                        <i class="icon ion-scissors"></i>
+                        {{ "Dark" | translate }}
+                    </span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="padding"
+             ng-show="displayed_element == 'icons'">
+
+            <div class="row">
+                <span>
+                    <i class="icon ion-wrench icon-custom"
+                       data-text="$icon-custom"></i>
+                    {{ "Default" | translate }}
+                </span>
+            </div>
+            <div class="row">
+                <span>
+                    <i class="icon ion-scissors icon-active-custom"
+                       data-text="$icon-active-custom"></i>
+                    {{ "Active" | translate }}
+                </span>
+            </div>
+            <div class="row">
+                <span>
+                    <i class="icon ion-hammer icon-inactive-custom"
+                       data-text="$icon-inactive-custom"></i>
+                    {{ "Inactive" | translate }}
+                </span>
+            </div>
+
+        </div>
+
+        <div class="padding"
+             ng-show="displayed_element == 'badges_group'">
+
+            <div class="row">
+                <span class="badge badge-custom"
+                      data-bg="$badge-custom-bg"
+                      data-text="$badge-custom-text">
+                    {{ "Default" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge-light badge-light-custom"
+                      data-bg="$badge-light-custom-bg"
+                      data-text="$badge-light-custom-text">
+                    {{ "Light" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-positive badge-positive-custom item-icon-left"
+                      data-bg="$badge-positive-custom-bg"
+                      data-text="$badge-positive-custom-text">
+                    {{ "Positive" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-calm badge-calm-custom item-icon-left"
+                      data-bg="$badge-calm-custom-bg"
+                      data-text="$badge-calm-custom-text">
+                    {{ "Calm" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-balanced badge-balanced-custom item-icon-left"
+                      data-bg="$badge-balanced-custom-bg"
+                      data-text="$badge-balanced-custom-text">
+                    {{ "Balanced" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-energized badge-energized-custom item-icon-left"
+                      data-bg="$badge-energized-custom-bg"
+                      data-text="$badge-energized-custom-text">
+                    {{ "Energized" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-assertive badge-assertive-custom item-icon-left"
+                      data-bg="$badge-assertive-custom-bg"
+                      data-text="$badge-assertive-custom-text">
+                    {{ "Assertive" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-royal badge-royal-custom item-icon-left"
+                      data-bg="$badge-royal-custom-bg"
+                      data-text="$badge-royal-custom-text">
+                    {{ "Royal" | translate }}
+                </span>
+            </div>
+
+            <div class="row">
+                <span class="badge badge-block badge-dark badge-dark-custom item-icon-left"
+                      data-bg="$badge-dark-custom-bg"
+                      data-text="$badge-dark-custom-text">
+                    {{ "Dark" | translate }}
+                </span>
+            </div>
+        </div>
+
         <div class="list"
              ng-show="displayed_element == 'checkbox'">
             <label class="checkbox-custom item item-custom item-checkbox"
@@ -449,6 +758,12 @@
                 }
             </script>
         </div>
+
+        <style type="text/css">
+            .colors-page .utils-group span {
+                padding: 5px;
+            }
+        </style>
 
     </ion-content>
 </ion-view>
