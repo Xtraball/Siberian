@@ -20,6 +20,9 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         ],
     ];
 
+    /**
+     *
+     */
     public function loadAction()
     {
         $payload = [
@@ -154,7 +157,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
         $accountType = "non2fa";
         $itunesLogin = $appIosAutopublish->getItunesLogin();
 
-        $isFilled = (boolean) !empty($appIosAutopublish->getCypheredCrendetials());
+        $isFilled = mb_strlen($appIosAutopublish->getCypheredCredentials()) > 0;
 
         $data["ios_publish_informations"] = [
             "id" => $appIosAutopublish->getId(),
