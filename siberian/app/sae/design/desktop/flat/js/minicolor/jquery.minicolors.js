@@ -196,7 +196,7 @@
             '<div class="minicolors-picker"><div></div></div>' +
           '</div>' +
           '<div class="minicolors-current-value">\n' +
-            '<input class="input-flat" type="text" />\n' +
+            '<input class="input-flat" type="text" style="padding: 5px 0;" />\n' +
           '</div>' +
         '</div>'
       );
@@ -765,6 +765,11 @@
       }
     } else {
       hex = convertCase(parseHex(localInput.val(), true), settings.letterCase);
+      // When we paste hex value, we will convert it to rgba
+      var rgb = hex2rgb(hex);
+      input.attr('data-opacity', 1);
+      localInput.val("rgba(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ", 1)");
+      input.val("rgba(" + rgb.r + ", " + rgb.g + ", " + rgb.b + ", 1)");
     }
 
     if(!hex){
