@@ -2,6 +2,7 @@
           class="colors-page"
           hide-navbar="false">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
+
     <ion-nav-buttons side="secondary">
         <div sb-tooltip
              collection="tooltip.collection"
@@ -776,8 +777,15 @@
         </div>
 
         <style type="text/css">
-            .colors-page .utils-group span {
-                padding: 5px;
+            .utils-group .item.item-custom {
+                padding: 10px 0;
+            }
+
+            .badges-group .item .badge {
+                display: inline !important;
+                position: initial !important;
+                top: unset !important;
+                right: unset !important;
             }
         </style>
 

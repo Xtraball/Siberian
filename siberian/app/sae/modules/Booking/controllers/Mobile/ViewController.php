@@ -58,6 +58,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     false : $booking->getCover();
                 $settings["description"] = empty($booking->getDescription()) ?
                     false : $booking->getDescription();
+                $settings["datepicker"] = $booking->getDatepicker();
 
                 $data["settings"] = $settings;
 
@@ -113,7 +114,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                     $errors[] = p__("booking", "Number of people");
                 }
 
-                if ($data["datepicker"] === "checkin") {
+                if (array_key_exists("checkIn", $data) && array_key_exists("checkOut", $data)) {
                     if (empty($data["checkIn"])) {
                         $errors[] = p__("booking", "Checkin");
                     }
