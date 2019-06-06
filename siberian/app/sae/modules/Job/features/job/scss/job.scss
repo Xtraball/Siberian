@@ -28,6 +28,31 @@
         }
     }
 
+    .category-item-block {
+        width: calc(100% / 3);
+        padding: 1vw;
+        .category-item {
+            border: 2px solid transparent !important;
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center 30%;
+            padding: 0 !important;
+            margin: 0 !important;
+            img {
+                width: 100%;
+            }
+            h4 {
+                position: relative;
+                bottom: .5rem;
+                text-align: center;
+                font-size: .6875rem;
+            }
+            &.category-selected {
+                border: 2px solid $card-item-custom-text !important;
+            }
+        }
+    }
+
     .categories-container {
         display: flex;
         flex-direction: row;

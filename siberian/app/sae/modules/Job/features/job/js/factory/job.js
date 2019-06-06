@@ -9,17 +9,13 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
 
     factory.value_id = null;
     factory.admin_companies = null;
-    factory.options =  {
-        display_place_icon: false,
-        display_search: true,
-        display_income: true
-    };
+    factory.settings = null;
 
     factory.setValueId = function(value_id) {
         factory.value_id = value_id;
     };
 
-    factory.findAll = function(options, refresh) {
+    factory.findAll = function(filters, refresh) {
 
         if(!this.value_id) {
             return $pwaRequest.reject("[Factory::Job.findAll] missing value_id.");
@@ -29,21 +25,12 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
             value_id: this.value_id
         });
 
-        if(options.position !== false) {
-            angular.extend(options, {
-                latitude: options.position.latitude,
-                longitude: options.position.longitude,
-                accuracy: options.position.accuracy
-            });
-        }
-
         return $pwaRequest.post("job/mobile_list/findall", {
             urlParams: {
                 value_id: this.value_id
             },
             refresh: refresh,
-            data: options,
-            cache: !$rootScope.isOverview
+            data: filters
         });
     };
 

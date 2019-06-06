@@ -38,7 +38,7 @@
              ng-show="collection.length">
 
             <div ng-click="showItem(item)"
-                 ng-repeat="item in collection | filter: filterPlaces">
+                 ng-repeat="item in collection">
                 <div class="item item-custom item-place"
                      ng-class="{ 'item-thumbnail-custom': item.icon && options.display_place_icon }">
                     <img ng-src="{{ item.icon }}"

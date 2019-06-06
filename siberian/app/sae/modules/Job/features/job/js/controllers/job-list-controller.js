@@ -14,6 +14,8 @@ angular.module("starter").controller("JobListController", function (Location, So
         offset: null,
         time: null,
         modal: null,
+        load_more: false,
+        card_design: false,
         admin_modal: null,
         can_load_older_places: false,
         social_sharing_active: false,
@@ -22,12 +24,10 @@ angular.module("starter").controller("JobListController", function (Location, So
         distance_range: [1, 5, 10, 20, 50, 75, 100, 150, 200, 500, 1000],
         distance_unit: "km",
         filters: {
-            time: 0,
-            pull_to_refresh: false,
-            count: 0,
             fulltext: "",
             locality: null,
-            position: null,
+            longitude: 0,
+            latitude: 0,
             keywords: null,
             radius: 4,
             distance: 0,
@@ -41,26 +41,7 @@ angular.module("starter").controller("JobListController", function (Location, So
 
     Job.setValueId($stateParams.value_id);
 
-    $scope.filterPlaces = function (place) {
-        var concat = place.title + place.subtitle + place.location + place.contract_type + place.company_name;
-        var result = true;
-
-        var parts = $scope.filters.fulltext.split(" ");
-        for (var i = 0; i < parts.length; i++) {
-            var filtered = parts[i].replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-            var regexp = new RegExp(parts[i], "gi");
-
-            result = result && concat.match(regexp);
-        }
-
-        return result;
-    };
-
-    /** Re-run findAll with new options */
     $scope.validateFilters = function () {
-        $scope.filters.position = false;
-        $scope.filters.more_search = true;
-
         $scope.closeFilterModal();
 
         $scope.collection = [];
@@ -69,9 +50,11 @@ angular.module("starter").controller("JobListController", function (Location, So
 
     /** Reset filters */
     $scope.clearFilters = function () {
-        angular.forEach($scope.categories, function (value, key) {
-            $scope.filter.categories[key].is_checked = false;
-        });
+        if ($scope.categories) {
+            $scope.categories.forEach(function (category) {
+                category.isSelected = false;
+            });
+        }
 
         $scope.filters.fulltext = "";
         $scope.filters.locality = null;
@@ -83,6 +66,11 @@ angular.module("starter").controller("JobListController", function (Location, So
 
         $scope.closeFilterModal();
 
+        $scope.collection = [];
+        $scope.loadContent();
+    };
+
+    $scope.refresh = function () {
         $scope.collection = [];
         $scope.loadContent();
     };
@@ -117,99 +105,42 @@ angular.module("starter").controller("JobListController", function (Location, So
         $scope.admin_modal.hide();
     };
 
-    $scope.loadContent = function (type) {
+    $scope.loadContent = function (loadMore) {
+        $scope.is_loading = true;
+        $scope.filters.offset = $scope.collection.length;
 
-        $scope.filters.time = 0;
-        $scope.filters.pull_to_refresh = false;
-        $scope.filters.count = 0;
+        // Clear collection.
+        if ($scope.collection.length <= 0) {
+            $scope.collection = [];
+        }
 
-        Job.findAll($scope.filters)
+        // Group categories
+        if ($scope.categories) {
+            $scope.filters.categories = $scope.categories
+            .filter(function (category) {
+                return category.isSelected;
+            }).map(function (category) {
+                return category.id;
+            }).join(",");
+        } else {
+            $scope.filters.categories = "";
+        }
+
+        Job
+        .findAll($scope.filters, false)
         .then(function (data) {
 
-            $scope.options = Job.options = data.options;
-            $scope.collection = $scope.collection.concat(data.collection);
-            if ($scope.filters.categories == null) {
-                $scope.filters.categories = data.categories;
+            Places.collection = Places.collection.concat(angular.copy(data.places));
+            $scope.collection = Places.collection;
+
+            $scope.load_more = (data.total > $scope.collection.length);
+
+        }).then(function () {
+            if (loadMore) {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
             }
-            $scope.filters.locality = data.locality;
-            $scope.page_title = data.page_title;
-            $scope.can_load_older_places = data.more;
-            Job.admin_companies = $scope.admin_companies = data.admin_companies;
 
-            $scope.distance_unit = $scope.options.distance_unit;
-            $scope.filters.radius = $scope.options.default_radius;
-
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && $scope.collection.length > 0 && !Application.is_webview);
-
-            $scope.page_title = data.page_title;
-        }).then(function () {
             $scope.is_loading = false;
-        });
-    };
-
-    $scope.loadMore = function () {
-        if ($scope.filters.more_search) {
-            return;
-        }
-
-        var time = 0;
-        var distance = 0;
-        if ($scope.collection.length > 0) {
-            time = $scope.collection[$scope.collection.length - 1].time;
-            distance = $scope.collection[$scope.collection.length - 1].distance;
-        }
-
-        $scope.filters.time = time;
-        $scope.filters.distance = distance;
-        $scope.filters.pull_to_refresh = false;
-        $scope.filters.count = $scope.collection.length;
-
-        Job.findAll($scope.filters)
-        .then(function (data) {
-
-            $scope.collection = $scope.collection.concat(data.collection);
-            $scope.page_title = data.page_title;
-            $scope.can_load_older_places = data.more;
-
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && $scope.collection.length > 0 && !Application.is_webview);
-
-            $scope.page_title = data.page_title;
-        }).then(function () {
-            $scope.is_loading = false;
-            $scope.$broadcast('scroll.infiniteScrollComplete');
-        });
-    };
-
-    $scope.pullToRefresh = function () {
-        if ($scope.filters.more_search) {
-            return;
-        }
-
-        var time = 0;
-        var distance = 0;
-        if ($scope.collection.length > 0) {
-            time = $scope.collection[0].time;
-            distance = $scope.collection[0].distance;
-        }
-
-        $scope.filters.time = time;
-        $scope.filters.distance = distance;
-        $scope.filters.pull_to_refresh = true;
-        $scope.filters.count = $scope.collection.length;
-
-        Job.findAll($scope.filters, true)
-        .then(function (data) {
-
-            $scope.collection = $scope.collection;
-
-            $scope.page_title = data.page_title;
-
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && $scope.collection.length > 0 && !Application.is_webview);
-
-            $scope.page_title = data.page_title;
-        }).then(function () {
-            $scope.is_loading = false;
-            $scope.$broadcast('scroll.refreshComplete');
         });
     };
 
@@ -228,13 +159,32 @@ angular.module("starter").controller("JobListController", function (Location, So
         });
     };
 
-    Location.getLocation()
-    .then(function (position) {
-        $scope.filters.position = position.coords;
-        $scope.loadContent();
-    }, function () {
-        $scope.filters.position = false;
-        $scope.loadContent();
+    // Loading places feature settings
+    $pwaRequest.get("job/mobile_list/fetch-settings'", {
+        urlParams: {
+            value_id: $scope.value_id,
+            t: Date.now()
+        },
+        cache: false
+    }).then(function (payload) {
+        $scope.settings = payload.settings;
+        $scope.categories = $scope.settings.categories;
+
+        // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
+        Location
+        .getLocation({timeout: 10000}, true)
+        .then(function (position) {
+            $scope.filters.latitude = position.coords.latitude;
+            $scope.filters.longitude = position.coords.longitude;
+            $scope.geolocationAvailable = true;
+        }, function (error) {
+            $scope.filters.latitude = 0;
+            $scope.filters.longitude = 0;
+            $scope.geolocationAvailable = false;
+        }).then(function () {
+            // Initiate the first loading!
+            $scope.loadContent(false);
+        });
     });
 
 });

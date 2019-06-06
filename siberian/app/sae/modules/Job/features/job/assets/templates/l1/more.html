@@ -20,14 +20,27 @@
     <ion-content>
         <div class="list job-filters"
              ng-class="{'card' : card_design}">
+
+            <div class="item item-custom">
+                <div>
+                    <input type="text"
+                           style="width: 100%;"
+                           placeholder="{{ 'Search...' | translate:'job' }}"
+                           ng-model="filters.fulltext" />
+                    <i ng-show="filters.fulltext.length > 0"
+                       ng-click="filters.fulltext = ''"
+                       class="icon ion-backspace-outline clear-text"></i>
+                </div>
+            </div>
+
             <div class="item item-custom">
                 <div>
                     <input type="text"
                            style="width: 100%;"
                            placeholder="{{ 'Locality, etc...' | translate:'job' }}"
-                           ng-model="filters.fulltext" />
-                    <i ng-show="filters.fulltext.length > 0"
-                       ng-click="filters.fulltext = ''"
+                           ng-model="filters.locality" />
+                    <i ng-show="filters.locality.length > 0"
+                       ng-click="filters.locality = ''"
                        class="icon ion-backspace-outline clear-text"></i>
                 </div>
             </div>
@@ -39,7 +52,8 @@
                            ng-model="filters.radius"
                            min="0"
                            max="10"
-                           step="0.1" />
+                           step="0.1"
+                           style="width: 100%;" />
                 </div>
             </div>
 
@@ -66,10 +80,10 @@
                      ng-repeat="category in filters.categories">
                     <div class="card">
                         <div class="category-item item item-custom"
-                             ng-class="{'category-selected': category.is_checked}"
+                             ng-class="{'category-selected': category.isSelected}"
                              ng-style="{'background-image': 'url('+ imageSrc(category.picture) +')'}"
 
-                             ng-click="category.is_checked = !category.is_checked">
+                             ng-click="category.isSelected = !category.isSelected">
                             <img src="./img/placeholder/blank-512.png" />
                             <h4 ng-if="category.title.length">{{ category.title }}</h4>
                         </div>
