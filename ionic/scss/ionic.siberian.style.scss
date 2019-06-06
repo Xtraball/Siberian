@@ -344,17 +344,17 @@ ion-content {
 .light,
 a.light {
   &.light-custom {
-    color: $util-custom-text;
+    color: $util-light-custom-text;
   }
 }
 .light-bg {
   &.light-bg-custom {
-    background-color: $util-custom-bg;
+    background-color: $util-light-custom-bg;
   }
 }
 .light-border {
   &.light-border-custom {
-    border-color: $util-custom-border;
+    border-color: $util-light-custom-border;
   }
 }
 

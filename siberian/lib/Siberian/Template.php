@@ -160,6 +160,11 @@ class Template
                     'design_id' => $design->getId()
                 ]);
 
+            // Skips missing codes!
+            if (!array_key_exists($blockCode, $blockIds)) {
+                continue;
+            }
+
             $designBlock
                 ->addData($blockData)
                 ->setDesignId($design->getId())

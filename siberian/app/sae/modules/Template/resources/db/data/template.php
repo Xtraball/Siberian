@@ -423,16 +423,6 @@ $blocks = [
         'position' => '80',
         'children' => [
             [
-                'code' => 'util',
-                'name' => 'Util',
-                'color' => '#444',
-                'color_variable_name' => '$util-custom-text',
-                'background_color' => '#f8f8f8',
-                'background_color_variable_name' => '$util-custom-bg',
-                'border_color' => '#b2b2b2',
-                'border_color_variable_name' => '$util-custom-border',
-            ],
-            [
                 'code' => 'util_light',
                 'name' => 'Util light',
                 'color' => '#444',
@@ -753,4 +743,16 @@ foreach($blocks->findAll() as $block) {
     foreach($children as $child) {
         $block_ids[$child->getCode()] = $child->getId();
     }
+}
+
+
+// Removes `util` blocks
+$block = (new Template_Model_Block())->find("util", "code");
+if ($block->getId()) {
+    try {
+        $this->query("DELETE FROM template_block_app WHERE block_id = '" . $block->getId() . "';");
+    } catch (\Exception $e) {
+        // Silently fails!
+    }
+    $block->delete();
 }

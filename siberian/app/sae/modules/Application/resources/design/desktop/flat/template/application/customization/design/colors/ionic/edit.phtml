@@ -123,7 +123,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                                          id="row_<?php echo $child->getId(); ?>">
                                         <?php if ($child->getColorVariableName()) : ?>
                                             <?php $hex = "#" . $block_id . $child_id . "01"; ?>
-                                            <div class="mini-color col-md-3 col-xs-6">
+                                            <div class="mini-color col-md-4 col-xs-6">
                                                 <input type="hidden"
                                                        rel="color"
                                                        data-blockid="<?php echo $block->getId(); ?>"
@@ -138,7 +138,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
                                         <?php if ($child->getBackgroundColorVariableName()) : ?>
                                             <?php $hex = "#" . $block_id . $child_id . "02"; ?>
-                                            <div class="mini-color col-md-3 col-xs-6">
+                                            <div class="mini-color col-md-4 col-xs-6">
                                                 <input type="hidden"
                                                        rel="background_color"
                                                        data-blockid="<?php echo $block->getId(); ?>"
@@ -153,7 +153,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
                                         <?php if ($child->getBorderColorVariableName()) : ?>
                                             <?php $hex = "#" . $block_id . $child_id . "03"; ?>
-                                            <div class="mini-color col-md-3 col-xs-6">
+                                            <div class="mini-color col-md-4 col-xs-6">
                                                 <input type="hidden"
                                                        rel="border_color"
                                                        data-blockid="<?php echo $block->getId(); ?>"
@@ -168,7 +168,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
                                         <?php if ($child->getImageColorVariableName()) : ?>
                                             <?php $hex = "#" . $block_id . $child_id . "04"; ?>
-                                            <div class="mini-color col-md-3 col-xs-6">
+                                            <div class="mini-color col-md-4 col-xs-6">
                                                 <input type="hidden"
                                                        rel="image_color"
                                                        data-blockid="<?php echo $block->getId(); ?>"
@@ -662,12 +662,15 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
         .mini-color span.mini-text {
             text-transform: uppercase;
+            font-size: 12px;
+            line-height: 22px;
+            filter: brightness(50%);
+            margin-left: 5px;
         }
 
         .minicolors-theme-default {
             width: 22px !important;
             height: 22px !important;
-            margin-right: 10px;
             border: 1px solid #303030;
             border-radius: 2px;
         }
