@@ -55,20 +55,20 @@ class Job_ApplicationController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true)
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**

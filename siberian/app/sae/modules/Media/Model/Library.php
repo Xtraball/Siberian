@@ -1,15 +1,28 @@
 <?php
 
+/**
+ * Class Media_Model_Library
+ */
 class Media_Model_Library extends Core_Model_Default {
 
+    /**
+     * @var
+     */
     protected $_images;
 
+    /**
+     * Media_Model_Library constructor.
+     * @param array $params
+     */
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Media_Model_Db_Table_Library';
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getImages() {
 
         if(empty($this->_images)) {
@@ -24,6 +37,9 @@ class Media_Model_Library extends Core_Model_Default {
 
     }
 
+    /**
+     * @return $this
+     */
     public function getFirstIcon() {
         if(!$this->getId()) {
             return $this;
@@ -50,7 +66,11 @@ class Media_Model_Library extends Core_Model_Default {
         return $this->getImages();
     }
 
-    public function copyTo($new_library_id,$option) {
+    /**
+     * @param $new_library_id
+     * @param null $option
+     */
+    public function copyTo($new_library_id, $option = null) {
 
         $images = $this->getImages();
         foreach($images as $image) {

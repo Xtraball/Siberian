@@ -3,10 +3,11 @@
   "description": "Job publication manager.",
   "version": "4.12.19",
   "type": "module",
+  "restore_apps": true,
   "dependencies": {
     "system": {
       "type": "SAE",
-      "version": "4.6.2"
+      "version": "4.16.0"
     }
   },
   "assets": {

@@ -32,20 +32,20 @@ class Job_Api_PlaceController extends Api_Controller_Default {
                     ->save()
                 ;
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "user_id" => $admin->getId(),
                     "token" => $admin->getLoginToken()
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -89,20 +89,20 @@ class Job_Api_PlaceController extends Api_Controller_Default {
 
                 $admin->save();
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "user_id" => $admin->getId(),
                     "token" => $admin->getLoginToken()
-                );
+                ];
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 
@@ -139,20 +139,20 @@ class Job_Api_PlaceController extends Api_Controller_Default {
                 $mail = new Siberian_Mail();
                 $mail->setBodyHtml($content);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject, array("_sender_name"));
+                $mail->setSubject($subject, ["_sender_name"]);
                 $mail->send();
 
-                $data = array("success" => 1);
+                $data = ["success" => 1];
 
             }
             catch(Exception $e) {
-                $data = array(
+                $data = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
     }
@@ -162,15 +162,15 @@ class Job_Api_PlaceController extends Api_Controller_Default {
         if($data = $this->getRequest()->getPost()) {
 
             try {
-                $data = array("is_logged_in" => $this->getSession()->isLoggedIn());
+                $data = ["is_logged_in" => $this->getSession()->isLoggedIn()];
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

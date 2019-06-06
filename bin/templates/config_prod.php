@@ -1,13 +1,21 @@
 <?php
 /**
- * SiberianCMS
+ * Siberian
  *
- * @version 4.1.0
+ * @version 4.16.7
  * @author Xtraball SAS <dev@xtraball.com>
  *
  * @configuration
  *
  */
 
-$_config = array();
-$_config["environment"] = "production";
+$_config = [];
+$_config['environment'] = 'production';
+
+try {
+    if (is_file(__DIR__ . "/config.user.php")) {
+        require __DIR__ . "/config.user.php";
+    }
+} catch (\Exception $e) {
+    // Skip user config!
+}

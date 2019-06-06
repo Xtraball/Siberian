@@ -23,20 +23,20 @@ class Job_CategoryController extends Application_Controller_Default
             $form->addNav("job-category-edit-nav", "Save", false);
             $form->setCategoryId($category->getId());
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "form" => $form->render(),
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => __("The category you are trying to edit doesn't exists."),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -54,9 +54,9 @@ class Job_CategoryController extends Application_Controller_Default
             $category = new Job_Model_Category();
             $category
                 ->addData($values)
-                ->addData(array(
+                ->addData([
                     "is_active" => true,
-                ));
+                ]);
 
             $path_icon = Siberian_Feature::moveUploadedFile($this->getCurrentOptionValue(), Core_Model_Directory::getTmpDirectory() . "/" . $values['icon']);
             $category->setData("icon", $path_icon);
@@ -69,20 +69,20 @@ class Job_CategoryController extends Application_Controller_Default
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -102,20 +102,20 @@ class Job_CategoryController extends Application_Controller_Default
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "state" => $result,
                 "message" => ($result) ? __("Category enabled") : __("Category disabled"),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => __("Missing category_id"),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -136,22 +136,22 @@ class Job_CategoryController extends Application_Controller_Default
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 'success' => 1,
                 'success_message' => __('Category successfully deleted.'),
                 'message_loader' => 0,
                 'message_button' => 0,
                 'message_timeout' => 2
-            );
+            ];
         } else {
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
 }

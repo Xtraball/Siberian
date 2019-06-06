@@ -20,8 +20,8 @@ class Job_Form_Place extends Siberian_Form_Abstract {
 
         $this->addSimpleHidden("place_id");
 
-        $icon = $this->addSimpleImage("icon", __("Icon"), __("Import an icon image"), array("width" => 300, "height" => 300));
-        $banner = $this->addSimpleImage("banner", __("Header"), __("Import a header image"), array("width" => 1200, "height" => 400));
+        $icon = $this->addSimpleImage("icon", __("Icon"), __("Import an icon image"), ["width" => 300, "height" => 300]);
+        $banner = $this->addSimpleImage("banner", __("Header"), __("Import a header image"), ["width" => 1200, "height" => 400]);
 
         $name = $this->addSimpleText("name", __("Name"));
         $name
