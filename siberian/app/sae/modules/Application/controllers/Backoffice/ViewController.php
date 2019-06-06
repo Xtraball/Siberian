@@ -140,7 +140,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             }
         }
 
-        //sanetize vars
+        // Sanitize vars
         if (is_null($data['infos']["want_to_autopublish"])) {
             $data['infos']["want_to_autopublish"] = false;
         }
@@ -151,15 +151,8 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             $data['infos']["itunes_password"] = "";
         }
 
-        $accountType = $appIosAutopublish->getAccountType();
+        $accountType = "non2fa";
         $itunesLogin = $appIosAutopublish->getItunesLogin();
-        if (empty($accountType)) {
-            if ($itunesLogin === "contact@siberiancms.com") {
-                $accountType = "2facontact";
-            } else {
-                $accountType = "non2fa";
-            }
-        }
 
         $isFilled = (boolean) !empty($appIosAutopublish->getCypheredCrendetials());
 
@@ -169,7 +162,7 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             "account_type" => $accountType,
             "itunes_login" => $itunesLogin,
             "itunes_original_login" => $appIosAutopublish->getItunesOriginalLogin(),
-            "itunes_password" => $isFilled ? Application_Model_IosAutopublish::$fakePassword : '',
+            "itunes_password" => $isFilled ? Application_Model_IosAutopublish::$fakePassword : "",
             "has_ads" => (bool)$appIosAutopublish->getHasAds(),
             "has_bg_locate" => (bool)$appIosAutopublish->getHasBgLocate(),
             "has_audio" => (bool)$appIosAutopublish->getHasAudio(),
