@@ -80,6 +80,14 @@ class Booking_Model_Booking extends Core_Model_Default
             ];
         }
 
+        // Cover & description!
+        $booking = $option_value->getObject();
+        $settings["cover"] = empty($booking->getCover()) ?
+            false : $booking->getCover();
+        $settings["description"] = empty($booking->getDescription()) ?
+            false : $booking->getDescription();
+        $settings["datepicker"] = $booking->getDatepicker();
+
         $payload["settings"] = $settings;
 
         if ($this->getId()) {

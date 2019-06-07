@@ -34,6 +34,7 @@ abstract class Extractor implements ExtractorInterface
 
         if (is_string($file)) {
             if (!is_file($file)) {
+                dbg($file);
                 throw new InvalidArgumentException("'$file' is not a valid file");
             }
 

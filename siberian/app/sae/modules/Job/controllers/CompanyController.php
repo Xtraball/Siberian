@@ -7,11 +7,12 @@ class Job_CompanyController extends Application_Controller_Default {
      */
     public function loadformAction() {
         $company_id = $this->getRequest()->getParam("company_id");
+        $application = $this->getApplication();
 
         $company = new Job_Model_Company();
         $company->find($company_id);
         if($company->getId()) {
-            $form = new Job_Form_Company();
+            $form = new Job_Form_Company([], $application->getId());
 
             $form->populate($company->getData());
             $form->setValueId($this->getCurrentOptionValue()->getId());
@@ -21,20 +22,20 @@ class Job_CompanyController extends Application_Controller_Default {
 
             $form->getElement("administrators")->setValue(explode(",", $company->getData("administrators")));
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "form" => $form->render(),
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => __("The company you are trying to edit doesn't exists."),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -44,8 +45,9 @@ class Job_CompanyController extends Application_Controller_Default {
      */
     public function editpostAction() {
         $values = $this->getRequest()->getPost();
+        $application = $this->getApplication();
 
-        $form = new Job_Form_Company();
+        $form = new Job_Form_Company([], $application->getId());
         if($form->isValid($values)) {
             /** Do whatever you need when form is valid */
             $company = new Job_Model_Company();
@@ -78,7 +80,7 @@ class Job_CompanyController extends Application_Controller_Default {
 
             /** Geocoding */
             if(!empty($values["location"])) {
-                $coordinates = Siberian_Google_Geocoding::getLatLng(array("address" => $values["location"]),
+                $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]],
                     $this->getApplication()->getGooglemapsKey());
                 $company->setData("latitude", $coordinates[0]);
                 $company->setData("longitude", $coordinates[1]);
@@ -91,20 +93,20 @@ class Job_CompanyController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     public function togglepostAction() {
@@ -121,21 +123,21 @@ class Job_CompanyController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "state" => $result,
                 "message" => ($result) ? __("Company enabled") : __("Company disabled"),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -156,22 +158,22 @@ class Job_CompanyController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 'success' => 1,
                 'success_message' => __('Company successfully deleted.'),
                 'message_loader' => 0,
                 'message_button' => 0,
                 'message_timeout' => 2
-            );
+            ];
         }else{
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
 

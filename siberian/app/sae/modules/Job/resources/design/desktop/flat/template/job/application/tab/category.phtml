@@ -1,0 +1,104 @@
+<?php
+
+$option_value = $this->getOptionValue();
+$form_category = $this->getFormCategory();
+$form_category_toggle = $this->getFormCategoryToggle();
+$delete_category_form = $this->getDeleteCategoryForm();
+$categories = $this->getCategories();
+
+
+?>
+
+<div role="tabpanel"
+     class="tab-pane"
+     id="categories">
+    <div class="feature-block-add">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("job", "Add a category"); ?>
+            <button type="button"
+                    class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+    </div>
+
+    <div class="feature-block-create">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("job", "Create a new category"); ?>
+        </h3>
+        <div class="container-fluid subcontent content-feature">
+            <?php echo $form_category; ?>
+        </div>
+    </div>
+
+    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+    <?php if(isset($categories) && $categories->count() > 0): ?>
+        <div class="feature-block-list">
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("job", "Manage categories"); ?>
+                    <button type="button"
+                            class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <table id=""
+                           class="table content-white-bkg sb-pager">
+                        <thead>
+                        <tr class="border-grey">
+                            <th class="sortable"
+                                style="width:26%;"><?php echo p__("job", "Name"); ?></th>
+                            <th class="sortable"><?php echo p__("job", "Description"); ?></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($categories as $category) : ?>
+                            <tr id="category_manage_element_<?php echo $category->getId(); ?>"
+                                class="category-manage-element sb-pager">
+                                <td><?php echo cut($category->getName(), 22); ?></td>
+                                <td><?php echo cut($category->getDescription(), 30); ?></td>
+                                <td class="toggle-action">
+                                    <?php
+                                    $form_category_toggle->getElement("category_id")->setValue($category->getId());
+                                    $form_category_toggle->setToggleState($category->getIsActive());
+                                    echo $form_category_toggle;
+                                    ?>
+                                </td>
+                                <td class="edit-action open-edit"
+                                    data-id="category_<?php echo $category->getId(); ?>"
+                                    data-form-url="<?php echo __path("/job/category/loadform", ["category_id" => $category->getId(), "value_id" => $option_value->getId()]); ?>">
+                                    <i class="fa fa-pencil"></i>
+                                </td>
+                                <td class="delete-action">
+                                    <?php
+                                    $delete_category_form->setAttrib("data-rowid", "category_manage_element_".$category->getId());
+                                    $delete_category_form->getElement("category_id")->setValue($category->getId());
+
+                                    echo $delete_category_form;
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr class="edit-form"
+                                data-id="category_<?php echo $category->getId(); ?>"
+                                style="display: none;">
+                                <td colspan="5">
+                                    <p class="close-edit"
+                                       data-id="place_<?php echo $category->getId(); ?>">
+                                        <i class="fa fa-times"></i><?php echo p__("job", "Close") ?>
+                                    </p>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>

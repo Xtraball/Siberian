@@ -63,6 +63,9 @@ class Translation extends Cache implements CacheInterface
                         /** Looping trough files */
                         $files = new DirectoryIterator($modules_translation->getPathname());
                         foreach ($files as $file) {
+
+                            // @todo deprecate this!
+                            // Fallback for old modules still using it!
                             if ($file->getExtension() === "csv") {
                                 $basename = $file->getFilename();
                                 if (!isset($cache[$language][$basename])) {
@@ -77,27 +80,8 @@ class Translation extends Cache implements CacheInterface
                                 }
                             }
 
-                            // Migration tool for .mo files
-                            if ($file->getExtension() === "mo") {
-                                // Try to convert to po if "po" do not already exists.
-                                $basename = $file->getPathname();
-                                $poBasename = str_replace(".mo", ".po", $basename);
-                                if (!is_file($poBasename)) {
-                                    $_translationToMigrate = new Translations();
-                                    $_translationToMigrate->addFromMoFile($basename);
-                                    $_translationToMigrate->toPoFile($poBasename);
-
-                                    // Then add to cache!
-                                    if (!isset($cache[$language][$poBasename])) {
-                                        $cache[$language][$poBasename] = $file->getPathname();
-                                    }
-
-                                    // Move old mo file to backup
-                                    $backupBasename = str_replace(".mo", ".mo.backup", $basename);
-                                    rename($basename, $backupBasename);
-                                }
-                            }
-
+                            // @todo deprecate this!
+                            // Fallback for old modules still using it!
                             if ($file->getExtension() === "list") {
                                 $cache["mobile_list"][] = $file->getPathname();
                             }
@@ -132,6 +116,9 @@ class Translation extends Cache implements CacheInterface
                 /** Looping trough files */
                 $files = new DirectoryIterator($translation->getPathname());
                 foreach ($files as $file) {
+
+                    // @todo deprecate this!
+                    // Fallback for old modules still using it!
                     if ($file->getExtension() === "csv") {
                         $basename = $file->getFilename();
                         if (!isset($cache[$language][$basename])) {
@@ -146,27 +133,8 @@ class Translation extends Cache implements CacheInterface
                         }
                     }
 
-                    // Migration tool for .mo files
-                    if ($file->getExtension() === "mo") {
-                        // Try to convert to po if "po" do not already exists.
-                        $basename = $file->getPathname();
-                        $poBasename = str_replace(".mo", ".po", $basename);
-                        if (!is_file($poBasename)) {
-                            $_translationToMigrate = new Translations();
-                            $_translationToMigrate->addFromMoFile($basename);
-                            $_translationToMigrate->toPoFile($poBasename);
-
-                            // Then add to cache!
-                            if (!isset($cache[$language][$poBasename])) {
-                                $cache[$language][$poBasename] = $file->getPathname();
-                            }
-
-                            // Move old mo file to backup
-                            $backupBasename = str_replace(".mo", ".mo.backup", $basename);
-                            rename($basename, $backupBasename);
-                        }
-                    }
-
+                    // @todo deprecate this!
+                    // Fallback for old modules still using it!
                     if ($file->getExtension() === "list") {
                         $cache["mobile_list"][] = $file->getPathname();
                     }

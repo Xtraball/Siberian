@@ -20,6 +20,19 @@ class Booking_Form_Settings extends Siberian_Form_Abstract
         /** Bind as a create form */
         self::addClass("create", $this);
 
+        $coverTitle = p__("booking", "Cover");
+        $this->addSimpleImage("cover", $coverTitle, $coverTitle, [
+            "width" => 1000,
+            "height" => 640,
+        ]);
+
+        $this->addSimpleTextarea("description", p__("booking", "Description"));
+
+        $this->addSimpleSelect("datepicker", p__("booking","Dates"), [
+            "single" => p__("booking", "Single date"),
+            "checkin" => p__("booking", "Checkin & Checkout"),
+        ]);
+
         $this->addSimpleSelect("design", p__("booking","Design"), [
             "list" => p__("booking", "List"),
             "card" => p__("booking", "Card"),

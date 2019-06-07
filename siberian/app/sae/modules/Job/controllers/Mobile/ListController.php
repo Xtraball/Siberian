@@ -86,6 +86,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                             "pull_to_refresh" => $pull_to_refresh,
                             "is_active" => 1,
                             "search_by_distance" => $search_by_distance,
+                            "search_by_distance" => $search_by_distance,
                             "latitude" => $latitude,
                             "longitude" => $longitude,
                             "radius" => $radius,

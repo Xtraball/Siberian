@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\Feature;
 use Siberian\Json;
 
 /**
@@ -49,6 +50,13 @@ class Booking_ApplicationController extends Application_Controller_Default
 
             $form = new Booking_Form_Settings();
             if ($form->isValid($values)) {
+
+                $booking = (new Booking_Model_Booking())->find($optionValue->getId(), "value_id");
+                Feature::formImageForOption($optionValue, $booking, $values, "cover", true);
+                $booking->setDatepicker($values["datepicker"]);
+                $booking->setDescription($values["description"]);
+                $booking->setValueId($optionValue->getId());
+                $booking->save();
 
                 $optionValue->setSettings(Json::encode([
                     "design" => $values["design"],

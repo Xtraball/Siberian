@@ -133,10 +133,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $tmp_path = Core_Model_Directory::getTmpDirectory(true) . '/' . $data['filename'];
 
-                $client = new Zend_Http_Client($data['url'], array(
+                $client = new Zend_Http_Client($data['url'], [
                     'adapter'   => 'Zend_Http_Client_Adapter_Curl',
-                    'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
-                ));
+                    'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
+                ]);
 
                 $client->setMethod(Zend_Http_Client::POST);
 
@@ -306,13 +306,13 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new \Siberian\Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
                 }
 
-                $fields = array(
+                $fields = [
                     "ftp_host" => $ftp_host,
                     "ftp_username" => $ftp_user,
                     "ftp_password" => $ftp_password,
                     "ftp_port" => $ftp_port,
                     "ftp_path" => $ftp_path,
-                );
+                ];
 
                 foreach($fields as $key => $value) {
                     $config = new System_Model_Config();
@@ -330,17 +330,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     ;
                 }
 
-                $data = array(
+                $data = [
                     "success" => 1,
                     "message" => __("Info successfully saved")
-                );
+                ];
 
             } catch (Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "code" => $error_code,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -350,7 +350,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     public function copyAction() {
         if ($file = $this->getRequest()->getParam("file")) {
 
-            $data = array();
+            $data = [];
 
             try {
 
@@ -363,7 +363,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 $parser = new Installer_Model_Installer_Module_Parser();
                 if($parser->setFile($file)->copy()) {
-                    $data = array("success" => 1);
+                    $data = ["success" => 1];
                 } else {
 
                     $messages = $parser->getErrors();
@@ -374,10 +374,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 }
 
             } catch(Exception $e) {
-                $data = array(
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($data);
@@ -456,10 +456,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 mail($email, $object, $message);
             }
 
-            $data = array(
+            $data = [
                 "success" => 1,
                 "message" => __("Module successfully installed")
-            );
+            ];
 
             # Try to increase max execution time (if the set failed)
             $this->_signalRetry();
@@ -471,24 +471,24 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $cachebuilder = $cron_model->find("cachebuilder", "command");
 
             if($cachebuilder->getId()) {
-                $options = array(
+                $options = [
                     "host" => $protocol.$this->getRequest()->getHttpHost(),
-                );
+                ];
                 $cachebuilder->setOptions(Siberian_Json::encode($options))->save();
                 $cachebuilder->enable();
             }
 
         } catch(Siberian_Exec_Exception $e) {
-            $data = array(
+            $data = [
                 "success" => 1,
                 "reached_timeout" => true,
                 "message" => $e->getMessage()
-            );
+            ];
         } catch(Exception $e) {
-            $data = array(
+            $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
-            );
+            ];
         }
 
         $this->_sendHtml($data);
@@ -514,7 +514,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $updates_url = "https://updates02.siberiancms.com";
 
         $update_channel = System_Model_Config::getValueFor("update_channel");
-        if(in_array($update_channel, array("stable", "beta", "preview"))) {
+        if(in_array($update_channel, ["stable", "beta", "preview"])) {
             switch($update_channel) {
                 case "stable":
                     $updates_url = "https://updates02.siberiancms.com";
@@ -533,10 +533,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $url = "{$updates_url}/check.php?";
         $url .= "version={$current_version}";
 
-        $client = new Zend_Http_Client($url, array(
+        $client = new Zend_Http_Client($url, [
             'adapter'   => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false),
-        ));
+            'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
+        ]);
         $client->setMethod(Zend_Http_Client::POST);
 
         if(Siberian_Version::TYPE === "SAE") {
@@ -585,20 +585,20 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $path = pathinfo($file);
         $filename = $path["filename"].".".$path["extension"];
 
-        $data = array(
+        $data = [
             "success" => 1,
             "filename" => base64_encode($filename),
-            "package_details" => array(
+            "package_details" => [
                 "name" => __("%s Update", $package->getName()),
                 "version" => $package->getVersion(),
                 "description" => $package->getDescription()
-            )
-        );
+            ]
+        ];
 
-        $data["release_note"] = array(
+        $data["release_note"] = [
             "url" => false,
             "show" => false,
-        );
+        ];
 
         if(($release_note = $package->getReleaseNote())) {
             $data["release_note"] = $package->getReleaseNote();

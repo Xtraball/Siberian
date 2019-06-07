@@ -1,0 +1,109 @@
+<?php
+
+$optionValue = $this->getOptionValue();
+$formPlace = $this->getFormPlace();
+$formPlaceToggle = $this->getFormPlaceToggle();
+$deletePlaceForm = $this->getDeleteForm();
+$places = $this->getPlaces();
+$companies = $this->getCompanies();
+$companyOptions = $this->getCompanyOptions();
+
+?>
+
+<div role="tabpanel"
+     class="tab-pane active"
+     id="places">
+    <?php if($companies->count() > 0): ?>
+        <div class="feature-block-add">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo p__("job", "Add a job"); ?>
+                <button type="button"
+                        class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </h3>
+        </div>
+
+        <div class="feature-block-create">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo p__("job", "Create a new job"); ?>
+            </h3>
+            <div class="container-fluid subcontent content-feature">
+                <?php echo $formPlace; ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+
+    <?php if (isset($places) && $places->count() > 0): ?>
+        <div class="feature-block-list">
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("job", "Manage jobs"); ?>
+                    <button type="button"
+                            class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <table class="table content-white-bkg sb-pager">
+                        <thead>
+                        <tr class="border-grey">
+                            <th class="sortable"
+                                style="width:26%;"><?php echo p__("job", "Name"); ?></th>
+                            <th class="sortable"
+                                style="width:34%;"><?php echo p__("job", "Company"); ?></th>
+                            <th class="sortable"><?php echo p__("job", "Description"); ?></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($places as $place) : ?>
+                            <tr id="place_manage_element_<?php echo $place->getId(); ?>"
+                                class="place-manage-element sb-pager">
+                                <td><?php echo cut($place->getName(), 22); ?></td>
+                                <td><?php echo $companyOptions[$place->getCompanyId()]; ?></td>
+                                <td><?php echo cut($place->getDescription(), 30); ?></td>
+                                <td class="toggle-action">
+                                    <?php
+                                    $formPlaceToggle->getElement("place_id")->setValue($place->getId());
+                                    $formPlaceToggle->setToggleState($place->getIsActive());
+                                    echo $formPlaceToggle;
+                                    ?>
+                                </td>
+                                <td class="edit-action open-edit"
+                                    data-id="place_<?php echo $place->getId(); ?>"
+                                    data-form-url="<?php echo __path("/job/place/loadform", ["place_id" => $place->getId(), "value_id" => $optionValue->getId()]); ?>">
+                                    <i class="fa fa-pencil"></i>
+                                </td>
+                                <td class="delete-action">
+                                    <?php
+                                    $deletePlaceForm->setAttrib("data-rowid", "place_manage_element_".$place->getId());
+                                    $deletePlaceForm->getElement("place_id")->setValue($place->getId());
+
+                                    echo $deletePlaceForm;
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr class="edit-form"
+                                data-id="place_<?php echo $place->getId(); ?>"
+                                style="display: none;">
+                                <td colspan="6">
+                                    <p class="close-edit"
+                                       data-id="place_<?php echo $place->getId(); ?>">
+                                        <i class="fa fa-times"></i><?php echo p__("job", "Close") ?>
+                                    </p>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>

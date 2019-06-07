@@ -14,6 +14,8 @@ $formSettings = new Booking_Form_Settings();
 
 try {
     $settings = Json::decode($optionValue->getSettings());
+    $settings = array_merge($settings, $booking->getData());
+
     $formSettings->populate($settings);
 } catch (\Exception $e) {
     // Nope!

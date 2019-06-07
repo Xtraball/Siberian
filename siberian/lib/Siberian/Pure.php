@@ -68,12 +68,14 @@ function extract_p__($context, $original, $flag = null)
         }
 
         // Special binding for modules
-        if (array_key_exists("path", $extractModules) &&
-            is_file($extractModules["path"])) {
-            $file = $extractModules["path"];
-        } else if (in_array($context, array_keys($extractModules))) {
-            $moduleFolder = $extractModules[$context]["module"];
-            $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+        if (array_key_exists($context, $extractModules)) {
+            if (array_key_exists("path", $extractModules[$context]) &&
+            is_file($extractModules[$context]["path"])) {
+                $file = $extractModules[$context]["path"];
+            } else {
+                $moduleFolder = $extractModules[$context]["module"];
+                $file = path("/app/local/modules/{$moduleFolder}/resources/translations/default/{$context}.po");
+            }
         } else {
             $file = path("/languages/base/c_{$context}.po");
         }

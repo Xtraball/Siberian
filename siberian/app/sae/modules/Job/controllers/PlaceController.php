@@ -20,11 +20,11 @@ class Job_PlaceController extends Application_Controller_Default {
 
             $company = new Job_Model_Company();
             $job_id = $company->find($place->getCompanyId())->getJobId();
-            $companies = $company->findAll(array(
+            $companies = $company->findAll([
                 "job_id" => $job_id,
                 "is_active" => true,
-            ));
-            $company_options = array();
+            ]);
+            $company_options = [];
             foreach($companies as $_company) {
                 $company_options[$_company->getId()] = $_company->getName();
             }
@@ -34,11 +34,11 @@ class Job_PlaceController extends Application_Controller_Default {
             }
 
             $category = new Job_Model_Category();
-            $categories = $category->findAll(array(
+            $categories = $category->findAll([
                 "job_id" => $job_id,
                 "is_active" => true,
-            ));
-            $category_options = array();
+            ]);
+            $category_options = [];
             foreach($categories as $_category) {
                 $category_options[$_category->getId()] = $_category->getName();
             }
@@ -46,17 +46,17 @@ class Job_PlaceController extends Application_Controller_Default {
                 $form->getElement("category_id")->addMultiOptions($category_options);
             }
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "form" => $form->render(),
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => __("The place you are trying to edit doesn't exists."),
-            );
+            ];
         }
 
         $this->_sendJson($html);
@@ -76,9 +76,9 @@ class Job_PlaceController extends Application_Controller_Default {
             $place = new Job_Model_Place();
             $place
                 ->addData($values)
-                ->addData(array(
+                ->addData([
                     "is_active" => true,
-                ))
+                ])
             ;
 
             if($values["banner"] == "_delete_") {
@@ -102,7 +102,7 @@ class Job_PlaceController extends Application_Controller_Default {
 
             /** Geocoding */
             if(!empty($values["location"])) {
-                $coordinates = Siberian_Google_Geocoding::getLatLng(array("address" => $values["location"]), $this->getApplication()->getGooglemapsKey());
+                $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
                 $place->setData("latitude", $coordinates[0]);
                 $place->setData("longitude", $coordinates[1]);
             }
@@ -115,17 +115,17 @@ class Job_PlaceController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
         $this->_sendJson($html);
@@ -147,18 +147,18 @@ class Job_PlaceController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "state" => $result,
                 "message" => ($result) ? __("Place enabled") : __("Place disabled"),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
         $this->_sendJson($html);
@@ -181,19 +181,19 @@ class Job_PlaceController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 'success' => 1,
                 'success_message' => __('Place successfully deleted.'),
                 'message_loader' => 0,
                 'message_button' => 0,
                 'message_timeout' => 2
-            );
+            ];
         } else {
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true),
-            );
+            ];
         }
 
         $this->_sendJson($html);

@@ -1,0 +1,104 @@
+<?php
+
+$optionValue = $this->getOptionValue();
+$formCompany = $this->getFormCompany();
+$formCompanyToggle = $this->getFormCompanyToggle();
+$deleteForm = $this->getDeleteForm();
+$companies = $this->getCompanies();
+
+
+?>
+
+<div role="tabpanel"
+     class="tab-pane"
+     id="companies">
+    <div class="feature-block-add">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("job", "Add company"); ?>
+            <button type="button"
+                    class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+    </div>
+
+    <div class="feature-block-create">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("job", "Create a new company"); ?>
+        </h3>
+        <div class="container-fluid subcontent content-feature">
+            <?php echo $formCompany; ?>
+        </div>
+    </div>
+
+    <?php if ($companies->count() > 0): ?>
+        <div class="feature-block-list">
+            <div class="margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("job", "Manage companies"); ?>
+                    <button type="button"
+                            class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <table class="table content-white-bkg sb-pager">
+                        <thead>
+                        <tr class="border-grey">
+                            <th class="sortable"
+                                style="width:26%;"><?php echo p__("job", "Name"); ?></th>
+                            <th class="sortable"
+                                style="width:34%;"><?php echo p__("job", "Description"); ?></th>
+                            <th class="sortable"><?php echo p__("job", "E-mail"); ?></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($companies as $company) : ?>
+                            <tr id="company_manage_element_<?php echo $company->getId(); ?>"
+                                class="company-manage-element sb-pager">
+                                <td><?php echo $company->getName(); ?></td>
+                                <td><?php echo cut(html_entity_decode($company->getDescription()), 60); ?></td>
+                                <td><?php echo $company->getEmail(); ?></td>
+                                <td class="toggle-action">
+                                    <?php
+                                    $formCompanyToggle->getElement("company_id")->setValue($company->getId());
+                                    $formCompanyToggle->setToggleState($company->getIsActive());
+                                    echo $formCompanyToggle;
+                                    ?>
+                                </td>
+                                <td class="edit-action open-edit"
+                                    data-id="company_<?php echo $company->getId(); ?>"
+                                    data-form-url="<?php echo __path("/job/company/loadform", ["company_id" => $company->getId(), "value_id" => $optionValue->getId()]); ?>">
+                                    <i class="fa fa-pencil"></i>
+                                </td>
+                                <td class="delete-action">
+                                    <?php
+                                    $deleteForm->setAttrib("data-rowid", "company_manage_element_".$company->getId());
+                                    $deleteForm->getElement("company_id")->setValue($company->getId());
+
+                                    echo $deleteForm;
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr class="edit-form"
+                                data-id="company_<?php echo $company->getId(); ?>"
+                                style="display: none;">
+                                <td colspan="6">
+                                    <p class="close-edit"
+                                       data-id="company_<?php echo $company->getId(); ?>">
+                                        <i class="fa fa-times"></i><?php echo p__("job", "Close") ?>
+                                    </p>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>

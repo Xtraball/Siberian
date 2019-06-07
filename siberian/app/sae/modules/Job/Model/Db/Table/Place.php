@@ -22,10 +22,10 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
         }
 
         $select = $this->_db->select()
-            ->from(array("place" => "job_place"), array("*", "time" => "UNIX_TIMESTAMP(place.created_at)", "distance" => $formula))
-            ->join(array("company" => "job_company"), "place.company_id = company.company_id", array("company_logo" => "logo", "company_name" => "name", "company_location" => "location"))
-            ->join(array("job" => "job"), "job.job_id = company.job_id")
-            ->joinLeft(array("category" => "job_category"), "category.category_id = place.category_id", array())
+            ->from(["place" => "job_place"], ["*", "time" => "UNIX_TIMESTAMP(place.created_at)", "distance" => $formula])
+            ->join(["company" => "job_company"], "place.company_id = company.company_id", ["company_logo" => "logo", "company_name" => "name", "company_location" => "location"])
+            ->join(["job" => "job"], "job.job_id = company.job_id")
+            ->joinLeft(["category" => "job_category"], "category.category_id = place.category_id", [])
             ->where("company.is_active = ?", true)
             ->where("place.is_active = ?", true)
             ->where("job.value_id = ?", $values["value_id"])
@@ -54,16 +54,16 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
             if(isset($values["radius"]) && $values["radius"] > 0) {
                 $select->having("distance < ?", $values["radius"]*1000);
             }
-            $select->order(array("distance ASC", "time DESC"));
+            $select->order(["distance ASC", "time DESC"]);
         }
 
         if(!$values["position"]) {
-            $select->order(array("time DESC"));
+            $select->order(["time DESC"]);
         }
 
         if($more_search) {
             if(isset($values["categories"]) && is_array($values["categories"])) {
-                $ids = array();
+                $ids = [];
                 foreach($values["categories"] as $category) {
                     if($category["is_checked"]) {
                         $ids[] = $category["id"];

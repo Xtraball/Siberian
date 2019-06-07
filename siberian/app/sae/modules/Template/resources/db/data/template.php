@@ -137,18 +137,6 @@ $blocks = [
         'background_color_variable_name' => '$general-custom-bg',
         'position' => '10'
     ],
-    /* HEADER */
-    [
-        'code' => 'header',
-        'name' => 'Header',
-        'color' => '#444',
-        'color_variable_name' => '$bar-custom-text',
-        'background_color' => '#f8f8f8',
-        'background_color_variable_name' => '$bar-custom-bg',
-        'border_color' => '#b2b2b2',
-        'border_color_variable_name' => '$bar-custom-border',
-        'position' => '20'
-    ],
     /* HOMEPAGE */
     [
         'code' => 'homepage',
@@ -161,36 +149,26 @@ $blocks = [
         'border_color_variable_name' => '$homepage-custom-border',
         'image_color' => '#ddd',
         'image_color_variable_name' => '$homepage-custom-image',
-        'position' => '30'
+        'position' => '11'
     ],
-    /* LIST */
+    /* HEADER */
     [
-        'code' => 'list',
-        'name' => 'List',
-        'position' => '50',
-        'children' => [
-            [
-                'code' => 'list_item_divider',
-                'name' => 'Title\'s List',
-                'color' => '#222',
-                'color_variable_name' => '$list-item-divider-custom-text',
-                'background_color' => '#f8f8f8',
-                'background_color_variable_name' => '$list-item-divider-custom-bg'
-            ], [
-                'code' => 'list_item',
-                'name' => 'List Item',
-                'color' => '#444',
-                'color_variable_name' => '$list-item-custom-text',
-                'background_color' => '#fff',
-                'background_color_variable_name' => '$list-item-custom-bg'
-            ]
-        ]
+        'code' => 'header',
+        'name' => 'Header',
+        'color' => '#444',
+        'color_variable_name' => '$bar-custom-text',
+        'background_color' => '#f8f8f8',
+        'background_color_variable_name' => '$bar-custom-bg',
+        'border_color' => '#b2b2b2',
+        'border_color_variable_name' => '$bar-custom-border',
+        'position' => '12'
     ],
+
     /* CARD */
     [
         'code' => 'card',
         'name' => 'Card',
-        'position' => '70',
+        'position' => '20',
         'children' => [
             [
                 'code' => 'card_item_divider',
@@ -209,6 +187,49 @@ $blocks = [
             ]
         ]
     ],
+    /* LIST */
+    [
+        'code' => 'list',
+        'name' => 'List',
+        'position' => '21',
+        'children' => [
+            [
+                'code' => 'list_item_divider',
+                'name' => 'Title\'s List',
+                'color' => '#222',
+                'color_variable_name' => '$list-item-divider-custom-text',
+                'background_color' => '#f8f8f8',
+                'background_color_variable_name' => '$list-item-divider-custom-bg'
+            ], [
+                'code' => 'list_item',
+                'name' => 'List Item',
+                'color' => '#444',
+                'color_variable_name' => '$list-item-custom-text',
+                'background_color' => '#fff',
+                'background_color_variable_name' => '$list-item-custom-bg'
+            ]
+        ]
+    ],
+    /* SPINNER */
+    [
+        'code' => 'spinner',
+        'name' => 'Spinner',
+        'position' => '22',
+        'children' => [
+            [
+                'code' => 'spinner_ios_text',
+                'name' => 'iOS Spinner',
+                'background_color' => '#69717d',
+                'background_color_variable_name' => '$spinner-custom-ios-bg'
+            ], [
+                'code' => 'spinner_android_text',
+                'name' => 'Android Spinner',
+                'background_color' => '#4b8bf4',
+                'background_color_variable_name' => '$spinner-custom-android-bg'
+            ],
+        ]
+    ],
+
     /* BUTTONS */
     [
         'code' => 'buttons_group',
@@ -402,16 +423,6 @@ $blocks = [
         'position' => '80',
         'children' => [
             [
-                'code' => 'util',
-                'name' => 'Util',
-                'color' => '#444',
-                'color_variable_name' => '$util-custom-text',
-                'background_color' => '#f8f8f8',
-                'background_color_variable_name' => '$util-custom-bg',
-                'border_color' => '#b2b2b2',
-                'border_color_variable_name' => '$util-custom-border',
-            ],
-            [
                 'code' => 'util_light',
                 'name' => 'Util light',
                 'color' => '#444',
@@ -603,25 +614,7 @@ $blocks = [
             ],
         ]
     ],
-    /* SPINNER */
-    [
-        'code' => 'spinner',
-        'name' => 'Spinner',
-        'position' => '130',
-        'children' => [
-            [
-                'code' => 'spinner_ios_text',
-                'name' => 'iOS Spinner',
-                'background_color' => '#69717d',
-                'background_color_variable_name' => '$spinner-custom-ios-bg'
-            ], [
-                'code' => 'spinner_android_text',
-                'name' => 'Android Spinner',
-                'background_color' => '#4b8bf4',
-                'background_color_variable_name' => '$spinner-custom-android-bg'
-            ],
-        ]
-    ],
+
     /* DIALOG */
     [
         'code' => 'dialog',
@@ -645,7 +638,64 @@ $blocks = [
                 'color_variable_name' => '$dialog-custom-button',
             ],
         ]
-    ]
+    ],
+    /* E-MAIL */
+    [
+        'code' => 'emails_group',
+        'name' => 'E-mails',
+        'position' => '150',
+        'children' => [
+            [
+                'code' => 'description',
+                'name' => 'Description',
+                'more' => 'This section allows you to customize the e-mails sent from the Application.',
+            ],
+            [
+                'code' => 'email_body',
+                'name' => 'Body',
+                'background_color' => '#e1e1e1',
+                'background_color_variable_name' => '$email-body-custom-bg',
+            ],
+            [
+                'code' => 'email_header',
+                'name' => 'Header',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-header-custom-text',
+                'background_color' => '#93b5cd',
+                'background_color_variable_name' => '$email-header-custom-bg'
+            ],
+            [
+                'code' => 'email_content',
+                'name' => 'Content',
+                'color' => '#888888',
+                'color_variable_name' => '$email-content-custom-text',
+                'background_color' => '#ffffff',
+                'background_color_variable_name' => '$email-content-custom-bg'
+            ],
+            [
+                'code' => 'email_footer',
+                'name' => 'Footer',
+                'color' => '#606060',
+                'color_variable_name' => '$email-footer-custom-text',
+            ],
+            [
+                'code' => 'email_button_primary',
+                'name' => 'Button primary',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-button-primary-custom-text',
+                'background_color' => '#3498db',
+                'background_color_variable_name' => '$email-button-primary-custom-bg'
+            ],
+            [
+                'code' => 'email_button_danger',
+                'name' => 'Button danger',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-button-danger-custom-text',
+                'background_color' => '#c10600',
+                'background_color_variable_name' => '$email-button-danger-custom-bg'
+            ],
+        ],
+    ],
 ];
 
 
@@ -693,4 +743,16 @@ foreach($blocks->findAll() as $block) {
     foreach($children as $child) {
         $block_ids[$child->getCode()] = $child->getId();
     }
+}
+
+
+// Removes `util` blocks
+$block = (new Template_Model_Block())->find("util", "code");
+if ($block->getId()) {
+    try {
+        $this->query("DELETE FROM template_block_app WHERE block_id = '" . $block->getId() . "';");
+    } catch (\Exception $e) {
+        // Silently fails!
+    }
+    $block->delete();
 }

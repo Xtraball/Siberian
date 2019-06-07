@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Cms_Model_Application_Page
  *
@@ -160,7 +162,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
             "value_id" => $this->getValueId(),
         ]);
 
-
         return [
             "featureUrl" => $featureUrl,
             "featurePath" => $featurePath,
@@ -169,7 +170,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
     /**
      * @param $option_value
-     * @return array
+     * @return array|string[]
+     * @throws Zend_Exception
      */
     public function getFeaturePaths($option_value)
     {

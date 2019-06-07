@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Account;
+use Siberian\Layout;
 
 /**
  * Class Customer_Mobile_AccountController
@@ -457,10 +458,6 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 ->setGdprToken($newToken)
                 ->save();
 
-            $layout = $this
-                ->getLayout()
-                ->loadEmail('customer', 'gdpr_token');
-
             $request = $this->getRequest();
             $whitelabel = Siberian::getWhitelabel();
             if ($whitelabel !== false) {
@@ -476,20 +473,35 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
 
             $url = sprintf('%s://%s/%s?token=%s', $protocol, $host, 'customer/account/mydata', $newToken);
 
-            $layout
-                ->getPartial('content_email')
-                ->setCustomer($customer)
-                ->setGdprToken($newToken)
-                ->setData('url', $url)
-                ->setApp($this->getApplication()->getName());
+            try {
+                // E-Mail back the user!
+                $application = $this->getApplication();
+                $applicationName = $application->getName();
 
-            $content = $layout->render();
+                $subject = __("%s - Access to your personal data", $applicationName);
 
-            $mail = new Siberian_Mail();
-            $mail->setBodyHtml($content);
-            $mail->addTo($customer->getEmail(), $customer->getName());
-            $mail->setSubject(__('%s - Access to your personal data.', $this->getApplication()->getName()));
-            $mail->send();
+                $baseEmail = $this->baseEmail("gdpr_token", $subject, "", false);
+
+                $data = [
+                    "customer" => $customer,
+                    "gdpr_token" => $newToken,
+                    "url" => $url,
+                    "app" => $applicationName,
+                ];
+                foreach ($data as $key => $value) {
+                    $baseEmail->setContentFor('content_email', $key, $value);
+                }
+
+                $content = $baseEmail->render();
+
+                $mail = new \Siberian_Mail();
+                $mail->setBodyHtml($content);
+                $mail->addTo($customer->getEmail(), $customer->getName());
+                $mail->setSubject($subject);
+                $mail->send();
+            } catch (\Exception $e) {
+                // Something went wrong with the-mail!
+            }
 
             $payload = [
                 'success' => true,
@@ -507,39 +519,62 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     }
 
     /**
-     * @todo sender is contact if feature exists
-     *
-     * @param $customer
-     * @param $password
-     * @return $this
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @param $showLegals
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
      */
-    protected function _sendNewAccountEmail($customer, $password) {
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '',
+                              $showLegals = false)
+    {
+        $layout = new Siberian\Layout();
+        $layout = $layout->loadEmail('customer', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', $showLegals);
 
-        $admin_email = null;
-        $contact = new Contact_Model_Contact();
-        $contact_page = $this->getApplication()->getPage('contact');
-        //$sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
-
-        if($contact_page->getId()) {
-            $contact->find($contact_page->getId(), 'value_id');
-            $admin_email = $contact->getEmail();
-        }
-
-        $layout = $this->getLayout()->loadEmail('customer', 'create_account');
-        $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
-        $content = $layout->render();
-
-        # @version 4.8.7 - SMTP
-        $mail = new Siberian_Mail();
-        $mail->setBodyHtml($content);
-        //$mail->setFrom($sender, $this->getApplication()->getName());
-        $mail->addTo($customer->getEmail(), $customer->getName());
-        $mail->setSubject(__('%s - Account creation', $this->getApplication()->getName()));
-        $mail->send();
-
-        return $this;
-
+        return $layout;
     }
+
+    ///**
+    // * @todo sender is contact if feature exists
+    // *
+    // * @param $customer
+    // * @param $password
+    // * @return $this
+    // */
+    //protected function _sendNewAccountEmail($customer, $password) {
+//
+    //    $admin_email = null;
+    //    $contact = new Contact_Model_Contact();
+    //    $contact_page = $this->getApplication()->getPage('contact');
+    //    //$sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
+//
+    //    if($contact_page->getId()) {
+    //        $contact->find($contact_page->getId(), 'value_id');
+    //        $admin_email = $contact->getEmail();
+    //    }
+//
+    //    $layout = $this->getLayout()->loadEmail('customer', 'create_account');
+    //    $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
+    //    $content = $layout->render();
+//
+    //    # @version 4.8.7 - SMTP
+    //    $mail = new Siberian_Mail();
+    //    $mail->setBodyHtml($content);
+    //    //$mail->setFrom($sender, $this->getApplication()->getName());
+    //    $mail->addTo($customer->getEmail(), $customer->getName());
+    //    $mail->setSubject(__('%s - Account creation', $this->getApplication()->getName()));
+    //    $mail->send();
+//
+    //    return $this;
+//
+    //}
 
     /**
      * @return array

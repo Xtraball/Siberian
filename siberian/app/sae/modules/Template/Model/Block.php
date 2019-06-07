@@ -2,6 +2,8 @@
 
 /**
  * Class Template_Model_Block
+ *
+ * @method string getColor
  */
 class Template_Model_Block extends Core_Model_Default
 {
@@ -233,6 +235,68 @@ class Template_Model_Block extends Core_Model_Default
     }
 
     /**
+     * Generic method to set from RGBA
+     *
+     * @param $key
+     * @param $rgba
+     *
+     * @return $this
+     */
+    public function setFromRgba($key, $rgba)
+    {
+        $parsed = self::rgbaToArray($rgba);
+        switch ($key) {
+            case "color":
+                $this
+                    ->setColor($parsed["hex"])
+                    ->setTextOpacity($parsed["a100"])
+                    ->save();
+                break;
+            case "background_color":
+                $this
+                    ->setBackgroundColor($parsed["hex"])
+                    ->setBackgroundOpacity($parsed["a100"])
+                    ->save();
+                break;
+            case "border_color":
+                $this
+                    ->setBorderColor($parsed["hex"])
+                    ->setBorderOpacity($parsed["a100"])
+                    ->save();
+                break;
+            case "image_color":
+                $this
+                    ->setImageColor($parsed["hex"])
+                    ->setImageOpacity($parsed["a100"])
+                    ->save();
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $rgba
+     * @return array
+     */
+    public static function rgbaToArray ($rgba)
+    {
+        $cleaned = preg_replace("/[^\d,.]/", "", $rgba);
+        $parts = explode(",", $cleaned);
+
+        $rgbaParts = [
+            "r" => $parts[0],
+            "g" => $parts[1],
+            "b" => $parts[2],
+            "a" => $parts[3],
+            "hex" => "#" . dechex($parts[0]) . dechex($parts[1]) . dechex($parts[2]),
+            "a100" => $parts[3] * 100,
+        ];
+
+        return $rgbaParts;
+    }
+
+    /**
      * @return array|bool|string
      */
     public function getColorRGB()
@@ -304,7 +368,7 @@ class Template_Model_Block extends Core_Model_Default
     {
         if (isset($colors['text_opacity'])) {
             $opacity = $colors['text_opacity'] * 1;
-            if ($opacity >= 0 AND $opacity <= 100) {
+            if ($opacity >= 0 && $opacity <= 100) {
                 $this->setData('text_opacity', $opacity);
             }
         }

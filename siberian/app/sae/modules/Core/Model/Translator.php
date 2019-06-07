@@ -178,6 +178,9 @@ class Core_Model_Translator
     protected static function _getIonicTranslations()
     {
         $translation_cache = Siberian_Cache_Translation::getCache();
+
+        // --Start deprecation .list--
+        // @todo deprecate
         $mobileFiles = $translation_cache["mobile_list"];
 
         $keys = [];
@@ -189,6 +192,8 @@ class Core_Model_Translator
                 }
             }
         }
+        // @todo deprecate
+        // --End deprecation .list--
 
         $allFilesTranslations = self::parseTranslations(Core_Model_Language::getCurrentLanguage());
 
@@ -303,29 +308,6 @@ class Core_Model_Translator
 
             if (!empty($tmpTranslationData)) {
                 $translations = array_merge($translations, $tmpTranslationData);
-            }
-        }
-
-        // User migrate .mo to .po
-        foreach ($base as $filename => $path) {
-            $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
-            $fileBase = basename($filename, ".{$type}");
-
-
-            // Migrate if only .mo is available
-            $userTranslationPO = $userTranslationsDirectory . $fileBase . ".po";
-            $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
-            if (is_file($userTranslationMO) &&
-                !is_file($userTranslationPO)) {
-
-                $_translationToMigrate = new Translations();
-                $_translationToMigrate->addFromMoFile($userTranslationMO);
-                $_translationToMigrate->toPoFile($userTranslationPO);
-
-                // Move old mo file to backup
-                $backupBasename = str_replace(".mo", ".mo.backup", $userTranslationMO);
-                rename($userTranslationMO, $backupBasename);
             }
         }
 
@@ -491,29 +473,6 @@ class Core_Model_Translator
 
             if (!empty($tmpTranslationData)) {
                 $translations = array_merge($translations, $tmpTranslationData);
-            }
-        }
-
-        // User migrate .mo to .po
-        foreach ($base as $filename => $path) {
-            $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
-            $fileBase = basename($filename, ".{$type}");
-
-
-            // Migrate if only .mo is available
-            $userTranslationPO = $userTranslationsDirectory . $fileBase . ".po";
-            $userTranslationMO = $userTranslationsDirectory . $fileBase . ".mo";
-            if (is_file($userTranslationMO) &&
-                !is_file($userTranslationPO)) {
-
-                $_translationToMigrate = new Translations();
-                $_translationToMigrate->addFromMoFile($userTranslationMO);
-                $_translationToMigrate->toPoFile($userTranslationPO);
-
-                // Move old mo file to backup
-                $backupBasename = str_replace(".mo", ".mo.backup", $userTranslationMO);
-                rename($userTranslationMO, $backupBasename);
             }
         }
 
