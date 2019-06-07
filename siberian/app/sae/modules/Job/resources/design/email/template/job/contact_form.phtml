@@ -2,15 +2,17 @@
     <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
         <td>
             <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <?php echo __("A new contact form has been sent for the following offer:"); ?><br/>
+                <?php echo p__("job", "A new contact request has been sent for the following offer"); ?>:
+                <br />
                 <b><?php echo $this->getPlaceTitle(); ?></b>
             </p>
-            <hr style="margin:auto; padding: 0 15px; color:#e0e0e0; width:600px; height: 3px; border: 0; background-color: #e0e0e0;" />
+            <br />
             <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <?php echo $this->getFullname(); ?><br/>
-                <?php echo $this->getEmail(); ?><br/><br/>
-                <?php echo $this->getPhone(); ?><br/><br/>
-                <?php echo $this->getAddress(); ?><br/><br/>
+                <b><?php echo p__("job", "Name") ?></b>: <?php echo $this->getFullname(); ?><br />
+                <b><?php echo p__("job", "Email") ?></b>:<?php echo $this->getEmail(); ?><br />
+                <b><?php echo p__("job", "Phone") ?></b>:<?php echo $this->getPhone(); ?><br />
+                <b><?php echo p__("job", "Address") ?></b>:<?php echo $this->getAddress(); ?><br />
+                <b><?php echo p__("job", "Message") ?></b><br />
                 <?php echo $this->getMessage(); ?>
             </p>
         </td>

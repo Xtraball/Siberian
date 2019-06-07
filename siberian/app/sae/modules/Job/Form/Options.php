@@ -39,6 +39,12 @@ class Job_Form_Options extends Siberian_Form_Abstract {
         ];
         $distance_unit = $this->addSimpleSelect("distance_unit", p__("job", "Distance unit"), $units);
 
+        $designs = [
+            "list" => p__("job", "List"),
+            "card" => p__("job", "Card")
+        ];
+        $cardDesign = $this->addSimpleSelect("card_design", p__("job", "Page design"), $designs);
+
         $value_id = $this->addSimpleHidden("value_id");
         $value_id
             ->setRequired(true)

@@ -13,12 +13,29 @@
     <ion-content>
 
         <div class="list job-manage"
-             ng-class="{'card' : card_design}">
+             ng-class="{'card' : cardDesign}">
 
-            <label class="item item-input item-custom">
-                <span class="input-label">{{ "Views" | translate }} *</span>
-                <span>{{ place.views }}</span>
-            </label>
+            <div class="item item-divider item-divider-custom job-small-text job-line-return">
+                {{ "Statistics" | translate:"job" }}
+            </div>
+
+            <div class="item item-custom">
+                <div class="row">
+                    <div class="col-50">{{ "Offer views" | translate }}</div>
+                    <div class="col-50 text-right">{{ place.views }}</div>
+                </div>
+            </div>
+
+            <div class="item item-custom">
+                <div class="row">
+                    <div class="col-50">{{ "Contact requests" | translate }}</div>
+                    <div class="col-50 text-right">{{ place.contacts }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="list job-manage"
+             ng-class="{'card' : cardDesign}">
 
             <div class="item item-divider item-divider-custom job-small-text job-line-return">
                 *{{ "For more options use the editor" | translate }}
@@ -51,12 +68,20 @@
                           ng-model="place_edit.is_active">{{ "Is active" | translate }}</ion-checkbox>
         </div>
 
-        <div class="job-padding">
-            <button class="button button-block button-custom item-icon-left"
+        <div class="padding"
+             ng-if="cardDesign">
+            <button class="button button-positive button-positive-custom button-block"
                     ng-click="submitManage();">
-                {{ "Save" | translate }}
+                {{ "Save" | translate:"job" }}
             </button>
         </div>
 
     </ion-content>
+
+    <button class="search-button button button-positive button-positive-custom button-full"
+            ng-if="!cardDesign"
+            ng-click="submitManage();">
+        {{ "Save" | translate:"job" }}
+    </button>
+
 </ion-modal-view>

@@ -19,7 +19,7 @@
 
     <ion-content>
         <div class="list job-filters"
-             ng-class="{'card' : card_design}">
+             ng-class="{'card' : cardDesign}">
 
             <div class="item item-custom">
                 <div>
@@ -68,6 +68,10 @@
                        class="icon ion-backspace-outline clear-text"></i>
                 </div>
             </div>
+        </div>
+
+        <div class="list job-filters"
+                 ng-class="{'card' : cardDesign}">
 
             <div class="item item-divider item-divider-custom"
                  ng-if="categories.length > 0">
@@ -75,13 +79,13 @@
             </div>
 
             <div class="categories-container item item-custom"
-                 ng-if="filters.categories.length > 0">
+                 ng-if="categories.length > 0">
                 <div class="category-item-block "
-                     ng-repeat="category in filters.categories">
+                     ng-repeat="category in categories">
                     <div class="card">
                         <div class="category-item item item-custom"
                              ng-class="{'category-selected': category.isSelected}"
-                             ng-style="{'background-image': 'url('+ imageSrc(category.picture) +')'}"
+                             ng-style="{'background-image': 'url('+ imageSrc(category.icon) +')'}"
 
                              ng-click="category.isSelected = !category.isSelected">
                             <img src="./img/placeholder/blank-512.png" />

@@ -15,7 +15,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
         modal: null,
         manage_modal: null,
         social_sharing_active: false,
-        options: Job.options,
+        settings: Job.settings,
         form: {
             fullname: "",
             email: "",
@@ -23,7 +23,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
             address: "",
             message: ""
         },
-        card_design: false
+        cardDesign: Job.settings.cardDesign
     });
 
     Job.setValueId($stateParams.value_id);
@@ -36,8 +36,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
             $scope.place_edit = $scope.place = data.place;
             $scope.page_title = data.page_title;
             $scope.is_admin = data.is_admin;
-
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && !Application.is_webview);
+            $scope.socialSharing = (data.socialSharing && IS_NATIVE_APP);
 
         }).then(function () {
             $scope.is_loading = false;
@@ -51,7 +50,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
                 $scope.contactModal();
                 break;
             case "email":
-                $window.open("mailto:" + $scope.place.email + "?subject=" + $translate.instant("New contact for: ") + $scope.place.title, "_self");
+                $window.open("mailto:" + $scope.place.email + "?subject=" + $translate.instant("New contact for: ", "job") + $scope.place.title, "_self");
                 break;
         }
     };
@@ -61,7 +60,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
             return;
         }
 
-        Modal.fromTemplateUrl('features/job/assets/templates/l1/contact.html', {
+        Modal.fromTemplateUrl("features/job/assets/templates/l1/contact.html", {
             scope: $scope
         }).then(function (modal) {
             $scope.modal = modal;
@@ -88,7 +87,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
         if ($scope.form.fullname === "" ||
             $scope.form.email === "" ||
             $scope.form.message === "") {
-            Dialog.alert("Form error", "Fullname, E-mail & Message fields are required !", "OK", -1);
+            Dialog.alert("Form error", "Name, e-mail & message are required !", "OK", -1, "job");
             return;
         }
 
@@ -101,7 +100,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
 
         Job.contactForm(options)
         .then(function (data) {
-            Dialog.alert("Thank you", data.message, "OK", -1)
+            Dialog.alert("Thank you", data.message, "OK", -1, "job")
             .then(function () {
                 $scope.closeContactModal();
             });
@@ -117,7 +116,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
 
         if ($scope.place_edit.title === "" ||
             $scope.place_edit.subtitle === "") {
-            Dialog.alert("Form error", "All fields are required !", "OK", -1);
+            Dialog.alert("Form error", "All fields are required !", "OK", -1, "job");
             return;
         }
 
@@ -128,16 +127,17 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
             value_id: $scope.value_id
         });
 
-        Job.editPlace(options)
+        Job
+        .editPlace(options)
         .then(function (data) {
-            Dialog.alert("Thank you", data.message, "OK", -1)
+            Dialog.alert("Thank you", data.message, "OK", -1, "job")
             .then(function () {
                 $scope.closeManageModal();
             });
 
             $scope.loadContent();
         }, function (data) {
-            Dialog.alert("Error", data.message, "OK", -1);
+            Dialog.alert("Error", data.message, "OK", -1, "job");
         }).then(function () {
             Loader.hide();
         });
@@ -154,6 +154,23 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
             $scope.manage_modal = modal;
             $scope.manage_modal.show();
         });
+    };
+
+
+    $scope.displayContact = function (place) {
+        return (place.display_contact !== "hidden" &&
+                place.email.length > 0);
+    };
+
+    $scope.displayContactForm = function (place) {
+        return (place.display_contact === "contactform" ||
+                place.display_contact === "both");
+    };
+
+    $scope.displayEmail = function (place) {
+        return (place.display_contact === "email" ||
+                place.display_contact === "both") &&
+                place.email.length > 0;
     };
 
     $scope.closeManageModal = function () {
@@ -174,7 +191,7 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
     };
 
     $scope.share = function () {
-        SocialSharing.share($translate.instant("job: $1").replace("$1", $scope.place.title));
+        SocialSharing.share($translate.instant("job: $1", "job").replace("$1", $scope.place.title));
     };
 
     $scope.loadContent();

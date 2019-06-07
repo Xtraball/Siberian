@@ -34,15 +34,15 @@
         </div>
 
         <div class="list"
-             ng-class="{'card' : card_design}"
+             ng-class="{'card' : cardDesign}"
              ng-show="collection.length">
 
             <div ng-click="showItem(item)"
                  ng-repeat="item in collection">
                 <div class="item item-custom item-place"
-                     ng-class="{ 'item-thumbnail-custom': item.icon && options.display_place_icon }">
+                     ng-class="{ 'item-thumbnail-custom': item.icon && settings.display_place_icon }">
                     <img ng-src="{{ item.icon }}"
-                         ng-if="item.icon && options.display_place_icon" />
+                         ng-if="item.icon && settings.display_place_icon" />
                     <h2>{{ item.title }} <span ng-if="item.contract_type">{{ item.contract_type }}</span></h2>
                     <p class="subtitle"
                        ng-if="item.subtitle"
@@ -58,7 +58,7 @@
         </div>
 
         <div class="list"
-             ng-class="{'card' : card_design}"
+             ng-class="{'card' : cardDesign}"
              ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
@@ -73,18 +73,4 @@
         </ion-infinite-scroll>
 
     </ion-content>
-
-    <style ng-if="options.display_place_icon">
-        .job-list .item-place {
-            padding: 6px;
-        }
-
-        .job-list p {
-            margin-left: 70px !important;
-        }
-
-        .job-list h2 {
-            margin-left: 70px !important;
-        }
-    </style>
 </ion-view>

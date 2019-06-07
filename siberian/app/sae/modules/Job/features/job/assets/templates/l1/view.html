@@ -28,14 +28,14 @@
         </div>
 
         <div class="list"
-             ng-class="{'card' : card_design}">
+             ng-class="{'card' : cardDesign}">
 
             <div class="item item-image item-custom"
                  ng-if="place.banner" >
                 <img ng-src="{{ place.banner }}"
                      width="100%" />
                 <div ng-show="!place.is_active"
-                     class="job-inactive">{{ "inactive" | translate }}</div>
+                     class="job-inactive">{{ "inactive" | translate:"job" }}</div>
             </div>
 
             <div class="item item-divider item-divider-custom"
@@ -55,22 +55,22 @@
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom"
-                 ng-if="options.display_income && (place.income_from || place.income_to)">
+                 ng-if="settings.display_income && (place.income_from || place.income_to)">
                 <i class="icon ion-social-usd-outline"></i>
                 <p>
                     <span ng-show="place.income_from">{{ place.income_from }}</span>
-                    <span ng-show="place.income_to"> {{ "to" | translate }} {{ place.income_to }}</span>
+                    <span ng-show="place.income_to"> {{ "to" | translate:"job" }} {{ place.income_to }}</span>
                 </p>
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom"
-                 ng-if="place.display_contact != 'hidden' && place.email != ''"
+                 ng-if="displayContact(place)"
                  ng-click="contactAction();">
                 <i class="icon ion-ios-email-outline"></i>
                 <p>
-                    <span ng-if="place.display_contact == 'contactform' || place.display_contact == 'both'">{{ "Contact" | translate }}</span>
+                    <span ng-if="displayContactForm(place)">{{ "Contact" | translate:"job" }}</span>
                     <span ng-if="place.display_contact == 'both'">: </span>
-                    <span ng-if="place.display_contact == 'email' || place.display_contact == 'both'">{{ place.email }}</span>
+                    <span ng-if="displayEmail(place)">{{ place.email }}</span>
                 </p>
             </div>
 

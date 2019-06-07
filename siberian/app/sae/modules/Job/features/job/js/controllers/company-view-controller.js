@@ -27,7 +27,7 @@ angular.module("starter").controller('CompanyViewController', function (Modal,
             is_active: null
         },
         social_sharing_active: false,
-        card_design: false
+        cardDesign: Job.settings.cardDesign
     });
 
     Job.setValueId($stateParams.value_id);

@@ -12,7 +12,6 @@ angular.module("starter").controller("JobListController", function (Location, So
         is_loading: true,
         value_id: $stateParams.value_id,
         offset: null,
-        time: null,
         modal: null,
         load_more: false,
         card_design: false,
@@ -33,8 +32,7 @@ angular.module("starter").controller("JobListController", function (Location, So
             distance: 0,
             categories: null,
             more_search: false
-        },
-        card_design: false
+        }
     });
 
     $scope.Math = window.Math;
@@ -44,6 +42,7 @@ angular.module("starter").controller("JobListController", function (Location, So
     $scope.validateFilters = function () {
         $scope.closeFilterModal();
 
+        Job.collection = [];
         $scope.collection = [];
         $scope.loadContent();
     };
@@ -66,17 +65,19 @@ angular.module("starter").controller("JobListController", function (Location, So
 
         $scope.closeFilterModal();
 
+        Job.collection = [];
         $scope.collection = [];
         $scope.loadContent();
     };
 
     $scope.refresh = function () {
+        Job.collection = [];
         $scope.collection = [];
         $scope.loadContent();
     };
 
     $scope.filterModal = function () {
-        Modal.fromTemplateUrl('features/job/assets/templates/l1/more.html', {
+        Modal.fromTemplateUrl("features/job/assets/templates/l1/more.html", {
             scope: $scope
         }).then(function (modal) {
             $scope.modal = modal;
@@ -129,12 +130,10 @@ angular.module("starter").controller("JobListController", function (Location, So
         Job
         .findAll($scope.filters, false)
         .then(function (data) {
-
-            Places.collection = Places.collection.concat(angular.copy(data.places));
-            $scope.collection = Places.collection;
+            Job.collection = Job.collection.concat(angular.copy(data.places));
+            $scope.collection = Job.collection;
 
             $scope.load_more = (data.total > $scope.collection.length);
-
         }).then(function () {
             if (loadMore) {
                 $scope.$broadcast('scroll.infiniteScrollComplete');
@@ -142,6 +141,14 @@ angular.module("starter").controller("JobListController", function (Location, So
 
             $scope.is_loading = false;
         });
+    };
+
+    $scope.imageSrc = function (picture) {
+        if (!picture.length) {
+            return "./features/job/assets/templates/l1/img/no-category.png";
+        }
+
+        return IMAGE_URL + "images/application" + picture;
     };
 
     $scope.showCompany = function (company_id) {
@@ -160,15 +167,14 @@ angular.module("starter").controller("JobListController", function (Location, So
     };
 
     // Loading places feature settings
-    $pwaRequest.get("job/mobile_list/fetch-settings'", {
-        urlParams: {
-            value_id: $scope.value_id,
-            t: Date.now()
-        },
-        cache: false
-    }).then(function (payload) {
-        $scope.settings = payload.settings;
-        $scope.categories = $scope.settings.categories;
+    Job
+    .fetchSettings()
+    .then(function (payload) {
+        // Settings!
+        Job.settings = $scope.settings = payload.settings;
+        Job.admin_companies = $scope.admin_companies = $scope.settings.admin_companies;
+        Job.categories = $scope.categories = $scope.settings.categories;
+        $scope.cardDesign = $scope.settings.cardDesign;
 
         // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
         Location
