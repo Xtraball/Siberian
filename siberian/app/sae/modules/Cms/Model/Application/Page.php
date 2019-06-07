@@ -146,6 +146,28 @@ class Cms_Model_Application_Page extends Core_Model_Default
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/cms/mobile_page_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/cms/mobile_page_view/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param $option_value
      * @return array
      */

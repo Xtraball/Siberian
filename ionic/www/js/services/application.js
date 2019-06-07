@@ -7,8 +7,8 @@
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('Application', function ($pwaRequest, $ocLazyLoad, $q, $rootScope, $session, $timeout, $ionicPlatform,
-                                                           $window, $queue, $log, Analytics, Dialog, ProgressbarService, PushService, AdmobService) {
+angular.module('starter').service('Application', function ($pwaRequest, $ocLazyLoad, $injector, $q, $rootScope, $session, $timeout, $ionicPlatform,
+                                                           $window, $queue, $log, Analytics, Dialog, ProgressbarService, AdmobService) {
     var service = {
         is_webview: !IS_NATIVE_APP,
         _rawData: {},
@@ -99,12 +99,17 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
         $timeout(function () {
             // Configuring PushService & skip if this is a preview.
             try {
-                PushService.configure(
-                    service._rawData.application.fcmSenderID,
-                    service._rawData.application.pushIconcolor,
-                    service.app_id,
-                    service.app_name);
-                PushService.register();
+                $ocLazyLoad
+                    .load("./features/push_notification/push_notification.js")
+                    .then(function () {
+                        var PushService = $injector.get("PushService");
+                        PushService.configure(
+                            service._rawData.application.fcmSenderID,
+                            service._rawData.application.pushIconcolor,
+                            service.app_id,
+                            service.app_name);
+                        PushService.register();
+                    });
             } catch (e) {
                 $log.error('An error occured while registering device for Push.', e.message);
             }

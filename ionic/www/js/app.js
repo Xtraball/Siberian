@@ -136,7 +136,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
-                   Application, ConnectionService, Customer, Dialog, Facebook, FacebookConnect, Padlock,
+                   Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
                    Pages, SB) {
 
         // $rootScope object!
@@ -211,7 +211,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
-                $window.ConnectionService = ConnectionService;
 
                 var networkPromise = $q.defer();
 
