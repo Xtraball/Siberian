@@ -4,6 +4,8 @@
  * Class Template_Model_Block
  *
  * @method string getColor
+ * @method $this setBlockId(integer $blockId)
+ * @method $this setAppId(integer $appId)
  */
 class Template_Model_Block extends Core_Model_Default
 {
