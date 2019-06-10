@@ -54,9 +54,12 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 if (!isResolved) {
                     deferred.resolve(service.position);
                 }
-            }, function () {
+            }, function (error) {
                 if (service.debug) {
                     console.log("position ko");
+                }
+                if (error.code === PositionError.TIMEOUT || error.code === PositionError.PERMISSION_DENIED) {
+                    localReject();
                 }
                 if (!isResolved) {
                     deferred.reject();
@@ -104,6 +107,43 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             } else {
                 localRequestLocation(deferred);
             }
+        }
+
+        return deferred.promise;
+    };
+
+    service.requestPermission = function () {
+        var deferred = $q.defer();
+
+        if (cordova.plugins.permissions !== undefined) {
+            var permissions = cordova.plugins.permissions;
+            permissions.checkPermission(
+                permissions.ACCESS_FINE_LOCATION,
+                function(status) {
+                    if (!status.hasPermission) {
+                        permissions.requestPermission(
+                            permissions.ACCESS_FINE_LOCATION,
+                            function (success) {
+                                service.isEnabled = true;
+                                deferred.resolve(service.position);
+                            }, function (error) {
+                                service.isEnabled = false;
+                                deferred.reject();
+                            });
+                    }
+                }, function (error) {
+                    permissions.requestPermission(
+                        permissions.ACCESS_FINE_LOCATION,
+                        function (success) {
+                            service.isEnabled = true;
+                            deferred.resolve(service.position);
+                        }, function (error) {
+                            service.isEnabled = false;
+                            deferred.reject();
+                        });
+                });
+        } else {
+            deferred.reject();
         }
 
         return deferred.promise;

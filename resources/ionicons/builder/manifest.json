@@ -1,5 +1,5 @@
 {
-  "build_hash": "914f69651a29c15ed7195722a3a30c2e",
+  "build_hash": "d9368862bf8fe57fef1865cfa739b3e3",
   "prefix": "ion-",
   "version": "2.0.1",
   "name": "Ionicons",
@@ -2509,8 +2509,16 @@
       "name": "sb-app"
     },
     {
+      "code": "0xf516",
+      "name": "sb-bank-check"
+    },
+    {
       "code": "0xf162",
       "name": "sb-blocks"
+    },
+    {
+      "code": "0xf517",
+      "name": "sb-building"
     },
     {
       "code": "0xf152",
@@ -2557,12 +2565,24 @@
       "name": "sb-list1"
     },
     {
+      "code": "0xf519",
+      "name": "sb-location-off"
+    },
+    {
+      "code": "0xf51a",
+      "name": "sb-location-on"
+    },
+    {
       "code": "0xf151",
       "name": "sb-map"
     },
     {
       "code": "0xf15f",
       "name": "sb-megaphone"
+    },
+    {
+      "code": "0xf518",
+      "name": "sb-message"
     },
     {
       "code": "0xf14e",
