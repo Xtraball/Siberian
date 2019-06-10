@@ -8,7 +8,7 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "My companies" | translate }}</h1>
+        <h1 class="title">{{ "My companies" | translate:"job" }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -31,7 +31,7 @@
                     <i class="item-note ion-chevron-right arrow-center"></i>
                 </div>
                 <div ng-show="!company.is_active"
-                     class="job-inactive">{{ "inactive" | translate }}</div>
+                     class="job-inactive">{{ "inactive" | translate:"job" }}</div>
             </div>
 
         </div>

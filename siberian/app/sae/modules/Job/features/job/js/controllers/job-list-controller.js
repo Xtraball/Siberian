@@ -9,7 +9,7 @@ angular.module("starter").controller("JobListController", function (Location, So
                                                                     $window, Application, Dialog, Job) {
 
     angular.extend($scope, {
-        is_loading: true,
+        isLoading: true,
         value_id: $stateParams.value_id,
         offset: null,
         modal: null,
@@ -39,12 +39,31 @@ angular.module("starter").controller("JobListController", function (Location, So
 
     Job.setValueId($stateParams.value_id);
 
+    $scope.locationIsDisabled = function () {
+        return !Location.isEnabled;
+    };
+
+    $scope.requestLocation = function () {
+        Location
+        .requestPermission()
+        .then(function (success) {
+            $scope.loadContent(true);
+        }, function (error) {
+            Dialog.alert(
+                "Error",
+                "We are unable to request your location, please check your application settings.",
+                "OK",
+                2350,
+                "job");
+        });
+    };
+
     $scope.validateFilters = function () {
         $scope.closeFilterModal();
 
         Job.collection = [];
         $scope.collection = [];
-        $scope.loadContent();
+        $scope.loadContent(true);
     };
 
     /** Reset filters */
@@ -73,7 +92,7 @@ angular.module("starter").controller("JobListController", function (Location, So
     $scope.refresh = function () {
         Job.collection = [];
         $scope.collection = [];
-        $scope.loadContent();
+        $scope.loadContent(true);
     };
 
     $scope.filterModal = function () {
@@ -106,8 +125,12 @@ angular.module("starter").controller("JobListController", function (Location, So
         $scope.admin_modal.hide();
     };
 
-    $scope.loadContent = function (loadMore) {
-        $scope.is_loading = true;
+    $scope.loadMore = function () {
+        $scope.loadContent(false, true);
+    };
+
+    $scope.loadContent = function (refresh, loadMore) {
+        $scope.isLoading = true;
         $scope.filters.offset = $scope.collection.length;
 
         // Clear collection.
@@ -127,19 +150,32 @@ angular.module("starter").controller("JobListController", function (Location, So
             $scope.filters.categories = "";
         }
 
-        Job
-        .findAll($scope.filters, false)
-        .then(function (data) {
-            Job.collection = Job.collection.concat(angular.copy(data.places));
-            $scope.collection = Job.collection;
-
-            $scope.load_more = (data.total > $scope.collection.length);
+        // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
+        Location
+        .getLocation({timeout: 10000}, true)
+        .then(function (position) {
+            $scope.filters.latitude = position.coords.latitude;
+            $scope.filters.longitude = position.coords.longitude;
+            $scope.geolocationAvailable = true;
+        }, function (error) {
+            $scope.filters.latitude = 0;
+            $scope.filters.longitude = 0;
+            $scope.geolocationAvailable = false;
         }).then(function () {
-            if (loadMore) {
-                $scope.$broadcast('scroll.infiniteScrollComplete');
-            }
+            Job
+            .findAll($scope.filters, refresh)
+            .then(function (data) {
+                Job.collection = Job.collection.concat(angular.copy(data.places));
+                $scope.collection = Job.collection;
 
-            $scope.is_loading = false;
+                $scope.load_more = (data.total > $scope.collection.length);
+            }).then(function () {
+                if (loadMore) {
+                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                }
+
+                $scope.isLoading = false;
+            });
         });
     };
 
@@ -176,21 +212,7 @@ angular.module("starter").controller("JobListController", function (Location, So
         Job.categories = $scope.categories = $scope.settings.categories;
         $scope.cardDesign = $scope.settings.cardDesign;
 
-        // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
-        Location
-        .getLocation({timeout: 10000}, true)
-        .then(function (position) {
-            $scope.filters.latitude = position.coords.latitude;
-            $scope.filters.longitude = position.coords.longitude;
-            $scope.geolocationAvailable = true;
-        }, function (error) {
-            $scope.filters.latitude = 0;
-            $scope.filters.longitude = 0;
-            $scope.geolocationAvailable = false;
-        }).then(function () {
-            // Initiate the first loading!
-            $scope.loadContent(false);
-        });
+        $scope.loadContent(true);
     });
 
 });

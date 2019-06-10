@@ -668,13 +668,13 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
             }
 
             $settings = [
-                "display_place_icon" => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
-                "display_income" => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
-                "distance_unit" => $job->getDistanceUnit(),
-                "cardDesign" => $job->getCardDesign(),
-                "default_radius" => $job->getDefaultRadius(),
-                "title_company" => __($job->getTitleCompany()),
-                "title_place" => __($job->getTitlePlace()),
+                "display_place_icon" => (string) filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
+                "display_income" => (string) filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
+                "distance_unit" => (string) $job->getDistanceUnit(),
+                "cardDesign" => (boolean) ($job->getCardDesign() === "card"),
+                "default_radius" => (string) $job->getDefaultRadius(),
+                "title_company" => (string) __($job->getTitleCompany()),
+                "title_place" => (string) __($job->getTitlePlace()),
                 "categories" => $all_categories,
                 "admin_companies" => $admin_companies,
             ];

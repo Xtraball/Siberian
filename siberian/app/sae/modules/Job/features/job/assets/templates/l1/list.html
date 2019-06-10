@@ -4,10 +4,15 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
+        <button ng-show="locationIsDisabled()"
+                ng-click="requestLocation()"
+                class="button button-clear header-item">
+            <i class="icon sb-location-off"></i>
+        </button>
         <button ng-show="admin_companies.length"
                 ng-click="adminModal()"
                 class="button button-clear header-item">
-            <i class="icon ion-ios-settings"></i>
+            <i class="icon ion-ios-settings-strong"></i>
         </button>
     </ion-nav-buttons>
 
@@ -29,7 +34,7 @@
     <ion-content class="l1">
 
         <div class="loader"
-             ng-show="is_loading">
+             ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
@@ -45,8 +50,8 @@
                          ng-if="item.icon && settings.display_place_icon" />
                     <h2>{{ item.title }} <span ng-if="item.contract_type">{{ item.contract_type }}</span></h2>
                     <p class="subtitle"
-                       ng-if="item.subtitle"
-                       ng-bind-html="item.subtitle"></p>
+                           ng-if="item.subtitle"
+                           ng-bind-html="item.subtitle"></p>
                     <p class="subtitle-company"
                        ng-if="item.company_name || item.location">
                         <span ng-if="item.company_name">{{ item.company_name }}</span>
@@ -59,9 +64,9 @@
 
         <div class="list"
              ng-class="{'card' : cardDesign}"
-             ng-if="!is_loading && !collection.length">
+             ng-if="!isLoading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+                {{ "No items found" | translate:"job" }}
             </div>
         </div>
 

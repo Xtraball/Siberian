@@ -4,19 +4,19 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <button ng-show="social_sharing_active"
+        <button ng-show="socialSharing"
                 class="button button-clear"
                 ng-click="share()">
-            <i class="icon ion-ios-upload-outline"></i>
+            <i class="icon ion-android-share-alt"></i>
         </button>
         <button ng-click="goHome()"
                 class="button button-clear header-item">
-            <i class="icon ion-ios-list-outline"></i>
+            <i class="icon ion-sb-list1"></i>
         </button>
         <button ng-show="is_admin"
                 ng-click="manageModal()"
                 class="button button-clear header-item">
-            <i class="icon ion-ios-compose-outline"></i>
+            <i class="icon ion-edit job-icon-small"></i>
         </button>
     </ion-nav-buttons>
 
@@ -65,10 +65,12 @@
         </div>
 
         <div class="list"
+             style="padding-bottom: 0;"
              ng-show="is_admin"
              ng-class="{'padding' : cardDesign}">
 
             <button class="button button-balanced button-balanced-custom"
+                    ng-click="createModal();"
                     ng-class="{'button-block': cardDesign, 'button-full': !cardDesign}">
                 {{ "Create a new job offer" | translate:"job" }}
             </button>
@@ -89,20 +91,27 @@
                  ng-repeat="place in company.places">
                 <div class="item item-custom item-place"
                      ng-class="{ 'item-avatar': place.company_logo && options.show_logo }">
-                    <img ng-src="{{ place.company_logo }}"
-                         ng-if="place.company_logo && options.show_logo" />
-                    <h2>{{ place.title }}
-                        <span ng-if="place.contract_type">{{ place.contract_type }}</span>
-                        <span style="float: right;" ng-if="is_admin"><i class="icon ion-eye"></i>&nbsp;{{ place.views }}</span>
-                    </h2>
-                    <p class="subtitle"
-                       ng-if="place.subtitle" ng-bind-html="place.subtitle"></p>
-                    <p class="subtitle-company"
-                       ng-if="place.company_name || place.location">
-                        <span ng-if="place.company_name">{{ place.company_name }}</span>
-                        <span ng-if="place.company_name && place.location">, </span>
-                        <span ng-if="place.location">{{ place.location }}</span>
-                    </p>
+                    <div class="row">
+                        <div class="col col-90">
+                            <img ng-src="{{ place.company_logo }}"
+                                 ng-if="place.company_logo && options.show_logo" />
+                            <h2>{{ place.title }}
+                                <span ng-if="place.contract_type">{{ place.contract_type }}</span>
+                                <span style="float: right;" ng-if="is_admin"><i class="icon ion-eye"></i>&nbsp;{{ place.views }}</span>
+                            </h2>
+                            <p class="subtitle"
+                               ng-if="place.subtitle" ng-bind-html="place.subtitle"></p>
+                            <p class="subtitle-company"
+                               ng-if="place.company_name || place.location">
+                                <span ng-if="place.company_name">{{ place.company_name }}</span>
+                                <span ng-if="place.company_name && place.location">, </span>
+                                <span ng-if="place.location">{{ place.location }}</span>
+                            </p>
+                        </div>
+                        <div class="col col-10">
+                            <i class="item-note ion-chevron-right arrow-center"></i>
+                        </div>
+                    </div>
                     <div ng-show="!place.is_active"
                          class="job-inactive">{{ "inactive" | translate:"job" }}</div>
                 </div>
