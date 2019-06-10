@@ -75,11 +75,9 @@ class Application_Customization_Design_ColorsController extends Application_Cont
                 ->setAppId($application->getId())
                 ->save();
 
-            $result = Template_Model_Design::generateCss($application, false, false, true);
-            if (!$result) {
-                throw new Exception("#354-03: "  .
-                    p__("application", "SCSS Compilation error: %s", Template_Model_Design::$lastException));
-            }
+            $application
+                ->setGenerateScss(1)
+                ->save();
 
             $payload = [
                 "success" => true,
