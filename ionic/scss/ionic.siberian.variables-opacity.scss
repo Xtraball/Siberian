@@ -195,6 +195,8 @@ $font-family:                     "Helvetica Neue", "Roboto", "Segoe UI", "sans-
 $icon-custom:                     #fff !default;
 $icon-active-custom:              #444 !default;
 $icon-inactive-custom:            lighten($icon-active-custom, 30%);
+$icon-warning-custom:             #e67f00;
+$icon-danger-custom:              #ad3830;
 
 /* DIALOG */
 $dialog-custom-bg:                rgba(255, 255, 255, 0.99) !default;

@@ -2,6 +2,7 @@
 
 use Siberian\Layout;
 use Siberian_Google_Geocoding as Geocoding;
+use Core\Model\Base;
 
 /**
  * Class Job_Mobile_ListController
@@ -130,6 +131,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         $job = new Job_Model_Job();
                         $job->find($company->getJobId());
 
+                        $currency = $job->getCurrency();
+
                         $display_contact = ($company->getDisplayContact() !== "global" && !empty($company->getDisplayContact())) ?
                             $company->getDisplayContact() : $job->getDisplayContact();
 
@@ -159,8 +162,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                             "email" => (string) $place->getEmail(),
                             "banner" => (string) ($place->getBanner()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $place->getBanner() : $this->getRequest()->getBaseUrl() . "/app/sae/modules/Job/resources/media/default/job-header.png",
                             "location" => (string) $place->getLocation(),
-                            "income_from" => (string) $place->getIncomeFrom(),
-                            "income_to" => (string) $place->getIncomeTo(),
+                            "income_from" => (string) Base::_formatPrice($place->getIncomeFrom(), $currency, ["precision" => 0]),
+                            "income_to" => (string) Base::_formatPrice($place->getIncomeTo(), $currency, ["precision" => 0]),
                             "company_id" => (integer) $place->getCompanyId(),
                             "keywords" => (string) $place->getKeywords(),
                             "display_contact" => (string) $display_contact,
@@ -275,22 +278,22 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         }
 
                         $company = [
-                            "id" => $company->getId(),
-                            "title" => $company->getName(),
-                            "subtitle" => htmlspecialchars_decode($company->getDescription()),
-                            "logo" => ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
-                            "header" => ($company->getHeader()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getHeader() : null,
-                            "location" => $company->getLocation(),
-                            "employee_count" => $company->getEmployeeCount(),
-                            "website" => $company->getWebsite(),
-                            "email" => $company->getEmail(),
-                            "views" => $company->getViews(),
+                            "id" => (integer) $company->getId(),
+                            "title" => (string) $company->getName(),
+                            "subtitle" => (string) htmlspecialchars_decode($company->getDescription()),
+                            "logo" => (string) ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
+                            "header" => (string) ($company->getHeader()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getHeader() : null,
+                            "location" => (string) $company->getLocation(),
+                            "employee_count" => (integer) $company->getEmployeeCount(),
+                            "website" => (string) $company->getWebsite(),
+                            "email" => (string) $company->getEmail(),
+                            "views" => (integer) $company->getViews(),
                             "places" => $_places,
                             "is_active" => filter_var($company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                         ];
 
                         $html = [
-                            "success" => 1,
+                            "success" => true,
                             "company" => $company,
                             "categories" => $all_categories,
                             "is_admin" => $is_admin,

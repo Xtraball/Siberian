@@ -1,4 +1,7 @@
 <?php
+
+use Job\Model\Currency;
+
 /**
  * Class Job_Form_Company
  */
@@ -32,6 +35,11 @@ class Job_Form_Options extends Siberian_Form_Abstract {
 
         $distance = [0 => 1, 1 => 5, 2 => 10, 3 => 20, 4 => 50, 5 => 75, 6 => 100, 7 => 150, 8 => 200, 9 => 500, 10 => 1000];
         $search_radius = $this->addSimpleSelect("default_radius", p__("job", "Default search distance"), $distance);
+
+        $currency = $this->addSimpleSelect(
+            "currency",
+            p__("job", "Currency"),
+            array_combine(Currency::$supported, Currency::$supported));
 
         $units = [
             "km" => p__("job", "Kilomètres"),

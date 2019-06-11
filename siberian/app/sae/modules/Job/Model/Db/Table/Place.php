@@ -233,7 +233,7 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
 
         switch ($sortingType) {
             case "date":
-                $select->order(["page.page_id DESC"]);
+                $select->order(["place.place_id DESC"]);
                 break;
             case "distance":
                 $select->order(["distance ASC", "time DESC"]);

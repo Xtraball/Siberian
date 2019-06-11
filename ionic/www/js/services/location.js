@@ -13,7 +13,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         debug: true,
         lastFetch: null,
         position: null,
-        isEnabled: null,
+        isEnabled: true,
     };
 
     /**
@@ -54,11 +54,12 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                     deferred.resolve(service.position);
                 }
             }, function (error) {
+                console.log("getCurrentPosition, error", error);
                 if (service.debug) {
                     console.log("position ko");
                 }
                 if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
-                    localReject();
+                    localReject(deferred);
                 }
                 if (!isResolved) {
                     deferred.reject();

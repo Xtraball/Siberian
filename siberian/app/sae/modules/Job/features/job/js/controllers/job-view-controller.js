@@ -4,9 +4,10 @@
  * @author Xtraball SAS <dev@xtraball.com>
  * @version 4.16.11
  */
-angular.module("starter").controller('JobViewController', function (SocialSharing, Modal, $location, $rootScope, $scope, $state,
-                                             $stateParams, $timeout, $translate, $window, Application,
-                                             Dialog, Job, Loader) {
+angular
+.module("starter")
+.controller('JobViewController', function (SocialSharing, Modal, $location, $rootScope, $scope, $state, $stateParams,
+                                           $timeout, $translate, $window, Application, Customer, Dialog, Job, Loader) {
 
     angular.extend($scope, {
         is_loading: true,
@@ -56,8 +57,10 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
     };
 
     $scope.contactModal = function () {
-        if ($rootScope.isNotAvailableOffline()) {
-            return;
+        // pre-fill form!
+        if (Customer.isLoggedIn()) {
+            $scope.form.fullname = Customer.customer.firstname + " " + Customer.customer.lastname;
+            $scope.form.email = Customer.customer.email;
         }
 
         Modal.fromTemplateUrl("features/job/assets/templates/l1/contact.html", {
@@ -68,13 +71,17 @@ angular.module("starter").controller('JobViewController', function (SocialSharin
         });
     };
 
-    $scope.closeContactModal = function () {
+    $scope.clearForm = function () {
         /** Clear form */
         $scope.form.fullname = "";
         $scope.form.email = "";
         $scope.form.phone = "";
         $scope.form.address = "";
         $scope.form.message = "";
+    };
+
+    $scope.closeContactModal = function () {
+        $scope.clearForm();
 
         $scope.modal.hide();
     };

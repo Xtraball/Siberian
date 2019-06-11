@@ -34,7 +34,8 @@ angular.module("starter").controller('CompanyViewController', function (Modal,
 
     $scope.loadContent = function () {
 
-        Job.findCompany($stateParams.company_id)
+        Job
+        .findCompany($stateParams.company_id)
         .then(function (data) {
 
             $scope.company_edit = $scope.company = data.company;

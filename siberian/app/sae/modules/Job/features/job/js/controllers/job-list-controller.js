@@ -44,18 +44,12 @@ angular.module("starter").controller("JobListController", function (Location, So
     };
 
     $scope.requestLocation = function () {
-        Location
-        .requestPermission()
-        .then(function (success) {
-            $scope.loadContent(true);
-        }, function (error) {
-            Dialog.alert(
-                "Error",
-                "We are unable to request your location, please check your application settings.",
-                "OK",
-                2350,
-                "job");
-        });
+        Dialog.alert(
+            "Error",
+            "We were unable to request your location, please check your application settings.",
+            "OK",
+            3700,
+            "job");
     };
 
     $scope.validateFilters = function () {

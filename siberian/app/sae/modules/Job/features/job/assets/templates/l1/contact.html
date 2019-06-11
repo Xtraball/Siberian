@@ -9,6 +9,12 @@
             </button>
         </div>
         <h1 class="title">{{ "Contact" | translate:"job" }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="clearForm();">
+                <i class="icon ion-sb-clear-brush"></i>
+            </button>
+        </div>
     </ion-header-bar>
 
     <ion-content ng-class="{'has-footer': !cardDesign}">

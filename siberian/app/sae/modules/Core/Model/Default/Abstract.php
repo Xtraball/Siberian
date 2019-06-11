@@ -836,10 +836,11 @@ abstract class Core_Model_Default_Abstract
     /**
      * @param $price
      * @param null $currencyOrLocale
+     * @param [] $options
      * @return string
      * @throws Zend_Currency_Exception
      */
-    public function formatPrice($price, $currencyOrLocale = null)
+    public function formatPrice($price, $currencyOrLocale = null, $options = [])
     {
         $price = preg_replace(['/(,)/', '/[^0-9.-]/'], ['.', ''], $price);
         $language = Core_Model_Language::getCurrentLanguage();
@@ -862,22 +863,23 @@ abstract class Core_Model_Default_Abstract
             $newCurrency = new Zend_Currency();
         }
 
-        return $newCurrency->toCurrency($price);
+        return $newCurrency->toCurrency($price, $options);
     }
 
     /**
      * @param $price
      * @param null $currency
+     * @param [] $options
      * @return string
      * @throws Zend_Exception
      */
-    public static function _formatPrice($price, $currency = null)
+    public static function _formatPrice($price, $currency = null, $options = [])
     {
         if (empty($price)) {
             $price = 0;
         }
         $self = new static();
-        return $self->formatPrice($price, $currency);
+        return $self->formatPrice($price, $currency, $options);
     }
 
     /**

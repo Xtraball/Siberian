@@ -40,6 +40,10 @@ class Job_ApplicationController extends Application_Controller_Default {
                 $job->setTitlePlace($values["title_place"]);
             }
 
+            if(isset($values["currency"])) {
+                $job->setCurrency($values["currency"]);
+            }
+
             if(isset($values["distance_unit"])) {
                 $job->setDistanceUnit($values["distance_unit"]);
             }

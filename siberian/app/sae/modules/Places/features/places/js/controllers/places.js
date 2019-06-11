@@ -108,7 +108,7 @@ angular.module('starter')
     });
 
 }).controller("PlacesListController", function (Location, $q, $scope, $rootScope, $session, $state, $pwaRequest,
-                                                $stateParams, $translate, $timeout, Places, Modal) {
+                                                $stateParams, $translate, $timeout, Places, Dialog, Modal) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -133,6 +133,19 @@ angular.module('starter')
     });
 
     Places.setValueId($stateParams.value_id);
+
+    $scope.locationIsDisabled = function () {
+        return !Location.isEnabled;
+    };
+
+    $scope.requestLocation = function () {
+        Dialog.alert(
+            "Error",
+            "We were unable to request your location, please check your application settings.",
+            "OK",
+            3700,
+            "places");
+    };
 
     // Version 2
     $scope.nextFormat = function (user) {
