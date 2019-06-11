@@ -168,7 +168,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
-                   Analytics, Application, ConnectionService, Customer, Dialog, Facebook, FacebookConnect, Padlock,
+                   Analytics, Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
                    Pages, Push, PushService, SB, SafePopups, tmhDynamicLocale) {
 
         // $rootScope object!
@@ -843,4 +843,3 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             $timeout(loadApp(true), 1);
         });
     });
-

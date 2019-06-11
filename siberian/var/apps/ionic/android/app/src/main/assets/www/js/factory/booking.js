@@ -63,6 +63,7 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
         }
 
         data.value_id = this.value_id;
+        data.version = "2";
 
         return $pwaRequest.post('booking/mobile_view/post', {
             urlParams: {

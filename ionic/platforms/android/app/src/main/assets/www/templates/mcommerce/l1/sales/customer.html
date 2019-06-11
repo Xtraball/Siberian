@@ -77,12 +77,21 @@
                                ng-required="settings.phone.rule=='mandatory'">
                     </label>
                     <label class="item item-input item-custom"
-                           ng-if="settings.birthday.rule!='hidden'">
-                        <span class="input-label">{{ "Date of birth" | translate }} <span
-                                ng-if="settings.birthday.rule=='mandatory'">*</span></span>
-                        <input type="date"
+                           ng-if="settings.birthday.rule!='hidden'"
+                           sb-datetime-picker
+                           title="dateTime.title"
+                           headers="true"
+                           format="dateTime.format"
+                           model="customer.metadatas.birthday">
+                        <i class="icon ion-ios-clock"></i>
+                        <div class="input-label">
+                            {{ "Date of birth" | translate }} <span ng-if="settings.birthday.rule=='mandatory'">*</span>
+                        </div>
+                        <input type="text"
+                               class="text-right"
+                               style="cursor: pointer !important;"
                                ng-model="customer.metadatas.birthday"
-                               ng-required="settings.birthday.rule=='mandatory'">
+                               readonly="readonly" />
                     </label>
                     <div ng-if="settings.delivery_address.rule!='hidden'">
                         <label class="item item-custom">
