@@ -16,22 +16,23 @@
               ng-submit="submitForm();"
               novalidate
               ng-show="stores">
+
+            <div class="list"
+                 ng-if="settings.cover || settings.description"
+                 ng-class="{'card' : card_design}">
+                <img ng-if="settings.cover"
+                     ng-src="{{ coverSrc(settings.cover) }}"
+                     style="width: 100vw; display: block;" />
+
+                <div class="item item-custom"
+                     style="white-space: normal;"
+                     ng-if="settings.description">
+                    <span ng-bind-html="settings.description | trusted_html"></span>
+                </div>
+            </div>
+
             <div class="list"
                  ng-class="{'card' : card_design}">
-
-                <div class="list"
-                     ng-if="settings.cover || settings.description"
-                     ng-class="{'card' : card_design}">
-                    <img ng-if="settings.cover"
-                         ng-src="{{ coverSrc(settings.cover) }}"
-                         style="width: 100vw; display: block;" />
-
-                    <div class="item item-custom"
-                         style="white-space: normal;"
-                         ng-if="settings.description">
-                        <span ng-bind-html="settings.description | trusted_html"></span>
-                    </div>
-                </div>
 
                 <div class="item item-divider item-divider-custom">
                     {{ "Information" | translate:"booking" }}
