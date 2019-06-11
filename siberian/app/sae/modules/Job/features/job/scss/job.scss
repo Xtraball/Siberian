@@ -270,8 +270,14 @@
         }
     }
 
-    .job-contact textarea {
-        min-height: 120px;
+    .job-contact {
+        .icon-form {
+            margin-right: 10px;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
     }
 
     .ta-root {

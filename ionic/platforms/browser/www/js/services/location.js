@@ -11,6 +11,9 @@
  */
 angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
+        PERMISSION_DENIED = 1,
+        POSITION_UNAVAILABLE = 2,
+        TIMEOUT = 3,
         debug: true,
         lastFetch: null,
         position: null,
@@ -58,7 +61,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 if (service.debug) {
                     console.log("position ko");
                 }
-                if (error.code === PositionError.TIMEOUT || error.code === PositionError.PERMISSION_DENIED) {
+                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
                     localReject();
                 }
                 if (!isResolved) {

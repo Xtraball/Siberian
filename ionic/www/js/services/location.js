@@ -1,7 +1,3 @@
-/*global
- App, angular, IS_NATIVE_APP
- */
-
 /**
  * Location, location and coordinates should be acquired fast,
  * we are using timeouts and promise to send answer as fast as possible.
@@ -11,9 +7,9 @@
  */
 angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
-        PERMISSION_DENIED = 1,
-        POSITION_UNAVAILABLE = 2,
-        TIMEOUT = 3,
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
         debug: true,
         lastFetch: null,
         position: null,
