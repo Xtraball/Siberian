@@ -39,10 +39,10 @@
         </div>
 
         <div class="list"
-             ng-class="{'card' : cardDesign}"
              ng-show="collection.length">
 
             <div ng-click="showItem(item)"
+                 ng-class="{'card' : cardDesign}"
                  ng-repeat="item in collection">
                 <div class="item item-custom item-place"
                      ng-class="{ 'item-thumbnail-custom': item.icon && settings.display_place_icon }">
@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <ion-infinite-scroll ng-show="can_load_older_places && !filters.more_search"
+        <ion-infinite-scroll ng-if="load_more"
                              on-infinite="loadMore()"
                              immediate-check="false"
                              distance="10%"

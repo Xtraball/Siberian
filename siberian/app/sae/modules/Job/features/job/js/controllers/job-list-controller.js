@@ -171,7 +171,7 @@ angular.module("starter").controller("JobListController", function (Location, So
                 $scope.load_more = (data.total > $scope.collection.length);
             }).then(function () {
                 if (loadMore) {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
+                    $scope.$broadcast("scroll.infiniteScrollComplete");
                 }
 
                 $scope.isLoading = false;
