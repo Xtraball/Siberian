@@ -355,6 +355,34 @@
     .job-admin span {
         font-size: 13px;
     }
+
+    .job-card-margin {
+        margin-top: 6px;
+        margin-bottom: 0;
+
+        &:first-of-type {
+            margin-top: 12px;
+        }
+
+        &:last-of-type {
+            margin-bottom: 12px;
+        }
+    }
+
+    .add-image-icon {
+        font-size: 18px;
+    }
+
+    .remove-image-list,
+    .remove-image-card {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+
+        i.icon {
+            font-size: 26px;
+        }
+    }
 }
 
 /** Special case footer fixed */

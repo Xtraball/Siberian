@@ -7,7 +7,8 @@
 angular
 .module("starter")
 .controller('JobViewController', function (SocialSharing, Modal, $location, $rootScope, $scope, $state, $stateParams,
-                                           $timeout, $translate, $window, Application, Customer, Dialog, Job, Loader) {
+                                           $timeout, $translate, $window, Application, Customer, Dialog, Job, Loader,
+                                           Picture) {
 
     angular.extend($scope, {
         is_loading: true,
@@ -22,7 +23,8 @@ angular
             email: "",
             phone: "",
             address: "",
-            message: ""
+            message: "",
+            resumes: []
         },
         cardDesign: Job.settings.cardDesign
     });
@@ -71,6 +73,18 @@ angular
         });
     };
 
+    $scope.takePicture = function () {
+        Picture
+        .takePicture()
+        .then(function (success) {
+            $scope.form.resumes.push(success.image);
+        });
+    };
+
+    $scope.removePicture = function (index) {
+        $scope.form.resumes.splice(index, 1);
+    };
+
     $scope.clearForm = function () {
         /** Clear form */
         $scope.form.fullname = "";
@@ -78,6 +92,7 @@ angular
         $scope.form.phone = "";
         $scope.form.address = "";
         $scope.form.message = "";
+        $scope.form.resumes = [];
     };
 
     $scope.closeContactModal = function () {

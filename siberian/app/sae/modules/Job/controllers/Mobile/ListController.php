@@ -361,13 +361,33 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                                 $content = $baseEmail->render();
 
                                 $mail = new \Siberian_Mail();
+
+                                // Adds all attached resume/images
+                                foreach ($values["resumes"] as $index => $resume) {
+                                    preg_match("#^data:(.*);base64,#", $resume, $matches);
+                                    $rawBase64 = preg_replace("#^(data:(.*);base64,)#", "", $resume);
+                                    $mime = $matches[0];
+
+                                    $ext = (strpos($mime, "png") !== false) ? "png" : "jpg";
+
+                                    $attachment = new Zend_Mime_Part(base64_decode($rawBase64));
+                                    $attachment->type = $mime;
+                                    $attachment->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+                                    $attachment->encoding = Zend_Mime::ENCODING_BASE64;
+                                    $attachment->filename = "resume-{$index}.{$ext}";
+
+                                    $mail->addAttachment($attachment);
+                                }
+                                // Unset resumes, we don't want to show them in e-mail text!
+                                unset($values["resumes"]);
+
                                 $mail->setBodyHtml($content);
                                 $mail->setFrom($email, $fullName);
                                 $mail->addTo($place_email);
                                 $mail->setSubject($subject);
                                 $mail->send();
                             } catch (\Exception $e) {
-                                // Something went wrong with the-mail!
+                                // Silently fails!
                             }
 
                             $place_contact = new Job_Model_PlaceContact();
