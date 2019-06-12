@@ -373,20 +373,11 @@
         font-size: 18px;
     }
 
+    .remove-image-list,
     .remove-image-card {
         position: absolute;
         right: 6px;
         top: 6px;
-
-        i.icon {
-            font-size: 26px;
-        }
-    }
-
-    .remove-image-list {
-        position: absolute;
-        right: 0;
-        top: 0;
 
         i.icon {
             font-size: 26px;
