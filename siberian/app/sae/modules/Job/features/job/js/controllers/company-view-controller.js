@@ -27,14 +27,15 @@ angular.module("starter").controller('CompanyViewController', function (Modal,
             is_active: null
         },
         social_sharing_active: false,
-        card_design: false
+        cardDesign: Job.settings.cardDesign
     });
 
     Job.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
 
-        Job.findCompany($stateParams.company_id)
+        Job
+        .findCompany($stateParams.company_id)
         .then(function (data) {
 
             $scope.company_edit = $scope.company = data.company;
@@ -42,8 +43,7 @@ angular.module("starter").controller('CompanyViewController', function (Modal,
             $scope.page_title = data.page_title;
             $scope.is_admin = data.is_admin;
 
-            $scope.social_sharing_active = !!(data.social_sharing_is_active == 1 && !Application.is_webview);
-
+            $scope.socialSharing = (data.socialSharing && IS_NATIVE_APP);
 
         }).then(function () {
             $scope.is_loading = false;
@@ -133,10 +133,6 @@ angular.module("starter").controller('CompanyViewController', function (Modal,
     };
 
     $scope.createModal = function () {
-        if ($rootScope.isNotAvailableOffline()) {
-            return;
-        }
-
         Modal.fromTemplateUrl("features/job/assets/templates/l1/create-place.html", {
             scope: $scope
         }).then(function (modal) {

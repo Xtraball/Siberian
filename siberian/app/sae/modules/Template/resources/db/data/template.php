@@ -611,7 +611,17 @@ $blocks = [
                 'name' => 'Icon inactive',
                 'color' => '#cccccc',
                 'color_variable_name' => '$icon-inactive-custom',
-            ],
+            ], [
+                'code' => 'icon_warning',
+                'name' => 'Icon warning',
+                'color' => '#e67f00',
+                'color_variable_name' => '$icon-warning-custom',
+            ], [
+                'code' => 'icon_danger',
+                'name' => 'Icon danger',
+                'color' => '#ad3830',
+                'color_variable_name' => '$icon-inactive-custom',
+            ]
         ]
     ],
 

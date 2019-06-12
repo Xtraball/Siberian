@@ -55,17 +55,20 @@ class Template_Model_Design extends Core_Model_Default
     public static function getCssPath($application)
     {
         /** Determines if the App has been updated or not. */
-        $block_app = new Template_Model_Block_App();
 
-        $path = Core_Model_Directory::getPathTo("var/cache/css");
-        $base_path = Core_Model_Directory::getBasePathTo("var/cache/css");
+        $path = rpath("var/cache/css");
+        $basePath = path("var/cache/css");
         $file = $application->getId() . ".css";
-        if (!is_file("{$base_path}/{$file}")) {
-            /** Determines if the App has been updated or not. */
-            $block_app = new Template_Model_Block_App();
-            $new_scss = $block_app->isNewScss($application->getId());
 
-            self::generateCss($application, false, false, $new_scss);
+        $rebuild = filter_var($application->getGenerateScss(), FILTER_VALIDATE_BOOLEAN);
+
+        // If we should regen the SCSS!
+        if (!is_file("{$basePath}/{$file}") || $rebuild) {
+            $application
+                ->setGenerateScss(0)
+                ->save();
+
+            self::generateCss($application, false, false);
         }
 
         return "{$path}/{$file}";

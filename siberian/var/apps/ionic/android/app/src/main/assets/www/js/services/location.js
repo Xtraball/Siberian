@@ -1,7 +1,3 @@
-/*global
- App, angular, IS_NATIVE_APP
- */
-
 /**
  * Location, location and coordinates should be acquired fast,
  * we are using timeouts and promise to send answer as fast as possible.
@@ -11,10 +7,13 @@
  */
 angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
     var service = {
+        PERMISSION_DENIED: 1,
+        POSITION_UNAVAILABLE: 2,
+        TIMEOUT: 3,
         debug: true,
         lastFetch: null,
         position: null,
-        isEnabled: null,
+        isEnabled: true,
     };
 
     /**
@@ -54,9 +53,13 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 if (!isResolved) {
                     deferred.resolve(service.position);
                 }
-            }, function () {
+            }, function (error) {
+                console.log("getCurrentPosition, error", error);
                 if (service.debug) {
                     console.log("position ko");
+                }
+                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
+                    localReject(deferred);
                 }
                 if (!isResolved) {
                     deferred.reject();
@@ -104,6 +107,43 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
             } else {
                 localRequestLocation(deferred);
             }
+        }
+
+        return deferred.promise;
+    };
+
+    service.requestPermission = function () {
+        var deferred = $q.defer();
+
+        if (cordova.plugins.permissions !== undefined) {
+            var permissions = cordova.plugins.permissions;
+            permissions.checkPermission(
+                permissions.ACCESS_FINE_LOCATION,
+                function(status) {
+                    if (!status.hasPermission) {
+                        permissions.requestPermission(
+                            permissions.ACCESS_FINE_LOCATION,
+                            function (success) {
+                                service.isEnabled = true;
+                                deferred.resolve(service.position);
+                            }, function (error) {
+                                service.isEnabled = false;
+                                deferred.reject();
+                            });
+                    }
+                }, function (error) {
+                    permissions.requestPermission(
+                        permissions.ACCESS_FINE_LOCATION,
+                        function (success) {
+                            service.isEnabled = true;
+                            deferred.resolve(service.position);
+                        }, function (error) {
+                            service.isEnabled = false;
+                            deferred.reject();
+                        });
+                });
+        } else {
+            deferred.reject();
         }
 
         return deferred.promise;

@@ -123,8 +123,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             $data = $this->_fetchUpdates();
 
-            log_debug(print_r($data, true));
-
             if (empty($data['success'])) {
                 throw new Siberian_Exception(__('An error occurred while loading. Please, try again later.'));
             }
@@ -498,10 +496,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     /**
      * Detect if we are close to the timeout and send a signal to continue the installation process.
      *
-     * @todo remove class_exists("Siberian_Exec") after 4.8.7
+     * @throws Siberian_Exec_Exception
      */
     protected function _signalRetry() {
-        if(class_exists("Siberian_Exec") && !$this->increase_timelimit) {
+        if (!$this->increase_timelimit) {
             if(Siberian_Exec::willReachMaxExecutionTime(5)) {
                 throw new Siberian_Exec_Exception("Installation will continue, please wait ...");
             }
@@ -513,7 +511,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         /** Default updates url in case of missing configuration */
         $updates_url = "https://updates02.siberiancms.com";
 
-        $update_channel = System_Model_Config::getValueFor("update_channel");
+        $update_channel = __get("update_channel");
         if(in_array($update_channel, ["stable", "beta", "preview"])) {
             switch($update_channel) {
                 case "stable":

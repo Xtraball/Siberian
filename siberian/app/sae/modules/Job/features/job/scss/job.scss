@@ -59,7 +59,6 @@
         flex-flow: row wrap;
         justify-content: flex-start;
         padding: 0 !important;
-        padding-bottom: 60px !important;
     }
 
     i.clear-text {
@@ -127,8 +126,28 @@
         }
     }
 
+    .item {
+        &.item-custom {
+            .row {
+                padding: 0 !important;
+
+                .col {
+                    padding: 0 !important;
+                }
+            }
+        }
+    }
+
     .item-place {
-        padding: 6px;
+        padding: 6px 12px;
+
+        .row {
+            padding: 0 !important;
+
+            .col {
+                padding: 0 !important;
+            }
+        }
 
         p.subtitle {
             font-size: 13px;
@@ -251,8 +270,14 @@
         }
     }
 
-    .job-contact textarea {
-        min-height: 120px;
+    .job-contact {
+        .icon-form {
+            margin-right: 10px;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
     }
 
     .ta-root {
@@ -350,5 +375,18 @@
                 bottom: calc(2vh + 60px);
             }
         }
+    }
+}
+
+/** Header icons are outside scope, needs scoped name. */
+.job-icon-small {
+    &:before {
+        font-size: 20px !important;
+    }
+}
+
+.job-location-action {
+    &:before {
+        font-size: 26px !important;
     }
 }

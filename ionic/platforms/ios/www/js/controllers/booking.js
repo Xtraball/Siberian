@@ -16,10 +16,13 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
         card_design: false,
         settings: {
             design: "list",
+            datepicker: "single",
             date_format: "MM/DD/YYYY HH:mm",
         },
         dateTime: {
-            title: $translate.instant("Date & time", "booking")
+            date: $translate.instant("Date & time", "booking"),
+            checkIn: $translate.instant("Checkin", "booking"),
+            checkOut: $translate.instant("Checkout", "booking")
         }
     });
 
@@ -30,6 +33,10 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
         $scope.people.push(length);
         length = length + 1;
     }
+
+    $scope.coverSrc = function (cover) {
+        return IMAGE_URL + "images/application" + cover;
+    };
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
@@ -46,7 +53,7 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
                 }
 
                 if (Customer.isLoggedIn()) {
-                    $scope.formData.name = Customer.customer.firstname + ' ' + Customer.customer.lastname;
+                    $scope.formData.name = Customer.customer.firstname + " " + Customer.customer.lastname;
                     $scope.formData.email = Customer.customer.email;
                 }
             }).then(function () {
@@ -73,7 +80,12 @@ angular.module("starter").controller("BookingController", function ($scope, $sta
                 // Reset form on success!
                 $scope.formData = {};
             }, function (data) {
-                Dialog.alert("Error", data.message, "OK");
+                var message = $translate.instant("Please fill out the following fields", "booking");
+                data.errorLines.forEach(function (item) {
+                    message += "<br />" + $translate.instant(item, "booking");
+                });
+
+                Dialog.alert("Error", message, "OK");
             }).then(function () {
                 Loader.hide();
             });

@@ -16,8 +16,8 @@ class Job_ApplicationController extends Application_Controller_Default {
             $job = new Job_Model_Job();
             $job->find($this->getCurrentOptionValue()->getId(), "value_id");
 
-            if(isset($values["display_search"])) {
-                $job->setDisplaySearch($values["display_search"]);
+            if(isset($values["card_design"])) {
+                $job->setCardDesign($values["card_design"]);
             }
 
             if(isset($values["display_place_icon"])) {
@@ -38,6 +38,10 @@ class Job_ApplicationController extends Application_Controller_Default {
 
             if(isset($values["title_place"])) {
                 $job->setTitlePlace($values["title_place"]);
+            }
+
+            if(isset($values["currency"])) {
+                $job->setCurrency($values["currency"]);
             }
 
             if(isset($values["distance_unit"])) {

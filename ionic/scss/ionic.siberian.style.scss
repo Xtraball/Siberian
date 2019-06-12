@@ -564,16 +564,29 @@ input:checked + .checkbox-icon:after {
 }
 
 /* ICON */
-.icon-custom, .homepage-custom *.icon-custom {
+.icon-custom,
+.homepage-custom *.icon-custom {
   color: $icon-custom !important;
 }
 
-.icon-active-custom, .homepage-custom *.icon-active-custom {
+.icon-active-custom,
+.homepage-custom *.icon-active-custom {
   color: $icon-active-custom !important;
 }
 
-.icon-inactive-custom, .homepage-custom *.icon-inactive-custom {
+.icon-inactive-custom,
+.homepage-custom *.icon-inactive-custom {
   color: $icon-inactive-custom !important;
+}
+
+.icon-warning-custom,
+.homepage-custom *.icon-warning-custom {
+  color: $icon-warning-custom !important;
+}
+
+.icon-danger-custom,
+.homepage-custom *.icon-danger-custom {
+  color: $icon-danger-custom !important;
 }
 
 /* SLIDER PAGER */

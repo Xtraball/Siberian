@@ -1,7 +1,8 @@
 /**
- * Job
+ * Job module
  *
  * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.16.11
  */
 angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
 
@@ -9,19 +10,19 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
 
     factory.value_id = null;
     factory.admin_companies = null;
+    factory.collection = [];
     factory.settings = null;
 
-    factory.setValueId = function(value_id) {
+    factory.setValueId = function (value_id) {
         factory.value_id = value_id;
     };
 
-    factory.findAll = function(filters, refresh) {
-
-        if(!this.value_id) {
+    factory.findAll = function (filters, refresh) {
+        if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Job.findAll] missing value_id.");
         }
 
-        angular.extend(options, {
+        angular.extend(filters, {
             value_id: this.value_id
         });
 
@@ -34,9 +35,22 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
         });
     };
 
-    factory.find = function(place_id) {
+    factory.fetchSettings = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::Job.fetchSettings] missing value_id.");
+        }
 
-        if(!this.value_id || (place_id === undefined)) {
+        return $pwaRequest.get("job/mobile_list/fetch-settings'", {
+            urlParams: {
+                value_id: this.value_id,
+                t: Date.now()
+            },
+            cache: false
+        });
+    };
+
+    factory.find = function (place_id) {
+        if (!this.value_id || (place_id === undefined)) {
             return $pwaRequest.reject("[Factory::Job.find] missing value_id or place_id.");
         }
 
@@ -48,9 +62,8 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
         });
     };
 
-    factory.findCompany = function(company_id) {
-
-        if(!this.value_id || (company_id === undefined)) {
+    factory.findCompany = function (company_id) {
+        if (!this.value_id || (company_id === undefined)) {
             return $pwaRequest.reject("[Factory::Job.findCompany] missing value_id or company_id.");
         }
 
@@ -62,9 +75,8 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
         });
     };
 
-    factory.contactForm = function(values) {
-
-        if(!this.value_id) {
+    factory.contactForm = function (values) {
+        if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Job.contactForm] missing value_id.");
         }
 
@@ -74,9 +86,8 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
         });
     };
 
-    factory.editPlace = function(values) {
-
-        if(!this.value_id) {
+    factory.editPlace = function (values) {
+        if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Job.editPlace] missing value_id.");
         }
 
@@ -86,9 +97,8 @@ angular.module("starter").factory("Job", function($rootScope, $pwaRequest) {
         });
     };
 
-    factory.createPlace = function(values) {
-
-        if(!this.value_id) {
+    factory.createPlace = function (values) {
+        if (!this.value_id) {
             return $pwaRequest.reject("[Factory::Job.createPlace] missing value_id.");
         }
 

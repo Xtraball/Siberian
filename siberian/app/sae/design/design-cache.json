@@ -467,7 +467,6 @@
         "backoffice\/layout\/installer.xml": "app\/sae\/design\/desktop\/backoffice\/layout\/installer.xml",
         "backoffice\/layout\/preview.xml": "app\/sae\/design\/desktop\/backoffice\/layout\/preview.xml",
         "backoffice\/layout\/template.xml": "app\/sae\/design\/desktop\/backoffice\/layout\/template.xml",
-        "backoffice\/package-lock.json": "app\/sae\/design\/desktop\/backoffice\/package-lock.json",
         "backoffice\/template\/admin\/edit.phtml": "app\/sae\/design\/desktop\/backoffice\/template\/admin\/edit.phtml",
         "backoffice\/template\/admin\/export.phtml": "app\/sae\/design\/desktop\/backoffice\/template\/admin\/export.phtml",
         "backoffice\/template\/admin\/list.phtml": "app\/sae\/design\/desktop\/backoffice\/template\/admin\/list.phtml",
@@ -2728,9 +2727,6 @@
         "template\/test\/header.phtml": "app\/sae\/modules\/Backoffice\/resources\/design\/email\/template\/test\/header.phtml",
         "template\/test\/test.phtml": "app\/sae\/modules\/Backoffice\/resources\/design\/email\/template\/test\/test.phtml",
         "layout\/job.xml": "app\/sae\/modules\/Job\/resources\/design\/email\/layout\/job.xml",
-        "template\/job\/contact_form.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/contact_form.phtml",
-        "template\/job\/default\/content.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/default\/content.phtml",
-        "template\/job\/default\/footer.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/default\/footer.phtml",
-        "template\/job\/default\/header.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/default\/header.phtml"
+        "template\/job\/contact_form.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/contact_form.phtml"
     }
 }

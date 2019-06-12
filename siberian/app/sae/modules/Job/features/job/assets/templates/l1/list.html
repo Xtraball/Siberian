@@ -4,10 +4,15 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
+        <button ng-show="locationIsDisabled()"
+                ng-click="requestLocation()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-location-off job-location-action icon-warning-custom"></i>
+        </button>
         <button ng-show="admin_companies.length"
                 ng-click="adminModal()"
                 class="button button-clear header-item">
-            <i class="icon ion-ios-settings"></i>
+            <i class="icon ion-ios-settings-strong"></i>
         </button>
     </ion-nav-buttons>
 
@@ -29,24 +34,24 @@
     <ion-content class="l1">
 
         <div class="loader"
-             ng-show="is_loading">
+             ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <div class="list"
-             ng-class="{'card' : card_design}"
              ng-show="collection.length">
 
             <div ng-click="showItem(item)"
+                 ng-class="{'card' : cardDesign}"
                  ng-repeat="item in collection">
                 <div class="item item-custom item-place"
-                     ng-class="{ 'item-thumbnail-custom': item.icon && options.display_place_icon }">
+                     ng-class="{ 'item-thumbnail-custom': item.icon && settings.display_place_icon }">
                     <img ng-src="{{ item.icon }}"
-                         ng-if="item.icon && options.display_place_icon" />
+                         ng-if="item.icon && settings.display_place_icon" />
                     <h2>{{ item.title }} <span ng-if="item.contract_type">{{ item.contract_type }}</span></h2>
                     <p class="subtitle"
-                       ng-if="item.subtitle"
-                       ng-bind-html="item.subtitle"></p>
+                           ng-if="item.subtitle"
+                           ng-bind-html="item.subtitle"></p>
                     <p class="subtitle-company"
                        ng-if="item.company_name || item.location">
                         <span ng-if="item.company_name">{{ item.company_name }}</span>
@@ -58,14 +63,14 @@
         </div>
 
         <div class="list"
-             ng-class="{'card' : card_design}"
-             ng-if="!is_loading && !collection.length">
+             ng-class="{'card' : cardDesign}"
+             ng-if="!isLoading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+                {{ "No items found" | translate:"job" }}
             </div>
         </div>
 
-        <ion-infinite-scroll ng-show="can_load_older_places && !filters.more_search"
+        <ion-infinite-scroll ng-if="load_more"
                              on-infinite="loadMore()"
                              immediate-check="false"
                              distance="10%"
@@ -73,18 +78,4 @@
         </ion-infinite-scroll>
 
     </ion-content>
-
-    <style ng-if="options.display_place_icon">
-        .job-list .item-place {
-            padding: 6px;
-        }
-
-        .job-list p {
-            margin-left: 70px !important;
-        }
-
-        .job-list h2 {
-            margin-left: 70px !important;
-        }
-    </style>
 </ion-view>

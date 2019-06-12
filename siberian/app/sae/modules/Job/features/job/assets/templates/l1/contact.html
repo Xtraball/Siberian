@@ -8,68 +8,83 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Contact" | translate }}</h1>
+        <h1 class="title">{{ "Contact" | translate:"job" }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="clearForm();">
+                <i class="icon ion-sb-clear-brush"></i>
+            </button>
+        </div>
     </ion-header-bar>
 
-    <ion-content>
+    <ion-content ng-class="{'has-footer': !cardDesign}">
 
-        <form name="bookingForm"
-              ng-submit="submitContact();" novalidate>
+        <div class="list job-contact"
+             ng-class="{'card' : cardDesign}">
 
-            <div class="list job-contact"
-                 ng-class="{'card' : card_design}">
-
-                <div class="item item-divider item-divider-custom">
-                    {{ 'Identity' | translate }}
-                </div>
-
-                <label class="item item-input item-custom">
-                    <i class="icon ion-person"></i>
-                    <input type="text"
-                           placeholder="{{ 'Full name' | translate }} *"
-                           ng-model="form.fullname" />
-                </label>
-
-                <label class="item item-input item-custom">
-                    <i class="icon ion-email"></i>
-                    <input type="text"
-                           placeholder="{{ 'Email' | translate }} *"
-                           ng-model="form.email" />
-                </label>
-
-                <label class="item item-input item-custom">
-                    <i class="icon ion-ios-telephone"></i>
-                    <input type="text"
-                           placeholder="{{ 'Phone' | translate }}"
-                           ng-model="form.phone" />
-                </label>
-
-                <label class="item item-input item-custom">
-                    <i class="icon ion-ios-location"></i>
-                    <input type="text"
-                           placeholder="{{ 'Address' | translate }}"
-                           ng-model="form.address" />
-                </label>
-
-                <div class="item item-divider item-divider-custom">
-                    {{ 'Message' | translate }}
-                </div>
-
-                <label class="item item-input item-custom">
-                    <textarea placeholder="{{ 'Message' | translate }}"
-                              ng-model="form.message"></textarea>
-                </label>
-
+            <div class="item item-divider item-divider-custom">
+                {{ "Identity" | translate:"job" }}
             </div>
 
-            <div ng-class="{'padding' : card_design}">
-                <button class="button button-positive button-positive-custom item-icon-left"
-                        ng-class="{'button-block': card_design, 'button-full': !card_design}">
-                    <i class="icon ion-ios-paperplane"></i>{{ "Send contact request" | translate }}
-                </button>
+            <label class="item item-input item-custom">
+                <i class="icon ion-person icon-form"></i>
+                <input type="text"
+                       placeholder="{{ 'Full name' | translate:'job' }} *"
+                       ng-model="form.fullname" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-email icon-form"></i>
+                <input type="text"
+                       placeholder="{{ 'Email' | translate:'job' }} *"
+                       ng-model="form.email" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-ios-telephone icon-form"></i>
+                <input type="text"
+                       placeholder="{{ 'Phone' | translate:'job' }}"
+                       ng-model="form.phone" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-ios-location icon-form"></i>
+                <input type="text"
+                       placeholder="{{ 'Address' | translate:'job' }}"
+                       ng-model="form.address" />
+            </label>
+
+        </div>
+
+        <div class="list job-contact"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom">
+                {{ "Message" | translate:"job" }}
             </div>
 
-        </form>
+            <label class="item item-input item-custom">
+                <textarea placeholder="{{ 'Message' | translate:'job' }}"
+                          ng-model="form.message"></textarea>
+            </label>
+        </div>
+
+        <div class="padding"
+             ng-if="cardDesign">
+            <button class="button button-assertive button-assertive-custom button-block"
+                    ng-click="submitContact();">
+                {{ "Send contact request" | translate:"job" }}&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="icon ion-ios-paperplane"></i>
+            </button>
+        </div>
 
     </ion-content>
+
+    <button class="search-button button button-assertive button-assertive-custom button-full"
+            ng-if="!cardDesign"
+            ng-click="submitContact();">
+        {{ "Send contact request" | translate:"job" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-ios-paperplane"></i>
+    </button>
+
 </ion-modal-view>

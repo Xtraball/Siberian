@@ -10,6 +10,13 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
 
     $scope.hasguestmode = false;
 
+    angular.extend($scope, {
+        dateTime: {
+            format: "MM/DD/YYYY",
+            title: $translate.instant("Date of birth")
+        }
+    });
+
     $scope.customer_login = function () {
         Customer.display_account_form = false;
         Customer.loginModal($scope);
@@ -73,10 +80,6 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
                     .find()
                     .then(function (data) {
                         $scope.customer = data.customer;
-                        // Fix birthday!
-                        if ($scope.customer && $scope.customer.hasOwnProperty('metadatas') && $scope.customer.metadatas.birthday) {
-                            $scope.customer.metadatas.birthday = new Date($scope.customer.metadatas.birthday);
-                        }
                         $scope.settings = data.settings;
                     }).then(function () {
                         $scope.is_loading = false;

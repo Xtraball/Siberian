@@ -300,21 +300,61 @@ ion-content {
   }
 }
 
+.tabs .tab-item {
+  .badge {
+    &.badge-custom {
+      @include badge-style($badge-custom-bg, $badge-custom-text);
+    }
+
+    &.badge-light-custom {
+      @include badge-style($badge-light-custom-bg, $badge-light-custom-text);
+    }
+
+    &.badge-positive-custom {
+      @include badge-style($badge-positive-custom-bg, $badge-positive-custom-text);
+    }
+
+    &.badge-calm-custom {
+      @include badge-style($badge-calm-custom-bg, $badge-calm-custom-text);
+    }
+
+    &.badge-balanced-custom {
+      @include badge-style($badge-balanced-custom-bg, $badge-balanced-custom-text);
+    }
+
+    &.badge-energized-custom {
+      @include badge-style($badge-energized-custom-bg, $badge-energized-custom-text);
+    }
+
+    &.badge-assertive-custom {
+      @include badge-style($badge-assertive-custom-bg, $badge-assertive-custom-text);
+    }
+
+    &.badge-royal-custom {
+      @include badge-style($badge-royal-custom-bg, $badge-royal-custom-text);
+    }
+
+    &.badge-dark-custom {
+      @include badge-style($badge-dark-custom-bg, $badge-dark-custom-text);
+    }
+  }
+}
+
 /** UTILS */
 .light,
 a.light {
   &.light-custom {
-    color: $util-custom-text;
+    color: $util-light-custom-text;
   }
 }
 .light-bg {
   &.light-bg-custom {
-    background-color: $util-custom-bg;
+    background-color: $util-light-custom-bg;
   }
 }
 .light-border {
   &.light-border-custom {
-    border-color: $util-custom-border;
+    border-color: $util-light-custom-border;
   }
 }
 
@@ -524,16 +564,29 @@ input:checked + .checkbox-icon:after {
 }
 
 /* ICON */
-.icon-custom, .homepage-custom *.icon-custom {
+.icon-custom,
+.homepage-custom *.icon-custom {
   color: $icon-custom !important;
 }
 
-.icon-active-custom, .homepage-custom *.icon-active-custom {
+.icon-active-custom,
+.homepage-custom *.icon-active-custom {
   color: $icon-active-custom !important;
 }
 
-.icon-inactive-custom, .homepage-custom *.icon-inactive-custom {
+.icon-inactive-custom,
+.homepage-custom *.icon-inactive-custom {
   color: $icon-inactive-custom !important;
+}
+
+.icon-warning-custom,
+.homepage-custom *.icon-warning-custom {
+  color: $icon-warning-custom !important;
+}
+
+.icon-danger-custom,
+.homepage-custom *.icon-danger-custom {
+  color: $icon-danger-custom !important;
 }
 
 /* SLIDER PAGER */

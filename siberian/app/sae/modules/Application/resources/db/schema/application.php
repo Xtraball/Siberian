@@ -197,6 +197,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'generate_scss' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'ios_status_bar_is_hidden' => [
         'type' => 'tinyint(1)',
         'is_null' => true,

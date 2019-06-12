@@ -28,6 +28,18 @@ $schemas["job"] = [
         "type" => "tinyint(1) unsigned",
         "default" => "1",
     ],
+    "currency" => [
+        "type" => "varchar(10)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "USD",
+    ],
+    "card_design" => [
+        "type" => "varchar(16)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "list",
+    ],
     "display_contact" => [
         "type" => "enum(\"hidden\",\"contactform\",\"email\",\"both\")",
         "is_null" => false,
