@@ -1,9 +1,13 @@
-/*global
- App, BASE_PATH
+/**
+ * M-Commerce
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.16.11
  */
-
-angular.module('starter').controller('MCommerceListController', function (Loader, $location, $scope, $state,
-                                                                          $stateParams, McommerceCategory, Customer) {
+angular
+.module("starter")
+.controller("MCommerceListController", function (Loader, $location, $scope, $state, $stateParams, McommerceCategory,
+                                                 McommerceCart, Customer) {
     $scope.is_loading = true;
     Loader.show();
 
@@ -21,18 +25,30 @@ angular.module('starter').controller('MCommerceListController', function (Loader
     }
 
     $scope.loadContent = function () {
-        McommerceCategory.findAll()
-            .then(function (data) {
-                $scope.show_search = data.show_search;
-                $scope.collection = data.collection;
-                $scope.collection_is_empty = $scope.collection.length > 0;
+        McommerceCategory
+        .findAll()
+        .then(function (data) {
+            $scope.show_search = data.show_search;
+            $scope.collection = data.collection;
+            $scope.collection_is_empty = $scope.collection.length > 0;
 
-                $scope.cover = data.cover;
-                $scope.page_title = data.page_title;
-            }).then(function () {
-                $scope.is_loading = false;
-                Loader.hide();
-            });
+            $scope.cover = data.cover;
+            $scope.page_title = data.page_title;
+        }).then(function () {
+            $scope.is_loading = false;
+            Loader.hide();
+        });
+
+        McommerceCart.value_id = $stateParams.value_id;
+        McommerceCart
+        .find()
+        .then(function (data) {
+            try {
+                $scope.cartItems = data.cart.lines.length;
+            } catch (e) {
+                $scope.cartItems = 0;
+            }
+        });
     };
 
     $scope.openCart = function () {
@@ -69,16 +85,17 @@ angular.module('starter').controller('MCommerceListController', function (Loader
         layout: HomepageLayout
     });
 
-    $state.go('home')
-        .then(function () {
-            if ($scope.layout.properties.options.autoSelectFirst) {
-                $ionicHistory.nextViewOptions({
-                    historyRoot: true,
-                    disableAnimate: false
-                });
-            }
-            $state.go('mcommerce-category-list', {
-                value_id: $scope.value_id
+    $state
+    .go('home')
+    .then(function () {
+        if ($scope.layout.properties.options.autoSelectFirst) {
+            $ionicHistory.nextViewOptions({
+                historyRoot: true,
+                disableAnimate: false
             });
+        }
+        $state.go('mcommerce-category-list', {
+            value_id: $scope.value_id
         });
+    });
 });
