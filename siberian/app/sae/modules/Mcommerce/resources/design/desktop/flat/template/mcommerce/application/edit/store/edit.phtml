@@ -4,7 +4,8 @@ $option = $this->getOptionValue();
 $mcommerce = $option->getObject();
 $application = $this->getApplication();
 $store = $this->getCurrentStore();
-$default_store = $mcommerce->getDefaultStore(); 
+$default_store = $mcommerce->getDefaultStore();
+$appKey = $application->getGooglemapsKey();
 
 ?>
 <h3 class="title-editor no-border-radius title-feature-indent">
@@ -107,18 +108,19 @@ $default_store = $mcommerce->getDefaultStore();
         </fieldset>
     </div>
     <fieldset class="edit_store_delivery">
-        <h3 class="title-editor no-border-radius title-feature-indent" style="border-left: none;">
-            <?php echo __('Delivery'); ?>
+        <h3 class="title-editor no-border-radius title-feature-indent"
+            style="border-left: none;">
+            <?php echo p__("m_commerce", "Delivery"); ?>
         </h3>
         <div class="container-fluid first-row-feature">
             <div class="form-group">
                 <div class="col-sm-3">
-                    <label><?php echo __('Delivery methods:'); ?> <span>*</span></label>
+                    <label><?php echo p__("m_commerce", "Delivery options"); ?> <span>*</span></label>
                 </div>
                 <div class="col-sm-9">
                     <?php $delivery_method = new Mcommerce_Model_Delivery_Method(); ?>
                     <?php $delivery_methods = $delivery_method->findAll(); ?>
-                    <?php foreach($delivery_methods as $k => $method) : ?>
+                    <?php foreach($delivery_methods as $k => $method): ?>
                         <div class="form-group">
                             <div class="col-md-12">
                                 <?php $method->addData($store->getDeliveryMethod($method->getId())->getData()); ?>
@@ -127,14 +129,28 @@ $default_store = $mcommerce->getDefaultStore();
                                     <input type="checkbox"
                                            id="delivery_method_<?php echo $method->getId() ?>"
                                            color="color-blue"
+                                           <?php if ($method->getCode() === "home_delivery" && empty($appKey)): ?>disabled="disabled"<?php endif; ?>
                                            class="required sb-form-checkbox color-blue"
                                            name="new_delivery_methods[][method_id]"
-                                           value="<?php echo $method->getId(); ?>"<?php if($method->getStoreDeliveryMethodId()) : ?>
-                                            checked="checked"<?php endif; ?> />
+                                           value="<?php echo $method->getId(); ?>"
+                                           <?php if ($method->getStoreDeliveryMethodId()) : ?>checked="checked"<?php endif; ?> />
                                     <span class="sb-checkbox-label">
-                                        <?php echo $method->getName(); ?>
+                                        <?php if ($method->getCode() === "home_delivery"): ?>
+                                            <?php echo p__("m_commerce", "Shipping / delivery"); ?>
+                                        <?php else: ?>
+                                            <?php echo $method->getName(); ?>
+                                        <?php endif; ?>
                                     </span>
+
                                 </label>
+                            </div>
+                            <div class="col-md-12">
+                                <?php if ($method->getCode() === "home_delivery" && empty($appKey)): ?>
+                                <div class="alert alert-danger">
+                                    <?php echo p__("m_commerce", "You must set a Google Maps API Key in %s in order to use the shipping / delivery method.",
+                                        "<b>".__("Settings")." > ".__("API")."</b>") ?>
+                                </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -143,9 +159,10 @@ $default_store = $mcommerce->getDefaultStore();
             <?php $method = $store->getDeliveryMethod(3); ?>
             <div class="form-group shipping_cost"
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
+
                 <div class="col-sm-3">
                     <label for="delivery_fees">
-                        <?php echo __("Delivery fees:"); ?>
+                        <?php echo p__("m_commerce", "Shipping / delivery fees"); ?>:
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -153,8 +170,7 @@ $default_store = $mcommerce->getDefaultStore();
                            id="delivery_fees"
                            class="input-flat"
                            name="details_delivery_methods[3][price]"
-                           value="<?php echo $method->getPrice(); ?>"
-                           placeholder="<?php echo __('Delivery fees'); ?>" />
+                           value="<?php echo $method->getPrice(); ?>" />
                 </div>
                 <div class="col-sm-4">
                     <?php $taxes = $mcommerce->getTaxes(); ?>
@@ -163,7 +179,7 @@ $default_store = $mcommerce->getDefaultStore();
                                 name="details_delivery_methods[3][tax_id]"
                                 class="styled-select color-blue">
                             <option value="">
-                                <?php echo __('Tax'); ?>
+                                <?php echo p__("m_commerce", "Tax"); ?>
                             </option>
                             <?php foreach($taxes as $tax) : ?>
                                 <option value="<?php echo $tax->getId(); ?>"<?php if($method->getTaxId() == $tax->getId()) : ?>
@@ -179,7 +195,7 @@ $default_store = $mcommerce->getDefaultStore();
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
                 <div class="col-sm-3">
                     <label for="min_amount_free_delivery">
-                        <?php echo __("Free delivery starting from:"); ?>
+                        <?php echo p__("m_commerce", "Free shipping / delivery starting from"); ?>:
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -187,15 +203,14 @@ $default_store = $mcommerce->getDefaultStore();
                            id="min_amount_free_delivery"
                            class="input-flat"
                            name="details_delivery_methods[3][min_amount_for_free_delivery]"
-                           value="<?php echo $method->getMinAmountForFreeDelivery(); ?>"
-                           placeholder="<?php echo __('Free delivery starting from'); ?>" />
+                           value="<?php echo $method->getMinAmountForFreeDelivery(); ?>"/>
                 </div>
             </div>
             <div class="form-group shipping_cost"
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
                 <div class="col-sm-3">
                     <label for="clients_calculate_change">
-                        <?php echo __("The clients calculate the change:"); ?>
+                        <?php echo p__("m_commerce", "The client will calculate the change"); ?>
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -216,7 +231,7 @@ $default_store = $mcommerce->getDefaultStore();
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
                 <div class="col-sm-3">
                     <label for="delivery_area">
-                        <?php echo __("Delivery radius:"); ?>
+                        <?php echo p__("m_commerce", "Shipping / delivery radius (in kilometers)"); ?>:
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -224,15 +239,14 @@ $default_store = $mcommerce->getDefaultStore();
                            id="delivery_area"
                            class="input-flat"
                            name="delivery_area"
-                           value="<?php echo $store->getDeliveryArea(); ?>"
-                           placeholder="<?php echo __('Delivery radius'); ?>" />
+                           value="<?php echo $store->getDeliveryArea(); ?>" />
                 </div>
             </div>
             <div class="form-group shipping_cost"
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
                 <div class="col-sm-3">
                     <label for="delivery_time">
-                        <?php echo __("Delivery time:"); ?>
+                        <?php echo p__("m_commerce", "Shipping / delivery delay (in minutes)"); ?>:
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -240,15 +254,14 @@ $default_store = $mcommerce->getDefaultStore();
                            id="delivery_time"
                            class="input-flat"
                            name="delivery_time"
-                           value="<?php echo $store->getDeliveryTime(); ?>"
-                           placeholder="<?php echo __('Time in minutes'); ?>" />
+                           value="<?php echo $store->getDeliveryTime(); ?>" />
                 </div>
             </div>
             <div class="form-group shipping_cost"
                  <?php if(!$method->getStoreDeliveryMethodId()) : ?>style="display:none;"<?php endif; ?>>
                 <div class="col-sm-3">
                     <label for="min_amount">
-                        <?php echo __("Minimum order:"); ?>
+                        <?php echo p__("m_commerce", "Minimum order amount"); ?>:
                     </label>
                 </div>
                 <div class="col-sm-5">
@@ -256,8 +269,7 @@ $default_store = $mcommerce->getDefaultStore();
                            id="min_amount"
                            class="input-flat"
                            name="min_amount"
-                           value="<?php echo $store->getMinAmount(); ?>"
-                           placeholder="<?php echo __('Minimum order'); ?>" />
+                           value="<?php echo $store->getMinAmount(); ?>" />
                 </div>
             </div>
         </div>
@@ -276,7 +288,7 @@ $default_store = $mcommerce->getDefaultStore();
                 </div>
                 <div class="col-sm-3">
                     <label>
-                        <?php echo __('Payment methods:'); ?> <span>*</span>
+                        <?php echo p__("m_commerce", "Payment methods"); ?> <span>*</span>
                     </label>
                 </div>
                 <div class="col-sm-9">
@@ -341,13 +353,13 @@ $default_store = $mcommerce->getDefaultStore();
         <fieldset class="edit_store_tax">
             <h3 class="title-editor no-border-radius title-feature-indent"
                 style="border-left: none;">
-                <?php echo __('Tax'); ?>
+                <?php echo p__("m_commerce", "Tax"); ?>
             </h3>
             <div class="container-fluid first-row-feature">
                 <div class="form-group">
                     <div class="col-sm-3">
                         <label>
-                            <?php echo __('Tax rate:'); ?> <span>*</span>
+                            <?php echo p__("m_commerce", "Tax rate"); ?> <span>*</span>
                         </label>
                     </div>
                     <div class="col-sm-5">
@@ -355,8 +367,7 @@ $default_store = $mcommerce->getDefaultStore();
                                id="new_tax_rate"
                                name="new_tax_rate"
                                class="input-flat required number"
-                               value=""
-                               placeholder="<?php echo __("20,00 %"); ?>" />
+                               value=""/>
                     </div>
                 </div>
             </div>
