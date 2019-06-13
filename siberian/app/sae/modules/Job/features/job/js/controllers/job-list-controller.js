@@ -206,6 +206,8 @@ angular.module("starter").controller("JobListController", function (Location, So
         Job.categories = $scope.categories = $scope.settings.categories;
         $scope.cardDesign = $scope.settings.cardDesign;
 
+        Job.collection = [];
+        $scope.collection = [];
         $scope.loadContent(true);
     });
 
