@@ -1,5 +1,7 @@
 <?php
 
+use Siberian_Google_Geocoding as Geocoding;
+
 /**
  * Class Mcommerce_Model_Delivery_Method_Homedelivery
  */
@@ -23,27 +25,25 @@ class Mcommerce_Model_Delivery_Method_Homedelivery extends Mcommerce_Model_Deliv
                     'country' => $store->getcountry()
                 ];
 
-                $geoStore = Siberian_Google_Geocoding::getLatLng($addressStore, $application->getGooglemapsKey());
+                $geoStore = Geocoding::getLatLng($addressStore, $application->getGooglemapsKey());
 
-                if (isset($geoStore[0]) && isset($geoStore[1])) {
+                $hasGeostore = (isset($geoStore[0]) && isset($geoStore[1]));
+                $hasCustomerGeo = ($cart->getCustomerLatitude() && $cart->getCustomerLongitude());
+
+                if ($hasGeostore && $hasCustomerGeo) {
                     $storeCoordinates = [
-                        'latitude' => $geoStore[0],
-                        'longitude' => $geoStore[1]
+                        "latitude" => $geoStore[0],
+                        "longitude" => $geoStore[1]
                     ];
-                }
-                
-                if ($cart->getCustomerLatitude() && $cart->getCustomerLongitude()) {
-                    $customerCoordinates = [
-                        'latitude' => $cart->getCustomerLatitude(),
-                        'longitude' => $cart->getCustomerLongitude()
-                    ];
-                }
 
-                if ($storeCoordinates && $customerCoordinates) {
-                    $distance = Siberian_Google_Geocoding::getDistance($storeCoordinates, $customerCoordinates);
+                    $customerCoordinates = [
+                        "latitude" => $cart->getCustomerLatitude(),
+                        "longitude" => $cart->getCustomerLongitude()
+                    ];
+
+                    $distance = Geocoding::getDistance($storeCoordinates, $customerCoordinates);
                     return $distance <= $store->getDeliveryArea();
                 }
-                die;
             } else {
                 return true;
             }

@@ -620,7 +620,7 @@ $blocks = [
                 'code' => 'icon_danger',
                 'name' => 'Icon danger',
                 'color' => '#ad3830',
-                'color_variable_name' => '$icon-inactive-custom',
+                'color_variable_name' => '$icon-danger-custom',
             ]
         ]
     ],

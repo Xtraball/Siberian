@@ -92,23 +92,23 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
 
                                 <?php
-                                $count = 0;
-                                if ($child->getColorVariableName()) {
-                                    $count++;
-                                }
-                                if ($child->getBackgroundColorVariableName()) {
-                                    $count++;
-                                }
-                                if ($child->getBorderColorVariableName()) {
-                                    $count++;
-                                }
-                                if ($child->getImageColorVariableName()) {
-                                    $count++;
-                                }
+                                    $count = 0;
+                                    if ($child->getColorVariableName()) {
+                                        $count++;
+                                    }
+                                    if ($child->getBackgroundColorVariableName()) {
+                                        $count++;
+                                    }
+                                    if ($child->getBorderColorVariableName()) {
+                                        $count++;
+                                    }
+                                    if ($child->getImageColorVariableName()) {
+                                        $count++;
+                                    }
 
-                                if ($count <= 0) {
-                                    continue;
-                                }
+                                    if ($count <= 0) {
+                                        continue;
+                                    }
                                 ?>
 
                                 <div class="subcontent content-color container-fluid custom-padding">
@@ -266,10 +266,10 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
     <script type="text/javascript">
 
-        /** Var overview */
+        // Var overview!
         let fakeContent = false;
 
-        /** First replace link with scss */
+        // First replace link with scss!
         let emptyCustomScss = "";
         let template_css = "<?php echo addslashes(str_replace("\n", "", Template_Model_Design::generateCss($this->getApplication(), true, false, true))); ?>";
         let template = template_css;
@@ -277,11 +277,17 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
 
         let mobileOverview = $("#mobile_overview");
+
+        let reloadMobileOverview = function () {
+            mobileOverview = $("#mobile_overview");
+        }
+
         let canProcessImage = true;
         function processImages() {
             if (canProcessImage) {
                 canProcessImage = false;
 
+                reloadMobileOverview();
                 let overviewContents = mobileOverview.contents();
 
                 overviewContents.find("[option] img:visible").each(function (index, image) {
@@ -290,7 +296,6 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                         let newImage = el.clone();
                         newImage.hide().insertAfter(image);
                     }
-
                 });
 
                 overviewContents.find("[option] img").not(":visible").each(function (index, image) {
@@ -365,7 +370,8 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
             try {
                 let template = template_css;
-                /** Ici on récupère toutes les couleurs et on les appliques immédiatement */
+
+                // Immediately apply colors!
                 $("input[type=hidden][data-index]").each(function () {
                     let el = $(this),
                         index = el.attr("data-index"),
@@ -373,29 +379,28 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
                     template = template.replace(new RegExp(index, "g"), rgba);
 
-                    /** Colorize mini-color */
+                    // Colorize mini-color!
                     let miniId = "#" + el.data("variable").replace("$", "");
                     $(miniId).css("background-color", rgba);
 
-                    /** Transparent color */
+                    // Transparent color!
                     let rgbaToReplace = /rgba\(12, 0, 2, 0\.2\)/gmi
 
-                    /** Specific case for homepage layouts */
+                    // Specific case for homepage layouts!
                     if (el.attr("id") == "homepage_bg_receiver") {
                         template = template.replace(rgbaToReplace, rgba);
                     }
                 });
 
+                reloadMobileOverview();
                 let overviewContents = mobileOverview.contents();
 
-                /** First processing image */
-                if (overviewContents.find("#scss_live").length == 0) {
-                    /** Replace X */
-                    var link = $("#mobile_overview").contents().find("style").last();
-                    link.after("<style id=\"scss_live\" type=\"text/css\">" + template + emptyCustomScss + "</style>");
-                }
-
+                // Remove old SCSS, adds new!
+                overviewContents.find("#scss_live").remove();
+                let link = overviewContents.find("style").last();
+                link.after("<style id=\"scss_live\" type=\"text/css\">" + template + emptyCustomScss + "</style>");
                 overviewContents.find("#scss_live").text(template + emptyCustomScss);
+
                 processing = false;
             } catch(e) {
                 processing = false;
