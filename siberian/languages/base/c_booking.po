@@ -183,6 +183,7 @@ msgid "Here are his personal information:"
 msgstr "Here are his personal information:"
 
 # GMT 1559657430.104
+#, mobile
 msgctxt "booking"
 msgid "Name"
 msgstr "Name"
@@ -203,6 +204,7 @@ msgid "Booking location"
 msgstr "Booking location"
 
 # GMT 1559658569.9656
+#, mobile
 msgctxt "booking"
 msgid "Thank you for your request.<br />We'll answer you as soon as possible."
 msgstr "Thank you for your request.<br />We'll answer you as soon as possible."
@@ -228,6 +230,7 @@ msgid "Your booking details"
 msgstr "Your booking details"
 
 # GMT 1559748324.2416
+#, mobile
 msgctxt "booking"
 msgid "Date"
 msgstr "Date"
@@ -253,6 +256,104 @@ msgid "Date and time"
 msgstr "Date and time"
 
 # GMT 1559816057.0521
+#, mobile
 msgctxt "booking"
 msgid "Phone and/or E-mail"
 msgstr "Phone and/or E-mail"
+
+# GMT 1560415813.1919
+msgctxt "booking"
+msgid "Location successfully saved"
+msgstr "Location successfully saved"
+
+# GMT 1560416211.2594
+msgctxt "booking"
+msgid "Store name"
+msgstr "Store name"
+
+# GMT 1560416211.2624
+msgctxt "booking"
+msgid "Locations"
+msgstr "Locations"
+
+# GMT 1560416731.7896
+msgctxt "booking"
+msgid "You are about to remove this Location! Are you sure ?"
+msgstr "You are about to remove this Location! Are you sure ?"
+
+# GMT 1560416731.7926
+msgctxt "booking"
+msgid "Create a new location"
+msgstr "Create a new location"
+
+# GMT 1560416731.7986
+msgctxt "booking"
+msgid "Location name"
+msgstr "Location name"
+
+# GMT 1560416731.8028
+msgctxt "booking"
+msgid "Close"
+msgstr "Close"
+
+# GMT 1560417080.7185
+msgctxt "booking"
+msgid "Please name a store."
+msgstr "Please name a store."
+
+# GMT 1560417101.3085
+msgctxt "booking"
+msgid "Invalid e-mail address."
+msgstr "Invalid e-mail address."
+
+# GMT 1560417295.7471
+msgctxt "booking"
+msgid "Missing params."
+msgstr "Missing params."
+
+# GMT 1560417662.7402
+msgctxt "booking"
+msgid "Store deleted."
+msgstr "Store deleted."
+
+# GMT 1560418208.5571
+#, mobile
+msgctxt "booking"
+msgid "Sending request ..."
+msgstr "Sending request ..."
+
+# GMT 1560418208.5574
+#, mobile
+msgctxt "booking"
+msgid "Please fill out the following fields"
+msgstr "Please fill out the following fields"
+
+# GMT 1560418208.5603
+#, mobile
+msgctxt "booking"
+msgid "Error"
+msgstr "Error"
+
+# GMT 1560418208.5605
+#, mobile
+msgctxt "booking"
+msgid "Please fill out the following fields<br />Name<br />Phone and/or E-mail<br />Number of people<br />Date<br />Booking details"
+msgstr "Please fill out the following fields<br />Name<br />Phone and/or E-mail<br />Number of people<br />Date<br />Booking details"
+
+# GMT 1560418208.5608
+#, mobile
+msgctxt "booking"
+msgid "OK"
+msgstr "OK"
+
+# GMT 1560418208.5612
+#, mobile
+msgctxt "booking"
+msgid "Success"
+msgstr "Success"
+
+# GMT 1560418208.564
+#, mobile
+msgctxt "booking"
+msgid "Please fill out the following fields<br />Name<br />Phone and/or E-mail<br />Location<br />Number of people<br />Date<br />Booking details"
+msgstr "Please fill out the following fields<br />Name<br />Phone and/or E-mail<br />Location<br />Number of people<br />Date<br />Booking details"
