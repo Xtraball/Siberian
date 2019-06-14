@@ -194,7 +194,7 @@ $font-family:                     "Helvetica Neue", "Roboto", "Segoe UI", "sans-
 /* ICON CUSTOM */
 $icon-custom:                     #fff !default;
 $icon-active-custom:              #444 !default;
-$icon-inactive-custom:            lighten($icon-active-custom, 30%);
+$icon-inactive-custom:            #606060;
 $icon-warning-custom:             #e67f00;
 $icon-danger-custom:              #ad3830;
 
