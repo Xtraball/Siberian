@@ -46,7 +46,7 @@ angular.module("starter").controller("JobListController", function (Location, So
     $scope.requestLocation = function () {
         Dialog.alert(
             "Error",
-            "We were unable to request your location, please check your application settings.",
+            "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
             "OK",
             3700,
             "job");
@@ -206,6 +206,8 @@ angular.module("starter").controller("JobListController", function (Location, So
         Job.categories = $scope.categories = $scope.settings.categories;
         $scope.cardDesign = $scope.settings.cardDesign;
 
+        Job.collection = [];
+        $scope.collection = [];
         $scope.loadContent(true);
     });
 

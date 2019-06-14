@@ -1,0 +1,59 @@
+{
+    "name": "Discount",
+    "code": "discount",
+    "version": "4.17.0",
+    "category": "monetization",
+    "model": "Discount_Model_Discount",
+    "desktop_uri": "discount/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "discount-list",
+            "controller": "DiscountListController",
+            "url": "promotion/mobile_list/index/value_id/:value_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3",
+                "4": "l4",
+                "5": "l5"
+            },
+            "cache": false
+        },
+        {
+            "state": "discount-view",
+            "controller": "DiscountViewController",
+            "url": "promotion/mobile_view/index/value_id/:value_id/promotion_id/:promotion_id",
+            "template": "view.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3",
+                "4": "l4",
+                "5": "l5"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3,
+        4,
+        5
+    ],
+    "icons": [
+        "icons/discount1-flat.png",
+        "icons/discount2-flat.png",
+        "icons/discount3-flat.png"
+    ],
+    "files": [
+        "js/controllers/discount-list-controller.js",
+        "js/controllers/discount-view-controller.js",
+        "js/factory/discount.js"
+    ],
+    "compile": true,
+    "use_account": true,
+    "only_once": false
+}

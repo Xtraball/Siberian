@@ -1,0 +1,74 @@
+<ion-view sb-page-background
+          class="module-discount discount-list discount-l1 discount-l1-list">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-class="{'card' : cardDesign}"
+             ng-show="collection.length">
+
+            <div class="item item-custom discount-list"
+                 ng-click="showItem(item)"
+                 ng-repeat="item in collection"
+                 ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
+
+                <!-- Thumbnail OR Picture -->
+                <img ng-src="{{ item.thumbnail }}"
+                     ng-if="item.thumbnail.length" />
+                <img ng-src="{{ item.picture }}"
+                     ng-if="item.picture && !item.thumbnail.length" />
+
+                <!-- Title -->
+                <h2>{{ item.title ? item.title : item.author }}</h2>
+
+                <!-- Description -->
+                <p class="three-lines"
+                   ng-if="item.subtitle_html"
+                   ng-bind-html="item.subtitle_html | trusted_html"></p>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+        <style type="text/css">
+            .three-lines {
+                height: 60px;
+                margin-bottom: 0 !important;
+                white-space: normal !important;
+            }
+            .three-lines p {
+                white-space: normal !important;
+            }
+            .discount-list {
+                padding-bottom: 8px !important;
+            }
+        </style>
+    </ion-content>
+</ion-view>

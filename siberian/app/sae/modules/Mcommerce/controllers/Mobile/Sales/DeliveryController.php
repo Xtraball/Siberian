@@ -11,37 +11,61 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
      */
     public function findstoreAction()
     {
-        $cart = $this->getCart();
-        $store = $cart->getStore();
-        $app = $this->getApplication();
+        try {
+            $cart = $this->getCart();
+            $store = $cart->getStore();
+            $app = $this->getApplication();
 
-        $payload = [];
+            $storeJson = [
+                "id" => (integer) $store->getId(),
+                "name" => (string) $store->getName(),
+                "deliveryMethods" => [],
+                "clients_calculate_change" => (boolean) $store->getClientsCalculateChange()
+            ];
 
-        $storeJson = [
-            'id' => $store->getId(),
-            'name' => $store->getName(),
-            'deliveryMethods' => [],
-            'clients_calculate_change' => (boolean) $store->getClientsCalculateChange()
-        ];
+            /**
+             * @var $deliveryMethods Mcommerce_Model_Delivery_Method[]
+             */
+            $deliveryMethods = $store->getDeliveryMethods();
+            foreach ($deliveryMethods as $deliveryMethod) {
 
-        foreach ($store->getDeliveryMethods() as $deliveryMethod) {
-            $deliveryMethod->setCart($this->getCart());
+                $deliveryMethod->setCart($this->getCart());
+                $isAvailable = $deliveryMethod->isAvailable($app);
 
-            if ($deliveryMethod->isAvailable($app)) {
-                $storeJson['deliveryMethods'][] = [
-                    'id' => $deliveryMethod->getId(),
-                    'code' => $deliveryMethod->getCode(),
-                    'name' => $deliveryMethod->getName(),
-                    'price' => (double) $deliveryMethod->getPrice(),
-                    'formattedPrice' => $deliveryMethod->getPrice() > 0 ?
-                        $deliveryMethod->getFormattedPrice() : null
-                ];
+                if ($isAvailable) {
+                    $storeJson["deliveryMethods"][] = [
+                        "id" => (integer) $deliveryMethod->getId(),
+                        "code" => (string) $deliveryMethod->getCode(),
+                        "name" => (string) $deliveryMethod->getName(),
+                        "price" => (double) $deliveryMethod->getPrice(),
+                        "formattedPrice" => $deliveryMethod->getPrice() > 0 ?
+                            $deliveryMethod->getFormattedPrice() : null
+                    ];
+                } else {
+                    // If delivery!
+                    if ($deliveryMethod->getCode() === "home_delivery") {
+                        $storeJson["deliveryKo"][] = [
+                            "id" => (integer) $deliveryMethod->getId(),
+                            "code" => (string) $deliveryMethod->getCode(),
+                            "name" => (string) $deliveryMethod->getName(),
+                            "price" => (double) $deliveryMethod->getPrice(),
+                            "formattedPrice" => $deliveryMethod->getPrice() > 0 ?
+                                $deliveryMethod->getFormattedPrice() : null
+                        ];
+                    }
+                }
             }
-        }
 
-        $payload['store'] = $storeJson;
-        $payload['clients_calculate_change'] = (boolean) ($cart->getDeliveryMethod()->getCode() === 'home_delivery' &&
-            $cart->getStore()->getClientsCalculateChange());
+            $payload["store"] = $storeJson;
+            $payload["clients_calculate_change"] = (boolean) ($cart->getDeliveryMethod()->getCode() === "home_delivery" &&
+                $cart->getStore()->getClientsCalculateChange());
+            
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
 
         $this->_sendJson($payload);
     }
