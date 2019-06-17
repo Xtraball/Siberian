@@ -723,7 +723,7 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
     self.isFolder = false;
     self.folderId = null;
 
-    self.doSearch = function (text, searchFnCallback) {
+    self.doSearch = function (text, searchFnCallback, skipDefaultCallback) {
         // Restore!
         if (text.length === 0) {
             self.empty.addClass('active');
@@ -758,7 +758,8 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
             }
         });
 
-        if (typeof self.fnCallback === 'function') {
+        if (typeof self.fnCallback === 'function' &&
+            skipDefaultCallback !== true) {
             setTimeout(self.fnCallback(), 100);
         }
 
@@ -781,9 +782,9 @@ var initSearch = function (input, clear, empty, itemsClass, fnCallback) {
             self.input.val(text);
             self.doSearch(text, doSearchFnCallback);
         },
-        clearSearch: function (clearSearchFnCallback) {
+        clearSearch: function (clearSearchFnCallback, skipDefaultCallback) {
             self.input.val('');
-            self.doSearch('', clearSearchFnCallback);
+            self.doSearch('', clearSearchFnCallback, skipDefaultCallback);
         },
         setIsFolder: function (isFolder) {
             self.isFolder = isFolder;

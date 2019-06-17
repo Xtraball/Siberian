@@ -193,10 +193,10 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     {
         $request = $this->getRequest();
 
-        $bearer = $request->getHeader('Api-Auth-Bearer');
+        $bearer = $request->getHeader("Api-Auth-Bearer");
 
         $this->_sendJson([
-            'credentials' => $bearer
+            "credentials" => $bearer
         ]);
     }
 

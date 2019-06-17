@@ -231,6 +231,7 @@ class Zend_Db_Adapter_Pdo_Mysql extends Zend_Db_Adapter_Pdo_Abstract
             );
             ++$i;
         }
+
         return $desc;
     }
 

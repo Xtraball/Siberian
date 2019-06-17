@@ -175,7 +175,7 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                             Loader.hide();
                         });
                 } else {
-                    Dialog.alert('', "You don't have enough points", 'OK');
+                    Dialog.alert("Sorry", "You don't have enough points", 'OK');
                 }
             }
         } else {
@@ -191,7 +191,7 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
     };
 
     $scope.cartIdInvalid = function () {
-        Dialog.alert('', $scope.cart.valid_message, 'OK');
+        Dialog.alert("Sorry", $scope.object.cart.valid_message, "OK", 3700);
     };
 
     $scope.goToStoreChoice = function () {
@@ -218,21 +218,22 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         Loader.show('Updating price');
 
         $scope.is_loading = true;
-        McommerceCart.deleteLine(line.id)
-            .then(function (data) {
-                if (data.success) {
-                    if (angular.isDefined(data.message)) {
-                        Dialog.alert('', data.message, 'OK');
-                        return;
-                    }
-                    // update content
-                    $scope.loadContent();
-                }
-            }, function (data) {
-                if (data && angular.isDefined(data.message)) {
+        McommerceCart
+        .deleteLine(line.id)
+        .then(function (data) {
+            if (data.success) {
+                if (angular.isDefined(data.message)) {
                     Dialog.alert('', data.message, 'OK');
+                    return;
                 }
-            });
+                // update content
+                $scope.loadContent();
+            }
+        }, function (data) {
+            if (data && angular.isDefined(data.message)) {
+                Dialog.alert('', data.message, 'OK');
+            }
+        });
     };
 
     $scope.changeQuantity = function (qty, params) {

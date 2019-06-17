@@ -16,8 +16,8 @@ class Job_ApplicationController extends Application_Controller_Default {
             $job = new Job_Model_Job();
             $job->find($this->getCurrentOptionValue()->getId(), "value_id");
 
-            if(isset($values["display_search"])) {
-                $job->setDisplaySearch($values["display_search"]);
+            if(isset($values["card_design"])) {
+                $job->setCardDesign($values["card_design"]);
             }
 
             if(isset($values["display_place_icon"])) {
@@ -40,6 +40,10 @@ class Job_ApplicationController extends Application_Controller_Default {
                 $job->setTitlePlace($values["title_place"]);
             }
 
+            if(isset($values["currency"])) {
+                $job->setCurrency($values["currency"]);
+            }
+
             if(isset($values["distance_unit"])) {
                 $job->setDistanceUnit($values["distance_unit"]);
             }
@@ -55,20 +59,20 @@ class Job_ApplicationController extends Application_Controller_Default {
                 ->touch()
                 ->expires(-1);
 
-            $html = array(
+            $html = [
                 "success" => 1,
                 "message" => __("Success."),
-            );
+            ];
         } else {
             /** Do whatever you need when form is not valid */
-            $html = array(
+            $html = [
                 "error" => 1,
                 "message" => $form->getTextErrors(),
                 "errors" => $form->getTextErrors(true)
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**

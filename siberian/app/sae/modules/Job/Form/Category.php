@@ -30,7 +30,7 @@ class Job_Form_Category extends Siberian_Form_Abstract {
             ->setRichtext()
         ;
 
-        $icon = $this->addSimpleImage("icon", __("Icon"), __("Import an icon"), array("width" => 500, "height" => 500, "required" => true));
+        $icon = $this->addSimpleImage("icon", __("Icon"), __("Import an icon"), ["width" => 500, "height" => 500, "required" => true]);
 
         $keywords = $this->addSimpleText("keywords", __("Keywords"));
 

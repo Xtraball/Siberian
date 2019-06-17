@@ -540,19 +540,6 @@ li .sub-bar a {
     margin-top:15px;
 }
 
-/* only step COLORS */
-.content-colors {
-    margin-bottom:15px;
-    padding-left: 0;
-}
-.content-colors:nth-child(even) {
-    float: right;
-}
-.content-colors:nth-child(7){
-    float:right;
-}
-/* only step COLORS */
-
 .subcontent {
     padding-top: 15px;
     padding-bottom: 15px;

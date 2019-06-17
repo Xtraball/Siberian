@@ -594,46 +594,48 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function seticonpositionsAction()
     {
 
-        if ($datas = $this->getRequest()->getPost()) {
+        try {
+            $request = $this->getRequest();
+            $datas = $request->getPost();
+            $application = $this->getApplication();
 
-            try {
-
-                // Récupère les positions
-                $positions = $this->getRequest()->getParam('option_value');
-                if (empty($positions)) {
-                    throw new Exception(__('An error occurred while sorting your pages. Please try again later.'));
-                }
-
-                // Supprime les positions en trop, au cas où...
-                $optionValues = $this->getApplication()->getPages();
-                $optionValue_ids = [];
-                foreach ($optionValues as $optionValue) {
-                    if ($optionValue->getFolderCategoryId()) continue;
-                    $optionValue_ids[] = $optionValue->getId();
-                }
-
-//                Now, some icons can be hidden because of ACL by features, so we skip this test
-//                $diff = array_diff($optionValue_ids, $positions);
-//                if(!empty($diff)) throw new Exception(__('An error occurred while sorting your pages. Please try again later.'));
-
-                // Met à jour les positions des option_values
-                $this->getApplication()->updateOptionValuesPosition($positions);
-
-                // Renvoie OK
-                $html = ['success' => 1];
-
-            } catch (\Exception $e) {
-                $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                ];
+            if (empty($datas)) {
+                throw new Exception(__("An error occurred while sorting your pages. Please try again later."));
             }
 
-            $this->_sendHtml($html);
+            // Récupère les positions
+            $positions = $request->getParam("option_value");
+            if (empty($positions)) {
+                throw new Exception(__("An error occurred while sorting your pages. Please try again later."));
+            }
 
+            // Supprime les positions en trop, au cas où...
+            $optionValues = $application->getPages();
+            $optionValue_ids = [];
+            foreach ($optionValues as $optionValue) {
+                if ($optionValue->getFolderCategoryId()) {
+                    continue;
+                }
+                $optionValue_ids[] = $optionValue->getId();
+            }
+
+            // Met à jour les positions des option_values
+            $application->updateOptionValuesPosition($positions);
+
+            // Renvoie OK
+            $payload = [
+                "success" => true,
+                "message" => p__("application", "New position saved."),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     /**
@@ -690,17 +692,19 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 }
 
                 // Renvoie OK
-                $html = ['success' => 1];
+                $payload = [
+                    "success" => true,
+                    "message" => p__("application", "Feature name saved."),
+                ];
 
             } catch (\Exception $e) {
-                $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
+                $payload = [
+                    "error" => true,
+                    "message" => $e->getMessage(),
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($payload);
 
         }
 
@@ -743,18 +747,20 @@ class Application_Customization_FeaturesController extends Application_Controlle
                             ->save();
                 }
 
-                // Renvoie OK
-                $html = ['success' => 1];
+                // send ok
+                $payload = [
+                    "success" => true,
+                    "message" => p__("application", "Feature subtitle saved."),
+                ];
 
             } catch (\Exception $e) {
-                $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
+                $payload = [
+                    "error" => true,
+                    "message" => $e->getMessage(),
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($payload);
 
         }
 

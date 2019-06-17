@@ -28,14 +28,14 @@ class Mcommerce_Model_Delivery_Method extends Core_Model_Default {
 
     public function getInstance() {
 
-        if(!$this->_instance) {
-            $class = get_class($this).'_'.ucfirst(str_replace('_', '', $this->getCode()));
+        if (!$this->_instance) {
+            $class = get_class($this) . "_" . ucfirst(str_replace("_", "", $this->getCode()));
             try {
-                if(!@class_exists($class)) {
-                    $class = get_class($this).'_Default';
+                if (!class_exists($class)) {
+                    $class = get_class($this) . "_Default";
                 }
             } catch (Exception $ex) {
-                $class = get_class($this).'_Default';
+                $class = get_class($this) . "_Default";
             }
 
             $this->_instance = new $class();

@@ -1,5 +1,9 @@
 <?php
 
+use Siberian\Layout;
+use Siberian_Google_Geocoding as Geocoding;
+use Core\Model\Base;
+
 /**
  * Class Job_Mobile_ListController
  */
@@ -15,202 +19,98 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
      */
     public function findallAction()
     {
-        $request = $this->getRequest();
+        try {
+            $request = $this->getRequest();
+            $values = $request->getBodyParams();
 
-        if ($values = Siberian_Json::decode($request->getRawBody())) {
-            try {
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
 
-                if ($value_id = $values['value_id']) {
+            $job = new Job_Model_Job();
+            $job->find($valueId, "value_id");
 
-                    $job = new Job_Model_Job();
-                    $job->find($value_id, "value_id");
+            if (!$job->getId()) {
+                throw new \Siberian\Exception(
+                    p__("job", "This feature doesn't exists."));
+            }
 
-                    $time = $values["time"];
-                    $pull_to_refresh = filter_var($values["pull_to_refresh"], FILTER_VALIDATE_BOOLEAN);
-                    $count = $values["count"];
-                    $radius = $values["radius"];
-                    $distance = $values["distance"];
-                    $categories = $values["categories"];
-                    $keywords = $values["keywords"];
-                    $position = filter_var($values["position"], FILTER_VALIDATE_BOOLEAN);
-                    $more_search = filter_var($values["more_search"], FILTER_VALIDATE_BOOLEAN);
-                    $limit = ($more_search) ? 100 : self::$pager;
+            $radius = $values["radius"];
+            $categories = $values["categories"];
+            $fulltext = $values["fulltext"];
+            $keywords = $values["keywords"];
+            $offset = $values["offset"];
 
-                    $distance_ranges = [1, 5, 10, 20, 50, 75, 100, 150, 200, 500, 1000];
-                    if ($radius >= 0) {
-                        $radius = $distance_ranges[floor($radius)];
-                    }
+            $position = [
+                "latitude" => $values["latitude"],
+                "longitude" => $values["longitude"]
+            ];
 
-                    if (!$more_search) {
-                        $radius = 1000;
-                    }
+            $distanceRanges = [1, 5, 10, 20, 50, 75, 100, 150, 200, 500, 1000];
+            if ($radius >= 0) {
+                $radiusIndex = (integer) floor($radius);
+                $radius = $distanceRanges[$radiusIndex];
+            }
 
-                    /** Convert to miles */
-                    $distance_unit = $job->getDistanceUnit();
-                    if ($distance_unit === "mi") {
-                        $radius = $radius * 0.621371;
-                    }
+            $sortingType = "distance";
+            $params = [
+                "offset" => $offset,
+                "limit" => 20,
+                "fulltext" => $fulltext,
+                "radius" => $radius,
+                "categories" => $categories,
+                "keywords" => $keywords,
+                "sortingType" => $sortingType,
+            ];
 
-                    $search_by_distance = false;
-                    $latitude = 0;
-                    $longitude = 0;
+            $place = new Job_Model_Place();
 
-                    $locality = null;
-                    if (!$more_search && $values["latitude"] && $values["longitude"]) {
-                        $georeverse = Siberian_Google_Geocoding::geoReverse($values["latitude"], $values["longitude"], $this->getApplication()->getGooglemapsKey());
-                        if (isset($georeverse["locality"])) {
-                            $locality = $georeverse["locality"];
-                        }
-                        $latitude = $values["latitude"];
-                        $longitude = $values["longitude"];
+            $places = $place->findAllWithFilters($valueId, [
+                "search_by_distance" => true,
+                "latitude" => $position["latitude"],
+                "longitude" => $position["longitude"],
+            ], $params);
 
-                        $search_by_distance = true;
-                        $position = true;
-                    }
-                    if ($more_search && $values["locality"] != $locality) {
-                        $geocode = Siberian_Google_Geocoding::getLatLng(["address" => $values["locality"]], $this->getApplication()->getGooglemapsKey());
-                        $locality = $values["locality"];
+            $totalParams = $params;
+            unset($totalParams["offset"]);
+            unset($totalParams["limit"]);
+            $total = $place->findAllWithFilters($valueId, [
+                "search_by_distance" => true,
+                "latitude" => $position["latitude"],
+                "longitude" => $position["longitude"],
+            ], $params);
 
-                        $latitude = $geocode[0];
-                        $longitude = $geocode[1];
-
-                        $search_by_distance = true;
-                        $position = true;
-                    }
-
-                    $place = new Job_Model_Place();
-                    $total = $place->findActive(
-                        [
-                            "value_id" => $value_id,
-                            "time" => $time,
-                            "pull_to_refresh" => $pull_to_refresh,
-                            "is_active" => 1,
-                            "search_by_distance" => $search_by_distance,
-                            "latitude" => $latitude,
-                            "longitude" => $longitude,
-                            "radius" => $radius,
-                            "distance" => $distance,
-                            "categories" => $categories,
-                            "keywords" => $keywords,
-                            "more_search" => $more_search,
-                            "position" => $position,
-                        ],
-                        "place.created_at DESC",
-                        [
-                            "limit" => null
-                        ]
-                    );
-                    $places = $place->findActive(
-                        [
-                            "value_id" => $value_id,
-                            "time" => $time,
-                            "pull_to_refresh" => $pull_to_refresh,
-                            "is_active" => 1,
-                            "search_by_distance" => $search_by_distance,
-                            "latitude" => $latitude,
-                            "longitude" => $longitude,
-                            "radius" => $radius,
-                            "distance" => $distance,
-                            "categories" => $categories,
-                            "keywords" => $keywords,
-                            "more_search" => $more_search,
-                            "position" => $position,
-                        ],
-                        "place.created_at DESC",
-                        [
-                            "limit" => $limit
-                        ]
-                    );
-
-                    $collection = [];
-
-                    foreach ($places as $place) {
-                        $collection[] = [
-                            "id" => $place["place_id"],
-                            "title" => $place["name"],
-                            "subtitle" => strip_tags($place["description"]),
-                            "location" => $place["location"],
-                            "icon" => ($place["icon"]) ? $this->getRequest()->getBaseUrl() . "/images/application" . $place["icon"] : $this->getRequest()->getBaseUrl() . "/images/application" . $place["company_logo"],
-                            "company_name" => $place["company_name"],
-                            "time" => $place["time"],
-                            "distance" => $place["distance"],
-                        ];
-                    }
-
-                }
-
-                $category = new Job_Model_Category();
-                $categories = $category->findAll([
-                    "job_id" => $job->getId(),
-                    "is_active" => true,
-                ]);
-
-                $all_categories = [];
-                foreach ($categories as $_category) {
-                    $all_categories[] = [
-                        "id" => $_category->getId(),
-                        "title" => $_category->getName(),
-                        "subtitle" => $_category->getDescription(),
-                        "icon" => ($_category->getIcon()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $_category->getIcon() : null,
-                        "keywords" => $_category->getKeywords(),
-                    ];
-                }
-
-                $company = new Job_Model_Company();
-                $companies = $company->findAll([
-                    "job_id" => $job->getId(),
-                ]);
-
-                $admin_companies = [];
-                $customer_id = $this->getSession()->getCustomerId();
-                if (!empty($customer_id)) {
-                    foreach ($companies as $_company) {
-                        $administrators = explode(",", $_company->getAdministrators());
-                        if (in_array($customer_id, $administrators)) {
-                            $admin_companies[] = [
-                                "id" => $_company->getId(),
-                                "title" => $_company->getName(),
-                                "subtitle" => strip_tags($_company->getDescription()),
-                                "location" => $_company->getLocation(),
-                                "is_active" => filter_var($_company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
-                            ];
-                        }
-                    }
-                }
-
-
-                $options = [
-                    "display_search" => filter_var($job->getDisplaySearch(), FILTER_VALIDATE_BOOLEAN),
-                    "display_place_icon" => filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
-                    "display_income" => filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
-                    "distance_unit" => $distance_unit,
-                    "default_radius" => $job->getDefaultRadius(),
-                    "title_company" => __($job->getTitleCompany()),
-                    "title_place" => __($job->getTitlePlace()),
-                ];
-
-                $html = [
-                    "success" => 1,
-                    "collection" => $collection,
-                    "options" => $options,
-                    "categories" => $all_categories,
-                    "locality" => $locality,
-                    "admin_companies" => $admin_companies,
-                    "more" => (count($total) > ($count + count($places))),
-                    "page_title" => $this->getCurrentOptionValue()->getTabbarName(),
-                    "social_sharing_active" => (boolean)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
-                ];
-
-            } catch (Exception $e) {
-                $html = [
-                    "error" => 1,
-                    "message" => $e->getMessage()
+            $collection = [];
+            foreach ($places as $place) {
+                $collection[] = [
+                    "id" => (integer) $place->getId(),
+                    "title" => (string) $place->getName(),
+                    "subtitle" => (string) strip_tags($place->getDescription()),
+                    "location" => $place->getLocation(),
+                    "icon" => ($place->getIcon()) ?
+                        $this->getRequest()->getBaseUrl() . "/images/application" . $place->getIcon() :
+                        $this->getRequest()->getBaseUrl() . "/images/application" . $place->getCompanyLogo(),
+                    "company_name" => $place->getCompanyName(),
+                    "distance" => $place->getDistance(),
                 ];
             }
 
-            $this->_sendJson($html);
+            $payload = [
+                "success" => true,
+                "sortingType" => $sortingType,
+                "page_title" => $optionValue->getTabbarName(),
+                "displayed_per_page" => sizeof($collection),
+                "socialSharing" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "total" => $total->count(),
+                "places" => $collection
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
-
+        
+        $this->_sendJson($payload);
     }
 
     public function findAction()
@@ -231,7 +131,10 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         $job = new Job_Model_Job();
                         $job->find($company->getJobId());
 
-                        $display_contact = ($company->getDisplayContact() != "global") ? $company->getDisplayContact() : $job->getDisplayContact();
+                        $currency = $job->getCurrency();
+
+                        $display_contact = ($company->getDisplayContact() !== "global" && !empty($company->getDisplayContact())) ?
+                            $company->getDisplayContact() : $job->getDisplayContact();
 
                         /** is administrator */
                         $is_admin = false;
@@ -250,35 +153,38 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                             throw new Exception("This place is inactive.");
                         }
 
+                        $contacts = (new Job_Model_PlaceContact())->findAll(["place_id = ?" => $place->getId()]);
+
                         $place = [
-                            "id" => $place->getId(),
-                            "title" => $place->getName(),
-                            "subtitle" => $place->getDescription(),
-                            "email" => $place->getEmail(),
-                            "banner" => ($place->getBanner()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $place->getBanner() : $this->getRequest()->getBaseUrl() . "/app/sae/modules/Job/resources/media/default/job-header.png",
-                            "location" => $place->getLocation(),
-                            "income_from" => $place->getIncomeFrom(),
-                            "income_to" => $place->getIncomeTo(),
-                            "company_id" => $place->getCompanyId(),
-                            "keywords" => $place->getKeywords(),
-                            "display_contact" => $display_contact,
-                            "views" => $place->getViews(),
-                            "is_active" => filter_var($place->getIsActive(), FILTER_VALIDATE_BOOLEAN),
+                            "id" => (integer) $place->getId(),
+                            "title" => (string) $place->getName(),
+                            "subtitle" => (string) $place->getDescription(),
+                            "email" => (string) $place->getEmail(),
+                            "banner" => (string) ($place->getBanner()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $place->getBanner() : $this->getRequest()->getBaseUrl() . "/app/sae/modules/Job/resources/media/default/job-header.png",
+                            "location" => (string) $place->getLocation(),
+                            "income_from" => (string) Base::_formatPrice($place->getIncomeFrom(), $currency, ["precision" => 0]),
+                            "income_to" => (string) Base::_formatPrice($place->getIncomeTo(), $currency, ["precision" => 0]),
+                            "company_id" => (integer) $place->getCompanyId(),
+                            "keywords" => (string) $place->getKeywords(),
+                            "display_contact" => (string) $display_contact,
+                            "views" => (integer) $place->getViews(),
+                            "contacts" => (integer) $contacts->count(),
+                            "is_active" => (boolean) filter_var($place->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                             "company" => [
-                                "title" => $company->getName(),
-                                "subtitle" => strip_tags($company->getDescription()),
-                                "location" => $company->getLocation(),
-                                "email" => $company->getEmail(),
-                                "logo" => ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
+                                "title" => (string) $company->getName(),
+                                "subtitle" => (string) strip_tags($company->getDescription()),
+                                "location" => (string) $company->getLocation(),
+                                "email" => (string) $company->getEmail(),
+                                "logo" => (string) ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
                             ],
                         ];
 
                         $html = [
-                            "success" => 1,
+                            "success" => true,
                             "place" => $place,
                             "page_title" => $this->getCurrentOptionValue()->getTabbarName(),
                             "is_admin" => $is_admin,
-                            "social_sharing_active" => (boolean)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "socialSharing" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
                         ];
 
                     }
@@ -372,22 +278,22 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         }
 
                         $company = [
-                            "id" => $company->getId(),
-                            "title" => $company->getName(),
-                            "subtitle" => htmlspecialchars_decode($company->getDescription()),
-                            "logo" => ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
-                            "header" => ($company->getHeader()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getHeader() : null,
-                            "location" => $company->getLocation(),
-                            "employee_count" => $company->getEmployeeCount(),
-                            "website" => $company->getWebsite(),
-                            "email" => $company->getEmail(),
-                            "views" => $company->getViews(),
+                            "id" => (integer) $company->getId(),
+                            "title" => (string) $company->getName(),
+                            "subtitle" => (string) htmlspecialchars_decode($company->getDescription()),
+                            "logo" => (string) ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
+                            "header" => (string) ($company->getHeader()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getHeader() : null,
+                            "location" => (string) $company->getLocation(),
+                            "employee_count" => (integer) $company->getEmployeeCount(),
+                            "website" => (string) $company->getWebsite(),
+                            "email" => (string) $company->getEmail(),
+                            "views" => (integer) $company->getViews(),
                             "places" => $_places,
                             "is_active" => filter_var($company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                         ];
 
                         $html = [
-                            "success" => 1,
+                            "success" => true,
                             "company" => $company,
                             "categories" => $all_categories,
                             "is_admin" => $is_admin,
@@ -421,6 +327,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
             try {
 
+                $optionValue = $this->getCurrentOptionValue();
+
                 if (($value_id = $values['value_id']) && ($place_id = $values['place_id'])) {
 
                     $place = new Job_Model_Place();
@@ -430,34 +338,57 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         $place_email = $place->getEmail();
                         $place_title = $place->getName();
 
-                        $fullname = $values["fullname"];
+                        $fullName = $values["fullname"];
                         $email = $values["email"];
-                        $message = $values["message"];
-                        $phone = $values["phone"];
-                        $address = $values["address"];
 
-                        $layout = Zend_Controller_Action_HelperBroker::getStaticHelper('layout')->getLayoutInstance()->loadEmail('job', 'contact_form');
-                        $layout
-                            ->getPartial('content_email')
-                            ->setPlaceTitle($place_title)
-                            ->setFullname($fullname)
-                            ->setEmail($email)
-                            ->setPhone($phone)
-                            ->setAddress($address)
-                            ->setMessage($message);
+                        if ($email && $fullName) {
+                            try {
+                                // E-Mail back the user!
+                                $subject = sprintf("%s - %s: %s",
+                                    $optionValue->getTabbarName(),
+                                    p__("job", "New contact request for the offer"),
+                                    $place_title);
 
-                        $content = $layout->render();
 
-                        if ($email AND $fullname) {
-                            /** Mail to place */
+                                $baseEmail = $this->baseEmail("contact_form", $subject, "", false);
 
-                            # @version 4.8.7 - SMTP
-                            $mail = new Siberian_Mail();
-                            $mail->setBodyHtml($content);
-                            $mail->setFrom($email, $fullname);
-                            $mail->addTo($place_email);
-                            $mail->setSubject(__("New contact for: %s", $place_title));
-                            $mail->send();
+                                foreach ($values as $key => $value) {
+                                    $baseEmail->setContentFor("content_email", $key, $value);
+                                }
+                                $baseEmail->setContentFor("content_email", "place_title", $place_title);
+                                $baseEmail->setContentFor("content_email", "customer_id", $this->getSession()->getCustomerId());
+
+                                $content = $baseEmail->render();
+
+                                $mail = new \Siberian_Mail();
+
+                                // Adds all attached resume/images
+                                foreach ($values["resumes"] as $index => $resume) {
+                                    preg_match("#^data:(.*);base64,#", $resume, $matches);
+                                    $rawBase64 = preg_replace("#^(data:(.*);base64,)#", "", $resume);
+                                    $mime = $matches[0];
+
+                                    $ext = (strpos($mime, "png") !== false) ? "png" : "jpg";
+
+                                    $attachment = new Zend_Mime_Part(base64_decode($rawBase64));
+                                    $attachment->type = $mime;
+                                    $attachment->disposition = Zend_Mime::DISPOSITION_ATTACHMENT;
+                                    $attachment->encoding = Zend_Mime::ENCODING_BASE64;
+                                    $attachment->filename = "resume-{$index}.{$ext}";
+
+                                    $mail->addAttachment($attachment);
+                                }
+                                // Unset resumes, we don't want to show them in e-mail text!
+                                unset($values["resumes"]);
+
+                                $mail->setBodyHtml($content);
+                                $mail->setFrom($email, $fullName);
+                                $mail->addTo($place_email);
+                                $mail->setSubject($subject);
+                                $mail->send();
+                            } catch (\Exception $e) {
+                                // Silently fails!
+                            }
 
                             $place_contact = new Job_Model_PlaceContact();
                             $place_contact->addData($values);
@@ -670,7 +601,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
                         /** Geocoding */
                         if (!empty($values["location"])) {
-                            $coordinates = Siberian_Google_Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
+                            $coordinates = Geocoding::getLatLng(["address" => $values["location"]], $this->getApplication()->getGooglemapsKey());
                             $company->setData("latitude", $coordinates[0]);
                             $company->setData("longitude", $coordinates[1]);
                             $company->setLocation($values["location"]);
@@ -701,5 +632,110 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
         $this->_sendJson($html);
 
+    }
+
+    /**
+     *
+     */
+    public function fetchSettingsAction ()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+
+            $job = new Job_Model_Job();
+            $job->find($valueId, "value_id");
+
+            if (!$job->getId()) {
+                throw new \Siberian\Exception(
+                    p__("job", "This feature doesn't exists."));
+            }
+
+            $category = new Job_Model_Category();
+            $categories = $category->findAll([
+                "job_id" => $job->getId(),
+                "is_active" => true,
+            ]);
+
+            $all_categories = [];
+            foreach ($categories as $_category) {
+                $all_categories[] = [
+                    "id" => (integer) $_category->getId(),
+                    "title" => (string) $_category->getName(),
+                    "subtitle" => (string) $_category->getDescription(),
+                    "icon" => (string) $_category->getIcon(),
+                    "keywords" => (string) $_category->getKeywords(),
+                ];
+            }
+
+            $company = new Job_Model_Company();
+            $companies = $company->findAll([
+                "job_id" => $job->getId(),
+            ]);
+
+            $admin_companies = [];
+            $customer_id = $this->getSession()->getCustomerId();
+            if (!empty($customer_id)) {
+                foreach ($companies as $_company) {
+                    $administrators = explode(",", $_company->getAdministrators());
+                    if (in_array($customer_id, $administrators)) {
+                        $admin_companies[] = [
+                            "id" => $_company->getId(),
+                            "title" => $_company->getName(),
+                            "subtitle" => strip_tags($_company->getDescription()),
+                            "location" => $_company->getLocation(),
+                            "is_active" => filter_var($_company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
+                        ];
+                    }
+                }
+            }
+
+            $settings = [
+                "display_place_icon" => (string) filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
+                "display_income" => (string) filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
+                "distance_unit" => (string) $job->getDistanceUnit(),
+                "cardDesign" => (boolean) ($job->getCardDesign() === "card"),
+                "default_radius" => (string) $job->getDefaultRadius(),
+                "title_company" => (string) __($job->getTitleCompany()),
+                "title_place" => (string) __($job->getTitlePlace()),
+                "categories" => $all_categories,
+                "admin_companies" => $admin_companies,
+            ];
+
+            $payload = [
+                "success" => true,
+                "settings" => $settings,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @param $showLegals
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '',
+                              $showLegals = false)
+    {
+        $layout = new Siberian\Layout();
+        $layout = $layout->loadEmail('job', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', $showLegals);
+
+        return $layout;
     }
 }

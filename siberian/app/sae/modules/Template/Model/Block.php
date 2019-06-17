@@ -2,6 +2,10 @@
 
 /**
  * Class Template_Model_Block
+ *
+ * @method string getColor
+ * @method $this setBlockId(integer $blockId)
+ * @method $this setAppId(integer $appId)
  */
 class Template_Model_Block extends Core_Model_Default
 {
@@ -65,6 +69,11 @@ class Template_Model_Block extends Core_Model_Default
      */
     public function save()
     {
+        // Not saving empty block!
+        if (empty($this->getTypeId()) || empty($this->getCode())) {
+            return $this;
+        }
+
         if ($this->getAppId()) {
             $this->getTable()->saveAppBlock($this);
         } else {
@@ -233,6 +242,72 @@ class Template_Model_Block extends Core_Model_Default
     }
 
     /**
+     * Generic method to set from RGBA
+     *
+     * @param $key
+     * @param $rgba
+     *
+     * @return $this
+     */
+    public function setFromRgba($key, $rgba)
+    {
+        $parsed = self::rgbaToArray($rgba);
+        switch ($key) {
+            case "color":
+                $this
+                    ->setColor($parsed["hex"])
+                    ->setTextOpacity($parsed["alpha"])
+                    ->save();
+                break;
+            case "background_color":
+                $this
+                    ->setBackgroundColor($parsed["hex"])
+                    ->setBackgroundOpacity($parsed["alpha"])
+                    ->save();
+                break;
+            case "border_color":
+                $this
+                    ->setBorderColor($parsed["hex"])
+                    ->setBorderOpacity($parsed["alpha"])
+                    ->save();
+                break;
+            case "image_color":
+                $this
+                    ->setImageColor($parsed["hex"])
+                    ->setImageOpacity($parsed["alpha"])
+                    ->save();
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $rgba
+     * @return array
+     */
+    public static function rgbaToArray ($rgba)
+    {
+        $cleaned = preg_replace("/[^\d,.]/", "", $rgba);
+        $parts = explode(",", $cleaned);
+
+        $hexR = str_pad(dechex($parts[0]), 2, "0", STR_PAD_LEFT);
+        $hexG = str_pad(dechex($parts[1]), 2, "0", STR_PAD_LEFT);
+        $hexB = str_pad(dechex($parts[2]), 2, "0", STR_PAD_LEFT);
+
+        $rgbaParts = [
+            "r" => $parts[0],
+            "g" => $parts[1],
+            "b" => $parts[2],
+            "a" => $parts[3],
+            "hex" => "#{$hexR}{$hexG}{$hexB}",
+            "alpha" => $parts[3] * 100,
+        ];
+
+        return $rgbaParts;
+    }
+
+    /**
      * @return array|bool|string
      */
     public function getColorRGB()
@@ -290,82 +365,6 @@ class Template_Model_Block extends Core_Model_Default
         }
 
         return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
-    }
-
-    /**
-     * Verifies the presence of the text_opacity parameter and validates it. If all is well it sets the text_opacity property.
-     * Must be a float between 0 and 1
-     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
-     *
-     * @param $colors
-     * @return $this
-     */
-    public function setTextOpacity($colors)
-    {
-        if (isset($colors['text_opacity'])) {
-            $opacity = $colors['text_opacity'] * 1;
-            if ($opacity >= 0 AND $opacity <= 100) {
-                $this->setData('text_opacity', $opacity);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Verifies the presence of the background_opacity parameter and validates it. If all is well it sets the background_opacity property.
-     * Must be a float between 0 and 1
-     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
-     *
-     * @param $colors
-     * @return $this
-     */
-    public function setBackgroundOpacity($colors)
-    {
-        if (isset($colors['background_opacity'])) {
-            $opacity = $colors['background_opacity'] * 1;
-            if ($opacity >= 0 AND $opacity <= 100) {
-                $this->setData('background_opacity', $opacity);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Verifies the presence of the border_opacity parameter and validates it. If all is well it sets the border_opacity property.
-     * Must be a float between 0 and 1
-     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
-     *
-     * @param $colors
-     * @return $this
-     */
-    public function setBorderOpacity($colors)
-    {
-        if (isset($colors['border_opacity'])) {
-            $opacity = $colors['border_opacity'] * 1;
-            if ($opacity >= 0 AND $opacity <= 100) {
-                $this->setData('border_opacity', $opacity);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Verifies the presence of the image_opacity parameter and validates it. If all is well it sets the image_opacity property.
-     * Must be a float between 0 and 1
-     * PS: A possible source of confusion is where these values are saved: They are saved in the table template_block_app.
-     *
-     * @param $colors
-     * @return $this
-     */
-    public function setImageOpacity($colors)
-    {
-        if (isset($colors['image_opacity'])) {
-            $opacity = $colors['image_opacity'] * 1;
-            if ($opacity >= 0 AND $opacity <= 100) {
-                $this->setData('image_opacity', $opacity);
-            }
-        }
-        return $this;
     }
 
     /**

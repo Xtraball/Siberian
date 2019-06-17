@@ -121,6 +121,7 @@ class Service
 
     /**
      * @return array
+     * @throws \Zend_Exception
      */
     public static function getSystemDiagnostic()
     {

@@ -24,9 +24,23 @@
             </div>
         </div>
         <ion-list>
-            <ion-radio class="radio-custom" ng-model="cart.deliveryMethodId" ng-value="deliveryMethod.id" ng-repeat="deliveryMethod in selectedStore.deliveryMethods" ng-click="selectDeliveryMethod(cart, deliveryMethod)">
+            <ion-radio class="radio-custom"
+                       ng-model="cart.deliveryMethodId"
+                       ng-value="deliveryMethod.id"
+                       ng-repeat="deliveryMethod in selectedStore.deliveryMethods"
+                       ng-click="selectDeliveryMethod(cart, deliveryMethod)">
                 {{ deliveryMethod.name }} <span ng-show="deliveryMethod.price > 0">{{ deliveryMethod.formattedPrice }}</span>
             </ion-radio>
+
+            <ion-radio class="radio-custom"
+                       disabled="disabled"
+                       ng-repeat="deliveryMethod in selectedStore.deliveryKo">
+                <div>
+                    <p>{{ deliveryMethod.name }}</p>
+                    <p class="assertive assertive-custom">{{ "Sorry, you are outside the delivery radius" | translate }}</p>
+                </div>
+            </ion-radio>
+
             <div ng-if="clients_calculate_change_form_is_visible">
                 <div class="item item-divider item-divider-custom"></div>
                 <div class="item item-custom">
@@ -34,7 +48,9 @@
                 </div>
                 <label class="item item-input item-custom">
                     <span class="input-label">{{ "Amount you will pay" | translate }}:</span>
-                    <input type="text" ng-change="calculateAmountDue()" ng-model="cart.delivery_method_extra_client_amount">
+                    <input type="text"
+                           ng-change="calculateAmountDue()"
+                           ng-model="cart.delivery_method_extra_client_amount">
                 </label>
                 <div class="item item-custom">
                     {{ "Remaining due" | translate }}: {{ cart.delivery_method_extra_amount_due }}

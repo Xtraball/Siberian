@@ -112,6 +112,22 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
             if (!in_array($code, $this->_codes)) {
                 continue;
             }
+            if ($code === 'app_default_identifier_android') {
+                $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
+
+                if (preg_match($regexAndroid, $values['value']) !== 1) {
+                    throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+                }
+            }
+
+            if ($code === 'app_default_identifier_ios') {
+                $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
+
+                if (preg_match($regexIos, $values['value']) !== 1) {
+                    throw new \Siberian\Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
+                }
+            }
+
             if ($code === 'favicon') {
                 continue;
             }

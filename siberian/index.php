@@ -81,6 +81,10 @@ if (isset($_config["handle_fatal_errors"]) && $_config["handle_fatal_errors"] ==
                 "message" => "ERROR: " . str_replace("\n", " - ", $error["message"]),
             ];
 
+            echo "<pre>";
+            print_r($error);
+            die;
+            
             exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
         }
     }

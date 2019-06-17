@@ -1,0 +1,420 @@
+.module-job {
+    /** Search in page */
+    .search-action {
+        position: fixed;
+        z-index: 100;
+    }
+
+    .search-button {
+        position: fixed;
+        bottom: 0;
+        z-index: 100;
+        margin: 0 !important;
+    }
+
+    .svg_filter_text {
+        fill: $button-energized-custom-text;
+    }
+
+    .svg_filter_bg {
+        fill: $button-energized-custom-bg;
+    }
+
+    .places-filters {
+        margin-bottom: 0 !important;
+        .card {
+            padding: 0!important;
+            margin: 1vw!important;
+        }
+    }
+
+    .category-item-block {
+        width: calc(100% / 3);
+        padding: 1vw;
+        .category-item {
+            border: 2px solid transparent !important;
+            background-size: 70%;
+            background-repeat: no-repeat;
+            background-position: center 30%;
+            padding: 0 !important;
+            margin: 0 !important;
+            img {
+                width: 100%;
+            }
+            h4 {
+                position: relative;
+                bottom: .5rem;
+                text-align: center;
+                font-size: .6875rem;
+            }
+            &.category-selected {
+                border: 2px solid $card-item-custom-text !important;
+            }
+        }
+    }
+
+    .categories-container {
+        display: flex;
+        flex-direction: row;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        padding: 0 !important;
+    }
+
+    i.clear-text {
+        position: absolute;
+        right: 1.5rem;
+        top: calc(50% - .625rem);
+        font-size: 1.25rem;
+    }
+
+    @media screen and (orientation:portrait) {
+        .search-action {
+            width: 9vh;
+            height: 9vh;
+            bottom: 2vh;
+            right: 2vh;
+        }
+    }
+
+    @media screen and (orientation:landscape) {
+        .search-action {
+            width: 9vw;
+            height: 9vw;
+            bottom: 2vw;
+            right: 2vw;
+        }
+    }
+
+    .job-search {
+        padding: 0;
+        border: 0;
+
+        i.icon {
+            font-size: 24px;
+            margin-left: 4px;
+        }
+
+        .textual {
+            width: 100%;
+        }
+
+        .place {
+            float: right;
+            max-width: 200px;
+            font-size: 14px;
+            overflow: hidden;
+
+            i.icon {
+                font-size: 22px;
+                margin-right: 6px;
+            }
+        }
+
+        .more {
+            float: right;
+            max-width: 30px;
+        }
+
+        .textual,
+        .place,
+        .more {
+            padding: 0;
+            border-radius: 0;
+            border: 0;
+            background-color: transparent;
+        }
+    }
+
+    .item {
+        &.item-custom {
+            .row {
+                padding: 0 !important;
+
+                .col {
+                    padding: 0 !important;
+                }
+            }
+        }
+    }
+
+    .item-place {
+        padding: 6px 12px;
+
+        .row {
+            padding: 0 !important;
+
+            .col {
+                padding: 0 !important;
+            }
+        }
+
+        p.subtitle {
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        p.subtitle-company {
+            font-size: 13px;
+            opacity: 0.5;
+        }
+    }
+
+    .job-company-logo {
+        position: absolute;
+        width: 25%;
+        left: 26px;
+        bottom: 34px;
+        z-index: 1000;
+        border: 4px solid rgba(255,255,255,0.85);
+        border-radius: 2px;
+        background: white;
+    }
+
+    .job-company-header {
+        text-align: left;
+
+        p {
+            font-weight: normal;
+
+            &.employee {
+                margin-left: 25vw;
+                padding-left: 26px;
+            }
+
+            &.location {
+                margin-left: 12px;
+            }
+
+            i {
+                margin-right: 6px;
+            }
+        }
+
+        h2 {
+            margin-left: 25vw !important;
+            padding-left: 26px !important;
+        }
+    }
+
+    .item-thumbnail-custom {
+        padding-left: 76px;
+    }
+
+    .item-thumbnail-custom img {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        height: 60px;
+        border: 3px solid rgba(0,0,0,0.25);
+        border-radius: 3px;
+    }
+
+    .job-distance {
+        float: right;
+    }
+
+    .job-more {
+        label.item.item-checkbox.ng-valid {
+            border: 0;
+            width: 50%;
+            float: left;
+            padding: 4px 4px 4px 26px;
+            font-size: 14px;
+        }
+
+        .checkbox input,
+        .checkbox-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .checkbox.checkbox-input-hidden.disable-pointer-events.checkbox-circle {
+            padding: 0;
+        }
+
+        i.checkbox-icon {
+            ::before {
+                margin-left: -6px;
+                margin-top: 10px;
+                border-radius: 0;
+            }
+            ::after {
+                margin-left: -8px;
+                margin-top: 0px;
+            }
+        }
+
+        input.ng-valid.ng-touched.ng-dirty.ng-valid-parse {
+            width: 100%;
+            margin-top: 16px;
+        }
+    }
+
+    .job-padding {
+        padding: 0 20%;
+    }
+
+    .platform-android {
+        .job-more {
+            i.checkbox-icon::before {
+                margin-top: 5px;
+            }
+            i.checkbox-icon::after {
+                margin-left: -10px;
+                margin-top: -1px;
+            }
+            label.item.item-checkbox.ng-valid {
+                margin-bottom: 12px;
+            }
+        }
+    }
+
+    .job-contact {
+        .icon-form {
+            margin-right: 10px;
+        }
+
+        textarea {
+            min-height: 120px;
+        }
+    }
+
+    .ta-root {
+        button {
+            width: 10.6%;
+            background: none;
+        }
+        .btn-group:first-of-type {
+            margin-bottom: 4px;
+        }
+        .btn-group button {
+            border: 1px solid grey;
+            border-width: 1px 0 1px 1px;
+        }
+        .btn-group button:first-of-type {
+            border-width: 1px 0 1px 1px;
+            border-radius: 2px 0 0 2px;
+        }
+        .btn-group button:last-of-type {
+            border-width: 1px 1px 1px 1px;
+            border-radius: 0 2px 2px 0;
+        }
+        .ta-editor * {
+            overflow: auto;
+            text-overflow: clip;
+            white-space: normal;
+        }
+    }
+
+    .ta-text.ta-editor {
+        margin-right: 4.6%;
+        padding: 0;
+    }
+
+    .ta-editor.ta-html, .ta-scroll-window.form-control {
+        min-height: 200px;
+        height: 200px;
+    }
+
+    .job-line-return {
+        text-overflow: clip;
+        white-space: initial;
+    }
+
+    .job-small-text {
+        font-size: 12px;
+    }
+
+    .job-inactive {
+        background-color: #ac2925;
+        color: white;
+        text-transform: uppercase;
+        padding: 0 30px 30px 30px;
+        font-size: 11px;
+        font-weight: bold;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        text-align: center;
+        position: absolute;
+        bottom: -10px;
+        right: -42px;
+        z-index: 100;
+    }
+
+    button.create-job {
+        margin-top: -7px;
+        background: transparent;
+        border: none;
+        color: inherit;
+    }
+
+    .job-admin span {
+        font-size: 13px;
+    }
+
+    .job-card-margin {
+        margin-top: 6px;
+        margin-bottom: 0;
+
+        &:first-of-type {
+            margin-top: 12px;
+        }
+
+        &:last-of-type {
+            margin-bottom: 12px;
+        }
+    }
+
+    .add-image-icon {
+        font-size: 18px;
+    }
+
+    .remove-image-list,
+    .remove-image-card {
+        position: absolute;
+        right: 6px;
+        top: 6px;
+
+        i.icon {
+            font-size: 26px;
+        }
+    }
+}
+
+/** Special case footer fixed */
+@media screen and (orientation:landscape) {
+    .has-footer-fixed {
+        .module-job {
+            .search-action {
+                bottom: calc(2vw + 60px);
+            }
+        }
+    }
+}
+
+@media screen and (orientation:portrait) {
+    .has-footer-fixed {
+        .module-job {
+            .search-action {
+                bottom: calc(2vh + 60px);
+            }
+        }
+    }
+}
+
+/** Header icons are outside scope, needs scoped name. */
+.job-icon-small {
+    &:before {
+        font-size: 20px !important;
+    }
+}
+
+.job-location-action {
+    &:before {
+        font-size: 26px !important;
+    }
+}

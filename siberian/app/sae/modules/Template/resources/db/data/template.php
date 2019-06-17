@@ -137,18 +137,6 @@ $blocks = [
         'background_color_variable_name' => '$general-custom-bg',
         'position' => '10'
     ],
-    /* HEADER */
-    [
-        'code' => 'header',
-        'name' => 'Header',
-        'color' => '#444',
-        'color_variable_name' => '$bar-custom-text',
-        'background_color' => '#f8f8f8',
-        'background_color_variable_name' => '$bar-custom-bg',
-        'border_color' => '#b2b2b2',
-        'border_color_variable_name' => '$bar-custom-border',
-        'position' => '20'
-    ],
     /* HOMEPAGE */
     [
         'code' => 'homepage',
@@ -161,36 +149,26 @@ $blocks = [
         'border_color_variable_name' => '$homepage-custom-border',
         'image_color' => '#ddd',
         'image_color_variable_name' => '$homepage-custom-image',
-        'position' => '30'
+        'position' => '11'
     ],
-    /* LIST */
+    /* HEADER */
     [
-        'code' => 'list',
-        'name' => 'List',
-        'position' => '50',
-        'children' => [
-            [
-                'code' => 'list_item_divider',
-                'name' => 'Title\'s List',
-                'color' => '#222',
-                'color_variable_name' => '$list-item-divider-custom-text',
-                'background_color' => '#f8f8f8',
-                'background_color_variable_name' => '$list-item-divider-custom-bg'
-            ], [
-                'code' => 'list_item',
-                'name' => 'List Item',
-                'color' => '#444',
-                'color_variable_name' => '$list-item-custom-text',
-                'background_color' => '#fff',
-                'background_color_variable_name' => '$list-item-custom-bg'
-            ]
-        ]
+        'code' => 'header',
+        'name' => 'Header',
+        'color' => '#444',
+        'color_variable_name' => '$bar-custom-text',
+        'background_color' => '#f8f8f8',
+        'background_color_variable_name' => '$bar-custom-bg',
+        'border_color' => '#b2b2b2',
+        'border_color_variable_name' => '$bar-custom-border',
+        'position' => '12'
     ],
+
     /* CARD */
     [
         'code' => 'card',
         'name' => 'Card',
-        'position' => '70',
+        'position' => '20',
         'children' => [
             [
                 'code' => 'card_item_divider',
@@ -209,6 +187,49 @@ $blocks = [
             ]
         ]
     ],
+    /* LIST */
+    [
+        'code' => 'list',
+        'name' => 'List',
+        'position' => '21',
+        'children' => [
+            [
+                'code' => 'list_item_divider',
+                'name' => 'Title\'s List',
+                'color' => '#222',
+                'color_variable_name' => '$list-item-divider-custom-text',
+                'background_color' => '#f8f8f8',
+                'background_color_variable_name' => '$list-item-divider-custom-bg'
+            ], [
+                'code' => 'list_item',
+                'name' => 'List Item',
+                'color' => '#444',
+                'color_variable_name' => '$list-item-custom-text',
+                'background_color' => '#fff',
+                'background_color_variable_name' => '$list-item-custom-bg'
+            ]
+        ]
+    ],
+    /* SPINNER */
+    [
+        'code' => 'spinner',
+        'name' => 'Spinner',
+        'position' => '22',
+        'children' => [
+            [
+                'code' => 'spinner_ios_text',
+                'name' => 'iOS Spinner',
+                'background_color' => '#69717d',
+                'background_color_variable_name' => '$spinner-custom-ios-bg'
+            ], [
+                'code' => 'spinner_android_text',
+                'name' => 'Android Spinner',
+                'background_color' => '#4b8bf4',
+                'background_color_variable_name' => '$spinner-custom-android-bg'
+            ],
+        ]
+    ],
+
     /* BUTTONS */
     [
         'code' => 'buttons_group',
@@ -402,91 +423,81 @@ $blocks = [
         'position' => '80',
         'children' => [
             [
-                'code' => 'util',
-                'name' => 'Util',
-                'color' => '#444',
-                'color_variable_name' => '$util-custom-text',
-                'background_color' => '#f8f8f8',
-                'background_color_variable_name' => '$util-custom-bg',
-                'border_color' => '#b2b2b2',
-                'border_color_variable_name' => '$util-custom-border',
-            ],
-            [
                 'code' => 'util_light',
                 'name' => 'Util light',
                 'color' => '#444',
                 'color_variable_name' => '$util-light-custom-text',
-                'background_color' => '#ffffff',
+                'background_color' => '#444',
                 'background_color_variable_name' => '$util-light-custom-bg',
-                'border_color' => '#dddddd',
+                'border_color' => '#444',
                 'border_color_variable_name' => '$util-light-custom-border',
             ],
             [
                 'code' => 'util_positive',
                 'name' => 'Util positive',
-                'color' => '#ffffff',
+                'color' => '#387ef5',
                 'color_variable_name' => '$util-positive-custom-text',
                 'background_color' => '#387ef5',
                 'background_color_variable_name' => '$util-positive-custom-bg',
-                'border_color' => '#0c60ee',
+                'border_color' => '#387ef5',
                 'border_color_variable_name' => '$util-positive-custom-border',
             ],
             [
                 'code' => 'util_calm',
                 'name' => 'Util calm',
-                'color' => '#ffffff',
+                'color' => '#11c1f3',
                 'color_variable_name' => '$util-calm-custom-text',
                 'background_color' => '#11c1f3',
                 'background_color_variable_name' => '$util-calm-custom-bg',
-                'border_color' => '#0a9dc7',
+                'border_color' => '#11c1f3',
                 'border_color_variable_name' => '$util-calm-custom-border',
             ],
             [
                 'code' => 'util_balanced',
                 'name' => 'Util balanced',
-                'color' => '#ffffff',
+                'color' => '#33cd5f',
                 'color_variable_name' => '$util-balanced-custom-text',
                 'background_color' => '#33cd5f',
                 'background_color_variable_name' => '$util-balanced-custom-bg',
-                'border_color' => '#28a54c',
+                'border_color' => '#33cd5f',
                 'border_color_variable_name' => '$util-balanced-custom-border',
             ],
             [
                 'code' => 'util_energized',
                 'name' => 'Util energized',
-                'color' => '#ffffff',
+                'color' => '#ffc900',
                 'color_variable_name' => '$util-energized-custom-text',
                 'background_color' => '#ffc900',
                 'background_color_variable_name' => '$util-energized-custom-bg',
-                'border_color' => '#e6b500',
+                'border_color' => '#ffc900',
                 'border_color_variable_name' => '$util-energized-custom-border',
             ],
             [
                 'code' => 'util_assertive',
                 'name' => 'Util assertive',
-                'color' => '#ffffff',
+                'color' => '#ef473a',
                 'color_variable_name' => '$util-assertive-custom-text',
                 'background_color' => '#ef473a',
                 'background_color_variable_name' => '$util-assertive-custom-bg',
-                'border_color' => '#e42112',
+                'border_color' => '#ef473a',
                 'border_color_variable_name' => '$util-assertive-custom-border',
             ],
             [
                 'code' => 'util_royal',
                 'name' => 'Util royal',
-                'color' => '#ffffff',
+                'color' => '#886aea',
                 'color_variable_name' => '$util-royal-custom-text',
                 'background_color' => '#886aea',
                 'background_color_variable_name' => '$util-royal-custom-bg',
-                'border_color' => '#6b46e5',
+                'border_color' => '#886aea',
                 'border_color_variable_name' => '$util-royal-custom-border',
             ],
             [
                 'code' => 'util_dark',
                 'name' => 'Util dark',
-                'color' => '#ffffff',
+                'color' => '#111111',
                 'color_variable_name' => '$util-dark-custom-text',
-                'background_color' => '#444444',
+                'background_color' => '#111111',
                 'background_color_variable_name' => '$util-dark-custom-bg',
                 'border_color' => '#111111',
                 'border_color_variable_name' => '$util-dark-custom-border',
@@ -593,35 +604,27 @@ $blocks = [
             ], [
                 'code' => 'icon_active',
                 'name' => 'Icon active',
-                'color' => '#333',
+                'color' => '#444',
                 'color_variable_name' => '$icon-active-custom',
             ], [
                 'code' => 'icon_inactive',
                 'name' => 'Icon inactive',
-                'color' => '#cccccc',
+                'color' => '#606060',
                 'color_variable_name' => '$icon-inactive-custom',
-            ],
-        ]
-    ],
-    /* SPINNER */
-    [
-        'code' => 'spinner',
-        'name' => 'Spinner',
-        'position' => '130',
-        'children' => [
-            [
-                'code' => 'spinner_ios_text',
-                'name' => 'iOS Spinner',
-                'background_color' => '#69717d',
-                'background_color_variable_name' => '$spinner-custom-ios-bg'
             ], [
-                'code' => 'spinner_android_text',
-                'name' => 'Android Spinner',
-                'background_color' => '#4b8bf4',
-                'background_color_variable_name' => '$spinner-custom-android-bg'
-            ],
+                'code' => 'icon_warning',
+                'name' => 'Icon warning',
+                'color' => '#e67f00',
+                'color_variable_name' => '$icon-warning-custom',
+            ], [
+                'code' => 'icon_danger',
+                'name' => 'Icon danger',
+                'color' => '#ad3830',
+                'color_variable_name' => '$icon-danger-custom',
+            ]
         ]
     ],
+
     /* DIALOG */
     [
         'code' => 'dialog',
@@ -645,7 +648,64 @@ $blocks = [
                 'color_variable_name' => '$dialog-custom-button',
             ],
         ]
-    ]
+    ],
+    /* E-MAIL */
+    [
+        'code' => 'emails_group',
+        'name' => 'E-mails',
+        'position' => '150',
+        'children' => [
+            [
+                'code' => 'description',
+                'name' => 'Description',
+                'more' => 'This section allows you to customize the e-mails sent from the Application.',
+            ],
+            [
+                'code' => 'email_body',
+                'name' => 'Body',
+                'background_color' => '#e1e1e1',
+                'background_color_variable_name' => '$email-body-custom-bg',
+            ],
+            [
+                'code' => 'email_header',
+                'name' => 'Header',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-header-custom-text',
+                'background_color' => '#93b5cd',
+                'background_color_variable_name' => '$email-header-custom-bg'
+            ],
+            [
+                'code' => 'email_content',
+                'name' => 'Content',
+                'color' => '#888888',
+                'color_variable_name' => '$email-content-custom-text',
+                'background_color' => '#ffffff',
+                'background_color_variable_name' => '$email-content-custom-bg'
+            ],
+            [
+                'code' => 'email_footer',
+                'name' => 'Footer',
+                'color' => '#606060',
+                'color_variable_name' => '$email-footer-custom-text',
+            ],
+            [
+                'code' => 'email_button_primary',
+                'name' => 'Button primary',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-button-primary-custom-text',
+                'background_color' => '#3498db',
+                'background_color_variable_name' => '$email-button-primary-custom-bg'
+            ],
+            [
+                'code' => 'email_button_danger',
+                'name' => 'Button danger',
+                'color' => '#ffffff',
+                'color_variable_name' => '$email-button-danger-custom-text',
+                'background_color' => '#c10600',
+                'background_color_variable_name' => '$email-button-danger-custom-bg'
+            ],
+        ],
+    ],
 ];
 
 
@@ -693,4 +753,16 @@ foreach($blocks->findAll() as $block) {
     foreach($children as $child) {
         $block_ids[$child->getCode()] = $child->getId();
     }
+}
+
+
+// Removes `util` blocks
+$block = (new Template_Model_Block())->find("util", "code");
+if ($block->getId()) {
+    try {
+        $this->query("DELETE FROM template_block_app WHERE block_id = '" . $block->getId() . "';");
+    } catch (\Exception $e) {
+        // Silently fails!
+    }
+    $block->delete();
 }

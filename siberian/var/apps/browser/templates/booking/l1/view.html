@@ -1,7 +1,7 @@
 <ion-view sb-page-background
           class="booking-view booking-view-l1">
 
-    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
         <button ng-click="clearForm()"
@@ -16,8 +16,23 @@
               ng-submit="submitForm();"
               novalidate
               ng-show="stores">
+
             <div class="list"
-                 ng-class="{'card' : card_design}">
+                 ng-if="settings.cover || settings.description"
+                 ng-class="{'card' : cardDesign}">
+                <img ng-if="settings.cover"
+                     ng-src="{{ coverSrc(settings.cover) }}"
+                     style="width: 100vw; display: block;" />
+
+                <div class="item item-custom"
+                     style="white-space: normal;"
+                     ng-if="settings.description">
+                    <span ng-bind-html="settings.description | trusted_html"></span>
+                </div>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card' : cardDesign}">
 
                 <div class="item item-divider item-divider-custom">
                     {{ "Information" | translate:"booking" }}
@@ -61,22 +76,28 @@
                     </label>
                 </label>
 
-                <label class="item item-input item-select item-custom">
+                <label class="item item-input item-custom">
                     <i class="icon ion-ios-people"></i>
                     <div class="input-label">
                         {{ "Number of people" | translate:"booking" }}
                     </div>
-                    <select ng-model="formData.people"
-                            ng-options="value for value in people track by value"
-                            ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}"
-                            required></select>
+                    <input type="number"
+                           step="1"
+                           min="1"
+                           max="100"
+                           style="text-align: right;"
+                           ng-model="formData.people"
+                           ng-class="{error: bookingForm.people.$invalid && bookingForm.submitted}"
+                           required />
                     <label class="error"
                            ng-show="bookingForm.people.$invalid && bookingForm.submitted">
                         {{ "This field is required" | translate:"booking" }}
                     </label>
                 </label>
 
-                <label class="item item-input item-select item-custom">
+                <!-- If 2 or more locations -->
+                <label ng-if="stores.length > 1"
+                       class="item item-input item-select item-custom">
                     <i class="icon ion-ios-location"></i>
                     <div class="input-label">
                         {{ "Location" | translate:"booking" }}
@@ -91,9 +112,19 @@
                     </label>
                 </label>
 
-                <label class="item item-input item-custom"
+                <!-- If single location -->
+                <label ng-if="stores.length == 1"
+                       class="item item-input item-custom">
+                    <i class="icon ion-ios-location"></i>
+                    <div class="input-label">
+                        {{ stores[0].name }}
+                    </div>
+                </label>
+
+                <label ng-if="settings.datepicker == 'single'"
+                       class="item item-input item-custom"
                        sb-datetime-picker
-                       title="dateTime.title"
+                       title="dateTime.date"
                        headers="true"
                        format="settings.date_format"
                        model="formData.date">
@@ -108,10 +139,46 @@
                            readonly="readonly" />
                 </label>
 
+                <label ng-if="settings.datepicker == 'checkin'"
+                       class="item item-input item-custom"
+                       sb-datetime-picker
+                       title="dateTime.checkIn"
+                       headers="true"
+                       format="settings.date_format"
+                       model="formData.checkIn">
+                    <i class="icon ion-ios-clock"></i>
+                    <div class="input-label">
+                        {{ "Checkin" | translate:"booking" }}
+                    </div>
+                    <input type="text"
+                           class="text-right"
+                           style="cursor: pointer !important;"
+                           ng-model="formData.checkIn"
+                           readonly="readonly" />
+                </label>
+
+                <label ng-if="settings.datepicker == 'checkin'"
+                       class="item item-input item-custom"
+                       sb-datetime-picker
+                       title="dateTime.checkOut"
+                       headers="true"
+                       format="settings.date_format"
+                       model="formData.checkOut">
+                    <i class="icon ion-ios-clock"></i>
+                    <div class="input-label">
+                        {{ "Checkout" | translate:"booking" }}
+                    </div>
+                    <input type="text"
+                           class="text-right"
+                           style="cursor: pointer !important;"
+                           ng-model="formData.checkOut"
+                           readonly="readonly" />
+                </label>
+
             </div>
 
             <div class="list"
-                 ng-class="{'card' : card_design}">
+                 ng-class="{'card' : cardDesign}">
 
                 <div class="item item-divider item-divider-custom">
                     {{ "Booking details" | translate:"booking" }}
@@ -133,7 +200,7 @@
             </div>
 
             <div class="list"
-                 ng-class="{'card' : card_design}">
+                 ng-class="{'card' : cardDesign}">
 
                 <div class="item item-divider item-divider-custom">
                     {{ "Comment" | translate:"booking" }}
@@ -148,18 +215,19 @@
 
             </div>
 
-            <div ng-class="{'padding' : card_design}">
-
+            <div ng-class="{'padding' : cardDesign}">
                 <button type="submit"
                         class="button button-positive button-positive-custom"
-                        ng-class="{'button-full': !card_design, 'button-block': card_design}"
-                        ng-show="!is_loading">{{ "Send" | translate:"booking" }}</button>
-
+                        ng-class="{'button-full': !cardDesign, 'button-block': cardDesign}"
+                        ng-show="!isLoading">
+                    {{ "Send" | translate:"booking" }}
+                </button>
             </div>
+
         </form>
 
         <div class="loader"
-             ng-show="is_loading || !stores">
+             ng-show="isLoading || !stores">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 

@@ -553,6 +553,12 @@ button.places-secondary-button {
   margin-left: 8px !important;
 }
 
+.places-location-action {
+  &:before {
+    font-size: 22px !important;
+  }
+}
+
 /** Special case footer fixed */
 @media screen and (orientation:landscape) {
   .has-footer-fixed {

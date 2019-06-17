@@ -33,7 +33,6 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('PListEditor');
 
-
         $includePaths = [get_include_path()];
         $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
         switch (\Siberian\Version::TYPE) {

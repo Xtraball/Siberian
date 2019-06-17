@@ -16,6 +16,8 @@ class Template_Model_Design extends Core_Model_Default
      */
     public static $variables = [];
 
+    public static $lastException = null;
+
     /**
      * @var
      */
@@ -53,17 +55,20 @@ class Template_Model_Design extends Core_Model_Default
     public static function getCssPath($application)
     {
         /** Determines if the App has been updated or not. */
-        $block_app = new Template_Model_Block_App();
 
-        $path = Core_Model_Directory::getPathTo("var/cache/css");
-        $base_path = Core_Model_Directory::getBasePathTo("var/cache/css");
+        $path = rpath("var/cache/css");
+        $basePath = path("var/cache/css");
         $file = $application->getId() . ".css";
-        if (!is_file("{$base_path}/{$file}")) {
-            /** Determines if the App has been updated or not. */
-            $block_app = new Template_Model_Block_App();
-            $new_scss = $block_app->isNewScss($application->getId());
 
-            self::generateCss($application, false, false, $new_scss);
+        $rebuild = filter_var($application->getGenerateScss(), FILTER_VALIDATE_BOOLEAN);
+
+        // If we should regen the SCSS!
+        if (!is_file("{$basePath}/{$file}") || $rebuild) {
+            $application
+                ->setGenerateScss(0)
+                ->save();
+
+            self::generateCss($application, false, false);
         }
 
         return "{$path}/{$file}";
@@ -84,7 +89,7 @@ class Template_Model_Design extends Core_Model_Default
      * @param bool $javascript
      * @param bool $return_variables
      * @param bool $new_scss
-     * @return bool|string
+     * @return bool|string|array
      */
     public static function generateCss($application, $javascript = false, $return_variables = false, $new_scss = true)
     {
@@ -128,7 +133,6 @@ class Template_Model_Design extends Core_Model_Default
             foreach ($blocks as $block) {
 
                 $block_id = (strlen(dechex($block->getId())) == 2) ? dechex($block->getId()) : "0" . dechex($block->getId());
-
 
                 if ($block->getColorVariableName() && $block->getColor()) {
                     $block_pos = "01";
@@ -182,6 +186,8 @@ class Template_Model_Design extends Core_Model_Default
             }
 
         }
+
+        dbg($variables);
 
         // Prepend google font
         $fontFamily = $application->getFontFamily();
@@ -261,6 +267,7 @@ class Template_Model_Design extends Core_Model_Default
                 ' . $scss
             );
             $result = false;
+            self::$lastException = $e->getMessage();
         }
 
         $css = $fontImport . "\n" . $css;
@@ -306,6 +313,8 @@ class Template_Model_Design extends Core_Model_Default
 
     /**
      * @return mixed
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
      */
     public function getBlocks()
     {
@@ -321,7 +330,9 @@ class Template_Model_Design extends Core_Model_Default
 
     /**
      * @param $name
-     * @return Template_Model_Block
+     * @return mixed|Template_Model_Block
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
      */
     public function getBlock($name)
     {

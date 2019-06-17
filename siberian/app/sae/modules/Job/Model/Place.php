@@ -1,8 +1,19 @@
 <?php
 
-class Job_Model_Place extends Core_Model_Default {
+/**
+ * Class Job_Model_Place
+ *
+ * @method Job_Model_Db_Table_Place getTable()
+ */
+class Job_Model_Place extends Core_Model_Default
+{
 
-    public function __construct($params = array()) {
+    /**
+     * Job_Model_Place constructor.
+     * @param array $params
+     */
+    public function __construct($params = [])
+    {
         parent::__construct($params);
         $this->_db_table = 'Job_Model_Db_Table_Place';
         return $this;
@@ -14,44 +25,85 @@ class Job_Model_Place extends Core_Model_Default {
      * @param $params
      * @return mixed
      */
-    public function findActive($values, $order, $params) {
+    public function findActive($values, $order, $params)
+    {
         return $this->getTable()->findActive($values, $order, $params);
     }
 
-    public function getTitle() {
+    /**
+     * @param $valueId
+     * @param $values
+     * @param array $params
+     * @return mixed
+     */
+    public function findAllWithFilters($valueId, $values, $params = [])
+    {
+        return $this->getTable()->findAllWithFilters($valueId, $values, $params);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
         return $this->title;
     }
 
-    public function setTitle($title) {
+    /**
+     * @param $title
+     */
+    public function setTitle($title)
+    {
         $this->title = $title;
     }
 
-    public function getIcon() {
+    /**
+     * @return mixed
+     */
+    public function getIcon()
+    {
         return $this->icon;
     }
 
-    public function setIcon($icon) {
+    /**
+     * @param $icon
+     */
+    public function setIcon($icon)
+    {
         $this->icon = $icon;
     }
 
     /**
      * @return mixed
      */
-    public function toggle() {
+    public function toggle()
+    {
         $this->setIsActive(!$this->getIsActive())->save();
 
         return $this->getIsActive();
     }
 
-    public function enable() {
+    /**
+     *
+     */
+    public function enable()
+    {
         $this->is_active = true;
     }
 
-    public function disable() {
+    /**
+     *
+     */
+    public function disable()
+    {
         $this->is_active = false;
     }
 
-    public function save() {
+    /**
+     *
+     */
+    public function save()
+    {
         parent::save();
     }
 
@@ -59,7 +111,8 @@ class Job_Model_Place extends Core_Model_Default {
      * @param bool $relative
      * @return string
      */
-    public function _getIcon() {
+    public function _getIcon()
+    {
         return $this->__getBase64Image($this->getIcon());
     }
 
@@ -68,7 +121,8 @@ class Job_Model_Place extends Core_Model_Default {
      * @param $option
      * @return $this
      */
-    public function _setIcon($base64, $option) {
+    public function _setIcon($base64, $option)
+    {
         $icon_path = $this->__setImageFromBase64($base64, $option, 300, 300);
         $this->setData("icon", $icon_path);
 
@@ -79,7 +133,8 @@ class Job_Model_Place extends Core_Model_Default {
      * @param bool $base64
      * @return string
      */
-    public function _getBanner() {
+    public function _getBanner()
+    {
         return $this->__getBase64Image($this->getBanner());
     }
 
@@ -88,7 +143,8 @@ class Job_Model_Place extends Core_Model_Default {
      * @param $option
      * @return $this
      */
-    public function _setBanner($base64, $option) {
+    public function _setBanner($base64, $option)
+    {
         $banner_path = $this->__setImageFromBase64($base64, $option, 1200, 400);
         $this->setBanner($banner_path);
 

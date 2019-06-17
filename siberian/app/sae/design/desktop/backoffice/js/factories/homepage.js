@@ -10,6 +10,24 @@ App.factory('Backoffice', function ($http, Url) {
         });
     };
 
+    factory.loadExternalServices = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/index/load-services'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.loadMessages = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/index/load-messages'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     factory.clearCache = function (cache_type) {
         return $http({
             method: 'GET',

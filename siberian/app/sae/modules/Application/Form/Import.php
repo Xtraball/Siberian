@@ -1,6 +1,6 @@
 <?php
 /**
- * Class Job_Form_Company
+ * Class Application_Form_Import
  */
 class Application_Form_Import extends Siberian_Form_Abstract {
 

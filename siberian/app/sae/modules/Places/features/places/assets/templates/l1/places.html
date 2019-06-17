@@ -3,6 +3,11 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
+        <button ng-show="locationIsDisabled()"
+                ng-click="requestLocation()"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-location-off places-location-action icon-warning-custom"></i>
+        </button>
         <button ng-click="nextFormat(true)"
                 class="button button-clear header-item places-secondary-button">
             <i class="icon"

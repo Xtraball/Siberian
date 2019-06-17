@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Exception;
+use Siberian\Feature;
 use Siberian\Json;
 
 /**
@@ -32,6 +34,44 @@ class Booking_ApplicationController extends Application_Controller_Default
     /**
      *
      */
+    public function loadFormAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $storeId = $request->getParam("store_id", null);
+            $optionValue = $this->getCurrentOptionValue();
+
+            $store = (new Booking_Model_Store())->find($storeId);
+
+            if (!$store->getId()) {
+                throw new Exception(p__("booking", "This feature doesn't exists!"));
+            }
+
+            $form = new Booking_Form_Location();
+            $form->populate($store->getData());
+            $form->setValueId($optionValue->getId());
+            $form->removeNav("booking-location-nav");
+            $form->addNav("booking-location-edit-nav", "Save", false);
+            $form->setStoreId($store->getId());
+
+            $payload = [
+                "success" => true,
+                "form" => $form->render(),
+                "message" => __("Success."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function editSettingsAction()
     {
         try {
@@ -49,6 +89,13 @@ class Booking_ApplicationController extends Application_Controller_Default
 
             $form = new Booking_Form_Settings();
             if ($form->isValid($values)) {
+
+                $booking = (new Booking_Model_Booking())->find($optionValue->getId(), "value_id");
+                Feature::formImageForOption($optionValue, $booking, $values, "cover", true);
+                $booking->setDatepicker($values["datepicker"]);
+                $booking->setDescription($values["description"]);
+                $booking->setValueId($optionValue->getId());
+                $booking->save();
 
                 $optionValue->setSettings(Json::encode([
                     "design" => $values["design"],
@@ -90,117 +137,84 @@ class Booking_ApplicationController extends Application_Controller_Default
     /**
      *
      */
-    public function editpostAction()
+    public function editPostAction()
     {
-
         try {
+            $request = $this->getRequest();
+            $values = $request->getPost();
+            $optionValue = $this->getCurrentOptionValue();
 
-            if ($params = $this->getRequest()->getPost()) {
+            if (empty($values)) {
+                throw new Exception(p__("booking", "Missing params."));
+            }
 
-                $isNew = true;
-
-                // Test s'il y a une erreur dans la saisie
-                if (empty($params["store_name"])) {
-                    throw new Siberian_Exception(__("Please, choose a store"));
-                }
-
-                if (empty($params['email'])) {
-                    throw new Siberian_Exception(__("Please enter a valid email address"));
-                }
-
-                // Test s'il y a un value_id
-                if (empty($params["value_id"])) {
-                    throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
-                }
-
-                // Récupère l'option_value en cours
-                $option_value = new Application_Model_Option_Value();
-                $option_value->find($params['value_id']);
-
-                $booking = new Booking_Model_Booking();
+            $form = new Booking_Form_Location();
+            if ($form->isValid($values)) {
+                /** Do whatever you need when form is valid */
                 $store = new Booking_Model_Store();
-                $booking->find($params['value_id'], 'value_id');
-                // Si un id est passé en paramètre
-                if (!empty($params["store_id"])) {
-                    $store->find($params["store_id"]);
-                    if ($store->getId() AND $booking->getValueId() != $option_value->getId()) {
-                        // Envoi l'erreur
-                        throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
-                    }
-                    $isNew = !$store->getId();
-                }
+                $store->find($values["store_id"]);
+                $store
+                    ->addData($values)
+                    ->save();
 
-                $booking->setData($params)->save();
-                unset($params["value_id"]);
-                $params["booking_id"] = $booking->getId();
-                $store->setData($params)->save();
-
-                $data = [
-                    "success" => true,
-                    "success_message" => __("Info successfully saved"),
-                    "message_timeout" => 2,
-                    "message_button" => 0,
-                    "message_loader" => 0
-                ];
-
-                if ($isNew) {
-                    $data["row_html"] = $this->getLayout()->addPartial("row_" . $store->getId(), "admin_view_default", "booking/application/edit/row.phtml")
-                        ->setCurrentStore($store)
-                        ->setCurrentOptionValue($option_value)
-                        ->toHtml();
-                }
-
-                /** Update touch date, then never expires (until next touch) */
-                $option_value
+                // Update touch date, then never expires!
+                $optionValue
                     ->touch()
                     ->expires(-1);
 
+                $payload = [
+                    "success" => true,
+                    "message" => __("Success."),
+                ];
             } else {
-                throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
+                ];
             }
 
-        } catch (Exception $e) {
-            $data = [
+        } catch (\Exception $e) {
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage(),
-                "message_button" => true,
-                "message_loader" => true
             ];
         }
 
-        $this->_sendJson($data);
-
+        $this->_sendJson($payload);
     }
-
     /**
-     *
+     * Delete category
      */
-    public function deleteAction()
+    public function deletePostAction()
     {
+        $values = $this->getRequest()->getPost();
 
-        try {
-
-            $id = $this->getRequest()->getParam("id");
+        $form = new Booking_Form_Location_Delete();
+        if ($form->isValid($values)) {
             $store = new Booking_Model_Store();
-            $store
-                ->find($id)
-                ->delete();
+            $store->find($values["store_id"]);
+            $store->delete();
 
-            # Success
-            $data = [
-                "success" => true
+            // Update touch date, then never expires!
+            $this->getCurrentOptionValue()
+                ->touch()
+                ->expires(-1);
+
+            $payload = [
+                "success" => true,
+                "message" => p__("booking", "Store deleted."),
             ];
-
-        } catch (Exception $e) {
-            $data = [
+        } else {
+            $payload = [
                 "error" => true,
-                "message" => $e->getMessage(),
-                "message_button" => 1,
-                "message_loader" => 1
+                "message" => $form->getTextErrors(),
+                "errors" => $form->getTextErrors(true),
             ];
         }
 
-        $this->_sendJson($data);
+        $this->_sendJson($payload);
     }
 
     /**

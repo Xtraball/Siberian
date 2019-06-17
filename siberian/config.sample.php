@@ -11,3 +11,11 @@
 
 $_config = [];
 $_config['environment'] = 'production';
+
+try {
+    if (is_file(__DIR__ . "/config.user.php")) {
+        require __DIR__ . "/config.user.php";
+    }
+} catch (\Exception $e) {
+    // Skip user config!
+}

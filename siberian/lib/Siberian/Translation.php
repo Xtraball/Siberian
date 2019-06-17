@@ -133,6 +133,7 @@ class Translation
     /**
      * @param $context
      * @param $module
+     * @param $path
      */
     public static function registerExtractor ($context, $module, $path = null)
     {

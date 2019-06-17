@@ -120,40 +120,40 @@ $badge-dark-custom-bg:                #444444 !default;
 $badge-dark-custom-text:              #ffffff !default;
 
 /* UTILS */
-$util-custom-bg:                #f8f8f8 !default;
-$util-custom-text:              #444 !default;
-$util-custom-border:            #b2b2b2 !default;
+$util-custom-bg:                #b2b2b2 !default; /** not used */
+$util-custom-text:              #b2b2b2 !default; /** not used */
+$util-custom-border:            #b2b2b2 !default; /** not used */
 
-$util-light-custom-bg:                #ffffff !default;
+$util-light-custom-bg:                #444 !default;
 $util-light-custom-text:              #444 !default;
-$util-light-custom-border:            #dddddd !default;
+$util-light-custom-border:            #444 !default;
 
 $util-positive-custom-bg:                #387ef5 !default;
-$util-positive-custom-text:              #ffffff !default;
-$util-positive-custom-border:            #0c60ee !default;
+$util-positive-custom-text:              #387ef5 !default;
+$util-positive-custom-border:            #387ef5 !default;
 
 $util-calm-custom-bg:                #11c1f3 !default;
-$util-calm-custom-text:              #ffffff !default;
-$util-calm-custom-border:            #0a9dc7 !default;
+$util-calm-custom-text:              #11c1f3 !default;
+$util-calm-custom-border:            #11c1f3 !default;
 
 $util-balanced-custom-bg:                #33cd5f !default;
-$util-balanced-custom-text:              #ffffff !default;
-$util-balanced-custom-border:            #28a54c !default;
+$util-balanced-custom-text:              #33cd5f !default;
+$util-balanced-custom-border:            #33cd5f !default;
 
 $util-energized-custom-bg:                #ffc900 !default;
-$util-energized-custom-text:              #ffffff !default;
-$util-energized-custom-border:            #e6b500 !default;
+$util-energized-custom-text:              #ffc900 !default;
+$util-energized-custom-border:            #ffc900 !default;
 
 $util-assertive-custom-bg:                #ef473a !default;
-$util-assertive-custom-text:              #ffffff !default;
-$util-assertive-custom-border:            #e42112 !default;
+$util-assertive-custom-text:              #ef473a !default;
+$util-assertive-custom-border:            #ef473a !default;
 
 $util-royal-custom-bg:                #886aea !default;
-$util-royal-custom-text:              #ffffff !default;
-$util-royal-custom-border:            #6b46e5 !default;
+$util-royal-custom-text:              #886aea !default;
+$util-royal-custom-border:            #886aea !default;
 
-$util-dark-custom-bg:                #444444 !default;
-$util-dark-custom-text:              #ffffff !default;
+$util-dark-custom-bg:                #111111 !default;
+$util-dark-custom-text:              #111111 !default;
 $util-dark-custom-border:            #111111 !default;
 
 /* CHECKBOX */
@@ -195,6 +195,8 @@ $font-family:                     "Helvetica Neue", "Roboto", "Segoe UI", "sans-
 $icon-custom:                     #fff !default;
 $icon-active-custom:              #444 !default;
 $icon-inactive-custom:            lighten($icon-active-custom, 30%);
+$icon-warning-custom:             #e67f00;
+$icon-danger-custom:              #ad3830;
 
 /* DIALOG */
 $dialog-custom-bg:                rgba(255, 255, 255, 0.99) !default;

@@ -1,0 +1,51 @@
+<table>
+    <tr>
+        <td>
+            <p align="justify">
+                <span>
+                    <strong><?php echo p__("booking", "You just sent a booking request"); ?></strong><br />
+                </span>
+            </p>
+            <p align="justify">
+                <?php echo p__("booking", "Your contact information"); ?>:
+                <ul>
+                    <li><?php echo p__("booking", "Name"); ?>: <?php echo $this->getData("name"); ?></li>
+                    <?php if ($this->getData("phone")) : ?>
+                        <li><?php echo p__("booking", "Phone number"); ?>: <?php echo $this->getData("phone"); ?></li>
+                    <?php endif; ?>
+                    <?php if ($this->getData("email")) : ?>
+                        <li><?php echo p__("booking", "Email address"); ?>: <a href="mailto:<?php echo $this->getData("email"); ?>"><?php echo $this->getData("email"); ?></a></li>
+                    <?php endif; ?>
+                </ul>
+            </p>
+            <p align="justify">
+                <?php echo p__("booking", "Your booking details"); ?>:
+                <ul>
+
+                    <?php if ($this->getData("date")): ?>
+                        <li><?php echo p__("booking", "Date and time"); ?>: <?php echo $this->getData("date"); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->getData("checkIn")): ?>
+                        <li><?php echo p__("booking", "Checkin"); ?>: <?php echo $this->getData("checkIn"); ?></li>
+                    <?php endif; ?>
+
+                    <?php if ($this->getData("checkOut")): ?>
+                        <li><?php echo p__("booking", "Checkout"); ?>: <?php echo $this->getData("checkOut"); ?></li>
+                    <?php endif; ?>
+
+                    <li><?php echo p__("booking", "Number of people"); ?>: <?php echo $this->getData("people"); ?></li>
+                    <li><?php echo p__("booking", "Booking subject"); ?>: <?php echo $this->getData("prestation"); ?></li>
+                    <li><?php echo p__("booking", "Booking location"); ?>: <?php echo $this->getData("location"); ?></li>
+                    <?php if($this->getData("comment")) : ?><li><?php echo __("Comment:"); ?> <?php echo $this->getData("comment"); ?></li><?php endif; ?>
+                </ul>
+            </p>
+            <p align="justify">
+                <span>
+                    <?php echo p__("booking","Thank you for your request.<br />We'll answer you as soon as possible.") ?>
+                </span>
+            </p>
+
+        </td>
+    </tr>
+</table>

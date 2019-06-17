@@ -20,30 +20,57 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
     public function loadAction()
     {
         $services = Siberian_Service::getServices();
-        $external_services = Siberian_Service::fetchRegisteredServices();
         $extensions = Siberian_Service::getExtensions();
         $server_usage = Siberian_Cache::getDiskUsage();
         $libraries = Siberian_Media::getLibraries();
-        $messages = Backoffice_Model_Notification::getMessages();
         $system_diagnostic = Siberian_Service::getSystemDiagnostic();
 
         $html = [
             "title" => __("Dashboard"),
             "icon" => "fa-dashboard",
             "services" => $services,
-            "external_services" => $external_services,
             "system_diagnostic" => $system_diagnostic,
             "libraries" => $libraries,
             "extensions" => $extensions,
             "server_usage" => $server_usage,
-            "unread_messages" => $messages,
         ];
 
         $this->_sendJson($html);
     }
 
     /**
+     * @throws Exception
+     * @throws Zend_Exception
+     */
+    public function loadServicesAction()
+    {
+        $external_services = Siberian_Service::fetchRegisteredServices();
+
+        $payload = [
+            "external_services" => $external_services,
+        ];
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @throws Exception
+     * @throws Zend_Exception
+     */
+    public function loadMessagesAction()
+    {
+        $messages = Backoffice_Model_Notification::getMessages();
+
+        $payload = [
+            "unread_messages" => $messages,
+        ];
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * @throws Zend_Date_Exception
+     * @throws Zend_Exception
      */
     public function findAction()
     {

@@ -412,17 +412,15 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 var next_button_position = carousel.getNextButtonPosition();
 
                 $(document).mousemove(function (e) {
-
                     if (e.pageX > next_button_position.x1 && e.pageX < next_button_position.x2 && e.pageY > next_button_position.y1 && e.pageY < next_button_position.y2) {
                         carousel.startInterval('next');
-                    }
-                    else {
+                    } else {
                         carousel.stopInterval('next');
                     }
+
                     if (e.pageX > prev_button_position.x1 && e.pageX < prev_button_position.x2 && e.pageY > prev_button_position.y1 && e.pageY < prev_button_position.y2) {
                         carousel.startInterval('prev');
-                    }
-                    else {
+                    } else {
                         carousel.stopInterval('prev');
                     }
                 });
@@ -1560,12 +1558,14 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             carousel.update().slideToPage(1);
         }
     );
+
     $('#pages_content .search_carousel_li .actions .move_page')
-    .on('mousedown', function (e) {
-        carouselSearch.clearSearch(function () {
-            carousel.update().slideToItem($(this).closest('li.search_carousel_li'));
+        .on('mousedown', function (e) {
+            carouselSearch.clearSearch(function () {
+                var liElement = $(e.target).closest('li.search_carousel_li');
+                carousel.update(true).slideToItem(liElement);
+            }, true);
         });
-    });
 
     var featureSearch = new initSearch(
         '#add_pages_content .list-search input.search_filter_feature',

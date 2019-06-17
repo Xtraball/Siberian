@@ -6,20 +6,32 @@ $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 $valueId = $optionValue->getId();
 $booking = new Booking_Model_Booking();
-$booking->find($optionValue->getId(), 'value_id');
+$booking->find($optionValue->getId(), "value_id");
 $store = new Booking_Model_Store();
-$stores = $store->findAll(['booking_id' => $booking->getId()]);
+$stores = $store->findAll(["booking_id" => $booking->getId()]);
 
+// Settings!
 $formSettings = new Booking_Form_Settings();
 
 try {
     $settings = Json::decode($optionValue->getSettings());
+    $settings = array_merge($settings, $booking->getData());
+
     $formSettings->populate($settings);
 } catch (\Exception $e) {
     // Nope!
 }
 
 $formSettings->setValueId($valueId);
+
+// Location!
+$formLocation = new Booking_Form_Location();
+$formLocation->getElement("booking_id")->setValue($booking->getId());
+$formLocation->setValueId($valueId);
+
+// Delete location
+$deleteLocationForm = new Booking_Form_Location_Delete();
+$deleteLocationForm->setValueId($valueId);
 
 ?>
 <div id="list"
@@ -30,12 +42,21 @@ $formSettings->setValueId($valueId);
         role="tablist">
         <li role="presentation"
             class="active">
-            <a href="#booking"
-               aria-controls="booking"
+            <a href="#location"
+               aria-controls="location"
                role="tab"
                data-toggle="tab">
-                <i class="fa fa-feed"></i>
-                <?php echo p__("booking","Manage locations") ?>
+                <i class="fa fa-home"></i>
+                <?php echo p__("booking","Locations") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#settings"
+               aria-controls="settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-gears"></i>
+                <?php echo p__("booking","Settings") ?>
             </a>
         </li>
         <li role="presentation">
@@ -50,10 +71,100 @@ $formSettings->setValueId($valueId);
     </ul>
 
     <div class="tab-content">
-        <!-- START FORM TAB -->
+        <!-- START LOCATION TAB -->
         <div role="tabpanel"
              class="tab-pane active"
-             id="booking">
+             id="location">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("booking", "Create a new location"); ?>
+                    <button type="button"
+                            class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("booking", "Create a new location"); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formLocation; ?>
+                </div>
+            </div>
+
+            <?php echo $this->createPartialHtml("no_item", "core_view_default", "application/customization/features/edit/no_item.phtml"); ?>
+
+            <?php if (isset($stores) && $stores->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("booking", "Manage locations"); ?>
+                            <button type="button"
+                                    class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable"
+                                        style="width:45%;"><?php echo p__("booking", "Location name"); ?></th>
+                                    <th class="sortable"
+                                        style="width:45%;"><?php echo p__("booking", "E-mail"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach($stores as $location) : ?>
+                                    <tr id="location_manage_element_<?php echo $location->getId(); ?>"
+                                        class="location-manage-element sb-pager">
+                                        <td><?php echo $location->getStoreName(); ?></td>
+                                        <td><?php echo $location->getEmail(); ?></td>
+                                        <td class="edit-action open-edit"
+                                            data-id="location_<?php echo $location->getId(); ?>"
+                                            data-form-url="<?php echo __path("/booking/application/load-form", ["store_id" => $location->getId(), "value_id" => $optionValue->getId()]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $deleteLocationForm->setAttrib("data-rowid", "location_manage_element_".$location->getId());
+                                            $deleteLocationForm->getElement("store_id")->setValue($location->getId());
+
+                                            echo $deleteLocationForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="location_<?php echo $location->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="6">
+                                            <p class="close-edit"
+                                               data-id="place_<?php echo $location->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo p__("booking", "Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <!-- END LOCATION TAB -->
+
+        <!-- START SETTINGS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="settings">
 
             <div class="cont_add_section form-horizontal">
                 <h3 class="title-editor no-border-radius title-feature-indent">
@@ -65,101 +176,8 @@ $formSettings->setValueId($valueId);
                 </div>
                 <br />
             </div>
-
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo p__("booking", "Add content"); ?>
-                <button type="button"
-                        id="add_booking"
-                        class="toggle_design color-blue pull-right bt-header-right btn">
-                    <i class="fa fa-plus"></i>
-                </button>
-            </h3>
-            <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
-            <div class="container-fluid content-feature">
-                <div id="row_new"
-                     style="display: none;">
-                    <h4><?php echo p__("booking", "Enter the location name and contact email"); ?></h4>
-                    <form id="new_form_booking"
-                          class="form_booking form-horizontal">
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <label for="store_name_new">
-                                    <?php echo p__("booking", "Location") ?>
-                                    <span class="required-entry"> *</span>
-                                </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <label for="email_new">
-                                    <?php echo p__("booking", "E-mail") ?>
-                                    <span class="required-entry"> *</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <input type="text"
-                                       id="store_name_new"
-                                       name="store_name"
-                                       class="input-flat required booking_field"
-                                       value=""/>
-                            </div>
-                            <div class="col-sm-5">
-                                <input type="text"
-                                       id="email_new"
-                                       name="email"
-                                       class="input-flat required booking_field email"
-                                       value=""/>
-                            </div>
-                            <div class="col-sm-1">
-                                <button type="submit"
-                                        class="btn color-blue save_booking"><?php echo __('OK'); ?></button>
-                            </div>
-                            <div class="col-sm-1">
-                                <button type="button"
-                                        rel="new"
-                                        class="delete_booking btn color-blue"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <input type="hidden"
-                               name="value_id"
-                               value="<?php echo $optionValue->getId(); ?>"/>
-                    </form>
-                </div>
-            </div>
-            <div id="existing_items_section" <?php if($stores->count() == 0) : ?>
-                style="display:none;"<?php endif; ?>>
-                <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Manage content'); ?>
-                    <button type="button"
-                            id="toggle_existing_items"
-                            class="toggle_design color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-angle-down"></i>
-                    </button>
-                </h3>
-                <div id="existing_items"
-                     class="container-fluid form-horizontal content-feature"
-                     style="display:none">
-                    <div class="form-group first-row-feature">
-                        <div class="col-sm-4">
-                            <label><?php echo __('Location:') ?> <span class="required-entry"> *</span></label>
-                        </div>
-                        <div class="col-sm-8">
-                            <label><?php echo __('Email:') ?> <span class="required-entry"> *</span></label>
-                        </div>
-                    </div>
-                    <div id="booking_list">
-                        <?php foreach($stores as $store) : ?>
-                            <?php echo $this->getLayout()->addPartial('row_'.$store->getId(), 'admin_view_default', 'booking/application/edit/row.phtml')
-                                ->setCurrentStore($store)
-                                ->setCurrentOptionValue($optionValue)
-                                ->toHtml()
-                            ?>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
         </div>
-        <!-- END FORM TAB -->
+        <!-- END SETTINGS TAB -->
 
         <!-- START DESIGN TAB -->
         <div role="tabpanel"
@@ -172,103 +190,8 @@ $formSettings->setValueId($valueId);
     </div>
 </div>
 
-<style type="text/css">
-    .booking h4 {
-        font-size: 1em;
-        margin: 10px 0px;
-    }
-
-    #row_new {
-        margin-top: 20px;
-    }
-
-    #booking_people_dummy,
-    #booking_store_dummy {
-        margin-right: 0 !important
-    }
-
-    #booking_comment {
-        margin-top: 0 !important;
-    }
-
-    .booking .content-feature {
-        padding-bottom: 0;
-    }
-</style>
 <script type="text/javascript">
-
     $(document).ready(function () {
         bindForms("#list");
     });
-
-    page.setCallback('didappear', function() {
-
-        $('#toggle_existing_items').click(function () {
-            $('#existing_items').stop().slideToggle(300, function () {
-                if ($(this).is(':visible')) {
-                    $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
-                    $('#toggle_existing_items').removeClass('color-blue');
-                }
-                else
-                {
-                    $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
-                    $('#toggle_existing_items').addClass('color-blue');
-                }
-            });
-        });
-
-        bindAll();
-
-        $('#add_booking').click(function() {
-            $('#no_item').hide();
-            $('#row_new').fadeIn();
-        });
-
-    });
-
-    page.setCallback('willdisappear', function() {
-        $('#toggle_existing_items').unbind('click');
-        $('#booking_feed').unbind('submit');
-    });
-    function bindAll() {
-        $('.form_booking').unbind('submit');
-        $('.form_booking').submit(function() {
-            if(!$(this).valid()) return false;
-            reload(this, '<?php echo $this->getUrl('booking/application/editpost') ?>', true, function(datas) {
-                iframe.f.reload();
-                //new feed
-                if(datas.row_html) {
-                    $('#booking_list').prepend(datas.row_html);
-                    if(!$('#existing_items_section').is(':visible')) $('#existing_items_section').fadeIn();
-                    $('#row_new').hide();
-                    $('#no_item').fadeIn();
-                    $('#new_form_booking').get(0).reset();
-                    bindAll();
-                }
-            });
-            return false;
-        });
-
-        $('.delete_booking').unbind('click');
-        $('.delete_booking').click(function() {
-            var id = $(this).attr('rel');
-            if(id == 'new') {
-                $('#row_new').hide();
-                $('#no_item').fadeIn();
-                $('#new_form_booking').get(0).reset();
-            }
-            else {
-                reload(this, '<?php echo $this->getUrl('booking/application/delete')?>/id/'+id, true, function() {
-                    iframe.f.reload();
-                    $('#row_'+id).animate({opacity: 0.3, height: 0}, 500, function() {
-                        $('#row_'+id).remove();
-                        if($('#booking_list').children('div').length == 0) $('#existing_items_section').fadeOut();
-                    })
-                    ;
-                });
-            }
-            return false;
-        });
-    }
-
 </script>
