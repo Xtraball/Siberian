@@ -5,19 +5,19 @@ namespace Fanwall\Model\Db\Table;
 use Core_Model_Db_Table as DbTable;
 
 /**
- * Class Radius
+ * Class Fanwall
  * @package Fanwall\Model\Db\Table
  */
-class Radius extends DbTable
+class Fanwall extends DbTable
 {
     /**
      * @var string
      */
-    protected $_name = "fanwall_radius";
+    protected $_name = "fanwall";
 
     /**
      * @var string
      */
-    protected $_primary = "radius_id";
+    protected $_primary = "fanwall_id";
 
 }

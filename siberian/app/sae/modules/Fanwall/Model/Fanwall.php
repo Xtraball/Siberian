@@ -5,10 +5,10 @@ namespace Fanwall\Model;
 use Core\Model\Base;
 
 /**
- * Class Radius
+ * Class Fanwall
  * @package Fanwall\Model
  */
-class Radius extends Base
+class Fanwall extends Base
 {
     /**
      * Radius constructor.
@@ -18,7 +18,7 @@ class Radius extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Fanwall\Model\Db\Table\Radius";
+        $this->_db_table = "Fanwall\Model\Db\Table\Fanwall";
         return $this;
     }
 

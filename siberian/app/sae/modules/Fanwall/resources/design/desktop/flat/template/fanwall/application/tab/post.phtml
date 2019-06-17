@@ -1,0 +1,105 @@
+<?php
+
+$optionValue = $this->getOptionValue();
+$formPost = $this->getFormPost();
+$posts = $this->getPosts();
+//$deletePlaceForm = $this->getDeleteForm();
+//$places = $this->getPlaces();
+//$companies = $this->getCompanies();
+//$companyOptions = $this->getCompanyOptions();
+
+?>
+
+<div role="tabpanel"
+     class="tab-pane active"
+     id="posts">
+    <div class="feature-block-add">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("fanwall", "Add a post"); ?>
+            <button type="button"
+                    class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                <i class="fa fa-plus"></i>
+            </button>
+        </h3>
+    </div>
+
+    <div class="feature-block-create">
+        <h3 class="title-editor no-border-radius title-feature-indent">
+            <?php echo p__("fanwall", "Create a post"); ?>
+        </h3>
+        <div class="container-fluid subcontent content-feature">
+            <?php echo $formPost; ?>
+        </div>
+    </div>
+
+    <?php echo $this->createPartialHtml("no_item", "core_view_default", "application/customization/features/edit/no_item.phtml"); ?>
+
+    <?php if ($posts->count() > 0): ?>
+    <div class="feature-block-list">
+        <div class="margin-top">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo p__("fanwall", "Manage posts"); ?>
+                <button type="button"
+                        class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </h3>
+            <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                <table class="table content-white-bkg sb-pager">
+                    <thead>
+                        <tr class="border-grey">
+                            <th class="sortable"
+                                style="width:26%;"><?php echo p__("fanwall", "Title"); ?></th>
+                            <th class="sortable"
+                                style="width:34%;"><?php echo p__("fanwall", "Subtitle"); ?></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($posts as $post) : ?>
+                        <tr id="post_manage_element_<?php echo $post->getId(); ?>"
+                            class="post-manage-element sb-pager">
+                            <td><?php echo $post->getTitle(); ?></td>
+                            <td><?php echo $post->getSubtitle(); ?></td>
+                            <td class="toggle-action">
+                                <?php
+                                //$formPlaceToggle->getElement("place_id")->setValue($post->getId());
+                                //$formPlaceToggle->setToggleState($post->getIsActive());
+                                //echo $formPlaceToggle;
+                                ?>
+                            </td>
+                            <td class="edit-action open-edit"
+                                data-id="post_<?php echo $post->getId(); ?>"
+                                data-form-url="<?php echo __path("/fanwall/application/load-form", ["post_id" => $post->getId(), "value_id" => $optionValue->getId()]); ?>">
+                                <i class="fa fa-pencil"></i>
+                            </td>
+                            <td class="delete-action">
+                                <?php
+                                //$deletePlaceForm->setAttrib("data-rowid", "place_manage_element_".$post->getId());
+                                //$deletePlaceForm->getElement("post_id")->setValue($post->getId());
+//
+                                //echo $deletePlaceForm;
+                                ?>
+                            </td>
+                        </tr>
+                        <tr class="edit-form"
+                            data-id="post_<?php echo $post->getId(); ?>"
+                            style="display: none;">
+                            <td colspan="6">
+                                <p class="close-edit"
+                                   data-id="post_<?php echo $post->getId(); ?>">
+                                    <i class="fa fa-times"></i><?php echo p__("fanwall", "Close") ?>
+                                </p>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

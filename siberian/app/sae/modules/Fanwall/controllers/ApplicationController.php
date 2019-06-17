@@ -1,154 +1,121 @@
 <?php
 
-class Comment_ApplicationController extends Application_Controller_Default {
+use Fanwall\Form\Post as FormPost;
+use Fanwall\Model\Post as Post;
+use Siberian\Exception;
+use Siberian\Feature;
+
+/**
+ * Class Fanwall_ApplicationController
+ */
+class Fanwall_ApplicationController extends Application_Controller_Default
+{
 
     /**
      * @var array
      */
     public $cache_triggers = [
-        "editpost" => [
+        "edit-post" => [
             "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
-            ],
-        ],
-        "updatepost" => [
-            "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
-            ],
-        ],
-        "delete" => [
-            "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
-            ],
-        ],
-        "hide" => [
-            "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
-            ],
-        ],
-        "show" => [
-            "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
-            ],
-        ],
-        "saveradius" => [
-            "tags" => [
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#",
+                //"feature_paths_valueid_#VALUE_ID#",
+                //"assets_paths_valueid_#VALUE_ID#",
             ],
         ],
     ];
 
-    public function editpostAction() {
-        $html = '';
-        if ($data = $this->getRequest()->getPost()) {
-            try {
-                if (!empty($data['text'])) {
+    /**
+     *
+     */
+    public function editPostAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $values = $request->getPost();
 
-                    $comment = new Comment_Model_Comment();
-                    $image = '';
-                    if (empty($data['image'])) {
-                        $data['image'] = null;
-                    } else if (file_exists(Core_Model_Directory::getTmpDirectory(true) . "/" . $data['image'])) {
-                        $img_src = Core_Model_Directory::getTmpDirectory(true) . "/" . $data['image'];
-                        $info = pathinfo($img_src);
-                        $filename = $info['basename'];
-                        $relativePath = $this->getCurrentOptionValue()->getImagePathTo();
-                        $img_dst = Application_Model_Application::getBaseImagePath() . $relativePath;
-                        if (!is_dir($img_dst))
-                            mkdir($img_dst, 0777, true);
-                        $img_dst .= '/' . $filename;
-                        rename($img_src, $img_dst);
-                        if (!file_exists($img_dst))
-                            throw new Exception(__('An error occurred while saving your picture. Please try againg later.'));
-                        $data['image'] = $relativePath . '/' . $filename;
-                        $image = Application_Model_Application::getImagePath() . '/' . $data['image'];
-                    }
+            $form = new FormPost();
+            if ($form->isValid($values)) {
 
-                    $comment->setData($data)
-                            ->save()
-                    ;
+                $post = new Post();
+                $post
+                    ->addData($values)
+                    ->addData([
+                        "is_active" => true,
+                    ])
+                ;
 
-                    $html = [
-                        'success' => '1',
-                        'success_message' => __('Information successfully saved'),
-                        'image' => $image,
-                        'message_timeout' => 2,
-                        'message_button' => 0,
-                        'message_loader' => 0
-                    ];
-                }
-            } catch (Exception $e) {
-                $html = [
-                    'error' => 1,
-                    'message' => $e->getMessage()
+                Feature::formImageForOption($optionValue, $post, $values, "image", true);
+
+                $post->save();
+
+                $optionValue
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = [
+                    "success" => true,
+                    "message" => __("Success."),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
                 ];
             }
-
-            $this->_sendJson($html);
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
+        
+        $this->_sendJson($payload);
     }
 
-    public function updatepostAction() {
-        $html = '';
-        if ($data = $this->getRequest()->getPost()) {
-            try {
-                if (!empty($data['text']) && !empty($data['id'])) {
+    /**
+     *
+     */
+    public function loadFormAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $postId = $request->getParam("post_id", null);
+            $post = (new Post())->find($postId);
 
-                    $comment = new Comment_Model_Comment();
-                    $comment = $comment->find($data['id']);
-                    unset($data['id']);
-                    $image = '';
-                    if (empty($data['image'])) {
-                        $data['image'] = null;
-                    } else if (file_exists(Core_Model_Directory::getTmpDirectory(true) . "/" . $data['image'])) {
-                        $img_src = Core_Model_Directory::getTmpDirectory(true) . "/" . $data['image'];
-                        $info = pathinfo($img_src);
-                        $filename = $info['basename'];
-                        $relativePath = $this->getCurrentOptionValue()->getImagePathTo();
-                        $img_dst = Application_Model_Application::getBaseImagePath() . $relativePath;
-                        if (!is_dir($img_dst))
-                            mkdir($img_dst, 0777, true);
-                        $img_dst .= '/' . $filename;
-                        rename($img_src, $img_dst);
-                        if (!file_exists($img_dst))
-                            throw new Exception(__('An error occurred while saving your picture. Please try againg later.'));
-                        $data['image'] = $relativePath . '/' . $filename;
-                        $image = Application_Model_Application::getImagePath() . '/' . $data['image'];
-                    }
-
-                    $comment->setData($data)
-                            ->save()
-                    ;
-
-                    $url = ['comment/admin/edit'];
-
-                    $html = [
-                        'success' => '1',
-                        'success_message' => __('Information successfully saved'),
-                        'image' => $image,
-                        'message_timeout' => 2,
-                        'message_button' => 0,
-                        'message_loader' => 0
-                    ];
-                }
-            } catch (Exception $e) {
-                $html = [
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                ];
+            if (!$post->getId()) {
+                throw new Exception(p__("fanwall","This post entry do not exists!"));
             }
 
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+            $form = new FormPost();
+            $form->removeNav("nav-fanwall-post");
+            $form->populate($post->getData());
+            $form->setValueId($optionValue->getId());
+            $form->setPostId($post->getId());
+            $form->loadFormSubmit();
+
+            $payload = [
+                "success" => true,
+                "form" => $form->render(),
+                "message" => __("Success."),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
-    public function deleteAction() {
+   /**
+
+    public function deleteAction()
+    {
         $html = '';
         if ($id = $this->getRequest()->getParam('id')) {
             try {
@@ -171,7 +138,8 @@ class Comment_ApplicationController extends Application_Controller_Default {
         }
     }
 
-    public function hideAction() {
+    public function hideAction()
+    {
         $html = '';
         if ($id = $this->getRequest()->getParam('id')) {
             try {
@@ -194,7 +162,8 @@ class Comment_ApplicationController extends Application_Controller_Default {
         }
     }
 
-    public function showAction() {
+    public function showAction()
+    {
         $html = '';
         if ($id = $this->getRequest()->getParam('id')) {
             try {
@@ -217,29 +186,8 @@ class Comment_ApplicationController extends Application_Controller_Default {
         }
     }
 
-    public function validatecropAction() {
-        if ($data = $this->getRequest()->getPost()) {
-            try {
-                $uploader = new Core_Model_Lib_Uploader();
-                $file = $uploader->savecrop($data);
-                $data = [
-                    'success' => 1,
-                    'file' => $file,
-                    'message_success' => __("Image successfully saved"),
-                    'message_button' => 0,
-                    'message_timeout' => 2,
-                ];
-            } catch (Exception $e) {
-                $data = [
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                ];
-            }
-            $this->getLayout()->setHtml(Zend_Json::encode($data));
-        }
-    }
-
-    public function saveradiusAction() {
+    public function saveradiusAction()
+    {
         $html = '';
         if ($data = $this->getRequest()->getPost()) {
             try {
@@ -270,8 +218,7 @@ class Comment_ApplicationController extends Application_Controller_Default {
                 }
 
                 $radius->addData($data)
-                        ->save()
-                ;
+                    ->save();
 
                 $html = [
                     'success' => '1',
@@ -289,6 +236,6 @@ class Comment_ApplicationController extends Application_Controller_Default {
 
             $this->getLayout()->setHtml(Zend_Json::encode($html));
         }
-    }
+    }*/
 
 }
