@@ -121,8 +121,13 @@
 
             <!-- MCommerce only -->
             <div class="button-bar" ng-if="use_button_header">
-                <a class="button button-custom icon-left ion-clipboard" ng-click="openHistory()">{{ "Order history" | translate }}</a>
-                <a class="button button-custom icon-left ion-ios-cart" ng-click="openCart()">{{ "My Cart" | translate }}</a>
+                <a class="button button-custom icon-left ion-clipboard"
+                   ng-click="openHistory()">{{ "Order history" | translate }}</a>
+                <a class="button button-custom icon-left ion-ios-cart"
+                   ng-click="openCart()">
+                    <span>{{ "My Cart" | translate }}</span>
+                    <span class="badge badge-positive badge-positive-custom">{{ cartItems }}</span>
+                </a>
             </div>
 
             <div ng-show="show_search && collection.length > 0">

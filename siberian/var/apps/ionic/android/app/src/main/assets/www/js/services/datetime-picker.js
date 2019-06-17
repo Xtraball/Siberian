@@ -1,5 +1,5 @@
 /**
- * Dialog
+ * DatetimePicker
  *
  * @author Xtraball SAS
  * @version 4.16.6

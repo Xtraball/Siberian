@@ -1,17 +1,12 @@
-/* global
-    App, angular
- */
-
 /**
- * Booking
+ * Booking factory
  *
- * @author Xtraball SAS
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.16.11
  */
-angular.module('starter').factory('Booking', function ($pwaRequest) {
+angular.module("starter").factory("Booking", function ($pwaRequest) {
     var factory = {
         value_id: null,
-        cache_key: null,
-        cache_key_prefix: 'feature_booking_',
         extendedOptions: {}
     };
 
@@ -21,7 +16,6 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
      */
     factory.setValueId = function (value_id) {
         factory.value_id = value_id;
-        factory.cache_key = factory.cache_key_prefix + value_id;
     };
 
     /**
@@ -34,7 +28,7 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
 
     factory.findStores = function () {
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Booking.findStores] missing value_id');
+            return $pwaRequest.reject("[Factory::Booking.findStores] missing value_id");
         }
 
         var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
@@ -42,19 +36,19 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
             return $pwaRequest.resolve(payload);
         }
 
-            /** Otherwise fallback on PWA */
-            return $pwaRequest.get('booking/mobile_view/find',
-                angular.extend({
-                    urlParams: {
-                        value_id: this.value_id
-                    }
-                }, factory.extendedOptions)
-            );
+        // Otherwise fallback on PWA!
+        return $pwaRequest.get("booking/mobile_view/find",
+            angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                }
+            }, factory.extendedOptions)
+        );
     };
 
     factory.submitForm = function (form) {
         if (!this.value_id) {
-            return $pwaRequest.reject('[Factory::Booking.submitForm] missing value_id');
+            return $pwaRequest.reject("[Factory::Booking.submitForm] missing value_id");
         }
 
         var data = {};
@@ -65,7 +59,7 @@ angular.module('starter').factory('Booking', function ($pwaRequest) {
         data.value_id = this.value_id;
         data.version = "2";
 
-        return $pwaRequest.post('booking/mobile_view/post', {
+        return $pwaRequest.post("booking/mobile_view/post", {
             urlParams: {
                 value_id: this.value_id
             },

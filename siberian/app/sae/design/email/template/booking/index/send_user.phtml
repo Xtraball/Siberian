@@ -1,12 +1,12 @@
 <table>
-    <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+    <tr>
         <td>
             <p align="justify">
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <span>
                     <strong><?php echo p__("booking", "You just sent a booking request"); ?></strong><br />
                 </span>
             </p>
-            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+            <p align="justify">
                 <?php echo p__("booking", "Your contact information"); ?>:
                 <ul>
                     <li><?php echo p__("booking", "Name"); ?>: <?php echo $this->getData("name"); ?></li>
@@ -18,8 +18,7 @@
                     <?php endif; ?>
                 </ul>
             </p>
-            <p align="justify"
-               style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+            <p align="justify">
                 <?php echo p__("booking", "Your booking details"); ?>:
                 <ul>
 
@@ -42,7 +41,7 @@
                 </ul>
             </p>
             <p align="justify">
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
+                <span>
                     <?php echo p__("booking","Thank you for your request.<br />We'll answer you as soon as possible.") ?>
                 </span>
             </p>

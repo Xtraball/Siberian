@@ -89,7 +89,7 @@ class Template_Model_Design extends Core_Model_Default
      * @param bool $javascript
      * @param bool $return_variables
      * @param bool $new_scss
-     * @return bool|string
+     * @return bool|string|array
      */
     public static function generateCss($application, $javascript = false, $return_variables = false, $new_scss = true)
     {
@@ -133,7 +133,6 @@ class Template_Model_Design extends Core_Model_Default
             foreach ($blocks as $block) {
 
                 $block_id = (strlen(dechex($block->getId())) == 2) ? dechex($block->getId()) : "0" . dechex($block->getId());
-
 
                 if ($block->getColorVariableName() && $block->getColor()) {
                     $block_pos = "01";
@@ -187,6 +186,8 @@ class Template_Model_Design extends Core_Model_Default
             }
 
         }
+
+        dbg($variables);
 
         // Prepend google font
         $fontFamily = $application->getFontFamily();
@@ -312,6 +313,8 @@ class Template_Model_Design extends Core_Model_Default
 
     /**
      * @return mixed
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
      */
     public function getBlocks()
     {
@@ -327,7 +330,9 @@ class Template_Model_Design extends Core_Model_Default
 
     /**
      * @param $name
-     * @return Template_Model_Block
+     * @return mixed|Template_Model_Block
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
      */
     public function getBlock($name)
     {
