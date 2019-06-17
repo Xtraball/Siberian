@@ -36,10 +36,6 @@ let debug = true,
         'application': [
             './www/js/controllers/application.js'
         ],
-        'discount': [
-            './www/js/controllers/discount.js',
-            './www/js/factory/discount.js'
-        ],
         'event': [
             './www/js/controllers/event.js',
             './www/js/factory/event.js'
