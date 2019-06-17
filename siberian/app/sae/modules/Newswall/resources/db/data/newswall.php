@@ -1,13 +1,13 @@
 <?php
-$name = "Fan Wall";
+$name = "Newswall";
 $category = "social";
 
 # Install icons
 $icons = [
-    "/fanwall/fanwall1.png",
-    "/fanwall/fanwall2.png",
-    "/fanwall/fanwall3.png",
-    "/fanwall/fanwall4.png"
+    "/newswall/newswall1.png",
+    "/newswall/newswall2.png",
+    "/newswall/newswall3.png",
+    "/newswall/newswall4.png"
 ];
 
 $result = Siberian_Feature::installIcons($name, $icons);
@@ -16,7 +16,7 @@ $result = Siberian_Feature::installIcons($name, $icons);
 $data = [
     'library_id'                    => $result["library_id"],
     'icon_id'                       => $result["icon_id"],
-    "code"                          => "fanwall",
+    "code"                          => "newswall",
     "name"                          => $name,
     "model"                         => "Comment_Model_Comment",
     "desktop_uri"                   => "comment/application/",
@@ -25,24 +25,24 @@ $data = [
     "mobile_view_uri_parameter"     => "comment_id",
     "only_once"                     => 0,
     "is_ajax"                       => 1,
-    "position"                      => 15,
+    "position"                      => 10,
     "social_sharing_is_available"   => 1,
-    "use_my_account"                => 1
+    "use_my_account"                => 1,
 ];
 
 $option = Siberian_Feature::install($category, $data, ['code']);
 
 # Layouts
-$layout_data = [1];
+$layout_data = [1, 2, 3, 4];
 $slug = "newswall";
 
 Siberian_Feature::installLayouts($option->getId(), $slug, $layout_data);
 
 # Icons Flat
 $icons = [
-    "/fanwall/fanwall1-flat.png",
-    "/fanwall/fanwall2-flat.png",
-    "/fanwall/fanwall3-flat.png",
+    "/newswall/newswall1-flat.png",
+    "/newswall/newswall2-flat.png",
+    "/newswall/newswall3-flat.png",
 ];
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);
