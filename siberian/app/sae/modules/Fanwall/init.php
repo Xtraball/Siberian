@@ -4,6 +4,8 @@ use Siberian\Assets;
 use Siberian\Privacy;
 use Siberian\Translation;
 
+class_alias("Fanwall\Model\Fanwall", "Fanwall_Model_Fanwall");
+
 /**
  * @param $bootstrap
  */

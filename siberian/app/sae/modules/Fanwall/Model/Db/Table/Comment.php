@@ -2,7 +2,9 @@
 
 namespace Fanwall\Model\Db\Table;
 
+use Fanwall\Model\Comment as ModelComment;
 use Core_Model_Db_Table as DbTable;
+use Zend_Db_Expr as DbExpr;
 
 /**
  * Class Comment
@@ -13,7 +15,7 @@ class Comment extends DbTable
     /**
      * @var string
      */
-    protected $_name = "fanwall_comment";
+    protected $_name = "fanwall_post_comment";
     /**
      * @var string
      */
@@ -21,30 +23,28 @@ class Comment extends DbTable
 
     /**
      * @param $postId
-     * @param $viewAll
-     * @param null $posId
-     * @return \Zend_Db_Table_Rowset_Abstract
+     * @return ModelComment[]
+     * @throws \Zend_Exception
      */
-    public function findByPost($postId, $viewAll, $posId = null)
+    public function findForPostId($postId)
     {
-        $select = $this->select()
-            ->from($this->_name)
+        $select = $this->_db
+            ->select()
+            ->from("fanwall_post_comment")
             ->join(
                 "customer",
-                "customer.customer_id = {$this->_name}.customer_id",
+                "customer.customer_id = fanwall_post_comment.customer_id",
                 [
-                    "customer_email" => "customer.email",
-                    "customer_name" => new \Zend_Db_Expr("CONCAT(customer.firstname, ' ', LEFT(customer.lastname, 1), '.')")
-                ]
-            )
-            ->where("post_id = ?", $postId)
-            ->order("created_at ASC")
-            ->setIntegrityCheck(false);
+                    "firstname",
+                    "lastname",
+                    "nickname",
+                    "author_image" => new DbExpr("customer.image"),
+                ])
+        ;
 
-        if (!$viewAll) {
-            $select->where("is_visible = 1");
-        }
+        $select->where("fanwall_post_comment.post_id = ?", $postId);
+        $select->order("created_at ASC");
 
-        return $this->fetchAll($select);
+        return $this->toModelClass($this->_db->fetchAll($select));
     }
 }

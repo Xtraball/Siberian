@@ -61,7 +61,7 @@ class Post extends FormAbstract
     }
 
     /**
-     * @return \Siberian_Form_Element_Submit|void
+     * @throws \Zend_Form_Exception
      */
     public function loadFormSubmit()
     {

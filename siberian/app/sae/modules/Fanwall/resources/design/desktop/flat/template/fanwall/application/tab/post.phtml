@@ -3,10 +3,8 @@
 $optionValue = $this->getOptionValue();
 $formPost = $this->getFormPost();
 $posts = $this->getPosts();
-//$deletePlaceForm = $this->getDeleteForm();
-//$places = $this->getPlaces();
-//$companies = $this->getCompanies();
-//$companyOptions = $this->getCompanyOptions();
+$formPostToggle = $this->getFormPostToggle();
+$formPostDelete = $this->getFormPostDelete();
 
 ?>
 
@@ -52,22 +50,25 @@ $posts = $this->getPosts();
                                 style="width:26%;"><?php echo p__("fanwall", "Title"); ?></th>
                             <th class="sortable"
                                 style="width:34%;"><?php echo p__("fanwall", "Subtitle"); ?></th>
+                            <th class="sortable date"
+                                style="width:34%;"><?php echo p__("fanwall", "Pub. date"); ?></th>
                             <th></th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($posts as $post) : ?>
+                    <?php foreach ($posts as $post) : ?>
                         <tr id="post_manage_element_<?php echo $post->getId(); ?>"
                             class="post-manage-element sb-pager">
                             <td><?php echo $post->getTitle(); ?></td>
                             <td><?php echo $post->getSubtitle(); ?></td>
+                            <td><?php echo $post->getDate(); ?></td>
                             <td class="toggle-action">
                                 <?php
-                                //$formPlaceToggle->getElement("place_id")->setValue($post->getId());
-                                //$formPlaceToggle->setToggleState($post->getIsActive());
-                                //echo $formPlaceToggle;
+                                $formPostToggle->getElement("post_id")->setValue($post->getId());
+                                $formPostToggle->setToggleState($post->getIsVisible());
+                                echo $formPostToggle;
                                 ?>
                             </td>
                             <td class="edit-action open-edit"
@@ -77,10 +78,9 @@ $posts = $this->getPosts();
                             </td>
                             <td class="delete-action">
                                 <?php
-                                //$deletePlaceForm->setAttrib("data-rowid", "place_manage_element_".$post->getId());
-                                //$deletePlaceForm->getElement("post_id")->setValue($post->getId());
-//
-                                //echo $deletePlaceForm;
+                                $formPostDelete->setAttrib("data-rowid", "post_manage_element_" . $post->getId());
+                                $formPostDelete->getElement("post_id")->setValue($post->getId());
+                                echo $formPostDelete;
                                 ?>
                             </td>
                         </tr>

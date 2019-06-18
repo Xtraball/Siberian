@@ -31,37 +31,12 @@ class Like extends Base
     }
 
     /**
-     * @param $comment_id
-     * @param null $pos_id
-     * @return mixed
+     * @param $postId
+     * @return Like[]
+     * @throws \Zend_Exception
      */
-    public function findByComment($comment_id, $pos_id = null)
+    public function findForPostId($postId)
     {
-        $viewAll = true;
-        return $this->getTable()->findByComment($comment_id, $pos_id);
+        return $this->getTable()->findForPostId($postId);
     }
-
-    /**
-     * @param $comment
-     * @return $this
-     */
-    public function setComment($comment)
-    {
-        $this->_comment = $comment;
-        return $this;
-    }
-
-    /**
-     * @param $comment_id
-     * @param $customer_id
-     * @param $ip
-     * @param $ua
-     * @return bool
-     */
-    public function findByIp($comment_id, $customer_id, $ip, $ua)
-    {
-        $like = $this->getTable()->findByIp($comment_id, $customer_id, $ip, $ua);
-        return $like->count() > 0;
-    }
-
 }

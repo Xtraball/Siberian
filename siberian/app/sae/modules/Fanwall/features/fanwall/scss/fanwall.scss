@@ -1,3 +1,83 @@
 .module-fanwall {
+  &.fanwall-list-l1 {
+    .item {
+      padding-bottom: 0;
+      margin-bottom: 12px;
 
+      .post-body {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        h2 {
+          padding: 0 0 10px 0;
+          font-weight: bold;
+        }
+
+        p {
+          &.subtitle {
+            padding: 8px 0;
+          }
+
+          overflow: initial;
+          text-overflow: initial;
+          white-space: initial;
+        }
+      }
+
+      .post-author {
+        &.item-avatar {
+          padding-left: 50px;
+          min-height: 50px;
+        }
+
+        h2 {
+          font-weight: bold;
+        }
+      }
+
+      .post-image {
+        margin: 0 -16px 0 -16px;
+        img {
+          display: block;
+        }
+      }
+
+      .post-likes {
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        span {
+          font-size: 14px;
+        }
+      }
+
+      .post-actions {
+        padding-top: 7px;
+        padding-bottom: 6px;
+        font-weight: bold;
+      }
+
+      .post-likes ~ .post-actions {
+        border-top: 1px solid transparentize($list-item-custom-text, 0.8);
+      }
+
+      .post-body ~ .post-actions {
+        border-top: 1px solid transparentize($list-item-custom-text, 0.8);
+      }
+
+      &.card {
+        .post-likes ~ .post-actions {
+          border-top: 1px solid transparentize($card-item-custom-text, 0.8);
+        }
+
+        .post-body ~ .post-actions {
+          border-top: 1px solid transparentize($card-item-custom-text, 0.8);
+        }
+
+        .post-author {
+          padding-top: 16px;
+        }
+      }
+    }
+  }
 }

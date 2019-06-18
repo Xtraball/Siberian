@@ -7,6 +7,8 @@ use Core\Model\Base;
 /**
  * Class Post
  * @package Fanwall\Model
+ *
+ * @method Db\Table\Post getTable()
  */
 class Post extends Base
 {
@@ -46,7 +48,8 @@ class Post extends Base
     }
 
     /**
-     * @return array
+     * @param $valueId
+     * @return array|bool
      */
     public function getInappStates($valueId)
     {
@@ -65,187 +68,67 @@ class Post extends Base
     }
 
     /**
-     * @param $valueId
-     * @param $pos_id
-     * @return $this
-     */
-    public function findLast($valueId, $pos_id)
-    {
-        $row = $this->getTable()->findLast($valueId, $pos_id);
-        if ($row) {
-            $this->setData($row->getData())
-                ->setId($row->getId());
-        }
-        return $this;
-    }
-
-    /**
-     * @param $valueId
      * @return mixed
      */
-    public function findLastest($valueId)
+    public function toggle()
     {
-        return $comments = $this->getTable()->findLastest($valueId);
+        $this->setIsVisible(!$this->getIsVisible())->save();
+
+        return $this->getIsVisible();
     }
 
     /**
-     * @param $valueId
-     * @return mixed
+     * @param $customerId
+     * @param $headers
+     * @throws \Zend_Exception
      */
-    public function findAllWithPhoto($valueId)
+    public function like ($customerId, $headers = [])
     {
-        return $comments = $this->getTable()->findAllWithPhoto($valueId);
-    }
+        $postLike = (new Like())->find([
+            "post_id = ?" => $this->getId(),
+            "customer_id = ?" => $customerId,
+        ]);
 
-    /**
-     * @param $valueId
-     * @param $offset
-     * @return mixed
-     */
-    public function findAllWithLocation($valueId, $offset)
-    {
-        return $comments = $this->getTable()->findAllWithLocation($valueId, $offset);
-    }
-
-    /**
-     * @param $valueId
-     * @return mixed
-     */
-    public function findAllWithLocationAndPhoto($valueId)
-    {
-        return $comments = $this->getTable()->findAllWithLocationAndPhoto($valueId);
-    }
-
-    /**
-     * @param $valueId
-     * @param $start
-     * @param $count
-     * @return mixed
-     */
-    public function pullMore($valueId, $start, $count)
-    {
-        return $comments = $this->getTable()->pullMore($valueId, $start, $count);
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getImageUrl()
-    {
-        $image_path = Application_Model_Application::getImagePath() . $this->getData('image');
-        $base_image_path = Application_Model_Application::getBaseImagePath() . $this->getData('image');
-        if ($this->getData('image') AND file_exists($base_image_path)) {
-            return $image_path;
+        if (!$postLike->getId()) {
+            $postLike
+                ->setPostId($this->getId())
+                ->setCustomerId($customerId)
+                ->setUserAgent($headers["user_agent"])
+                ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
+                ->save();
         }
-        return null;
     }
 
     /**
-     * @return array
+     * @param $customerId
+     * @throws \Zend_Exception
      */
-    public function getAnswers()
+    public function unlike ($customerId)
     {
-        if (!$this->getId()) return [];
-        if (is_null($this->_answers)) {
-            $answer = new Fanwall_Model_Answer();
-            $answer->setStatus($this);
-            $this->_answers = $answer->findByComment($this->getId(), true);
-            foreach ($this->_answers as $answer) {
-                $answer->setComment($this);
-            }
-        }
+        $postLike = (new Like())->find([
+            "post_id = ?" => $this->getId(),
+            "customer_id = ?" => $customerId,
+        ]);
 
-        return $this->_answers;
+        if ($postLike->getId()) {
+            $postLike->delete();
+        }
     }
 
-    /**
-     * @return array
-     */
-    public function getLikes()
+    public function comment ($customerId, $message, $headers = [])
     {
-        if (!$this->getId()) return [];
-        if (is_null($this->_likes)) {
-            $like = new Fanwall_Model_Like();
-            $this->_likes = $like->findByComment($this->getId());
-            foreach ($this->_likes as $like) {
-                $like->setComment($this);
-            }
-        }
-
-        return $this->_likes;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getCustomer()
-    {
-        if (is_null($this->_customer)) {
-            $customer = new Customer_Model_Customer();
-            $this->_customer = $customer->find($this->getCustomerId());
-        }
-
-        return $this->_customer;
-    }
-
-    /**
-     * @param $option_value
-     * @param $design
-     * @param $category
-     * @throws Zend_Exception
-     */
-    public function createDummyContents($option_value, $design, $category)
-    {
-
-        $option = new Application_Model_Option();
-        $option->find($option_value->getOptionId());
-
-        $dummy_content_xml = $this->_getDummyXml($design, $category);
-
-        if ($dummy_content_xml->{$option->getCode()}) {
-            foreach ($dummy_content_xml->{$option->getCode()}->children() as $content) {
-                $this->unsData();
-
-                $this->addData((array)$content)
-                    ->setValueId($option_value->getId())
-                    ->save();
-            }
-        }
 
     }
 
     /**
-     * @param $option
-     * @return $this
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return Post[]
+     * @throws \Zend_Exception
      */
-    public function copyTo($option)
+    public function findAllWithCustomer($values = [], $order = null, $params = [])
     {
-        $this->setId(null)
-            ->setValueId($option->getId());
-
-        if ($image_url = $this->getImageUrl()) {
-
-            $file = pathinfo($image_url);
-            $filename = $file['basename'];
-
-            $relativePath = $option->getImagePathTo();
-            $folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::PATH_IMAGE . $relativePath);
-
-            if (!is_dir($folder)) {
-                mkdir($folder, 0777, true);
-            }
-
-            $img_src = Core_Model_Directory::getBasePathTo($image_url);
-            $img_dst = $folder . '/' . $filename;
-
-            if (copy($img_src, $img_dst)) {
-                $this->setImage($relativePath . '/' . $filename);
-            }
-        }
-
-        $this->save();
-
-        return $this;
+        return $this->getTable()->findAllWithCustomer($values, $order, $params);
     }
-
 }

@@ -168,6 +168,7 @@ class Feature
      * @param $icons
      * @return \Application_Model_Option
      * @throws \ErrorException
+     * @throws \Zend_Exception
      */
     public static function installFeature($category, $feature_data, $icons)
     {
@@ -189,6 +190,7 @@ class Feature
      * @param $data
      * @param array $keys
      * @return \Application_Model_Option
+     * @throws \Zend_Exception
      */
     public static function install($category_code, $data, $keys = [])
     {
@@ -199,7 +201,7 @@ class Feature
 
         $data["category_id"] = $category->getId();
 
-        /** Setting position if not. */
+        // Application!
         if (!isset($data["position"])) {
             $amo = new \Application_Model_Option();
             $db = $amo->getTable();

@@ -25,11 +25,11 @@
 
         <div ng-include="template_header"></div>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader" ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-show="!is_loading && collection.length" class="l6">
+        <div ng-show="!isLoading && collection.length" class="l6">
 
             <div ng-repeat="item in collection" ng-if=" $index % 3 === 0">
                 <div class="row list">
@@ -91,7 +91,7 @@
 
         </div>
 
-        <div class="list" ng-if="!is_loading && !collection.length">
+        <div class="list" ng-if="!isLoading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>

@@ -1,10 +1,10 @@
 {
-    "name": "Fan-wall",
+    "name": "Fanwall",
     "code": "fanwall",
     "version": "4.16.5",
     "category": "social",
-    "model": "Comment_Model_Comment",
-    "desktop_uri": "comment/application/",
+    "model": "Fanwall_Model_Fanwall",
+    "desktop_uri": "fanwall/application/",
     "routes": [
         {
             "state": "fanwall-list",
@@ -68,14 +68,17 @@
         "icons/fanwall3-flat.png"
     ],
     "files": [
-        "js/controllers/job-list-controller.js",
-        "js/controllers/job-view-controller.js",
-        "js/controllers/company-view-controller.js",
-        "js/factory/job.js",
-        "scss/job.scss"
+        "js/controllers/fanwall-comment-controller.js",
+        "js/controllers/fanwall-edit-controller.js",
+        "js/controllers/fanwall-gallery-controller.js",
+        "js/controllers/fanwall-list-controller.js",
+        "js/controllers/fanwall-map-controller.js",
+        "js/controllers/fanwall-view-controller.js",
+        "js/factory/fanwall-post.js",
+        "scss/fanwall.scss"
     ],
     "is_ajax": true,
     "compile": true,
-    "use_account": false,
+    "use_account": true,
     "only_once": false
 }

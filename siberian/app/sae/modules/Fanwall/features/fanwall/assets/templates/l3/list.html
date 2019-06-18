@@ -25,11 +25,11 @@
 
         <div ng-include="template_header"></div>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader" ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-show="!is_loading && collection.length" class="l5">
+        <div ng-show="!isLoading && collection.length" class="l5">
 
             <div class="row list" ng-repeat="chunks in collection_chunks" >
                 <div class="col col-50" ng-click="showItem(item)" ng-repeat="item in chunks">
@@ -59,7 +59,7 @@
 
         </div>
 
-        <div class="list" ng-show="!is_loading && !collection.length">
+        <div class="list" ng-show="!isLoading && !collection.length">
             <div class="item text-center item-custom">
                 {{ "No items found" | translate }}
             </div>

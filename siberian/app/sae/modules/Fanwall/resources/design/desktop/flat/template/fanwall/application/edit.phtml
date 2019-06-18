@@ -4,6 +4,8 @@ use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Form\Post as FormPost;
 use Fanwall\Form\Settings as FormSettings;
+use Fanwall\Form\Post\Toggle as FormPostToggle;
+use Fanwall\Form\Post\Delete as FormPostDelete;
 
 global $layout;
 $layout = $this->getLayout();
@@ -35,8 +37,17 @@ $posts = (new Post())->findAll([
 $formPost = new FormPost();
 $formPost->setValueId($optionValue->getId());
 
+
+$formPostToggle = new FormPostToggle();
+$formPostToggle->setValueId($optionValue->getId());
+
+$formPostDelete = new FormPostDelete();
+$formPostDelete->setValueId($optionValue->getId());
+
 # Settings
 $formSettings = new FormSettings();
+$formSettings->populate($fanWall->getData());
+$formSettings->setValueId($optionValue->getId());
 
 ?>
 
@@ -87,8 +98,8 @@ $formSettings = new FormSettings();
         <?php echo getSection("post", [
             "option_value" => $optionValue,
             "form_post" => $formPost,
-            //"form_company_toggle" => $formCompanyToggle,
-            //"delete_form" => $deleteForm,
+            "form_post_toggle" => $formPostToggle,
+            "form_post_delete" => $formPostDelete,
             "posts" => $posts,
         ]); ?>
         <!-- /END POST TAB -->
@@ -115,7 +126,6 @@ $formSettings = new FormSettings();
             </div>
         </div>
         <!-- /END SETTINGS TAB -->
-
 
     </div>
 </div>

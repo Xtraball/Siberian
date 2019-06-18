@@ -4,6 +4,7 @@ namespace Fanwall\Model\Db\Table;
 
 use Fanwall\Model\Post as ModelPost;
 use Core_Model_Db_Table as DbTable;
+use Zend_Db_Expr as DbExpr;
 
 /**
  * Class Post
@@ -20,6 +21,46 @@ class Post extends DbTable
      * @var string
      */
     protected $_primary = "post_id";
+
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return ModelPost[]
+     * @throws \Zend_Exception
+     */
+    public function findAllWithCustomer($values = [], $order = null, $params = [])
+    {
+        $select = $this->_db
+            ->select()
+            ->from("fanwall_post")
+            ->join(
+                "customer",
+                "customer.customer_id = fanwall_post.customer_id",
+                [
+                    "firstname",
+                    "lastname",
+                    "nickname",
+                    "author_image" => new DbExpr("customer.image"),
+                ]);
+
+        foreach ($values as $condition => $value) {
+            $select->where($condition, $value);
+        }
+
+        if ($order !== null) {
+            $select->order($order);
+        }
+
+        if (array_key_exists("limit", $params) &&
+            array_key_exists("offset", $params)) {
+            $select->limit($params["limit"], $params["offset"]);
+        }
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /** ========================= DEPRECATED AFTER THIS LINE ======================== */
 
     /**
      * @param $valueId
