@@ -17,13 +17,21 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
      */
     public function __construct($options = [])
     {
-        if (isset($options['rowClass'])) $rowClass = $options['rowClass'];
-        else $rowClass = 'Core_Model_Db_Table_Row';
+        if (isset($options["rowClass"])) {
+            $rowClass = $options["rowClass"];
+        } else {
+            $rowClass = "Core_Model_Db_Table_Row";
+        }
 
-        parent::__construct(array_merge($options, ['db' => 'db', 'rowsetClass' => 'Siberian_Db_Table_Rowset', 'rowClass' => $rowClass]));
+        parent::__construct(array_merge($options, [
+            "db" => "db",
+            "rowsetClass" => "Siberian_Db_Table_Rowset",
+            "rowClass" => $rowClass
+        ]));
 
-        if (isset($options['modelClass'])) $this->_modelClass = $options['modelClass'];
-
+        if (isset($options["modelClass"])) {
+            $this->_modelClass = $options["modelClass"];
+        }
     }
 
     /**
@@ -310,10 +318,9 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
     }
 
     /**
-     * Converts a simple select to a rowset
-     *
      * @param $rows
      * @return mixed
+     * @throws Zend_Exception
      */
     public function toModelClass($rows)
     {

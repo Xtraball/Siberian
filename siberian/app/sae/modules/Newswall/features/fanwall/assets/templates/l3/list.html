@@ -1,0 +1,70 @@
+<ion-view sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <div sb-tooltip
+             collection="tooltip.collection"
+             current-item="tooltip.current_item"
+             button-label="tooltip.button_label"
+             show-tooltip="false"
+             on-item-clicked="showTooltip(object)"
+             ng-if="tooltip"></div>
+
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+
+            <i class="icon" ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div ng-include="template_header"></div>
+
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-show="!is_loading && collection.length" class="l5">
+
+            <div class="row list" ng-repeat="chunks in collection_chunks" >
+                <div class="col col-50" ng-click="showItem(item)" ng-repeat="item in chunks">
+                    <div class="item item-custom item-body" ng-if="item">
+                        <div class="item-image" ng-if="item.picture" style="background-image:url('{{ item.picture }}')">
+                        </div>
+                        <div class="item-content">
+                            <h2>{{ item.title ? item.title : item.author }}</h2>
+
+                            <p ng-if="item.subtitle && !item.subtitle_html" ng-bind-html="item.subtitle | trusted_html"></p>
+                            <p ng-if="item.subtitle_html" ng-bind-html="item.subtitle_html | trusted_html"></p>
+
+                            <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
+                        </div>
+                        <div class="item-image" ng-if="!item.picture">
+                            <img ng-src="{{ picture_fallback }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ion-infinite-scroll ng-if="load_more"
+                                 on-infinite="loadMore()"
+                                 immediate-check="false"
+                                 distance="10%">
+            </ion-infinite-scroll>
+
+        </div>
+
+        <div class="list" ng-show="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>
