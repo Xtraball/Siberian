@@ -69,14 +69,13 @@ class Template_Model_Block extends Core_Model_Default
      */
     public function save()
     {
-        // Not saving empty block!
-        if (empty($this->getTypeId()) || empty($this->getCode())) {
-            return $this;
-        }
-
         if ($this->getAppId()) {
             $this->getTable()->saveAppBlock($this);
         } else {
+            // Not saving empty block!
+            if (empty($this->getTypeId()) || empty($this->getCode())) {
+                return $this;
+            }
             parent::save();
         }
 
