@@ -3,6 +3,7 @@
 use Fanwall\Form\Post as FormPost;
 use Fanwall\Form\Settings as FormSettings;
 use Fanwall\Form\Post\Toggle as FormPostToggle;
+use Fanwall\Form\Post\Pin as FormPostPin;
 use Fanwall\Form\Post\Delete as FormPostDelete;
 use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
@@ -93,7 +94,21 @@ class Fanwall_ApplicationController extends Application_Controller_Default
 
                 $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
                 $fanWall
-                    ->addData($values)
+                    ->addData($values);
+
+                $icons = [
+                    "icon_topics" => "Topics",
+                    "icon_nearby" => "Nearby",
+                    "icon_map" => "Map",
+                    "icon_gallery" => "Gallery",
+                    "icon_post" => "Post",
+                ];
+
+                foreach ($icons as $column => $label) {
+                    Feature::formImageForOption($optionValue, $fanWall, $values, $column, true);
+                }
+
+                $fanWall
                     ->save();
 
                 $optionValue
@@ -188,6 +203,53 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     "message" => ($result) ?
                         p__("fanwall", "Post is published") :
                         p__("fanwall", "Post is unpublished"),
+                ];
+            } else {
+                $payload = [
+                    "error" => true,
+                    "message" => $form->getTextErrors(),
+                    "errors" => $form->getTextErrors(true),
+                ];
+            }
+
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Toggle place
+     */
+    public function pinPostAction() {
+        try {
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            $form = new FormPostPin();
+
+            if ($form->isValid($values)) {
+                $post = new Post();
+                $result = $post
+                    ->find($values["post_id"])
+                    ->toggleSticky();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this
+                    ->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                $payload = [
+                    "success" => true,
+                    "state" => $result,
+                    "message" => ($result) ?
+                        p__("fanwall", "Post is pinned") :
+                        p__("fanwall", "Post is unpinned"),
                 ];
             } else {
                 $payload = [

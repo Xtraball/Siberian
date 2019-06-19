@@ -60,6 +60,7 @@ $schemas["fanwall_post"] = [
     ],
     "text" => [
         "type" => "text",
+        "is_null" => true,
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
@@ -89,6 +90,10 @@ $schemas["fanwall_post"] = [
         "is_null" => true,
     ],
     "flag" => [
+        "type" => "tinyint(1) unsigned",
+        "default" => "0",
+    ],
+    "sticky" => [
         "type" => "tinyint(1) unsigned",
         "default" => "0",
     ],

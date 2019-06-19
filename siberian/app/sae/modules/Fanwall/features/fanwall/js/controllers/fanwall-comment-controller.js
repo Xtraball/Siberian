@@ -6,50 +6,36 @@
  */
 angular
 .module("starter")
-.controller("FanwallCommentController", function ($ionicHistory, $pwaRequest, $rootScope, $scope, $state, $stateParams,
-                                                  $timeout, $translate, $window, Comment, Customer, Dialog, Modal,
-                                                  FanwallPost, FanwallComment) {
-    angular.extend($scope, {
-        value_id: $stateParams.value_id,
-        is_logged_in: Customer.isLoggedIn(),
-        comment: {
-            id: $stateParams.comment_id,
-            text: ""
-        },
-        cardDesign: false
-    });
+.controller("FanwallCommentController", function ($scope, $translate, Dialog) {
 
-    FanwallPost.setValueId($stateParams.value_id);
-    FanwallComment.setValueId($stateParams.value_id);
-
-    $scope.post = function () {
-        if ($rootScope.isNotAvailableOffline()) {
-            return;
+    $scope.authorImagePath = function (image) {
+        if (image.length <= 0) {
+            return "./features/fanwall/assets/templates/images/customer-placeholder.png"
         }
+        return IMAGE_URL + "images/customer" + image;
+    };
 
-        if (_.isObject($scope.comment) &&
-            _.isString($scope.comment.text) &&
-            $scope.comment.text.length > 0 &&
-            $scope.comment.text.length < 1024) {
-            $scope.isLoading = true;
+    $scope.authorName = function (author) {
+        return author.firstname + " " + author.lastname;
+    };
 
-            FanwallComment
-            .add($scope.comment)
-            .then(function (data) {
-                if (data.success) {
-                    $scope.comment.text = '';
+    $scope.publicationDate = function (comment) {
+        return moment(comment.date * 1000).calendar();
+    };
 
-                    Dialog.alert('', data.message, 'OK', -1)
-                        .then(function () {
-                            Newswall.findAll(0, true)
-                                .then(function () {
-                                    $ionicHistory.goBack();
-                                });
-                        });
-                }
-            }).then(function () {
-                $scope.isLoading = false;
-            });
-        }
+    $scope.flagComment = function (comment) {
+        var title = $translate.instant("Report this message!", "fanwall");
+        var message = $translate.instant("Please let us know why you think this message is inappropriate.", "fanwall");
+        var placeholder = $translate.instant("Your message.", "fanwall");
+
+        Dialog
+        .prompt(
+            title,
+            message,
+            "text",
+            placeholder)
+        .then(function (value) {
+            alert("Youlou: " + value + ", " + comment.id);
+        });
     };
 });

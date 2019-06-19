@@ -27,10 +27,10 @@ class Post extends FormAbstract
         $this->addSimpleHidden("post_id");
 
         $title = $this->addSimpleText("title", p__("fanwall","Title"));
-        $title
-            ->setRequired(true);
+        $title->setAttrib("maxlength", 100);
 
-        $this->addSimpleText("subtitle", p__("fanwall","Subtitle"));
+        $subtitle = $this->addSimpleText("subtitle", p__("fanwall","Subtitle"));
+        $subtitle->setAttrib("maxlength", 255);
 
         $this->addSimpleImage("image", p__("fanwall","Add a picture"), p__("fanwall","Add a picture"), [
             "width" => 1000,

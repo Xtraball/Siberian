@@ -4,6 +4,7 @@ $optionValue = $this->getOptionValue();
 $formPost = $this->getFormPost();
 $posts = $this->getPosts();
 $formPostToggle = $this->getFormPostToggle();
+$formPostPin = $this->getFormPostPin();
 $formPostDelete = $this->getFormPostDelete();
 
 ?>
@@ -55,6 +56,7 @@ $formPostDelete = $this->getFormPostDelete();
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -64,6 +66,13 @@ $formPostDelete = $this->getFormPostDelete();
                             <td><?php echo $post->getTitle(); ?></td>
                             <td><?php echo $post->getSubtitle(); ?></td>
                             <td><?php echo $post->getDate(); ?></td>
+                            <td class="toggle-action">
+                                <?php
+                                $formPostPin->getElement("post_id")->setValue($post->getId());
+                                $formPostPin->setToggleState($post->getSticky());
+                                echo $formPostPin;
+                                ?>
+                            </td>
                             <td class="toggle-action">
                                 <?php
                                 $formPostToggle->getElement("post_id")->setValue($post->getId());

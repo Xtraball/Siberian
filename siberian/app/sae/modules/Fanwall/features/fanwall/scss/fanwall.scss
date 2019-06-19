@@ -1,8 +1,49 @@
 .module-fanwall {
   &.fanwall-list-l1 {
+    .bar-subheader {
+      padding: 0 !important;
+
+      .button-bar {
+        >.button {
+          img {
+            filter: grayscale(100%);
+            &.fw-icon-header {
+              height: 24px;
+              margin-top: 8px;
+            }
+          }
+
+          i {
+            filter: grayscale(100%);
+            &.icon {
+              &:before {
+                font-size: 24px !important;
+              }
+            }
+          }
+
+          &:first-child {
+            border-radius: 0;
+          }
+
+          &:last-child {
+            border-radius: 0;
+          }
+
+          &:active,
+          &.fw-icon-selected {
+            img,
+            i {
+              filter: grayscale(0);
+            }
+          }
+        }
+      }
+    }
+
     .item {
       padding-bottom: 0;
-      margin-bottom: 12px;
+      margin-top: 12px;
 
       .post-body {
         padding-top: 10px;
@@ -32,6 +73,16 @@
 
         h2 {
           font-weight: bold;
+
+          i {
+            &.icon {
+              &.icon-pin {
+                transform: rotate(30deg);
+              }
+
+              margin: 0 0 0 12px;
+            }
+          }
         }
       }
 
@@ -76,6 +127,53 @@
 
         .post-author {
           padding-top: 16px;
+        }
+      }
+    }
+  }
+
+  &.fanwall-comment-l1 {
+    .item-comment {
+      .comment-author {
+        &.item-avatar {
+          padding-top: 5px;
+          padding-left: 50px;
+          min-height: 50px;
+        }
+
+        h2 {
+          font-weight: bold;
+          font-size: 13px;
+        }
+
+        p {
+          &.comment-date {
+            font-size: 11px;
+            line-height: 11px;
+          }
+
+          &.comment-text {
+            margin-top: 10px;
+            white-space: initial;
+
+            * {
+              white-space: initial;
+            }
+          }
+        }
+      }
+
+      &.card {
+        margin-bottom: 0;
+        margin-top: 12px;
+
+        .comment-author {
+          &.item-avatar {
+            padding-top: 15px;
+            padding-left: 50px;
+            padding-bottom: 10px;
+            min-height: 50px;
+          }
         }
       }
     }

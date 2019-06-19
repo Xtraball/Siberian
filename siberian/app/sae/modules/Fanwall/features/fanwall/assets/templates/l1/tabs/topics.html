@@ -1,10 +1,16 @@
-<ion-list ng-class="{'card' : cardDesign}"
-          ng-if="!isLoading && collection.length > 0">
+<ion-list ng-if="!isLoading && collection.length > 0">
     <ion-item ng-repeat="item in collection track by item.id"
+              ng-class="{'card' : cardDesign}"
               class="item-custom">
         <div class="item-avatar post-author">
             <img ng-src="{{ authorImagePath(item.author.image) }}" />
-            <h2>{{ authorName(item.author) }}</h2>
+            <h2>
+                {{ authorName(item.author) }}
+                <i class="icon ion-flag pull-right"
+                   ng-click="flagPost(item)"></i>
+                <i class="icon ion-pin pull-right balanced balanced-custom"
+                   ng-if="item.sticky"></i>
+            </h2>
             <p>{{ publicationDate(item) }}</p>
         </div>
         <div class="post-body">
@@ -43,7 +49,8 @@
                         <i class="icon ion-sb-like post-action-icon"></i> {{ ::"Like" | translate:"fanwall" }}
                     </span>
                 </div>
-                <div class="col-50 text-center">
+                <div class="col-50 text-center"
+                     ng-click="commentModal(item)">
                     <i class="icon ion-sb-comment post-action-icon"></i> {{ ::"Comment" | translate:"fanwall" }}
                 </div>
             </div>

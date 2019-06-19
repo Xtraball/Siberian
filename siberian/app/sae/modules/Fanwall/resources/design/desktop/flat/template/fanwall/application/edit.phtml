@@ -4,6 +4,7 @@ use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Form\Post as FormPost;
 use Fanwall\Form\Settings as FormSettings;
+use Fanwall\Form\Post\Pin as FormPostPin;
 use Fanwall\Form\Post\Toggle as FormPostToggle;
 use Fanwall\Form\Post\Delete as FormPostDelete;
 
@@ -40,6 +41,9 @@ $formPost->setValueId($optionValue->getId());
 
 $formPostToggle = new FormPostToggle();
 $formPostToggle->setValueId($optionValue->getId());
+
+$formPostPin = new FormPostPin();
+$formPostPin->setValueId($optionValue->getId());
 
 $formPostDelete = new FormPostDelete();
 $formPostDelete->setValueId($optionValue->getId());
@@ -99,6 +103,7 @@ $formSettings->setValueId($optionValue->getId());
             "option_value" => $optionValue,
             "form_post" => $formPost,
             "form_post_toggle" => $formPostToggle,
+            "form_post_pin" => $formPostPin,
             "form_post_delete" => $formPostDelete,
             "posts" => $posts,
         ]); ?>

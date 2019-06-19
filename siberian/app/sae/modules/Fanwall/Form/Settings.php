@@ -28,6 +28,34 @@ class Settings extends FormAbstract
         $radius
             ->setRequired(true);
 
+        $this->addSimpleSelect("design", p__("fanwall","Design"), [
+            "list" => p__("fanwall", "List"),
+            "card" => p__("fanwall", "Card"),
+        ]);
+
+        $icons = [
+            "icon_topics" => "Topics",
+            "icon_nearby" => "Nearby",
+            "icon_map" => "Map",
+            "icon_gallery" => "Gallery",
+            "icon_post" => "Post",
+        ];
+
+        foreach ($icons as $column => $label) {
+            $this->addSimpleImage($column, p__("fanwall", $label), p__("fanwall", $label), [
+                "width" => 64,
+                "height" => 64,
+            ]);
+        }
+
+        $this->groupElements("group_icons", [
+            "icon_topics_button",
+            "icon_nearby_button",
+            "icon_map_button",
+            "icon_gallery_button",
+            "icon_post_button",
+        ], p__("fanwall", "Custom icons"));
+
         $valueId = $this->addSimpleHidden("value_id");
         $valueId
             ->setRequired(true);

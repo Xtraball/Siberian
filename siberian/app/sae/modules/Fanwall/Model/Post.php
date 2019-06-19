@@ -78,6 +78,16 @@ class Post extends Base
     }
 
     /**
+     * @return mixed
+     */
+    public function toggleSticky()
+    {
+        $this->setSticky(!$this->getSticky())->save();
+
+        return $this->getSticky();
+    }
+
+    /**
      * @param $customerId
      * @param $headers
      * @throws \Zend_Exception
@@ -85,8 +95,8 @@ class Post extends Base
     public function like ($customerId, $headers = [])
     {
         $postLike = (new Like())->find([
-            "post_id = ?" => $this->getId(),
-            "customer_id = ?" => $customerId,
+            "post_id" => $this->getId(),
+            "customer_id" => $customerId,
         ]);
 
         if (!$postLike->getId()) {
@@ -106,8 +116,8 @@ class Post extends Base
     public function unlike ($customerId)
     {
         $postLike = (new Like())->find([
-            "post_id = ?" => $this->getId(),
-            "customer_id = ?" => $customerId,
+            "post_id" => $this->getId(),
+            "customer_id" => $customerId,
         ]);
 
         if ($postLike->getId()) {

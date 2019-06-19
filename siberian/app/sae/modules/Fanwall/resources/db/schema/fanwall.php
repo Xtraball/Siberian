@@ -34,4 +34,40 @@ $schemas["fanwall"] = [
         "is_null" => true,
         "default" => "10.00",
     ],
+    "design" => [
+        "type" => "varchar(10)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "list",
+    ],
+    "icon_topics" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
+    "icon_nearby" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
+    "icon_map" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
+    "icon_gallery" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
+    "icon_post" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
 ];

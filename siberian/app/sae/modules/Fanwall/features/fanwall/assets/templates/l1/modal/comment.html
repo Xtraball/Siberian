@@ -1,0 +1,36 @@
+<ion-modal-view sb-page-background
+                ng-controller="FanwallCommentController"
+                class="module-fanwall fanwall-comment fanwall-comment-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ "Comments" | translate:"fanwall" }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="comment in item.comments track by comment.id"
+                      ng-class="{'card': cardDesign}"
+                      class="item-custom item-comment">
+                <div class="item-avatar comment-author">
+                    <img ng-src="{{ authorImagePath(comment.author.image) }}" />
+                    <h2>
+                        {{ authorName(comment.author) }}
+                        <i class="icon ion-flag pull-right"
+                           ng-click="flagComment(comment)"></i>
+                    </h2>
+                    <p class="comment-date">{{ publicationDate(comment) }}</p>
+                    <p class="comment-text"
+                       ng-if="item.text.length > 0"
+                       ng-bind-html="item.text | trusted_html"></p>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

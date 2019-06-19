@@ -37,10 +37,12 @@ $schemas["fanwall_post_like"] = [
         "type" => "varchar(255)",
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
     "user_agent" => [
         "type" => "varchar(255)",
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
 ];

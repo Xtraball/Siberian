@@ -10,57 +10,59 @@
             <i class="icon ion-sb-refresh"></i>
         </button>
 
-        <div sb-tooltip
-             style="margin: 0 10px;"
-             collection="shortFilters"
-             current-item="shortFilters[0]"
-             show-tooltip="false"
-             on-item-clicked="applyShortFilters(object)"
-             button-label="''"
-             button-icon="'icon ion-sb-more-round'"></div>
-
     </ion-nav-buttons>
 
-    <ion-content>
-
-        <div class="list"
-             ng-class="{'card': cardDesign}">
-            <div class="fanwall header">
-                <div class="button-bar">
-                    <button class="button button-custom button-positive button-positive-custom"
-                            ng-click="showTab('posts')">
-                        <i class="icon ion-sb-list1"></i>
-                        {{ ::"Posts" | translate:"fanwall" }}
-                    </button>
-                    <button class="button button-custom button-positive button-positive-custom"
-                            ng-click="showTab('map')">
-                        <i class="icon ion-map"></i>
-                        {{ ::"Map" | translate:"fanwall" }}
-                    </button>
-                    <button class="button button-custom button-positive button-positive-custom"
-                            ng-click="showTab('photos')">
-                        <i class="icon ion-image"></i>
-                        {{ ::"Photos" | translate:"fanwall" }}
-                    </button>
-                </div>
-            </div>
+    <ion-header-bar ng-if="!settingsIsLoading"
+                    class="bar-subheader">
+        <div class="button-bar">
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="showTab('topics')"
+                    ng-class="{'fw-icon-selected': currentTab == 'topics'}"
+                    ng-bind-html="displayIcon('topics') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="showTab('nearby')"
+                    ng-class="{'fw-icon-selected': currentTab == 'nearby'}"
+                    ng-bind-html="displayIcon('nearby') | trusted_html">
+                <i class="icon ion-sb-fw-nearby"></i>
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="showTab('map')"
+                    ng-class="{'fw-icon-selected': currentTab == 'map'}"
+                    ng-bind-html="displayIcon('map') | trusted_html">
+                <i class="icon ion-sb-fw-map"></i>
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="showTab('gallery')"
+                    ng-class="{'fw-icon-selected': currentTab == 'gallery'}"
+                    ng-bind-html="displayIcon('gallery') | trusted_html">
+                <i class="icon ion-sb-fw-gallery"></i>
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="createPost()"
+                    ng-bind-html="displayIcon('post') | trusted_html">
+                <i class="icon ion-sb-fw-post"></i>
+            </button>
         </div>
+    </ion-header-bar>
+
+    <ion-content ng-class="{'has-subheader' : !settingsIsLoading}">
 
         <div class="loader"
              ng-show="isLoading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div ng-show="currentTab == 'posts'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/posts.html'"></div>
+        <div ng-show="currentTab == 'topics'">
+            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/topics.html'"></div>
         </div>
 
         <div ng-show="currentTab == 'map'">
             <div ng-include="'./features/fanwall/assets/templates/l1/tabs/map.html'"></div>
         </div>
 
-        <div ng-show="currentTab == 'photos'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/photos.html'"></div>
+        <div ng-show="currentTab == 'gallery'">
+            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/gallery.html'"></div>
         </div>
 
     </ion-content>
