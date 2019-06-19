@@ -40,6 +40,12 @@ $schemas["fanwall"] = [
         "collation" => "utf8_unicode_ci",
         "default" => "list",
     ],
+    "admin_emails" => [
+        "type" => "text",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "default" => "",
+    ],
     "icon_topics" => [
         "type" => "varchar(255)",
         "is_null" => true,

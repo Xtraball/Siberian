@@ -2468,10 +2468,6 @@
         "flat\/template\/cms\/application\/privacypolicy\/edit.phtml": "app\/sae\/modules\/Cms\/resources\/design\/desktop\/flat\/template\/cms\/application\/privacypolicy\/edit.phtml",
         "flat\/layout\/codescan.xml": "app\/sae\/modules\/Codescan\/resources\/design\/desktop\/flat\/layout\/codescan.xml",
         "flat\/template\/codescan\/application\/edit.phtml": "app\/sae\/modules\/Codescan\/resources\/design\/desktop\/flat\/template\/codescan\/application\/edit.phtml",
-        "flat\/layout\/comment.xml": "app\/sae\/modules\/Comment\/resources\/design\/desktop\/flat\/layout\/comment.xml",
-        "flat\/template\/comment\/application\/edit\/answers.phtml": "app\/sae\/modules\/Comment\/resources\/design\/desktop\/flat\/template\/comment\/application\/edit\/answers.phtml",
-        "flat\/template\/comment\/application\/edit.phtml": "app\/sae\/modules\/Comment\/resources\/design\/desktop\/flat\/template\/comment\/application\/edit.phtml",
-        "flat\/template\/comment\/gdpr.phtml": "app\/sae\/modules\/Comment\/resources\/design\/desktop\/flat\/template\/comment\/gdpr.phtml",
         "flat\/layout\/contact.xml": "app\/sae\/modules\/Contact\/resources\/design\/desktop\/flat\/layout\/contact.xml",
         "flat\/template\/contact\/application\/edit.phtml": "app\/sae\/modules\/Contact\/resources\/design\/desktop\/flat\/template\/contact\/application\/edit.phtml",
         "flat\/images\/customization\/layout\/tabbar_account\/layout-1.png": "app\/sae\/modules\/Customer\/resources\/design\/desktop\/flat\/images\/customization\/layout\/tabbar_account\/layout-1.png",
@@ -2492,7 +2488,6 @@
         "flat\/template\/event\/application\/edit.phtml": "app\/sae\/modules\/Event\/resources\/design\/desktop\/flat\/template\/event\/application\/edit.phtml",
         "flat\/layout\/fanwall.xml": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/layout\/fanwall.xml",
         "flat\/template\/fanwall\/application\/edit\/answers.phtml": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/template\/fanwall\/application\/edit\/answers.phtml",
-        "flat\/template\/fanwall\/application\/edit-old.phtml": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/template\/fanwall\/application\/edit-old.phtml",
         "flat\/template\/fanwall\/application\/edit.css": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/template\/fanwall\/application\/edit.css",
         "flat\/template\/fanwall\/application\/edit.js": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/template\/fanwall\/application\/edit.js",
         "flat\/template\/fanwall\/application\/edit.phtml": "app\/sae\/modules\/Fanwall\/resources\/design\/desktop\/flat\/template\/fanwall\/application\/edit.phtml",
@@ -2735,6 +2730,8 @@
         "template\/test\/footer.phtml": "app\/sae\/modules\/Backoffice\/resources\/design\/email\/template\/test\/footer.phtml",
         "template\/test\/header.phtml": "app\/sae\/modules\/Backoffice\/resources\/design\/email\/template\/test\/header.phtml",
         "template\/test\/test.phtml": "app\/sae\/modules\/Backoffice\/resources\/design\/email\/template\/test\/test.phtml",
+        "layout\/fanwall.xml": "app\/sae\/modules\/Fanwall\/resources\/design\/email\/layout\/fanwall.xml",
+        "template\/fanwall\/report.phtml": "app\/sae\/modules\/Fanwall\/resources\/design\/email\/template\/fanwall\/report.phtml",
         "layout\/job.xml": "app\/sae\/modules\/Job\/resources\/design\/email\/layout\/job.xml",
         "template\/job\/contact_form.phtml": "app\/sae\/modules\/Job\/resources\/design\/email\/template\/job\/contact_form.phtml"
     }

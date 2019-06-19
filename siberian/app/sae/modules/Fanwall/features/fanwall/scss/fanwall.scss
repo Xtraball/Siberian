@@ -5,6 +5,14 @@
 
       .button-bar {
         >.button {
+
+          &.button-positive-custom {
+            &.activated {
+              background-color: $button-positive-custom-bg !important;
+              border-color: $button-positive-custom-border !important;
+            }
+          }
+
           img {
             filter: grayscale(100%);
             &.fw-icon-header {

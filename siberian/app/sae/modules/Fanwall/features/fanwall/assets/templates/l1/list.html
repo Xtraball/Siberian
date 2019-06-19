@@ -17,28 +17,40 @@
         <div class="button-bar">
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('topics')"
-                    ng-class="{'fw-icon-selected': currentTab == 'topics'}"
+                    ng-class="{
+                        'fw-icon-selected icon-active-custom': currentTab == 'topics',
+                        'icon-custom': currentTab != 'topics'
+                    }"
                     ng-bind-html="displayIcon('topics') | trusted_html">
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('nearby')"
-                    ng-class="{'fw-icon-selected': currentTab == 'nearby'}"
+                    ng-class="{
+                        'fw-icon-selected icon-active-custom': currentTab == 'nearby',
+                        'icon-custom': currentTab != 'nearby'
+                    }"
                     ng-bind-html="displayIcon('nearby') | trusted_html">
                 <i class="icon ion-sb-fw-nearby"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('map')"
-                    ng-class="{'fw-icon-selected': currentTab == 'map'}"
+                    ng-class="{
+                        'fw-icon-selected icon-active-custom': currentTab == 'map',
+                        'icon-custom': currentTab != 'map'
+                    }"
                     ng-bind-html="displayIcon('map') | trusted_html">
                 <i class="icon ion-sb-fw-map"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('gallery')"
-                    ng-class="{'fw-icon-selected': currentTab == 'gallery'}"
+                    ng-class="{
+                        'fw-icon-selected icon-active-custom': currentTab == 'gallery',
+                        'icon-custom': currentTab != 'gallery'
+                    }"
                     ng-bind-html="displayIcon('gallery') | trusted_html">
                 <i class="icon ion-sb-fw-gallery"></i>
             </button>
-            <button class="button button-custom button-positive button-positive-custom"
+            <button class="button button-custom button-positive button-positive-custom icon-custom"
                     ng-click="createPost()"
                     ng-bind-html="displayIcon('post') | trusted_html">
                 <i class="icon ion-sb-fw-post"></i>

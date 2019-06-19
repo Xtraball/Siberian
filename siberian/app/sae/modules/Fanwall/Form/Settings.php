@@ -24,6 +24,10 @@ class Settings extends FormAbstract
 
         $this->addSimpleHidden("fanwall_id");
 
+        $this->addSimpleText(
+            "admin_emails",
+            p__("fanwall", "Admin e-mails (reports & moderation)"));
+
         $radius = $this->addSimpleText("radius", p__("fanwall","Near me radius (in km)"));
         $radius
             ->setRequired(true);

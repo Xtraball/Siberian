@@ -6,7 +6,7 @@
  */
 angular
 .module("starter")
-.controller("FanwallCommentController", function ($scope, $translate, Dialog) {
+.controller("FanwallCommentController", function ($scope, $translate, Loader, Dialog, FanwallPost) {
 
     $scope.authorImagePath = function (image) {
         if (image.length <= 0) {
@@ -35,7 +35,17 @@ angular
             "text",
             placeholder)
         .then(function (value) {
-            alert("Youlou: " + value + ", " + comment.id);
+            Loader.show();
+
+            FanwallPost
+            .reportComment(comment.id, value)
+            .then(function (payload) {
+                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+            }, function (payload) {
+                Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+            }).then(function () {
+                Loader.hide();
+            });
         });
     };
 });

@@ -97,6 +97,18 @@ $schemas["fanwall_post"] = [
         "type" => "tinyint(1) unsigned",
         "default" => "0",
     ],
+    'is_reported' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'report_reasons' => [
+        'type' => 'longtext',
+        'default' => '[]',
+    ],
+    'report_token' => [
+        'type' => 'varchar(255)',
+        'default' => '',
+    ],
     "created_at" => [
         "type" => "datetime",
     ],

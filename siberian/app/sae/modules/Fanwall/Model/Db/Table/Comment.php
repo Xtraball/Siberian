@@ -43,6 +43,7 @@ class Comment extends DbTable
         ;
 
         $select->where("fanwall_post_comment.post_id = ?", $postId);
+        $select->where("fanwall_post_comment.is_visible = ?", 1);
         $select->order("created_at ASC");
 
         return $this->toModelClass($this->_db->fetchAll($select));

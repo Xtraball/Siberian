@@ -10,6 +10,14 @@ use Customer_Model_Customer as Customer;
  * @package Fanwall\Model
  *
  * @method Db\Table\Comment getTable()
+ *
+ * @method integer getId()
+ * @method $this setReportReasons(string $jsonReasons)
+ * @method $this setReportToken(string $token)
+ * @method $this setIsReported(boolean $isReported)
+ * @method $this setIsVisible(boolean $isVisible)
+ * @method string getReportReasons()
+ * @method string getReportToken()
  */
 class Comment extends Base
 {

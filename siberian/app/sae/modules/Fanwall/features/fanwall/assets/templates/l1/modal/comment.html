@@ -26,8 +26,8 @@
                     </h2>
                     <p class="comment-date">{{ publicationDate(comment) }}</p>
                     <p class="comment-text"
-                       ng-if="item.text.length > 0"
-                       ng-bind-html="item.text | trusted_html"></p>
+                       ng-if="comment.text.length > 0"
+                       ng-bind-html="comment.text | trusted_html"></p>
                 </div>
             </ion-item>
         </ion-list>

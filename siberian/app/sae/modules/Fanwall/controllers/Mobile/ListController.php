@@ -68,8 +68,7 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "firstname" => (string) $comment->getFirstname(),
                             "lastname" => (string) $comment->getLastname(),
                             "nickname" => (string) $comment->getnickname(),
-                            //"image" => (string) $comment->getAuthorImage(),
-                            "image" => "",
+                            "image" => (string) $comment->getAuthorImage(),
                         ],
                     ];
                 }
@@ -107,8 +106,7 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
                         "nickname" => (string) $post->getnickname(),
-                        //"image" => (string) $post->getAuthorImage(),
-                        "image" => "",
+                        "image" => (string) $post->getAuthorImage(),
                     ],
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,

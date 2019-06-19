@@ -10,6 +10,7 @@ use Zend_Exception;
  * Class Fanwall
  * @package Fanwall\Model
  *
+ * @method string getAdminEmails()
  * @method string getIconTopics()
  * @method string getIconNearby()
  * @method string getIconMap()

@@ -88,6 +88,41 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
+    /**
+     * Report unwanted post!
+     *
+     * @param postId
+     * @param reportMessage
+     */
+    factory.reportPost = function (postId, reportMessage) {
+        return $pwaRequest.post("fanwall/mobile_report/report-post", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId,
+                reportMessage: reportMessage
+            }
+        });
+    };
+
+    /**
+     * Report unwanted comment!
+     *
+     * @param commentId
+     * @param reportMessage
+     */
+    factory.reportComment = function (commentId, reportMessage) {
+        return $pwaRequest.post("fanwall/mobile_report/report-comment", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                commentId: commentId,
+                reportMessage: reportMessage
+            }
+        });
+    };
 
     return factory;
 });

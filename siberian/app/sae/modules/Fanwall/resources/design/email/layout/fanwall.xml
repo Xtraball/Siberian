@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <report_email>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="fanwall/report.phtml" />
+        </views>
+    </report_email>
+</layout>

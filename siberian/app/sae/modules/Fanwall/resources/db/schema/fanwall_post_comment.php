@@ -16,8 +16,8 @@ $schemas["fanwall_post_comment"] = [
     "post_id" => [
         "type" => "int(11) unsigned",
         "foreign_key" => [
-            "table" => "comment",
-            "column" => "comment_id",
+            "table" => "fanwall_post",
+            "column" => "post_id",
             "name" => "FPC_POSTID_FP_POSTID",
             "on_update" => "CASCADE",
             "on_delete" => "CASCADE",
@@ -50,6 +50,18 @@ $schemas["fanwall_post_comment"] = [
     "is_visible" => [
         "type" => "tinyint(1)",
         "default" => "1",
+    ],
+    'is_reported' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'report_reasons' => [
+        'type' => 'longtext',
+        'default' => '[]',
+    ],
+    'report_token' => [
+        'type' => 'varchar(255)',
+        'default' => '',
     ],
     "created_at" => [
         "type" => "datetime",

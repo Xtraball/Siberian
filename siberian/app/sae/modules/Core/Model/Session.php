@@ -157,6 +157,9 @@ class Core_Model_Session extends Zend_Session_Namespace
         return $this;
     }
 
+    /**
+     * @return Customer_Model_Customer
+     */
     public function getCustomer() {
         if($this->getInstance() AND $this->loggedAs() == self::TYPE_CUSTOMER) {
             return $this->getInstance()->getObject();

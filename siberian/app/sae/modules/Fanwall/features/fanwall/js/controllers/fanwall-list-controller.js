@@ -7,7 +7,7 @@
 angular
 .module("starter")
 .controller("FanwallListController", function ($filter, $ionicScrollDelegate, $pwaRequest, $rootScope, $scope, $state,
-                                               $stateParams, $timeout, $translate, Customer, Dialog, Location, Modal,
+                                               $stateParams, $timeout, $translate, Customer, Dialog, Loader, Location, Modal,
                                                FanwallPost, FanwallUtils) {
     angular.extend($scope, {
         isLoading: false,
@@ -104,7 +104,17 @@ angular
             "text",
             placeholder)
         .then(function (value) {
-            alert("Youlou: " + value + ", " + item.id);
+            Loader.show();
+
+            FanwallPost
+            .reportPost(item.id, value)
+            .then(function (payload) {
+                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+            }, function (payload) {
+                Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+            }).then(function () {
+                Loader.hide();
+            });
         });
     };
 

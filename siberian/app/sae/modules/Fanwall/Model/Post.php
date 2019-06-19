@@ -9,6 +9,14 @@ use Core\Model\Base;
  * @package Fanwall\Model
  *
  * @method Db\Table\Post getTable()
+ *
+ * @method integer getId()
+ * @method $this setReportReasons(string $jsonReasons)
+ * @method $this setReportToken(string $token)
+ * @method $this setIsReported(boolean $isReported)
+ * @method $this setIsVisible(boolean $isVisible)
+ * @method string getReportReasons()
+ * @method string getReportToken()
  */
 class Post extends Base
 {
