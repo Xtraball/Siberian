@@ -82,7 +82,7 @@ angular
     };
 
     $scope.publicationDate = function (item) {
-        return moment(item.date * 1000).calendar();
+        return $filter("moment_calendar")(item.date * 1000);
     };
 
     // Modal create post!
@@ -181,6 +181,10 @@ angular
         if (refresh === true) {
             $scope.collection = [];
             FanwallPost.collection = [];
+
+            $timeout(function () {
+                $ionicScrollDelegate.$getByHandle("mainScroll").scrollTop();
+            });
         }
 
         FanwallPost

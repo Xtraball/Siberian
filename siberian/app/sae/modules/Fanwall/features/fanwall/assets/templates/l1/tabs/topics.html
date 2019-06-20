@@ -11,7 +11,7 @@
                 <i class="icon ion-pin pull-right balanced balanced-custom"
                    ng-if="item.sticky"></i>
             </h2>
-            <p>{{ publicationDate(item) }}</p>
+            <p class="post-date">{{ publicationDate(item) }}</p>
         </div>
         <div class="post-body">
             <h2 ng-if="item.title.length > 0">{{ item.title }}</h2>
@@ -25,6 +25,7 @@
                  ng-src="{{ imagePath(item.image) }}" />
         </div>
         <div class="post-likes"
+             ng-click="commentModal(item)"
              ng-if="item.likeCount > 0 || item.commentCount > 0">
             <div class="row">
                 <div class="col-50 text-left">
@@ -65,7 +66,7 @@
     </ion-item>
 </ion-list>
 
-<ion-infinite-scroll ng-if="hasMore"
+<ion-infinite-scroll ng-if="!isLoading && hasMore"
                      on-infinite="loadMore()"
                      immediate-check="false"
                      distance="10%"

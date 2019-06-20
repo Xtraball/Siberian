@@ -11,20 +11,20 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, Modal) {
 
     /**
      *
-     * @param item
+     * @param post
      * @param cardDesign
      */
-    factory.commentModal = function (item, cardDesign) {
+    factory.commentModal = function (post, cardDesign) {
         Modal
         .fromTemplateUrl("features/fanwall/assets/templates/l1/modal/comment.html", {
             scope: angular.extend($rootScope.$new(true), {
-                item: item,
+                post: post,
                 cardDesign: cardDesign,
                 close: function () {
                     factory._commentModal.hide();
                 }
             }),
-            animation: "slide-in-up"
+            animation: "slide-in-right-left"
         }).then(function (modal) {
             factory._commentModal = modal;
             factory._commentModal.show();

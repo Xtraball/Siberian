@@ -89,6 +89,23 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     };
 
     /**
+     * Send new comment!
+     *
+     * @param form
+     */
+    factory.sendComment = function (postId, form) {
+        return $pwaRequest.post("fanwall/mobile_list/send-comment", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId,
+                form: form
+            }
+        });
+    };
+
+    /**
      * Report unwanted post!
      *
      * @param postId

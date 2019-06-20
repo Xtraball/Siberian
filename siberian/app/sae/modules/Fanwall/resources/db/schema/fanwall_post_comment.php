@@ -43,6 +43,12 @@ $schemas["fanwall_post_comment"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "picture" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "is_null" => true,
+    ],
     "flag" => [
         "type" => "tinyint(1) unsigned",
         "default" => "0",
@@ -62,6 +68,18 @@ $schemas["fanwall_post_comment"] = [
     'report_token' => [
         'type' => 'varchar(255)',
         'default' => '',
+    ],
+    "customer_ip" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "is_null" => true,
+    ],
+    "user_agent" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
     "created_at" => [
         "type" => "datetime",

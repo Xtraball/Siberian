@@ -6,6 +6,7 @@ use Fanwall\Model\Like;
 use Fanwall\Model\Comment;
 use Siberian\Xss;
 use Siberian\Exception;
+use Siberian\Feature;
 
 /**
  * Class Fanwall_Mobile_ListController
@@ -59,18 +60,7 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
                 $comments = (new Comment())->findForPostId($post->getId());
                 $commentCollection = [];
                 foreach ($comments as $comment) {
-                    $commentCollection[] = [
-                        "id" => (integer) $comment->getId(),
-                        "text" => (string) Xss::sanitize($comment->getText()),
-                        "isFlagged" => (boolean) $comment->getFlag(),
-                        "date" => datetime_to_format($comment->getCreatedAt(), \Zend_Date::TIMESTAMP),
-                        "author" => [
-                            "firstname" => (string) $comment->getFirstname(),
-                            "lastname" => (string) $comment->getLastname(),
-                            "nickname" => (string) $comment->getnickname(),
-                            "image" => (string) $comment->getAuthorImage(),
-                        ],
-                    ];
+                    $commentCollection[] = $comment->forJson();
                 }
 
                 $iLiked = false;
@@ -213,6 +203,76 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
             $payload = [
                 "success" => true,
                 "message" => p__("fanwall", "You unlike this post."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function sendCommentAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $optionValue = $this->getCurrentOptionValue();
+            $values = $request->getBodyParams();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception(p__("fanwall", "You must be logged-in to comment a post."));
+            }
+
+            $customerId = $session->getCustomerId();
+            $postId = $values["postId"];
+            $form = $values["form"];
+            $text = $form["text"];
+            $picture = $form["picture"];
+
+            $post = (new Post())->find($postId);
+            if (!$post->getId()) {
+                throw new Exception(p__("fanwall", "The post you are trying to comment is not available."));
+            }
+
+            $headers = [
+                "user-agent" => $request->getHeader("User-Agent"),
+                "forwarded-for" => $request->getHeader("X-Forwarded-For"),
+                "remote-addr" => $request->getServer("REMOTE_ADDR"),
+            ];
+
+            $comment = new Comment();
+            $comment
+                ->setPostId($postId)
+                ->setCustomerId($customerId)
+                ->setText($text)
+                ->setUserAgent($headers["user_agent"])
+                ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
+                ->setIsVisible(true);
+
+            if (mb_strlen($picture) > 0) {
+                // Save base64 image to file
+                $uniqId = uniqid("fwimg_", true);
+                $tmpPath = path("/var/tmp/{$uniqId}");
+                $imagePath = base64imageToFile($picture, $tmpPath);
+                $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
+                $comment->setPicture($finalPath);
+            }
+
+            $comment->save();
+
+            $comments = (new Comment())->findForPostId($post->getId());
+            $commentCollection = [];
+            foreach ($comments as $comment) {
+                $commentCollection[] = $comment->forJson();
+            }
+
+            $payload = [
+                "success" => true,
+                "comments" => $commentCollection,
+                "message" => p__("fanwall", "Your comment is saved!"),
             ];
         } catch (\Exception $e) {
             $payload = [

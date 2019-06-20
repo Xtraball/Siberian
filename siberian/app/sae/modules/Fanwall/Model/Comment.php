@@ -4,6 +4,8 @@ namespace Fanwall\Model;
 
 use Core\Model\Base;
 use Customer_Model_Customer as Customer;
+use Siberian\Xss;
+use Zend_Date as Date;
 
 /**
  * Class Answer
@@ -50,5 +52,28 @@ class Comment extends Base
     public function findForPostId($postId)
     {
         return $this->getTable()->findForPostId($postId);
+    }
+
+    /**
+     * @return array|string
+     * @throws \Zend_Date_Exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Locale_Exception
+     */
+    public function forJson()
+    {
+        return [
+            "id" => (integer) $this->getId(),
+            "text" => (string) Xss::sanitize($this->getText()),
+            "isFlagged" => (boolean) $this->getFlag(),
+            "date" => datetime_to_format($this->getCreatedAt(), Date::TIMESTAMP),
+            "image" => (string) $this->getPicture(),
+            "author" => [
+                "firstname" => (string) $this->getFirstname(),
+                "lastname" => (string) $this->getLastname(),
+                "nickname" => (string) $this->getnickname(),
+                "image" => (string) $this->getAuthorImage(),
+            ],
+        ];
     }
 }

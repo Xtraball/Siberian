@@ -58,7 +58,8 @@
         </div>
     </ion-header-bar>
 
-    <ion-content ng-class="{'has-subheader' : !settingsIsLoading}">
+    <ion-content delegate-handle="mainScroll"
+                 ng-class="{'has-subheader' : !settingsIsLoading}">
 
         <div class="loader"
              ng-show="isLoading">

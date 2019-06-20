@@ -12,10 +12,12 @@
         <h1 class="title">{{ "Comments" | translate:"fanwall" }}</h1>
     </ion-header-bar>
 
-    <ion-content>
+    <ion-content delegate-handle="commentsScroll"
+                 class="has-footer-fixed">
         <ion-list>
-            <ion-item ng-repeat="comment in item.comments track by comment.id"
+            <ion-item ng-repeat="comment in post.comments track by comment.id"
                       ng-class="{'card': cardDesign}"
+                      repeat-done="repeatDone()"
                       class="item-custom item-comment">
                 <div class="item-avatar comment-author">
                     <img ng-src="{{ authorImagePath(comment.author.image) }}" />
@@ -28,9 +30,43 @@
                     <p class="comment-text"
                        ng-if="comment.text.length > 0"
                        ng-bind-html="comment.text | trusted_html"></p>
+                    <p class="comment-image"
+                       ng-if="comment.image.length > 0">
+                        <img ng-src="{{ imagePath(comment.image) }}" />
+                    </p>
                 </div>
             </ion-item>
         </ion-list>
     </ion-content>
+
+    <ion-footer-bar class="bar-custom comment-footer">
+
+        <div class="item-input-inset">
+            <a class="icon-active-custom"
+               ng-click="takePicture()">
+                <i class="icon ion-camera"
+                   style="font-size: 32px;">
+                    <b ng-if="form.picture.length > 0"
+                       class="badge badge-assertive badge-assertive-custom picture-badge">1</b>
+                </i>
+            </a>
+            <label class="item-input-wrapper">
+                <textarea rows="1"
+                          ng-model="form.text"
+                          placeholder="{{ ::'Write a comment...' | translate:'fanwall' }}"></textarea>
+            </label>
+            <a class="icon-active-custom clear-comment"
+               ng-show="showClearComment()"
+               ng-click="clearComment()">
+                <i class="icon ion-sb-clear"></i>
+            </a>
+            <a class="icon-active-custom"
+               ng-click="sendComment()">
+                <i class="icon ion-paper-airplane"
+                   style="font-size: 28px;"></i>
+            </a>
+        </div>
+
+    </ion-footer-bar>
 
 </ion-modal-view>
