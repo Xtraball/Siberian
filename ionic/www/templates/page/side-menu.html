@@ -7,6 +7,7 @@
 
     <ion-side-menu side="left"
                    width="layout.menu.sidebarLeftWidth"
+                   ng-class="{'menu-left-open': isMenuLeftOpen()}"
                    ng-if="showLeft()">
         <ng-include src="'homepage-menu.html'"
                     class="{{ layout_id }}"></ng-include>
@@ -14,11 +15,12 @@
 
     <ion-side-menu side="left"
                    width="contextualMenuSideWidth()"
-                   ng-if="contextualMenuExists() && showRight()">
+                   ng-class="{'menu-left-open': isMenuLeftOpen()}"
+                   ng-if="contextualMenuExists() && showLeft()">
         <ng-include src="contextualMenu()"></ng-include>
     </ion-side-menu>
 
-    <ion-side-menu-content ng-class="{'has-footer-fixed': showAlways()}">
+    <ion-side-menu-content ng-class="{'has-footer-fixed': showAlways(), 'menu-open' : isMenuOpen()}">
 
         <ion-nav-bar class="bar-custom">
             <ion-nav-back-button ng-click="goBack()"></ion-nav-back-button>
@@ -52,6 +54,7 @@
 
     <ion-side-menu side="right"
                    width="layout.menu.sidebarRightWidth"
+                   ng-class="{'menu-right-open': isMenuRightOpen()}"
                    ng-if="showRight()">
         <ng-include src="'homepage-menu.html'"
                     class="{{ layout_id }}"></ng-include>
@@ -59,6 +62,7 @@
 
     <ion-side-menu side="right"
                    width="contextualMenuSideWidth()"
+                   ng-class="{'menu-right-open': isMenuRightOpen()}"
                    ng-if="contextualMenuExists() && !showRight()"
                    is-enabled="contextualMenuIsEnabled()">
         <ng-include src="contextualMenu()"></ng-include>

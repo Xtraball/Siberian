@@ -40,11 +40,11 @@ class Fanwall extends Base
             "icons" => [],
         ];
         $icons = [
-            "topics" => $this->getIconTopics(),
+            "post" => $this->getIconPost(),
             "nearby" => $this->getIconNearby(),
             "map" => $this->getIconMap(),
             "gallery" => $this->getIconGallery(),
-            "post" => $this->getIconPost(),
+            "new" => $this->getIconNew(),
         ];
         foreach ($icons as $key => $path) {
             $iconPath = path("/images/application{$path}");
@@ -59,6 +59,48 @@ class Fanwall extends Base
 
         return $settings;
     }
+
+    /**
+     * @return array
+     */
+    public function getInappStates($value_id)
+    {
+
+        $in_app_states = [
+            [
+                "state" => "fanwall-home",
+                "offline" => false,
+                "params" => [
+                    "value_id" => $value_id,
+                ],
+            ],
+        ];
+
+        return $in_app_states;
+    }
+
+    /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/fanwall/mobile_home/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/fanwall/mobile_home/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
 
     /**
      * @param null $optionValue

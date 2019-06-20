@@ -97,11 +97,11 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->addData($values);
 
                 $icons = [
-                    "icon_topics" => "Topics",
+                    "icon_post" => "Posts",
                     "icon_nearby" => "Nearby",
                     "icon_map" => "Map",
                     "icon_gallery" => "Gallery",
-                    "icon_post" => "Post",
+                    "icon_new" => "New post",
                 ];
 
                 foreach ($icons as $column => $label) {

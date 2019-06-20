@@ -7,7 +7,6 @@
 angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     var factory = {
         value_id: null,
-        displayed_per_page: 0,
         extendedOptions: {},
         collection: []
     };
@@ -39,7 +38,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
             return $pwaRequest.reject("[Factory::FanwallPost.findAll] missing value_id");
         }
 
-        return $pwaRequest.get("fanwall/mobile_list/find-all", angular.extend({
+        return $pwaRequest.get("fanwall/mobile_post/find-all", angular.extend({
             urlParams: {
                 value_id: this.value_id,
                 offset: offset
@@ -48,26 +47,12 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
-    factory.loadSettings = function () {
-        var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
-        if (payload !== false) {
-            return $pwaRequest.resolve(payload);
-        }
-
-        // Otherwise fallback on PWA!
-        return $pwaRequest.get("fanwall/mobile_list/load-settings", {
-            urlParams: {
-                value_id: factory.value_id
-            }
-        });
-    };
-
     factory.like = function (postId) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::FanwallPost.like] missing value_id");
         }
 
-        return $pwaRequest.post("fanwall/mobile_list/like-post", angular.extend({
+        return $pwaRequest.post("fanwall/mobile_post/like-post", angular.extend({
             urlParams: {
                 value_id: this.value_id,
                 postId: postId
@@ -80,7 +65,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
             return $pwaRequest.reject("[Factory::FanwallPost.like] missing value_id");
         }
 
-        return $pwaRequest.post("fanwall/mobile_list/unlike-post", angular.extend({
+        return $pwaRequest.post("fanwall/mobile_post/unlike-post", angular.extend({
             urlParams: {
                 value_id: this.value_id,
                 postId: postId
@@ -94,7 +79,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
      * @param form
      */
     factory.sendComment = function (postId, form) {
-        return $pwaRequest.post("fanwall/mobile_list/send-comment", {
+        return $pwaRequest.post("fanwall/mobile_post/send-comment", {
             urlParams: {
                 value_id: factory.value_id
             },

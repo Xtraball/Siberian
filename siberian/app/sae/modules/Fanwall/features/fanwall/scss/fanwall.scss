@@ -146,6 +146,10 @@
 
   &.fanwall-comment-l1 {
     .item-comment {
+      .comment-date ~ .comment-image {
+        margin-top: 10px;
+      }
+
       .comment-author {
         &.item-avatar {
           padding-top: 5px;
@@ -234,6 +238,10 @@
       }
     }
   }
+}
+
+#baguetteBox-overlay {
+  pointer-events: all;
 }
 
 /* animation */

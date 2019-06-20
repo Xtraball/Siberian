@@ -12,14 +12,14 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, Modal) {
     /**
      *
      * @param post
-     * @param cardDesign
      */
-    factory.commentModal = function (post, cardDesign) {
+    factory.commentModal = function (post) {
+        console.log("passing post:", post);
+
         Modal
         .fromTemplateUrl("features/fanwall/assets/templates/l1/modal/comment.html", {
             scope: angular.extend($rootScope.$new(true), {
                 post: post,
-                cardDesign: cardDesign,
                 close: function () {
                     factory._commentModal.hide();
                 }

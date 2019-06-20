@@ -1,7 +1,9 @@
-<div id="google-maps"
-     class="map-canvas"
-     sb-maps
-     map="map"
-     config="map_config"
-     ng-if="map_config"
-     data-tap-disabled="true"></div>
+<ion-content delegate-handle="mainScroll"
+             class="has-subheader">
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+</ion-content>

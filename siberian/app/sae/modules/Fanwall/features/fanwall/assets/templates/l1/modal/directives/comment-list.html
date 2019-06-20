@@ -1,0 +1,7 @@
+<ion-list class="list-comments">
+    <fanwall-comment-item repeat-done="listDidRender()"
+                          id="{{ comment.id }}"
+                          ng-repeat="comment in post.comments track by comment.id"></fanwall-comment-item>
+</ion-list>
+
+

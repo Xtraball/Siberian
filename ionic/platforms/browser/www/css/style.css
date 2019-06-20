@@ -1976,6 +1976,34 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     box-shadow: 0 0 10px #000000; /** fix css footer */
 }
 
+.menu-content {
+    transform: translate3d(0px, 0px, 0px) !important;
+    transition: filter 200ms ease;
+}
+
+.menu-content.menu-open {
+    z-index: -1;
+    filter: brightness(80%);
+}
+
+.menu.menu-left {
+    transition: transform 200ms ease-in 200ms;
+    transform: translateX(-100%);
+}
+
+.menu.menu-left.menu-left-open {
+    transform: translateX(0%);
+}
+
+.menu.menu-right {
+    transition: transform 0.2s ease-in 0.2s;
+    transform: translateX(0%);
+}
+
+.menu.menu-right.menu-right-open {
+    transform: translateX(-100%);
+}
+
 /** Badges for Push notifications */
 .badge-custom {
     position: absolute;

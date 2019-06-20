@@ -46,7 +46,7 @@ $schemas["fanwall"] = [
         "collation" => "utf8_unicode_ci",
         "default" => "",
     ],
-    "icon_topics" => [
+    "icon_post" => [
         "type" => "varchar(255)",
         "is_null" => true,
         "charset" => "utf8",
@@ -70,7 +70,7 @@ $schemas["fanwall"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
-    "icon_post" => [
+    "icon_new" => [
         "type" => "varchar(255)",
         "is_null" => true,
         "charset" => "utf8",

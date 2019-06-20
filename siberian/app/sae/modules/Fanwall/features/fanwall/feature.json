@@ -7,53 +7,18 @@
     "desktop_uri": "fanwall/application/",
     "routes": [
         {
-            "state": "fanwall-list",
-            "controller": "FanwallListController",
-            "url": "fanwall/mobile_list/index/value_id/:value_id",
-            "template": "list.html",
+            "state": "fanwall-home",
+            "controller": "FanwallHomeController",
+            "url": "fanwall/mobile_home/index/value_id/:value_id",
+            "template": "home.html",
             "layouts": {
                 "1": "l1",
                 "2": "l2",
-                "3": "l5",
-                "4": "l6"
+                "3": "l3",
+                "4": "l4"
             },
             "cache": true,
             "root": true
-        },
-        {
-            "state": "fanwall-view",
-            "controller": "FanwallViewController",
-            "url": "fanwall/mobile_view/index/value_id/:value_id/comment_id/:comment_id",
-            "template": "l1/view.html",
-            "cache": true
-        },
-        {
-            "state": "fanwall-comment",
-            "controller": "FanwallCommentController",
-            "url": "fanwall/mobile_comment/index/value_id/:value_id/comment_id/:comment_id",
-            "template": "l1/comment.html",
-            "cache": true
-        },
-        {
-            "state": "fanwall-gallery",
-            "controller": "FanwallGalleryController",
-            "url": "fanwall/mobile_comment/index/value_id/:value_id/comment_id/:comment_id",
-            "template": "l1/gallery.html",
-            "cache": true
-        },
-        {
-            "state": "fanwall-map",
-            "controller": "FanwallMapController",
-            "url": "fanwall/mobile_map/index/value_id/:value_id",
-            "template": "l1/maps.html",
-            "cache": true
-        },
-        {
-            "state": "fanwall-edit",
-            "controller": "FanwallEditController",
-            "url": "fanwall/mobile_edit/value_id/:value_id",
-            "template": "l1/edit.html",
-            "cache": false
         }
     ],
     "layouts": [
@@ -71,9 +36,14 @@
         "js/controllers/fanwall-comment-controller.js",
         "js/controllers/fanwall-edit-controller.js",
         "js/controllers/fanwall-gallery-controller.js",
-        "js/controllers/fanwall-list-controller.js",
+        "js/controllers/fanwall-home-controller.js",
+        "js/controllers/fanwall-post-controller.js",
         "js/controllers/fanwall-map-controller.js",
         "js/controllers/fanwall-view-controller.js",
+        "js/directives/fanwall-comment-list.js",
+        "js/directives/fanwall-comment-item.js",
+        "js/directives/fanwall-comment-form.js",
+        "js/factory/fanwall.js",
         "js/factory/fanwall-utils.js",
         "js/factory/fanwall-post.js",
         "scss/fanwall.scss"

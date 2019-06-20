@@ -6,30 +6,23 @@
  */
 angular
 .module("starter")
-.controller("FanwallListController", function ($filter, $ionicScrollDelegate, $pwaRequest, $rootScope, $scope, $state,
+.controller("FanwallPostController", function ($filter, $ionicScrollDelegate, $rootScope, $scope, $state,
                                                $stateParams, $timeout, $translate, Customer, Dialog, Loader, Location, Modal,
-                                               FanwallPost, FanwallUtils) {
+                                               Fanwall, FanwallPost, FanwallUtils) {
     angular.extend($scope, {
         isLoading: false,
-        settingsIsLoading: true,
-        is_logged_in: Customer.isLoggedIn(),
-        value_id: $stateParams.value_id,
         collection: [],
-        pageTitle: $translate.instant("Fan Wall", "fanwall"),
         hasMore: false,
-        settings: [],
-        currentTab: "topics",
-        cardDesign: false
     });
 
     FanwallPost.setValueId($stateParams.value_id);
 
-    $scope.showTab = function (tabName) {
-        $scope.currentTab = tabName;
+    $scope.getCardDesign = function () {
+        return Fanwall.cardDesign;
     };
 
-    $scope.applyShortFilters = function (filter) {
-        console.log("applyShortFilters", filter);
+    $scope.getSettings = function () {
+        return Fanwall.settings;
     };
 
     $scope.imagePath = function (image) {
@@ -46,33 +39,6 @@ angular
         return IMAGE_URL + "images/customer" + image;
     };
 
-    $scope.displayIcon = function (key) {
-        var icons = $scope.settings.icons;
-        switch (key) {
-            case "topics":
-                return (icons.topics !== null) ?
-                    "<img class=\"fw-icon-header icon-topics\" src=\"" + icons.topics + "\" />" :
-                    "<i class=\"icon ion-sb-fw-topics\"></i>";
-            case "nearby":
-                return (icons.nearby !== null) ?
-                    "<img class=\"fw-icon-header icon-nearby\" src=\"" + icons.nearby + "\" />" :
-                    "<i class=\"icon ion-sb-fw-nearby\"></i>";
-            case "map":
-                return (icons.map !== null) ?
-                    "<img class=\"fw-icon-header icon-map\" src=\"" + icons.map + "\" />" :
-                    "<i class=\"icon ion-sb-fw-map\"></i>";
-            case "gallery":
-                return (icons.gallery !== null) ?
-                    "<img class=\"fw-icon-header icon-gallery\" src=\"" + icons.gallery + "\" />" :
-                    "<i class=\"icon ion-sb-fw-gallery\"></i>";
-            case "post":
-                return (icons.post !== null) ?
-                    "<img class=\"fw-icon-header icon-post\" src=\"" + icons.post + "\" />" :
-                    "<i class=\"icon ion-sb-fw-post\"></i>";
-        }
-
-    };
-
     $scope.liked = function (item) {
         return item.likes;
     };
@@ -83,13 +49,6 @@ angular
 
     $scope.publicationDate = function (item) {
         return $filter("moment_calendar")(item.date * 1000);
-    };
-
-    // Modal create post!
-    $scope.createPost = function () {
-        if (!Customer.isLoggedIn()) {
-            return Customer.loginModal();
-        }
     };
 
     $scope.flagPost = function (item) {
@@ -119,7 +78,7 @@ angular
     };
 
     $scope.commentModal = function (item) {
-        FanwallUtils.commentModal(item, $scope.cardDesign);
+        FanwallUtils.commentModal(item);
     };
 
     $scope.toggleLike = function (item) {
@@ -167,10 +126,6 @@ angular
         }
     };
 
-    $scope.refresh = function () {
-        $scope.loadContent(true);
-    };
-
     $scope.loadMore = function () {
         $scope.loadContent(false);
     };
@@ -204,12 +159,8 @@ angular
         });
     };
 
-    FanwallPost
-    .loadSettings()
-    .then(function (payload) {
-        $scope.settings = payload.settings;
-        $scope.cardDesign = payload.settings.cardDesign;
-        $scope.settingsIsLoading = false;
+    $rootScope.$on("fanwall.refresh", function () {
+        $scope.loadContent(true);
     });
 
     $scope.loadContent(true);

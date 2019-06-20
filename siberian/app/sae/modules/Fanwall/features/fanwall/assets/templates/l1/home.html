@@ -12,71 +12,52 @@
 
     </ion-nav-buttons>
 
-    <ion-header-bar ng-if="!settingsIsLoading"
+    <ion-header-bar ng-if="settingsIsLoaded"
                     class="bar-subheader">
         <div class="button-bar">
             <button class="button button-custom button-positive button-positive-custom"
-                    ng-click="showTab('topics')"
-                    ng-class="{
-                        'fw-icon-selected icon-active-custom': currentTab == 'topics',
-                        'icon-custom': currentTab != 'topics'
-                    }"
-                    ng-bind-html="displayIcon('topics') | trusted_html">
+                    ng-click="showTab('post')"
+                    ng-class="classTab('post')"
+                    ng-bind-html="displayIcon('post') | trusted_html">
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('nearby')"
-                    ng-class="{
-                        'fw-icon-selected icon-active-custom': currentTab == 'nearby',
-                        'icon-custom': currentTab != 'nearby'
-                    }"
+                    ng-class="classTab('nearby')"
                     ng-bind-html="displayIcon('nearby') | trusted_html">
                 <i class="icon ion-sb-fw-nearby"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('map')"
-                    ng-class="{
-                        'fw-icon-selected icon-active-custom': currentTab == 'map',
-                        'icon-custom': currentTab != 'map'
-                    }"
+                    ng-class="classTab('map')"
                     ng-bind-html="displayIcon('map') | trusted_html">
                 <i class="icon ion-sb-fw-map"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-click="showTab('gallery')"
-                    ng-class="{
-                        'fw-icon-selected icon-active-custom': currentTab == 'gallery',
-                        'icon-custom': currentTab != 'gallery'
-                    }"
+                    ng-class="classTab('gallery')"
                     ng-bind-html="displayIcon('gallery') | trusted_html">
                 <i class="icon ion-sb-fw-gallery"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom icon-custom"
                     ng-click="createPost()"
-                    ng-bind-html="displayIcon('post') | trusted_html">
+                    ng-bind-html="displayIcon('new') | trusted_html">
                 <i class="icon ion-sb-fw-post"></i>
             </button>
         </div>
     </ion-header-bar>
 
-    <ion-content delegate-handle="mainScroll"
-                 ng-class="{'has-subheader' : !settingsIsLoading}">
-
-        <div class="loader"
-             ng-show="isLoading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
+    <div ng-if="settingsIsLoaded">
+        <div ng-if="currentTab == 'post'">
+            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/post.html'"></div>
         </div>
 
-        <div ng-show="currentTab == 'topics'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/topics.html'"></div>
-        </div>
-
-        <div ng-show="currentTab == 'map'">
+        <div ng-if="currentTab == 'map'">
             <div ng-include="'./features/fanwall/assets/templates/l1/tabs/map.html'"></div>
         </div>
 
-        <div ng-show="currentTab == 'gallery'">
+        <div ng-if="currentTab == 'gallery'">
             <div ng-include="'./features/fanwall/assets/templates/l1/tabs/gallery.html'"></div>
         </div>
+    </div>
 
-    </ion-content>
 </ion-view>

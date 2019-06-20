@@ -6,27 +6,62 @@
  */
 angular
 .module("starter")
-.controller("FanwallGalleryController", function ($pwaRequest, $scope, $state, $stateParams, FanwallPost) {
+.controller("FanwallGalleryController", function ($scope, $state, $stateParams, FanwallGallery) {
     angular.extend($scope, {
-        isLoading: true,
-        value_id: $stateParams.value_id,
-        cardDesign: false
+        isLoading: false,
+        collection: [],
+        hasMore: false,
     });
 
-    FanwallPost.setValueId($stateParams.value_id);
+    FanwallGallery.setValueId($stateParams.value_id);
 
-    FanwallPost
-    .findAllPhotos()
-    .then(function (data) {
-        $scope.collection = data.collection;
-    }).then(function () {
-        $scope.isLoading = false;
-    });
+    $scope.getCardDesign = function () {
+        return Fanwall.cardDesign;
+    };
 
-    $scope.goToPost = function (item) {
-        $state.go("newswall-view", {
-            value_id: $stateParams.value_id,
-            comment_id: item.id
+    $scope.getSettings = function () {
+        return Fanwall.settings;
+    };
+
+    $scope.imagePath = function (image) {
+        if (image.length <= 0) {
+            return "./features/fanwall/assets/templates/images/placeholder.png"
+        }
+        return IMAGE_URL + "images/application" + image;
+    };
+
+    $scope.loadMore = function () {
+        $scope.loadContent(false);
+    };
+
+    $scope.loadContent = function (refresh) {
+        $scope.isLoading = true;
+
+        if (refresh === true) {
+            $scope.collection = [];
+            FanwallGallery.collection = [];
+
+            $timeout(function () {
+                $ionicScrollDelegate.$getByHandle("mainScroll").scrollTop();
+            });
+        }
+
+        FanwallGallery
+        .findAll($scope.collection.length, refresh)
+        .then(function (payload) {
+            $scope.collection = $scope.collection.concat(payload.collection);
+            FanwallGallery.collection = FanwallGallery.collection.concat(payload.collection);
+
+            $scope.pageTitle = payload.pageTitle;
+
+            $scope.hasMore = $scope.collection.length < payload.total;
+
+        }, function (payload) {
+
+        }).then(function () {
+            $scope.isLoading = false;
         });
     };
+
+    $scope.loadContent(true);
 });

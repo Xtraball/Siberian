@@ -38,11 +38,11 @@ class Settings extends FormAbstract
         ]);
 
         $icons = [
-            "icon_topics" => "Topics",
+            "icon_post" => "Posts",
             "icon_nearby" => "Nearby",
             "icon_map" => "Map",
             "icon_gallery" => "Gallery",
-            "icon_post" => "Post",
+            "icon_new" => "New post",
         ];
 
         foreach ($icons as $column => $label) {
@@ -53,11 +53,11 @@ class Settings extends FormAbstract
         }
 
         $this->groupElements("group_icons", [
-            "icon_topics_button",
+            "icon_post_button",
             "icon_nearby_button",
             "icon_map_button",
             "icon_gallery_button",
-            "icon_post_button",
+            "icon_new_button",
         ], p__("fanwall", "Custom icons"));
 
         $valueId = $this->addSimpleHidden("value_id");

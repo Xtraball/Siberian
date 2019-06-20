@@ -9,9 +9,9 @@ use Siberian\Exception;
 use Siberian\Feature;
 
 /**
- * Class Fanwall_Mobile_ListController
+ * Class Fanwall_Mobile_GalleryController
  */
-class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Default
+class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Default
 {
     /**
      * @var array
@@ -37,6 +37,7 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
             $offset = $request->getParam("offset", 0);
 
             $query = [
+                "LENGTH(fanwall_post.image) > 0",
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
@@ -217,6 +218,8 @@ class Fanwall_Mobile_ListController extends Application_Controller_Mobile_Defaul
     public function sendCommentAction ()
     {
         try {
+            throw new Exception(p__("fanwall", "You must be logged-in to comment a post."));
+
             $request = $this->getRequest();
             $session = $this->getSession();
             $optionValue = $this->getCurrentOptionValue();

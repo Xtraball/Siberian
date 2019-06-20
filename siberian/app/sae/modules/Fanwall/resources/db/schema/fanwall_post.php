@@ -66,9 +66,9 @@ $schemas["fanwall_post"] = [
     ],
     "image" => [
         "type" => "varchar(255)",
-        "is_null" => true,
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
+        "default" => "",
     ],
     "date" => [
         "type" => "varchar(100)",
