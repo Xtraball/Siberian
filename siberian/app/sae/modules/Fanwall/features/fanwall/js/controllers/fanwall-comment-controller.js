@@ -8,5 +8,4 @@ angular
 .module("starter")
 .controller("FanwallCommentController", function ($scope) {
 
-    console.log("my post is", $scope.post);
 });

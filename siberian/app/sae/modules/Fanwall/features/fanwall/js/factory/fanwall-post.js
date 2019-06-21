@@ -47,6 +47,21 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
+    factory.findAllNearby = function (location, offset, refresh) {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllNearby] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-nearby", angular.extend({
+            urlParams: {
+                value_id: this.value_id,
+                location: location,
+                offset: offset
+            },
+            refresh: refresh
+        }, factory.extendedOptions));
+    };
+
     factory.like = function (postId) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::FanwallPost.like] missing value_id");
@@ -74,8 +89,28 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     };
 
     /**
+     * Send new post!
+     *
+     * @param postId
+     * @param form
+     */
+    factory.sendPost = function (postId, form) {
+        return $pwaRequest.post("fanwall/mobile_post/send-post", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId,
+                form: form
+            },
+            cache: false
+        });
+    };
+
+    /**
      * Send new comment!
      *
+     * @param postId
      * @param form
      */
     factory.sendComment = function (postId, form) {
@@ -86,7 +121,8 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
             data: {
                 postId: postId,
                 form: form
-            }
+            },
+            cache: false
         });
     };
 

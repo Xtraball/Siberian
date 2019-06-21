@@ -33,5 +33,9 @@ angular.module("starter").factory("Fanwall", function ($pwaRequest) {
         });
     };
 
+    factory.toggleDesign = function () {
+        factory.cardDesign = !factory.cardDesign;
+    };
+
     return factory;
 });

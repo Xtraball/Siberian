@@ -6,8 +6,6 @@ angular
             restrict: 'E',
             templateUrl: "features/fanwall/assets/templates/l1/modal/directives/comment-item.html",
             controller: function ($scope) {
-                console.log("fanwallCommentItem my comment is", $scope.comment);
-
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
                 };
@@ -44,7 +42,7 @@ angular
                     var message = $translate.instant("Please let us know why you think this message is inappropriate.", "fanwall");
                     var placeholder = $translate.instant("Your message.", "fanwall");
 
-                    Dialog
+                    return Dialog
                     .prompt(
                         title,
                         message,

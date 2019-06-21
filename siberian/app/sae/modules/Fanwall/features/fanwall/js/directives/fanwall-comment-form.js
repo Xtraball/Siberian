@@ -19,10 +19,10 @@ angular.module('starter')
                     }
 
                     if ($scope.isSending) {
-                        return;
+                        return false;
                     }
 
-                    Picture
+                    return Picture
                     .takePicture()
                     .then(function (success) {
                         $scope.form.picture = success.image;
@@ -54,7 +54,7 @@ angular.module('starter')
                             firstname: Customer.customer.firstname,
                             lastname: Customer.customer.lastname,
                             nickname: Customer.customer.nickname,
-                            image: Customer.customer.image,
+                            image: Customer.customer.image
                         }
                     };
 
@@ -68,7 +68,7 @@ angular.module('starter')
 
                     // Prevent multiple submits & empty comments!
                     if ($scope.isSending || !$scope.showClearComment()) {
-                        return;
+                        return false;
                     }
 
                     // Instantly append post
@@ -76,7 +76,7 @@ angular.module('starter')
 
                     $scope.isSending = true;
 
-                    FanwallPost
+                    return FanwallPost
                     .sendComment($scope.post.id, $scope.form)
                     .then(function (payload) {
                         $scope.clearComment();

@@ -6,7 +6,8 @@
  */
 angular
 .module("starter")
-.controller("FanwallGalleryController", function ($scope, $state, $stateParams, FanwallGallery) {
+.controller("FanwallGalleryController", function ($scope, $state, $stateParams, $timeout, $ionicScrollDelegate,
+                                                  Fanwall, FanwallGallery) {
     angular.extend($scope, {
         isLoading: false,
         collection: [],

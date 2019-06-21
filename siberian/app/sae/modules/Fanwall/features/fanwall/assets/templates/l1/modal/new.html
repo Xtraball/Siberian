@@ -1,0 +1,98 @@
+<ion-modal-view sb-page-background
+                ng-controller="FanwallNewController"
+                class="module-fanwall fanwall-new fanwall-new-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::pageTitle | translate:"fanwall" }}</h1>
+        <button ng-show="locationIsDisabled()"
+                ng-click="requestLocation()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-location-off fanwall-location-action icon-warning-custom"></i>
+        </button>
+    </ion-header-bar>
+
+    <ion-content ng-class="{'has-footer-fixed': !getCardDesign()}">
+
+        <ion-list class="new-post-items">
+
+            <ion-item class="item-custom item-avatar post-author"
+                      ng-class="{'card': getCardDesign()}">
+                <img ng-src="{{ myAvatar() }}" />
+                <h2>
+                    {{ myName() }}
+                </h2>
+                <p ng-if="!locationIsDisabled()"
+                   class="post-location">{{ shortLocation }}</p>
+            </ion-item>
+
+            <ion-item class="item-input item-custom"
+                      ng-class="{'card': getCardDesign()}">
+                <label>
+                    <textarea placeholder="{{ 'Write your message...' | translate:'fanwall' }}"
+                              rows="12"
+                              ng-model="form.text"></textarea>
+                </label>
+            </ion-item>
+
+            <ion-item class="item-image item-custom"
+                      ng-class="{'card': getCardDesign()}"
+                      ng-if="form.picture.length > 0">
+                <div>
+                    <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                         ng-if="getCardDesign()"
+                         ng-click="removePicture()">
+                        <i class="icon ion-trash-a"></i>
+                    </div>
+                    <div class="remove-image-list ng-binding assertive assertive-custom"
+                         ng-if="!getCardDesign()"
+                         ng-click="removePicture()">
+                        <i class="icon ion-trash-a"></i>
+                    </div>
+
+                    <img ng-src="{{ picturePreview() }}"
+                         style="max-height: 20vh; width: auto; max-width: 100%; margin: 6px auto;" />
+                </div>
+            </ion-item>
+
+            <ion-item class="item-icon-left item-custom"
+                      ng-class="{'card': getCardDesign()}"
+                      ng-if="form.picture.length <= 0"
+                      ng-click="takePicture()">
+                <div class="row">
+                    <div class="col-90">
+                        <i class="icon ion-image add-image-icon"></i>
+                        <p>{{ ::"Add a picture" | translate:"fanwall" }}</p>
+                    </div>
+                    <div class="col-10">
+                        <i class="item-note ion-chevron-right arrow-center"></i>
+                    </div>
+                </div>
+            </ion-item>
+
+        </ion-list>
+
+        <div class="padding"
+             ng-if="getCardDesign()">
+            <button class="button button-assertive button-assertive-custom button-block"
+                    ng-click="sendPost();">
+                {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="icon ion-ios-paperplane"></i>
+            </button>
+        </div>
+
+    </ion-content>
+
+    <button class="post-button button button-assertive button-assertive-custom button-full"
+            ng-if="!getCardDesign()"
+            ng-click="sendPost();">
+        {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-ios-paperplane"></i>
+    </button>
+
+</ion-modal-view>

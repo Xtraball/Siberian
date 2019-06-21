@@ -103,7 +103,6 @@ $schemas["fanwall_post"] = [
     ],
     'report_reasons' => [
         'type' => 'longtext',
-        'default' => '[]',
     ],
     'report_token' => [
         'type' => 'varchar(255)',

@@ -52,6 +52,7 @@
     .item {
       padding-bottom: 0;
       margin-top: 12px;
+      margin-bottom: 0;
 
       .post-body {
         padding-top: 10px;
@@ -238,10 +239,113 @@
       }
     }
   }
+
+  &.fanwall-new-l1 {
+    .post-button {
+      position: fixed;
+      bottom: 0;
+      z-index: 100;
+      margin: 0 !important;
+    }
+
+    .post-author {
+      &.item-avatar {
+        padding-left: 72px;
+        min-height: 50px;
+      }
+
+      h2 {
+        font-weight: bold;
+
+        i {
+          &.icon {
+            &.icon-pin {
+              transform: rotate(30deg);
+            }
+
+            margin: 0 0 0 12px;
+          }
+        }
+      }
+
+      .post-location {
+        font-size: 11px;
+      }
+    }
+
+    .new-post-items {
+      .item {
+        margin-top: 12px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        &.item-avatar {
+          padding-left: 72px;
+          min-height: 72px;
+        }
+
+        &.card {
+          margin-top: 0;
+          margin-bottom: 6px;
+
+          &:first-of-type {
+            margin-top: 12px !important;
+          }
+        }
+      }
+    }
+
+    .remove-image-list,
+    .remove-image-card {
+      position: absolute;
+      right: 6px;
+      top: 6px;
+
+      i.icon {
+        font-size: 26px;
+      }
+    }
+  }
+
+  .fanwall-gallery {
+    justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+
+    .gallery-item {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      img {
+        width: 100%;
+      }
+
+      &:nth-child(1n) {
+        width: 32%;
+        margin-top: 2%;
+      }
+
+      &:nth-child(2n) {
+        width: 32%;
+        margin-left: 2%;
+        margin-right: 2%;
+        margin-top: 2%;
+      }
+
+      &:nth-child(3n) {
+        width: 32%;
+        margin-top: 2%;
+      }
+    }
+  }
 }
 
-#baguetteBox-overlay {
-  pointer-events: all;
+.fanwall-location-action {
+  &:before {
+    font-size: 26px !important;
+  }
 }
 
 /* animation */

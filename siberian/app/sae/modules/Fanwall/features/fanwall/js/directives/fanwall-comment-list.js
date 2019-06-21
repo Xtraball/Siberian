@@ -5,15 +5,21 @@ angular
         restrict: "E",
         replace: true,
         templateUrl: "features/fanwall/assets/templates/l1/modal/directives/comment-list.html",
+        link: function (scope) {
+            scope.$watch("post", function () {
+                // Updating local `post` instance
+                scope._post = scope.post;
+            });
+        },
         controller: function ($scope) {
-            console.log("fanwallCommentList my post is", $scope.post);
-
             $scope.scrollToBottom = function () {
-                ModalScrollDelegate
-                .$getByHandle("fanwall-comment-list")
-                .scrollBottom(true);
+                $timeout(function () {
+                    ModalScrollDelegate
+                        .$getByHandle("fanwall-comment-list")
+                        .scrollBottom(true);
 
-                Lightbox.run(".list-comments");
+                    Lightbox.run(".list-comments");
+                }, 200);
             };
 
             $scope.listDidRender = function () {

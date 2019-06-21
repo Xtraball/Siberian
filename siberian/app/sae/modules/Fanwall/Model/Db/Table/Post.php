@@ -34,7 +34,7 @@ class Post extends DbTable
         $select = $this->_db
             ->select()
             ->from("fanwall_post")
-            ->join(
+            ->joinLeft(
                 "customer",
                 "customer.customer_id = fanwall_post.customer_id",
                 [
@@ -43,6 +43,45 @@ class Post extends DbTable
                     "nickname",
                     "author_image" => new DbExpr("customer.image"),
                 ]);
+
+        foreach ($values as $condition => $value) {
+            $select->where($condition, $value);
+        }
+
+        if ($order !== null) {
+            $select->order($order);
+        }
+
+        if (array_key_exists("limit", $params) &&
+            array_key_exists("offset", $params)) {
+            $select->limit($params["limit"], $params["offset"]);
+        }
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return ModelPost[]
+     * @throws \Zend_Exception
+     */
+    public function findAllImages($values = [], $order = null, $params = [])
+    {
+        $select = $this->_db
+            ->select()
+            ->from("fanwall_post")
+            ->where("(fanwall_post.image != '' AND fanwall_post.image IS NOT NULL)");
+            //->joinLeft(
+            //    "customer",
+            //    "customer.customer_id = fanwall_post.customer_id",
+            //    [
+            //        "firstname",
+            //        "lastname",
+            //        "nickname",
+            //        "author_image" => new DbExpr("customer.image"),
+            //    ]);
 
         foreach ($values as $condition => $value) {
             $select->where($condition, $value);

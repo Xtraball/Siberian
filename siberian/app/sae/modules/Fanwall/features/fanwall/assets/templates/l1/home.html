@@ -5,6 +5,11 @@
 
     <ion-nav-buttons side="secondary">
 
+        <button ng-click="toggleDesign()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-layout1"></i>
+        </button>
+
         <button ng-click="refresh()"
                 class="button button-clear header-item">
             <i class="icon ion-sb-refresh"></i>
@@ -39,25 +44,14 @@
                 <i class="icon ion-sb-fw-gallery"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom icon-custom"
-                    ng-click="createPost()"
+                    ng-click="newPost()"
                     ng-bind-html="displayIcon('new') | trusted_html">
                 <i class="icon ion-sb-fw-post"></i>
             </button>
         </div>
     </ion-header-bar>
 
-    <div ng-if="settingsIsLoaded">
-        <div ng-if="currentTab == 'post'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/post.html'"></div>
-        </div>
-
-        <div ng-if="currentTab == 'map'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/map.html'"></div>
-        </div>
-
-        <div ng-if="currentTab == 'gallery'">
-            <div ng-include="'./features/fanwall/assets/templates/l1/tabs/gallery.html'"></div>
-        </div>
-    </div>
+    <div ng-if="settingsIsLoaded"
+         ng-include="'./features/fanwall/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
 
 </ion-view>

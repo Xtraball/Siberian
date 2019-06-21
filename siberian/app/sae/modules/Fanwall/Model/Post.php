@@ -149,4 +149,16 @@ class Post extends Base
     {
         return $this->getTable()->findAllWithCustomer($values, $order, $params);
     }
+
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return Post[]
+     * @throws \Zend_Exception
+     */
+    public function findAllImages($values = [], $order = null, $params = [])
+    {
+        return $this->getTable()->findAllImages($values, $order, $params);
+    }
 }
