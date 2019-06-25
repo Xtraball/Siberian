@@ -151,6 +151,9 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.pre_start = function () {
+        // Tries to disable battery optim.
+        MusicControls.disableBatteryOptimization();
+
         if (service.media) {
             service.media.pause();
         }
@@ -230,7 +233,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.openPlayer = function () {
-        $state.go('media-player', {
+        $state.go("media-player", {
             value_id: service.value_id
         });
 
