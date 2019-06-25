@@ -84,7 +84,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     var music_controls_events = function (event) {
         var response = JSON.parse(event);
 
-        switch (event.message) {
+        switch (response.message) {
             case 'music-controls-next':
                     // Do something
                     if (!service.is_radio) {
@@ -104,7 +104,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                     service.playPause();
                 break;
             case 'music-controls-destroy':
-                    service.destroy();
+                    service.destroy("player");
                 break;
 
             // Headset events (Android only)
@@ -213,15 +213,11 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         service.shuffle_tracks = [];
 
         if (service.use_music_controls) {
-            MusicControls.destroy(function (success) {
-                console.log("MusicControls.destroy success", success);
-            }, function (error) {
-                console.log("MusicControls.destroy error", error);
-            });
+            MusicControls.destroy();
         }
     };
 
-    service.destroy = function () {
+    service.destroy = function (origin) {
         $interval.cancel(service.seekbarTimer);
         if (service.media) {
             if (service.is_playing) {
@@ -230,6 +226,10 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         }
 
         service.reset();
+
+        if (origin === 'player') {
+            MediaPlayer.goBack(true, true);
+        }
     };
 
     service.openPlayer = function () {
@@ -471,7 +471,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                             }
                         }
 
-                        if (localFeatures.options[featIndex].path != $location.path()) {
+                        if (localFeatures.options[featIndex].path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false
