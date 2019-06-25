@@ -565,13 +565,28 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sh.cd(ROOT + '/ionic/');
                 }
 
-                var gradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
-                if (type === '--release') {
-                    gradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
-                }
+                if (platform === 'android') {
+                    var gradleArgs = 'cdvBuildDebug -x=:app:processDebugGoogleServices';
+                    if (type === '--release') {
+                        gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
+                    }
 
-                sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
-                sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                    var cordovaGradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
+                    if (type === '--release') {
+                        cordovaGradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
+                    }
+
+                    sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
+                    sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
+
+                    sh.cd(ROOT + '/ionic/platforms/' + platform);
+
+                    sprint('./gradlew ' + gradleArgs);
+                    sh.exec('./gradlew ' + gradleArgs);
+                } else {
+                    sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                    sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                }
             }
 
             // Ios specific, run push.rb to patch push notifications!
