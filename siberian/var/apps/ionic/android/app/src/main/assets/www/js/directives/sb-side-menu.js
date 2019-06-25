@@ -3,7 +3,8 @@
  */
 
 angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
-                                                            $timeout, HomepageLayout, ContextualMenu, Application) {
+                                                            $ionicSideMenuDelegate, $timeout, HomepageLayout,
+                                                            ContextualMenu) {
     return {
         restrict: 'E',
         replace: true,
@@ -30,6 +31,18 @@ angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootS
             /** Special trick to handle manual updates. */
             scope.checkForUpdate = function () {
                 $rootScope.checkForUpdate();
+            };
+
+            scope.isMenuOpen = function() {
+                return $ionicSideMenuDelegate.isOpen();
+            };
+
+            scope.isMenuLeftOpen = function() {
+                return $ionicSideMenuDelegate.isOpenLeft();
+            };
+
+            scope.isMenuRightOpen = function() {
+                return $ionicSideMenuDelegate.isOpenRight();
             };
 
             scope.showLeft = function () {

@@ -35,6 +35,9 @@
         <param name="onload" value="true" />
     </feature>
     <allow-navigation href="cdvfile:*" />
+    <feature name="GeofencePlugin">
+        <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
+    </feature>
     <feature name="Geolocation">
         <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
     </feature>
@@ -66,8 +69,17 @@
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
     <feature name="MusicControls">
-        <param name="android-package" value="com.homerours.musiccontrols.MusicControls" />
+        <param name="android-package" value="com.xtraball.musiccontrols.MusicControls" />
+    </feature>
+    <feature name="BrowserTab">
+        <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
     </feature>
     <feature name="Camera">
         <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
@@ -100,7 +112,7 @@
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
     <chcp>
-        <config-file url="https://anders.xtraball.com/var/apps/ionic/android/app/src/main/assets/www/chcp.json" />
+        <config-file url="PLATFORM_URL" />
         <native-interface version="10" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
@@ -110,6 +122,7 @@
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
     <preference name="loglevel" value="DEBUG" />
     <preference name="loadUrlTimeoutValue" value="60000" />
+    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />

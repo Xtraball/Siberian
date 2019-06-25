@@ -64,13 +64,21 @@ var musicControls = {
       [{ dismissable: dismissable }]
     );
   },
-
   destroy: function(successCallback, errorCallback) {
     cordova.exec(
       successCallback,
       errorCallback,
       "MusicControls",
       "destroy",
+      []
+    );
+  },
+  disableBatteryOptimization: function(successCallback, errorCallback) {
+    cordova.exec(
+      successCallback,
+      errorCallback,
+      "MusicControls",
+      "disableBatteryOptimization",
       []
     );
   },

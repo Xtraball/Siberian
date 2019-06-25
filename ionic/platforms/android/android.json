@@ -57,6 +57,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"GeofencePlugin\"><param name=\"android-package\" value=\"com.cowbell.cordova.geofence.GeofencePlugin\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
               "count": 1
             },
@@ -93,7 +97,27 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"MusicControls\"><param name=\"android-package\" value=\"com.homerours.musiccontrols.MusicControls\" /></feature>",
+              "xml": "<allow-navigation href=\"http://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"https://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"ionic://*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"webView\" value=\"com.ionicframework.cordova.webview.IonicWebViewEngine\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"MusicControls\"><param name=\"android-package\" value=\"com.xtraball.musiccontrols.MusicControls\" /></feature>",
               "count": 1
             }
           ]
@@ -153,7 +177,11 @@
               "count": 1
             },
             {
-              "xml": "<service android:name=\"com.homerours.musiccontrols.MusicControlsNotificationKiller\" />",
+              "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
+              "count": 1
+            },
+            {
+              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.xtraball.musiccontrols.MusicControlsWakeLock\" />",
               "count": 1
             }
           ],
@@ -177,6 +205,14 @@
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.FOREGROUND_SERVICE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />",
+              "count": 1
             }
           ]
         }
@@ -198,6 +234,18 @@
             },
             {
               "xml": "<activity android:label=\"Share\" android:name=\"com.google.zxing.client.android.encode.EncodeActivity\" />",
+              "count": 1
+            },
+            {
+              "xml": "<service android:exported=\"false\" android:label=\"@string/app_name\" android:name=\"com.cowbell.cordova.geofence.ReceiveTransitionsIntentService\"></service>",
+              "count": 1
+            },
+            {
+              "xml": "<receiver android:name=\"com.cowbell.cordova.geofence.BootReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
+              "count": 1
+            },
+            {
+              "xml": "<receiver android:name=\"com.cowbell.cordova.geofence.TransitionReceiver\"><intent-filter><action android:name=\"com.cowbell.cordova.geofence.TRANSITION\" /></intent-filter></receiver>",
               "count": 1
             },
             {
@@ -259,6 +307,26 @@
             {
               "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+              "count": 1
             }
           ],
           "application": [
@@ -278,6 +346,10 @@
       "res/xml/config.xml": {
         "parents": {
           "/*": [
+            {
+              "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
+              "count": 1
+            },
             {
               "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
               "count": 1
@@ -306,7 +378,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Push": {
-      "ANDROID_SUPPORT_V13_VERSION": "27.+",
+      "ANDROID_SUPPORT_V13_VERSION": "28.0.0",
       "FCM_VERSION": "17.0.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -323,7 +395,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BarcodeScanner": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "BrowserTab": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Camera": {
@@ -336,6 +410,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "File": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Geofence": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Geolocation": {
@@ -363,6 +440,10 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Insomnia": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "cordova-plugin-ionic-webview": {
+      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "28.0.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
@@ -440,6 +521,14 @@
       "pluginId": "BarcodeScanner",
       "clobbers": [
         "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
+      "id": "BrowserTab.BrowserTab",
+      "file": "plugins/BrowserTab/www/browsertab.js",
+      "pluginId": "BrowserTab",
+      "clobbers": [
+        "cordova.plugins.browsertab"
       ]
     },
     {
@@ -664,6 +753,22 @@
       "runs": true
     },
     {
+      "id": "Geofence.TransitionType",
+      "file": "plugins/Geofence/www/TransitionType.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "TransitionType"
+      ]
+    },
+    {
+      "id": "Geofence.geofence",
+      "file": "plugins/Geofence/www/geofence.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "geofence"
+      ]
+    },
+    {
       "id": "Geolocation.geolocation",
       "file": "plugins/Geolocation/www/android/geolocation.js",
       "pluginId": "Geolocation",
@@ -760,6 +865,14 @@
       ]
     },
     {
+      "id": "cordova-plugin-ionic-webview.IonicWebView",
+      "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
+      "pluginId": "cordova-plugin-ionic-webview",
+      "clobbers": [
+        "Ionic.WebView"
+      ]
+    },
+    {
       "id": "MusicControls.MusicControls",
       "file": "plugins/MusicControls/www/MusicControls.js",
       "pluginId": "MusicControls",
@@ -794,10 +907,12 @@
     "AdmobPro": "2.30.1",
     "AppVersion": "0.1.8",
     "BarcodeScanner": "7.1.2",
+    "BrowserTab": "0.2.1",
     "Camera": "4.0.3",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.1",
+    "Geofence": "0.6.0",
     "Geolocation": "4.0.1",
     "InAppBrowser": "3.0.0",
     "Keyboard": "2.2.1",
@@ -807,7 +922,8 @@
     "LocalNotification": "0.8.4.1",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
-    "MusicControls": "2.1.4",
+    "cordova-plugin-ionic-webview": "4.0.1",
+    "MusicControls": "2.2.0",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"
