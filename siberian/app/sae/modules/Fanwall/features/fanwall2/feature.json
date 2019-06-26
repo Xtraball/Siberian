@@ -1,6 +1,6 @@
 {
     "name": "Fanwall",
-    "code": "fanwall",
+    "code": "fanwall2",
     "version": "4.16.5",
     "category": "social",
     "model": "Fanwall_Model_Fanwall",
@@ -10,22 +10,10 @@
             "state": "fanwall-home",
             "controller": "FanwallHomeController",
             "url": "fanwall/mobile_home/index/value_id/:value_id",
-            "template": "home.html",
-            "layouts": {
-                "1": "l1",
-                "2": "l2",
-                "3": "l3",
-                "4": "l4"
-            },
+            "template": "l1/home.html",
             "cache": true,
             "root": true
         }
-    ],
-    "layouts": [
-        1,
-        2,
-        3,
-        4
     ],
     "icons": [
         "icons/fanwall1-flat.png",

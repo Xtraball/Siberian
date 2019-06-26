@@ -11,7 +11,7 @@ use Siberian\Exception;
 use Siberian\Feature;
 
 /**
- * Class Fanwall_ApplicationController
+ * Class Fanwall2_ApplicationController
  */
 class Fanwall_ApplicationController extends Application_Controller_Default
 {
