@@ -56,6 +56,14 @@ class Fanwall extends Base
         }
 
         $settings["cardDesign"] = (boolean) ($this->getDesign() === "card");
+        $settings["features"] = [
+            "enableNearby" => (boolean) $this->getEnableNearby(),
+            "enableMap" => (boolean) $this->getEnableMap(),
+            "enableGallery" => (boolean) $this->getEnableGallery(),
+            "enableUserLike" => (boolean) $this->getEnableUserLike(),
+            "enableUserPost" => (boolean) $this->getEnableUserPost(),
+            "enableUserComment" => (boolean) $this->getEnableUserComment(),
+        ];
 
         return $settings;
     }

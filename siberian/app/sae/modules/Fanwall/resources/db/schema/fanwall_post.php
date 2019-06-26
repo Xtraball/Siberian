@@ -97,16 +97,28 @@ $schemas["fanwall_post"] = [
         "type" => "tinyint(1) unsigned",
         "default" => "0",
     ],
-    'is_reported' => [
-        'type' => 'tinyint(1)',
-        'default' => '0',
+    "is_reported" => [
+        "type" => "tinyint(1)",
+        "default" => "0",
     ],
-    'report_reasons' => [
-        'type' => 'longtext',
+    "report_reasons" => [
+        "type" => "longtext",
     ],
-    'report_token' => [
-        'type' => 'varchar(255)',
-        'default' => '',
+    "report_token" => [
+        "type" => "varchar(255)",
+        "default" => "",
+    ],
+    "customer_ip" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "is_null" => true,
+    ],
+    "user_agent" => [
+        "type" => "varchar(255)",
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+        "is_null" => true,
     ],
     "created_at" => [
         "type" => "datetime",

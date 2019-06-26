@@ -4,7 +4,7 @@ angular
     return {
         restrict: "E",
         replace: true,
-        templateUrl: "features/fanwall/assets/templates/l1/modal/directives/comment-list.html",
+        templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-list.html",
         link: function (scope) {
             scope.$watch("post", function () {
                 // Updating local `post` instance
@@ -18,7 +18,9 @@ angular
                         .$getByHandle("fanwall-comment-list")
                         .scrollBottom(true);
 
-                    Lightbox.run(".list-comments");
+                    $timeout(function () {
+                        Lightbox.run(".list-comments");
+                    }, 200);
                 }, 200);
             };
 

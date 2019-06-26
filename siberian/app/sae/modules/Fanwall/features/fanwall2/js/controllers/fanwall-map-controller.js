@@ -6,59 +6,77 @@
  */
 angular
 .module("starter")
-.controller("FanwallMapController", function ($scope, $pwaRequest, $stateParams, Location, $state, FanwallPost) {
+.controller("FanwallMapController", function ($scope, $state, $stateParams, $timeout, $translate, Loader, Location,
+                                              FanwallPost, FanwallUtils) {
+
     angular.extend($scope, {
         isLoading: true,
-        value_id: $stateParams.value_id,
-        cardDesign: false
+        collection: [],
+        showInfoWindow: false,
+        currentPost: null,
+        filters: {
+            latitude: 0,
+            longitude: 0,
+        }
     });
 
     FanwallPost.setValueId($stateParams.value_id);
 
+    $scope.hideInfoWindow = function () {
+        $scope.showInfoWindow = false;
+    };
+
+    $scope.showPostModal = function (postGroup) {
+        FanwallUtils.showPostModal(postGroup);
+    };
+
     $scope.loadContent = function () {
-        FanwallPost
-        .findAllLocation()
-        .then(function (data) {
-            $scope.page_title = data.page_title;
-            $scope.collection = data.collection;
+        Loader.show($translate.instant("Fetching your location...", "fanwall"));
 
-            var markers = [];
+        Location
+        .getLocation({timeout: 10000}, true)
+        .then(function (position) {
+            $scope.filters.latitude = position.coords.latitude;
+            $scope.filters.longitude = position.coords.longitude;
+        }, function () {
+            $scope.filters.latitude = 0;
+            $scope.filters.longitude = 0;
+        }).then(function () {
+            Loader.hide();
 
-            for (var i = 0; i < $scope.collection.length; i++) {
-                var post = $scope.collection[i];
+            FanwallPost
+            .findAllMap($scope.filters, 0, false)
+            .then(function (payload) {
+                $scope.collection = payload.collection;
 
-                if (post.latitude && post.longitude) {
+                var markers = [];
+                for (var position in $scope.collection) {
+                    var postGroup = $scope.collection[position];
                     var marker = {
-                        title: post.text,
-                        link: $state.href('newswall-view', {
-                            value_id: $scope.value_id,
-                            comment_id: post.comment_id
+                        config: {
+                            postGroup: angular.copy(postGroup)
+                        },
+                        onClick: (function (marker) {
+                            $timeout(function () {
+                                $scope.showPostModal(marker.config.postGroup);
+                            });
                         })
                     };
 
-                    marker.latitude = post.latitude;
-                    marker.longitude = post.longitude;
-
-                    if (post.image) {
-                        marker.icon = {
-                            url: post.image,
-                            width: 70,
-                            height: 44
-                        };
-                    }
+                    marker.latitude = position.split("_")[0];
+                    marker.longitude = position.split("_")[1];
 
                     markers.push(marker);
                 }
-            }
 
-            $scope.map_config = {
-                markers: markers,
-                bounds_to_marker: true
-            };
-
-            $scope.isLoading = false;
-        }, function () {
-            $scope.isLoading = false;
+                $scope.mapConfig = {
+                    cluster: true,
+                    markers: markers,
+                    bounds_to_marker: true
+                };
+            }).finally(function () {
+                $scope.isLoading = false;
+            });
         });
     };
 

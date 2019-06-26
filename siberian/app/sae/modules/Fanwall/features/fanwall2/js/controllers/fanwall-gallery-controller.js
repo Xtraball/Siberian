@@ -6,7 +6,7 @@
  */
 angular
 .module("starter")
-.controller("FanwallGalleryController", function ($scope, $state, $stateParams, $timeout, $ionicScrollDelegate,
+.controller("FanwallGalleryController", function ($rootScope, $scope, $state, $stateParams, $timeout, $ionicScrollDelegate,
                                                   Fanwall, FanwallGallery) {
     angular.extend($scope, {
         isLoading: false,
@@ -26,7 +26,7 @@ angular
 
     $scope.imagePath = function (image) {
         if (image.length <= 0) {
-            return "./features/fanwall/assets/templates/images/placeholder.png"
+            return "./features/fanwall2/assets/templates/images/placeholder.png"
         }
         return IMAGE_URL + "images/application" + image;
     };
@@ -63,6 +63,10 @@ angular
             $scope.isLoading = false;
         });
     };
+
+    $rootScope.$on("fanwall.refresh", function () {
+        $scope.loadContent(true);
+    });
 
     $scope.loadContent(true);
 });

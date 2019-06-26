@@ -5,6 +5,7 @@
         <h2>
             {{ authorName(comment.author) }}
             <i class="icon ion-flag pull-right"
+               ng-if="!isOwner()"
                ng-click="flagComment(comment)"></i>
         </h2>
         <p class="comment-date">{{ publicationDate(comment) }}</p>

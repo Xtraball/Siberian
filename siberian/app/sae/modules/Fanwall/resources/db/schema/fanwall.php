@@ -76,4 +76,28 @@ $schemas["fanwall"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "enable_nearby" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
+    "enable_map" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
+    "enable_gallery" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
+    "enable_user_like" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
+    "enable_user_post" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
+    "enable_user_comment" => [
+        "type" => "tinyint(1)",
+        "default" => "1",
+    ],
 ];

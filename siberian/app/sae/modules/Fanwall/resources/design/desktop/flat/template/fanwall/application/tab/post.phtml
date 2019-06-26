@@ -48,11 +48,13 @@ $formPostDelete = $this->getFormPostDelete();
                     <thead>
                         <tr class="border-grey">
                             <th class="sortable"
-                                style="width:26%;"><?php echo p__("fanwall", "Title"); ?></th>
+                                style="width:10%;"><?php echo p__("fanwall", "Title"); ?></th>
                             <th class="sortable"
-                                style="width:34%;"><?php echo p__("fanwall", "Subtitle"); ?></th>
+                                style="width:10%;"><?php echo p__("fanwall", "Subtitle"); ?></th>
+                            <th class="sortable"
+                                style="width:50%;"><?php echo p__("fanwall", "Post"); ?></th>
                             <th class="sortable date"
-                                style="width:34%;"><?php echo p__("fanwall", "Pub. date"); ?></th>
+                                style="width:20%;"><?php echo p__("fanwall", "Pub. date"); ?></th>
                             <th></th>
                             <th></th>
                             <th></th>
@@ -63,8 +65,9 @@ $formPostDelete = $this->getFormPostDelete();
                     <?php foreach ($posts as $post) : ?>
                         <tr id="post_manage_element_<?php echo $post->getId(); ?>"
                             class="post-manage-element sb-pager">
-                            <td><?php echo $post->getTitle(); ?></td>
-                            <td><?php echo $post->getSubtitle(); ?></td>
+                            <td><?php echo cut($post->getTitle(), 30); ?></td>
+                            <td><?php echo cut($post->getSubtitle(), 30); ?></td>
+                            <td><?php echo cut($post->getText(), 500); ?></td>
                             <td><?php echo $post->getDate(); ?></td>
                             <td class="toggle-action">
                                 <?php
@@ -96,7 +99,7 @@ $formPostDelete = $this->getFormPostDelete();
                         <tr class="edit-form"
                             data-id="post_<?php echo $post->getId(); ?>"
                             style="display: none;">
-                            <td colspan="6">
+                            <td colspan="8">
                                 <p class="close-edit"
                                    data-id="post_<?php echo $post->getId(); ?>">
                                     <i class="fa fa-times"></i><?php echo p__("fanwall", "Close") ?>

@@ -4,7 +4,7 @@ angular
     return {
         restrict: "E",
         replace: true,
-        templateUrl: "features/fanwall/assets/templates/l1/tabs/directives/gallery.html",
+        templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/gallery.html",
         controller: function ($scope) {
             $scope.listDidRender = function () {
                 $timeout(function () {

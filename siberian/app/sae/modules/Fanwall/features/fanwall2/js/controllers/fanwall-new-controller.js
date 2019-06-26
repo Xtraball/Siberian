@@ -19,6 +19,7 @@ angular
                 longitude: 0
             }
         },
+        fetchingLocation: false,
         shortLocation: ""
     });
 
@@ -52,7 +53,7 @@ angular
             Customer.customer.image.length > 0) {
             return IMAGE_URL + "images/customer" + Customer.customer.image;
         }
-        return "./features/fanwall/assets/templates/images/customer-placeholder.png";
+        return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
     };
 
     $scope.picturePreview = function () {
@@ -117,6 +118,7 @@ angular
     }
 
     if (!$scope.locationIsDisabled()) {
+        $scope.fetchingLocation = true;
         Location
         .getLocation({timeout: 10000}, true)
         .then(function (position) {
@@ -136,8 +138,11 @@ angular
                         } catch (e) {
                             $scope.shortLocation = place.formatted_address;
                         }
+
+                        $scope.fetchingLocation = false;
                     }
                 }, function () {
+                    $scope.fetchingLocation = false;
                     Dialog.alert(
                         "Location",
                         "Your position doesn't resolve to a valid address.",
@@ -146,8 +151,11 @@ angular
                         "fanwall");
                 });
         }, function () {
+            $scope.fetchingLocation = false;
             $scope.form.location.latitude = 0;
             $scope.form.location.longitude = 0;
         });
+    } else {
+        $scope.fetchingLocation = false;
     }
 });

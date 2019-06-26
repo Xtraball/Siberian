@@ -4,20 +4,13 @@
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-
-        <button ng-click="toggleDesign()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-layout1"></i>
-        </button>
-
         <button ng-click="refresh()"
                 class="button button-clear header-item">
             <i class="icon ion-sb-refresh"></i>
         </button>
-
     </ion-nav-buttons>
 
-    <ion-header-bar ng-if="settingsIsLoaded"
+    <ion-header-bar ng-if="settingsIsLoaded && displaySubHeader()"
                     class="bar-subheader">
         <div class="button-bar">
             <button class="button button-custom button-positive button-positive-custom"
@@ -26,24 +19,28 @@
                     ng-bind-html="displayIcon('post') | trusted_html">
             </button>
             <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableNearby')"
                     ng-click="showTab('nearby')"
                     ng-class="classTab('nearby')"
                     ng-bind-html="displayIcon('nearby') | trusted_html">
                 <i class="icon ion-sb-fw-nearby"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableMap')"
                     ng-click="showTab('map')"
                     ng-class="classTab('map')"
                     ng-bind-html="displayIcon('map') | trusted_html">
                 <i class="icon ion-sb-fw-map"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableGallery')"
                     ng-click="showTab('gallery')"
                     ng-class="classTab('gallery')"
                     ng-bind-html="displayIcon('gallery') | trusted_html">
                 <i class="icon ion-sb-fw-gallery"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom icon-custom"
+                    ng-if="isEnabled('enableUserPost')"
                     ng-click="newPost()"
                     ng-bind-html="displayIcon('new') | trusted_html">
                 <i class="icon ion-sb-fw-post"></i>
@@ -52,6 +49,6 @@
     </ion-header-bar>
 
     <div ng-if="settingsIsLoaded"
-         ng-include="'./features/fanwall/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
+         ng-include="'./features/fanwall2/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
 
 </ion-view>

@@ -1,10 +1,10 @@
 angular
 .module("starter")
-.directive("fanwallPostItem", function ($filter, $translate, Customer, Dialog, Loader, Fanwall,
-                                           FanwallPost, FanwallUtils) {
+.directive("fanwallPostItem", function ($filter, $translate, $timeout, Customer, Dialog, Loader, Fanwall,
+                                        FanwallPost, FanwallUtils, Lightbox) {
         return {
             restrict: 'E',
-            templateUrl: "features/fanwall/assets/templates/l1/tabs/directives/post-item.html",
+            templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-item.html",
             controller: function ($scope) {
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
@@ -14,9 +14,26 @@ angular
                     return Fanwall.settings;
                 };
 
+                $scope.userLike = function () {
+                    return $scope.getSettings().features.enableUserLike;
+                };
+
+                $scope.userComment = function () {
+                    return $scope.getSettings().features.enableUserComment;
+                };
+
+                $scope.showLikeOrComment = function () {
+                    return ($scope.post.likeCount > 0 || $scope.post.commentCount > 0) &&
+                        ($scope.canLikeOrComment());
+                };
+
+                $scope.canLikeOrComment = function () {
+                    return ($scope.userLike() || $scope.userComment());
+                };
+
                 $scope.imagePath = function () {
                     if ($scope.post.image.length <= 0) {
-                        return "./features/fanwall/assets/templates/images/placeholder.png";
+                        return "./features/fanwall2/assets/templates/images/placeholder.png";
                     }
                     return IMAGE_URL + "images/application" + $scope.post.image;
                 };
@@ -24,7 +41,7 @@ angular
                 $scope.authorImagePath = function () {
                     // Empty image
                     if ($scope.post.author.image.length <= 0) {
-                        return "./features/fanwall/assets/templates/images/customer-placeholder.png";
+                        return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
                     }
                     // App icon
                     if ($scope.post.author.image.indexOf("/var/cache") === 0) {
@@ -122,6 +139,12 @@ angular
                     return true;
                 };
 
+                $scope.isEnabled = function (key) {
+                    var features = $scope.getSettings().features;
+
+                    return features.key;
+                };
+
                 $scope.isOwner = function () {
                     if (!Customer.isLoggedIn()) {
                         return false;
@@ -133,6 +156,12 @@ angular
                 $scope.editPost = function () {
                     return FanwallUtils.postModal($scope.post);
                 };
+
+                if ($scope.isPostDetails) {
+                    $timeout(function () {
+                        Lightbox.run(".show-post");
+                    }, 200);
+                }
             }
         };
     });

@@ -37,6 +37,13 @@ class Settings extends FormAbstract
             "card" => p__("fanwall", "Card"),
         ]);
 
+        $this->addSimpleCheckbox("enable_nearby", p__("fanwall","Enable nearby"));
+        $this->addSimpleCheckbox("enable_map", p__("fanwall","Enable map"));
+        $this->addSimpleCheckbox("enable_gallery", p__("fanwall","Enable gallery"));
+        $this->addSimpleCheckbox("enable_user_like", p__("fanwall","Enable user likes"));
+        $this->addSimpleCheckbox("enable_user_post", p__("fanwall","Enable user posts"));
+        $this->addSimpleCheckbox("enable_user_comment", p__("fanwall","Enable user comments"));
+
         $icons = [
             "icon_post" => "Posts",
             "icon_nearby" => "Nearby",

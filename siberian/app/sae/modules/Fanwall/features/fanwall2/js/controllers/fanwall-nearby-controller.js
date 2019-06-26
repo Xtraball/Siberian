@@ -9,7 +9,7 @@ angular
     .controller("FanwallNearbyController", function ($ionicScrollDelegate, $rootScope, $scope, $state,
                                                      $stateParams, $timeout, FanwallPost, Location) {
         angular.extend($scope, {
-            isLoading: false,
+            isLoading: true,
             collection: [],
             location: {
                 latitude: 0,
@@ -19,6 +19,10 @@ angular
         });
 
         FanwallPost.setValueId($stateParams.value_id);
+
+        $scope.getCardDesign = function () {
+            return Fanwall.cardDesign;
+        };
 
         $scope.loadMore = function () {
             $scope.loadContent(false);

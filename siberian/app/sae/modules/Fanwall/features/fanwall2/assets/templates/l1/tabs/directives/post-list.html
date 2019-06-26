@@ -1,5 +1,5 @@
 <ion-content delegate-handle="mainScroll"
-             class="has-subheader">
+             ng-class="{'has-subheader': displaySubHeader()}">
     <div class="loader"
          ng-show="isLoading">
         <ion-spinner class="spinner-custom"></ion-spinner>
@@ -12,9 +12,9 @@
                            ng-repeat="post in collection track by post.id"></fanwall-post-item>
     </ion-list>
 
-    <ion-list ng-class="{'card' : getCardDesign()}"
-              ng-if="!isLoading && !collection.length">
-        <ion-item class="item-custom text-center">
+    <ion-list ng-if="!isLoading && !collection.length">
+        <ion-item ng-class="{'card' : getCardDesign()}"
+                  class="item-custom text-center no-post">
             {{ ::"There is actually no post." | translate:"fanwall" }}
         </ion-item>
     </ion-list>

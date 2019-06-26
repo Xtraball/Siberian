@@ -62,6 +62,21 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
+    factory.findAllMap = function (location, offset, refresh) {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllMap] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-map", angular.extend({
+            urlParams: {
+                value_id: this.value_id,
+                location: location,
+                offset: offset
+            },
+            refresh: refresh
+        }, factory.extendedOptions));
+    };
+
     factory.like = function (postId) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::FanwallPost.like] missing value_id");

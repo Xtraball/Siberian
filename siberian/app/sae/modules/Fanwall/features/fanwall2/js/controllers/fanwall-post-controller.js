@@ -55,6 +55,4 @@ angular
     });
 
     $scope.loadContent(true);
-
-    console.log("post-controller");
 });

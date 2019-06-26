@@ -583,6 +583,7 @@ angular.module('starter')
                         }
 
                         $scope.map_config = {
+                            zoom: 12,
                             cluster: true,
                             markers: markers,
                             bounds_to_marker: true

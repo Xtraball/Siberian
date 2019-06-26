@@ -3,7 +3,7 @@ angular.module('starter')
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "features/fanwall/assets/templates/l1/modal/directives/comment-form.html",
+            templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-form.html",
             controller: function ($scope) {
                 angular.extend($scope, {
                     form: {
@@ -46,6 +46,7 @@ angular.module('starter')
                     var now = Math.round(Date.now() / 1000);
                     var comment = {
                         id: now,
+                        customerId: Customer.customer.id,
                         text: text,
                         image: "",
                         isFlagged: false,

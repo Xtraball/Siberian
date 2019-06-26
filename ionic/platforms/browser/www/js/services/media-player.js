@@ -82,7 +82,9 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     var music_controls_events = function (event) {
-        switch (event) {
+        var response = JSON.parse(event);
+
+        switch (response.message) {
             case 'music-controls-next':
                     // Do something
                     if (!service.is_radio) {
@@ -102,7 +104,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                     service.playPause();
                 break;
             case 'music-controls-destroy':
-                    service.destroy();
+                    service.destroy("player");
                 break;
 
             // Headset events (Android only)
@@ -141,11 +143,6 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
         service.is_initialized = true;
         service.openPlayer();
-
-        if (service.use_music_controls) {
-            MusicControls.subscribe(music_controls_events);
-            MusicControls.listen();
-        }
     };
 
     service.play = function () {
@@ -154,6 +151,9 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.pre_start = function () {
+        // Tries to disable battery optim.
+        MusicControls.disableBatteryOptimization();
+
         if (service.media) {
             service.media.pause();
         }
@@ -214,12 +214,10 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
         if (service.use_music_controls) {
             MusicControls.destroy();
-            MusicControls.subscribe(music_controls_events);
-            MusicControls.listen();
         }
     };
 
-    service.destroy = function () {
+    service.destroy = function (origin) {
         $interval.cancel(service.seekbarTimer);
         if (service.media) {
             if (service.is_playing) {
@@ -228,10 +226,14 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         }
 
         service.reset();
+
+        if (origin === 'player') {
+            service.goBack(true, true);
+        }
     };
 
     service.openPlayer = function () {
-        $state.go('media-player', {
+        $state.go("media-player", {
             value_id: service.value_id
         });
 
@@ -252,16 +254,8 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
             service.media.pause();
 
             $interval.cancel(service.seekbarTimer);
-
-            if (service.use_music_controls) {
-                MusicControls.updateIsPlaying(false);
-            }
         } else {
             service.media.play();
-
-            if (service.use_music_controls) {
-                MusicControls.updateIsPlaying(true);
-            }
         }
 
         service.is_playing = !service.is_playing;
@@ -429,6 +423,11 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
             }, function () {
                 $log.debug('error');
             });
+
+            MusicControls.subscribe(music_controls_events);
+            MusicControls.listen();
+
+            MusicControls.updateIsPlaying(service.is_playing);
         }
     };
 
@@ -472,7 +471,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                             }
                         }
 
-                        if (localFeatures.options[featIndex].path != $location.path()) {
+                        if (localFeatures.options[featIndex].path !== $location.path()) {
                             $ionicHistory.nextViewOptions({
                                 historyRoot: true,
                                 disableAnimate: false

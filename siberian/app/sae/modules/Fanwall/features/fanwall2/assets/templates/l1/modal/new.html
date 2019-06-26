@@ -17,7 +17,7 @@
         </button>
     </ion-header-bar>
 
-    <ion-content ng-class="{'has-footer-fixed': !getCardDesign()}">
+    <ion-content class="has-footer-fixed">
 
         <ion-list class="new-post-items">
 
@@ -27,8 +27,10 @@
                 <h2>
                     {{ myName() }}
                 </h2>
-                <p ng-if="!locationIsDisabled()"
+                <p ng-if="!locationIsDisabled() && !fetchingLocation"
                    class="post-location">{{ shortLocation }}</p>
+                <p ng-if="!locationIsDisabled() && fetchingLocation"
+                   class="post-location">{{ ::"Fetching your location..." | translate:"fanwall" }}</p>
             </ion-item>
 
             <ion-item class="item-input item-custom"
@@ -77,19 +79,9 @@
 
         </ion-list>
 
-        <div class="padding"
-             ng-if="getCardDesign()">
-            <button class="button button-assertive button-assertive-custom button-block"
-                    ng-click="sendPost();">
-                {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
-                <i class="icon ion-ios-paperplane"></i>
-            </button>
-        </div>
-
     </ion-content>
 
     <button class="post-button button button-assertive button-assertive-custom button-full"
-            ng-if="!getCardDesign()"
             ng-click="sendPost();">
         {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-ios-paperplane"></i>

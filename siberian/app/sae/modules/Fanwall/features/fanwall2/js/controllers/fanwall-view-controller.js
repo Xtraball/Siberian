@@ -22,12 +22,12 @@ angular
 
     FanwallPost.setValueId($stateParams.value_id);
 
-    $scope.customerAvatar = function (customer_id) {
-        if (!(customer_id in $scope.avatars)) {
-            var avatar = Customer.getAvatarUrl(customer_id);
-            $scope.avatars[customer_id] = avatar;
+    $scope.customerAvatar = function (customerId) {
+        if (!(customerId in $scope.avatars)) {
+            var avatar = Customer.getAvatarUrl(customerId);
+            $scope.avatars[customerId] = avatar;
         }
-        return $scope.avatars[customer_id];
+        return $scope.avatars[customerId];
     };
 
     $scope.loadContent = function (refresh) {

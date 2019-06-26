@@ -1,10 +1,10 @@
 angular
 .module("starter")
-.directive("fanwallPostList", function ($timeout, ModalScrollDelegate, Lightbox) {
+.directive("fanwallPostList", function ($timeout, Lightbox) {
     return {
         restrict: "E",
         replace: true,
-        templateUrl: "features/fanwall/assets/templates/l1/tabs/directives/post-list.html",
+        templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-list.html",
         link: function (scope) {
             scope.$watch("post", function () {
                 // Updating local `post` instance

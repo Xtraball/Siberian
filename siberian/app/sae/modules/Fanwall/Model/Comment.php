@@ -64,6 +64,7 @@ class Comment extends Base
     {
         return [
             "id" => (integer) $this->getId(),
+            "customerId" => (integer) $this->getCustomerId(),
             "text" => (string) Xss::sanitize($this->getText()),
             "isFlagged" => (boolean) $this->getFlag(),
             "date" => datetime_to_format($this->getCreatedAt(), Date::TIMESTAMP),

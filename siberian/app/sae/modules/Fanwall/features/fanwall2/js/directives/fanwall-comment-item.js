@@ -4,7 +4,7 @@ angular
                                            FanwallPost) {
         return {
             restrict: 'E',
-            templateUrl: "features/fanwall/assets/templates/l1/modal/directives/comment-item.html",
+            templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-item.html",
             controller: function ($scope) {
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
@@ -16,9 +16,14 @@ angular
 
                 $scope.authorImagePath = function () {
                     if ($scope.comment.author.image.length <= 0) {
-                        return "./features/fanwall/assets/templates/images/customer-placeholder.png"
+                        return "./features/fanwall2/assets/templates/images/customer-placeholder.png"
                     }
                     return IMAGE_URL + "images/customer" + $scope.comment.author.image;
+                };
+
+                $scope.isFromMe = function () {
+                    return $scope.comment &&
+                        ($scope.comment.customerId === Customer.customer.id);
                 };
 
                 $scope.imagePath = function () {
@@ -31,6 +36,14 @@ angular
 
                 $scope.publicationDate = function () {
                     return $filter("moment_calendar")($scope.comment.date * 1000);
+                };
+
+                $scope.isOwner = function () {
+                    if (!Customer.isLoggedIn()) {
+                        return false;
+                    }
+
+                    return Customer.customer.id === $scope.comment.customerId;
                 };
 
                 $scope.flagComment = function (comment) {

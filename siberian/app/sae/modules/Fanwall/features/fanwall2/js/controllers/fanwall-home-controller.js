@@ -55,6 +55,21 @@ angular
         return ["icon-custom"];
     };
 
+    $scope.isEnabled = function (key) {
+        var features = $scope.getSettings().features;
+
+        return features[key];
+    };
+
+    $scope.displaySubHeader = function () {
+        var features = $scope.getSettings().features;
+
+        return features.enableNearby ||
+               features.enableMap ||
+               features.enableGallery ||
+               features.enableUserPost;
+    };
+
     $scope.displayIcon = function (key) {
         var icons = $scope.getSettings().icons;
         switch (key) {

@@ -1,18 +1,19 @@
 <ion-item ng-class="{'card' : getCardDesign()}"
           class="item-custom">
     <div class="item-avatar post-author">
-        <img ng-src="{{ authorImagePath(post.author.image) }}" />
+        <img ng-src="{{ authorImagePath() }}" />
         <h2>
-            {{ authorName(post.author) }}
+            {{ authorName() }}
             <i class="icon ion-edit pull-right"
-               ng-if="isOwner(post)"
-               ng-click="editPost(post)"></i>
+               ng-if="isOwner()"
+               ng-click="editPost()"></i>
             <i class="icon ion-flag pull-right"
-               ng-click="flagPost(post)"></i>
+               ng-if="!isOwner()"
+               ng-click="flagPost()"></i>
             <i class="icon ion-pin pull-right balanced balanced-custom"
                ng-if="post.sticky"></i>
         </h2>
-        <p class="post-date">{{ publicationDate(post) }}</p>
+        <p class="post-date">{{ publicationDate() }}</p>
     </div>
     <div class="post-body">
         <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
@@ -29,23 +30,39 @@
         </a>
     </div>
     <div class="post-likes"
-         ng-click="commentModal(post)"
-         ng-if="post.likeCount > 0 || post.commentCount > 0">
+         ng-click="commentModal()"
+         ng-if="showLikeOrComment()">
         <div class="row">
-            <div class="col-50 text-left">
+            <div class="text-left"
+                 ng-class="{
+                    'col-50': userComment(),
+                    'col-100': !userComment()
+                 }"
+                 ng-if="userLike()">
                 <span ng-if="post.likeCount == 1">{{ post.likeCount }} {{ ::"like" | translate:"fanwall" }}</span>
                 <span ng-if="post.likeCount > 1">{{ post.likeCount }} {{ ::"likes" | translate:"fanwall" }}</span>
             </div>
-            <div class="col-50 text-right">
+            <div class="col-50 text-right"
+                 ng-class="{
+                    'col-50': userLike(),
+                    'col-100': !userLike()
+                 }"
+                 ng-if="userComment()">
                 <span ng-if="post.commentCount == 1">{{ post.commentCount }} {{ ::"comment" | translate:"fanwall" }}</span>
                 <span ng-if="post.commentCount > 1">{{ post.commentCount }} {{ ::"comments" | translate:"fanwall" }}</span>
             </div>
         </div>
     </div>
-    <div class="post-actions">
+    <div class="post-actions"
+         ng-if="canLikeOrComment()">
         <div class="row">
-            <div class="col-50 text-center"
-                 ng-click="toggleLike(post)">
+            <div class="text-center"
+                 ng-class="{
+                    'col-50': userComment(),
+                    'col-100': !userComment()
+                 }"
+                 ng-if="userLike()"
+                 ng-click="toggleLike()">
                 <span ng-if="post.iLiked"
                       class="positive positive-custom">
                     <i class="icon ion-sb-like-filled post-action-icon"></i> {{ ::"Like" | translate:"fanwall" }}
@@ -54,8 +71,13 @@
                     <i class="icon ion-sb-like post-action-icon"></i> {{ ::"Like" | translate:"fanwall" }}
                 </span>
             </div>
-            <div class="col-50 text-center"
-                 ng-click="commentModal(post)">
+            <div class="text-center"
+                 ng-class="{
+                    'col-50': userLike(),
+                    'col-100': !userLike()
+                 }"
+                 ng-if="userComment()"
+                 ng-click="commentModal()">
                 <i class="icon ion-sb-comment post-action-icon"></i> {{ ::"Comment" | translate:"fanwall" }}
             </div>
         </div>
