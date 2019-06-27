@@ -4,7 +4,7 @@
  * @author Xtraball SAS <dev@xtraball.com>
  * @version 4.16.13
  */
-angular.module("starter").factory("FanwallUtils", function ($rootScope, Modal) {
+angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout, Modal) {
     var factory = {
         _postModal: null,
         _showPostModal: null,
@@ -35,22 +35,34 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, Modal) {
 
     /**
      *
-     * @param post
+     * @param postGroup
      */
     factory.showPostModal = function (postGroup) {
+        var _localScope = angular.extend($rootScope.$new(true), {
+            //postGroup: postGroup,
+            //isPostDetails: true,
+            modalReady: false,
+            close: function () {
+                factory._showPostModal.hide();
+            }
+        });
+
         Modal
         .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/post.html", {
-            scope: angular.extend($rootScope.$new(true), {
-                postGroup: postGroup,
-                isPostDetails: true,
-                close: function () {
-                    factory._showPostModal.hide();
-                }
-            }),
+            scope: _localScope,
             animation: "slide-in-right-left"
         }).then(function (modal) {
             factory._showPostModal = modal;
             factory._showPostModal.show();
+
+            // Sending data to modal only after rendering!
+            $timeout(function () {
+                _localScope.postGroup = postGroup;
+                _localScope.isPostDetails = true;
+                _localScope.modalReady = true;
+
+                $rootScope.$broadcast("fanwall.modal.ready");
+            }, 500);
 
             return modal;
         });

@@ -1,6 +1,6 @@
 angular
 .module("starter")
-.directive("fanwallPostItem", function ($filter, $translate, $timeout, Customer, Dialog, Loader, Fanwall,
+.directive("fanwallPostItem", function ($rootScope, $filter, $translate, $timeout, Customer, Dialog, Loader, Fanwall,
                                         FanwallPost, FanwallUtils, Lightbox) {
         return {
             restrict: 'E',
@@ -157,11 +157,11 @@ angular
                     return FanwallUtils.postModal($scope.post);
                 };
 
-                if ($scope.isPostDetails) {
+                $rootScope.$on("fanwall.modal.ready", function () {
                     $timeout(function () {
                         Lightbox.run(".show-post");
                     }, 200);
-                }
+                });
             }
         };
     });

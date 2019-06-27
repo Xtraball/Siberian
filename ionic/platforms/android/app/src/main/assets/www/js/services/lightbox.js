@@ -2,9 +2,9 @@
  * Lightbox
  *
  * @author Xtraball SAS
- * @version 4.16.6
+ * @version 4.17.0
  */
-angular.module('starter').service('Lightbox', function ($ocLazyLoad, $q) {
+angular.module("starter").service("Lightbox", function ($ocLazyLoad, $q) {
     var service = {
         loadedPromise: $q.defer(),
         defaults: {
@@ -12,7 +12,7 @@ angular.module('starter').service('Lightbox', function ($ocLazyLoad, $q) {
             buttons: "auto",
             fullScreen: false,
             noScrollbars: true,
-            animation: "fadeIn"
+            animation: "slideIn"
         }
     };
 

@@ -29,8 +29,6 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
     {
         try {
             $request = $this->getRequest();
-            $session = $this->getSession();
-            //$customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
             $limit = $request->getParam("limit", 20);
@@ -57,49 +55,9 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
             $collection = [];
             foreach ($posts as $post) {
 
-                //$comments = (new Comment())->findForPostId($post->getId());
-                //$commentCollection = [];
-                //foreach ($comments as $comment) {
-                //    $commentCollection[] = $comment->forJson();
-                //}
-
-                //$iLiked = false;
-                //$likes = (new Like())->findForPostId($post->getId());
-                //$likeCollection = [];
-                //foreach ($likes as $like) {
-                //    $likeCollection[] = [
-                //        "id" => (integer) $like->getId(),
-                //        "customer_id" => (integer) $like->getCustomerId(),
-                //    ];
-//
-                //    if ($like->getCustomerId() == $customerId) {
-                //        $iLiked = true;
-                //    }
-                //}
-
                 $collection[] = [
                     "id" => (integer) $post->getId(),
-                    //"title" => (string) $post->getTitle(),
-                    //"subtitle" => (string) $post->getSubtitle(),
-                    //"text" => (string) Xss::sanitize($post->getText()),
                     "image" => (string) $post->getImage(),
-                    //"date" => datetime_to_format($post->getDate(), \Zend_Date::TIMESTAMP),
-                    //"likeCount" => (integer) $likes->count(),
-                    //"commentCount" => (integer) $comments->count(),
-                    //"latitude" => (float) $post->getLatitude(),
-                    //"longitude" => (float) $post->getLongitude(),
-                    //"isFlagged" => (boolean) $post->getFlag(),
-                    //"sticky" => (boolean) $post->getSticky(),
-                    //"iLiked" => (boolean) $iLiked,
-                    //"likeLocked" => (boolean) false,
-                    //"author" => [
-                    //    "firstname" => (string) $post->getFirstname(),
-                    //    "lastname" => (string) $post->getLastname(),
-                    //    "nickname" => (string) $post->getnickname(),
-                    //    "image" => (string) $post->getAuthorImage(),
-                    //],
-                    //"comments" => $commentCollection,
-                    //"likes" => $likeCollection,
                 ];
             }
 

@@ -55,7 +55,8 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         return $pwaRequest.get("fanwall/mobile_post/find-all-nearby", angular.extend({
             urlParams: {
                 value_id: this.value_id,
-                location: location,
+                latitude: location.latitude,
+                longitude: location.longitude,
                 offset: offset
             },
             refresh: refresh
@@ -70,7 +71,8 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         return $pwaRequest.get("fanwall/mobile_post/find-all-map", angular.extend({
             urlParams: {
                 value_id: this.value_id,
-                location: location,
+                latitude: location.latitude,
+                longitude: location.longitude,
                 offset: offset
             },
             refresh: refresh

@@ -91,10 +91,19 @@ angular
         };
     };
 
-    $scope.sendPost = function () {
-        Loader.show();
+    $scope.canSend = function () {
+        return ($scope.form.text.length > 0 || $scope.form.picture.length > 0);
+    };
 
+    $scope.sendPost = function () {
         var postId = ($scope.post !== undefined) ? $scope.post.id : null;
+
+        if (!$scope.canSend()) {
+            Dialog.alert("Error", "You must send at least a message or a picture", "OK", -1, "fanwall");
+            return false;
+        }
+
+        Loader.show();
 
         return FanwallPost
             .sendPost(postId, $scope.form)
@@ -138,6 +147,8 @@ angular
                         } catch (e) {
                             $scope.shortLocation = place.formatted_address;
                         }
+
+                        $scope.form.location.locationShort = $scope.shortLocation;
 
                         $scope.fetchingLocation = false;
                     }

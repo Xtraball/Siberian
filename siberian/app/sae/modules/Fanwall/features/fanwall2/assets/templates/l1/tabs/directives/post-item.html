@@ -13,13 +13,16 @@
             <i class="icon ion-pin pull-right balanced balanced-custom"
                ng-if="post.sticky"></i>
         </h2>
-        <p class="post-date">{{ publicationDate() }}</p>
+        <p class="post-date">
+            {{ publicationDate() }}
+            <span ng-if="post.showDistance"> - {{ post.distance }} {{ post.distanceUnit }} ({{ post.locationShort }})</span>
+        </p>
     </div>
     <div class="post-body">
         <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
         <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
         <p ng-if="post.text.length > 0"
-           ng-bind-html="post.text | trusted_html"></p>
+           ng-bind-html="post.text | linky | trusted_html" sb-a-click></p>
     </div>
     <div class="post-image"
          ng-if="post.image.length > 0">

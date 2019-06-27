@@ -4,6 +4,7 @@ namespace Fanwall\Model\Db\Table;
 
 use Fanwall\Model\Post as ModelPost;
 use Core_Model_Db_Table as DbTable;
+use Siberian_Google_Geocoding as Geocoding;
 use Zend_Db_Expr as DbExpr;
 
 /**
@@ -31,9 +32,32 @@ class Post extends DbTable
      */
     public function findAllWithCustomer($values = [], $order = null, $params = [])
     {
+        $searchByDistance = false;
+        $columns = ["*"];
+        $radius = 0;
+        if ($values["search_by_distance"]) {
+            $formula = Geocoding::getDistanceFormula(
+                $values["latitude"],
+                $values["longitude"],
+                "fanwall_post",
+                "latitude",
+                "longitude");
+
+            $radius = $values["radius"];
+
+            unset($values["search_by_distance"]);
+            unset($values["longitude"]);
+            unset($values["longitude"]);
+            unset($values["radius"]);
+
+            $searchByDistance = true;
+
+            $columns = ["*", "distance" => $formula];
+        }
+
         $select = $this->_db
             ->select()
-            ->from("fanwall_post")
+            ->from("fanwall_post", $columns)
             ->joinLeft(
                 "customer",
                 "customer.customer_id = fanwall_post.customer_id",
@@ -44,12 +68,19 @@ class Post extends DbTable
                     "author_image" => new DbExpr("customer.image"),
                 ]);
 
-        foreach ($values as $condition => $value) {
-            $select->where($condition, $value);
+        if ($searchByDistance) {
+            // Filtering unlocated posts
+            $select->where("(latitude != 0 AND longitude !=0 AND latitude IS NOT NULL AND longitude IS NOT NULL)");
+            $select->having("distance < ?", $radius);
+            $select->order(["distance ASC"]);
+        } else {
+            if ($order !== null) {
+                $select->order($order);
+            }
         }
 
-        if ($order !== null) {
-            $select->order($order);
+        foreach ($values as $condition => $value) {
+            $select->where($condition, $value);
         }
 
         if (array_key_exists("limit", $params) &&

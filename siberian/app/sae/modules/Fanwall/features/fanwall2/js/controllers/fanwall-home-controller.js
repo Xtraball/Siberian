@@ -7,7 +7,7 @@
 angular
 .module("starter")
 .controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate, Customer, Dialog,
-                                               Location, Fanwall, FanwallUtils) {
+                                               Location, Fanwall, FanwallUtils, GoogleMaps) {
     angular.extend($scope, {
         settingsIsLoaded: false,
         value_id: $stateParams.value_id,
@@ -108,6 +108,8 @@ angular
 
         return FanwallUtils.postModal();
     };
+
+    GoogleMaps.init();
 
     Fanwall
     .loadSettings()

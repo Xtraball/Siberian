@@ -1,9 +1,9 @@
 <div>
-    <div ng-if="!locationIsDisabled()">
-        <fanwall-post-list ng-controller="FanwallNearbyController"></fanwall-post-list>
-    </div>
+    <fanwall-post-list ng-if="!locationIsDisabled()"
+                       ng-controller="FanwallNearbyController"></fanwall-post-list>
 
-    <ion-content ng-if="locationIsDisabled()"
+    <ion-content delegate-handle="mainScroll"
+                 ng-if="locationIsDisabled()"
                  ng-class="{'has-subheader': displaySubHeader()}">
         <ion-list>
             <ion-item class="item-custom text-center no-post"

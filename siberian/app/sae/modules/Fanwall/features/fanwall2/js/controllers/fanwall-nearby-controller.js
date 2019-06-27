@@ -7,7 +7,7 @@
 angular
     .module("starter")
     .controller("FanwallNearbyController", function ($ionicScrollDelegate, $rootScope, $scope, $state,
-                                                     $stateParams, $timeout, FanwallPost, Location) {
+                                                     $stateParams, $timeout, Fanwall, FanwallPost, Location) {
         angular.extend($scope, {
             isLoading: true,
             collection: [],
@@ -51,7 +51,7 @@ angular
             }
 
             return FanwallPost
-                .findAllNearby($scope.collection.length, refresh)
+                .findAllNearby($scope.location, $scope.collection.length, refresh)
                 .then(function (payload) {
                     $scope.collection = $scope.collection.concat(payload.collection);
                     FanwallPost.collection = FanwallPost.collection.concat(payload.collection);

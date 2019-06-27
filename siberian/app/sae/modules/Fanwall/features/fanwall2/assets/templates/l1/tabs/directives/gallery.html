@@ -1,9 +1,18 @@
-<div class="gallery-item"
-     repeat-done="listDidRender()"
-     ng-repeat="item in collection track by item.id"
-     ng-style="{'background-image':'url(' + imagePath(item) + ')'}">
-    <a data-fslightbox="gallery-item-image"
-       href="{{ imagePath(item) }}">
-        <img src="./img/placeholder/blank-512.png" />
-    </a>
+<div class="fanwall-gallery">
+    <div class="gallery-item"
+         repeat-done="listDidRender()"
+         ng-repeat="item in collection track by item.id"
+         ng-style="{'background-image':'url(' + imagePath(item) + ')'}">
+        <a data-fslightbox="gallery-item-image"
+           href="{{ imagePath(item) }}">
+            <img src="./img/placeholder/blank-512.png" />
+        </a>
+    </div>
+
+    <ion-infinite-scroll ng-if="!isLoading && hasMore"
+                         on-infinite="loadMore()"
+                         immediate-check="false"
+                         distance="10%"
+                         class="spinner-custom">
+    </ion-infinite-scroll>
 </div>

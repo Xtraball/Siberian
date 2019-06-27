@@ -6,8 +6,8 @@
  */
 angular
 .module("starter")
-.controller("FanwallMapController", function ($scope, $state, $stateParams, $timeout, $translate, Loader, Location,
-                                              FanwallPost, FanwallUtils) {
+.controller("FanwallMapController", function ($scope, $state, $stateParams, $timeout, $translate,
+                                              $ionicSideMenuDelegate, Loader, Location, FanwallPost, FanwallUtils) {
 
     angular.extend($scope, {
         isLoading: true,
@@ -30,9 +30,15 @@ angular
         FanwallUtils.showPostModal(postGroup);
     };
 
-    $scope.loadContent = function () {
-        Loader.show($translate.instant("Fetching your location...", "fanwall"));
+    $scope.$on("$ionicView.enter", function () {
+        $ionicSideMenuDelegate.canDragContent(false);
+    });
 
+    $scope.$on("$ionicView.leave", function () {
+        $ionicSideMenuDelegate.canDragContent(true);
+    });
+
+    $scope.loadContent = function () {
         Location
         .getLocation({timeout: 10000}, true)
         .then(function (position) {
@@ -42,8 +48,6 @@ angular
             $scope.filters.latitude = 0;
             $scope.filters.longitude = 0;
         }).then(function () {
-            Loader.hide();
-
             FanwallPost
             .findAllMap($scope.filters, 0, false)
             .then(function (payload) {
@@ -88,8 +92,8 @@ angular
 
                     marker.icon = {
                         url: pinUrl,
-                        width: 56,
-                        height: 56
+                        width: 42,
+                        height: 42
                     };
 
                     markers.push(marker);

@@ -112,6 +112,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
+                    "showDistance" => (boolean) false,
                 ];
             }
 
@@ -142,14 +143,22 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $limit = $request->getParam("limit", 20);
             $offset = $request->getParam("offset", 0);
-            $location = $request->getParam("location", null);
+            $position = [
+                "latitude" => $request->getParam("latitude", 0),
+                "longitude" => $request->getParam("longitude", 0)
+            ];
 
-            // Within range!
-            // $location
+            // Within radius!
+            $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+            $radius = $fanWall->getRadius();
 
             $query = [
+                "search_by_distance" => true,
+                "radius" => ($radius * 1000),
+                "latitude" => $position["latitude"],
+                "longitude" => $position["longitude"],
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
-                "fanwall_post.is_visible = ?" => 1,
+                "fanwall_post.is_visible = ?" => 1
             ];
 
             $order = [
@@ -203,6 +212,15 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     ];
                 }
 
+                $distance = (float) $post->getDistance();
+                $distanceUnit = "km";
+                if ($distance < 1000) {
+                    $distanceUnit = "m";
+                    $distance = round($distance, 0);
+                } else {
+                    $distance = round($distance / 1000, 2);
+                }
+
                 $collection[] = [
                     "id" => (integer) $post->getId(),
                     "customerId" => (integer) $post->getCustomerId(),
@@ -222,9 +240,10 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    // XXX
-                    "distance" => rand(5, 506),
-                    "distanceUnit" => "km",
+                    "showDistance" => (boolean) true,
+                    "distance" => (float) $distance,
+                    "distanceUnit" => $distanceUnit,
+                    "locationShort" => (string) $post->getLocationShort(),
                 ];
             }
 
@@ -253,14 +272,20 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
-            $limit = $request->getParam("limit", 20);
-            $offset = $request->getParam("offset", 0);
-            $location = $request->getParam("location", null);
+            $position = [
+                "latitude" => $request->getParam("latitude", 0),
+                "longitude" => $request->getParam("longitude", 0)
+            ];
 
-            // Within range!
-            // $location
+            // Within radius!
+            $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+            $radius = $fanWall->getRadius();
 
             $query = [
+                "search_by_distance" => true,
+                "radius" => ($radius * 1000),
+                "latitude" => $position["latitude"],
+                "longitude" => $position["longitude"],
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
@@ -270,12 +295,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "fanwall_post.date DESC"
             ];
 
-            $limit = [
-                "limit" => $limit,
-                "offset" => $offset,
-            ];
-
-            $posts = (new Post())->findAllWithCustomer($query, $order, $limit);
+            $posts = (new Post())->findAllWithCustomer($query, $order);
             $postsTotal = (new Post())->findAllWithCustomer($query, $order);
 
             $collection = [];
@@ -316,6 +336,15 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     ];
                 }
 
+                $distance = (float) $post->getDistance();
+                $distanceUnit = "km";
+                if ($distance < 1000) {
+                    $distance = round($distance, 0);
+                    $distanceUnit = "m";
+                } else {
+                    $distance = round($distance / 1000, 2);
+                }
+
                 $collection[] = [
                     "id" => (integer) $post->getId(),
                     "customerId" => (integer) $post->getCustomerId(),
@@ -335,9 +364,10 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    // XXX
-                    "distance" => rand(5, 506),
-                    "distanceUnit" => "km",
+                    "showDistance" => (boolean) true,
+                    "distance" => (float) $distance,
+                    "distanceUnit" => $distanceUnit,
+                    "locationShort" => (string) $post->getLocationShort(),
                 ];
             }
 
@@ -506,7 +536,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $form["location"]["longitude"] != 0) {
                 $post
                     ->setLatitude($form["location"]["latitude"])
-                    ->setLongitude($form["location"]["longitude"]);
+                    ->setLongitude($form["location"]["longitude"])
+                    ->setLocationShort($form["location"]["locationShort"]);
             }
 
             if (mb_strlen($picture) > 0) {
