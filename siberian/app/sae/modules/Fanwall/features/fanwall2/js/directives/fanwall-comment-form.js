@@ -8,6 +8,7 @@ angular.module('starter')
                 angular.extend($scope, {
                     form: {
                         text: "",
+                        date: null,
                         picture: null
                     },
                     isSending: false
@@ -71,6 +72,9 @@ angular.module('starter')
                     if ($scope.isSending || !$scope.showClearComment()) {
                         return false;
                     }
+
+                    // Append now
+                    $scope.form.date = Math.round(Date.now() / 1000);
 
                     // Instantly append post
                     $scope.instantAppend($scope.form.text);

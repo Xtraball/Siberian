@@ -14,6 +14,7 @@ angular
         form: {
             text: "",
             picture: "",
+            date: null,
             location: {
                 latitude: 0,
                 longitude: 0
@@ -104,6 +105,9 @@ angular
         }
 
         Loader.show();
+
+        // Append now
+        $scope.form.date = Math.round(Date.now() / 1000);
 
         return FanwallPost
             .sendPost(postId, $scope.form)

@@ -1,7 +1,7 @@
 angular
 .module("starter")
-.directive("fanwallPostItem", function ($rootScope, $filter, $translate, $timeout, Customer, Dialog, Loader, Fanwall,
-                                        FanwallPost, FanwallUtils, Lightbox) {
+.directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, Customer, Dialog, Loader,
+                                        Fanwall, FanwallPost, FanwallUtils, Lightbox) {
         return {
             restrict: 'E',
             templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-item.html",
@@ -20,6 +20,10 @@ angular
 
                 $scope.userComment = function () {
                     return $scope.getSettings().features.enableUserComment;
+                };
+
+                $scope.showText = function () {
+                    return $filter("linky")($scope.post.text);
                 };
 
                 $scope.showLikeOrComment = function () {

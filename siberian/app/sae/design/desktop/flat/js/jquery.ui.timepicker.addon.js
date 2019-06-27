@@ -881,11 +881,18 @@
 					}
 				}
 
-				if(this._defaults.altTimeFormat){
-					altFormattedDateTime += $.datepicker.formatTime(this._defaults.altTimeFormat, this, this._defaults) + altTimeSuffix;
-				}
-				else{
-					altFormattedDateTime += this.formattedTime + altTimeSuffix;
+				if (this._defaults.altFormat === "@" || this._defaults.altFormat === "TIMESTAMP") {
+					altFormattedDateTime =
+						(altFormattedDateTime / 1000) +
+						($.datepicker.formatTime("s", this, this._defaults) * 1) +
+						($.datepicker.formatTime("m", this, this._defaults) * 60) +
+						($.datepicker.formatTime("H", this, this._defaults) * 3600);
+				} else {
+					if (this._defaults.altTimeFormat){
+						altFormattedDateTime += $.datepicker.formatTime(this._defaults.altTimeFormat, this, this._defaults) + altTimeSuffix;
+					} else{
+						altFormattedDateTime += this.formattedTime + altTimeSuffix;
+					}
 				}
 				this.$altInput.val(altFormattedDateTime);
 			} else {

@@ -57,16 +57,16 @@ $schemas["fanwall_post_comment"] = [
         "type" => "tinyint(1)",
         "default" => "1",
     ],
-    'is_reported' => [
-        'type' => 'tinyint(1)',
-        'default' => '0',
+    "is_reported" => [
+        "type" => "tinyint(1)",
+        "default" => "0",
     ],
-    'report_reasons' => [
-        'type' => 'longtext',
+    "report_reasons" => [
+        "type" => "longtext",
     ],
-    'report_token' => [
-        'type' => 'varchar(255)',
-        'default' => '',
+    "report_token" => [
+        "type" => "varchar(255)",
+        "default" => "",
     ],
     "customer_ip" => [
         "type" => "varchar(255)",
@@ -79,6 +79,9 @@ $schemas["fanwall_post_comment"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
         "is_null" => true,
+    ],
+    "date" => [
+        "type" => "int(11) unsigned",
     ],
     "created_at" => [
         "type" => "datetime",

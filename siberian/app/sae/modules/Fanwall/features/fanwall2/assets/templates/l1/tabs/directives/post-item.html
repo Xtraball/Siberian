@@ -21,8 +21,9 @@
     <div class="post-body">
         <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
         <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
-        <p ng-if="post.text.length > 0"
-           ng-bind-html="post.text | linky | trusted_html" sb-a-click></p>
+        <div ng-if="post.text.length > 0">
+            <div ng-bind-html="post.text | html_linky" sb-a-click></div>
+        </div>
     </div>
     <div class="post-image"
          ng-if="post.image.length > 0">

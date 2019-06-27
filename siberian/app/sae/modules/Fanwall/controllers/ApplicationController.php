@@ -41,6 +41,9 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $form = new FormPost();
             if ($form->isValid($values)) {
 
+                // Replacing the visual date, with the timestamp!
+                $values["date"] = $values["alt_date"];
+
                 $post = new Post();
                 $post
                     ->addData($values)

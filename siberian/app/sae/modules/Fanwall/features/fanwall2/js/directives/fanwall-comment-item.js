@@ -1,7 +1,7 @@
 angular
 .module("starter")
-.directive("fanwallCommentItem", function ($interval, $filter, $timeout, $translate, Customer, Dialog, Loader, Fanwall,
-                                           FanwallPost) {
+.directive("fanwallCommentItem", function ($interval, $filter, $sce, $timeout, $translate, Customer, Dialog, Loader,
+                                           Fanwall, FanwallPost) {
         return {
             restrict: 'E',
             templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-item.html",
@@ -28,6 +28,10 @@ angular
 
                 $scope.imagePath = function () {
                     return IMAGE_URL + "images/application" + $scope.comment.image;
+                };
+
+                $scope.showText = function () {
+                    return $filter("linky")($scope.comment.text);
                 };
 
                 $scope.authorName = function () {

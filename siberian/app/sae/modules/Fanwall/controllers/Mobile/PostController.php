@@ -100,7 +100,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "subtitle" => (string) $post->getSubtitle(),
                     "text" => (string) Xss::sanitize($post->getText()),
                     "image" => (string) $post->getImage(),
-                    "date" => datetime_to_format($post->getDate(), \Zend_Date::TIMESTAMP),
+                    "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
                     "commentCount" => (integer) $comments->count(),
                     "latitude" => (float) $post->getLatitude(),
@@ -228,7 +228,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "subtitle" => (string) $post->getSubtitle(),
                     "text" => (string) Xss::sanitize($post->getText()),
                     "image" => (string) $post->getImage(),
-                    "date" => datetime_to_format($post->getDate(), \Zend_Date::TIMESTAMP),
+                    "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
                     "commentCount" => (integer) $comments->count(),
                     "latitude" => (float) $post->getLatitude(),
@@ -352,7 +352,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "subtitle" => (string) $post->getSubtitle(),
                     "text" => (string) Xss::sanitize($post->getText()),
                     "image" => (string) $post->getImage(),
-                    "date" => datetime_to_format($post->getDate(), \Zend_Date::TIMESTAMP),
+                    "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
                     "commentCount" => (integer) $comments->count(),
                     "latitude" => (float) $post->getLatitude(),
@@ -512,6 +512,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $form = $values["form"];
             $text = $form["text"];
             $picture = $form["picture"];
+            $date = $form["date"];
 
             // Tries to find post if "edit"
             $post = (new Post())->find($postId);
@@ -525,7 +526,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $post
                 ->setValueId($optionValue->getId())
                 ->setCustomerId($customerId)
-                ->setDate(date("d/m/Y H:i"))
+                ->setDate($date)
                 ->setText($text)
                 ->setUserAgent($headers["user_agent"])
                 ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
@@ -582,6 +583,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $form = $values["form"];
             $text = $form["text"];
             $picture = $form["picture"];
+            $date = $form["date"];
 
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
@@ -599,6 +601,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setPostId($postId)
                 ->setCustomerId($customerId)
                 ->setText($text)
+                ->setDate($date)
                 ->setUserAgent($headers["user_agent"])
                 ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
                 ->setIsVisible(true);

@@ -9,9 +9,9 @@
                ng-click="flagComment(comment)"></i>
         </h2>
         <p class="comment-date">{{ publicationDate(comment) }}</p>
-        <p class="comment-text"
-           ng-if="comment.text.length > 0"
-           ng-bind-html="comment.text | linky | trusted_html" sb-a-click></p>
+        <div ng-if="comment.text.length > 0">
+            <div ng-bind-html="comment.text | html_linky" sb-a-click></div>
+        </div>
         <p class="comment-image"
            ng-if="comment.image.length > 0">
             <a data-fslightbox="comments-gallery"

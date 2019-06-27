@@ -71,10 +71,7 @@ $schemas["fanwall_post"] = [
         "default" => "",
     ],
     "date" => [
-        "type" => "varchar(100)",
-        "is_null" => true,
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+        "type" => "int(11) unsigned",
     ],
     "is_visible" => [
         "type" => "int(11)",

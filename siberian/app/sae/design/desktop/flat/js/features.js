@@ -361,18 +361,23 @@ var handleRichtext = function (default_parent) {
 
 var handleDatetimePicker = function (default_parent) {
     $(default_parent + ' input[data-datetimepicker]').each(function () {
-        var el = $(this);
+        let el = $(this);
         if (typeof el.attr('data-hasdatepicker') === 'undefined') {
             el.attr('data-hasdatepicker', true);
-            el.after('<input type="hidden" name="datepicker_format" value="' + datepicker_regional + '" />');
+            let altName = "alt_" + el.attr("name");
+            el.after('' +
+                '<input type="hidden" name="datepicker_format" value="' + datepicker_regional + '" />' +
+                '<input type="hidden" id="' + altName + '" name="' + altName + '" value="" />');
 
             var type = el.data('datetimepicker');
             var format = el.data('format');
-            var options = {};
+            var options = {
+                altFieldTimeOnly: false,
+                altField: "#" + altName,
+                altFormat: "@"
+            };
             if (format) {
-                options = {
-                    'dateFormat': format
-                };
+                options.dateFormat = format;
             }
             switch (type) {
                 default:

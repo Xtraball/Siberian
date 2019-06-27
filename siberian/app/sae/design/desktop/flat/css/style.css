@@ -3372,6 +3372,11 @@ table.ui-datepicker-calendar td a.ui-state-highlight {
     background: #E7DCC2 !important;
 }
 
+table.ui-datepicker-calendar td a.ui-state-active {
+    background: #0099C7 !important;
+    color: white !important;
+}
+
 table.ui-datepicker-calendar td.ui-state-disabled span,
 table.ui-datepicker-calendar td.ui-datepicker-unselectable span {
     border: 0 !important;
