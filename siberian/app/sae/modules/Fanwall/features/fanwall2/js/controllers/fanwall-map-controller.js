@@ -66,6 +66,32 @@ angular
                     marker.latitude = position.split("_")[0];
                     marker.longitude = position.split("_")[1];
 
+                    var pinUrl;
+                    switch (postGroup.length) {
+                        case 1:
+                            pinUrl = "./features/fanwall2/assets/templates/images/post-1.png";
+                            break;
+                        case 2:
+                            pinUrl = "./features/fanwall2/assets/templates/images/post-2.png";
+                            break;
+                        case 3:
+                            pinUrl = "./features/fanwall2/assets/templates/images/post-3.png";
+                            break;
+                        case 4:
+                            pinUrl = "./features/fanwall2/assets/templates/images/post-4.png";
+                            break;
+                        case 5:
+                        default:
+                            pinUrl = "./features/fanwall2/assets/templates/images/post-5.png";
+                            break;
+                    }
+
+                    marker.icon = {
+                        url: pinUrl,
+                        width: 56,
+                        height: 56
+                    };
+
                     markers.push(marker);
                 }
 
