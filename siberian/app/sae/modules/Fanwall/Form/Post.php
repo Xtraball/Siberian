@@ -39,7 +39,11 @@ class Post extends FormAbstract
 
         $this->addSimpleDatetimepicker("date", p__("fanwall","Publication date"), false, self::DATETIMEPICKER);
 
-        $text = $this->addSimpleTextarea("text", p__("fanwall","Post"));
+        $text = $this->addSimpleTextarea(
+            "text",
+            p__("fanwall","Post"),
+            false,
+            ["ckeditor" => "social_wall"]);
         $text
             ->setRichtext()
             ->setRequired(true);

@@ -17,10 +17,11 @@ Class Xss
     /**
      * @param $string
      * @param int $level
+     * @param $config
      * @return mixed
      * @throws \Zend_Exception
      */
-    public static function sanitize($string, $level = self::LEVEL_HIGH)
+    public static function sanitize($string, $level = self::LEVEL_HIGH, $config = null)
     {
         switch ($level) {
             case self::LEVEL_LOW:
@@ -32,7 +33,7 @@ Class Xss
 
                 break;
             case self::LEVEL_HIGH:
-                    $string = \purify($string);
+                    $string = \purify($string, $config);
                 break;
         }
 

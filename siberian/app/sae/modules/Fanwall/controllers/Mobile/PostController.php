@@ -523,6 +523,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "remote-addr" => $request->getServer("REMOTE_ADDR"),
             ];
 
+            // Strip unwanted tags
+            $text = strip_tags($text, '<p><em><s><b><strong><u><span><h1><h2>');
+
             $post
                 ->setValueId($optionValue->getId())
                 ->setCustomerId($customerId)
@@ -595,6 +598,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "forwarded-for" => $request->getHeader("X-Forwarded-For"),
                 "remote-addr" => $request->getServer("REMOTE_ADDR"),
             ];
+
+            // Strip unwanted tags
+            $text = strip_tags($text, '<p><em><s><b><strong><u><span><h1><h2>');
 
             $comment = new Comment();
             $comment

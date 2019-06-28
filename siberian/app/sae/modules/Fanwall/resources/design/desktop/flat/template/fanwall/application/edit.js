@@ -1,3 +1,23 @@
+ckeditor_config.social_wall = {
+    language: ckeditor_language,
+    toolbar: [
+        {
+            name: 'basicstyles',
+            groups: ['basicstyles', 'cleanup'],
+            items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+        },
+        {
+            name: 'paragraph',
+            groups: ['align'],
+            items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+        },
+        { name: 'styles', items: ['TextColor'] },
+        { name: 'other', items: ['featurelink'] }
+    ],
+    extraPlugins: 'featurelink',
+    extraAllowedContent: 'a[*];img[*];iframe[*]'
+};
+
 $(document).ready(function () {
     bindForms('#list');
 
