@@ -12,6 +12,10 @@ ion-modal-view {
   background-color: opacify($general-custom-bg, 1) !important;
 }
 
+ion-side-menu {
+  background-color: $homepage-custom-bg !important;
+}
+
 ion-side-menu-content {
   background-color: $general-custom-bg !important;
 }
