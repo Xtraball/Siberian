@@ -228,7 +228,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
         service.reset();
 
         if (origin === 'player') {
-            MediaPlayer.goBack(true, true);
+            service.goBack(true, true);
         }
     };
 
