@@ -551,6 +551,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $imagePath = base64imageToFile($picture, $tmpPath);
                 $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
                 $post->setImage($finalPath);
+            } else {
+                // Remove image!
+                $post->setImage("");
             }
 
             $post->save();
@@ -619,6 +622,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $imagePath = base64imageToFile($picture, $tmpPath);
                 $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
                 $comment->setPicture($finalPath);
+            }else {
+                // Remove image!
+                $comment->setImage("");
             }
 
             $comment->save();
