@@ -14,7 +14,7 @@ class Wordpress2_Form_Wordpress extends Siberian_Form_Abstract {
 
         self::addClass('create', $this);
 
-        $url = $this->addSimpleText('url', __('WordPress URL'));
+        $url = $this->addSimpleText('url', __('WordPress URL') . " " . __("(without /wp-json/)"));
         $url->setRequired(true);
 
         $showTitle = $this->addSimpleCheckbox('show_title', __('Show title & subtitle'));

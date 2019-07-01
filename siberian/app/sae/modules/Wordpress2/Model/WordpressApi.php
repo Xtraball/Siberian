@@ -28,6 +28,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
      * @param $endpoint
      * @param null $login
      * @param null $password
+     * @return $this
      */
     public function init ($endpoint, $login = null, $password = null)
     {
@@ -128,6 +129,9 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
     }
 
     /**
+     * @param $categoryId
+     * @param int $page
+     * @param array $params
      * @return array
      */
     public function getPosts ($categoryId, $page = 1, $params = [])
