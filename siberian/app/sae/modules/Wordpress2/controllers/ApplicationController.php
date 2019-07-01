@@ -86,7 +86,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                     'errors' => $form->getTextErrors(true)
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
