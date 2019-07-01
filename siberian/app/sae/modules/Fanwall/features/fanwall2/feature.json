@@ -1,7 +1,7 @@
 {
     "name": "Social wall",
     "code": "fanwall2",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "category": "social",
     "model": "Fanwall_Model_Fanwall",
     "desktop_uri": "fanwall/application/",
@@ -28,7 +28,6 @@
         "js/controllers/fanwall-post-controller.js",
         "js/controllers/fanwall-nearby-controller.js",
         "js/controllers/fanwall-map-controller.js",
-        "js/controllers/fanwall-view-controller.js",
         "js/directives/fanwall-comment-list.js",
         "js/directives/fanwall-comment-item.js",
         "js/directives/fanwall-comment-form.js",

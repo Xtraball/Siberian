@@ -427,7 +427,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $session = $this->getSession();
 
             if (!$session->isLoggedIn()) {
-                throw new Exception(p__("fanwall", "You must be logged-in to like a post."));
+                throw new Exception("You must be logged-in to like a post.");
             }
 
             $customerId = $session->getCustomerId();
@@ -435,7 +435,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
-                throw new Exception(p__("fanwall", "This post doesn't exists."));
+                throw new Exception("This post doesn't exists.");
             }
 
             $headers = [
@@ -448,7 +448,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
-                "message" => p__("fanwall", "You like this post."),
+                "message" => "You like this post.",
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -467,7 +467,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $session = $this->getSession();
 
             if (!$session->isLoggedIn()) {
-                throw new Exception(p__("fanwall", "You must be logged-in to unlike a post."));
+                throw new Exception("You must be logged-in to unlike a post.");
             }
 
             $customerId = $session->getCustomerId();
@@ -476,14 +476,14 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
-                throw new Exception(p__("fanwall", "This post doesn't exists."));
+                throw new Exception("This post doesn't exists.");
             }
 
             $post->unlike($customerId);
 
             $payload = [
                 "success" => true,
-                "message" => p__("fanwall", "You unlike this post."),
+                "message" => "You unlike this post.",
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -504,7 +504,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $values = $request->getBodyParams();
 
             if (!$session->isLoggedIn()) {
-                throw new Exception(p__("fanwall", "You must be logged-in to create a post."));
+                throw new Exception("You must be logged-in to create a post.");
             }
 
             $customerId = $session->getCustomerId();
@@ -545,12 +545,16 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             if (mb_strlen($picture) > 0) {
-                // Save base64 image to file
-                $uniqId = uniqid("fwimg_", true);
-                $tmpPath = path("/var/tmp/{$uniqId}");
-                $imagePath = base64imageToFile($picture, $tmpPath);
-                $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
-                $post->setImage($finalPath);
+                if (preg_match("#^/#", $picture) === 1) {
+                    // Not changing image!
+                } else {
+                    // Save base64 image to file
+                    $uniqId = uniqid("fwimg_", true);
+                    $tmpPath = path("/var/tmp/{$uniqId}");
+                    $imagePath = base64imageToFile($picture, $tmpPath);
+                    $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
+                    $post->setImage($finalPath);
+                }
             } else {
                 // Remove image!
                 $post->setImage("");
@@ -560,7 +564,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
-                "message" => p__("fanwall", "Your comment is saved!"),
+                "message" => "Your post is saved!",
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -581,7 +585,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $values = $request->getBodyParams();
 
             if (!$session->isLoggedIn()) {
-                throw new Exception(p__("fanwall", "You must be logged-in to comment a post."));
+                throw new Exception("You must be logged-in to comment a post.");
             }
 
             $customerId = $session->getCustomerId();
@@ -593,7 +597,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
-                throw new Exception(p__("fanwall", "The post you are trying to comment is not available."));
+                throw new Exception("The post you are trying to comment is not available.");
             }
 
             $headers = [
@@ -638,7 +642,56 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $payload = [
                 "success" => true,
                 "comments" => $commentCollection,
-                "message" => p__("fanwall", "Your comment is saved!"),
+                "message" => "Your comment is saved!",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deleteCommentAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $commentId = $request->getParam("commentId", null);
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to delete a comment.");
+            }
+
+            $customerId = $session->getCustomerId();
+
+            $comment = (new Comment())->find($commentId);
+            if (!$comment->getId()) {
+                throw new Exception("The comment you are trying to delete is not available.");
+            }
+
+            if ($comment->getCustomerId() != $customerId) {
+                throw new Exception("You are not allowed to delete this comment.");
+            }
+
+            $postId = $comment->getPostId();
+            $comment->delete();
+
+            $comments = (new Comment())->findForPostId($postId);
+            $commentCollection = [];
+            foreach ($comments as $comment) {
+                $commentCollection[] = $comment->forJson();
+            }
+
+            $payload = [
+                "success" => true,
+                "comments" => $commentCollection,
+                "message" => "Your comment is deleted!",
             ];
         } catch (\Exception $e) {
             $payload = [

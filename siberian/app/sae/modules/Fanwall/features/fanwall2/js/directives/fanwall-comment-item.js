@@ -50,6 +50,36 @@ angular
                     return Customer.customer.id === $scope.comment.customerId;
                 };
 
+                $scope.deleteComment = function (comment) {
+                    if (!Customer.isLoggedIn()) {
+                        return Customer.loginModal();
+                    }
+
+                    var title = $translate.instant("Delete this comment!", "fanwall");
+                    var message = $translate.instant("Are you sure?", "fanwall");
+
+                    return Dialog
+                    .confirm(
+                        title,
+                        message,
+                        ['YES', 'NO'])
+                    .then(function (success) {
+                        if (success) {
+                            Loader.show();
+
+                            FanwallPost
+                            .deleteComment(comment.id)
+                            .then(function (payload) {
+                                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+                            }, function (payload) {
+                                Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+                            }).then(function () {
+                                Loader.hide();
+                            });
+                        }
+                    });
+                };
+
                 $scope.flagComment = function (comment) {
                     if (!Customer.isLoggedIn()) {
                         return Customer.loginModal();

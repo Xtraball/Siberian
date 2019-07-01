@@ -4,6 +4,9 @@
         <img ng-src="{{ authorImagePath(comment.author.image) }}" />
         <h2>
             {{ authorName(comment.author) }}
+            <i class="icon ion-trash-a pull-right assertive assertive-custom"
+               ng-if="isOwner()"
+               ng-click="deleteComment(comment)"></i>
             <i class="icon ion-flag pull-right"
                ng-if="!isOwner()"
                ng-click="flagComment(comment)"></i>

@@ -2,7 +2,7 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.16.13
+ * @version 4.17.0
  */
 angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     var factory = {
@@ -157,6 +157,20 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
             data: {
                 postId: postId,
                 reportMessage: reportMessage
+            }
+        });
+    };
+
+    /**
+     * Delete self comment!
+     *
+     * @param commentId
+     */
+    factory.deleteComment = function (commentId) {
+        return $pwaRequest.post("fanwall/mobile_post/delete-comment", {
+            urlParams: {
+                value_id: factory.value_id,
+                commentId: commentId
             }
         });
     };

@@ -32,6 +32,7 @@ msgid "Publication date"
 msgstr "Publication date"
 
 # GMT 1560785504.6975
+#, mobile
 msgctxt "fanwall"
 msgid "Post"
 msgstr "Post"
@@ -68,6 +69,7 @@ msgid "Create a post"
 msgstr "Create a post"
 
 # GMT 1560786218.712
+#, mobile
 msgctxt "fanwall"
 msgid "Add a picture"
 msgstr "Add a picture"
@@ -184,16 +186,19 @@ msgid "Like"
 msgstr "Like"
 
 # GMT 1560937002.7976
+#, mobile
 msgctxt "fanwall"
 msgid "This post doesn't exists."
 msgstr "This post doesn't exists."
 
 # GMT 1560937247.2556
+#, mobile
 msgctxt "fanwall"
 msgid "You like this post."
 msgstr "You like this post."
 
 # GMT 1560937254.6178
+#, mobile
 msgctxt "fanwall"
 msgid "You unlike this post."
 msgstr "You unlike this post."
@@ -299,6 +304,7 @@ msgid "Discard message!"
 msgstr "Discard message!"
 
 # GMT 1560961857.2148
+#, mobile
 msgctxt "fanwall"
 msgid "Thanks for your report, and Admin will check it!"
 msgstr "Thanks for your report, and Admin will check it!"
@@ -329,11 +335,13 @@ msgid "Comment is now deleted!"
 msgstr "Comment is now deleted!"
 
 # GMT 1561020446.7353
+#, mobile
 msgctxt "fanwall"
 msgid "Your comment is saved!"
 msgstr "Your comment is saved!"
 
 # GMT 1561043467.9113
+#, mobile
 msgctxt "fanwall"
 msgid "You must be logged-in to comment a post."
 msgstr "You must be logged-in to comment a post."
@@ -372,3 +380,171 @@ msgstr "Enable user comments"
 msgctxt "fanwall"
 msgid "Enable user likes"
 msgstr "Enable user likes"
+
+# GMT 1561989746.8827
+#, mobile
+msgctxt "fanwall"
+msgid "You must be logged-in to delete a comment."
+msgstr "You must be logged-in to delete a comment."
+
+# GMT 1561989746.8835
+#, mobile
+msgctxt "fanwall"
+msgid "The comment you are trying to delete is not available."
+msgstr "The comment you are trying to delete is not available."
+
+# GMT 1561989746.8913
+#, mobile
+msgctxt "fanwall"
+msgid "You are not allowed to delete this comment."
+msgstr "You are not allowed to delete this comment."
+
+# GMT 1561989746.8959
+#, mobile
+msgctxt "fanwall"
+msgid "Your comment is deleted!"
+msgstr "Your comment is deleted!"
+
+# GMT 1561989746.9089
+#, mobile
+msgctxt "fanwall"
+msgid "The post you are trying to comment is not available."
+msgstr "The post you are trying to comment is not available."
+
+# GMT 1561989746.9186
+#, mobile
+msgctxt "fanwall"
+msgid "Your post is saved!"
+msgstr "Your post is saved!"
+
+# GMT 1561989746.9242
+#, mobile
+msgctxt "fanwall"
+msgid "You must be logged-in to create a post."
+msgstr "You must be logged-in to create a post."
+
+# GMT 1561989746.9383
+#, mobile
+msgctxt "fanwall"
+msgid "You must be logged-in to unlike a post."
+msgstr "You must be logged-in to unlike a post."
+
+# GMT 1561989746.9451
+#, mobile
+msgctxt "fanwall"
+msgid "You must be logged-in to like a post."
+msgstr "You must be logged-in to like a post."
+
+# GMT 1561989746.9495
+#, mobile
+msgctxt "fanwall"
+msgid "This comment doesn't exists!"
+msgstr "This comment doesn't exists!"
+
+# GMT 1561989746.9499
+#, mobile
+msgctxt "fanwall"
+msgid "Write a comment..."
+msgstr "Write a comment..."
+
+# GMT 1561989746.9529
+#, mobile
+msgctxt "fanwall"
+msgid "Be the first to comment."
+msgstr "Be the first to comment."
+
+# GMT 1561989746.9564
+#, mobile
+msgctxt "fanwall"
+msgid "Comments"
+msgstr "Comments"
+
+# GMT 1561989746.9609
+#, mobile
+msgctxt "fanwall"
+msgid "Fetching your location..."
+msgstr "Fetching your location..."
+
+# GMT 1561989746.9644
+#, mobile
+msgctxt "fanwall"
+msgid "Write your message..."
+msgstr "Write your message..."
+
+# GMT 1561989746.9708
+#, mobile
+msgctxt "fanwall"
+msgid "Post details"
+msgstr "Post details"
+
+# GMT 1561989746.9714
+#, mobile
+msgctxt "fanwall"
+msgid "There is actually no post."
+msgstr "There is actually no post."
+
+# GMT 1561989746.9721
+#, mobile
+msgctxt "fanwall"
+msgid "There is actually no image."
+msgstr "There is actually no image."
+
+# GMT 1561989746.9728
+#, mobile
+msgctxt "fanwall"
+msgid "Nearby feature requires your location."
+msgstr "Nearby feature requires your location."
+
+# GMT 1561989746.9754
+#, mobile
+msgctxt "fanwall"
+msgid "We were unable to request your location."
+msgstr "We were unable to request your location."
+
+# GMT 1561989746.9761
+#, mobile
+msgctxt "fanwall"
+msgid "Please check that the application is allowed to use the GPS and that your device GPS is on."
+msgstr "Please check that the application is allowed to use the GPS and that your device GPS is on."
+
+# GMT 1561989746.9772
+#, mobile
+msgctxt "fanwall"
+msgid "Your position doesn't resolve to a known address."
+msgstr "Your position doesn't resolve to a known address."
+
+# GMT 1561989746.9821
+#, mobile
+msgctxt "fanwall"
+msgid "Delete this comment!"
+msgstr "Delete this comment!"
+
+# GMT 1561989746.9844
+#, mobile
+msgctxt "fanwall"
+msgid "Are you sure?"
+msgstr "Are you sure?"
+
+# GMT 1561989746.9865
+#, mobile
+msgctxt "fanwall"
+msgid "Report this message!"
+msgstr "Report this message!"
+
+# GMT 1561989746.9904
+#, mobile
+msgctxt "fanwall"
+msgid "Please let us know why you think this message is inappropriate."
+msgstr "Please let us know why you think this message is inappropriate."
+
+# GMT 1561989746.9944
+#, mobile
+msgctxt "fanwall"
+msgid "Your message."
+msgstr "Your message."
+
+# GMT 1561989746.9945
+#, mobile
+msgctxt "fanwall"
+msgid "We finally got you location"
+msgstr "We finally got you location"

@@ -17,7 +17,8 @@ angular
             date: null,
             location: {
                 latitude: 0,
-                longitude: 0
+                longitude: 0,
+                locationShort: ""
             }
         },
         fetchingLocation: false,
@@ -39,12 +40,34 @@ angular
     };
 
     $scope.requestLocation = function () {
-        Dialog.alert(
+        Dialog
+        .confirm(
             "Error",
             "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            "OK",
-            3700,
-            "location");
+            ["TRY AGAIN", "DISMISS"],
+            -1,
+            "location")
+        .then(function (success) {
+            if (success) {
+                Location.isEnabled = true;
+                Loader.show();
+                Location
+                .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
+                .then(function (payload) {
+                    // GPS is OK!!
+                    Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
+                }, function () {
+                    Dialog
+                    .alert(
+                        "Error",
+                        "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
+                        "OK",
+                        3700,
+                       "location"
+                    );
+                });
+            }
+        });
     };
 
     $scope.myAvatar = function () {
@@ -87,7 +110,8 @@ angular
             picture: "",
             location: {
                 latitude: 0,
-                longitude: 0
+                longitude: 0,
+                locationShort: ""
             }
         };
     };
@@ -133,7 +157,7 @@ angular
     if (!$scope.locationIsDisabled()) {
         $scope.fetchingLocation = true;
         Location
-        .getLocation({timeout: 10000}, true)
+        .getLocation({timeout: 10000, enableHighAccuracy: false}, true)
         .then(function (position) {
             $scope.form.location.latitude = position.coords.latitude;
             $scope.form.location.longitude = position.coords.longitude;
@@ -158,12 +182,16 @@ angular
                     }
                 }, function () {
                     $scope.fetchingLocation = false;
+
                     Dialog.alert(
                         "Location",
-                        "Your position doesn't resolve to a valid address.",
+                        "Your position doesn't resolve to a known address.",
                         "OK",
-                        -1,
+                        2350,
                         "fanwall");
+
+                    $scope.shortLocation = Math.truncate(position.coords.latitude, 4) + ", " + Math.truncate(position.coords.longitude, 4);
+                    $scope.form.location.locationShort = "unknown";
                 });
         }, function () {
             $scope.fetchingLocation = false;

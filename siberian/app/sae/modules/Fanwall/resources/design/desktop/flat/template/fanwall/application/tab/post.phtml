@@ -10,7 +10,7 @@ $formPostDelete = $this->getFormPostDelete();
 ?>
 
 <div role="tabpanel"
-     class="tab-pane active"
+     class="tab-pane <?php echo ($posts->count() > 0) ? "active" : "" ?>"
      id="posts">
     <div class="feature-block-add">
         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -68,7 +68,7 @@ $formPostDelete = $this->getFormPostDelete();
                             <td><?php echo cut($post->getTitle(), 30); ?></td>
                             <td><?php echo cut($post->getSubtitle(), 30); ?></td>
                             <td><?php echo cut($post->getText(), 500); ?></td>
-                            <td><?php echo $post->getDate(); ?></td>
+                            <td class="moment_format"><?php echo $post->getDate(); ?></td>
                             <td class="toggle-action">
                                 <?php
                                 $formPostPin->getElement("post_id")->setValue($post->getId());

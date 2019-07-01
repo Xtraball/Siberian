@@ -35,7 +35,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
 
             $post = (new Post)->find($postId);
             if (!$post->getId()) {
-                throw new Exception(p__("fanwall", "This post doesn't exists!"));
+                throw new Exception("This post doesn't exists!");
             }
 
             $allReports = Json::decode($post->getReportReasons());
@@ -113,7 +113,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
 
             $payload = [
                 "success" => true,
-                "message" => p__("fanwall", "Thanks for your report, and Admin will check it!"),
+                "message" => "Thanks for your report, and Admin will check it!", // We let the mobile translate it!
             ];
 
         } catch (\Exception $e) {
@@ -212,7 +212,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
 
             $comment = (new Comment)->find($commentId);
             if (!$comment->getId()) {
-                throw new Exception(p__("fanwall", "This comment doesn't exists!"));
+                throw new Exception("This comment doesn't exists!");
             }
 
             $allReports = Json::decode($comment->getReportReasons());
@@ -289,7 +289,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
 
             $payload = [
                 "success" => true,
-                "message" => p__("fanwall", "Thanks for your report, and Admin will check it!"),
+                "message" => "Thanks for your report, and Admin will check it!", // We let the mobile translate it
             ];
 
         } catch (\Exception $e) {

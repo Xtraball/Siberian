@@ -22,12 +22,18 @@ function getSection($name, $data = [])
     return $html;
 }
 
-
 $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 
 # FanWall
 $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+if (!$fanWall->getId()) {
+    // Creates a default entry with DB defaults!
+    $fanWall
+        ->setValueId($optionValue->getId())
+        ->save();
+    $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+}
 
 # Posts
 $posts = new Post();
