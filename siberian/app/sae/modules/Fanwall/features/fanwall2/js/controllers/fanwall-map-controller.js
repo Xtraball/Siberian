@@ -73,27 +73,27 @@ angular
                     var pinUrl;
                     switch (postGroup.length) {
                         case 1:
-                            pinUrl = "./features/fanwall2/assets/templates/images/post-1.png";
+                            pinUrl = "./features/fanwall2/assets/templates/images/pin1.svg";
                             break;
                         case 2:
-                            pinUrl = "./features/fanwall2/assets/templates/images/post-2.png";
+                            pinUrl = "./features/fanwall2/assets/templates/images/pin2.svg";
                             break;
                         case 3:
-                            pinUrl = "./features/fanwall2/assets/templates/images/post-3.png";
+                            pinUrl = "./features/fanwall2/assets/templates/images/pin3.svg";
                             break;
                         case 4:
-                            pinUrl = "./features/fanwall2/assets/templates/images/post-4.png";
+                            pinUrl = "./features/fanwall2/assets/templates/images/pin4.svg";
                             break;
                         case 5:
                         default:
-                            pinUrl = "./features/fanwall2/assets/templates/images/post-5.png";
+                            pinUrl = "./features/fanwall2/assets/templates/images/pin5.svg";
                             break;
                     }
 
                     marker.icon = {
                         url: pinUrl,
-                        width: 42,
-                        height: 42
+                        anchor: new google.maps.Point(26, 52),
+                        scaledSize: new google.maps.Size(40, 40)
                     };
 
                     markers.push(marker);

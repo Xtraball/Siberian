@@ -36,9 +36,8 @@ angular
     };
 
     $scope.loadContent = function (refresh) {
-        $scope.isLoading = true;
-
         if (refresh === true) {
+            $scope.isLoading = true;
             $scope.collection = [];
             FanwallGallery.collection = [];
 
@@ -60,7 +59,9 @@ angular
         }, function (payload) {
 
         }).then(function () {
-            $scope.isLoading = false;
+            if (refresh === true) {
+                $scope.isLoading = false;
+            }
         });
     };
 

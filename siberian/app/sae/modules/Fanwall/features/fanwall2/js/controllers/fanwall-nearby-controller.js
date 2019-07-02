@@ -33,15 +33,12 @@ angular
         };
 
         $scope.loadContent = function (refresh) {
-            $scope.isLoading = true;
-
             if ($scope.locationIsDisabled()) {
-                $scope.isLoading = false;
-
                 return false;
             }
 
             if (refresh === true) {
+                $scope.isLoading = true;
                 $scope.collection = [];
                 FanwallPost.collection = [];
 
@@ -63,7 +60,9 @@ angular
                 }, function (payload) {
 
                 }).then(function () {
+                if (refresh === true) {
                     $scope.isLoading = false;
+                }
                 });
         };
 
