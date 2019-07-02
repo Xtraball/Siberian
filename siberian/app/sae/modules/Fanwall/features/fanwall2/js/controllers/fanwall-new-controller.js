@@ -55,8 +55,10 @@ angular
                 .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
                 .then(function (payload) {
                     // GPS is OK!!
+                    Loader.hide();
                     Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
                 }, function () {
+                    Loader.hide();
                     Dialog
                     .alert(
                         "Error",
