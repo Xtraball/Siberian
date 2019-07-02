@@ -327,65 +327,69 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
      */
     private function apkServiceEmail ($queue)
     {
-        $recipients = [];
-        switch ($queue->getUserType()) {
-            case 'backoffice':
-                $backofficeUser = (new Backoffice_Model_User())
-                    ->find($queue->getUserId());
-                if ($backofficeUser->getId()) {
-                    $recipients[] = $backofficeUser;
-                }
-                break;
-            case 'admin':
-                $adminUser = (new Admin_Model_Admin())
-                    ->find($queue->getUserId());
-                if($adminUser->getId()) {
-                    $recipients[] = $adminUser;
-                }
-                break;
-        }
+        try {
+            $recipients = [];
+            switch ($queue->getUserType()) {
+                case 'backoffice':
+                    $backofficeUser = (new Backoffice_Model_User())
+                        ->find($queue->getUserId());
+                    if ($backofficeUser->getId()) {
+                        $recipients[] = $backofficeUser;
+                    }
+                    break;
+                case 'admin':
+                    $adminUser = (new Admin_Model_Admin())
+                        ->find($queue->getUserId());
+                    if($adminUser->getId()) {
+                        $recipients[] = $adminUser;
+                    }
+                    break;
+            }
 
-        $protocol =__get('use_https') ? 'https' : 'http';
-        if ($queue->getApkStatus() === 'success') {
-            // Success email!
-            $url = sprintf("%s://%s/%s",
-                $protocol,
-                $queue->getHost(),
-                str_replace(Core_Model_Directory::getBasePathTo(''), '', $queue->getApkPath())
-            );
+            $protocol =__get('use_https') ? 'https' : 'http';
+            if ($queue->getApkStatus() === 'success') {
+                // Success email!
+                $url = sprintf("%s://%s/%s",
+                    $protocol,
+                    $queue->getHost(),
+                    str_replace(Core_Model_Directory::getBasePathTo(''), '', $queue->getApkPath())
+                );
 
-            $values = [
-                'type' => __("APK Generator Service"),
-                'application_name' => $queue->getName(),
-                'link' => $url,
-            ];
+                $values = [
+                    'type' => __("APK Generator Service"),
+                    'application_name' => $queue->getName(),
+                    'link' => $url,
+                ];
 
-            // SMTP Mailer
-            (new Siberian_Mail())
-                ->simpleEmail(
-                    'queue',
-                    'apk_queue_success',
-                    __("APK generation for App: %s", $queue->getName()),
-                    $recipients,
-                    $values)
-                ->send();
+                // SMTP Mailer
+                (new Siberian_Mail())
+                    ->simpleEmail(
+                        'queue',
+                        'apk_queue_success',
+                        __("APK generation for App: %s", $queue->getName()),
+                        $recipients,
+                        $values)
+                    ->send();
 
-        } else {
-            // Failure email!
-            $values = [
-                'type' => __('APK Generator Service'),
-                'application_name' => $queue->getName(),
-            ];
+            } else {
+                // Failure email!
+                $values = [
+                    'type' => __('APK Generator Service'),
+                    'application_name' => $queue->getName(),
+                ];
 
-            // SMTP Mailer
-            (new Siberian_Mail())
-                ->simpleEmail(
-                    'queue',
-                    'apk_queue_failed',
-                    __("The requested APK generation failed: %s", $queue->getName()),
-                    $recipients,
-                    $values)
-                ->send();
+                // SMTP Mailer
+                (new Siberian_Mail())
+                    ->simpleEmail(
+                        'queue',
+                        'apk_queue_failed',
+                        __("The requested APK generation failed: %s", $queue->getName()),
+                        $recipients,
+                        $values)
+                    ->send();
+            }
+        } catch (\Exception $e) {
+            // Success / Failure mail was not ok, silent error to continue!
         }
     }
 
