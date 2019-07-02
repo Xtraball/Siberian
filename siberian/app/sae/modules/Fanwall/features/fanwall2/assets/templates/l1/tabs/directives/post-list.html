@@ -15,7 +15,8 @@
     <ion-list ng-if="!isLoading && !collection.length">
         <ion-item ng-class="{'card' : getCardDesign()}"
                   class="item-custom text-center no-post">
-            {{ ::"There is actually no post." | translate:"fanwall" }}
+            <p ng-if="currentTab == 'post'">{{ ::"There is actually no post." | translate:"fanwall" }}</p>
+            <p ng-if="currentTab == 'nearby'">{{ ::"There is actually no post around you." | translate:"fanwall" }}</p>
         </ion-item>
     </ion-list>
 

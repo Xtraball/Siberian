@@ -70,6 +70,9 @@ angular
                             FanwallPost
                             .deleteComment(comment.id)
                             .then(function (payload) {
+                                $scope.post.comments = angular.copy(payload.comments);
+                                $scope.post.commentCount = $scope.post.comments.length;
+
                                 Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
                             }, function (payload) {
                                 Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");

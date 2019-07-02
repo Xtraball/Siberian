@@ -12,7 +12,7 @@ angular
         settingsIsLoaded: false,
         value_id: $stateParams.value_id,
         collection: [],
-        pageTitle: $translate.instant("Fan Wall", "fanwall"),
+        pageTitle: $translate.instant("Social Wall", "fanwall"),
         hasMore: false,
         currentTab: "post"
     });
@@ -27,21 +27,53 @@ angular
         return Fanwall.settings;
     };
 
-    $scope.toggleDesign = function () {
-        Fanwall.toggleDesign();
-    };
-
     $scope.locationIsDisabled = function () {
         return !Location.isEnabled;
     };
 
+    /**
+     * Are we in a tab that requires the location
+     * @returns {*|number}
+     */
+    $scope.locationTab = function () {
+        return ["nearby", "map"].indexOf($scope.currentTab) !== -1;
+    };
+
     $scope.requestLocation = function () {
-        Dialog.alert(
+        Dialog
+        .confirm(
             "Error",
             "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            "OK",
-            3700,
-            "location");
+            ["TRY AGAIN", "DISMISS"],
+            -1,
+            "location")
+        .then(function (success) {
+            if (success) {
+                Location.isEnabled = true;
+                Loader.show();
+                Location
+                .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
+                .then(function (payload) {
+                    // GPS is OK!!
+                    Loader.hide();
+                    Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
+                }, function () {
+                    Loader.hide();
+                    Dialog
+                    .alert(
+                        "Error",
+                        "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
+                        "OK",
+                        3700,
+                        "location"
+                    );
+                });
+            }
+        });
+    };
+
+    $scope.toggleDesign = function () {
+        Fanwall.toggleDesign();
     };
 
     $scope.showTab = function (tabName) {

@@ -6,11 +6,11 @@
  */
 angular
 .module("starter")
-.controller("FanwallNewController", function ($scope, $rootScope, $state, $stateParams, Customer, Fanwall, FanwallPost,
+.controller("FanwallNewController", function ($scope, $rootScope, $state, $stateParams, $translate, Customer, Fanwall, FanwallPost,
                                               Dialog, Picture, Loader, Location, GoogleMaps) {
 
     angular.extend($scope, {
-        pageTitle: "Create a post",
+        pageTitle: $translate.instant("Create a post", "fanwall"),
         form: {
             text: "",
             picture: "",
@@ -125,8 +125,13 @@ angular
     $scope.sendPost = function () {
         var postId = ($scope.post !== undefined) ? $scope.post.id : null;
 
+        if ($scope.fetchingLocation) {
+            Dialog.alert("Wait", "Please wait while we are fetching your location.", "OK", 2350, "fanwall");
+            return false;
+        }
+
         if (!$scope.canSend()) {
-            Dialog.alert("Error", "You must send at least a message or a picture", "OK", -1, "fanwall");
+            Dialog.alert("Error", "You must send at least a message or a picture.", "OK", -1, "fanwall");
             return false;
         }
 
@@ -179,19 +184,10 @@ angular
                         }
 
                         $scope.form.location.locationShort = $scope.shortLocation;
-
                         $scope.fetchingLocation = false;
                     }
                 }, function () {
                     $scope.fetchingLocation = false;
-
-                    Dialog.alert(
-                        "Location",
-                        "Your position doesn't resolve to a known address.",
-                        "OK",
-                        2350,
-                        "fanwall");
-
                     $scope.shortLocation = Math.truncate(position.coords.latitude, 4) + ", " + Math.truncate(position.coords.longitude, 4);
                     $scope.form.location.locationShort = "unknown";
                 });
