@@ -10,6 +10,11 @@ use Siberian_Form_Abstract as FormAbstract;
 class Post extends FormAbstract
 {
     /**
+     * @var Siberian_Form_Element_Text
+     */
+    public $dateField = null;
+
+    /**
      * @throws \Zend_Form_Exception
      */
     public function init()
@@ -37,7 +42,11 @@ class Post extends FormAbstract
             "height" => 640,
         ]);
 
-        $this->addSimpleDatetimepicker("date", p__("fanwall","Publication date"), false, self::DATETIMEPICKER);
+        $this->dateField = $this->addSimpleDatetimepickerv2(
+            "date_" . uniqid(),
+            p__("fanwall","Publication date"),
+            false,
+            self::DATETIMEPICKER);
 
         $text = $this->addSimpleTextarea(
             "text",
@@ -51,6 +60,9 @@ class Post extends FormAbstract
         $valueId = $this->addSimpleHidden("value_id");
         $valueId
             ->setRequired(true);
+
+        // Defaults date to NOW() for new Pots
+        $this->setDate(time());
     }
 
     /**
@@ -62,6 +74,14 @@ class Post extends FormAbstract
             ->getElement("post_id")
             ->setValue($postId)
             ->setRequired(true);
+    }
+
+    /**
+     * @param $timestampInSeconds
+     */
+    public function setDate($timestampInSeconds)
+    {
+        $this->dateField->setValue($timestampInSeconds * 1000);
     }
 
     /**

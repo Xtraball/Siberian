@@ -37,7 +37,7 @@ if (!$fanWall->getId()) {
 
 # Posts
 $posts = new Post();
-$posts = (new Post())->findAll([
+$posts = (new Post())->findAllWithCustomer([
     "value_id = ?" => $optionValue->getId()
 ]);
 

@@ -7,6 +7,9 @@ $formPostToggle = $this->getFormPostToggle();
 $formPostPin = $this->getFormPostPin();
 $formPostDelete = $this->getFormPostDelete();
 
+$application = $this->getApplication();
+$appName = $application->getName();
+
 ?>
 
 <div role="tabpanel"
@@ -48,9 +51,9 @@ $formPostDelete = $this->getFormPostDelete();
                     <thead>
                         <tr class="border-grey">
                             <th class="sortable"
-                                style="width:10%;"><?php echo p__("fanwall", "Title"); ?></th>
+                                style="width:10%;"><?php echo p__("fanwall", "Title"); ?> / <?php echo p__("fanwall", "Subtitle"); ?></th>
                             <th class="sortable"
-                                style="width:10%;"><?php echo p__("fanwall", "Subtitle"); ?></th>
+                                style="width:10%;"><?php echo p__("fanwall", "Author"); ?></th>
                             <th class="sortable"
                                 style="width:50%;"><?php echo p__("fanwall", "Post"); ?></th>
                             <th class="sortable date"
@@ -65,8 +68,22 @@ $formPostDelete = $this->getFormPostDelete();
                     <?php foreach ($posts as $post) : ?>
                         <tr id="post_manage_element_<?php echo $post->getId(); ?>"
                             class="post-manage-element sb-pager">
-                            <td><?php echo cut($post->getTitle(), 30); ?></td>
-                            <td><?php echo cut($post->getSubtitle(), 30); ?></td>
+                            <td>
+                                <b><?php echo cut($post->getTitle(), 30); ?></b>
+                                <i><?php echo cut($post->getSubtitle(), 30); ?></i>
+                            </td>
+                            <td>
+                                <?php if ($post->getcustomerId()): ?>
+                                    <a class="btn btn-xs btn-info"
+                                       href="<?php echo __path("/customer/application/edit/", [
+                                           "customer_id" => $post->getCustomerId()
+                                       ]); ?>">
+                                        #<?php echo $post->getcustomerId() ?> - <i><?php echo $post->getFirstname() . " " . $post->getLastname(); ?></i>
+                                    </a>
+                                <?php else: ?>
+                                    <b><?php echo $appName; ?></b> <i>(<?php echo p__("fanwall", "App") ?>)</i>
+                                <?php endif; ?>
+                            </td>
                             <td><?php echo cut($post->getText(), 500); ?></td>
                             <td class="moment_format"><?php echo $post->getDate(); ?></td>
                             <td class="toggle-action">

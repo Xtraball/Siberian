@@ -41,8 +41,13 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $form = new FormPost();
             if ($form->isValid($values)) {
 
-                // Replacing the visual date, with the timestamp!
-                $values["date"] = $values["alt_date"];
+                // Replacing the visual date, with the timestamp, date name/id is suffixed with a uniqid()!
+                foreach ($values as $key => $value) {
+                    if (preg_match("#^date_#", $key)) {
+                        $values["date"] = $value / 1000;
+                        break;
+                    }
+                }
 
                 $post = new Post();
                 $post
@@ -155,11 +160,14 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 throw new Exception(p__("fanwall","This post entry do not exists!"));
             }
 
+            $tmpData = $post->getData();
+
             $form = new FormPost();
             $form->removeNav("nav-fanwall-post");
-            $form->populate($post->getData());
+            $form->populate($tmpData);
             $form->setValueId($optionValue->getId());
             $form->setPostId($post->getId());
+            $form->setDate($tmpData["date"]);
             $form->loadFormSubmit();
 
             $payload = [
