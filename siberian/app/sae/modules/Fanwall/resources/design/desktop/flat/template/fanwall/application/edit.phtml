@@ -25,6 +25,8 @@ function getSection($name, $data = [])
 $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 
+$appKey = $application->getGooglemapsKey();
+
 # FanWall
 $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
 if (!$fanWall->getId()) {
@@ -64,6 +66,14 @@ $formSettings->setValueId($optionValue->getId());
 
 <div id="list"
      class="fanwall">
+
+    <!-- GoogleMaps warning -->
+    <?php if (empty($appKey)): ?>
+        <div class="alert alert-warning">
+            <?php echo p__("fanwall", "To use nearby & maps tab you must set a Google Maps API key in %s.",
+                "<a href=\"/application/settings_apis\"><b>" . __("Settings") . " > " . __("API") . "</b></a>") ?>
+        </div>
+    <?php endif; ?>
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs"
