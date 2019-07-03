@@ -10,10 +10,11 @@ class_alias("Fanwall\Model\Fanwall", "Fanwall_Model_Fanwall");
  * @param $bootstrap
  */
 $init = function ($bootstrap) {
-    Privacy::registerModule(
-        "fanwall",
-        __("Fanwall"),
-        "fanwall/gdpr.phtml");
+    // Postponed GDPR extract.
+    //Privacy::registerModule(
+    //    "fanwall",
+    //    __("Fanwall"),
+    //    "fanwall/gdpr.phtml");
 
     Assets::registerScss([
         "/app/sae/modules/Fanwall/features/fanwall/scss/fanwall.scss"
