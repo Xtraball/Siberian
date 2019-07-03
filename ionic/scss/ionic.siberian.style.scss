@@ -12,6 +12,10 @@ ion-modal-view {
   background-color: opacify($general-custom-bg, 1) !important;
 }
 
+ion-side-menu {
+  background-color: $homepage-custom-bg !important;
+}
+
 ion-side-menu-content {
   background-color: $general-custom-bg !important;
 }
@@ -80,7 +84,7 @@ ion-content {
     &.item-divider-custom {
       background-color: $list-item-divider-custom-bg;
       color: $list-item-divider-custom-text;
-      border: none;
+      border: $list-item-divider-custom-border;
       h2, p, span {
         color: $list-item-divider-custom-text;
       }
@@ -161,7 +165,7 @@ ion-content {
     &.item-divider-custom {
       background-color: $card-item-divider-custom-bg;
       color: $card-item-divider-custom-text;
-      border: none;
+      border: $card-item-divider-custom-border;
       h2, p, span {
         color: $card-item-divider-custom-text;
       }

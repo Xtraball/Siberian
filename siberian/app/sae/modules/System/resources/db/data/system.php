@@ -275,7 +275,7 @@ $configs = [
     [
         'code' => 'gradle_options',
         'label' => 'GRADLE extended options',
-        'value' => '-Dorg.gradle.daemon=false',
+        'value' => '-Dorg.gradle.daemon=true',
     ],
     [
         'code' => 'import_enabled',

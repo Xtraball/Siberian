@@ -45,6 +45,20 @@ set_include_path(implode(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../lib'),
 )));
 
+/**
+ *
+ */
+function dbg()
+{
+    $args = func_get_args();
+    foreach ($args as $arg) {
+        file_put_contents(
+            "/tmp/debug.log",
+            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            FILE_APPEND);
+    }
+}
+
 require_once 'Zend/Application.php';
 
 // Initializing the application!

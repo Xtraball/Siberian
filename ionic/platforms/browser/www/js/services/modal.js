@@ -8,10 +8,10 @@ angular
 .module("starter")
 .service("Modal", function ($rootScope, $ionicModal, $timeout, $q) {
     var service = {
-        is_open                     : false,
-        stack                       : [],
-        current_modal               : null,
-        modal_hidden_subscriber     : null
+        is_open: false,
+        stack: [],
+        current_modal: null,
+        modal_hidden_subscriber: null
     };
 
     /** Listening from $rootScope to prevent external $ionicModal not proxied */
@@ -19,7 +19,7 @@ angular
         service.is_open = true;
 
         /** Listening for modal.hidden dynamically */
-        service.modal_hidden_subscriber = $rootScope.$on('modal.hidden', function() {
+        service.modal_hidden_subscriber = $rootScope.$on('modal.hidden', function () {
             /** Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up */
             service.modal_hidden_subscriber();
 
@@ -43,10 +43,10 @@ angular
 
                 switch (modal.type) {
                     case 'fromTemplateUrl':
-                            service.renderFromTemplateUrl(modal.data);
+                        service.renderFromTemplateUrl(modal.data);
                         break;
                     case 'fromTemplate':
-                            service.renderFromTemplate(modal.data);
+                        service.renderFromTemplate(modal.data);
                         break;
                 }
             }, 1);
@@ -90,11 +90,11 @@ angular
      */
     service.renderFromTemplateUrl = function (data) {
         return $ionicModal
-            .fromTemplateUrl(data.templateUrl, data.config)
-            .then(function (modal) {
-                service.current_modal = modal;
-                data.promise.resolve(modal);
-            });
+        .fromTemplateUrl(data.templateUrl, data.config)
+        .then(function (modal) {
+            service.current_modal = modal;
+            data.promise.resolve(modal);
+        });
     };
 
     /**
@@ -128,11 +128,11 @@ angular
      */
     service.renderFromTemplate = function (data) {
         return $ionicModal
-            .fromTemplate(data.template, data.config)
-            .then(function (modal) {
-                service.current_modal = modal;
-                data.promise.resolve(modal);
-            });
+        .fromTemplate(data.template, data.config)
+        .then(function (modal) {
+            service.current_modal = modal;
+            data.promise.resolve(modal);
+        });
     };
 
     return service;

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Siberian_Controller_Request_Http
  *
@@ -45,7 +47,7 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
     {
         $rawBody = $this->getRawBody();
 
-        return Siberian_Json::decode($rawBody);
+        return Json::decode($rawBody);
     }
 
     /**

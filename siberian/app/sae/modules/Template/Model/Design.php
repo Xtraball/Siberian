@@ -187,7 +187,6 @@ class Template_Model_Design extends Core_Model_Default
 
         }
 
-        dbg($variables);
 
         // Prepend google font
         $fontFamily = $application->getFontFamily();

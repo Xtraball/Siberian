@@ -175,6 +175,8 @@ $blocks = [
                 'name' => 'Title\'s Card',
                 'color' => '#222',
                 'color_variable_name' => '$card-item-divider-custom-text',
+                'border_color' => '#f8f8f8',
+                'border_color_variable_name' => '$card-item-divider-custom-border',
                 'background_color' => '#f8f8f8',
                 'background_color_variable_name' => '$card-item-divider-custom-bg'
             ], [
@@ -182,6 +184,8 @@ $blocks = [
                 'name' => 'Card Item',
                 'color' => '#444',
                 'color_variable_name' => '$card-item-custom-text',
+                'border_color' => '#fff',
+                'border_color_variable_name' => '$card-item-custom-border',
                 'background_color' => '#fff',
                 'background_color_variable_name' => '$card-item-custom-bg'
             ]
@@ -198,6 +202,8 @@ $blocks = [
                 'name' => 'Title\'s List',
                 'color' => '#222',
                 'color_variable_name' => '$list-item-divider-custom-text',
+                'border_color' => '#f8f8f8',
+                'border_color_variable_name' => '$list-item-divider-custom-border',
                 'background_color' => '#f8f8f8',
                 'background_color_variable_name' => '$list-item-divider-custom-bg'
             ], [
@@ -205,6 +211,8 @@ $blocks = [
                 'name' => 'List Item',
                 'color' => '#444',
                 'color_variable_name' => '$list-item-custom-text',
+                'border_color' => '#444',
+                'border_color_variable_name' => '$list-item-custom-border',
                 'background_color' => '#fff',
                 'background_color_variable_name' => '$list-item-custom-bg'
             ]
@@ -229,7 +237,6 @@ $blocks = [
             ],
         ]
     ],
-
     /* BUTTONS */
     [
         'code' => 'buttons_group',

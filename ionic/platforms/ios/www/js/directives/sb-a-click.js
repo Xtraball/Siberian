@@ -2,11 +2,11 @@
     App, ionic, angular
  */
 
-angular.module("starter").directive("sbAClick", function($filter, $rootScope, $timeout, $window, $state, LinkService, Customer) {
+angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $window, $state, LinkService, Customer) {
     return {
         restrict: 'A',
-        scope: {
-        },
+        scope: {},
+        priority: -10,
         link: function (scope, element) {
             $timeout(function () {
                 // A links

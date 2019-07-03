@@ -1,0 +1,19 @@
+<ion-content class="fanwall-map"
+             scroll="false"
+             ng-class="{'has-subheader': displaySubHeader()}"
+             ng-controller="FanwallMapController">
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <div id="google-maps"
+         class="map-canvas"
+         sb-maps
+         map="map"
+         config="mapConfig"
+         ng-if="mapConfig"
+         data-tap-disabled="true"></div>
+
+</ion-content>

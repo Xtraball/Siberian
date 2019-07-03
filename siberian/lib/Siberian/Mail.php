@@ -265,9 +265,8 @@ class Mail extends Zend_Mail
             $this->addTo($this->_sender_email, $this->_sender_name);
         }
 
+        $logInstance = Mail_Model_Log::logEmail($this);
         try {
-            $logInstance = Mail_Model_Log::logEmail($this);
-
             $result = parent::send($transport);
 
             /**
@@ -290,7 +289,7 @@ class Mail extends Zend_Mail
             // Do something with the results
 
             return $result;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_err("[Siberian_Mail] an error occurred while sending the following e-mail.");
             log_err(__("[Siberian_Mail::Error] %s.", $e->getMessage()));
 

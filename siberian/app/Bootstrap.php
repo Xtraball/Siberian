@@ -57,6 +57,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Updating the include_paths!
         set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
+        $this->bootstrap('CacheManager');
+        $dbCache = $this->getResource('CacheManager')->getCache('database');
+        Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
+
         $base_path = '';
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
@@ -70,6 +74,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         // Then load class aliases
         \Siberian\Stubs::loadAliases();
+
+
 
         $path = '';
         if (isset($_SERVER['SCRIPT_NAME'])) {
@@ -97,6 +103,32 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             // Reports all errors, handled by Siberian_Error!
             error_reporting(E_ALL);
             Siberian_Error::init();
+        }
+    }
+
+    /**
+     * @throws Zend_Application_Bootstrap_Exception
+     * @throws Zend_Cache_Exception
+     */
+    protected function _initCache()
+    {
+        $default_cache = $this->getResource('CacheManager')->getCache('default');
+
+        $cache_dir = Core_Model_Directory::getCacheDirectory(true);
+        if (is_writable($cache_dir)) {
+            $frontendConf = [
+                'lifetime' => 345600,
+                'automatic_seralization' => true
+            ];
+            $backendConf = [
+                'cache_dir' => $cache_dir
+            ];
+            $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
+            $cache->setOption('automatic_serialization', true);
+            Zend_Locale::setCache($default_cache);
+            Zend_Registry::set("cache", $default_cache);
+
+
         }
     }
 
@@ -380,30 +412,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ));
     }
 
-    /**
-     * @throws Zend_Application_Bootstrap_Exception
-     * @throws Zend_Cache_Exception
-     */
-    protected function _initCache()
+    public function _initMinify()
     {
-        $this->bootstrap('CacheManager');
-        $default_cache = $this->getResource('CacheManager')->getCache('default');
-
-        $cache_dir = Core_Model_Directory::getCacheDirectory(true);
-        if (is_writable($cache_dir)) {
-            $frontendConf = [
-                'lifetime' => 345600,
-                'automatic_seralization' => true
-            ];
-            $backendConf = [
-                'cache_dir' => $cache_dir
-            ];
-            $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
-            $cache->setOption('automatic_serialization', true);
-            Zend_Locale::setCache($default_cache);
-            Zend_Registry::set("cache", $default_cache);
-        }
-
         // Minify Cache!
         //if (Installer_Model_Installer::isInstalled()) {
         //    $minifier = new Siberian_Minify();

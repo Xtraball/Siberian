@@ -1,0 +1,78 @@
+<table class="main">
+
+    <!-- START MAIN CONTENT AREA -->
+    <tr>
+        <td class="wrapper">
+            <table border="0"
+                   cellpadding="0"
+                   cellspacing="0">
+                <tr>
+                    <td>
+                        <p><?php echo p__("fanwall", "Hello,") ?></p>
+                        <p><?php echo p__("fanwall", "You are receiving this e-mail because you are one of the registered <b>moderators</b> for the Fanwall %s on the Application %s",
+                                $this->getFanwallTitle(),
+                                $this->getAppName()) ?></p>
+                        <p><?php echo p__("fanwall", "below you can take immediate actions on the reported message!") ?></p>
+                        <p><?php echo p__("fanwall", "<b>%s</b> reported the following message", $this->getUser()) ?>:</p>
+                        <pre><?php echo $this->getMessage() ?></pre>
+                        <p><?php echo p__("fanwall", "With the reason") ?>:</p>
+                        <pre><?php echo $this->getReason() ?></pre>
+                        <table border="0"
+                               cellpadding="0"
+                               cellspacing="0"
+                               class="btn btn-primary">
+                            <tbody>
+                            <tr>
+                                <td align="left">
+                                    <table border="0"
+                                           cellpadding="0"
+                                           cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="<?php echo $this->getKeepUrl() ?>"
+                                                   target="_blank">
+                                                    <?php echo p__("fanwall", "Keep message & clear reports!") ?>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <table border="0"
+                               cellpadding="0"
+                               cellspacing="0"
+                               class="btn btn-danger">
+                            <tbody>
+                            <tr>
+                                <td align="left">
+                                    <table border="0"
+                                           cellpadding="0"
+                                           cellspacing="0">
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <a href="<?php echo $this->getDismissUrl() ?>"
+                                                   target="_blank">
+                                                    <?php echo p__("fanwall", "Discard message!") ?>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+
+    <!-- END MAIN CONTENT AREA -->
+</table>

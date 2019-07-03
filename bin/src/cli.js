@@ -137,6 +137,7 @@ let cli = function (inputArgs) {
             'archivesources': Boolean,
             'clearcache': Boolean,
             'clearlog': Boolean,
+            'patchmanifest': Boolean,
             'db': Boolean,
             'dev': Boolean,
             'deploy': Boolean,
@@ -277,6 +278,8 @@ let cli = function (inputArgs) {
             }
         } else if (args.ions) {
             ionicServe();
+        } else if (args.patchmanifest) {
+            patchAndroidManifest();
         } else if (args.archivesources) {
             archiveSources();
         } else if (args.alias) {
@@ -449,6 +452,24 @@ let rebuildManifest = function () {
 /**
  *
  */
+let patchAndroidManifest = function () {
+    let AndoidManifestFile = ROOT + '/ionic/platforms/android/app/src/main/AndroidManifest.xml';
+    let AndroidManifestContent = fs.readFileSync(AndoidManifestFile, {
+        encoding: 'utf8'
+    });
+
+    AndroidManifestContent = AndroidManifestContent.replace(
+        /(\<activity\s+android\:configChanges)/,
+        '<activity android:screenOrientation="unspecified" android:configChanges');
+    sprint('Patching app/src/main/AndroidManifest.xml...');
+    fs.writeFileSync(AndoidManifestFile, AndroidManifestContent, {
+        encoding: 'utf8'
+    });
+};
+
+/**
+ *
+ */
 let builder = function () {
     sh.cd(ROOT + '/ionic/');
     sh.exec('node builder --prod');
@@ -573,13 +594,37 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sh.cd(ROOT + '/ionic/');
                 }
 
-                var gradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
-                if (type === '--release') {
-                    gradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
-                }
+                if (platform === 'android') {
 
-                sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
-                sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                    // Edit AndroidManifest.xml
+                    // android:screenOrientation="unspecified" > <activity
+
+
+
+                    var gradleArgs = 'cdvBuildDebug -x=:app:processDebugGoogleServices';
+                    if (type === '--release') {
+                        gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
+                    }
+
+                    var cordovaGradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
+                    if (type === '--release') {
+                        cordovaGradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
+                    }
+
+                    sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
+                    sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
+
+                    sh.cd(ROOT + '/ionic/platforms/' + platform);
+
+                    sprint('./gradlew ' + gradleArgs);
+                    sh.exec('./gradlew ' + gradleArgs);
+
+                    patchAndroidManifest();
+
+                } else {
+                    sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                    sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
+                }
             }
 
             // Ios specific, run push.rb to patch push notifications!

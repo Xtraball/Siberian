@@ -388,6 +388,60 @@ var handleDatetimePicker = function (default_parent) {
             }
         }
     });
+
+    $(default_parent + " input[data-datetimepicker-v2]").each(function () {
+        let el = $(this);
+        if (typeof el.attr("data-hasdatepicker-v2") === "undefined") {
+
+            let fieldName = el.attr("name");
+
+            el.attr("data-hasdatepicker-v2", true);
+            el.after('<span class="visual-date" id="visual_' + fieldName + '" style="font-weight: bold; margin: 5px 15px;"></span>');
+            el.attr("type", "hidden");
+
+            // Displays current value!
+            let currentValue = el.val() * 1;
+            let visualField = "#visual_" + fieldName;
+            let tmpDate = new Date(currentValue);
+            let momentFormat = el.data("moment-format");
+            if (momentFormat === undefined) {
+                momentFormat = "LLL";
+            }
+            let type = el.data("datetimepicker-v2");
+            let options = {
+                showOn: "button",
+                buttonText: "-",
+                dateFormat: "@",
+                timestampOnly: true,
+                hour: tmpDate.getHours(),
+                minute: tmpDate.getMinutes(),
+                onSelect: function () {
+                    $(visualField).text(moment(el.val() * 1).format(momentFormat));
+                }
+            };
+
+            switch (type) {
+                default:
+                case "datepicker":
+                    el.datepicker(options);
+                    break;
+                case "timepicker":
+                    el.timepicker(options);
+                    break;
+                case "datetimepicker":
+                    el.datetimepicker(options);
+                    break;
+            }
+
+            // Customize picker button
+            let button = el.next(".ui-datepicker-trigger");
+            button.addClass("btn color-blue default_button color-blue").html('<i class="fa fa-calendar"></i>');
+
+            if (currentValue > 0) {
+                $(visualField).text(moment(currentValue).format(momentFormat));
+            }
+        }
+    });
 };
 
 var _bindForms = function (default_parent, color, success_cb, error_cb) {

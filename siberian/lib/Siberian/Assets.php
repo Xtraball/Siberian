@@ -568,7 +568,7 @@ class Assets
             if ($custom_fields) {
                 $data["custom_fields"] = json_encode($custom_fields);
             }
-
+            
             $option = Feature::installFeature(
                 $category,
                 $data,

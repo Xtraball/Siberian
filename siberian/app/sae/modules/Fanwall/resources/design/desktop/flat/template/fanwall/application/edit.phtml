@@ -1,0 +1,167 @@
+<?php
+
+use Fanwall\Model\Fanwall;
+use Fanwall\Model\Post;
+use Fanwall\Form\Post as FormPost;
+use Fanwall\Form\Settings as FormSettings;
+use Fanwall\Form\Post\Pin as FormPostPin;
+use Fanwall\Form\Post\Toggle as FormPostToggle;
+use Fanwall\Form\Post\Delete as FormPostDelete;
+
+global $layout;
+$layout = $this->getLayout();
+
+function getSection($name, $data = [])
+{
+    global $layout;
+    $html = $layout
+        ->addPartial("view_general", "core_view_default", "fanwall/application/tab/{$name}.phtml")
+        ->setData($data)
+        ->toHtml();
+
+    return $html;
+}
+
+$application = $this->getApplication();
+$optionValue = $this->getOptionValue();
+
+$appKey = $application->getGooglemapsKey();
+
+# FanWall
+$fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+if (!$fanWall->getId()) {
+    // Creates a default entry with DB defaults!
+    $fanWall
+        ->setValueId($optionValue->getId())
+        ->save();
+    $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+}
+
+# Posts
+$posts = new Post();
+$posts = (new Post())->findAllWithCustomer(
+    [
+        "value_id = ?" => $optionValue->getId(),
+    ],
+    [
+        "fanwall_post.sticky DESC",
+        "fanwall_post.updated_at DESC"
+    ]);
+
+$formPost = new FormPost();
+$formPost->setValueId($optionValue->getId());
+
+
+$formPostToggle = new FormPostToggle();
+$formPostToggle->setValueId($optionValue->getId());
+
+$formPostPin = new FormPostPin();
+$formPostPin->setValueId($optionValue->getId());
+
+$formPostDelete = new FormPostDelete();
+$formPostDelete->setValueId($optionValue->getId());
+
+# Settings
+$formSettings = new FormSettings();
+$formSettings->populate($fanWall->getData());
+$formSettings->setValueId($optionValue->getId());
+
+?>
+
+
+<div id="list"
+     class="fanwall">
+
+    <!-- GoogleMaps warning -->
+    <?php if (empty($appKey)): ?>
+        <div class="alert alert-warning">
+            <?php echo p__("fanwall", "To use nearby & maps tab you must set a Google Maps API key in %s.",
+                "<a href=\"/application/settings_apis\"><b>" . __("Settings") . " > " . __("API") . "</b></a>") ?>
+        </div>
+    <?php endif; ?>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+
+        <li role="presentation"
+            class="<?php echo ($posts->count() > 0) ? "active" : "" ?>">
+            <a href="#posts"
+               aria-controls="posts"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-suitcase"></i>
+                <?php echo p__("fanwall", "Posts") ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#design"
+               aria-controls="design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-tag"></i>
+                <?php echo p__("fanwall", "Design") ?>
+            </a>
+        </li>
+
+        <li role="presentation"
+            class="<?php echo ($posts->count() <= 0) ? "active" : "" ?>">
+            <a href="#settings"
+               aria-controls="settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-sliders"></i>
+                <?php echo p__("fanwall", "Settings") ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- START POST TAB -->
+        <?php echo getSection("post", [
+            "option_value" => $optionValue,
+            "form_post" => $formPost,
+            "form_post_toggle" => $formPostToggle,
+            "form_post_pin" => $formPostPin,
+            "form_post_delete" => $formPostDelete,
+            "posts" => $posts,
+        ]); ?>
+        <!-- /END POST TAB -->
+
+        <!-- START DESIGN TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="design">
+            <?php echo $this->importBackground($optionValue, false, false); ?>
+        </div>
+        <!-- /END DESIGN TAB -->
+
+        <!-- START SETTINGS TAB -->
+        <div role="tabpanel"
+             class="tab-pane <?php echo ($posts->count() <= 0) ? "active" : "" ?>"
+             id="settings">
+            <div>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("fanwall", "Settings"); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formSettings; ?>
+                </div>
+            </div>
+        </div>
+        <!-- /END SETTINGS TAB -->
+
+    </div>
+</div>
+
+<link href="/app/sae/modules/Fanwall/resources/design/desktop/flat/template/fanwall/application/edit.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css" />
+<script type="text/javascript">
+    search_placeholder = '<?php echo __js("Search ...", "'") ?>';
+</script>
+<script type="text/javascript"
+        src="/app/sae/modules/Fanwall/resources/design/desktop/flat/template/fanwall/application/edit.js"></script>

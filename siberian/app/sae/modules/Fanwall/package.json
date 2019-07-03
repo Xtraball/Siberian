@@ -1,0 +1,14 @@
+{
+  "name": "Fanwall",
+  "description": "FanWall module version 2",
+  "version": "4.17.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.17.0"
+    },
+    "modules": {
+      "Customer": "4.17.0"
+    }
+  }
+}

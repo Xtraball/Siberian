@@ -66,9 +66,11 @@ if ($run) {
         implode("\n", array_fill(0, 100, 'y')));
     lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
         '"build-tools;27.0.3" ' .
+        '"build-tools;28.0.3" ' .
         '"platform-tools" ' .
         '"tools" ' .
         '"platforms;android-27" ' .
+        '"platforms;android-28" ' .
         '"extras;android;m2repository" ' .
         '"extras;google;m2repository" ' .
         '"extras;google;google_play_services" ' .
