@@ -34,9 +34,6 @@ class Post extends FormAbstract
         $title = $this->addSimpleText("title", p__("fanwall","Title"));
         $title->setAttrib("maxlength", 100);
 
-        $subtitle = $this->addSimpleText("subtitle", p__("fanwall","Subtitle"));
-        $subtitle->setAttrib("maxlength", 255);
-
         $this->addSimpleImage("image", p__("fanwall","Add a picture"), p__("fanwall","Add a picture"), [
             "width" => 1000,
             "height" => 640,

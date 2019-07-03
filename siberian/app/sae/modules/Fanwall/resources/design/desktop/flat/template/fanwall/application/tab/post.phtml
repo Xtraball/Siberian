@@ -51,7 +51,7 @@ $appName = $application->getName();
                     <thead>
                         <tr class="border-grey">
                             <th class="sortable"
-                                style="width:10%;"><?php echo p__("fanwall", "Title"); ?> / <?php echo p__("fanwall", "Subtitle"); ?></th>
+                                style="width:10%;"><?php echo p__("fanwall", "Title"); ?></th>
                             <th class="sortable"
                                 style="width:10%;"><?php echo p__("fanwall", "Author"); ?></th>
                             <th class="sortable"
@@ -70,7 +70,6 @@ $appName = $application->getName();
                             class="post-manage-element sb-pager">
                             <td>
                                 <b><?php echo cut($post->getTitle(), 30); ?></b>
-                                <i><?php echo cut($post->getSubtitle(), 30); ?></i>
                             </td>
                             <td>
                                 <?php if ($post->getcustomerId()): ?>

@@ -39,9 +39,14 @@ if (!$fanWall->getId()) {
 
 # Posts
 $posts = new Post();
-$posts = (new Post())->findAllWithCustomer([
-    "value_id = ?" => $optionValue->getId()
-]);
+$posts = (new Post())->findAllWithCustomer(
+    [
+        "value_id = ?" => $optionValue->getId(),
+    ],
+    [
+        "fanwall_post.sticky DESC",
+        "fanwall_post.updated_at DESC"
+    ]);
 
 $formPost = new FormPost();
 $formPost->setValueId($optionValue->getId());
