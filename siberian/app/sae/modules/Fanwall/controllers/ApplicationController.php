@@ -49,6 +49,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     }
                 }
 
+                $values["text"] = base64_encode($values["text"]);
+
                 $post = new Post();
                 $post
                     ->addData($values)
@@ -161,6 +163,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             }
 
             $tmpData = $post->getData();
+
+            $tmpData["text"] = base64_decode($tmpData["text"]);
 
             $form = new FormPost();
             $form->removeNav("nav-fanwall-post");

@@ -98,7 +98,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "customerId" => (integer) $post->getCustomerId(),
                     "title" => (string) $post->getTitle(),
                     "subtitle" => (string) $post->getSubtitle(),
-                    "text" => (string) Xss::sanitize($post->getText()),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
                     "image" => (string) $post->getImage(),
                     "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
@@ -226,7 +226,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "customerId" => (integer) $post->getCustomerId(),
                     "title" => (string) $post->getTitle(),
                     "subtitle" => (string) $post->getSubtitle(),
-                    "text" => (string) Xss::sanitize($post->getText()),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
                     "image" => (string) $post->getImage(),
                     "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
@@ -350,7 +350,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "customerId" => (integer) $post->getCustomerId(),
                     "title" => (string) $post->getTitle(),
                     "subtitle" => (string) $post->getSubtitle(),
-                    "text" => (string) Xss::sanitize($post->getText()),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
                     "image" => (string) $post->getImage(),
                     "date" => (integer) $post->getDate(),
                     "likeCount" => (integer) $likes->count(),
@@ -510,7 +510,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = $form["text"];
+            $text = base64_encode($form["text"]);
             $picture = $form["picture"];
             $date = $form["date"];
 
@@ -591,7 +591,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = $form["text"];
+            $text = base64_encode($form["text"]);
             $picture = $form["picture"];
             $date = $form["date"];
 
@@ -626,7 +626,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $imagePath = base64imageToFile($picture, $tmpPath);
                 $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
                 $comment->setPicture($finalPath);
-            }else {
+            } else {
                 // Remove image!
                 $comment->setImage("");
             }
