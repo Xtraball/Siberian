@@ -84,7 +84,7 @@ $appName = $application->getName();
                                     <b><?php echo $appName; ?></b> <i>(<?php echo p__("fanwall", "App") ?>)</i>
                                 <?php endif; ?>
                             </td>
-                            <td><?php echo cut($post->getText(), 500); ?></td>
+                            <td><?php echo cut(base64_decode($post->getText()), 500); ?></td>
                             <td class="moment_format"><?php echo $post->getDate(); ?></td>
                             <td class="toggle-action">
                                 <?php
