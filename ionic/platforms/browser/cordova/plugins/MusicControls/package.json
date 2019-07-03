@@ -1,0 +1,42 @@
+{
+  "name": "MusicControls",
+  "version": "3.0.0",
+  "description": "Cordova MusicControls",
+  "cordova": {
+    "id": "MusicControls",
+    "platforms": [
+      "ios",
+      "android",
+      "browser"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/homerours/cordova-music-controls-plugin.git"
+  },
+  "keywords": [
+    "cordova",
+    "music",
+    "controller",
+    "controls",
+    "media",
+    "plugin",
+    "notification",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-windows"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.4.0"
+    }
+  ],
+  "author": "homerours",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/homerours/cordova-music-controls-plugin/issues"
+  },
+  "homepage":
+    "https://github.com/homerours/cordova-music-controls-plugin#readme"
+}

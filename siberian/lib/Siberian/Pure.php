@@ -717,17 +717,18 @@ function slugify($text)
  * http://htmlpurifier.org/download
  *
  * @param $string
+ * @param $config
  * @return mixed
  * @throws Zend_Exception
  */
-function purify($string)
+function purify($string, $config = null)
 {
     /**
      * @var $htmlPurifier HTMLPurifier
      */
     $htmlPurifier = Zend_Registry::get('htmlPurifier');
 
-    return $htmlPurifier->purify($string);
+    return $htmlPurifier->purify($string, $config);
 }
 
 /**

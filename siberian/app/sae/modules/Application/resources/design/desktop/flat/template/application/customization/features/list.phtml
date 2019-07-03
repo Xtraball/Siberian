@@ -8,6 +8,10 @@ $application = $this->getApplication();
 $appId = $application->getId();
 
 $session = $this->getSession();
+
+/**
+ * @var $admin Admin_Model_Admin
+ */
 $admin = $session->getAdmin();
 
 // Sorting features by alpha (with translations)!
@@ -66,7 +70,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
             <div id="go_up_root" class="hide">
                 <button class="btn color-blue"
-                        title="<?php echo __js('Go back to homepage') ?>">
+                        title="<?php echo __js("Go back to homepage") ?>">
                     <i class="fa fa-home"></i>
                 </button>
             </div>
@@ -74,13 +78,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             <div class="list-search list-carousel">
                 <div class="list-search-content">
                     <input type="text" class="search_filter_carousel input-flat"
-                           placeholder="<?php echo __js('Search ...', '"'); ?>"/>
+                           placeholder="<?php echo __js("Search ..."); ?>"/>
                     <i class="fa fa-search empty active"></i>
                     <i class="fa fa-times clear"></i>
                 </div>
             </div>
 
-            <?php echo __('Your pages'); ?>
+            <?php echo __("Your pages"); ?>
 
             <?php if (__get('import_enabled')): ?>
             <button id="feature_import_export"
@@ -111,7 +115,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
     <script type="text/javascript">
 
-        var modal_import_export = new Modal({
+        let modal_import_export = new Modal({
             id: 'modal_import_export',
             url: '<?php echo $this->getUrl('application/customization_features/exportmodal'); ?>',
             is_retain: false,
@@ -143,7 +147,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 </h3>
                 <?php foreach ($options as $key => $option) : ?>
                     <?php $preview = $option->getPreview(); ?>
-                    <?php if ($preview->getId() AND $preview->getTitle()) : ?>
+                    <?php if ($preview->getId() && $preview->getTitle()) : ?>
                         <?php $images = $preview->findImages(); ?>
                         <div id="previews_<?php echo $option->getId(); ?>"
                              class="preview"
@@ -193,7 +197,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                 <div class="col-md-2 col-md-offset-10">
                                     <button type="button"
                                             class="add_page preview_button color-blue pull-right btn">
-                                        <?php echo __('Add content'); ?>
+                                        <?php echo __("Add content"); ?>
                                     </button>
                                     <input type="hidden"
                                            name="option_id"
@@ -214,13 +218,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     <div class="list-search-content">
                         <input type="text"
                                class="search_filter_feature input-flat"
-                               placeholder="<?php echo __js('Search ...', '"'); ?>"/>
+                               placeholder="<?php echo __js("Search ..."); ?>"/>
                         <i class="fa fa-search empty active"></i>
                         <i class="fa fa-times clear"></i>
                     </div>
                 </div>
 
-                <?php echo __('Add pages'); ?>
+                <?php echo __("Add pages"); ?>
             </h3>
             <div id="add-pages"
                  class="subcontent content-color">
@@ -293,11 +297,19 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
 <script type="text/javascript">
 
+    function createElementFromHTML(htmlString) {
+        var div = document.createElement('div');
+        div.innerHTML = htmlString.trim();
+
+        // Change this to div.childNodes to support multiple top-level nodes
+        return div.firstChild;
+    }
+
     var carousel = null;
     $(document).ready(function () {
 
         createCarouselSortable();
-        window.setTimeout(function () {
+        setTimeout(function () {
             $('#pages_list #option_values').sbCarousel({
                 next_button: $('#pages_list #carousel_next'),
                 prev_button: $('#pages_list #carousel_prev'),
@@ -308,7 +320,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         }, 500);
 
         // Prevents too much resize events
-        var isResizing = false;
+        let isResizing = false;
         $(window).resize(function () {
             if (!isResizing) {
                 isResizing = true;
@@ -408,20 +420,26 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             axis: 'x',
             tolerance: 'pointer',
             start: function () {
-                var prev_button_position = carousel.getPrevButtonPosition();
-                var next_button_position = carousel.getNextButtonPosition();
+                let prevButtonPosition = carousel.getPrevButtonPosition();
+                let nextButtonPosition = carousel.getNextButtonPosition();
 
                 $(document).mousemove(function (e) {
-                    if (e.pageX > next_button_position.x1 && e.pageX < next_button_position.x2 && e.pageY > next_button_position.y1 && e.pageY < next_button_position.y2) {
-                        carousel.startInterval('next');
+                    if (e.pageX > nextButtonPosition.x1 &&
+                        e.pageX < nextButtonPosition.x2 &&
+                        e.pageY > nextButtonPosition.y1 &&
+                        e.pageY < nextButtonPosition.y2) {
+                        carousel.startInterval("next");
                     } else {
-                        carousel.stopInterval('next');
+                        carousel.stopInterval("next");
                     }
 
-                    if (e.pageX > prev_button_position.x1 && e.pageX < prev_button_position.x2 && e.pageY > prev_button_position.y1 && e.pageY < prev_button_position.y2) {
-                        carousel.startInterval('prev');
+                    if (e.pageX > prevButtonPosition.x1 &&
+                        e.pageX < prevButtonPosition.x2 &&
+                        e.pageY > prevButtonPosition.y1 &&
+                        e.pageY < prevButtonPosition.y2) {
+                        carousel.startInterval("prev");
                     } else {
-                        carousel.stopInterval('prev');
+                        carousel.stopInterval("prev");
                     }
                 });
 
@@ -625,36 +643,12 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
                     reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
                         if (datas.page_html) {
-
-                            function createElementFromHTML(htmlString) {
-                                var div = document.createElement('div');
-                                div.innerHTML = htmlString.trim();
-
-                                // Change this to div.childNodes to support multiple top-level nodes
-                                return div.firstChild;
-                            }
-
                             var li = createElementFromHTML(datas.page_html);
                             li = $(li);
 
                             var a = li.children('a');
 
                             $("#option_values").append(li);
-
-                            // Appends my account is required
-                            if (datas.use_my_account &&
-                                datas.my_account) {
-
-                                var liAccount = createElementFromHTML(datas.my_account);
-                                liAccount = $(liAccount);
-
-                                var myAccountId = liAccount.attr("id");
-
-                                if ($("#" + myAccountId).length === 0) {
-                                    $("#option_values").append(liAccount);
-                                }
-                            }
-
                             this.close();
                             preview.close(true);
 
@@ -674,6 +668,18 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             });
                             featureSearch.clearSearch();
                         }
+
+                        if (datas.my_account) {
+                            let myAccountLi = createElementFromHTML(datas.my_account);
+                            myAccountLi = $(myAccountLi);
+
+                            let idAccount = myAccountLi.attr("id");
+                            // Adds only if not here
+                            if ($("#" + idAccount).length === 0) {
+                                $('#option_value_more_items').before(myAccountLi);
+                            }
+                        }
+
                         if (datas.delete_features.length) {
                             for (var i = 0; i < datas.delete_features.length; i++) {
                                 $('#add_page_' + datas.delete_features[i]).remove();
@@ -1312,7 +1318,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             }
         }
 
-    }
+    };
 
     page.processEvents();
 
@@ -1707,7 +1713,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
     #carousel-container div.actions {
         position: absolute;
-        top: -25px;
+        top: -18px;
         left: 5px;
         right: 0;
         width: 80%;

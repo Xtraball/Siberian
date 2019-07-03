@@ -3,6 +3,8 @@
 use Vnn\WpApiClient\Auth\WpBasicAuth;
 use Vnn\WpApiClient\Http\GuzzleAdapter;
 use Vnn\WpApiClient\WpClient;
+use Siberian\Feature;
+use Siberian\Exception;
 
 /**
  * Class Wordpress2_ApplicationController
@@ -10,7 +12,8 @@ use Vnn\WpApiClient\WpClient;
 class Wordpress2_ApplicationController extends Application_Controller_Default
 {
     /**
-     * Edit the default wordpress settings, url, login, password
+     * @throws Zend_Form_Exception
+     * @throws \Exception
      */
     public function editwordpressAction()
     {
@@ -23,14 +26,23 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
 
                 // Test wp-json
                 try {
-                    $urlParts = parse_url($form->getValue('url'));
-                    $url = $urlParts['scheme'] . '://' . $urlParts['host'] . $urlParts['path'] . '/wp-json/';
-                    $response = Siberian_Request::get($url);
-                    if (Siberian_Request::$statusCode != 200) {
-                        throw new Siberian_Exception(__('Unable to find your WordPress or /wp-json/ endpoint.'));
+                    $endpoint = rtrim($form->getValue("url"), "/");
+                    $wordpressApi = (new Wordpress2_Model_WordpressApi())
+                        ->init(
+                            $endpoint,
+                            $form->getValue("login"),
+                            $form->getValue("password")
+                        );
+
+                    $pages = $wordpressApi->getAllPages();
+                    $categories = $wordpressApi->getCategories();
+
+                    if (empty($pages) && empty($categories)) {
+                        throw new Exception(__("We haven't found any category or page in your WordPress, please add at least one."));
                     }
-                } catch (Exception $e) {
-                    throw new Siberian_Exception(__('Unable to find your WordPress or /wp-json/ endpoint.'));
+
+                } catch (\Exception $e) {
+                    throw $e;
                 }
 
                 // Do whatever you need when form is valid!
@@ -38,9 +50,11 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                 $valueId = $optionValue->getId();
                 $wordpress = (new Wordpress2_Model_Wordpress())
                     ->find($params['wordpress2_id']);
-                $wordpress->setData($params);
+                $wordpress
+                    ->setData($params)
+                    ->setData("url", $endpoint);
 
-                Siberian_Feature::formImageForOption(
+                Feature::formImageForOption(
                     $optionValue,
                     $wordpress,
                     $params,
@@ -72,7 +86,7 @@ class Wordpress2_ApplicationController extends Application_Controller_Default
                     'errors' => $form->getTextErrors(true)
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),

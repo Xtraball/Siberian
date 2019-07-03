@@ -1,15 +1,14 @@
 {
   "name": "Siberian",
-  "version": "4.16.12",
-  "lastversion": "4.16.11",
-  "nativeVersion": "10",
+  "version": "4.17.0",
+  "lastversion": "4.16.12",
+  "nativeVersion": "11",
   "apiVersion": "4",
   "description": "Mobile App CMS",
   "readme": "README.md",
   "licence": "OSL",
   "private": true,
   "dependencies": {
-    "fs": "0.0.1-security",
     "https": "^1.0.0"
   },
   "devDependencies": {

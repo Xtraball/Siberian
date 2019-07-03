@@ -97,6 +97,14 @@ if (isset($_config["handle_fatal_errors"]) && $_config["handle_fatal_errors"] ==
 try {
     require_once "./lib/Zend/Application.php";
 
+    if (!empty($_SERVER["HTTP_ORIGIN"])) {
+        header("Access-Control-Allow-Origin: {$_SERVER["HTTP_ORIGIN"]}");
+        header("Access-Control-Allow-Credentials: true", true);
+        header("Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS", true);
+        header("Access-Control-Allow-Headers: Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Pragma, Set-Cookie", true);
+        header("Access-Control-Max-Age: 86400", true);
+    }
+
     // Initializing the application!
     $ini = is_readable(APPLICATION_PATH . "/configs/app.ini") ?
         APPLICATION_PATH . "/configs/app.ini" : APPLICATION_PATH . "/configs/app.sample.ini";

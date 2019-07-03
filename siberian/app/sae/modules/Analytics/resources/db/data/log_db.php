@@ -203,6 +203,6 @@ $wrapperDB = Siberian_Wrapper_Sqlite::getInstance()
             ->setSchema($dbSchema)
             ->setDbPath($dbPath);
 
-if(!$wrapperDB->dbExists()) {
+if (!$wrapperDB->dbExists()) {
     $wrapperDB->createDb();
 }

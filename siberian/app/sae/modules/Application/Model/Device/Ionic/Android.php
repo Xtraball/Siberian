@@ -651,7 +651,7 @@ storePassword={$storepass}";
 
         $gradleOptions = __get('gradle_options');
         if (empty($gradleOptions)) {
-            $gradleOptions = '-Dorg.gradle.daemon=false';
+            $gradleOptions = '-Dorg.gradle.daemon=true';
         }
 
         /** Adding a call to the sdk-updater.php at the gradlew top */

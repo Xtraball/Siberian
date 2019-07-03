@@ -50,8 +50,10 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $icons = [
             $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $appIcon192,
+            $this->_dest_source_res . '/drawable-xxxhdpi/ic_launcher.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/launcher_icon.png' => $appIcon192,
 
+            $this->_dest_source_res . '/mipmap-xxxhdpi/ic_launcher.png' => $appIcon192,
             $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $appIcon192,
 

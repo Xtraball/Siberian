@@ -53,6 +53,10 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         // Updating the include_paths!
         set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
+        $this->bootstrap('CacheManager');
+        $dbCache = $this->getResource('CacheManager')->getCache('database');
+        Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
+
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         } elseif (isset($_SERVER['argv']) && isset($_SERVER['argv'][0])) {
@@ -83,6 +87,29 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         $writer = new Zend_Log_Writer_Stream(Core_Model_Directory::getBasePathTo('var/log/output.log'));
         $logger = new Siberian_Log($writer);
         Zend_Registry::set('logger', $logger);
+    }
+
+    protected function _initCache()
+    {
+        if (version_compare(PHP_VERSION, '5.6.0', '>=')) {
+            Siberian_Cache_Design::init();
+            $this->bootstrap('CacheManager');
+            $default_cache = $this->getResource('CacheManager')->getCache('default');
+            $cache_dir = Core_Model_Directory::getCacheDirectory(true);
+            if (is_writable($cache_dir)) {
+                $frontendConf = [
+                    'lifetime' => 345600,
+                    'automatic_seralization' => true
+                ];
+                $backendConf = [
+                    'cache_dir' => $cache_dir
+                ];
+                $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
+                $cache->setOption('automatic_serialization', true);
+                Zend_Locale::setCache($default_cache);
+                Zend_Registry::set('cache', $default_cache);
+            }
+        }
     }
 
     protected function _initConnection()
@@ -216,29 +243,6 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
                     // Silently catch & log malformed bootstrap module!
                     trigger_error($e->getMessage());
                 }
-            }
-        }
-    }
-
-    protected function _initCache()
-    {
-        if (version_compare(PHP_VERSION, '5.6.0', '>=')) {
-            Siberian_Cache_Design::init();
-            $this->bootstrap('CacheManager');
-            $default_cache = $this->getResource('CacheManager')->getCache('default');
-            $cache_dir = Core_Model_Directory::getCacheDirectory(true);
-            if (is_writable($cache_dir)) {
-                $frontendConf = [
-                    'lifetime' => 345600,
-                    'automatic_seralization' => true
-                ];
-                $backendConf = [
-                    'cache_dir' => $cache_dir
-                ];
-                $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
-                $cache->setOption('automatic_serialization', true);
-                Zend_Locale::setCache($default_cache);
-                Zend_Registry::set('cache', $default_cache);
             }
         }
     }

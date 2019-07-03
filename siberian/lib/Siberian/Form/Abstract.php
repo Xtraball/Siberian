@@ -369,10 +369,16 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param $name
      * @param string $label
      * @param bool $placeholder
+     * @param string $type
+     * @param bool $format
      * @return Siberian_Form_Element_Text
      * @throws Zend_Form_Exception
      */
-    public function addSimpleDatetimepicker($name, $label = "", $placeholder = false, $type = self::DATEPICKER, $format = false)
+    public function addSimpleDatetimepicker($name,
+                                            $label = "",
+                                            $placeholder = false,
+                                            $type = self::DATEPICKER,
+                                            $format = false)
     {
         $el = new Siberian_Form_Element_Text($name);
         $this->addElement($el);
@@ -391,6 +397,30 @@ abstract class Siberian_Form_Abstract extends Zend_Form
         $el->setIsFormHorizontal($this->is_form_horizontal);
         $el->setColor($this->color);
         $el->setNewDesign();
+        return $el;
+    }
+
+    /**
+     * @param $name
+     * @param string $label
+     * @param bool $placeholder
+     * @param string $type
+     * @return Siberian_Form_Element_Text
+     * @throws Zend_Form_Exception
+     */
+    public function addSimpleDatetimepickerv2($name,
+                                              $label = "",
+                                              $placeholder = false,
+                                              $type = self::DATEPICKER)
+    {
+        $el = new Siberian_Form_Element_Text($name);
+        $this->addElement($el);
+        $el->setLabel($label);
+        $el->setDecorators(['ViewHelper', 'Label']);
+        $el->setIsFormHorizontal($this->is_form_horizontal);
+        $el->setAttrib('data-datetimepicker-v2', $type);
+        $el->setNewDesign();
+
         return $el;
     }
 

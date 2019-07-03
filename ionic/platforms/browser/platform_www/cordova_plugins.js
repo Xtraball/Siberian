@@ -259,6 +259,20 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/MusicControls/www/MusicControls.js",
+        "id": "MusicControls.MusicControls",
+        "pluginId": "MusicControls",
+        "clobbers": [
+            "MusicControls"
+        ]
+    },
+    {
+        "file": "plugins/MusicControls/src/browser/MusicControlsProxy.js",
+        "id": "MusicControls.MusicControlsProxy",
+        "pluginId": "MusicControls",
+        "runs": true
+    },
+    {
         "file": "plugins/Navigator/www/navigator.js",
         "id": "Navigator.Navigator",
         "pluginId": "Navigator",
@@ -290,6 +304,7 @@ module.exports.metadata =
     "Device": "2.0.2",
     "File": "6.0.1",
     "InAppBrowser": "3.0.0",
+    "MusicControls": "2.2.0",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0"
 }

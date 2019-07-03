@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Application_Model_SourceQueue
  */
@@ -273,12 +275,12 @@ class Application_Model_SourceQueue extends Core_Model_Default
         }
 
         $configJobFilePath = $jobFolder . '/config.json';
-        $json = Siberian_Json::encode($data, JSON_PRETTY_PRINT);
+        $json = Json::encode($data, JSON_PRETTY_PRINT);
 
-        if (!array_key_exists('error', $json)) {
+        if (!array_key_exists("error", Json::decode($json))) {
             file_put_contents($configJobFilePath, $json);
         } else {
-            throw new \Siberian\Exception('Cannot create json config job file');
+            throw new \Siberian\Exception("Cannot create json config job file");
         }
 
         $tgzJobFilePath = $jobFolder . '.tgz';

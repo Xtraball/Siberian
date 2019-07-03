@@ -656,6 +656,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (boolean) $customer->getIsCustomImage(),

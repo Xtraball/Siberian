@@ -840,6 +840,20 @@
                 dp_inst.currentDay=dp_inst.selectedDay;
             }
 
+			// timestampOnly fix for Siberian
+			if (this._defaults.timestampOnly) {
+				var dateOnlyTime = dt.getTime();
+				dateOnlyTime =
+					(dateOnlyTime / 1000) +
+					($.datepicker.formatTime("s", this, this._defaults) * 1) +
+					($.datepicker.formatTime("m", this, this._defaults) * 60) +
+					($.datepicker.formatTime("H", this, this._defaults) * 3600);
+
+				this.$input.val(dateOnlyTime * 1000);
+				this.$input.trigger("change");
+				return;
+			}
+
 			/*
 			* remove following lines to force every changes in date picker to change the input value
 			* Bug descriptions: when an input field has a default value, and click on the field to pop up the date picker. 
@@ -881,10 +895,9 @@
 					}
 				}
 
-				if(this._defaults.altTimeFormat){
+				if (this._defaults.altTimeFormat){
 					altFormattedDateTime += $.datepicker.formatTime(this._defaults.altTimeFormat, this, this._defaults) + altTimeSuffix;
-				}
-				else{
+				} else{
 					altFormattedDateTime += this.formattedTime + altTimeSuffix;
 				}
 				this.$altInput.val(altFormattedDateTime);
@@ -1507,6 +1520,7 @@
 	* Create our own set time function
 	*/
 	$.datepicker._setTime = function(inst, date) {
+		console.log("_setTime");
 		var tp_inst = this._get(inst, 'timepicker');
 		if (tp_inst) {
 			var defaults = tp_inst._defaults;

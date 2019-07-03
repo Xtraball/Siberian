@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android"
+	id="MusicControls"
+	version="2.2.0">
+	<name>MusicControls</name>
+	<keywords>cordova,music,controller,controls,media,plugin,notification,lockscreen,now,playing</keywords>
+	<repo>https://github.com/homerours/cordova-music-controls-plugin</repo>
+	<description>Music controls for Cordova apps</description>
+	<license>MIT</license>
+	<author>HomerOurs</author>
+
+	<engines>
+		<engine name="cordova"
+				version=">=3.4.0"/>
+	</engines>
+
+	<asset src="www/MusicControls.js"
+		   target="js/MusicControls.js"/>
+
+	<js-module src="www/MusicControls.js"
+			   name="MusicControls">
+		<clobbers target="MusicControls" />
+	</js-module>
+
+	<!-- browser -->
+	<platform name="browser">
+		<config-file target="config.xml" parent="/*">
+			<feature name="MusicControls">
+				<param name="browser-package" value="MusicControls" />
+			</feature>
+		</config-file>
+
+		<js-module src="src/browser/MusicControlsProxy.js" name="MusicControlsProxy">
+			<runs />
+		</js-module>
+	</platform>
+
+	<!-- android -->
+	<platform name="android">
+		<config-file target="config.xml"
+					 parent="/*">
+			<feature name="MusicControls" >
+				<param name="android-package"
+					   value="com.xtraball.musiccontrols.MusicControls"/>
+			</feature>
+		</config-file>
+
+		<config-file target="app/src/main/AndroidManifest.xml"
+					 parent="/*">
+			<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+			<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+			<uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+		</config-file>s
+
+		<config-file target="app/src/main/AndroidManifest.xml"
+					 parent="/manifest/application">
+			<service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
+			<service android:enabled="true"
+					 android:exported="false"
+					 android:name="com.xtraball.musiccontrols.MusicControlsWakeLock" />
+		</config-file>
+
+		<source-file src="src/android/MusicControls.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MediaSessionCallback.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MusicControlsBroadcastReceiver.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MusicControlsNotification.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MusicControlsNotificationKiller.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MusicControlsInfos.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/KillBinder.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/MusicControlsWakeLock.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+		<source-file src="src/android/WakeLockBinder.java"
+					 target-dir="app/src/main/java/com/xtraball/musiccontrols" />
+	</platform>
+
+	<!-- ios -->
+	<platform name="ios">
+		<config-file target="config.xml"
+					 parent="/*">
+			<feature name="MusicControls">
+				<param name="ios-package"
+					   value="MusicControls" />
+			</feature>
+		</config-file>
+		<header-file src="src/ios/MainViewController+MusicControls.h" />
+		<source-file src="src/ios/MainViewController+MusicControls.m" />
+		<header-file src="src/ios/MusicControls.h" />
+		<source-file src="src/ios/MusicControls.m" />
+		<header-file src="src/ios/MusicControlsInfo.h" />
+		<source-file src="src/ios/MusicControlsInfo.m" />
+		<framework src="MediaPlayer.framework" />
+	</platform>
+
+</plugin>

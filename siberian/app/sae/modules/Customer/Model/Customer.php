@@ -5,6 +5,7 @@
  *
  * @method integer getId()
  * @method Customer_Model_Db_Table_Customer getTable()
+ * @method string getEmail()
  */
 class Customer_Model_Customer extends Core_Model_Default
 {

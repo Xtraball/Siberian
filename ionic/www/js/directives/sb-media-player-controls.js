@@ -75,10 +75,7 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
             };
 
             $scope.destroy = function (origin) {
-                MediaPlayer.destroy();
-                if (origin === 'player') {
-                    MediaPlayer.goBack(MediaPlayer.is_radio, true);
-                }
+                MediaPlayer.destroy(origin);
             };
 
             $scope.selectTrack = function (index) {
