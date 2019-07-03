@@ -57,6 +57,10 @@ angular
                     // GPS is OK!!
                     Loader.hide();
                     Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
+
+                    // Re-init scope to fetch location now.
+
+                    $scope.init();
                 }, function () {
                     Loader.hide();
                     Dialog
@@ -161,15 +165,16 @@ angular
         }
     }
 
-    if (!$scope.locationIsDisabled()) {
-        $scope.fetchingLocation = true;
-        Location
-        .getLocation({timeout: 10000, enableHighAccuracy: false}, true)
-        .then(function (position) {
-            $scope.form.location.latitude = position.coords.latitude;
-            $scope.form.location.longitude = position.coords.longitude;
+    $scope.init = function () {
+        if (!$scope.locationIsDisabled()) {
+            $scope.fetchingLocation = true;
+            Location
+            .getLocation({timeout: 10000, enableHighAccuracy: false}, true)
+            .then(function (position) {
+                $scope.form.location.latitude = position.coords.latitude;
+                $scope.form.location.longitude = position.coords.longitude;
 
-            GoogleMaps
+                GoogleMaps
                 .reverseGeocode(position.coords)
                 .then(function (results) {
                     if (results.length > 0) {
@@ -188,15 +193,18 @@ angular
                     }
                 }, function () {
                     $scope.fetchingLocation = false;
-                    $scope.shortLocation = Math.truncate(position.coords.latitude, 4) + ", " + Math.truncate(position.coords.longitude, 4);
+                    $scope.shortLocation = Number.parseFloat(position.coords.latitude).toFixed(5) + ", " + Number.parseFloat(position.coords.longitude).toFixed(5);
                     $scope.form.location.locationShort = "unknown";
                 });
-        }, function () {
+            }, function () {
+                $scope.fetchingLocation = false;
+                $scope.form.location.latitude = 0;
+                $scope.form.location.longitude = 0;
+            });
+        } else {
             $scope.fetchingLocation = false;
-            $scope.form.location.latitude = 0;
-            $scope.form.location.longitude = 0;
-        });
-    } else {
-        $scope.fetchingLocation = false;
-    }
+        }
+    };
+
+    $scope.init();
 });
