@@ -76,6 +76,10 @@ class Contact_ApplicationController extends Application_Controller_Default
                             ->setStreet($contact->getAddress()) // Nope!
                             ->setPostcode("")
                             ->setCity("");
+
+                        $contact
+                            ->setLatitude(null)
+                            ->setLongitude(null);
                     } else {
                         $parts = Geocoding::rawToParts($validate->getRawResult());
 
