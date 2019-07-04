@@ -51,6 +51,9 @@ class Contact_ApplicationController extends Application_Controller_Default
                 throw new Exception(p__("contact","Values are required!"));
             }
 
+            $warning = false;
+            $warningMessage = "";
+
             $form = new Contact_Form_Contact();
             if ($form->isValid($values)) {
 
@@ -66,20 +69,26 @@ class Contact_ApplicationController extends Application_Controller_Default
                     ], $application->getGooglemapsKey());
 
                     if ($validate === false) {
-                        throw new Exception(p__("contact","We are unable to validate your address!"));
+                        $warning = true;
+                        $warningMessage = p__("contact","We were unable to validate your address!");
+
+                        $contact
+                            ->setStreet($contact->getAddress()) // Nope!
+                            ->setPostcode("")
+                            ->setCity("");
+                    } else {
+                        $parts = Geocoding::rawToParts($validate->getRawResult());
+
+                        $contact
+                            ->setLatitude($validate->getLatitude())
+                            ->setLongitude($validate->getLongitude());
+
+                        // Set like previous version too!
+                        $contact
+                            ->setStreet($parts["street_number"] . " " . $parts["route"])
+                            ->setPostcode($parts["postal_code"])
+                            ->setCity($parts["locality"]);
                     }
-
-                    $parts = Geocoding::rawToParts($validate->getRawResult());
-
-                    $contact
-                        ->setLatitude($validate->getLatitude())
-                        ->setLongitude($validate->getLongitude());
-
-                    // Set like previous version too!
-                    $contact
-                        ->setStreet($parts["street_number"] . " " . $parts["route"])
-                        ->setPostcode($parts["postal_code"])
-                        ->setCity($parts["locality"]);
                 } else {
                     $contact
                         ->setLatitude(null)
@@ -97,10 +106,17 @@ class Contact_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $payload = [
-                    "success" => true,
-                    "message" => p__("contact","Contact saved"),
-                ];
+                if ($warning) {
+                    $payload = [
+                        "warning" => true,
+                        "message" => $warningMessage,
+                    ];
+                } else {
+                    $payload = [
+                        "success" => true,
+                        "message" => p__("contact","Contact saved"),
+                    ];
+                }
             } else {
                 $payload = [
                     "error" => true,

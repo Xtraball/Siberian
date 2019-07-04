@@ -27,9 +27,9 @@ $appKey = $application->getGooglemapsKey();
          class="contact">
 
         <?php if (empty($appKey)): ?>
-            <div class="alert alert-danger">
-                <?php echo __("You must set a Google Maps API Key in %s in order to use this feature.",
-                    "<a href=\"/application/settings_apis\"><b>".__("Settings")." > ".__("API")."</b></a>") ?>
+            <div class="alert alert-warning">
+                <?php echo p__("contact", "It is recommended to set a Google Maps API key to validate contact address.",
+                    "<a href=\"/application/settings_apis\"><b>" . __("Settings") . " > " . __("API") . "</b></a>") ?>
             </div>
         <?php endif; ?>
 
