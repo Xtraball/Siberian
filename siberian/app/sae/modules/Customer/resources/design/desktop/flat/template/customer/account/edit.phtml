@@ -1,6 +1,9 @@
 <?php
 
 use Siberian\Json;
+use Customer\Model\Field;
+use Customer\Form\Field as FormField;
+use Customer\Form\Field\Delete as DeleteFormField;
 
 $optionValue = $this->getOptionValue();
 $formSettings = new Customer_Form_Settings();
@@ -18,16 +21,31 @@ try {
     );
 }
 
+$formField = (new FormField())
+    ->setValueId($optionValue->getId());
+
+$fields = (new Field())->findAll(
+    [
+        "value_id = ?" => $optionValue->getId()
+    ],
+    [
+        "position ASC"
+    ]
+);
+
+$deleteFieldForm = (new DeleteFormField())
+    ->setValueId($optionValue->getId());
+
 ?>
 
 <div id="customer_account">
 
     <div class="alert alert-info">
-        <?php echo __("This feature will be displayed to mobile users to allow them to login and manage their account."); ?>
+        <?php echo p__("customer", "This feature will be displayed to mobile users to allow them to login and manage their account."); ?>
     </div>
 
     <div class="alert alert-warning">
-        <?php echo __("It get automatically added when you use features which require users to login.") ?>
+        <?php echo p__("customer", "It get automatically added when you use features which require users to login.") ?>
     </div>
 
     <!-- Nav tabs -->
@@ -40,7 +58,16 @@ try {
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-folder-open-o"></i>
-                <?php echo __("Settings") ?>
+                <?php echo p__("customer", "Settings") ?>
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#fields"
+               aria-controls="fields"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-tags"></i>
+                <?php echo p__("customer", "Customer fields") ?>
             </a>
         </li>
         <li role="presentation">
@@ -49,7 +76,7 @@ try {
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-pencil"></i>
-                <?php echo __("Design") ?>
+                <?php echo p__("customer", "Design") ?>
             </a>
         </li>
     </ul>
@@ -61,7 +88,7 @@ try {
              id="settings">
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __("Settings"); ?>
+                    <?php echo p__("customer", "Settings"); ?>
                 </h3>
                 <div class="container-fluid subcontent content-feature">
                     <?php echo $formSettings; ?>
@@ -69,6 +96,137 @@ try {
             </div>
         </div>
         <!-- /END SETTINGS TAB -->
+
+        <!-- START FIELDS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="fields">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("customer", "Notice"); ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <div class="alert alert-warning">
+                        <?php echo p__("customer", "Default fields will be visible if you don't customize any."); ?>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <?php echo p__("customer", "E-mail, password & privacy policy will be shown regardless you customized them."); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-block-add margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("customer", "Add a field") ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create margin-top">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("customer", "Add a field") ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formField; ?>
+                </div>
+            </div>
+
+            <?php if ($fields->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("customer", "Manage fields") ?>
+                            <button type="button"
+                                    class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager table-fields">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th style="width:20%"><?php echo __("Label, link") ?></th>
+                                    <th style="width:20%"><?php echo __("Type") ?></th>
+                                    <th style="width:20%"><?php echo __("Default") ?></th>
+                                    <th style="width:5%"><?php echo __("Required") ?></th>
+                                    <th style="width:5%;"><?php echo __("Position") ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="fields-sortable">
+                                <?php foreach ($fields as $field) : ?>
+                                    <tr id="field_manage_element_<?php echo $field->getId(); ?>"
+                                        rel="<?php echo $field->getId(); ?>"
+                                        class="field-manage-element sb-pager field-container">
+                                        <td class="field-handle"
+                                            style="text-align: center;">
+                                            <i class="fa fa-sort"
+                                               style="margin-top: 20px;"></i>
+                                        </td>
+                                        <td>
+                                            <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
+                                            <p><?php echo $field->getLinkedTo() ?></p>
+                                        </td>
+                                        <td>
+                                            <?php if ($field->getLinkedTo() === "custom"): ?>
+                                                <?php echo $field->getFieldType() ?>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo $field->getDefaultValue() ?></td>
+                                        <td>
+                                            <?php if ($field->getIsRequired()): ?>
+                                                <i class="fa fa-check"
+                                                   style="color: #4dd300;"></i>
+                                            <?php else: ?>
+                                                <i class="fa fa-times"
+                                                   style="color: #ff3a2e;"></i>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="field-position"><?php echo $field->getPosition() ?></td>
+                                        <td class="edit-action open-edit"
+                                            data-id="field_<?php echo $field->getId(); ?>"
+                                            data-form-url="<?php echo __path("/customer/field/load-form", [
+                                                "field_id" => $field->getId(),
+                                                "value_id" => $optionValue->getId()
+                                            ]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
+                                            $deleteFieldForm->getElement("field_id")->setValue($field->getId());
+
+                                            echo $deleteFieldForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="field_<?php echo $field->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="8">
+                                            <p class="close-edit"
+                                               data-id="field_<?php echo $field->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo p__("customer", "Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <!-- /END FIELDS TAB -->
 
         <!-- START DESIGN TAB -->
         <div role="tabpanel"
@@ -86,7 +244,122 @@ try {
 <script type="text/javascript">
     $(document).ready(function () {
         bindForms("#design");
+        bindForms("#fields");
         bindForms("#settings");
+
+        $("table.sb-pager.table-fields").sbpager({
+            with_search: true,
+            items_per_page: 1000,
+            search_placeholder: "<?php echo __("Search ...") ?>",
+            callback_goto_page: function() {
+                $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+
+        // Sections
+        $('.fields-sortable').sortable({
+            handle: ".field-handle",
+            axis: "y",
+            items: " .field-container",
+            opacity: 0.7,
+            start: function() {
+                // Clear all forms inside elements!
+                $("#fields .close-edit").trigger("click");
+            },
+            stop: function() {
+                let sections = $('.fields-sortable tr[rel]');
+                let data = {
+                    indexes: []
+                };
+                let index = 1;
+                sections.each(function() {
+                    let el = $(this);
+                    data.indexes.push(el.attr('rel'));
+
+                    el.find('.field-position').text(index++);
+                });
+
+                formget(
+                    '/customer/field/update-positions',
+                    data,
+                    function(result) {},
+                    function(result) {}
+                );
+            }
+        });
+
+        window.toggleGroups = function (formId, type) {
+            $("#" + formId + " dd[id^='group_']").hide();
+
+            switch (type) {
+                case "number":
+                    $("#" + formId + " #group_number-element").show();
+                    break;
+                case "date":
+                    $("#" + formId + " #group_date-element").show();
+                    break;
+                case "datetime":
+                    $("#" + formId + " #group_datetime-element").show();
+                    break;
+                default:
+            }
+
+            $("#" + formId + " [name='is_required']").parents(".sb-form-line").hide();
+
+            switch (type) {
+                case "text":
+                case "textarea":
+                case "datetime":
+                case "date":
+                case "number":
+                case "password":
+                    $("#" + formId + " [name='is_required']").parents(".sb-form-line").show();
+                    break;
+                default:
+            }
+        };
+
+        window.toggleGroups("form-edit-field", "custom");
+
+        window.toggleLinkedTo = function (formId, linkedTo) {
+            if (linkedTo === "custom") {
+                $("#" + formId + " [name='show_at']").parents(".sb-form-line").show();
+                $("#" + formId + " [name='field_type']").parents(".sb-form-line").show();
+                $("#" + formId + " [name='default_value']").parents(".sb-form-line").show();
+
+                window.toggleGroups(formId, "custom");
+            } else {
+                $("#" + formId + " [name='show_at']").parents(".sb-form-line").hide();
+                $("#" + formId + " [name='field_type']").parents(".sb-form-line").hide();
+                $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
+
+                window.toggleGroups(formId, "_linked_to");
+            }
+        };
+
+        window.toggleLinkedTo("form-edit-field", "custom");
+
+        window.binderFormField = function (formId) {
+            let typeFields = $("#" + formId + " [name='field_type']");
+
+            typeFields.off("change");
+            typeFields.on("change", function () {
+                let type = $(this).val();
+
+                window.toggleGroups(formId, type);
+            });
+
+            let linkedToFields = $("#" + formId + " [name='linked_to']");
+
+            linkedToFields.off("change");
+            linkedToFields.on("change", function () {
+                let linkedTo = $(this).val();
+
+                window.toggleLinkedTo(formId, linkedTo);
+            });
+        };
+
+        window.binderFormField("form-edit-field");
     });
 </script>
 

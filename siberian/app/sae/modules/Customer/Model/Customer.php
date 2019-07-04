@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Customer_Model_Customer
  *
@@ -587,4 +589,54 @@ class Customer_Model_Customer extends Core_Model_Default
         return $payload;
     }
 
+    /**
+     * @param $field
+     * @return mixed
+     */
+    public function getCustomFieldValue ($field)
+    {
+        $keys = [
+            "civility",
+            "firstname",
+            "lastname",
+            "nickname",
+            "birthdate",
+            "phone",
+            "mobile",
+            "email",
+            "password"
+        ];
+
+        $type = $field->getFieldType();
+        $linkedTo = $field->getLinkedTo();
+
+        if ($type === "custom") {
+            //
+            $customFields = $this->getCustomFields();
+            try {
+                $customFields = Json::decode($customFields);
+
+                foreach ($customFields as $customField) {
+                    if ($customField["field_id"] == $field->getId()) {
+                        return $field->getValue();
+                    }
+                }
+
+            } catch (\Exception $e) {
+                // Skip silently!
+            }
+
+            // Fallback on default value anyway if no value returned, or exception catched!
+            return $field->getDefaultValue();
+        }
+
+        // Default fields!
+        if (in_array($linkedTo, $keys)) {
+            if ($linkedTo === "password") {
+                return ""; // Returns blank for the password, we don't want to leak it!
+            }
+
+            return $this->getData($field->getLinkedTo());
+        }
+    }
 }

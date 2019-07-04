@@ -19,96 +19,20 @@
     <div class="list"
          ng-class="{'card': card_design}">
 
-        <div class="item item-input item-custom">
-            <div class="input-label">
-                {{ "Firstname" | translate }}
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ 'Firstname' | translate }}"
-                   ng-model="customer.firstname" />
-        </div>
+        <!-- Custom fields (defaults) -->
+        <div ng-class="{'card': card_design}"
+             ng-repeat="field in customer.customFields track by field.field_id"
+             ng-if="showField(field)"
+             ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
 
-        <label class="item item-input item-custom">
-            <div class="input-label">
-                {{ "Lastname" | translate }}
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ 'Lastname' | translate }}"
-                   ng-model="customer.lastname" />
-        </label>
+        <!-- Version #2 of the custom fields added by modules/context -->
+        <section ng-repeat="fields in customer.extendedFields track by $index">
+            <div ng-class="{'card': card_design}"
+                 ng-repeat="field in fields track by field.key"
+                 ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
+        </section>
 
-        <label class="item item-input item-custom"
-               ng-if="optional_fields.nickname">
-            <div class="input-label">
-                {{ "Nickname" | translate }}
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ 'Nickname' | translate }}"
-                   ng-model="customer.nickname" />
-        </label>
-
-        <label class="item item-input item-custom">
-            <div class="input-label">
-                {{ "Email" | translate }}
-            </div>
-            <input class="text-right"
-                   type="email"
-                   placeholder="{{ 'Email' | translate }}"
-                   ng-model="customer.email" />
-        </label>
-
-        <label class="item item-custom"
-               style="font-size: 14px;"
-               ng-click="customer.change_password = !customer.change_password"
-               ng-if="is_logged_in">
-            {{ 'Change Password' | translate }}
-        </label>
-
-        <label class="item item-input item-custom"
-               ng-if="customer.change_password && is_logged_in">
-            <div class="input-label">
-                {{ "Old Password" | translate }}
-            </div>
-            <input class="text-right"
-                   type="password"
-                   placeholder="{{ 'Old Password' | translate }}"
-                   ng-disabled="!customer.change_password"
-                   ng-model="customer.old_password" />
-        </label>
-        <label class="item item-input item-custom"
-               ng-if="customer.change_password || !is_logged_in">
-            <div class="input-label">
-                {{ "Password" | translate }}
-            </div>
-            <input class="text-right"
-                   type="password"
-                   placeholder="{{ 'Password' | translate }}"
-                   ng-model="customer.password"
-                   ng-disabled="!customer.change_password && is_logged_in" />
-        </label>
-
-        <ion-checkbox class="checkbox-custom"
-                      ng-model="customer.show_in_social_gaming"
-                      ng-if="optional_fields.ranking">
-            {{ "Show me in ranking" | translate }}
-        </ion-checkbox>
-
-        <div class="item item-custom item-icon-left"
-             ng-click="displayPrivacyPolicy('account')"
-             ng-if="!is_logged_in">
-            <i class="icon ion-navicon"></i>
-            {{ "Privacy Policy" | translate }}
-        </div>
-
-        <ion-checkbox class="checkbox-custom item-custom"
-                      ng-model="customer.privacy_policy"
-                      ng-if="!is_logged_in">
-            {{ "I accept the privacy policy" | translate }}
-        </ion-checkbox>
-
+        <!-- Old custom fields to be deprecated! -->
         <section ng-repeat="cfo in custom_fields track by cf.code">
             <div class="item item-divider item-divider-custom">
                 <p>{{ cfo.name }}:</p>
@@ -124,13 +48,6 @@
                        placeholder="{{ cf.label | translate }}"
                        ng-model="customer.metadatas[cfo.code][cf.key]" />
             </label>
-        </section>
-
-        <!-- Version #2 of the custom login fields -->
-        <section ng-repeat="fields in customer.extendedFields track by $index">
-            <div ng-class="{'card': card_design}"
-                 ng-repeat="field in fields track by field.key"
-                 ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
         </section>
 
     </div>

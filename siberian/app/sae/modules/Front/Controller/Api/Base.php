@@ -3,6 +3,7 @@
 use Siberian\Hook;
 use Siberian\Account;
 use Siberian\Json;
+use Customer\Model\Field;
 
 /**
  * Class Front_Controller_Api_Base
@@ -13,6 +14,11 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @var string
      */
     public $version = "v_base";
+
+    /**
+     * @var integer|null
+     */
+    public $accountValueId = null;
 
     /**
      * Here we generate the Application initial payload
@@ -206,6 +212,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             ];
             $myAccount = $defaultSettings;
             if ($myAccountFeature->getId()) {
+                $this->accountValueId = $myAccountFeature->getId();
                 try {
                     $myAccount["settings"] = Json::decode($myAccountFeature->getSettings());
                 } catch (\Exception $e) {
@@ -630,10 +637,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $this->_refreshFacebookUserToken($customer);
 
         $loadBlock['customer'] = [
-            'id' => (integer) $customerId,
-            'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
-            'can_access_locked_features' => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
-            'token' => Zend_Session::getId()
+            "id" => (integer) $customerId,
+            "can_connect_with_facebook" => (boolean) $application->getFacebookId(),
+            "can_access_locked_features" => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
+            "token" => Zend_Session::getId()
         ];
 
         if ($customerId) {
@@ -684,7 +691,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
-            'is_logged_in' => $isLoggedIn
+            'is_logged_in' => $isLoggedIn,
+            "customFields" => Field::buildCustomFields($this->accountValueId, $customer)
         ]);
 
         return $loadBlock;

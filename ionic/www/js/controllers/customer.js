@@ -11,7 +11,7 @@
  */
 angular.module("starter").controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                              $translate, Application, Customer, Dialog, FacebookConnect,
+                                              $translate, Application, Customer, Dialog, Modal, FacebookConnect,
                                               HomepageLayout) {
     angular.extend($scope, {
         customer: Customer.customer,
@@ -40,6 +40,40 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
     // Alias for the global login modal!
     $scope.login = function () {
         Customer.loginModal($scope);
+    };
+
+    $scope.showAtRegistration = function (customField) {
+        return ["registration", "both"].indexOf(customField.show_at) >= 0;
+    };
+
+    $scope.showAtProfile = function (customField) {
+        return ["profile", "both"].indexOf(customField.show_at) >= 0;
+    };
+
+    $scope.showField = function (customField) {
+        return true;
+        if (Customer.isLoggedIn()) {
+            return $scope.showAtProfile(customField);
+        }
+        return $scope.showAtRegistration(customField);
+    };
+
+    $scope._privacyPolicyModal = null;
+    $scope.modalPrivacyPolicy = function () {
+        Modal
+        .fromTemplateUrl("templates/cms/privacypolicy/l1/modal.html", {
+            scope: angular.extend($scope, {
+                close: function () {
+                    $scope._privacyPolicyModal.hide();
+                }
+            }),
+            animation: "slide-in-right-left"
+        }).then(function (modal) {
+            $scope._privacyPolicyModal = modal;
+            $scope._privacyPolicyModal.show();
+
+            return modal;
+        });
     };
 
     $scope.requestToken = function () {
@@ -344,13 +378,8 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         $scope.display_account_form = true;
     };
 
-    $scope.displayPrivacyPolicy = function (from) {
-        $scope.scrollTop();
-        $scope.displayed_from = from || '';
-        $scope.display_login_form = false;
-        $scope.display_forgot_password_form = false;
-        $scope.display_account_form = false;
-        $scope.display_privacy_policy = true;
+    $scope.displayPrivacyPolicy = function () {
+        $scope.modalPrivacyPolicy();
     };
 
     $scope.scrollTop = function () {

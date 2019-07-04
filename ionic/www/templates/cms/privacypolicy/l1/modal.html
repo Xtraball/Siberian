@@ -1,0 +1,18 @@
+<ion-modal-view sb-page-background
+                class="privacy-policy-view">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::page_title }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <ng-include src="'templates/cms/privacypolicy/l1/view.html'"></ng-include>
+    </ion-content>
+
+</ion-modal-view>

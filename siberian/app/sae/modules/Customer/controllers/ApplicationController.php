@@ -1,6 +1,8 @@
 <?php
 
 use Siberian\Json;
+use Customer\Model\Field;
+use Customer\Model\Db\Table\Field as TableField;
 
 /**
  * Class Customer_ApplicationController
@@ -15,6 +17,11 @@ class Customer_ApplicationController extends Application_Controller_Default
             "tags" => [
                 "app_#APP_ID#",
                 "homepage_app_#APP_ID#"
+            ],
+        ],
+        "edit-category" => [
+            "tags" => [
+                "homepage_app_#APP_ID#",
             ],
         ],
     ];
@@ -323,5 +330,7 @@ class Customer_ApplicationController extends Application_Controller_Default
 
         $this->_sendJson($payload);
     }
+
+
 
 }

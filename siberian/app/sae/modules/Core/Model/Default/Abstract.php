@@ -43,7 +43,7 @@ abstract class Core_Model_Default_Abstract
     /**
      * @var array
      */
-    protected $_data = [];
+    public $_data = [];
 
     /**
      * @var array
@@ -671,16 +671,11 @@ abstract class Core_Model_Default_Abstract
     public function save()
     {
         if ($this->_canSave()) {
+            $row = $this->_createRow();
+            $row->save();
 
-            if ($this->getData('is_deleted') == 1) {
-                $this->delete();
-            } else {
-                $row = $this->_createRow();
-                $row->save();
-
-                $this->addData($row->getData())->setId($row->getId());
-                $this->setOrigData($this->getData());
-            }
+            $this->addData($row->getData())->setId($row->getId());
+            $this->setOrigData($this->getData());
         }
 
         return $this;
