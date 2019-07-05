@@ -1,4 +1,4 @@
-.row-justify-center {
+.menu.menu-right.row-justify-center {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -1997,11 +1997,11 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 .menu.menu-right {
     transition: transform 0.2s ease-in 0.2s;
-    transform: translateX(0%);
+    transform: translateX(1000%);
 }
 
 .menu.menu-right.menu-right-open {
-    transform: translateX(-100%);
+    transform: translateX(0);
 }
 
 /** Badges for Push notifications */
