@@ -3754,3 +3754,17 @@ h4.subtitle {
     font-size: 13px !important;
     padding: 1px 3px 3px !important;
 }
+
+/** Editor, features locked */
+.feature-locked {
+    color: #bc0000 !important;
+    font-size: 22px;
+    position: absolute;
+    right: 12px;
+    top: 12px;
+}
+
+.feature-locked-title {
+    color: #bc0000 !important;
+    text-decoration: line-through;
+}
