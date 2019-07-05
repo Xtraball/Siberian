@@ -107,8 +107,13 @@ class Request
 
         $request = curl_init();
 
-        if (strpos($endpoint, "?") === false && !empty($data)) {
-            $endpoint .= "?" . http_build_query($data);
+        if (!empty($data)) {
+            // Handling pre-built uris with query
+            if (strpos($endpoint, "?") === false) {
+                $endpoint .= "?" . http_build_query($data);
+            } else {
+                $endpoint .= "&" . http_build_query($data);
+            }
         }
 
         # Setting options
