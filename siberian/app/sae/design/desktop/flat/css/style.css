@@ -3778,3 +3778,11 @@ h4.subtitle {
     color: #bc0000;
     text-decoration: line-through;
 }
+
+.feature-disabled {
+    color: #dc3a3a;
+}
+
+.feature-hidden {
+    color: #0099c7;
+}

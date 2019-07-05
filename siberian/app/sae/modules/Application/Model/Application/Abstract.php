@@ -1097,14 +1097,21 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param bool $isVisible
      * @return Application_Model_Option_Value[]
      * @throws \Siberian\Exception
      */
-    public function getOptions()
+    public function getOptions($isVisible = true)
     {
         if (empty($this->_options)) {
-            $this->_options = (new Application_Model_Option_Value())
-                ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+            $query = [
+                "a.app_id" => $this->getId()
+            ];
+            if ($isVisible) {
+                $query["is_visible = ?"] = 1;
+            }
+
+            $this->_options = (new Application_Model_Option_Value())->findAll($query);
         }
 
         // Check if customer account is required
