@@ -116,15 +116,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .constant('PUSH_EVENTS', { notificationReceived: 'push-notification-received', unreadPushs: 'push-get-unreaded', readPushs: 'push-mark-as-read' })
 
     // Start app config
-    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $provide,
-                      $pwaRequestProvider, UrlProvider, tmhDynamicLocaleProvider) {
-        var Url = UrlProvider.$get();
-        var locale_url = Url.get('/app/sae/modules/Application/resources/angular-i18n/angular-locale_{{locale}}.js', {
-            remove_key: true
-        });
-
-        tmhDynamicLocaleProvider.localeLocationPattern(locale_url);
-        tmhDynamicLocaleProvider.storageKey((+new Date()) * Math.random() + ''); // don't remember locale
+    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider) {
 
         /** Hooks on HTTP transactions */
         $httpProvider.interceptors.push(function ($injector, $log, $q, $session) {
@@ -159,9 +151,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             };
         });
 
+
         $logProvider.debugEnabled(DEBUG);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
+        $ionicConfigProvider.views.swipeBackEnabled(false);
         $ionicConfigProvider.backButton.text('');
         $ionicConfigProvider.backButton.previousTitleText(false);
     })
@@ -169,7 +163,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
                    Analytics, Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
-                   Pages, Push, PushService, SB, SafePopups, tmhDynamicLocale) {
+                   Pages, Push, PushService, SB) {
 
         // $rootScope object!
         angular.extend($rootScope, {
@@ -261,7 +255,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.16.10'
+                            version: "4.17.1"
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -273,7 +267,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Translations & locale!
                         $translate.translations = data.translationBlock;
-                        tmhDynamicLocale.set($translate._locale);
 
                         if (!$session.getId()) {
                             $session.setId(data.loadBlock.customer.token);
@@ -294,12 +287,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             Customer.loginWithFacebook(fbtoken);
                         }
 
-                        var HomepageLayout = $injector.get('HomepageLayout');
+                        var HomepageLayout = $injector.get("HomepageLayout");
 
                         // Append custom CSS/SCSS to the page!
                         if (data.cssBlock && data.cssBlock.css) {
-                            var css = document.createElement('style');
-                            css.type = 'text/css';
+                            var css = document.createElement("style");
+                            css.type = "text/css";
                             css.innerHTML = data.cssBlock.css;
                             document.body.appendChild(css);
                         }
@@ -440,7 +433,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 disableBack: true
                             });
 
-                            $state.go('locked');
+                            $state.go("locked");
                         }
 
                         if (window.StatusBar !== undefined) {
@@ -462,8 +455,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
 
                         if ($rootScope.isNativeApp) {
-                            if (!$window.localStorage.getItem('first_running')) {
-                                $window.localStorage.setItem('first_running', 'true');
+                            if (!$window.localStorage.getItem("first_running")) {
+                                $window.localStorage.setItem("first_running", "true");
                                 Analytics.storeInstallation();
                             }
 
