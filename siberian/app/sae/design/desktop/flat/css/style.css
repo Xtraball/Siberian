@@ -1177,16 +1177,19 @@ div.loader {
 .sb-tgl-flat + .sb-tgl-btn:after {
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
-    content: "";
+    content: "\f12a";
     border-radius: 3px;
     width: 20px;
     height: 20px;
     top: 2px;
     left: 2px;
     background-color: #555;
+    font-size: 15px;
+    font-family: 'ionicons' !important;
 }
 
 .sb-tgl-flat:checked + .sb-tgl-btn:after {
+    content: "\f122";
     left: calc(100% - 22px);
     background: #0099C7;
 }

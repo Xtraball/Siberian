@@ -680,7 +680,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             }
                         }
 
-                        if (datas.delete_features.length) {
+                        if (datas.delete_features && datas.delete_features.length) {
                             for (var i = 0; i < datas.delete_features.length; i++) {
                                 $('#add_page_' + datas.delete_features[i]).remove();
                             }
