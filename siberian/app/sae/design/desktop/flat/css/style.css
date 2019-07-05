@@ -3756,15 +3756,25 @@ h4.subtitle {
 }
 
 /** Editor, features locked */
-.feature-locked {
-    color: #bc0000 !important;
+.feature-padlock {
+    color: #D4AF37;
     font-size: 22px;
     position: absolute;
-    right: 12px;
-    top: 12px;
+    right: 15px;
+    top: 38px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
+}
+
+.feature-locked {
+    color: #bc0000;
+    font-size: 20px;
+    position: absolute;
+    left: 18px;
+    top: 39px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
 }
 
 .feature-locked-title {
-    color: #bc0000 !important;
+    color: #bc0000;
     text-decoration: line-through;
 }

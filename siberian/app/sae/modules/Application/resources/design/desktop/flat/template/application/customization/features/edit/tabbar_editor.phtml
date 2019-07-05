@@ -315,6 +315,16 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 });
             });
 
+            $('.social_sharing_is_visible').change(function () {
+                var is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
+                $("#is_social_sharing_active").val(is_checked);
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisvisible'); ?>', true, function (datas) {
+                    if (datas.success) {
+                        iframe.f.reloadTabbar();
+                    }
+                });
+            });
+
             $('.social_sharing_is_activated').change(function () {
                 var is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
                 $("#is_social_sharing_active").val(is_checked);
