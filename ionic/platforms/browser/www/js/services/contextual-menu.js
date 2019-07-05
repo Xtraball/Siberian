@@ -1,48 +1,57 @@
-/*global
- angular
- */
-
-angular.module("starter").service('ContextualMenu', function($ionicSideMenuDelegate, $timeout, HomepageLayout) {
+angular
+.module("starter")
+.service('ContextualMenu', function ($ionicSideMenuDelegate, $timeout, HomepageLayout) {
     var DEFAULT_WIDTH = 275;
-
     var self = {};
-
     var _exists, _templateURL, _width, _is_enabled_function;
 
     Object.defineProperty(self, "exists", {
-      get: function() { return _exists; }
+      get: function () {
+          return _exists;
+      }
     });
 
     Object.defineProperty(self, "templateURL", {
-      get: function() { return _templateURL; }
+      get: function () {
+          return _templateURL;
+      }
     });
 
     Object.defineProperty(self, "width", {
-      get: function() { return (angular.isNumber(_width) && _width > 0 && _width) || DEFAULT_WIDTH; }
+      get: function () {
+          return (angular.isNumber(_width) && _width > 0 && _width) || DEFAULT_WIDTH;
+      }
     });
 
     Object.defineProperty(self, "isEnabled", {
-      get: function() { return ((angular.isFunction(_is_enabled_function) && _is_enabled_function) || (function() { return self.exists; }))(); }
+      get: function () {
+          return ((angular.isFunction(_is_enabled_function) && _is_enabled_function) ||
+              (function() {
+                  return self.exists;
+              }))();
+      }
     });
 
     Object.defineProperty(self, "direction", {
-        get: function() {
+        get: function () {
             return (HomepageLayout.properties.menu.position === "right") ? "left" : "right";
         }
     });
 
-    self.reset = function() {
-        $timeout(function() {
+    self.reset = function () {
+        $timeout(function () {
             _exists = false;
-            _is_enabled_function = (function() { return self.exists; });
+            _is_enabled_function = (function () {
+                return self.exists;
+            });
             _width = null;
             _templateURL = null;
         });
     };
     self.reset();
 
-    self.set = function(templateURL, width, is_enabled_function) {
-        if(angular.isString(templateURL) && templateURL.length > 0) {
+    self.set = function (templateURL, width, is_enabled_function) {
+        if (angular.isString(templateURL) && templateURL.length > 0) {
             _exists = true;
             _templateURL = templateURL;
             _width = width;
@@ -51,30 +60,31 @@ angular.module("starter").service('ContextualMenu', function($ionicSideMenuDeleg
             self.reset();
         }
 
-        return (function() {
-            if(_templateURL === templateURL) {
+        return (function () {
+            if (_templateURL === templateURL) {
                 self.reset();
             }
         });
     };
 
-    self.toggle = function(open) {
+    self.toggle = function (open) {
         var direction = self.direction.slice(0, 1).toUpperCase()+self.direction.slice(1);
+        var localOpen = open;
 
-        if(!(open === true || open === false)) {
-            open = !$ionicSideMenuDelegate["isOpen"+direction]();
+        if (!(localOpen === true || localOpen === false)) {
+            localOpen = !$ionicSideMenuDelegate["isOpen"+direction]();
         }
 
-        if(self.exists && self.isEnabled) {
-            $ionicSideMenuDelegate["toggle"+direction](open);
+        if (self.exists && self.isEnabled) {
+            $ionicSideMenuDelegate["toggle"+direction](localOpen);
         }
     };
 
-    self.open = function() {
+    self.open = function () {
         self.toggle(true);
     };
 
-    self.close = function() {
+    self.close = function () {
         self.toggle(false);
     };
 

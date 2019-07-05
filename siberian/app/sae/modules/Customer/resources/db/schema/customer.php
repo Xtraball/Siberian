@@ -94,7 +94,6 @@ $schemas['customer'] = [
         'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'default' => '{}',
     ],
     'created_at' => [
         'type' => 'datetime',
