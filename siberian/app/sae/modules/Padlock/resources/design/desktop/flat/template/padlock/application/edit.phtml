@@ -7,7 +7,7 @@ $padlock = (new Padlock_Model_Padlock())
     ->find($option_value->getId(), "value_id");
 
 function _canLock ($feature) {
-    if (in_array(["padlock", "tabbar_account"], $feature->getCode())) {
+    if (in_array($feature->getCode(), ["padlock", "tabbar_account"])) {
         return false;
     }
 
