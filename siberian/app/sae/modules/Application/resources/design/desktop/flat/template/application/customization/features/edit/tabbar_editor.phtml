@@ -510,12 +510,17 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
                 tabbar_name_loader.show();
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarname'); ?>', false, function (datas) {
+                    console.log("got success here", datas);
+
                     if (datas.success) {
+                        console.log("got success here", val);
                         tabbar_names['<?php echo $option->getId(); ?>'] = val;
                         iframe.f.reload();
                     }
                     tabbar_name_loader.hide();
                 }, function (datas) {
+                    console.log("got error here", datas);
+
                     iframe.content.find('.tabbar_name_<?php echo $option->getId(); ?>').html(tabbar_names['<?php echo $option->getId(); ?>']);
                     $('#tabbar_name_<?php echo $option->getId(); ?>').html(tabbar_names['<?php echo $option->getId(); ?>']);
                     $(this).val(tabbar_names['<?php echo $option->getId(); ?>']);

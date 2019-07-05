@@ -191,6 +191,9 @@ let AlertMessage = Class.extend({
         }
         switch (this.type) {
             case 'success':
+                if (this.message === undefined || this.message.length === 0) {
+                    this.message = "Success.";
+                }
                 toastr.success(
                     this.message,
                     null,
@@ -202,6 +205,9 @@ let AlertMessage = Class.extend({
                     });
                 break;
             case 'error':
+                if (this.message === undefined || this.message.length === 0) {
+                    this.message = "Unknown error.";
+                }
                 toastr.error(
                     this.message,
                     null,
