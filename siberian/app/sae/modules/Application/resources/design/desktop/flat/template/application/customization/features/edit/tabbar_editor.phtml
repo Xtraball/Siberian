@@ -538,19 +538,23 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             $('#tabbar_name').keyup(function (e) {
                 if (e.keyCode == 13) {
                     this.blur();
-                }
-                else {
+                } else {
                     let val = $(this).val().trim();
                     let subval = val;
                     if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                     $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
-                    //iframe.content.find('.tabbar_name_<?php echo $option->getId(); ?>').html(subval);
-                    //iframe.content.find('#page_title_<?php echo $option->getId(); ?>').html(val);
-                    //if (iframe.f.page.getSubpage('<?php echo $option->getId(); ?>')) {
-                    //    iframe.f.page.getSubpage('<?php echo $option->getId(); ?>').calcTitleWidth();
-                    //}
-                    //folder
-                    //iframe.content.find('#tabbar_item_<?php echo $option->getId(); ?>').find('.text.title').html(val);
+
+                    try {
+                        // Live update menu in overview
+                        let valueId = $("#tabbar_name_id").val();
+                        let navItem = iframe.f.document.querySelector("[tabbar-items][data-value-id='" + valueId + "'] p");
+                        if (navItem) {
+                            navItem.textContent = val;
+                        }
+                    } catch (e) {
+                        // Nope, not available
+                    }
+
                     $('#title_editor').html(val);
                 }
             }).change(function () {
