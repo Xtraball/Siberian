@@ -705,6 +705,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             };
 
                             $window.showHomepage = function () {
+
                                 if (HomepageLayout.properties.menu.visibility === 'homepage') {
                                     $window.setPath(BASE_PATH);
                                 } else {
@@ -714,17 +715,24 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                             disableAnimate: false
                                         });
                                         var featIndex = 0;
-                                        for (var fi = 0; fi < features.options.length; fi = fi + 1) {
-                                            var feat = features.options[fi];
+
+                                        // We show only `visible options`
+                                        var visibleOptions = features.options.filter(function (option) {
+                                            return option.is_visible;
+                                        });
+
+                                        for (var fi = 0; fi < visibleOptions.length; fi = fi + 1) {
+                                            var feat = visibleOptions[fi];
+
                                             // Don't load unwanted features on first page.!
-                                            if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
+                                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) >= 0) {
                                                 featIndex = fi;
                                                 break;
                                             }
                                         }
 
-                                        if (features.options[fi]) {
-                                            $window.setPath(features.options[fi].path, true);
+                                        if (visibleOptions[fi]) {
+                                            $window.setPath(visibleOptions[fi].path, true);
                                         }
                                     });
                                 }

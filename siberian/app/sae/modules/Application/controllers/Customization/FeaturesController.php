@@ -381,11 +381,13 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
                 // Récupère les données de l'application pour cette option
                 $optionValue = new Application_Model_Option_Value();
-                $optionValue->find($datas['value_id']);
-                if (isset($datas['is_active'])) {
-                    $optionValue->setIsActive($datas['is_active']);
-                } else if (isset($datas['is_social_sharing_active'])) {
-                    $optionValue->setSocialSharingIsActive($datas['is_social_sharing_active']);
+                $optionValue->find($datas["value_id"]);
+                if (isset($datas["is_active"])) {
+                    $optionValue->setIsActive($datas["is_active"]);
+                } else if (isset($datas['is_visible'])) {
+                    $optionValue->setIsVisible($datas["is_visible"]);
+                } else if (isset($datas["is_social_sharing_active"])) {
+                    $optionValue->setSocialSharingIsActive($datas["is_social_sharing_active"]);
                 } else {
                     throw new Exception(__('#108: An error occurred while saving'));
                 }

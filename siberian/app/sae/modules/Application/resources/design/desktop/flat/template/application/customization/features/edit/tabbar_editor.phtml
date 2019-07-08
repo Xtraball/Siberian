@@ -117,7 +117,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             <?php if (is_numeric($option->getId())) : ?>
                 <div class="col-md-6">
                     <div class="tabbar-check check-activated">
-                        <label><?php echo __("Activated"); ?></label>
+                        <label><?php echo __("Published"); ?></label>
                         <br />
                         <div id="toggle_feature_is_activated">
                             <div style="width:54px;padding-top:4px">
@@ -131,8 +131,11 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                         </div>
                     </div>
 
+                    <?php if (empty($option->getFolderId())): ?>
                     <div class="tabbar-check check-visible">
-                        <label><?php echo __("Visible"); ?></label>
+                        <label data-toggle="tooltip"
+                               class="display_tooltip"
+                               title="<?php echo __js("When disabled, this feature will only be accessible via in-app links.", '"') ?>"><?php echo __("Visible on homepage"); ?></label>
                         <br />
                         <div id="toggle_feature_is_visible">
                             <div style="width:54px;padding-top:4px">
@@ -151,10 +154,11 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                             </div>
                         </div>
                     </div>
+                    <?php endif; ?>
 
                     <div class="tabbar-check check-socialsharing">
                         <?php if ($option->getSocialSharingIsAvailable() == 1) : ?>
-                            <label><?php echo __("Social Sharing"); ?></label>
+                            <label><?php echo __("Social sharing"); ?></label>
                             <br />
                             <div id="toggle_social_sharing_is_activated">
                                 <div style="width:54px;padding-top:4px">
@@ -338,11 +342,11 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
     </div>
     <script type="text/javascript">
 
-        var custom_icon_uploader = new Uploader();
+        let custom_icon_uploader = new Uploader();
 
         page.setCallback('bind_icons_events', function () {
             $('.feature_is_activated').change(function () {
-                var is_checked = $('#chk_activate').is(':checked') ? 1 : 0;
+                let is_checked = $('#chk_activate').is(':checked') ? 1 : 0;
                 $("#is_active").val(is_checked);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
@@ -351,10 +355,10 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 });
             });
 
-            $('.social_sharing_is_visible').change(function () {
-                var is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
-                $("#is_social_sharing_active").val(is_checked);
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisvisible'); ?>', true, function (datas) {
+            $('.feature_is_visible').change(function () {
+                let is_checked = $('#chk_visible').is(':checked') ? 1 : 0;
+                $("#is_visible").val(is_checked);
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
                     }
@@ -362,7 +366,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             });
 
             $('.social_sharing_is_activated').change(function () {
-                var is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
+                let is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
                 $("#is_social_sharing_active").val(is_checked);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
@@ -371,7 +375,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 });
             });
 
-            var icon_library = {
+            let icon_library = {
                 tolerance: 180,
                 mask: null,
                 processEvents: function () {
@@ -417,8 +421,10 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                     $(document).unbind('keyup');
                 },
                 resize: function (all) {
-                    var selector = ".details";
-                    if (!all) selector += ":visible";
+                    let selector = ".details";
+                    if (!all) {
+                        selector += ":visible";
+                    }
                     $('#icon_library').css('height', $(window).outerHeight() - 75);
                     $('#icon_library_manager').find(selector).css('height', $(window).outerHeight() - this.tolerance);
                 }
@@ -636,6 +642,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
         });
 
         //$(".partial-offline").tooltip({});
+
+        $('.display_tooltip').tooltip();
 
     </script>
     <style>
