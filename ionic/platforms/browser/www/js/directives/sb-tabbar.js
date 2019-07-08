@@ -188,11 +188,7 @@ angular
                 return;
             }
 
-            /**
-             * @var element ElementElement
-             */
-            element.setAttribute("data-value-id", scope.option.value_id);
-
+            element.attr("data-value-id", scope.option.value_id);
             element.on("click", function () {
                 $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
 

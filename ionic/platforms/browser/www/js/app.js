@@ -570,7 +570,15 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
 
                             switch (action) {
-                                case 'state-go':
+                                case "state-go":
+                                    if (params.hasOwnProperty("value_id")) {
+                                        var feature = Pages.getValueId(params.value_id);
+                                        if (feature && !feature.is_active) {
+                                            Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                            return;
+                                        }
+                                    }
+
                                     var state = params.state;
                                     delete params.state;
                                     delete params.offline;
@@ -579,6 +587,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                     }
                                     $state.go(state, params);
                                     break;
+                                default:
+                                    // Nope!
                             }
                         }, false);
 

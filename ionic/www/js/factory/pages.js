@@ -181,10 +181,10 @@ angular.module('starter').factory('Pages', function ($pwaRequest, $rootScope, $q
     /**
      *
      * @param valueId
-     * @returns {*}
+     * @returns {}
      */
     factory.getValueId = function (valueId) {
-        return _.get(factory.features, { value_id: valueId * 1 });
+        return _.find(factory.features, { value_id: valueId * 1 });
     };
 
     /**

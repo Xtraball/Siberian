@@ -1854,6 +1854,10 @@ a.details.add_page {
     }
 }
 
+.tooltip {
+    letter-spacing: 1px;
+}
+
 #iphone .btn-group-vertical {
     position: absolute;
     right: -55px;
