@@ -116,50 +116,53 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
             <?php if (is_numeric($option->getId())) : ?>
                 <div class="col-md-6">
-                    <div class="tabbar-check check-activated">
-                        <label><?php echo p__("application", "Published"); ?></label>
-                        <br />
-                        <div id="toggle_feature_is_activated">
-                            <div style="width:54px;padding-top:4px">
-                                <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox"
-                                       id="chk_activate"
-                                       type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked"' : '' ?> />
-                                <label class="sb-tgl-btn color-blue"
-                                       for="chk_activate"></label>
-                                <input type="hidden"
-                                       id="is_active"
-                                       name="is_active"
-                                       value="<?php echo $option->getIsActive() ?>" />
-                                <input type="hidden"
-                                       name="value_id"
-                                       value="<?php echo $option->getId(); ?>" />
+
+                    <?php if ($option->getCode() !== "tabbar_account"): ?>
+                        <div class="tabbar-check check-activated">
+                            <label><?php echo p__("application", "Published"); ?></label>
+                            <br />
+                            <div id="toggle_feature_is_activated">
+                                <div style="width:54px;padding-top:4px">
+                                    <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox"
+                                           id="chk_activate"
+                                           type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked"' : '' ?> />
+                                    <label class="sb-tgl-btn color-blue"
+                                           for="chk_activate"></label>
+                                    <input type="hidden"
+                                           id="is_active"
+                                           name="is_active"
+                                           value="<?php echo $option->getIsActive() ?>" />
+                                    <input type="hidden"
+                                           name="value_id"
+                                           value="<?php echo $option->getId(); ?>" />
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
 
                     <?php if (empty($option->getFolderId())): ?>
-                    <div class="tabbar-check check-visible">
-                        <label data-toggle="tooltip"
-                               class="display_tooltip"
-                               title="<?php echo p__js("application", "When disabled, this feature will only be accessible via in-app links.", '"') ?>"><?php echo p__("application", "Available from menu"); ?></label>
-                        <br />
-                        <div id="toggle_feature_is_visible">
-                            <div style="width:54px;padding-top:4px">
-                                <input class="sb-tgl sb-tgl-flat feature_is_visible color-blue checkbox"
-                                       id="chk_visible"
-                                       type="checkbox" <?php echo ($option->getIsVisible()) ? 'checked="checked"' : '' ?> />
-                                <label class="sb-tgl-btn color-blue"
-                                       for="chk_visible"></label>
-                                <input type="hidden"
-                                       id="is_visible"
-                                       name="is_visible"
-                                       value="<?php echo $option->getIsVisible() ?>" />
-                                <input type="hidden"
-                                       name="value_id"
-                                       value="<?php echo $option->getId(); ?>" />
+                        <div class="tabbar-check check-visible">
+                            <label data-toggle="tooltip"
+                                   class="display_tooltip"
+                                   title="<?php echo p__js("application", "When disabled, this feature will only be accessible via in-app links.", '"') ?>"><?php echo p__("application", "Available from menu"); ?></label>
+                            <br />
+                            <div id="toggle_feature_is_visible">
+                                <div style="width:54px;padding-top:4px">
+                                    <input class="sb-tgl sb-tgl-flat feature_is_visible color-blue checkbox"
+                                           id="chk_visible"
+                                           type="checkbox" <?php echo ($option->getIsVisible()) ? 'checked="checked"' : '' ?> />
+                                    <label class="sb-tgl-btn color-blue"
+                                           for="chk_visible"></label>
+                                    <input type="hidden"
+                                           id="is_visible"
+                                           name="is_visible"
+                                           value="<?php echo $option->getIsVisible() ?>" />
+                                    <input type="hidden"
+                                           name="value_id"
+                                           value="<?php echo $option->getId(); ?>" />
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <div class="tabbar-check check-socialsharing">
