@@ -129,6 +129,8 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
             'design_codes' => Application_Model_Application::getDesignCodes()
         ];
 
+        $data["application"]["disable_battery_optimization"] = (boolean) $data["application"]["disable_battery_optimization"];
+
         //Set ios Autopublish informations
         $appIosAutopublish = new Application_Model_IosAutopublish();
         $appIosAutopublish->find(1);
@@ -277,6 +279,13 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
                 } else {
                     $data["free_until"] = new Zend_Date($data["free_until"], "MM/dd/yyyy");
                     $data["free_until"] = $data["free_until"]->toString('yyyy-MM-dd HH:mm:ss');
+                }
+
+                if (array_key_exists("disable_battery_optimization", $data)) {
+                    $val = filter_var($data["disable_battery_optimization"], FILTER_VALIDATE_BOOLEAN);
+                    $application->setDisableBatteryOptimization($val ? 1 : 0);
+
+                    unset($data["disable_battery_optimization"]);
                 }
 
                 $application->addData($data)->save();
