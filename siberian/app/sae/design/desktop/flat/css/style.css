@@ -3767,8 +3767,18 @@ h4.subtitle {
     color: #D4AF37;
     font-size: 22px;
     position: absolute;
-    right: 15px;
+    right: 12px;
     top: 38px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
+}
+
+/** Editor, features locked */
+.feature-visible {
+    color: #D4AF37;
+    font-size: 26px;
+    position: absolute;
+    left: 14px;
+    top: 33px;
     text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
 }
 
