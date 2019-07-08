@@ -173,12 +173,6 @@ angular
         scope: {
             option: "="
         },
-        compile: function (element, attrs) {
-            /**
-             * @var element ElementElement
-             */
-            element.setAttribute("data-value-id", scope.option.value_id);
-        },
         /**
          * Preparing code for advanced notification bubbles.
          * compile: function (element, attrs) {
@@ -188,6 +182,13 @@ angular
             element.append(customCounter);
         },*/
         link: function (scope, element) {
+            // We're done!
+            if (!scope.option.is_visible) {
+                element.replaceWith(" ");
+                return;
+            }
+
+            element.attr("data-value-id", scope.option.value_id);
             element.on("click", function () {
                 $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
 

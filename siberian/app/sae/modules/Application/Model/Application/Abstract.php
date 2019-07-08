@@ -1097,7 +1097,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param bool $isVisible
+     * @param bool $isVisible deprecated
      * @return Application_Model_Option_Value[]
      * @throws \Siberian\Exception
      */
@@ -1107,9 +1107,6 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $query = [
                 "a.app_id" => $this->getId()
             ];
-            if ($isVisible) {
-                $query["is_visible = ?"] = 1;
-            }
 
             $this->_options = (new Application_Model_Option_Value())->findAll($query);
         }
@@ -1121,6 +1118,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @return Application_Model_Option_Value|bool|null
+     * @throws Zend_Exception
      * @throws \Siberian\Exception
      */
     public function checkCustomerAccount ()
@@ -1163,7 +1162,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                     ->save();
 
                 $this->_options = (new Application_Model_Option_Value())
-                    ->findAll(["a.app_id" => $this->getId(), "is_visible" => 1]);
+                    ->findAll(["a.app_id" => $this->getId()]);
             }
             return $customerAccount;
         }
@@ -1176,7 +1175,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function getUsedOptions()
     {
         $option = new Application_Model_Option_Value();
-        return $option->findAllWithOptionsInfos(["a.app_id" => $this->getId(), "a.is_visible" => 1]);
+        return $option->findAllWithOptionsInfos(["a.app_id" => $this->getId()]);
     }
 
     /**
@@ -1225,8 +1224,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $options = [
             "a.app_id" => $this->getId(),
-            "remove_folder" => new Zend_Db_Expr("folder_category_id IS NULL"),
-            "is_visible" => 1
+            "remove_folder" => new Zend_Db_Expr("folder_category_id IS NULL")
         ];
 
         if ($with_folder) {

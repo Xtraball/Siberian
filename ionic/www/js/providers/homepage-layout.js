@@ -392,15 +392,15 @@ angular.module('starter').provider('HomepageLayout', function () {
                 var limit = features.overview.limit;
 
                 // We show only `visible options`
-                var visibleOptions = features.options.filter(function (option) {
+                features.options = features.options.filter(function (option) {
                     return option.is_visible;
                 });
 
-                if (limit !== null && limit > 0 && visibleOptions.length > limit) {
+                if (limit !== null && limit > 0 && features.options.length > limit) {
                     if (HomepageLayout.data.layout.use_horizontal_scroll) {
                         var paged_options = [];
-                        for (var i = 0; i < visibleOptions.length; i++) {
-                            paged_options.push(visibleOptions[i]);
+                        for (var i = 0; i < features.options.length; i++) {
+                            paged_options.push(features.options[i]);
                             if (((i + 1) % limit) === 0) {
                                 features.overview.paged_options.push(paged_options);
                                 paged_options = [];
@@ -412,14 +412,14 @@ angular.module('starter').provider('HomepageLayout', function () {
                     } else {
                         // Truncate to (limit - 1)
                         for (var j = 0; j < (limit - 1); i++) {
-                            features.overview.options.push(visibleOptions[j]);
+                            features.overview.options.push(features.options[j]);
                         }
                         features.overview.hasMore = true;
                     }
                 } else if (HomepageLayout.data.layout.use_horizontal_scroll) {
-                    features.overview.paged_options = [visibleOptions];
+                    features.overview.paged_options = [features.options];
                 } else {
-                    features.overview.options = visibleOptions;
+                    features.overview.options = features.options;
                 }
 
                 // MORE ...!
@@ -453,10 +453,9 @@ angular.module('starter').provider('HomepageLayout', function () {
                     $ionicSlideBoxDelegate.update();
                 }, 200);
 
-
                 features.first_option = false;
-                if (HomepageLayout.properties.options.autoSelectFirst && (visibleOptions.length !== 0)) {
-                    features.first_option = visibleOptions[0];
+                if (HomepageLayout.properties.options.autoSelectFirst && (features.options.length !== 0)) {
+                    features.first_option = features.options[0];
                 }
 
                 deferred.resolve(features);

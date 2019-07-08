@@ -378,7 +378,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
-                        'is_visible' => (boolean) $optionValue->isVisible(),
+                        'is_visible' => (boolean) $optionValue->getIsVisible(),
                         'url' => $uris["featureUrl"],
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
