@@ -158,6 +158,12 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 ->getImageColor();
 
             foreach ($features as $feature) {
+
+                // Skip unpublished features.
+                if (!$feature->isActive()) {
+                    continue;
+                }
+
                 $hideNavbar = false;
                 $useExternalApp = false;
                 if ($objectLink = $feature->getObject()->getLink() AND is_object($objectLink)) {
@@ -199,6 +205,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_feature' => true,
                     'settings' => $settings,
                     'is_active' => (boolean) $feature->isActive(),
+                    'is_visible' => true,
                     'is_locked' => (boolean) $feature->isLocked(),
                     'value_id' => (integer) $feature->getId(),
                 ];
