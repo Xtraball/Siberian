@@ -45,6 +45,9 @@ $formGeneralInformation->populate($application->getData());
 $formAdmob = new Application_Form_Admob();
 $formAdmob->fill($application);
 
+$formAndroid = new Application_Form_Android();
+$formAndroid->fill($application);
+
 // Firebase Validation!
 $credentials = (new Push_Model_Firebase())
     ->find(0, 'admin_id');
@@ -322,6 +325,36 @@ try {
                         </div>
                     </div>
                     <?php endif; ?>
+
+                    <h4 class="title-editor no-border-radius title-feature-indent"
+                        style="margin-top: 15px;"><?php echo __("Advanced settings") ?></h4>
+                    <div class="container-fluid content-feature">
+
+                        <div class="form-horizontal"
+                             id="android-settings"
+                             style="margin-top: 15px;">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <?php echo __("After saving any advanced settings, you must rebuild / republish the application for changes to take effect.") ?>
+                                    </div>
+                                </div>
+
+                                <br />
+
+                                <div class="col-md-12">
+                                    <?php echo $formAndroid; ?>
+                                </div>
+
+                                <br />
+
+                                <div class="col-md-12">
+                                    <?php echo __("Please note that Google Play can reject your app if the use case is not strictly required.") ?><br />
+                                    <?php echo __("You can find acceptable use cases for permission <b>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</b> on Android %s, according to Android developers.", "<a class=\"link\" href=\"https://developer.android.com/training/monitoring-device-state/doze-standby#whitelisting-cases\">" . __("here") . "</a>") ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
@@ -457,6 +490,7 @@ try {
     $(document).ready(function () {
         bindForms('#general-information');
         bindForms('#admob-settings');
+        bindForms('#android-settings');
 
         $('#android-element').addClass('col-md-6');
         $('#ios-element').addClass('col-md-6');
@@ -520,5 +554,10 @@ try {
 
     .publication-padding-bottom {
         margin-bottom: 120px;
+    }
+
+    #form-general-information-android .form-group-checkbox > div {
+        float: left;
+        margin: 0 15px;
     }
 </style>
