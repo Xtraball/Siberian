@@ -180,6 +180,15 @@ angular.module('starter').factory('Pages', function ($pwaRequest, $rootScope, $q
 
     /**
      *
+     * @param valueId
+     * @returns {}
+     */
+    factory.getValueId = function (valueId) {
+        return _.find(factory.features, { value_id: valueId * 1 });
+    };
+
+    /**
+     *
      * @param value_id
      * @returns {*}
      */
