@@ -151,8 +151,17 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.pre_start = function () {
-        // Tries to disable battery optim.
-        MusicControls.disableBatteryOptimization();
+        // Trying to disable battery optimizations.
+        try {
+            if (DISABLE_BATTERY_OPTIMIZATION === true) {
+                MusicControls.disableBatteryOptimization();
+            }
+        } catch (e) {
+            // Something went wrong when trying to disable battery optimizations!
+            $log.error("Something went wrong when trying to disable battery optimizations!");
+            $log.error(e);
+        }
+
 
         if (service.media) {
             service.media.pause();
