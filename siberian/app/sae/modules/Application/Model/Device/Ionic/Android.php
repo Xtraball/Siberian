@@ -390,6 +390,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
      */
     protected function _prepareUrl()
     {
+        $application = $this->getApplication();
         if (defined('CRON')) {
             $protocol = __get('use_https') ? 'https://' : 'http://';
             $domain = $this->getDevice()->getHost();
@@ -398,7 +399,9 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
             $domain = $this->_request->getHttpHost();
         }
 
-        $app_key = $this->getApplication()->getKey();
+        $appKey = $application->getKey();
+        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        $_dbo = $disableBatteryOptimization ? "true" : "false";
 
         $url_js_content = "
 /** Auto-generated url.js */
@@ -407,13 +410,14 @@ var IS_NATIVE_APP = true;
 var DEVICE_TYPE = 1;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
+var DISABLE_BATTERY_OPTIMIZATION = {$_dbo};
 
 // WebView
 if (typeof IS_PREVIEW === 'undefined' ||
     (typeof IS_PREVIEW !== 'undefined' && IS_PREVIEW !== true)) {
     PROTOCOL = '{$protocol}';
     DOMAIN = '{$protocol}{$domain}';
-    APP_KEY = '{$app_key}';
+    APP_KEY = '{$appKey}';
     BASE_PATH = '/'+APP_KEY;
 }
 

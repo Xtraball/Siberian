@@ -7,6 +7,7 @@ var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;
 var IS_NATIVE_APP = false;
 var DEVICE_TYPE = 3;
+var DISABLE_BATTERY_OPTIMIZATION = false;
 
 if (goto) {
     goto = goto[1];

@@ -86,7 +86,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
                 $baseEmail->setContentFor("content_email", "keep_url", $keepUrl);
                 $baseEmail->setContentFor("content_email", "reason", $reportMessage);
                 $baseEmail->setContentFor("content_email", "message",
-                    sprintf("%s<br />%s<br />%s", $post->getTitle(), $post->getSubtitle(), $post->getText()));
+                    sprintf("%s<br />%s<br />%s", $post->getTitle(), $post->getSubtitle(), base64_decode($post->getText())));
                 $baseEmail->setContentFor("content_email", "app_name", $application->getName());
                 $baseEmail->setContentFor("content_email", "fanwall_title", $optionValue->getTabbarName());
                 $baseEmail->setContentFor("content_email", "user", $formattedUser);
@@ -262,7 +262,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
                 $baseEmail->setContentFor("content_email", "dismiss_url", $dismissUrl);
                 $baseEmail->setContentFor("content_email", "keep_url", $keepUrl);
                 $baseEmail->setContentFor("content_email", "reason", $reportMessage);
-                $baseEmail->setContentFor("content_email", "message", $comment->getText());
+                $baseEmail->setContentFor("content_email", "message", base64_decode($comment->getText()));
                 $baseEmail->setContentFor("content_email", "app_name", $application->getName());
                 $baseEmail->setContentFor("content_email", "fanwall_title", $optionValue->getTabbarName());
                 $baseEmail->setContentFor("content_email", "user", $formattedUser);

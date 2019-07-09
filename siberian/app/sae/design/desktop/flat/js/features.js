@@ -109,8 +109,12 @@ let handleFormError = function (form, data) {
 };
 
 let feature_form_error = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Unknown error.";
+    }
     toastr.error(
-        html,
+        _html,
         null,
         {
             timeOut: 3700,
@@ -122,8 +126,12 @@ let feature_form_error = function (html) {
 
 
 let feature_form_warning = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Unknown warning.";
+    }
     toastr.warning(
-        html,
+        _html,
         null,
         {
             timeOut: 3700,
@@ -134,8 +142,12 @@ let feature_form_warning = function (html) {
 };
 
 let feature_form_success = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Success.";
+    }
     toastr.success(
-        html,
+        _html,
         null,
         {
             timeOut: 3700,

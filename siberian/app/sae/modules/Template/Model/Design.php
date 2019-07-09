@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Request;
+
 /**
  * Class Template_Model_Design
  */
@@ -194,14 +196,13 @@ class Template_Model_Design extends Core_Model_Default
         if (!empty($fontFamily)) {
             $replace = str_replace("+", " ", $fontFamily);
 
-            $fontImport = \Siberian_Request::get("https://fonts.googleapis.com/css", [
-                "family" => $fontFamily,
+            $fontImport = Request::get("https://fonts.googleapis.com/css?family={$fontFamily}", [
                 "subset" => "latin,greek,cyrillic",
             ], null, null, [
                 "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36"
             ]);
 
-            if (\Siberian_Request::$statusCode == 200) {
+            if (Request::$statusCode == 200) {
                 $variables['$font-family'] = "'$replace', sans-serif";
             } else {
                 $fontImport = "/** Unable to fetch Google Font {$fontFamily} */";

@@ -385,6 +385,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
+                        'is_visible' => (boolean) $optionValue->getIsVisible(),
                         'url' => $uris["featureUrl"],
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
@@ -462,7 +463,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
                 'subtitle' => $application->getAccountSubtitle(),
-                'is_active' => (boolean)$option->isActive(),
+                'is_active' => (boolean) $option->isActive(),
+                'is_visible' => (boolean) $application->usesUserAccount(),
                 'url' => $this->getUrl('customer/mobile_account_login'),
                 'path' => $this->getPath('customer/mobile_account_login'),
                 'login_url' => $this->getUrl('customer/mobile_account_login'),
@@ -470,8 +472,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'edit_url' => $this->getUrl('customer/mobile_account_edit'),
                 'edit_path' => $this->getPath('customer/mobile_account_edit'),
                 'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
-                'icon_is_colorable' => (boolean)$accountColorizable,
-                'is_visible' => (boolean)$application->usesUserAccount()
+                'icon_is_colorable' => (boolean)$accountColorizable
             ];
 
             $layout = new Application_Model_Layout_Homepage();

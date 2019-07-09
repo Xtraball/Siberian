@@ -167,6 +167,47 @@ class Application_Customization_Publication_InfosController extends Application_
         $this->_sendJson($payload);
     }
 
+    public function saveAndroidAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+            $application = $this->getApplication();
+
+            if (!$application->getId()) {
+                throw new \Siberian\Exception(__("This application does not exists."));
+            }
+
+            $form = new Application_Form_Android();
+            if ($form->isValid($request->getParams())) {
+                $application = $this->getApplication();
+
+                $application
+                    ->setDisableBatteryOptimization($params["disable_battery_optimization"])
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function saveAdmobAction()
     {
         try {

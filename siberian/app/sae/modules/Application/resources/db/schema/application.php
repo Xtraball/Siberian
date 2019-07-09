@@ -529,6 +529,10 @@ $schemas['application'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => '1'
     ],
+    'disable_battery_optimization' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'enable_custom_smtp' => [
         'type' => 'tinyint(1)',
         'default' => '0',

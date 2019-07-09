@@ -2,7 +2,7 @@
     App, ionic, angular
  */
 
-angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $window, $state, LinkService, Customer) {
+angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer) {
     return {
         restrict: 'A',
         scope: {},
@@ -29,6 +29,14 @@ angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $
                             } else if (!offline && $rootScope.isOffline) {
                                 $rootScope.onlineOnly();
                             } else {
+                                if (params.hasOwnProperty("value_id")) {
+                                    var feature = Pages.getValueId(params.value_id);
+                                    if (feature && !feature.is_active) {
+                                        Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                        return;
+                                    }
+                                }
+
                                 $state.go(state, params);
                             }
                         });

@@ -209,7 +209,6 @@ class Application_Model_Option extends Core_Model_Default
     {
         if (!$this->_object) {
             if ($class = $this->getModel()) {
-
                 try {
                     if (!class_exists($class)) {
                         throw new Siberian_Exception("The current class doesn't exists {$class}");
