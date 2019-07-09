@@ -53,7 +53,7 @@ angular
                     $scope.collection = $scope.collection.concat(payload.collection);
                     FanwallPost.collection = FanwallPost.collection.concat(payload.collection);
 
-                    $scope.pageTitle = payload.pageTitle;
+                    $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
 
                     $scope.hasMore = $scope.collection.length < payload.total;
 
