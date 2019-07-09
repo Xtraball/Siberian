@@ -410,10 +410,8 @@ angular.module('starter').provider('HomepageLayout', function () {
                             features.overview.paged_options.push(paged_options);
                         }
                     } else {
-                        // Truncate to (limit - 1)
-                        for (var j = 0; j < (limit - 1); i++) {
-                            features.overview.options.push(features.options[j]);
-                        }
+                        // Truncate to limit (exclude, cf: Array.prototype.slice())
+                        features.overview.options = features.options.slice(0, limit);
                         features.overview.hasMore = true;
                     }
                 } else if (HomepageLayout.data.layout.use_horizontal_scroll) {
@@ -422,19 +420,21 @@ angular.module('starter').provider('HomepageLayout', function () {
                     features.overview.options = features.options;
                 }
 
-                // MORE ...!
-                var more_button = {
+                // More goes inside tabbarItems, we need it to be visible & active
+                var moreButton = {
                     name: features.data.more_items.name,
                     icon_url: features.data.more_items.icon_url,
                     icon_is_colorable: features.data.more_items.icon_is_colorable,
                     code: features.data.more_items.code,
+                    is_active: true,
+                    is_visible: true,
                     url: "tabbar_more"
                 };
 
                 // Inject custom layout feature hooks!
                 var layout_code = HomepageLayout.data.layout_code;
                 if ($injector.has(layout_code)) {
-                    features = $injector.get(layout_code).features(features, more_button);
+                    features = $injector.get(layout_code).features(features, moreButton);
 
                     // Hook orientationchange/viewenter home!
                     HomepageLayout.registerHook(function () {
@@ -445,7 +445,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                         $injector.get(layout_code).onResize();
                     });
                 } else if (features.overview.hasMore) {
-                    features.overview.options.push(more_button);
+                    features.overview.options.push(moreButton);
                 }
 
                 // Slidebox update for resize/orientation!
