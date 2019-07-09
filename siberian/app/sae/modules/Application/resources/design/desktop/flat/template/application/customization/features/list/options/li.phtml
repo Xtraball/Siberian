@@ -36,18 +36,19 @@ $isPadlocked = (boolean)(new Padlock_Model_Value())->find($option->getValueId(),
             <div class="feature-locked">
                 <i class="icofont icofont-ban"></i>
             </div>
-        <?php elseif (!$option->getIsVisible()): ?>
-            <div class="feature-visible">
+        <?php else: ?>
+            <div class="feature-visible"
+                 rel="<?php echo $option->getId(); ?>"
+                 style="<?php echo $option->getIsVisible() ? "display: none;" : "display: block;" ?>">
                 <i class="icofont icofont-eye-blocked"></i>
             </div>
         <?php endif; ?>
 
-        <?php if ($isPadlocked): ?>
-            <div class="feature-padlock"
-            >
-                <i class="icofont icofont-lock"></i>
-            </div>
-        <?php endif; ?>
+        <div class="feature-padlock"
+             rel="<?php echo $option->getId(); ?>"
+             style="<?php echo $isPadlocked ? "display: block;" : "display: none;" ?>">
+            <i class="icofont icofont-lock"></i>
+        </div>
     </a>
 
     <?php if ($this->getIsSortable()): ?>

@@ -355,8 +355,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
         page.setCallback('bind_icons_events', function () {
             $('.feature_is_activated').change(function () {
-                let is_checked = $('#chk_activate').is(':checked') ? 1 : 0;
-                $("#is_active").val(is_checked);
+                let isChecked = $('#chk_activate').is(':checked') ? 1 : 0;
+                $("#is_active").val(isChecked);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
@@ -365,11 +365,18 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             });
 
             $('.feature_is_visible').change(function () {
-                let is_checked = $('#chk_visible').is(':checked') ? 1 : 0;
-                $("#is_visible").val(is_checked);
+                let isChecked = $('#chk_visible').is(':checked') ? 1 : 0;
+                $("#is_visible").val(isChecked);
+                let parent = $(this.parentNode);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
+                        let valueId = parent.find("[name='value_id']").val();
+                        if (isChecked) {
+                            $(".feature-visible[rel='" + valueId + "']").hide();
+                        } else {
+                            $(".feature-visible[rel='" + valueId + "']").show();
+                        }
                     }
                 });
             });

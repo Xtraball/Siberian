@@ -106,30 +106,36 @@ function _canLock ($feature) {
                                     </div>
                                 </div>
 
-                                <div id="select_features_to_lock"<?php if ($application->requireToBeLoggedIn()) : ?> style="display:none"<?php endif; ?>>
-                                    <div><p><?php echo __('Choose the features to lock:'); ?></p></div>
-                                    <ul class="clear tree">
-                                        <?php foreach ($features as $feature) : ?>
+                                <div id="select_features_to_lock"
+                                     <?php if ($application->requireToBeLoggedIn()) : ?>style="display:none"<?php endif; ?>>
+                                    <div><p><?php echo __("Choose the features to lock:"); ?></p></div>
+                                    <div class="row"
+                                         style="margin: 5px;">
+                                        <?php foreach ($features as $feature): ?>
                                             <?php if (!_canLock($feature)) continue; ?>
-                                            <li class="level_1">
+                                            <div class="col-md-6 col-xs-12">
                                                 <label for="select_option_value_<?php echo $feature->getId(); ?>"
                                                        id="label_select_option_value_<?php echo $feature->getId(); ?>"
                                                        class="label_select_option_value checkbox left no-padding">
-                                                    <input type="checkbox" class="select_option_value color-blue"
-                                                           value="<?php echo $feature->getId(); ?>" name="value_ids[]"
+                                                    <input type="checkbox"
+                                                           class="select_option_value color-blue shift-checkbox"
+                                                           value="<?php echo $feature->getId(); ?>"
+                                                           name="value_ids[]"
                                                            id="select_option_value_<?php echo $feature->getId(); ?>"<?php if ($feature->isLocked()) : ?> checked="checked"<?php endif; ?>>
                                                     <?php echo $feature->getTabbarName() ?>
+                                                    -
+                                                    <?php echo $feature->getId() ?>
                                                     <?php if (!$feature->getIsVisible()): ?>
-                                                        <i class="feature-hidden"><?php echo p__("padlock", "(hidden)") ?></i>
+                                                        <i class="feature-hidden"><?php echo p__("padlock", "(hidden from menu)") ?></i>
                                                     <?php endif; ?>
 
                                                     <?php if (!$feature->getIsActive()): ?>
-                                                        <i class="feature-disabled"><?php echo p__("padlock", "(disabled)") ?></i>
+                                                        <i class="feature-disabled"><?php echo p__("padlock", "(not published)") ?></i>
                                                     <?php endif; ?>
                                                 </label>
-                                            </li>
+                                            </div>
                                         <?php endforeach ?>
-                                    </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +159,10 @@ function _canLock ($feature) {
 
         .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
             position: relative;
+        }
+
+        .shift-checkbox {
+            transform: translateY(3px);
         }
     </style>
     <script type="text/javascript">
@@ -198,9 +208,13 @@ function _canLock ($feature) {
                 }
             });
 
-            $('#padlockForm').submit(function () {
+            $("#padlockForm").submit(function () {
                 reload(this, this.action, true, function (datas) {
-
+                    let valueIds = datas.valueIds;
+                    $(".feature-padlock").hide();
+                    valueIds.forEach(function (valueId) {
+                        $(".feature-padlock[rel='" + valueId + "']").show();
+                    });
                 });
                 return false;
             });

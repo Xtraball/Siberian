@@ -1167,11 +1167,11 @@ div.loader {
 }
 
 .sb-tgl-flat:checked + .sb-tgl-btn {
-    background-color: #555 !important;
+    background-color: #4a4a4a !important;
 }
 
 .sb-tgl-flat + .sb-tgl-btn {
-    background-color: #ccc !important;
+    background-color: #ababab !important;
 }
 
 .sb-tgl-flat + .sb-tgl-btn:after {
@@ -1183,7 +1183,7 @@ div.loader {
     height: 20px;
     top: 2px;
     left: 2px;
-    background-color: #555;
+    background-color: #ce0000;
     font-size: 15px;
     font-family: 'ionicons' !important;
 }
@@ -1191,7 +1191,7 @@ div.loader {
 .sb-tgl-flat:checked + .sb-tgl-btn:after {
     content: "\f122";
     left: calc(100% - 22px);
-    background: #0099C7;
+    background: #4da000;
 }
 
 /*flip pour test */
