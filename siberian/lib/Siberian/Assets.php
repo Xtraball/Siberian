@@ -2,6 +2,9 @@
 
 namespace Siberian;
 
+use MatthiasMullie\Minify\JS as MinifyJS;
+use MatthiasMullie\Minify\CSS as MinifyCSS;
+
 /**
  * Class \Siberian\Assets
  *
@@ -460,7 +463,8 @@ class Assets
     }
 
     /**
-     * @throws Exception
+     * @throws \ErrorException
+     * @throws \Exception
      * @throws \Zend_Exception
      */
     public static function buildFeatures()
@@ -530,6 +534,9 @@ class Assets
 
             self::copyAssets($built_file, null, $feature_js_path);
 
+            // Clean-up
+            unlink($built_file);
+
             if (!is_array(self::$features_assets["js"][$code])) {
                 self::$features_assets["js"][$code] = [];
             }
@@ -580,17 +587,15 @@ class Assets
 
     /**
      * @param $feature
-     * @param null $bundle_path
+     * @param null $bundlePath
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
-    public static function compileFeature($feature, $bundle_path = null)
+    public static function compileFeature($feature, $bundlePath = null)
     {
-
         $code = $feature["code"];
-        $feature_dir = "features/" . $code;
-        $minifier_js = new \MatthiasMullie\Minify\JS();
-        $minifier_css = new \MatthiasMullie\Minify\CSS();
+        $minifyJs = new MinifyJS();
+        $minifyCss = new MinifyCSS();
 
         $out_dir = path("var/tmp/out");
         if (!is_dir($out_dir)) {
@@ -605,24 +610,24 @@ class Assets
                 if (is_file($inFile) && in_array($ext, ['scss'])) {
                     // SCSS Case
                     $css = self::compileScss($inFile);
-                    $minifier_css->add($css);
+                    $minifyCss->add($css);
                 } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
                     if ($ext === "js") {
-                        $minifier_js->add($inFile);
+                        $minifyJs->add($inFile);
                     } elseif ($ext === 'css') {
-                        $minifier_css->add($inFile);
+                        $minifyCss->add($inFile);
                     }
                 }
             }
         }
 
         // minify assets
-        $bundle_css = $minifier_css->minify();
-        $minifier_js->add("\nFeatures.insertCSS(" . json_encode($bundle_css) . ", \"" . $code . "\");");
+        $bundleCss = $minifyCss->minify();
+        $minifyJs->add("\nFeatures.insertCSS(" . json_encode($bundleCss) . ", \"" . $code . "\");");
 
-        if ($bundle_path != null) {
-            $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
-            $minifier_js->minify($tmp_file);
+        if ($bundlePath !== null) {
+            $tmpFile = "{$out_dir}/feature.{$code}.bundle.min.js";
+            $minifyJs->minify($tmpFile);
 
             /** Replace
              * App.info,
@@ -643,14 +648,14 @@ class Assets
              * with angular.module("starter") for $ocLazyLoad */
             __replace([
                 "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1'
-            ], $tmp_file, true);
+            ], $tmpFile, true);
 
-            self::copyAssets($tmp_file, null, $bundle_path);
+            self::copyAssets($tmpFile, null, $bundlePath);
 
-            $output = " Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']); ";
+            $output = "Features.register(" . $feature["__JSON__"] . ", ['{$bundlePath}']);";
 
         } else {
-            $output = $minifier_js->minify() . "\n;Features.register(" . $feature["__JSON__"] . "); ";
+            $output = $minifyJs->minify() . "\nFeatures.register(" . $feature["__JSON__"] . ");";
         }
 
         return $output;
@@ -697,7 +702,7 @@ class Assets
     }
 
     /**
-     * Compile all tepmlates in the $templateCache for angular
+     * Compile all templates in the $templateCache for angular
      *
      * @param $source
      */
@@ -730,35 +735,23 @@ class Assets
             if (!file_exists($source . '/features/')) {
                 mkdir($source . '/features/', 0775, true);
             }
-
-            $phulp
-                ->src([$source . '/features/'], '/html$/')
-                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
-                    'templates-features.js', [
-                        'module' => 'templates',
-                        'root' => 'features/'
-                    ]
-                ))
-                ->pipe($phulp->dest($source . '/dist/'));
         });
 
         $phulp->run('angular-template-cache');
 
         # Concat & Clean-up
         $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"
-            . file_get_contents($source . "/dist/templates-modules.js") . "\n"
-            . file_get_contents($source . "/dist/templates-features.js");;
+            . file_get_contents($source . "/dist/templates-modules.js");
 
         file_put_contents($source . "/dist/templates.js", $content);
 
         unlink($source . "/dist/templates-templates.js");
         unlink($source . "/dist/templates-modules.js");
-        unlink($source . "/dist/templates-features.js");
-
     }
 
     /**
-     * Re-build index.html with assets
+     * @throws \ErrorException
+     * @throws \Zend_Exception
      */
     public static function buildIndex()
     {
@@ -909,11 +902,10 @@ class Assets
     }
 
     /**
-     * Append assets to every registered index.html
-     *
      * @param $index_content
      * @param $asset_path
      * @param $type
+     * @param null $feature
      * @return mixed
      */
     public static function __appendAsset($index_content, $asset_path, $type, $feature = null)
@@ -1003,12 +995,14 @@ class Assets
         $asset_path = __ss($asset_path);
         $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
         switch ($type) {
-            case 'js':
+            case "js":
                 $replace = "\n\t\t<script src=\"{$asset_path}\"{$feature_data}></script>\n\t";
                 break;
-            case 'css':
+            case "css":
                 $replace = "\n\t\t<link href=\"{$asset_path}\" rel=\"stylesheet\"{$feature_data}>\n\t";
                 break;
+            default:
+                $replace = "";
         }
 
         return $replace;

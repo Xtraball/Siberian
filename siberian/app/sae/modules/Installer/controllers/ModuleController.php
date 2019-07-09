@@ -17,14 +17,14 @@ class Installer_ModuleController extends Backoffice_Controller_Default
             $module = $this->getRequest()->getParam("mod");
             $feature = $this->getRequest()->getParam("feat");
 
-            $module_obj = new Installer_Model_Installer_Module();
-            $module_obj->prepare($module);
-            $feature_json = $module_obj->getFeature($feature);
+            $moduleObject = new Installer_Model_Installer_Module();
+            $moduleObject->prepare($module);
+            $featureJson = $moduleObject->getFeature($feature);
 
-            if ($feature_json) {
+            if ($featureJson) {
                 http_response_code(200);
                 header("Content-Type: text/javascript");
-                die(Siberian_Assets::compileFeature($feature_json));
+                die(Siberian_Assets::compileFeature($featureJson));
             }
             http_response_code(404);
             die("Not found");

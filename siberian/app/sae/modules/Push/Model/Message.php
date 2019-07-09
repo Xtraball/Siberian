@@ -93,6 +93,28 @@ class Push_Model_Message extends Core_Model_Default
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/push/mobile_list/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+        $featurePath = __path("/push/mobile_list/index", [
+            "value_id" => $this->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param $option_value
      * @return array|string[]
      * @throws Zend_Exception
@@ -601,6 +623,7 @@ class Push_Model_Message extends Core_Model_Default
 
     /**
      * @return bool
+     * @throws Zend_Exception
      */
     public static function hasIndividualPush()
     {

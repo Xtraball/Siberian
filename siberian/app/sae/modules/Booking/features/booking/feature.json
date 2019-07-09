@@ -1,0 +1,30 @@
+{
+    "name": "Booking",
+    "code": "booking",
+    "version": "4.17.0",
+    "category": "contact",
+    "model": "Booking_Model_Booking",
+    "desktop_uri": "booking/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "booking-view",
+            "controller": "BookingController",
+            "url": "booking/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/booking1-flat.png",
+        "icons/booking2-flat.png",
+        "icons/booking3-flat.png"
+    ],
+    "files": [
+        "js/controllers/booking.js",
+        "js/factory/booking.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

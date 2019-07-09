@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.16.7
+ * @version 4.17.0
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -51,9 +51,6 @@ set_include_path(implode(PATH_SEPARATOR, [
     realpath(APPLICATION_PATH . "/../lib"),
 ]));
 
-/**
- *
- */
 function dbg()
 {
     $args = func_get_args();

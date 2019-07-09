@@ -26,8 +26,8 @@ angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $
                             // Special in-app link for my account!
                             if (state === "my-account") {
                                 Customer.loginModal();
-                            } else if (!offline && $rootScope.isOffline) {
-                                $rootScope.onlineOnly();
+                            } else if ($rootScope.isNotAvailableOffline()) {
+                                // done!
                             } else {
                                 if (params.hasOwnProperty("value_id")) {
                                     var feature = Pages.getValueId(params.value_id);

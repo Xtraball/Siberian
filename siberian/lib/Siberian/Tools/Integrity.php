@@ -15,7 +15,7 @@ class Siberian_Tools_Integrity
      */
     public static function checkIntegrity()
     {
-        $base_path = Core_Model_Directory::getBasePathTo("/");
+        $base_path = path("/");
         $manifest = json_decode(file_get_contents($base_path . self::$manifest), true);
 
         $error_files = [

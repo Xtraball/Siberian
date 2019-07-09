@@ -3,9 +3,11 @@
  * we are using timeouts and promise to send answer as fast as possible.
  *
  * @author Xtraball SAS
- *
+ * @version 4.17.0
  */
-angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
+angular
+.module("starter")
+.service("Location", function ($q) {
     var service = {
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
@@ -42,9 +44,9 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 isResolved = true;
             }
 
-            $cordovaGeolocation
-            .getCurrentPosition(localConfig)
-            .then(function (position) {
+            navigator
+            .geolocation
+            .getCurrentPosition(function (position) {
                 service.lastFetch = Date.now();
                 service.position = position;
                 if (service.debug) {
@@ -64,7 +66,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 if (!isResolved) {
                     deferred.reject();
                 }
-            });
+            }, localConfig);
         };
 
         var localReject = function (deferred) {

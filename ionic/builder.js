@@ -3,7 +3,7 @@
  *
  * @type {Object}
  */
-const VERSION = '0.0.1',
+const VERSION = '0.1.0',
     path = require('path'),
     concat = require('concat'),
     sass = require('node-sass'),
@@ -30,36 +30,11 @@ let debug = true,
         './www/css/ionic.app.min.css',
         './www/css/ng-animation.css',
         './www/css/ion-gallery.css',
-        './www/css/angular-carousel.min.css',
         './www/css/app.css'
     ],
     features = {
         'application': [
             './www/js/controllers/application.js'
-        ],
-        'booking': [
-            './www/js/controllers/booking.js',
-            './www/js/factory/booking.js'
-        ],
-        'catalog': [
-            './www/js/controllers/catalog.js',
-            './www/js/factory/catalog.js',
-            './www/js/controllers/set-meal.js',
-            './www/js/factory/set-meal.js'
-        ],
-        'cms': [
-            './www/js/controllers/cms.js'
-        ],
-        'codescan': [
-            './www/js/controllers/codescan.js'
-        ],
-        'contact': [
-            './www/js/controllers/contact.js',
-            './www/js/factory/contact.js'
-        ],
-        'discount': [
-            './www/js/controllers/discount.js',
-            './www/js/factory/discount.js'
         ],
         'event': [
             './www/js/controllers/event.js',
@@ -68,28 +43,12 @@ let debug = true,
         'facebook': [
             './www/js/controllers/facebook.js'
         ],
-        'folder': [
-            './www/js/controllers/folder.js',
-            './www/js/factory/folder.js'
-        ],
-        'form': [
-            './www/js/controllers/form.js',
-            './www/js/factory/form.js'
-        ],
         'homepage': [
             './www/js/controllers/homepage.js'
         ],
         'image': [
             './www/js/controllers/image.js',
             './www/js/factory/image.js'
-        ],
-        'links': [
-            './www/js/controllers/links.js',
-            './www/js/factory/links.js'
-        ],
-        'loyalty_card': [
-            './www/js/controllers/loyalty-card.js',
-            './www/js/factory/loyalty-card.js'
         ],
         'maps': [
             './www/js/controllers/maps.js',
@@ -106,9 +65,6 @@ let debug = true,
         ],
         'padlock': [
             './www/js/controllers/padlock.js'
-        ],
-        'privacy_policy': [
-            './www/js/controllers/privacy-policy.js'
         ],
         'm_commerce': [
             './www/js/controllers/mcommerce/cart.js',
@@ -132,16 +88,9 @@ let debug = true,
             './www/js/factory/mcommerce/sales/store.js',
             './www/js/factory/mcommerce/sales/stripe.js'
         ],
-        'push': [
-            './www/js/controllers/push.js'
-        ],
         'radio': [
             './www/js/controllers/radio.js',
             './www/js/factory/radio.js'
-        ],
-        'rss': [
-            './www/js/controllers/rss.js',
-            './www/js/factory/rss.js'
         ],
         'social_gaming': [
             './www/js/controllers/social-gaming.js',
@@ -151,48 +100,18 @@ let debug = true,
             './www/js/controllers/source-code.js',
             './www/js/factory/source-code.js'
         ],
-        'tip': [
-            './www/js/controllers/tip.js',
-            './www/js/factory/tip.js'
-        ],
-        'topic': [
-            './www/js/controllers/topic.js',
-            './www/js/factory/topic.js'
-        ],
-        'twitter': [
-            './www/js/controllers/twitter.js',
-            './www/js/factory/twitter.js'
-        ],
         'video': [
             './www/js/controllers/video.js',
             './www/js/factory/video.js'
-        ],
-        'weather': [
-            './www/js/controllers/weather.js',
-            './www/js/factory/weather.js',
-            './www/js/factory/weather/rain-effect.js'
-        ],
-        'wordpress': [
-            './www/js/controllers/wordpress.js',
-            './www/js/factory/wordpress.js'
         ],
         'youtube': [
             './www/js/factory/youtube.js'
         ]
     },
     bundles = {
-        directives: {
-            files: ['./www/js/directives/*.js'],
-            dest: './www/dist/directives.bundle.min.js'
-        },
-        features: {
-            files: ['./www/js/features/*.js'],
-            dest: './www/dist/features.bundle.min.js'
-        },
         libraries: {
             files: [
                 './www/js/libraries/angular-queue.js',
-                './www/js/libraries/angular-queue.min.js',
                 './www/js/libraries/angular-touch.min.js',
                 './www/js/libraries/base64.min.js',
                 './www/js/libraries/ion-gallery.min.js',
@@ -206,44 +125,32 @@ let debug = true,
             ],
             dest: './www/dist/libraries.bundle.min.js'
         },
-        providers: {
-            files: ['./www/js/providers/*.js'],
-            dest: './www/dist/providers.bundle.min.js'
-        },
-        services: {
-            files: ['./www/js/services/*.js'],
-            dest: './www/dist/services.bundle.min.js'
-        },
-        utils: {
+        core: {
             files: [
                 './www/js/utils/features.js',
-                './www/js/utils/form-post.js'
-            ],
-            dest: './www/dist/utils.bundle.min.js'
-        },
-        onloadchunks: {
-            files: [
+                './www/js/utils/form-post.js',
+                './www/js/factory/fallback-ng-cordova.js', // To be removed in 4.18 for ever.
+                './www/js/services/*.js',
+                './www/js/directives/*.js',
+                './www/js/providers/*.js',
+                './www/js/features/*.js',
                 './www/js/factory/facebook.js',
                 './www/js/factory/padlock.js',
                 './www/js/factory/pages.js',
                 './www/js/factory/tc.js',
                 './www/js/factory/cms.js',
-                './www/js/factory/push.js',
-                './www/js/controllers/push.js',
                 './www/js/factory/search.js',
                 './www/js/controllers/customer.js',
                 './www/js/factory/customer.js',
                 './www/js/filters/filters.js'
             ],
-            dest: './www/dist/onloadchunks.bundle.min.js'
+            dest: './www/dist/core.bundle.min.js'
         },
         libs: {
             files: [
-                './www/lib/polyfills.js',
                 './www/lib/utils.js',
                 './www/lib/ionic/js/ionic.bundle.min.js',
                 './www/lib/ionic/js/angular/angular-route.js',
-                './www/lib/ngCordova/dist/ng-cordova.js'
             ],
             dest: './www/dist/app.libs.min.js'
         },
@@ -252,21 +159,48 @@ let debug = true,
             dest: './www/dist/app.min.js'
         }
     },
+    bundlesCordova = {
+        cdvAndroid: {
+            files: [
+                './platforms/android/app/src/main/assets/www/cordova.js',
+                './platforms/android/app/src/main/assets/www/cordova_plugins.js',
+                './platforms/android/app/src/main/assets/www/plugins/**/*.js'
+            ],
+            dest: './platforms/android/app/src/main/assets/www/dist/cordova.js'
+        },
+        cdvBrowser: {
+            files: [
+                './platforms/browser/www/cordova.js',
+                './platforms/browser/www/cordova_plugins.js',
+                './platforms/browser/www/plugins/**/*.js'
+            ],
+            dest: './platforms/browser/www/dist/cordova.js'
+        },
+        cdvIos: {
+            files: [
+                './platforms/ios/www/cordova.js',
+                './platforms/ios/www/cordova_plugins.js',
+                './platforms/ios/www/plugins/**/*.js'
+            ],
+            dest: './platforms/ios/www/dist/cordova.js'
+        }
+    },
     help = `
 Available options:
     --prod
     --bundlecss
     --bundlejs
+    --bundlecordova
     --packfeatures
     --sass
     --watch
     --version
 `;
 
-// Siberian 4.12+ task manager!
+// Siberian 4.17+ task manager!
 let tasks = {
     /**
-     * Log function with debug toggler
+     * Log function with debug
      */
     log: function () {
         if (!debug) {
@@ -309,6 +243,7 @@ let tasks = {
                 'prod': Boolean,
                 'bundlecss': Boolean,
                 'bundlejs': Boolean,
+                'bundlecordova': Boolean,
                 'packfeatures': Boolean,
                 'sass': Boolean,
                 'version': Boolean,
@@ -318,6 +253,7 @@ let tasks = {
                 'p': '--prod',
                 'bcss': '--bundlecss',
                 'bjs': '--bundlejs',
+                'bc': '--bundlecordova',
                 'pf': '--packfeatures',
                 's': '--sass',
                 'v': '--version',
@@ -346,6 +282,9 @@ let tasks = {
                 break;
             case args.watch:
                     tasks.watch();
+                break;
+            case args.bundlecordova:
+                    tasks.bundleCordovaJs();
                 break;
             default:
                     tasks.log(help);
@@ -590,6 +529,66 @@ let tasks = {
             }).catch(function () {
                 tasks.log(redColor('bundleJs error'));
             });
+
+        return promise;
+    },
+    bundleCordovaJs: function (segment) {
+        tasks.log(blueColor('bundleCordovaJs start'));
+
+        let promise = new Deferred(),
+            promises = [];
+
+        let uglify = function (filename, result, instancePromise) {
+            let output = UglifyJS.minify(result, {
+                mangle: false
+            });
+            fs.writeFile(filename, output.code, function (wfError) {
+                if (wfError) {
+                    tasks.log(redColor('wfError'), wfError);
+                    instancePromise.reject();
+                } else {
+                    instancePromise.resolve();
+                }
+            });
+        };
+
+        let internalBuilder = function (files, dest) {
+            let instancePromise = new Deferred();
+            promises.push(instancePromise);
+            let globFiles = globArray.sync(files);
+            concat(globFiles)
+            .then(function (result) {
+                uglify(dest, result, instancePromise);
+            })
+            .catch(function (error) {
+                tasks.log(redColor('something went wrong'), error);
+                instancePromise.reject();
+            });
+        };
+
+        if (segment !== undefined && bundlesCordova.hasOwnProperty(segment)) {
+            tasks.log(blueColor('bundling segment: ' + segment));
+            internalBuilder(bundlesCordova[segment].files, bundlesCordova[segment].dest);
+        } else {
+            Object.keys(bundlesCordova)
+            .forEach(function (segment) {
+                internalBuilder(bundlesCordova[segment].files, bundlesCordova[segment].dest);
+            });
+        }
+
+        Promise.all(promises)
+        .then(function () {
+            promise.resolve();
+        }).catch(function () {
+            promise.reject();
+        });
+
+        promise
+        .then(function () {
+            tasks.log(greenColor('bundleCordovaJs success'));
+        }).catch(function () {
+            tasks.log(redColor('bundleCordovaJs error'));
+        });
 
         return promise;
     }

@@ -1,0 +1,53 @@
+{
+    "name": "Catalog",
+    "code": "catalog",
+    "version": "4.17.0",
+    "category": "monetization",
+    "model": "Catalog_Model_Category",
+    "desktop_uri": "catalog/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "catalog-category-list",
+            "controller": "CategoryListController",
+            "url": "catalog/mobile_category_list/index/value_id/:value_id",
+            "template": "list.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l2",
+                "3": "l3"
+            },
+            "cache": false
+        },
+        {
+            "state": "catalog-product-view",
+            "controller": "CategoryProductViewController",
+            "url": "catalog/mobile_category_product_view/index/value_id/:value_id/product_id/:product_id",
+            "template": "product.html",
+            "layouts": {
+                "1": "l1",
+                "2": "l1",
+                "3": "l1"
+            },
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1,
+        2,
+        3
+    ],
+    "icons": [
+        "icons/catalog1-flat.png",
+        "icons/catalog2-flat.png",
+        "icons/catalog3-flat.png"
+    ],
+    "files": [
+        "js/controllers/category-list.js",
+        "js/controllers/category-product-view.js",
+        "js/factory/catalog.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

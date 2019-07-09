@@ -1,0 +1,39 @@
+{
+    "name": "Custom Page",
+    "code": "custom_page",
+    "version": "4.17.0",
+    "lazyLoad": ["places"],
+    "category": "customization",
+    "model": "Cms_Model_Application_Page",
+    "desktop_uri": "cms/application_page/",
+    "routes": [
+        {
+            "root": true,
+            "state": "cms-view",
+            "controller": "CmsViewController",
+            "url": "cms/mobile_page_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        },
+        {
+            "state": "cms-view-map",
+            "controller": "CmsViewMapController",
+            "url": "cms/mobile_page_view_map/index/value_id/:value_id/page_id/:page_id/block_id/:block_id",
+            "template": "l1/maps.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/custom1-flat.png",
+        "icons/custom2-flat.png",
+        "icons/custom3-flat.png"
+    ],
+    "files": [
+        "js/controllers/cms-view.js",
+        "js/controllers/cms-view-map.js",
+        "js/factory/cms.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

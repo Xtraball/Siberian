@@ -1,11 +1,14 @@
-/*global
-    App, angular, DOMAIN, CURRENT_LANGUAGE, APP_KEY
+/**
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-angular.module("starter").service("Url", function($location) {
+angular
+.module("starter")
+.service("Url", function () {
 
-    this.__sanitize = function(str) {
+    this.__sanitize = function (str) {
 
-        if(str.startsWith("/")) {
+        if (str.startsWith("/")) {
             str = str.substr(1, str.length - 1);
         }
 
@@ -16,9 +19,9 @@ angular.module("starter").service("Url", function($location) {
 
     return {
 
-        get: function(uri, params) {
+        get: function (uri, params) {
 
-            if(!angular.isDefined(params)) {
+            if (!angular.isDefined(params)) {
                 params = {};
             }
 
@@ -32,18 +35,18 @@ angular.module("starter").service("Url", function($location) {
 
             var url = DOMAIN.split("/");
 
-            if(add_language) {
+            if (add_language) {
                 url.push(CURRENT_LANGUAGE);
             }
 
-            if(APP_KEY && !remove_key) {
+            if (APP_KEY && !remove_key) {
                 url.push(APP_KEY);
             }
 
             url.push(uri);
 
-            for(var i in params) {
-                if(angular.isDefined(params[i])) {
+            for (var i in params) {
+                if (angular.isDefined(params[i])) {
                     url.push(i);
                     url.push(params[i]);
                 }
@@ -53,19 +56,17 @@ angular.module("starter").service("Url", function($location) {
 
             return url;
         },
-
-        build: function(uri, params) {
-
-            if(!angular.isDefined(params)) {
+        build: function (uri, params) {
+            if (!angular.isDefined(params)) {
                 params = {};
             }
 
             var url = _that.__sanitize(uri);
             var p = [];
 
-            for(var i in params) {
-                if(angular.isDefined(params[i])) {
-                    p.push(i+"="+params[i]);
+            for (var i in params) {
+                if (angular.isDefined(params[i])) {
+                    p.push(i + "=" + params[i]);
                 }
             }
 
@@ -73,17 +74,16 @@ angular.module("starter").service("Url", function($location) {
 
             return url;
         }
-
     };
 });
 
-if(typeof String.prototype.startsWith !== "function") {
+if (typeof String.prototype.startsWith !== "function") {
     String.prototype.startsWith = function (str) {
         return this.substring(0, str.length) === str;
     };
 }
 
-if(typeof String.prototype.endsWith !== "function") {
+if (typeof String.prototype.endsWith !== "function") {
     String.prototype.endsWith = function (str) {
         return this.substring(this.length - str.length, this.length) === str;
     };

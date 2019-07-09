@@ -1,0 +1,30 @@
+{
+    "name": "In-App Messages",
+    "code": "inapp_messages",
+    "version": "4.17.0",
+    "category": "contact",
+    "model": "Push_Model_Message",
+    "desktop_uri": "push/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "in-app-message-list",
+            "controller": "InAppMessageController",
+            "url": "in_app_message/mobile_list/index/value_id/:value_id",
+            "template": "l1/list.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/inapp1-flat.png",
+        "icons/inapp2-flat.png",
+        "icons/inapp3-flat.png"
+    ],
+    "files": [
+        "js/controllers/in-app-message-controller.js",
+        "js/factory/in-app-message.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

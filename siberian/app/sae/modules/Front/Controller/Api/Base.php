@@ -315,11 +315,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function _featureBlock($application, $currentLanguage, $request)
     {
-        $appVersion = $request->getBodyParams()["version"];
+        $bodyParams = $request->getBodyParams();
+        $appVersion = $bodyParams["version"];
+        $isPwa = $bodyParams["isPwa"];
         $appId = $application->getId();
         $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
         $blockStart = microtime(true);
+
         if (!$result = $this->cache->load($cacheId)) {
             /**
              * @var $optionValues Application_Model_Option_Value[]
@@ -564,6 +567,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 }
             }
             $dataHomepage["pages"] = $fixedPages;
+        }
+
+        if (version_compare($appVersion, "4.17.0", ">=")) {
+            // Apply patches.
+
+            foreach ($dataHomepage["pages"] as &$page) {
+                $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
+                $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
+                dbg($page);
+            }
         }
 
         // Don't cache customer information!

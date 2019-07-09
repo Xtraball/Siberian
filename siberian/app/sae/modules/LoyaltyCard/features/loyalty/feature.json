@@ -1,0 +1,30 @@
+{
+    "name": "Loyalty Card",
+    "code": "loyalty",
+    "version": "4.17.0",
+    "category": "monetization",
+    "model": "LoyaltyCard_Model_LoyaltyCard",
+    "desktop_uri": "loyaltycard/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "loyaltycard-view",
+            "controller": "LoyaltyViewController",
+            "url": "loyaltycard/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/loyalty1-flat.png",
+        "icons/loyalty2-flat.png",
+        "icons/loyalty3-flat.png"
+    ],
+    "files": [
+        "js/controllers/loyalty-card.js",
+        "js/factory/loyalty-card.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

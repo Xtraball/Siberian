@@ -191,7 +191,6 @@ angular
             element.attr("data-value-id", scope.option.value_id);
             element.on("click", function () {
                 $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
-
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);
                 });

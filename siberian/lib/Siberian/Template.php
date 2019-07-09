@@ -2,6 +2,8 @@
 
 namespace Siberian;
 
+use Template_Model_Category;
+
 /**
  * Class Template
  * @package Siberian
@@ -64,7 +66,7 @@ class Template
                 'code' => preg_replace('/[&\s]+/', "_", strtolower($categoryName))
             ];
 
-            $categoryModel = (new \Template_Model_Category())
+            $categoryModel = (new Template_Model_Category())
                 ->find($categoryData['code'], 'code');
 
             if ($categoryModel->getId()) {
@@ -86,7 +88,8 @@ class Template
      * @param $name
      * @param $code
      * @param $layoutCode
-     * @return \Template_Model_Design
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public static function design ($moduleName, $name, $code, $layoutCode)
     {
@@ -98,7 +101,7 @@ class Template
         $frontController = \Zend_Controller_Front::getInstance();
         $moduleDirectory = $frontController->getModuleDirectory($moduleName);
         // Replace base
-        $base = \Core_Model_Directory::getBasePathTo('/');
+        $base = path('/');
         $moduleBase = str_replace($base, '/', $moduleDirectory);
 
         // Values for the Template, icon, homepage, startup, etc ...
@@ -137,6 +140,8 @@ class Template
     /**
      * @param $colors
      * @param $design
+     * @throws \Zend_Exception
+     * @throws \Zend_Validate_Exception
      */
     public static function ionicColors($colors, $design)
     {
@@ -176,6 +181,7 @@ class Template
     /**
      * @param $categories
      * @param $code
+     * @throws \Zend_Exception
      */
     public static function linkTemplateAndCategories ($categories, $code)
     {

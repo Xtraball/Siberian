@@ -75,6 +75,32 @@ class Folder2_Model_Folder extends Core_Model_Default {
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/folder2/mobile_list/index", [
+            "value_id" => $optionValue->getValueId(),
+            "category_id" => "",
+            "layout_id" => $optionValue->getLayoutId(),
+        ]);
+        $featurePath = __path("/folder2/mobile_list/index", [
+            "value_id" => $optionValue->getValueId(),
+            "category_id" => "",
+            "layout_id" => $optionValue->getLayoutId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param Application_Model_Option_Value $optionValue
      * @return array
      */

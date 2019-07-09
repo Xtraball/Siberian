@@ -1,0 +1,31 @@
+{
+    "name": "Weather",
+    "code": "weather",
+    "version": "4.17.0",
+    "category": "misc",
+    "model": "Weather_Model_Weather",
+    "desktop_uri": "weather/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "weather-view",
+            "controller": "WeatherController",
+            "url": "weather/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/weather1-flat.png",
+        "icons/weather2-flat.png",
+        "icons/weather3-flat.png"
+    ],
+    "files": [
+        "js/controllers/weather.js",
+        "js/factory/weather.js",
+        "js/factory/rain-effect.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

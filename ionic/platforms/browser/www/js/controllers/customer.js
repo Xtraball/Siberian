@@ -9,7 +9,7 @@
  *
  * @author Xtraball SAS
  */
-angular.module("starter").controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
+angular.module("starter").controller("CustomerController", function(Picture, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, Modal, FacebookConnect,
                                               HomepageLayout) {
@@ -145,23 +145,13 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         });
     };
 
+    $scope.takePicture = function () {
+        var cropImage = function (dataSrc) {
+            $scope.cropModal = {
+                original: dataSrc,
+                result: null
+            };
 
-    /**
-     *
-     * @todo move me to Picture service, add the cool crop modal option
-     *
-     * @param field
-     */
-    $scope.takePicture = function (field) {
-        var gotImage = function (image_url) {
-            // TODO: move all picture taking and cropping modal
-            // into a dedicated service for consistence against modules
-            $scope.cropModal = {original: image_url, result: null};
-
-            // DO NOT REMOVE popupShowing !!!
-            // img-crop directive doesn't work if it has been loaded off screen
-            // We show the popup, then switch popupShowing to true, to add
-            // img-crop in the view.
             $scope.popupShowing = false;
             $ionicPopup.show({
                 template: '<div style="position: absolute" class="cropper">' +
@@ -193,67 +183,11 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
             $scope.popupShowing = true;
         };
 
-        var gotError = function (err) {
-            // An error occured. Show a message to the user
-        };
-
-        if (Application.is_webview) {
-            var input = angular.element("<input type='file' accept='image/*'>");
-            var selectedFile = function (evt) {
-                var file=evt.currentTarget.files[0];
-                var reader = new FileReader();
-                reader.onload = function (onloadEvt) {
-                    gotImage(onloadEvt.target.result);
-                    input.off('change', selectedFile);
-                };
-                reader.onerror = gotError;
-                reader.readAsDataURL(file);
-            };
-            input.on('change', selectedFile);
-            input[0].click();
-        } else {
-            var source_type = Camera.PictureSourceType.CAMERA;
-
-            // Show the action sheet
-            var hideSheet = $ionicActionSheet.show({
-                buttons: [
-                    { text: $translate.instant('Take a picture') },
-                    { text: $translate.instant('Import from Library') }
-                ],
-                cancelText: $translate.instant('Cancel'),
-                cancel: function () {
-                    hideSheet();
-                },
-                buttonClicked: function (index) {
-                    if (index == 0) {
-                        source_type = Camera.PictureSourceType.CAMERA;
-                    }
-                    if (index == 1) {
-                        source_type = Camera.PictureSourceType.PHOTOLIBRARY;
-                    }
-
-                    var options = {
-                        quality: 90,
-                        destinationType: Camera.DestinationType.DATA_URL,
-                        sourceType: source_type,
-                        encodingType: Camera.EncodingType.JPEG,
-                        targetWidth: 256,
-                        targetHeight: 256,
-                        correctOrientation: true,
-                        popoverOptions: CameraPopoverOptions,
-                        saveToPhotoAlbum: false
-                    };
-
-                    $cordovaCamera
-                        .getPicture(options)
-                        .then(function (imageData) {
-                            gotImage('data:image/jpeg;base64,' + imageData);
-                        }, gotError);
-
-                    return true;
-                }
-            });
-        }
+        Picture
+        .takePicture(256, 256, 90)
+        .then(function (response) {
+            cropImage(response.image);
+        });
     };
 
     $scope.loadContent = function () {

@@ -137,6 +137,28 @@ class Contact_Model_Contact extends Core_Model_Default
     }
 
     /**
+     * GET Feature url for app init
+     *
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue)
+    {
+        $featureUrl = __url("/contact/mobile_view/index", [
+            "value_id" => $optionValue->getValueId(),
+        ]);
+        $featurePath = __path("/contact/mobile_view/index", [
+            "value_id" => $optionValue->getValueId(),
+        ]);
+
+
+        return [
+            "featureUrl" => $featureUrl,
+            "featurePath" => $featurePath,
+        ];
+    }
+
+    /**
      * @param $option_value
      * @return array
      */

@@ -1,0 +1,31 @@
+{
+    "name": "Push Notifications",
+    "code": "push_notification",
+    "version": "4.17.0",
+    "category": "contact",
+    "model": "Push_Model_Message",
+    "desktop_uri": "push/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "push-list",
+            "controller": "PushController",
+            "url": "push/mobile_list/index/value_id/:value_id",
+            "template": "l1/list.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/push1-flat.png",
+        "icons/push2-flat.png",
+        "icons/push3-flat.png"
+    ],
+    "files": [
+        "js/controllers/push-controller.js",
+        "js/factory/push.js",
+        "js/service/push-service.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

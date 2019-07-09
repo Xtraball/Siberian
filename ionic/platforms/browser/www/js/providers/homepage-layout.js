@@ -1,7 +1,10 @@
 /**
- * @version 4.15.7
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.0
  */
-angular.module('starter').provider('HomepageLayout', function () {
+angular
+    .module("starter")
+    .provider("HomepageLayout", function () {
     var self = this;
 
     self.layout_ids = {};
@@ -81,8 +84,8 @@ angular.module('starter').provider('HomepageLayout', function () {
 
             // Clear history for side-menu feature!
             switch (Pages.data.layout.position) {
-                case 'left':
-                case 'right':
+                case "left":
+                case "right":
                     if ($ionicSideMenuDelegate.isOpenLeft()) {
                         $ionicSideMenuDelegate.toggleLeft();
                     }
@@ -91,7 +94,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                     }
 
                     // Skip clear history for specific features:
-                    var isPadlock = (feature.code === 'padlock');
+                    var isPadlock = (feature.code === "padlock");
                     var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
                     var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
 
@@ -107,7 +110,7 @@ angular.module('starter').provider('HomepageLayout', function () {
             }
 
             switch (true) {
-                case (feature.code === 'tabbar_account'):
+                case (feature.code === "tabbar_account"):
                     Analytics.storePageOpening({
                         id: 0
                     });
@@ -116,7 +119,7 @@ angular.module('starter').provider('HomepageLayout', function () {
 
                     break;
 
-                case (feature.code === 'tabbar_more'):
+                case (feature.code === "tabbar_more"):
                     HomepageLayout.getFeatures().then(function (features) {
                         scope.tabbar_is_visible = false;
                         scope.pages_list_is_visible = true;
@@ -158,8 +161,8 @@ angular.module('starter').provider('HomepageLayout', function () {
 
                 case (feature.is_link):
                     LinkService.openLink(feature.url, {
-                        'hide_navbar': !!feature.hide_navbar,
-                        'use_external_app': !!feature.use_external_app
+                        "hide_navbar": !!feature.hide_navbar,
+                        "use_external_app": !!feature.use_external_app
                     });
                     Analytics.storePageOpening(feature);
 
@@ -168,7 +171,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                 default:
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get('Application').is_customizing_colors &&
+                    if (!$injector.get("Application").is_customizing_colors &&
                         HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
                             if (doClearHistory) {
@@ -177,6 +180,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                                     disableAnimate: false
                                 });
                             }
+
                             $location.path(feature.path).replace();
                         }
                     } else {

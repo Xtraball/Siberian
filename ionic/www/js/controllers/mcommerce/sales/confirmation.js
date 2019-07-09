@@ -64,7 +64,7 @@ angular.module('starter')
             if (!isNativeApp) {
                 $window.location = $scope.onlinePaymentUrl;
             } else {
-                var browser = $window.open($scope.onlinePaymentUrl, $rootScope.getTargetForLink(), 'location=yes');
+                var browser = $window.open($scope.onlinePaymentUrl, '_system', 'location=yes');
                 var nextState = 'mcommerce-sales-error';
                 var stepNext = function () {
                     browser.close();

@@ -1,11 +1,8 @@
-/*global
- angular
- */
-
 /**
  * Country
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
 angular.module("starter").service("Country", function($pwaRequest, $q) {
 

@@ -1,0 +1,29 @@
+{
+    "name": "Privacy Policy",
+    "code": "privacy_policy",
+    "version": "4.17.0",
+    "category": "misc",
+    "model": "Privacypolicy_Model_Privacypolicy",
+    "desktop_uri": "privacy_policy/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "privacy-policy",
+            "controller": "PrivacyPolicyController",
+            "url": "privacy_policy/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/privacy-policy1-flat.png",
+        "icons/privacy-policy2-flat.png",
+        "icons/privacy-policy3-flat.png"
+    ],
+    "files": [
+        "js/controllers/privacy-policy-controller.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

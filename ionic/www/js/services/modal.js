@@ -1,13 +1,12 @@
-/*global
-    App, IS_NATIVE_APP, angular
- */
-
 /**
  * Modal
  *
  * @author Xtraball SAS
+ * @version 4.17.0
  */
-angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $timeout, $q) {
+angular
+.module("starter")
+.service("Modal", function ($rootScope, $ionicModal, $timeout, $q) {
     var service = {
         is_open: false,
         stack: [],

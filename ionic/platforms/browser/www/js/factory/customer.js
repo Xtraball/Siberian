@@ -2,7 +2,7 @@
  * Customer
  *
  * @author Xtraball SAS
- * @version 4.16.10
+ * @version 4.17.0
  */
 angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope, $session, $timeout,
                                                         $injector, Application, Loader, Modal, Dialog, Url, SB) {

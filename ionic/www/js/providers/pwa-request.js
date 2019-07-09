@@ -84,9 +84,6 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                 }, function(response) {
-
-                    //$log.debug("response error", response);
-
                     var data = {
                         error: true,
                         message: $translate.instant("The request returned a 400 HTTP Code, with no message.")
@@ -113,9 +110,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                         options.deferred_promise.reject(data);
                     }
 
-                }).catch(function(errrrrr) {
-                    $log.error("Caught error: " + errrrrr);
-                });
+                }).catch(function(errrrrr) {});
 
             };
 

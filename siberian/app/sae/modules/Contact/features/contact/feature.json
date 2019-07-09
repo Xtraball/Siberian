@@ -1,0 +1,44 @@
+{
+    "name": "Contact",
+    "code": "contact",
+    "version": "4.17.0",
+    "category": "contact",
+    "model": "Contact_Model_Contact",
+    "desktop_uri": "contact/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "contact-view",
+            "controller": "ContactViewController",
+            "url": "contact/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        },
+        {
+            "state": "contact-form",
+            "controller": "ContactFormController",
+            "url": "contact/mobile_form/index/value_id/:value_id",
+            "template": "l1/form.html",
+            "cache": false
+        },
+        {
+            "state": "contact-map",
+            "controller": "ContactMapController",
+            "url": "contact/mobile_map/index/value_id/:value_id",
+            "template": "l1/map.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/contact1-flat.png",
+        "icons/contact2-flat.png",
+        "icons/contact3-flat.png"
+    ],
+    "files": [
+        "js/controllers/contact.js",
+        "js/factory/contact.js"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}
