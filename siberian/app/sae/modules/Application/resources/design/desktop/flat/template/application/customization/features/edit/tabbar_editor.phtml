@@ -119,7 +119,9 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
                     <?php if ($option->getCode() !== "tabbar_account"): ?>
                         <div class="tabbar-check check-activated">
-                            <label><?php echo p__("application", "Published"); ?></label>
+                            <label data-toggle="tooltip"
+                                   class="display_tooltip"
+                                   title="<?php echo p__js("application", "When not published, this feature is not accessible in menu & in-app links.", '"') ?>"><?php echo p__("application", "Published"); ?></label>
                             <br />
                             <div id="toggle_feature_is_activated">
                                 <div style="width:54px;padding-top:4px">
