@@ -115,46 +115,99 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             <?php endif; ?>
 
             <?php if (is_numeric($option->getId())) : ?>
-                <div class="col-md-2 col-sm-2 col-xs-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 text-center">
-                    <label><?php echo __("Activated"); ?></label>
-                    <div id="toggle_feature_is_activated">
-                        <div style="width:100%;padding-top:4px">
-                            <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox" id="chk_activate"
-                                   type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked"' : '' ?>>
-                            <label class="sb-tgl-btn color-blue" for="chk_activate"></label>
-                            <input type="hidden" id="is_active" name="is_active"
-                                   value="<?php echo $option->getIsActive() ?>">
-                            <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 col-sm-2 col-xs-2 text-center pull-right">
-                    <?php if ($option->getSocialSharingIsAvailable() == 1) : ?>
-                        <label class="text-resize"><?php echo __("Social Sharing"); ?></label>
-                        <div id="toggle_social_sharing_is_activated">
-                            <div style="width:100%;padding-top:4px">
-                                <input class='sb-tgl sb-tgl-flat social_sharing_is_activated color-blue checkbox'
-                                       id='chk_activate_social_sharing'
-                                       type='checkbox' <?php if ($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?>>
-                                <label class='sb-tgl-btn color-blue' for='chk_activate_social_sharing'></label>
-                                <input type="hidden" id="is_social_sharing_active" name="is_social_sharing_active"
-                                       value=""/>
-                                <input type="hidden" name="value_id" value="<?php echo $option->getId(); ?>"/>
+                <div class="col-md-6">
+
+                    <?php if ($option->getCode() !== "tabbar_account"): ?>
+                        <div class="tabbar-check check-activated">
+                            <label data-toggle="tooltip"
+                                   class="display_tooltip"
+                                   title="<?php echo p__js("application", "When not published, this feature is not accessible in menu & in-app links.", '"') ?>"><?php echo p__("application", "Published"); ?></label>
+                            <br />
+                            <div id="toggle_feature_is_activated">
+                                <div style="width:54px;padding-top:4px">
+                                    <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox"
+                                           id="chk_activate"
+                                           type="checkbox" <?php echo ($option->getIsActive()) ? 'checked="checked"' : '' ?> />
+                                    <label class="sb-tgl-btn color-blue"
+                                           for="chk_activate"></label>
+                                    <input type="hidden"
+                                           id="is_active"
+                                           name="is_active"
+                                           value="<?php echo $option->getIsActive() ?>" />
+                                    <input type="hidden"
+                                           name="value_id"
+                                           value="<?php echo $option->getId(); ?>" />
+                                </div>
                             </div>
                         </div>
                     <?php endif; ?>
+
+                    <?php if (empty($option->getFolderId())): ?>
+                        <div class="tabbar-check check-visible">
+                            <label data-toggle="tooltip"
+                                   class="display_tooltip"
+                                   title="<?php echo p__js("application", "When disabled, this feature will only be accessible via in-app links.", '"') ?>"><?php echo p__("application", "Available from menu"); ?></label>
+                            <br />
+                            <div id="toggle_feature_is_visible">
+                                <div style="width:54px;padding-top:4px">
+                                    <input class="sb-tgl sb-tgl-flat feature_is_visible color-blue checkbox"
+                                           id="chk_visible"
+                                           type="checkbox" <?php echo ($option->getIsVisible()) ? 'checked="checked"' : '' ?> />
+                                    <label class="sb-tgl-btn color-blue"
+                                           for="chk_visible"></label>
+                                    <input type="hidden"
+                                           id="is_visible"
+                                           name="is_visible"
+                                           value="<?php echo $option->getIsVisible() ?>" />
+                                    <input type="hidden"
+                                           name="value_id"
+                                           value="<?php echo $option->getId(); ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="tabbar-check check-socialsharing">
+                        <?php if ($option->getSocialSharingIsAvailable() == 1) : ?>
+                            <label><?php echo p__("application", "Social sharing"); ?></label>
+                            <br />
+                            <div id="toggle_social_sharing_is_activated">
+                                <div style="width:54px;padding-top:4px">
+                                    <input class="sb-tgl sb-tgl-flat social_sharing_is_activated color-blue checkbox"
+                                           id="chk_activate_social_sharing"
+                                           type="checkbox"
+                                           <?php if ($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?> />
+                                    <label class="sb-tgl-btn color-blue"
+                                           for="chk_activate_social_sharing"></label>
+                                    <input type="hidden"
+                                           id="is_social_sharing_active"
+                                           name="is_social_sharing_active"
+                                           value="" />
+                                    <input type="hidden"
+                                           name="value_id"
+                                           value="<?php echo $option->getId(); ?>" />
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>
     </div>
 
     <!-- Icons modal -->
-    <div id="icon_library_manager" class="custom_modal icon_library_manager" style="display:none;">
-        <div id="modal_mask_icon_library_manager" class="modal_mask close_modal close_modal_icon_library_manager"></div>
+    <div id="icon_library_manager"
+         class="custom_modal icon_library_manager"
+         style="display:none;">
+        <div id="modal_mask_icon_library_manager"
+             class="modal_mask close_modal close_modal_icon_library_manager"></div>
         <div>
-            <div id="icon_library" class="modal_content inner_content">
-                <span class="pull-right" style="margin-right: 8px;">
-                    <button class="bt_close_modal_icons close_modal_icon_library_manager" type="button">
+            <div id="icon_library"
+                 class="modal_content inner_content">
+                <span class="pull-right"
+                      style="margin-right: 8px;">
+                    <button class="bt_close_modal_icons close_modal_icon_library_manager"
+                            type="button">
                         <i class="fa fa-times"></i>
                     </button>
                 </span>
@@ -167,18 +220,16 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                             <div class="col-md-12">
                                 <h3 class="subtitle">
                                     <span>
-                                        <?php echo __('Feature icons') ?>
-                                        <!--[if gte IE 10]><!-->
+                                        <?php echo __("Feature icons") ?>
                                         <div id="new_icon">
                                             <a href="javascript:void(0)" class="upload_icon icon"
                                                rel="<?php echo $option->getId(); ?>">
                                                 <button class="btn color-blue" type="button">
-                                                    <?php echo __('Add a new icon') ?>
+                                                    <?php echo __("Add a new icon") ?>
                                                 </button>
                                             </a>
-                                            <!--<![endif]-->
                                             <span id="input_upload_custom_icon_message"
-                                                  style="display:none"><?php echo __('Add a new icon') ?></span>
+                                                  style="display:none"><?php echo __("Add a new icon") ?></span>
                                             <input id="input_upload_custom_icon" class="uploader" style="display:none"
                                                    type="file" name="files[]"
                                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
@@ -230,7 +281,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 class="subtitle">
-                                    <span><?php echo __('Library icons') ?></span>
+                                    <span><?php echo __("Library icons") ?></span>
                                 </h3>
                                 <div class="form-group filter-icons">
                                     <input type="text"
@@ -302,12 +353,12 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
     </div>
     <script type="text/javascript">
 
-        var custom_icon_uploader = new Uploader();
+        let custom_icon_uploader = new Uploader();
 
         page.setCallback('bind_icons_events', function () {
             $('.feature_is_activated').change(function () {
-                var is_checked = $('#chk_activate').is(':checked') ? 1 : 0;
-                $("#is_active").val(is_checked);
+                let isChecked = $('#chk_activate').is(':checked') ? 1 : 0;
+                $("#is_active").val(isChecked);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
@@ -315,8 +366,25 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 });
             });
 
+            $('.feature_is_visible').change(function () {
+                let isChecked = $('#chk_visible').is(':checked') ? 1 : 0;
+                $("#is_visible").val(isChecked);
+                let parent = $(this.parentNode);
+                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
+                    if (datas.success) {
+                        iframe.f.reloadTabbar();
+                        let valueId = parent.find("[name='value_id']").val();
+                        if (isChecked) {
+                            $(".feature-visible[rel='" + valueId + "']").hide();
+                        } else {
+                            $(".feature-visible[rel='" + valueId + "']").show();
+                        }
+                    }
+                });
+            });
+
             $('.social_sharing_is_activated').change(function () {
-                var is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
+                let is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
                 $("#is_social_sharing_active").val(is_checked);
                 reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
                     if (datas.success) {
@@ -325,7 +393,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 });
             });
 
-            var icon_library = {
+            let icon_library = {
                 tolerance: 180,
                 mask: null,
                 processEvents: function () {
@@ -371,8 +439,10 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                     $(document).unbind('keyup');
                 },
                 resize: function (all) {
-                    var selector = ".details";
-                    if (!all) selector += ":visible";
+                    let selector = ".details";
+                    if (!all) {
+                        selector += ":visible";
+                    }
                     $('#icon_library').css('height', $(window).outerHeight() - 75);
                     $('#icon_library_manager').find(selector).css('height', $(window).outerHeight() - this.tolerance);
                 }
@@ -477,25 +547,29 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             $('#tabbar_name').keyup(function (e) {
                 if (e.keyCode == 13) {
                     this.blur();
-                }
-                else {
-                    var val = $(this).val().trim();
-                    var subval = val;
+                } else {
+                    let val = $(this).val().trim();
+                    let subval = val;
                     if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                     $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
-                    iframe.content.find('.tabbar_name_<?php echo $option->getId(); ?>').html(subval);
-                    iframe.content.find('#page_title_<?php echo $option->getId(); ?>').html(val);
-                    if (iframe.f.page.getSubpage('<?php echo $option->getId(); ?>')) {
-                        iframe.f.page.getSubpage('<?php echo $option->getId(); ?>').calcTitleWidth();
+
+                    try {
+                        // Live update menu in overview
+                        let valueId = $("#tabbar_name_id").val();
+                        let navItem = iframe.f.document.querySelector("[tabbar-items][data-value-id='" + valueId + "'] p");
+                        if (navItem) {
+                            navItem.textContent = val;
+                        }
+                    } catch (e) {
+                        // Nope, not available
                     }
-                    //folder
-                    iframe.content.find('#tabbar_item_<?php echo $option->getId(); ?>').find('.text.title').html(val);
+
                     $('#title_editor').html(val);
                 }
             }).change(function () {
-                var val = $(this).val();
-                var tabbar_name_loader = $('#loader_' + $(this).attr('id'));
-                var subval = val;
+                let val = $(this).val();
+                let tabbar_name_loader = $('#loader_' + $(this).attr('id'));
+                let subval = val;
                 if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
                 tabbar_name_loader.show();
@@ -590,6 +664,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
         });
 
         //$(".partial-offline").tooltip({});
+
+        $('.display_tooltip').tooltip();
 
     </script>
     <style>
@@ -712,6 +788,17 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
         #icon_library .delete_icon {
             z-index: 1000;
+        }
+
+        .tabbar-check {
+            float: right;
+            text-align: center;
+            margin-left: 15px;
+            display: inline-block;
+        }
+
+        .tabbar-check > div {
+            display: inline-block;
         }
     </style>
 </div>

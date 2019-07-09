@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.17.0
+ * @version 4.16.10
  */
 
 window.momentjs_loaded = false;
@@ -151,9 +151,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             };
         });
 
+
         $logProvider.debugEnabled(DEBUG);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
+        $ionicConfigProvider.views.swipeBackEnabled(false);
         $ionicConfigProvider.backButton.text('');
         $ionicConfigProvider.backButton.previousTitleText(false);
     })
@@ -161,7 +163,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
                    Analytics, Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
-                   Pages, Push, PushService, SB, SafePopups) {
+                   Pages, Push, PushService, SB) {
 
         // $rootScope object!
         angular.extend($rootScope, {
@@ -253,7 +255,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.17.0'
+                            version: "4.17.1"
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -285,29 +287,37 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             Customer.loginWithFacebook(fbtoken);
                         }
 
-                        var HomepageLayout = $injector.get('HomepageLayout');
+                        var HomepageLayout = $injector.get("HomepageLayout");
 
-                        //// Web apps manifest!
-                        //if (!$rootScope.isOverview && !$rootScope.isNativeApp) {
-                        //    var head = angular.element(document.querySelector('head'));
-//
-                        //    if (manifest.iconUrl) {
-                        //        head.append('<link rel="apple-touch-icon" href="' + manifest.iconUrl + '" />');
-                        //        head.append('<link rel="icon" sizes="192x192" href="' + manifest.iconUrl + '" />');
-                        //    }
-//
-                        //    if (manifest.manifestUrl) {
-                        //        head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifestUrl + '">');
-                        //    }
-//
-                        //    if (manifest.startupImageUrl) {
-                        //        head.append('<link rel="apple-touch-startup-image" href="' + manifest.startupImageUrl + '" />');
-                        //    }
-//
-                        //    if (manifest.themeColor) {
-                        //        head.append('<meta name="theme-color" content="' + manifest.themeColor + '" />');
-                        //    }
-                        //}
+                        // Append custom CSS/SCSS to the page!
+                        if (data.cssBlock && data.cssBlock.css) {
+                            var css = document.createElement("style");
+                            css.type = "text/css";
+                            css.innerHTML = data.cssBlock.css;
+                            document.body.appendChild(css);
+                        }
+
+                        // Web apps manifest!
+                        if (!$rootScope.isOverview && !$rootScope.isNativeApp) {
+                            var head = angular.element(document.querySelector('head'));
+
+                            if (manifest.iconUrl) {
+                                head.append('<link rel="apple-touch-icon" href="' + manifest.iconUrl + '" />');
+                                head.append('<link rel="icon" sizes="192x192" href="' + manifest.iconUrl + '" />');
+                            }
+
+                            if (manifest.manifestUrl) {
+                                head.append('<link rel="manifest" href="' + DOMAIN + manifest.manifestUrl + '">');
+                            }
+
+                            if (manifest.startupImageUrl) {
+                                head.append('<link rel="apple-touch-startup-image" href="' + manifest.startupImageUrl + '" />');
+                            }
+
+                            if (manifest.themeColor) {
+                                head.append('<meta name="theme-color" content="' + manifest.themeColor + '" />');
+                            }
+                        }
 
                         // App keyboard & StatusBar!
                         if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -423,7 +433,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 disableBack: true
                             });
 
-                            $state.go('locked');
+                            $state.go("locked");
                         }
 
                         if (window.StatusBar !== undefined) {
@@ -444,26 +454,24 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
 
-                        // @todo Defer this call
-                        /**if ($rootScope.isNativeApp) {
-                            if (!$window.localStorage.getItem('first_running')) {
-                                $window.localStorage.setItem('first_running', 'true');
+                        if ($rootScope.isNativeApp) {
+                            if (!$window.localStorage.getItem("first_running")) {
+                                $window.localStorage.setItem("first_running", "true");
                                 Analytics.storeInstallation();
                             }
 
                             if (Application.offline_content) {
                                 Application.showCacheDownloadModalOrUpdate();
                             }
-                        }*/
+                        }
 
-                        // @todo Defer this call
                         // not the best place.
-                        //Analytics.storeOpening()
-                        //    .then(function (result) {
-                        //        if (result && result.id) {
-                        //            Analytics.data.storeClosingId = result.id;
-                        //        }
-                        //    });
+                        Analytics.storeOpening()
+                            .then(function (result) {
+                                if (result && result.id) {
+                                    Analytics.data.storeClosingId = result.id;
+                                }
+                            });
 
                         $rootScope.app_is_locked = Application.is_locked &&
                             !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
@@ -479,12 +487,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             FacebookConnect.app_id = load.application.facebook.id;
                         }
 
-                        // @todo Defer this call
-                        //try {
-                        //    AdmobService.init(load.application.admob);
-                        //} catch (error) {
-                        //    $log.error('Unable to initialize AdMob.', error);
-                        //}
+                        try {
+                            AdmobService.init(load.application.admob);
+                        } catch (error) {
+                            $log.error('Unable to initialize AdMob.', error);
+                        }
 
                         if (Customer.isLoggedIn()) {
                             $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
@@ -498,7 +505,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             return !$rootScope.isNativeApp ? '_system' : '_blank';
                         };
 
-                        $ionicNavBarDelegate.align("center");
+                        $ionicNavBarDelegate.align('center');
                         $timeout(function () {
                             $ionicNavBarDelegate.showBar(false);
                         });
@@ -563,7 +570,15 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
 
                             switch (action) {
-                                case 'state-go':
+                                case "state-go":
+                                    if (params.hasOwnProperty("value_id")) {
+                                        var feature = Pages.getValueId(params.value_id);
+                                        if (feature && !feature.is_active) {
+                                            Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                            return;
+                                        }
+                                    }
+
                                     var state = params.state;
                                     delete params.state;
                                     delete params.offline;
@@ -572,6 +587,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                     }
                                     $state.go(state, params);
                                     break;
+                                default:
+                                    // Nope!
                             }
                         }, false);
 
@@ -652,90 +669,98 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // OVERVIEW!
                         $rootScope.isOverview = isOverview;
-                        //if ($rootScope.isOverview) {
-                        //    $window.overview = {
-                        //        features: {}
-                        //    };
-//
-                        //    $window.isHomepage = function () {
-                        //        return ($location.path() === BASE_PATH);
-                        //    };
-//
-                        //    $window.clearCache = function (url) {
-                        //        $templateCache.remove(BASE_PATH + '/' + url);
-                        //    };
-//
-                        //    $window.reload = function (path) {
-                        //        if (!path || (path === $location.path())) {
-                        //            $ionicHistory.clearCache();
-                        //            $state.reload();
-                        //        }
-                        //    };
-//
-                        //    $window.reloadTabbar = function () {
-                        //        HomepageLayout.unsetData();
-                        //    };
-//
-                        //    $window.setPath = function (path, replace) {
-                        //        if ($window.isSamePath(path)) {
-                        //            $window.reload();
-                        //        } else if (path.length) {
-                        //            $timeout(function () {
-                        //                $location.path(path);
-                        //                if (replace) {
-                        //                    $location.replace();
-                        //                }
-                        //            });
-                        //        }
-                        //    };
-//
-                        //    $window.getPath = function () {
-                        //        return $location.path();
-                        //    };
-//
-                        //    $window.isSamePath = function (path) {
-                        //        return ($location.path() === path);
-                        //    };
-//
-                        //    $window.showHomepage = function () {
-                        //        if (HomepageLayout.properties.menu.visibility === 'homepage') {
-                        //            $window.setPath(BASE_PATH);
-                        //        } else {
-                        //            HomepageLayout.getFeatures().then(function (features) {
-                        //                $ionicHistory.nextViewOptions({
-                        //                    historyRoot: true,
-                        //                    disableAnimate: false
-                        //                });
-                        //                var featIndex = 0;
-                        //                for (var fi = 0; fi < features.options.length; fi = fi + 1) {
-                        //                    var feat = features.options[fi];
-                        //                    // Don't load unwanted features on first page.!
-                        //                    if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
-                        //                        featIndex = fi;
-                        //                        break;
-                        //                    }
-                        //                }
-//
-                        //                if (features.options[fi]) {
-                        //                    $window.setPath(features.options[fi].path, true);
-                        //                }
-                        //            });
-                        //        }
-                        //    };
-//
-                        //    $window.back = function () {
-                        //        // If go back is home!
-                        //        $ionicHistory.goBack();
-                        //    };
-//
-                        //    $window.setLayoutId = function (valueId, layoutId) {
-                        //        HomepageLayout.setLayoutId(valueId, layoutId);
-                        //    };
-//
-                        //    if (parent && (typeof parent.postMessage === 'function') && (parent !== window)) {
-                        //        parent.postMessage('overview.loaded', DOMAIN);
-                        //    }
-                        //}
+                        if ($rootScope.isOverview) {
+                            $window.overview = {
+                                features: {}
+                            };
+
+                            $window.isHomepage = function () {
+                                return ($location.path() === BASE_PATH);
+                            };
+
+                            $window.clearCache = function (url) {
+                                $templateCache.remove(BASE_PATH + '/' + url);
+                            };
+
+                            $window.reload = function (path) {
+                                if (!path || (path === $location.path())) {
+                                    $ionicHistory.clearCache();
+                                    $state.reload();
+                                }
+                            };
+
+                            $window.reloadTabbar = function () {
+                                HomepageLayout.unsetData();
+                            };
+
+                            $window.setPath = function (path, replace) {
+                                if ($window.isSamePath(path)) {
+                                    $window.reload();
+                                } else if (path.length) {
+                                    $timeout(function () {
+                                        $location.path(path);
+                                        if (replace) {
+                                            $location.replace();
+                                        }
+                                    });
+                                }
+                            };
+
+                            $window.getPath = function () {
+                                return $location.path();
+                            };
+
+                            $window.isSamePath = function (path) {
+                                return ($location.path() === path);
+                            };
+
+                            $window.showHomepage = function () {
+
+                                if (HomepageLayout.properties.menu.visibility === 'homepage') {
+                                    $window.setPath(BASE_PATH);
+                                } else {
+                                    HomepageLayout.getFeatures().then(function (features) {
+                                        $ionicHistory.nextViewOptions({
+                                            historyRoot: true,
+                                            disableAnimate: false
+                                        });
+                                        var featIndex = 0;
+
+                                        // We show only `visible options`
+                                        var visibleOptions = features.options.filter(function (option) {
+                                            return option.is_visible;
+                                        });
+
+                                        for (var fi = 0; fi < visibleOptions.length; fi = fi + 1) {
+                                            var feat = visibleOptions[fi];
+
+                                            // Don't load unwanted features on first page.!
+                                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) >= 0) {
+                                                featIndex = fi;
+                                                break;
+                                            }
+                                        }
+
+                                        if (visibleOptions[fi]) {
+                                            $window.setPath(visibleOptions[fi].path, true);
+                                        }
+                                    });
+                                }
+                            };
+
+                            $window.back = function () {
+                                // If go back is home!
+                                $ionicHistory.goBack();
+                            };
+
+                            $window.setLayoutId = function (valueId, layoutId) {
+                                HomepageLayout.setLayoutId(valueId, layoutId);
+                            };
+
+                            if (parent && (typeof parent.postMessage === 'function') && (parent !== window)) {
+                                parent.postMessage('overview.loaded', DOMAIN);
+                            }
+                        }
 
                         /**
                          * Fallback methods, proxy
@@ -750,15 +775,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                          */
 
                         Application.loaded = true;
-
-
-                        // Should be better here!
-                        if (data.cssBlock && data.cssBlock.css) {
-                            var css = document.createElement('style');
-                            css.type = 'text/css';
-                            css.innerHTML = data.cssBlock.css;
-                            document.body.appendChild(css);
-                        }
 
                         networkPromise.promise
                             .then(function (networkPromiseResult) {
@@ -807,8 +823,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
                         });
 
-                        //var ProgressbarService = $injector.get('ProgressbarService');
-                        //ProgressbarService.init(load.application.colors.loader);
+                        var ProgressbarService = $injector.get('ProgressbarService');
+                        ProgressbarService.init(load.application.colors.loader);
 
                         // Check for padlock!
                         var currentState = $ionicHistory.currentStateName();

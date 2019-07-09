@@ -6,10 +6,8 @@ var REDIRECT_URI = false;
 var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;
 var IS_NATIVE_APP = false;
-var isNativeApp = IS_NATIVE_APP;
 var DEVICE_TYPE = 3;
-var IS_PREVIEW = false;
-var isPwa = false;
+var DISABLE_BATTERY_OPTIMIZATION = false;
 
 if (goto) {
     goto = goto[1];

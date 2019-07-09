@@ -3,7 +3,7 @@
  */
 angular
 .module("starter")
-.directive("sbHtml", function ($sce, $filter, $state, $parse, $compile, $timeout, Customer, LinkService) {
+.directive("sbHtml", function ($sce, $filter, $state, $parse, $compile, $timeout, Customer, Pages, Dialog, LinkService) {
     return {
         restrict: 'A',
         compile: function sbHtmlCompile(tElement, tAttrs) {
@@ -27,6 +27,14 @@ angular
                             if (state === "my-account") {
                                 Customer.loginModal();
                             } else {
+                                if (params.hasOwnProperty("value_id")) {
+                                    var feature = Pages.getValueId(params.value_id);
+                                    if (feature && !feature.is_active) {
+                                        Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                        return;
+                                    }
+                                }
+
                                 $state.go(state, params);
                             }
                         });

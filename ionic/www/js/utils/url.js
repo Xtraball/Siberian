@@ -10,6 +10,7 @@ var isNativeApp = IS_NATIVE_APP;
 var DEVICE_TYPE = 3;
 var IS_PREVIEW = false;
 var isPwa = false;
+var DISABLE_BATTERY_OPTIMIZATION = false;
 
 if (goto) {
     goto = goto[1];

@@ -344,6 +344,9 @@ let cli = function (inputArgs) {
             }
             mver(remain[0], mverModuleName);
         } else if (args.npm) {
+            // Set production before npm
+            setProd();
+
             let npmVersion = '';
             if (remain.length >= 1) {
                 npmVersion = remain[0].toLowerCase();

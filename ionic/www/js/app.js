@@ -86,7 +86,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
     .constant('PADLOCK_EVENTS', { unlockFeatures: 'padlock-unlock-features' })
 
     // Start app config
-    .config(function ($provide, $compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $locationProvider, $stateProvider) {
+    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider) {
         // Add sb-token to every request
         $httpProvider.interceptors.push(function ($injector, $log, $q, $session) {
             return {
@@ -120,9 +120,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
             };
         });
 
+
         $logProvider.debugEnabled(DEBUG);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
         $httpProvider.defaults.withCredentials = true;
+        $ionicConfigProvider.views.swipeBackEnabled(false);
         $ionicConfigProvider.backButton.text("");
         $ionicConfigProvider.backButton.previousTitleText(false);
 
@@ -225,7 +227,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
                             isPwa: isPwa,
-                            version: "4.17.0"
+                            version: "4.17.1"
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -368,7 +370,15 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             }
 
                             switch (action) {
-                                case 'state-go':
+                                case "state-go":
+                                    if (params.hasOwnProperty("value_id")) {
+                                        var feature = Pages.getValueId(params.value_id);
+                                        if (feature && !feature.is_active) {
+                                            Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                            return;
+                                        }
+                                    }
+
                                     var state = params.state;
                                     delete params.state;
                                     delete params.offline;
@@ -377,6 +387,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                                     }
                                     $state.go(state, params);
                                     break;
+                                default:
+                                    // Nope!
                             }
                         }, false);
 

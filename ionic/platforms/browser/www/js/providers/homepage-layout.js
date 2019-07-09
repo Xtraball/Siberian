@@ -395,12 +395,17 @@ angular
 
                 var limit = features.overview.limit;
 
+                // We show only `visible options`
+                features.options = features.options.filter(function (option) {
+                    return option.is_visible;
+                });
+
                 if (limit !== null && limit > 0 && features.options.length > limit) {
                     if (HomepageLayout.data.layout.use_horizontal_scroll) {
                         var paged_options = [];
                         for (var i = 0; i < features.options.length; i++) {
                             paged_options.push(features.options[i]);
-                            if (((i + 1) % limit) == 0) {
+                            if (((i + 1) % limit) === 0) {
                                 features.overview.paged_options.push(paged_options);
                                 paged_options = [];
                             }
@@ -409,9 +414,9 @@ angular
                             features.overview.paged_options.push(paged_options);
                         }
                     } else {
-                        // truncate to (limit - 1)
-                        for (var i = 0; i < (limit - 1); i++) {
-                            features.overview.options.push(features.options[i]);
+                        // Truncate to (limit - 1)
+                        for (var j = 0; j < (limit - 1); i++) {
+                            features.overview.options.push(features.options[j]);
                         }
                         features.overview.hasMore = true;
                     }
@@ -427,7 +432,7 @@ angular
                     icon_url: features.data.more_items.icon_url,
                     icon_is_colorable: features.data.more_items.icon_is_colorable,
                     code: features.data.more_items.code,
-                    url: 'tabbar_more'
+                    url: "tabbar_more"
                 };
 
                 // Inject custom layout feature hooks!
@@ -440,7 +445,7 @@ angular
                         $injector.get(layout_code).onResize();
                     });
 
-                    window.addEventListener('orientationchange', function () {
+                    window.addEventListener("orientationchange", function () {
                         $injector.get(layout_code).onResize();
                     });
                 } else if (features.overview.hasMore) {
@@ -451,7 +456,6 @@ angular
                 $timeout(function () {
                     $ionicSlideBoxDelegate.update();
                 }, 200);
-
 
                 features.first_option = false;
                 if (HomepageLayout.properties.options.autoSelectFirst && (features.options.length !== 0)) {

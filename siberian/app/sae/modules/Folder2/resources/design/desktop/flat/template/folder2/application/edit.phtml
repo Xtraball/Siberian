@@ -100,21 +100,32 @@ $outputHtml = generateRecursive('', $rootFolder['category_id'], $nestedFolders);
 <div id="list" class="folder">
 
     <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#folder" aria-controls="folder" role="tab" data-toggle="tab">
+    <ul class="nav nav-tabs"
+        role="tablist">
+        <li role="presentation"
+            class="active">
+            <a href="#folder"
+               aria-controls="folder"
+               role="tab"
+               data-toggle="tab">
                 <i class="fa fa-folder-open-o"></i>
                 <?php echo __('Folder') ?>
             </a>
         </li>
         <li role="presentation">
-            <a href="#design" aria-controls="design" role="tab" data-toggle="tab">
+            <a href="#design"
+               aria-controls="design"
+               role="tab"
+               data-toggle="tab">
                 <i class="fa fa-pencil"></i>
                 <?php echo __('Design') ?>
             </a>
         </li>
         <li role="presentation">
-            <a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">
+            <a href="#settings"
+               aria-controls="settings"
+               role="tab"
+               data-toggle="tab">
                 <i class="fa fa-cogs"></i>
                 <?php echo __('Settings') ?>
             </a>
@@ -123,14 +134,17 @@ $outputHtml = generateRecursive('', $rootFolder['category_id'], $nestedFolders);
 
     <div class="tab-content">
         <!-- START FOLDER TAB -->
-        <div role="tabpanel" class="tab-pane active" id="folder">
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="folder">
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('Manage Folders'); ?>
                 </h3>
                 <div class="container-fluid subcontent content-feature">
                     <div class="content content-white-bkg folder-container">
-                        <div class="col-md-6 col-sm-12" id="folder-tree">
+                        <div class="col-md-6 col-sm-12"
+                             id="folder-tree">
                             <div class="folder-title-add">
                                 <span><?php echo __('Folders') ?></span>
                                 <button class="btn color-blue pull-right create-folder">
@@ -155,15 +169,18 @@ $outputHtml = generateRecursive('', $rootFolder['category_id'], $nestedFolders);
                                 </ul>
                             </ul>
                         </div>
-                        <div class="col-md-6 col-sm-12" id="folder-form">
+                        <div class="col-md-6 col-sm-12"
+                             id="folder-form">
                             <div class="folder-form-container"></div>
                         </div>
-                        <div class="col-md-12">
+                        <div class="col-md-12"
+                             style="float: left;">
                             <div id="add_page_to_folder">
                                 <h4><?php echo __('Add feature') ?></h4>
                                 <hr />
                                 <div id="add_page_list">
-                                    <div class="a-center" id="no_item">
+                                    <div class="a-center"
+                                         id="no_item">
                                         <?php echo __('Click on a feature to add it to the folder %s',
                                             '<span id="curren_folder_name" class="current-folder-name"></span>'); ?>
                                     </div>

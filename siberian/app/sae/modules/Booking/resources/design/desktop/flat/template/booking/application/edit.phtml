@@ -5,8 +5,14 @@ use Siberian\Json;
 $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 $valueId = $optionValue->getId();
-$booking = new Booking_Model_Booking();
-$booking->find($optionValue->getId(), "value_id");
+$booking = (new Booking_Model_Booking())->find($optionValue->getId(), "value_id");
+
+if (!$booking->getId()) {
+    $booking->setValueId($optionValue->getId());
+    $booking->save();
+    $booking->find($booking->getId());
+}
+
 $store = new Booking_Model_Store();
 $stores = $store->findAll(["booking_id" => $booking->getId()]);
 

@@ -6,7 +6,7 @@
  */
 angular
 .module("starter")
-.controller("FanwallMapController", function ($scope, $state, $stateParams, $timeout, $translate,
+.controller("FanwallMapController", function ($scope, $rootScope, $state, $stateParams, $timeout, $translate,
                                               $ionicSideMenuDelegate, Loader, Location, FanwallPost, FanwallUtils) {
 
     angular.extend($scope, {
@@ -52,6 +52,7 @@ angular
             .findAllMap($scope.filters, 0, false)
             .then(function (payload) {
                 $scope.collection = payload.collection;
+                $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
 
                 var markers = [];
                 for (var position in $scope.collection) {
