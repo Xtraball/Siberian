@@ -510,7 +510,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = base64_encode($form["text"]);
+            $text = base64_encode(nl2br($form["text"]));
             $picture = $form["picture"];
             $date = $form["date"];
 
@@ -591,7 +591,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = base64_encode($form["text"]);
+            $text = base64_encode(nl2br($form["text"]));
             $picture = $form["picture"];
             $date = $form["date"];
 
