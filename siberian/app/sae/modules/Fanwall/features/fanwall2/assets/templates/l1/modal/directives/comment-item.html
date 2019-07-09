@@ -13,6 +13,7 @@
         </h2>
         <p class="comment-date">{{ publicationDate(comment) }}</p>
         <p ng-if="comment.text.length > 0"
+           class="comment-text"
            sb-html="comment.text"></p>
         <p class="comment-image"
            ng-if="comment.image.length > 0">

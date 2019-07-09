@@ -1,4 +1,4 @@
-.row-justify-center {
+.menu.menu-right.row-justify-center {
     -webkit-justify-content: center;
     -moz-justify-content: center;
     justify-content: center;
@@ -1978,30 +1978,35 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 .menu-content {
     transform: translate3d(0px, 0px, 0px) !important;
-    transition: filter 200ms ease;
+    transition: filter .2s ease .2s;
 }
 
 .menu-content.menu-open {
-    z-index: -1;
+    z-index: 0;
     filter: brightness(80%);
+    transition: filter .2s ease-in .2s;
 }
 
 .menu.menu-left {
-    transition: transform 200ms ease-in 200ms;
+    z-index: 1 !important;
+    transition: transform .2s ease-in .2s;
     transform: translateX(-100%);
 }
 
 .menu.menu-left.menu-left-open {
+    z-index: 1 !important;
     transform: translateX(0%);
 }
 
 .menu.menu-right {
-    transition: transform 0.2s ease-in 0.2s;
-    transform: translateX(0%);
+    z-index: 1 !important;
+    transition: transform .2s ease-in .2s;
+    transform: translateX(100%);
 }
 
 .menu.menu-right.menu-right-open {
-    transform: translateX(-100%);
+    z-index: 1 !important;
+    transform: translateX(0);
 }
 
 /** Badges for Push notifications */
@@ -2452,3 +2457,47 @@ i.shutdown:before {
 .previewer-load.active {
     display: block !important;
 }
+
+/* animation */
+.slide-in-left-right {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(+100%, 0, 0);
+}
+
+.slide-in-left-right.ng-enter, .slide-in-left-right > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+    transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+}
+
+.slide-in-left-right.ng-enter-active, .slide-in-left-right > .ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.slide-in-left-right.ng-leave, .slide-in-left-right > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
+}
+
+
+.slide-in-right-left {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+}
+
+.slide-in-right-left.ng-enter, .slide-in-right-left > .ng-enter {
+    -webkit-transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+    transition: all cubic-bezier(0.1, 0.7, 0.1, 1) 400ms;
+}
+
+.slide-in-right-left.ng-enter-active, .slide-in-right-left > .ng-enter-active {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.slide-in-right-left.ng-leave, .slide-in-right-left > .ng-leave {
+    -webkit-transition: all ease-in-out 250ms;
+    transition: all ease-in-out 250ms;
+}
+
+/* animation end */

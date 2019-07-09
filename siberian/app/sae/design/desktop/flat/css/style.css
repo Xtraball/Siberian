@@ -1167,28 +1167,31 @@ div.loader {
 }
 
 .sb-tgl-flat:checked + .sb-tgl-btn {
-    background-color: #555 !important;
+    background-color: #4a4a4a !important;
 }
 
 .sb-tgl-flat + .sb-tgl-btn {
-    background-color: #ccc !important;
+    background-color: #ababab !important;
 }
 
 .sb-tgl-flat + .sb-tgl-btn:after {
     -webkit-transition: all .2s ease;
     transition: all .2s ease;
-    content: "";
+    content: "\f12a";
     border-radius: 3px;
     width: 20px;
     height: 20px;
     top: 2px;
     left: 2px;
-    background-color: #555;
+    background-color: #ce0000;
+    font-size: 15px;
+    font-family: 'ionicons' !important;
 }
 
 .sb-tgl-flat:checked + .sb-tgl-btn:after {
+    content: "\f122";
     left: calc(100% - 22px);
-    background: #0099C7;
+    background: #4da000;
 }
 
 /*flip pour test */
@@ -1849,6 +1852,10 @@ a.details.add_page {
     #overview #iphone.phone-fixed {
         top: 60px !important;
     }
+}
+
+.tooltip {
+    letter-spacing: 1px;
 }
 
 #iphone .btn-group-vertical {
@@ -3753,4 +3760,46 @@ h4.subtitle {
 .tippy-content {
     font-size: 13px !important;
     padding: 1px 3px 3px !important;
+}
+
+/** Editor, features locked */
+.feature-padlock {
+    color: #D4AF37;
+    font-size: 22px;
+    position: absolute;
+    right: 12px;
+    top: 38px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
+}
+
+/** Editor, features locked */
+.feature-visible {
+    color: #D4AF37;
+    font-size: 26px;
+    position: absolute;
+    left: 14px;
+    top: 33px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
+}
+
+.feature-locked {
+    color: #bc0000;
+    font-size: 20px;
+    position: absolute;
+    left: 18px;
+    top: 39px;
+    text-shadow: -1px 0 white, 1px 0 white, 0 -1px white, 0 1px white, 1px 1px white, -1px -1px white, -2px 0 white, 2px 0 white, 0 -2px white, 0 2px white, 2px 2px white, -2px -2px white;
+}
+
+.feature-locked-title {
+    color: #bc0000;
+    text-decoration: line-through;
+}
+
+.feature-disabled {
+    color: #dc3a3a;
+}
+
+.feature-hidden {
+    color: #0099c7;
 }

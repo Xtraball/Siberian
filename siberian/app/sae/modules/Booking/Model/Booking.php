@@ -47,10 +47,10 @@ class Booking_Model_Booking extends Core_Model_Default
     public function getAppInitUris ($optionValue)
     {
         $featureUrl = __url("/booking/mobile_view/index", [
-            "value_id" => $this->getValueId(),
+            "value_id" => $optionValue->getId(),
         ]);
         $featurePath = __path("/booking/mobile_view/index", [
-            "value_id" => $this->getValueId(),
+            "value_id" => $optionValue->getId(),
         ]);
 
 

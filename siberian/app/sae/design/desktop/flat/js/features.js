@@ -109,8 +109,29 @@ let handleFormError = function (form, data) {
 };
 
 let feature_form_error = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Unknown error.";
+    }
     toastr.error(
-        html,
+        _html,
+        null,
+        {
+            timeOut: 3700,
+            extendedTimeOut: 10000,
+            progressBar: true,
+            positionClass: "toast-top-center"
+        });
+};
+
+
+let feature_form_warning = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Unknown warning.";
+    }
+    toastr.warning(
+        _html,
         null,
         {
             timeOut: 3700,
@@ -121,8 +142,12 @@ let feature_form_error = function (html) {
 };
 
 let feature_form_success = function (html) {
+    let _html = html;
+    if (_html === undefined || _html.length === 0) {
+        _html = "Success.";
+    }
     toastr.success(
-        html,
+        _html,
         null,
         {
             timeOut: 3700,
@@ -162,17 +187,19 @@ var simpleget = function (uri) {
         dataType: 'json',
         success: function (data) {
             if (data.success) {
-                feature_form_success(data.message || data.success_message, data.message_timeout);
+                feature_form_success(data.message || data.success_message);
+            } else if (data.warning) {
+                feature_form_warning(data.message);
             } else if (data.error) {
-                feature_form_error(data.message, data.message_timeout);
+                feature_form_error(data.message);
             } else {
-                feature_form_error('An error occured, please try again.', data.message_timeout);
+                feature_form_error('An error occured, please try again.');
             }
 
             loader.hide('sb-simpleget');
         },
         error: function (data) {
-            feature_form_error('An error occured, please try again.', data.message_timeout);
+            feature_form_error('An error occured, please try again.');
 
             loader.hide('sb-simpleget');
         }
@@ -191,7 +218,15 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
         success: function (data) {
             if (data.success) {
                 if (localPreventDefault) {
-                    feature_form_success(data.message || data.success_message, data.message_timeout);
+                    feature_form_success(data.message || data.success_message);
+                }
+
+                if (typeof callbackSuccess === 'function') {
+                    callbackSuccess(data);
+                }
+            } else if (data.warning) {
+                if (localPreventDefault) {
+                    feature_form_warning(data.message);
                 }
 
                 if (typeof callbackSuccess === 'function') {
@@ -199,7 +234,7 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
                 }
             } else if (data.error) {
                 if (localPreventDefault) {
-                    feature_form_error(data.message, data.message_timeout);
+                    feature_form_error(data.message);
                 }
 
                 if (typeof callbackError === 'function') {
@@ -207,7 +242,7 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
                 }
             } else {
                 if (localPreventDefault) {
-                    feature_form_error('An error occured, please try again.', data.message_timeout);
+                    feature_form_error('An error occured, please try again.');
                 }
 
                 if (typeof callbackError === 'function') {
@@ -600,8 +635,14 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             data: form.serialize(),
             dataType: 'json',
             success: function (data) {
-                if (data.success) {
-                    feature_form_success(data.message || data.success_message, data.message_timeout);
+                if (data.success || data.warning) {
+
+                    if (data.success) {
+                        feature_form_success(data.message);
+                    } else {
+                        feature_form_warning(data.message);
+                    }
+
                     if (form.hasClass('toggle')) {
                         var button = form.find('button[type=\'submit\']');
                         button.find('i').remove();

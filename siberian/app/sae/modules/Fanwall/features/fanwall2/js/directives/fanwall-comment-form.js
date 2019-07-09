@@ -48,7 +48,7 @@ angular.module('starter')
                     var comment = {
                         id: now,
                         customerId: Customer.customer.id,
-                        text: text,
+                        text: text.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"),
                         image: "",
                         isFlagged: false,
                         date: now,

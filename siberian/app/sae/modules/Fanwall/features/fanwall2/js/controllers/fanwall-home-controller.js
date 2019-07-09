@@ -151,4 +151,8 @@ angular
 
         $scope.settingsIsLoaded = true;
     });
+
+    $rootScope.$on("fanwall.pageTitle", function (event, payload) {
+        $scope.pageTitle = payload.pageTitle;
+    });
 });

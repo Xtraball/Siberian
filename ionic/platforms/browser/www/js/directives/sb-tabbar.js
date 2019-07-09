@@ -1,11 +1,15 @@
-/* global
- App, angular
+/**
+ * sbTabbar, handling homepage menus/nav
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.1
  */
-
-angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHistory, Modal, $ionicSlideBoxDelegate,
-                                    $ionicSideMenuDelegate, $location, $rootScope, $session, $timeout,
-                                    $translate, $window, $ionicPlatform, Analytics, Application,
-                                    Customer, Dialog, HomepageLayout, LinkService, Pages, Url, SB) {
+angular
+.module("starter")
+.directive("sbTabbar", function ($pwaRequest, $ionicHistory, Modal, $ionicSlideBoxDelegate,
+                                 $ionicSideMenuDelegate, $location, $rootScope, $session, $timeout,
+                                 $translate, $window, $ionicPlatform, Analytics, Application,
+                                 Customer, Dialog, HomepageLayout, LinkService, Pages, Url, SB) {
     return {
         restrict: 'A',
         templateUrl: function () {
@@ -24,61 +28,61 @@ angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHis
 
             $scope.loadContent = function () {
                 HomepageLayout.getOptions()
-                    .then(function (options) {
-                        $scope.options = options;
-                    });
+                .then(function (options) {
+                    $scope.options = options;
+                });
 
                 HomepageLayout.getData()
-                    .then(function (data) {
-                        $scope.data = data;
-                        $scope.push_badge = data.push_badge;
-                    });
+                .then(function (data) {
+                    $scope.data = data;
+                    $scope.push_badge = data.push_badge;
+                });
 
                 HomepageLayout.getFeatures()
-                    .then(function (features) {
-                        // filtered active options!
-                        $scope.features = features;
+                .then(function (features) {
+                    // filtered active options!
+                    $scope.features = features;
 
-                        $timeout(function () {
-                            if (!Pages.is_loaded) {
-                                Pages.is_loaded = true;
-                                $scope.tabbar_is_visible = true;
-                            }
-                        }, 500);
+                    $timeout(function () {
+                        if (!Pages.is_loaded) {
+                            Pages.is_loaded = true;
+                            $scope.tabbar_is_visible = true;
+                        }
+                    }, 500);
 
-                        // Load first feature is needed!
-                        if ($rootScope.loginFeature === true) {
-                            if ($rootScope.loginFeatureBack === true) {
-                                $ionicHistory.goBack();
-                            } else {
-                                $rootScope.loginFeatureBack = false;
-                            }
-                            $rootScope.loginFeature = null;
-                        } else if (!Application.is_customizing_colors &&
-                            HomepageLayout.properties.options.autoSelectFirst &&
-                            (features.first_option !== false)) {
-                            var feat_index = 0;
-                            for (var fi = 0; fi < features.options.length; fi = fi + 1) {
-                                var feat = features.options[fi];
-                                // Don't load unwanted features on first page!
-                                if ((feat.code !== 'code_scan') &&
-                                    (feat.code !== 'radio') &&
-                                    (feat.code !== 'padlock')) {
-                                    feat_index = fi;
-                                    break;
-                                }
-                            }
-
-                            if (features.options[feat_index].path !== $location.path()) {
-                                $ionicHistory.nextViewOptions({
-                                    historyRoot: true,
-                                    disableAnimate: false
-                                });
-
-                                $location.path(features.options[feat_index].path).replace();
+                    // Load first feature is needed!
+                    if ($rootScope.loginFeature === true) {
+                        if ($rootScope.loginFeatureBack === true) {
+                            $ionicHistory.goBack();
+                        } else {
+                            $rootScope.loginFeatureBack = false;
+                        }
+                        $rootScope.loginFeature = null;
+                    } else if (!Application.is_customizing_colors &&
+                        HomepageLayout.properties.options.autoSelectFirst &&
+                        (features.first_option !== false)) {
+                        var feat_index = 0;
+                        for (var fi = 0; fi < features.options.length; fi = fi + 1) {
+                            var feat = features.options[fi];
+                            // Don't load unwanted features on first page!
+                            if ((feat.code !== 'code_scan') &&
+                                (feat.code !== 'radio') &&
+                                (feat.code !== 'padlock')) {
+                                feat_index = fi;
+                                break;
                             }
                         }
-                    });
+
+                        if (features.options[feat_index].path !== $location.path()) {
+                            $ionicHistory.nextViewOptions({
+                                historyRoot: true,
+                                disableAnimate: false
+                            });
+
+                            $location.path(features.options[feat_index].path).replace();
+                        }
+                    }
+                });
             };
 
             $scope.closeList = function () {
@@ -142,9 +146,9 @@ angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHis
             });
 
             Application.loaded
-                .then(function () {
-                    rebuildOptions();
-                });
+            .then(function () {
+                rebuildOptions();
+            });
 
             if ($rootScope.isOverview) {
                 $window.changeIcon = function (id, url) {
@@ -161,11 +165,13 @@ angular.module('starter').directive('sbTabbar', function ($pwaRequest, $ionicHis
     };
 });
 
-angular.module('starter').directive('tabbarItems', function ($rootScope, $timeout, $log, HomepageLayout) {
+angular
+.module("starter")
+.directive("tabbarItems", function ($rootScope, $timeout, $log, HomepageLayout) {
     return {
-        restrict: 'A',
+        restrict: "A",
         scope: {
-            option: '='
+            option: "="
         },
         /**
          * Preparing code for advanced notification bubbles.
@@ -176,8 +182,15 @@ angular.module('starter').directive('tabbarItems', function ($rootScope, $timeou
             element.append(customCounter);
         },*/
         link: function (scope, element) {
-            element.on('click', function () {
-                $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
+            // We're done!
+            if (!scope.option.is_visible) {
+                element.replaceWith(" ");
+                return;
+            }
+
+            element.attr("data-value-id", scope.option.value_id);
+            element.on("click", function () {
+                $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
 
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);

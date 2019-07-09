@@ -117,6 +117,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
+        $application = $this->getApplication();
+
         $orientations = Siberian_Json::decode($device->getOrientations());
         $android = $orientations["android"];
 
@@ -147,6 +149,13 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $replacements = array_merge($replacements, [
                 "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
                 "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
+            ]);
+        }
+
+        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        if (!$disableBatteryOptimization) {
+            $replacements = array_merge($replacements, [
+                "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
             ]);
         }
 

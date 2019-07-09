@@ -680,7 +680,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             }
                         }
 
-                        if (datas.delete_features.length) {
+                        if (datas.delete_features && datas.delete_features.length) {
                             for (var i = 0; i < datas.delete_features.length; i++) {
                                 $('#add_page_' + datas.delete_features[i]).remove();
                             }
@@ -810,13 +810,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                         }
 
                     }.bind(this),
-                    error: function () {
-                        customization_message = new AlertMessage("<?php echo __('An error occurred while loading'); ?>");
-                        customization_message.addButton(false);
-                        customization_message.setTimer(3);
-                        customization_message.addLoader(false);
-                        customization_message.isError(true);
-                        customization_message.show();
+                    error: function (error) {
+                        console.log("error", error);
+                        if (error.status === 403) {
+                            feature_form_warning("<?php echo __js("You are not allowed to access this feature.", '"'); ?>");
+                        } else {
+                            feature_form_error("<?php echo __js("An error occurred while loading the feature.", '"'); ?>");
+                        }
                         this.next = null;
                     }
                 });
