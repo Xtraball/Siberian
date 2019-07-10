@@ -12,7 +12,7 @@ angular
         settingsIsLoaded: false,
         value_id: $stateParams.value_id,
         collection: [],
-        pageTitle: $translate.instant("Social Wall", "fanwall"),
+        pageTitle: "",
         hasMore: false,
         currentTab: "post"
     });
