@@ -81,54 +81,65 @@ $splashVersion = (integer) $application->getSplashVersion();
                         </button>
                     </div>
                 </div>
-                <div id="layouts" class="col-sm-4 col-xs-12 sb-tour">
-                    <div class="content-options content-white-bkg">
-                        <h4><?php echo __("Layout options") ?></h4>
+                <div id="layouts"
+                     class="col-sm-4 col-xs-12 sb-tour">
+                    <div id="default-options"
+                         class="content-options content-white-bkg">
+                        <h4><?php echo p__("application", "Homepage options") ?></h4>
                         <?php echo $layout_form_options; ?>
-                        <?php if(sizeof($countOptions) > 0): ?>
-                            <hr class="general" />
-                        <?php endif; ?>
-                        <?php if($layout_form !== false): ?>
-                            <?php if($layout_form->getPresets()): ?>
-                                <p class="preset-title"><?php echo __("Preset") ?></p>
-                                <div class="preset-sets"
-                                     data-form="<?php echo $layout_form->getId(); ?>">
-                                    <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
-                                        <tr>
-                                            <td class="prev-arrow">
-                                                <i class="fa fa-chevron-left"></i>
-                                            </td>
-                                            <td class="sb-carousel-items">
-                                                <div class="sb-carousel-inline">
-                                                    <?php foreach($layout_form->getPresets() as $preset): ?>
-                                                    <?php
-                                                    $values = "";
-                                                    foreach($preset["values"] as $key => $value) {
-                                                        $values .= " data-$key=\"$value\"";
-                                                    }
-                                                    ?>
-                                                    <a class="sb-carousel-item preset-link"
-                                                       style="display: none;"
-                                                       href="javascript:void(0)" <?php echo $values; ?>>
-                                                        <img src="<?php echo $preset["preview"] ?>" />
-                                                    </a>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            </td>
-                                            <td class="next-arrow">
-                                                <i class="fa fa-chevron-right"></i>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            <?php endif; ?>
-                        <?php echo $layout_form; ?>
-                        <?php endif; ?>
-
-                        <?php if(($layout_form === false) && (sizeof($countOptions) <= 0)): ?>
-                            <p class="preset-title text-center"><?php echo __('This layout has no option.') ?></p>
-                        <?php endif; ?>
+                        <div style="clear: both;"></div>
                     </div>
+
+                    <?php if(sizeof($countOptions) > 0): ?>
+                        <hr class="general spacer" />
+                    <?php endif; ?>
+
+                    <?php if($layout_form !== false): ?>
+                    <div id="custom-options"
+                         class="content-options content-white-bkg">
+                        <h4><?php echo p__("application", "Layout options") ?></h4>
+                        <?php if($layout_form->getPresets()): ?>
+                            <p class="preset-title"><?php echo p__("application", "Preset") ?></p>
+                            <div class="preset-sets"
+                                 data-form="<?php echo $layout_form->getId(); ?>">
+                                <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
+                                    <tr>
+                                        <td class="prev-arrow">
+                                            <i class="fa fa-chevron-left"></i>
+                                        </td>
+                                        <td class="sb-carousel-items">
+                                            <div class="sb-carousel-inline">
+                                                <?php foreach($layout_form->getPresets() as $preset): ?>
+                                                <?php
+                                                $values = "";
+                                                foreach($preset["values"] as $key => $value) {
+                                                    $values .= " data-$key=\"$value\"";
+                                                }
+                                                ?>
+                                                <a class="sb-carousel-item preset-link"
+                                                   style="display: none;"
+                                                   href="javascript:void(0)" <?php echo $values; ?>>
+                                                    <img src="<?php echo $preset["preview"] ?>" />
+                                                </a>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </td>
+                                        <td class="next-arrow">
+                                            <i class="fa fa-chevron-right"></i>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        <?php endif; ?>
+                        <?php echo $layout_form; ?>
+                    </div>
+                    <?php endif; ?>
+
+                    <?php if(($layout_form === false) && (sizeof($countOptions) <= 0)): ?>
+                    <div class="content-options content-white-bkg">
+                        <p class="preset-title text-center"><?php echo p__("application", "This layout has no option.") ?></p>
+                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
 
@@ -449,18 +460,17 @@ $splashVersion = (integer) $application->getSplashVersion();
     var modal_fb_import;
     $(document).ready(function(){
 
-        bindForms("#layouts");
-        bindForms("#homepage_slider_options");
-
-        $("#layouts").on("submit", function() {
-            iframe.reload();
-        });
-
-        $("#homepage_slider_is_visible, #layout_visibility").on("change", function() {
+        bindForms("#default-options", "color-red", function () {
             setTimeout(function() {
                 location.reload();
-            }, 2000);
+            }, 200);
         });
+        bindForms("#custom-options", "color-red", function () {
+            setTimeout(function() {
+                iframe.reload();
+            }, 200);
+        });
+        bindForms("#homepage_slider_options");
 
         $("#homepage_slider_options").on("change", function() {
             setTimeout(function() {

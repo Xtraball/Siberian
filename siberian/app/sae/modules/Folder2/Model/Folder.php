@@ -133,6 +133,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'url' => $url,
                     'path' => $url,
                     'is_active' => true,
+                    'is_visible' => true,
                     'is_locked' => false,
                     'is_subfolder' => (boolean) $category->getParentId(),
                     'is_feature' => false

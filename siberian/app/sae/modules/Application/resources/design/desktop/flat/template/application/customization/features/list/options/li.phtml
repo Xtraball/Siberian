@@ -2,8 +2,18 @@
 $option = $this->getOptionValue();
 $canAccess = $this->_canAccess("feature_" . $option->getCode(), $option->getValueId());
 $isPadlocked = (boolean)(new Padlock_Model_Value())->find($option->getValueId(), "value_id")->getId();
+
+// Phantom catalog tied to m-commerce
+$tiedToMcommerce = false;
+if ($option->getCode() === "catalog") {
+    $tiedToMcommerce = (boolean) (new Mcommerce_Model_Mcommerce())
+        ->find($option->getValueId(), "catalog_value_id")
+        ->getId();
+}
+
 ?>
 
+<?php if (!$tiedToMcommerce): ?>
 <li id="option_value_<?php echo $option->getId(); ?>"
     class="search_carousel_li color-blue-hover option_value content-white-bkg <?php if ($this->getIsSortable()) : ?> sortable<?php endif; ?>"
     rel="<?php echo $option->getFolderCategoryId(); ?>"
@@ -85,3 +95,4 @@ $isPadlocked = (boolean)(new Padlock_Model_Value())->find($option->getValueId(),
 <script type="text/javascript">
     tabbar_names['<?php echo $option->getId(); ?>'] = '<?php echo addslashes($option->getTabbarName()); ?>';
 </script>
+<?php endif; ?>

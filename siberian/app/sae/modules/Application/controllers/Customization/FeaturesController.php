@@ -838,8 +838,6 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         $icon_saved = $this->setIcon($icon_lib->getImageId(), $datas['option_id']);
 
                         // Charge l'option_value
-                        //$optionValue = new Application_Model_Option_Value();
-                        //$optionValue->find($datas['option_id']);
                         $icon_url = $icon_lib->getUrl();
                         if ($CanBeColorized) {
                             $header_color = $this->getApplication()->getBlock('header')->getColor();
@@ -849,29 +847,26 @@ class Application_Customization_FeaturesController extends Application_Controlle
                         $icon_color = $this->getApplication()->getBlock('header')->getBackgroundColor();
 
                         $html = [
-                            'success' => 1,
+                            "success" => true,
                             'file' => '/' . $formated_library_name . '/' . $file,
                             'icon_id' => $icon_lib->getImageId(),
                             'colorizable' => a,
                             'icon_url' => $icon_url,
                             'colored_icon_url' => $this->getUrl('template/block/colorize', ['id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $icon_color)]),
                             'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
-                            'message' => '',
-                            'message_button' => 1,
-                            'message_loader' => 1
+                            'message' => __("Success."),
                         ];
                     }
                 }
 
             } catch (\Exception $e) {
                 $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
+                    "error" => true,
+                    "message" => $e->getMessage(),
                 ];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
     }
