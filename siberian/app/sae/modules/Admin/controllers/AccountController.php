@@ -127,6 +127,13 @@ class Admin_AccountController extends Admin_Controller_Default
                     ->setOptinEmail($data['optin_email'] === 'on')
                     ->save();
 
+                // Clear admin cache, if acl changed for example.
+                /**
+                 * @var $cacheOutput Zend_Cache_Frontend_Output
+                 */
+                $cacheOutput = Zend_Registry::get("cacheOutput");
+                $cacheOutput->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, ["cache_admin"]);
+
                 //For SAE we link automatically the user to the uniq app
                 if (Siberian_Version::is("sae")) {
                     $this->getApplication()->addAdmin($admin);

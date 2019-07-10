@@ -3,28 +3,30 @@
 class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 {
 
-    public function loadAction() {
+    public function loadAction()
+    {
 
-        $html = array(
+        $html = [
             'title' => sprintf('%s > %s > %s',
                 __('Manage'),
                 __('Editor access'),
                 __('User')
             ),
             "icon" => "fa-user",
-        );
+        ];
 
         $this->_sendHtml($html);
 
     }
 
-    public function findAction() {
+    public function findAction()
+    {
 
         $admin = new Admin_Model_Admin();
         $admin->find($this->getRequest()->getParam("admin_id"));
 
-        $data = array();
-        if($admin->getId()) {
+        $data = [];
+        if ($admin->getId()) {
             $data["admin"] = $admin->getData();
             $data["section_title"] = __("Edit the user %s", $admin->getFirstname() . " " . $admin->getLastname());
         } else {
@@ -48,13 +50,14 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 
     }
 
-    public function saveAction() {
+    public function saveAction()
+    {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
 
-                if(!Zend_Validate::is($data["email"], "emailAddress")) {
+                if (!Zend_Validate::is($data["email"], "emailAddress")) {
                     throw new Exception(__("Please, enter a correct email address."));
                 }
 
@@ -70,33 +73,33 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                     }
                 }
 
-                if(!empty($data["id"])) {
+                if (!empty($data["id"])) {
                     $admin->find($data["id"]);
                     $isNew = !$admin->getId();
                 }
 
-                if($isNew AND empty($data["password"])) {
+                if ($isNew AND empty($data["password"])) {
                     throw new Exception(__("Please, enter a password."));
                 }
-                if(empty($data["password"]) AND empty($data["confirm_password"])) {
+                if (empty($data["password"]) AND empty($data["confirm_password"])) {
                     unset($data["password"]);
                     unset($data["confirm_password"]);
                 }
-                if(!empty($data["password"]) AND $data["password"] != $data["confirm_password"]) {
+                if (!empty($data["password"]) AND $data["password"] != $data["confirm_password"]) {
                     throw new Siberian_Exception(__("Passwords don't match"));
                 }
 
                 $admin->addData($data);
 
-                if($dummy->getEmail() == $admin->getEmail() AND $dummy->getId() != $admin->getId()) {
+                if ($dummy->getEmail() == $admin->getEmail() AND $dummy->getId() != $admin->getId()) {
                     throw new Siberian_Exception(__("We are sorry but this email address already exists."));
                 }
 
-                if(!empty($data["password"])) {
+                if (!empty($data["password"])) {
                     $admin->setPassword($data["password"]);
                 }
 
-                if(!empty($data["publication_access_type"])) {
+                if (!empty($data["publication_access_type"])) {
                     $admin->setPublicationAccessType($data["publication_access_type"]);
                 }
 
@@ -105,16 +108,23 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 //For SAE we directly link the admin to the app
                 $this->getApplication()->addAdmin($admin);
 
-                $data = array(
+                // Clear admin cache, if acl changed for example.
+                /**
+                 * @var $cacheOutput Zend_Cache_Frontend_Output
+                 */
+                $cacheOutput = Zend_Registry::get("cacheOutput");
+                $cacheOutput->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, ["cache_admin"]);
+
+                $data = [
                     "success" => 1,
                     "message" => __("User successfully saved")
-                );
+                ];
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
@@ -122,13 +132,14 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 
     }
 
-    public function setapplicationtoadminAction() {
+    public function setapplicationtoadminAction()
+    {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
 
-                if(empty($data["admin_id"]) OR empty($data["app_id"])) {
+                if (empty($data["admin_id"]) OR empty($data["app_id"])) {
                     throw new Siberian_Exception(__("#103: An error occurred while saving. Please try again later."));
                 }
 
@@ -137,14 +148,14 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 $application = new Application_Model_Application();
                 $application->find($data["app_id"]);
 
-                if(!$admin->getId() OR !$application->getId()) {
+                if (!$admin->getId() OR !$application->getId()) {
                     throw new Siberian_Exception(__("#104: An error occurred while saving. Please try again later."));
                 }
 
                 $is_selected = !empty($data["is_allowed_to_add_pages"]);
-                $data = array("success" => 1);
+                $data = ["success" => 1];
 
-                if($is_selected) {
+                if ($is_selected) {
                     $data["is_allowed_to_add_pages"] = true;
                     $application->addAdmin($admin);
                 } else {
@@ -152,11 +163,11 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                     $application->removeAdmin($admin);
                 }
 
-            } catch(Exception $e) {
-                $data = array(
+            } catch (Exception $e) {
+                $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendHtml($data);
