@@ -293,13 +293,7 @@ var Uploader = Class.extend({
         this.current_pretty_photo_content = '';
     },
     showProgressbar: function () {
-        message.setTimer(false);
-        message.addLoader(true);
-        message.setNoBackground(true);
-        message.isError(false);
-        message.setMessage('<div style="display:block;" id="progressbar" class="progress"></div>');
-        message.show();
-        message.addButton(false);
+        feature_form_success("<div style=\"display:block;\" id=\"progressbar\" class=\"progress\"></div>");
         $('#progressbar').progressbar({
             value: 100
         });
@@ -310,38 +304,27 @@ var Uploader = Class.extend({
             value: progress
         });
     },
-    showError: function (error) {
+    showError: function (errorMessage) {
         $('#progressbar').progressbar({
             value: 0
         });
         $('#progressbar').stop().hide();
-        message.addLoader(true);
-        message.setNoBackground(false);
-        message.isError(true);
-        message.setMessage(error);
-        message.show();
-        message.addButton(true);
-        message.setTimer(false);
+        feature_form_error(errorMessage);
     },
-    showSuccess: function (success) {
+    showSuccess: function (successMessage) {
         $('#progressbar').progressbar({
             value: 0
         });
         $('#progressbar').stop().hide();
-        message.addLoader(false);
-        message.setNoBackground(false);
-        message.isError(false);
-        message.setMessage(success);
-        message.show();
-        message.addButton(false);
-        message.setTimer(false);
+        toastr.clear();
+        feature_form_success(successMessage);
     },
     hide: function () {
         $('#progressbar').progressbar({
             value: 0
         });
         $('#progressbar').stop().hide();
-        message.hide();
+        toastr.clear();
     },
     crop: function (params) {
         params['url'] += '/picture/' + params['file'];

@@ -35,7 +35,8 @@ class Post extends DbTable
         $searchByDistance = false;
         $columns = ["*"];
         $radius = 0;
-        if ($values["search_by_distance"]) {
+        if (array_key_exists("search_by_distance", $values) &&
+            $values["search_by_distance"]) {
             $formula = Geocoding::getDistanceFormula(
                 $values["latitude"],
                 $values["longitude"],
