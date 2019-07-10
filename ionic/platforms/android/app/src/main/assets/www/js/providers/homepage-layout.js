@@ -411,7 +411,7 @@ angular.module('starter').provider('HomepageLayout', function () {
                         }
                     } else {
                         // Truncate to limit (exclude, cf: Array.prototype.slice())
-                        features.overview.options = features.options.slice(0, limit);
+                        features.overview.options = features.options.slice(0, limit - 1);
                         features.overview.hasMore = true;
                     }
                 } else if (HomepageLayout.data.layout.use_horizontal_scroll) {
