@@ -1,5 +1,6 @@
 <?php
 $option = $this->getOptionValue();
+$application = $this->getApplication();
 
 if ($option->getValueId() === "customer_account") {
     $library = new Media_Model_Library();
@@ -26,9 +27,9 @@ if ($option->getCode() == 'folder') {
 }
 
 $library = new Media_Model_Library();
-$all_icons = $library->getAllFeatureIcons();
+$allIcons = $library->getAllFeatureIcons();
 
-$layout_id = $this->getApplication()->getLayoutId();
+$layout_id = $application->getLayoutId();
 $layout_model = new Application_Model_Layout_Homepage();
 $layout = $layout_model->find($layout_id);
 $use_subtitle = ($layout->getUseSubtitle());
@@ -39,8 +40,10 @@ $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATI
 
 $option_object = $option->getObject();
 $available_offline = $option_object->availableOffline();
-$application = $this->getApplication();
+$application = $application;
 $application_offline_enabled = ($application->getOfflineContent() == 1);
+
+$cacheOutput = Zend_Registry::get("cacheOutput");
 
 ?>
 
@@ -122,7 +125,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                             <label data-toggle="tooltip"
                                    class="display_tooltip"
                                    title="<?php echo p__js("application", "When not published, this feature is not accessible in menu & in-app links.", '"') ?>"><?php echo p__("application", "Published"); ?></label>
-                            <br />
+                            <br/>
                             <div id="toggle_feature_is_activated">
                                 <div style="width:54px;padding-top:4px">
                                     <input class="sb-tgl sb-tgl-flat feature_is_activated color-blue checkbox"
@@ -133,10 +136,10 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                     <input type="hidden"
                                            id="is_active"
                                            name="is_active"
-                                           value="<?php echo $option->getIsActive() ?>" />
+                                           value="<?php echo $option->getIsActive() ?>"/>
                                     <input type="hidden"
                                            name="value_id"
-                                           value="<?php echo $option->getId(); ?>" />
+                                           value="<?php echo $option->getId(); ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -147,7 +150,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                             <label data-toggle="tooltip"
                                    class="display_tooltip"
                                    title="<?php echo p__js("application", "When disabled, this feature will only be accessible via in-app links.", '"') ?>"><?php echo p__("application", "Available from menu"); ?></label>
-                            <br />
+                            <br/>
                             <div id="toggle_feature_is_visible">
                                 <div style="width:54px;padding-top:4px">
                                     <input class="sb-tgl sb-tgl-flat feature_is_visible color-blue checkbox"
@@ -158,10 +161,10 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                     <input type="hidden"
                                            id="is_visible"
                                            name="is_visible"
-                                           value="<?php echo $option->getIsVisible() ?>" />
+                                           value="<?php echo $option->getIsVisible() ?>"/>
                                     <input type="hidden"
                                            name="value_id"
-                                           value="<?php echo $option->getId(); ?>" />
+                                           value="<?php echo $option->getId(); ?>"/>
                                 </div>
                             </div>
                         </div>
@@ -170,22 +173,22 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                     <div class="tabbar-check check-socialsharing">
                         <?php if ($option->getSocialSharingIsAvailable() == 1) : ?>
                             <label><?php echo p__("application", "Social sharing"); ?></label>
-                            <br />
+                            <br/>
                             <div id="toggle_social_sharing_is_activated">
                                 <div style="width:54px;padding-top:4px">
                                     <input class="sb-tgl sb-tgl-flat social_sharing_is_activated color-blue checkbox"
                                            id="chk_activate_social_sharing"
                                            type="checkbox"
-                                           <?php if ($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?> />
+                                        <?php if ($option->getSocialSharingIsActive()) echo 'checked="checked"'; ?> />
                                     <label class="sb-tgl-btn color-blue"
                                            for="chk_activate_social_sharing"></label>
                                     <input type="hidden"
                                            id="is_social_sharing_active"
                                            name="is_social_sharing_active"
-                                           value="" />
+                                           value=""/>
                                     <input type="hidden"
                                            name="value_id"
-                                           value="<?php echo $option->getId(); ?>" />
+                                           value="<?php echo $option->getId(); ?>"/>
                                 </div>
                             </div>
                         <?php endif; ?>
@@ -222,16 +225,18 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                     <span>
                                         <?php echo __("Feature icons") ?>
                                         <div id="new_icon">
-                                            <a href="javascript:void(0)" class="upload_icon icon"
-                                               rel="<?php echo $option->getId(); ?>">
-                                                <button class="btn color-blue" type="button">
-                                                    <?php echo __("Add a new icon") ?>
-                                                </button>
-                                            </a>
+                                            <div class="upload_icon icon btn color-blue"
+                                                 rel="<?php echo $option->getId(); ?>"
+                                                 type="button">
+                                                <?php echo __("Add a new icon") ?>
+                                            </div>
                                             <span id="input_upload_custom_icon_message"
                                                   style="display:none"><?php echo __("Add a new icon") ?></span>
-                                            <input id="input_upload_custom_icon" class="uploader" style="display:none"
-                                                   type="file" name="files[]"
+                                            <input id="input_upload_custom_icon"
+                                                   class="uploader"
+                                                   style="display:none"
+                                                   type="file"
+                                                   name="files[]"
                                                    data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
                                         </div>
                                     </span>
@@ -245,27 +250,35 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                     <?php foreach ($available_icons as $lib_icon) : ?>
                                         <?php foreach ($lib_icon as $icon) : ?>
                                             <?php if ($icon->getUrl() AND
-                                                (!$icon->getAppId() OR $icon->getAppId() == $this->getApplication()->getId()) AND
+                                                (!$icon->getAppId() OR $icon->getAppId() == $application->getId()) AND
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
-                                                <li rel="<?php echo $option->getId(); ?>" class="color-blue">
+                                                <li rel="<?php echo $option->getId(); ?>"
+                                                    class="color-blue">
                                                     <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
                                                        class="left icon" rel="<?php echo $option->getId(); ?>">
-                                                        <button class="select_icon btn" type="button">
-                                                            <img src="<?php echo $icon->getUrl(); ?>" width="auto"
-                                                                 height="65" class="colorize"/>
+                                                        <button class="select_icon btn"
+                                                                type="button">
+                                                            <img src="<?php echo $icon->getUrl(); ?>"
+                                                                 width="auto"
+                                                                 height="65"
+                                                                 class="colorize"/>
                                                         </button>
-                                                        <input type="hidden" name="option_value_id"
+                                                        <input type="hidden"
+                                                               name="option_value_id"
                                                                value="<?php echo $option->getValueId(); ?>"/>
-                                                        <input type="hidden" name="icon_id"
+                                                        <input type="hidden"
+                                                               name="icon_id"
                                                                value="<?php echo $icon->getId(); ?>"/>
                                                     </a>
                                                     <?php if ($icon->getAppId()) : ?>
                                                         <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
                                                            class="delete_icon">
                                                             <i class="fa fa-times"></i>
-                                                            <input type="hidden" name="option_value_id"
+                                                            <input type="hidden"
+                                                                   name="option_value_id"
                                                                    value="<?php echo $option->getValueId(); ?>"/>
-                                                            <input type="hidden" name="icon_id"
+                                                            <input type="hidden"
+                                                                   name="icon_id"
                                                                    value="<?php echo $icon->getId(); ?>"/>
                                                         </a>
                                                     <?php endif; ?>
@@ -293,37 +306,26 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul class="icons_list filter_list">
-                                    <?php $all_icon_ids = []; ?>
-                                    <?php foreach ($all_icons as $icon) : ?>
-                                        <?php if ($icon->getUrl() AND
-                                            !in_array($icon->getId(), $all_icon_ids)) : ?>
-                                            <li data-filter="<?php echo $icon->getLink() ?>"
-                                                rel="<?php echo $option->getId(); ?>"
-                                                class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
-                                                <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
-                                                   class="left icon"
-                                                   rel="<?php echo $option->getId(); ?>">
-                                                    <button class="select_icon btn"
-                                                            type="button">
-                                                        <img src="<?php echo $icon->getUrl(); ?>"
-                                                             width="auto"
-                                                             height="65"
-                                                             class="colorize"/>
-                                                    </button>
-                                                    <input type="hidden"
-                                                           name="option_value_id"
-                                                           value="<?php echo $option->getValueId(); ?>"/>
-                                                    <input type="hidden"
-                                                           name="icon_id"
-                                                           value="<?php echo $icon->getId(); ?>"/>
-                                                </a>
-                                                <?php if ($icon->getAppId()) : ?>
-                                                    <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
-                                                       class="delete_icon">
-                                                        <i class="fa fa-times"></i>
+                        <?php if (!$cacheOutput->start("all_feature_icons")): ?>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="icons_list filter_list">
+                                        <?php $allIconIds = []; ?>
+                                        <?php foreach ($allIcons as $icon) : ?>
+                                            <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
+                                                <li data-filter="<?php echo $icon->getLink() ?>"
+                                                    rel="<?php echo $option->getId(); ?>"
+                                                    class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
+                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
+                                                       class="left icon"
+                                                       rel="<?php echo $option->getId(); ?>">
+                                                        <button class="select_icon btn"
+                                                                type="button">
+                                                            <img src="<?php echo $icon->getUrl(); ?>"
+                                                                 width="auto"
+                                                                 height="65"
+                                                                 class="colorize"/>
+                                                        </button>
                                                         <input type="hidden"
                                                                name="option_value_id"
                                                                value="<?php echo $option->getValueId(); ?>"/>
@@ -331,15 +333,27 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                                                name="icon_id"
                                                                value="<?php echo $icon->getId(); ?>"/>
                                                     </a>
-                                                <?php endif; ?>
+                                                    <?php if ($icon->getAppId()) : ?>
+                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
+                                                           class="delete_icon">
+                                                            <i class="fa fa-times"></i>
+                                                            <input type="hidden"
+                                                                   name="option_value_id"
+                                                                   value="<?php echo $option->getValueId(); ?>"/>
+                                                            <input type="hidden"
+                                                                   name="icon_id"
+                                                                   value="<?php echo $icon->getId(); ?>"/>
+                                                        </a>
+                                                    <?php endif; ?>
 
-                                            </li>
-                                            <?php $all_icon_ids[] = $icon->getId() ?>
-                                        <?php endif; ?>
-                                    <?php endforeach; ?>
-                                </ul>
+                                                </li>
+                                                <?php $allIconIds[] = $icon->getId() ?>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                            <?php $cacheOutput->end(); endif; ?>
                     </div>
                 </div>
             </div>
@@ -353,7 +367,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
     </div>
     <script type="text/javascript">
 
-        let custom_icon_uploader = new Uploader();
+        window.custom_icon_uploader = new Uploader();
 
         page.setCallback('bind_icons_events', function () {
             $('.feature_is_activated').change(function () {
@@ -397,7 +411,6 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 tolerance: 180,
                 mask: null,
                 processEvents: function () {
-
                     $('#change_icon').unbind('click');
                     $('#change_icon').click(function () {
                         icon_library.open($(this).attr('rel'));
@@ -407,10 +420,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                     $('.close_modal_icon_library_manager').click(function () {
                         icon_library.close(true);
                     });
-
                 },
                 open: function (id) {
-
                     $(document).keyup(function (e) {
                         if (e.which == 27) icon_library.close(true);
                     });
@@ -425,14 +436,12 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                         $('#input_upload_custom_icon_message').show();
                         $('#input_upload_custom_icon').show();
                     }
-
                 },
                 close: function (animated) {
                     if (animated) {
                         $('#icon_library_manager').fadeOut(300, function () {
                         });
-                    }
-                    else {
+                    } else {
                         $('#icon_library_manager').hide();
                         $('.library').hide();
                     }
@@ -451,7 +460,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             icon_library.processEvents();
 
             //Ajout d'un icône
-            $('#icon_library').on('click', '.icon', function (e) {
+            $("#icon_library").on("click", ".icon", function (e) {
                 e.stopImmediatePropagation();
                 reload($(this), this.href, true, function (datas) {
                     if (datas.success) {
@@ -462,8 +471,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 return false;
             });
 
-            //Suppression d'un icône
-            $('#icon_library').on('click', '.delete_icon', function (e) {
+            // Suppression d'un icône
+            $("#icon_library").on("click", ".delete_icon", function (e) {
                 e.stopImmediatePropagation();
                 var $icon = $(this);
                 reload($(this), this.href, true, function (datas) {
@@ -477,12 +486,14 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 return false;
             });
 
-            $('#icon_library .upload_icon').click(function () {
-                $('#input_upload_custom_icon').trigger('click');
+            $('#icon_library .upload_icon').off("click");
+            $('#icon_library .upload_icon').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#input_upload_custom_icon').trigger("click");
             });
 
             $('#input_upload_custom_icon').fileupload({
-                dataType: 'json',
+                dataType: "json",
                 add: function (e, data) {
                     data.submit();
                     custom_icon_uploader.showProgressbar();
@@ -497,19 +508,19 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
 
                     if (data.result.success) {
                         custom_icon_uploader.hide();
-                        var params = new Array();
+                        let params = [];
                         params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
                         params["file"] = data.result.files;
                         params["option_value_id"] = '<?php echo $option->getId() ?>';
                         params["output_w"] = "<?php echo $this->getIconWidth(); ?>";
                         params["output_h"] = "<?php echo $this->getIconHeight(); ?>";
                         params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_features/uploadicon')) ?>';
-                        params["uploader"] = 'custom_icon_uploader';
-                        params["image_color"] = '<?php echo $this->getApplication()->getBlock('tabbar')->getImageColor(); ?>';
+                        params["uploader"] = "window.custom_icon_uploader";
+                        params["image_color"] = '<?php echo $application->getBlock('tabbar')->getImageColor(); ?>';
                         params["is_colorizable"] = true;
-                        custom_icon_uploader.crop(params);
                         custom_icon_uploader.callback = function (files) {
-                            var img_src = '<?php echo Media_Model_Library_Image::getImagePathTo('/', $this->getApplication()->getId()) ?>' + files.file;
+                            console.log("custom_icon_uploader.callback", files);
+                            let img_src = '<?php echo Media_Model_Library_Image::getImagePathTo('/', $application->getId()) ?>' + files.file;
                             $('.icons_list').append('<li class="newly_added left relative">\n\
                                 <a rel="<?php echo $option->getId(); ?>" class="left icon" href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>">\n\
                                     <button class="select_icon btn" type="button">\n\
@@ -525,7 +536,8 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                                 </a>\n\
                                 </li>');
                             updateLayout(files);
-                        }
+                        };
+                        custom_icon_uploader.crop(params);
                     }
                 }
             });
@@ -590,8 +602,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             $('#tabbar_subtitle').keyup(function (e) {
                 if (e.keyCode == 13) {
                     this.blur();
-                }
-                else {
+                } else {
                     var val = $(this).val().trim();
                     var subval = val;
                     if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
@@ -622,6 +633,7 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
         });
 
         /** Icon filtering */
+        $(".filter-icons input[type=text]").off("keyup");
         $(".filter-icons input[type=text]").on("keyup", function () {
             var search = $(this);
             var value = search.val();
@@ -637,12 +649,14 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
             });
         });
 
+        $(".filter-icons button").off("click");
         $(".filter-icons button").on("click", function () {
             $(".filter-icons input[type=text]").val("");
             $(".filter_list li[data-filter]").show();
         });
 
         /** Clearcache action */
+        $(".clearcache").off("click");
         $(".clearcache").on("click", function (e) {
             e.preventDefault();
 
@@ -662,8 +676,6 @@ $application_offline_enabled = ($application->getOfflineContent() == 1);
                 window.feature_links = data;
             }
         });
-
-        //$(".partial-offline").tooltip({});
 
         $('.display_tooltip').tooltip();
 

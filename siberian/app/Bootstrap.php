@@ -75,8 +75,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Then load class aliases
         \Siberian\Stubs::loadAliases();
 
-
-
         $path = '';
         if (isset($_SERVER['SCRIPT_NAME'])) {
             $path = $_SERVER['SCRIPT_NAME'];
@@ -112,23 +110,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initCache()
     {
-        $default_cache = $this->getResource('CacheManager')->getCache('default');
+        $defaultCache = $this->getResource("CacheManager")->getCache("default");
+        $outputCache = $this->getResource("CacheManager")->getCache("output");
 
-        $cache_dir = Core_Model_Directory::getCacheDirectory(true);
-        if (is_writable($cache_dir)) {
+        $cacheDir = Core_Model_Directory::getCacheDirectory(true);
+        if (is_writable($cacheDir)) {
             $frontendConf = [
                 'lifetime' => 345600,
                 'automatic_seralization' => true
             ];
             $backendConf = [
-                'cache_dir' => $cache_dir
+                'cache_dir' => $cacheDir
             ];
-            $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
-            $cache->setOption('automatic_serialization', true);
-            Zend_Locale::setCache($default_cache);
-            Zend_Registry::set("cache", $default_cache);
-
-
+            $cache = Zend_Cache::factory("Core", "File", $frontendConf, $backendConf);
+            $cache->setOption("automatic_serialization", true);
+            Zend_Locale::setCache($defaultCache);
+            Zend_Registry::set("cache", $defaultCache);
+            Zend_Registry::set("cacheOutput", $outputCache);
         }
     }
 

@@ -95,6 +95,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
             Siberian_Cache_Design::init();
             $this->bootstrap('CacheManager');
             $default_cache = $this->getResource('CacheManager')->getCache('default');
+            $outputCache = $this->getResource("CacheManager")->getCache("output");
             $cache_dir = Core_Model_Directory::getCacheDirectory(true);
             if (is_writable($cache_dir)) {
                 $frontendConf = [
@@ -108,6 +109,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
                 $cache->setOption('automatic_serialization', true);
                 Zend_Locale::setCache($default_cache);
                 Zend_Registry::set('cache', $default_cache);
+                Zend_Registry::set("cacheOutput", $outputCache);
             }
         }
     }
