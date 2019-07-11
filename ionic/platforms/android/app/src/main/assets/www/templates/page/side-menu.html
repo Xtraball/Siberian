@@ -11,14 +11,18 @@
     </script>
 
     <ion-side-menu side="left"
-                   width="getLeftWidth()"
+                   width="getLeftMenuWidth()"
                    ng-class="{'menu-left-open': isMenuLeftOpen()}"
-                   ng-if="showLeftMenu()">
-        <ng-include src="getLeftSrc()"
-                    class="{{ layout_id }}"></ng-include>
+                   ng-if="getLeftMenuShow()">
+        <div ng-include="getLeftMenuSrc()"
+             class="{{ layout_id }}"></div>
     </ion-side-menu>
 
-    <ion-side-menu-content ng-class="{'has-footer-fixed': showAlways(), 'menu-open' : isMenuOpen()}">
+    <ion-side-menu-content
+            ng-class="{
+                'has-footer-fixed': showAlways(),
+                'menu-open' : isMenuOpen()
+            }">
 
         <ion-nav-bar class="bar-custom">
             <ion-nav-back-button ng-click="goBack()"></ion-nav-back-button>
@@ -42,7 +46,8 @@
         <sb-media-mini-player></sb-media-mini-player>
 
         <!-- Global footer -->
-        <ion-footer-bar mini-player ng-if="showAlways()"
+        <ion-footer-bar mini-player
+                        ng-if="showAlways()"
                         class="footer-bar-{{ layout_id }}">
             <ng-include src="'homepage-menu.html'"
                         class="always {{ layout_id }}"></ng-include>
@@ -51,11 +56,11 @@
     </ion-side-menu-content>
 
     <ion-side-menu side="right"
-                   width="getRightWidth()"
+                   width="getRightMenuWidth()"
                    ng-class="{'menu-right-open': isMenuRightOpen()}"
-                   ng-if="showRightMenu()">
-        <ng-include src="getRightSrc()"
-                    class="{{ layout_id }}"></ng-include>
+                   ng-if="getRightMenuShow()">
+        <div ng-include="getRightMenuSrc()"
+             class="{{ layout_id }}"></div>
     </ion-side-menu>
 
 </ion-side-menus>

@@ -1,93 +1,86 @@
 angular
 .module("starter")
-.service('ContextualMenu', function ($ionicSideMenuDelegate, $timeout, HomepageLayout) {
-    var DEFAULT_WIDTH = 275;
-    var self = {};
-    var _exists, _templateURL, _width, _is_enabled_function;
+.service("ContextualMenu", function ($rootScope, $timeout, $q) {
 
-    Object.defineProperty(self, "exists", {
-      get: function () {
-          return _exists;
-      }
-    });
-
-    Object.defineProperty(self, "templateURL", {
-      get: function () {
-          return _templateURL;
-      }
-    });
-
-    Object.defineProperty(self, "width", {
-      get: function () {
-          return (angular.isNumber(_width) && _width > 0 && _width) || DEFAULT_WIDTH;
-      }
-    });
-
-    Object.defineProperty(self, "isEnabled", {
-      get: function () {
-          return ((angular.isFunction(_is_enabled_function) && _is_enabled_function) ||
-              (function() {
-                  return self.exists;
-              }))();
-      }
-    });
-
-    Object.defineProperty(self, "direction", {
-        get: function () {
-            return (HomepageLayout.properties.menu.position === "right") ? "left" : "right";
+    var service = {
+        settings: {
+            isReady: $q.defer(),
+            isEnabled: false,
+            width: 275,
+            preferredSide: "right", // Will try to enforce side, if possible!
+            templateUrl: null
         }
-    });
+    };
 
-    self.reset = function () {
+    // -- DEPRECATED --
+    // Backward compatibility methods!
+    service.reset = function () {
+        // Nope!
+    };
+
+    service.set = function (templateURL, width) {
+        service.init(templateURL, width);
+    };
+    // Backward compatibility methods!
+    // -- DEPRECATED --
+
+    service.init = function (templateUrl, width, preferredSide) {
+
+        // Test values
+        if (["left", "right", undefined].indexOf(preferredSide) === -1) {
+            console.error("ContextualMenu.init: invalid preferredSide, must be `left` or `right`.");
+            return;
+        }
+
         $timeout(function () {
-            _exists = false;
-            _is_enabled_function = (function () {
-                return self.exists;
-            });
-            _width = null;
-            _templateURL = null;
-        });
-    };
-    self.reset();
+            service.settings.isReady = $q.defer();
+            service.settings.isEnabled = true;
+            service.settings.templateUrl = templateUrl;
+            service.settings.width = width;
+            service.settings.preferredSide = (preferredSide === undefined) ?
+                service.settings.preferredSide : preferredSide;
 
-    self.set = function (templateURL, width, is_enabled_function) {
-        if (angular.isString(templateURL) && templateURL.length > 0) {
-            _exists = true;
-            _templateURL = templateURL;
-            _width = width;
-            _is_enabled_function = is_enabled_function;
-        } else {
-            self.reset();
-        }
-
-        return (function () {
-            if (_templateURL === templateURL) {
-                self.reset();
-            }
+            $rootScope.$broadcast("contextualMenu.init");
         });
     };
 
-    self.toggle = function (open) {
-        var direction = self.direction.slice(0, 1).toUpperCase()+self.direction.slice(1);
-        var localOpen = open;
+    // To clear a contextual menu, one must pass the exact `templateUrl`,
+    // to avoid removing the wrong one!
+    service.clear = function () {
+        $timeout(function () {
+            service.settings.isReady = $q.defer();
+            service.settings.isEnabled = false;
+            service.settings.templateUrl = null;
+            service.settings.width = 275;
+            service.settings.preferredSide = "right"; // Will try to enforce side, if possible!
 
-        if (!(localOpen === true || localOpen === false)) {
-            localOpen = !$ionicSideMenuDelegate["isOpen"+direction]();
-        }
-
-        if (self.exists && self.isEnabled) {
-            $ionicSideMenuDelegate["toggle"+direction](localOpen);
-        }
+            $rootScope.$broadcast("contextualMenu.init");
+        });
     };
 
-    self.open = function () {
-        self.toggle(true);
+    service.open = function () {
+        service.settings.isReady.promise
+        .then(function () {
+            $timeout(function () {
+                $rootScope.$broadcast("contextualMenu.open");
+            }, 20);
+        });
     };
 
-    self.close = function () {
-        self.toggle(false);
+    service.close = function () {
+        service.settings.isReady.promise
+        .then(function () {
+            $rootScope.$broadcast("contextualMenu.close");
+        });
     };
 
-
-    return self;
+    service.toggle = function () {
+        service.settings.isReady.promise
+        .then(function () {
+            $timeout(function () {
+                $rootScope.$broadcast("contextualMenu.toggle");
+            }, 20);
+        });
+    };
+    return service;
 });
