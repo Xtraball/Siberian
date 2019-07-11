@@ -1,213 +1,297 @@
-/* global
- angular
+/**
+ * sbSideMenu
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.17.3
  */
-
-angular.module('starter').directive('sbSideMenu', function ($rootElement, $rootScope, $ionicHistory, $translate,
-                                                            $ionicSideMenuDelegate, $timeout, HomepageLayout,
-                                                            ContextualMenu) {
+angular
+.module("starter")
+.directive("sbSideMenu", function () {
     return {
-        restrict: 'E',
-        replace: true,
+        restrict: "E",
         scope: {},
-        templateUrl: 'templates/page/side-menu.html',
-        link: function (scope, element) {
-            /** Defining the global functionalities of the page */
-            HomepageLayout
-                .getFeatures()
-                .then(function (features) {
-                    scope.layout = HomepageLayout.properties;
-                    scope.layout_id = HomepageLayout.properties.layoutId;
-                    angular.element($rootElement)
-                        .addClass(('layout-'+scope.layout_id)
-                        .replace(/[^a-zA-Z0-9_\-]+/, '-')
-                        .replace('.', '-')
-                        .replace(/\-\-*/, '-'));
-                });
+        templateUrl: "templates/page/side-menu.html",
+        controller: function ($q, $scope, $rootElement, $rootScope, $injector, $timeout, $ionicHistory,
+                              $ionicSideMenuDelegate, ContextualMenu, HomepageLayout) {
 
-            /** Custom go back, works with/without side-menus */
-            scope.goBack = function () {
+            ContextualMenu.settings.isReady = $q.defer();
+
+            $scope = angular.extend($scope, {
+                contextualMenu: {
+                    isEnabled: false,
+                    side: "right"
+                },
+                leftMenu: {
+                    width: 0,
+                    show: false,
+                    src: "blank-menu.html"
+                },
+                rightMenu: {
+                    width: 0,
+                    show: false,
+                    src: "blank-menu.html"
+                }
+            });
+
+            // Custom go back, works with/without side-menus!
+            $scope.goBack = function () {
                 $ionicHistory.goBack();
             };
 
-            /** Special trick to handle manual updates. */
-            scope.checkForUpdate = function () {
+            // Special trick to handle manual updates!
+            $scope.checkForUpdate = function () {
                 $rootScope.checkForUpdate();
             };
 
-            scope.isMenuOpen = function() {
+            $scope.showBottom = function () {
+                return (
+                    $scope.layout_id &&
+                    ($scope.layout.menu.position === "bottom") &&
+                    ($scope.layout.menu.visibility === "homepage")
+                );
+            };
+
+            $scope.showAlways = function () {
+                return (
+                    $scope.layout_id &&
+                    ($scope.layout.menu.position === "bottom") &&
+                    ($scope.layout.menu.visibility === "always")
+                );
+            };
+
+            $scope.isMenuOpen = function() {
                 return $ionicSideMenuDelegate.isOpen();
             };
 
-            scope.isMenuLeftOpen = function() {
+            $scope.isMenuLeftOpen = function() {
                 return $ionicSideMenuDelegate.isOpenLeft();
             };
 
-            scope.isMenuRightOpen = function() {
+            $scope.isMenuRightOpen = function() {
                 return $ionicSideMenuDelegate.isOpenRight();
             };
 
-            scope.layoutHasSideMenu = function () {
-                if (!scope.layout) {
+            $scope.layoutIsRight = function () {
+                if (!$scope.layout) {
                     return false;
                 }
-                return ["left", "right"].indexOf(scope.layout.menu.position) >= 0;
+                return ($scope.layout.menu.position === "right");
             };
 
-            scope.layoutIsRight = function () {
-                if (!scope.layout) {
+            $scope.layoutIsLeft = function () {
+                if (!$scope.layout) {
                     return false;
                 }
-                return (scope.layout.menu.position === "right");
+                return ($scope.layout.menu.position === "left");
             };
 
-            scope.layoutIsLeft = function () {
-                if (!scope.layout) {
+            $scope.layoutHasSideMenu = function () {
+                if (!$scope.layout) {
                     return false;
                 }
-                return (scope.layout.menu.position === "left");
+                return ($scope.layoutIsRight() || $scope.layoutIsLeft());
             };
 
-            scope.showLeftMenu = function () {
-                if (scope.layoutIsLeft()) {
-                    return true;
-                }
-
-                if (scope.layoutIsRight() &&
-                    scope.contextualMenuExists()) {
-                    return true;
-                }
-
-                return false;
+            $scope.showLeftButton = function () {
+                return $scope.layoutIsLeft();
             };
 
-            scope.showLeftButton = function () {
-                return scope.layoutIsLeft();
+            $scope.showRightButton = function () {
+                return $scope.layoutIsRight();
             };
 
-            scope.showRightMenu = function () {
-                if (scope.layoutIsRight()) {
-                    return true;
-                }
-
-                if (scope.layoutIsLeft() &&
-                    scope.contextualMenuExists()) {
-                    return true;
-                }
-
-                return false;
+            $scope.getLeftMenuWidth = function () {
+                return $scope.leftMenu.width;
             };
 
-            scope.showRightButton = function () {
-                if (scope.layoutIsRight()) {
-                    return true;
-                }
-
-                if (scope.layoutIsLeft() &&
-                    scope.contextualMenuExists()) {
-                    return false;
-                }
-                return false;
+            $scope.getLeftMenuSrc = function () {
+                return $scope.leftMenu.src;
             };
 
-            scope.showBottom = function () {
-                return (scope.layout_id && (scope.layout.menu.position === "bottom") &&
-                    (scope.layout.menu.visibility === "homepage"));
+            $scope.getLeftMenuShow = function () {
+                return $scope.leftMenu.show;
             };
 
-            scope.showAlways = function () {
-                return (scope.layout_id && (scope.layout.menu.position === "bottom") &&
-                    (scope.layout.menu.visibility === "always"));
+            $scope.getRightMenuWidth = function () {
+                return $scope.rightMenu.width;
             };
 
-            scope.contextualMenuSideWidth = function () {
-                return ContextualMenu.width;
+            $scope.getRightMenuSrc = function () {
+                return $scope.rightMenu.src;
             };
 
-            scope.contextualMenuIsEnabled = function () {
-                return ContextualMenu.isEnabled;
+            $scope.getRightMenuShow = function () {
+                return $scope.rightMenu.show;
             };
 
-            scope.contextualMenuExists = function () {
-                return ContextualMenu.exists;
+            $scope.contextualMenuIsReady = function () {
+                return ContextualMenu.settings.isReady.promise;
             };
 
-            scope.contextualMenu = function () {
-                return ContextualMenu.templateURL;
+            $scope.init = function () {
+                // Reset contextual menu ready promise!
+                ContextualMenu.settings.isReady = $q.defer();
+
+                $timeout(function () {
+                    if ($scope.layoutIsLeft()) {
+                        // Build left menu!
+                        $scope.leftMenu = {
+                            width: $scope.layout.menu.sidebarLeftWidth,
+                            show: true,
+                            src: "homepage-menu.html"
+                        };
+
+                        // Reset right & contextual!
+                        $scope.contextualMenu.isEnabled = false;
+                        $scope.contextualMenu.side = "right";
+                        $scope.rightMenu = {
+                            width: 0,
+                            show: false,
+                            src: "blank-menu.html"
+                        };
+
+                        // Enjoy contextual menu only (forced right)!
+                        if (ContextualMenu.settings.isEnabled) {
+                            $scope.contextualMenu.isEnabled = true;
+                            $scope.contextualMenu.side = "right";
+                            $scope.rightMenu = {
+                                width: ContextualMenu.settings.width,
+                                show: true,
+                                src: ContextualMenu.settings.templateUrl
+                            };
+                        }
+
+                    } else if ($scope.layoutIsRight()) {
+                        // Reset left & contextual!
+                        $scope.contextualMenu.isEnabled = false;
+                        $scope.contextualMenu.side = "right";
+                        $scope.leftMenu = {
+                            width: 0,
+                            show: false,
+                            src: "blank-menu.html"
+                        };
+
+                        // Build right menu!
+                        $scope.rightMenu = {
+                            width: $scope.layout.menu.sidebarRightWidth,
+                            show: true,
+                            src: "homepage-menu.html"
+                        };
+
+                        // Enjoy contextual menu only (forced left)!
+                        if (ContextualMenu.settings.isEnabled) {
+                            $scope.contextualMenu.isEnabled = true;
+                            $scope.contextualMenu.side = "left";
+                            $scope.leftMenu = {
+                                width: ContextualMenu.settings.width,
+                                show: true,
+                                src: ContextualMenu.settings.templateUrl
+                            };
+                        }
+                    } else {
+                        //  Reset left, right & contextual!
+                        $scope.contextualMenu.isEnabled = false;
+                        $scope.contextualMenu.side = "right";
+                        $scope.leftMenu = {
+                            width: 0,
+                            show: false,
+                            src: "blank-menu.html"
+                        };
+
+                        $scope.rightMenu = {
+                            width: $scope.layout.menu.sidebarRightWidth,
+                            show: true,
+                            src: "homepage-menu.html"
+                        };
+
+                        // Enjoy contextual menu only!
+                        if (ContextualMenu.settings.isEnabled) {
+                            $scope.contextualMenu.isEnabled = true;
+                            if (ContextualMenu.settings.preferredSide === "left") {
+                                $scope.contextualMenu.side = "left";
+                                $scope.leftMenu = {
+                                    width: ContextualMenu.settings.width,
+                                    show: true,
+                                    src: ContextualMenu.settings.templateUrl
+                                };
+                            } else {
+                                $scope.contextualMenu.side = "right";
+                                $scope.rightMenu = {
+                                    width: ContextualMenu.settings.width,
+                                    show: true,
+                                    src: ContextualMenu.settings.templateUrl
+                                };
+                            }
+                        }
+                    }
+
+                    // It's ready, wait 20ms for the breathing!
+                    $timeout(function () {
+                        ContextualMenu.settings.isReady.resolve();
+                    }, 20);
+                }, 1);
             };
 
-            /** ======== */
-            scope.getLeftSrc = function () {
-                // Layout HAS side menu AND is RIGHT, AND we have a Contextual menu, so the contextual is LEFT
-                if (scope.contextualMenuExists() &&
-                    scope.layoutHasSideMenu() &&
-                    scope.layoutIsRight()) {
-                    return scope.contextualMenu();
+            $rootScope.$on("contextualMenu.init", function () {
+                $scope.init();
+            });
+
+            $rootScope.$on("contextualMenu.toggle", function () {
+                if ($scope.contextualMenu.isEnabled) {
+                    if ($scope.contextualMenu.side === "left") {
+                        $ionicSideMenuDelegate.toggleLeft(!$scope.isMenuLeftOpen());
+                    } else {
+                        $ionicSideMenuDelegate.toggleRight(!$scope.isMenuRightOpen());
+                    }
                 }
+            });
 
-                if (scope.layoutHasSideMenu() && scope.layoutIsLeft()) {
-                    return "homepage-menu.html";
+            $rootScope.$on("contextualMenu.close", function () {
+                if ($scope.contextualMenu.isEnabled) {
+                    if ($scope.contextualMenu.side === "left") {
+                        $ionicSideMenuDelegate.toggleLeft(false);
+                    } else {
+                        $ionicSideMenuDelegate.toggleRight(false);
+                    }
                 }
+            });
 
-                return "blank-menu.html";
-            };
-
-            scope.getLeftWidth = function () {
-                // Layout HAS side menu AND is RIGHT, AND we have a Contextual menu, so the contextual is LEFT
-                if (scope.contextualMenuExists() &&
-                    scope.layoutHasSideMenu() &&
-                    scope.layoutIsRight()) {
-                    return scope.contextualMenuSideWidth();
+            $rootScope.$on("contextualMenu.open", function () {
+                if ($scope.contextualMenu.isEnabled) {
+                    if ($scope.contextualMenu.side === "left") {
+                        $ionicSideMenuDelegate.toggleLeft(true);
+                    } else {
+                        $ionicSideMenuDelegate.toggleRight(true);
+                    }
                 }
+            });
 
-                if (scope.layoutHasSideMenu() && scope.layoutIsLeft()) {
-                    return scope.layout.menu.sidebarLeftWidth;
+            // Close all side menus!
+            $rootScope.$on("sideMenu.close", function () {
+                if ($ionicSideMenuDelegate.isOpenLeft()) {
+                    $ionicSideMenuDelegate.toggleLeft(false);
                 }
-
-                return 0;
-            };
-
-            // SIDE MENU RIGHT
-            scope.getRightSrc = function () {
-                // Layout HAS side menu AND is LEFT, AND we have a Contextual menu, so the contextual is RIGHT
-                if (scope.contextualMenuExists() &&
-                    scope.layoutHasSideMenu() &&
-                    scope.layoutIsLeft()) {
-                    return scope.contextualMenu();
+                if ($ionicSideMenuDelegate.isOpenRight()) {
+                    $ionicSideMenuDelegate.toggleRight(false);
                 }
+            });
 
-                // Layout  HAS no side menu, so ContextualMenu is FORCED right
-                if (!scope.layoutHasSideMenu() &&
-                    scope.contextualMenuExists()) {
-                    return scope.contextualMenu();
-                }
+            // Init when ready!
+            HomepageLayout
+            .getFeatures()
+            .then(function () {
 
-                if (scope.layoutHasSideMenu() && scope.layoutIsRight()) {
-                    return "homepage-menu.html";
-                }
+                // Default settings, module, layout!
+                $scope.layout = HomepageLayout.properties;
+                $scope.layout_id = HomepageLayout.properties.layoutId;
+                angular.element($rootElement)
+                .addClass(("layout-" + $scope.layout_id)
+                .replace(/[^a-zA-Z0-9_\-]+/, '-')
+                .replace('.', '-')
+                .replace(/\-\-*/, '-'));
 
-                return "blank-menu.html";
-            };
-
-            scope.getRightWidth = function () {
-                // Layout HAS side menu AND is LEFT, AND we have a Contextual menu, so the contextual is RIGHT
-                if (scope.contextualMenuExists() &&
-                    scope.layoutHasSideMenu() &&
-                    scope.layoutIsLeft()) {
-                    return scope.contextualMenuSideWidth();
-                }
-
-                // Layout  HAS no side menu, so ContextualMenu is FORCED right
-                if (!scope.layoutHasSideMenu() &&
-                    scope.contextualMenuExists()) {
-                    return scope.contextualMenuSideWidth();
-                }
-
-                if (scope.layoutHasSideMenu() && scope.layoutIsRight()) {
-                    return scope.layout.menu.sidebarRightWidth;
-                }
-
-                return 0;
-            };
+                $scope.init();
+            });
         }
     };
 });

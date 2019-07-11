@@ -71,7 +71,7 @@ angular.module('starter').controller('HomeController', function ($ionicHistory, 
                     for (var fi = 0; fi < features.options.length; fi = fi + 1) {
                         var feat = features.options[fi];
                         // Don't load unwanted features on first page!
-                        if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
+                        if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) === -1) {
                             feat_index = fi;
                             break;
                         }

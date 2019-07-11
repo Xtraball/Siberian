@@ -474,7 +474,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                         for (var fi = 0; fi < localFeatures.options.length; fi = fi + 1) {
                             var feat = localFeatures.options[fi];
                             // Don't load unwanted features on first page!
-                            if ((feat.code !== 'code_scan') && (feat.code !== 'radio') && (feat.code !== 'padlock')) {
+                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) === -1) {
                                 featIndex = fi;
                                 break;
                             }

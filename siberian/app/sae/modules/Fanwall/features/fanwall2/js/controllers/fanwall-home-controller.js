@@ -6,7 +6,8 @@
  */
 angular
 .module("starter")
-.controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate, Customer, Dialog,
+.controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate,
+                                               $ionicSideMenuDelegate, Customer, Dialog,
                                                Location, Fanwall, FanwallUtils, GoogleMaps) {
     angular.extend($scope, {
         settingsIsLoaded: false,
@@ -77,8 +78,13 @@ angular
     };
 
     $scope.showTab = function (tabName) {
+        $ionicSideMenuDelegate.canDragContent(tabName !== "map");
         $scope.currentTab = tabName;
     };
+
+    $scope.$on('$ionicView.afterLeave', function () {
+        $ionicSideMenuDelegate.canDragContent(true);
+    });
 
     $scope.classTab = function (key) {
         if ($scope.currentTab === key) {
