@@ -279,7 +279,7 @@ class Packager
         // Do not 'delete' all files that changed (or that were forced to)
         $realDeleteIndex = array_diff($this->deleteIndex, $this->changeIndex);
 
-        $releaseNote = 'https://updates02.siberiancms.com/release-notes/all/' . $this->release . '.html';
+        $releaseNote = 'https://updates02.siberiancms.com/release-notes/all/index.php?v=' . $this->release;
         $packageJson = [
             'name' => $name,
             'version'=> $this->release,
