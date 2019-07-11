@@ -48,9 +48,9 @@ angular
         }
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $ionicSideMenuDelegate,
-                          $location, $log, $q, $rootScope, $stateParams, $timeout, $window, LinkService, Analytics,
-                          Customer, Pages, Padlock, Modal) {
+    self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
+                          $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
+                          Padlock, Modal) {
         var HomepageLayout = {};
 
         // Hooks!
@@ -86,12 +86,7 @@ angular
             switch (Pages.data.layout.position) {
                 case "left":
                 case "right":
-                    if ($ionicSideMenuDelegate.isOpenLeft()) {
-                        $ionicSideMenuDelegate.toggleLeft();
-                    }
-                    if ($ionicSideMenuDelegate.isOpenRight()) {
-                        $ionicSideMenuDelegate.toggleRight();
-                    }
+                    $rootScope.$broadcast("sideMenu.close");
 
                     // Skip clear history for specific features:
                     var isPadlock = (feature.code === "padlock");

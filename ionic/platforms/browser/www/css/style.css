@@ -1976,36 +1976,43 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     box-shadow: 0 0 10px #000000; /** fix css footer */
 }
 
+.menu-content.pane {
+    z-index: 0 !important;
+}
+
 .menu-content {
     transform: translate3d(0px, 0px, 0px) !important;
-    transition: filter .2s ease .2s;
+    filter: brightness(100%);
+    transition: filter 100ms ease 100ms;
 }
 
 .menu-content.menu-open {
     z-index: 0;
     filter: brightness(80%);
-    transition: filter .2s ease-in .2s;
+    transition: filter 250ms ease 250ms !important;
 }
 
 .menu.menu-left {
     z-index: 1 !important;
-    transition: transform .2s ease-in .2s;
-    transform: translateX(-100%);
+    transition: transform 100ms ease-in 100ms;
+    transform: translateX(-101%);
 }
 
 .menu.menu-left.menu-left-open {
     z-index: 1 !important;
+    transition: transform 250ms ease-in 250ms !important;
     transform: translateX(0%);
 }
 
 .menu.menu-right {
     z-index: 1 !important;
-    transition: transform .2s ease-in .2s;
-    transform: translateX(100%);
+    transition: transform 100ms ease-in 100ms;
+    transform: translateX(101%);
 }
 
 .menu.menu-right.menu-right-open {
     z-index: 1 !important;
+    transition: transform 250ms ease-in 250ms !important;
     transform: translateX(0);
 }
 
