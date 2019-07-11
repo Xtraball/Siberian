@@ -42,6 +42,14 @@ $categories = (new Application_Model_Option_Category())
 $isBackofficeUser = $admin->isBackofficeUser();
 $masterId = null;
 
+
+$adminId = $admin->getId();
+
+/**
+ * @var $cacheOutput Zend_Cache_Frontend_Output
+ */
+$cacheOutput = Zend_Registry::get("cacheOutput");
+
 /**
  * @param $canAccess
  * @param $option
@@ -129,6 +137,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
     </script>
 
     <?php if ($admin->isAllowedToAddPages($appId)) : ?>
+        <?php if (!$cacheOutput->start("add_pages_admin_id_{$adminId}")): ?>
         <div id="previews"
              style="display:none;">
             <div id="preview_mask"
@@ -291,6 +300,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 </div>
             </div>
         </div>
+        <?php $cacheOutput->end(["cache_admin"]); endif; ?>
     <?php endif; ?>
 </div>
 

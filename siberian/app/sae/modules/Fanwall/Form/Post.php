@@ -34,11 +34,6 @@ class Post extends FormAbstract
         $title = $this->addSimpleText("title", p__("fanwall","Title"));
         $title->setAttrib("maxlength", 100);
 
-        $this->addSimpleImage("image", p__("fanwall","Add a picture"), p__("fanwall","Add a picture"), [
-            "width" => 1000,
-            "height" => 640,
-        ]);
-
         $this->dateField = $this->addSimpleDatetimepickerv2(
             "date_" . uniqid(),
             p__("fanwall","Publication date"),
@@ -53,6 +48,11 @@ class Post extends FormAbstract
         $text
             ->setRichtext()
             ->setRequired(true);
+
+        $this->addSimpleImage("image", p__("fanwall","Add a picture"), p__("fanwall","Add a picture"), [
+            "width" => 1000,
+            "height" => 640,
+        ]);
 
         $valueId = $this->addSimpleHidden("value_id");
         $valueId

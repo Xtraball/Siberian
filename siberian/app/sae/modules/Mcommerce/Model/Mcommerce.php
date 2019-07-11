@@ -65,12 +65,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
         $catalog->delete();
 
         return $this;
-
     }
 
     public function prepareFeature($option_value)
     {
-
         parent::prepareFeature($option_value);
         if (!$this->getId()) {
             $catalog_option = new Application_Model_Option();

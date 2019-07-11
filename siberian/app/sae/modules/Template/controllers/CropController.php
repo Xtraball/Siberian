@@ -3,12 +3,13 @@
 class Template_CropController extends Admin_Controller_Default
 {
 
-    public function uploadAction() {
+    public function uploadAction()
+    {
 
         if ($datas = $this->getRequest()->getParams() AND !empty($_FILES)) {
             try {
 
-                $folder = Core_Model_Directory::getTmpDirectory(true).'/';
+                $folder = Core_Model_Directory::getTmpDirectory(true) . '/';
 
                 $params = [];
                 $params['validators'] = [
@@ -27,26 +28,26 @@ class Template_CropController extends Admin_Controller_Default
                 $params['uniq_prefix'] = '';
 
                 //param customs
-                foreach($params['validators']['ImageSize'] as $key => $value) {
-                    if(isset($datas[$key])) {
+                foreach ($params['validators']['ImageSize'] as $key => $value) {
+                    if (isset($datas[$key])) {
                         $params['validators']['ImageSize'][$key] = $datas[$key];
                     }
                 }
-                if(isset($datas['uniq_prefix'])) {
+                if (isset($datas['uniq_prefix'])) {
                     $params['uniq_prefix'] = $datas['uniq_prefix'];
                 }
 
-                if(isset($datas['desired_name']) && $datas['desired_name'] != '') {
+                if (isset($datas['desired_name']) && $datas['desired_name'] != '') {
                     $params['desired_name'] = $datas['desired_name'];
                 }
 
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->upload($params);
 
-                $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$file);
+                $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true) . '/' . $file);
 
                 $datas = [
-                    "success" => 1,
+                    "success" => true,
                     "message" => __("File uploaded."),
                     "files" => $file,
                     "source_width" => $image_sizes[0],
@@ -54,23 +55,24 @@ class Template_CropController extends Admin_Controller_Default
                 ];
             } catch (Exception $e) {
                 $datas = [
-                    "error" => 1,
+                    "error" => true,
                     "message" => $e->getMessage()
                 ];
             }
-            $this->getLayout()->setHtml(Zend_Json::encode($datas));
+            $this->_sendJson($datas);
         }
     }
 
-    public function cropAction() {
+    public function cropAction()
+    {
         $picture = $this->getRequest()->getParam('picture');
-        $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$picture);
+        $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true) . '/' . $picture);
         $option_value_id = '';
         $is_colorizable = false;
-        if($this->getRequest()->getParam('option_value_id')) {
+        if ($this->getRequest()->getParam('option_value_id')) {
             $option_value_id = $this->getRequest()->getParam('option_value_id');
         }
-        if($this->getRequest()->getParam('is_colorizable')) {
+        if ($this->getRequest()->getParam('is_colorizable')) {
             $is_colorizable = $this->getRequest()->getParam('is_colorizable');
         }
         $html = $this->getLayout()->addPartial('crop', 'core_view_default', 'page/layout/crop.phtml')
@@ -83,24 +85,24 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable($is_colorizable)
+            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
-            ->toHtml()
-        ;
+            ->toHtml();
 
         $this->getLayout()->setHtml($html);
     }
 
-    public function cropv2Action() {
+    public function cropv2Action()
+    {
         $picture = $this->getRequest()->getParam('picture');
-        $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true).'/'.$picture);
+        $image_sizes = getimagesize(Core_Model_Directory::getTmpDirectory(true) . '/' . $picture);
         $option_value_id = '';
         $is_colorizable = false;
-        if($this->getRequest()->getParam('option_value_id')) {
+        if ($this->getRequest()->getParam('option_value_id')) {
             $option_value_id = $this->getRequest()->getParam('option_value_id');
         }
-        if($this->getRequest()->getParam('is_colorizable')) {
+        if ($this->getRequest()->getParam('is_colorizable')) {
             $is_colorizable = $this->getRequest()->getParam('is_colorizable');
         }
         $html = $this->getLayout()->addPartial('crop', 'core_view_default', 'page/layout/crop_v2.phtml')
@@ -113,36 +115,35 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable($is_colorizable)
+            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
-            ->toHtml()
-        ;
+            ->toHtml();
 
         $this->getLayout()->setHtml($html);
     }
 
 
-    public function validateAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function validateAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
             try {
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
                 $datas = [
-                    'success' => 1,
+                    'success' => true,
                     'file' => $file,
-                    'message_success' => $this->_('Info successfully saved'),
-                    'message_button' => 0,
-                    'message_timeout' => 2,
+                    'message' => $this->_('Info successfully saved'),
                 ];
             } catch (Exception $e) {
                 $datas = [
-                    'error' => 1,
+                    'error' => true,
                     'message' => $e->getMessage()
                 ];
             }
-            $this->_sendHtml($datas);
-         }
+
+            $this->_sendJson($datas);
+        }
     }
 
 }

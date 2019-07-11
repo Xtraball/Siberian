@@ -189,16 +189,20 @@
 
     $('#saveCrop').submit(function(){
         loader.show('sb-features');
-        reload(this, $('#saveCrop').attr('action'), true, function(datas) {
-            if (datas.success) {
-                $.featherlight.current().close();
-                <?php if($this->getIsColorizable() && $this->getIsColorizable() == true) : ?>
-                    <?php echo $this->getUploader(); ?>.callback(datas);
+        reload(this, $('#saveCrop').attr('action'), true, function (payload) {
+            console.log("#saveCrop success", payload);
+            if (payload.success) {
+                console.log("#saveCrop success", payload);
+                <?php if($this->getIsColorizable() && $this->getIsColorizable() === true) : ?>
+                    <?php echo $this->getUploader(); ?>.callback(payload);
                 <?php else : ?>
-                    <?php echo $this->getUploader(); ?>.callback(datas.file);
+                    <?php echo $this->getUploader(); ?>.callback(payload.file);
                 <?php endif; ?>
+                $.featherlight.current().close();
             }
             loader.hide('sb-features');
+        }, function (error) {
+            console.log("#saveCrop error", error);
         });
         return false;
     });
