@@ -82,6 +82,10 @@ angular
         $scope.currentTab = tabName;
     };
 
+    $scope.$on('$ionicView.afterLeave', function () {
+        $ionicSideMenuDelegate.canDragContent(true);
+    });
+
     $scope.classTab = function (key) {
         if ($scope.currentTab === key) {
             return ["fw-icon-selected", "icon-active-custom"];
