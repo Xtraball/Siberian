@@ -47,42 +47,60 @@ $splashVersion = (integer) $application->getSplashVersion();
             <div class="row">
                 <div id="sb-tour-change-template-section"
                      class="col-sm-4 col-xs-6 sb-tour">
-                    <?php if($this->_canAccess("application_create")) : ?>
+                    <?php if ($this->_canAccess("application_create")) : ?>
                         <div id="show_templates"
                              class="pointer">
                             <p>
-                                <?php if(empty($design_id)): ?>
+                                <?php if (empty($design_id)): ?>
                                     <img id="design_overview"
                                          class="overview-old"
                                          src="/images/templates/blank/overview.png"
                                          width="100%"
                                          height="100%"/>
-                                <?php elseif(!empty($overview_new)): ?>
-                                    <img id="design_overview" src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>" width="100% " height="100%"/>
+                                <?php elseif (!empty($overview_new)): ?>
+                                    <img id="design_overview"
+                                         src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>"
+                                         width="100% "
+                                         height="100%" />
                                 <?php else: ?>
-                                    <img id="design_overview" class="overview-old" src="<?php echo $application->getDesign()->getOverview(); ?>" width="100% " height="100%"/>
+                                    <img id="design_overview"
+                                         class="overview-old"
+                                         src="<?php echo $application->getDesign()->getOverview(); ?>"
+                                         width="100% "
+                                         height="100%" />
                                 <?php endif; ?>
                             </p>
-                            <button id="sb-tour-change-template" type="button" class="show_templates btn-grey btn btn-full-width sb-tour">
+                            <button id="sb-tour-change-template"
+                                    type="button"
+                                    class="show_templates btn-grey btn btn-full-width sb-tour">
                                 <?php echo __("Change your template"); ?>
                             </button>
                             </div>
                     <?php endif; ?>
                 </div>
-                <div id="sb-tour-change-layout-section" class="col-sm-4 col-xs-6 sb-tour">
-                    <div id="show_layouts" class="pointer">
+                <div id="sb-tour-change-layout-section"
+                     class="col-sm-4 col-xs-6 sb-tour">
+                    <div id="show_layouts"
+                         class="pointer">
                         <div id="layout_overview">
                             <p>
-                            <img id="layout_overview" src="<?php echo $this->getImage($layout->getPreview()); ?>" width="100% " height="100%"/>
+                            <img id="layout_overview"
+                                 src="<?php echo $this->getImage($layout->getPreview()); ?>"
+                                 width="100% "
+                                 height="100%" />
                             </p>
                         </div>
-                        <button id="sb-tour-change-layout" type="button" class="show_layouts btn-grey btn btn-full-width sb-tour">
+                        <button id="sb-tour-change-layout"
+                                type="button"
+                                class="show_layouts btn-grey btn btn-full-width sb-tour">
                             <?php echo __("Change your layout"); ?>
                         </button>
                     </div>
                 </div>
                 <div id="layouts"
                      class="col-sm-4 col-xs-12 sb-tour">
+
+                    <?php if (!$layout_form_options->isEmpty()): ?>
                     <div id="default-options"
                          class="content-options content-white-bkg">
                         <h4><?php echo p__("application", "Homepage options") ?></h4>
@@ -90,11 +108,10 @@ $splashVersion = (integer) $application->getSplashVersion();
                         <div style="clear: both;"></div>
                     </div>
 
-                    <?php if(sizeof($countOptions) > 0): ?>
-                        <hr class="general spacer" />
+                    <hr class="general spacer" />
                     <?php endif; ?>
 
-                    <?php if($layout_form !== false): ?>
+                    <?php if ($layout_form !== false): ?>
                     <div id="custom-options"
                          class="content-options content-white-bkg">
                         <h4><?php echo p__("application", "Layout options") ?></h4>
@@ -135,7 +152,7 @@ $splashVersion = (integer) $application->getSplashVersion();
                     </div>
                     <?php endif; ?>
 
-                    <?php if(($layout_form === false) && (sizeof($countOptions) <= 0)): ?>
+                    <?php if (($layout_form === false) && $layout_form_options->isEmpty()): ?>
                     <div class="content-options content-white-bkg">
                         <p class="preset-title text-center"><?php echo p__("application", "This layout has no option.") ?></p>
                     </div>

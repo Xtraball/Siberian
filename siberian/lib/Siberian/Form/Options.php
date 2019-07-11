@@ -46,4 +46,13 @@ class Siberian_Form_Options extends Siberian_Form_Options_Abstract
 
         return parent::populate($values);
     }
+
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return empty($this->getElement("layout_visibility")) &&
+            empty($this->getElement("homepage_slider_is_visible"));
+    }
 }
