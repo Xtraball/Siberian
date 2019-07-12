@@ -86,7 +86,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
     .constant('PADLOCK_EVENTS', { unlockFeatures: 'padlock-unlock-features' })
 
     // Start app config
-    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider) {
+    .config(function ($compileProvider, $httpProvider, $ionicConfigProvider, $logProvider, $stateProvider, $urlRouterProvider) {
         // Add sb-token to every request
         $httpProvider.interceptors.push(function ($injector, $log, $q, $session) {
             return {
@@ -128,6 +128,13 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
         $ionicConfigProvider.backButton.text("");
         $ionicConfigProvider.backButton.previousTitleText(false);
 
+        $urlRouterProvider.otherwise(function ($injector, $ocLazyLoad) {
+            // Try to load the corresponding module, otherwise, fallback on home
+
+            console.log("$urlRouterProvider.otherwise", BASE_PATH);
+            return BASE_PATH;
+        });
+
         // Register lazyModules states
         window.Features.registry.forEach(function (feature) {
             window.Features.createStates($stateProvider, feature.json, feature.bundle);
@@ -152,6 +159,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
             ui_background_loader: false,
             ui_progress_view: false,
             loginFeatureBack: true
+        });
+
+        $rootScope.$on("$stateNotFound", function(event, unfoundState, fromState, fromParams) {
+            console.log("$stateNotFound", unfoundState.to); // "lazy.state"
+            console.log("$stateNotFound", unfoundState.toParams); // {a:1, b:2}
+            console.log("$stateNotFound", unfoundState.options); // {inherit:false} + default options
         });
 
         // Listeners for network events!
@@ -227,7 +240,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
                             isPwa: isPwa,
-                            version: "4.17.1"
+                            version: "4.17.3"
                         },
                         timeout: 20000,
                         cache: !isOverview,

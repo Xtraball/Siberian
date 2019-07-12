@@ -32,15 +32,15 @@ window.Features = {
             lazyLoadBundle = lazyLoadBundle.concat(json.lazyLoad.module);
         }
 
-        var feature_base = 'features/'+json.code+'/';
+        var feature_base = "features/" + json.code + "/";
 
-        var template_base = feature_base + 'assets/templates/';
+        var template_base = feature_base + "assets/templates/";
         var routes = {};
         angular.forEach(json.routes, function (r) {
             if (r.autoregister !== false) {
                 var route = {
-                    'url': BASE_PATH + '/' + r.url,
-                    'controller': r.controller
+                    "url": BASE_PATH + "/" + r.url,
+                    "controller": r.controller
                 };
 
                 if (angular.isDefined(lazyLoadBundle)) {

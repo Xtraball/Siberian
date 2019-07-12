@@ -3,6 +3,7 @@
 use Siberian\Hook;
 use Siberian\Account;
 use Siberian\Json;
+use Customer\Model\Field;
 
 /**
  * Class Front_Controller_Api_Pwa
@@ -12,7 +13,12 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
     /**
      * @var string
      */
-    public $version = "pwa_v1";
+    public $version = "v_base";
+
+    /**
+     * @var integer|null
+     */
+    public $accountValueId = null;
 
     /**
      * Here we generate the Application initial payload
@@ -208,6 +214,7 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
             ];
             $myAccount = $defaultSettings;
             if ($myAccountFeature->getId()) {
+                $this->accountValueId = $myAccountFeature->getId();
                 try {
                     $myAccount["settings"] = Json::decode($myAccountFeature->getSettings());
                 } catch (\Exception $e) {
@@ -383,6 +390,7 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
                         "name" => $optionValue->getTabbarName(),
                         "subtitle" => $optionValue->getTabbarSubtitle(),
                         "is_active" => (boolean) $optionValue->isActive(),
+                        "is_visible" => (boolean) $optionValue->getIsVisible(),
                         "url" => $uris["featureUrl"],
                         "hide_navbar" => (boolean) $hideNavbar,
                         "use_external_app" => (boolean) $useExternalApp,
@@ -461,6 +469,7 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
                 "name" => $option->getTabbarName(),
                 "subtitle" => $application->getAccountSubtitle(),
                 "is_active" => (boolean)$option->isActive(),
+                "is_visible" => (boolean) $application->usesUserAccount(),
                 "url" => $this->getUrl("customer/mobile_account_login"),
                 "path" => $this->getPath("customer/mobile_account_login"),
                 "login_url" => $this->getUrl("customer/mobile_account_login"),
@@ -468,8 +477,7 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
                 "edit_url" => $this->getUrl("customer/mobile_account_edit"),
                 "edit_path" => $this->getPath("customer/mobile_account_edit"),
                 "icon_url" => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
-                "icon_is_colorable" => (boolean)$accountColorizable,
-                "is_visible" => (boolean)$application->usesUserAccount()
+                "icon_is_colorable" => (boolean)$accountColorizable
             ];
 
             $layout = new Application_Model_Layout_Homepage();
@@ -644,6 +652,7 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (boolean) $customer->getIsCustomImage(),
@@ -671,7 +680,8 @@ class Front_Controller_Api_Pwa extends Front_Controller_App_Default
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
-            'is_logged_in' => $isLoggedIn
+            'is_logged_in' => $isLoggedIn,
+            "customFields" => Field::buildCustomFields($this->accountValueId, $customer)
         ]);
 
         return $loadBlock;

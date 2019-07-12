@@ -1,4 +1,5 @@
 <?php
+/**
 $name = "QR Coupons";
 $category = "monetization";
 
@@ -46,4 +47,4 @@ $icons = array(
     "/discount/discount3-flat.png",
 );
 
-Siberian_Feature::installIcons("{$name}-flat", $icons);
+Siberian_Feature::installIcons("{$name}-flat", $icons);*/

@@ -1,4 +1,5 @@
 <?php
+/**
 $name = "Discount";
 $category = "monetization";
 
@@ -47,3 +48,4 @@ $icons = array(
 );
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);
+*/

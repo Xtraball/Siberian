@@ -1,4 +1,4 @@
-angular.module('starter').config(function ($stateProvider, $urlRouterProvider) {
+angular.module('starter').config(function ($stateProvider) {
     $stateProvider
         .state('home', {
             url: BASE_PATH,
@@ -7,6 +7,4 @@ angular.module('starter').config(function ($stateProvider, $urlRouterProvider) {
             cache: false,
             resolve: lazyLoadResolver('homepage')
         });
-
-    $urlRouterProvider.otherwise(BASE_PATH);
 });

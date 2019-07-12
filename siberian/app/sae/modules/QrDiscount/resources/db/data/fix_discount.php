@@ -1,5 +1,5 @@
 <?php
-
+/**
 // ALTER table.
 try {
     $this->query('ALTER TABLE `promotion` CHANGE `unlock_code` `unlock_code` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;');
@@ -51,4 +51,4 @@ try {
 } catch (Exception $e) {
     // Silent
 
-}
+}*/

@@ -11,20 +11,22 @@ angular
 
     self.getLayoutIdForValueId = function (valueId) {
         var layoutId = 1;
+        var vid = Math.parseInt(valueId, 10);
         try {
             // Well search in short index first!
-            if (self.layout_ids.hasOwnProperty(valueId)) {
-                return self.layout_ids[valueId] * 1;
+            if (self.layout_ids.hasOwnProperty(vid)) {
+                return self.layout_ids[vid] * 1;
             }
 
-            self.pages.forEach(function (page) {
-                if (page.value_id == valueId) {
-                    return page.layout_id * 1;
+            self.pages.forEach(function (currentPage) {
+                if (Math.parseInt(currentPage.value_id, 10) === vid) {
+                    return currentPage.layout_id * 1;
                 }
 
-                if (currentPage.code === "folder_v2" && currentPage.embed_payload) {
+                if (currentPage.code === "folder_v2" &&
+                    currentPage.embed_payload) {
                     currentPage.embed_payload.collection.forEach(function (subPage) {
-                        if (subPage.value_id == valueId) {
+                        if (Math.parseInt(subPage.value_id, 10) === vid) {
                             layoutId = subPage.layout_id;
                             return layoutId * 1;
                         }
@@ -272,7 +274,8 @@ angular
                         deferred.resolve(HomepageLayout.getData());
                     });
                 } else {
-                    Pages.ready
+                    Pages
+                        .ready
                         .then(function () {
                             HomepageLayout.dataLoading = true;
 
@@ -388,12 +391,16 @@ angular
                     data: HomepageLayout.data
                 };
 
+                console.log("features", features);
+
                 var limit = features.overview.limit;
 
                 // We show only `visible options`
                 features.options = features.options.filter(function (option) {
                     return option.is_visible;
                 });
+
+                console.log("features visible", features);
 
                 if (limit !== null && limit > 0 && features.options.length > limit) {
                     if (HomepageLayout.data.layout.use_horizontal_scroll) {

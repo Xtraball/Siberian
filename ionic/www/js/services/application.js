@@ -100,7 +100,7 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
             // Configuring PushService & skip if this is a preview.
             try {
                 $ocLazyLoad
-                    .load("./features/push_notification/push_notification.js")
+                    .load("./features/push_notification/push_notification.bundle.min.js")
                     .then(function () {
                         var PushService = $injector.get("PushService");
                         PushService.configure(
