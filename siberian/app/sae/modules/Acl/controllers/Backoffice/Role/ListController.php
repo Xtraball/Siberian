@@ -56,7 +56,7 @@ class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
     {
         // Prevent loops in recursive methods!
         $this->preventLoops++;
-        if ($this->preventLoops > 20) {
+        if ($this->preventLoops > 1000) {
             return [];
         }
 
