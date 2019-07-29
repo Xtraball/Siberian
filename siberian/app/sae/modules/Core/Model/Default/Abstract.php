@@ -918,9 +918,9 @@ abstract class Core_Model_Default_Abstract
     {
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
-        // In case the dummy is missing!
-        if ($dummy_content_xml === false) {
-            return false;
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
         }
 
         foreach ($dummy_content_xml->children() as $content) {

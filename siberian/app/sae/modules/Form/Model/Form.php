@@ -132,6 +132,11 @@ class Form_Model_Form extends Core_Model_Default
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         foreach ($dummy_content_xml->children() as $content) {
             $this->unsData();
             $this->setEmail((string)$content->form->email)

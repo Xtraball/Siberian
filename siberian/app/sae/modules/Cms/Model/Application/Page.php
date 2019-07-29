@@ -638,6 +638,11 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         if ($option->getCode() == 'places' && $dummy_content_xml->places) {
 
             foreach ($dummy_content_xml->places->children() as $content) {
