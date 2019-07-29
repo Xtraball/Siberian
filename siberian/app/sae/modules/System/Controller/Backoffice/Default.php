@@ -1,5 +1,10 @@
 <?php
 
+use Siberian\Version;
+
+/**
+ * Class System_Controller_Backoffice_Default
+ */
 class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 {
     /**
@@ -26,20 +31,20 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
             try {
                 $this->_save($params);
                 $payload = [
-                    'success' => 1,
-                    'message' => __('Info successfully saved')
+                    "success" => true,
+                    "message" => __("Info successfully saved")
                 ];
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $payload = [
-                    'error' => 1,
-                    'message' => $e->getMessage()
+                    "error" => true,
+                    "message" => $e->getMessage()
                 ];
             }
 
         } else {
             $payload = [
-                'error' => 1,
-                'message' => 'An error occurred while saving'
+                "error" => true,
+                "message" => __("An error occurred while saving")
             ];
         }
 
@@ -90,7 +95,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         }
 
         # Required fields
-        if (array_key_exists('main_domain', $data)) {
+        if (array_key_exists("main_domain", $data)) {
             // Raise error if empty!
             if (empty($data['main_domain']['value'])) {
                 throw new \Siberian\Exception('#797-00: ' . __('Main domain is required!'));
@@ -109,28 +114,33 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
             if (empty($code)) {
                 continue;
             }
+
             if (!in_array($code, $this->_codes)) {
                 continue;
             }
-            if ($code === 'app_default_identifier_android') {
-                $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
 
-                if (preg_match($regexAndroid, $values['value']) !== 1) {
-                    throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+            if (!Version::is("SAE")) {
+                if ($code === 'app_default_identifier_android') {
+                    $regexAndroid = "/^([a-z]{1}[a-z_]*){2,10}\.([a-z]{1}[a-z0-9_]*){1,30}((\.([a-z]{1}[a-z0-9_]*){1,61})*)?$/i";
+
+                    if (preg_match($regexAndroid, $values['value']) !== 1) {
+                        throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+                    }
                 }
-            }
 
-            if ($code === 'app_default_identifier_ios') {
-                $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
+                if ($code === 'app_default_identifier_ios') {
+                    $regexIos = "/^([a-z]){2,10}\.([a-z-]{1}[a-z0-9-]*){1,30}((\.([a-z-]{1}[a-z0-9-]*){1,61})*)?$/i";
 
-                if (preg_match($regexIos, $values['value']) !== 1) {
-                    throw new \Siberian\Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
+                    if (preg_match($regexIos, $values['value']) !== 1) {
+                        throw new \Siberian\Exception(__("Your bundle id is invalid, format should looks like com.mydomain.iosid"));
+                    }
                 }
             }
 
             if ($code === 'favicon') {
                 continue;
             }
+
             __set($code, $values['value']);
         }
 
@@ -138,9 +148,8 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     }
 
     /**
-     * Save SMTP configuration
-     *
      * @param $data
+     * @return $this
      */
     public function _saveSmtp($data)
     {
@@ -191,6 +200,9 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function generateanalyticsforperiodAction()
     {
         try {
@@ -235,6 +247,9 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
     }
 
+    /**
+     *
+     */
     public function checksiberiancmslicenseAction()
     {
         try {

@@ -40,7 +40,6 @@ $can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATI
 
 $option_object = $option->getObject();
 $available_offline = $option_object->availableOffline();
-$application = $application;
 $application_offline_enabled = ($application->getOfflineContent() == 1);
 
 $cacheOutput = Zend_Registry::get("cacheOutput");
@@ -314,11 +313,11 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                         <?php foreach ($allIcons as $icon) : ?>
                                             <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
                                                 <li data-filter="<?php echo $icon->getLink() ?>"
-                                                    rel="<?php echo $option->getId(); ?>"
+                                                    rel="#OPTION_VALUE_ID#"
                                                     class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
                                                     <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
                                                        class="left icon"
-                                                       rel="<?php echo $option->getId(); ?>">
+                                                       rel="#OPTION_VALUE_ID#">
                                                         <button class="select_icon btn"
                                                                 type="button">
                                                             <img src="<?php echo $icon->getUrl(); ?>"
@@ -328,7 +327,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                         </button>
                                                         <input type="hidden"
                                                                name="option_value_id"
-                                                               value="<?php echo $option->getValueId(); ?>"/>
+                                                               value="#OPTION_VALUE_ID#" />
                                                         <input type="hidden"
                                                                name="icon_id"
                                                                value="<?php echo $icon->getId(); ?>"/>
@@ -339,7 +338,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                             <i class="fa fa-times"></i>
                                                             <input type="hidden"
                                                                    name="option_value_id"
-                                                                   value="<?php echo $option->getValueId(); ?>"/>
+                                                                   value="#OPTION_VALUE_ID#"/>
                                                             <input type="hidden"
                                                                    name="icon_id"
                                                                    value="<?php echo $icon->getId(); ?>"/>
@@ -353,7 +352,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                     </ul>
                                 </div>
                             </div>
-                            <?php $cacheOutput->end(["cache_admin"]); endif; ?>
+                            <?php $cacheOutput->end(["all_feature_icons"]); endif; ?>
                     </div>
                 </div>
             </div>
@@ -362,12 +361,21 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
     <!-- /Icons modal -->
 
 
+
     <div class="edit_page container-fluid subcontent">
         <?php echo $this->getPartialHtml('content_editor'); ?>
     </div>
     <script type="text/javascript">
 
         window.custom_icon_uploader = new Uploader();
+
+        let optionValueId = <?php echo $option->getValueId(); ?>;
+
+        let toReplaceRelValueId = $("[rel='#OPTION_VALUE_ID#']");
+        let toReplaceValueValueId = $("[value='#OPTION_VALUE_ID#']");
+
+        toReplaceRelValueId.attr("rel", optionValueId);
+        toReplaceValueValueId.attr("value", optionValueId);
 
         page.setCallback('bind_icons_events', function () {
             $('.feature_is_activated').change(function () {

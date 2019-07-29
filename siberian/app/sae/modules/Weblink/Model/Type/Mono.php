@@ -31,6 +31,11 @@ class Weblink_Model_Type_Mono extends Weblink_Model_Weblink {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         foreach ($dummy_content_xml->children() as $content) {
 
             if($content->attributes()->type_id == 1) {

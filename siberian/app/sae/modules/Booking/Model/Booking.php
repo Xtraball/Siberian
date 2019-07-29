@@ -20,6 +20,7 @@ class Booking_Model_Booking extends Core_Model_Default
     }
 
     /**
+     * @param $value_id
      * @return array
      */
     public function getInappStates($value_id)
@@ -114,20 +115,25 @@ class Booking_Model_Booking extends Core_Model_Default
      */
     public function createDummyContents($option_value, $design, $category)
     {
-
         $dummy_content_xml = $this->_getDummyXml($design, $category);
-
         $this->setValueId($option_value->getId())->save();
 
-        foreach ($dummy_content_xml->children() as $content) {
-            $store = new Booking_Model_Store();
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
 
-            foreach ($content->children() as $key => $value) {
-                $store->addData((string)$key, (string)$value);
+        if ($dummy_content_xml) {
+            foreach ($dummy_content_xml->children() as $content) {
+                $store = new Booking_Model_Store();
+
+                foreach ($content->children() as $key => $value) {
+                    $store->addData((string)$key, (string)$value);
+                }
+
+                $store->setBookingId($this->getId())
+                    ->save();
             }
-
-            $store->setBookingId($this->getId())
-                ->save();
         }
     }
 

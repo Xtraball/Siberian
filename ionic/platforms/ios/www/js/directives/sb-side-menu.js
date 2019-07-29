@@ -199,9 +199,9 @@ angular
                         };
 
                         $scope.rightMenu = {
-                            width: $scope.layout.menu.sidebarRightWidth,
-                            show: true,
-                            src: "homepage-menu.html"
+                            width: 0,
+                            show: false,
+                            src: "blank-menu.html"
                         };
 
                         // Enjoy contextual menu only!

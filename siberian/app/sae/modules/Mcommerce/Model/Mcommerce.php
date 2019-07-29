@@ -384,6 +384,11 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         foreach ($dummy_content_xml->children() as $content) {
             //catalog
             $catalog_category = new Application_Model_Option();

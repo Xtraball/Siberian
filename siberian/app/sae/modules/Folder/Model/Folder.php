@@ -421,6 +421,11 @@ class Folder_Model_Folder extends Core_Model_Default
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         foreach ($dummy_content_xml->folders->folder as $folder) {
             $root_category = new Folder_Model_Category();
             $root_category->addData((array)$folder->category->main->content)
