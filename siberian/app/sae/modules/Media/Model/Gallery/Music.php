@@ -183,6 +183,11 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         if($dummy_content_xml->musics) {
 
             foreach ($dummy_content_xml->musics->children() as $content) {

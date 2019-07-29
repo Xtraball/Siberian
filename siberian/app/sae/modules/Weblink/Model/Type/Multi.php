@@ -83,6 +83,11 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 
         $dummy_content_xml = $this->_getDummyXml($design, $category, $option_value, $option_value);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         foreach ($dummy_content_xml->children() as $content) {
 
             if ($content->attributes()->type_id == 2) {

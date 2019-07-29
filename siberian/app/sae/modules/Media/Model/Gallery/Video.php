@@ -158,6 +158,11 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         if($dummy_content_xml->videos) {
 
             foreach ($dummy_content_xml->videos->children() as $content) {

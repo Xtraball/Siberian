@@ -430,6 +430,11 @@ class Catalog_Model_Product extends Core_Model_Default {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
+        // Continue if dummy is empty!
+        if (!$dummy_content_xml) {
+            return;
+        }
+
         if($option->getCode() == "set_meal") {
 
             foreach ($dummy_content_xml->set_meal->children() as $content) {
