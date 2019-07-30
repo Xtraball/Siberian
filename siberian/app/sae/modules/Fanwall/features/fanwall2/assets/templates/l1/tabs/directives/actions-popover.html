@@ -1,0 +1,30 @@
+<ion-popover-view class="module-fanwall fanwall-popover popover-custom">
+    <ion-content class="module-fanwall fanwall-popover popover-content-custom">
+        <ion-list class="list">
+            <div class="item item-custom"
+                 ng-if="isOwner()"
+                 ng-click="closeActions(); editPost()">
+                <i class="icon ion-edit"></i>
+                <span class="popover-action-title">{{ ::"Edit post" | translate:"fanwall" }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="!isOwner()"
+                 ng-click="closeActions(); flagPost()">
+                <i class="icon ion-flag"></i>
+                <span class="popover-action-title">{{ ::"Report post" | translate:"fanwall" }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="!isOwner()"
+                 ng-click="closeActions(); blockUser()">
+                <i class="icon ion-flag"></i>
+                <span class="popover-action-title">{{ ::"Block all user posts" | translate:"fanwall" }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="isOwner()"
+                 ng-click="closeActions(); deletePost()">
+                <i class="icon ion-android-delete"></i>
+                <span class="popover-action-title">{{ ::"Delete post" | translate:"fanwall" }}</span>
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-popover-view>

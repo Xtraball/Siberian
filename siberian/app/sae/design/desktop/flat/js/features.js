@@ -644,10 +644,11 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                     }
 
                     if (form.hasClass('toggle')) {
-                        var button = form.find('button[type=\'submit\']');
+                        let button = form.find('button[type=\'submit\']');
+                        let newState = parseInt(data.state, 10);
                         button.find('i').remove();
-                        button.append((data.state === 1) ? button.data('toggle-off') : button.data('toggle-on'));
-                        button.attr('title', (data.state === 1) ? button.data('title-off') : button.data('title-on'));
+                        button.append((newState === 1) ? button.data('toggle-off') : button.data('toggle-on'));
+                        button.attr('title', (newState === 1) ? button.data('title-off') : button.data('title-on'));
                         button.tooltip('destroy');
                         setTimeout(function () {
                             button.tooltip();
@@ -655,7 +656,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                     } else if (form.hasClass('onchange')) {
                         /** Do nothing */
                     } else if (form.hasClass('callback')) {
-                        var callback = form.data('callback');
+                        let callback = form.data('callback');
                         if (typeof callback === 'function') {
                             try {
                                 callback(data);

@@ -144,10 +144,11 @@
           i {
             &.icon {
               &.icon-pin {
-                transform: rotate(30deg);
+                transform: rotate(20deg);
               }
 
               margin: 0 0 0 12px;
+              font-size: 20px;
             }
           }
         }
@@ -448,4 +449,34 @@
   &:before {
     font-size: 26px !important;
   }
+}
+
+/** Popover, scoped outside for global usage, to be moved in general scss. */
+.popover {
+  transform: translate(-4px, -10px);
+}
+
+.popover-action-title {
+  font-size: 13px;
+  font-weight: bold;
+  transform: translate(6px, -1px);
+  display: inline-block;
+  letter-spacing: 1px;
+}
+
+.popover-custom {
+  min-height: 52px;
+  height: 52px;
+  max-height: 208px;
+  border-radius: 2px !important;
+}
+
+.popover-content-custom {
+  border-radius: 2px !important;
+  margin: 0 !important;
+  background: none;
+}
+
+.popover-arrow {
+  display: none !important;
 }

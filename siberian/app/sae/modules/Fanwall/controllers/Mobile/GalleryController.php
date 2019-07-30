@@ -1,5 +1,6 @@
 <?php
 
+use Fanwall\Model\BlockedUser;
 use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Model\Like;
@@ -29,6 +30,8 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
     {
         try {
             $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
             $limit = $request->getParam("limit", 20);
@@ -38,6 +41,9 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
+
+            // Exclude blockedUsers
+            $query = BlockedUser::excludePosts($query, $customerId);
 
             $order = [
                 "fanwall_post.sticky DESC",

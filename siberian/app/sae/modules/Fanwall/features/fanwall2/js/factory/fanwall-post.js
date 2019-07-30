@@ -162,6 +162,38 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     };
 
     /**
+     * Block unwanted user!
+     *
+     * @param postId
+     */
+    factory.blockUser = function (postId) {
+        return $pwaRequest.post("fanwall/mobile_post/block-user", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId
+            }
+        });
+    };
+
+    /**
+     * Delete own post!
+     *
+     * @param postId
+     */
+    factory.deletePost = function (postId) {
+        return $pwaRequest.post("fanwall/mobile_post/delete-post", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId
+            }
+        });
+    };
+
+    /**
      * Delete self comment!
      *
      * @param commentId

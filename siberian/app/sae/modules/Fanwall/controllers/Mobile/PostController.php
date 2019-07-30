@@ -4,6 +4,8 @@ use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Model\Like;
 use Fanwall\Model\Comment;
+use Fanwall\Model\BlockedUser;
+use Siberian\Json;
 use Siberian\Xss;
 use Siberian\Exception;
 use Siberian\Feature;
@@ -37,10 +39,15 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $limit = $request->getParam("limit", 20);
             $offset = $request->getParam("offset", 0);
 
+
+
             $query = [
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
+
+            // Exclude blockedUsers
+            $query = BlockedUser::excludePosts($query, $customerId);
 
             $order = [
                 "fanwall_post.sticky DESC",
@@ -63,6 +70,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 foreach ($comments as $comment) {
                     $commentCollection[] = $comment->forJson();
                 }
+
+                // Exclude blockedUsers
+                $commentCollection = BlockedUser::excludeComments($commentCollection, $customerId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -161,6 +171,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "fanwall_post.is_visible = ?" => 1
             ];
 
+            // Exclude blockedUsers
+            $query = BlockedUser::excludePosts($query, $customerId);
+
             $order = [
                 "fanwall_post.sticky DESC",
                 "fanwall_post.date DESC"
@@ -182,6 +195,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 foreach ($comments as $comment) {
                     $commentCollection[] = $comment->forJson();
                 }
+
+                // Exclude blockedUsers
+                $commentCollection = BlockedUser::excludeComments($commentCollection, $customerId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -290,6 +306,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "fanwall_post.is_visible = ?" => 1,
             ];
 
+            // Exclude blockedUsers
+            $query = BlockedUser::excludePosts($query, $customerId);
+
             $order = [
                 "fanwall_post.sticky DESC",
                 "fanwall_post.date DESC"
@@ -306,6 +325,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 foreach ($comments as $comment) {
                     $commentCollection[] = $comment->forJson();
                 }
+
+                // Exclude blockedUsers
+                $commentCollection = BlockedUser::excludeComments($commentCollection, $customerId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -692,6 +714,107 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "comments" => $commentCollection,
                 "message" => "Your comment is deleted!",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function blockUserAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to block a user.");
+            }
+
+            $data = $request->getBodyParams();
+            $optionValue = $this->getCurrentOptionValue();
+            $customerId = $session->getCustomerId();
+            $postId = $data["postId"];
+
+            $post = (new Post())->find($postId);
+            if (!$post->getId()) {
+                throw new Exception("This post doesn't exists.");
+            }
+
+            $blockedUser = (new BlockedUser())->find($customerId, "customer_id");
+
+            $blockedUserList = [];
+            if ($blockedUser->getId()) {
+                try {
+                    $blockedUserList = Json::decode($blockedUser->getBlockedUsers());
+                } catch (\Exception $e) {
+                    $blockedUserList = [];
+                }
+            }
+
+            $blockedUserList[] = $post->getCustomerId();
+
+            $blockedUser
+                ->setCustomerId($customerId)
+                ->setValueId($optionValue->getId())
+                ->setBlockedUsers(Json::encode($blockedUserList))
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => "You blocked this user posts & messages.",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deletePostAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to delete a post.");
+            }
+
+            $data = $request->getBodyParams();
+            $customerId = $session->getCustomerId();
+            $postId = $data["postId"];
+
+            $post = (new Post())->find($postId);
+            if (!$post->getId()) {
+                throw new Exception("This post doesn't exists.");
+            }
+
+            if ($post->getCustomerId() != $customerId) {
+                throw new Exception("This post doesn't belong to you.");
+            }
+
+            // Make post invisible!
+            $post
+                ->setIsVisible(false)
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => "Your post is trashed.",
             ];
         } catch (\Exception $e) {
             $payload = [

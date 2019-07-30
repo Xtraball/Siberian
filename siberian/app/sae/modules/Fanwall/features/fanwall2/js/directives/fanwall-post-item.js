@@ -1,11 +1,13 @@
 angular
 .module("starter")
 .directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, Customer, Dialog, Loader,
-                                        Fanwall, FanwallPost, FanwallUtils, Lightbox) {
+                                        Fanwall, FanwallPost, FanwallUtils, Lightbox, Popover) {
         return {
             restrict: 'E',
             templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-item.html",
             controller: function ($scope) {
+                $scope.actionsPopover = null;
+
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
                 };
@@ -66,6 +68,25 @@ angular
                     return $filter("moment_calendar")($scope.post.date * 1000);
                 };
 
+                // Popover actions!
+                $scope.openActions = function ($event) {
+                    Popover
+                    .fromTemplateUrl("features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html", {
+                        scope: $scope
+                    }).then (function (popover) {
+                        $scope.actionsPopover = popover;
+                        $scope.actionsPopover.show($event);
+                    });
+                };
+
+                $scope.closeActions = function () {
+                    try {
+                        $scope.actionsPopover.hide();
+                    } catch (e) {
+                        // We skip!
+                    }
+                };
+
                 $scope.flagPost = function () {
                     var title = $translate.instant("Report this message!", "fanwall");
                     var message = $translate.instant("Please let us know why you think this message is inappropriate.", "fanwall");
@@ -90,6 +111,60 @@ angular
                                     Loader.hide();
                                 });
                         });
+                };
+
+                $scope.blockUser = function () {
+                    Dialog
+                    .confirm(
+                        "Confirmation",
+                        "You are about to block all this user messages!",
+                        ["YES", "NO"],
+                        -1,
+                        "fanwall")
+                    .then(function (value) {
+                        if (!value) {
+                            return;
+                        }
+                        Loader.show();
+
+                        FanwallPost
+                        .blockUser($scope.post.id, value)
+                        .then(function (payload) {
+                            $rootScope.$broadcast("fanwall.refresh");
+                            Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+                        }, function (payload) {
+                            Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+                        }).then(function () {
+                            Loader.hide();
+                        });
+                    });
+                };
+
+                $scope.deletePost = function () {
+                    Dialog
+                    .confirm(
+                        "Confirmation",
+                        "You are about to delete this post!",
+                        ["YES", "NO"],
+                        -1,
+                        "fanwall")
+                    .then(function (value) {
+                        if (!value) {
+                            return;
+                        }
+                        Loader.show();
+
+                        FanwallPost
+                        .deletePost($scope.post.id, value)
+                        .then(function (payload) {
+                            $rootScope.$broadcast("fanwall.refresh");
+                            Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+                        }, function (payload) {
+                            Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+                        }).then(function () {
+                            Loader.hide();
+                        });
+                    });
                 };
 
                 $scope.commentModal = function () {

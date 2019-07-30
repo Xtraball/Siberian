@@ -4,13 +4,9 @@
         <img ng-src="{{ authorImagePath() }}" />
         <h2>
             {{ authorName() }}
-            <i class="icon ion-edit pull-right"
-               ng-if="isOwner()"
-               ng-click="editPost()"></i>
-            <i class="icon ion-flag pull-right"
-               ng-if="!isOwner()"
-               ng-click="flagPost()"></i>
-            <i class="icon ion-pin pull-right balanced balanced-custom"
+            <i class="icon ion-more pull-right"
+               ng-click="openActions($event)"></i>
+            <i class="icon ion-pin icon-pin pull-right balanced balanced-custom"
                ng-if="post.sticky"></i>
         </h2>
         <p class="post-date">
