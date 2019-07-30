@@ -38,7 +38,7 @@ if ($option->getId()) {
         "position" => 10,
         "social_sharing_is_available" => 1,
         "use_my_account" => 1,
-        'backoffice_description' => 'This feature is disabled by default since update 4.17.0.'
+        'backoffice_description' => 'This feature is disabled by default since update 4.17.0 and is deprecated in favor of Social Wall.'
     ];
 
     $option = Siberian_Feature::install($category, $data, ['code']);
