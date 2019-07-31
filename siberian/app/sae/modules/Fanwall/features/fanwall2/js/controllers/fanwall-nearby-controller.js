@@ -67,7 +67,10 @@ angular
         };
 
         $rootScope.$on("fanwall.refresh", function () {
-            $scope.loadContent(true);
+            // Refresh only the "active" tab
+            if ($scope.currentTab === "nearby") {
+                $scope.loadContent(true);
+            }
         });
 
         Location
@@ -79,6 +82,6 @@ angular
                 $scope.location.latitude = 0;
                 $scope.location.longitude = 0;
             }).then(function () {
-                $scope.loadContent(true);
+                $scope.loadContent($scope.collection.length === 0);
             });
     });

@@ -67,6 +67,7 @@ class Comment extends Base
             "customerId" => (integer) $this->getCustomerId(),
             "text" => (string) Xss::sanitize(base64_decode($this->getText())),
             "isFlagged" => (boolean) $this->getFlag(),
+            "isBlocked" => (boolean) false,
             "date" => (integer) $this->getDate(),
             "image" => (string) $this->getPicture(),
             "author" => [

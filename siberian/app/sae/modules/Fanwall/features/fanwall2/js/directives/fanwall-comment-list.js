@@ -11,7 +11,7 @@ angular
                 scope._post = scope.post;
             });
         },
-        controller: function ($scope) {
+        controller: function ($rootScope, $scope) {
             $scope.scrollToBottom = function () {
                 $timeout(function () {
                     ModalScrollDelegate
@@ -27,6 +27,16 @@ angular
             $scope.listDidRender = function () {
                 $scope.scrollToBottom();
             };
+
+            $rootScope.$on("fanwall.refresh.comments", function (event, payload) {
+                // Comments are updated!
+                if (payload.postId === $scope.post.id) {
+                    $timeout(function () {
+                        $scope.post.comments = angular.copy(payload.comments);
+                        $scope.post.commentCount = $scope.post.comments.length;
+                    });
+                }
+            });
         }
     };
 });

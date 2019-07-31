@@ -66,8 +66,11 @@ angular
     };
 
     $rootScope.$on("fanwall.refresh", function () {
-        $scope.loadContent(true);
+        // Refresh only the "active" tab
+        if ($scope.currentTab === "gallery") {
+            $scope.loadContent(true);
+        }
     });
 
-    $scope.loadContent(true);
+    $scope.loadContent($scope.collection.length === 0);
 });

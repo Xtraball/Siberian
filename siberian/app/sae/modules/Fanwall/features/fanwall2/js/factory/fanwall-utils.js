@@ -4,7 +4,7 @@
  * @author Xtraball SAS <dev@xtraball.com>
  * @version 4.17.0
  */
-angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout, Modal) {
+angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout, Dialog, Loader, Modal, FanwallPost) {
     var factory = {
         _postModal: null,
         _showPostModal: null,
@@ -87,6 +87,62 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
             factory._commentModal.show();
 
             return modal;
+        });
+    };
+
+    factory.blockUser = function (sourceId, from) {
+        Dialog
+        .confirm(
+            "Confirmation",
+            "You are about to block all this user messages!",
+            ["YES", "NO"],
+            -1,
+            "fanwall")
+        .then(function (value) {
+            if (!value) {
+                return;
+            }
+            Loader.show();
+
+            FanwallPost
+            .blockUser(sourceId, from)
+            .then(function (payload) {
+                $rootScope.$broadcast("fanwall.refresh");
+                $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+            }, function (payload) {
+                Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+            }).then(function () {
+                Loader.hide();
+            });
+        });
+    };
+
+    factory.unblockUser = function (sourceId, from) {
+        Dialog
+        .confirm(
+            "Confirmation",
+            "You are about to unblock all this user messages!",
+            ["YES", "NO"],
+            -1,
+            "fanwall")
+        .then(function (value) {
+            if (!value) {
+                return;
+            }
+            Loader.show();
+
+            FanwallPost
+            .unblockUser(sourceId, from)
+            .then(function (payload) {
+                $rootScope.$broadcast("fanwall.refresh");
+                $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+            }, function (payload) {
+                Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
+            }).then(function () {
+                Loader.hide();
+            });
         });
     };
 

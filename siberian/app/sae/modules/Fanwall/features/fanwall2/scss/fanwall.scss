@@ -1,4 +1,49 @@
 .module-fanwall {
+
+  /** Popover, scoped outside for global usage, to be moved in general scss. */
+  &.popover {
+    margin-top: 0 !important;
+    transform: translate(-14px,-14px);
+    border-radius: 2px !important;
+
+    &.popover-custom {
+      max-height: 260px;
+      border-radius: 2px !important;
+
+      .item-custom {
+        padding: 10px !important;
+      }
+
+      .popover-icon-left {
+        width: 20px;
+        text-align: center;
+        display: inline-block;
+      }
+
+      .popover-action-title {
+        font-size: 13px;
+        font-weight: bold;
+        transform: translate(6px, -1px);
+        display: inline-block;
+        letter-spacing: 1px;
+      }
+
+      .popover-content-custom {
+        border-radius: 2px !important;
+        margin: 0 !important;
+        background: none;
+      }
+
+      .popover-arrow {
+        display: none !important;
+      }
+    }
+  }
+
+  .blocked-item {
+    opacity: 0.5;
+  }
+
   .no-post {
     white-space: normal !important;
     padding-top: 15px !important;
@@ -216,6 +261,12 @@
           padding-top: 5px;
           padding-left: 50px;
           min-height: 50px;
+        }
+
+        i {
+          &.icon {
+            font-size: 16px;
+          }
         }
 
         h2 {
@@ -451,32 +502,3 @@
   }
 }
 
-/** Popover, scoped outside for global usage, to be moved in general scss. */
-.popover {
-  transform: translate(-4px, -10px);
-}
-
-.popover-action-title {
-  font-size: 13px;
-  font-weight: bold;
-  transform: translate(6px, -1px);
-  display: inline-block;
-  letter-spacing: 1px;
-}
-
-.popover-custom {
-  min-height: 52px;
-  height: 52px;
-  max-height: 208px;
-  border-radius: 2px !important;
-}
-
-.popover-content-custom {
-  border-radius: 2px !important;
-  margin: 0 !important;
-  background: none;
-}
-
-.popover-arrow {
-  display: none !important;
-}

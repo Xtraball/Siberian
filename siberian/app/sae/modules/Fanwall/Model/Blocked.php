@@ -6,10 +6,10 @@ use Core\Model\Base;
 use Siberian\Json;
 
 /**
- * Class BlockedUser
+ * Class Blocked
  * @package Fanwall\Model
  */
-class BlockedUser extends Base
+class Blocked extends Base
 {
     /**
      * Answer constructor.
@@ -19,7 +19,7 @@ class BlockedUser extends Base
     public function __construct($datas = [])
     {
         parent::__construct($datas);
-        $this->_db_table = 'Fanwall\Model\Db\Table\BlockedUser';
+        $this->_db_table = 'Fanwall\Model\Db\Table\Blocked';
     }
 
     /**
@@ -35,12 +35,12 @@ class BlockedUser extends Base
         }
 
         // blocked users mechanism!
-        $blockedUser = (new self())->find($customerId, "customer_id");
+        $blocked = (new self())->find($customerId, "customer_id");
 
         $blockedUserList = [];
-        if ($blockedUser->getId()) {
+        if ($blocked->getId()) {
             try {
-                $blockedUserList = Json::decode($blockedUser->getBlockedUsers());
+                $blockedUserList = Json::decode($blocked->getBlockedUsers());
             } catch (\Exception $e) {
                 $blockedUserList = [];
             }
@@ -67,12 +67,12 @@ class BlockedUser extends Base
         }
 
         // blocked users mechanism!
-        $blockedUser = (new self())->find($customerId, "customer_id");
+        $blocked = (new self())->find($customerId, "customer_id");
 
         $blockedUserList = [];
-        if ($blockedUser->getId()) {
+        if ($blocked->getId()) {
             try {
-                $blockedUserList = Json::decode($blockedUser->getBlockedUsers());
+                $blockedUserList = Json::decode($blocked->getBlockedUsers());
             } catch (\Exception $e) {
                 $blockedUserList = [];
             }

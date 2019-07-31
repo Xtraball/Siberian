@@ -5,17 +5,17 @@ namespace Fanwall\Model\Db\Table;
 use Core_Model_Db_Table as DbTable;
 
 /**
- * Class BlockedUser
+ * Class Blocked
  * @package Fanwall\Model\Db\Table
  */
-class BlockedUser extends DbTable
+class Blocked extends DbTable
 {
     /**
      * @var string
      */
-    protected $_name = "fanwall_blocked_user";
+    protected $_name = "fanwall_blocked";
     /**
      * @var string
      */
-    protected $_primary = "blocked_user_id";
+    protected $_primary = "blocked_id";
 }

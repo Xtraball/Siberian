@@ -1,12 +1,13 @@
 angular
 .module("starter")
-.directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, Customer, Dialog, Loader,
+.directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, $q, Customer, Dialog, Loader,
                                         Fanwall, FanwallPost, FanwallUtils, Lightbox, Popover) {
         return {
             restrict: 'E',
             templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-item.html",
             controller: function ($scope) {
                 $scope.actionsPopover = null;
+                $scope.popoverItems = [];
 
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
@@ -81,10 +82,14 @@ angular
 
                 $scope.closeActions = function () {
                     try {
-                        $scope.actionsPopover.hide();
+                        if ($scope.actionsPopover) {
+                            return $scope.actionsPopover.hide();
+                        }
                     } catch (e) {
                         // We skip!
                     }
+
+                    return $q.resolve();
                 };
 
                 $scope.flagPost = function () {
@@ -113,31 +118,62 @@ angular
                         });
                 };
 
-                $scope.blockUser = function () {
-                    Dialog
-                    .confirm(
-                        "Confirmation",
-                        "You are about to block all this user messages!",
-                        ["YES", "NO"],
-                        -1,
-                        "fanwall")
-                    .then(function (value) {
-                        if (!value) {
-                            return;
-                        }
-                        Loader.show();
-
-                        FanwallPost
-                        .blockUser($scope.post.id, value)
-                        .then(function (payload) {
-                            $rootScope.$broadcast("fanwall.refresh");
-                            Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
-                        }, function (payload) {
-                            Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
-                        }).then(function () {
-                            Loader.hide();
+                /**
+                 *
+                 * */
+                $scope.buildPopoverItems = function () {
+                    if ($scope.isOwner()) {
+                        $scope.popoverItems.push({
+                            label: $translate.instant("Edit post", "fanwall"),
+                            icon: "icon ion-edit",
+                            click: function () {
+                                $scope.closeActions();
+                                $timeout(function () {
+                                    $scope.editPost();
+                                }, 10);
+                            }
                         });
-                    });
+
+                        $scope.popoverItems.push({
+                            label: $translate.instant("Delete post", "fanwall"),
+                            icon: "icon ion-android-delete",
+                            click: function () {
+                                $scope.closeActions();
+                                $timeout(function () {
+                                    $scope.deletePost();
+                                }, 10);
+                            }
+                        });
+                    } else {
+                        $scope.popoverItems.push({
+                            label: $translate.instant("Report post", "fanwall"),
+                            icon: "icon ion-flag",
+                            click: function () {
+                                $scope.closeActions();
+                                $timeout(function () {
+                                    $scope.flagPost();
+                                }, 10);
+                            }
+                        });
+
+                        if ($scope.post.customerId !== 0) {
+                            $scope.popoverItems.push({
+                                label: $translate.instant("Block all user posts", "fanwall"),
+                                icon: "ion-android-remove-circle",
+                                click: function () {
+                                    $scope.closeActions();
+                                    $timeout(function () {
+                                        $scope.blockUser();
+                                    }, 10);
+                                }
+                            });
+                        }
+
+                    }
+                };
+
+                $scope.blockUser = function () {
+                    FanwallUtils.blockUser($scope.post.id, "from-post");
                 };
 
                 $scope.deletePost = function () {
@@ -235,6 +271,9 @@ angular
                 $scope.editPost = function () {
                     return FanwallUtils.postModal($scope.post);
                 };
+
+                // Build items!
+                $scope.buildPopoverItems();
 
                 $rootScope.$on("fanwall.modal.ready", function () {
                     $timeout(function () {

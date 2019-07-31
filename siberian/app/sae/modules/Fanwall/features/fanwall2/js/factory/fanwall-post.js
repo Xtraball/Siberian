@@ -164,15 +164,35 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     /**
      * Block unwanted user!
      *
-     * @param postId
+     * @param sourceId
+     * @param from
      */
-    factory.blockUser = function (postId) {
+    factory.blockUser = function (sourceId, from) {
         return $pwaRequest.post("fanwall/mobile_post/block-user", {
             urlParams: {
                 value_id: factory.value_id
             },
             data: {
-                postId: postId
+                from: from,
+                sourceId: sourceId
+            }
+        });
+    };
+
+    /**
+     * Block unwanted user!
+     *
+     * @param sourceId
+     * @param from
+     */
+    factory.unblockUser = function (sourceId, from) {
+        return $pwaRequest.post("fanwall/mobile_post/unblock-user", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                from: from,
+                sourceId: sourceId
             }
         });
     };

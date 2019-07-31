@@ -7,8 +7,8 @@
  *
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
-$schemas["fanwall_blocked_user"] = [
-    "blocked_user_id" => [
+$schemas["fanwall_blocked"] = [
+    "blocked_id" => [
         "type" => "int(11) unsigned",
         "auto_increment" => true,
         "primary" => true,
@@ -47,6 +47,12 @@ $schemas["fanwall_blocked_user"] = [
         ],
     ],
     "blocked_users" => [
+        "type" => "longtext",
+    ],
+    "blocked_posts" => [
+        "type" => "longtext",
+    ],
+    "blocked_comments" => [
         "type" => "longtext",
     ],
     "created_at" => [
