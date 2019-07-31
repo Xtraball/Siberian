@@ -8,6 +8,7 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
     var factory = {
         _postModal: null,
         _showPostModal: null,
+        _showPostHistoryModal: null,
         _commentModal: null
     };
 
@@ -59,6 +60,38 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
             $timeout(function () {
                 _localScope.postGroup = postGroup;
                 _localScope.isPostDetails = true;
+                _localScope.modalReady = true;
+
+                $rootScope.$broadcast("fanwall.modal.ready");
+            }, 500);
+
+            return modal;
+        });
+    };
+
+    /**
+     *
+     * @param post
+     */
+    factory.showPostHistoryModal = function (post) {
+        var _localScope = angular.extend($rootScope.$new(true), {
+            modalReady: false,
+            close: function () {
+                factory._showPostHistoryModal.hide();
+            }
+        });
+
+        Modal
+        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/post/history.html", {
+            scope: _localScope,
+            animation: "slide-in-right-left"
+        }).then(function (modal) {
+            factory._showPostHistoryModal = modal;
+            factory._showPostHistoryModal.show();
+
+            // Sending data to modal only after rendering!
+            $timeout(function () {
+                _localScope.post = post;
                 _localScope.modalReady = true;
 
                 $rootScope.$broadcast("fanwall.modal.ready");

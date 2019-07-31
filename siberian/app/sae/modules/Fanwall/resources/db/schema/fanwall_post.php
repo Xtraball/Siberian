@@ -123,6 +123,10 @@ $schemas["fanwall_post"] = [
         "collation" => "utf8_unicode_ci",
         "is_null" => true,
     ],
+    "history" => [
+        "type" => "longtext",
+        "is_null" => true,
+    ],
     "created_at" => [
         "type" => "datetime",
     ],

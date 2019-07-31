@@ -50,7 +50,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
             $limit = [
@@ -78,8 +78,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        "id" => (integer)$like->getId(),
-                        "customerId" => (integer)$like->getCustomerId(),
+                        "id" => (integer) $like->getId(),
+                        "customerId" => (integer) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -88,40 +88,47 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 $author = [
-                    "firstname" => (string)$application->getName(),
-                    "lastname" => (string)"",
-                    "nickname" => (string)$application->getName(),
-                    "image" => (string)$application->getIcon(64),
+                    "firstname" => (string) $application->getName(),
+                    "lastname" => (string) "",
+                    "nickname" => (string) $application->getName(),
+                    "image" => (string) $application->getIcon(64),
                 ];
                 if (!empty($post->getCustomerId())) {
                     $author = [
-                        "firstname" => (string)$post->getFirstname(),
-                        "lastname" => (string)$post->getLastname(),
-                        "nickname" => (string)$post->getnickname(),
-                        "image" => (string)$post->getAuthorImage(),
+                        "firstname" => (string) $post->getFirstname(),
+                        "lastname" => (string) $post->getLastname(),
+                        "nickname" => (string) $post->getnickname(),
+                        "image" => (string) $post->getAuthorImage(),
                     ];
                 }
 
+                try {
+                    $history = Json::decode($post->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
                 $collection[] = [
-                    "id" => (integer)$post->getId(),
-                    "customerId" => (integer)$post->getCustomerId(),
-                    "title" => (string)$post->getTitle(),
-                    "subtitle" => (string)$post->getSubtitle(),
-                    "text" => (string)Xss::sanitize(base64_decode($post->getText())),
-                    "image" => (string)$post->getImage(),
-                    "date" => (integer)$post->getDate(),
-                    "likeCount" => (integer)$likes->count(),
-                    "commentCount" => (integer)$comments->count(),
-                    "latitude" => (float)$post->getLatitude(),
-                    "longitude" => (float)$post->getLongitude(),
-                    "isFlagged" => (boolean)$post->getFlag(),
-                    "sticky" => (boolean)$post->getSticky(),
-                    "iLiked" => (boolean)$iLiked,
-                    "likeLocked" => (boolean)false,
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "likeCount" => (integer) $likes->count(),
+                    "commentCount" => (integer) $comments->count(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "isFlagged" => (boolean) $post->getFlag(),
+                    "sticky" => (boolean) $post->getSticky(),
+                    "iLiked" => (boolean) $iLiked,
+                    "likeLocked" => (boolean) false,
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "showDistance" => (boolean)false,
+                    "history" => $history,
+                    "showDistance" => (boolean) false,
                 ];
             }
 
@@ -129,7 +136,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $collection
+                "collection" => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -154,7 +161,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $offset = $request->getParam("offset", 0);
             $position = [
                 "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
+                "longitude" => $request->getParam("longitude", 0),
             ];
 
             // Within radius!
@@ -167,7 +174,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "latitude" => $position["latitude"],
                 "longitude" => $position["longitude"],
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
-                "fanwall_post.is_visible = ?" => 1
+                "fanwall_post.is_visible = ?" => 1,
             ];
 
             // Exclude blockedUsers
@@ -175,7 +182,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
             $limit = [
@@ -203,8 +210,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        "id" => (integer)$like->getId(),
-                        "customer_id" => (integer)$like->getCustomerId(),
+                        "id" => (integer) $like->getId(),
+                        "customer_id" => (integer) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -213,21 +220,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 $author = [
-                    "firstname" => (string)$application->getName(),
-                    "lastname" => (string)"",
-                    "nickname" => (string)$application->getName(),
-                    "image" => (string)$application->getIcon(64),
+                    "firstname" => (string) $application->getName(),
+                    "lastname" => (string) "",
+                    "nickname" => (string) $application->getName(),
+                    "image" => (string) $application->getIcon(64),
                 ];
                 if (!empty($post->getCustomerId())) {
                     $author = [
-                        "firstname" => (string)$post->getFirstname(),
-                        "lastname" => (string)$post->getLastname(),
-                        "nickname" => (string)$post->getnickname(),
-                        "image" => (string)$post->getAuthorImage(),
+                        "firstname" => (string) $post->getFirstname(),
+                        "lastname" => (string) $post->getLastname(),
+                        "nickname" => (string) $post->getnickname(),
+                        "image" => (string) $post->getAuthorImage(),
                     ];
                 }
 
-                $distance = (float)$post->getDistance();
+                $distance = (float) $post->getDistance();
                 $distanceUnit = "km";
                 if ($distance < 1000) {
                     $distanceUnit = "m";
@@ -236,29 +243,36 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $distance = round($distance / 1000, 2);
                 }
 
+                try {
+                    $history = Json::decode($post->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
                 $collection[] = [
-                    "id" => (integer)$post->getId(),
-                    "customerId" => (integer)$post->getCustomerId(),
-                    "title" => (string)$post->getTitle(),
-                    "subtitle" => (string)$post->getSubtitle(),
-                    "text" => (string)Xss::sanitize(base64_decode($post->getText())),
-                    "image" => (string)$post->getImage(),
-                    "date" => (integer)$post->getDate(),
-                    "likeCount" => (integer)$likes->count(),
-                    "commentCount" => (integer)$comments->count(),
-                    "latitude" => (float)$post->getLatitude(),
-                    "longitude" => (float)$post->getLongitude(),
-                    "isFlagged" => (boolean)$post->getFlag(),
-                    "sticky" => (boolean)$post->getSticky(),
-                    "iLiked" => (boolean)$iLiked,
-                    "likeLocked" => (boolean)false,
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "likeCount" => (integer) $likes->count(),
+                    "commentCount" => (integer) $comments->count(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "isFlagged" => (boolean) $post->getFlag(),
+                    "sticky" => (boolean) $post->getSticky(),
+                    "iLiked" => (boolean) $iLiked,
+                    "likeLocked" => (boolean) false,
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "showDistance" => (boolean)true,
-                    "distance" => (float)$distance,
+                    "history" => $history,
+                    "showDistance" => (boolean) true,
+                    "distance" => (float) $distance,
                     "distanceUnit" => $distanceUnit,
-                    "locationShort" => (string)$post->getLocationShort(),
+                    "locationShort" => (string) $post->getLocationShort(),
                 ];
             }
 
@@ -266,7 +280,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $collection
+                "collection" => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -289,7 +303,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $position = [
                 "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
+                "longitude" => $request->getParam("longitude", 0),
             ];
 
             // Within radius!
@@ -310,7 +324,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
             $posts = (new Post())->findAllWithCustomer($query, $order);
@@ -333,8 +347,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        "id" => (integer)$like->getId(),
-                        "customer_id" => (integer)$like->getCustomerId(),
+                        "id" => (integer) $like->getId(),
+                        "customer_id" => (integer) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -343,21 +357,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 $author = [
-                    "firstname" => (string)$application->getName(),
-                    "lastname" => (string)"",
-                    "nickname" => (string)$application->getName(),
-                    "image" => (string)$application->getIcon(64),
+                    "firstname" => (string) $application->getName(),
+                    "lastname" => (string) "",
+                    "nickname" => (string) $application->getName(),
+                    "image" => (string) $application->getIcon(64),
                 ];
                 if (!empty($post->getCustomerId())) {
                     $author = [
-                        "firstname" => (string)$post->getFirstname(),
-                        "lastname" => (string)$post->getLastname(),
-                        "nickname" => (string)$post->getnickname(),
-                        "image" => (string)$post->getAuthorImage(),
+                        "firstname" => (string) $post->getFirstname(),
+                        "lastname" => (string) $post->getLastname(),
+                        "nickname" => (string) $post->getnickname(),
+                        "image" => (string) $post->getAuthorImage(),
                     ];
                 }
 
-                $distance = (float)$post->getDistance();
+                $distance = (float) $post->getDistance();
                 $distanceUnit = "km";
                 if ($distance < 1000) {
                     $distance = round($distance, 0);
@@ -366,29 +380,36 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $distance = round($distance / 1000, 2);
                 }
 
+                try {
+                    $history = Json::decode($post->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
                 $collection[] = [
-                    "id" => (integer)$post->getId(),
-                    "customerId" => (integer)$post->getCustomerId(),
-                    "title" => (string)$post->getTitle(),
-                    "subtitle" => (string)$post->getSubtitle(),
-                    "text" => (string)Xss::sanitize(base64_decode($post->getText())),
-                    "image" => (string)$post->getImage(),
-                    "date" => (integer)$post->getDate(),
-                    "likeCount" => (integer)$likes->count(),
-                    "commentCount" => (integer)$comments->count(),
-                    "latitude" => (float)$post->getLatitude(),
-                    "longitude" => (float)$post->getLongitude(),
-                    "isFlagged" => (boolean)$post->getFlag(),
-                    "sticky" => (boolean)$post->getSticky(),
-                    "iLiked" => (boolean)$iLiked,
-                    "likeLocked" => (boolean)false,
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "likeCount" => (integer) $likes->count(),
+                    "commentCount" => (integer) $comments->count(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "isFlagged" => (boolean) $post->getFlag(),
+                    "sticky" => (boolean) $post->getSticky(),
+                    "iLiked" => (boolean) $iLiked,
+                    "likeLocked" => (boolean) false,
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "showDistance" => (boolean)true,
-                    "distance" => (float)$distance,
+                    "history" => $history,
+                    "showDistance" => (boolean) true,
+                    "distance" => (float) $distance,
                     "distanceUnit" => $distanceUnit,
-                    "locationShort" => (string)$post->getLocationShort(),
+                    "locationShort" => (string) $post->getLocationShort(),
                 ];
             }
 
@@ -409,7 +430,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $groups
+                "collection" => $groups,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -429,7 +450,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $settings = $fanWall->buildSettings();
             $payload = [
                 "success" => true,
-                "settings" => $settings
+                "settings" => $settings,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -538,6 +559,24 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             // Tries to find post if "edit"
             $post = (new Post())->find($postId);
 
+            $saveToHistory = false;
+            $archivedPost = null;
+            if ($post->getId()) {
+                $saveToHistory = true;
+                $archivedPost = [
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) $post->getText(),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "locationShort" => (string) $post->getLocationShort(),
+                ];
+            }
+
             $headers = [
                 "user-agent" => $request->getHeader("User-Agent"),
                 "forwarded-for" => $request->getHeader("X-Forwarded-For"),
@@ -582,6 +621,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             $post->save();
+
+            // Ok everything good, we can insert archive if edit
+            if ($saveToHistory) {
+                try {
+                    $history = Json::decode($post->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
+                $history[] = $archivedPost;
+
+                $post
+                    ->setHistory(Json::encode($history))
+                    ->save();
+            }
 
             $payload = [
                 "success" => true,

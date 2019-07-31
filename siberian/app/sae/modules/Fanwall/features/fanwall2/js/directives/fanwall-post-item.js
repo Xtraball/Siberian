@@ -122,26 +122,44 @@ angular
                  *
                  * */
                 $scope.buildPopoverItems = function () {
+                    var viewHistory = {
+                        label: $translate.instant("View edit history", "fanwall"),
+                        icon: "icon ion-clock",
+                        click: function () {
+                            $scope
+                            .closeActions()
+                            .then(function () {
+                                $scope.showHistory();
+                            });
+                        }
+                    };
+
                     if ($scope.isOwner()) {
                         $scope.popoverItems.push({
                             label: $translate.instant("Edit post", "fanwall"),
                             icon: "icon ion-edit",
                             click: function () {
-                                $scope.closeActions();
-                                $timeout(function () {
+                                $scope
+                                .closeActions()
+                                .then(function () {
                                     $scope.editPost();
-                                }, 10);
+                                });
                             }
                         });
+
+                        if ($scope.post.history.length > 0) {
+                            $scope.popoverItems.push(viewHistory);
+                        }
 
                         $scope.popoverItems.push({
                             label: $translate.instant("Delete post", "fanwall"),
                             icon: "icon ion-android-delete",
                             click: function () {
-                                $scope.closeActions();
-                                $timeout(function () {
+                                $scope
+                                .closeActions()
+                                .then(function () {
                                     $scope.deletePost();
-                                }, 10);
+                                });
                             }
                         });
                     } else {
@@ -149,22 +167,28 @@ angular
                             label: $translate.instant("Report post", "fanwall"),
                             icon: "icon ion-flag",
                             click: function () {
-                                $scope.closeActions();
-                                $timeout(function () {
+                                $scope
+                                .closeActions()
+                                .then(function () {
                                     $scope.flagPost();
-                                }, 10);
+                                });
                             }
                         });
+
+                        if ($scope.post.history.length > 0) {
+                            $scope.popoverItems.push(viewHistory);
+                        }
 
                         if ($scope.post.customerId !== 0) {
                             $scope.popoverItems.push({
                                 label: $translate.instant("Block all user posts", "fanwall"),
                                 icon: "ion-android-remove-circle",
                                 click: function () {
-                                    $scope.closeActions();
-                                    $timeout(function () {
+                                    $scope
+                                    .closeActions()
+                                    .then(function () {
                                         $scope.blockUser();
-                                    }, 10);
+                                    });
                                 }
                             });
                         }
@@ -174,6 +198,10 @@ angular
 
                 $scope.blockUser = function () {
                     FanwallUtils.blockUser($scope.post.id, "from-post");
+                };
+
+                $scope.showHistory = function () {
+                    FanwallUtils.showPostHistoryModal($scope.post);
                 };
 
                 $scope.deletePost = function () {
