@@ -4,7 +4,7 @@ angular
         return {
             restrict: "E",
             templateUrl: "features/fanwall2/assets/templates/l1/modal/post/history-item.html",
-            controller: function ($scope) {
+            controller: function ($scope, $filter) {
                 $scope.getCardDesign = function () {
                     return Fanwall.cardDesign;
                 };

@@ -102,12 +102,6 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     ];
                 }
 
-                try {
-                    $history = Json::decode($post->getHistory());
-                } catch (\Exception $e) {
-                    $history = [];
-                }
-
                 $collection[] = [
                     "id" => (integer) $post->getId(),
                     "customerId" => (integer) $post->getCustomerId(),
@@ -127,7 +121,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "history" => $history,
+                    "history" => $post->getHistoryJson(),
                     "showDistance" => (boolean) false,
                 ];
             }
@@ -243,12 +237,6 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $distance = round($distance / 1000, 2);
                 }
 
-                try {
-                    $history = Json::decode($post->getHistory());
-                } catch (\Exception $e) {
-                    $history = [];
-                }
-
                 $collection[] = [
                     "id" => (integer) $post->getId(),
                     "customerId" => (integer) $post->getCustomerId(),
@@ -268,7 +256,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "history" => $history,
+                    "history" => $post->getHistoryJson(),
                     "showDistance" => (boolean) true,
                     "distance" => (float) $distance,
                     "distanceUnit" => $distanceUnit,
@@ -380,12 +368,6 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $distance = round($distance / 1000, 2);
                 }
 
-                try {
-                    $history = Json::decode($post->getHistory());
-                } catch (\Exception $e) {
-                    $history = [];
-                }
-
                 $collection[] = [
                     "id" => (integer) $post->getId(),
                     "customerId" => (integer) $post->getCustomerId(),
@@ -405,7 +387,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "history" => $history,
+                    "history" => $post->getHistoryJson(),
                     "showDistance" => (boolean) true,
                     "distance" => (float) $distance,
                     "distanceUnit" => $distanceUnit,
