@@ -48,7 +48,7 @@ class BlockedUser extends Base
 
         // If we have some users blocked, we exclude them!
         if (sizeof($blockedUserList) > 0) {
-            $query["fanwall_post.customer_id NOT IN (?)"] = $blockedUserList;
+            $query["(fanwall_post.customer_id NOT IN (?) OR fanwall_post.customer_id IS NULL)"] = $blockedUserList;
         }
 
         return $query;
@@ -80,7 +80,14 @@ class BlockedUser extends Base
 
         $newComments = [];
         foreach ($comments as $comment) {
-            if (!in_array($comment["customer_id"], $blockedUserList)) {
+            if (!in_array($comment["customerId"], $blockedUserList)) {
+                $newComments[] = $comment;
+            } else {
+                $comment["text"] = (string) "You have blocked this user posts & comments.";
+                $comment["image"] = (string) "";
+                $comment["author"]["image"] = (string) "";
+                $comment["isBlocked"] = (boolean) true;
+
                 $newComments[] = $comment;
             }
         }
