@@ -9,7 +9,8 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
         _postModal: null,
         _showPostModal: null,
         _showPostHistoryModal: null,
-        _commentModal: null
+        _commentModal: null,
+        _editCommentModal: null
     };
 
     /**
@@ -103,6 +104,38 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
 
     /**
      *
+     * @param comment
+     */
+    factory.showCommentHistoryModal = function (comment) {
+        var _localScope = angular.extend($rootScope.$new(true), {
+            modalReady: false,
+            close: function () {
+                factory._showPostHistoryModal.hide();
+            }
+        });
+
+        Modal
+        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/comment/history.html", {
+            scope: _localScope,
+            animation: "slide-in-right-left"
+        }).then(function (modal) {
+            factory._showPostHistoryModal = modal;
+            factory._showPostHistoryModal.show();
+
+            // Sending data to modal only after rendering!
+            $timeout(function () {
+                _localScope.comment = comment;
+                _localScope.modalReady = true;
+
+                $rootScope.$broadcast("fanwall.modal.ready");
+            }, 500);
+
+            return modal;
+        });
+    };
+
+    /**
+     *
      * @param post
      */
     factory.commentModal = function (post) {
@@ -118,6 +151,28 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
         }).then(function (modal) {
             factory._commentModal = modal;
             factory._commentModal.show();
+
+            return modal;
+        });
+    };
+
+    /**
+     *
+     * @param comment
+     */
+    factory.editCommentModal = function (comment) {
+        Modal
+        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/comment/edit.html", {
+            scope: angular.extend($rootScope.$new(true), {
+                comment: comment,
+                close: function () {
+                    factory._editCommentModal.hide();
+                }
+            }),
+            animation: "slide-in-right-left"
+        }).then(function (modal) {
+            factory._editCommentModal = modal;
+            factory._editCommentModal.show();
 
             return modal;
         });

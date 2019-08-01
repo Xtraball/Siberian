@@ -128,15 +128,17 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
      * Send new comment!
      *
      * @param postId
+     * @param commentId
      * @param form
      */
-    factory.sendComment = function (postId, form) {
+    factory.sendComment = function (postId, commentId, form) {
         return $pwaRequest.post("fanwall/mobile_post/send-comment", {
             urlParams: {
                 value_id: factory.value_id
             },
             data: {
                 postId: postId,
+                commentId: commentId,
                 form: form
             },
             cache: false

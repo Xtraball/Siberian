@@ -25,14 +25,14 @@ angular
         };
 
         $scope.loadMore = function () {
-            $scope.loadContent(false);
+            $scope.loadContent(false, true);
         };
 
         $scope.locationIsDisabled = function () {
             return !Location.isEnabled;
         };
 
-        $scope.loadContent = function (refresh) {
+        $scope.loadContent = function (refresh, loadMore) {
             if ($scope.locationIsDisabled()) {
                 return false;
             }
@@ -60,9 +60,13 @@ angular
                 }, function (payload) {
 
                 }).then(function () {
-                if (refresh === true) {
-                    $scope.isLoading = false;
-                }
+                    if (loadMore === true) {
+                        $scope.$broadcast("scroll.infiniteScrollComplete");
+                    }
+
+                    if (refresh === true) {
+                        $scope.isLoading = false;
+                    }
                 });
         };
 

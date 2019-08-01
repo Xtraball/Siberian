@@ -71,12 +71,16 @@ angular
 
                 // Popover actions!
                 $scope.openActions = function ($event) {
-                    Popover
-                    .fromTemplateUrl("features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html", {
-                        scope: $scope
-                    }).then (function (popover) {
-                        $scope.actionsPopover = popover;
-                        $scope.actionsPopover.show($event);
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        Popover
+                        .fromTemplateUrl("features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html", {
+                            scope: $scope
+                        }).then (function (popover) {
+                            $scope.actionsPopover = popover;
+                            $scope.actionsPopover.show($event);
+                        });
                     });
                 };
 
@@ -222,7 +226,7 @@ angular
                         .deletePost($scope.post.id, value)
                         .then(function (payload) {
                             $rootScope.$broadcast("fanwall.refresh");
-                            Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
+                            //Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
                         }, function (payload) {
                             Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
                         }).then(function () {
@@ -280,12 +284,6 @@ angular
                     }
 
                     return true;
-                };
-
-                $scope.isEnabled = function (key) {
-                    var features = $scope.getSettings().features;
-
-                    return features.key;
                 };
 
                 $scope.isOwner = function () {

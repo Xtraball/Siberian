@@ -22,6 +22,7 @@
     ],
     "files": [
         "js/controllers/fanwall-comment-controller.js",
+        "js/controllers/fanwall-edit-comment-controller.js",
         "js/controllers/fanwall-new-controller.js",
         "js/controllers/fanwall-gallery-controller.js",
         "js/controllers/fanwall-home-controller.js",
@@ -30,6 +31,7 @@
         "js/controllers/fanwall-map-controller.js",
         "js/directives/fanwall-comment-list.js",
         "js/directives/fanwall-comment-item.js",
+        "js/directives/fanwall-comment-history-item.js",
         "js/directives/fanwall-comment-form.js",
         "js/directives/fanwall-post-list.js",
         "js/directives/fanwall-post-item.js",

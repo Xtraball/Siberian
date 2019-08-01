@@ -647,6 +647,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
+            $commentId = $values["commentId"];
             $form = $values["form"];
             $text = base64_encode(nl2br($form["text"]));
             $picture = $form["picture"];
@@ -655,6 +656,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
                 throw new Exception("The post you are trying to comment is not available.");
+            }
+
+            $comment = (new Comment())->find($commentId);
+
+            $saveToHistory = false;
+            $archivedComment = null;
+            if ($comment->getId()) {
+                $saveToHistory = true;
+                $archivedComment = [
+                    "id" => (integer) $comment->getId(),
+                    "customerId" => (integer) $comment->getCustomerId(),
+                    "text" => (string) $comment->getText(),
+                    "image" => (string) $comment->getPicture(),
+                    "date" => (integer) $comment->getDate(),
+                ];
             }
 
             $headers = [
@@ -666,7 +682,6 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             // Strip unwanted tags
             $text = strip_tags($text, '<p><em><s><b><strong><u><span><h1><h2>');
 
-            $comment = new Comment();
             $comment
                 ->setPostId($postId)
                 ->setCustomerId($customerId)
@@ -676,19 +691,39 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setCustomerIp($headers["forwarded-for"] . ", " . $headers["remote-addr"])
                 ->setIsVisible(true);
 
+            
             if (mb_strlen($picture) > 0) {
-                // Save base64 image to file
-                $uniqId = uniqid("fwimg_", true);
-                $tmpPath = path("/var/tmp/{$uniqId}");
-                $imagePath = base64imageToFile($picture, $tmpPath);
-                $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
-                $comment->setPicture($finalPath);
+                if (preg_match("#^/#", $picture) === 1) {
+                    // Not changing image!
+                } else {
+                    // Save base64 image to file
+                    $uniqId = uniqid("fwimg_", true);
+                    $tmpPath = path("/var/tmp/{$uniqId}");
+                    $imagePath = base64imageToFile($picture, $tmpPath);
+                    $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
+                    $comment->setPicture($finalPath);
+                }
             } else {
                 // Remove image!
-                $comment->setImage("");
+                $comment->setPicture("");
             }
 
             $comment->save();
+
+            // Ok everything good, we can insert archive if edit
+            if ($saveToHistory) {
+                try {
+                    $history = Json::decode($comment->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
+                $history[] = $archivedComment;
+
+                $comment
+                    ->setHistory(Json::encode($history))
+                    ->save();
+            }
 
             $comments = (new Comment())->findForPostId($post->getId());
             $commentCollection = [];
@@ -701,6 +736,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 "success" => true,
+                "postId" => (integer) $postId,
                 "comments" => $commentCollection,
                 "message" => "Your comment is saved!",
             ];

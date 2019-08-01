@@ -2,7 +2,7 @@
 
   /** Popover, scoped outside for global usage, to be moved in general scss. */
   &.popover {
-    margin-top: 0 !important;
+    margin-top: 10px !important;
     transform: translate(-14px,-14px);
     border-radius: 2px !important;
 
@@ -37,6 +37,27 @@
       .popover-arrow {
         display: none !important;
       }
+    }
+  }
+
+  /** Item history */
+  .item-history {
+    padding: 10px !important;
+
+    .history-date {
+      font-size: 11px;
+      line-height: 11px;
+    }
+
+    .history-text {
+      margin-top: 10px;
+      white-space: initial;
+    }
+
+    img {
+      max-width: 100%;
+      margin: 0 auto;
+      display: block;
     }
   }
 
@@ -185,6 +206,7 @@
 
         h2 {
           font-weight: bold;
+          line-height: 15px;
 
           i {
             &.icon {
@@ -367,6 +389,7 @@
 
       h2 {
         font-weight: bold;
+        line-height: 15px;
 
         i {
           &.icon {

@@ -79,8 +79,6 @@ angular
                             .then(function (payload) {
                                 $scope.post.comments = angular.copy(payload.comments);
                                 $scope.post.commentCount = $scope.post.comments.length;
-
-                                Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
                             }, function (payload) {
                                 Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
                             }).then(function () {
@@ -122,12 +120,16 @@ angular
 
                 // Popover actions!
                 $scope.openActions = function ($event) {
-                    Popover
-                    .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/directives/actions-popover.html", {
-                        scope: $scope
-                    }).then (function (popover) {
-                        $scope.actionsPopover = popover;
-                        $scope.actionsPopover.show($event);
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        Popover
+                        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/directives/actions-popover.html", {
+                            scope: $scope
+                        }).then (function (popover) {
+                            $scope.actionsPopover = popover;
+                            $scope.actionsPopover.show($event);
+                        });
                     });
                 };
 
@@ -151,31 +153,48 @@ angular
                     FanwallUtils.unblockUser($scope.comment.id, "from-comment");
                 };
 
+                $scope.editComment = function () {
+                    return FanwallUtils.editCommentModal($scope.comment);
+                };
+
+                $scope.showHistory = function () {
+                    FanwallUtils.showCommentHistoryModal($scope.comment);
+                };
+
                 /**
                  *
                  */
                 $scope.buildPopoverItems = function () {
                     $scope.popoverItems = [];
-                    if ($scope.isOwner()) {
-                        // @todo edit comment + comment history
-                        //$scope.popoverItems.push({
-                        //    label: $translate.instant("Edit comment", "fanwall"),
-                        //    icon: "icon ion-edit",
-                        //    click: function () {
-                        //        $scope.closeActions();
-                        //        $scope.editComment();
-                        //    }
-                        //});
 
-                        // @todo edit comment + comment history
-                        //$scope.popoverItems.push({
-                        //    label: $translate.instant("View edit history", "fanwall"),
-                        //    icon: "icon ion-android-list",
-                        //    click: function () {
-                        //        $scope.closeActions();
-                        //        $scope.viewHistory();
-                        //    }
-                        //});
+                    var historyAction = {
+                        label: $translate.instant("View edit history", "fanwall"),
+                        icon: "icon ion-android-list",
+                        click: function () {
+                            $scope
+                            .closeActions()
+                            .then(function () {
+                                $scope.showHistory();
+                            });
+                        }
+                    };
+
+                    if ($scope.isOwner()) {
+                        $scope.popoverItems.push({
+                            label: $translate.instant("Edit comment", "fanwall"),
+                            icon: "icon ion-edit",
+                            click: function () {
+                                $scope
+                                .closeActions()
+                                .then(function () {
+                                    $scope.editComment();
+                                });
+                            }
+                        });
+
+                        if ($scope.comment.history.length > 0) {
+                            $scope.popoverItems.push(historyAction);
+                        }
 
                         $scope.popoverItems.push({
                             label: $translate.instant("Delete comment", "fanwall"),
@@ -201,6 +220,10 @@ angular
                                     });
                                 }
                             });
+
+                            if ($scope.comment.history.length > 0) {
+                                $scope.popoverItems.push(historyAction);
+                            }
 
                             $scope.popoverItems.push({
                                 label: $translate.instant("Block all user posts", "fanwall"),

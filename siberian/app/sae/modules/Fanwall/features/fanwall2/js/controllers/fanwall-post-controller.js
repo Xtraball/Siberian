@@ -17,10 +17,10 @@ angular
     FanwallPost.setValueId($stateParams.value_id);
 
     $scope.loadMore = function () {
-        $scope.loadContent(false);
+        $scope.loadContent(false, true);
     };
 
-    $scope.loadContent = function (refresh) {
+    $scope.loadContent = function (refresh, loadMore) {
         if (refresh === true) {
             $scope.isLoading = true;
             $scope.collection = [];
@@ -44,6 +44,10 @@ angular
         }, function (payload) {
 
         }).then(function () {
+            if (loadMore === true) {
+                $scope.$broadcast("scroll.infiniteScrollComplete");
+            }
+
             if (refresh === true) {
                 $scope.isLoading = false;
             }
