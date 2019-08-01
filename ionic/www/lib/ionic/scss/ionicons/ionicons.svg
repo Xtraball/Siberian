@@ -1,11 +1,11 @@
 <?xml version="1.0" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
 <!--
-2019-6-19: Created with FontForge (http://fontforge.org)
+2019-8-1: Created with FontForge (http://fontforge.org)
 -->
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
 <metadata>
-Created by FontForge 20190413 at Wed Jun 19 10:48:17 2019
+Created by FontForge 20190413 at Thu Aug  1 16:39:49 2019
  By Anders Faust
 Copyright (c) 2019, Anders Faust
 </metadata>
@@ -22,7 +22,7 @@ Copyright (c) 2019, Anders Faust
     bbox="-0.54049 -64.25 512.5 448.414"
     underline-thickness="25.6"
     underline-position="-51.2"
-    unicode-range="U+F100-F522"
+    unicode-range="U+F100-F523"
   />
     <missing-glyph />
     <glyph glyph-name="ion-alert-circled" unicode="&#xf100;" horiz-adv-x="448" 
@@ -1916,6 +1916,8 @@ l-1 -4l30 -30c17 -17 31 -30 31 -30h5c3 0 21 5 31 7c4 1 6 3 12 9l8 8l-3 1c-5 2 -1
 s-8 10 -18 20zM270 219c4 1 7 0 10 -3c5 -5 3 -14 -3 -16s-11 0 -13 5c-3 5 0 12 6 14zM364 138c8 1 36 0 39 -1c5 -2 6 -5 6 -19v-13h14h13l3 -3l4 -4v-20c0 -11 0 -22 -1 -23c-2 -5 -6 -7 -20 -7c-12 0 -13 0 -13 -2v-12c0 -18 0 -19 -28 -19c-29 0 -28 0 -28 21
 c0 7 -1 12 -1 12h-13s-13 1 -14 1s-3 2 -4 4c-2 3 -2 6 -2 24c0 14 0 21 1 23c2 4 6 5 20 5h13v13c0 11 0 13 2 16s3 4 9 4zM389 118c0 1 -13 0 -15 0c-1 0 -1 -6 -1 -13c0 -13 -1 -17 -5 -19c-1 0 -8 -1 -15 -1l-14 -1v-8v-8h13c20 0 21 -1 21 -21v-12h8h8v13
 c0 19 1 20 21 20h13v9v8h-13c-14 0 -18 1 -20 5c-1 1 -1 8 -1 15v13z" />
+    <glyph glyph-name="ion-sb-fw-profile" unicode="&#xf523;" horiz-adv-x="512" 
+d="M0 192v256h256h256v-256v-256h-256h-256v256z" />
     <glyph glyph-name="ion-sb-fw-topics" unicode="&#xf522;" horiz-adv-x="511" 
 d="M16 447c3 1 45 1 240 1h236l6 -3c6 -3 10 -9 12 -15c1 -3 1 -79 1 -240v-236l-3 -5c-3 -5 -7 -10 -13 -12c-3 -1 -46 -1 -239 -1c-138 0 -236 0 -238 1c-6 1 -11 5 -15 11l-3 5v239v238l3 5c3 5 7 10 13 12zM490 431c-3 1 -466 1 -469 0c-6 -2 -5 13 -5 -238
 c0 -128 1 -233 1 -235s2 -3 3 -4c2 -1 53 -1 235 -1c252 0 237 -1 239 5c0 2 1 107 1 235c0 249 0 236 -5 238zM45 373c2 1 16 1 45 1c47 0 48 0 49 -6c0 -2 1 -22 1 -45c0 -45 0 -46 -5 -48c-3 -1 -86 -1 -89 0c-5 2 -5 3 -5 49c0 45 0 47 4 49zM124 324v33h-34h-32v-10
