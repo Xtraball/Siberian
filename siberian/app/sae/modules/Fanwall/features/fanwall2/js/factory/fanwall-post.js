@@ -8,7 +8,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {},
-        collection: []
+        collections: []
     };
 
     /**
@@ -60,6 +60,20 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
                 offset: offset
             },
             refresh: refresh
+        }, factory.extendedOptions));
+    };
+
+    factory.findAllProfile = function (offset) {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllProfile] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-profile", angular.extend({
+            urlParams: {
+                value_id: this.value_id,
+                offset: offset
+            },
+            refresh: true
         }, factory.extendedOptions));
     };
 

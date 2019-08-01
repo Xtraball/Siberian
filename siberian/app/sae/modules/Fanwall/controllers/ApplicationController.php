@@ -149,6 +149,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     "icon_map" => "Map",
                     "icon_gallery" => "Gallery",
                     "icon_new" => "New post",
+                    "icon_profile" => "Profile",
                 ];
 
                 foreach ($icons as $column => $label) {

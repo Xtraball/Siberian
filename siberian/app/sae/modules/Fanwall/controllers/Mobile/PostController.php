@@ -142,6 +142,118 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
+    public function findAllProfileAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $optionValue = $this->getCurrentOptionValue();
+            $limit = $request->getParam("limit", 20);
+            $offset = $request->getParam("offset", 0);
+
+            $query = [
+                "fanwall_post.value_id = ?" => $optionValue->getId(),
+                "fanwall_post.is_visible = ?" => 1,
+                "fanwall_post.customer_id = ?" => $customerId,
+            ];
+
+            $order = [
+                "fanwall_post.sticky DESC",
+                "fanwall_post.date DESC",
+            ];
+
+            $limit = [
+                "limit" => $limit,
+                "offset" => $offset,
+            ];
+
+            $posts = (new Post())->findAllWithCustomer($query, $order, $limit);
+            $postsTotal = (new Post())->findAllWithCustomer($query, $order);
+
+            $collection = [];
+            foreach ($posts as $post) {
+
+                $comments = (new Comment())->findForPostId($post->getId());
+                $commentCollection = [];
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+
+                $iLiked = false;
+                $likes = (new Like())->findForPostId($post->getId());
+                $likeCollection = [];
+                foreach ($likes as $like) {
+                    $likeCollection[] = [
+                        "id" => (integer) $like->getId(),
+                        "customerId" => (integer) $like->getCustomerId(),
+                    ];
+
+                    if ($like->getCustomerId() == $customerId) {
+                        $iLiked = true;
+                    }
+                }
+
+                $author = [
+                    "firstname" => (string) $application->getName(),
+                    "lastname" => (string) "",
+                    "nickname" => (string) $application->getName(),
+                    "image" => (string) $application->getIcon(64),
+                ];
+                if (!empty($post->getCustomerId())) {
+                    $author = [
+                        "firstname" => (string) $post->getFirstname(),
+                        "lastname" => (string) $post->getLastname(),
+                        "nickname" => (string) $post->getnickname(),
+                        "image" => (string) $post->getAuthorImage(),
+                    ];
+                }
+
+                $collection[] = [
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "likeCount" => (integer) $likes->count(),
+                    "commentCount" => (integer) $comments->count(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "isFlagged" => (boolean) $post->getFlag(),
+                    "sticky" => (boolean) $post->getSticky(),
+                    "iLiked" => (boolean) $iLiked,
+                    "likeLocked" => (boolean) false,
+                    "author" => $author,
+                    "comments" => $commentCollection,
+                    "likes" => $likeCollection,
+                    "history" => $post->getHistoryJson(),
+                    "showDistance" => (boolean) false,
+                ];
+            }
+
+            $payload = [
+                "success" => true,
+                "pageTitle" => $optionValue->getTabbarName(),
+                "total" => $postsTotal->count(),
+                "collection" => $collection,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function findAllNearbyAction()
     {
         try {
@@ -691,7 +803,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setCustomerIp($headers["forwarded-for"] . ", " . $headers["remote-addr"])
                 ->setIsVisible(true);
 
-            
+
             if (mb_strlen($picture) > 0) {
                 if (preg_match("#^/#", $picture) === 1) {
                     // Not changing image!

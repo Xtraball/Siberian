@@ -49,6 +49,7 @@
             <button class="button button-custom button-positive button-positive-custom icon-custom"
                     ng-if="displayProfile()"
                     ng-click="showTab('profile')"
+                    ng-class="classTab('profile')"
                     ng-bind-html="displayIcon('profile') | trusted_html">
             </button>
         </div>

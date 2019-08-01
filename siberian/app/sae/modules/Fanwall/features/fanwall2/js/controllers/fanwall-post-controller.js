@@ -24,7 +24,6 @@ angular
         if (refresh === true) {
             $scope.isLoading = true;
             $scope.collection = [];
-            FanwallPost.collection = [];
 
             $timeout(function () {
                 $ionicScrollDelegate.$getByHandle("mainScroll").scrollTop();
@@ -35,7 +34,6 @@ angular
         .findAll($scope.collection.length, refresh)
         .then(function (payload) {
             $scope.collection = $scope.collection.concat(payload.collection);
-            FanwallPost.collection = FanwallPost.collection.concat(payload.collection);
 
             $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
 

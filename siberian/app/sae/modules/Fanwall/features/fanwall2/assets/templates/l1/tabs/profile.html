@@ -7,8 +7,25 @@
         <ion-spinner class="spinner-custom"></ion-spinner>
     </div>
 
-    <ion-item class="item-custom"
-              ng-show="!isLoading">
-        {{ ::"Profile page" | translate:"fanwall" }}
-    </ion-item>
+    <div ng-show="!isLoading">
+        <div class="customer-fullname">
+            {{ customerFullname() }}
+        </div>
+        <div class="customer-actions">
+            <button ng-click="editProfile()">{{ ::"Edit profile" | translate:"fanwall" }}</button>
+            <button ng-click="showBlockedUsers()">{{ ::"Blocked users" | translate:"fanwall" }}</button>
+            <button ng-click="moreActions()">{{ ::"More" | translate:"fanwall" }}</button>
+        </div>
+
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::"Your posts" | translate:"fanwall" }}
+        </ion-item>
+
+        <ion-list ng-if="!isLoading && collection.length > 0"
+                  class="list-posts">
+            <fanwall-post-item repeat-done="listDidRender()"
+                               id="{{ post.id }}"
+                               ng-repeat="post in collection track by post.id"></fanwall-post-item>
+        </ion-list>
+    </div>
 </ion-content>
