@@ -44,12 +44,22 @@ class Settings extends FormAbstract
         $this->addSimpleCheckbox("enable_user_post", p__("fanwall","Enable user posts"));
         $this->addSimpleCheckbox("enable_user_comment", p__("fanwall","Enable user comments"));
 
+        $helpText = p__("fanwall", "If you enable any of user likes, posts or comments, the user profile & settings will be automatically added.");
+        $help = <<<RAW
+<div class="col-md-7 col-md-offset-3">
+    <div class="alert alert-info">{$helpText}</div>
+</div>
+RAW;
+
+        $this->addSimpleHtml("helper_text", $help);
+
         $icons = [
             "icon_post" => "Posts",
             "icon_nearby" => "Nearby",
             "icon_map" => "Map",
             "icon_gallery" => "Gallery",
             "icon_new" => "New post",
+            "icon_profile" => "Profile",
         ];
 
         foreach ($icons as $column => $label) {
@@ -65,6 +75,7 @@ class Settings extends FormAbstract
             "icon_map_button",
             "icon_gallery_button",
             "icon_new_button",
+            "icon_profile_button",
         ], p__("fanwall", "Custom icons"));
 
         $valueId = $this->addSimpleHidden("value_id");

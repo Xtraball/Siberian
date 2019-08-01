@@ -1,0 +1,14 @@
+<ion-content class="fanwall-profile"
+             ng-class="{'has-subheader': displaySubHeader()}"
+             ng-controller="FanwallProfileController">
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <ion-item class="item-custom"
+              ng-show="!isLoading">
+        {{ ::"Profile page" | translate:"fanwall" }}
+    </ion-item>
+</ion-content>

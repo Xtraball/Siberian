@@ -99,6 +99,14 @@ angular
         return features[key];
     };
 
+    $scope.displayProfile = function () {
+        var features = $scope.getSettings().features;
+
+        return features.enableUserLike ||
+            features.enableUserPost ||
+            features.enableUserComment;
+    };
+
     $scope.displaySubHeader = function () {
         var features = $scope.getSettings().features;
 
@@ -131,6 +139,10 @@ angular
                 return (icons.new !== null) ?
                     "<img class=\"fw-icon-header icon-post\" src=\"" + icons.new + "\" />" :
                     "<i class=\"icon ion-sb-fw-post\"></i>";
+            case "profile":
+                return (icons.new !== null) ?
+                    "<img class=\"fw-icon-header icon-post\" src=\"" + icons.profile + "\" />" :
+                    "<i class=\"icon ion-sb-fw-profile\"></i>";
         }
     };
 

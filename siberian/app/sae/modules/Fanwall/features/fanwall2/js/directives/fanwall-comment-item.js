@@ -169,7 +169,7 @@ angular
 
                     var historyAction = {
                         label: $translate.instant("View edit history", "fanwall"),
-                        icon: "icon ion-android-list",
+                        icon: "icon ion-clock",
                         click: function () {
                             $scope
                             .closeActions()
