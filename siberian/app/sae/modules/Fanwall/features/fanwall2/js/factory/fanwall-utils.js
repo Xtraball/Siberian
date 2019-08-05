@@ -9,6 +9,7 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
         _postModal: null,
         _showPostModal: null,
         _showPostHistoryModal: null,
+        _showBlockedUsersModal: null,
         _commentModal: null,
         _editCommentModal: null
     };
@@ -136,6 +137,28 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
 
     /**
      *
+     */
+    factory.showBlockedUsersModal = function () {
+        var _localScope = angular.extend($rootScope.$new(true), {
+            close: function () {
+                factory._showBlockedUsersModal.hide();
+            }
+        });
+
+        Modal
+        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/profile/blocked.html", {
+            scope: _localScope,
+            animation: "slide-in-right-left"
+        }).then(function (modal) {
+            factory._showBlockedUsersModal = modal;
+            factory._showBlockedUsersModal.show();
+
+            return modal;
+        });
+    };
+
+    /**
+     *
      * @param post
      */
     factory.commentModal = function (post) {
@@ -195,8 +218,12 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
             FanwallPost
             .blockUser(sourceId, from)
             .then(function (payload) {
-                $rootScope.$broadcast("fanwall.refresh");
-                $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+
+                if (payload.refresh) {
+                    $rootScope.$broadcast("fanwall.refresh");
+                    $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+                }
+
                 Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
             }, function (payload) {
                 Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");
@@ -223,8 +250,12 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
             FanwallPost
             .unblockUser(sourceId, from)
             .then(function (payload) {
-                $rootScope.$broadcast("fanwall.refresh");
-                $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+
+                if (payload.refresh) {
+                    $rootScope.$broadcast("fanwall.refresh");
+                    $rootScope.$broadcast("fanwall.refresh.comments", {comments: payload.comments, postId: payload.postId});
+                }
+
                 Dialog.alert("Thanks!", payload.message, "OK", 2350, "fanwall");
             }, function (payload) {
                 Dialog.alert("Error!", payload.message, "OK", -1, "fanwall");

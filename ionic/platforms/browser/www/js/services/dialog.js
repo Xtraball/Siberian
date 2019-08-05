@@ -124,12 +124,17 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
      * @param message
      * @param type
      * @param value
+     * @param buttonsArray
+     * @param cssClass
+     * @param context
+     * @returns {*}
      */
-    service.prompt = function (title, message, type, value) {
+    service.prompt = function (title, message, type, value, buttonsArray, cssClass, context) {
         var deferred = $q.defer();
 
         var localType = (type === undefined) ? 'text' : type;
         var localValue = (value === undefined) ? '' : value;
+        var localButtonsArray = (buttonsArray === undefined) ? ["OK", "CANCEL"] : buttonsArray;
 
         /** Stack alert */
         service.stack.push({
@@ -139,6 +144,9 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
                 message: message,
                 type: localType,
                 value: localValue,
+                buttons_array: localButtonsArray,
+                css_class: cssClass,
+                context: context,
                 promise: deferred
             }
         });
@@ -162,7 +170,8 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
             .prompt({
                 title: $translate.instant(data.title, data.context),
                 template: $translate.instant(data.message, data.context),
-                okText: $translate.instant(data.button, data.context),
+                okText: $translate.instant(data.buttons_array[0], data.context),
+                cancelText: $translate.instant(data.buttons_array[1], data.context),
                 cssClass: cssClass,
                 inputType: data.type,
                 inputPlaceholder: $translate.instant(data.value, data.context)
@@ -223,7 +232,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
             .confirm({
                 title: $translate.instant(data.title, data.context),
                 cssClass: data.css_class + ' ' + cssClass,
-                template: data.message,
+                template: $translate.instant(data.message, data.context),
                 okText: $translate.instant(data.buttons_array[0], data.context),
                 cancelText: $translate.instant(data.buttons_array[1], data.context)
             }).then(function (result) {

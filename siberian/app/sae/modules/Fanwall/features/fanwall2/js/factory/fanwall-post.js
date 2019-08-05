@@ -77,6 +77,19 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
+    factory.findAllBlocked = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllBlocked] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-blocked", angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            },
+            refresh: true
+        }, factory.extendedOptions));
+    };
+
     factory.findAllMap = function (location, offset, refresh) {
         if (!this.value_id) {
             return $pwaRequest.reject("[Factory::FanwallPost.findAllMap] missing value_id");

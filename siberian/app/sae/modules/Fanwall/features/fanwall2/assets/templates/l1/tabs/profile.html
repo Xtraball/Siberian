@@ -2,28 +2,39 @@
              ng-class="{'has-subheader': displaySubHeader()}"
              ng-controller="FanwallProfileController">
 
-    <div class="loader"
-         ng-show="isLoading">
-        <ion-spinner class="spinner-custom"></ion-spinner>
-    </div>
-
-    <div ng-show="!isLoading">
+    <div>
+        <div class="customer-image">
+            <img ng-src="{{ customerImagePath() }}" />
+        </div>
         <div class="customer-fullname">
             {{ customerFullname() }}
         </div>
         <div class="customer-actions">
-            <button ng-click="editProfile()">{{ ::"Edit profile" | translate:"fanwall" }}</button>
-            <button ng-click="showBlockedUsers()">{{ ::"Blocked users" | translate:"fanwall" }}</button>
-            <button ng-click="moreActions()">{{ ::"More" | translate:"fanwall" }}</button>
+            <button class="button button-small button-positive button-positive-custom"
+                    ng-click="editProfile()">
+                <i class="ion ion-edit"></i>
+                {{ ::"Edit profile" | translate:"fanwall" }}
+            </button>
+            <button class="button button-small button-positive button-positive-custom"
+                    ng-click="showBlockedUsers()">
+                <i class="ion ion-android-remove-circle"></i>
+                    {{ ::"Blocked users" | translate:"fanwall" }}
+            </button>
         </div>
 
-        <ion-item class="item-divider item-divider-custom">
-            {{ ::"Your posts" | translate:"fanwall" }}
-        </ion-item>
+        <ion-list class="list-posts">
 
-        <ion-list ng-if="!isLoading && collection.length > 0"
-                  class="list-posts">
-            <fanwall-post-item repeat-done="listDidRender()"
+            <ion-item class="item-divider item-divider-custom section-title">
+                <h2>{{ ::"Your posts" | translate:"fanwall" }}</h2>
+            </ion-item>
+
+            <div class="loader"
+                 ng-show="isLoading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+
+            <fanwall-post-item ng-if="!isLoading && collection.length > 0"
+                               repeat-done="listDidRender()"
                                id="{{ post.id }}"
                                ng-repeat="post in collection track by post.id"></fanwall-post-item>
         </ion-list>

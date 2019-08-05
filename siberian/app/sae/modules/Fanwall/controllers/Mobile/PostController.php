@@ -9,6 +9,7 @@ use Siberian\Json;
 use Siberian\Xss;
 use Siberian\Exception;
 use Siberian\Feature;
+use Customer_Model_Customer as Customer;
 
 /**
  * Class Fanwall_Mobile_PostController
@@ -97,7 +98,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -209,7 +210,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -335,7 +336,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -466,7 +467,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -525,6 +526,50 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
                 "collection" => $groups,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function findAllBlockedAction()
+    {
+        try {
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $collection = [];
+            $blocked = (new Blocked())->find($customerId, "customer_id");
+            if ($blocked->getId()) {
+                try {
+                    $userIds = Json::decode($blocked->getBlockedUsers());
+                } catch (\Exception $e) {
+                    $userIds = [];
+                }
+                
+                if (sizeof($userIds) > 0) {
+                    $users = (new Customer())->findAll(["customer_id IN (?)" => $userIds]);
+                    
+                    foreach ($users as $user) {
+                        $collection[] = [
+                            "id" => (string) $user->getId(),
+                            "firstname" => (string) $user->getFirstname(),
+                            "lastname" => (string) $user->getLastname(),
+                            "nickname" => (string) $user->getNickname(),
+                            "image" => (string) $user->getAuthorImage(),
+                        ];
+                    }
+                }
+            }
+
+            $payload = [
+                "success" => true,
+                "collection" => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -646,7 +691,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = base64_encode(nl2br($form["text"]));
+            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"])));
             $picture = $form["picture"];
             $date = $form["date"];
 
@@ -761,7 +806,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $postId = $values["postId"];
             $commentId = $values["commentId"];
             $form = $values["form"];
-            $text = base64_encode(nl2br($form["text"]));
+            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"]));
             $picture = $form["picture"];
             $date = $form["date"];
 
@@ -933,6 +978,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $from = $data["from"];
             $sourceId = $data["sourceId"];
 
+            $refresh = false;
+
             $blockedCustomerId = null;
             $postId = null;
             switch ($from) {
@@ -943,6 +990,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                     $blockedCustomerId = $post->getCustomerId();
                     $postId = $post->getId();
+                    $refresh = true;
                     break;
                 case "from-comment":
                     $comment = (new Comment())->find($sourceId);
@@ -951,6 +999,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                     $blockedCustomerId = $comment->getCustomerId();
                     $postId = $comment->getPostId();
+                    $refresh = true;
                     break;
             }
 
@@ -973,18 +1022,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setBlockedUsers(Json::encode($blockedUserList))
                 ->save();
 
-            $comments = (new Comment())->findForPostId($postId);
             $commentCollection = [];
-            foreach ($comments as $comment) {
-                $commentCollection[] = $comment->forJson();
-            }
+            if ($refresh) {
+                $comments = (new Comment())->findForPostId($postId);
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
 
-            // Exclude blockedUsers
-            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            }
 
             $payload = [
                 "success" => true,
                 "postId" => (integer) $postId,
+                "refresh" => $refresh,
                 "comments" => $commentCollection,
                 "message" => "This user posts & messages are now blocked.",
             ];
@@ -1017,6 +1069,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $from = $data["from"];
             $sourceId = $data["sourceId"];
 
+            $refresh = false;
+
             $blockedCustomerId = null;
             $postId = null;
             switch ($from) {
@@ -1027,6 +1081,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                     $blockedCustomerId = $post->getCustomerId();
                     $postId = $post->getId();
+                    $refresh = true;
                     break;
                 case "from-comment":
                     $comment = (new Comment())->find($sourceId);
@@ -1035,6 +1090,11 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                     $blockedCustomerId = $comment->getCustomerId();
                     $postId = $comment->getPostId();
+                    $refresh = true;
+                    break;
+                case "from-user":
+                    $blockedCustomerId = $sourceId;
+                    $postId = null;
                     break;
             }
 
@@ -1060,18 +1120,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setBlockedUsers(Json::encode($blockedUserList))
                 ->save();
 
-            $comments = (new Comment())->findForPostId($postId);
             $commentCollection = [];
-            foreach ($comments as $comment) {
-                $commentCollection[] = $comment->forJson();
-            }
+            if ($refresh) {
+                $comments = (new Comment())->findForPostId($postId);
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
 
-            // Exclude blockedUsers
-            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            }
 
             $payload = [
                 "success" => true,
                 "postId" => (integer) $postId,
+                "refresh" => $refresh,
                 "comments" => $commentCollection,
                 "message" => "This user posts & messages are now unblocked.",
             ];

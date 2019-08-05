@@ -6,23 +6,30 @@
  */
 angular
 .module("starter")
-.controller("FanwallProfileController", function ($scope, $stateParams, Customer, FanwallPost) {
+.controller("FanwallProfileController", function ($scope, $stateParams, Customer, FanwallUtils, FanwallPost) {
     angular.extend($scope, {
-        isLoading: false,
+        isLoading: true,
         collection: [],
+        customer: Customer.customer,
         hasMore: false
     });
 
     FanwallPost.setValueId($stateParams.value_id);
 
     $scope.customerFullname = function () {
-        var customer = Customer.customer;
-
-        return customer.firstname + " " + customer.lastname;
+        return $scope.customer.firstname + " " + $scope.customer.lastname;
     };
 
     $scope.profileCallback = function () {
         console.log("profile callback");
+    };
+
+    $scope.customerImagePath = function () {
+        // Empty image
+        if ($scope.customer.image.length <= 0) {
+            return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
+        }
+        return IMAGE_URL + "images/customer" + $scope.customer.image;
     };
 
     $scope.editProfile = function () {
@@ -34,13 +41,7 @@ angular
     };
 
     $scope.showBlockedUsers = function () {
-        // @todo Open modal wit blocked users, and allows to unblock!
-        alert("showBlockedUsers");
-    };
-
-    $scope.moreActions = function () {
-        // @todo Shows more actions? to define!
-        alert("moreActions");
+        FanwallUtils.showBlockedUsersModal();
     };
 
     $scope.loadMore = function () {
@@ -51,11 +52,10 @@ angular
         FanwallPost
         .findAllProfile($scope.collection.length)
         .then(function (payload) {
-            console.log("FanwallProfilePostController $scope.loadContent success", payload);
             $scope.collection = $scope.collection.concat(payload.collection);
             $scope.hasMore = $scope.collection.length < payload.total;
         }, function (payload) {
-            console.error("findAllProfile", payload);
+            // Error!
         }).then(function () {
             if (loadMore === true) {
                 $scope.$broadcast("scroll.infiniteScrollComplete");

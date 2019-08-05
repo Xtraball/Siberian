@@ -106,7 +106,10 @@ angular
                             title,
                             message,
                             "text",
-                            placeholder)
+                            placeholder,
+                            ["OK", "CANCEL"],
+                            -1,
+                            "fanwall")
                         .then(function (value) {
                             Loader.show();
 

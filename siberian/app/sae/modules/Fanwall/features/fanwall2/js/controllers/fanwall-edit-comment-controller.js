@@ -89,7 +89,8 @@ angular
     };
 
     if ($scope.comment !== undefined) {
-        $scope.form.text = $scope.comment.text;
+        // Replace <br /> with \n for textarea, leave other formatting intact!
+        $scope.form.text = $scope.comment.text.replace(/(<br( ?)(\/?)>)/gm, "\n");
         if ($scope.comment.image.length > 0) {
             $scope.form.picture = $scope.comment.image;
         }

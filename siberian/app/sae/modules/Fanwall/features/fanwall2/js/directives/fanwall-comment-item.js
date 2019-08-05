@@ -102,7 +102,10 @@ angular
                         title,
                         message,
                         "text",
-                        placeholder)
+                        placeholder,
+                        ["OK", "CANCEL"],
+                        -1,
+                        "fanwall")
                     .then(function (value) {
                         Loader.show();
 
@@ -239,7 +242,7 @@ angular
                         } else {
                             $scope.popoverItems.push({
                                 label: $translate.instant("Unblock user", "fanwall"),
-                                icon: "icon ion-flag",
+                                icon: "ion-android-remove-circle",
                                 click: function () {
                                     $scope
                                     .closeActions()

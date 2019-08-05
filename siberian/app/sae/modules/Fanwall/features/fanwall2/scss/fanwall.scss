@@ -3,7 +3,7 @@
   /** Popover, scoped outside for global usage, to be moved in general scss. */
   &.popover {
     margin-top: 10px !important;
-    transform: translate(-14px,-14px);
+    transform: translate(-14px, -14px);
     border-radius: 2px !important;
 
     &.popover-custom {
@@ -37,6 +37,46 @@
       .popover-arrow {
         display: none !important;
       }
+    }
+  }
+
+  /** Profile */
+  .fanwall-profile {
+    .customer-image {
+      margin-top: 15px;
+      margin-bottom: 15px;
+
+      img {
+        margin: 0 auto;
+        width: 10em;
+        border-radius: 5em;
+        border: 0.4em solid white;
+        display: block;
+      }
+    }
+
+    .customer-fullname {
+      font-size: 1.2em;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .customer-actions {
+      text-align: center;
+    }
+
+    .section-title {
+      h2 {
+        font-size: 16px !important;
+        font-weight: bold !important;
+        padding-bottom: 7px;
+      }
+    }
+  }
+
+  .user-blocked {
+    &.item-avatar {
+      min-height: 52px !important;
     }
   }
 
