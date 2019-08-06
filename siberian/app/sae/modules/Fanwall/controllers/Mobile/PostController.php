@@ -561,7 +561,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                             "firstname" => (string) $user->getFirstname(),
                             "lastname" => (string) $user->getLastname(),
                             "nickname" => (string) $user->getNickname(),
-                            "image" => (string) $user->getAuthorImage(),
+                            "image" => (string) $user->getImage(),
                         ];
                     }
                 }
