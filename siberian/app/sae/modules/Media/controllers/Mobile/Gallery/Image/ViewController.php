@@ -34,6 +34,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
             }
 
             $collection = [];
+            $key = 0;
             foreach ($images as $key => $link) {
                 $key = $key + $offset;
 

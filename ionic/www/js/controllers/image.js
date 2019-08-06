@@ -59,7 +59,7 @@ angular.module('starter').controller('ImageListController', function ($scope, $s
         $scope.loadPage = ($scope.current_gallery.nextPage !== false) ? $scope.current_gallery.nextPage : $scope.current_gallery.currentPage;
 
         switch ($scope.current_gallery.type) {
-            case 'facebook':
+            case "facebook":
                 Image.findFacebook($scope.current_gallery, $scope.loadPage)
                     .then(function (data) {
                         for (var i = 0; i < data.collection.length; i = i + 1) {

@@ -1285,8 +1285,8 @@ div.loader {
 }
 
 .dashboard .btn.color-blue {
-    display: flex;
-    align-items: center;
+    /**display: flex;
+    align-items: center;*/
 }
 
 .title-dashboard {
@@ -1300,41 +1300,42 @@ div.loader {
     margin-top: 0;
 }
 
-.list-application, .sous-list-application {
+/** App admin list */
+.item-application {
+    margin: 0 0 10px 0;
+}
+
+.item-application .item-no-padding:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+}
+
+.item-application .app-icon {
+    width: 56px;
+    border-radius: 2px;
+}
+
+.item-application .item-no-padding {
     padding: 0;
 }
 
-.item-application {
-    border: 1px solid #b9b9b9;
-    border-radius: 3px;
-    padding-bottom: 15px;
-    padding-top: 15px;
-    margin: 5px 0 -5px;
+.item-application .floating-image {
+    float: left;
+    height: 56px;
 }
 
-.item-application li {
-    display: inline-block;
+.item-application .floating-name-infos {
+    float: left;
+    margin-left: 10px;
+    height: 56px;
 }
 
-.list-application > li {
-    list-style: outside none none;
-    display: inline-block;
-    width: 100%;
-}
-
-.list-application img {
-    width: 4em;
-}
-
-.list-application a {
-    cursor: pointer;
-}
-
-.item-application .fa {
-    font-size: 1.5em;
-    margin-right: 0.5em;
-    margin-top: 19px;
-    vertical-align: middle;
+.item-application .floating-actions.icons-center {
+    float: right;
+    text-align: right;
+    margin: 18px 0 0 0;
+    padding: 0;
+    height: 38px;
 }
 
 .add {
