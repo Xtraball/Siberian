@@ -806,7 +806,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $postId = $values["postId"];
             $commentId = $values["commentId"];
             $form = $values["form"];
-            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"]));
+            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"])));
             $picture = $form["picture"];
             $date = $form["date"];
 

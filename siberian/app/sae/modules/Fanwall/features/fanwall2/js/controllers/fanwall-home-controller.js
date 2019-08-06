@@ -140,7 +140,7 @@ angular
                     "<img class=\"fw-icon-header icon-post\" src=\"" + icons.new + "\" />" :
                     "<i class=\"icon ion-sb-fw-post\"></i>";
             case "profile":
-                return (icons.new !== null) ?
+                return (icons.profile !== null) ?
                     "<img class=\"fw-icon-header icon-post\" src=\"" + icons.profile + "\" />" :
                     "<i class=\"icon ion-sb-fw-profile\"></i>";
         }

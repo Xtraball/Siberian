@@ -159,7 +159,7 @@ angular
 
     if ($scope.post !== undefined) {
         $scope.pageTitle = "Edit post";
-        $scope.form.text = $scope.post.text;
+        $scope.form.text = $scope.post.text.replace(/(<br( ?)(\/?)>)/gm, "\n");
         if ($scope.post.image.length > 0) {
             $scope.form.picture = $scope.post.image;
         }
