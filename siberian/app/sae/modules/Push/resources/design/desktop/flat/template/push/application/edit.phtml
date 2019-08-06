@@ -209,7 +209,8 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <!--[if gte IE 10]><!-->
-                                <button id="upload_push_picture" type="button"
+                                <button id="upload_push_picture"
+                                        type="button"
                                         class="upload_contact_picture btn color-blue image_left">
                                     <i class="icon-camera-retro"></i>
                                     <?php echo p__("push", "Insert a cover image"); ?>
@@ -218,13 +219,22 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                             </div>
                             <div class="col-sm-8 text-left">
                                 <p id="uploader_logo_ie_description"
-                                   style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
-                                <input id="push_file" class="uploader" style="display:none" type="file" name="files[]"
+                                   style="display:none;"><?php echo p__("push", "Insert a cover image"); ?></span></p>
+                                <input id="push_file"
+                                       class="uploader"
+                                       style="display:none"
+                                       type="file"
+                                       name="files[]"
                                        data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                                <img id="cover_img" src="<?php echo $messageobj->getCoverUrl(); ?>" width="210"
-                                     height="110"<?php if (!$messageobj->getCover()) : ?> style="display:none;"<?php endif; ?> />
-                                <a href="" style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
-                                   id="remove_cover_img" class="btn color-blue">
+                                <img id="cover_img"
+                                     src="<?php echo $messageobj->getCoverUrl(); ?>"
+                                     width="210"
+                                     height="110"<?php if (!$messageobj->getCover()) : ?>
+                                    style="display:none;"<?php endif; ?> />
+                                <a href=""
+                                   style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
+                                   id="remove_cover_img"
+                                   class="btn color-blue">
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>
