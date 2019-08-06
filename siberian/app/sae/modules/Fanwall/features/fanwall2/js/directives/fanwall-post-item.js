@@ -1,7 +1,8 @@
 angular
 .module("starter")
-.directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, $q, Customer, Dialog, Loader,
-                                        Fanwall, FanwallPost, FanwallUtils, Lightbox, Popover) {
+.directive("fanwallPostItem", function ($rootScope, $filter, $sce, $translate, $timeout, $q,
+                                        Customer, Dialog, Loader, Fanwall, FanwallPost, FanwallUtils,
+                                        Lightbox, Popover) {
         return {
             restrict: 'E',
             templateUrl: "features/fanwall2/assets/templates/l1/tabs/directives/post-item.html",

@@ -246,7 +246,9 @@
 
         h2 {
           font-weight: bold;
-          line-height: 15px;
+          line-height: 16px;
+          height: 16px;
+          margin-top: 3px;
 
           i {
             &.icon {
@@ -334,6 +336,7 @@
         h2 {
           font-weight: bold;
           font-size: 13px;
+          line-height: 15px;
         }
 
         p {
@@ -453,6 +456,10 @@
         padding-top: 15px;
         padding-bottom: 15px;
         padding-right: 15px;
+
+        .new-post-author {
+          margin-top: 4px;
+        }
 
         label {
           width: 100%;
