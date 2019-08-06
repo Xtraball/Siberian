@@ -77,7 +77,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                 "search_by_distance" => true,
                 "latitude" => $position["latitude"],
                 "longitude" => $position["longitude"],
-            ], $params);
+            ], $totalParams);
 
             $collection = [];
             foreach ($places as $place) {
