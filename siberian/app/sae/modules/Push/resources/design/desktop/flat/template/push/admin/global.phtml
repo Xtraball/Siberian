@@ -1,22 +1,35 @@
 <?php
-$isSae = Siberian_Version::is('SAE');
+
+use Siberian\Version;
+use Application_Model_Application as Application;
+
+$isSae = Version::is("SAE");
 $pushForm = new Push_Form_Global();
 if ($isSae) {
     $columns = 'col-lg-12';
-    $application = Application_Model_Application::getInstance();
+    $application = Application::getInstance();
     $devices = $application->getDevices();
     $isPublished = false;
     foreach ($devices as $device) {
-        if ($device->getStatusId() === '3') {
+        if ($device->getStatusId() === "3") {
             $isPublished = true;
             break;
         }
     }
-    $pushForm->removeElement('send_to_all');
+    $pushForm->removeElement("send_to_all");
+
+    $applications = [];
 } else {
     $isPublished = true;
-    $columns = 'col-lg-6';
-    $applications = $this->getAdmin()->getPublishedApplicationsForAdmin();
+    $columns = "col-lg-6";
+    $unfilteredApplications = $this->getAdmin()->getPublishedApplicationsForAdmin();
+
+    $applications = [];
+    foreach ($unfilteredApplications as $unfilteredApplication) {
+        if (!$unfilteredApplication->getIsLocked()) {
+            $applications[] = $unfilteredApplication;
+        }
+    }
 }
 ?>
 
@@ -25,8 +38,9 @@ if ($isSae) {
     <div class="subcontent content-color container-fluid">
         <div class="row">
 
-            <?php if(count($applications) <= 0 && !$isSae): ?>
-                <div id="sb-tour-global-push-1" class="col-lg-6 sb-tour">
+            <?php if (count($applications) <= 0 && !$isSae): ?>
+                <div id="sb-tour-global-push-1"
+                     class="col-lg-6 sb-tour">
                     <h4 class="center"><?php echo __("Push notification"); ?></h4>
                     <div class="subcontent content-color">
                         <div class="alert alert-info">
@@ -36,14 +50,16 @@ if ($isSae) {
                     <div style="clear:both"></div>
                 </div>
             <?php else: ?>
-            <div id="sb-tour-global-push-1" class="<?php echo $columns; ?> sb-tour">
+            <div id="sb-tour-global-push-1"
+                 class="<?php echo $columns; ?> sb-tour">
                 <?php if (!$isPublished): ?>
                     <div class="alert alert-info">
                         <?php echo __("In order to use global push notifications your app must be published.") ?>
                     </div>
                 <?php endif; ?>
                 <h4 class="center"><?php echo __("Push notification"); ?></h4>
-                <div id="push-form-bind" class="subcontent content-color">
+                <div id="push-form-bind"
+                     class="subcontent content-color">
                     <?php echo $pushForm; ?>
                 </div>
                 <div style="clear:both"></div>
@@ -51,7 +67,8 @@ if ($isSae) {
             <?php endif; ?>
 
             <?php if (!$isSae): ?>
-            <div id="sb-tour-global-push-select-app" class="col-lg-6 sb-tour">
+            <div id="sb-tour-global-push-select-app"
+                 class="col-lg-6 sb-tour">
                 <h4 class="center"><?php echo __("Select target applications"); ?></h4>
                 <span><?php echo __("Only published application are available for global push notifications.") ?></span>
                 <div class="subcontent content-color">
@@ -59,10 +76,14 @@ if ($isSae) {
                         <thead>
                         <tr class="border-blue">
                             <th></th>
-                            <th class="sortable" style="width:5%;"><?php echo __("ID"); ?></th>
-                            <th class="sortable" style="width:30%;"><?php echo __("Name"); ?></th>
-                            <th class="sortable" style="width:25%;"><?php echo __("Bundle Id"); ?></th>
-                            <th class="sortable" style="width:25%;"><?php echo __("Package Name"); ?></th>
+                            <th class="sortable"
+                                style="width:5%;"><?php echo __("ID"); ?></th>
+                            <th class="sortable"
+                                style="width:30%;"><?php echo __("Name"); ?></th>
+                            <th class="sortable"
+                                style="width:25%;"><?php echo __("Bundle Id"); ?></th>
+                            <th class="sortable"
+                                style="width:25%;"><?php echo __("Package Name"); ?></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -70,7 +91,10 @@ if ($isSae) {
                             <tr id="application_element_<?php echo $application->getId(); ?>" class="sb-pager">
                                 <td>
                                     <div class="control control--checkbox fix-pos">
-                                        <input type="checkbox" name="applications[<?php echo $application->getId(); ?>]" data-appid="<?php echo $application->getId(); ?>" class="appid-checkbox sb-form-checkbox color-blue flatbox">
+                                        <input type="checkbox"
+                                               name="applications[<?php echo $application->getId(); ?>]"
+                                               data-appid="<?php echo $application->getId(); ?>"
+                                               class="appid-checkbox sb-form-checkbox color-blue flatbox">
                                         <div class="color-blue control__indicator"></div>
                                     </div>
                                 </td>

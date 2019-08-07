@@ -16,7 +16,7 @@
         <script type="text/javascript">
             tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             window.messages = {};
-            window.messages.uploadInProgress = "<?php echo p__("application", "Upload in progress ...") ?>";
+            window.messages.uploadInProgress = "<?php echo p__js("application", "Upload in progress ...") ?>";
             let version = "<?php echo Siberian_Version::VERSION ?>";
             let current_release = "<?php echo __get("current_release") ?>";
             let datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";

@@ -22,6 +22,4 @@ $init = function ($bootstrap) {
 
     $translationFile = path("/app/sae/modules/Fanwall/resources/translations/default/fanwall.po");
     Translation::registerExtractor("fanwall", "Fanwall", $translationFile);
-
-    require "/Volumes/SSD2/Developments/repos/xtraball.com/siberian/.dev/translations.php";
 };
