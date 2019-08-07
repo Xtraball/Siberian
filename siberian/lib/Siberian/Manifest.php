@@ -27,7 +27,7 @@ class Manifest
             ->clean(\Zend_Cache::CLEANING_MODE_ALL);
 
         $protocol = "https://";
-        \Siberian_Autoupdater::configure($protocol . $mainDomain);s
+        \Siberian_Autoupdater::configure($protocol . $mainDomain);
 
         echo color('Done.', 'brown') . PHP_EOL;
     }
