@@ -33,15 +33,23 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
      * @param null $offset
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function findAllByAdmin($admin_id, $where = array(), $order = null, $count = null, $offset = null)
+    public function findAllByAdmin($admin_id, $where = [], $order = null, $count = null, $offset = null)
     {
         $select = $this->select()
-            ->from(array('a' => $this->_name))
+            ->from(
+                [
+                    "a" => $this->_name
+                ],
+                [
+                    "creation_timestamp" => new \Zend_Db_Expr("UNIX_TIMESTAMP(a.created_at)"),
+                    "free_until_timestamp" => new \Zend_Db_Expr("UNIX_TIMESTAMP(a.free_until)"),
+                    "*"
+                ])
             ->setIntegrityCheck(false);
 
         if ($admin_id != null) {
             $select
-                ->joinLeft(array('aa' => 'application_admin'), 'aa.app_id = a.app_id', array("is_allowed_to_add_pages"))
+                ->joinLeft(['aa' => 'application_admin'], 'aa.app_id = a.app_id', ["is_allowed_to_add_pages"])
                 ->where('aa.admin_id = ?', $admin_id);
         }
 
@@ -69,8 +77,8 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
         $status_id = Application_Model_Device::STATUS_PUBLISHED;
 
         $select = $this->_db->select()
-            ->from(array("a" => $this->_name), array("app_id"))
-            ->joinLeft(array("ad" => "application_device"), "ad.app_id = a.app_id")
+            ->from(["a" => $this->_name], ["app_id"])
+            ->joinLeft(["ad" => "application_device"], "ad.app_id = a.app_id")
             ->where("ad.status_id != ?", $status_id)
             ->group("a.app_id");
 
@@ -86,7 +94,7 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
     {
 
         $select = $this->_db->select()
-            ->from(array('aa' => "application_admin"), array('admin_id'))
+            ->from(['aa' => "application_admin"], ['admin_id'])
             ->where('aa.app_id = ?', $app_id);
 
         return $this->_db->fetchCol($select);
@@ -101,7 +109,7 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
     {
 
         $select = $this->_db->select()
-            ->from(array('aa' => "application_admin"), array('app_id'))
+            ->from(['aa' => "application_admin"], ['app_id'])
             ->where('aa.app_id = ?', $app_id)
             ->where('aa.admin_id = ?', $admin_id);
 
@@ -121,9 +129,9 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
         $admin_ids = $this->getAdminIds($app_id);
 
         if (!in_array($admin_id, $admin_ids)) {
-            $this->_db->insert("application_admin", array("app_id" => $app_id, "admin_id" => $admin_id, "is_allowed_to_add_pages" => $is_allowed_to_add_pages));
+            $this->_db->insert("application_admin", ["app_id" => $app_id, "admin_id" => $admin_id, "is_allowed_to_add_pages" => $is_allowed_to_add_pages]);
         } else {
-            $this->_db->update("application_admin", array("is_allowed_to_add_pages" => $is_allowed_to_add_pages), array("app_id = ?" => $app_id, "admin_id = ?" => $admin_id));
+            $this->_db->update("application_admin", ["is_allowed_to_add_pages" => $is_allowed_to_add_pages], ["app_id = ?" => $app_id, "admin_id = ?" => $admin_id]);
         }
 
         return $this;
@@ -136,7 +144,7 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
      */
     public function removeAdmin($app_id, $admin_id)
     {
-        $this->_db->delete("application_admin", array("app_id = ?" => $app_id, "admin_id = ?" => $admin_id));
+        $this->_db->delete("application_admin", ["app_id = ?" => $app_id, "admin_id = ?" => $admin_id]);
         return $this;
     }
 
@@ -148,7 +156,7 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
     {
 
         foreach ($positions as $pos => $option_value_id) {
-            $this->_db->update($this->_name . '_option_value', array('position' => $pos), array('value_id = ?' => $option_value_id));
+            $this->_db->update($this->_name . '_option_value', ['position' => $pos], ['value_id = ?' => $option_value_id]);
         }
 
     }

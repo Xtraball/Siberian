@@ -1303,6 +1303,7 @@ div.loader {
 /** App admin list */
 .item-application {
     margin: 0 0 10px 0;
+    border-top: 1px solid #dedede;
 }
 
 .item-application .item-no-padding:hover {
@@ -1311,8 +1312,9 @@ div.loader {
 }
 
 .item-application .app-icon {
-    width: 56px;
+    width: 57px;
     border-radius: 2px;
+    margin-top: -1px;
 }
 
 .item-application .item-no-padding {
