@@ -108,53 +108,74 @@ let handleFormError = function (form, data) {
     }
 };
 
-let feature_form_error = function (html) {
+let feature_form_error = function (html, options) {
     let _html = html;
     if (_html === undefined || _html.length === 0) {
         _html = "Unknown error.";
     }
+
+    let _options = {
+        timeOut: 3700,
+        extendedTimeOut: 10000,
+        progressBar: true,
+        positionClass: "toast-top-center"
+    };
+
+    if (options !== undefined) {
+        _options = $.extend(_options, options);
+    }
+
     toastr.error(
         _html,
         null,
-        {
-            timeOut: 3700,
-            extendedTimeOut: 10000,
-            progressBar: true,
-            positionClass: "toast-top-center"
-        });
+        _options);
 };
 
 
-let feature_form_warning = function (html) {
+let feature_form_warning = function (html, options) {
     let _html = html;
     if (_html === undefined || _html.length === 0) {
         _html = "Unknown warning.";
     }
+
+    let _options = {
+        timeOut: 3700,
+        extendedTimeOut: 10000,
+        progressBar: true,
+        positionClass: "toast-top-center"
+    };
+
+    if (options !== undefined) {
+        _options = $.extend(_options, options);
+    }
+
     toastr.warning(
         _html,
         null,
-        {
-            timeOut: 3700,
-            extendedTimeOut: 10000,
-            progressBar: true,
-            positionClass: "toast-top-center"
-        });
+        _options);
 };
 
-let feature_form_success = function (html) {
+let feature_form_success = function (html, options) {
     let _html = html;
     if (_html === undefined || _html.length === 0) {
         _html = "Success.";
     }
+
+    let _options = {
+        timeOut: 3700,
+        extendedTimeOut: 10000,
+        progressBar: true,
+        positionClass: "toast-top-center"
+    };
+
+    if (options !== undefined) {
+        _options = $.extend(_options, options);
+    }
+
     toastr.success(
         _html,
         null,
-        {
-            timeOut: 3700,
-            extendedTimeOut: 10000,
-            progressBar: true,
-            positionClass: "toast-top-center"
-        });
+        _options);
 };
 
 let feature_reload = function () {
@@ -565,7 +586,12 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             progressall: function (el, data) {
                 feature_picture_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                feature_picture_uploader.hide();
+                feature_picture_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function (el, data) {
+                // Second error handler
                 if (data.result.error) {
                     feature_picture_uploader.showError(data.result.message);
                 }
