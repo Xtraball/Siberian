@@ -702,8 +702,13 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                 progressall: function (e, data) {
                     img_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    img_uploader.hide();
+                    img_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if (data.result.error) {
+                        img_uploader.hide();
                         img_uploader.showError(data.result.message);
                     }
                     if (data.result.success) {

@@ -321,12 +321,17 @@ try {
                 progressall: function(e, data) {
                     weblink_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    weblink_uploader.hide();
+                    weblink_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function(e, data) {
 
                     if(typeof uploader_types[$(e.target).attr('rel')] == 'object') {
                         var uploader_type = uploader_types[$(e.target).attr('rel')];
                         uploader_type.id = $(e.target).attr('data-id');
                         if (data.result.error) {
+                            weblink_uploader.hide();
                             weblink_uploader.showError(data.result.message);
                         }
                         if (data.result.success) {

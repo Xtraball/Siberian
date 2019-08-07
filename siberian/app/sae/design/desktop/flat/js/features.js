@@ -593,6 +593,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             done: function (el, data) {
                 // Second error handler
                 if (data.result.error) {
+                    feature_picture_uploader.hide();
                     feature_picture_uploader.showError(data.result.message);
                 }
 

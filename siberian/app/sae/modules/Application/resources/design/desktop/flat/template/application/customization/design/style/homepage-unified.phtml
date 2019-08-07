@@ -284,9 +284,14 @@ $backgroundImage = $this->getApplication()->getData('background_image');
             progressall: function (e, data) {
                 homepage_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                homepage_uploader.hide();
+                homepage_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function (e, data) {
                 if(data.result.error) {
                     loader.hide();
+                    homepage_uploader.hide();
                     homepage_uploader.showError(data.result.message);
                 } else {
                     homepage_uploader.hide();

@@ -227,8 +227,13 @@ $products = $mcommerce->getProducts()
                             progressall: function(e, data) {
                                 product_picture_uploader.moveProgressbar(data);
                             },
+                            fail: function (el, data) {
+                                product_picture_uploader.hide();
+                                product_picture_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                            },
                             done: function(e, data) {
                                 if (data.result.error) {
+                                    product_picture_uploader.hide();
                                     product_picture_uploader.showError(data.result.message);
                                 }
                                 if (data.result.success) {

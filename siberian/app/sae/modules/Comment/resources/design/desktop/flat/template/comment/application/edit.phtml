@@ -513,9 +513,14 @@ $appKey = $application->getGooglemapsKey();
             progressall: function (e, data) {
                 comment_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                comment_uploader.hide();
+                comment_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function (e, data) {
                 if (data.result.error)
                 {
+                    comment_uploader.hide();
                     comment_uploader.showError(data.result.message);
                 }
                 if (data.result.success)

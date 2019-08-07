@@ -509,8 +509,13 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 progressall: function (e, data) {
                     custom_icon_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    custom_icon_uploader.hide();
+                    custom_icon_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if (data.result.error) {
+                        custom_icon_uploader.hide();
                         custom_icon_uploader.showError(data.result.message);
                     }
 
