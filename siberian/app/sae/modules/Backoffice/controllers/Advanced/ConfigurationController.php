@@ -13,7 +13,6 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'cron_interval',
         'environment',
         'update_channel',
-        'use_https',
         'cpanel_type',
         'letsencrypt_env',
         'send_statistics',
@@ -485,7 +484,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 'showWarning' => $showWarning,
                 'validUntil' => $validUntil,
                 'message' => $message,
-                'useHttps' => (boolean)__getConfig('use_https'),
+                'useHttps' => true,
             ];
         }
 

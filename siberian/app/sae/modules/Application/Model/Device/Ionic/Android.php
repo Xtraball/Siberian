@@ -190,8 +190,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                 $basePath = Core_Model_Directory::getBasePathTo("");
                 $zipPath = str_replace($basePath, '', $zip);
 
-                $jobUrl = sprintf("%s://%s/%s",
-                    __get('use_https') ? 'https' : 'http',
+                $jobUrl = sprintf("https://%s/%s",
                     $queue['host'],
                     $zipPath);
 
@@ -391,11 +390,10 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     protected function _prepareUrl()
     {
         $application = $this->getApplication();
+        $protocol = "https://";
         if (defined('CRON')) {
-            $protocol = __get('use_https') ? 'https://' : 'http://';
             $domain = $this->getDevice()->getHost();
         } else {
-            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $domain = $this->_request->getHttpHost();
         }
 

@@ -13,8 +13,7 @@ class Core_View_Email_Default extends Core_View_Default
     public function getImage($name, $base = false)
     {
         if (!$this->getRequest()) {
-            $baseUrl = sprintf('%s://%s',
-                __get('use_https') ? 'https' : 'http',
+            $baseUrl = sprintf('https://%s',
                 __get('main_domain'));
         } else {
             $baseUrl = $this->getRequest()->getMediaUrl();

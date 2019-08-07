@@ -2034,7 +2034,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $request->useApplicationKey($use_key);
         } else {
             $domain = rtrim($this->getDomain(), "/") . "/";
-            $protocol = System_Model_Config::getValueFor("use_https") ? "https://" : "http://";
+            $protocol = "https://";
             $url = Core_Model_Url::createCustom($protocol . $domain, $url, $params, $locale);
         }
 
