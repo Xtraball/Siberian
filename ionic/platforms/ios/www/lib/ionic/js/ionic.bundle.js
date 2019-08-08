@@ -55843,7 +55843,18 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
       }
 
       return $timeout(function() {
-        if (!modalStack.length) {
+        // Siberian fix for popover/modal stack interfering
+        var otherSibling = false;
+
+        for (var i = 0; i < modalStack.length; ++i) {
+          if (modalStack[i].viewType === self.viewType) {
+              // there are other modal (or popover, depending on viewType)
+              otherSibling = true;
+              break;
+          }
+        }
+
+        if (!otherSibling) {
           $ionicBody.removeClass(self.viewType + '-open');
         }
         self.el.classList.add('hide');
