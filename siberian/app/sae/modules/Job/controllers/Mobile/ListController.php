@@ -86,8 +86,8 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                     "title" => (string) $place->getName(),
                     "subtitle" => (string) strip_tags($place->getDescription()),
                     "location" => $place->getLocation(),
-                    "icon" => ($place->getIcon()) ?
-                        $this->getRequest()->getBaseUrl() . "/images/application" . $place->getIcon() :
+                    "icon" => ($place->getData("icon")) ?
+                        $this->getRequest()->getBaseUrl() . "/images/application" . $place->getData("icon") :
                         $this->getRequest()->getBaseUrl() . "/images/application" . $place->getCompanyLogo(),
                     "company_name" => $place->getCompanyName(),
                     "distance" => $place->getDistance(),
