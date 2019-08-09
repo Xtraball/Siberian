@@ -6,7 +6,8 @@
  */
 angular
 .module("starter")
-.controller("FanwallProfileController", function ($scope, $stateParams, $timeout, Customer, FanwallUtils, FanwallPost) {
+.controller("FanwallProfileController", function ($scope, $stateParams, $timeout,
+                                                  Customer, FanwallUtils, FanwallPost, Lightbox) {
     angular.extend($scope, {
         isLoading: true,
         collection: [],
@@ -64,6 +65,10 @@ angular
         .then(function (payload) {
             $scope.collection = $scope.collection.concat(payload.collection);
             $scope.hasMore = $scope.collection.length < payload.total;
+
+            $timeout(function () {
+                Lightbox.run(".list-posts");
+            }, 200);
         }, function (payload) {
             // Error!
         }).then(function () {
