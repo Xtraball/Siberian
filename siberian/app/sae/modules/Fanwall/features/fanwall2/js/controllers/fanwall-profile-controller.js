@@ -6,7 +6,7 @@
  */
 angular
 .module("starter")
-.controller("FanwallProfileController", function ($scope, $stateParams, Customer, FanwallUtils, FanwallPost) {
+.controller("FanwallProfileController", function ($scope, $stateParams, $timeout, Customer, FanwallUtils, FanwallPost) {
     angular.extend($scope, {
         isLoading: true,
         collection: [],
@@ -21,15 +21,20 @@ angular
     };
 
     $scope.profileCallback = function () {
-        console.log("profile callback");
+        // Do nothing!
+        $scope.loadContent(true, false);
+        $timeout(function () {
+            $scope.customer = Customer.customer;
+        });
     };
 
     $scope.customerImagePath = function () {
         // Empty image
-        if ($scope.customer.image.length <= 0) {
-            return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
+        if ($scope.customer.image &&
+            $scope.customer.image.length > 0) {
+            return IMAGE_URL + "images/customer" + $scope.customer.image;
         }
-        return IMAGE_URL + "images/customer" + $scope.customer.image;
+        return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
     };
 
     $scope.editProfile = function () {
@@ -45,10 +50,15 @@ angular
     };
 
     $scope.loadMore = function () {
-        $scope.loadContent(true);
+        $scope.loadContent(false, true);
     };
 
-    $scope.loadContent = function (loadMore) {
+    $scope.loadContent = function (refresh, loadMore) {
+        if (refresh) {
+            $scope.isLoading = true;
+            $scope.collection = [];
+        }
+
         FanwallPost
         .findAllProfile($scope.collection.length)
         .then(function (payload) {
@@ -65,5 +75,5 @@ angular
         });
     };
 
-    $scope.loadContent(false);
+    $scope.loadContent(true, false);
 });

@@ -1,10 +1,11 @@
 <ion-content class="fanwall-profile"
              ng-class="{'has-subheader': displaySubHeader()}"
              ng-controller="FanwallProfileController">
-
     <div>
         <div class="customer-image">
-            <img ng-src="{{ customerImagePath() }}" />
+            <img ng-src="{{ customerImagePath() }}"
+                 class="general-custom-border"
+                 alt="profile-picture" />
         </div>
         <div class="customer-fullname">
             {{ customerFullname() }}
