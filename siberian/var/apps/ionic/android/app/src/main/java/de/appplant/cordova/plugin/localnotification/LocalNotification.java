@@ -258,7 +258,9 @@ public class LocalNotification extends CordovaPlugin {
             JSONObject options = notifications.optJSONObject(i);
             String channelId = options.optString("channelId", "local.notification.defaultChannel");
 
-            if (!mapChannels.containsKey(channelId)) {
+            // If we have not channelId for Android 8+ we just skip!
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
+                !mapChannels.containsKey(channelId)) {
                 // Error no channel ...
                 continue;
             }
