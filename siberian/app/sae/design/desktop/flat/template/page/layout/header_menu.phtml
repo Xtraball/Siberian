@@ -187,20 +187,30 @@ function renderRecursive($markup, $menus, $isChild = false) {
                 $label = $menu['label'];
             }
 
+            $id = '';
+            if (array_key_exists('id', $menu)) {
+                $id = $menu['id'];
+            }
+
             $extra = '';
             if (array_key_exists('extra', $menu)) {
                 $extra = $menu['extra'];
             }
 
+            $icon = '';
+            if (array_key_exists('icon', $menu)) {
+                $icon = $menu['icon'];
+            }
+
             $isCurrent = $menu['is_current'] ? 'is_current' : '-';
             $markup .= '
                 <li class="' . $isCurrent . '">
-                    <a id="' . $menu['id'] . '"
+                    <a id="' . $id . '"
                        href="' . $menu['url'] . '"
                        ' . $extra . '
                        class="sb-tour"
                        title="' . $menu['label'] . '">
-                        <i class="' . $menu['icon'] . '"></i>
+                        <i class="' . $icon . '"></i>
                         ' . $label . '
                     </a>
                 </li>';
