@@ -118,13 +118,15 @@ public class Builder {
         Uri sound     = options.getSoundUri();
         int smallIcon = options.getSmallIcon();
         int ledColor  = options.getLedColor();
+        String channelId = options.getChannelId();
         NotificationCompat.Builder builder;
 
-        builder = new NotificationCompat.Builder(context)
+        builder = new NotificationCompat.Builder(context, channelId)
                 .setDefaults(0)
                 .setContentTitle(options.getTitle())
                 .setContentText(options.getText())
                 .setNumber(options.getBadgeNumber())
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setTicker(options.getText())
                 .setAutoCancel(options.isAutoClear())
                 .setOngoing(options.isOngoing())

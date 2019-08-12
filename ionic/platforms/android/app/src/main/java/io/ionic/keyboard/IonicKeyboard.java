@@ -128,7 +128,12 @@ public class IonicKeyboard extends CordovaPlugin {
 
     @Override
     public void onDestroy() {
-        rootView.getViewTreeObserver().removeOnGlobalLayoutListener(list);
+        try {
+            rootView.getViewTreeObserver().removeOnGlobalLayoutListener(list);
+        } catch (Exception e) {
+            // Silently destroy!
+        }
+        super.onDestroy();
     }
 
 }

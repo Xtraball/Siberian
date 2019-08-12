@@ -91,6 +91,20 @@ exports.schedule = function (msgs, callback, scope, args) {
 };
 
 /**
+ * Schedule a new local notification.
+ *
+ * @param {Object} channels
+ *      The channels properties
+ * @param {Function} callback
+ *      A function to be called after the notification has been canceled
+ * @param {Object?} scope
+ *      The scope for the callback function
+ */
+exports.createChannels = function (channels, callback, scope) {
+    this.exec('createChannels', channels, callback, scope);
+};
+
+/**
  * Update existing notifications specified by IDs in options.
  *
  * @param {Object} notifications

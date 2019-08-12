@@ -51,7 +51,7 @@ exports.setDefaults = function (defaults) {
  * @param {Object} notifications
  *      The notification properties
  * @param {Function} callback
- *      A function to be called after the notification has been canceled
+ *      A function to be called after the notification has been scheduled
  * @param {Object?} scope
  *      The scope for the callback function
  * @param {Object?} args
@@ -60,6 +60,20 @@ exports.setDefaults = function (defaults) {
  */
 exports.schedule = function (notifications, callback, scope, args) {
     this.core.schedule(notifications, callback, scope, args);
+};
+
+/**
+ * Schedule a new local notification.
+ *
+ * @param {Object} channels
+ *      The channel properties
+ * @param {Function} callback
+ *      A function to be called after the channel has been created
+ * @param {Object?} scope
+ *      The scope for the callback function
+ */
+exports.createChannels = function (channels, callback, scope) {
+    this.core.createChannels(channels, callback, scope);
 };
 
 /**

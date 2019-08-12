@@ -23,6 +23,9 @@
 
 package de.appplant.cordova.plugin.localnotification;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.os.Build;
 
 import org.apache.cordova.CallbackContext;
@@ -35,10 +38,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.appplant.cordova.plugin.notification.Manager;
 import de.appplant.cordova.plugin.notification.Notification;
+
+import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 
 /**
  * This plugin utilizes the Android AlarmManager in combination with local
@@ -60,23 +67,27 @@ public class LocalNotification extends CordovaPlugin {
     // Queues all events before deviceready
     private static ArrayList<String> eventQueue = new ArrayList<String>();
 
+    // All created channels
+    private static HashMap mapChannels = new HashMap();
+
     /**
      * Called after plugin construction and fields have been initialized.
      * Prefer to use pluginInitialize instead since there is no value in
      * having parameters on the initialize() function.
-     *
+     * <p>
      * pluginInitialize is not available for cordova 3.0-3.5 !
      */
     @Override
-    public void initialize (CordovaInterface cordova, CordovaWebView webView) {
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         LocalNotification.webView = super.webView;
+
+        defaultChannel();
     }
 
     /**
      * Called when the system is about to start resuming a previous activity.
      *
-     * @param multitasking
-     *      Flag indicating if multitasking is turned on for app
+     * @param multitasking Flag indicating if multitasking is turned on for app
      */
     @Override
     public void onPause(boolean multitasking) {
@@ -87,8 +98,7 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Called when the activity will start interacting with the user.
      *
-     * @param multitasking
-     *      Flag indicating if multitasking is turned on for app
+     * @param multitasking Flag indicating if multitasking is turned on for app
      */
     @Override
     public void onResume(boolean multitasking) {
@@ -108,26 +118,22 @@ public class LocalNotification extends CordovaPlugin {
 
     /**
      * Executes the request.
-     *
+     * <p>
      * This method is called from the WebView thread. To do a non-trivial
      * amount of work, use:
-     *      cordova.getThreadPool().execute(runnable);
-     *
+     * cordova.getThreadPool().execute(runnable);
+     * <p>
      * To run on the UI thread, use:
-     *     cordova.getActivity().runOnUiThread(runnable);
+     * cordova.getActivity().runOnUiThread(runnable);
      *
-     * @param action
-     *      The action to execute.
-     * @param args
-     *      The exec() arguments in JSON form.
-     * @param command
-     *      The callback context used when calling back into JavaScript.
-     * @return
-     *      Whether the action was valid.
+     * @param action  The action to execute.
+     * @param args    The exec() arguments in JSON form.
+     * @param command The callback context used when calling back into JavaScript.
+     * @return Whether the action was valid.
      */
     @Override
-    public boolean execute (final String action, final JSONArray args,
-                            final CallbackContext command) throws JSONException {
+    public boolean execute(final String action, final JSONArray args,
+                           final CallbackContext command) throws JSONException {
 
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
 
@@ -136,64 +142,49 @@ public class LocalNotification extends CordovaPlugin {
                 if (action.equals("schedule")) {
                     schedule(args);
                     command.success();
-                }
-                else if (action.equals("update")) {
+                } else if (action.equals("createChannels")) {
+                    createChannels(args);
+                    command.success();
+                } else if (action.equals("update")) {
                     update(args);
                     command.success();
-                }
-                else if (action.equals("cancel")) {
+                } else if (action.equals("cancel")) {
                     cancel(args);
                     command.success();
-                }
-                else if (action.equals("cancelAll")) {
+                } else if (action.equals("cancelAll")) {
                     cancelAll();
                     command.success();
-                }
-                else if (action.equals("clear")) {
+                } else if (action.equals("clear")) {
                     clear(args);
                     command.success();
-                }
-                else if (action.equals("clearAll")) {
+                } else if (action.equals("clearAll")) {
                     clearAll();
                     command.success();
-                }
-                else if (action.equals("isPresent")) {
+                } else if (action.equals("isPresent")) {
                     isPresent(args.optInt(0), command);
-                }
-                else if (action.equals("isScheduled")) {
+                } else if (action.equals("isScheduled")) {
                     isScheduled(args.optInt(0), command);
-                }
-                else if (action.equals("isTriggered")) {
+                } else if (action.equals("isTriggered")) {
                     isTriggered(args.optInt(0), command);
-                }
-                else if (action.equals("getAllIds")) {
+                } else if (action.equals("getAllIds")) {
                     getAllIds(command);
-                }
-                else if (action.equals("getScheduledIds")) {
+                } else if (action.equals("getScheduledIds")) {
                     getScheduledIds(command);
-                }
-                else if (action.equals("getTriggeredIds")) {
+                } else if (action.equals("getTriggeredIds")) {
                     getTriggeredIds(command);
-                }
-                else if (action.equals("getSingle")) {
+                } else if (action.equals("getSingle")) {
                     getSingle(args, command);
-                }
-                else if (action.equals("getSingleScheduled")) {
+                } else if (action.equals("getSingleScheduled")) {
                     getSingleScheduled(args, command);
-                }
-                else if (action.equals("getSingleTriggered")) {
+                } else if (action.equals("getSingleTriggered")) {
                     getSingleTriggered(args, command);
-                }
-                else if (action.equals("getAll")) {
+                } else if (action.equals("getAll")) {
                     getAll(args, command);
-                }
-                else if (action.equals("getScheduled")) {
+                } else if (action.equals("getScheduled")) {
                     getScheduled(args, command);
-                }
-                else if (action.equals("getTriggered")) {
+                } else if (action.equals("getTriggered")) {
                     getTriggered(args, command);
-                }
-                else if (action.equals("deviceready")) {
+                } else if (action.equals("deviceready")) {
                     deviceready();
                 }
             }
@@ -203,14 +194,74 @@ public class LocalNotification extends CordovaPlugin {
     }
 
     /**
+     * We create the default channel for local notifications!
+     */
+    private void defaultChannel() {
+        // Only for supported Android versions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = "local.notification.defaultChannel";
+            String name = "defaultChannel";
+            String description = "Default channel for local notifications.";
+            int priority = IMPORTANCE_DEFAULT;
+
+            NotificationChannel notificationChannel =
+                    new NotificationChannel(channelId, name, priority);
+            notificationChannel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = cordova.getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(notificationChannel);
+
+            mapChannels.put(channelId, notificationChannel);
+        }
+    }
+
+    /**
+     * @param channels N new channels
+     */
+    private void createChannels(JSONArray channels) {
+        // Only for supported Android versions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            for (int i = 0; i < channels.length(); i++) {
+                JSONObject channel = channels.optJSONObject(i);
+                String channelId = channel.optString("channelId", "local.notification.defaultChannel");
+
+                // If key channel already exists, we simply skip it!
+                if (mapChannels.containsKey(channelId)) {
+                    continue;
+                }
+
+                String name = channel.optString("name", "defaultChannel");
+                String description = channel.optString("description", "Default channel for local notifications.");
+                int priority = channel.optInt("priority", IMPORTANCE_DEFAULT);
+
+                NotificationChannel notificationChannel =
+                        new NotificationChannel(channelId, name, priority);
+                notificationChannel.setDescription(description);
+                // Register the channel with the system; you can't change the importance
+                // or other notification behaviors after this
+                NotificationManager notificationManager = cordova.getActivity().getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(notificationChannel);
+
+                mapChannels.put(channelId, notificationChannel);
+            }
+        }
+    }
+
+    /**
      * Schedule multiple local notifications.
      *
-     * @param notifications
-     *      Properties for each local notification
+     * @param notifications Properties for each local notification
      */
-    private void schedule (JSONArray notifications) {
+    private void schedule(JSONArray notifications) {
         for (int i = 0; i < notifications.length(); i++) {
             JSONObject options = notifications.optJSONObject(i);
+            String channelId = options.optString("channelId", "local.notification.defaultChannel");
+
+            if (!mapChannels.containsKey(channelId)) {
+                // Error no channel ...
+                continue;
+            }
 
             Notification notification =
                     getNotificationMgr().schedule(options, TriggerReceiver.class);
@@ -222,10 +273,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Update multiple local notifications.
      *
-     * @param updates
-     *      Notification properties including their IDs
+     * @param updates Notification properties including their IDs
      */
-    private void update (JSONArray updates) {
+    private void update(JSONArray updates) {
         for (int i = 0; i < updates.length(); i++) {
             JSONObject update = updates.optJSONObject(i);
             int id = update.optInt("id", 0);
@@ -243,10 +293,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Cancel multiple local notifications.
      *
-     * @param ids
-     *      Set of local notification IDs
+     * @param ids Set of local notification IDs
      */
-    private void cancel (JSONArray ids) {
+    private void cancel(JSONArray ids) {
         for (int i = 0; i < ids.length(); i++) {
             int id = ids.optInt(i, 0);
 
@@ -271,10 +320,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Clear multiple local notifications without canceling them.
      *
-     * @param ids
-     *      Set of local notification IDs
+     * @param ids Set of local notification IDs
      */
-    private void clear(JSONArray ids){
+    private void clear(JSONArray ids) {
         for (int i = 0; i < ids.length(); i++) {
             int id = ids.optInt(i, 0);
 
@@ -299,12 +347,10 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * If a notification with an ID is present.
      *
-     * @param id
-     *      Notification ID
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param id      Notification ID
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void isPresent (int id, CallbackContext command) {
+    private void isPresent(int id, CallbackContext command) {
         boolean exist = getNotificationMgr().exist(id);
 
         PluginResult result = new PluginResult(
@@ -316,12 +362,10 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * If a notification with an ID is scheduled.
      *
-     * @param id
-     *      Notification ID
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param id      Notification ID
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void isScheduled (int id, CallbackContext command) {
+    private void isScheduled(int id, CallbackContext command) {
         boolean exist = getNotificationMgr().exist(
                 id, Notification.Type.SCHEDULED);
 
@@ -334,12 +378,10 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * If a notification with an ID is triggered.
      *
-     * @param id
-     *      Notification ID
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param id      Notification ID
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void isTriggered (int id, CallbackContext command) {
+    private void isTriggered(int id, CallbackContext command) {
         boolean exist = getNotificationMgr().exist(
                 id, Notification.Type.TRIGGERED);
 
@@ -352,10 +394,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Set of IDs from all existent notifications.
      *
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getAllIds (CallbackContext command) {
+    private void getAllIds(CallbackContext command) {
         List<Integer> ids = getNotificationMgr().getIds();
 
         command.success(new JSONArray(ids));
@@ -364,10 +405,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Set of IDs from all scheduled notifications.
      *
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getScheduledIds (CallbackContext command) {
+    private void getScheduledIds(CallbackContext command) {
         List<Integer> ids = getNotificationMgr().getIdsByType(
                 Notification.Type.SCHEDULED);
 
@@ -377,10 +417,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Set of IDs from all triggered notifications.
      *
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getTriggeredIds (CallbackContext command) {
+    private void getTriggeredIds(CallbackContext command) {
         List<Integer> ids = getNotificationMgr().getIdsByType(
                 Notification.Type.TRIGGERED);
 
@@ -390,87 +429,72 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Options from local notification.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getSingle (JSONArray ids, CallbackContext command) {
+    private void getSingle(JSONArray ids, CallbackContext command) {
         getOptions(ids.optString(0), Notification.Type.ALL, command);
     }
 
     /**
      * Options from scheduled notification.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getSingleScheduled (JSONArray ids, CallbackContext command) {
+    private void getSingleScheduled(JSONArray ids, CallbackContext command) {
         getOptions(ids.optString(0), Notification.Type.SCHEDULED, command);
     }
 
     /**
      * Options from triggered notification.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getSingleTriggered (JSONArray ids, CallbackContext command) {
+    private void getSingleTriggered(JSONArray ids, CallbackContext command) {
         getOptions(ids.optString(0), Notification.Type.TRIGGERED, command);
     }
 
     /**
      * Set of options from local notification.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getAll (JSONArray ids, CallbackContext command) {
+    private void getAll(JSONArray ids, CallbackContext command) {
         getOptions(ids, Notification.Type.ALL, command);
     }
 
     /**
      * Set of options from scheduled notifications.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getScheduled (JSONArray ids, CallbackContext command) {
+    private void getScheduled(JSONArray ids, CallbackContext command) {
         getOptions(ids, Notification.Type.SCHEDULED, command);
     }
 
     /**
      * Set of options from triggered notifications.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getTriggered (JSONArray ids, CallbackContext command) {
+    private void getTriggered(JSONArray ids, CallbackContext command) {
         getOptions(ids, Notification.Type.TRIGGERED, command);
     }
 
     /**
      * Options from local notification.
      *
-     * @param id
-     *      Set of local notification IDs
-     * @param type
-     *      The local notification life cycle type
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param id      Set of local notification IDs
+     * @param type    The local notification life cycle type
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getOptions (String id, Notification.Type type,
-                             CallbackContext command) {
+    private void getOptions(String id, Notification.Type type,
+                            CallbackContext command) {
 
         JSONArray ids = new JSONArray().put(id);
         PluginResult result;
@@ -492,15 +516,12 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Set of options from local notifications.
      *
-     * @param ids
-     *      Set of local notification IDs
-     * @param type
-     *      The local notification life cycle type
-     * @param command
-     *      The callback context used when calling back into JavaScript.
+     * @param ids     Set of local notification IDs
+     * @param type    The local notification life cycle type
+     * @param command The callback context used when calling back into JavaScript.
      */
-    private void getOptions (JSONArray ids, Notification.Type type,
-                             CallbackContext command) {
+    private void getOptions(JSONArray ids, Notification.Type type,
+                            CallbackContext command) {
 
         List<JSONObject> options;
 
@@ -516,7 +537,7 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Call all pending callbacks after the deviceready event has been fired.
      */
-    private static synchronized void deviceready () {
+    private static synchronized void deviceready() {
         isInBackground = false;
         deviceready = true;
 
@@ -530,22 +551,19 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Fire given event on JS side. Does inform all event listeners.
      *
-     * @param event
-     *      The event name
+     * @param event The event name
      */
-    private void fireEvent (String event) {
+    private void fireEvent(String event) {
         fireEvent(event, null);
     }
 
     /**
      * Fire given event on JS side. Does inform all event listeners.
      *
-     * @param event
-     *      The event name
-     * @param notification
-     *      Optional local notification to pass the id and properties.
+     * @param event        The event name
+     * @param notification Optional local notification to pass the id and properties.
      */
-    static void fireEvent (String event, Notification notification) {
+    static void fireEvent(String event, Notification notification) {
         String state = getApplicationState();
         String params = "\"" + state + "\"";
 
@@ -562,8 +580,7 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Use this instead of deprecated sendJavascript
      *
-     * @param js
-     *       JS code snippet as string
+     * @param js JS code snippet as string
      */
     private static synchronized void sendJavascript(final String js) {
 
@@ -578,10 +595,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Convert JSON array of integers to List.
      *
-     * @param ary
-     *      Array of integers
+     * @param ary Array of integers
      */
-    private List<Integer> toList (JSONArray ary) {
+    private List<Integer> toList(JSONArray ary) {
         ArrayList<Integer> list = new ArrayList<Integer>();
 
         for (int i = 0; i < ary.length(); i++) {
@@ -594,10 +610,9 @@ public class LocalNotification extends CordovaPlugin {
     /**
      * Current application state.
      *
-     * @return
-     *      "background" or "foreground"
+     * @return "background" or "foreground"
      */
-    static String getApplicationState () {
+    static String getApplicationState() {
         return isInBackground ? "background" : "foreground";
     }
 
