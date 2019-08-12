@@ -17,7 +17,11 @@ ion-side-menu {
 }
 
 ion-side-menu-content {
+  color: $general-custom-text;
   background-color: $general-custom-bg !important;
+  .general-custom-border {
+    border-color: $general-custom-border !important;
+  }
 }
 
 ion-content {
