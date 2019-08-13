@@ -414,14 +414,15 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 };
 
                                 // Ensure we won't update an app while the previewer is in progress!
-                                window.fileExists(
-                                    'module.js',
-                                    function () {
-                                        // do nothing when file exists!
-                                    }, function () {
-                                        // run update if file doesn't exists!
-                                        runChcp();
-                                    });
+                                if ($injector.has("Previewer")) {
+                                    $injector.get("Previewer").prvFileExists(function () {
+                                            console.info("[PREVIEWER] Preview in progress, aborting.");
+                                        },
+                                        function () {
+                                            console.info("[PREVIEWER] No previewer loaded, continue.");
+                                            runChcp();
+                                        });
+                                }
                             });
                         }
                         // !skip chcp inside webview loaded app!
@@ -833,12 +834,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         // When App is loaded dismiss the previewerNotice!
-                        if (IS_PREVIEW) {
+                        if (IS_PREVIEW &&
+                            $injector.has("Previewer")) {
                             $timeout(function () {
                                 $rootScope.previewerNotice = false;
                             }, 3000);
 
                             $window.registerTap(3, function () {
+                                try {
+                                    $injector.get("Previewer").prvDeleteFile();
+                                } catch (e) {
+                                    //
+                                }
                                 $window.webview.close();
                             });
                         }
