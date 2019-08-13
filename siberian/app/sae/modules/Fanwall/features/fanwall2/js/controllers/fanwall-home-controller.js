@@ -79,6 +79,23 @@ angular
 
     $scope.showTab = function (tabName) {
         $ionicSideMenuDelegate.canDragContent(tabName !== "map");
+
+        var homeScope = $scope;
+
+        if (tabName === "profile" &&
+            !Customer.isLoggedIn()) {
+            return Customer.loginModal(
+                undefined,
+                function () {
+                    homeScope.showTab("profile");
+                },
+                undefined,
+                function () {
+                    homeScope.showTab("profile");
+                }
+            );
+        }
+
         $scope.currentTab = tabName;
     };
 

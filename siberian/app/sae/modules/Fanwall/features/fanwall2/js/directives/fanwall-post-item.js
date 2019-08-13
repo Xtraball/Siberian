@@ -205,6 +205,9 @@ angular
                 };
 
                 $scope.blockUser = function () {
+                    if (!Customer.isLoggedIn()) {
+                        return Customer.loginModal();
+                    }
                     FanwallUtils.blockUser($scope.post.id, "from-post");
                 };
 

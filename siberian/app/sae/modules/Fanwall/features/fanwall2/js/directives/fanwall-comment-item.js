@@ -149,6 +149,10 @@ angular
                 };
 
                 $scope.blockUser = function () {
+                    if (!Customer.isLoggedIn()) {
+                        return Customer.loginModal();
+                    }
+
                     FanwallUtils.blockUser($scope.comment.id, "from-comment");
                 };
 
