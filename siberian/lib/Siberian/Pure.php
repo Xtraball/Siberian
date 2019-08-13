@@ -3,6 +3,16 @@
 use \Gettext\Translations;
 
 /**
+ * Polyfill for php <= 7.2
+ *
+ */
+if (!function_exists("is_countable")) {
+    function is_countable($var) {
+        return (is_array($var) || $var instanceof Countable);
+    }
+}
+
+/**
  * Current Application Singleton
  *
  * @return \Application_Model_Application|null
