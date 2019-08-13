@@ -414,7 +414,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 };
 
                                 // Ensure we won't update an app while the previewer is in progress!
-                                if ($injector.has("Previewer")) {
+                                $ocLazyLoad
+                                .load("./features/previewer/previewer.bundle.min.js")
+                                .then(function () {
                                     $injector.get("Previewer").prvFileExists(function () {
                                             console.info("[PREVIEWER] Preview in progress, aborting.");
                                         },
@@ -422,7 +424,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                             console.info("[PREVIEWER] No previewer loaded, continue.");
                                             runChcp();
                                         });
-                                }
+                                })
+                                .catch(function (error) {
+                                    // We were unable to load the previewer, assuming it doesn't exists, continue on chcp!
+                                    runChcp();
+                                });
                             });
                         }
                         // !skip chcp inside webview loaded app!
@@ -791,18 +797,19 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
 
                         // Loads momentjs/progressbar async.
-                        $ocLazyLoad.load("./dist/lazy/moment.min.js")
-                            .then(function () {
-                                window.momentjs_loaded = true;
-                                try {
-                                    var tmpLang = language.replace("_", "-").toLowerCase();
-                                    moment.locale([tmpLang, "en"]);
-                                } catch (e) {
-                                    moment.locale("en");
-                                }
+                        $ocLazyLoad
+                        .load("./dist/lazy/moment.min.js")
+                        .then(function () {
+                            window.momentjs_loaded = true;
+                            try {
+                                var tmpLang = language.replace("_", "-").toLowerCase();
+                                moment.locale([tmpLang, "en"]);
+                            } catch (e) {
+                                moment.locale("en");
+                            }
 
-                                console.log("moment locale", moment.locale());
-                            });
+                            console.log("moment locale", moment.locale());
+                        });
 
                         $ocLazyLoad.load('./dist/lazy/angular-carousel.min.js');
                         window.Features.featuresToLoadOnStart.forEach(function (bundle) {
@@ -834,15 +841,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         // When App is loaded dismiss the previewerNotice!
-                        if (IS_PREVIEW &&
-                            $injector.has("Previewer")) {
+                        if (IS_PREVIEW) {
                             $timeout(function () {
                                 $rootScope.previewerNotice = false;
                             }, 3000);
 
                             $window.registerTap(3, function () {
                                 try {
-                                    $injector.get("Previewer").prvDeleteFile();
+                                    $ocLazyLoad
+                                    .load('./features/previewer/previewer.bundle.min.js')
+                                    .then(function () {
+                                        $injector.get("Previewer").prvDeleteFile()
+                                    });
                                 } catch (e) {
                                     //
                                 }
