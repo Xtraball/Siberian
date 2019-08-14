@@ -178,6 +178,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             loginFeatureBack: true
         });
 
+        // Display previewer notice!
+        if (IS_PREVIEW) {
+            $rootScope.previewerNotice = true;
+        }
+
         // Listeners for network events!
         $window.addEventListener('online', function () {
             $log.info('online');
@@ -232,11 +237,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             $timeout(function () {
                 $ionicNavBarDelegate.showBar(false);
             });
-
-            // Display previewer notice!
-            if (IS_PREVIEW) {
-                $rootScope.previewerNotice = true;
-            }
 
             var loadApp = function (refresh) {
                 // Fallback empty objects for browser!

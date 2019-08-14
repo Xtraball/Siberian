@@ -62,6 +62,12 @@
         <div class="previewer-load"
              ng-show="previewerNotice">{{ "Triple tap to close the preview" | translate }}</div>
 
+        <div class="previewer-splashscreen"
+             ng-style="previewerSplashscreenStyle"
+             ng-show="previewerSplashscreen">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
         <link href="./dist/app.bundle.min.css"
               rel="stylesheet" />
     </body>
