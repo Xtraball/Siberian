@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.16.10
+ * @version 4.17.6
  */
 
 window.momentjs_loaded = false;
@@ -178,6 +178,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
             loginFeatureBack: true
         });
 
+        // Display previewer notice!
+        if (IS_PREVIEW) {
+            $rootScope.previewerNotice = true;
+        }
+
         // Listeners for network events!
         $window.addEventListener('online', function () {
             $log.info('online');
@@ -233,11 +238,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 $ionicNavBarDelegate.showBar(false);
             });
 
-            // Display previewer notice!
-            if (IS_PREVIEW) {
-                $rootScope.previewerNotice = true;
-            }
-
             var loadApp = function (refresh) {
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
@@ -255,7 +255,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: "4.17.1"
+                            version: "4.17.6"
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -320,7 +320,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         // App keyboard & StatusBar!
-                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                        if (window.cordova &&
+                            window.cordova.plugins &&
+                            window.cordova.plugins.Keyboard) {
                             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
                         }
 
@@ -414,15 +416,21 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 };
 
                                 // Ensure we won't update an app while the previewer is in progress!
-                                if ($injector.has("Previewer")) {
-                                    $injector.get("Previewer").prvFileExists(function () {
+                                $ocLazyLoad
+                                .load("./features/previewer/previewer.bundle.min.js")
+                                .then(function () {
+                                    $injector.get("Previewer").fileExists(function () {
                                             console.info("[PREVIEWER] Preview in progress, aborting.");
                                         },
                                         function () {
                                             console.info("[PREVIEWER] No previewer loaded, continue.");
                                             runChcp();
                                         });
-                                }
+                                })
+                                .catch(function (error) {
+                                    // We were unable to load the previewer, assuming it doesn't exists, continue on chcp!
+                                    runChcp();
+                                });
                             });
                         }
                         // !skip chcp inside webview loaded app!
@@ -791,18 +799,19 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             });
 
                         // Loads momentjs/progressbar async.
-                        $ocLazyLoad.load("./dist/lazy/moment.min.js")
-                            .then(function () {
-                                window.momentjs_loaded = true;
-                                try {
-                                    var tmpLang = language.replace("_", "-").toLowerCase();
-                                    moment.locale([tmpLang, "en"]);
-                                } catch (e) {
-                                    moment.locale("en");
-                                }
+                        $ocLazyLoad
+                        .load("./dist/lazy/moment.min.js")
+                        .then(function () {
+                            window.momentjs_loaded = true;
+                            try {
+                                var tmpLang = language.replace("_", "-").toLowerCase();
+                                moment.locale([tmpLang, "en"]);
+                            } catch (e) {
+                                moment.locale("en");
+                            }
 
-                                console.log("moment locale", moment.locale());
-                            });
+                            console.log("moment locale", moment.locale());
+                        });
 
                         $ocLazyLoad.load('./dist/lazy/angular-carousel.min.js');
                         window.Features.featuresToLoadOnStart.forEach(function (bundle) {
@@ -834,15 +843,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         // When App is loaded dismiss the previewerNotice!
-                        if (IS_PREVIEW &&
-                            $injector.has("Previewer")) {
+                        if (IS_PREVIEW) {
                             $timeout(function () {
                                 $rootScope.previewerNotice = false;
                             }, 3000);
 
                             $window.registerTap(3, function () {
                                 try {
-                                    $injector.get("Previewer").prvDeleteFile();
+                                    $ocLazyLoad
+                                    .load('./features/previewer/previewer.bundle.min.js')
+                                    .then(function () {
+                                        $injector.get("Previewer").deleteFile();
+                                    });
                                 } catch (e) {
                                     //
                                 }
