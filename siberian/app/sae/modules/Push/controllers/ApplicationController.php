@@ -1,5 +1,7 @@
 <?php
 
+use Push\Model\StandalonePush;
+
 /**
  * Class Push_ApplicationController
  */

@@ -12,6 +12,10 @@
  * @method $this setActionValue(string $actionValue)
  * @method $this setCover(string $cover)
  * @method $this setCustomImage(string $customImage)
+ * @method $this setIsStandalone(boolean $isStandalone)
+ * @method $this setToken(string $token)
+ * @method $this setForceAppRoute(boolean $force)
+ * @method $this setBase64(boolean $base64)
  */
 class Push_Model_Message extends Core_Model_Default
 {

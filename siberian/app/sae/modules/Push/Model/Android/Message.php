@@ -187,6 +187,11 @@ class Push_Model_Android_Message
                         $this->getMessage()->createLog($device, 1, $registrationId);
                     } else if (!empty($errorCode)) {
                         # Remove device from list
+
+                        Hook::trigger("push.android.delete_token", [
+                            "device" => $device
+                        ]);
+
                         $device->delete();
 
                         $msg = sprintf("#810-01: Android Device with ID: %s, Token: %s, removed after push failed.",
