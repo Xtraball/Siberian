@@ -39,31 +39,19 @@ public class MainActivity extends CordovaActivity
         }
 
         // Clear temp files on startup! @siberian
-        deleteTempFiles(getCacheDir());
+        deleteTemp(getFilesDir().getAbsolutePath() + "/module.js");
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
     }
 
     /**
-     * @description siberian
-     *
      * @param file
-     * @return
      */
-    private boolean deleteTempFiles(File file) {
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-                for (File f : files) {
-                    if (f.isDirectory()) {
-                        deleteTempFiles(f);
-                    } else {
-                        f.delete();
-                    }
-                }
-            }
+    private void deleteTemp(String file) {
+        File tempFile = new File(file);
+        if (tempFile.exists()) {
+            tempFile.delete();
         }
-        return file.delete();
     }
 }
