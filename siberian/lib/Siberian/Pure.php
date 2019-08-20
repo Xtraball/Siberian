@@ -120,12 +120,11 @@ function extract_p__($context, $original, $flag = null)
  */
 function shutdown_extract_p ()
 {
-    dbg("shutdown_extract_p");
     global $extractTranslations;
     if (__getConfig("extract") === true) {
 
         foreach ($extractTranslations as $file => $translations) {
-            dbg($extractTranslations);
+            //dbg($extractTranslations);
 
             $poFile = Translations::fromPoFile($file);
 
@@ -147,6 +146,7 @@ function shutdown_extract_p ()
 
                 if (!$hasGMT) {
                     $microTime = microtime(true);
+                    usleep(5);
                     $tmpTranslation->addComment("GMT {$microTime}");
                 }
 

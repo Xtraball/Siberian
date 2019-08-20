@@ -527,17 +527,24 @@ class Push_Model_Message extends Core_Model_Default
     public function getCoverUrl()
     {
         $cover = $this->getCover();
-        $coverPath = Application_Model_Application::getImagePath() . $this->getCover();
-        $baseCoverPath = Application_Model_Application::getBaseImagePath() . $this->getCover();
-        if (strpos($cover, '/images/assets') === 0 &&
-            is_file(Core_Model_Directory::getBasePathTo($cover))) {
+
+        // If cover is already an URL, return it unchanged!
+        if (preg_match("#^https?://#", $cover)) {
             return $cover;
         }
 
-        if ($this->getCover() AND file_exists($baseCoverPath)) {
+        $coverPath = Application_Model_Application::getImagePath() . $this->getCover();
+        $baseCoverPath = Application_Model_Application::getBaseImagePath() . $this->getCover();
+        if (strpos($cover, "/images/assets") === 0 &&
+            is_file(path($cover))) {
+            return $cover;
+        }
+
+        if ($this->getCover() && is_file($baseCoverPath)) {
             return $coverPath;
         }
-        return '';
+
+        return "";
     }
 
     public function getInAppCode()

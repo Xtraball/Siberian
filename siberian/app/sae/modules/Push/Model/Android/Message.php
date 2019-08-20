@@ -250,13 +250,17 @@ class Push_Model_Android_Message
             $action_url = $message->getActionValue();
         }
 
+        $coverUrl = $message->getCoverUrl();
+        if (!preg_match("#^https?://#", $coverUrl)) {
+            $coverUrl = $message->getData("base_url") . $coverUrl;
+        }
+
         $messagePayload
             ->setMessageId($message->getMessageId())
             ->setTitle($message->getTitle())
             ->setMessage($message->getText())
             ->setGeolocation($message->getLatitude(), $message->getLongitude(), $message->getRadius())
-            ->setCover($message->getCoverUrl(),
-                $message->getData("base_url") . $message->getCoverUrl(), $message->getText())
+            ->setCover($coverUrl, $coverUrl, $message->getText())
             ->setDelayWithIdle(false)
             ->setTimeToLive(0)
             ->setSendUntil($message->getSendUntil() ? $message->getSendUntil() : "0")
@@ -270,7 +274,7 @@ class Push_Model_Android_Message
 
         # Priority to custom image
         $customImage = $message->getCustomImage();
-        $path_custom_image = Core_Model_Directory::getBasePathTo("/images/application" . $customImage);
+        $path_custom_image = path("/images/application" . $customImage);
         if (strpos($customImage, '/images/assets') === 0 &&
             is_file(Core_Model_Directory::getBasePathTo($customImage))) {
             $messagePayload->setImage($message->getData('base_url') . $customImage);
