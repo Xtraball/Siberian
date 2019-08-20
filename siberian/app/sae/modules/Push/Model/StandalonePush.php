@@ -139,6 +139,14 @@ class StandalonePush extends Base
                                 $appId = null)
     {
         // Save push in custom history
+
+        $jsonMessage = [
+            "title" => $title,
+            "text" => $text,
+            "cover" => $cover,
+            "actionValue" => $actionValue,
+        ];
+
         $this
             ->setValueId($valueId)
             ->setAppId($appId)
@@ -148,6 +156,7 @@ class StandalonePush extends Base
             ->setCover($cover)
             ->setActionValue($actionValue)
             ->setStatus("sent")
+            ->setMessageJson(Json::encode($jsonMessage))
             ->save();
 
         $message = self::buildMessage($title, $text, $cover, $actionValue);
