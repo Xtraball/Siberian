@@ -23,7 +23,10 @@
 
         <title></title>
 
-        <script src="../../../module.js"></script>
+        <!-- Ensure file will never be cached. -->
+<script type="text/javascript">
+    document.write('<script src="../../../module.js?t=' + Date.now() + '"><\/script>');
+</script>
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/languages.js"></script>
