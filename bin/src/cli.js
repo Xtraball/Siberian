@@ -687,7 +687,10 @@ let patchPreviewer = function (platform) {
 
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
-                "<script src=\"../../../module.js\"></script>");
+                "<!-- Ensure file will never be cached. -->\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    document.write('<script src=\"../../../module.js?t=' + Date.now() + '\"><\\/script>');\n" +
+                "</script>");
 
             break;
         case "ios":
@@ -699,7 +702,10 @@ let patchPreviewer = function (platform) {
 
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
-                "<script src=\"cdvfile://localhost/temporary/module.js\"></script>");
+                "<!-- Ensure file will never be cached. -->\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    document.write('<script src=\"cdvfile://localhost/temporary/module.js?t=' + Date.now() + '\"><\\/script>');\n" +
+                "</script>");
 
             break;
     }
