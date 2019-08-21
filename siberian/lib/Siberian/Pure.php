@@ -124,8 +124,6 @@ function shutdown_extract_p ()
     if (__getConfig("extract") === true) {
 
         foreach ($extractTranslations as $file => $translations) {
-            //dbg($extractTranslations);
-
             $poFile = Translations::fromPoFile($file);
 
             foreach ($translations as $translation) {

@@ -255,6 +255,11 @@ class Push_Model_Android_Message
             $coverUrl = $message->getData("base_url") . $coverUrl;
         }
 
+        // Double check after altering data ...
+        if ($coverUrl === $message->getData("base_url")) {
+            $coverUrl = "";
+        }
+
         $messagePayload
             ->setMessageId($message->getMessageId())
             ->setTitle($message->getTitle())
