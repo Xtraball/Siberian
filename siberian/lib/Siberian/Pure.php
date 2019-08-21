@@ -128,8 +128,6 @@ function shutdown_extract_p ()
 
             $poFile = Translations::fromPoFile($file);
 
-            $gmtIndex = [];
-
             foreach ($translations as $translation) {
                 /**
                  * @var $tmpTranslation \Gettext\Translation
@@ -142,13 +140,7 @@ function shutdown_extract_p ()
                 $hasGMT = false;
                 foreach ($comments as $comment) {
                     if (preg_match("/GMT/", $comment) === 1) {
-                        // If this GMT already exists, we will change it!
-                        if (in_array($comment, $gmtIndex)) {
-                            $hasGMT = false;
-                            $gmtIndex[] = $comment;
-                        } else {
-                            $hasGMT = true;
-                        }
+                        $hasGMT = true;
                     }
                 }
 
