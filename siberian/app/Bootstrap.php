@@ -481,6 +481,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $response = $front->dispatch($request);
 
+        shutdown_extract_p();
+
         if ($front->returnResponse()) {
             return $response;
         }

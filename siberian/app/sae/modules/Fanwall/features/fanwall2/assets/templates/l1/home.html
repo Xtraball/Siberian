@@ -28,27 +28,29 @@
                     ng-click="showTab('nearby')"
                     ng-class="classTab('nearby')"
                     ng-bind-html="displayIcon('nearby') | trusted_html">
-                <i class="icon ion-sb-fw-nearby"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-if="isEnabled('enableMap')"
                     ng-click="showTab('map')"
                     ng-class="classTab('map')"
                     ng-bind-html="displayIcon('map') | trusted_html">
-                <i class="icon ion-sb-fw-map"></i>
             </button>
             <button class="button button-custom button-positive button-positive-custom"
                     ng-if="isEnabled('enableGallery')"
                     ng-click="showTab('gallery')"
                     ng-class="classTab('gallery')"
                     ng-bind-html="displayIcon('gallery') | trusted_html">
-                <i class="icon ion-sb-fw-gallery"></i>
+            </button>
+            <button class="button button-custom button-positive button-positive-custom icon-custom"
+                    ng-if="displayProfile()"
+                    ng-click="showTab('profile')"
+                    ng-class="classTab('profile')"
+                    ng-bind-html="displayIcon('profile') | trusted_html">
             </button>
             <button class="button button-custom button-positive button-positive-custom icon-custom"
                     ng-if="isEnabled('enableUserPost')"
                     ng-click="newPost()"
                     ng-bind-html="displayIcon('new') | trusted_html">
-                <i class="icon ion-sb-fw-post"></i>
             </button>
         </div>
     </ion-header-bar>

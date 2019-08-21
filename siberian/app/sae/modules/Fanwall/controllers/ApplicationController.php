@@ -9,6 +9,8 @@ use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Siberian\Exception;
 use Siberian\Feature;
+use Siberian\Json;
+use Siberian\Xss;
 
 /**
  * Class Fanwall2_ApplicationController
@@ -41,6 +43,27 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $form = new FormPost();
             if ($form->isValid($values)) {
 
+                $post = new Post();
+                $post = $post->find($values["post_id"]);
+
+                $saveToHistory = false;
+                $archivedPost = null;
+                if ($post->getId()) {
+                    $saveToHistory = true;
+                    $archivedPost = [
+                        "id" => (integer) $post->getId(),
+                        "customerId" => (integer) $post->getCustomerId(),
+                        "title" => (string) $post->getTitle(),
+                        "subtitle" => (string) $post->getSubtitle(),
+                        "text" => (string) $post->getText(),
+                        "image" => (string) $post->getImage(),
+                        "date" => (integer) $post->getDate(),
+                        "latitude" => (float) $post->getLatitude(),
+                        "longitude" => (float) $post->getLongitude(),
+                        "locationShort" => (string) $post->getLocationShort(),
+                    ];
+                }
+
                 // Replacing the visual date, with the timestamp, date name/id is suffixed with a uniqid()!
                 foreach ($values as $key => $value) {
                     if (preg_match("#^date_#", $key)) {
@@ -51,7 +74,6 @@ class Fanwall_ApplicationController extends Application_Controller_Default
 
                 $values["text"] = base64_encode($values["text"]);
 
-                $post = new Post();
                 $post
                     ->addData($values)
                     ->addData([
@@ -62,6 +84,21 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 Feature::formImageForOption($optionValue, $post, $values, "image", true);
 
                 $post->save();
+
+                // Ok everything good, we can insert archive if edit
+                if ($saveToHistory) {
+                    try {
+                        $history = Json::decode($post->getHistory());
+                    } catch (\Exception $e) {
+                        $history = [];
+                    }
+
+                    $history[] = $archivedPost;
+
+                    $post
+                        ->setHistory(Json::encode($history))
+                        ->save();
+                }
 
                 $optionValue
                     ->touch()
@@ -112,6 +149,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     "icon_map" => "Map",
                     "icon_gallery" => "Gallery",
                     "icon_new" => "New post",
+                    "icon_profile" => "Profile",
                 ];
 
                 foreach ($icons as $column => $label) {

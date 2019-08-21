@@ -1,12 +1,7 @@
 <?php
 
-use Fanwall\Model\Fanwall;
+use Fanwall\Model\Blocked;
 use Fanwall\Model\Post;
-use Fanwall\Model\Like;
-use Fanwall\Model\Comment;
-use Siberian\Xss;
-use Siberian\Exception;
-use Siberian\Feature;
 
 /**
  * Class Fanwall_Mobile_GalleryController
@@ -29,6 +24,8 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
     {
         try {
             $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
             $limit = $request->getParam("limit", 20);
@@ -38,6 +35,9 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
+
+            // Exclude blockedUsers
+            $query = Blocked::excludePosts($query, $customerId);
 
             $order = [
                 "fanwall_post.sticky DESC",

@@ -108,8 +108,13 @@
             progressall: function(e, data) {
                 music_playlist_image_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                music_playlist_image_uploader.hide();
+                music_playlist_image_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function(e, data) {
                 if (data.result.error) {
+                    music_playlist_image_uploader.hide();
                     music_playlist_image_uploader.showError(data.result.message);
                 }
                 if (data.result.success) {

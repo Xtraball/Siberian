@@ -8,7 +8,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {},
-        collection: []
+        collections: []
     };
 
     /**
@@ -60,6 +60,33 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
                 offset: offset
             },
             refresh: refresh
+        }, factory.extendedOptions));
+    };
+
+    factory.findAllProfile = function (offset) {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllProfile] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-profile", angular.extend({
+            urlParams: {
+                value_id: this.value_id,
+                offset: offset
+            },
+            refresh: true
+        }, factory.extendedOptions));
+    };
+
+    factory.findAllBlocked = function () {
+        if (!this.value_id) {
+            return $pwaRequest.reject("[Factory::FanwallPost.findAllBlocked] missing value_id");
+        }
+
+        return $pwaRequest.get("fanwall/mobile_post/find-all-blocked", angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            },
+            refresh: true
         }, factory.extendedOptions));
     };
 
@@ -128,15 +155,17 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
      * Send new comment!
      *
      * @param postId
+     * @param commentId
      * @param form
      */
-    factory.sendComment = function (postId, form) {
+    factory.sendComment = function (postId, commentId, form) {
         return $pwaRequest.post("fanwall/mobile_post/send-comment", {
             urlParams: {
                 value_id: factory.value_id
             },
             data: {
                 postId: postId,
+                commentId: commentId,
                 form: form
             },
             cache: false
@@ -157,6 +186,58 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
             data: {
                 postId: postId,
                 reportMessage: reportMessage
+            }
+        });
+    };
+
+    /**
+     * Block unwanted user!
+     *
+     * @param sourceId
+     * @param from
+     */
+    factory.blockUser = function (sourceId, from) {
+        return $pwaRequest.post("fanwall/mobile_post/block-user", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                from: from,
+                sourceId: sourceId
+            }
+        });
+    };
+
+    /**
+     * Block unwanted user!
+     *
+     * @param sourceId
+     * @param from
+     */
+    factory.unblockUser = function (sourceId, from) {
+        return $pwaRequest.post("fanwall/mobile_post/unblock-user", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                from: from,
+                sourceId: sourceId
+            }
+        });
+    };
+
+    /**
+     * Delete own post!
+     *
+     * @param postId
+     */
+    factory.deletePost = function (postId) {
+        return $pwaRequest.post("fanwall/mobile_post/delete-post", {
+            urlParams: {
+                value_id: factory.value_id
+            },
+            data: {
+                postId: postId
             }
         });
     };

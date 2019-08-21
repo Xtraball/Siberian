@@ -2,6 +2,9 @@
 
 /**
  * Class Push_Model_Android_Device
+ *
+ * @method integer getAppId()
+ * @method string getRegistrationId()
  */
 class Push_Model_Android_Device extends Core_Model_Default
 {

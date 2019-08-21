@@ -24,13 +24,19 @@
             <ion-item class="item-custom item-avatar post-author"
                       ng-class="{'card': getCardDesign()}">
                 <img ng-src="{{ myAvatar() }}" />
-                <h2>
+                <h2 class="new-post-author">
                     {{ myName() }}
+                    <i class="{{ popoverIcon }} pull-right"
+                       ng-click="openActions($event)"></i>
                 </h2>
                 <p ng-if="!locationIsDisabled() && !fetchingLocation"
-                   class="post-location">{{ shortLocation }}</p>
+                   class="post-location">
+                    <i style="font-style: italic;">{{ shortLocation }}</i>
+                </p>
                 <p ng-if="!locationIsDisabled() && fetchingLocation"
-                   class="post-location">{{ ::"Fetching your location..." | translate:"fanwall" }}</p>
+                   class="post-location">
+                    <i style="font-style: italic;">{{ ::"Fetching your location..." | translate:"fanwall" }}</i>
+                </p>
             </ion-item>
 
             <ion-item class="item-input item-custom"

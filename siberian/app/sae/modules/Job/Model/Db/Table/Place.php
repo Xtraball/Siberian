@@ -162,8 +162,8 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
         // Radius limit
         if ($searchByDistance) {
             /** Distance */
-            if (isset($values["radius"]) && $values["radius"] > 0) {
-                $select->having("distance < ?", $values["radius"] * 1000);
+            if (isset($params["radius"]) && $params["radius"] > 0) {
+                $select->having("distance < ?", $params["radius"] * 1000);
             }
         }
 
@@ -242,6 +242,8 @@ class Job_Model_Db_Table_Place extends Core_Model_Db_Table {
 
         $select
             ->distinct("place.place_id");
+
+        dbg($select->__toString());
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

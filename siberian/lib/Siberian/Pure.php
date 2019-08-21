@@ -1,6 +1,16 @@
 <?php
 
-use Siberian\Exception;
+use \Gettext\Translations;
+
+/**
+ * Polyfill for php <= 7.2
+ *
+ */
+if (!function_exists("is_countable")) {
+    function is_countable($var) {
+        return (is_array($var) || $var instanceof Countable);
+    }
+}
 
 /**
  * Current Application Singleton
@@ -41,13 +51,18 @@ function extract___($original)
         if (!is_file($file)) {
             touch($file);
         }
+
         if (!array_key_exists($file, $extractTranslations)) {
-            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
+            $extractTranslations[$file] = [];
         }
 
-        $translation = $extractTranslations[$file]->insert(null, $original);
-        $translation->setTranslation($original);
-        $extractTranslations[$file]->toPoFile($file);
+        // That's all for now!
+        $extractTranslations[$file][] = [
+            "flag" => null,
+            "context" => null,
+            "original" => $original,
+            "translation" => $original,
+        ];
     }
 }
 
@@ -83,35 +98,66 @@ function extract_p__($context, $original, $flag = null)
         if (!is_file($file)) {
             touch($file);
         }
+
         if (!array_key_exists($file, $extractTranslations)) {
-            $extractTranslations[$file] = \Gettext\Translations::fromPoFile($file);
+            $extractTranslations[$file] = [];
         }
 
-        /**
-         * @var $translation \Gettext\Translation
-         */
-        $translation = $extractTranslations[$file]->insert($context, $original);
-        $translation->setTranslation($original);
+        // That's all for now!
+        $extractTranslations[$file][] = [
+            "flag" => $flag,
+            "context" => $context,
+            "original" => $original,
+            "translation" => $original,
+        ];
+    }
+}
 
-        // Find comments
-        $comments = $translation->getComments();
-        $hasGMT =  false;
-        foreach ($comments as $comment) {
-            if (preg_match("/GMT/", $comment) === 1) {
-                $hasGMT = true;
+/**
+ * Shutdown extracted translations, saving to file!
+ *
+ * @throws Zend_Exception
+ */
+function shutdown_extract_p ()
+{
+    global $extractTranslations;
+    if (__getConfig("extract") === true) {
+
+        foreach ($extractTranslations as $file => $translations) {
+            //dbg($extractTranslations);
+
+            $poFile = Translations::fromPoFile($file);
+
+            foreach ($translations as $translation) {
+                /**
+                 * @var $tmpTranslation \Gettext\Translation
+                 */
+                $tmpTranslation = $poFile->insert($translation["context"], $translation["original"]);
+                $tmpTranslation->setTranslation($translation["original"]);
+
+                // Find comments
+                $comments = $tmpTranslation->getComments();
+                $hasGMT = false;
+                foreach ($comments as $comment) {
+                    if (preg_match("/GMT/", $comment) === 1) {
+                        $hasGMT = true;
+                    }
+                }
+
+                if (!$hasGMT) {
+                    $microTime = microtime(true);
+                    usleep(50);
+                    $tmpTranslation->addComment("GMT {$microTime}");
+                }
+
+                if ($translation["flag"] === "mobile") {
+                    $tmpTranslation->addFlag("mobile");
+                }
             }
-        }
 
-        if (!$hasGMT) {
-            $microTime = microtime(true);
-            $translation->addComment("GMT {$microTime}");
+            // We're done with this file!
+            $poFile->toPoFile($file);
         }
-
-        if ($flag === "mobile") {
-            $translation->addFlag("mobile");
-        }
-
-        $extractTranslations[$file]->toPoFile($file);
     }
 }
 

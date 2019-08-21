@@ -2465,6 +2465,23 @@ i.shutdown:before {
     display: block !important;
 }
 
+.previewer-splashscreen {
+    z-index: 65420;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-position: center center;
+    background-size: cover;
+}
+
+.previewer-splashscreen .spinner {
+    transform: translate(50vw, 50vh);
+    display: block;
+}
+
 /* animation */
 .slide-in-left-right {
     -webkit-transform: translate3d(-100%, 0, 0);

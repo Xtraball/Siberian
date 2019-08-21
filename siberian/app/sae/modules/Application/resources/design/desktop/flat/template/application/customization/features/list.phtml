@@ -1454,8 +1454,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 progressall: function (e, data) {
                     folder_background_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    folder_background_uploader.hide();
+                    folder_background_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if (data.result.error) {
+                        folder_background_uploader.hide();
                         folder_background_uploader.showError(data.result.message);
                     }
                     if (data.result.success) {

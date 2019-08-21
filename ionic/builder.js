@@ -149,7 +149,7 @@ let debug = true,
         libs: {
             files: [
                 './www/lib/utils.js',
-                './www/lib/ionic/js/ionic.bundle.min.js',
+                './www/lib/ionic/js/ionic.bundle.js',
                 './www/lib/ionic/js/angular/angular-route.js',
             ],
             dest: './www/dist/app.libs.min.js'

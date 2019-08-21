@@ -3,6 +3,8 @@
 namespace Fanwall\Model;
 
 use Core\Model\Base;
+use Siberian\Json;
+use Siberian\Xss;
 
 /**
  * Class Post
@@ -136,6 +138,28 @@ class Post extends Base
     public function comment ($customerId, $message, $headers = [])
     {
 
+    }
+
+    /**
+     * @return array
+     * @throws \Zend_Exception
+     */
+    public function getHistoryJson ()
+    {
+        try {
+            $history = Json::decode($this->getHistory());
+        } catch (\Exception $e) {
+            $history = [];
+        }
+
+        $parsedHistory = [];
+        foreach ($history as $item) {
+            $item["text"] = (string) Xss::sanitize(base64_decode($item["text"]));
+
+            $parsedHistory[] = $item;
+        }
+
+        return $parsedHistory;
     }
 
     /**

@@ -23,20 +23,21 @@
 
         <title></title>
 
-        <base href="">
-
-        <!-- #APP_ONLY# -->
-        <script src="cdvfile://localhost/temporary/module.js"></script>
-        <!-- /#APP_ONLY# -->
+        
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/languages.js"></script>
         <script src="./js/utils/url.js"></script>
-        <script src="./dist/cordova.js"></script>
+        <script src="./cordova.js"></script>
         <script src="./dist/libraries.bundle.min.js"></script>
         <script src="./dist/app.min.js"></script>
         <script src="./dist/templates.js"></script>
-        <script src="./dist/core.bundle.min.js"></script>
+        <script src="./dist/utils.bundle.min.js"></script>
+        <script src="./dist/services.bundle.min.js"></script>
+        <script src="./dist/directives.bundle.min.js"></script>
+        <script src="./dist/providers.bundle.min.js"></script>
+        <script src="./dist/features.bundle.min.js"></script>
+        <script src="./dist/onloadchunks.bundle.min.js"></script>
 
 	</head>
     <body ng-app="starter"
@@ -61,9 +62,13 @@
         <div class="previewer-load"
              ng-show="previewerNotice">{{ "Triple tap to close the preview" | translate }}</div>
 
-        <link rel="preload"
-              href="./dist/app.bundle.min.css"
-              as="style"
-              onload="this.rel='stylesheet'">
+        <div class="previewer-splashscreen"
+             ng-style="previewerSplashscreenStyle"
+             ng-show="previewerSplashscreen">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <link href="./dist/app.bundle.min.css"
+              rel="stylesheet" />
     </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 /**
  * Class Push_AndroidController
  */
@@ -75,6 +77,11 @@ class Push_AndroidController extends Core_Controller_Default
                 }
 
                 $device->addData($params)->save();
+
+                Hook::trigger("push.android.update_token", [
+                    "request" => $request,
+                    "device" => $device
+                ]);
 
                 die('success');
             }

@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.17.0
+ * @version 4.17.6
  */
 
 window.momentjs_loaded = false;
@@ -154,6 +154,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
             loginFeatureBack: true
         });
 
+        // Display previewer notice!
+        if (IS_PREVIEW) {
+            $rootScope.previewerNotice = true;
+        }
+
         // Listeners for network events!
         $window.addEventListener("online", function () {
             $rootScope.isOnline = true;
@@ -204,11 +209,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                 $ionicNavBarDelegate.showBar(false);
             });
 
-            // Display previewer notice!
-            if (IS_PREVIEW) {
-                $rootScope.previewerNotice = true;
-            }
-
             var loadApp = function (refresh) {
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
@@ -227,7 +227,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
                             isPwa: isPwa,
-                            version: "4.17.1"
+                            version: "4.17.6"
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -258,7 +258,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                         var HomepageLayout = $injector.get("HomepageLayout");
 
                         // App keyboard & StatusBar!
-                        if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+                        if (window.cordova &&
+                            window.cordova.plugins &&
+                            window.cordova.plugins.Keyboard) {
                             cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
                         }
 
@@ -467,6 +469,15 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             }, 3000);
 
                             $window.registerTap(3, function () {
+                                try {
+                                    $ocLazyLoad
+                                    .load('./features/previewer/previewer.bundle.min.js')
+                                    .then(function () {
+                                        $injector.get("Previewer").deleteFile();
+                                    });
+                                } catch (e) {
+                                    //
+                                }
                                 $window.webview.close();
                             });
                         }

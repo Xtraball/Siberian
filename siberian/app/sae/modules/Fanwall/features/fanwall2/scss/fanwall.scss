@@ -1,4 +1,114 @@
 .module-fanwall {
+
+  /** Popover, scoped outside for global usage, to be moved in general scss. */
+  &.popover {
+    margin-top: 10px !important;
+    transform: translate(-14px, -14px);
+    border-radius: 2px !important;
+
+    &.popover-custom {
+      max-height: 260px;
+      border-radius: 2px !important;
+
+      .item-custom {
+        padding: 10px !important;
+      }
+
+      .popover-icon-left {
+        width: 20px;
+        text-align: center;
+        display: inline-block;
+        transform: translate(0px, -5px);
+      }
+
+      .popover-action-title {
+        font-size: 10px;
+        font-weight: bold;
+        transform: translate(6px, -1px);
+        display: inline-block;
+        letter-spacing: 1px;
+        text-overflow: ellipsis;
+        width: calc(100% - 40px);
+        overflow: hidden;
+      }
+
+      .popover-content-custom {
+        border-radius: 2px !important;
+        margin: 0 !important;
+        background: none;
+      }
+
+      .popover-arrow {
+        display: none !important;
+      }
+    }
+  }
+
+  /** Profile */
+  .fanwall-profile {
+    .customer-image {
+      margin-top: 15px;
+      margin-bottom: 15px;
+
+      img {
+        margin: 0 auto;
+        width: 10em;
+        border-radius: 5em;
+        border: 0.4em solid white;
+        display: block;
+      }
+    }
+
+    .customer-fullname {
+      font-size: 1.2em;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .customer-actions {
+      text-align: center;
+    }
+
+    .section-title {
+      h2 {
+        font-size: 16px !important;
+        font-weight: bold !important;
+        padding-bottom: 7px;
+      }
+    }
+  }
+
+  .user-blocked {
+    &.item-avatar {
+      min-height: 52px !important;
+    }
+  }
+
+  /** Item history */
+  .item-history {
+    padding: 10px !important;
+
+    .history-date {
+      font-size: 11px;
+      line-height: 11px;
+    }
+
+    .history-text {
+      margin-top: 10px;
+      white-space: initial;
+    }
+
+    img {
+      max-width: 100%;
+      margin: 0 auto;
+      display: block;
+    }
+  }
+
+  .blocked-item {
+    opacity: 0.5;
+  }
+
   .no-post {
     white-space: normal !important;
     padding-top: 15px !important;
@@ -140,14 +250,18 @@
 
         h2 {
           font-weight: bold;
+          line-height: 16px;
+          height: 16px;
+          margin-top: 3px;
 
           i {
             &.icon {
               &.icon-pin {
-                transform: rotate(30deg);
+                transform: rotate(20deg);
               }
 
               margin: 0 0 0 12px;
+              font-size: 20px;
             }
           }
         }
@@ -217,9 +331,16 @@
           min-height: 50px;
         }
 
+        i {
+          &.icon {
+            font-size: 16px;
+          }
+        }
+
         h2 {
           font-weight: bold;
           font-size: 13px;
+          line-height: 15px;
         }
 
         p {
@@ -315,6 +436,7 @@
 
       h2 {
         font-weight: bold;
+        line-height: 15px;
 
         i {
           &.icon {
@@ -338,6 +460,10 @@
         padding-top: 15px;
         padding-bottom: 15px;
         padding-right: 15px;
+
+        .new-post-author {
+          margin-top: 4px;
+        }
 
         label {
           width: 100%;
@@ -449,3 +575,4 @@
     font-size: 26px !important;
   }
 }
+

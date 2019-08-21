@@ -1,0 +1,15 @@
+<ion-item ng-class="{'card': getCardDesign()}"
+          class="item-custom item-history">
+
+    <p class="history-date">{{ publicationDate(item) }}</p>
+    <p ng-if="item.text.length > 0"
+       class="history-text"
+       sb-html="item.text"></p>
+    <p class="history-image"
+       ng-if="item.image.length > 0">
+        <a data-fslightbox="history-gallery"
+           href="{{ imagePath(item.image) }}">
+            <img ng-src="{{ imagePath(item.image) }}" />
+        </a>
+    </p>
+</ion-item>

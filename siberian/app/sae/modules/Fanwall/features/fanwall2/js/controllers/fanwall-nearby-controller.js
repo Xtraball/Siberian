@@ -25,14 +25,14 @@ angular
         };
 
         $scope.loadMore = function () {
-            $scope.loadContent(false);
+            $scope.loadContent(false, true);
         };
 
         $scope.locationIsDisabled = function () {
             return !Location.isEnabled;
         };
 
-        $scope.loadContent = function (refresh) {
+        $scope.loadContent = function (refresh, loadMore) {
             if ($scope.locationIsDisabled()) {
                 return false;
             }
@@ -40,7 +40,6 @@ angular
             if (refresh === true) {
                 $scope.isLoading = true;
                 $scope.collection = [];
-                FanwallPost.collection = [];
 
                 $timeout(function () {
                     $ionicScrollDelegate.$getByHandle("mainScroll").scrollTop();
@@ -51,7 +50,6 @@ angular
                 .findAllNearby($scope.location, $scope.collection.length, refresh)
                 .then(function (payload) {
                     $scope.collection = $scope.collection.concat(payload.collection);
-                    FanwallPost.collection = FanwallPost.collection.concat(payload.collection);
 
                     $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
 
@@ -60,14 +58,21 @@ angular
                 }, function (payload) {
 
                 }).then(function () {
-                if (refresh === true) {
-                    $scope.isLoading = false;
-                }
+                    if (loadMore === true) {
+                        $scope.$broadcast("scroll.infiniteScrollComplete");
+                    }
+
+                    if (refresh === true) {
+                        $scope.isLoading = false;
+                    }
                 });
         };
 
         $rootScope.$on("fanwall.refresh", function () {
-            $scope.loadContent(true);
+            // Refresh only the "active" tab
+            if ($scope.currentTab === "nearby") {
+                $scope.loadContent(true);
+            }
         });
 
         Location
@@ -79,6 +84,6 @@ angular
                 $scope.location.latitude = 0;
                 $scope.location.longitude = 0;
             }).then(function () {
-                $scope.loadContent(true);
+                $scope.loadContent($scope.collection.length === 0);
             });
     });

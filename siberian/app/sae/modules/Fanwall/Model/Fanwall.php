@@ -45,6 +45,7 @@ class Fanwall extends Base
             "map" => $this->getIconMap(),
             "gallery" => $this->getIconGallery(),
             "new" => $this->getIconNew(),
+            "profile" => $this->getIconProfile(),
         ];
         foreach ($icons as $key => $path) {
             $iconPath = path("/images/application{$path}");

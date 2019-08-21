@@ -67,7 +67,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
         <div class="action-buttons">
             <?php if ($can_export): ?>
                 <button class="color-blue bt-header-right btn import-feature pull-right action-button">
-                    <a href="<?php echo $this->getUrl("{$option->getDesktopUri()}export", ["value_id" => $option->getId()]); ?>">
+                    <a href="/<?php echo $option->getDesktopUri() ?>export/value_id/<?php echo $option->getId() ?>">
                         <?php echo __("Export") ?>
                     </a>
                 </button>
@@ -75,7 +75,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             <?php if ($can_clearcache): ?>
                 <button class="color-blue bt-header-right btn import-feature pull-right action-button">
                     <a class="clearcache"
-                       href="<?php echo $this->getUrl("{$option->getDesktopUri()}clearcache", ["value_id" => $option->getId()]); ?>">
+                       href="/<?php echo $option->getDesktopUri() ?>clearcache/value_id/<?php echo $option->getId() ?>">
                         <?php echo __("Clear cache") ?>
                     </a>
                 </button>
@@ -233,10 +233,10 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                   style="display:none"><?php echo __("Add a new icon") ?></span>
                                             <input id="input_upload_custom_icon"
                                                    class="uploader"
-                                                   style="display:none"
+                                                   style="display: none;"
                                                    type="file"
                                                    name="files[]"
-                                                   data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                                   data-url="/template/crop/upload">
                                         </div>
                                     </span>
                                 </h3>
@@ -253,8 +253,9 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
                                                 <li rel="<?php echo $option->getId(); ?>"
                                                     class="color-blue">
-                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
-                                                       class="left icon" rel="<?php echo $option->getId(); ?>">
+                                                    <a href="/application/customization_features/seticon"
+                                                       class="left icon"
+                                                       rel="<?php echo $option->getId(); ?>">
                                                         <button class="select_icon btn"
                                                                 type="button">
                                                             <img src="<?php echo $icon->getUrl(); ?>"
@@ -270,7 +271,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                                value="<?php echo $icon->getId(); ?>"/>
                                                     </a>
                                                     <?php if ($icon->getAppId()) : ?>
-                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
+                                                        <a href="/application/customization_features/deleteicon"
                                                            class="delete_icon">
                                                             <i class="fa fa-times"></i>
                                                             <input type="hidden"
@@ -315,7 +316,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                 <li data-filter="<?php echo $icon->getLink() ?>"
                                                     rel="#OPTION_VALUE_ID#"
                                                     class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
-                                                    <a href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>"
+                                                    <a href="/application/customization_features/seticon"
                                                        class="left icon"
                                                        rel="#OPTION_VALUE_ID#">
                                                         <button class="select_icon btn"
@@ -333,7 +334,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                                                value="<?php echo $icon->getId(); ?>"/>
                                                     </a>
                                                     <?php if ($icon->getAppId()) : ?>
-                                                        <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>"
+                                                        <a href="/application/customization_features/deleteicon"
                                                            class="delete_icon">
                                                             <i class="fa fa-times"></i>
                                                             <input type="hidden"
@@ -381,7 +382,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             $('.feature_is_activated').change(function () {
                 let isChecked = $('#chk_activate').is(':checked') ? 1 : 0;
                 $("#is_active").val(isChecked);
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
+                reload(this.parentNode, '/application/customization_features/setisactive', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
                     }
@@ -392,7 +393,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 let isChecked = $('#chk_visible').is(':checked') ? 1 : 0;
                 $("#is_visible").val(isChecked);
                 let parent = $(this.parentNode);
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
+                reload(this.parentNode, '/application/customization_features/setisactive', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
                         let valueId = parent.find("[name='value_id']").val();
@@ -408,7 +409,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             $('.social_sharing_is_activated').change(function () {
                 let is_checked = $('#chk_activate_social_sharing').is(':checked') ? 1 : 0;
                 $("#is_social_sharing_active").val(is_checked);
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/setisactive'); ?>', true, function (datas) {
+                reload(this.parentNode, '/application/customization_features/setisactive', true, function (datas) {
                     if (datas.success) {
                         iframe.f.reloadTabbar();
                     }
@@ -509,20 +510,25 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 progressall: function (e, data) {
                     custom_icon_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    custom_icon_uploader.hide();
+                    custom_icon_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if (data.result.error) {
+                        custom_icon_uploader.hide();
                         custom_icon_uploader.showError(data.result.message);
                     }
 
                     if (data.result.success) {
                         custom_icon_uploader.hide();
                         let params = [];
-                        params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
+                        params["url"] = '/template/crop/crop';
                         params["file"] = data.result.files;
                         params["option_value_id"] = '<?php echo $option->getId() ?>';
                         params["output_w"] = "<?php echo $this->getIconWidth(); ?>";
                         params["output_h"] = "<?php echo $this->getIconHeight(); ?>";
-                        params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_features/uploadicon')) ?>';
+                        params["output_url"] = '<?php echo str_replace('/', '$', '/application/customization_features/uploadicon') ?>';
                         params["uploader"] = "window.custom_icon_uploader";
                         params["image_color"] = '<?php echo $application->getBlock('tabbar')->getImageColor(); ?>';
                         params["is_colorizable"] = true;
@@ -530,14 +536,14 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                             console.log("custom_icon_uploader.callback", files);
                             let img_src = '<?php echo Media_Model_Library_Image::getImagePathTo('/', $application->getId()) ?>' + files.file;
                             $('.icons_list').append('<li class="newly_added left relative">\n\
-                                <a rel="<?php echo $option->getId(); ?>" class="left icon" href="<?php echo $this->getUrl('application/customization_features/seticon'); ?>">\n\
+                                <a rel="<?php echo $option->getId(); ?>" class="left icon" href="/application/customization_features/seticon">\n\
                                     <button class="select_icon btn" type="button">\n\
                                         <img width="65" height="65" class="colorize" src="' + img_src + '">\n\
                                     </button>\n\
                                     <input type="hidden" value="<?php echo $option->getId(); ?>" name="option_value_id">\n\
                                     <input type="hidden" value="' + files.icon_id + '" name="icon_id">\n\
                                 </a>\n\
-                                <a href="<?php echo $this->getUrl('application/customization_features/deleteicon'); ?>" class="delete_icon">\n\
+                                <a href="/application/customization_features/deleteicon" class="delete_icon">\n\
                                     <i class="fa fa-times"></i>\n\
                                     <input type="hidden" name="option_value_id" value="<?php echo $option->getValueId(); ?>" />\n\
                                     <input type="hidden" name="icon_id" value="' + files.icon_id + '" />\n\
@@ -593,7 +599,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
                 tabbar_name_loader.show();
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarname'); ?>', false, function (datas) {
+                reload(this.parentNode, '/application/customization_features/settabbarname', false, function (datas) {
                     if (datas.success) {
                         tabbar_names['<?php echo $option->getId(); ?>'] = val;
                         iframe.f.reload();
@@ -623,7 +629,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_subtitle_<?php echo $option->getId(); ?>').html(subval);
                 tabbar_subtitle_loader.show();
-                reload(this.parentNode, '<?php echo $this->getUrl('application/customization_features/settabbarsubtitle'); ?>', false, function (datas) {
+                reload(this.parentNode, '/application/customization_features/settabbarsubtitle', false, function (datas) {
                     tabbar_subtitle_loader.hide();
                 }, function (datas) {
                     tabbar_subtitle_loader.hide();
@@ -677,7 +683,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
         // Load window.feature_links
         $.ajax({
-            url: '<?php echo $this->getUrl("/application/customization_features/links") ?>',
+            url: '/application/customization_features/links',
             method: 'GET',
             dataType: 'json',
             success: function (data) {

@@ -201,8 +201,13 @@
                         progressall: function(e, data) {
                             category_background_uploader.moveProgressbar(data);
                         },
+                        fail: function (el, data) {
+                            category_background_uploader.hide();
+                            category_background_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                        },
                         done: function(e, data) {
                             if (data.result.error) {
+                                category_background_uploader.hide();
                                 category_background_uploader.showError(data.result.message);
                             }
                             if (data.result.success) {

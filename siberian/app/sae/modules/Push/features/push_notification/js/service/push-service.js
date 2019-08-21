@@ -366,32 +366,52 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
                                 .replace('#MESSAGE#', messagePayload.message)
                         };
 
-                        if (messagePayload.config !== undefined) {
-                            config = angular.extend(config, messagePayload.config);
-                        }
+                        var trimmedTitle = messagePayload.title.trim();
+                        var trimmedMessage = messagePayload.message.trim();
 
-                        // Handles case with only a cover image!
-                        if ((extendedPayload.action_value === undefined) ||
-                            (extendedPayload.action_value === '') ||
-                            (extendedPayload.action_value === null)) {
-                            config.buttons = [
-                                {
-                                    text: $translate.instant('OK'),
-                                    type: 'button-custom',
-                                    onTap: function () {
-                                        // Simply closes!
+                        if (trimmedTitle.length === 0 && trimmedMessage.length === 0) {
+                            // This is a "silent push" it's up to whom sent it to handle it!
+                            $log.debug("Silent push (empty title, message)", messagePayload);
+                        } else if (extendedPayload.isSilent === true) {
+                            // This is a "silent push" it's up to whom sent it to handle it!
+                            $log.debug("Silent push (forced silent)", messagePayload);
+                        } else {
+                            // This is a regular push!
+                            if (messagePayload.config !== undefined) {
+                                config = angular.extend(config, messagePayload.config);
+                            }
+
+                            // Handles case with only a cover image!
+                            if ((extendedPayload.action_value === undefined) ||
+                                (extendedPayload.action_value === '') ||
+                                (extendedPayload.action_value === null)) {
+                                config.buttons = [
+                                    {
+                                        text: $translate.instant('OK'),
+                                        type: 'button-custom',
+                                        onTap: function () {
+                                            // Simply closes!
+                                        }
                                     }
-                                }
-                            ];
-                        }
+                                ];
+                            }
 
-                        $log.debug('Message payload (ionicPopup):', messagePayload, config);
-                        Dialog.ionicPopup(config);
+                            $log.debug('Message payload (ionicPopup):', messagePayload, config);
+                            Dialog.ionicPopup(config);
+                        }
                     } else {
-                        var localTitle = (messagePayload.title !== undefined) ?
-                            messagePayload.title : 'Notification';
-                        $log.debug('Message payload (alert):', messagePayload);
-                        Dialog.alert(localTitle, messagePayload.message, 'OK');
+                        var otherTrimmedTitle = messagePayload.title.trim();
+                        var otherTrimmedMessage = messagePayload.message.trim();
+
+                        if (otherTrimmedTitle.length === 0 && otherTrimmedMessage.length === 0) {
+                            // This is a "silent push" it's up to whom sent it to handle it!
+                            $log.debug("Silent push (empty title, message)", messagePayload);
+                        } else {
+                            var localTitle = (messagePayload.title !== undefined) ?
+                                messagePayload.title : 'Notification';
+                            $log.debug('Message payload (alert):', messagePayload);
+                            Dialog.alert(localTitle, messagePayload.message, 'OK');
+                        }
                     }
 
                     // Search for less resource consuming maybe use Push factory directly!

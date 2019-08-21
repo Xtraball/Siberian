@@ -76,6 +76,12 @@ $schemas["fanwall"] = [
         "charset" => "utf8",
         "collation" => "utf8_unicode_ci",
     ],
+    "icon_profile" => [
+        "type" => "varchar(255)",
+        "is_null" => true,
+        "charset" => "utf8",
+        "collation" => "utf8_unicode_ci",
+    ],
     "enable_nearby" => [
         "type" => "tinyint(1)",
         "default" => "1",

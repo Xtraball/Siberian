@@ -6,8 +6,9 @@
  */
 angular
 .module("starter")
-.controller("FanwallNewController", function ($scope, $rootScope, $state, $stateParams, $translate, Customer, Fanwall, FanwallPost,
-                                              Dialog, Picture, Loader, Location, GoogleMaps) {
+.controller("FanwallNewController", function ($scope, $rootScope, $session, $state, $stateParams, $translate, $q,
+                                              Customer, Fanwall, FanwallPost, Dialog, Picture, Loader, Location,
+                                              GoogleMaps, Popover, $timeout) {
 
     angular.extend($scope, {
         pageTitle: $translate.instant("Create a post", "fanwall"),
@@ -22,7 +23,11 @@ angular
             }
         },
         fetchingLocation: false,
-        shortLocation: ""
+        shortLocation: "",
+        popoverItems: [],
+        actionsPopover: null,
+        preference: "always",
+        preferenceKey: "socialwall.location.preference"
     });
 
     FanwallPost.setValueId($stateParams.value_id);
@@ -157,15 +162,139 @@ angular
             });
     };
 
+    /** Location preference */
+
+    // Popover actions!
+    $scope.openActions = function ($event) {
+        $scope
+        .closeActions()
+        .then(function () {
+            Popover
+            .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/post/actions-popover.html", {
+                scope: $scope
+            }).then (function (popover) {
+                $scope.actionsPopover = popover;
+                $scope.actionsPopover.show($event);
+            });
+        });
+    };
+
+    $scope.closeActions = function () {
+        try {
+            if ($scope.actionsPopover) {
+                return $scope.actionsPopover.hide();
+            }
+        } catch (e) {
+            // We skip!
+        }
+
+        return $q.resolve();
+    };
+
+    // Re-init scope on settings change!
+    $scope.changeLocationSettings = function (preference, reinit) {
+        $scope.preference = preference;
+        $session
+        .setItem($scope.preferenceKey, preference)
+        .then(function (value) {
+            if (reinit === true) {
+                $scope.init();
+            }
+        })
+        .catch(function (err) {
+            if (reinit === true) {
+                $scope.init();
+            }
+        });
+    };
+
+    $scope.buildPopoverItems = function () {
+        $scope.popoverItems = [];
+
+        if (!$scope.locationIsDisabled()) {
+            $scope.popoverItems.push({
+                label: $translate.instant("Locate me once", "fanwall"),
+                icon: "icon ion-android-locate",
+                click: function () {
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        $scope.changeLocationSettings("once", true);
+                    });
+                }
+            });
+
+            $scope.popoverItems.push({
+                label: $translate.instant("Always ask", "fanwall"),
+                icon: "icon ion-help",
+                click: function () {
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        $scope.changeLocationSettings("ask", true);
+                    });
+                }
+            });
+
+            $scope.popoverItems.push({
+                label: $translate.instant("Always locate me", "fanwall"),
+                icon: "icon ion-sb-location-on",
+                click: function () {
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        $scope.changeLocationSettings("always", true);
+                    });
+                }
+            });
+
+            $scope.popoverItems.push({
+                label: $translate.instant("Never locate me", "fanwall"),
+                icon: "icon ion-sb-location-off",
+                click: function () {
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        $scope.changeLocationSettings("never", true);
+                    });
+                }
+            });
+        } else {
+            $scope.popoverItems.push({
+                label: $translate.instant("Check my location", "fanwall"),
+                icon: "icon ion-sb-location-off",
+                click: function () {
+                    $scope
+                    .closeActions()
+                    .then(function () {
+                        $scope.requestLocation();
+                    });
+                }
+            });
+        }
+
+    };
+
+
     if ($scope.post !== undefined) {
         $scope.pageTitle = "Edit post";
-        $scope.form.text = $scope.post.text;
+        $scope.form.text = $scope.post.text.replace(/(<br( ?)(\/?)>)/gm, "\n");
         if ($scope.post.image.length > 0) {
             $scope.form.picture = $scope.post.image;
         }
     }
 
-    $scope.init = function () {
+    $scope.noLocation = function () {
+        $timeout(function () {
+            $scope.fetchingLocation = false;
+            $scope.form.location.latitude = 0;
+            $scope.form.location.longitude = 0;
+            $scope.shortLocation = $translate.instant("no location, check your preferences", "fanwall");
+            $scope.form.location.locationShort = $translate.instant("no location, check your preferences", "fanwall");
+        });
+    };
+
+    $scope.fetchLocation =  function () {
         if (!$scope.locationIsDisabled()) {
             $scope.fetchingLocation = true;
             Location
@@ -197,14 +326,64 @@ angular
                     $scope.form.location.locationShort = "unknown";
                 });
             }, function () {
-                $scope.fetchingLocation = false;
-                $scope.form.location.latitude = 0;
-                $scope.form.location.longitude = 0;
+                $scope.noLocation();
             });
         } else {
             $scope.fetchingLocation = false;
         }
     };
 
-    $scope.init();
+    $scope.init = function () {
+        $scope.buildPopoverItems();
+
+        switch ($scope.preference) {
+            case "never":
+                $scope.noLocation();
+                $scope.popoverIcon = "icon ion-sb-location-off";
+                break;
+            case "once":
+                $scope.fetchLocation();
+                $scope.changeLocationSettings("never", false);
+                $scope.popoverIcon = "icon ion-android-locate";
+                break;
+            case "ask":
+                $scope.popoverIcon = "icon ion-help";
+                Dialog
+                .confirm(
+                    "Location",
+                    "Share my location for this post?",
+                    ["YES", "NO"],
+                    -1,
+                    "fanwall")
+                .then(function (success) {
+                    if (success) {
+                        $scope.fetchLocation();
+                    } else {
+                        $scope.noLocation();
+                    }
+                });
+                break;
+            case "always":
+                $scope.popoverIcon = "icon ion-sb-location-on";
+                $scope.fetchLocation();
+                break;
+        }
+    };
+
+    $session
+    .getItem($scope.preferenceKey)
+    .then(function (preference) {
+        if (preference === null) {
+            $scope.preference = "always";
+        } else {
+            $scope.preference = preference;
+        }
+        $scope.init();
+    })
+    .catch( function (err) {
+        // Something went wrong!
+        $scope.preference = "always";
+        $scope.init();
+    });
+
 });

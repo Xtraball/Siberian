@@ -47,11 +47,13 @@ angular.module('starter')
                     var now = Math.round(Date.now() / 1000);
                     var comment = {
                         id: now,
+                        postId: $scope.post.id,
                         customerId: Customer.customer.id,
                         text: text.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"),
                         image: "",
                         isFlagged: false,
                         date: now,
+                        history: [],
                         author: {
                             firstname: Customer.customer.firstname,
                             lastname: Customer.customer.lastname,
@@ -82,7 +84,7 @@ angular.module('starter')
                     $scope.isSending = true;
 
                     return FanwallPost
-                    .sendComment($scope.post.id, $scope.form)
+                    .sendComment($scope.post.id, null, $scope.form)
                     .then(function (payload) {
                         $scope.clearComment();
 

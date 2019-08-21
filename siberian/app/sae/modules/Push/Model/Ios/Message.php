@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 /**
  * Class Push_Model_Ios_Message
  */
@@ -51,11 +53,11 @@ class Push_Model_Ios_Message {
         $message = $this->getMessage();
         $app_id = $message->getAppId();
 
-
         // New standalone push
         if ($message->getIsStandalone() === true) {
             $device = (new Push_Model_Iphone_Device())
                 ->find($message->getToken(), "device_token");
+            $devices = [$device];
             $this->service_apns->addMessage($message, $device);
         } else {
             if ($message->getSendToAll() == 0) {
@@ -97,7 +99,7 @@ class Push_Model_Ios_Message {
         }
 
         # Create logs & Dump errors into log.
-        foreach($devices as $device) {
+        foreach ($devices as $device) {
             try {
 
                 if(!array_key_exists($device->getId(), $device_errors)) {
@@ -109,6 +111,10 @@ class Push_Model_Ios_Message {
                     if($error_count >= 2) {
                         # Remove device from list
                         $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $device->getDeviceToken());
+
+                        Hook::trigger("push.ios.delete_token", [
+                            "device" => $device
+                        ]);
 
                         $device->delete();
                         $this->logger->info($msg, "push_ios", false);

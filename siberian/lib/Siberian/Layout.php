@@ -345,8 +345,11 @@ class Siberian_Layout extends Zend_Layout
             }
 
             // Layout du template de base
-            if (count($this->_xml->{$base->template}->views)) {
-                foreach ($this->_xml->{$base->template}->views as $partials) {
+            $_baseTemplate = $this->_xml->{$base->template};
+            if (is_object($_baseTemplate) &&
+                is_countable($_baseTemplate->views) &&
+                count($_baseTemplate->views)) {
+                foreach ($_baseTemplate->views as $partials) {
                     foreach ($partials as $key => $partial) {
                         $class = (string) $partial->attributes()->class;
                         $template = (string) $partial->attributes()->template;

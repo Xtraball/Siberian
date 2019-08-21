@@ -53,7 +53,7 @@ angular
                 $scope.contactModal();
                 break;
             case "email":
-                $window.open("mailto:" + $scope.place.email + "?subject=" + $translate.instant("New contact for: ", "job") + $scope.place.title, "_self");
+                $window.open("mailto:" + $scope.place.email + "?subject=" + $translate.instant("New contact for: ", "job") + $scope.place.title, "_system");
                 break;
         }
     };

@@ -118,7 +118,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
                     $this->sendJobToAutoPublishServer($application, $result);
                 } else {
                     // Success email!
-                    $protocol = (__get("use_https")) ? "https://" : "http://";
+                    $protocol = "https://";
                     $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result);
 
                     $baseEmail = $this->baseEmail(

@@ -29,7 +29,8 @@ angular
                 $scope.tooltip = {
                     collection: $scope.categories,
                     current_item: $scope.categories[0],
-                    button_label: $scope.categories[0] ? $scope.categories[0].name : null,
+                    button_label: "",
+                    button_icon: "icon ion-sb-more-round",
                     onItemClicked: function (category) {
                         $scope.showTooltip(category);
                     }
@@ -76,7 +77,8 @@ angular
             $scope.collection_chunks = $filter('chunk')($scope.collection, 2);
             $scope.current_category = category;
             $scope.tooltip.current_item = $scope.current_category;
-            $scope.tooltip.button_label = $scope.current_category.name;
+            $scope.tooltip.button_label = "";
+            $scope.tooltip.button_icon = "icon ion-sb-more-round";
 
             Catalog.collection = category.collection;
             Catalog.setLastCategory(category);
