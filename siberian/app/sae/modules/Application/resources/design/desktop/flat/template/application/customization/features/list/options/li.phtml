@@ -47,7 +47,7 @@ if ($option->getCode() === "catalog") {
                 <i class="icofont icofont-ban"></i>
             </div>
         <?php else: ?>
-            <?php if (empty($option->getFolderId())): ?>
+            <?php if (empty($option->getFolderId()) && ($option->getId() !== "more_items")): ?>
                 <div class="feature-visible"
                      rel="<?php echo $option->getId(); ?>"
                      style="<?php echo $option->getIsVisible() ? "display: none;" : "display: block;" ?>">
