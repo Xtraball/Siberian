@@ -128,6 +128,8 @@ function shutdown_extract_p ()
 
             $poFile = Translations::fromPoFile($file);
 
+            $gmtIndex = [];
+
             foreach ($translations as $translation) {
                 /**
                  * @var $tmpTranslation \Gettext\Translation
@@ -140,13 +142,19 @@ function shutdown_extract_p ()
                 $hasGMT = false;
                 foreach ($comments as $comment) {
                     if (preg_match("/GMT/", $comment) === 1) {
-                        $hasGMT = true;
+                        // If this GMT already exists, we will change it!
+                        if (in_array($comment, $gmtIndex)) {
+                            $hasGMT = false;
+                            $gmtIndex[] = $comment;
+                        } else {
+                            $hasGMT = true;
+                        }
                     }
                 }
 
                 if (!$hasGMT) {
                     $microTime = microtime(true);
-                    usleep(5);
+                    usleep(50);
                     $tmpTranslation->addComment("GMT {$microTime}");
                 }
 
