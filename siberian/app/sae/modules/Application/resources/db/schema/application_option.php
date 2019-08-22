@@ -49,12 +49,12 @@ $schemas['application_option'] = [
         'type' => 'int(11)',
     ],
     'code' => [
-        'type' => 'varchar(20)',
+        'type' => 'varchar(50)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
     'name' => [
-        'type' => 'varchar(25)',
+        'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
@@ -106,7 +106,7 @@ $schemas['application_option'] = [
         'default' => '1',
     ],
     'position' => [
-        'type' => 'tinyint(1) unsigned',
+        'type' => 'int(11) unsigned',
         'default' => '0',
     ],
     'social_sharing_is_available' => [

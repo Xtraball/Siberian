@@ -456,9 +456,3 @@ AND admin_id = 0;");
         $this->log("Skipped application clean-up, already done.");
     }
 }
-
-try {
-    $this->query("ALTER TABLE `application_option_value` CHANGE `position` `position` INT(11) UNSIGNED NOT NULL DEFAULT '0';");
-} catch (\Exception $e) {
-    // Ok
-}
