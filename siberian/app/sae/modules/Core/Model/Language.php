@@ -240,7 +240,8 @@ class Core_Model_Language
     {
         if (is_null(self::$_countries_list)) {
             self::$_countries_list = [];
-            $currency = self::$_current_currency ? self::$_current_currency : new Zend_Currency();
+            $currency = self::$_current_currency ?
+                self::$_current_currency : new Zend_Currency(null, "en_US");
 
             $language = Core_Model_Language::getSession()->current_language;
             $locale = new Zend_Locale($language);
