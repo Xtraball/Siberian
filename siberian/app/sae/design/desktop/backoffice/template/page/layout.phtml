@@ -3,18 +3,36 @@
     <head>
         <title><?php echo __($this->getTitle()) ?></title>
         <?php foreach($this->getMetas() as $meta) : ?>
-        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>" content="<?php echo __($meta->getContent()); ?>" />
+        <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>"
+              content="<?php echo $meta->getContent(); ?>" />
         <?php endforeach ?>
 
-        <?php foreach(Core_Model_Language::getLanguages() as $language) : ?>
+        <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
         <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
-        <link rel="alternate" href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>" hreflang="<?php echo $language->getCode() ?>" />
+        <link rel="alternate"
+              href="<?php echo $this->getCurrentUrl(true, $language->getCode()); ?>"
+              hreflang="<?php echo $language->getCode() ?>" />
         <?php endforeach ?>
 
         <?php echo $this->headLink() ?>
 
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="shortcut icon" id="favicon" type="image/x-icon" href="/favicon.ico" />
+        <?php
+            $favicon = __get("favicon_backoffice");
+            if (!empty($favicon)) :
+        ?>
+            <link rel="shortcut icon"
+                  type="image/png"
+                  href="<?php echo $favicon ?>" />
+        <?php else: ?>
+            <link rel="icon"
+                  type="image/png"
+                  href="/favicon.png" />
+            <link rel="shortcut icon"
+                  id="favicon"
+                  type="image/x-icon"
+                  href="/favicon.ico" />
+        <?php endif; ?>
+
         <?php $base_url = str_replace($this->getRequest()->getPathInfo(), "", $this->getRequest()->getRequestUri()); ?>
         <?php if(stripos($base_url, "/") !== 0) $base_url = "/$base_url"; ?>
         <base href="<?php echo $base_url; ?>" />
@@ -101,35 +119,35 @@
 
                 factory.loading = {
                     success: "",
-                    error: "<?php echo $this->_("An error occurred while loading. Please, try again later."); ?>"
+                    error: "<?php echo __("An error occurred while loading. Please, try again later."); ?>"
                 };
 
                 factory.save = {
-                    success: "<?php echo $this->_("Info successfully saved"); ?>",
-                    error: "<?php echo $this->_("An error occurred while saving. Please try again later."); ?>"
+                    success: "<?php echo __("Info successfully saved"); ?>",
+                    error: "<?php echo __("An error occurred while saving. Please try again later."); ?>"
                 };
 
                 factory.uploader = {
                     error: {
                         type: {
-                            zip: "<?php echo $this->_("You can upload a zip archive only."); ?>",
-                            pem: "<?php echo $this->_("You can upload a pem certificate only."); ?>",
-                            image: "<?php echo $this->_("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
-                            icon: "<?php echo $this->_("You can upload an icon only (.ico and .png)."); ?>",
-                            png: "<?php echo $this->_("You can upload a png only (.png)."); ?>"
+                            zip: "<?php echo __("You can upload a zip archive only."); ?>",
+                            pem: "<?php echo __("You can upload a pem certificate only."); ?>",
+                            image: "<?php echo __("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
+                            icon: "<?php echo __("You can upload an icon only (.ico and .png)."); ?>",
+                            png: "<?php echo __("You can upload a png only (.png)."); ?>"
                         },
-                        only_one_at_a_time: "<?php echo addslashes($this->_("You can't upload more than one file at a time.")); ?>",
-                        general: "<?php echo addslashes($this->_("An error occurred while uploading your file. Please, try again later.")); ?>"
+                        only_one_at_a_time: "<?php echo addslashes(__("You can't upload more than one file at a time.")); ?>",
+                        general: "<?php echo addslashes(__("An error occurred while uploading your file. Please, try again later.")); ?>"
                     }
                 };
 
                 factory.android = {
-                    generating_apk: "<?php echo $this->_("Your APK is being generated. Please come back in a few minutes."); ?>"
+                    generating_apk: "<?php echo __("Your APK is being generated. Please come back in a few minutes."); ?>"
                 };
 
                 factory.admin = {
-                    confirm_deletion: "<?php echo $this->_("Are you sure you want to delete this admin?"); ?>"
-                }
+                    confirm_deletion: "<?php echo __("Are you sure you want to delete this admin?"); ?>"
+                };
 
                 return factory;
             });
