@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * @var $application Application_Model_Application
+ */
 $application = $this->getApplication();
 $option = $this->getOptionValue();
-$features = $this->getApplication()->getOptions();
+$features = $application->getOptions();
 $messageobj = new Push_Model_Message();
 $messageobj->setMessageTypeByOptionValue($option->getOptionId());
 $messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+
+$myAccount = (new Application_Model_Option())->find("tabbar_account", "code");
 
 // Special shared case with push/inApp
 $canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $application->isPublished();
@@ -179,6 +184,11 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                                 $i = 0; ?>
 
                                             <?php endif; ?>
+
+                                            <?php if ($myAccount->getOptionId() == $feature->getOptionId()) {
+                                                continue;
+                                            } ?>
+
                                             <li>
                                                 <label for="<?php echo $feature->getId(); ?>">
                                                     <input type="radio"
