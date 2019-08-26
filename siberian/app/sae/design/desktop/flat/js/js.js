@@ -293,16 +293,24 @@ var Uploader = Class.extend({
         this.current_pretty_photo_content = '';
     },
     showProgressbar: function () {
-        feature_form_success("<div style=\"display:block;\" id=\"progressbar\" class=\"progress\"></div>");
+        feature_form_success(
+            '<div>' + window.messages.uploadInProgress + '</div><div style="display:block" id="progressbar" class="progress"><div id="progress-label"></div></div>',
+            {
+                timeOut: 5000000,
+                progressBar: false,
+                tapToDismiss: false
+            });
         $('#progressbar').progressbar({
             value: 100
         });
     },
     moveProgressbar: function (data) {
-        var progress = parseInt(data.loaded / data.total * 100, 10);
+        var progress = Math.round((parseInt(data.loaded, 10) / parseInt(data.total, 10)) * 100);
+        var progressLabel = $("#progress-label");
         $('#progressbar').progressbar({
-            value: progress
+            value: progress,
         });
+        progressLabel.text( progress + " %" );
     },
     showError: function (errorMessage) {
         $('#progressbar').progressbar({

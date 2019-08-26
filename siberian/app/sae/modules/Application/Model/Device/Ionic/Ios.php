@@ -253,12 +253,10 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
      */
     protected function _prepareUrl()
     {
-
+        $protocol = "https://";
         if (defined("CRON")) {
-            $protocol = System_Model_Config::getValueFor("use_https") ? 'https://' : 'http://';
             $domain = $this->getDevice()->getHost();
         } else {
-            $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $domain = $this->_request->getHttpHost();
         }
 

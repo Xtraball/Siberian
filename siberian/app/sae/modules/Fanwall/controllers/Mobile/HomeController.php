@@ -1,12 +1,6 @@
 <?php
 
 use Fanwall\Model\Fanwall;
-use Fanwall\Model\Post;
-use Fanwall\Model\Like;
-use Fanwall\Model\Comment;
-use Siberian\Xss;
-use Siberian\Exception;
-use Siberian\Feature;
 
 /**
  * Class Fanwall_Mobile_HomeController

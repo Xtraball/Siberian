@@ -41,8 +41,13 @@
             progressall: function (e, data) {
                 logo_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                logo_uploader.hide();
+                logo_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function (e, data) {
                 if(data.result.error) {
+                    logo_uploader.hide();
                     logo_uploader.showError(data.result.message);
                 } else {
                     logo_uploader.hide();

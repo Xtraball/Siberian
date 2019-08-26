@@ -1,4 +1,5 @@
 <?php
+
 $application = $this->getApplication();
 
 $layout_model = new Application_Model_Layout_Homepage();
@@ -689,8 +690,13 @@ $splashVersion = (integer) $application->getSplashVersion();
         progressall: function(e, data) {
             slider_images_uploader.moveProgressbar(data);
         },
+        fail: function (el, data) {
+            slider_images_uploader.hide();
+            slider_images_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+        },
         done: function(e, data) {
             if (data.result.error) {
+                slider_images_uploader.hide();
                 slider_images_uploader.showError(data.result.message);
             } else {
                 slider_images_uploader.hide();

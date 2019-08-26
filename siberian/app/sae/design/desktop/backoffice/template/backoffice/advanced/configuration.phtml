@@ -176,40 +176,12 @@
 
         <div class="form-group">
 
-            <div class="col-md-12"
-                 ng-show="configs.use_https.value == 1">
+            <div class="col-md-12">
                 <p class="alert alert-info"
                    ng-bind-html="configs.testssl.message"></p>
             </div>
 
             <div class="col-md-6">
-                <label for="{{ configs.use_https.code }}">{{ configs.use_https.label }}</label>
-                <select id="configs.use_https.code"
-                        class="form-control"
-                        ng-model="configs.use_https.value">
-                    <option value="0"><?php echo __("No"); ?></option>
-                    <option value="1"><?php echo __("Yes"); ?></option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-
-                <label for="{{ configs.cpanel_type.code }}">{{ configs.cpanel_type.label }}</label>
-                <select id="configs.cpanel_type.code"
-                        class="form-control"
-                        ng-model="configs.cpanel_type.value">
-                    <option value="-1"><?php echo __("Select a panel type or self-managed") ?></option>
-                    <option value="self"><?php echo __("Unknown - Self-managed"); ?></option>
-                    <option value="plesk"><?php echo __("Plesk 12+"); ?></option>
-                    <option value="cpanel"><?php echo __("WHM cPanel"); ?></option>
-                    <option value="directadmin"><?php echo __("DirectAdmin"); ?></option>
-                    <option value="vestacp"><?php echo __("VestaCP"); ?></option>
-                </select>
-
-            </div>
-
-            <div class="col-md-6">
-                <br /><br />
                 <label for="{{ configs.letsencrypt_env.code }}">{{ configs.letsencrypt_env.label }}</label>
                 <select id="configs.letsencrypt_env.code"
                         class="form-control"
@@ -247,6 +219,22 @@
                        class="btn btn-primary left"
                        ng-click="generateSsl(true);"><?php echo __("Force request & Upload to panel") ?></a>
                 </div>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label for="{{ configs.cpanel_type.code }}">{{ configs.cpanel_type.label }}</label>
+                <select id="configs.cpanel_type.code"
+                        class="form-control"
+                        ng-model="configs.cpanel_type.value">
+                    <option value="-1"><?php echo __("Select a panel type or self-managed") ?></option>
+                    <option value="self"><?php echo __("Unknown - Self-managed"); ?></option>
+                    <option value="plesk"><?php echo __("Plesk 12+"); ?></option>
+                    <option value="cpanel"><?php echo __("WHM cPanel"); ?></option>
+                    <option value="directadmin"><?php echo __("DirectAdmin"); ?></option>
+                    <option value="vestacp"><?php echo __("VestaCP"); ?></option>
+                </select>
 
             </div>
 

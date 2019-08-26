@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 class Push_IphoneController extends Core_Controller_Default
 {
 
@@ -50,6 +52,11 @@ class Push_IphoneController extends Core_Controller_Default
             ));
 
             $device->addData($params)->save();
+
+            Hook::trigger("push.ios.update_token", [
+                "request" => $request,
+                "device" => $device
+            ]);
 
             $message = new Push_Model_Message();
 

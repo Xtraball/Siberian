@@ -23,9 +23,10 @@
 
         <title></title>
 
-        <!-- #APP_ONLY# -->
-        <script src="cdvfile://localhost/temporary/module.js"></script>
-        <!-- /#APP_ONLY# -->
+        <!-- Ensure file will never be cached. -->
+<script type="text/javascript">
+    document.write('<script src="cdvfile://localhost/temporary/module.js?t=' + Date.now() + '"><\/script>');
+</script>
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/languages.js"></script>
@@ -63,6 +64,12 @@
 
         <div class="previewer-load"
              ng-show="previewerNotice">{{ "Triple tap to close the preview" | translate }}</div>
+
+        <div class="previewer-splashscreen"
+             ng-style="previewerSplashscreenStyle"
+             ng-show="previewerSplashscreen">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
 
         <link href="./dist/app.bundle.min.css"
               rel="stylesheet" />

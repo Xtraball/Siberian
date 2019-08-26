@@ -1,11 +1,16 @@
 <?php
 
+/**
+ * @var $application Application_Model_Application
+ */
 $application = $this->getApplication();
 $option = $this->getOptionValue();
-$features = $this->getApplication()->getOptions();
+$features = $application->getOptions();
 $messageobj = new Push_Model_Message();
 $messageobj->setMessageTypeByOptionValue($option->getOptionId());
 $messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+
+$myAccount = (new Application_Model_Option())->find("tabbar_account", "code");
 
 // Special shared case with push/inApp
 $canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $application->isPublished();
@@ -31,6 +36,24 @@ $credentials = (new Push_Model_Firebase())
 
 $enable_android = !empty($credentials->getServerKey());
 $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
+
+
+$feats = [];
+foreach ($features as $feature) {
+    $feats[] = $feature;
+}
+
+if (!function_exists("alphasortPushFeatures")) {
+    function alphasortPushFeatures($a, $b)
+    {
+        return strcasecmp($a->getTabbarName(), $b->getTabbarName());
+    }
+}
+
+
+usort($feats, "alphasortPushFeatures");
+
+$features = $feats;
 
 ?>
 
@@ -169,62 +192,91 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                                     </label>
                                 </div>
                             </div>
-                            <div id="features_list" class="hide container-fluid">
+                            <div id="features_list"
+                                 class="hide container-fluid">
                                 <div class="form-group">
-                                    <ul>
+                                    <div class="row">
                                         <?php $i = 0;
                                         foreach ($features as $feature):
                                             $i++;
-                                            if ($i > $features->count() / 2):
+                                            if ($i > sizeof($features) / 2):
                                                 $i = 0; ?>
 
                                             <?php endif; ?>
-                                            <li>
+
+                                            <?php if ($myAccount->getOptionId() == $feature->getOptionId()) {
+                                                continue;
+                                            } ?>
+
+                                            <div class="col-xs-12 col-md-6">
                                                 <label for="<?php echo $feature->getId(); ?>">
                                                     <input type="radio"
                                                            name="action_value"
                                                            class="color-blue chk_action_value use_gmaps radio-inline"
                                                            id="<?php echo $feature->getId(); ?>"
                                                            value="<?php echo $feature->getId(); ?>"/>
-                                                    <?php echo $feature->getTabbarName(); ?> [value_id:<?php echo $feature->getId(); ?>]
+                                                    <?php echo $feature->getTabbarName() ?>
+                                                    -
+                                                    <?php echo $feature->getId() ?>
+                                                    <?php if (!$feature->getIsVisible()): ?>
+                                                        <i class="feature-hidden"><?php echo p__("padlock", "(hidden from menu)") ?></i>
+                                                    <?php endif; ?>
+
+                                                    <?php if (!$feature->getIsActive()): ?>
+                                                        <i class="feature-disabled"><?php echo p__("padlock", "(not published)") ?></i>
+                                                    <?php endif; ?>
                                                 </label>
-                                            </li>
+                                            </div>
                                         <?php endforeach; ?>
-                                        <li>
+                                        <div class="col-xs-12 col-md-12"
+                                             style="margin-top: 15px;">
                                             <label>
                                                 <input type="radio"
                                                        class="chk_action_value custom color-blue radio-inline"
                                                        name="action_value"
                                                        id="<?php echo $feature->getId(); ?>"/> <?php echo __("Custom URL"); ?>
-                                                <span class="hide" id="custom_action_value_field">
-                                                <input type="text" class="input-flat custom_action_value"
-                                                       name="custom_action_value_field" value="">
+                                                <span class="hide"
+                                                      id="custom_action_value_field">
+                                                <input type="text"
+                                                       class="input-flat custom_action_value"
+                                                       name="custom_action_value_field"
+                                                       value="" />
                                             </span>
                                             </label>
-                                        </li>
-                                    </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         <?php endif; ?>
                         <div class="form-group">
                             <div class="col-sm-4">
                                 <!--[if gte IE 10]><!-->
-                                <button id="upload_push_picture" type="button"
+                                <button id="upload_push_picture"
+                                        type="button"
                                         class="upload_contact_picture btn color-blue image_left">
                                     <i class="icon-camera-retro"></i>
-                                    <?php echo __('Insert a <span class="bold">cover image</span>'); ?>
+                                    <?php echo p__("push", "Insert a cover image"); ?>
                                 </button>
                                 <!--<![endif]-->
                             </div>
                             <div class="col-sm-8 text-left">
                                 <p id="uploader_logo_ie_description"
-                                   style="display:none"><?php echo __('Insert a <br /><span class="bold">cover image</span>'); ?></span></p>
-                                <input id="push_file" class="uploader" style="display:none" type="file" name="files[]"
+                                   style="display:none;"><?php echo p__("push", "Insert a cover image"); ?></span></p>
+                                <input id="push_file"
+                                       class="uploader"
+                                       style="display:none"
+                                       type="file"
+                                       name="files[]"
                                        data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                                <img id="cover_img" src="<?php echo $messageobj->getCoverUrl(); ?>" width="210"
-                                     height="110"<?php if (!$messageobj->getCover()) : ?> style="display:none;"<?php endif; ?> />
-                                <a href="" style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
-                                   id="remove_cover_img" class="btn color-blue">
+                                <img id="cover_img"
+                                     src="<?php echo $messageobj->getCoverUrl(); ?>"
+                                     width="210"
+                                     height="110"<?php if (!$messageobj->getCover()) : ?>
+                                    style="display:none;"<?php endif; ?> />
+                                <a href=""
+                                   style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
+                                   id="remove_cover_img"
+                                   class="btn color-blue">
                                     <i class="fa fa-times"></i>
                                 </a>
                             </div>
@@ -692,8 +744,13 @@ $enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getI
                 progressall: function (e, data) {
                     img_uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    img_uploader.hide();
+                    img_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if (data.result.error) {
+                        img_uploader.hide();
                         img_uploader.showError(data.result.message);
                     }
                     if (data.result.success) {

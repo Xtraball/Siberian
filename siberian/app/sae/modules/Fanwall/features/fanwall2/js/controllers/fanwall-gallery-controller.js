@@ -32,10 +32,10 @@ angular
     };
 
     $scope.loadMore = function () {
-        $scope.loadContent(false);
+        $scope.loadContent(false, true);
     };
 
-    $scope.loadContent = function (refresh) {
+    $scope.loadContent = function (refresh, loadMore) {
         if (refresh === true) {
             $scope.isLoading = true;
             $scope.collection = [];
@@ -59,6 +59,10 @@ angular
         }, function (payload) {
 
         }).then(function () {
+            if (loadMore === true) {
+                $scope.$broadcast("scroll.infiniteScrollComplete");
+            }
+
             if (refresh === true) {
                 $scope.isLoading = false;
             }
@@ -66,8 +70,11 @@ angular
     };
 
     $rootScope.$on("fanwall.refresh", function () {
-        $scope.loadContent(true);
+        // Refresh only the "active" tab
+        if ($scope.currentTab === "gallery") {
+            $scope.loadContent(true);
+        }
     });
 
-    $scope.loadContent(true);
+    $scope.loadContent($scope.collection.length === 0);
 });

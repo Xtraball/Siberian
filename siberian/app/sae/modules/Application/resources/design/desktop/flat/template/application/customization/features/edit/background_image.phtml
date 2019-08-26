@@ -70,8 +70,13 @@
                 progressall: function (e, data) {
                     background_image.uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    background_image.hide();
+                    background_image.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function (e, data) {
                     if(data.result.error) {
+                        background_image.hide();
                         background_image.uploader.showError(data.result.message);
                     }
                     else if(data.result.success) {

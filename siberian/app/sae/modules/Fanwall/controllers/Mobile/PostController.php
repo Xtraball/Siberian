@@ -4,9 +4,12 @@ use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Model\Like;
 use Fanwall\Model\Comment;
+use Fanwall\Model\Blocked;
+use Siberian\Json;
 use Siberian\Xss;
 use Siberian\Exception;
 use Siberian\Feature;
+use Customer_Model_Customer as Customer;
 
 /**
  * Class Fanwall_Mobile_PostController
@@ -19,13 +22,13 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
     public $cache_triggers = [
         "add" => [
             "tags" => [
-               //"feature_paths_valueid_#VALUE_ID#",
-               //"assets_paths_valueid_#VALUE_ID#",
+                //"feature_paths_valueid_#VALUE_ID#",
+                //"assets_paths_valueid_#VALUE_ID#",
             ],
         ],
     ];
 
-    public function findAllAction ()
+    public function findAllAction()
     {
         try {
             $request = $this->getRequest();
@@ -37,14 +40,18 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $limit = $request->getParam("limit", 20);
             $offset = $request->getParam("offset", 0);
 
+
             $query = [
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
                 "fanwall_post.is_visible = ?" => 1,
             ];
 
+            // Exclude blockedUsers
+            $query = Blocked::excludePosts($query, $customerId);
+
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
             $limit = [
@@ -63,6 +70,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 foreach ($comments as $comment) {
                     $commentCollection[] = $comment->forJson();
                 }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -88,7 +98,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -112,6 +122,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
+                    "history" => $post->getHistoryJson(),
                     "showDistance" => (boolean) false,
                 ];
             }
@@ -120,7 +131,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $collection
+                "collection" => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -132,7 +143,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function findAllNearbyAction ()
+    public function findAllProfileAction()
     {
         try {
             $request = $this->getRequest();
@@ -143,27 +154,16 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $limit = $request->getParam("limit", 20);
             $offset = $request->getParam("offset", 0);
-            $position = [
-                "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
-            ];
-
-            // Within radius!
-            $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
-            $radius = $fanWall->getRadius();
 
             $query = [
-                "search_by_distance" => true,
-                "radius" => ($radius * 1000),
-                "latitude" => $position["latitude"],
-                "longitude" => $position["longitude"],
                 "fanwall_post.value_id = ?" => $optionValue->getId(),
-                "fanwall_post.is_visible = ?" => 1
+                "fanwall_post.is_visible = ?" => 1,
+                "fanwall_post.customer_id = ?" => $customerId,
             ];
 
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
             $limit = [
@@ -183,13 +183,16 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $commentCollection[] = $comment->forJson();
                 }
 
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
                         "id" => (integer) $like->getId(),
-                        "customer_id" => (integer) $like->getCustomerId(),
+                        "customerId" => (integer) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -207,18 +210,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
-                }
-
-                $distance = (float) $post->getDistance();
-                $distanceUnit = "km";
-                if ($distance < 1000) {
-                    $distanceUnit = "m";
-                    $distance = round($distance, 0);
-                } else {
-                    $distance = round($distance / 1000, 2);
                 }
 
                 $collection[] = [
@@ -240,10 +234,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
-                    "showDistance" => (boolean) true,
-                    "distance" => (float) $distance,
-                    "distanceUnit" => $distanceUnit,
-                    "locationShort" => (string) $post->getLocationShort(),
+                    "history" => $post->getHistoryJson(),
+                    "showDistance" => (boolean) false,
                 ];
             }
 
@@ -251,7 +243,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $collection
+                "collection" => $collection,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -263,7 +255,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function findAllMapAction ()
+    public function findAllNearbyAction()
     {
         try {
             $request = $this->getRequest();
@@ -272,9 +264,11 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $limit = $request->getParam("limit", 20);
+            $offset = $request->getParam("offset", 0);
             $position = [
                 "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
+                "longitude" => $request->getParam("longitude", 0),
             ];
 
             // Within radius!
@@ -290,12 +284,20 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "fanwall_post.is_visible = ?" => 1,
             ];
 
+            // Exclude blockedUsers
+            $query = Blocked::excludePosts($query, $customerId);
+
             $order = [
                 "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                "fanwall_post.date DESC",
             ];
 
-            $posts = (new Post())->findAllWithCustomer($query, $order);
+            $limit = [
+                "limit" => $limit,
+                "offset" => $offset,
+            ];
+
+            $posts = (new Post())->findAllWithCustomer($query, $order, $limit);
             $postsTotal = (new Post())->findAllWithCustomer($query, $order);
 
             $collection = [];
@@ -306,6 +308,9 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 foreach ($comments as $comment) {
                     $commentCollection[] = $comment->forJson();
                 }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -331,7 +336,138 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $author = [
                         "firstname" => (string) $post->getFirstname(),
                         "lastname" => (string) $post->getLastname(),
-                        "nickname" => (string) $post->getnickname(),
+                        "nickname" => (string) $post->getNickname(),
+                        "image" => (string) $post->getAuthorImage(),
+                    ];
+                }
+
+                $distance = (float) $post->getDistance();
+                $distanceUnit = "km";
+                if ($distance < 1000) {
+                    $distanceUnit = "m";
+                    $distance = round($distance, 0);
+                } else {
+                    $distance = round($distance / 1000, 2);
+                }
+
+                $collection[] = [
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) Xss::sanitize(base64_decode($post->getText())),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "likeCount" => (integer) $likes->count(),
+                    "commentCount" => (integer) $comments->count(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "isFlagged" => (boolean) $post->getFlag(),
+                    "sticky" => (boolean) $post->getSticky(),
+                    "iLiked" => (boolean) $iLiked,
+                    "likeLocked" => (boolean) false,
+                    "author" => $author,
+                    "comments" => $commentCollection,
+                    "likes" => $likeCollection,
+                    "history" => $post->getHistoryJson(),
+                    "showDistance" => (boolean) true,
+                    "distance" => (float) $distance,
+                    "distanceUnit" => $distanceUnit,
+                    "locationShort" => (string) $post->getLocationShort(),
+                ];
+            }
+
+            $payload = [
+                "success" => true,
+                "pageTitle" => $optionValue->getTabbarName(),
+                "total" => $postsTotal->count(),
+                "collection" => $collection,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function findAllMapAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $optionValue = $this->getCurrentOptionValue();
+            $position = [
+                "latitude" => $request->getParam("latitude", 0),
+                "longitude" => $request->getParam("longitude", 0),
+            ];
+
+            // Within radius!
+            $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+            $radius = $fanWall->getRadius();
+
+            $query = [
+                "search_by_distance" => true,
+                "radius" => ($radius * 1000),
+                "latitude" => $position["latitude"],
+                "longitude" => $position["longitude"],
+                "fanwall_post.value_id = ?" => $optionValue->getId(),
+                "fanwall_post.is_visible = ?" => 1,
+            ];
+
+            // Exclude blockedUsers
+            $query = Blocked::excludePosts($query, $customerId);
+
+            $order = [
+                "fanwall_post.sticky DESC",
+                "fanwall_post.date DESC",
+            ];
+
+            $posts = (new Post())->findAllWithCustomer($query, $order);
+            $postsTotal = (new Post())->findAllWithCustomer($query, $order);
+
+            $collection = [];
+            foreach ($posts as $post) {
+
+                $comments = (new Comment())->findForPostId($post->getId());
+                $commentCollection = [];
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+
+                $iLiked = false;
+                $likes = (new Like())->findForPostId($post->getId());
+                $likeCollection = [];
+                foreach ($likes as $like) {
+                    $likeCollection[] = [
+                        "id" => (integer) $like->getId(),
+                        "customer_id" => (integer) $like->getCustomerId(),
+                    ];
+
+                    if ($like->getCustomerId() == $customerId) {
+                        $iLiked = true;
+                    }
+                }
+
+                $author = [
+                    "firstname" => (string) $application->getName(),
+                    "lastname" => (string) "",
+                    "nickname" => (string) $application->getName(),
+                    "image" => (string) $application->getIcon(64),
+                ];
+                if (!empty($post->getCustomerId())) {
+                    $author = [
+                        "firstname" => (string) $post->getFirstname(),
+                        "lastname" => (string) $post->getLastname(),
+                        "nickname" => (string) $post->getNickname(),
                         "image" => (string) $post->getAuthorImage(),
                     ];
                 }
@@ -364,6 +500,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     "author" => $author,
                     "comments" => $commentCollection,
                     "likes" => $likeCollection,
+                    "history" => $post->getHistoryJson(),
                     "showDistance" => (boolean) true,
                     "distance" => (float) $distance,
                     "distanceUnit" => $distanceUnit,
@@ -388,7 +525,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 "success" => true,
                 "pageTitle" => $optionValue->getTabbarName(),
                 "total" => $postsTotal->count(),
-                "collection" => $groups
+                "collection" => $groups,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -400,7 +537,51 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function loadSettingsAction ()
+    public function findAllBlockedAction()
+    {
+        try {
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $collection = [];
+            $blocked = (new Blocked())->find($customerId, "customer_id");
+            if ($blocked->getId()) {
+                try {
+                    $userIds = Json::decode($blocked->getBlockedUsers());
+                } catch (\Exception $e) {
+                    $userIds = [];
+                }
+                
+                if (sizeof($userIds) > 0) {
+                    $users = (new Customer())->findAll(["customer_id IN (?)" => $userIds]);
+                    
+                    foreach ($users as $user) {
+                        $collection[] = [
+                            "id" => (string) $user->getId(),
+                            "firstname" => (string) $user->getFirstname(),
+                            "lastname" => (string) $user->getLastname(),
+                            "nickname" => (string) $user->getNickname(),
+                            "image" => (string) $user->getImage(),
+                        ];
+                    }
+                }
+            }
+
+            $payload = [
+                "success" => true,
+                "collection" => $collection,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function loadSettingsAction()
     {
         try {
             $optionValue = $this->getCurrentOptionValue();
@@ -408,7 +589,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $settings = $fanWall->buildSettings();
             $payload = [
                 "success" => true,
-                "settings" => $settings
+                "settings" => $settings,
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -420,7 +601,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function likePostAction ()
+    public function likePostAction()
     {
         try {
             $request = $this->getRequest();
@@ -460,7 +641,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function unlikePostAction ()
+    public function unlikePostAction()
     {
         try {
             $request = $this->getRequest();
@@ -495,7 +676,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function sendPostAction ()
+    public function sendPostAction()
     {
         try {
             $request = $this->getRequest();
@@ -510,12 +691,30 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
             $form = $values["form"];
-            $text = base64_encode(nl2br($form["text"]));
+            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"])));
             $picture = $form["picture"];
             $date = $form["date"];
 
             // Tries to find post if "edit"
             $post = (new Post())->find($postId);
+
+            $saveToHistory = false;
+            $archivedPost = null;
+            if ($post->getId()) {
+                $saveToHistory = true;
+                $archivedPost = [
+                    "id" => (integer) $post->getId(),
+                    "customerId" => (integer) $post->getCustomerId(),
+                    "title" => (string) $post->getTitle(),
+                    "subtitle" => (string) $post->getSubtitle(),
+                    "text" => (string) $post->getText(),
+                    "image" => (string) $post->getImage(),
+                    "date" => (integer) $post->getDate(),
+                    "latitude" => (float) $post->getLatitude(),
+                    "longitude" => (float) $post->getLongitude(),
+                    "locationShort" => (string) $post->getLocationShort(),
+                ];
+            }
 
             $headers = [
                 "user-agent" => $request->getHeader("User-Agent"),
@@ -532,7 +731,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setDate($date)
                 ->setText($text)
                 ->setUserAgent($headers["user_agent"])
-                ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
+                ->setCustomerIp($headers["forwarded-for"] . ", " . $headers["remote-addr"])
                 ->setIsVisible(true);
 
             if (array_key_exists("location", $form) &&
@@ -562,6 +761,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $post->save();
 
+            // Ok everything good, we can insert archive if edit
+            if ($saveToHistory) {
+                try {
+                    $history = Json::decode($post->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
+                $history[] = $archivedPost;
+
+                $post
+                    ->setHistory(Json::encode($history))
+                    ->save();
+            }
+
             $payload = [
                 "success" => true,
                 "message" => "Your post is saved!",
@@ -576,7 +790,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
-    public function sendCommentAction ()
+    public function sendCommentAction()
     {
         try {
             $request = $this->getRequest();
@@ -590,14 +804,30 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $customerId = $session->getCustomerId();
             $postId = $values["postId"];
+            $commentId = $values["commentId"];
             $form = $values["form"];
-            $text = base64_encode(nl2br($form["text"]));
+            $text = base64_encode(preg_replace("/[\n\r]/m", "", nl2br($form["text"])));
             $picture = $form["picture"];
             $date = $form["date"];
 
             $post = (new Post())->find($postId);
             if (!$post->getId()) {
                 throw new Exception("The post you are trying to comment is not available.");
+            }
+
+            $comment = (new Comment())->find($commentId);
+
+            $saveToHistory = false;
+            $archivedComment = null;
+            if ($comment->getId()) {
+                $saveToHistory = true;
+                $archivedComment = [
+                    "id" => (integer) $comment->getId(),
+                    "customerId" => (integer) $comment->getCustomerId(),
+                    "text" => (string) $comment->getText(),
+                    "image" => (string) $comment->getPicture(),
+                    "date" => (integer) $comment->getDate(),
+                ];
             }
 
             $headers = [
@@ -609,29 +839,48 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             // Strip unwanted tags
             $text = strip_tags($text, '<p><em><s><b><strong><u><span><h1><h2>');
 
-            $comment = new Comment();
             $comment
                 ->setPostId($postId)
                 ->setCustomerId($customerId)
                 ->setText($text)
                 ->setDate($date)
                 ->setUserAgent($headers["user_agent"])
-                ->setCustomerIp($headers["forwarded-for"] . ", " .  $headers["remote-addr"])
+                ->setCustomerIp($headers["forwarded-for"] . ", " . $headers["remote-addr"])
                 ->setIsVisible(true);
 
+
             if (mb_strlen($picture) > 0) {
-                // Save base64 image to file
-                $uniqId = uniqid("fwimg_", true);
-                $tmpPath = path("/var/tmp/{$uniqId}");
-                $imagePath = base64imageToFile($picture, $tmpPath);
-                $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
-                $comment->setPicture($finalPath);
+                if (preg_match("#^/#", $picture) === 1) {
+                    // Not changing image!
+                } else {
+                    // Save base64 image to file
+                    $uniqId = uniqid("fwimg_", true);
+                    $tmpPath = path("/var/tmp/{$uniqId}");
+                    $imagePath = base64imageToFile($picture, $tmpPath);
+                    $finalPath = Feature::saveImageForOption($optionValue, $imagePath);
+                    $comment->setPicture($finalPath);
+                }
             } else {
                 // Remove image!
-                $comment->setImage("");
+                $comment->setPicture("");
             }
 
             $comment->save();
+
+            // Ok everything good, we can insert archive if edit
+            if ($saveToHistory) {
+                try {
+                    $history = Json::decode($comment->getHistory());
+                } catch (\Exception $e) {
+                    $history = [];
+                }
+
+                $history[] = $archivedComment;
+
+                $comment
+                    ->setHistory(Json::encode($history))
+                    ->save();
+            }
 
             $comments = (new Comment())->findForPostId($post->getId());
             $commentCollection = [];
@@ -639,8 +888,12 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $commentCollection[] = $comment->forJson();
             }
 
+            // Exclude blockedUsers
+            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+
             $payload = [
                 "success" => true,
+                "postId" => (integer) $postId,
                 "comments" => $commentCollection,
                 "message" => "Your comment is saved!",
             ];
@@ -657,7 +910,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
     /**
      *
      */
-    public function deleteCommentAction ()
+    public function deleteCommentAction()
     {
         try {
             $request = $this->getRequest();
@@ -688,10 +941,247 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $commentCollection[] = $comment->forJson();
             }
 
+            // Exclude blockedUsers
+            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+
             $payload = [
                 "success" => true,
                 "comments" => $commentCollection,
                 "message" => "Your comment is deleted!",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function blockUserAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to block a user.");
+            }
+
+            $data = $request->getBodyParams();
+            $optionValue = $this->getCurrentOptionValue();
+            $customerId = $session->getCustomerId();
+            $from = $data["from"];
+            $sourceId = $data["sourceId"];
+
+            $refresh = false;
+
+            $blockedCustomerId = null;
+            $postId = null;
+            switch ($from) {
+                case "from-post":
+                    $post = (new Post())->find($sourceId);
+                    if (!$post->getId()) {
+                        throw new Exception("This post doesn't exists.");
+                    }
+                    $blockedCustomerId = $post->getCustomerId();
+                    $postId = $post->getId();
+                    $refresh = true;
+                    break;
+                case "from-comment":
+                    $comment = (new Comment())->find($sourceId);
+                    if (!$comment->getId()) {
+                        throw new Exception("This comment doesn't exists.");
+                    }
+                    $blockedCustomerId = $comment->getCustomerId();
+                    $postId = $comment->getPostId();
+                    $refresh = true;
+                    break;
+            }
+
+            $blockedUser = (new Blocked())->find($customerId, "customer_id");
+
+            $blockedUserList = [];
+            if ($blockedUser->getId()) {
+                try {
+                    $blockedUserList = Json::decode($blockedUser->getBlockedUsers());
+                } catch (\Exception $e) {
+                    $blockedUserList = [];
+                }
+            }
+
+            $blockedUserList[] = $blockedCustomerId;
+
+            $blockedUser
+                ->setCustomerId($customerId)
+                ->setValueId($optionValue->getId())
+                ->setBlockedUsers(Json::encode($blockedUserList))
+                ->save();
+
+            $commentCollection = [];
+            if ($refresh) {
+                $comments = (new Comment())->findForPostId($postId);
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            }
+
+            $payload = [
+                "success" => true,
+                "postId" => (integer) $postId,
+                "refresh" => $refresh,
+                "comments" => $commentCollection,
+                "message" => "This user posts & messages are now blocked.",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function unblockUserAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to unblock a user.");
+            }
+
+            $data = $request->getBodyParams();
+            $optionValue = $this->getCurrentOptionValue();
+            $customerId = $session->getCustomerId();
+            $from = $data["from"];
+            $sourceId = $data["sourceId"];
+
+            $refresh = false;
+
+            $blockedCustomerId = null;
+            $postId = null;
+            switch ($from) {
+                case "from-post":
+                    $post = (new Post())->find($sourceId);
+                    if (!$post->getId()) {
+                        throw new Exception("This post doesn't exists.");
+                    }
+                    $blockedCustomerId = $post->getCustomerId();
+                    $postId = $post->getId();
+                    $refresh = true;
+                    break;
+                case "from-comment":
+                    $comment = (new Comment())->find($sourceId);
+                    if (!$comment->getId()) {
+                        throw new Exception("This comment doesn't exists.");
+                    }
+                    $blockedCustomerId = $comment->getCustomerId();
+                    $postId = $comment->getPostId();
+                    $refresh = true;
+                    break;
+                case "from-user":
+                    $blockedCustomerId = $sourceId;
+                    $postId = null;
+                    break;
+            }
+
+            $blockedUser = (new Blocked())->find($customerId, "customer_id");
+
+            $blockedUserList = [];
+            if ($blockedUser->getId()) {
+                try {
+                    $blockedUserList = Json::decode($blockedUser->getBlockedUsers());
+                } catch (\Exception $e) {
+                    $blockedUserList = [];
+                }
+            }
+
+            // Removes customerId from blocked users!
+            if (($key = array_search($blockedCustomerId, $blockedUserList)) !== false) {
+                unset($blockedUserList[$key]);
+            }
+
+            $blockedUser
+                ->setCustomerId($customerId)
+                ->setValueId($optionValue->getId())
+                ->setBlockedUsers(Json::encode($blockedUserList))
+                ->save();
+
+            $commentCollection = [];
+            if ($refresh) {
+                $comments = (new Comment())->findForPostId($postId);
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
+
+                // Exclude blockedUsers
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            }
+
+            $payload = [
+                "success" => true,
+                "postId" => (integer) $postId,
+                "refresh" => $refresh,
+                "comments" => $commentCollection,
+                "message" => "This user posts & messages are now unblocked.",
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deletePostAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+
+            if (!$session->isLoggedIn()) {
+                throw new Exception("You must be logged-in to delete a post.");
+            }
+
+            $data = $request->getBodyParams();
+            $customerId = $session->getCustomerId();
+            $postId = $data["postId"];
+
+            $post = (new Post())->find($postId);
+            if (!$post->getId()) {
+                throw new Exception("This post doesn't exists.");
+            }
+
+            if ($post->getCustomerId() != $customerId) {
+                throw new Exception("This post doesn't belong to you.");
+            }
+
+            // Make post invisible!
+            $post
+                ->setIsVisible(false)
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => "Your post is trashed.",
             ];
         } catch (\Exception $e) {
             $payload = [

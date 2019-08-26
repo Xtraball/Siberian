@@ -133,8 +133,12 @@ $blocks = [
     [
         'code' => 'background',
         'name' => 'General',
+        'color' => '#111',
+        'color_variable_name' => '$general-custom-text',
         'background_color' => '#ededed',
         'background_color_variable_name' => '$general-custom-bg',
+        'border_color' => '#ddd',
+        'border_color_variable_name' => '$general-custom-border',
         'position' => '10'
     ],
     /* HOMEPAGE */

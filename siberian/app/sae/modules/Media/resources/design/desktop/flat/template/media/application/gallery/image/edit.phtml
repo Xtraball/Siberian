@@ -576,8 +576,13 @@
                 progressall: function(e, data) {
                     uploader.moveProgressbar(data);
                 },
+                fail: function (el, data) {
+                    uploader.hide();
+                    uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+                },
                 done: function(e, data) {
                     if (data.result.error) {
+                        uploader.hide();
                         uploader.showError(data.result.message);
                     } else {
                         uploader.hide();

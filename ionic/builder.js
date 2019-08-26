@@ -241,7 +241,7 @@ let debug = true,
             files: [
                 './www/lib/polyfills.js',
                 './www/lib/utils.js',
-                './www/lib/ionic/js/ionic.bundle.min.js',
+                './www/lib/ionic/js/ionic.bundle.js',
                 './www/lib/ionic/js/angular/angular-route.js',
                 './www/lib/ngCordova/dist/ng-cordova.js'
             ],

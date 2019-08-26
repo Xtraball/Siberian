@@ -26,7 +26,7 @@ class Manifest
         \Zend_Registry::get('cache')
             ->clean(\Zend_Cache::CLEANING_MODE_ALL);
 
-        $protocol = __get('use_https') === '1' ? 'https://' : 'http://';
+        $protocol = "https://";
         \Siberian_Autoupdater::configure($protocol . $mainDomain);
 
         echo color('Done.', 'brown') . PHP_EOL;

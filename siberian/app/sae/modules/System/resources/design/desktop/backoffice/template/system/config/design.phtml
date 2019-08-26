@@ -2,37 +2,39 @@
       href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=<?php echo time() ?>"
       media="all"
       rel="stylesheet"
-      type="text/css" />
+      type="text/css"/>
 
 <link ng-if="configs.backoffice_theme.value == 'elegance'"
       href="/app/sae/design/desktop/backoffice/css/theme-elegance/styles.css?t=<?php echo time() ?>"
       media="all"
       rel="stylesheet"
-      type="text/css" />
+      type="text/css"/>
 
 <form ng-submit="save()">
 
-    <sb-section title="'<?php echo __js('Backoffice theme (BETA)') ?>'">
+    <sb-section title="'<?php echo __js('Backoffice theme') ?>'">
         <div class="form-group">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <div class="alert alert-info">
-                        <?php echo __('During the <b>beta</b> stage, themes are likely to evolve slightly.') ?>
+                        <?php echo __('<b>Info</b>: Theme alert box preview.') ?>
                     </div>
                     <div class="alert alert-success">
-                        <?php echo __('During the <b>beta</b> stage, themes are likely to evolve slightly.') ?>
+                        <?php echo __('<b>Success</b>: Theme alert box preview.') ?>
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="alert alert-warning">
-                        <?php echo __('During the <b>beta</b> stage, themes are likely to evolve slightly.') ?>
+                        <?php echo __('<b>Warning</b>: Theme alert box preview.') ?>
                     </div>
                     <div class="alert alert-danger">
-                        <?php echo __('During the <b>beta</b> stage, themes are likely to evolve slightly.') ?>
+                        <?php echo __('<b>Danger</b>: Theme alert box preview.') ?>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
-                    <label for="backoffice_theme"><?php echo __("Theme");?></label>
+                    <label for="backoffice_theme"><?php echo __("Theme"); ?></label>
                 </div>
             </div>
             <div class="row">
@@ -78,17 +80,21 @@
         </div>
     </sb-section>
 
-    <sb-section title="configs.logo.label" class="upload_area">
+    <sb-section title="configs.logo.label"
+                class="upload_area">
         <p class="help-block">
             <?php echo __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpeg, gif", "368x85px") ?>
         </p>
 
-        <br />
+        <br/>
 
         <div class="col-md-3">
             <div class="upload_a_file">
                 <label for="logo_uploader"><?php echo __("Click here to send your logo"); ?></label>
-                <input id="logo_uploader" type="file" nv-file-select="" uploader="logo_uploader" />
+                <input id="logo_uploader"
+                       type="file"
+                       nv-file-select=""
+                       uploader="logo_uploader"/>
             </div>
         </div>
 
@@ -102,23 +108,29 @@
             <div class="drop_a_file">
                 <label><?php echo __("Drop your logo here"); ?></label>
                 <div ng-show="logo_uploader.isHTML5">
-                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="logo_uploader">
+                    <div class="well drop-zone"
+                         nv-file-drop=""
+                         nv-file-over=""
+                         uploader="logo_uploader">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3" ng-if="configs.logo.value">
+        <div class="col-md-3"
+             ng-if="configs.logo.value">
             <label><?php echo __("Current logo"); ?></label>
             <div>
-                <img ng-src="{{ configs.logo.value }}" width="100" />
+                <img ng-src="{{ configs.logo.value }}"
+                     width="100"/>
             </div>
         </div>
 
 
         <div class="clear"></div>
 
-        <table class="table" ng-show="logo_uploader.queue.length">
+        <table class="table"
+               ng-show="logo_uploader.queue.length">
             <thead>
             <tr>
                 <th width="50%">Name</th>
@@ -129,15 +141,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in logo_uploader.queue" ng-show="logo_uploader.queue.length">
+            <tr ng-repeat="item in logo_uploader.queue"
+                ng-show="logo_uploader.queue.length">
                 <td>
                     <strong>{{ item.file.name }}</strong>
-                    <div ng-show="logo_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                    <div ng-show="logo_uploader.isHTML5"
+                         ng-thumb="{ file: item._file, height: 100 }"></div>
                 </td>
-                <td ng-show="logo_uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="logo_uploader.isHTML5"
+                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
                 <td ng-show="logo_uploader.isHTML5">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                        <div class="progress-bar progress-bar-striped"
+                             role="progressbar"
+                             ng-style="{ 'width': item.progress + '%' }"></div>
                     </div>
                 </td>
                 <td class="text-center">
@@ -146,10 +163,16 @@
                     <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                 </td>
                 <td nowrap>
-                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                    <button type="button"
+                            class="btn btn-warning btn-xs"
+                            ng-click="item.cancel()"
+                            ng-disabled="!item.isUploading">
                         <span class="fa fa-ban"></span>
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                    <button type="button"
+                            class="btn btn-danger btn-xs"
+                            ng-click="item.remove()"
+                            ng-disabled="item.isReady || item.isUploading || item.isSuccess">
                         <span class="fa fa-remove"></span>
                     </button>
                 </td>
@@ -161,14 +184,18 @@
 
     <div class="clear"></div>
 
-    <sb-section title="configs.favicon.label" class="upload_area">
+    <sb-section title="configs.favicon.label"
+                class="upload_area">
         <p class="help-block"><?php echo __("<b>File type:</b> %s<br /><b>Recommended size:</b> %s", "png", "32x32px"); ?></p>
 
-        <br />
+        <br/>
         <div class="col-md-3">
             <div class="upload_a_file">
                 <label for="favicon_uploader"><?php echo __("Click here to send your favicon"); ?></label>
-                <input id="favicon_uploader" type="file" nv-file-select="" uploader="favicon_uploader" />
+                <input id="favicon_uploader"
+                       type="file"
+                       nv-file-select=""
+                       uploader="favicon_uploader"/>
             </div>
         </div>
 
@@ -180,22 +207,29 @@
             <div class="drop_a_file left">
                 <label><?php echo __("Drop your favicon here"); ?></label>
                 <div ng-show="favicon_uploader.isHTML5">
-                    <div class="well drop-zone" nv-file-drop="" nv-file-over="" uploader="favicon_uploader">
+                    <div class="well drop-zone"
+                         nv-file-drop=""
+                         nv-file-over=""
+                         uploader="favicon_uploader">
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3" ng-if="configs.favicon.value">
+        <div class="col-md-3"
+             ng-if="configs.favicon.value">
             <label><?php echo __("Current favicon"); ?></label>
             <div>
-                <img ng-src="{{ configs.favicon.value }}" width="32" height="32" />
+                <img ng-src="{{ configs.favicon.value }}"
+                     width="32"
+                     height="32"/>
             </div>
         </div>
 
         <div class="clear"></div>
 
-        <table class="table" ng-show="favicon_uploader.queue.length">
+        <table class="table"
+               ng-show="favicon_uploader.queue.length">
             <thead>
             <tr>
                 <th width="50%">Name</th>
@@ -206,15 +240,20 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="item in favicon_uploader.queue" ng-show="favicon_uploader.queue.length">
+            <tr ng-repeat="item in favicon_uploader.queue"
+                ng-show="favicon_uploader.queue.length">
                 <td>
                     <strong>{{ item.file.name }}</strong>
-                    <div ng-show="favicon_uploader.isHTML5" ng-thumb="{ file: item._file, height: 100 }"></div>
+                    <div ng-show="favicon_uploader.isHTML5"
+                         ng-thumb="{ file: item._file, height: 100 }"></div>
                 </td>
-                <td ng-show="favicon_uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="favicon_uploader.isHTML5"
+                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
                 <td ng-show="favicon_uploader.isHTML5">
                     <div class="progress">
-                        <div class="progress-bar progress-bar-striped" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                        <div class="progress-bar progress-bar-striped"
+                             role="progressbar"
+                             ng-style="{ 'width': item.progress + '%' }"></div>
                     </div>
                 </td>
                 <td class="text-center">
@@ -223,10 +262,219 @@
                     <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                 </td>
                 <td nowrap>
-                    <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                    <button type="button"
+                            class="btn btn-warning btn-xs"
+                            ng-click="item.cancel()"
+                            ng-disabled="!item.isUploading">
                         <span class="fa fa-ban"></span>
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()" ng-disabled="item.isReady || item.isUploading">
+                    <button type="button"
+                            class="btn btn-danger btn-xs"
+                            ng-click="item.remove()"
+                            ng-disabled="item.isReady || item.isUploading">
+                        <span class="fa fa-remove"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="configs.logo_backoffice.label"
+                class="upload_area">
+        <p class="help-block">
+            <?php echo __("<b>File types:</b> %s<br /><b>Recommended size:</b> %s", "png, jpeg, gif", "368x85px") ?>
+        </p>
+
+        <br/>
+
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="logo_backoffice_uploader"><?php echo __("Click here to send your logo"); ?></label>
+                <input id="logo_backoffice_uploader"
+                       type="file"
+                       nv-file-select=""
+                       uploader="logo_backoffice_uploader"/>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="drop_a_file">
+                <label><?php echo __("OR"); ?></label>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file">
+                <label><?php echo __("Drop your logo here"); ?></label>
+                <div ng-show="logo_backoffice_uploader.isHTML5">
+                    <div class="well drop-zone"
+                         nv-file-drop=""
+                         nv-file-over=""
+                         uploader="logo_backoffice_uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3"
+             ng-if="configs.logo_backoffice.value">
+            <label><?php echo __("Current logo"); ?></label>
+            <div>
+                <img ng-src="{{ configs.logo_backoffice.value }}"
+                     width="100"/>
+            </div>
+        </div>
+
+
+        <div class="clear"></div>
+
+        <table class="table"
+               ng-show="logo_backoffice_uploader.queue.length">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th ng-show="logo_backoffice_uploader.isHTML5">Size</th>
+                <th ng-show="logo_backoffice_uploader.isHTML5">Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in logo_backoffice_uploader.queue"
+                ng-show="logo_backoffice_uploader.queue.length">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
+                    <div ng-show="logo_backoffice_uploader.isHTML5"
+                         ng-thumb="{ file: item._file, height: 100 }"></div>
+                </td>
+                <td ng-show="logo_backoffice_uploader.isHTML5"
+                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                <td ng-show="logo_backoffice_uploader.isHTML5">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped"
+                             role="progressbar"
+                             ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button"
+                            class="btn btn-warning btn-xs"
+                            ng-click="item.cancel()"
+                            ng-disabled="!item.isUploading">
+                        <span class="fa fa-ban"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger btn-xs"
+                            ng-click="item.remove()"
+                            ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                        <span class="fa fa-remove"></span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </sb-section>
+
+    <div class="clear"></div>
+
+    <sb-section title="configs.favicon_backoffice.label"
+                class="upload_area">
+        <p class="help-block"><?php echo __("<b>File type:</b> %s<br /><b>Recommended size:</b> %s", "png", "32x32px"); ?></p>
+
+        <br/>
+        <div class="col-md-3">
+            <div class="upload_a_file">
+                <label for="favicon_backoffice"><?php echo __("Click here to send your favicon"); ?></label>
+                <input id="favicon_backoffice"
+                       type="file"
+                       nv-file-select=""
+                       uploader="favicon_backoffice_uploader"/>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <label><?php echo __("OR"); ?></label>
+        </div>
+
+        <div class="col-md-5">
+            <div class="drop_a_file left">
+                <label><?php echo __("Drop your favicon here"); ?></label>
+                <div ng-show="favicon_backoffice_uploader.isHTML5">
+                    <div class="well drop-zone"
+                         nv-file-drop=""
+                         nv-file-over=""
+                         uploader="favicon_backoffice_uploader">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3"
+             ng-if="configs.favicon_backoffice.value">
+            <label><?php echo __("Current favicon"); ?></label>
+            <div>
+                <img ng-src="{{ configs.favicon_backoffice.value }}"
+                     width="32"
+                     height="32"/>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <table class="table" ng-show="favicon_backoffice_uploader.queue.length">
+            <thead>
+            <tr>
+                <th width="50%">Name</th>
+                <th ng-show="favicon_backoffice_uploader.isHTML5">Size</th>
+                <th ng-show="favicon_backoffice_uploader.isHTML5">Progress</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in favicon_backoffice_uploader.queue"
+                ng-show="favicon_backoffice_uploader.queue.length">
+                <td>
+                    <strong>{{ item.file.name }}</strong>
+                    <div ng-show="favicon_backoffice_uploader.isHTML5"
+                         ng-thumb="{ file: item._file, height: 100 }"></div>
+                </td>
+                <td ng-show="favicon_backoffice_uploader.isHTML5"
+                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB
+                </td>
+                <td ng-show="favicon_backoffice_uploader.isHTML5">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped"
+                             role="progressbar"
+                             ng-style="{ 'width': item.progress + '%' }"></div>
+                    </div>
+                </td>
+                <td class="text-center">
+                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                </td>
+                <td nowrap>
+                    <button type="button"
+                            class="btn btn-warning btn-xs"
+                            ng-click="item.cancel()"
+                            ng-disabled="!item.isUploading">
+                        <span class="fa fa-ban"></span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-danger btn-xs"
+                            ng-click="item.remove()"
+                            ng-disabled="item.isReady || item.isUploading">
                         <span class="fa fa-remove"></span>
                     </button>
                 </td>

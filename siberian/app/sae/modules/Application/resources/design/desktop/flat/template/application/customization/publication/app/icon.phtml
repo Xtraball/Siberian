@@ -56,24 +56,28 @@ $backButtons = Application_Model_Application::$backButtons;
             <b><?php echo __("Status bar"); ?></b>
             <br />
             <div class="android-status-bar">
-                <img src="/app/sae/design/desktop/flat/images/push/android-header.png" width="100%" />
+                <img src="/app/sae/design/desktop/flat/images/push/android-header.png"
+                     width="100%" />
             </div>
             <br />
 
             <b><?php echo __("Notification center"); ?></b>
             <br />
             <div class="android-notification-full">
-                <img src="/app/sae/design/desktop/flat/images/push/android-notification-full.png" width="100%" />
+                <img src="<?php echo Application_Model_Image::pushPreviewImage() ?>"
+                     width="100%" />
             </div>
             <b class="icon-caption"><?php echo __("without image"); ?></b>
             <br />
             <br />
             <div class="hide-empty-image android-notification-image">
                 <div class="android-notification-image-default">
-                    <img src="/app/sae/design/desktop/flat/images/push/android-notification-image.png" width="100%" />
+                    <img src="<?php echo Application_Model_Image::pushPreviewImage() ?>"
+                         width="100%" />
                 </div>
                 <div class="android-notification-image-overlay">
-                    <img src="/app/sae/design/desktop/flat/images/push/android-notification-empty.png" width="100%" />
+                    <img src="/app/sae/design/desktop/flat/images/push/android-notification-empty.png"
+                         width="100%" />
                 </div>
             </div>
             <b class="hide-empty-image icon-caption"><?php echo __("with image"); ?></b>

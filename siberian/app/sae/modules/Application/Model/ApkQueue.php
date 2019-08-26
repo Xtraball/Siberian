@@ -87,7 +87,7 @@ class Application_Model_ApkQueue extends Core_Model_Default
             $this->save();
 
             /** Success email */
-            $protocol = (System_Model_Config::getValueFor("use_https")) ? "https://" : "http://";
+            $protocol = "https://";
             $url = $protocol . $this->getHost() . "/" . str_replace(Core_Model_Directory::getBasePathTo(""), "", $result["path"]);
 
             $baseEmail = $this->baseEmail(

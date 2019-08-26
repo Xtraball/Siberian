@@ -43,6 +43,7 @@
                     <label class="item item-input item-custom"
                            ng-switch-when="nombre">
                         <input type="number"
+                               pattern="[0-9\.\,]*"
                                placeholder="{{ field.name }}"
                                ng-model="formData[field.id]"/>
                     </label>

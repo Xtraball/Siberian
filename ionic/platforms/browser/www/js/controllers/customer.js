@@ -1,7 +1,3 @@
-/*global
- App, angular, BASE_PATH, IS_PREVIEWER, _
- */
-
 /**
  * CustomerController
  *

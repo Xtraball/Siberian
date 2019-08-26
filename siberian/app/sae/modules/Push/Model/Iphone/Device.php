@@ -6,6 +6,9 @@
  * @author Peter Schmalfeldt <manifestinteractive@gmail.com>
  * @license http://www.apache.org/licenses/LICENSE-2.0
  * @link http://code.google.com/p/easyapns/
+ *
+ * @method integer getAppId()
+ * @method string getDeviceToken()
  */
 class Push_Model_Iphone_Device extends Core_Model_Default {
 

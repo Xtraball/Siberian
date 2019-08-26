@@ -77,6 +77,16 @@ try {
              class="subcontent content-color">
             <div id="general-information"
                  class="container-fluid form-horizontal">
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <?php echo p__("application", "Application ID") ?>
+                    </div>
+                    <div class="col-md-7">
+                        <b>#<?php echo $application->getId() ?></b>
+                    </div>
+                </div>
+
                 <?php echo $formGeneralInformation; ?>
             </div>
         </div>

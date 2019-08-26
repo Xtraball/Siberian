@@ -6,7 +6,7 @@
 /**
  * SiberianCMS
  *
- * @version 4.11.7
+ * @version 4.17.6
  * @author Xtraball SAS <dev@xtraball.com>
  * @site https://github.com/Xtraball
  *
@@ -594,8 +594,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     // Edit AndroidManifest.xml
                     // android:screenOrientation="unspecified" > <activity
 
-
-
                     var gradleArgs = 'cdvBuildDebug -x=:app:processDebugGoogleServices';
                     if (type === '--release') {
                         gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
@@ -621,6 +619,9 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + gradleArgs);
                 }
             }
+
+            // Replace <!-- #PREVIEWER# --> with the correct tag
+            patchPreviewer(platform);
 
             // Ios specific, run push.rb to patch push notifications!
             if (!prepare) {
@@ -655,6 +656,65 @@ let patchIos = function (platform) {
         sh.exec('./Patch ' + ROOT + '/ionic/platforms/' + platform + '/');
     }
     sh.cd(ROOT + '/ionic/');
+};
+
+// Patching index.html for the previewer tmpFile!
+let patchPreviewer = function (platform) {
+    sprint(clc.green('Patching platform project for Previewer ...'));
+
+    let indexFile = null;
+    let indexContent = null;
+
+    switch (platform) {
+        case "browser":
+            sprint(clc.green('[Browser]'));
+            indexFile = ROOT + "/ionic/platforms/browser/www/index.html";
+            indexContent = fs.readFileSync(indexFile, {
+                encoding: 'utf8'
+            });
+
+            indexContent = indexContent.replace(
+                "<!-- #PREVIEWER# -->",
+                "");
+
+            break;
+        case "android":
+            sprint(clc.green('[Android]'));
+            indexFile = ROOT + "/ionic/platforms/android/app/src/main/assets/www/index.html";
+            indexContent = fs.readFileSync(indexFile, {
+                encoding: 'utf8'
+            });
+
+            indexContent = indexContent.replace(
+                "<!-- #PREVIEWER# -->",
+                "<!-- Ensure file will never be cached. -->\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    document.write('<script src=\"../../../module.js?t=' + Date.now() + '\"><\\/script>');\n" +
+                "</script>");
+
+            break;
+        case "ios":
+            sprint(clc.green('[iOS]'));
+            indexFile = ROOT + "/ionic/platforms/ios/www/index.html";
+            indexContent = fs.readFileSync(indexFile, {
+                encoding: 'utf8'
+            });
+
+            indexContent = indexContent.replace(
+                "<!-- #PREVIEWER# -->",
+                "<!-- Ensure file will never be cached. -->\n" +
+                "<script type=\"text/javascript\">\n" +
+                "    document.write('<script src=\"cdvfile://localhost/temporary/module.js?t=' + Date.now() + '\"><\\/script>');\n" +
+                "</script>");
+
+            break;
+    }
+
+    fs.writeFileSync(indexFile, indexContent, {
+        encoding: 'utf8'
+    });
+
+    sprint(clc.green('Patching done.'));
 };
 
 /**

@@ -182,7 +182,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
         // Alert message & close!
         if (!$request->isXmlHttpRequest()) {
             echo "<script type=\"text/javascript\">
-    window.alert(\"" . p__js("fanwall", $responseMessage) . ", " . p__js("fanwall", " this window will be closed automatically!") . "\");
+    window.alert(\"" . p__js("fanwall", $responseMessage) . ", " . p__js("fanwall", "this window will be closed automatically!") . "\");
     window.close();
 </script>";
             die;
@@ -358,7 +358,7 @@ class Fanwall_Mobile_ReportController extends Application_Controller_Mobile_Defa
         // Alert message & close!
         if (!$request->isXmlHttpRequest()) {
             echo "<script type=\"text/javascript\">
-    window.alert(\"" . p__js("fanwall", $responseMessage) . ", " . p__js("fanwall", " this window will be closed automatically!") . "\");
+    window.alert(\"" . p__js("fanwall", $responseMessage) . ", " . p__js("fanwall", "this window will be closed automatically!") . "\");
     window.close();
 </script>";
             die;

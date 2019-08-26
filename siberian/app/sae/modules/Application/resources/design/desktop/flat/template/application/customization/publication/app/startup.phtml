@@ -148,9 +148,14 @@
             progressall: function (e, data) {
                 startup_uploader.moveProgressbar(data);
             },
+            fail: function (el, data) {
+                startup_uploader.hide();
+                startup_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+            },
             done: function (e, data) {
                 if(data.result.error) {
                     loader.hide();
+                    startup_uploader.hide();
                     startup_uploader.showError(data.result.message);
                 } else {
 

@@ -146,10 +146,15 @@ $application = $this->getApplication();
         progressall: function (e, data) {
             menu_uploader.moveProgressbar(data);
         },
+        fail: function (el, data) {
+            menu_uploader.hide();
+            menu_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
+        },
         done: function (e, data) {
             var id = $(this).attr('rel');
             if(data.result.error)
             {
+                menu_uploader.hide();
                 menu_uploader.showError(data.result.message);
             }
             if(data.result.success)

@@ -239,6 +239,15 @@ public class Options {
     }
 
     /**
+     * Channel id for the local notification.
+     */
+    public String getChannelId() {
+        String channelId = options.optString("channelId", "local.notification.defaultChannel");
+
+        return channelId;
+    }
+
+    /**
      * @return
      *      The notification color for LED
      */

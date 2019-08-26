@@ -11,13 +11,13 @@
  * @method string getSenderId()
  * @method string getServerKey()
  * @method string getGoogleService()
+ * @method $this find($idOrValue, $field = null)
  */
 class Push_Model_Firebase extends Core_Model_Default
 {
     /**
      * Push_Model_Firebase constructor.
      * @param array $datas
-     * @throws Zend_Exception
      */
     public function __construct ($datas = [])
     {

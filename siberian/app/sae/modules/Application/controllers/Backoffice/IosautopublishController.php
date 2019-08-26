@@ -346,7 +346,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                     break;
             }
 
-            $protocol =__get('use_https') ? 'https' : 'http';
+            $protocol = "https";
             if ($queue->getApkStatus() === 'success') {
                 // Success email!
                 $url = sprintf("%s://%s/%s",

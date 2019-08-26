@@ -83,6 +83,10 @@ $schemas["fanwall_post_comment"] = [
     "date" => [
         "type" => "int(11) unsigned",
     ],
+    "history" => [
+        "type" => "longtext",
+        "is_null" => true,
+    ],
     "created_at" => [
         "type" => "datetime",
     ],

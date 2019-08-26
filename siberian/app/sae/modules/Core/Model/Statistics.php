@@ -211,7 +211,7 @@ GROUP BY status");
                         "siberian_version"              => Siberian_Version::VERSION,
                         "siberian_type"                 => Siberian_Version::TYPE,
                         "siberian_design"               => design_code(),
-                        "siberian_use_https"            => System_Model_Config::getValueFor("use_https"),
+                        "siberian_use_https"            => true,
                         "siberian_disable_cron"         => System_Model_Config::getValueFor("disable_cron"),
                         "siberian_environment"          => System_Model_Config::getValueFor("environment"),
                         "siberian_update_channel"       => System_Model_Config::getValueFor("update_channel"),
