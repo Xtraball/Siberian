@@ -59,7 +59,7 @@ App.config(function ($routeProvider) {
 
             $scope.is_flat_design = true;
 
-            if($scope.code == "design") {
+            if($scope.code === "design") {
                 $scope.designs = configs.designs;
                 $scope.prepareDesignUploaders();
             }
@@ -83,7 +83,7 @@ App.config(function ($routeProvider) {
         }).finally(function () {
             $scope.content_loader_is_visible = false;
 
-            if (Settings.type === 'design') {
+            if (Settings.type === "design") {
                 $window.document.querySelector('link[data-style="backoffice_theme"]').setAttribute('media', 'none');
             }
         });
@@ -184,8 +184,6 @@ App.config(function ($routeProvider) {
             var code = codes[i];
             var uploader = $scope.configs[code];
             $scope[code + '_uploader'].formData.push(uploader);
-
-            console.log("uploader", uploader);
 
             if (code.indexOf("logo") !== -1) {
                 $scope[code + '_uploader'].filters.push({
