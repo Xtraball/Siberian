@@ -184,7 +184,8 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
 
     service.showCacheDownloadModalOrUpdate = function () {
         // Lazy Load progressbar, then dooooo it!
-        ProgressbarService.init()
+        ProgressbarService
+            .init()
             .then(function () {
                 $rootScope.progressBarPercent = 0;
 
@@ -192,7 +193,11 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
 
                 if (offlineResponse === 'ok') {
                     $log.debug('offline mode has been accepted, updating');
-                    service.updateCache(false);
+
+                    // Starting a full fetch only after at least 1 minute to prevent network bottleneck!
+                    $timeout(function () {
+                        service.updateCache(false);
+                    }, 60000);
                 } else if (offlineResponse === 'no') {
                     $log.debug('offline mode has been refused in the past, not updating');
                 } else {
