@@ -32,7 +32,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
         }
 
         $devices = $device->findByAppId($app_id, $allowed_categories, $allowed_customers);
-        $errors = array();
+        $errors = [];
 
         $error = false;
         foreach($devices as $device) {
@@ -65,19 +65,19 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
 
     public function _formatMessage($device, $message) {
 
-        $aps = array('aps' => array());
+        $aps = ['aps' => []];
 
-        $aps['aps']['alert'] =  array(
+        $aps['aps']['alert'] =  [
             'body' => $message->getText(),
             'action-loc-key' => $this->_("See")
-        );
+        ];
         $aps['aps']['badge'] = $device->getNotRead() + 1;
         $aps['aps']['sound'] = "Submarine.aiff";
 
         // Push Geolocated //
         if($message->getLongitude() && $message->getLatitude()) {
-            $aps = array(
-                'aps' => array(
+            $aps = [
+                'aps' => [
                     'message_id' => $message->getId(),
                     'content-available' => 1,
                     'sound' => '',
@@ -86,8 +86,8 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
                     'send_until' => $message->getSendUntil(),
                     'radius' => $message->getRadius(),
                     'user_info' => $aps['aps']
-                )
-            );
+                ]
+            ];
         }
 
         if(is_numeric($message->getActionValue())) {
@@ -97,7 +97,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
             $application = new Application_Model_Application();
             $application->find($message->getAppId());
 
-            $action_url = $application->getPath($option_value->getMobileUri() . "index", array('value_id' => $option_value->getId()), false);
+            $action_url = $application->getPath($option_value->getMobileUri() . "index", ['value_id' => $option_value->getId()], false);
             $action_url = "/" . $application->getKey() . $action_url;
         } else {
             $action_url = $message->getActionValue();

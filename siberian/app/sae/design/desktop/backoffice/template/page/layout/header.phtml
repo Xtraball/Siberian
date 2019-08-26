@@ -403,14 +403,19 @@ function renderRecursive($markup, $menus, $level = 2) {
     return $markup;
 }
 
-$outputHtml = renderRecursive('', $backofficeTree, 2);
+$outputHtml = renderRecursive("", $backofficeTree, 2);
+
+$backofficeLogo = __get("logo_backoffice");
+if (empty($backofficeLogo)) {
+    $backofficeLogo = $this->getLogo();
+}
 
 ?>
 <div class="content">
     <div class="logo left">
         <a href="<?php echo $this->getUrl(''); ?>"
            ng-click="$event.stopPropagation()">
-            <img src="<?php echo $this->getLogo(); ?>"
+            <img src="<?php echo $backofficeLogo; ?>"
                  id="logo"
                  alt="Mobile Company"
                  title="Mobile Company"

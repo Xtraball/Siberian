@@ -370,7 +370,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
         window.custom_icon_uploader = new Uploader();
 
-        let optionValueId = <?php echo $option->getValueId(); ?>;
+        let optionValueId = "<?php echo $option->getValueId(); ?>";
 
         let toReplaceRelValueId = $("[rel='#OPTION_VALUE_ID#']");
         let toReplaceValueValueId = $("[value='#OPTION_VALUE_ID#']");

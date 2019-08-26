@@ -562,7 +562,8 @@ class Push_Model_Message extends Core_Model_Default
             return $cover;
         }
 
-        if ($this->getCover() && is_file($baseCoverPath)) {
+        if ($this->getCover() &&
+            is_file($baseCoverPath)) {
             return $coverPath;
         }
 

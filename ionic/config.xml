@@ -36,6 +36,11 @@
     <preference name="SplashMaintainAspectRatio"
                 value="true" />
 
+    <preference name="android-minSdkVersion"
+                value="19" />
+    <preference name="android-targetSdkVersion"
+                value="28" />
+
     <feature name="StatusBar">
         <param name="ios-package"
                onload="true"

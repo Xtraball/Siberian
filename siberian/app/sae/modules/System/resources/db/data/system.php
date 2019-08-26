@@ -101,6 +101,14 @@ $configs = [
         "label" => "Favicon"
     ],
     [
+        "code" => "logo_backoffice",
+        "label" => "Logo backoffice"
+    ],
+    [
+        "code" => "favicon_backoffice",
+        "label" => "Favicon backoffice"
+    ],
+    [
         "code" => "application_try_apk",
         "label" => "Try to generate the apk when downloading the Android source"
     ],
@@ -494,3 +502,22 @@ try {
     // Silent!
 }
 
+
+
+// Editor
+$logo = __get("logo");
+$favicon = __get("favicon");
+
+// Backoffice
+$logoBackoffice = __get("logo_backoffice");
+$faviconBackoffice = __get("favicon_backoffice");
+
+// For migration purpose, empty backoffice logo must be set to the editor one!
+if (empty($logoBackoffice)) {
+    __set("logo_backoffice", $logo);
+}
+
+// For migration purpose, empty backoffice favicon must be set to the editor one!
+if (empty($faviconBackoffice)) {
+    __set("favicon_backoffice", $favicon);
+}
