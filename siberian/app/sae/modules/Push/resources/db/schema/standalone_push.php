@@ -45,7 +45,7 @@ $schemas["standalone_push"] = [
         "type" => "longtext",
         "null" => true,
     ],
-    "sent_at" => [
+    "send_at" => [
         "type" => "int(11) unsigned",
         "null" => true,
     ],
