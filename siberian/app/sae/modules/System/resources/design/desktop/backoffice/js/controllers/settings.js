@@ -59,7 +59,7 @@ App.config(function ($routeProvider) {
 
             $scope.is_flat_design = true;
 
-            if ($scope.code === 'design') {
+            if($scope.code == "design") {
                 $scope.designs = configs.designs;
                 $scope.prepareDesignUploaders();
             }
@@ -161,7 +161,9 @@ App.config(function ($routeProvider) {
     if ($scope.code === 'design') {
         var codes = [
             'logo',
-            'favicon'
+            'logo_backoffice',
+            'favicon',
+            'favicon_backoffice'
         ];
         for (var i = 0; i < codes.length; i++) {
             var code = codes[i];
@@ -180,10 +182,12 @@ App.config(function ($routeProvider) {
     $scope.prepareDesignUploaders = function () {
         for (var i = 0; i < codes.length; i++) {
             var code = codes[i];
-            var uploader = (code === 'logo') ? $scope.configs.logo : $scope.configs.favicon;
+            var uploader = $scope.configs[code];
             $scope[code + '_uploader'].formData.push(uploader);
 
-            if (code === 'logo') {
+            console.log("uploader", uploader);
+
+            if (code.indexOf("logo") !== -1) {
                 $scope[code + '_uploader'].filters.push({
                     name: 'image_only',
                     fn: function (item, options) {
