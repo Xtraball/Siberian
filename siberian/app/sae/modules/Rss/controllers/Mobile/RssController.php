@@ -21,14 +21,6 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
         "cacheLifetime" => null,
     ];
 
-    public function testAction () {
-        $content = file_get_contents("https://www.woodmizerafrica.com/Blog/News/mid/14718/ctl/rss");
-        
-        echo "<pre>";
-        print_r($content);
-        die;
-    }
-
     /**
      *
      */
