@@ -59,10 +59,6 @@ let debug = true,
             './www/js/controllers/music.js',
             './www/js/factory/music.js'
         ],
-        'newswall': [
-            './www/js/controllers/newswall.js',
-            './www/js/factory/newswall.js'
-        ],
         'padlock': [
             './www/js/controllers/padlock.js'
         ],
