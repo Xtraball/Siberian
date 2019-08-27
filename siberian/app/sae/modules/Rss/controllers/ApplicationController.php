@@ -96,6 +96,19 @@ class Rss_ApplicationController extends Application_Controller_Default
             $form = new Rss_Form_Feed();
             if ($form->isValid($values)) {
 
+                // Testing the feed
+                try {
+                    $feedIo = \FeedIo\Factory::create()->getFeedIo();
+                    $feedIo->read($values["link"]);
+                } catch (\Exception $e) {
+                    $message = $e->getMessage();
+                    if (preg_match("/malformed xml string/m", $message)) {
+                        throw new \Siberian\Exception(htmlspecialchars(__("The <?xml tag is missing, or the Rss feed is malformed.")));
+                    } else {
+                        throw $e;
+                    }
+                }
+
                 $feed = new Rss_Model_Feed();
                 $feed->find($values["feed_id"]);
                 $feed->setData($values);
@@ -132,6 +145,7 @@ class Rss_ApplicationController extends Application_Controller_Default
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage(),
+                "exception" => $e->getTrace(),
             ];
         }
 
