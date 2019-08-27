@@ -5,8 +5,8 @@
 /**
  * Siberian Filters repository.
  *
- * @author Xtraball SASE
- * @version 4.15.7
+ * @author Xtraball SAS
+ * @version 4.18.0
  */
 
 

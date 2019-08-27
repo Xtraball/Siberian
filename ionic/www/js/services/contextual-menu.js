@@ -15,10 +15,12 @@ angular
     // -- DEPRECATED --
     // Backward compatibility methods!
     service.reset = function () {
-        // Nope!
+        console.error("ContextualMenu.reset() is deprecated and will be removed in future updates. Please use ContextualMenu.clear() instead.");
+        service.clear();
     };
 
     service.set = function (templateURL, width) {
+        console.error("ContextualMenu.set(templateURL, width) is deprecated and will be removed in future updates. Please use ContextualMenu.init(templateUrl, width, preferredSide) instead.");
         service.init(templateURL, width);
     };
     // Backward compatibility methods!
