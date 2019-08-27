@@ -29,7 +29,7 @@ App.config(function($routeProvider) {
         $scope.header.icon = data.icon;
     });
 
-    $scope.admins = new Array();
+    $scope.admins = [];
 
     $scope.perPage = 10;
     $scope.page = 0;
@@ -65,6 +65,21 @@ App.config(function($routeProvider) {
                 user.loader_is_visible = false;
             });
         }
+    };
+
+    // Checking response for eventual hidden errors!
+    $scope.parseCollection = function (collection) {
+        if (collection.hasOwnProperty("error") &&
+            collection.error === true) {
+
+            $scope.message
+            .setText(collection.message)
+            .isError(true)
+            .show();
+
+            return [];
+        }
+        return collection;
     };
 
 }).controller("AdminEditController", function($scope, $location, $routeParams, Header, Admin, Url, Label, Application) {
