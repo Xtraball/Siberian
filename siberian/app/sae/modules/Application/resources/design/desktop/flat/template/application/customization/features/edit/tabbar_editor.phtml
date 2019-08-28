@@ -576,7 +576,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 } else {
                     let val = $(this).val().trim();
                     let subval = val;
-                    if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
+                    //if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                     $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
 
                     try {
@@ -596,7 +596,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 let val = $(this).val();
                 let tabbar_name_loader = $('#loader_' + $(this).attr('id'));
                 let subval = val;
-                if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
+                //if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_name_<?php echo $option->getId(); ?>').html(subval);
                 tabbar_name_loader.show();
                 reload(this.parentNode, '/application/customization_features/settabbarname', false, function (datas) {

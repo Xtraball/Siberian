@@ -1505,7 +1505,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             if (category.root == '' || $('.button_handler.active.inner_content').attr('rel') == category.root) {
                 $('input#tabbar_name').val(element.val());
                 var subval = element.val();
-                if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
+                //if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_name_' + this.value_id).html(subval);
             }
         },
