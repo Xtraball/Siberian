@@ -166,6 +166,7 @@ function reload(element, url, showLoader, success_callback, error_callback) {
                     }
                 }
             } catch (e) {
+                console.error(e);
                 feature_form_error("Unknown error.");
             }
         },
@@ -178,6 +179,7 @@ function reload(element, url, showLoader, success_callback, error_callback) {
 
             } catch (e) {
                 // Silent catch!
+                console.error(e);
                 feature_form_error("Unknown error.");
             }
 

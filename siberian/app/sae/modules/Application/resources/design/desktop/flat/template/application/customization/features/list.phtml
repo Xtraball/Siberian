@@ -72,11 +72,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 </script>
 
 <div class="page-content-wrapper">
-    <div id="pages_content" class="content position-path sb-tour">
+    <div id="pages_content"
+         class="content position-path sb-tour">
 
         <h3 class="title-editor border-blue text-center">
 
-            <div id="go_up_root" class="hide">
+            <div id="go_up_root"
+                 class="hide">
                 <button class="btn color-blue"
                         title="<?php echo __js("Go back to homepage") ?>">
                     <i class="fa fa-home"></i>
@@ -85,7 +87,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
             <div class="list-search list-carousel">
                 <div class="list-search-content">
-                    <input type="text" class="search_filter_carousel input-flat"
+                    <input type="text"
+                           class="search_filter_carousel input-flat"
                            placeholder="<?php echo __js("Search ..."); ?>"/>
                     <i class="fa fa-search empty active"></i>
                     <i class="fa fa-times clear"></i>
@@ -137,7 +140,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
     </script>
 
     <?php if ($admin->isAllowedToAddPages($appId)) : ?>
-        <?php if (!$cacheOutput->start("add_pages_admin_id_{$adminId}")): ?>
+        <?php if (!$cacheOutput->start("add_pages_admin_id_{$adminId}_{$appId}")): ?>
         <div id="previews"
              style="display:none;">
             <div id="preview_mask"
@@ -300,11 +303,11 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 </div>
             </div>
         </div>
-        <?php $cacheOutput->end(["cache_admin"]); endif; ?>
+        <?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
     <?php endif; ?>
 </div>
 
-
+<?php if (!$cacheOutput->start("features_js_css_admin_id_{$adminId}_{$appId}")): ?>
 <script type="text/javascript">
 
     function createElementFromHTML(htmlString) {
@@ -1834,4 +1837,5 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         background-repeat: no-repeat;
     }
 </style>
+    <?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
 

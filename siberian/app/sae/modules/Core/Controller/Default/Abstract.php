@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\ClamAV;
+use Siberian\Json;
 
 /**
  * Class Core_Controller_Default_Abstract
@@ -13,6 +14,11 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @var Zend_Cache_Backend_File|Zend_Cache
      */
     public $cache;
+
+    /**
+     * @var Zend_Cache_Frontend_Output
+     */
+    public $cacheOutput;
 
     /**
      * @var array|null
@@ -78,6 +84,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function init()
     {
         $this->cache = Zend_Registry::get('cache');
+        $this->cacheOutput = Zend_Registry::get('cacheOutput');
 
         $this->_initDesign();
         $this->_initSession();
@@ -148,6 +155,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     {
 
         $request = $this->getRequest();
+        $response = $this->getResponse();
+        $session = $this->getSession();
 
         if (isset($this->cache_triggers) && is_array($this->cache_triggers)) {
 
@@ -157,50 +166,51 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             if (isset($this->cache_triggers[$action_name])) {
 
+                $adminId = $session->getAdminId();
+                $params = $request->getParams();
+                $payload_data = Json::decode($request->getRawBody());
+                $valueId = null;
+                if (isset($params["value_id"]) && !empty($params["value_id"])) {
+                    $valueId = $params["value_id"];
+                } else if (isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
+                    $valueId = $params["option_value_id"];
+                } else if (isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
+                    $valueId = $payload_data["value_id"];
+                } else if (isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
+                    $valueId = $payload_data["option_value_id"];
+                }
+
+                # App_id
+                $app = $this->getApplication();
+                $appId = "noapps";
+                if ($app) {
+                    $appId = $app->getId();
+                }
+
+                if (empty($appId) || ($appId === "noapps")) {
+                    # Search in params/payload
+                    if (isset($params["app_id"]) && !empty($params["app_id"])) {
+                        $appId = $params["app_id"];
+                    } else if (isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
+                        $appId = $payload_data["app_id"];
+                    }
+                }
+
                 $values = $this->cache_triggers[$action_name];
-                if (isset($values["tags"]) && is_array($values["tags"])) {
+                if (isset($values["tags"]) &&
+                    is_array($values["tags"])) {
 
-                    $params = $this->getRequest()->getParams();
-                    $payload_data = Siberian_Json::decode($request->getRawBody());
-                    if (isset($params["value_id"]) && !empty($params["value_id"])) {
-                        $value_id = $params["value_id"];
-                    } else if (isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
-                        $value_id = $params["option_value_id"];
-                    } else if (isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
-                        $value_id = $payload_data["value_id"];
-                    } else if (isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
-                        $value_id = $payload_data["option_value_id"];
-                    }
-
-                    # App_id
-                    $app = $this->getApplication();
-                    $app_id = "noapps";
-                    if ($app) {
-                        $app_id = $app->getId();
-                    }
-
-                    if (empty($app_id) || ($app_id === "noapps")) {
-                        # Search in params/payload
-                        if (isset($params["app_id"]) && !empty($params["app_id"])) {
-                            $app_id = $params["app_id"];
-                        } else if (isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
-                            $app_id = $payload_data["app_id"];
-                        }
-                    }
-
-
-                    $final_tags = [];
+                    $finalTags = [];
                     foreach ($values["tags"] as $tag) {
-
-                        $final_tags[] = str_replace(
+                        $finalTags[] = str_replace(
                             [
                                 "#APP_ID#",
                                 "#VALUE_ID#",
                                 "#LOCALE#",
                             ],
                             [
-                                $app_id,
-                                $value_id,
+                                $appId,
+                                $valueId,
                                 $current_language,
                             ],
                             $tag
@@ -210,10 +220,41 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                     # Clean-up
                     $this->cache->clean(
                         Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-                        $final_tags
+                        $finalTags
                     );
 
-                    $this->getResponse()->setHeader("x-cache-clean", implode(", ", $final_tags));
+                    $response->setHeader("x-cache-clean", implode(", ", $finalTags));
+                }
+
+                if (isset($values["outputTags"]) &&
+                    is_array($values["outputTags"])) {
+
+                    $finalTags = [];
+                    foreach ($values["outputTags"] as $outputTag) {
+                        $finalTags[] = str_replace(
+                            [
+                                "#APP_ID#",
+                                "#ADMIN_ID#",
+                                "#VALUE_ID#",
+                                "#LOCALE#",
+                            ],
+                            [
+                                $appId,
+                                $adminId,
+                                $valueId,
+                                $current_language,
+                            ],
+                            $outputTag
+                        );
+                    }
+
+                    # Clean-up
+                    $this->cacheOutput->clean(
+                        Zend_Cache::CLEANING_MODE_ALL,
+                        $finalTags
+                    );
+
+                    $response->setHeader("x-cache-output-clean", implode(", ", $finalTags));
                 }
             }
         }

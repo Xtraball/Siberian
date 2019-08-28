@@ -13,9 +13,22 @@ class Application_Customization_FeaturesController extends Application_Controlle
      */
     public $cache_triggers = [
         "save" => [
-            "tags" => ["app_#APP_ID#"],
+            "tags" => [
+                "app_#APP_ID#"
+            ],
+            "outputTags" => [
+                "cache_admin",
+                "admin_#ADMIN_ID#",
+                "app_#APP_ID#"
+            ],
         ],
-        "delete" => null, /** Specific, done inside the action. */
+        "delete" => [
+            "outputTags" => [
+                "cache_admin",
+                "admin_#ADMIN_ID#",
+                "app_#APP_ID#"
+            ],
+        ],
         "setisactive" => [
             "tags" => ["homepage_app_#APP_ID#"],
         ],
