@@ -632,17 +632,6 @@ $splashVersion = (integer) $application->getSplashVersion();
         sliderImages.sbCarousel({item_width: 195, items_per_page: 3, next_button: $("#carousel_next"), prev_button: $("#carousel_prev")});
         carousel = sliderImages.data('carousel');
         carousel.update();
-        sliderImages.on({
-            mouseenter: function () {
-                $(this).children('div.actions').fadeIn();
-            },
-            mouseleave: function () {
-                var a = $(this).children('span.details');
-                if (!$(this).hasClass('selected')) {
-                    $(this).children('div.actions').stop().fadeOut();
-                }
-            }
-        }, '.slider_image');
     };
 
     var previousSize = $("#homepage_slider_size").val();

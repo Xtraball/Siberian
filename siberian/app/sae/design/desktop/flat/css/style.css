@@ -1521,7 +1521,6 @@ div.loader {
     border-radius: 3px;
     position: relative;
     filter: grayscale(100%);
-    opacity: 1;
 }
 
 .option_value a {
@@ -1532,7 +1531,6 @@ div.loader {
 
 .option_value:hover,
 .option_value.selected {
-    opacity: 1;
     filter: grayscale(0%);
 }
 
@@ -1544,7 +1542,7 @@ div.loader {
     border: 3px solid black;
 }
 
-.option_value.selected i.fa-caret-up {
+.option_value.selected i.ion-admin-selected {
     display: block !important;
 }
 
@@ -1579,7 +1577,8 @@ div.loader {
     margin-bottom: 0.2em;
     text-overflow: ellipsis;
     font-size: 12px;
-    -webkit-transition: 0.3s fade 1s;
+    padding: 0 5px;
+    overflow: hidden;
 }
 
 .box::before, .box::after {
@@ -1705,6 +1704,35 @@ a.details.add_page {
 
 #carousel_prev.active, #carousel_next.active {
     opacity: 0.3;
+}
+
+#carousel-container div.actions {
+    position: absolute;
+    top: -29px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin: 0 auto;
+    padding: 6px;
+    font-size: 16px;
+    opacity: 0.4;
+}
+
+#carousel-container .option_value:hover div.actions {
+    opacity: 1;
+}
+
+#carousel-container div.actions #delete_page,
+#carousel-container div.actions #move_page {
+    color: inherit;
+}
+
+#carousel-container ul li i.ion-admin-selected {
+    position: absolute;
+    bottom: -20px;
+    width: 80px;
+    font-size: 26px;
+    left: 10px;
 }
 
 #pages_content li.selected .triangle {
@@ -2712,7 +2740,7 @@ Side bar left menu small screen
     height: 100% !important;
 }
 
-/** custom icones **/
+/** custom icônes **/
 .fa-sort {
     cursor: ns-resize;
 }
@@ -2720,6 +2748,10 @@ Side bar left menu small screen
 .option_value .actions .fa-sort {
     cursor: ew-resize;
     transform: rotate(90deg);
+}
+
+.option_value .ion-admin-selected {
+    display: none;
 }
 
 .fa-arrows {
