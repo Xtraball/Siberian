@@ -72,11 +72,13 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 </script>
 
 <div class="page-content-wrapper">
-    <div id="pages_content" class="content position-path sb-tour">
+    <div id="pages_content"
+         class="content position-path sb-tour">
 
         <h3 class="title-editor border-blue text-center">
 
-            <div id="go_up_root" class="hide">
+            <div id="go_up_root"
+                 class="hide">
                 <button class="btn color-blue"
                         title="<?php echo __js("Go back to homepage") ?>">
                     <i class="fa fa-home"></i>
@@ -85,7 +87,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
             <div class="list-search list-carousel">
                 <div class="list-search-content">
-                    <input type="text" class="search_filter_carousel input-flat"
+                    <input type="text"
+                           class="search_filter_carousel input-flat"
                            placeholder="<?php echo __js("Search ..."); ?>"/>
                     <i class="fa fa-search empty active"></i>
                     <i class="fa fa-times clear"></i>
@@ -137,7 +140,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
     </script>
 
     <?php if ($admin->isAllowedToAddPages($appId)) : ?>
-        <?php if (!$cacheOutput->start("add_pages_admin_id_{$adminId}")): ?>
+        <?php if (!$cacheOutput->start("add_pages_admin_id_{$adminId}_{$appId}")): ?>
         <div id="previews"
              style="display:none;">
             <div id="preview_mask"
@@ -300,11 +303,11 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 </div>
             </div>
         </div>
-        <?php $cacheOutput->end(["cache_admin"]); endif; ?>
+        <?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
     <?php endif; ?>
 </div>
 
-
+<?php if (!$cacheOutput->start("features_js_css_admin_id_{$adminId}_{$appId}")): ?>
 <script type="text/javascript">
 
     function createElementFromHTML(htmlString) {
@@ -520,19 +523,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 });
                 $('.option_value').off('mouseenter mouseout');
                 var pagesList = $('#pages_list');
-                pagesList.on({
-                    mouseenter: function () {
-                        $(this).children('div.actions').slideDown();
-                        $(this).children('i.fa-caret-up').slideDown('fast');
-                    },
-                    mouseleave: function () {
-                        var a = $(this).children('a.details');
-                        if (!$(this).hasClass('selected')) {
-                            $(this).children('div.actions').stop().slideUp();
-                            $(this).children('i.fa-caret-up').stop().slideUp('fast');
-                        }
-                    }
-                }, '.option_value');
 
                 //Supprime option slider
                 pagesList.off('click', '.delete_page');
@@ -543,7 +533,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     }
 
                     if (confirm(confirm_message)) {
-
                         reload($(this).parent(), '<?php echo $this->getUrl('application/customization_features/delete'); ?>', true, function (datas) {
 
                             iframe.f.reloadTabbar();
@@ -743,8 +732,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             }
 
                             this.next.addClass('active');
-                            this.next.parent().children('div.actions').slideDown();
-                            this.next.parent().children('i.fa-caret-up').slideUp();
 
                             this.current_path = datas.path;
 
@@ -759,7 +746,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             this.fireCallback('willappear');
 
                             page.show();
-                            this.next.parent().addClass('selected');
+                            $(".option_value.selected").removeClass("selected");
+                            this.next.parent().addClass("selected");
 
                             var didappear_callback = function () {
                                 this.fireCallback('bind_icons_events');
@@ -865,8 +853,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 });
 
                 var optionValueSelected = $('.option_value.selected');
-                optionValueSelected.removeClass('selected').children('div.actions').slideUp();
-                optionValueSelected.removeClass('selected').children('i.fa-caret-up').slideDown();
 
                 $('a.details.active').removeClass('active');
 
@@ -1519,7 +1505,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             if (category.root == '' || $('.button_handler.active.inner_content').attr('rel') == category.root) {
                 $('input#tabbar_name').val(element.val());
                 var subval = element.val();
-                if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
+                //if (subval.length > 8) subval = subval.substring(0, 3).trim() + '...' + subval.substring(subval.length - 4, subval.length).trim();
                 $('#tabbar_name_' + this.value_id).html(subval);
             }
         },
@@ -1721,33 +1707,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         border-radius: 7px;
     }
 
-    #carousel-container div.actions #delete_page,
-    #carousel-container div.actions #move_page {
-        color: inherit;
-    }
-
-    #carousel-container div.actions {
-        position: absolute;
-        top: -18px;
-        left: 5px;
-        right: 0;
-        width: 80%;
-        margin: 0 auto;
-    }
-
     #move_page {
         margin-top: 1px !important;
     }
-
-    #carousel-container ul li i.fa-caret-up {
-        position: absolute;
-        bottom: -21px;
-        width: 80px;
-        font-size: 35px;
-        left: 10px;
-    }
-
-    /** carousel **/
 
     #option_values {
         transition: all 0.4s ease 0s;
@@ -1834,4 +1796,5 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         background-repeat: no-repeat;
     }
 </style>
+    <?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
 

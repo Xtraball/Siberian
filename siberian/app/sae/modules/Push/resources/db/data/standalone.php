@@ -23,3 +23,12 @@ Feature::installCronjob(
     false,
     $module->getId()
 );
+
+$alters = [
+    "ALTER TABLE `standalone_push` CHANGE `value_id` `value_id` INT(11) UNSIGNED NULL DEFAULT NULL;",
+    "ALTER TABLE `standalone_push` CHANGE `app_id` `app_id` INT(11) UNSIGNED NULL DEFAULT NULL;",
+    "ALTER TABLE `standalone_push` CHANGE `title` `title` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;",
+    "ALTER TABLE `standalone_push` CHANGE `message` `message` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;",
+    "ALTER TABLE `standalone_push` CHANGE `action_value` `action_value` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;",
+    "ALTER TABLE `standalone_push` CHANGE `send_at` `send_at` INT(11) UNSIGNED NULL DEFAULT NULL;",
+];

@@ -15,26 +15,26 @@ $schemas["standalone_push"] = [
     ],
     "value_id" => [
         "type" => "int(11) unsigned",
-        "null" => true,
+        "is_null" => true,
     ],
     "app_id" => [
         "type" => "int(11) unsigned",
-        "null" => true,
+        "is_null" => true,
     ],
     "tokens" => [
         "type" => "longtext",
     ],
     "request_id" => [
         "type" => "int(11) unsigned",
-        "null" => true,
+        "is_null" => true,
     ],
     "title" => [
         "type" => "longtext",
-        "null" => true,
+        "is_null" => true,
     ],
     "message" => [
         "type" => "longtext",
-        "null" => true,
+        "is_null" => true,
     ],
     "cover" => [
         "type" => "varchar(1024)",
@@ -43,11 +43,11 @@ $schemas["standalone_push"] = [
     ],
     "action_value" => [
         "type" => "longtext",
-        "null" => true,
+        "is_null" => true,
     ],
     "send_at" => [
         "type" => "int(11) unsigned",
-        "null" => true,
+        "is_null" => true,
     ],
     "status" => [
         "type" => "varchar(16)",
