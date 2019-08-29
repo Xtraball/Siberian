@@ -118,7 +118,7 @@ class Security
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
-                file_put_contents($tmpFilename, $content);
+                File::putContents($tmpFilename, $content);
                 chmod($tmpFilename, 0644);
                 // Second pass will use ClamAV (if available)
                 $clamav = new ClamAV();
@@ -156,7 +156,7 @@ class Security
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
-                file_put_contents($tmpFilename, $content);
+                File::putContents($tmpFilename, $content);
                 chmod($tmpFilename, 0644);
                 // Second pass will use ClamAV (if available)
                 $clamav = new ClamAV();
@@ -193,7 +193,7 @@ class Security
                 }
                 $tmpFilename = $tmpDir . '/' . uniqid();
 
-                file_put_contents($tmpFilename, $content);
+                File::putContents($tmpFilename, $content);
                 chmod($tmpFilename, 0644);
                 // Second pass will use ClamAV (if available)
                 $clamav = new ClamAV();

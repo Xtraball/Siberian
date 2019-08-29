@@ -24,7 +24,7 @@ class Cron
     /**
      * @var String
      */
-    protected $lock_base = '/var/tmp/';
+    protected $lock_base = "/var/tmp/";
 
     /**
      * @var String
@@ -188,7 +188,7 @@ class Cron
      */
     public function isLocked($task_id)
     {
-        return (file_exists("{$this->lock_base}/{$task_id}.lock"));
+        return (file_exists("{$this->lock_base}{$task_id}.lock"));
     }
 
     /**
@@ -199,7 +199,7 @@ class Cron
     public function lock($task_id)
     {
         $this->locked_tasks[] = $task_id;
-        file_put_contents("{$this->lock_base}/{$task_id}.lock", 1);
+        File::putContents("{$this->lock_base}{$task_id}.lock", 1);
     }
 
     /**

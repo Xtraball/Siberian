@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Siberian_Error
  *
@@ -70,7 +72,7 @@ class Siberian_Error
     public static function handleFatalError() {
         $last_error = error_get_last();
         $fatal_log = Core_Model_Directory::getBasePathTo("var/log/fatal-error.log");
-        file_put_contents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
+        File::putContents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
     }
 
     /**

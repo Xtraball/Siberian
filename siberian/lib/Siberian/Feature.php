@@ -372,7 +372,7 @@ class Feature
         if (file_exists($imgDst)) {
             throw new Exception('#343-54: ' . __('An error occurred while saving your picture. Please try again later.'));
         } else {
-            file_put_contents($imgDst, $content);
+            File::putContents($imgDst, $content);
         }
 
         return $relativePath . '/' . $filename;

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Backoffice_Advanced_ConfigurationController
  */
@@ -189,7 +191,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     if (is_writable($config_file)) {
                         $contents = file_get_contents($config_file);
                         $contents = preg_replace('/("|\')(development|production)("|\')/im', '"' . $data["environment"]["value"] . '"', $contents);
-                        file_put_contents($config_file, $contents);
+                        File::putContents($config_file, $contents);
                     } else {
                         $message = __("Configuration partially saved") . "<br />" . __("Error: unable to write Environment in config.php");
                     }
@@ -710,7 +712,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             // Adding a fake subdomain www. to the main hostname (mainly for cPanel, VestaCP)
             if (in_array($panel_type, ["cpanel", "plesk", "vestacp", "directadmin"])) {
-                file_put_contents("{$root}/.well-known/check", "1");
+                File::putContents("{$root}/.well-known/check", "1");
                 $proxy01 = "http://proxy01.siberiancms.com/acme-challenge.php";
                 $query = [
                     "secret" => Core_Model_Secret::SECRET,

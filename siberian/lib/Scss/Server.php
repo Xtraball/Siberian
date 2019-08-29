@@ -14,6 +14,7 @@ namespace Leafo\ScssPhp;
 use Leafo\ScssPhp\Compiler;
 use Leafo\ScssPhp\Exception\ServerException;
 use Leafo\ScssPhp\Version;
+use Siberian\File;
 
 /**
  * Server
@@ -211,8 +212,8 @@ class Server
         $css  = "/* compiled by scssphp $v on $t (${elapsed}s) */\n\n" . $css;
         $etag = md5($css);
 
-        file_put_contents($out, $css);
-        file_put_contents(
+        File::putContents($out, $css);
+        File::putContents(
             $this->metadataName($out),
             serialize([
                 'etag'    => $etag,

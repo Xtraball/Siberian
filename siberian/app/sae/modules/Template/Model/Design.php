@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Request;
 
 /**
@@ -280,7 +281,7 @@ class Template_Model_Design extends Core_Model_Default
             if (!is_dir($folder)) {
                 mkdir($folder, 0777, true);
             }
-            file_put_contents("{$folder}/{$file}", $css);
+            File::putContents("{$folder}/{$file}", $css);
         }
 
         return $result;

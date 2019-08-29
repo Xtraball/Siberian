@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 set_time_limit(9);
 
 $root_path = Core_Model_Directory::getBasePathTo("");
@@ -64,7 +66,7 @@ if(is_writable(dirname($crontab_path))) {
     # Append new line at the end
     $new_lines[] = "\n";
 
-    file_put_contents($crontab_path, implode("\n", $new_lines));
+    File::putContents($crontab_path, implode("\n", $new_lines));
 
     exec("crontab $crontab_path");
 } else {

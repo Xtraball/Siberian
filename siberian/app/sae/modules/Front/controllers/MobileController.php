@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Front_MobileController
  *
@@ -1144,7 +1146,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                 "background_color" => $general_color->getBackgroundColor()
             ];
 
-            file_put_contents($manifest_name_base, Siberian_Json::encode($manifest));
+            File::putContents($manifest_name_base, Siberian_Json::encode($manifest));
         }
 
         //Collect images and manifest url

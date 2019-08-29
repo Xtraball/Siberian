@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Siberian_LetsEncrypt
  *
@@ -182,7 +184,7 @@ class Siberian_LetsEncrypt {
                 "n" => Base64UrlSafeEncoder::encode($accountKeyDetails["rsa"]["n"])
             );
             $payload = $challenge['token'] . '.' . Base64UrlSafeEncoder::encode(hash('sha256', json_encode($header), true));
-            file_put_contents($tokenPath, $payload);
+            File::putContents($tokenPath, $payload);
             chmod($tokenPath, 0777);
             // 3. verification process itself
             // -------------------------------
@@ -265,11 +267,11 @@ class Siberian_LetsEncrypt {
             throw new \RuntimeException('No certificates generated');
         }
         $this->log("Saving fullchain.pem");
-        file_put_contents($domainPath . '/fullchain.pem', implode("\n", $certificates));
+        File::putContents($domainPath . '/fullchain.pem', implode("\n", $certificates));
         $this->log("Saving cert.pem");
-        file_put_contents($domainPath . '/cert.pem', array_shift($certificates));
+        File::putContents($domainPath . '/cert.pem', array_shift($certificates));
         $this->log("Saving chain.pem");
-        file_put_contents($domainPath . "/chain.pem", implode("\n", $certificates));
+        File::putContents($domainPath . "/chain.pem", implode("\n", $certificates));
         $this->log("Done !!§§!");
 
         // Success
@@ -366,7 +368,7 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment');
         openssl_csr_export($csr, $csr);
         fclose($tmpConf);
         $csrPath = $this->getDomainPath($domain) . "/last.csr";
-        file_put_contents($csrPath, $csr);
+        File::putContents($csrPath, $csr);
         return $this->getCsrContent($csrPath);
     }
 
@@ -394,8 +396,8 @@ keyUsage = nonRepudiation, digitalSignature, keyEncipherment');
         $details = openssl_pkey_get_details($res);
         if(!is_dir($outputDirectory)) @mkdir($outputDirectory, 0700, true);
         if(!is_dir($outputDirectory)) throw new \RuntimeException("Cant't create directory $outputDirectory");
-        file_put_contents($outputDirectory.'/private.pem', $privateKey);
-        file_put_contents($outputDirectory.'/public.pem', $details['key']);
+        File::putContents($outputDirectory.'/private.pem', $privateKey);
+        File::putContents($outputDirectory.'/public.pem', $details['key']);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Siberian\Cache;
 use Siberian\Cache as Cache;
 
 use \DirectoryIterator;
+use Siberian\File;
 
 /**
  * Class \Siberian\Cache\Describe
@@ -99,7 +100,7 @@ class Describe extends Cache implements CacheInterface
         if (static::CACHING) {
             $jsonCache = json_encode($meta);
             if ($jsonCache !== false) {
-                file_put_contents($basePathCache, $jsonCache);
+                File::putContents($basePathCache, $jsonCache);
             }
         }
     }
