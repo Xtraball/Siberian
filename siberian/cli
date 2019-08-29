@@ -8,6 +8,8 @@
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
+use Siberian\Info;
+
 global $_config;
 
 date_default_timezone_set('Europe/London');
@@ -93,6 +95,12 @@ try {
     }
 
     switch ($action) {
+        case 'info':
+        case 'infos':
+            // Fetching information
+            $information = Info::printLn();
+
+            break;
         case 'export:schemas':
         case 'export-schemas':
             (new Siberian_Migration_Db())
@@ -326,6 +334,9 @@ try {
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
             
+" . color('info|infos', 'brown') . "
+    Prints generic information about the current installation.
+    
 " . color('export:schemas', 'brown') . "
     Export current tables schema to /var/schema/%VERSION%/ to php files.
     
