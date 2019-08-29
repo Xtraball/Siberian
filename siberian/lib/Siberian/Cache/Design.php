@@ -3,6 +3,7 @@
 namespace Siberian\Cache;
 
 use Siberian\Cache as Cache;
+use Siberian\File;
 use Siberian\Version as Version;
 
 use \DirectoryIterator;
@@ -170,7 +171,7 @@ class Design extends Cache implements CacheInterface
         try {
             $jsonCache = json_encode($cache, $options);
             if ($jsonCache !== false) {
-                file_put_contents($editionCache, $jsonCache);
+                File::putContents($editionCache, $jsonCache);
             }
         } catch (\Exception $e) {
             // Something went wrong while saving cache!

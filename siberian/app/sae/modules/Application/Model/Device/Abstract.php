@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Application_Model_Device_Abstract
  */
@@ -71,7 +73,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
             }
 
         }
-        file_put_contents($file, $contents);
+        File::putContents($file, $contents);
     }
 
     /**

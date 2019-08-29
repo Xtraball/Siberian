@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Customer_AccountController
  */
@@ -136,7 +138,7 @@ class Customer_AccountController extends Application_Controller_Default
             foreach ($nav as $activePage => $page) {
                 $filename = $baseTmp . '/' . basename($page['uri']);
                 $content = $this->getContent($this->getBaseLayout($customer, $baseData), $nav, $activePage);
-                file_put_contents($filename, $content);
+                File::putContents($filename, $content);
             }
 
             $baseZip = $baseTmp . '.zip';

@@ -2,6 +2,7 @@
 
 use Gettext\Translation;
 use Gettext\Translations;
+use Siberian\File;
 
 /**
  * Class Translation_Backoffice_EditController
@@ -357,8 +358,8 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 $original => $user,
             ];
 
-            $tmpFile = Core_Model_Directory::getBasePathTo("/var/tmp/" . uniqid() . ".json");
-            file_put_contents($tmpFile, json_encode($fileContent));
+            $tmpFile = path("/var/tmp/" . uniqid() . ".json");
+            File::putContents($tmpFile, json_encode($fileContent));
 
             // Public API
             Siberian_Request::post(

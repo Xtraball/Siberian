@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Installer_Backoffice_ModuleController
  */
@@ -79,7 +81,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 }
 
                 try {
-                    file_put_contents($test_file, 'test');
+                    File::putContents($test_file, 'test');
                     chdir($base);
                     exec('zip test.zip test.file');
                     if (!file_exists($zip_file)) {
@@ -158,7 +160,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                         throw new Siberian_Exception(__('#100: Unable to fetch the update. Please, try again later.'));
                     }
 
-                    file_put_contents($tmp_path, $content);
+                    File::putContents($tmp_path, $content);
                 } else {
                     throw new Siberian_Exception(__('#101: Unable to fetch the update. Please, try again later.'));
                 }

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Installer_Model_Installer
  *
@@ -233,7 +235,7 @@ class Installer_Model_Installer extends Core_Model_Default
                     '/bootstrap.path = .*/',
                     'bootstrap.path = APPLICATION_PATH "/Bootstrap.php"',
                     $appIni);
-                file_put_contents(APPLICATION_PATH . '/configs/app.ini', $replacedIni);
+                File::putContents(APPLICATION_PATH . '/configs/app.ini', $replacedIni);
             }
 
             return true;

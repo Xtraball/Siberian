@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Json;
 
 /**
@@ -223,7 +224,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
                                         throw new \Siberian\Exception(__("No uploaded image"));
                                     }
 
-                                    $res = file_put_contents($filePath, $contents);
+                                    $res = File::putContents($filePath, $contents);
                                     if ($res === FALSE) {
                                         throw new \Siberian\Exception('Unable to save image');
                                     }

@@ -111,7 +111,7 @@ class Autoupdater
 
                 $manifest = Json::encode($hash, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-                file_put_contents($manifest_path, $manifest);
+                File::putContents($manifest_path, $manifest);
 
                 # Release version change
                 $release = [
@@ -122,7 +122,7 @@ class Autoupdater
 
                 $release = Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 
-                file_put_contents($json_path, $release);
+                File::putContents($json_path, $release);
 
                 # Editing config.xml path
                 if (isset(Assets::$config_xml[$type])) {

@@ -137,22 +137,25 @@ class Minify extends AbstractMinify
     public function build()
     {
         foreach (self::$PLATFORMS as $platform => $path) {
-            $do_css = self::$PLATFORMS[$platform]['css'];
-            $do_js = self::$PLATFORMS[$platform]['js'];
-            $index_path = self::$PLATFORMS[$platform]['index'];
-            $output_css = self::$PLATFORMS[$platform]['output_css'];
-            $output_js = self::$PLATFORMS[$platform]['output_js'];
+            $doCss = self::$PLATFORMS[$platform]['css'];
+            $doJs = self::$PLATFORMS[$platform]['js'];
+            $indexPath = self::$PLATFORMS[$platform]['index'];
+            $outputCss = self::$PLATFORMS[$platform]['output_css'];
+            $outputJs = self::$PLATFORMS[$platform]['output_js'];
 
             /** Build only if files are not already cached */
-            if ($do_css && !is_readable($output_css)) {
-                $this->minifyCss($platform, $index_path, $output_css);
+            if ($doCss && !is_file($outputCss)) {
+                $this->minifyCss($platform, $indexPath, $outputCss);
             }
 
-            if ($do_js && !is_readable($output_js)) {
-                $this->minifyJs($platform, $index_path, $output_js);
+            if ($doJs && !is_file($outputJs)) {
+                $this->minifyJs($platform, $indexPath, $outputJs);
             }
 
-            $this->replaceIndex($platform, $index_path, $do_css, $do_js);
+            $indexDest = str_replace("index", "index-prod", $indexPath);
+            if (!is_file($indexDest)) {
+                $this->replaceIndex($platform, $indexPath, $doCss, $doJs);
+            }
 
             //$this->buildServiceWorker();
         }
@@ -165,6 +168,9 @@ class Minify extends AbstractMinify
      */
     public function buildServiceWorker()
     {
+        return;
+
+        /**
         $base = self::$PLATFORMS["browser"]["base"];
         //$manifest_file = $base . "/" . Siberian_Autoupdater::$pwa_manifest;
         //$current_release = System_Model_Config::getValueFor("current_release");
@@ -368,7 +374,7 @@ class Minify extends AbstractMinify
 
         $content = preg_replace('/<\/head>/mi', $app_files . "\n\t", $content);
 
-        file_put_contents($dest, $content);
+        File::putContents($dest, $content);
         if (file_exists($dest)) {
             chmod($dest, 0777);
         }

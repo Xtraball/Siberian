@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Application_Model_Device_Ionic_Ios
  */
@@ -284,7 +286,7 @@ var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
 
-        file_put_contents($this->_dest_source . "/www/js/utils/url.js", $url_js_content);
+        File::putContents($this->_dest_source . "/www/js/utils/url.js", $url_js_content);
     }
 
     /**
@@ -317,6 +319,6 @@ if(navigator.language) {
     }
 }";
 
-        file_put_contents($this->_dest_source . "/www/js/utils/languages.js", $file_content);
+        File::putContents($this->_dest_source . "/www/js/utils/languages.js", $file_content);
     }
 }

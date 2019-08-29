@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Installer_Model_Installer_Module_Parser
  */
@@ -492,7 +494,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         if (!empty($files_list)) {
             $version = Siberian_Version::VERSION;
             chdir($base_path);
-            file_put_contents("./backup.txt", implode("\n", $files_list));
+            File::putContents("./backup.txt", implode("\n", $files_list));
             exec("zip backup-{$version}.zip -@ < backup.txt");
             unlink("./backup.txt");
         } else {

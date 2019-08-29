@@ -1,6 +1,7 @@
 <?php
 
 use \Gettext\Translations;
+use Siberian\File;
 
 /**
  * Polyfill for php <= 7.2
@@ -239,7 +240,7 @@ function is_image($path, $external = false)
     if ($external) {
         $tmp_image = file_get_contents($path);
         $tmp_path = \Core_Model_Directory::getBasePathTo("/var/tmp/" . uniqid());
-        file_put_contents($tmp_path, $tmp_image);
+        File::putContents($tmp_path, $tmp_image);
     } else {
         $tmp_path = $path;
     }
@@ -572,7 +573,7 @@ function __replace($replacements, $file, $regex = false)
 
     }
 
-    file_put_contents($file, $contents);
+    File::putContents($file, $contents);
 }
 
 /**
@@ -823,7 +824,7 @@ function base64imageToFile ($base64, $path)
 
         // Save image to file
         $imagePath = sprintf("%s.%s", $path, $type);
-        file_put_contents($imagePath, base64_decode($image));
+        File::putContents($imagePath, base64_decode($image));
 
     } catch (Exception $e) {
         throw $e;

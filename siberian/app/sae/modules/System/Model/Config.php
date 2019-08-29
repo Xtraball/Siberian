@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class System_Model_Config
  *
@@ -99,7 +101,7 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
                 throw new Exception(__("The folder /images/default is not writable."));
             }
 
-            file_put_contents("$filepath/$filename", $data);
+            File::putContents("$filepath/$filename", $data);
 
             $this->setValue("/images/default/{$this->getCode()}.$ext");
         }

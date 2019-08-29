@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Core_Model_Default_Abstract
  */
@@ -1036,9 +1038,9 @@ abstract class Core_Model_Default_Abstract
             if (($width != false) && ($height != false)) {
                 $resource = imagecreatefromstring($content);
                 $resource = imagescale($resource, $width, $height);
-                imagepng($resource, Core_Model_Directory::getBasePathTo($realpath . "." . $extension[1]));
+                imagepng($resource, path($realpath . "." . $extension[1]));
             } else {
-                file_put_contents(Core_Model_Directory::getBasePathTo($realpath . "." . $extension[1]), $content);
+                File::putContents(path($realpath . "." . $extension[1]), $content);
             }
 
             $new_path .= "." . $extension[1];
@@ -1046,7 +1048,7 @@ abstract class Core_Model_Default_Abstract
         } else {
 
             $placeholder = "/placeholder/no-image.png";
-            $placeholder_path = Core_Model_Directory::getBasePathTo($this->_default_application_image_path . $placeholder);
+            $placeholder_path = path($this->_default_application_image_path . $placeholder);
 
             if (($width != false) && ($height != false)) {
                 $resource = imagecreatefromstring(file_get_contents($placeholder_path));
