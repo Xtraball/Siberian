@@ -34,9 +34,7 @@ class File
         // Debug files
         if (__getConfig("debugFiles") === true) {
             $allFiles = true;
-            $watchedFiles = [
-                //"/Volumes/SSD2/Developments/repos/xtraball.com/siberian/siberian/var/apps/ionic/ios/www/index-prod.html"
-            ];
+            $watchedFiles = [];
             if (in_array($filename, $watchedFiles) || $allFiles) {
                 dbg(
                     "File::putContents",
