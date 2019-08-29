@@ -526,7 +526,7 @@ class Assets
 
             $built_file = $out_dir . "/" . $code . ".js";
 
-            file_put_contents($built_file, $feature_js);
+            File::putContents($built_file, $feature_js);
 
             self::copyAssets($built_file, null, $feature_js_path);
 
@@ -749,7 +749,7 @@ class Assets
             . file_get_contents($source . "/dist/templates-modules.js") . "\n"
             . file_get_contents($source . "/dist/templates-features.js");;
 
-        file_put_contents($source . "/dist/templates.js", $content);
+        File::putContents($source . "/dist/templates.js", $content);
 
         unlink($source . "/dist/templates-templates.js");
         unlink($source . "/dist/templates-modules.js");
@@ -822,7 +822,7 @@ class Assets
                 $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);
 
                 if (is_writable($index_path)) {
-                    file_put_contents($index_path, $index_content);
+                    File::putContents($index_path, $index_content);
                 }
             }
         }

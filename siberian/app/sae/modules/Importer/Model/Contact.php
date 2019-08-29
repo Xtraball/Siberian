@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Importer_Model_Contact
  */
@@ -49,7 +51,7 @@ class Importer_Model_Contact extends Importer_Model_Importer_Abstract
                 }
                 $coverName = uniqid().'.jpg';
                 $cover = $folder . $coverName;
-                file_put_contents($cover, Siberian_Request::get($data['cover']['source']));
+                File::putContents($cover, Siberian_Request::get($data['cover']['source']));
                 $cover = $folderCover . $coverName;
             } catch (Exception $e) {
                 $cover = null;

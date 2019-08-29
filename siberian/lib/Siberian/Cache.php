@@ -87,7 +87,7 @@ class Cache
             if (static::CACHING) {
                 $jsonCache = json_encode(static::$caches[static::CODE]);
                 if ($jsonCache !== false) {
-                    file_put_contents($basePathCache, $jsonCache);
+                    File::putContents($basePathCache, $jsonCache);
                 }
             }
         }

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Siberian_Migration_Db_Table
  *
@@ -351,13 +353,13 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         if ($save) {
             $schema_path .= "/var/schema/{$version}/{$this->tableName}.php";
             echo "Exporting {$this->tableName} to : {$schema_path}\n";
-            file_put_contents($schema_path, $raw_schema);
+            File::putContents($schema_path, $raw_schema);
         } else {
             if (!file_exists($schema_path . "/var/tmp/{$version}")) {
                 mkdir($schema_path . "/var/tmp/{$version}", 0777, true);
             }
             $schema_path .= "/var/tmp/{$version}/{$this->tableName}.php";
-            file_put_contents($schema_path, $raw_schema);
+            File::putContents($schema_path, $raw_schema);
 
             if (is_readable($schema_path)) {
                 $schemas = [];

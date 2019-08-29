@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 class Comment_Mobile_EditController extends Application_Controller_Mobile_Default {
 
     /**
@@ -129,7 +131,7 @@ class Comment_Mobile_EditController extends Application_Controller_Mobile_Defaul
             throw new Exception($this->_("No uploaded image"));
         }
 
-        $res = @file_put_contents($filePath, $contents);
+        $res = @File::putContents($filePath, $contents);
         if ($res === FALSE) throw new Exception('Unable to save image');
 
         return $relativePath . '/' . $fileName;

@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Json;
 
 /**
@@ -147,7 +148,7 @@ class Form_ApplicationController extends Application_Controller_Default
 
             // uniqid
             $csvPath = path("/var/tmp/" . uniqid() . ".csv");
-            file_put_contents($csvPath, $csvText);
+            File::putContents($csvPath, $csvText);
 
             $date = date("Y-m-d_H-i-s");
             $this->_download($csvPath, "form-export-{$date}.csv");

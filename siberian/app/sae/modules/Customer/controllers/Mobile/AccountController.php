@@ -178,7 +178,6 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 if(!$customer->getIsCustomImage() || empty($fbimage)) {
                     // Récupèration de l'image de Facebook
                     $social_image_json = json_decode(file_get_contents("https://graph.facebook.com/me/picture?redirect=false&type=large&access_token=".$access_token));
-                    file_put_contents("/Users/pof/data.txt", var_export($social_image_json, true));
                     if($social_image_json) {
                         if($social_image_json->is_silhouette === false) {
                             $social_image = file_get_contents($social_image_json->url);

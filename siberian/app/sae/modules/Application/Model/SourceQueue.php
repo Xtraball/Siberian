@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Json;
 
 /**
@@ -278,7 +279,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $json = Json::encode($data, JSON_PRETTY_PRINT);
 
         if (!array_key_exists("error", Json::decode($json))) {
-            file_put_contents($configJobFilePath, $json);
+            File::putContents($configJobFilePath, $json);
         } else {
             throw new \Siberian\Exception("Cannot create json config job file");
         }
@@ -384,7 +385,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $json = Siberian_Json::encode($data, JSON_PRETTY_PRINT);
 
         if (!array_key_exists('error', $json)) {
-            file_put_contents($configJobFilePath, $json);
+            File::putContents($configJobFilePath, $json);
         } else {
             throw new \Siberian\Exception('Cannot create json config job file');
         }

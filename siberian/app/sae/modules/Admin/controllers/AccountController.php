@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Admin_AccountController
  */
@@ -403,7 +405,7 @@ class Admin_AccountController extends Admin_Controller_Default
             $profile = $baseTmp . '/index.html';
             $profileLayout = $this->getBaseLayout($admin);
             $profileContent = $this->getProfileContent($profileLayout, $nav);
-            file_put_contents($profile, $profileContent);
+            File::putContents($profile, $profileContent);
 
             $baseZip = $baseTmp . '.zip';
 

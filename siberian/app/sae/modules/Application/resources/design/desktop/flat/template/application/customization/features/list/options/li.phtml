@@ -64,18 +64,15 @@ if ($option->getCode() === "catalog") {
     </a>
 
     <?php if ($this->getIsSortable()): ?>
-        <i class="fa fa-caret-up"
-           style="display: none;"></i>
-        <div class="actions"
-             style="display: none;">
+        <i class="icon ion-admin-selected"></i>
+        <div class="actions">
             <?php if ($canAccess): ?>
                 <a class="move_page pull-left"
-                   href="javascript:void(0)"
-                   style="margin-top: 1px;"><i class="fa fa-sort"></i></a>
+                   href="javascript:void(0)"><i class="icon ion-admin-move"></i></a>
                 <?php if ($this->_canAccess('delete_feature')): ?>
                     <a class="delete_page pull-right"
                        href="javascript:void(0)">
-                        <i class="fa fa-remove"></i>
+                        <i class="icon ion-admin-cross-2"></i>
                     </a>
                 <?php endif; ?>
             <?php endif; ?>

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Application_Model_Device_Ionic_Android
  */
@@ -312,7 +314,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
             if (!file_exists("{$path_android}/pwd")) {
                 mkdir("{$path_android}/pwd", 0775);
             }
-            file_put_contents("{$path_android}/pwd/app_{$device->getAppId()}.txt", print_r($passwords, true));
+            File::putContents("{$path_android}/pwd/app_{$device->getAppId()}.txt", print_r($passwords, true));
             $this->_logger->sendException(print_r($passwords, true), "android_pwd_{$device->getAppId()}_", false);
             $device->save();
         }
@@ -422,7 +424,7 @@ if (typeof IS_PREVIEW === 'undefined' ||
 var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';";
 
-        file_put_contents($this->_dest_source . '/app/src/main/assets/www/js/utils/url.js', $url_js_content);
+        File::putContents($this->_dest_source . '/app/src/main/assets/www/js/utils/url.js', $url_js_content);
     }
 
     /**
@@ -439,7 +441,7 @@ var IMAGE_URL = DOMAIN + '/';";
 
         $jsonConfig = json_encode($googleService, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
-        file_put_contents($this->_dest_source . '/app/google-services.json', $jsonConfig);
+        File::putContents($this->_dest_source . '/app/google-services.json', $jsonConfig);
     }
 
     /**
@@ -471,7 +473,7 @@ if(navigator.language) {
     }
 }";
 
-        file_put_contents($this->_dest_source . "/app/src/main/assets/www/js/utils/languages.js", $file_content);
+        File::putContents($this->_dest_source . "/app/src/main/assets/www/js/utils/languages.js", $file_content);
     }
 
     /**
@@ -538,7 +540,7 @@ if(navigator.language) {
 keyPassword={$keypass}
 storeFile=keystore.pks
 storePassword={$storepass}";
-        file_put_contents($releaseSigning, $signing);
+        File::putContents($releaseSigning, $signing);
 
         return $keystore;
     }
@@ -588,7 +590,7 @@ storePassword={$storepass}";
             mkdir($licenses_folder, 0777, true);
         }
         if (!file_exists($licenses_folder . "/android-sdk-license")) {
-            file_put_contents($licenses_folder . "/android-sdk-license", "\n8933bad161af4178b1185d1a37fbf41ea5269c55");
+            File::putContents($licenses_folder . "/android-sdk-license", "\n8933bad161af4178b1185d1a37fbf41ea5269c55");
             chmod($licenses_folder . "/android-sdk-license", 0777);
         }
 
@@ -673,9 +675,9 @@ DEFAULT_JVM_OPTS=\"\"
         $android_sdk = "sdk.dir={$android_sdk_path}";
 
         $local_properties_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/local.properties");
-        file_put_contents($local_properties_path, $android_sdk);
+        File::putContents($local_properties_path, $android_sdk);
         $local_properties_path_cordova = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/CordovaLib/local.properties");
-        file_put_contents($local_properties_path_cordova, $android_sdk);
+        File::putContents($local_properties_path_cordova, $android_sdk);
 
         /** Signing informations */
         $release_signing_gradle_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
@@ -685,7 +687,7 @@ storeFile={$keystore_filename}
 storePassword={$store_password}";
 
         // Controlling release signing.
-        file_put_contents($release_signing_gradle_path, $signing);
+        File::putContents($release_signing_gradle_path, $signing);
 
         // Change current directory
         $projectSourcePath = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
@@ -755,7 +757,7 @@ storePassword={$store_password}";
             # Clean-up dest files.
             $logFailed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
             if (!$success) {
-                file_put_contents($logFailed, implode("\n", $output));
+                File::putContents($logFailed, implode("\n", $output));
             }
 
             return [

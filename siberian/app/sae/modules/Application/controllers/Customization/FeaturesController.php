@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Exception;
+use Siberian\File;
 
 /**
  * Class Application_Customization_FeaturesController
@@ -13,9 +14,22 @@ class Application_Customization_FeaturesController extends Application_Controlle
      */
     public $cache_triggers = [
         "save" => [
-            "tags" => ["app_#APP_ID#"],
+            "tags" => [
+                "app_#APP_ID#"
+            ],
+            "outputTags" => [
+                "cache_admin",
+                "admin_#ADMIN_ID#",
+                "app_#APP_ID#"
+            ],
         ],
-        "delete" => null, /** Specific, done inside the action. */
+        "delete" => [
+            "outputTags" => [
+                "cache_admin",
+                "admin_#ADMIN_ID#",
+                "app_#APP_ID#"
+            ],
+        ],
         "setisactive" => [
             "tags" => ["homepage_app_#APP_ID#"],
         ],
@@ -1148,7 +1162,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                             $tmp_class = new $exporter_class();
                             $export_type = $selected_options[$option->getId()];
                             $dataset = $tmp_class->exportAction($option, $export_type);
-                            file_put_contents("{$options_directory}/{$option->getPosition()}-{$option->getCode()}.yml", $dataset);
+                            File::putContents("{$options_directory}/{$option->getPosition()}-{$option->getCode()}.yml", $dataset);
                         }
                     }
                 }
@@ -1156,7 +1170,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             /** Application */
             $application_dataset = $application->toYml();
-            file_put_contents("{$tmp_directory}/application.yml", $application_dataset);
+            File::putContents("{$tmp_directory}/application.yml", $application_dataset);
 
             /** package.json */
             $package = [
@@ -1173,7 +1187,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 ],
             ];
 
-            file_put_contents("{$tmp_directory}/package.json", Siberian_Json::encode($package));
+            File::putContents("{$tmp_directory}/package.json", Siberian_Json::encode($package));
 
             $zip = Core_Model_Directory::zip($tmp_directory, $tmp . "/" . $folder_name . ".zip");
             $base = Core_Model_Directory::getBasePathTo("");

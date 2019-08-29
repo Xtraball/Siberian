@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\File;
 use Siberian\Hook;
 use Siberian\Account;
 use Siberian\Json;
@@ -766,7 +767,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'background_color' => $generalColor->getBackgroundColor()
             ];
 
-            file_put_contents($manifestMameBase, Siberian_Json::encode($manifest));
+            File::putContents($manifestMameBase, Siberian_Json::encode($manifest));
         }
 
         //Collect images and manifest url!
