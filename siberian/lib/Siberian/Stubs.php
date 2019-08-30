@@ -18,6 +18,7 @@ class Stubs {
      */
     public static function loadAliases ()
     {
+        class_alias("\Siberian\Error", "Siberian_Error");
         class_alias("\Siberian\Utils", "Utils");
         class_alias("\Siberian\Utils", "Siberian_Utils");
         class_alias("\Siberian\Cron", "Siberian_Cron");

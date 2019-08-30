@@ -1,23 +1,12 @@
 <?php
 
-use Siberian\File;
+namespace Siberian;
 
 /**
  * Class Siberian_Error
- *
- * @version 4.3.1
- *
- * @todo
- *  so much things
- *  handle errors,
- *  verbose logging,
- *  interfacing with Siberian_Log
- *  should be verbose (in log files, even in production !!! at least for support & information)
- *  refactoring
- *
+ * @package Siberian
  */
-
-class Siberian_Error
+class Error
 {
     /**
      * PHP CONSTANTS ERRORS
@@ -42,73 +31,100 @@ class Siberian_Error
         16384 => 'E_USER_DEPRECATED',
         32767 => 'E_ALL',
     );
+    /**
+     * @var array
+     */
     public static $sql_queries = array();
     /**
-     * @var Siberian_Log
+     * @var Log
      */
     public static $logger = null;
 
-    public static function init() {
-        set_error_handler(array('Siberian_Error', 'handleError'));
-        register_shutdown_function(array('Siberian_Error', 'handleFatalError'));
+    /**
+     *
+     */
+    public static function init()
+    {
+        set_error_handler(array('\Siberian\Error', 'handleError'));
+        register_shutdown_function(array('\Siberian\Error', 'handleFatalError'));
     }
 
-    public static function handleError($errno, $errstr, $errfile, $errline) {
-        if(Zend_Registry::isRegistered("logger") && (self::$logger == null)) {
-            self::$logger = Zend_Registry::get("logger");
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     * @throws \Zend_Exception
+     */
+    public static function handleError($errno, $errstr, $errfile, $errline)
+    {
+        if (\Zend_Registry::isRegistered("logger") && (self::$logger == null)) {
+            self::$logger = \Zend_Registry::get("logger");
         }
 
-        if(self::$logger != null) {
+        if (self::$logger != null) {
             $err_text = (isset(self::$errors[$errno])) ? self::$errors[$errno] : $errno;
             try {
                 self::$logger->err(sprintf("[%s]: %s in %s line %s", $err_text, $errstr, $errfile, $errline));
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 # Hum.
             }
 
         }
     }
 
-    public static function handleFatalError() {
+    /**
+     * @throws \Zend_Exception
+     */
+    public static function handleFatalError()
+    {
         $last_error = error_get_last();
-        $fatal_log = Core_Model_Directory::getBasePathTo("var/log/fatal-error.log");
-        File::putContents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
+        $fatal_log = path("var/log/fatal-error.log");
+        File::putContents($fatal_log, print_r($last_error, true) . "\n", FILE_APPEND);
     }
 
     /**
      * @deprecated
      * Artifact from the past
      */
-    public static function backtrace($dumpError = false) {
+    public static function backtrace($dumpError = false)
+    {
         $errors = debug_backtrace();
         $dump = '';
-        foreach($errors as $error) {
-            if(!empty($error['file'])) $dump .= 'file : ' . $error['file'];
-            if(!empty($error['function'])) $dump .= ':: ' . $error['function'];
-            if(!empty($error['line'])) $dump .= ' (l:' . $error['line'] . ')';
-            $dump .= '
-';
+        foreach ($errors as $error) {
+            if (!empty($error['file'])) $dump .= 'file : ' . $error['file'];
+            if (!empty($error['function'])) $dump .= ':: ' . $error['function'];
+            if (!empty($error['line'])) $dump .= ' (l:' . $error['line'] . ')';
+            $dump .= '';
         }
 
-        if($dumpError) {
-            Zend_Debug::dump($dump);
-        } else {
-            return $dump;
+        if ($dumpError) {
+            return \Zend_Debug::dump($dump);
         }
+        return $dump;
     }
 
-    public static function count() {
+    /**
+     * @return int
+     */
+    public static function count()
+    {
         return count(self::$errors);
     }
 
-    public static function end() {
+    /**
+     *
+     */
+    public static function end()
+    {
         # Do nothing.
     }
 
     /**
      * Search for old info_* files and clean
      */
-    public static function clear() {
+    public static function clear()
+    {
         # Do nothing.
     }
 }
