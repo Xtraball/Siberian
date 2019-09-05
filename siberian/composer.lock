@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6336fc59086cbfb6c065d71c35a6bcae",
+    "content-hash": "50c69d39651d24616465ee0d07fc4a1f",
     "packages": [
         {
             "name": "2checkout/2checkout-php",
@@ -1857,16 +1857,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v6.19.5",
+            "version": "v6.43.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85"
+                "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85",
-                "reference": "1ab5c54fae4c16e9cc47d60c7454e6c3b6bbcb85",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/42fcdaf99c44bb26937223f8eae1f263491d5ab8",
+                "reference": "42fcdaf99c44bb26937223f8eae1f263491d5ab8",
                 "shasum": ""
             },
             "require": {
@@ -1878,7 +1878,8 @@
             "require-dev": {
                 "php-coveralls/php-coveralls": "1.*",
                 "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
+                "squizlabs/php_codesniffer": "~2.0",
+                "symfony/process": "~2.8"
             },
             "type": "library",
             "extra": {
@@ -1908,7 +1909,7 @@
                 "payment processing",
                 "stripe"
             ],
-            "time": "2018-10-17T14:58:41+00:00"
+            "time": "2019-08-29T16:56:12+00:00"
         },
         {
             "name": "symfony/browser-kit",
@@ -2534,6 +2535,23 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7",
+        "ext-json": "*",
+        "ext-gd": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-pdo_sqlite": "*",
+        "ext-curl": "*",
+        "ext-iconv": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "ext-dom": "*",
+        "ext-mbstring": "*",
+        "ext-redis": "*",
+        "ext-xml": "*",
+        "ext-mysqli": "*",
+        "ext-openssl": "*"
+    },
     "platform-dev": []
 }

@@ -561,19 +561,23 @@ class Assets
             if ($custom_fields) {
                 $data["custom_fields"] = json_encode($custom_fields);
             }
-            
-            $option = Feature::installFeature(
-                $category,
-                $data,
-                $icons
-            );
 
-            if (!empty($layouts)) {
-                Feature::installLayouts(
-                    $option->getId(),
-                    $code,
-                    $layouts
+            // Install option & layouts only if it's a feature,
+            // "_service" is a custom new category for "service modules"
+            if ($category !== "_service") {
+                $option = Feature::installFeature(
+                    $category,
+                    $data,
+                    $icons
                 );
+
+                if (!empty($layouts)) {
+                    Feature::installLayouts(
+                        $option->getId(),
+                        $code,
+                        $layouts
+                    );
+                }
             }
         }
     }
