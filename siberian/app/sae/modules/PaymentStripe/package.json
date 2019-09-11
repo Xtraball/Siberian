@@ -1,0 +1,11 @@
+{
+  "name": "PaymentStripe",
+  "description": "Stripe payments interface for SiberianCMS.",
+  "version": "0.1.1",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.17.8"
+    }
+  }
+}

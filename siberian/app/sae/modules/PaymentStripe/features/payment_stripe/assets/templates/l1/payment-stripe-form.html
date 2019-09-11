@@ -1,0 +1,16 @@
+<div class="payment-stripe-form">
+    <div id="card-element"
+         class="item item-custom">
+    </div>
+    <div id="card-errors-parent"
+         class="item item-custom ng-hide">
+                    <span style="font-size: .9em; white-space: normal;"
+                          id="card-errors"
+                          class="assertive assertive-custom"></span>
+    </div>
+    <button ng-click="saveAction()"
+            id="save-element"
+            class="button button-full button-positive button-positive-custom">
+        {{ ::getButtonText() }}
+    </button>
+</div>
