@@ -294,33 +294,10 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
     <?php endif; ?>
 
-    <div id="countries_container" class="content">
-        <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your country'); ?>
-        </h3>
-        <div id="countries" class="subcontent content-color sb-tour">
-            <div class="col-md-12">
-                <p><?php echo __("This option enables you to set the currency used in your app"); ?></p>
-                <div class="row">
-                    <div class="col-md-5">
-                        <label for="select_locale"><?php echo __('Choose a country'); ?> : </label>
-                        <select id="select_locale"
-                                name="locale"
-                                class="styled-select color-red sb-tour">
-                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
-                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div id="font_content"
          class="content sb-tour">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your font family'); ?>
+            <?php echo __("Choose your font family"); ?>
         </h3>
         <div id="fonts"
              class="subcontent content-color">

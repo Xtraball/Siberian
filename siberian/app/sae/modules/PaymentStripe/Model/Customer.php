@@ -11,6 +11,18 @@ use Core\Model\Base;
 class Customer extends Base
 {
     /**
+     * Customer constructor.
+     * @param array $params
+     * @throws \Zend_Exception
+     */
+    public function __construct($params = [])
+    {
+        parent::__construct($params);
+        $this->_db_table = 'PaymentStripe\Model\Db\Table\Customer';
+        return $this;
+    }
+
+    /**
      * @param $customerId
      * @throws \Zend_Exception
      */

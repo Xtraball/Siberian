@@ -12,21 +12,52 @@ class Currency
 {
 
     /**
-    public static function truncatePrice($price, $decimals = 2 ) {
-        return number_format(floor(($price * pow(10, $decimals))) / pow(10, $decimals), $decimals);
+     * @var null
+     */
+    public static $jsonSource = null;
+
+    /**
+     * @param bool $withStripeSuffix
+     * @return array|false
+     */
+    public static function getAllCurrencies ($withStripeSuffix = false)
+    {
+        if (self::$jsonSource === null) {
+            $contents = file_get_contents(path(self::$configFile));
+            self::$jsonSource = Json::decode($contents);
+        }
+
+        $stripeSuffix = $withStripeSuffix ? " (Stripe)" : "";
+
+        $common = array_keys(self::$jsonSource);
+        $commonCurrencies = array_combine($common, $common);
+        foreach (self::$supported as $stripeSupported) {
+            $commonCurrencies[$stripeSupported] = "{$stripeSupported}{$stripeSuffix}";
+        }
+
+        ksort($commonCurrencies);
+
+        return $commonCurrencies;
     }
 
-    public static function toPaypal($price, $decimals = 2 ) {
-        return self::preFormat($price, $decimals);
-    }
+    /**
+     * @param $code
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getCurrency ($code)
+    {
+        if (self::$jsonSource === null) {
+            $contents = file_get_contents(path(self::$configFile));
+            self::$jsonSource = Json::decode($contents);
+        }
 
-    public static function preFormat($price, $decimals = 2 ) {
-        return number_format(preg_replace("#\.*0+$#", "", $price), $decimals);
-    }
+        if (array_key_exists($code, self::$jsonSource)) {
+            return self::$jsonSource[$code];
+        }
 
-    public static function getPriceExclVat($price, $decimals = 2) {
-        return self::truncatePrice($price, $decimals);
-    }*/
+        throw new Exception(p__("payment_stripe", "Invalid currency `%s`.", $code));
+    }
 
     public static function getVat($priceEclxVat, $vatRate) {
         return ($priceEclxVat * $vatRate / 100);

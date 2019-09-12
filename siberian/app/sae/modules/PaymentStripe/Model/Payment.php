@@ -23,7 +23,7 @@ class Payment extends Base
             "hasChilds" => false,
             "isVisible" => self::_canAccess("payment_stripe_settings"),
             "label" => p__("payment_stripe", "Stripe"),
-            "icon" => "icofont icofont-stripe",
+            "icon" => "icon ion-sb-stripe",
             "url" => self::_getUrl("paymentstripe/settings"),
             "is_current" => ("/paymentstripe/settings" === $currentUrl),
         ];
