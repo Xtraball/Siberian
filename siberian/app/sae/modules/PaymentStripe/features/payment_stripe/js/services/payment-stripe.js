@@ -2,8 +2,8 @@
  * PaymentStripe service
  */
 angular
-.module('starter')
-.service('PaymentStripe', function (Application, $injector, $translate, $pwaRequest, $q) {
+.module("starter")
+.service("PaymentStripe", function (Application, $injector, $translate, $pwaRequest, $q) {
     var service = {
         card: null,
         stripe: null,

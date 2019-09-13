@@ -5,6 +5,8 @@ namespace PaymentStripe\Model;
 use Core\Model\Base;
 use Siberian\Exception;
 
+use Stripe\Stripe;
+
 /**
  * Class Application
  * @package PaymentStripe\Model
@@ -21,6 +23,18 @@ class Application extends Base
         parent::__construct($params);
         $this->_db_table = 'PaymentStripe\Model\Db\Table\Application';
         return $this;
+    }
+
+    /**
+     * @param null $appId
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function init($appId = null)
+    {
+        $settings = self::getSettings($appId);
+
+        Stripe::setApiKey($settings->getSecretKey());
     }
 
     /**

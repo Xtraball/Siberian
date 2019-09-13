@@ -16,7 +16,16 @@ $schemas['payment_stripe_customer'] = [
     'customer_id' => [
         'type' => 'int(11) unsigned',
         'index' => [
-            'key_name' => 'customer_id',
+            'key_name' => 'psc_customer_id',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
+    'admin_id' => [
+        'type' => 'int(11) unsigned',
+        'index' => [
+            'key_name' => 'psc_admin_id',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,

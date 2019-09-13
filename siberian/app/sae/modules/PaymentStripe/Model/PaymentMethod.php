@@ -11,6 +11,11 @@ use Core\Model\Base;
 class PaymentMethod extends Base
 {
     /**
+     * @var string
+     */
+    const TYPE_CREDIT_CARD = "credit-card";
+
+    /**
      * PaymentMethod constructor.
      * @param array $params
      * @throws \Zend_Exception

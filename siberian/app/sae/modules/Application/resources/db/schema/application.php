@@ -77,6 +77,12 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'currency' => [
+        'type' => 'varchar(10)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'USD'
+    ],
     'tabbar_account_name' => [
         'type' => 'varchar(30)',
         'is_null' => true,
@@ -545,6 +551,12 @@ $schemas['application'] = [
     ],
     'size_on_disk' => [
         'type' => 'int(11) unsigned',
+    ],
+    'version' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '0'
     ],
     'created_at' => [
         'type' => 'datetime',
