@@ -57,7 +57,7 @@ class Application extends Base
         }
 
         // Fetching current Stripe settings!
-        $settings = (new self())->find($appId);
+        $settings = (new self())->find($appId, "app_id");
         if (!$settings->getId()) {
             throw new Exception(p__("payment_stripe", "Stripe is not configured."));
         }
@@ -78,5 +78,20 @@ class Application extends Base
         }
 
         return true;
+    }
+
+    /**
+     * @param bool $withSecretKey
+     * @return array|mixed|string|null
+     */
+    public function toJson($withSecretKey = false)
+    {
+        $payload = $this->getData();
+
+        if (!$withSecretKey) {
+            unset($payload["secret_key"]);
+        }
+
+        return $payload;
     }
 }

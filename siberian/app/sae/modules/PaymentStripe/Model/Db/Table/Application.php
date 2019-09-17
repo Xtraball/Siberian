@@ -18,6 +18,6 @@ class Application extends DbTable
     /**
      * @var string
      */
-    protected $_primary = "app_id";
+    protected $_primary = "stripe_application_id";
 
 }

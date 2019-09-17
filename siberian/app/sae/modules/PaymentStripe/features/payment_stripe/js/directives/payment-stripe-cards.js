@@ -8,8 +8,6 @@ angular
         restrict: "E",
         replace: true,
         scope: {
-            cards: "=?",
-            cardsEndpoint: "=?",
             lineAction: "=?",
             actions: "=?"
         },
@@ -22,26 +20,13 @@ angular
             if (!attrs.lineAction) {
                 attrs.lineAction = null;
             }
-
-            if (!attrs.cards) {
-                attrs.cards = null;
-            }
-
-            if (!attrs.cardsEndpoint) {
-                attrs.cardsEndpoint = null;
-            }
-
-            if (!attrs.cards && !attrs.cardsEndpoint) {
-               throw new Error("Directive paymentStripeCards: `cards` or `cardsEndpoint` is required.");
-            }
         },
-        controller: function ($scope, $rootScope, $pwaRequest, Dialog) {
-            $scope.fetchCards = function () {
-                $pwaRequest
-                .get($scope.cardsEndpoint, {
-                    cache: false
-                }).then(function (payload) {
-                    $scope.cards = payload.cards;
+        controller: function ($scope, $rootScope, $pwaRequest, Dialog, PaymentStripe) {
+            $scope.fetchVaults = function () {
+                PaymentStripe
+                .fetchVaults()
+                .then(function (payload) {
+                    $scope.cards = payload.vaults;
                 }, function (error) {
                     Dialog.alert("Error", error.message, "OK", -1, "payment_stripe");
                 });
@@ -71,13 +56,11 @@ angular
                 return "./features/payment_stripe/assets/templates/images/006-cc.svg";
             };
 
-            if ($scope.cardsEndpoint !== null) {
-                $scope.fetchCards();
-            }
-
             $rootScope.$on("paymentStripeCards.refresh", function () {
-                $scope.fetchCards();
+                $scope.fetchVaults();
             });
+
+            $scope.fetchVaults();
         }
     };
 });

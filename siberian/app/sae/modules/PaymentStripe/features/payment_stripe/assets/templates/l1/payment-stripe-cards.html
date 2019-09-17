@@ -1,5 +1,6 @@
 <div class="payment-stripe-cards">
     <div ng-repeat="card in cards track by $index"
+         ng-if="cards.length > 0"
          ng-click="lineActionTrigger(card)"
          class="item item-custom item-icon-left item-icon-right">
         <i class="icon">

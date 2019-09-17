@@ -7,6 +7,7 @@ angular
     var service = {
         card: null,
         stripe: null,
+        settings: null,
         isReadyPromise: $q.defer(),
         publishableKey: null
     };
@@ -18,6 +19,18 @@ angular
             stripeJS.src = "https://js.stripe.com/v3/";
             stripeJS.onload = function () {
                 service.isReadyPromise.resolve(Stripe);
+
+                // When Stripe is ready, we can load the key!
+                service
+                .fetchSettings()
+                .then(function (payload) {
+                    service.settings = payload.settings;
+
+                    service.setPublishableKey(service.settings.publishable_key);
+                }, function (error) {
+                    //
+                    console.error(error.message);
+                });
             };
             document.body.appendChild(stripeJS);
         } else {
@@ -59,15 +72,7 @@ angular
         return deferred.promise;
     };
 
-    service.cardForm = function (successCallback, errorCallback) {
-        if (typeof successCallback !== "function" ||
-            typeof errorCallback !== "function") {
-            throw new Error("successCallback & errorCallback must be functions.");
-        }
-
-        service.successCallback = successCallback;
-        service.errorCallback = errorCallback;
-
+    service.initCardForm = function () {
         return service
         .isReady()
         .then(function () {
@@ -123,41 +128,8 @@ angular
         });
     };
 
-    service.cardToken = function () {
-        var deferred = $q.defer();
 
-        try {
-            var displayError = document.getElementById("card-errors");
-            var displayErrorParent = document.getElementById("card-errors-parent");
-
-            service
-            .stripe
-            .createToken(service.card)
-            .then(function (result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    displayErrorParent.classList.remove("ng-hide");
-                    displayError.textContent = $translate.instant(result.error.message);
-
-                    deferred.reject(result.error.message);
-                    service.errorCallback(result.error.message);
-                } else {
-                    // Sending the success token!
-                    displayErrorParent.classList.add("ng-hide");
-
-                    deferred.resolve(result);
-                    service.successCallback(result);
-                }
-            });
-        } catch (e) {
-            deferred.reject(e.message);
-            service.errorCallback(e.message);
-        }
-
-        return deferred.promise;
-    };
-
-    service.cardPayment = function (paymentIntentEndpoint) {
+    service.handleCardPayment = function () {
         var deferred = $q.defer();
 
         try {
@@ -174,26 +146,34 @@ angular
                     displayError.textContent = $translate.instant(result.error.message);
 
                     deferred.reject(result.error.message);
-                    service.errorCallback(result.error.message);
+                    service.paymentError(result.error.message);
                 } else {
                     // Sending the success token!
                     displayErrorParent.classList.add("ng-hide");
 
                     deferred.resolve(result);
-                    service.successCallback(result);
+                    service.paymentSuccess(result);
 
 
                 }
             });
         } catch (e) {
             deferred.reject(e.message);
-            service.errorCallback(e.message);
+            service.paymentError(e.message);
         }
 
         return deferred.promise;
     };
 
-    service.cardSetup = function (setupIntentEndpoint) {
+    service.paymentError = function (message) {
+
+    };
+
+    service.paymentSuccess = function (payload) {
+
+    };
+
+    service.handleCardSetup = function () {
         var deferred = $q.defer();
 
         try {
@@ -202,7 +182,7 @@ angular
 
             // We will fetch the setupIntent
             service
-            .fetchIntent(setupIntentEndpoint)
+            .fetchSetupIntent()
             .then(function (payload) {
                 service
                 .stripe
@@ -214,13 +194,13 @@ angular
                         displayError.textContent = $translate.instant(result.error.message);
 
                         deferred.reject(result.error.message);
-                        service.errorCallback(result.error.message);
+                        service.setupError(result.error.message);
                     } else {
                         // Sending the success token!
                         displayErrorParent.classList.add("ng-hide");
 
                         deferred.resolve(result);
-                        service.successCallback(result);
+                        service.setupSuccess(result);
                     }
                 });
             }, function (error) {
@@ -230,18 +210,30 @@ angular
 
         } catch (e) {
             deferred.reject(e.message);
-            service.errorCallback(e.message);
+            service.setupError(e.message);
         }
 
         return deferred.promise;
     };
 
-    service.fetchIntent = function (endpoint) {
-        if (!angular.isDefined(endpoint)) {
-            throw new Error($translate.instant("fetchIntent(): endpoint is required."));
-        }
+    service.setupError = function (message) {
+        console.log("setupError", message);
+    };
 
-        return $pwaRequest.post(endpoint);
+    service.setupSuccess = function (payload) {
+        console.log("setupSuccess", payload);
+    };
+
+    service.fetchSettings = function () {
+        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-settings");
+    };
+
+    service.fetchVaults = function () {
+        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-vaults");
+    };
+
+    service.fetchSetupIntent = function () {
+        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-setup-intent");
     };
 
     service.clearForm = function () {

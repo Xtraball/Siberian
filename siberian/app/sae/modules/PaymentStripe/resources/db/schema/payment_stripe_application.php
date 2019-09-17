@@ -8,6 +8,11 @@
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
 $schemas['payment_stripe_application'] = [
+    'stripe_application_id' => [
+        'type' => 'int(11) unsigned',
+        'auto_increment' => true,
+        'primary' => true,
+    ],
     'app_id' => [
         'type' => 'int(11) unsigned',
         'index' => [

@@ -1,18 +1,12 @@
 <?php
 
 use Siberian\Assets;
-use Siberian\Hook;
 use Siberian\Translation;
-use PaymentStripe\Model\Payment;
+use PaymentMethod\Model\Gateway;
 
 class_alias("PaymentStripe\Model\Payment", "PaymentStripe_Model_Payment");
 
-function stripeEditorNav ($editorTree) {
-    return Payment::editorNav($editorTree);
-}
-
 $init = function($bootstrap) {
-    // Cab-Ride
     Assets::registerScss([
         "/app/local/modules/PaymentStripe/features/payment_stripe/scss/payment-stripe.scss"
     ]);
@@ -22,9 +16,12 @@ $init = function($bootstrap) {
         "PaymentStripe",
         path("app/local/modules/PaymentStripe/resources/translations/default/payment-stripe.po"));
 
-    Hook::listen(
-        "editor.left.menu.ready",
-        "payment_stripe_nav",
-        "stripeEditorNav");
+    Gateway::register("stripe", [
+        "class" => "\PaymentStripe\Model\Stripe",
+        "acl_code" => "payment_stripe_settings",
+        "label" => p__("payment_stripe", "Stripe"),
+        "url" => "paymentstripe/settings",
+        "icon" => "icon ion-sb-stripe",
+    ]);
 };
 

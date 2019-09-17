@@ -8,7 +8,7 @@
     "routes": [],
     "icons": [],
     "files": [
-        "js/directives/payment-stripe.js",
+        "js/controllers/payment-stripe-controller.js",
         "js/directives/payment-stripe-form.js",
         "js/directives/payment-stripe-cards.js",
         "js/services/payment-stripe.js",

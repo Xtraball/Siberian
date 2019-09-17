@@ -10,21 +10,11 @@ $acls = [
 ];
 
 // Find feature_cabride
-$stripe = (new Acl_Model_Resource())->find("payment_stripe_manager", "code");
-if (!$stripe->getId()) {
-    $stripe
-        ->setData(
-            [
-                "code" => "payment_stripe_manager",
-                "label" => "Stripe configuration",
-                "url" => "paymentstripe/*",
-            ]
-        )->save();
-}
+$paymentGateways = (new Acl_Model_Resource())->find("payment_gateways_manager", "code");
 
-if ($stripe->getId()) {
+if ($paymentGateways->getId()) {
     foreach ($acls as $acl) {
-        $acl["parent_id"] = $stripe->getId();
+        $acl["parent_id"] = $paymentGateways->getId();
 
         $resource = new Acl_Model_Resource();
         $resource

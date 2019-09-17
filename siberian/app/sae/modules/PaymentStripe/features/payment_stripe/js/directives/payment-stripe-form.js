@@ -10,8 +10,6 @@ angular
         scope: {
             buttonText: "=?",
             action: "=?",
-            paymentIntentEndpoint: "=?",
-            setupIntentEndpoint: "=?"
         },
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-form.html",
         compile: function(element, attrs){
@@ -20,15 +18,7 @@ angular
             }
 
             if (!attrs.action) {
-                attrs.action = "create-token";
-            }
-
-            if (!attrs.paymentIntentEndpoint) {
-                attrs.paymentIntentEndpoint = "";
-            }
-
-            if (!attrs.setupIntentEndpoint) {
-                attrs.setupIntentEndpoint = "";
+                attrs.action = "card-payment";
             }
         },
         controller: function ($scope, $translate, PaymentStripe) {
@@ -36,23 +26,19 @@ angular
                 return $translate.instant($scope.buttonText, "payment_stripe");
             };
 
-            $scope.createToken = function () {
-                PaymentStripe.createToken();
-            };
-
             $scope.saveAction = function () {
                 switch ($scope.action) {
                     case "card-payment":
-                        PaymentStripe.cardPayment($scope.paymentIntentEndpoint);
+                    default:
+                        PaymentStripe.handleCardPayment();
                         break;
                     case "card-setup":
-                        PaymentStripe.cardSetup($scope.setupIntentEndpoint);
+                        PaymentStripe.handleCardSetup();
                         break;
-                    case "card-token":
-                    default:
-                        PaymentStripe.cardToken();
                 }
             };
+
+            PaymentStripe.initCardForm();
         }
     };
 });

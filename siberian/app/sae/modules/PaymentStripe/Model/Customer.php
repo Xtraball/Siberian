@@ -9,6 +9,7 @@ use Stripe\Error\InvalidRequest;
 use Admin_Model_Admin as SiberianAdmin;
 use Customer_Model_Customer as SiberianCustomer;
 use Application_Model_Application as SiberianApplication;
+use Siberian\Exception;
 
 /**
  * Class Customer
@@ -39,122 +40,114 @@ class Customer extends Base
     }
 
     /**
-     * @param $customerId
+     * @param $adminId
+     * @return mixed|StripeCustomer
+     * @throws Exception
+     * @throws InvalidRequest
      * @throws \Zend_Exception
      */
     public static function getForAdminId($adminId)
     {
-        $customer = (new self())->find($adminId, "admin_id");
-        if (!$customer->getId()) {
-            $customer = new self();
-            $customer
-                ->setAdminId($adminId)
-                ->save();
-
-            return self::createCustomer($customer, self::TYPE_ADMIN);
-        }
-        return self::fetchCustomer($customer, self::TYPE_ADMIN);
+        return self::fetchCustomer($adminId, self::TYPE_ADMIN);
     }
 
     /**
      * @param $customerId
+     * @return mixed|StripeCustomer
+     * @throws Exception
+     * @throws InvalidRequest
      * @throws \Zend_Exception
      */
     public static function getForCustomerId($customerId)
     {
-        $customer = (new self())->find($customerId, "customer_id");
-        if (!$customer->getId()) {
-            $customer = new self();
-            $customer
-                ->setCustomerId($customerId)
-                ->save();
-
-            return self::createCustomer($customer, self::TYPE_CUSTOMER);
-        }
-        return self::fetchCustomer($customer, self::TYPE_CUSTOMER);
+        return self::fetchCustomer($customerId, self::TYPE_CUSTOMER);
     }
 
     /**
-     * @param $customer
+     * @param $adminOrCustomerId
      * @param $type
-     * @return \Stripe\ApiResource|StripeCustomer
+     * @return mixed|StripeCustomer
+     * @throws Exception
      * @throws InvalidRequest
      * @throws \Zend_Exception
      */
-    public static function fetchCustomer($customer, $type)
+    public static function fetchCustomer($adminOrCustomerId, $type)
     {
-        try {
-            $stripeCustomer = StripeCustomer::retrieve($customer->getToken());
-        } catch (InvalidRequest $e) {
-            // Seems the customer doesn't exists anymore, or the Stripe account changed!
-            if ($e->getStripeCode() === "resource_missing") {
-                // Archiving the old customer reference!
-                $customer
-                    ->setIsRemoved(1)
-                    ->save();
-
-                // Creating a new entry, with the same customerId/adminId!
-                $newCustomer = (new self());
-                switch ($type) {
-                    case self::TYPE_ADMIN:
-                        $newCustomer
-                            ->setAdminId($customer->getAdminId())
-                            ->save();
-                        break;
-                    case self::TYPE_CUSTOMER:
-                        $newCustomer
-                            ->setCustomerId($customer->getCustomerId())
-                            ->save();
-                        break;
+        // First, we fetch or create a payment_stripe_customer!
+        $paymentStripeCustomer = new self();
+        switch ($type) {
+            case self::TYPE_ADMIN:
+                $paymentStripeCustomer->find([
+                    "admin_id" => $adminOrCustomerId,
+                    "is_removed" => 0
+                ]);
+                if (!$paymentStripeCustomer->getId()) {
+                    $paymentStripeCustomer
+                        ->setAdminId($adminOrCustomerId)
+                        ->save();
                 }
-
-                // Creating the new customer in Stripe!
-                $stripeCustomer = self::createCustomer($newCustomer, $type);
-            } else {
-                throw $e;
-            }
+                break;
+            case self::TYPE_CUSTOMER:
+                $paymentStripeCustomer->find([
+                    "customer_id" => $adminOrCustomerId,
+                    "is_removed" => 0
+                ]);
+                if (!$paymentStripeCustomer->getId()) {
+                    $paymentStripeCustomer
+                        ->setCustomerId($adminOrCustomerId)
+                        ->save();
+                }
+                break;
         }
-        return $stripeCustomer;
+
+        // Ok now we have for sure a payment_stripe_customer, we must find or create a stripe_customer!
+        $stripeCustomerToken = trim($paymentStripeCustomer->getToken());
+        if (mb_strlen($stripeCustomerToken) <= 0) {
+            // Ok we create the Stripe customer then
+            switch ($type) {
+                case self::TYPE_ADMIN:
+                    $siberianAdmin = (new SiberianAdmin())->find($paymentStripeCustomer->getAdminId());
+                    $userEmail = $siberianAdmin->getEmail();
+                    $metadata = [
+                        "admin_id" => $siberianAdmin->getId(),
+                        "app_id" => SiberianApplication::getApplication()->getId(),
+                    ];
+                    break;
+                case self::TYPE_CUSTOMER:
+                    $siberianCustomer = (new SiberianCustomer())->find($paymentStripeCustomer->getCustomerId());
+                    $userEmail = $siberianCustomer->getEmail();
+                    $metadata = [
+                        "customer_id" => $siberianCustomer->getId(),
+                        "app_id" => SiberianApplication::getApplication()->getId(),
+                    ];
+                    break;
+                default:
+                    throw new Exception(p__("payment_stripe", "Invalid user type."));
+            }
+
+            $stripeCustomer = StripeCustomer::create([
+                "email" => $userEmail,
+                "metadata" => $metadata,
+            ]);
+
+            $paymentStripeCustomer
+                ->setToken($stripeCustomer["id"])
+                ->save();
+        } else {
+            // We just try to fetch the stripe_customer, if it's ko, we'll get an exception!
+            StripeCustomer::retrieve($stripeCustomerToken);
+        }
+
+        // Ok!
+        return $paymentStripeCustomer;
     }
 
     /**
-     * @param $customer
-     * @param $type
-     * @return \Stripe\ApiResource
-     * @throws \Zend_Exception
+     * @return StripeCustomer
      */
-    public static function createCustomer($customer, $type)
+    public function getStripeCustomer ()
     {
-        switch ($type) {
-            case self::TYPE_ADMIN:
-                $user = (new SiberianAdmin())->find($customer->getAdminId());
-                $userEmail = $user->getEmail();
-                $metadata = [
-                    "admin_id" => $user->getId(),
-                    "app_id" => SiberianApplication::getInstance()->getId(),
-                ];
-                break;
-            case self::TYPE_CUSTOMER:
-                $user = (new SiberianCustomer())->find($customer->getCustomerId());
-                $userEmail = $user->getEmail();
-                $metadata = [
-                    "customer_id" => $user->getId(),
-                    "app_id" => SiberianApplication::getInstance()->getId(),
-                ];
-                break;
-        }
-
-        $stripeCustomer = StripeCustomer::create([
-            "email" => $userEmail,
-            "metadata" => $metadata,
-        ]);
-
-        // Saving the newly created token!
-        $customer
-            ->setToken($stripeCustomer["id"])
-            ->save();
-
-        return $customer;
+        return StripeCustomer::retrieve($this->getToken());
     }
 
 }
