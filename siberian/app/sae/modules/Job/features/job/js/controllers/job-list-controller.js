@@ -210,5 +210,4 @@ angular.module("starter").controller("JobListController", function (Location, So
         $scope.collection = [];
         $scope.loadContent(true);
     });
-
 });
