@@ -196,21 +196,22 @@ $splashVersion = (integer) $application->getSplashVersion();
                                                             <img width="195"
                                                                  src="<?php echo $slider_image->getLink(); ?>" />
                                                         </span>
-                                                        <div class="actions"
-                                                             style="display:none">
-                                                            <a class="move_page pull-left btn btn-grey"
+
+                                                        <div class="actions">
+                                                            <a class="move_page pull-left"
                                                                href="javascript:void(0)">
-                                                                <i class="fa fa-sort"></i>
+                                                                <i class="icon ion-admin-move"></i>
                                                             </a>
-                                                            <a class="delete_page delete_slider_image pull-right btn btn-grey"
-                                                               onclick="deleteSliderImage(event, this);"
-                                                               href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
-                                                                <i class="fa fa-times"></i>
+                                                            <a class="delete_page delete_slider_image pull-right"
+                                                               rel="<?php echo $slider_image->getImageId(); ?>"
+                                                               href="javascript:void(0)">
+                                                                <i class="icon ion-admin-cross-2"></i>
                                                             </a>
                                                             <input type="hidden"
                                                                    class="image_id"
                                                                    value="<?php echo $slider_image->getImageId(); ?>" />
                                                         </div>
+
                                                     </li>
                                                 <?php endforeach; ?>
                                             </ul>
@@ -495,6 +496,28 @@ $splashVersion = (integer) $application->getSplashVersion();
     var modal_preview;
     var modal_layouts;
     var modal_fb_import;
+
+    function bindSliderDelete () {
+        // Slider delete!
+        let sliderDeleteImage = $(".delete_slider_image");
+        sliderDeleteImage.off("click");
+        sliderDeleteImage.on("click", function () {
+            let element = $(this);
+            let imageId = $(this).attr("rel");
+            formget("/application/customization_design_style/deletesliderimage?image_id=" + imageId,
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+
+                    element.parent().parent().remove();
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
+                },
+                false);
+        });
+    }
+
     $(document).ready(function(){
 
         bindForms("#default-options", "color-red", function () {
@@ -518,6 +541,9 @@ $splashVersion = (integer) $application->getSplashVersion();
         $("table.sb-mini-carousel").sbcarousel({
             min_size: 48
         });
+
+
+        bindSliderDelete();
 
         let fontFamilySelectors = $(".font-family");
 
@@ -723,39 +749,40 @@ $splashVersion = (integer) $application->getSplashVersion();
                 slider_images_uploader.crop(params);
                 slider_images_uploader.callback = function(file) {
                     sliderImages.append(
-                        '<li id="slider_image_' + file.id + '" class="slider_image sortable" data-pos="' + file.id + '">\n\
-                            <span class="details">\n\
-                                <img width="195" src="' + file.url + '">\n\
-                            </span>\n\
-                            <div class="actions" style="display: none;">\n\
-                                <a class="move_page pull-left btn btn-grey" href="javascript:void(0)"><i class="fa fa-sort"></i></a>\n\
-                                <a class="delete_page delete_slider_image pull-right btn btn-grey" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">\n\
-                                    <i class="fa fa-times"></i>\n\
-                                </a>\n\
-                                <input type="hidden" class="image_id" value="' + file.id + '">\n\
-                            </div>\n\
-                        </li>'
+                        `
+                        <li id="slider_image_` + file.id + `"
+                            class="slider_image sortable"
+                            data-pos="` + file.id + `">
+                            <span class="details">
+                                <img width="195"
+                                     src="` + file.url + `">
+                            </span>
+                            <div class="actions">
+                                <a class="move_page pull-left"
+                                   href="javascript:void(0)">
+                                    <i class="icon ion-admin-move"></i>
+                                </a>
+                                <a class="delete_page delete_slider_image pull-right"
+                                   href="javascript:void(0)"
+                                   rel="` + file.id + `">
+                                    <i class="icon ion-admin-cross-2"></i>
+                                </a>
+                                <input type="hidden"
+                                       class="image_id"
+                                       value="` + file.id + `" />
+                            </div>
+                        </li>
+                        `
                     );
 
                     carousel.update();
                     iframe.reload();
+
+                    bindSliderDelete();
                 };
             }
         }
     });
-
-    var deleteSliderImage = function(e, element) {
-        e.preventDefault();
-
-        var id = $(element).parent().find(".image_id").val();
-        reload(this, element.href + id, true, function(response) {
-            if(response.reload) {
-                $(element).parent().parent().remove();
-                carousel.update();
-                iframe.reload();
-            }
-        });
-    };
 
     var createCarouselSortable = function() {
         sliderImages.sortable({
@@ -824,7 +851,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         margin-left: 0;
         min-height: 120px;
         background-color: #E9E9E9;
-        padding: 15px 0;
+        padding: 15px 40px;
     }
     #uploaded_slider_images > div {
         margin: auto;
@@ -857,11 +884,15 @@ $splashVersion = (integer) $application->getSplashVersion();
         display: block;
         height: 100%;
         text-align: center;
+        padding: 30px 6px 6px;
+        background: white;
+        border-radius: 2px;
     }
     #uploaded_slider_images.listing ul li span.details img {
         width: 100%;
         height: 100%;
         border-radius: 2px;
+        border: 1px solid #afafaf;
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions {
         position: absolute;
@@ -872,20 +903,22 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions .move_page {
         cursor: ew-resize;
-        left: 5px;
-        top: 5px;
-        padding: 6px 8px 4px;
+        left: 0;
+        top: 0;
+        padding: 4px 8px;
         border-bottom-right-radius: 3px;
         border-top-left-radius: 2px;
         color: inherit;
+        background: white;
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions .delete_page {
-        right: 5px;
-        top: 5px;
-        padding: 3px 10px 5px;
+        right: 0;
+        top: 0;
+        padding: 4px 8px;
         border-bottom-left-radius: 3px;
         border-top-right-radius: 2px;
         color: inherit;
+        background: white;
     }
     #uploaded_slider_images #carousel_prev {
         left: 15px;
