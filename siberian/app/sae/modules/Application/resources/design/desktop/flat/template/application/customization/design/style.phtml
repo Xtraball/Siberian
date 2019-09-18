@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Currency;
+
 $application = $this->getApplication();
 
 $layout_model = new Application_Model_Layout_Homepage();
@@ -294,21 +296,38 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
     <?php endif; ?>
 
-    <div id="countries_container" class="content">
+    <div id="application_settings"
+         class="content">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your country'); ?>
+            <?php echo p__("application", "Localization settings"); ?>
         </h3>
-        <div id="countries" class="subcontent content-color sb-tour">
+        <div id="localization"
+             class="subcontent content-color sb-tour">
             <div class="col-md-12">
-                <p><?php echo __("This option enables you to set the currency used in your app"); ?></p>
                 <div class="row">
-                    <div class="col-md-5">
-                        <label for="select_locale"><?php echo __('Choose a country'); ?> : </label>
+                    <div class="col-md-6 col-xs-12">
+                        <label for="select_currency"><?php echo __("Currency"); ?> : </label>
+                        <select id="select_currency"
+                                name="currency"
+                                class="styled-select color-red sb-tour">
+                            <option value=""><?php echo p__("application", "Select a currency") ?></option>
+                            <?php foreach (Currency::getAllCurrencies() as $currency) : ?>
+                                <option value="<?php echo $currency["code"] ?>"<?php if ($application->getCurrency() === $currency["code"]) : ?> selected="selected"<?php endif; ?>><?php echo $currency["code"] ?> - <?php echo $currency["symbol_native"] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 col-xs-12">
+                        <label for="select_locale"><?php echo __("Default locale"); ?> : </label>
                         <select id="select_locale"
                                 name="locale"
                                 class="styled-select color-red sb-tour">
-                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
-                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
+                            <option value=""><?php echo p__("application", "Select a locale") ?></option>
+                            <?php foreach(Core_Model_Language::getLocalizedLocales() as $value => $label) : ?>
+                                <option value="<?php echo $value ?>"
+                                        <?php if($application->getLocale() === $value) : ?> selected="selected"<?php endif; ?>>
+                                    <?php echo ucfirst($label) ?> (<?php echo $value ?>)
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -320,7 +339,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     <div id="font_content"
          class="content sb-tour">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your font family'); ?>
+            <?php echo __("Choose your font family"); ?>
         </h3>
         <div id="fonts"
              class="subcontent content-color">
@@ -558,16 +577,19 @@ $splashVersion = (integer) $application->getSplashVersion();
                 false);
         });
 
-        $('#select_locale').change(function() {
-            var countries_loader = $('#'+this.id+'_loader');
-            countries_loader.show();
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
+        $('#select_currency').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-currency'); ?>', false, function(datas) {
                 if(datas.success) {
                     iframe.reload();
                 }
-                countries_loader.fadeOut();
-            }, function() {
-                countries_loader.fadeOut();
+            });
+        });
+
+        $('#select_locale').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-locale'); ?>', false, function(datas) {
+                if(datas.success) {
+                    iframe.reload();
+                }
             });
         });
 
