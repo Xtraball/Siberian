@@ -17,7 +17,7 @@ class Security
 
     const TRIGGERS = [
         "(<\?php|&lt;\?php|<\?|<script|&lt;script)",
-        "((INSERT\s+INTO)|(DELETE\s+FROM)|(DROP\s+TABLE)|(UPDATE.*SET)|(TRUNCATE\s+TABLE))\s+",
+        "((INSERT\s+INTO)|(DELETE\s+FROM)|(DROP\s+TABLE)|(UPDATE.*SET.*=.*('\"`))|(TRUNCATE\s+TABLE))\s+",
         "(src|onclick|onerror)\s*=\s*('|\")",
         "(self|top|parent)\s*[",
         "=\s*(self|top|parent)",
@@ -33,22 +33,22 @@ class Security
     /**
      * @param $extension
      */
-    public static function allowExtension ($extension)
+    public static function allowExtension($extension)
     {
         self::$temporaryAllowedExtensions[] = $extension;
     }
 
     /**
- * @param $_files
- * @param $session
- * @throws Exception
- * @throws \Zend_Exception
- */
-    public static function filterFiles ($_files, $session)
+     * @param $_files
+     * @param $session
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function filterFiles($_files, $session)
     {
         $allowedExtensions = (new \Firewall_Model_Rule())
             ->findAll([
-                'type' => \Firewall_Model_Rule::FW_TYPE_UPLOAD
+                'type' => \Firewall_Model_Rule::FW_TYPE_UPLOAD,
             ]);
 
         $allowedExtensionsArray = [];
@@ -109,7 +109,7 @@ class Security
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function filterGet ($_get, $session)
+    public static function filterGet($_get, $session)
     {
         $values = array_flat($_get, "get");
         foreach ($values as $key => $value) {
@@ -123,7 +123,7 @@ class Security
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function filterPost ($_post, $session)
+    public static function filterPost($_post, $session)
     {
         $values = array_flat($_post, "post");
 
@@ -138,7 +138,7 @@ class Security
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function filterBodyParams ($_bodyParams, $session)
+    public static function filterBodyParams($_bodyParams, $session)
     {
         $values = array_flat($_bodyParams, "body_params");
         foreach ($values as $key => $value) {
@@ -146,7 +146,15 @@ class Security
         }
     }
 
-    public static function checkKeyValue ($origin, $key, $value, $session)
+    /**
+     * @param $origin
+     * @param $key
+     * @param $value
+     * @param $session
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function checkKeyValue($origin, $key, $value, $session)
     {
         $tmpDir = tmp(true);
         if (strpos($value, "base64") !== false) {
@@ -162,13 +170,13 @@ class Security
 
         foreach (self::TRIGGERS as $trigger) {
             if (preg_match("~$trigger~im", $key) === 1) {
-                return self::logAlert("#$origin-001-1: Suspicious data detected.", $session);
+                return self::logAlert("#$origin-001-1: Suspicious data detected.", $session, $trigger, $key);
             }
         }
 
         foreach (self::TRIGGERS as $trigger) {
             if (preg_match("~$trigger~im", $value) === 1) {
-                return self::logAlert("#$origin-001-2: Suspicious data detected.", $session);
+                return self::logAlert("#$origin-001-2: Suspicious data detected.", $session, $trigger, $value);
             }
         }
 
@@ -188,24 +196,26 @@ class Security
     /**
      * @param $message
      * @param \Core_Model_Session $session
+     * @param $trigger
+     * @param $value
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function logAlert ($message, \Core_Model_Session $session)
+    public static function logAlert($message, \Core_Model_Session $session, $trigger, $value)
     {
         $namespace = $session->getNamespace();
         switch ($namespace) {
             case "front":
-                    $userId = $session->getAdminId();
-                    $userClass = "Admin_Model_Admin";
+                $userId = $session->getAdminId();
+                $userClass = "Admin_Model_Admin";
                 break;
             case "backoffice":
-                    $userId = $session->getBackofficeUserId();
-                    $userClass = "Backoffice_Model_User";
+                $userId = $session->getBackofficeUserId();
+                $userClass = "Backoffice_Model_User";
                 break;
             default:
-                    $userId = $session->getCustomerId();
-                    $userClass = "Customer_Model_Customer";
+                $userId = $session->getCustomerId();
+                $userClass = "Customer_Model_Customer";
                 break;
         }
 
@@ -215,6 +225,10 @@ class Security
 
         if (empty($userClass)) {
             $userClass = "undetected userClass";
+        }
+
+        if (!empty($trigger) || !empty($value)) {
+            $message = $message . " - Trigger: {$trigger}, Value: {$value}";
         }
 
         $fwLog = (new \Firewall_Model_Log());
