@@ -14,14 +14,14 @@ class Topic_Form_Import extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/topic/application/import"))
+            ->setAction(__path("/topic/application/import-user"))
             ->setAttrib("id", "topic-application-import");
 
         /** Bind as a onchange form */
         self::addClass("create", $this);
 
-        $this->addSimpleFile("filename", __("Import yml"));
+        $this->addSimpleFile("filename", __("Import CSV, JSON, YAML"));
 
-        $this->addSimpleHidden("confirm")->setValue(false);
+        $this->addSimpleHidden("value_id");
     }
 }

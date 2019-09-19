@@ -10,9 +10,20 @@ namespace Siberian;
 class Security
 {
     const FW_FORBIDDEN_EXTENSIONS = [
-        'php',
-        'js',
-        'ico',
+        "php",
+        "js",
+        "ico",
+    ];
+
+    const TRIGGERS = [
+        "(<\?php|&lt;\?php|<\?|<script|&lt;script)",
+        "(INSERT\s+INTO)",
+        "(UPDATE|DELETE|TRUNCATE|DROP)\s+",
+        "(src|onclick|onerror)\s*=",
+        "(self|top|parent)\s*[",
+        "=\s*(self|top|parent)",
+        "document\.cookie",
+        "\\\x[0-9]+",
     ];
 
     /**
@@ -101,33 +112,9 @@ class Security
      */
     public static function filterGet ($_get, $session)
     {
-        $values = array_flat($_get, 'get');
-        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
-
+        $values = array_flat($_get, "get");
         foreach ($values as $key => $value) {
-            if (strpos($value, 'base64') !== false) {
-                try {
-                    $content = base64_decode(explode(',', $value)[1]);
-                } catch (\Exception $e) {
-                    // Nope base64_decode failed!
-                    return self::logAlert('Uploaded base64 data is invalid.', $session);
-                }
-
-                if (strpos($content, '<?php') !== false) {
-                    return self::logAlert('#G-001: Suspicious upload detected.', $session);
-                }
-                $tmpFilename = $tmpDir . '/' . uniqid();
-
-                File::putContents($tmpFilename, $content);
-                chmod($tmpFilename, 0644);
-                // Second pass will use ClamAV (if available)
-                $clamav = new ClamAV();
-                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
-                    unlink($tmpFilename);
-                    return self::logAlert('#G-002: Suspicious upload detected.', $session);
-                }
-                unlink($tmpFilename);
-            }
+            self::checkKeyValue("GET", $key, $value, $session);
         }
     }
 
@@ -139,33 +126,10 @@ class Security
      */
     public static function filterPost ($_post, $session)
     {
-        $values = array_flat($_post, 'post');
-        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
+        $values = array_flat($_post, "post");
 
         foreach ($values as $key => $value) {
-            if (strpos($value, 'base64') !== false) {
-                try {
-                    $content = base64_decode(explode(',', $value)[1]);
-                } catch (\Exception $e) {
-                    // Nope base64_decode failed!
-                    return self::logAlert('Uploaded base64 data is invalid.', $session);
-                }
-
-                if (strpos($content, '<?php') !== false) {
-                    return self::logAlert('#P-001: Suspicious upload detected.', $session);
-                }
-                $tmpFilename = $tmpDir . '/' . uniqid();
-
-                File::putContents($tmpFilename, $content);
-                chmod($tmpFilename, 0644);
-                // Second pass will use ClamAV (if available)
-                $clamav = new ClamAV();
-                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
-                    unlink($tmpFilename);
-                    return self::logAlert('#P-002: Suspicious upload detected.', $session);
-                }
-                unlink($tmpFilename);
-            }
+            self::checkKeyValue("POST", $key, $value, $session);
         }
     }
 
@@ -177,33 +141,50 @@ class Security
      */
     public static function filterBodyParams ($_bodyParams, $session)
     {
-        $values = array_flat($_bodyParams, 'body_params');
-        $tmpDir = \Core_Model_Directory::getTmpDirectory(true);
-
+        $values = array_flat($_bodyParams, "body_params");
         foreach ($values as $key => $value) {
-            if (strpos($value, 'base64') !== false) {
-                try {
-                    $content = base64_decode(explode(',', $value)[1]);
-                } catch (\Exception $e) {
-                    return self::logAlert('Uploaded base64 data is invalid.', $session);
-                }
+            self::checkKeyValue("BODY", $key, $value, $session);
+        }
+    }
 
-                if (strpos($content, '<?php') !== false) {
-                    return self::logAlert('#B-001: Suspicious upload detected.', $session);
-                }
-                $tmpFilename = $tmpDir . '/' . uniqid();
+    public static function checkKeyValue ($origin, $key, $value, $session)
+    {
+        $tmpDir = tmp(true);
+        if (strpos($value, "base64") !== false) {
+            try {
+                $content = base64_decode(explode(',', $value)[1]);
+            } catch (\Exception $e) {
+                // Nope base64_decode failed!
+                return self::logAlert('Uploaded base64 data is invalid.', $session);
+            }
+        } else {
+            $content = $value;
+        }
 
-                File::putContents($tmpFilename, $content);
-                chmod($tmpFilename, 0644);
-                // Second pass will use ClamAV (if available)
-                $clamav = new ClamAV();
-                if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
-                    unlink($tmpFilename);
-                    return self::logAlert('#B-002: Suspicious upload detected.', $session);
-                }
-                unlink($tmpFilename);
+        foreach (self::TRIGGERS as $trigger) {
+            if (preg_match("~$trigger~im", $key) === 1) {
+                dbg($trigger, $key);
+                return self::logAlert("#$origin-001-1: Suspicious data detected.", $session);
             }
         }
+
+        foreach (self::TRIGGERS as $trigger) {
+            if (preg_match("~$trigger~im", $value) === 1) {
+                return self::logAlert("#$origin-001-2: Suspicious data detected.", $session);
+            }
+        }
+
+        $tmpFilename = $tmpDir . '/' . uniqid();
+
+        File::putContents($tmpFilename, $content);
+        chmod($tmpFilename, 0644);
+        // Second pass will use ClamAV (if available)
+        $clamav = new ClamAV();
+        if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
+            unlink($tmpFilename);
+            return self::logAlert("#$origin-002: Suspicious data detected.", $session);
+        }
+        unlink($tmpFilename);
     }
 
     /**
@@ -273,6 +254,6 @@ class Security
             $slack->send($slackMessage);
         }
 
-        throw new Exception($message, Exception::CODE_FW);
+        throw new Exception(p__("firewall", "This request was blocked for security reasons, please try again later."), Exception::CODE_FW);
     }
 }

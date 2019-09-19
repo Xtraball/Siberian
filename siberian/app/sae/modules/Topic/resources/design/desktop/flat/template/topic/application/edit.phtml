@@ -1,7 +1,15 @@
-<?php $application = $this->getApplication(); ?>
-<?php $option = $this->getOptionValue(); ?>
-<?php $topic = $option->getObject(); ?>
-<?php $categories = $topic->getCategories() ?>
+<?php
+
+$application = $this->getApplication();
+$option = $this->getOptionValue();
+$topic = $option->getObject();
+$categories = $topic->getCategories();
+
+
+$topicImportform = new Topic_Form_Import();
+$topicImportform->setValueId($option->getId());
+
+?>
 <div class="form_content topics-edit">
 
     <!-- Nav tabs -->
@@ -9,8 +17,8 @@
         role="tablist">
         <li role="presentation"
             class="active">
-            <a href="#description"
-               aria-controls="description"
+            <a href="#page-description"
+               aria-controls="page-description"
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-folder-open-o"></i>
@@ -41,25 +49,30 @@
         <!-- START DESCRIPTION TAB -->
         <div role="tabpanel"
              class="tab-pane active"
-             id="description">
+             id="page-description">
             <div id="page-description">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Page description'); ?>
+                    <?php echo __('Page description'); ?>
                 </h3>
                 <div class="container-fluid first-row-feature content-feature">
                     <div class="form-horizontal">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <form method="post" id="editPageDescription"
+                                <form method="post"
+                                      id="editPageDescription"
                                       action="<?php echo $this->getUrl('topic/application/editdescription'); ?>">
-                                    <textarea id="description" name="description" class="input-flat"
+                                    <textarea id="description"
+                                              name="description"
+                                              class="input-flat"
                                               maxlength="250"><?php echo $topic->getDescription(); ?></textarea>
-                                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
+                                    <input type="hidden"
+                                           name="option_value_id"
+                                           value="<?php echo $option->getId(); ?>"/>
                                 </form>
                             </div>
                             <div class="col-md-12">
                                 <button class="button btn bt_save btn color-blue pull-right"
-                                        onclick="editDescription()"><?php echo $this->_('Save'); ?></button>
+                                        onclick="editDescription()"><?php echo __('Save'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -72,10 +85,9 @@
         <div role="tabpanel"
              class="tab-pane"
              id="topics">
-            <div id="manage-topics"
-                 class="margin-bkg">
+            <div id="manage-topics">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo $this->_('Manage Topics'); ?>
+                    <?php echo p__("topic", "Manage topics"); ?>
                     <button type="button"
                             id="add_category"
                             class="btn edit_category color-blue toggle_design pull-right bt-header-right btn"
@@ -117,6 +129,15 @@
                                name="option_value_id"
                                value="<?php echo $option->getId(); ?>"/>
                     </form>
+                </div>
+            </div>
+
+            <div id="import-topics">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__("topic", "Import topics"); ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <?php echo $topicImportform; ?>
                 </div>
             </div>
         </div>
@@ -180,7 +201,7 @@
                         update: function (e, ui) {
                             var order = $('#category_root').nestedSortable('serialize');
                             $('#category_root').nestedSortable('refresh');
-                            reload($('.categories_list.sortable'), '<?php echo $this->getUrl('topic/application/order'); ?>?' + order, true, function (data) {
+                            reload($('.categories_list.sortable'), '<?php echo $this->getUrl('topic/application/order/', ["value_id" => $option->getId()]); ?>?' + order, true, function (data) {
                                 iframe.f.reload();
                             });
                         }.bind(this)
@@ -215,7 +236,7 @@
             },
             delete: function (elem, category_id) {
 
-                if (!confirm('<?php echo addslashes($this->_("Are you sure you want to delete this category and all its subcategories?")) ?>')) return false;
+                if (!confirm('<?php echo addslashes(__("Are you sure you want to delete this category and all its subcategories?")) ?>')) return false;
                 var url = '<?php echo $this->getUrl('topic/application/delete', array('option_value_id' => '#{value_id}', 'category_id' => '#{category_id}')); ?>';
                 url = url.replace('#{value_id}', '<?php echo $option->getId(); ?>').replace('#{category_id}', category_id);
                 reload(elem, url, true, function (data) {
@@ -291,7 +312,7 @@
                         }
                         if (data.result.success) {
                             category_background_uploader.hide();
-                            var params = new Array();
+                            var params = [];
                             params["url"] = '<?php echo $this->getUrl('template/crop/crop'); ?>';
                             params["file"] = data.result.files;
                             params["output_w"] = 160;
@@ -312,7 +333,7 @@
                 });
 
                 $('#cancel_category_edition').click(function () {
-                    if (confirm('<?php echo addslashes($this->_('Are you sure you want to close without saving?')); ?>')) {
+                    if (confirm('<?php echo addslashes(__('Are you sure you want to close without saving?')); ?>')) {
                         this.hideForm();
                     }
                 }.bind(this));
@@ -338,7 +359,7 @@
 
             },
             addNoTopics: function () {
-                $("#category_root").append("<li id='no_topics' class='no_topics'><?php echo $this->_("No topics for now."); ?></li>");
+                $("#category_root").append("<li id='no_topics' class='no_topics'><?php echo __("No topics for now."); ?></li>");
             }
         };
 

@@ -2,6 +2,7 @@
 
 use Siberian\ClamAV;
 use Siberian\Json;
+use Siberian\Security;
 
 /**
  * Class Core_Controller_Default_Abstract

@@ -113,7 +113,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     'customerId' => $customer->getId(),
                     'customer' => $currentCustomer,
                     'token' => Zend_Session::getId(),
-                    'type' => 'account'
+                    'type' => 'account',
+                    'request' => $request,
                 ]);
 
             } else {
@@ -129,7 +130,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
             \Siberian\Hook::trigger('mobile.login.error', [
                 'appId' => $application->getId(),
                 'message' => $e->getMessage(),
-                'type' => 'account'
+                'type' => 'account',
+                'request' => $request,
             ]);
         }
 
@@ -147,7 +149,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         \Siberian\Hook::trigger('mobile.login', [
             'appId' => $application->getId(),
             'request' => $request,
-            'type' => 'facebook'
+            'type' => 'facebook',
         ]);
 
         $datas = Siberian_Json::decode($this->getRequest()->getRawBody());
@@ -282,7 +284,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     'customerId' => $customer->getId(),
                     'customer' => $currentCustomer,
                     'token' => Zend_Session::getId(),
-                    'type' => 'facebook'
+                    'type' => 'facebook',
+                    'request' => $request,
                 ]);
 
 
@@ -295,7 +298,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 \Siberian\Hook::trigger('mobile.login.error', [
                     'appId' => $application->getId(),
                     'message' => $e->getMessage(),
-                    'type' => 'facebook'
+                    'type' => 'facebook',
+                    'request' => $request,
                 ]);
             }
 

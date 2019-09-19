@@ -212,10 +212,12 @@
       <string>comgooglemaps</string>
       <string>comgooglemaps-x-callback</string>
     </array>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Smart content with iBeacon and proximity fences</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Background location is used to send you geolocated push notifications.</string>
+    <string>Background location is used to send you geolocated push notifications</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Background location is used to send you geolocated push notifications.</string>
+    <string>Background location is used to send you geolocated push notifications</string>
     <key>NSCalendarsUsageDescription</key>
     <string>Be notified of the App events</string>
     <key>NSContactsUsageDescription</key>
