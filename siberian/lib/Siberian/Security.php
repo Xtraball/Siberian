@@ -17,12 +17,11 @@ class Security
 
     const TRIGGERS = [
         "(<\?php|&lt;\?php|<\?|<script|&lt;script)",
-        "(INSERT\s+INTO)",
-        "(UPDATE|DELETE|TRUNCATE|DROP)\s+",
-        "(src|onclick|onerror)\s*=",
+        "((INSERT\s+INTO)|(DELETE\s+FROM)|(DROP\s+TABLE)|(UPDATE.*SET)|(TRUNCATE\s+TABLE))\s+",
+        "(src|onclick|onerror)\s*=\s*('|\")",
         "(self|top|parent)\s*[",
         "=\s*(self|top|parent)",
-        "document\.cookie",
+        "document\s*\.\s*cookie",
         "\\\x[0-9]+",
     ];
 
@@ -154,8 +153,8 @@ class Security
             try {
                 $content = base64_decode(explode(',', $value)[1]);
             } catch (\Exception $e) {
-                // Nope base64_decode failed!
-                return self::logAlert('Uploaded base64 data is invalid.', $session);
+                // Nope base64_decode failed, we will check it anyway!
+                $content = $value;
             }
         } else {
             $content = $value;
@@ -163,7 +162,6 @@ class Security
 
         foreach (self::TRIGGERS as $trigger) {
             if (preg_match("~$trigger~im", $key) === 1) {
-                dbg($trigger, $key);
                 return self::logAlert("#$origin-001-1: Suspicious data detected.", $session);
             }
         }
@@ -182,13 +180,14 @@ class Security
         $clamav = new ClamAV();
         if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
             unlink($tmpFilename);
-            return self::logAlert("#$origin-002: Suspicious data detected.", $session);
+            return self::logAlert("#$origin-002: Suspicious file detected.", $session);
         }
         unlink($tmpFilename);
     }
 
     /**
      * @param $message
+     * @param \Core_Model_Session $session
      * @throws Exception
      * @throws \Zend_Exception
      */
@@ -196,26 +195,26 @@ class Security
     {
         $namespace = $session->getNamespace();
         switch ($namespace) {
-            case 'front':
+            case "front":
                     $userId = $session->getAdminId();
-                    $userClass = 'Admin_Model_Admin';
+                    $userClass = "Admin_Model_Admin";
                 break;
-            case 'backoffice':
+            case "backoffice":
                     $userId = $session->getBackofficeUserId();
-                    $userClass = 'Backoffice_Model_User';
+                    $userClass = "Backoffice_Model_User";
                 break;
             default:
                     $userId = $session->getCustomerId();
-                    $userClass = 'Customer_Model_Customer';
+                    $userClass = "Customer_Model_Customer";
                 break;
         }
 
         if (empty($userId)) {
-            $userId = 'undetected userId';
+            $userId = "undetected userId";
         }
 
         if (empty($userClass)) {
-            $userClass = 'undetected userClass';
+            $userClass = "undetected userClass";
         }
 
         $fwLog = (new \Firewall_Model_Log());
@@ -227,20 +226,20 @@ class Security
             ->save();
 
         // Slack notifications!
-        $slackIsEnabled = (boolean) __get('fw_slack_is_enabled');
+        $slackIsEnabled = (boolean) __get("fw_slack_is_enabled");
         if ($slackIsEnabled) {
             $slack = new \Siberian\Notification\Slack();
 
             $user = $fwLog->getUser();
             $userData = [
-                'id' => '-',
-                'email' => '-',
+                "id" => "-",
+                "email" => "-",
             ];
 
             if ($user) {
                 $userData = [
-                    'id' => $user->getId(),
-                    'email' => $user->getEmail(),
+                    "id" => $user->getId(),
+                    "email" => $user->getEmail(),
                 ];
             }
 
@@ -248,8 +247,8 @@ class Security
                 "%s - %s - %s - %s",
                 $fwLog->getType(),
                 $fwLog->getMessage(),
-                $userData['id'],
-                $userData['email']);
+                $userData["id"],
+                $userData["email"]);
 
             $slack->send($slackMessage);
         }

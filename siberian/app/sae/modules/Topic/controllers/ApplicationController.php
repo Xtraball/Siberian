@@ -3,6 +3,8 @@
 use Siberian\Exception;
 use Siberian\Feature;
 use Siberian\File;
+use Siberian\Json;
+use Siberian\Yaml;
 
 class Topic_ApplicationController extends Application_Controller_Default
 {
@@ -361,17 +363,25 @@ class Topic_ApplicationController extends Application_Controller_Default
                 throw new Exception("#908-02: " . p__("topic", "Unable to write file."));
             }
 
+            // Checking once!
+            $optionValue = $this->getCurrentOptionValue();
+            $topic = (new Topic_Model_Topic())->find($optionValue->getId(), "value_id");
+
+            if (!$topic->getId()) {
+                throw new Exception("#908-03: " . p__("topic", "This topic doesn't exists."));
+            }
+
             // Detect if it's a simple feature or a complete template Application!
             $filetype = pathinfo($tmpPath, PATHINFO_EXTENSION);
             switch ($filetype) {
                 case "csv":
-                    $this->importCsv($tmpPath);
+                    $this->importCsv($optionValue, $topic, $tmpPath);
                     break;
                 case "json":
-                    $this->importJson($tmpPath);
+                    $this->importJson($optionValue, $topic, $tmpPath);
                     break;
                 case "yml":
-                    $this->importYaml($tmpPath);
+                    $this->importYaml($optionValue, $topic, $tmpPath);
                     break;
             }
 
@@ -390,123 +400,227 @@ class Topic_ApplicationController extends Application_Controller_Default
     }
 
     /**
+     * @param $optionValue
+     * @param $topic
      * @param $path
      * @throws Exception
      */
-    public function importCsv($path)
+    public function importCsv($optionValue, $topic, $path)
     {
-        $optionValue = $this->getCurrentOptionValue();
-        $topic = (new Topic_Model_Topic())->find($optionValue->getId(), "value_id");
+        try {
+            $csvResource = fopen($path, "r");
+            $headers = fgetcsv($csvResource, 1024, ";", '"');
 
-        if (!$topic->getId()) {
-            throw new Exception("#908-03: " . p__("topic", "This topic doesn't exists."));
-        }
+            $hasTitle = false;
+            $hasDescription = false;
+            $hasPicture = false;
+            $titleIndex = 0;
+            $descriptionIndex = 0;
+            $pictureIndex = 0;
+            foreach ($headers as $index => $header) {
+                if ($header === "title") {
+                    $titleIndex = $index;
+                    $hasTitle = true;
+                }
 
-        $csvResource = fopen($path, "r");
-        $headers = fgetcsv($csvResource, 1024, ";", '"');
+                if ($header === "description") {
+                    $descriptionIndex = $index;
+                    $hasDescription = true;
+                }
 
-        $hasTitle = false;
-        $hasDescription = false;
-        $hasPicture = false;
-        $titleIndex = 0;
-        $descriptionIndex = 0;
-        $pictureIndex = 0;
-        foreach ($headers as $index => $header) {
-            if ($header === "title") {
-                $titleIndex = $index;
-                $hasTitle = true;
-            }
-
-            if ($header === "description") {
-                $descriptionIndex = $index;
-                $hasDescription = true;
-            }
-
-            if ($header === "picture") {
-                $pictureIndex = $index;
-                $hasPicture = true;
-            }
-        }
-
-        if (!$hasTitle && !$hasDescription) {
-            throw new Exception(p__("`title` and `description` are missing."));
-        }
-        if (!$hasTitle) {
-            throw new Exception(p__("`title` is missing."));
-        }
-        if (!$hasDescription) {
-            throw new Exception(p__("`description` is missing."));
-        }
-
-        $position = 0;
-        while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
-            $topicCategory = new Topic_Model_Category();
-            $topicCategory
-                ->setTopicId($topic->getId())
-                ->setName($line[$titleIndex])
-                ->setDescription($line[$descriptionIndex])
-                ->setPosition($position++);
-
-            if ($hasPicture) {
-                try {
-                    $tmpPicture = file_get_contents($line[$pictureIndex]);
-                    if (!$tmpPicture) {
-                        throw new Exception("silent_fail");
-                    }
-
-                    // Searching for a mime/
-
-                    $tmpPath = tmp(true) . "/" . uniqid(true);
-                    File::putContents($tmpPath, $tmpPicture);
-
-                    if (!extension_loaded("exif")) {
-                        throw new Exception("exif_missing");
-                    }
-
-                    $type = exif_imagetype($tmpPath);
-                    if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP])) {
-                        throw new Exception("invalid_type");
-                    }
-
-                    unlink($tmpPath);
-                    switch ($type) {
-                        case IMAGETYPE_GIF:
-                            $tmpPath = $tmpPath . ".gif";
-                            break;
-                        case IMAGETYPE_JPEG:
-                            $tmpPath = $tmpPath . ".jpg";
-                            break;
-                        case IMAGETYPE_PNG:
-                            $tmpPath = $tmpPath . ".png";
-                            break;
-                        case IMAGETYPE_BMP:
-                            $tmpPath = $tmpPath . ".bmp";
-                            break;
-                    }
-
-                    File::putContents($tmpPath, $tmpPicture);
-                    $path = Feature::saveImageForOption($optionValue, $tmpPath);
-
-                    $topicCategory->setPicture($path);
-                } catch (\Exception $e) {
-                    // Something went wrong while fetching picture!
+                if ($header === "picture") {
+                    $pictureIndex = $index;
+                    $hasPicture = true;
                 }
             }
 
-            $topicCategory
-                ->save();
+            if (!$hasTitle && !$hasDescription) {
+                throw new Exception(p__("`title` and `description` are missing."));
+            }
+            if (!$hasTitle) {
+                throw new Exception(p__("`title` is missing."));
+            }
+            if (!$hasDescription) {
+                throw new Exception(p__("`description` is missing."));
+            }
+
+            $position = 0;
+            while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($line[$titleIndex])
+                    ->setDescription($line[$descriptionIndex])
+                    ->setPosition($position++);
+
+                if ($hasPicture) {
+                    $this->fetchImage($optionValue, $topicCategory, $line[$pictureIndex]);
+                }
+
+                $topicCategory
+                    ->save();
+            }
+            fclose($csvResource);
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported CSV file is invalid '%s'.", null, $e->getMessage()));
         }
-        fclose($csvResource);
     }
 
-    public function importJson($path)
+    /**
+     * @param $optionValue
+     * @param $topic
+     * @param $path
+     * @throws Exception
+     */
+    public function importJson($optionValue, $topic, $path)
     {
+        $jsonResource = file_get_contents($path);
 
+        try {
+            $categories = Json::decode($jsonResource);
+
+            $position = 0;
+            foreach ($categories as $category) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($category["title"])
+                    ->setDescription($category["description"])
+                    ->setPosition($position++);
+
+                if (array_key_exists("picture", $category)) {
+                    $this->fetchImage($optionValue, $topicCategory, $category["picture"]);
+                }
+
+                $topicCategory
+                    ->save();
+
+                // Checking for child topics
+                $positionChild = 0;
+                if (array_key_exists("childs", $category)) {
+                    foreach ($category["childs"] as $child) {
+                        $topicCategoryChild = new Topic_Model_Category();
+                        $topicCategoryChild
+                            ->setTopicId($topic->getId())
+                            ->setParentId($topicCategory->getId())
+                            ->setName($child["title"])
+                            ->setDescription($child["description"])
+                            ->setPosition($positionChild++);
+
+                        if (array_key_exists("picture", $child)) {
+                            $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
+                        }
+
+                        $topicCategoryChild
+                            ->save();
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported JSON file is invalid '%s'.", null, $e->getMessage()));
+        }
     }
 
-    public function importYaml($path)
+    public function importYaml($optionValue, $topic, $path)
     {
+        $yamlResource = file_get_contents($path);
 
+        try {
+            $categories = Yaml::decode($yamlResource);
+
+            $position = 0;
+            foreach ($categories as $category) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($category["title"])
+                    ->setDescription($category["description"])
+                    ->setPosition($position++);
+
+                if (array_key_exists("picture", $category)) {
+                    $this->fetchImage($optionValue, $topicCategory, $category["picture"]);
+                }
+
+                $topicCategory
+                    ->save();
+
+                // Checking for child topics
+                $positionChild = 0;
+                if (array_key_exists("childs", $category)) {
+                    foreach ($category["childs"] as $child) {
+                        $topicCategoryChild = new Topic_Model_Category();
+                        $topicCategoryChild
+                            ->setTopicId($topic->getId())
+                            ->setParentId($topicCategory->getId())
+                            ->setName($child["title"])
+                            ->setDescription($child["description"])
+                            ->setPosition($positionChild++);
+
+                        if (array_key_exists("picture", $child)) {
+                            $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
+                        }
+
+                        $topicCategoryChild
+                            ->save();
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported YAML file is invalid '%s'.", null, $e->getMessage()));
+        }
+    }
+
+    /**
+     * @param $optionValue
+     * @param $topicCategory
+     * @param $imageUrl
+     */
+    private function fetchImage ($optionValue, $topicCategory, $imageUrl)
+    {
+        try {
+            $tmpPicture = file_get_contents($imageUrl);
+            if (!$tmpPicture) {
+                throw new Exception("silent_fail");
+            }
+
+            // Searching for a mime/
+            $tmpPath = tmp(true) . "/" . uniqid(true);
+            File::putContents($tmpPath, $tmpPicture);
+
+            if (!extension_loaded("exif")) {
+                throw new Exception("exif_missing");
+            }
+
+            $type = exif_imagetype($tmpPath);
+            if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP])) {
+                throw new Exception("invalid_type");
+            }
+
+            unlink($tmpPath);
+            switch ($type) {
+                case IMAGETYPE_GIF:
+                    $tmpPath = $tmpPath . ".gif";
+                    break;
+                case IMAGETYPE_JPEG:
+                    $tmpPath = $tmpPath . ".jpg";
+                    break;
+                case IMAGETYPE_PNG:
+                    $tmpPath = $tmpPath . ".png";
+                    break;
+                case IMAGETYPE_BMP:
+                    $tmpPath = $tmpPath . ".bmp";
+                    break;
+            }
+
+            File::putContents($tmpPath, $tmpPicture);
+            $path = Feature::saveImageForOption($optionValue, $tmpPath);
+
+            $topicCategory->setPicture($path);
+        } catch (\Exception $e) {
+            // Something went wrong while fetching picture!
+        }
     }
 
     /**

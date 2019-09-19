@@ -35,6 +35,15 @@ $topicImportform->setValueId($option->getId());
             </a>
         </li>
         <li role="presentation">
+            <a href="#import-topics"
+               aria-controls="import-topics"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-upload"></i>
+                <?php echo p__("topic", "Import") ?>
+            </a>
+        </li>
+        <li role="presentation">
             <a href="#design"
                aria-controls="design"
                role="tab"
@@ -131,17 +140,45 @@ $topicImportform->setValueId($option->getId());
                     </form>
                 </div>
             </div>
+        </div>
+        <!-- END TOPICS TAB -->
 
-            <div id="import-topics">
-                <h3 class="title-editor no-border-radius title-feature-indent">
+        <!-- START IMPORT TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="import-topics">
+            <div>
+                <h3 class="title-editor no-border-radius title-feature-indent margin-top">
                     <?php echo p__("topic", "Import topics"); ?>
                 </h3>
                 <div class="container-fluid first-row-feature content-feature">
                     <?php echo $topicImportform; ?>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php echo p__("topic", "Download file examples: ") ?>
+                            <a class="btn btn-xs color-blue default_button"
+                               target="_blank"
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.csv">CSV</a>,
+                            <a class="btn btn-xs color-blue default_button"
+                               target="_blank"
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.json">JSON</a>,
+                            <a class="btn btn-xs color-blue default_button"
+                               target="_blank"
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.yml">YAML</a>
+                        </div>
+
+                        <div class="col-md-12"
+                             style="margin-top: 15Px;">
+                            <div class="alert alert-warning">
+                                <?php echo p__("topic", "Please note that only JSON & YAML supports nested topics, CSV works only with single level imports.") ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- END TOPICS TAB -->
+        <!-- END IMPORT TAB -->
 
         <!-- START DESIGN TAB -->
         <div role="tabpanel"
@@ -376,24 +413,23 @@ $topicImportform->setValueId($option->getId());
                 add: function (el, data) {
                     stored_data = data;
                     data.submit();
+                    category_background_uploader.showProgressbar();
+                },
+                progressall: function (e, data) {
+                    category_background_uploader.moveProgressbar(data);
                 },
                 done: function (el, data) {
-                    if (data.result.confirm) {
-                        if (window.confirm(data.result.message)) {
-                            $("#confirm").val(1);
-                            stored_data.submit();
-                            stored_data = null;
-                        }
-                    } else if (data.result.error) {
-                        feature_form_error(data.result.message);
-                    } else {
-                        modal_import_export.hide();
+                    category_background_uploader.hide();
+                    if (data.result.error) {
+                        category_background_uploader.showError(data.result.message);
+                    }
+                    if (data.result.success) {
+                        feature_form_success(data.result.message);
                     }
                 },
                 fail: function(el, data) {
-                    if (data.result.error) {
-                        feature_form_error(data.result.message);
-                    }
+                    category_background_uploader.hide();
+                    category_background_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
                 }
             });
 
