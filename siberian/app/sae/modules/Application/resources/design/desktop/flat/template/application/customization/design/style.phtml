@@ -817,7 +817,6 @@ $splashVersion = (integer) $application->getSplashVersion();
                         carousel.stopInterval('prev');
                     }
                 });
-
             },
             stop: function () {
                 $(document).unbind('mousemove');
@@ -860,10 +859,12 @@ $splashVersion = (integer) $application->getSplashVersion();
         min-height: 120px;
         background-color: #E9E9E9;
         padding: 15px 40px;
+        border-radius: 2px;
     }
     #uploaded_slider_images > div {
         margin: auto;
         overflow: hidden;
+        min-width: 100%;
     }
     #uploaded_slider_images.listing ul {
         height: 100%;
@@ -878,6 +879,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     #uploaded_slider_images.listing ul li {
         float: left;
         width: 185px;
+        min-height: 129px;
         height: 100%;
         padding: 0;
         transition: none;
@@ -936,7 +938,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
     #uploaded_slider_images #carousel_prev, #uploaded_slider_images #carousel_next {
         position: absolute;
-        top: 50px;
+        top: 68px;
         width: 16px;
         height: 92px;
         padding: 0;
