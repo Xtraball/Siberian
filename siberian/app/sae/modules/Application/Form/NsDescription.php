@@ -25,6 +25,11 @@ class Application_Form_NsDescription extends Siberian_Form_Abstract {
             ->setDescription(__('Specifies the reason for your app to access the phone bluetooth features.'))
             ->setAttrib('maxlength', 256);
 
+        $this->addSimpleText('ns_bluetooth_peripheral_ud',
+            __('NSBluetoothPeripheralUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the phone bluetooth features.'))
+            ->setAttrib('maxlength', 256);
+
         $this->addSimpleText('ns_photo_library_ud',
             __('NSPhotoLibraryUsageDescription'))
             ->setDescription(__('Specifies the reason for your app to access the user\'s photo library.'))

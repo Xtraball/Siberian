@@ -316,6 +316,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $NSDescriptions = [
             'NSCameraUsageDescription' => 'ns_camera_ud',
             'NSBluetoothAlwaysUsageDescription' => 'ns_bluetooth_always_ud',
+            'NSBluetoothPeripheralUsageDescription' => 'ns_bluetooth_peripheral_ud',
             'NSPhotoLibraryUsageDescription' => 'ns_photo_library_ud',
             'NSLocationWhenInUseUsageDescription' => 'ns_location_when_in_use_ud',
             'NSLocationAlwaysUsageDescription' => 'ns_location_always_ud',

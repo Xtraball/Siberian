@@ -225,6 +225,14 @@ $splashVersion = (integer) $application->getSplashVersion();
                                     </div>
                                 </div>
                                 <div class="slider_images_uploader_action text-right">
+
+                                    <?php
+                                    $textInfo = p__("application", "Please note that images can be slightly cropped on both sides, consider using a margin if you need to display textual information.");
+                                    ?>
+                                    <div class="alert alert-info text-left">
+                                        <?php echo $textInfo; ?>
+                                    </div>
+
                                     <button type="button"
                                             class="upload_images btn color-red"
                                             rel="<?php echo $this->getPosition(); ?>">

@@ -214,6 +214,8 @@
     </array>
     <key>NSBluetoothAlwaysUsageDescription</key>
     <string>Smart content with iBeacon and proximity fences</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>Smart content with iBeacon and proximity fences</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Background location is used to send you geolocated push notifications</string>
     <key>NSLocationAlwaysUsageDescription</key>

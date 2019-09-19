@@ -105,6 +105,18 @@ class Application_Model_Device extends Core_Model_Default {
      * @return $this
      * @throws Zend_Exception
      */
+    public function setNsBluetoothPeripheralUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_bluetooth_peripheral_ud', $_filtered);
+    }
+
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
     public function setNsPhotoLibraryUd($description)
     {
         $_filtered = \Siberian\Xss::sanitize($description);
