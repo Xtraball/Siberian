@@ -31,11 +31,48 @@ class Security
     public static $temporaryAllowedExtensions = [];
 
     /**
+     * @var array
+     */
+    public static $routesWhitelist = [];
+
+    /**
      * @param $extension
      */
     public static function allowExtension($extension)
     {
         self::$temporaryAllowedExtensions[] = $extension;
+    }
+
+    /**
+     * @param $route
+     */
+    public static function whitelistRoute($route)
+    {
+        self::$routesWhitelist[] = $route;
+    }
+
+    /**
+     * @return bool
+     */
+    public static function isEnabled()
+    {
+        $isEnabled = __get("waf_enabled");
+        return ($isEnabled === "1");
+    }
+
+    /**
+     * @param $route
+     * @return bool
+     */
+    public static function isWhitelisted($route)
+    {
+        foreach (self::$routesWhitelist as $routePattern) {
+            if (preg_match("~$routePattern~im", $route) === 1) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -267,6 +304,6 @@ class Security
             $slack->send($slackMessage);
         }
 
-        throw new Exception(p__("firewall", "This request was blocked for security reasons, please try again later."), Exception::CODE_FW);
+        throw new Exception(p__("firewall", "This request was blocked for security reasons, please try again later.", "mobile"), Exception::CODE_FW);
     }
 }

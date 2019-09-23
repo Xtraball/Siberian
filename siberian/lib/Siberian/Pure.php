@@ -589,7 +589,7 @@ function __ss($string)
  * Short alias for Config getter
  *
  * @param $code
- * @return mixed
+ * @return string
  */
 function __get($code)
 {
