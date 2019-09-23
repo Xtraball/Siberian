@@ -50,6 +50,18 @@ App.factory('Firewall', function($http, Url) {
         });
     };
 
+    factory.saveWafEnabled = function (enabled) {
+        return $http({
+            method: 'POST',
+            url: Url.get("firewall/index/savewafenabled"),
+            data: {
+                waf_enabled: enabled
+            },
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     factory.saveFwSlackSettings = function (settings) {
         return $http({
             method: 'POST',

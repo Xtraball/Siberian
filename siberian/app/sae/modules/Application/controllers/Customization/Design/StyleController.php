@@ -818,7 +818,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
      */
     public function saveCurrencyAction()
     {
-        try {
+            try {
             $request = $this->getRequest();
             $datas = $request->getPost();
 
@@ -835,12 +835,12 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 "success" => true,
                 "message" => p__("application", "Currency saved.")
             ];
-        } catch (Exception $e) {
+            } catch (Exception $e) {
             $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
             ];
-        }
+            }
 
         $this->_sendJson($payload);
     }

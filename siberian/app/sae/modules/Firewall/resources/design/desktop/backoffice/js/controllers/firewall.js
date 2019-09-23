@@ -26,6 +26,9 @@ App.config(function($routeProvider) {
                 $scope.fw_clamd = data.fw_clamd;
                 $scope.fw_slack = data.fw_slack;
                 $scope.fw_logs = data.fw_logs;
+                $scope.waf = {
+                    enabled: data.waf_enabled
+                };
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
             });
@@ -75,6 +78,20 @@ App.config(function($routeProvider) {
             }).finally(function () {
                 $scope.content_loader_is_visible = false;
             });
+    };
+
+    $scope.saveWafEnabled = function () {
+        $scope.content_loader_is_visible = true;
+
+        Firewall
+        .saveWafEnabled($scope.waf.enabled)
+        .success(function(data) {
+            $scope.message.onSuccess(data);
+        }).error(function(data) {
+            $scope.message.onError(data);
+        }).finally(function () {
+            $scope.content_loader_is_visible = false;
+        });
     };
 
     $scope.saveFwSlackSettings = function () {

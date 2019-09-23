@@ -89,7 +89,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     'appId' => $application->getId(),
                     'customerId' => $customer->getId(),
                     'customer' => $currentCustomer,
-                    'token' => Zend_Session::getId()
+                    'token' => Zend_Session::getId(),
+                    'request' => $request,
                 ]);
 
             } catch (Exception $e) {
@@ -98,7 +99,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 \Siberian\Hook::trigger('mobile.register.error', [
                     'appId' => $application->getId(),
                     'message' => $e->getMessage(),
-                    'type' => 'account'
+                    'type' => 'account',
+                    'request' => $request,
                 ]);
             }
 

@@ -164,6 +164,20 @@ $schemas['application_device'] = array(
         'collation' => 'utf8_unicode_ci',
         'default' => 'Scan QRCode and share pictures',
     ],
+    'ns_bluetooth_always_ud' => [
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'Smart content with iBeacon and proximity fences',
+    ],
+    'ns_bluetooth_peripheral_ud' => [
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'Smart content with iBeacon and proximity fences',
+    ],
     'ns_photo_library_ud' => [
         'type' => 'varchar(256)',
         'is_null' => true,

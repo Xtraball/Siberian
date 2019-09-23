@@ -10,7 +10,6 @@ namespace Siberian;
  * @version 4.16.0
  *
  */
-
 class Assets
 {
     /**
@@ -646,7 +645,7 @@ class Assets
              *
              * with angular.module("starter") for $ocLazyLoad */
             __replace([
-                "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1'
+                "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1',
             ], $tmp_file, true);
 
             self::copyAssets($tmp_file, null, $bundle_path);
@@ -716,7 +715,7 @@ class Assets
                 ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-templates.js', [
                         'module' => 'templates',
-                        'root' => 'templates/'
+                        'root' => 'templates/',
                     ]
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));
@@ -726,7 +725,7 @@ class Assets
                 ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-modules.js', [
                         'module' => 'templates',
-                        'root' => 'modules/'
+                        'root' => 'modules/',
                     ]
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));
@@ -740,7 +739,7 @@ class Assets
                 ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-features.js', [
                         'module' => 'templates',
-                        'root' => 'features/'
+                        'root' => 'features/',
                     ]
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));

@@ -16,30 +16,43 @@ $source_code = $option_value->getObject();
             <?php echo __('Source Code'); ?>
         </h3>
         <div class="container-fluid first-row-feature content-feature">
-            <form id="sourcecodeCreateForm" action="<?php echo $this->getUrl('sourcecode/application/editpost') ?>" method="post" class="form-horizontal">
+            <form id="sourcecodeCreateForm"
+                  action="<?php echo $this->getUrl('sourcecode/application/editpost') ?>"
+                  method="post"
+                  class="form-horizontal">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button type="button" onclick="page.reload()" class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
-                        <button type="submit" class="btn color-blue pull-right">OK</button>
+                        <button type="button"
+                                onclick="page.reload()"
+                                class="btn color-blue pull-left">
+                            <i class="fa fa-angle-left"></i>
+                        </button>
+                        <button type="submit"
+                                class="btn color-blue pull-right">OK</button>
                     </div>
                 </div>
-                <br />
-                <?php if(!!$this->getApplication()->getOfflineContent()): ?>
-                <div class="form-group">
-                    <div class="col-md-12">
+                <br/>
+                <?php if (!!$this->getApplication()->getOfflineContent()): ?>
+                    <div class="form-group">
+                        <div class="col-md-12">
 
-                        <div id="information-offline" class="alert alert-info" <?php if(!$source_code->getAllowOffline()) echo 'style="display: none;"' ?>>
-                            <?php echo __("Be aware that if the code you enter here requires any kind of server interaction it will not work properly in offline mode."); ?>
+                            <div id="information-offline"
+                                 class="alert alert-info" <?php if (!$source_code->getAllowOffline()) echo 'style="display: none;"' ?>>
+                                <?php echo __("Be aware that if the code you enter here requires any kind of server interaction it will not work properly in offline mode."); ?>
+                            </div>
+
+                            <label for="allow_offline_source_code_<?php echo $option_value->getId(); ?>"
+                                   class="checkbox-inline">
+                                <input type="hidden" name="display_search" value="0">
+                                <input type="checkbox"
+                                       id="allow_offline_source_code_<?php echo $option_value->getId(); ?>"
+                                       name="allow_offline" <?php if (!!$source_code->getAllowOffline()) echo 'checked="checked"' ?>
+                                       class="sb-form-checkbox checkbox color-blue">
+                                <?php echo __("Allow offline mode"); ?>
+                            </label>
+
                         </div>
-
-                        <label for="allow_offline_source_code_<?php echo $option_value->getId(); ?>" class="checkbox-inline">
-                            <input type="hidden" name="display_search" value="0">
-                            <input type="checkbox"  id="allow_offline_source_code_<?php echo $option_value->getId(); ?>" name="allow_offline" <?php if(!!$source_code->getAllowOffline()) echo 'checked="checked"' ?> class="sb-form-checkbox checkbox color-blue">
-                            <?php echo __("Allow offline mode"); ?>
-                        </label>
-
                     </div>
-                </div>
                 <?php endif; ?>
 
                 <div class="form-group">
@@ -50,9 +63,11 @@ $source_code = $option_value->getObject();
                 </div>
                 <div class="form-group">
                     <div class="col-md-12">
-                        <textarea id="html_source_code_<?php echo $option_value->getId(); ?>" class="html_source_code input-flat" name="html_code"><?php echo htmlentities($source_code->getHtmlCode(), ENT_QUOTES, 'UTF-8'); ?></textarea>
+                        <textarea id="html_source_code_<?php echo $option_value->getId(); ?>"
+                                  class="html_source_code input-flat"
+                                  name="html_code"><?php echo htmlentities($source_code->getHtmlCode(), ENT_QUOTES, 'UTF-8'); ?></textarea>
                     </div>
-                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>" />
+                    <input type="hidden" name="option_value_id" value="<?php echo $option_value->getId(); ?>"/>
                 </div>
             </form>
         </div>
@@ -79,7 +94,7 @@ $source_code = $option_value->getObject();
         window.markup_links = [];
         window.selectedLink = null;
 
-        window.selectLink = function(link) {
+        window.selectLink = function (link) {
             var el = $(link);
             el.parents(".cke-dialog-links").find("a").removeClass("selected");
             el.addClass("selected");
@@ -87,10 +102,10 @@ $source_code = $option_value->getObject();
             window.selectedLink = link;
         };
 
-        page.setCallback('didappear', function() {
-            $('#sourcecodeCreateForm').submit(function() {
-                reload(this, this.action, true, function(data) {
-                    if(data.success) {
+        page.setCallback('didappear', function () {
+            $('#sourcecodeCreateForm').submit(function () {
+                reload(this, this.action, true, function (data) {
+                    if (data.success) {
                         page.reload();
                     }
                 });
@@ -98,68 +113,68 @@ $source_code = $option_value->getObject();
             });
         });
 
-        page.setCallback('willdisappear', function() {
+        page.setCallback('willdisappear', function () {
             $('#sourcecodeCreateForm').unbind('submit');
             $(".dialog-inapplinks").hide();
         });
 
         function parseLinks(pack, markup, level, value_id) {
-            pack.forEach(function(feature) {
-                var feat            = (level == 0) ? feature[1][0] : feature;
-                var label           = (level == 0) ? feature[0] : feature["label"];
-                var indent_label    = (level == 0) ? "" : "&nbsp;&nbsp;".repeat(level-1)+"└&nbsp;";
+            pack.forEach(function (feature) {
+                var feat = (level == 0) ? feature[1][0] : feature;
+                var label = (level == 0) ? feature[0] : feature["label"];
+                var indent_label = (level == 0) ? "" : "&nbsp;&nbsp;".repeat(level - 1) + "└&nbsp;";
 
                 var params = 'data-params=""';
-                if(typeof feat["params"] != "undefined") {
+                if (typeof feat["params"] != "undefined") {
                     var p = $.param(feat["params"]).replace(/=/g, ":").replace(/&/g, ",");
 
-                    params = 'data-params="'+p+'"';
+                    params = 'data-params="' + p + '"';
 
-                    if(typeof feat["params"]["value_id"] != "undefined") {
+                    if (typeof feat["params"]["value_id"] != "undefined") {
                         value_id = feat["params"]["value_id"];
                     }
                 }
 
                 var offline = false;
-                if(typeof feat["offline"] != "undefined") {
+                if (typeof feat["offline"] != "undefined") {
                     offline = feat["offline"];
                 }
 
-                markup.push('<a class="cke-feature-link" href="javascript:void(0);" onclick="selectLink(this);" data-level="'+level+'" data-valueid="'+value_id+'" data-label="'+label+'" data-state="'+feat["state"]+'" data-offline="'+offline+'" '+params+'>'+indent_label+label+'</a>');
+                markup.push('<a class="cke-feature-link" href="javascript:void(0);" onclick="selectLink(this);" data-level="' + level + '" data-valueid="' + value_id + '" data-label="' + label + '" data-state="' + feat["state"] + '" data-offline="' + offline + '" ' + params + '>' + indent_label + label + '</a>');
 
-                if(typeof feat["childrens"] != "undefined") {
-                    parseLinks(feat["childrens"], markup, level+1, value_id);
+                if (typeof feat["childrens"] != "undefined") {
+                    parseLinks(feat["childrens"], markup, level + 1, value_id);
                 }
             });
 
             return markup;
         }
 
-        $(document).off("keyup").on("keyup", ".cke-links-search-input", function() {
+        $(document).off("keyup").on("keyup", ".cke-links-search-input", function () {
             var search = $(this);
             var value = search.val().toLowerCase().trim();
             var links = search.parent(".cke-links-search").next(".cke-dialog-links").find(".cke-feature-link");
 
-            if(value.length == 0) {
-                setTimeout(function() {
+            if (value.length == 0) {
+                setTimeout(function () {
                     links.removeClass("cke-highlight cke-parent-highlight");
                     links.show();
                 }, 100);
             } else {
                 links.removeClass("cke-highlight cke-parent-highlight");
                 links.hide();
-                links.each(function() {
+                links.each(function () {
                     var el = $(this);
                     var filter = el.text().toLowerCase();
 
-                    if(filter.indexOf(value) > -1) {
+                    if (filter.indexOf(value) > -1) {
                         el.addClass("cke-highlight").show();
                         var value_id = el.attr("data-valueid");
                         var level = el.attr("data-level");
-                        el.prevAll("a[data-valueid='"+value_id+"']")
-                            .not("[data-level='"+level+"']")
-                            .addClass("cke-parent-highlight")
-                            .show();
+                        el.prevAll("a[data-valueid='" + value_id + "']")
+                        .not("[data-level='" + level + "']")
+                        .addClass("cke-parent-highlight")
+                        .show();
                     }
                 });
             }
@@ -172,7 +187,7 @@ $source_code = $option_value->getObject();
                 '   <input type="text" class="cke-links-search-input cke_dialog_ui_input_text input-flat" name="cke-links-search" value="" placeholder="Filter ..." />' +
                 '</div>' +
                 '<div class="cke-dialog-links">' +
-                '   '+window.markup_links.join("")+'' +
+                '   ' + window.markup_links.join("") + '' +
                 '</div>';
 
             $(".dialog-inapplinks .dialog-subcontent").html(html_markup);
@@ -184,7 +199,7 @@ $source_code = $option_value->getObject();
             });
         }
 
-        $(".open-inapplinks").on("click", function(event) {
+        $(".open-inapplinks").on("click", function (event) {
             event.preventDefault();
 
             window.markup_links = [];
@@ -193,7 +208,7 @@ $source_code = $option_value->getObject();
             openInapplinks();
         });
 
-        $(".dialog-inapplinks .dialog-close").on("click", function() {
+        $(".dialog-inapplinks .dialog-close").on("click", function () {
             $(".dialog-inapplinks").hide();
         });
 
@@ -203,7 +218,7 @@ $source_code = $option_value->getObject();
             doc.replaceRange(text, cursor);
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var textarea = document.getElementById("html_source_code_<?php echo $option_value->getId(); ?>");
             var editor = CodeMirror.fromTextArea(textarea, {
                 matchBrackets: true,
@@ -212,33 +227,40 @@ $source_code = $option_value->getObject();
                 htmlMode: true
             });
 
-            setTimeout(function() {
+            setTimeout(function () {
                 editor.refresh();
             }, 1000);
 
 
-            $("button.insert-current").on("click", function(event) {
+            $("button.insert-current").on("click", function (event) {
                 var link = window.selectedLink;
 
-                var link_markup = "\n"+'<a data-state="'+link.attributes["data-state"].value+'" data-params="'+link.attributes["data-params"].value+'" data-offline="'+link.attributes["data-offline"].value+'">'+link.attributes["data-label"].value+'</a>'+"\n";
+                var link_markup = "\n" + '<a data-state="' + link.attributes["data-state"].value + '" data-params="' + link.attributes["data-params"].value + '" data-offline="' + link.attributes["data-offline"].value + '">' + link.attributes["data-label"].value + '</a>' + "\n";
 
                 insertTextAtCursor(editor, link_markup);
 
-                if($(this).hasClass("button-close")) {
+                if ($(this).hasClass("button-close")) {
                     $(".dialog-inapplinks").hide();
                 }
             });
         });
 
-        $("input[name='allow_offline']").on("click", function() {
+        $("input[name='allow_offline']").on("click", function () {
             var el = $(this);
             $("#information-offline").toggle(el.prop("checked"));
         });
 
     </script>
     <style>
-        .source_code .html_source_code { width: 100%; height: 480px; }
-        .source_code .buttons { padding:5px; }
+        .source_code .html_source_code {
+            width: 100%;
+            height: 480px;
+        }
+
+        .source_code .buttons {
+            padding: 5px;
+        }
+
         .CodeMirror {
             font-size: 12px;
             background-color: #f3f3f3 !important;

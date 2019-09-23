@@ -20,18 +20,19 @@
                         class="form-control"
                         ng-model="configs.update_channel.value">
                     <option value="stable"><?php echo __("Stable"); ?></option>
-                    <option value="beta"><?php echo __("Beta"); ?></option>
-                    <!--option value="preview"><?php echo __("Preview 5.0"); ?></option-->
+                    <option value="beta"><?php echo __("Testing / Beta"); ?></option>
                 </select>
             </div>
 
             <div class="col-md-6">
                 <br />
-                <p class="alert alert-info">
+                <p ng-if="configs.environment.value == 'production'"
+                   class="alert alert-info">
                     <b><?php echo __('Production') ?></b>:
                     <?php echo __('The default setting to run your production server.') ?>
                 </p>
-                <p class="alert alert-danger">
+                <p ng-if="configs.environment.value == 'development'"
+                   class="alert alert-danger">
                     <b><?php echo __('Development') ?></b>:
                     <?php echo __('Errors are displayed on page, outputs are more verbose, this is an option for debug purpose, use with care as it may output some critical informations about your server.') ?>
                 </p>
