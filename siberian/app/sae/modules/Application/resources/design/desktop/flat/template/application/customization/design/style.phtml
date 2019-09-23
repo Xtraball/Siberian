@@ -613,16 +613,26 @@ $splashVersion = (integer) $application->getSplashVersion();
 
         $('#select_currency').change(function() {
             reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-currency'); ?>', false, function(datas) {
-                if(datas.success) {
-                    iframe.reload();
+                if (datas.success) {
+                    $("#currency-warning").remove();
+                    try {
+                        iframe.reload();
+                    } catch (e) {
+                        // Silently fails!
+                    }
                 }
             });
         });
 
         $('#select_locale').change(function() {
             reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-locale'); ?>', false, function(datas) {
-                if(datas.success) {
-                    iframe.reload();
+                if (datas.success) {
+                    $("#locale-warning").remove();
+                    try {
+                        iframe.reload();
+                    } catch (e) {
+                        // Silently fails!
+                    }
                 }
             });
         });

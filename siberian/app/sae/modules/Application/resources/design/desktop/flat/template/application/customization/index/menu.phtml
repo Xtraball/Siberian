@@ -117,13 +117,15 @@ $hasFeatures = $application->getOptions()->count() >= 1;
 <?php if ($hasFeatures && ($warningCurrency || $warningLocale)): ?>
 <div class="app-warnings">
     <?php if ($warningCurrency): ?>
-        <div class="alert alert-warning">
-            <?php echo p__("application", "Your application currency is not defined, please select one in <a href=\"%s\" class=\"bold-link\">Design > Localization settings</a>", null, "/application/customization_design_style/edit") ?>
+        <div id="currency-warning"
+             class="alert alert-warning">
+            <?php echo p__("application", "Your applicsation currency is not defined, please select one in <a href=\"%s\" class=\"bold-link\">Design > Localization settings</a>", null, "/application/customization_design_style/edit") ?>
         </div>
     <?php endif; ?>
 
     <?php if ($warningLocale): ?>
-        <div class="alert alert-warning">
+        <div id="locale-warning"
+             class="alert alert-warning">
             <?php echo p__("application", "Your application locale is not defined, please select one in <a href=\"%s\" class=\"bold-link\">Design > Localization settings</a>", null, "/application/customization_design_style/edit") ?>
         </div>
     <?php endif; ?>
