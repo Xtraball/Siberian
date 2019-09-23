@@ -2,6 +2,12 @@
 // --------------------------
 
 .ionicons,
+.#{$ionicons-prefix}admin-cross:before,
+.#{$ionicons-prefix}admin-cross-2:before,
+.#{$ionicons-prefix}admin-move:before,
+.#{$ionicons-prefix}admin-scroll:before,
+.#{$ionicons-prefix}admin-selected:before,
+.#{$ionicons-prefix}admin-trash:before,
 .#{$ionicons-prefix}alert:before,
 .#{$ionicons-prefix}alert-circled:before,
 .#{$ionicons-prefix}android-add:before,
@@ -1008,6 +1014,12 @@
 {
   @extend .ion;
 }
+.#{$ionicons-prefix}admin-cross:before { content: $ionicon-var-admin-cross; }
+.#{$ionicons-prefix}admin-cross-2:before { content: $ionicon-var-admin-cross-2; }
+.#{$ionicons-prefix}admin-move:before { content: $ionicon-var-admin-move; }
+.#{$ionicons-prefix}admin-scroll:before { content: $ionicon-var-admin-scroll; }
+.#{$ionicons-prefix}admin-selected:before { content: $ionicon-var-admin-selected; }
+.#{$ionicons-prefix}admin-trash:before { content: $ionicon-var-admin-trash; }
 .#{$ionicons-prefix}alert:before { content: $ionicon-var-alert; }
 .#{$ionicons-prefix}alert-circled:before { content: $ionicon-var-alert-circled; }
 .#{$ionicons-prefix}android-add:before { content: $ionicon-var-android-add; }

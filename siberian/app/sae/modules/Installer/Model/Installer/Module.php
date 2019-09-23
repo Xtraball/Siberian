@@ -474,6 +474,9 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                         if ($main_route) { // If we have, it definitely is a feature
                             $featureJson['mobile_uri'] = 'goto/feature/' . $featureJson['code'];
                             $this->_features[$featureJson['code']] = $featureJson;
+                        } else {
+                            // It's a service!
+                            $this->_features[$featureJson['code']] = $featureJson;
                         }
                     }
                 }

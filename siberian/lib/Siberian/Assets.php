@@ -13,7 +13,6 @@ use MatthiasMullie\Minify\CSS as MinifyCSS;
  * @version 4.16.0
  *
  */
-
 class Assets
 {
     /**
@@ -568,19 +567,23 @@ class Assets
             if ($custom_fields) {
                 $data["custom_fields"] = json_encode($custom_fields);
             }
-            
-            $option = Feature::installFeature(
-                $category,
-                $data,
-                $icons
-            );
 
-            if (!empty($layouts)) {
-                Feature::installLayouts(
-                    $option->getId(),
-                    $code,
-                    $layouts
+            // Install option & layouts only if it's a feature,
+            // "_service" is a custom new category for "service modules"
+            if ($category !== "_service") {
+                $option = Feature::installFeature(
+                    $category,
+                    $data,
+                    $icons
                 );
+
+                if (!empty($layouts)) {
+                    Feature::installLayouts(
+                        $option->getId(),
+                        $code,
+                        $layouts
+                    );
+                }
             }
         }
     }
@@ -647,7 +650,7 @@ class Assets
              *
              * with angular.module("starter") for $ocLazyLoad */
             __replace([
-                "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1'
+                "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1',
             ], $tmpFile, true);
 
             self::copyAssets($tmpFile, null, $bundlePath);
@@ -717,7 +720,7 @@ class Assets
                 ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-templates.js', [
                         'module' => 'templates',
-                        'root' => 'templates/'
+                        'root' => 'templates/',
                     ]
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));
@@ -727,7 +730,7 @@ class Assets
                 ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
                     'templates-modules.js', [
                         'module' => 'templates',
-                        'root' => 'modules/'
+                        'root' => 'modules/',
                     ]
                 ))
                 ->pipe($phulp->dest($source . '/dist/'));

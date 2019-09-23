@@ -250,10 +250,7 @@ i.fa.fa-plus {
     transition: all 0.5s ease 0s;
     width: 0;
     z-index: 10;
-}
-
-#left-sidebar-wrapper ul.sidebar-nav {
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 .super-toggler {
@@ -275,6 +272,7 @@ i.fa.fa-plus {
     top: 0;
     height: 100%;
     z-index: 1;
+    overflow: hidden;
 }
 
 #right-sidebar-wrapper {
@@ -328,7 +326,9 @@ i.fa.fa-plus {
     list-style: outside none none;
     margin: 0;
     padding: 0;
-    width: 250px;
+    width: 265px;
+    overflow-y: scroll;
+    height: 100%;
 }
 
 .sidebar-nav li {
@@ -2693,7 +2693,7 @@ Side bar left menu small screen
     }
 
     #left-sidebar-wrapper .sidebar-nav {
-        width: 68px;
+        width: 83px;
     }
 
     #left-sidebar-wrapper .sidebar-nav .icon.ion-chevron-right {

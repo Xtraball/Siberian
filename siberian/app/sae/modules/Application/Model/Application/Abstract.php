@@ -1811,10 +1811,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function isFreeTrialExpired()
     {
-        if (Siberian_Version::TYPE != "PE") return false;
+        if (Siberian_Version::TYPE !== "PE") {
+            return false;
+        }
 
         $date_expire_at = $this->getFreeUntil();
-        if (!$date_expire_at) return false;
+        if (empty($date_expire_at) || !$date_expire_at) {
+            return true;
+        }
 
         $date = new Zend_Date();
         $date_until = new Zend_Date($date_expire_at, "y-MM-d HH:mm:ss");

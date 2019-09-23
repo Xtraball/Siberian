@@ -73,7 +73,7 @@ angular.module("starter").controller("JobListController", function (Location, So
         $scope.filters.more_search = false;
         $scope.filters.position = false;
         $scope.filters.keywords = null;
-        $scope.filters.radius = 4;
+        $scope.filters.radius = Job.settings.default_radius || 4;
         $scope.filters.distance = 0;
 
         $scope.closeFilterModal();
@@ -206,9 +206,11 @@ angular.module("starter").controller("JobListController", function (Location, So
         Job.categories = $scope.categories = $scope.settings.categories;
         $scope.cardDesign = $scope.settings.cardDesign;
 
+        $scope.filters.radius = Job.settings.default_radius || 4;
+        $scope.filters.distance_unit = Job.settings.distance_unit || 4;
+
         Job.collection = [];
         $scope.collection = [];
         $scope.loadContent(true);
     });
-
 });

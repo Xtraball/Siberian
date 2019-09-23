@@ -1,3 +1,35 @@
+<sb-section title="'<?php echo addcslashes(p__("firewall", "Firewall"), "'"); ?>'">
+    <div class="form-group">
+        <form ng-submit="saveWafEnabled()">
+            <div class="col-md-6">
+                <label for="waf_enabled"><?php echo p__("firewall", "Firewall") ?></label>
+                <select id="waf_enabled"
+                        class="form-control"
+                        ng-model="waf.enabled">
+                    <option value="1"><?php echo p__("firewall", "Enabled"); ?></option>
+                    <option value="0"><?php echo p__("firewall", "Disabled"); ?></option>
+                </select>
+            </div>
+
+            <div class="clear col-md-12">
+                <br />
+                <p ng-if="waf.enabled == 0"
+                   class="alert alert-warning">
+                    <b><?php echo p__("firewall", "WAF Disabled") ?></b>:
+                    <?php echo p__("firewall", "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks.") ?>
+                </p>
+            </div>
+
+            <div class="col-md-2 pull-right">
+                <button style="margin-top: 24px;"
+                        class="btn btn-primary"
+                        type="submit"><?php echo __("Save") ?></button>
+            </div>
+        </form>
+        <div style="clear:both;"></div>
+    </div>
+</sb-section>
+
 <sb-section title="'<?php echo addcslashes(__("ClamAV settings"), "'"); ?>'">
     <div class="form-group">
 

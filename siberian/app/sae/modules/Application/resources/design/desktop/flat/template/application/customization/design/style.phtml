@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Currency;
+
 $application = $this->getApplication();
 
 $layout_model = new Application_Model_Layout_Homepage();
@@ -194,21 +196,22 @@ $splashVersion = (integer) $application->getSplashVersion();
                                                             <img width="195"
                                                                  src="<?php echo $slider_image->getLink(); ?>" />
                                                         </span>
-                                                        <div class="actions"
-                                                             style="display:none">
-                                                            <a class="move_page pull-left btn btn-grey"
+
+                                                        <div class="actions">
+                                                            <a class="move_page pull-left"
                                                                href="javascript:void(0)">
-                                                                <i class="fa fa-sort"></i>
+                                                                <i class="icon ion-admin-move"></i>
                                                             </a>
-                                                            <a class="delete_page delete_slider_image pull-right btn btn-grey"
-                                                               onclick="deleteSliderImage(event, this);"
-                                                               href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">
-                                                                <i class="fa fa-times"></i>
+                                                            <a class="delete_page delete_slider_image pull-right"
+                                                               rel="<?php echo $slider_image->getImageId(); ?>"
+                                                               href="javascript:void(0)">
+                                                                <i class="icon ion-admin-cross-2"></i>
                                                             </a>
                                                             <input type="hidden"
                                                                    class="image_id"
                                                                    value="<?php echo $slider_image->getImageId(); ?>" />
                                                         </div>
+
                                                     </li>
                                                 <?php endforeach; ?>
                                             </ul>
@@ -222,6 +225,14 @@ $splashVersion = (integer) $application->getSplashVersion();
                                     </div>
                                 </div>
                                 <div class="slider_images_uploader_action text-right">
+
+                                    <?php
+                                    $textInfo = p__("application", "Please note that images can be slightly cropped on both sides, consider using a margin if you need to display textual information.");
+                                    ?>
+                                    <div class="alert alert-info text-left">
+                                        <?php echo $textInfo; ?>
+                                    </div>
+
                                     <button type="button"
                                             class="upload_images btn color-red"
                                             rel="<?php echo $this->getPosition(); ?>">
@@ -294,21 +305,38 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
     <?php endif; ?>
 
-    <div id="countries_container" class="content">
+    <div id="application_settings"
+         class="content">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your country'); ?>
+            <?php echo p__("application", "Localization settings"); ?>
         </h3>
-        <div id="countries" class="subcontent content-color sb-tour">
+        <div id="localization"
+             class="subcontent content-color sb-tour">
             <div class="col-md-12">
-                <p><?php echo __("This option enables you to set the currency used in your app"); ?></p>
                 <div class="row">
-                    <div class="col-md-5">
-                        <label for="select_locale"><?php echo __('Choose a country'); ?> : </label>
+                    <div class="col-md-6 col-xs-12">
+                        <label for="select_currency"><?php echo __("Currency"); ?> : </label>
+                        <select id="select_currency"
+                                name="currency"
+                                class="styled-select color-red sb-tour">
+                            <option value=""><?php echo p__("application", "Select a currency") ?></option>
+                            <?php foreach (Currency::getAllCurrencies() as $currency) : ?>
+                                <option value="<?php echo $currency["code"] ?>"<?php if ($application->getCurrency() === $currency["code"]) : ?> selected="selected"<?php endif; ?>><?php echo $currency["code"] ?> - <?php echo $currency["symbol_native"] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 col-xs-12">
+                        <label for="select_locale"><?php echo __("Default locale"); ?> : </label>
                         <select id="select_locale"
                                 name="locale"
                                 class="styled-select color-red sb-tour">
-                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
-                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() == $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo $country->getName().' ('.$country->getSymbol().')' ?></option>
+                            <option value=""><?php echo p__("application", "Select a locale") ?></option>
+                            <?php foreach(Core_Model_Language::getLocalizedLocales() as $value => $label) : ?>
+                                <option value="<?php echo $value ?>"
+                                        <?php if($application->getLocale() === $value) : ?> selected="selected"<?php endif; ?>>
+                                    <?php echo ucfirst($label) ?> (<?php echo $value ?>)
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -320,7 +348,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     <div id="font_content"
          class="content sb-tour">
         <h3 class="title-editor border-red text-center">
-            <?php echo __('Choose your font family'); ?>
+            <?php echo __("Choose your font family"); ?>
         </h3>
         <div id="fonts"
              class="subcontent content-color">
@@ -476,6 +504,28 @@ $splashVersion = (integer) $application->getSplashVersion();
     var modal_preview;
     var modal_layouts;
     var modal_fb_import;
+
+    function bindSliderDelete () {
+        // Slider delete!
+        let sliderDeleteImage = $(".delete_slider_image");
+        sliderDeleteImage.off("click");
+        sliderDeleteImage.on("click", function () {
+            let element = $(this);
+            let imageId = $(this).attr("rel");
+            formget("/application/customization_design_style/deletesliderimage?image_id=" + imageId,
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+
+                    element.parent().parent().remove();
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
+                },
+                false);
+        });
+    }
+
     $(document).ready(function(){
 
         bindForms("#default-options", "color-red", function () {
@@ -499,6 +549,9 @@ $splashVersion = (integer) $application->getSplashVersion();
         $("table.sb-mini-carousel").sbcarousel({
             min_size: 48
         });
+
+
+        bindSliderDelete();
 
         let fontFamilySelectors = $(".font-family");
 
@@ -558,16 +611,29 @@ $splashVersion = (integer) $application->getSplashVersion();
                 false);
         });
 
-        $('#select_locale').change(function() {
-            var countries_loader = $('#'+this.id+'_loader');
-            countries_loader.show();
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/savelocale'); ?>', false, function(datas) {
-                if(datas.success) {
-                    iframe.reload();
+        $('#select_currency').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-currency'); ?>', false, function(datas) {
+                if (datas.success) {
+                    $("#currency-warning").remove();
+                    try {
+                        iframe.reload();
+                    } catch (e) {
+                        // Silently fails!
+                    }
                 }
-                countries_loader.fadeOut();
-            }, function() {
-                countries_loader.fadeOut();
+            });
+        });
+
+        $('#select_locale').change(function() {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-locale'); ?>', false, function(datas) {
+                if (datas.success) {
+                    $("#locale-warning").remove();
+                    try {
+                        iframe.reload();
+                    } catch (e) {
+                        // Silently fails!
+                    }
+                }
             });
         });
 
@@ -701,39 +767,40 @@ $splashVersion = (integer) $application->getSplashVersion();
                 slider_images_uploader.crop(params);
                 slider_images_uploader.callback = function(file) {
                     sliderImages.append(
-                        '<li id="slider_image_' + file.id + '" class="slider_image sortable" data-pos="' + file.id + '">\n\
-                            <span class="details">\n\
-                                <img width="195" src="' + file.url + '">\n\
-                            </span>\n\
-                            <div class="actions" style="display: none;">\n\
-                                <a class="move_page pull-left btn btn-grey" href="javascript:void(0)"><i class="fa fa-sort"></i></a>\n\
-                                <a class="delete_page delete_slider_image pull-right btn btn-grey" onclick="deleteSliderImage(event, this);" href="<?php echo str_replace('$', '/', $this->getUrl('application/customization_design_style/deletesliderimage') . '$image_id$'); ?>">\n\
-                                    <i class="fa fa-times"></i>\n\
-                                </a>\n\
-                                <input type="hidden" class="image_id" value="' + file.id + '">\n\
-                            </div>\n\
-                        </li>'
+                        `
+                        <li id="slider_image_` + file.id + `"
+                            class="slider_image sortable"
+                            data-pos="` + file.id + `">
+                            <span class="details">
+                                <img width="195"
+                                     src="` + file.url + `">
+                            </span>
+                            <div class="actions">
+                                <a class="move_page pull-left"
+                                   href="javascript:void(0)">
+                                    <i class="icon ion-admin-move"></i>
+                                </a>
+                                <a class="delete_page delete_slider_image pull-right"
+                                   href="javascript:void(0)"
+                                   rel="` + file.id + `">
+                                    <i class="icon ion-admin-cross-2"></i>
+                                </a>
+                                <input type="hidden"
+                                       class="image_id"
+                                       value="` + file.id + `" />
+                            </div>
+                        </li>
+                        `
                     );
 
                     carousel.update();
                     iframe.reload();
+
+                    bindSliderDelete();
                 };
             }
         }
     });
-
-    var deleteSliderImage = function(e, element) {
-        e.preventDefault();
-
-        var id = $(element).parent().find(".image_id").val();
-        reload(this, element.href + id, true, function(response) {
-            if(response.reload) {
-                $(element).parent().parent().remove();
-                carousel.update();
-                iframe.reload();
-            }
-        });
-    };
 
     var createCarouselSortable = function() {
         sliderImages.sortable({
@@ -760,7 +827,6 @@ $splashVersion = (integer) $application->getSplashVersion();
                         carousel.stopInterval('prev');
                     }
                 });
-
             },
             stop: function () {
                 $(document).unbind('mousemove');
@@ -802,11 +868,13 @@ $splashVersion = (integer) $application->getSplashVersion();
         margin-left: 0;
         min-height: 120px;
         background-color: #E9E9E9;
-        padding: 15px 0;
+        padding: 15px 40px;
+        border-radius: 2px;
     }
     #uploaded_slider_images > div {
         margin: auto;
         overflow: hidden;
+        min-width: 100%;
     }
     #uploaded_slider_images.listing ul {
         height: 100%;
@@ -821,6 +889,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     #uploaded_slider_images.listing ul li {
         float: left;
         width: 185px;
+        min-height: 129px;
         height: 100%;
         padding: 0;
         transition: none;
@@ -835,11 +904,15 @@ $splashVersion = (integer) $application->getSplashVersion();
         display: block;
         height: 100%;
         text-align: center;
+        padding: 30px 6px 6px;
+        background: white;
+        border-radius: 2px;
     }
     #uploaded_slider_images.listing ul li span.details img {
         width: 100%;
         height: 100%;
         border-radius: 2px;
+        border: 1px solid #afafaf;
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions {
         position: absolute;
@@ -850,20 +923,22 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions .move_page {
         cursor: ew-resize;
-        left: 5px;
-        top: 5px;
-        padding: 6px 8px 4px;
+        left: 0;
+        top: 0;
+        padding: 4px 8px;
         border-bottom-right-radius: 3px;
         border-top-left-radius: 2px;
         color: inherit;
+        background: white;
     }
     #uploaded_slider_images.listing ul li.slider_image div.actions .delete_page {
-        right: 5px;
-        top: 5px;
-        padding: 3px 10px 5px;
+        right: 0;
+        top: 0;
+        padding: 4px 8px;
         border-bottom-left-radius: 3px;
         border-top-right-radius: 2px;
         color: inherit;
+        background: white;
     }
     #uploaded_slider_images #carousel_prev {
         left: 15px;
@@ -873,7 +948,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
     #uploaded_slider_images #carousel_prev, #uploaded_slider_images #carousel_next {
         position: absolute;
-        top: 50px;
+        top: 68px;
         width: 16px;
         height: 92px;
         padding: 0;

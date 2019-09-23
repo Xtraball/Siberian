@@ -29,6 +29,19 @@ if (Siberian_Version::is('PE')) {
             ]);
 }
 
+// Check application currency!
+$warningCurrency = false;
+if (empty($application->getCurrency())) {
+    $warningCurrency = true;
+}
+
+$warningLocale = false;
+if (empty($application->getLocale())) {
+    $warningLocale = true;
+}
+
+$hasFeatures = $application->getOptions()->count() >= 1;
+
 
 ?>
 <div class="menu_steps">
@@ -100,3 +113,27 @@ if (Siberian_Version::is('PE')) {
 
     </ul>
 </div>
+
+<?php if ($hasFeatures && ($warningCurrency || $warningLocale)): ?>
+<div class="app-warnings">
+    <?php if ($warningCurrency): ?>
+        <div id="currency-warning"
+             class="alert alert-warning">
+            <?php echo p__("application", "Your applicsation currency is not defined, please select one in <a href=\"%s\" class=\"bold-link\">Design > Localization settings</a>", null, "/application/customization_design_style/edit") ?>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($warningLocale): ?>
+        <div id="locale-warning"
+             class="alert alert-warning">
+            <?php echo p__("application", "Your application locale is not defined, please select one in <a href=\"%s\" class=\"bold-link\">Design > Localization settings</a>", null, "/application/customization_design_style/edit") ?>
+        </div>
+    <?php endif; ?>
+    <style type="text/css">
+        a.bold-link {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    </style>
+</div>
+<?php endif; ?>

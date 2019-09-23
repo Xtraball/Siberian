@@ -2,6 +2,7 @@
 
 use Siberian\Json;
 use Siberian\Feature;
+use Siberian\Exception;
 
 /**
  * Class Application_Customization_Design_StyleController
@@ -52,7 +53,10 @@ class Application_Customization_Design_StyleController extends Application_Contr
                 "app_#APP_ID#"
             ],
         ],
-        "savelocale" => [
+        "save-currency" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
+        "save-locale" => [
             "tags" => ["app_#APP_ID#"],
         ],
         "homepageslider" => [
@@ -489,7 +493,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
     }
 
     /**
@@ -705,7 +709,7 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $library_image = new Media_Model_Library_Image();
             $library_image->find($image_id);
 
-            $file = Core_Model_Directory::getBasePathTo($library_image->getLink());
+            $file = path($library_image->getLink());
 
             $library_image->delete();
 
@@ -780,20 +784,65 @@ class Application_Customization_Design_StyleController extends Application_Contr
     /**
      *
      */
-    public function savelocaleAction()
+    public function saveLocaleAction()
     {
-        if ($datas = $this->getRequest()->getPost()) {
+        try {
+            $request = $this->getRequest();
+            $datas = $request->getPost();
 
-            try {
-                if (!empty($datas['locale'])) $this->getApplication()->setLocale($datas['locale']);
-                $this->getApplication()->save();
-                $html = ['success' => '1'];
-            } catch (Exception $e) {
-                $html = ['message' => $e->getMessage()];
+            if (empty($datas["locale"])) {
+                throw new Exception(p__("application", "Invalid locale."));
             }
 
-            $this->_sendHtml($html);
+            $this
+                ->getApplication()
+                ->setLocale($datas["locale"])
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("application", "Locale saved.")
+            ];
+        } catch (Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
         }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function saveCurrencyAction()
+    {
+            try {
+            $request = $this->getRequest();
+            $datas = $request->getPost();
+
+            if (empty($datas["currency"])) {
+                throw new Exception(p__("application", "Invalid currency."));
+            }
+
+            $this
+                ->getApplication()
+                ->setCurrency($datas["currency"])
+                ->save();
+
+            $payload = [
+                "success" => true,
+                "message" => p__("application", "Currency saved.")
+            ];
+            } catch (Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+            }
+
+        $this->_sendJson($payload);
     }
 
     /**
@@ -830,26 +879,26 @@ class Application_Customization_Design_StyleController extends Application_Contr
         $application = $this->getApplication();
         $appId = $application->getId();
 
-        $zipFile = Core_Model_Directory::getBasePathTo('/var/tmp/homepages-' . $appId . '.zip');
-        $tmp = Core_Model_Directory::getBasePathTo('/var/tmp/homepages-' . $appId);
+        $zipFile = path('/var/tmp/homepages-' . $appId . '.zip');
+        $tmp = path('/var/tmp/homepages-' . $appId);
         mkdir($tmp, 0777, true);
 
         $allImages = [];
 
-        $allImages['homepage'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image'));
-        $allImages['homepage_hd'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_hd'));
-        $allImages['homepage_tablet'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_tablet'));
-        $allImages['homepage_landscape'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape'));
-        $allImages['homepage_landscape_hd'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape_hd'));
-        $allImages['homepage_landscape_tablet'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('background_image_landscape_tablet'));
-        $allImages['icon'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('icon'));
-        $allImages['android_push_icon'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('android_push_icon'));
-        $allImages['splashscreen'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image'));
-        $allImages['splashscreen_retina'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_retina'));
-        $allImages['splashscreen_iphone6'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_6'));
-        $allImages['splashscreen_iphone6_plus'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_6_plus'));
-        $allImages['splashscreen_ipad_retina'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_ipad_retina'));
-        $allImages['splashscreen_iphone_x'] =  Core_Model_Directory::getBasePathTo('/images/application' . $application->getData('startup_image_iphone_x'));
+        $allImages['homepage'] = path('/images/application' . $application->getData('background_image'));
+        $allImages['homepage_hd'] = path('/images/application' . $application->getData('background_image_hd'));
+        $allImages['homepage_tablet'] = path('/images/application' . $application->getData('background_image_tablet'));
+        $allImages['homepage_landscape'] = path('/images/application' . $application->getData('background_image_landscape'));
+        $allImages['homepage_landscape_hd'] = path('/images/application' . $application->getData('background_image_landscape_hd'));
+        $allImages['homepage_landscape_tablet'] = path('/images/application' . $application->getData('background_image_landscape_tablet'));
+        $allImages['icon'] = path('/images/application' . $application->getData('icon'));
+        $allImages['android_push_icon'] = path('/images/application' . $application->getData('android_push_icon'));
+        $allImages['splashscreen'] = path('/images/application' . $application->getData('startup_image'));
+        $allImages['splashscreen_retina'] = path('/images/application' . $application->getData('startup_image_retina'));
+        $allImages['splashscreen_iphone6'] = path('/images/application' . $application->getData('startup_image_iphone_6'));
+        $allImages['splashscreen_iphone6_plus'] = path('/images/application' . $application->getData('startup_image_iphone_6_plus'));
+        $allImages['splashscreen_ipad_retina'] = path('/images/application' . $application->getData('startup_image_ipad_retina'));
+        $allImages['splashscreen_iphone_x'] = path('/images/application' . $application->getData('startup_image_iphone_x'));
 
         foreach ($allImages as $filename => $image) {
             if (is_file($image)) {

@@ -1,23 +1,12 @@
 <?php
 
-use Siberian\File;
+namespace Siberian;
 
 /**
  * Class Siberian_Error
- *
- * @version 4.3.1
- *
- * @todo
- *  so much things
- *  handle errors,
- *  verbose logging,
- *  interfacing with Siberian_Log
- *  should be verbose (in log files, even in production !!! at least for support & information)
- *  refactoring
- *
+ * @package Siberian
  */
-
-class Siberian_Error
+class Error
 {
     /**
      * PHP CONSTANTS ERRORS
@@ -42,20 +31,35 @@ class Siberian_Error
         16384 => 'E_USER_DEPRECATED',
         32767 => 'E_ALL',
     );
+    /**
+     * @var array
+     */
     public static $sql_queries = array();
     /**
-     * @var Siberian_Log
+     * @var Log
      */
     public static $logger = null;
 
-    public static function init() {
-        set_error_handler(array('Siberian_Error', 'handleError'));
-        register_shutdown_function(array('Siberian_Error', 'handleFatalError'));
+    /**
+     *
+     */
+    public static function init()
+    {
+        set_error_handler(array('\Siberian\Error', 'handleError'));
+        register_shutdown_function(array('\Siberian\Error', 'handleFatalError'));
     }
 
-    public static function handleError($errno, $errstr, $errfile, $errline) {
-        if(Zend_Registry::isRegistered("logger") && (self::$logger == null)) {
-            self::$logger = Zend_Registry::get("logger");
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     * @throws \Zend_Exception
+     */
+    public static function handleError($errno, $errstr, $errfile, $errline)
+    {
+        if (\Zend_Registry::isRegistered("logger") && (self::$logger == null)) {
+            self::$logger = \Zend_Registry::get("logger");
         }
 
         if(self::$logger != null) {
@@ -69,9 +73,12 @@ class Siberian_Error
         }
     }
 
+    /**
+     * @throws \Zend_Exception
+     */
     public static function handleFatalError() {
         $last_error = error_get_last();
-        $fatal_log = Core_Model_Directory::getBasePathTo("var/log/fatal-error.log");
+        $fatal_log = path("var/log/fatal-error.log");
         File::putContents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
     }
 
@@ -91,17 +98,23 @@ class Siberian_Error
         }
 
         if($dumpError) {
-            Zend_Debug::dump($dump);
-        } else {
+            return \Zend_Debug::dump($dump);
+        }
             return $dump;
         }
-    }
 
+    /**
+     * @return int
+     */
     public static function count() {
         return count(self::$errors);
     }
 
-    public static function end() {
+    /**
+     *
+     */
+    public static function end()
+    {
         # Do nothing.
     }
 
