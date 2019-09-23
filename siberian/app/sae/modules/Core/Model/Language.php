@@ -235,6 +235,32 @@ class Core_Model_Language
     /**
      * @return array
      * @throws Zend_Currency_Exception
+     * @throws Zend_Locale_Exception
+     */
+    public static function getLocalizedLocales()
+    {
+        $compare = function ($a, $b) {
+            $_compare = strcmp($a, $b);
+            if ($_compare == 0) {
+                return 0;
+            }
+            return ($_compare < 0) ? -1 : 1;
+        };
+
+        $language = Core_Model_Language::getSession()->current_language;
+        $locale = new Zend_Locale($language);
+
+        $locales = Zend_Locale::getTranslationList('Language', $locale);
+
+        uasort($locales, $compare);
+
+        return $locales;
+    }
+
+
+    /**
+     * @return array
+     * @throws Zend_Currency_Exception
      */
     public static function getCountriesList()
     {

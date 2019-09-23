@@ -2,6 +2,7 @@
 
 use Siberian\ClamAV;
 use Siberian\Json;
+use Siberian\Security;
 
 /**
  * Class Core_Controller_Default_Abstract
@@ -112,25 +113,32 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         // Upload APK clamav trigger
-        if ("application/backoffice_iosautopublish/uploadapk" === $this->getFullActionName()) {
+        $routeName = $this->getFullActionName();
+        if ("application/backoffice_iosautopublish/uploadapk" === $routeName) {
             ClamAv::disableTemporary();
         }
 
-        if (!empty($_FILES)) {
-            \Siberian\Security::filterFiles($_FILES, $session);
-        }
+        // If the WAF is enabled!
+        if (Security::isEnabled()) {
+            // Checking inside the whitelist!
+            if (!Security::isWhitelisted($routeName)) {
+                if (!empty($_FILES)) {
+                    Security::filterFiles($_FILES, $session);
+                }
 
-        if (!empty($_GET)) {
-            \Siberian\Security::filterGet($_GET, $session);
-        }
+                if (!empty($_GET)) {
+                    Security::filterGet($_GET, $session);
+                }
 
-        if (!empty($_POST)) {
-            \Siberian\Security::filterPost($_POST, $session);
-        }
+                if (!empty($_POST)) {
+                    Security::filterPost($_POST, $session);
+                }
 
-        $bodyParams = $this->getRequest()->getBodyParams();
-        if (!empty($bodyParams)) {
-            \Siberian\Security::filterBodyParams($bodyParams, $session);
+                $bodyParams = $this->getRequest()->getBodyParams();
+                if (!empty($bodyParams)) {
+                    Security::filterBodyParams($bodyParams, $session);
+                }
+            }
         }
     }
 

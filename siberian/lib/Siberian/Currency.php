@@ -10,28 +10,66 @@ namespace Siberian;
  */
 class Currency
 {
+    /**
+     * @var string
+     */
+    public static $configFile = "/lib/Siberian/Currency/data/common-currency.json";
 
     /**
-    public static function truncatePrice($price, $decimals = 2 ) {
-        return number_format(floor(($price * pow(10, $decimals))) / pow(10, $decimals), $decimals);
+     * @var null
+     */
+    public static $jsonSource = null;
+
+    /**
+     * @param bool $withStripeSuffix
+     * @return array|false
+     */
+    public static function getAllCurrencies()
+    {
+        if (self::$jsonSource === null) {
+            $contents = file_get_contents(path(self::$configFile));
+            self::$jsonSource = Json::decode($contents);
     }
 
-    public static function toPaypal($price, $decimals = 2 ) {
-        return self::preFormat($price, $decimals);
+        $commonCurrencies = self::$jsonSource;
+        ksort($commonCurrencies);
+
+        return $commonCurrencies;
     }
 
-    public static function preFormat($price, $decimals = 2 ) {
-        return number_format(preg_replace("#\.*0+$#", "", $price), $decimals);
+    /**
+     * @param $code
+     * @return mixed
+     * @throws Exception
+     */
+    public static function getCurrency($code)
+    {
+        if (self::$jsonSource === null) {
+            $contents = file_get_contents(path(self::$configFile));
+            self::$jsonSource = Json::decode($contents);
     }
 
-    public static function getPriceExclVat($price, $decimals = 2) {
-        return self::truncatePrice($price, $decimals);
-    }*/
+        if (array_key_exists($code, self::$jsonSource)) {
+            return self::$jsonSource[$code];
+    }
 
+        throw new Exception(p__("currency", "Invalid currency `%s`.", $code));
+    }
+
+    /**
+     * @param $priceEclxVat
+     * @param $vatRate
+     * @return float|int
+     */
     public static function getVat($priceEclxVat, $vatRate) {
         return ($priceEclxVat * $vatRate / 100);
     }
 
+    /**
+     * @param $priceExclVat
+     * @param $vatRate
+     * @return float|int
+     */
     public static function addVat($priceExclVat, $vatRate) {
         return $priceExclVat * (1 + ($vatRate / 100));
     }

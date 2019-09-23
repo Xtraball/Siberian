@@ -1,43 +1,49 @@
 <?php
 
+use Siberian\Exception;
+use Siberian\Feature;
+use Siberian\File;
+use Siberian\Json;
+use Siberian\Yaml;
+
 class Topic_ApplicationController extends Application_Controller_Default
 {
 
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "save" => array(
-            "tags" => array(
+    public $cache_triggers = [
+        "save" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-        "editcategory" => array(
-            "tags" => array(
+            ],
+        ],
+        "editcategory" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-        "editpostcategory" => array(
-            "tags" => array(
+            ],
+        ],
+        "editpostcategory" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-        "editdescription" => array(
-            "tags" => array(
+            ],
+        ],
+        "editdescription" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-        "delete" => array(
-            "tags" => array(
+            ],
+        ],
+        "delete" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-        "order" => array(
-            "tags" => array(
+            ],
+        ],
+        "order" => [
+            "tags" => [
                 "homepage_app_#APP_ID#"
-            ),
-        ),
-    );
+            ],
+        ],
+    ];
 
     public function saveAction() {
         try {
@@ -60,14 +66,14 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
+                $html = [
                     'success' => '1',
                     'create_store' => $mcommerce->getStores()->count() == 0,
                     'success_message' => __('Info successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
             }
             else {
@@ -76,12 +82,12 @@ class Topic_ApplicationController extends Application_Controller_Default
 
         }
         catch(Exception $e) {
-            $html = array(
+            $html = [
                 'error' => 1,
                 'message' => $e->getMessage(),
                 'message_button' => 1,
                 'message_loader' => 1
-            );
+            ];
         }
 
         $this->_sendJson($html);
@@ -103,10 +109,10 @@ class Topic_ApplicationController extends Application_Controller_Default
             ->toHtml()
         ;
 
-        $html = array(
+        $html = [
             'form_html' => $html,
             'category_id' => $category->getId()
-        );
+        ];
 
         $this->_sendJson($html);
     }
@@ -119,7 +125,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                 if(!$data["category_id"]) {
                     $isNew = true;
                     $topic = new Topic_Model_Topic();
-                    $topic->find(array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+                    $topic->find(["value_id" => $this->getCurrentOptionValue()->getValueId()]);
 
                     if (!$topic->getId()) {
                         throw new Exception(__('An error occurred while saving. Please try again later.'));
@@ -164,7 +170,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
+                $html = [
                     'is_new' => (int) $isNew,
                     'category_id' => $category->getId(),
                     'category_label' => $category->getName(),
@@ -173,7 +179,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
-                );
+                ];
 
                 if($isNew) {
                     $html['row_html'] = $this->getLayout()->addPartial('child_'.$category->getId(), 'admin_view_default', 'topic/application/edit/list.phtml')
@@ -184,12 +190,12 @@ class Topic_ApplicationController extends Application_Controller_Default
 
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendJson($html);
@@ -201,7 +207,7 @@ class Topic_ApplicationController extends Application_Controller_Default
         if($data = $this->getRequest()->getPost()) {
             try {
                 $topic = new Topic_Model_Topic();
-                $topic->find(array("value_id" => $this->getCurrentOptionValue()->getValueId()));
+                $topic->find(["value_id" => $this->getCurrentOptionValue()->getValueId()]);
 
                 if (!$topic->getId()) {
                     throw new Exception(__('An error occurred while saving. Please try again later.'));
@@ -214,24 +220,19 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
-                    'success' => '1',
-                    'success_message' => __('Description successfully saved.'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                );
+                $payload = [
+                    "success" => true,
+                    "message" => __("Description saved."),
+                ];
 
             } catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+                $payload = [
+                    "error" => true,
+                    "message" => $e->getMessage(),
+                ];
             }
 
-            $this->_sendJson($html);
+            $this->_sendJson($payload);
         }
     }
 
@@ -263,20 +264,19 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                // Renvoie OK
-                $html = array('success' => 1);
+                $payload = [
+                    "success" => true,
+                    "message" => __("Order saved."),
+                ];
 
-            }
-            catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+            } catch(Exception $e) {
+                $payload = [
+                    "error" => true,
+                    "message" => $e->getMessage(),
+                ];
             }
 
-            $this->_sendJson($html);
+            $this->_sendJson($payload);
 
         }
     }
@@ -304,17 +304,17 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $html = array(
+                $html = [
                     'success' => 1
-                );
+                ];
             }
             catch(Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage(),
                     'message_button' => 1,
                     'message_loader' => 1
-                );
+                ];
             }
 
             $this->_sendJson($html);
@@ -327,27 +327,300 @@ class Topic_ApplicationController extends Application_Controller_Default
 
         if($datas = $this->getRequest()->getPost()) {
             try {
-                $html = array();
+                $html = [];
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
-                $html = array(
+                $html = [
                     'success' => 1,
                     'file' => $file,
                     'message_success' => 'Enregistrement réussi',
                     'message_button' => 0,
                     'message_timeout' => 2,
-                );
+                ];
             } catch (Exception $e) {
-                $html = array(
+                $html = [
                     'error' => 1,
                     'message' => $e->getMessage()
-                );
+                ];
             }
 
             $this->_sendJson($html);
 
         }
 
+    }
+
+    public function importUserAction ()
+    {
+        try {
+            if (empty($_FILES) || empty($_FILES["files"]["name"])) {
+                throw new Exception("#908-01: " . p__("topic", "No file sent."));
+            }
+
+            $tmp = tmp(true);
+            $tmpPath = $tmp . "/" . $_FILES["files"]["name"][0];
+            if (!rename($_FILES['files']['tmp_name'][0], $tmpPath)) {
+                throw new Exception("#908-02: " . p__("topic", "Unable to write file."));
+            }
+
+            // Checking once!
+            $optionValue = $this->getCurrentOptionValue();
+            $topic = (new Topic_Model_Topic())->find($optionValue->getId(), "value_id");
+
+            if (!$topic->getId()) {
+                throw new Exception("#908-03: " . p__("topic", "This topic doesn't exists."));
+            }
+
+            // Detect if it's a simple feature or a complete template Application!
+            $filetype = pathinfo($tmpPath, PATHINFO_EXTENSION);
+            switch ($filetype) {
+                case "csv":
+                    $this->importCsv($optionValue, $topic, $tmpPath);
+                    break;
+                case "json":
+                    $this->importJson($optionValue, $topic, $tmpPath);
+                    break;
+                case "yml":
+                    $this->importYaml($optionValue, $topic, $tmpPath);
+                    break;
+            }
+
+            $payload = [
+                "success" => true,
+                "message" => p__("topic", "Import success."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $optionValue
+     * @param $topic
+     * @param $path
+     * @throws Exception
+     */
+    public function importCsv($optionValue, $topic, $path)
+    {
+        try {
+            $csvResource = fopen($path, "r");
+            $headers = fgetcsv($csvResource, 1024, ";", '"');
+
+            $hasTitle = false;
+            $hasDescription = false;
+            $hasPicture = false;
+            $titleIndex = 0;
+            $descriptionIndex = 0;
+            $pictureIndex = 0;
+            foreach ($headers as $index => $header) {
+                if ($header === "title") {
+                    $titleIndex = $index;
+                    $hasTitle = true;
+                }
+
+                if ($header === "description") {
+                    $descriptionIndex = $index;
+                    $hasDescription = true;
+                }
+
+                if ($header === "picture") {
+                    $pictureIndex = $index;
+                    $hasPicture = true;
+                }
+            }
+
+            if (!$hasTitle && !$hasDescription) {
+                throw new Exception(p__("`title` and `description` are missing."));
+            }
+            if (!$hasTitle) {
+                throw new Exception(p__("`title` is missing."));
+            }
+            if (!$hasDescription) {
+                throw new Exception(p__("`description` is missing."));
+            }
+
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+
+            while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($line[$titleIndex])
+                    ->setDescription($line[$descriptionIndex])
+                    ->setPosition($position++);
+
+                if ($hasPicture) {
+                    $this->fetchImage($optionValue, $topicCategory, $line[$pictureIndex]);
+                }
+
+                $topicCategory
+                    ->save();
+            }
+            fclose($csvResource);
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported CSV file is invalid '%s'.", null, $e->getMessage()));
+        }
+    }
+
+    /**
+     * @param $optionValue
+     * @param $topic
+     * @param $path
+     * @throws Exception
+     */
+    public function importJson($optionValue, $topic, $path)
+    {
+        $jsonResource = file_get_contents($path);
+
+        try {
+            $categories = Json::decode($jsonResource);
+
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+            foreach ($categories as $category) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($category["title"])
+                    ->setDescription($category["description"])
+                    ->setPosition($position++);
+
+                if (array_key_exists("picture", $category)) {
+                    $this->fetchImage($optionValue, $topicCategory, $category["picture"]);
+                }
+
+                $topicCategory
+                    ->save();
+
+                // Checking for child topics
+                if (array_key_exists("childs", $category)) {
+                    foreach ($category["childs"] as $child) {
+                        $topicCategoryChild = new Topic_Model_Category();
+                        $topicCategoryChild
+                            ->setTopicId($topic->getId())
+                            ->setParentId($topicCategory->getId())
+                            ->setName($child["title"])
+                            ->setDescription($child["description"])
+                            ->setPosition($position++);
+
+                        if (array_key_exists("picture", $child)) {
+                            $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
+                        }
+
+                        $topicCategoryChild
+                            ->save();
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported JSON file is invalid '%s'.", null, $e->getMessage()));
+        }
+    }
+
+    public function importYaml($optionValue, $topic, $path)
+    {
+        $yamlResource = file_get_contents($path);
+
+        try {
+            $categories = Yaml::decode($yamlResource);
+
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+
+            foreach ($categories as $category) {
+                $topicCategory = new Topic_Model_Category();
+                $topicCategory
+                    ->setTopicId($topic->getId())
+                    ->setName($category["title"])
+                    ->setDescription($category["description"])
+                    ->setPosition($position++);
+
+                if (array_key_exists("picture", $category)) {
+                    $this->fetchImage($optionValue, $topicCategory, $category["picture"]);
+                }
+
+                $topicCategory
+                    ->save();
+
+                // Checking for child topics
+                if (array_key_exists("childs", $category)) {
+                    foreach ($category["childs"] as $child) {
+                        $topicCategoryChild = new Topic_Model_Category();
+                        $topicCategoryChild
+                            ->setTopicId($topic->getId())
+                            ->setParentId($topicCategory->getId())
+                            ->setName($child["title"])
+                            ->setDescription($child["description"])
+                            ->setPosition($position++);
+
+                        if (array_key_exists("picture", $child)) {
+                            $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
+                        }
+
+                        $topicCategoryChild
+                            ->save();
+                    }
+                }
+            }
+
+        } catch (\Exception $e) {
+            throw new Exception(p__("topic", "The imported YAML file is invalid '%s'.", null, $e->getMessage()));
+        }
+    }
+
+    /**
+     * @param $optionValue
+     * @param $topicCategory
+     * @param $imageUrl
+     */
+    private function fetchImage ($optionValue, $topicCategory, $imageUrl)
+    {
+        try {
+            $tmpPicture = file_get_contents($imageUrl);
+            if (!$tmpPicture) {
+                throw new Exception("silent_fail");
+            }
+
+            // Searching for a mime/
+            $tmpPath = tmp(true) . "/" . uniqid(true);
+            File::putContents($tmpPath, $tmpPicture);
+
+            if (!extension_loaded("exif")) {
+                throw new Exception("exif_missing");
+            }
+
+            $type = exif_imagetype($tmpPath);
+            if (!in_array($type, [IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_BMP])) {
+                throw new Exception("invalid_type");
+            }
+
+            unlink($tmpPath);
+            switch ($type) {
+                case IMAGETYPE_GIF:
+                    $tmpPath = $tmpPath . ".gif";
+                    break;
+                case IMAGETYPE_JPEG:
+                    $tmpPath = $tmpPath . ".jpg";
+                    break;
+                case IMAGETYPE_PNG:
+                    $tmpPath = $tmpPath . ".png";
+                    break;
+                case IMAGETYPE_BMP:
+                    $tmpPath = $tmpPath . ".bmp";
+                    break;
+            }
+
+            File::putContents($tmpPath, $tmpPicture);
+            $path = Feature::saveImageForOption($optionValue, $tmpPath);
+
+            $topicCategory->setPicture($path);
+        } catch (\Exception $e) {
+            // Something went wrong while fetching picture!
+        }
     }
 
     /**

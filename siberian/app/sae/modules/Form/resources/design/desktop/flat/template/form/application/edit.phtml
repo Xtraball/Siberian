@@ -192,6 +192,7 @@ $formSettings->setValueId($valueId);
                                             } else {
                                                 $v = $field["value"];
                                             }
+                                            $v = purify($v);
                                             echo "
                                             <tr>
                                                 <th>{$field["label"]}</th>

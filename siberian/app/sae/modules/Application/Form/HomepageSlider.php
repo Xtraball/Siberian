@@ -19,34 +19,47 @@ class Application_Form_HomepageSlider extends Siberian_Form_Abstract {
 
         $loop = $this->addSimpleCheckbox("homepage_slider_loop_at_beginning", __("Loop over images"));
 
-        $duration = $this->addSimpleSlider("homepage_slider_duration", __("Slideshow duration"), array(
+        $duration = $this->addSimpleSlider("homepage_slider_duration", __("Slideshow duration"), [
             "min" => 1,
             "max" => 100,
             "step" => 1,
             "unit" => " ".__("seconds"),
-        ), true);
+        ], true);
 
-        $top = $this->addSimpleSlider("homepage_slider_offset", __("Top position"), array(
+        $top = $this->addSimpleSlider("homepage_slider_offset", __("Top position"), [
             "min" => 0,
             "max" => 100,
             "step" => 1,
             "unit" => "%",
-        ), true);
+        ], true);
 
-        $opacity = $this->addSimpleSlider("homepage_slider_opacity", __("Images opacity"), array(
+        $opacity = $this->addSimpleSlider("homepage_slider_opacity", __("Images opacity"), [
             "min" => 0,
             "max" => 100,
             "step" => 1,
             "unit" => "%",
-        ), true);
+        ], true);
 
-        $height = $this->addSimpleSlider("homepage_slider_size", __("Images height"), array(
+
+
+        $height = $this->addSimpleSlider("homepage_slider_size", __("Images height"), [
             "min" => 0,
             "max" => 100,
             "step" => 1,
             "unit" => "%",
-        ), true);
+        ], true);
 
-        $this->groupElements("homepage_slider", array("homepage_slider_loop_at_beginning", "homepage_slider_duration", "homepage_slider_offset", "homepage_slider_opacity", "homepage_slider_size"), __("Homepage slider options"));
+        $this->groupElements(
+            "homepage_slider",
+            [
+                "homepage_slider_loop_at_beginning",
+                "homepage_slider_duration",
+                "homepage_slider_offset",
+                "homepage_slider_opacity",
+                "homepage_slider_size"
+            ],
+            __("Homepage slider options"));
+
+
     }
 }

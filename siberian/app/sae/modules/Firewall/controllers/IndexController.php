@@ -35,6 +35,7 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 'channel' => __get('fw_slack_channel'),
                 'username' => __get('fw_slack_username'),
             ],
+            'waf_enabled' => __get("waf_enabled")
         ];
 
         $rules = (new \Firewall_Model_Rule())
@@ -219,6 +220,41 @@ class Firewall_IndexController extends Backoffice_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => __('ClamAV settings have been saved.'),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function savewafenabledAction()
+    {
+        try {
+            if (__getConfig('is_demo')) {
+                // Demo version
+                throw new Exception(__("You cannot change Firewall settings, it's a demo version."));
+            }
+
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+
+            if (empty($params)) {
+                throw new \Siberian\Exception(__('Missing values'));
+            }
+
+            $wafEnabled = $params['waf_enabled'];
+
+            // Saving values
+            __set('waf_enabled', $wafEnabled);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Firewall settings have been saved.'),
             ];
 
         } catch (\Exception $e) {

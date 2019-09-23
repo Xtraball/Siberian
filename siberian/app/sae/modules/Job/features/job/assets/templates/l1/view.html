@@ -56,7 +56,7 @@
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom"
-                 ng-if="settings.display_income && (place.income_from || place.income_to)">
+                 ng-if="settings.display_income && (place.income_from > 0 || place.income_to > 0)">
                 <i class="icon ion-sb-bank-check"></i>
                 <p>
                     <span ng-show="place.income_from">{{ place.income_from }}</span>

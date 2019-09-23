@@ -188,7 +188,7 @@ $configs = [
     [
         "code" => "use_https",
         "label" => "Use HTTPS",
-        "value" => "0"
+        "value" => "1"
     ],
     [
         "code" => "cpanel_type",
@@ -294,6 +294,11 @@ $configs = [
         'code' => 'export_enabled',
         'label' => 'Allow users to export features',
         'value' => '0',
+    ],
+    [
+        'code' => 'waf_enabled',
+        'label' => 'Web Application Firewall',
+        'value' => '1',
     ],
 ];
 
@@ -521,3 +526,6 @@ if (empty($logoBackoffice)) {
 if (empty($faviconBackoffice)) {
     __set("favicon_backoffice", $favicon);
 }
+
+// Enforcing https for external modules!
+__set("use_https", "1");

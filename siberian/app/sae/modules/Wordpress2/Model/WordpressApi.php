@@ -20,6 +20,11 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
     public $client;
 
     /**
+     * @var Zend_Cache_Backend_File|Zend_Cache
+     */
+    public $cache;
+
+    /**
      * @var bool
      */
     private $stripShortcodes = false;
@@ -29,6 +34,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
      * @param null $login
      * @param null $password
      * @return $this
+     * @throws Zend_Exception
      */
     public function init ($endpoint, $login = null, $password = null)
     {
@@ -36,6 +42,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         if (!empty($login) && !empty($password)) {
             $this->client->setCredentials(new WpBasicAuth($login, $password));
         }
+
+        $this->cache = Zend_Registry::get("cache");
 
         return $this;
     }
@@ -179,6 +187,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
             'picture',
         ];
 
+        $cachedMedias = $this->getMedias($posts);
+
         foreach ($posts as &$post) {
             $post['title'] = $post['title']['rendered'];
             $post['subtitle'] = $this->process($post['excerpt']['rendered']);
@@ -194,9 +204,14 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
             if ($page['featured_media'] != 0) {
                 try {
-                    $media = $this->client->media()->get($post['featured_media']);
-                    $post['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
-                    $post['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
+                    $mediaId = $post["featured_media"];
+                    if (array_key_exists($mediaId, $cachedMedias)) {
+                        $post["thumbnail"] = $cachedMedias[$mediaId]["thumbnail"];
+                        $post["picture"] = $cachedMedias[$mediaId]["picture"];
+                    } else {
+                        $post["thumbnail"] = null;
+                        $post["picture"] = null;
+                    }
                 } catch (Exception $e) {
                     $post['thumbnail'] = null;
                     $post['picture'] = null;
@@ -219,6 +234,9 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
     }
 
     /**
+     * @param $pageIds
+     * @param int $page
+     * @param array $params
      * @return array
      */
     public function getPages ($pageIds, $page = 1, $params = [])
@@ -246,6 +264,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
             'picture',
         ];
 
+        $cachedMedias = $this->getMedias($pages);
+
         foreach ($pages as &$page) {
             $page['title'] = $page['title']['rendered'];
             $page['subtitle'] = $this->process($page['excerpt']['rendered']);
@@ -261,9 +281,14 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
             if ($page['featured_media'] != 0) {
                 try {
-                    $media = $this->client->media()->get($page['featured_media']);
-                    $page['thumbnail'] = $media['media_details']['sizes']['thumbnail']['source_url'];
-                    $page['picture'] = $media['media_details']['sizes']['medium_large']['source_url'];
+                    $mediaId = $page["featured_media"];
+                    if (array_key_exists($mediaId, $cachedMedias)) {
+                        $page["thumbnail"] = $cachedMedias[$mediaId]["thumbnail"];
+                        $page["picture"] = $cachedMedias[$mediaId]["picture"];
+                    } else {
+                        $page["thumbnail"] = null;
+                        $page["picture"] = null;
+                    }
                 } catch (Exception $e) {
                     $page['thumbnail'] = null;
                     $page['picture'] = null;
@@ -283,6 +308,41 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         }
 
         return $pages;
+    }
+
+    /**
+     * Fetch and cache medias
+     *
+     * @param $posts
+     * @return array
+     */
+    public function getMedias ($posts)
+    {
+        // Link media to post
+        $postMediaIds = [];
+        foreach ($posts as $post) {
+            $postId = $post['id'];
+            $mediaId = $post['featured_media'];
+            $postMediaIds[$postId] = $mediaId;
+        }
+
+        // Fetch all medias
+        $mediaIds = array_unique(array_values($postMediaIds));
+
+        $medias = $this->client->media()->get(null, [
+            "include" => join(",", $mediaIds)
+        ]);
+
+        $cachedMedias = [];
+        foreach ($medias as $media) {
+            $mediaId = $media['id'];
+            $cachedMedias[$mediaId] = [
+                "thumbnail" => $media["media_details"]["sizes"]["thumbnail"]["source_url"],
+                "picture" => $media["media_details"]["sizes"]["medium_large"]["source_url"],
+            ];
+        }
+
+        return $cachedMedias;
     }
 
     /**

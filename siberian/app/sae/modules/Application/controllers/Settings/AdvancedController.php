@@ -81,6 +81,8 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                     ->setNsCameraUd($values['ns_camera_ud'])
                     ->setNsPhotoLibraryUd($values['ns_photo_library_ud'])
                     ->setNsLocationWhenInUseUd($values['ns_location_when_in_use_ud'])
+                    ->setNsBluetoothAlwaysUd($values['ns_bluetooth_always_ud'])
+                    ->setNsBluetoothPeripheralUd($values['ns_bluetooth_peripheral_ud'])
                     ->setNsLocationAlwaysUd($values['ns_location_always_ud'])
                     ->setNsLocationAlwaysAndWhenInUseUd($values['ns_location_always_and_when_in_use_ud'])
                     ->setNsMotionUd($values['ns_motion_ud'])
