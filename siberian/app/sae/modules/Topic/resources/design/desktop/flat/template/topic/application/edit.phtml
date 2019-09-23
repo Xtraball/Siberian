@@ -425,6 +425,7 @@ $topicImportform->setValueId($option->getId());
                     }
                     if (data.result.success) {
                         feature_form_success(data.result.message);
+                        page.reload();
                     }
                 },
                 fail: function(el, data) {
@@ -434,8 +435,9 @@ $topicImportform->setValueId($option->getId());
             });
 
             /** Delegate */
-            $("#filename").off("click");
-            $("#filename").on("click", function() {
+            let filenameUploader = $("#filename");
+            filenameUploader.off("click");
+            filenameUploader.on("click", function() {
                 $("#filename_hidden").trigger("click");
             });
 

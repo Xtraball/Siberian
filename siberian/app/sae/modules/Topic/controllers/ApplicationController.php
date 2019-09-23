@@ -444,7 +444,8 @@ class Topic_ApplicationController extends Application_Controller_Default
                 throw new Exception(p__("`description` is missing."));
             }
 
-            $position = 0;
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+
             while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory
@@ -479,7 +480,7 @@ class Topic_ApplicationController extends Application_Controller_Default
         try {
             $categories = Json::decode($jsonResource);
 
-            $position = 0;
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
             foreach ($categories as $category) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory
@@ -496,7 +497,6 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->save();
 
                 // Checking for child topics
-                $positionChild = 0;
                 if (array_key_exists("childs", $category)) {
                     foreach ($category["childs"] as $child) {
                         $topicCategoryChild = new Topic_Model_Category();
@@ -505,7 +505,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                             ->setParentId($topicCategory->getId())
                             ->setName($child["title"])
                             ->setDescription($child["description"])
-                            ->setPosition($positionChild++);
+                            ->setPosition($position++);
 
                         if (array_key_exists("picture", $child)) {
                             $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
@@ -529,7 +529,8 @@ class Topic_ApplicationController extends Application_Controller_Default
         try {
             $categories = Yaml::decode($yamlResource);
 
-            $position = 0;
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+
             foreach ($categories as $category) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory
@@ -546,7 +547,6 @@ class Topic_ApplicationController extends Application_Controller_Default
                     ->save();
 
                 // Checking for child topics
-                $positionChild = 0;
                 if (array_key_exists("childs", $category)) {
                     foreach ($category["childs"] as $child) {
                         $topicCategoryChild = new Topic_Model_Category();
@@ -555,7 +555,7 @@ class Topic_ApplicationController extends Application_Controller_Default
                             ->setParentId($topicCategory->getId())
                             ->setName($child["title"])
                             ->setDescription($child["description"])
-                            ->setPosition($positionChild++);
+                            ->setPosition($position++);
 
                         if (array_key_exists("picture", $child)) {
                             $this->fetchImage($optionValue, $topicCategoryChild, $child["picture"]);
