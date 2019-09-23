@@ -20,7 +20,7 @@ class Topic_Form_Import extends Siberian_Form_Abstract
         /** Bind as a onchange form */
         self::addClass("create", $this);
 
-        $this->addSimpleFile("filename", __("Import CSV, JSON, YAML"));
+        $this->addSimpleFile("filename", p__("topic", "Import CSV, JSON, YAML"));
 
         $this->addSimpleHidden("value_id");
     }
