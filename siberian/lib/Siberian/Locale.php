@@ -9,6 +9,10 @@
  */
 class Siberian_Locale extends Zend_Locale
 {
+    /**
+     * @var array
+     */
+    public static $_locales = [];
 
     /**
      * Class wide Euro Zone Locale Constants
@@ -572,6 +576,35 @@ class Siberian_Locale extends Zend_Locale
 
     public static function getRegionByTerritory($territory) {
         return isset(self::$_regionsData[$territory]) ? self::$_regionsData[$territory] : array();
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function getAllLocales()
+    {
+        if (empty(self::$_locales)) {
+            $localeData = file_get_contents(path("/lib/Siberian/Locale/data/locales.json"));
+            self::$_locales = Siberian\Json::decode($localeData);
+        }
+        return self::$_locales;
+    }
+
+    /**
+     * @return array
+     * @throws Zend_Locale_Exception
+     */
+    public static function getLocaleListTranslated()
+    {
+        $locales = self::getLocaleList();
+        //$translationList = (new Zend_Locale())->getTranslationList("Language");
+
+        $translated = [];
+        foreach ($locales as $locale => $value) {
+            $translated[$locale] = $value;
+        }
+
+        return $translated;
     }
 
 }
