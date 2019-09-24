@@ -40,6 +40,7 @@ class ClamAV
     private $clamd_ip = '127.0.0.1';
     private $clamd_port = 3310;
     private $message = "";
+    private $lastError = "";
 
     /**
      * @var bool
@@ -89,6 +90,11 @@ class ClamAV
         return $this->message;
     }
 
+    public function getLastError()
+    {
+        return $this->lastError;
+    }
+
     // Function to ping Clamd to make sure its functioning
     public function ping()
     {
@@ -111,16 +117,27 @@ class ClamAV
             chmod($file, 0644); // Allows ClamAV to read the file!
             $scan = $this->send("SCAN $file");
             $scan = substr(strrchr($scan, ":"), 1);
+
+            // Ok file is not found!
+            if (preg_match("/No such file or directory/im", $scan)) {
+                $this->lastError = "$scan '$file'";
+                return true;
+            }
+
             if ($scan !== false) {
                 $this->message = trim($scan);
-                if ($this->message == "OK") {
+                if (preg_match("/OK/m", $scan)) {
                     return true;
                 }
             } else {
                 $this->message = "Scan failed";
+                $this->lastError = "Scan failed '$file'";
+                return true;
             }
         } else {
             $this->message = "File not found";
+            $this->lastError = "File not found '$file'";
+            return true;
         }
         return false;
     }
@@ -139,8 +156,6 @@ class ClamAV
         }
         return false;
     }
-
-
 
     /**
      * Disable until next reload

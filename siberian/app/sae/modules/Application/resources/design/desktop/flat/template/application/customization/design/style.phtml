@@ -331,12 +331,9 @@ $splashVersion = (integer) $application->getSplashVersion();
                         <select id="select_locale"
                                 name="locale"
                                 class="styled-select color-red sb-tour">
-                            <option value=""><?php echo p__("application", "Select a locale") ?></option>
-                            <?php foreach(Core_Model_Language::getLocalizedLocales() as $value => $label) : ?>
-                                <option value="<?php echo $value ?>"
-                                        <?php if($application->getLocale() === $value) : ?> selected="selected"<?php endif; ?>>
-                                    <?php echo ucfirst($label) ?> (<?php echo $value ?>)
-                                </option>
+                            <option value=""><?php echo p__("application", "Select a default country") ?></option>
+                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
+                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() === $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo ucfirst($country->getLanguage()) ?> (<?php echo $country->getCode() ?>)</option>
                             <?php endforeach; ?>
                         </select>
                     </div>

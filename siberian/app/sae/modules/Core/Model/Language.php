@@ -283,11 +283,24 @@ class Core_Model_Language
                             $symbol = $currency->getSymbol($country_code);
                         }
                         if (!empty($symbol)) {
-                            $countries[$country_code] = [
-                                'code' => $country_code,
-                                'name' => $name,
-                                'symbol' => $symbol
-                            ];
+                            $tmpLang = Zend_Locale::getTranslationList('Language', $locale, 2);
+                            $short = explode("_", $country_code)[0];
+                            if (isset($tmpLang[$country_code])) {
+                                $countries[$country_code] = [
+                                    'code' => $country_code,
+                                    'name' => $name,
+                                    'symbol' => $symbol,
+                                    'language' => $tmpLang[$country_code],
+                                ];
+                            }
+                            else if (isset($tmpLang[$short])) {
+                                $countries[$country_code] = [
+                                    'code' => $country_code,
+                                    'name' => $name,
+                                    'symbol' => $symbol,
+                                    'language' => $tmpLang[$short],
+                                ];
+                            }
                         }
                     } catch (Exception $e) {
                         // Do nothing!
@@ -296,6 +309,7 @@ class Core_Model_Language
             }
 
             uasort($countries, 'cmp');
+
             foreach ($countries as $currency) {
                 self::$_countries_list[] = new Core_Model_Default($currency);
             }
@@ -313,7 +327,7 @@ class Core_Model_Language
  */
 function cmp($a, $b)
 {
-    $cmp = strcmp($a['name'], $b['name']);
+    $cmp = strcmp($a['language'], $b['language']);
     if ($cmp == 0) {
         return 0;
     }
