@@ -132,9 +132,11 @@ class Security
         $clamav = new ClamAV();
         if ($clamav->ping()) {
             foreach ($newFiles as $file) {
-                if (!$clamav->scan($file['tmp_name'])) {
-                    unlink($file['tmp_name']);
-                    return self::logAlert('Suspicious file detected ' . $file['name'] . ' was deleted.', $session);
+                if (!$clamav->scan($file["tmp_name"])) {
+                    $lastError = $clamav->getLastError();
+                    unlink($file["tmp_name"]);
+                    $filename = $file["name"];
+                    return self::logAlert("Suspicious file detected {$filename} was deleted.", $session, $lastError);
                 }
             }
         }
@@ -220,12 +222,15 @@ class Security
         $tmpFilename = $tmpDir . '/' . uniqid();
 
         File::putContents($tmpFilename, $content);
-        chmod($tmpFilename, 0644);
+        chmod($tmpFilename, 0777);
+
         // Second pass will use ClamAV (if available)
         $clamav = new ClamAV();
-        if ($clamav->ping() && !$clamav->scan($tmpFilename)) {
+        if ($clamav->ping() &&
+            !$clamav->scan($tmpFilename)) {
+            $lastError = $clamav->getLastError();
             unlink($tmpFilename);
-            return self::logAlert("#$origin-002: Suspicious file detected.", $session);
+            return self::logAlert("#$origin-002: Suspicious file detected.", $session, $lastError);
         }
         unlink($tmpFilename);
     }
@@ -238,7 +243,7 @@ class Security
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public static function logAlert($message, \Core_Model_Session $session, $trigger, $value)
+    public static function logAlert($message, \Core_Model_Session $session, $trigger = null, $value = null)
     {
         $namespace = $session->getNamespace();
         switch ($namespace) {
