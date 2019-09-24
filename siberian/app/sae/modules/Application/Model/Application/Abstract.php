@@ -1816,8 +1816,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         $date_expire_at = $this->getFreeUntil();
-        if (empty($date_expire_at) || !$date_expire_at) {
-            return true;
+        if (!$date_expire_at) {
+            return false;
         }
 
         $date = new Zend_Date();
