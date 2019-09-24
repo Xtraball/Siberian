@@ -72,7 +72,7 @@ $schemas['application'] = [
         'default' => 'ionic',
     ],
     'locale' => [
-        'type' => 'varchar(6)',
+        'type' => 'varchar(15)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
