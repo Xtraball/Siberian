@@ -70,7 +70,7 @@ if ($isSae) {
             <div id="sb-tour-global-push-select-app"
                  class="col-lg-6 sb-tour">
                 <h4 class="center"><?php echo __("Select target applications"); ?></h4>
-                <span><?php echo __("Only published application are available for global push notifications.") ?></span>
+                <div class="alert alert-warning"><?php echo p__("application", "Only application with a push feature & published are available for global push notifications.") ?></div>
                 <div class="subcontent content-color">
                     <table class="table content-white-bkg sb-pager">
                         <thead>
