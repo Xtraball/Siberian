@@ -47,8 +47,8 @@ class Admin_Controller_Default extends Core_Controller_Default
         }
 
         if (!$this->getSession()->isLoggedIn()
-            AND !preg_match('/(login)|(forgotpassword)|(change)|(map)|(signuppost)|(check)/', $request->getActionName())
-            AND !$this->getRequest()->isInstalling()
+            && !preg_match('/(login)|(forgotpassword)|(change)|(map)|(signuppost)|(check)/', $request->getActionName())
+            && !$this->getRequest()->isInstalling()
         ) {
             $this->_forward('login', 'account', 'admin');
             return $this;
@@ -89,18 +89,45 @@ class Admin_Controller_Default extends Core_Controller_Default
 
     /**
      * @return bool
+     * @throws Zend_Session_Exception
      */
     protected function _canAccessCurrentPage()
     {
+        $request = $this->getRequest();
 
-        $resource = array(
-            "module" => $this->getRequest()->getModuleName(),
-            "controller" => $this->getRequest()->getControllerName(),
-            "action" => $this->getRequest()->getActionName(),
-        );
+        $resource = [
+            "module" => $request->getModuleName(),
+            "controller" => $request->getControllerName(),
+            "action" => $request->getActionName(),
+        ];
+
+
+        // Searching for any optionValue, this never prevented options to be edited
+        $valueId = null;
+        if ($request->getParam("option_value_id", false) !== false) {
+            $valueId = $request->getParam("option_value_id", false);
+        } else if ($request->getParam("value_id", false) !== false) {
+            $valueId = $request->getParam("value_id", false);
+        }
+
+        if ($valueId !== null) {
+            // Checking for Application ACL
+            $applicationAcl = (new Application_Model_Acl_Option())
+                ->find([
+                    "admin_id" => $this->getSession()->getAdminId(),
+                    "value_id" => $valueId,
+                ]);
+
+            if ($applicationAcl->getId()) {
+                $resource = $applicationAcl->getResourceCode();
+
+                $r = $this->_canAccess($resource, $valueId);
+
+                return $r;
+            }
+        }
 
         return $this->_canAccess($resource);
-
     }
 
     /**

@@ -811,7 +811,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     error: function (error) {
                         console.log("error", error);
                         if (error.status === 403) {
-                            feature_form_warning("<?php echo __js("You are not allowed to access this feature.", '"'); ?>");
+                            feature_form_warning("<?php echo __js("", '"'); ?>");
                         } else {
                             feature_form_error("<?php echo __js("An error occurred while loading the feature.", '"'); ?>");
                         }

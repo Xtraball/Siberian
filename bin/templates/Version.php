@@ -12,6 +12,7 @@ class Version
     const TYPE = '%TYPE%';
     const NAME = '%NAME%';
     const VERSION = '%VERSION%';
+    const PREVIOUS_VERSION = '%PREVIOUS_VERSION%';
     const NATIVE_VERSION = '%NATIVE_VERSION%';
     const API_VERSION = '%API_VERSION%';
 

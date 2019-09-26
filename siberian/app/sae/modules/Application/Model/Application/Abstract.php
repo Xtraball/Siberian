@@ -1807,24 +1807,11 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return bool
-     * @throws Zend_Date_Exception
+     * Previously isFreeTrialExpired
      */
-    public function isFreeTrialExpired()
+    public function canAccessEditor()
     {
-        if (Siberian_Version::TYPE !== "PE") {
-            return false;
-        }
-
-        $date_expire_at = $this->getFreeUntil();
-        if (!$date_expire_at) {
-            return false;
-        }
-
-        $date = new Zend_Date();
-        $date_until = new Zend_Date($date_expire_at, "y-MM-d HH:mm:ss");
-
-        $diff = $date->compare($date_until);
-        return $diff > 0;
+        return true;
     }
 
     /**
