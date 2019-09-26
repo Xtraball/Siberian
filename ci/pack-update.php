@@ -317,6 +317,7 @@ class Version
     const TYPE = \'' . strtoupper($type) . '\';
     const NAME = \'' . $name . '\';
     const VERSION = \'' . $this->release . '\';
+    const PREVIOUS_VERSION = \'' . $this->requiredVersion . '\';
     const NATIVE_VERSION = \'' . $this->nativeVersion . '\';
     const API_VERSION = \'' . $this->apiVersion . '\';
 
