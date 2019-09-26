@@ -83,7 +83,7 @@
         <label for="filter"><?php echo __("Search"); ?></label>
         <input type="text" id="filter" class="form-control" ng-model="urlParams.filter" placeholder="<?php echo __("Search"); ?>" />
     </div>
-    <span><?php echo __("Only published application are available for global push notifications.") ?></span>
+    <div class="alert alert-warning"><?php echo p__("application", "Only application with a push feature & published are available for global push notifications.") ?></div>
 
     <div class="clear"></div>
     <br />

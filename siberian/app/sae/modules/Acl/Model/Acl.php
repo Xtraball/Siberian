@@ -72,8 +72,8 @@ class Acl_Model_Acl extends Core_Model_Default {
                 sprintf("%s/%s/%s", $resource["module"], $resource["controller"], $resource["action"])
             ];
             //TEMP : bypassing ACL for cms feature because of inbox dependencies
-            if(in_array("cms/application_page/editpost", $resources)) return true;
-            if(in_array("cms/application_page/addblock", $resources)) return true;
+            if (in_array("cms/application_page/editpost", $resources)) return true;
+            if (in_array("cms/application_page/addblock", $resources)) return true;
             $resource = null;
         } else {
             $resources = [$resource];

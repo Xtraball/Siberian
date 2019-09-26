@@ -520,6 +520,12 @@ $schemas['application'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'can_access_editor' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'global',
+    ],
     'free_until' => [
         'type' => 'datetime',
         'is_null' => true,

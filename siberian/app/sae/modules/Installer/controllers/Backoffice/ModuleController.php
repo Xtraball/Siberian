@@ -30,7 +30,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $payload = [
             'title' => sprintf('%s > %s',
                 __('Settings'),
-                __('Modules')),
+                __('Updates & Modules')),
             'icon' => 'fa-cloud-download',
             'words' => [
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),

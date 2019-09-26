@@ -17,14 +17,19 @@ class Application_Controller_Default extends Admin_Controller_Default
     public $openActions = [];
 
     /**
-     * @return $this|void
+     * @return $this|Admin_Controller_Default|void
+     * @throws Zend_Exception
+     * @throws Zend_Session_Exception
+     * @throws \Siberian\Exception
      */
     public function init()
     {
-
         parent::init();
 
         $request = $this->getRequest();
+        $session = $this->getSession();
+        $application = $this->getApplication();
+
         if ($request->getControllerName() == 'privacypolicy') {
             return $this;
         }
@@ -38,36 +43,44 @@ class Application_Controller_Default extends Admin_Controller_Default
         }
 
         // Options ACL
-        $application_acl_option = new Application_Model_Acl_Option();
-        $denied_options = $application_acl_option->findAllByAppAndAdminId($this->getApplication()->getId(), $this->getAdmin()->getId());
-        $this->_getAcl()->denyResources($denied_options, true);
+        $deniedOptions = (new Application_Model_Acl_Option())
+            ->findAllByAppAndAdminId($application->getId(), $this->getAdmin()->getId());
+        $this->_getAcl()->denyResources($deniedOptions, true);
 
-        $excluded = array(
-            'admin_application_list',
-            'admin_application_new',
-            'admin_application_set',
-            'admin_application_createpost',
-            'front_index_noroute',
-            'front_index_error',
-        );
+        // Retry after application/admin acl
+        if (!$this->_canAccessCurrentPage()) {
+            $this->_forward("forbidden");
+            return;
+        }
+
+        //$excluded = [
+        //    'admin_application_list',
+        //    'admin_application_new',
+        //    'admin_application_set',
+        //    'admin_application_createpost',
+        //    'front_index_noroute',
+        //    'front_index_error',
+        //];
 
         // Test si un id de value est passé en paramètre
-        if ($id = $this->getRequest()->getParam('option_value_id') OR
-            $id = $this->getRequest()->getParam('value_id')) {
+        if ($id = $request->getParam('option_value_id') OR
+            $id = $request->getParam('value_id')) {
             // Créé et charge l'objet
             $this->_current_option_value = new Application_Model_Option_Value();
             $this->_current_option_value->find($id);
         }
 
-        $this->getSession()->editing_app_id = $this->getApplication()->getId();
+        $session->editing_app_id = $application->getId();
 
         $admin_id = null;
-        if ($this->getSession()->getAdmin() && $this->getSession()->getAdmin()->getId()) {
-            $admin_id = $this->getSession()->getAdmin()->getId();
+        if ($session->getAdmin() && $session->getAdmin()->getId()) {
+            $admin_id = $session->getAdmin()->getId();
         }
 
-        if ($this->getApplication()->isSomeoneElseEditingIt($admin_id)) {
-            $this->getSession()->addWarning(__("Careful, someone else is working on this application."), "two_editing_the_same_app");
+        if ($application->isSomeoneElseEditingIt($admin_id)) {
+            $session->addWarning(
+                __("Careful, someone else is working on this application."),
+                "two_editing_the_same_app");
         }
     }
 

@@ -1,3 +1,9 @@
+<?php
+use Siberian\Version;
+
+$globalEditor = __get("application_free_trial_editor") === "1";
+?>
+
 <sb-section title="'<?php echo __title("General Information"); ?>'">
     <form ng-submit="saveInfo()">
         <div class="col-md-4">
@@ -51,7 +57,7 @@
             </div>
         </div>
 
-        <?php if (\Siberian\Version::is(["MAE", "PE"])): ?>
+        <?php if (Version::is(["MAE", "PE"])): ?>
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label"
@@ -80,12 +86,12 @@
             <div class="form-group">
                 <label class="control-label"><?php echo __("Privacy policy URL"); ?>: <i></i></label>
                 <div>
-                    <span><?php echo $this->getUrl("application/privacypolicy") . "/id/" ?>{{ tmp_application.key }}</span>
+                    <span><?php echo $this->getUrl("application/privacypolicy") . "/index/id/" ?>{{ tmp_application.key }}</span>
                 </div>
             </div>
         </div>
 
-        <?php if (\Siberian\Version::is("PE")): ?>
+        <?php if (Version::is("PE")): ?>
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="control-label"><?php echo __("Free until"); ?></label>
@@ -102,6 +108,20 @@
                                     data-displayed-date="tmp_application.free_until_displayed_date"
                                     data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
                                     data-is-visible="datepicker_visible"/>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="control-label"><?php echo p__("application", "Allow access to editor regardless the free trial or subscription"); ?></label>
+                    <select class="form-control"
+                            name="can_access_editor"
+                            id="can_access_editor"
+                            ng-model="tmp_application.can_access_editor">
+                        <option value="global"><?php echo p__("application", "Use the global configuration") ?> (<?php echo p__("application", "Global") ?>: <?php echo p__("application", $globalEditor ? "Yes" : "No") ?>)</option>
+                        <option value="yes"><?php echo p__("application", "Yes") ?></option>
+                        <option value="no"><?php echo p__("application", "No") ?></option>
+                    </select>
                 </div>
             </div>
         <?php endif; ?>
