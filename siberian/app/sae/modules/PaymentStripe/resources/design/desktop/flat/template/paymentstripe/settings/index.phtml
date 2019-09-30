@@ -5,18 +5,22 @@ use PaymentStripe\Model\Application as StripeApplication;
 
 $application = $this->getApplication();
 
-// Settings
-$settings = StripeApplication::getSettings($application->getId());
-
 // Form
 $formStripe = new FormSettings();
-$formStripe->populate($settings->getData());
+
+// Settings
+try {
+    $settings = StripeApplication::getSettings($application->getId());
+    $formStripe->populate($settings->getData());
+} catch (\Exception $e) {
+    // Nope!
+}
+
 
 ?>
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
-
             <div id="apis_content"
                  class="content solo-page sb-tour">
 
@@ -40,7 +44,6 @@ $formStripe->populate($settings->getData());
 
                     </div>
                 </div>
-
 
             </div>
         </div>
