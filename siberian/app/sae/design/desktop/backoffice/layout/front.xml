@@ -7,6 +7,10 @@
             <title>Siberian - Backoffice</title>
             <scripts>
                 <js>
+                    <jquery link="js/jquery/jquery.js" />
+                    <jquery_ui link="js/jquery/jquery-ui.js" />
+                    <jquery_datepicker link="js/jquery/jquery.ui.datepicker.js" />
+                    <jquery_datepicker_languages link="js/jquery/jquery.ui.datepicker-languages.js" />
                     <angular link="js/angular.min.js" />
                     <angular_scripts folder="js/angular" />
                     <textangular folder="js/libraries/text-angular" />
@@ -36,6 +40,7 @@
                     <icofont link="css/icofont/css/icofont.css" />
                     <sweetalert link="css/sweetalert.css" />
                     <textangular folder="css/text-angular" />
+                    <jquery_ui link="css/jquery-ui.css" />
                 </css>
             </scripts>
             <metas>

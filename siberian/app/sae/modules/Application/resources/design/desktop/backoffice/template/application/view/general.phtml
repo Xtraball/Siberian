@@ -97,17 +97,14 @@ $globalEditor = __get("application_free_trial_editor") === "1";
                     <label class="control-label"><?php echo __("Free until"); ?></label>
                     <input type="text"
                            value="{{ tmp_application.free_until }}"
-                           class="form-control"
                            name="free_until"
                            id="free_until"
-                           ng-model="tmp_application.free_until_displayed_date"
-                           ng-focus="datepicker_visible = true"
-                           ng-change="datepicker_visible = false"/>
-
-                    <datetimepicker data-ng-model="tmp_application.free_until"
-                                    data-displayed-date="tmp_application.free_until_displayed_date"
-                                    data-datetimepicker-config="{ startView:'day', minView:'day', format:'<?php echo strtoupper(__("MM/dd/yyyy")); ?>' }"
-                                    data-is-visible="datepicker_visible"/>
+                           date-picker
+                           placeholder="MM/DD/YYYY"
+                           maxlength="15"
+                           locale="<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>"
+                           class="form-control"
+                           ng-model="tmp_application.free_until"/>
                 </div>
             </div>
 
