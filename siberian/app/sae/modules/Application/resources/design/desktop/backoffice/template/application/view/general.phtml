@@ -102,9 +102,10 @@ $globalEditor = __get("application_free_trial_editor") === "1";
                            date-picker
                            placeholder="MM/DD/YYYY"
                            maxlength="15"
+                           readonly="readonly"
                            locale="<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>"
                            class="form-control"
-                           ng-model="tmp_application.free_until"/>
+                           ng-model="tmp_application.free_until" />
                 </div>
             </div>
 
