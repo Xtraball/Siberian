@@ -82,14 +82,14 @@ class Gateway extends Base
         foreach (self::$gateways as $code => $gateway) {
             $childs[$code] = [
                 "hasChilds" => false,
-                "isVisible" => self::_canAccess($gateway["acl_code"]),
+                "isVisible" => self::_canAccess($gateway["aclCode"]),
                 "label" => $gateway["label"],
                 "icon" => $gateway["icon"],
                 "url" => self::_getUrl($gateway["url"]),
                 "is_current" => ("/" . $gateway["url"] === $currentUrl),
             ];
 
-            $accessAny[] = $gateway["acl_code"];
+            $accessAny[] = $gateway["aclCode"];
         }
 
         $editorTree["payment_gateways"]["childs"] = $childs;

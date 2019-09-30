@@ -3,7 +3,7 @@
  */
 angular
 .module("starter")
-.service("PaymentMethod", function (Modal) {
+.service("PaymentMethod", function (Modal, $pwaRequest) {
     var service = {
         modal: null
     };
@@ -23,6 +23,10 @@ angular
 
     service.closeModal = function () {
         service.modal.hide();
+    };
+
+    service.fetchGateways = function () {
+        return $pwaRequest.get("/paymentmethod/mobile_gateway/fetch-all");
     };
 
     return service;

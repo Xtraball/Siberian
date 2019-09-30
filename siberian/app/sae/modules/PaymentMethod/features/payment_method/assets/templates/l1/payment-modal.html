@@ -15,8 +15,8 @@
     <ion-content>
         <div class="list list-item">
             <div ng-repeat="paymentGateway in paymentGateways">
-                <div ng-if="paymentMethods.indexOf(paymentGateway.paymentMethod)">
-                    <div ng-include="paymentGateway.templateUrl"></div>
+                <div ng-if="methodIsAllowed(paymentGateway.paymentMethods)">
+                    <div ng-include="'' + paymentGateway.templateUrl + ''"></div>
                     <div style="margin-bottom: 20px;"></div>
                 </div>
             </div>

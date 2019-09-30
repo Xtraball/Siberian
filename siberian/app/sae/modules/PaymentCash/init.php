@@ -18,10 +18,12 @@ $init = function($bootstrap) {
 
     Gateway::register("cash", [
         "class" => "\PaymentCash\Model\Cash",
-        "acl_code" => "payment_cash_settings",
+        "aclCode" => "payment_cash_settings",
         "label" => p__("payment_cash", "Cash"),
         "url" => "paymentcash/settings",
         "icon" => "icon ion-sb-stripe",
+        "paymentMethods" => ["cash"],
+        "templateUrl" => "./features/payment_cash/assets/templates/l1/payment-cash.html",
     ]);
 };
 
