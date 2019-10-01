@@ -14,4 +14,13 @@ class Stripe extends GatewayAbstract
      * @var array
      */
     public static $paymentMethod = "credit-card";
+
+    /**
+     * @param null $appId
+     * @return bool
+     */
+    public function isSetup($appId = null)
+    {
+        return Application::isAvailable($appId);
+    }
 }

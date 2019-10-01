@@ -14,4 +14,13 @@ class Cash extends GatewayAbstract
      * @var array
      */
     public static $paymentMethod = "cash";
+
+    /**
+     * @param null $appId
+     * @return bool
+     */
+    public function isSetup($appId = null)
+    {
+        return true;
+    }
 }

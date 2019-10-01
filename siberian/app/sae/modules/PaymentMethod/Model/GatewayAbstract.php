@@ -23,4 +23,13 @@ abstract class GatewayAbstract extends Base
     {
         return mb_strtolower($paymentMethod) === mb_strtolower(self::$paymentMethod);
     }
+
+    /**
+     * @param null $appId
+     * @return bool
+     */
+    public function isSetup($appId = null)
+    {
+        return false;
+    }
 }

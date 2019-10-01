@@ -11,15 +11,13 @@ angular
     };
 
     $scope.methodIsAllowed = function (methods) {
-        // Bypass
-        return true;
-        
+        var isAllowed = false;
         methods.forEach(function (method) {
             if ($scope.options.methods.indexOf(method) >= 0) {
-                return true;
+                isAllowed = true;
             }
         });
-        return false;
+        return isAllowed;
     };
 
     $scope.fetchGateways = function () {
@@ -32,6 +30,10 @@ angular
             Dialog.alert("Error", "There is no configured payment method.", "OK", -1, "payment_method");
             $scope.isLoading = false;
         });
+    };
+
+    $scope._pmOnSelect = function () {
+
     };
 
     $scope.fetchGateways();

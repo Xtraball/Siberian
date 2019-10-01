@@ -33,6 +33,10 @@ angular
             };
 
             $scope.lineActionTrigger = function (card) {
+                if (typeof $scope._pmOnSelect === "function") {
+                    $scope._pmOnSelect(card);
+                }
+
                 if (typeof $scope.lineAction === "function") {
                     $scope.lineAction(card);
                 }
