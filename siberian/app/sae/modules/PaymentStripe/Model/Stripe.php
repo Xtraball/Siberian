@@ -21,6 +21,6 @@ class Stripe extends GatewayAbstract
      */
     public function isSetup($appId = null)
     {
-        return Application::isAvailable($appId);
+        return Application::isEnabled($appId);
     }
 }
