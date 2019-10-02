@@ -1,17 +1,12 @@
 <?php
 
-use Siberian\Exception;
-
-use PaymentStripe\Form\Settings as FormSettings;
-use PaymentStripe\Model\Application as StripeApplication;
-
-use Stripe\Stripe;
-use Stripe\Customer;
+use PaymentCash\Form\Settings as FormSettings;
+use PaymentCash\Model\Application as CashApplication;
 
 /**
- * Class PaymentStripe_SettingsController
+ * Class PaymentCash_SettingsController
  */
-class PaymentStripe_SettingsController extends Application_Controller_Default
+class PaymentCash_SettingsController extends Application_Controller_Default
 {
     public function indexAction()
     {
@@ -30,25 +25,17 @@ class PaymentStripe_SettingsController extends Application_Controller_Default
             $form = new FormSettings();
             $values = $request->getPost();
             if ($form->isValid($values)) {
-                self::testStripe($values);
 
-                /** Do whatever you need when form is valid */
-                $stripeApplication = (new StripeApplication())->find($appId, "app_id");
+                $cashApplication = (new CashApplication())->find($appId, "app_id");
 
-                // Automatically determines if it's in test mode!
-                $values["is_sandbox"] = 0;
-                if (preg_match("/_test_/i", $values["publishable_key"]) === 1) {
-                    $values["is_sandbox"] = 1;
-                }
-
-                $stripeApplication
+                $cashApplication
                     ->setAppId($appId)
                     ->addData($values)
                     ->save();
 
                 $payload = [
                     "success" => true,
-                    "message" => p__("payment_stripe", "Stripe API keys saved."),
+                    "message" => p__("payment_cash", "Cash settings saved."),
                 ];
             } else { // On form error!
                 $payload = [
@@ -65,19 +52,5 @@ class PaymentStripe_SettingsController extends Application_Controller_Default
         }
 
         $this->_sendJson($payload);
-    }
-
-    /**
-     * @param $values
-     * @throws \Siberian\Exception
-     */
-    private static function testStripe($values)
-    {
-        try {
-            Stripe::setApiKey($values["secret_key"]);
-            Customer::all();
-        } catch (\Exception $e) {
-            throw new Exception(__("Stripe API Error: %s", $e->getMessage()));
-        }
     }
 }

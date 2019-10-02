@@ -1,16 +1,15 @@
 <?php
 
-//use PaymentStripe\Form\Settings as FormSettings;
-//use PaymentStripe\Model\Application as StripeApplication;
-//
-//$application = $this->getApplication();
-//
-//// Settings
-//$settings = StripeApplication::getSettings($application->getId());
-//
-//// Form
-//$formStripe = new FormSettings();
-//$formStripe->populate($settings->getData());
+use PaymentCash\Form\Settings as FormSettings;
+use PaymentCash\Model\Application as CashApplication;
+
+$application = $this->getApplication();
+
+// Form
+$formCash = new FormSettings();
+
+$settings = CashApplication::getSettings($application->getId());
+$formCash->populate($settings->getData());
 
 ?>
 <div class="row">
@@ -28,11 +27,11 @@
                         <div class="form-payment"
                              rel="stripe">
                             <h4 class="title-editor no-border-radius title-feature-indent">
-                                <?php echo p__("payment_cash", "-") ?>
+                                <?php echo p__("payment_cash", "Cash") ?>
                             </h4>
                             <div class="container-fluid content-feature">
                                 <br />
-                                <?php echo p__("payment_cash", "No options here.") ?>
+                                <?php echo $formCash ?>
                             </div>
 
                             <br />

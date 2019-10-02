@@ -29,6 +29,8 @@ class Settings extends FormAbstract
         $gateway = $this->addSimpleHidden("gateway");
         $gateway->setValue("stripe");
 
+        $this->addSimpleCheckbox("is_enabled", p__("payment_stripe", "Enabled?"));
+
         $publicKey = $this->addSimpleText("publishable_key", p__("payment_stripe", "Publishable key"));
         $secretKey = $this->addSimpleText("secret_key", p__("payment_stripe", "Secret key"));
 

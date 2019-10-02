@@ -16,11 +16,15 @@ $schemas['payment_cash_application'] = [
     'app_id' => [
         'type' => 'int(11) unsigned',
         'index' => [
-            'key_name' => 'PSA_KEY_APP_ID',
+            'key_name' => 'PCSHAPP_KEY_APP_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
         ],
+    ],
+    'is_enabled' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
     ],
     'created_at' => [
         'type' => 'datetime',

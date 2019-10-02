@@ -10,6 +10,8 @@ use Stripe\Stripe;
 /**
  * Class Application
  * @package PaymentStripe\Model
+ *
+ * @method integer getIsEnabled()
  */
 class Application extends Base
 {
@@ -78,6 +80,20 @@ class Application extends Base
         }
 
         return true;
+    }
+
+    /**
+     * @param null $appId
+     * @return bool
+     */
+    public static function isEnabled($appId = null)
+    {
+        try {
+            $settings = self::getSettings($appId);
+            return (boolean) filter_var($settings->getIsEnabled(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**

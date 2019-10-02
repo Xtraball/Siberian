@@ -29,11 +29,7 @@ class Settings extends FormAbstract
         $gateway = $this->addSimpleHidden("gateway");
         $gateway->setValue("cash");
 
-        //$publicKey = $this->addSimpleText("publishable_key", p__("payment_stripe", "Publishable key"));
-        //$secretKey = $this->addSimpleText("secret_key", p__("payment_stripe", "Secret key"));
-
-        //$publicKey->setRequired(true);
-        //$secretKey->setRequired(true);
+        $this->addSimpleCheckbox("is_enabled", p__("payment_stripe", "Enabled?"));
 
         $save = $this->addSubmit(p__("payment_cash", "Save"), p__("payment_cash", "Save"));
         $save->addClass("pull-right");

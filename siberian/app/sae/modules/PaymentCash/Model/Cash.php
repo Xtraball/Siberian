@@ -21,6 +21,11 @@ class Cash extends GatewayAbstract
      */
     public function isSetup($appId = null)
     {
-        return true;
+        try {
+            $settings = self::getSettings($appId);
+            return filter_var($settings->isEnabled(), FILTER_VALIDATE_BOOLEAN);
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }

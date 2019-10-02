@@ -32,6 +32,10 @@ $schemas['payment_stripe_application'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'is_enabled' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'is_sandbox' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',

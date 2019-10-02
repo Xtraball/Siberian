@@ -21,7 +21,7 @@ $init = function($bootstrap) {
         "aclCode" => "payment_cash_settings",
         "label" => p__("payment_cash", "Cash"),
         "url" => "paymentcash/settings",
-        "icon" => "icon ion-sb-stripe",
+        "icon" => "icon ion-cash",
         "paymentMethods" => ["cash"],
         "templateUrl" => "./features/payment_cash/assets/templates/l1/payment-cash.html",
     ]);
