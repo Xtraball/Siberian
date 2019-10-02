@@ -11,9 +11,9 @@ use Core\Model\Base;
 abstract class GatewayAbstract extends Base
 {
     /**
-     * @var string
+     * @var array
      */
-    public static $paymentMethod = "-";
+    public static $paymentMethods = [];
 
     /**
      * @param $paymentMethod
@@ -21,7 +21,7 @@ abstract class GatewayAbstract extends Base
      */
     public function supports($paymentMethod)
     {
-        return mb_strtolower($paymentMethod) === mb_strtolower(self::$paymentMethod);
+        return in_array($paymentMethod, static::$paymentMethods);
     }
 
     /**

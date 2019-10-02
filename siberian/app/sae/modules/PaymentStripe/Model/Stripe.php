@@ -13,7 +13,7 @@ class Stripe extends GatewayAbstract
     /**
      * @var array
      */
-    public static $paymentMethod = "credit-card";
+    public static $paymentMethods = ["credit-card"];
 
     /**
      * @param null $appId

@@ -13,7 +13,7 @@ class Cash extends GatewayAbstract
     /**
      * @var array
      */
-    public static $paymentMethod = "cash";
+    public static $paymentMethods = ["cash"];
 
     /**
      * @param null $appId
