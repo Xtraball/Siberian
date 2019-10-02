@@ -22,7 +22,7 @@
 
             <div ng-if="!isLoading"
                  ng-repeat="paymentGateway in paymentGateways">
-                <div ng-if="methodIsAllowed(paymentGateway.paymentMethods)">
+                <div ng-if="methodIsAllowed(paymentGateway.class)">
                     <div ng-include="'' + paymentGateway.templateUrl + ''"></div>
                     <div style="margin-bottom: 20px;"></div>
                 </div>
@@ -32,3 +32,4 @@
     </ion-content>
 
 </ion-modal-view>
+

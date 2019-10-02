@@ -10,14 +10,8 @@ angular
         PaymentMethod.closeModal();
     };
 
-    $scope.methodIsAllowed = function (methods) {
-        var isAllowed = false;
-        methods.forEach(function (method) {
-            if ($scope.options.methods.indexOf(method) >= 0) {
-                isAllowed = true;
-            }
-        });
-        return isAllowed;
+    $scope.methodIsAllowed = function (paymentMethod) {
+        return $scope.options.methods.indexOf(paymentMethod) >= 0;
     };
 
     $scope.fetchGateways = function () {

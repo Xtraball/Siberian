@@ -1472,7 +1472,7 @@ div.loader {
     border: medium none;
     border-radius: 3px;
     background-image: url("../images/customization/pictos/arrow_bottom_def.png");
-    background-position: 95% center;
+    background-position: calc(100% - 10px) center;
     background-repeat: no-repeat;
     font-size: 16px;
     -webkit-appearance: none;
