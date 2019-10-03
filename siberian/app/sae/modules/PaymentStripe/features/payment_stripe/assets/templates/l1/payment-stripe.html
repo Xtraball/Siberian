@@ -3,7 +3,9 @@
 
     <div ng-if="options.enableVaults">
         <div style="margin-bottom: 20px;"></div>
-        <div class="item item-divider item-divider-custom text-center">{{ ::"Saved cards" | translate:"payment_stripe" }}</div>
+        <div class="item item-divider item-divider-custom text-center">
+            {{ ::"Saved cards" | translate:"payment_stripe" }}
+        </div>
         <payment-stripe-cards line-action="cardsOptions.lineAction"
                               actions="cardsOptions.actions"></payment-stripe-cards>
         <div style="margin-bottom: 20px;"></div>
@@ -26,9 +28,10 @@
     <div ng-show="showForm || !options.enableVaults"
          class="list list-item">
         <div style="margin-bottom: 20px;"></div>
-        <div class="item item-divider item-divider-custom text-center">{{ ::title | translate:"payment_stripe" }}</div>
-        <payment-stripe-form button-text="buttonText"
-                             action="action"></payment-stripe-form>
+        <div class="item item-divider item-divider-custom text-center">
+            {{ ::title | translate:"payment_stripe" }}
+        </div>
+        <payment-stripe-form></payment-stripe-form>
         <div style="margin-bottom: 20px;"></div>
     </div>
 </div>

@@ -7,10 +7,6 @@ angular
     return {
         restrict: "E",
         replace: true,
-        scope: {
-            buttonText: "=?",
-            action: "=?",
-        },
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-form.html",
         controller: function ($scope, $translate, PaymentStripe) {
             if ($scope.options.enableVaults) {
@@ -20,6 +16,7 @@ angular
                 $scope.buttonText = "Pay";
                 $scope.action = "card-payment";
             }
+            $scope.title = "Card details";
 
             $scope.validateAction = function () {
                 switch ($scope.action) {

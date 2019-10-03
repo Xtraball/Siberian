@@ -16,4 +16,9 @@
            ng-click="actionCallback(action, card)"
            class="{{ action.icon }}"></i>
     </div>
+
+    <div ng-if="cards.length == 0"
+         class="item item-custom text-center">
+        {{ ::"You have no card saved." | translate:"payment_stripe" }}
+    </div>
 </div>
