@@ -283,18 +283,6 @@ class Translation
     }
 
     /**
-     * Sets the context of this translation.
-     *
-     * @return string
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-
-        return $this;
-    }
-
-    /**
      * Checks if the context is empty or not.
      *
      * @return bool

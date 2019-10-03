@@ -65,9 +65,11 @@ Here are the results of resizing a 800×573 pixels image to a 200×200 pixels im
     </tr>
 </table>
 
+:books: Check out the [awesome documentation](https://stefangabos.github.io/Zebra_Image/Zebra_Image/Zebra_Image.html)!
+
 ## Support the development of this library
 
-[![Donate](https://img.shields.io/badge/Be%20kind%20%7C%20Donate%20$3%20with%20-%20PayPal%20-brightgreen.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BXHCKWCF6JCPQ)
+[![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=BXHCKWCF6JCPQ)
 
 ## Features
 
@@ -86,18 +88,20 @@ PHP needs to be compiled with `--enable-exif` (Windows users enable `php_mbstrin
 
 ## Installation
 
-Download the latest version, unpack it, and load it in your project
-
-```php
-require_once ('Zebra_Image.php');
-```
-
-## Installation with Composer
-
 You can install Zebra_Image via [Composer](https://packagist.org/packages/stefangabos/zebra_image)
 
-```
+```bash
+# get the latest stable release
 composer require stefangabos/zebra_image
+
+# get the latest commit
+composer require stefangabos/zebra_image:dev-master
+```
+
+Or you can install it manually by downloading the latest version, unpacking it, and then including it in your project
+
+```php
+require_once 'Zebra_Image.php';
 ```
 
 ## How to use
@@ -176,4 +180,4 @@ if (!$image->resize(100, 100, ZEBRA_IMAGE_CROP_CENTER)) {
 } else echo 'Success!';
 ```
 
-:books: Checkout the [awesome documentation](https://stefangabos.github.io/Zebra_Image/Zebra_Image/Zebra_Image.html)!
+:books: Check out the [awesome documentation](https://stefangabos.github.io/Zebra_Image/Zebra_Image/Zebra_Image.html)!

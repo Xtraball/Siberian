@@ -22,20 +22,23 @@ class Watch
                     );
 
                     if ($distFile->getLastChangeTime() < $timeChange) {
-                        Output::out(
-                            '[' . Output::colorize((new \DateTime())->format('H:i:s'), 'light_gray') . ']'
-                            . ' The file "'
-                            . Output::colorize(
-                                rtrim($distFile->getRelativePath(), DIRECTORY_SEPARATOR)
-                                . DIRECTORY_SEPARATOR
-                                . $distFile->getName(),
+                        Output::out(sprintf(
+                            '[%s] The file %s was changed',
+                            Output::colorize((new \DateTime())->format('H:i:s'), 'light_gray'),
+                            Output::colorize(
+                                sprintf(
+                                    '%s%s%s',
+                                    rtrim($distFile->getRelativePath(), DIRECTORY_SEPARATOR),
+                                    DIRECTORY_SEPARATOR,
+                                    $distFile->getName()
+                                ),
                                 'light_magenta'
                             )
-                            . '" was changed'
-                        );
+                        ));
                         $distFile->setLastChangeTime($timeChange);
 
-                        $callback($phulp);
+                        $callback($phulp, $distFile);
+                        break;
                     }
                 }
             }

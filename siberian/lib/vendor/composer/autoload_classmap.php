@@ -6,13 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'ArithmeticError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
-    'AssertionError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
-    'DivisionByZeroError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
-    'Error' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/Error.php',
-    'ParseError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
     'QrReader' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/QrReader.php',
-    'TypeError' => $vendorDir . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
     'Zebra_Image' => $vendorDir . '/stefangabos/zebra_image/Zebra_Image.php',
     'Zxing\\Binarizer' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/Binarizer.php',
     'Zxing\\BinaryBitmap' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/BinaryBitmap.php',

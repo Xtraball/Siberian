@@ -330,6 +330,17 @@ try {
             }
 
             break;
+        case 'cypher-debug':
+            // Test credentials validity!
+            $publicKeyPath = path('/var/apps/certificates/keys/crashlytics.pub');
+            $savedKey = path('/var/apps/certificates/keys/crashlytics.key');
+            $publicKey = file_get_contents($publicKeyPath);
+
+            $rsa = new \phpseclib\Crypt\RSA();
+            $rsa->loadKey($publicKey);
+            $rsa->setEncryptionMode(\phpseclib\Crypt\RSA::ENCRYPTION_PKCS1);
+            file_put_contents($savedKey, $rsa->encrypt("http://51.254.113.112/crash-report"));
+            break;
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "

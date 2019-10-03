@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * Abstract minifier class
+ *
+ * Please report bugs on https://github.com/matthiasmullie/minify/issues
+ *
+ * @author Matthias Mullie <minify@mullie.eu>
+ * @copyright Copyright (c) 2012, Matthias Mullie. All rights reserved
+ * @license MIT License
+ */
 namespace MatthiasMullie\Minify;
 
 use MatthiasMullie\Minify\Exceptions\IOException;
@@ -10,6 +18,7 @@ use Psr\Cache\CacheItemInterface;
  *
  * Please report bugs on https://github.com/matthiasmullie/minify/issues
  *
+ * @package Minify
  * @author Matthias Mullie <minify@mullie.eu>
  * @copyright Copyright (c) 2012, Matthias Mullie. All rights reserved
  * @license MIT License
@@ -38,13 +47,6 @@ abstract class Minify
      * @var string[]
      */
     public $extracted = array();
-
-    /**
-     * Only concatenate files
-     *
-     * @var bool
-     */
-    public $concat_only = false;
 
     /**
      * Init the minify class - optionally, code may be passed along already.
@@ -106,29 +108,6 @@ abstract class Minify
      */
     public function minify($path = null)
     {
-        $this->concat_only = false;
-
-        $content = $this->execute($path);
-
-        // save to path
-        if ($path !== null) {
-            $this->save($content, $path);
-        }
-
-        return $content;
-    }
-
-    /**
-     * Concatenates the data & (optionally) saves it to a file.
-     *
-     * @param string[optional] $path Path to write the data to
-     *
-     * @return string The concatenated data
-     */
-    public function concat($path = null)
-    {
-        $this->concat_only = true;
-
         $content = $this->execute($path);
 
         // save to path
@@ -260,6 +239,12 @@ abstract class Minify
             foreach ($this->patterns as $i => $pattern) {
                 list($pattern, $replacement) = $pattern;
 
+                // we can safely ignore patterns for positions we've unset earlier,
+                // because we know these won't show up anymore
+                if (array_key_exists($i, $positions) == false) {
+                    continue;
+                }
+
                 // no need to re-run matches that are still in the part of the
                 // content that hasn't been processed
                 if ($positions[$i] >= 0) {
@@ -267,19 +252,18 @@ abstract class Minify
                 }
 
                 $match = null;
-                if (preg_match($pattern, $content, $match)) {
+                if (preg_match($pattern, $content, $match, PREG_OFFSET_CAPTURE)) {
                     $matches[$i] = $match;
 
                     // we'll store the match position as well; that way, we
                     // don't have to redo all preg_matches after changing only
                     // the first (we'll still know where those others are)
-                    $positions[$i] = strpos($content, $match[0]);
+                    $positions[$i] = $match[0][1];
                 } else {
                     // if the pattern couldn't be matched, there's no point in
                     // executing it again in later runs on this same content;
                     // ignore this one until we reach end of content
-                    unset($matches[$i]);
-                    $positions[$i] = strlen($content);
+                    unset($matches[$i], $positions[$i]);
                 }
             }
 
@@ -294,7 +278,7 @@ abstract class Minify
             // other found was not inside what the first found)
             $discardLength = min($positions);
             $firstPattern = array_search($discardLength, $positions);
-            $match = $matches[$firstPattern][0];
+            $match = $matches[$firstPattern][0][0];
 
             // execute the pattern that matches earliest in the content string
             list($pattern, $replacement) = $this->patterns[$firstPattern];
@@ -302,7 +286,7 @@ abstract class Minify
 
             // figure out which part of the string was unmatched; that's the
             // part we'll execute the patterns on again next
-            $content = substr($content, $discardLength);
+            $content = (string) substr($content, $discardLength);
             $unmatched = (string) substr($content, strpos($content, $match) + strlen($match));
 
             // move the replaced part to $processed and prepare $content to
@@ -354,12 +338,13 @@ abstract class Minify
      * via restoreStrings().
      *
      * @param string[optional] $chars
+     * @param string[optional] $placeholderPrefix
      */
-    protected function extractStrings($chars = '\'"')
+    protected function extractStrings($chars = '\'"', $placeholderPrefix = '')
     {
         // PHP only supports $this inside anonymous functions since 5.4
         $minifier = $this;
-        $callback = function ($match) use ($minifier) {
+        $callback = function ($match) use ($minifier, $placeholderPrefix) {
             // check the second index here, because the first always contains a quote
             if ($match[2] === '') {
                 /*
@@ -372,7 +357,7 @@ abstract class Minify
             }
 
             $count = count($minifier->extracted);
-            $placeholder = $match[1].$count.$match[1];
+            $placeholder = $match[1].$placeholderPrefix.$count.$match[1];
             $minifier->extracted[$placeholder] = $match[1].$match[2].$match[1];
 
             return $placeholder;
@@ -425,6 +410,16 @@ abstract class Minify
      */
     protected function canImportFile($path)
     {
+        $parsed = parse_url($path);
+        if (
+            // file is elsewhere
+            isset($parsed['host']) ||
+            // file responds to queries (may change, or need to bypass cache)
+            isset($parsed['query'])
+        ) {
+            return false;
+        }
+
         return strlen($path) < PHP_MAXPATHLEN && @is_file($path) && is_readable($path);
     }
 

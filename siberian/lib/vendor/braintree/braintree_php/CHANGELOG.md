@@ -1,3 +1,13 @@
+## 3.40.0
+* Deprecate `GRANTED_PAYMENT_INSTRUMENT_UPDATE` and add `GRANTOR_UPDATED_GRANTED_PAYMENT_METHOD` and `RECIPIENT_UPDATED_GRANTED_PAYMENT_METHOD`
+* Add `accountType` field to `TransactionGateway`, `CreditCardGateway`, `PaymentMethodGateway`, and `CreditCardVerification`.
+* Add Hiper and Hipercard test numbers.
+
+## 3.39.0
+* Add `bin` field to `paymentMethodNonceDetails`
+* Add Error indicating pdf uploads too long for dispute evidence.
+* Add `GrantedPaymentMethodRevoked` webhook response objects
+
 ## 3.38.0
 * Add `fraudServiceProvider` field in `riskData`
 * Fix issue where merchant reporting calls would throw an exception in PHP 7 (#236)
