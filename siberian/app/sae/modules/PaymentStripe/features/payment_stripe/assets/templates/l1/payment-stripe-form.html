@@ -8,9 +8,9 @@
                           id="card-errors"
                           class="assertive assertive-custom"></span>
     </div>
-    <button ng-click="saveAction()"
+    <button ng-click="validateAction()"
             id="save-element"
             class="button button-full button-positive button-positive-custom">
-        {{ ::getButtonText() }}
+        {{ buttonText | translate:"payment_stripe" }}
     </button>
 </div>

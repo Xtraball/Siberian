@@ -12,28 +12,29 @@ angular
             action: "=?",
         },
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-form.html",
-        compile: function(element, attrs){
-            if (!attrs.buttonText) {
-                attrs.buttonText = "Save";
-            }
-
-            if (!attrs.action) {
-                attrs.action = "card-payment";
-            }
-        },
         controller: function ($scope, $translate, PaymentStripe) {
-            $scope.getButtonText = function () {
-                return $translate.instant($scope.buttonText, "payment_stripe");
-            };
+            if ($scope.options.enableVaults) {
+                $scope.buttonText = "Save card";
+                $scope.action = "card-setup";
+            } else {
+                $scope.buttonText = "Pay";
+                $scope.action = "card-payment";
+            }
 
-            $scope.saveAction = function () {
+            $scope.validateAction = function () {
                 switch ($scope.action) {
                     case "card-payment":
                     default:
-                        PaymentStripe.handleCardPayment();
+                        PaymentStripe
+                        .handleCardPayment()
+                        .then(function (result) {
+                            // Callback to the main paymentHandler
+                            $scope._pmOnSelect(result);
+                        });
                         break;
                     case "card-setup":
                         PaymentStripe.handleCardSetup();
+                        // No callback here, we just save a new card!
                         break;
                 }
             };

@@ -33,6 +33,7 @@ angular
             };
 
             $scope.lineActionTrigger = function (card) {
+                // Callback the main payment handler!
                 if (typeof $scope._pmOnSelect === "function") {
                     $scope._pmOnSelect(card);
                 }

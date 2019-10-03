@@ -5,16 +5,21 @@ angular
 .module("starter")
 .service("PaymentMethod", function (Modal, $pwaRequest) {
     var service = {
-        modal: null
+        modal: null,
+        PAYMENT: "payment",
+        AUTHORIZATION: "authorization"
     };
 
-    service.onStart = function () {};
+    service.onStart = function () {
+
+    };
 
     service.openModal = function ($scope, options) {
         Modal.fromTemplateUrl("./features/payment_method/assets/templates/l1/payment-modal.html", {
             scope: angular.extend($scope, {
                 options: options
-            })
+            }),
+            animation: "slide-in-right-left"
         }).then(function(modal) {
             service.modal = modal;
             service.modal.show();
@@ -22,7 +27,7 @@ angular
     };
 
     service.closeModal = function () {
-        service.modal.hide();
+        service.modal.remove();
     };
 
     service.fetchGateways = function () {

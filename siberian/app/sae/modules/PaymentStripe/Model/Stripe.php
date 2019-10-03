@@ -3,12 +3,15 @@
 namespace PaymentStripe\Model;
 
 use PaymentMethod\Model\GatewayAbstract;
+use PaymentMethod\Model\GatewayInterface;
 
 /**
  * Class Stripe
  * @package PaymentStripe\Model
  */
-class Stripe extends GatewayAbstract
+class Stripe
+    extends GatewayAbstract
+    implements GatewayInterface
 {
     /**
      * @var array
@@ -23,4 +26,35 @@ class Stripe extends GatewayAbstract
     {
         return Application::isEnabled($appId);
     }
+
+    public function authorizationSuccess()
+    {
+
+    }
+
+    public function authorizationError()
+    {
+
+    }
+
+    public function captureSuccess()
+    {
+
+    }
+
+    public function captureError()
+    {
+
+    }
+
+    public function paymentSuccess()
+    {
+
+    }
+
+    public function paymentError()
+    {
+
+    }
+
 }

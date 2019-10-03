@@ -153,8 +153,6 @@ angular
 
                     deferred.resolve(result);
                     service.paymentSuccess(result);
-
-
                 }
             });
         } catch (e) {
@@ -166,7 +164,7 @@ angular
     };
 
     service.paymentError = function (message) {
-
+        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-settings");
     };
 
     service.paymentSuccess = function (payload) {
