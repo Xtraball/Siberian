@@ -10,7 +10,7 @@ use \Application_Controller_Default;
  */
 abstract class AbstractPaymentController
     extends Application_Controller_Default
-    implements PaymentInterface
+    implements AbstractPaymentInterface
 {
     /**
      * Test endpoint for payment_method!

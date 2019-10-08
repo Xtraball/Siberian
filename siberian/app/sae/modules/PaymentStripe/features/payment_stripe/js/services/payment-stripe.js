@@ -145,30 +145,49 @@ angular
                     displayErrorParent.classList.remove("ng-hide");
                     displayError.textContent = $translate.instant(result.error.message);
 
-                    deferred.reject(result.error.message);
-                    service.paymentError(result.error.message);
+                    service
+                    .paymentError(result.error.message)
+                    .then(function (payload) {
+                        deferred.reject(payload);
+                    });
                 } else {
                     // Sending the success token!
                     displayErrorParent.classList.add("ng-hide");
 
-                    deferred.resolve(result);
-                    service.paymentSuccess(result);
+                    service
+                    .paymentSuccess(result)
+                    .then(function (payload) {
+                        deferred.reject(payload);
+                    });
                 }
             });
         } catch (e) {
-            deferred.reject(e.message);
-            service.paymentError(e.message);
+            service
+            .paymentError(e.message)
+            .then(function (payload) {
+                deferred.reject(payload);
+            });
         }
 
         return deferred.promise;
     };
 
     service.paymentError = function (message) {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-settings");
+        return $pwaRequest.post("/paymentstripe/mobile_handler/payment-error",
+            {
+                data: {
+                    message: message
+                }
+            });
     };
 
     service.paymentSuccess = function (payload) {
-
+        return $pwaRequest.post("/paymentstripe/mobile_handler/payment-success",
+            {
+                data: {
+                    payload: payload
+                }
+            });
     };
 
     service.handleCardSetup = function () {
@@ -191,35 +210,53 @@ angular
                         displayErrorParent.classList.remove("ng-hide");
                         displayError.textContent = $translate.instant(result.error.message);
 
-                        deferred.reject(result.error.message);
-                        service.setupError(result.error.message);
+                        service
+                        .setupError(result.error.message)
+                        .then(function (payload) {
+                            deferred.reject(payload);
+                        });
                     } else {
                         // Sending the success token!
                         displayErrorParent.classList.add("ng-hide");
 
-                        deferred.resolve(result);
-                        service.setupSuccess(result);
+                        service
+                        .setupSuccess(result)
+                        .then(function (payload) {
+                            deferred.resolve(payload);
+                        });
                     }
                 });
             }, function (error) {
                 throw new Error(error.message);
             });
 
-
         } catch (e) {
-            deferred.reject(e.message);
-            service.setupError(e.message);
+            service
+            .setupError(e.message)
+            .then(function (payload) {
+                deferred.reject(payload);
+            });
         }
 
         return deferred.promise;
     };
 
     service.setupError = function (message) {
-        console.log("setupError", message);
+        return $pwaRequest.post("/paymentstripe/mobile_handler/setup-error",
+            {
+                data: {
+                    message: message
+                }
+            });
     };
 
     service.setupSuccess = function (payload) {
-        console.log("setupSuccess", payload);
+        return $pwaRequest.post("/paymentstripe/mobile_handler/setup-success",
+            {
+                data: {
+                    payload: payload
+                }
+            });
     };
 
     service.fetchSettings = function () {

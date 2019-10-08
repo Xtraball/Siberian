@@ -24,9 +24,9 @@ angular
                     default:
                         PaymentStripe
                         .handleCardPayment()
-                        .then(function (result) {
+                        .then(function (payload) {
                             // Callback to the main paymentHandler
-                            $scope._pmOnSelect(result);
+                            $scope._pmOnSelect(payload);
                         });
                         break;
                     case "card-setup":

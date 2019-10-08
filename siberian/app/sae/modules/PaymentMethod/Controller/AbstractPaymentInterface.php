@@ -6,7 +6,7 @@ namespace PaymentMethod\Controller;
  * Class AbstractMobilePaymentController
  * @package PaymentMethod\Controller
  */
-interface PaymentInterface
+interface AbstractPaymentInterface
 {
     public function authorizationSuccessAction();
 

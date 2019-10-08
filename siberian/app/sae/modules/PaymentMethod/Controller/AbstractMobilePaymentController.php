@@ -10,7 +10,7 @@ use \Application_Controller_Mobile_Default;
  */
 abstract class AbstractMobilePaymentController
     extends Application_Controller_Mobile_Default
-    implements PaymentInterface
+    implements AbstractPaymentInterface
 {
     /**
      * Test endpoint for payment_method!
