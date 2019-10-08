@@ -49,6 +49,13 @@ abstract class Minify
     public $extracted = array();
 
     /**
+     * Only concatenate files
+     *
+     * @var bool
+     */
+    public $concat_only = false;
+
+    /**
      * Init the minify class - optionally, code may be passed along already.
      */
     public function __construct(/* $data = null, ... */)
@@ -108,6 +115,29 @@ abstract class Minify
      */
     public function minify($path = null)
     {
+        $this->concat_only = false;
+
+        $content = $this->execute($path);
+
+        // save to path
+        if ($path !== null) {
+            $this->save($content, $path);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Concatenates the data & (optionally) saves it to a file.
+     *
+     * @param string[optional] $path Path to write the data to
+     *
+     * @return string The concatenated data
+     */
+    public function concat($path = null)
+    {
+        $this->concat_only = true;
+
         $content = $this->execute($path);
 
         // save to path

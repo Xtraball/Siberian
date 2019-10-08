@@ -128,12 +128,24 @@ class JS extends Minify
 
         $dataDir = __DIR__.'/../data/js/';
         $options = FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES;
+        if(file_exists($dataDir.'keywords_reserved.txt')) {
         $this->keywordsReserved = file($dataDir.'keywords_reserved.txt', $options);
+        }
+        if(file_exists($dataDir.'keywords_before.txt')) {
         $this->keywordsBefore = file($dataDir.'keywords_before.txt', $options);
+        }
+        if(file_exists($dataDir.'keywords_after.txt')) {
         $this->keywordsAfter = file($dataDir.'keywords_after.txt', $options);
+        }
+        if(file_exists($dataDir.'operators.txt')) {
         $this->operators = file($dataDir.'operators.txt', $options);
+        }
+        if(file_exists($dataDir.'operators_before.txt')) {
         $this->operatorsBefore = file($dataDir.'operators_before.txt', $options);
+        }
+        if(file_exists($dataDir.'operators_after.txt')) {
         $this->operatorsAfter = file($dataDir.'operators_after.txt', $options);
+    }
     }
 
     /**
@@ -159,33 +171,42 @@ class JS extends Minify
          * Comments will be removed altogether, strings and regular expressions
          * will be replaced by placeholder text, which we'll restore later.
          */
-        $this->extractStrings('\'"`');
-        $this->stripComments();
-        $this->extractRegex();
 
-        // loop files
-        foreach ($this->data as $source => $js) {
-            // take out strings, comments & regex (for which we've registered
-            // the regexes just a few lines earlier)
-            $js = $this->replace($js);
+        if(!$this->concat_only) {
+            $this->extractStrings('\'"`');
+            $this->stripComments();
+            $this->extractRegex();
 
-            $js = $this->propertyNotation($js);
-            $js = $this->shortenBools($js);
-            $js = $this->stripWhitespace($js);
+            // loop files
+            foreach ($this->data as $source => $js) {
+                // take out strings, comments & regex (for which we've registered
+                // the regexes just a few lines earlier)
+                $js = $this->replace($js);
 
-            // combine js: separating the scripts by a ;
-            $content .= $js.";";
+                $js = $this->propertyNotation($js);
+                $js = $this->shortenBools($js);
+                $js = $this->stripWhitespace($js);
+
+                // combine js: separating the scripts by a ;
+                $content .= $js.";";
+            }
+
+            // clean up leftover `;`s from the combination of multiple scripts
+            $content = ltrim($content, ';');
+            $content = (string) substr($content, 0, -1);
+
+            /*
+             * Earlier, we extracted strings & regular expressions and replaced them
+             * with placeholder text. This will restore them.
+             */
+            $content = $this->restoreExtractedData($content);
+        } else {
+            // loop files
+            foreach ($this->data as $source => $js) {
+                // combine js: separating the scripts by a ;
+                $content .= $js.";";
+            }
         }
-
-        // clean up leftover `;`s from the combination of multiple scripts
-        $content = ltrim($content, ';');
-        $content = (string) substr($content, 0, -1);
-
-        /*
-         * Earlier, we extracted strings & regular expressions and replaced them
-         * with placeholder text. This will restore them.
-         */
-        $content = $this->restoreExtractedData($content);
 
         return $content;
     }
