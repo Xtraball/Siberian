@@ -38,4 +38,14 @@ class PaymentCash_Mobile_HandlerController
 
     }
 
+    public function setupSuccessAction()
+    {
+
+    }
+
+    public function setupErrorAction()
+    {
+
+    }
+
 }

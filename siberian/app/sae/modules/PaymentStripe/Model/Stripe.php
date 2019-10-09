@@ -4,6 +4,7 @@ namespace PaymentStripe\Model;
 
 use PaymentMethod\Model\GatewayAbstract;
 use PaymentMethod\Model\GatewayInterface;
+use Siberian\Exception;
 
 /**
  * Class Stripe
@@ -55,6 +56,22 @@ class Stripe
     public function paymentError()
     {
 
+    }
+
+    /**
+     * @param $paymentId
+     * @return PaymentIntent|void|null
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public function getPaymentById($paymentId)
+    {
+        $paymentIntent = (new PaymentIntent())->find($paymentId);
+        if (!$paymentIntent->getId()) {
+            throw new Exception(p__("payment_method", "This payment id doesn't exists."));
+        }
+
+        return $paymentIntent;
     }
 
 }

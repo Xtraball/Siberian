@@ -223,6 +223,8 @@ angular
                         .setupSuccess(result)
                         .then(function (payload) {
                             deferred.resolve(payload);
+
+                            $rootScope.$broadcast("paymentStripeCards.refresh");
                         });
                     }
                 });

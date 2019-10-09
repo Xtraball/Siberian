@@ -26,15 +26,12 @@ angular
         });
     };
 
-    $scope._pmOnSelect = function (payload) {
-        console.log("$scope._pmOnSelect", payload);
-        //switch ($scope.options.paymentType) {
-        //    case PaymentMethod.PAYMENT:
-        //        break;
-        //    case PaymentMethod.AUTHORIZATION:
-//
-        //        break;
-        //}
+    $scope.paymentModal = {
+        onSelect: function (paymentMethod) {
+            console.log("$scope.paymentModal.onSelect", paymentMethod);
+
+            $scope.options.onSelect(paymentMethod);
+        }
     };
 
     $scope.fetchGateways();

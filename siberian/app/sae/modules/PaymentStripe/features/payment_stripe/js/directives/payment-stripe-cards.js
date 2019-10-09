@@ -14,7 +14,9 @@ angular
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-cards.html",
         compile: function(element, attrs){
             if (!attrs.actions) {
-                attrs.actions = [];
+                attrs.actions = [
+
+                ];
             }
 
             if (!attrs.lineAction) {
@@ -22,20 +24,29 @@ angular
             }
         },
         controller: function ($scope, $rootScope, $pwaRequest, Dialog, PaymentStripe) {
+            $scope.isLoading = true;
+
             $scope.fetchVaults = function () {
+                $scope.isLoading = true;
+
                 PaymentStripe
                 .fetchVaults()
                 .then(function (payload) {
                     $scope.cards = payload.vaults;
+                    $scope.isLoading = false;
                 }, function (error) {
+                    $scope.isLoading = false;
                     Dialog.alert("Error", error.message, "OK", -1, "payment_stripe");
                 });
             };
 
             $scope.lineActionTrigger = function (card) {
                 // Callback the main payment handler!
-                if (typeof $scope._pmOnSelect === "function") {
-                    $scope._pmOnSelect(card);
+                if (typeof $scope.$parent.paymentModal.onSelect === "function") {
+                    $scope.$parent.paymentModal.onSelect({
+                        method: "\\PaymentStripe\\Model\\Stripe",
+                        card: card
+                    });
                 }
 
                 if (typeof $scope.lineAction === "function") {

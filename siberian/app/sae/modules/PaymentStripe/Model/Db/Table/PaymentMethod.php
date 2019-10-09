@@ -23,7 +23,8 @@ class PaymentMethod extends DbTable
     /**
      * @param $adminId
      * @param array $values
-     * @return \Zend_Db_Table_Rowset_Abstract
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public function getForAdminId ($adminId, $values = [])
     {
@@ -37,13 +38,14 @@ class PaymentMethod extends DbTable
             $select->where($query, $binding);
         }
 
-        return $this->_db->fetchAll($select);
+        return $this->toModelClass($this->_db->fetchAll($select));
     }
 
     /**
      * @param $customerId
      * @param array $values
-     * @return \Zend_Db_Table_Rowset_Abstract
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public function getForCustomerId ($customerId, $values = [])
     {
@@ -57,6 +59,6 @@ class PaymentMethod extends DbTable
             $select->where($query, $binding);
         }
 
-        return $this->_db->fetchAll($select);
+        return $this->toModelClass($this->_db->fetchAll($select));
     }
 }

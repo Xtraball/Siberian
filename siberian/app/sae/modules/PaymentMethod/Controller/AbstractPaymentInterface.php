@@ -3,7 +3,7 @@
 namespace PaymentMethod\Controller;
 
 /**
- * Class AbstractMobilePaymentController
+ * Interface AbstractPaymentInterface
  * @package PaymentMethod\Controller
  */
 interface AbstractPaymentInterface
@@ -19,4 +19,8 @@ interface AbstractPaymentInterface
     public function paymentSuccessAction();
 
     public function paymentErrorAction();
+
+    public function setupSuccessAction();
+
+    public function setupErrorAction();
 }

@@ -1,6 +1,6 @@
 <div class="payment-stripe-cards">
     <div ng-repeat="card in cards track by $index"
-         ng-if="cards.length > 0"
+         ng-if="!isLoading && cards.length > 0"
          ng-click="lineActionTrigger(card)"
          class="item item-custom item-icon-left item-icon-right">
         <i class="icon">
@@ -17,8 +17,13 @@
            class="{{ action.icon }}"></i>
     </div>
 
-    <div ng-if="cards.length == 0"
+    <div ng-if="!isLoading && cards.length == 0"
          class="item item-custom text-center">
         {{ ::"You have no card saved." | translate:"payment_stripe" }}
+    </div>
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
     </div>
 </div>

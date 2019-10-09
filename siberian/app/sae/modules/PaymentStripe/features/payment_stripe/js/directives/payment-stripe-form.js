@@ -30,7 +30,8 @@ angular
                         });
                         break;
                     case "card-setup":
-                        PaymentStripe.handleCardSetup();
+                        PaymentStripe
+                        .handleCardSetup();
                         // No callback here, we just save a new card!
                         break;
                 }

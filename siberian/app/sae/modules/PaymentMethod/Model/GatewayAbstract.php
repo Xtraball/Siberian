@@ -32,4 +32,12 @@ abstract class GatewayAbstract extends Base
     {
         return false;
     }
+
+    /**
+     * @param $paymentId
+     */
+    public function getPaymentById($paymentId)
+    {
+        throw new Exception(p__("payment_method", "This payment id doesn't exists."));
+    }
 }
