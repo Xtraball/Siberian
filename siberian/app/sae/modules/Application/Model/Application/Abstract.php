@@ -12,6 +12,7 @@ use Siberian\Json;
  * @method string getFlickrSecret()
  * @method $this setIsActive(boolean $isActive)
  * @method $this setLayoutVisibility(boolean $visibility)
+ * @method Application_Model_Db_Table_Application getTable()
  */
 abstract class Application_Model_Application_Abstract extends Core_Model_Default
 {
@@ -197,6 +198,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
     /**
      * @return Admin_Model_Admin
+     * @throws Zend_Exception
      */
     public function getOwner()
     {

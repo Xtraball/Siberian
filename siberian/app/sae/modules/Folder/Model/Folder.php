@@ -118,7 +118,7 @@ class Folder_Model_Folder extends Core_Model_Default
 
     /**
      * @param $option_value
-     * @return bool
+     * @return bool|array
      */
     public function getEmbedPayload($option_value)
     {
