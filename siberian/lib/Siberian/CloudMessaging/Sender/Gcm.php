@@ -17,7 +17,7 @@ use Siberian\CloudMessaging\Constants as Constants;
 class Gcm
 {
 
-    const GCM_ENDPOINT = 'https://gcm-http.googleapis.com/gcm/send';
+    const GCM_ENDPOINT = 'https://fcm.googleapis.com/fcm/send';
     const BACKOFF_INITIAL_DELAY = 1000;
     const MAX_BACKOFF_DELAY = 1024000;
     const SUCCESS = 'success';
@@ -30,7 +30,7 @@ class Gcm
     const MESSAGE_ID = 'message_id';
 
     const DEVICE_GROUP_PROJET_ID_HEADER = 'project_id';
-    const DEVICE_GROUP_ENDPOINT = 'https://android.googleapis.com/gcm/notification';
+    const DEVICE_GROUP_ENDPOINT = 'https://fcm.googleapis.com/fcm/notification';
     const DEVICE_GROUP_OPERATION = 'operation';
     const DEVICE_GROUP_CREATE = 'create';
     const DEVICE_GROUP_ADD = 'add';

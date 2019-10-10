@@ -29,7 +29,7 @@ class Fcm
     const MESSAGE_ID = 'message_id';
 
     const DEVICE_GROUP_PROJET_ID_HEADER = 'project_id';
-    const DEVICE_GROUP_ENDPOINT = 'https://android.googleapis.com/gcm/notification';
+    const DEVICE_GROUP_ENDPOINT = 'https://fcm.googleapis.com/fcm/notification';
     const DEVICE_GROUP_OPERATION = 'operation';
     const DEVICE_GROUP_CREATE = 'create';
     const DEVICE_GROUP_ADD = 'add';
