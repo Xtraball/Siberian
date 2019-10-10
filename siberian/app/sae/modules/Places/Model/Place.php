@@ -45,7 +45,7 @@ class Places_Model_Place extends Base
         'text' => 'setFreeTextFilter',
         'type' => 'setTagFilter',
         'address' => 'setAddressFilter',
-        'aroundyou' => 'setRadiusFilter'
+        'aroundyou' => 'setRadiusFilter',
     ];
 
     /**
@@ -127,12 +127,12 @@ class Places_Model_Place extends Base
         $valueId = $optionValue->getId();
         $payload = [
             "page_title" => $optionValue->getTabbarName(),
-            "settings" => []
+            "settings" => [],
         ];
 
         if ($this->getId()) {
             $payload["settings"] = [
-                "categories" => []
+                "categories" => [],
             ];
 
             $metadata = $optionValue->getMetadatas();
@@ -153,10 +153,10 @@ class Places_Model_Place extends Base
 
             foreach ($categories as $category) {
                 $payload["settings"]["categories"][] = [
-                    'id' => (integer)$category->getId(),
-                    'title' => (string)$category->getTitle(),
-                    'subtitle' => (string)$category->getSubtitle(),
-                    'picture' => (string)$category->getPicture(),
+                    'id' => (integer) $category->getId(),
+                    'title' => (string) $category->getTitle(),
+                    'subtitle' => (string) $category->getSubtitle(),
+                    'picture' => (string) $category->getPicture(),
                 ];
             }
         }
@@ -181,11 +181,11 @@ class Places_Model_Place extends Base
         ];
 
         $pages = (new Cms_Model_Application_Page())->findAll([
-            "value_id" => $valueId
+            "value_id" => $valueId,
         ], null, null);
 
         $categories = (new Places_Model_Category())->findAll([
-            "value_id" => $valueId
+            "value_id" => $valueId,
         ], null, null);
 
         $childCats = [];
@@ -240,210 +240,27 @@ class Places_Model_Place extends Base
                             "value_id" => $valueId,
                         ],
                         "childrens" => $childPlaces,
-                    ]
-                ]
+                    ],
+                ],
             ],
         ];
 
         return $inAppStates;
     }
 
-    public function getFeaturePaths($option_value)
-    {
-        if (!$this->isCacheable()) {
-            return [];
-        }
 
-        $value_id = $option_value->getId();
-        $cache_id = "feature_paths_valueid_{$value_id}";
-        if (!$result = $this->cache->load($cache_id)) {
-
-            $paths = [];
-            $value_id = $option_value->getId();
-
-            // Places list paths
-            $params = [
-                "value_id" => $value_id
-            ];
-
-            $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
-            $paths[] = $option_value->getPath("places/mobile_list/settings", $params, false);
-
-            $params["latitude"] = 0;
-            $params["longitude"] = 0;
-
-            $paths[] = $option_value->getPath("places/mobile_list/findall", $params, false);
-
-            $db = Zend_Db_Table::getDefaultAdapter();
-            $request = "
-SELECT cap.page_id AS p_page_id, capba.value_id AS a_value_id
-FROM cms_application_page AS cap
-INNER JOIN cms_application_page_block AS capb ON capb.page_id = cap.page_id
-INNER JOIN cms_application_page_block_address AS capba ON capb.value_id = capba.value_id
-WHERE cap.value_id = {$value_id}
-";
-
-            $places = $db->fetchAll($request);
-            foreach ($places as $place) {
-                $paths[] = sprintf("/cms/mobile_page_view/findall/page_id/%s/value_id/%s",
-                    $place["p_page_id"], $place["a_value_id"]);
-            }
-
-            $this->cache->save($paths, $cache_id,
-                $this->cache_tags + [
-                    "feature_paths",
-                    "feature_paths_valueid_{$value_id}"
-                ]);
-        } else {
-            $paths = $result;
-        }
-
-        return $paths;
-    }
-
-    public function getAssetsPaths($option_value)
-    {
-        if (!$this->isCacheable()) {
-            return [];
-        }
-
-        $paths = [];
-
-        $value_id = $option_value->getId();
-        $cache_id = "assets_paths_valueid_{$value_id}";
-        if (!$result = $this->cache->load($cache_id)) {
-            $value_id = $option_value->getId();
-
-            // Places view paths
-            $pageRepository = new Cms_Model_Application_Page();
-            $pages = $pageRepository->findAll(['value_id' => $value_id]);
-
-            $count = 0;
-            foreach ($pages as $page) {
-                $count++;
-
-                if ($count > 20) {
-                    // unmanageable over 20 records ...
-                    break;
-                }
-
-                $blocks = $page->getBlocks();
-
-                foreach ($blocks as $block) {
-                    $data = $block->_toJson("");
-                    $keys = ["icon", "image_url", "cover_url", "file_url"];
-
-                    foreach ($keys as $key) {
-                        $val = $data[$key];
-                        if (!empty($val)) {
-                            $paths[] = $val;
-                        }
-                    }
-
-                    if (is_array($data["gallery"])) {
-                        foreach ($data["gallery"] as $img) {
-                            $paths[] = $img["src"];
-                        }
-                    }
-
-                    if ($block->getType() == "video" && $data["video_type_id"] == "link") {
-                        $paths[] = $data["url"];
-                    }
-
-                    if ($block->getType() == "text") {
-
-                        $matches = [];
-                        $regex_url = "/((?:http|https)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(?:\/[^\s\"]*)\.(?:png|gif|jpeg|jpg)+)+/";
-                        preg_match_all($regex_url, $block->getContent(), $matches);
-
-                        $matches = call_user_func_array('array_merge', $matches);
-
-                        if ($matches && count($matches) > 1) {
-                            unset($matches[0]);
-                            $paths = array_merge($paths, $matches);
-                        }
-                    }
-                }
-
-            }
-
-            $this->cache->save($paths, $cache_id,
-                $this->cache_tags + [
-                    "assets_paths",
-                    "assets_paths_valueid_{$value_id}"
-                ]);
-        } else {
-            $paths = $result;
-        }
-
-        return $paths;
-    }
-
-
+    /**
+     * @param $option
+     * @return Base|void
+     */
     public function copyTo($option)
     {
-
-        $blocks = [];
-
-        $page = $this->getPage();
-
-        if ($page->getId()) {
-
-            $blocks = $page->getBlocks();
-
-            foreach ($blocks as $block) {
-                switch ($block->getType()) {
-                    case 'image':
-                        $library = new Cms_Model_Application_Page_Block_Image_Library();
-                        $images = $library->findAll(['library_id' => $block->getLibraryId()], 'image_id ASC', null);
-                        $block->unsId(null)->unsLibraryId(null)->unsImageId();
-                        $new_block = $block->getData();
-                        $new_block['image_url'] = [];
-                        $new_block['image_fullsize_url'] = [];
-                        foreach ($images as $image) {
-                            $new_block['image_url'][] = $image->getData('image_url');
-                            $new_block['image_fullsize_url'][] = $image->getData('image_fullsize_url');
-                        }
-                        $blocks[] = $new_block;
-                        break;
-                    case 'video':
-                        $object = $block->getObject();
-                        $object->setId(null);
-                        $block->unsId(null)->unsVideoId();
-                        $blocks[] = $block->getData() + $object->getData();
-                        break;
-                    case 'address' :
-                        $block->unsAddressId();
-                    case 'text' :
-                        $block->unsId(null)->unsTextId();
-                        $blocks[] = $block->getData();
-                        break;
-                    case 'button' :
-                        $block->unsId(null)->unsButtonId();
-                        $blocks[] = $block->getData();
-                        break;
-                    default:
-                        $blocks[] = $block->getData();
-                        break;
-                }
-
-            }
-
-        }
-
-        $this->setId(null)
-            ->setValueId($option->getId())
-            ->save();
-
-        if ($page->getId()) {
-            $page->setData('block', $blocks);
-            $page->setId(null)
-                ->setPageId($this->getId())
-                ->save();
-        }
-
     }
 
+    /**
+     * @return Cms_Model_Application_Page
+     * @throws Zend_Exception
+     */
     public function getPage()
     {
 
@@ -456,12 +273,21 @@ WHERE cap.value_id = {$value_id}
 
     }
 
+    /**
+     * @param $page
+     * @return $this
+     */
     public function setPage($page)
     {
         $this->_page = $page;
         return $this;
     }
 
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
     public static function sortPlacesByDistance($a, $b)
     {
 
@@ -483,6 +309,11 @@ WHERE cap.value_id = {$value_id}
         }
     }
 
+    /**
+     * @param $a
+     * @param $b
+     * @return int|lt
+     */
     public static function sortPlacesByLabel($a, $b)
     {
         return strcmp($a["title"], $b["title"]);
@@ -717,7 +548,7 @@ WHERE cap.value_id = {$value_id}
 
         $url = $controller->getPath("cms/mobile_page_view/index", [
             "value_id" => $this->getPage()->getValueId(),
-            "page_id" => $this->getPage()->getId()
+            "page_id" => $this->getPage()->getId(),
         ]);
 
         $page = new Cms_Model_Application_Page();
@@ -749,41 +580,41 @@ WHERE cap.value_id = {$value_id}
                 "title" => $entity->getTitle(),
                 "subtitle" => $entity->getContent(),
                 "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-                "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
-                "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
+                "show_image" => (boolean) $this->getPage()->getMetadataValue('show_image'),
+                "show_titles" => (boolean) $this->getPage()->getMetadataValue('show_titles'),
             ],
             "page_title" => $page->getTitle() ? $page->getTitle() : $optionValue->getTabbarName(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive()
+            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
         ];
 
         $representation = [
-            "id" => (integer)$entity->getPageId(),
+            "id" => (integer) $entity->getPageId(),
             "title" => $entity->getTitle(),
             "subtitle" => $entity->getContent(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
             "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
             "url" => $url,
             "address" => [
-                "id" => (integer)$address->getId(),
+                "id" => (integer) $address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer)$address->getBlockId(),
+                "block_id" => (integer) $address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => (float) $address->getLatitude(),
                 "longitude" => (float) $address->getLongitude(),
-                "show_phone" => (boolean)$address->getShowPhone(),
-                "show_website" => (boolean)$address->getShowWebsite(),
-                "show_address" => (boolean)$address->getShowAddress(),
-                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
+                "show_phone" => (boolean) $address->getShowPhone(),
+                "show_website" => (boolean) $address->getShowWebsite(),
+                "show_address" => (boolean) $address->getShowAddress(),
+                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton(),
             ],
-            "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
-            "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
+            "show_image" => (boolean) $this->getPage()->getMetadataValue('show_image'),
+            "show_titles" => (boolean) $this->getPage()->getMetadataValue('show_titles'),
             "distance" => $distance,
             "distanceUnit" => $distanceUnit,
-            "embed_payload" => $embed_payload
+            "embed_payload" => $embed_payload,
         ];
 
         return $representation;
@@ -815,7 +646,7 @@ WHERE cap.value_id = {$value_id}
             ->find(
                 [
                     'page_id' => $this->getPageId(),
-                    'code' => $code
+                    'code' => $code,
                 ]
             );
         return $metadata;
@@ -892,18 +723,18 @@ WHERE cap.value_id = {$value_id}
                 "subtitle" => $this->getContent(),
                 "picture" => $picture,
                 "pin" => $pin,
-                "show_image" => (boolean)$this->getMetadataValue('show_image'),
-                "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
-                "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
+                "show_image" => (boolean) $this->getMetadataValue('show_image'),
+                "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+                "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
                 "mapIcon" => $this->getMapIcon(),
             ],
             "page_title" => $this->getTitle(),
             "picture" => $picture,
-            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive()
+            "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
         ];
 
         $representation = [
-            "id" => (integer)$this->getId(),
+            "id" => (integer) $this->getId(),
             "title" => $this->getTitle(),
             "subtitle" => $this->getContent(),
             "picture" => $picture,
@@ -911,32 +742,40 @@ WHERE cap.value_id = {$value_id}
             "pin" => $pin,
             "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
             "address" => [
-                "id" => (integer)$address->getId(),
+                "id" => (integer) $address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer)$address->getBlockId(),
+                "block_id" => (integer) $address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => (float) $address->getLatitude(),
                 "longitude" => (float) $address->getLongitude(),
-                "show_phone" => (boolean)$address->getShowPhone(),
-                "show_website" => (boolean)$address->getShowWebsite(),
-                "show_address" => (boolean)$address->getShowAddress(),
-                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton()
+                "show_phone" => (boolean) $address->getShowPhone(),
+                "show_website" => (boolean) $address->getShowWebsite(),
+                "show_address" => (boolean) $address->getShowAddress(),
+                "show_geolocation_button" => (boolean) $address->getShowGeolocationButton(),
             ],
-            "show_image" => (boolean)$this->getMetadataValue('show_image'),
-            "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
-            "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
+            "show_image" => (boolean) $this->getMetadataValue('show_image'),
+            "show_titles" => (boolean) $this->getMetadataValue('show_titles'),
+            "show_subtitle" => (boolean) $this->getMetadataValue('show_subtitle'),
             "mapIcon" => $this->getMapIcon(),
             "distance" => $distance,
             "distanceUnit" => $settings["distance_unit"],
-            "embed_payload" => $embedPayload
+            "embed_payload" => $embedPayload,
         ];
 
         return $representation;
     }
 
+    /**
+     * @param $controller
+     * @param $position
+     * @param $option_value
+     * @param string $base_url
+     * @return array|bool
+     * @throws Zend_Exception
+     */
     public function asMapJson($controller, $position, $option_value, $base_url = "")
     {
         $address = $this->getAddressBlock();
@@ -948,7 +787,7 @@ WHERE cap.value_id = {$value_id}
 
         # Compress homepage default
         $picture_b64 = null;
-        if (!(boolean)$this->getPage()->getMetadataValue('show_picto')) {
+        if (!(boolean) $this->getPage()->getMetadataValue('show_picto')) {
             if ($page->getPictureUrl()) {
                 $picture = Core_Model_Directory::getBasePathTo($page->getPictureUrl());
                 $picture_b64 = Siberian_Image::open($picture)->cropResize(64)->inline();
@@ -956,14 +795,14 @@ WHERE cap.value_id = {$value_id}
         }
 
         $payload = [
-            "id" => (integer)$page->getPageId(),
+            "id" => (integer) $page->getPageId(),
             "title" => $page->getTitle(),
             "picture" => $picture_b64,
             "address" => [
                 "address" => $address->getAddress(),
                 "latitude" => (float) $address->getLatitude(),
                 "longitude" => (float) $address->getLongitude(),
-            ]
+            ],
         ];
 
         return $payload;
@@ -1060,7 +899,7 @@ WHERE cap.value_id = {$value_id}
      * @param $optionValue
      * @return array
      */
-    public function getAppInitUris ($optionValue)
+    public function getAppInitUris($optionValue)
     {
         try {
             $settings = Json::decode($optionValue->getSettings());
@@ -1073,40 +912,40 @@ WHERE cap.value_id = {$value_id}
             switch ($settings["default_page"]) {
                 case "categories":
                     $featureUrl = __url("/places/mobile_list/categories", [
-                        "value_id" => $optionValue->getId()
+                        "value_id" => $optionValue->getId(),
                     ]);
                     $featurePath = __path("/places/mobile_list/categories", [
-                        "value_id" => $optionValue->getId()
+                        "value_id" => $optionValue->getId(),
                     ]);
                     break;
                 case "map":
                     $featureUrl = __url("/places/mobile_list_map/index", [
-                        "value_id" => $optionValue->getId()
+                        "value_id" => $optionValue->getId(),
                     ]);
                     $featurePath = __path("/places/mobile_list_map/index", [
-                        "value_id" => $optionValue->getId()
+                        "value_id" => $optionValue->getId(),
                     ]);
                     break;
                 case "places":
                 default:
                     $featureUrl = __url("/places/mobile_list/index", [
                         "value_id" => $optionValue->getId(),
-                        "category_id" => ""
+                        "category_id" => "",
                     ]);
                     $featurePath = __path("/places/mobile_list/index", [
                         "value_id" => $optionValue->getId(),
-                        "category_id" => ""
+                        "category_id" => "",
                     ]);
                     break;
             }
         } else {
             $featureUrl = __url("/places/mobile_list/index", [
                 "value_id" => $this->getValueId(),
-                "category_id" => ""
+                "category_id" => "",
             ]);
             $featurePath = __path("/places/mobile_list/index", [
                 "value_id" => $this->getValueId(),
-                "category_id" => ""
+                "category_id" => "",
             ]);
         }
 
