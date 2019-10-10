@@ -6,7 +6,7 @@
  */
 angular
 .module("starter")
-.controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate,
+.controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate, $timeout,
                                                $ionicSideMenuDelegate, Customer, Dialog,
                                                Location, Fanwall, FanwallUtils, GoogleMaps) {
     angular.extend($scope, {
@@ -188,6 +188,8 @@ angular
     });
 
     $rootScope.$on("fanwall.pageTitle", function (event, payload) {
-        $scope.pageTitle = payload.pageTitle;
+        $timeout(function () {
+            $scope.pageTitle = payload.pageTitle;
+        });
     });
 });
