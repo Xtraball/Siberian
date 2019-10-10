@@ -147,7 +147,7 @@ class Folder_Model_Folder extends Core_Model_Default
 
             $color_code = "background";
             if ($this->getApplication()->useIonicDesign()) {
-                $color_code = "list_item";
+                $color_code = "tabbar";
             }
             $color = $this->getApplication()->getBlock($color_code)->getImageColor();
 
@@ -306,6 +306,7 @@ class Folder_Model_Folder extends Core_Model_Default
                     "title" => $page->getTabbarName(),
                     "subtitle" => "",
                     "picture" => $picture_b64,
+                    'icon_is_colorable' => (boolean) $page->getImage()->getCanBeColorized(),
                     "hide_navbar" => (boolean)$hide_navbar,
                     "use_external_app" => (boolean)$use_external_app,
                     "is_link" => (boolean)!$page->getIsAjax(),
