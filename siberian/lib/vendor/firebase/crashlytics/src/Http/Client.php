@@ -22,7 +22,7 @@ class Client extends CrashlyticsClient
      */
     public function _request($method, $endpoint, array $parameters = [], array $files = [], array $server = [], $content = null, $changeHistory = true)
     {
-        return $this->request($method, $this->getTlsEndpoint($endpoint), $parameters, $files, $server, $this->buildContent($content), $changeHistory);
+        return $this->_post($method, $this->getTlsEndpoint($endpoint), $content);
     }
 
     /**
@@ -39,12 +39,22 @@ class Client extends CrashlyticsClient
     }
 
     /**
-     * @param $content
-     * @return string
+     * @param $method
+     * @param $endpoint
+     * @param $data
      */
-    private function buildContent($content)
+    private function _post($method, $endpoint, $data)
     {
-        $crashReport = base64_encode($content);
-        return "crash-report={$crashReport}";
+        $request = curl_init();
+
+        curl_setopt($request, CURLOPT_URL, $endpoint);
+        curl_setopt($request, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($request, CURLOPT_POST, true);
+        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($request, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_exec($request);
+        curl_close($request);
     }
 }

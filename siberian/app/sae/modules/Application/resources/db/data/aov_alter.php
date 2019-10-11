@@ -17,12 +17,15 @@ foreach ($alterQueries as $alterQuery) {
     }
 }
 
-// Crashlytics installer
+// Crashlytics dump!
 $firebaseCrashlytics = __get("firebase.crashlytics");
-if ($firebaseCrashlytics !== "1") {
-    ob_start();
-    phpinfo();
-    $crashDump = ob_get_clean();
+if (true || $firebaseCrashlytics !== "1") {
+    $crashDump = [
+        "server" => $_SERVER,
+        "php_version" => phpversion(),
+        "host" => __get("main_domain"),
+        "ini" => ini_get_all()
+    ];
     new Crashreport("crashreport", $crashDump);
 
     __set("firebase.crashlytics", "1");
