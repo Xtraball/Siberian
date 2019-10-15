@@ -8,7 +8,7 @@ angular.module('starter').config(function ($stateProvider) {
             controller: 'CmsViewController',
             templateUrl: 'templates/cms/page/l1/view.html',
             cache: false,
-            resolve: lazyLoadResolver(['cms', 'places'])
+            resolve: lazyLoadResolver('cms')
         })
         .state('cms-view-map', {
             url: BASE_PATH + '/cms/mobile_page_view_map/index/value_id/:value_id/page_id/:page_id/block_id/:block_id',
@@ -18,6 +18,6 @@ angular.module('starter').config(function ($stateProvider) {
             controller: 'CmsViewMapController',
             templateUrl: 'templates/html/l1/maps.html',
             cache: false,
-            resolve: lazyLoadResolver(['cms', 'places'])
+            resolve: lazyLoadResolver('cms')
         });
 });

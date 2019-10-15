@@ -624,7 +624,6 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _getColorizedImage($image_id, $color)
     {
-
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
