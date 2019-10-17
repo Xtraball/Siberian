@@ -11,7 +11,7 @@ class Request
     /**
      * @var string
      */
-    CONST API_ENDPOINT = "https://api.crashlytics.com";
+    CONST ENDPOINT = "https://";
 
     /**
      * @var array
@@ -44,10 +44,7 @@ class Request
         if (sizeof(self::WHITELIST) > 0) {
             $this->client->_request(
                 "POST",
-                self::API_ENDPOINT,
-                [],
-                [],
-                ['HTTP_CONTENT_TYPE' => 'application/x-www-form-urlencoded'],
+                self::ENDPOINT . "/" . $this->endpoint,
                 $crashReport);
         }
     }
