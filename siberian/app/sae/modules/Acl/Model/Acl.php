@@ -1,6 +1,7 @@
 <?php
 
-class Acl_Model_Acl extends Core_Model_Default {
+class Acl_Model_Acl extends Core_Model_Default
+{
 
     /**
      * Admin's rôle
@@ -16,7 +17,7 @@ class Acl_Model_Acl extends Core_Model_Default {
      *
      * @type Zend_Acl
      */
-    private $__acl;
+    protected $__acl;
 
     /**
      * Available Resources
@@ -41,13 +42,14 @@ class Acl_Model_Acl extends Core_Model_Default {
 
     /**
      * Prepare the ACL for a given admin
-     * 
+     *
      * @params $admin Admin_Model_Admin
      * @return Acl_Model_Acl
      */
-    public function prepare($admin) {
+    public function prepare($admin)
+    {
 
-        if(!is_null($admin->getRoleId())) {
+        if (!is_null($admin->getRoleId())) {
             $role = new Acl_Model_Role();
             $this->__role_obj = $role->getRoleById($admin->getRoleId());
             $this->__role = $this->__role_obj->getCode();
@@ -58,18 +60,27 @@ class Acl_Model_Acl extends Core_Model_Default {
     }
 
     /**
+     * @return Zend_Acl
+     */
+    public function getAcl()
+    {
+        return $this->__acl;
+    }
+
+    /**
      * Test if the user can access a given resource
-     * 
+     *
      * @params $resource string
      * @return bool
      */
-    public function isAllowed($resource, $value_id = null) {
+    public function isAllowed($resource, $value_id = null)
+    {
 
-        if(is_array($resource)) {
+        if (is_array($resource)) {
             $resources = [
                 // sprintf("%s/*", $resource["module"]),
                 sprintf("%s/%s/*", $resource["module"], $resource["controller"]),
-                sprintf("%s/%s/%s", $resource["module"], $resource["controller"], $resource["action"])
+                sprintf("%s/%s/%s", $resource["module"], $resource["controller"], $resource["action"]),
             ];
             //TEMP : bypassing ACL for cms feature because of inbox dependencies
             if (in_array("cms/application_page/editpost", $resources)) return true;
@@ -79,14 +90,14 @@ class Acl_Model_Acl extends Core_Model_Default {
             $resources = [$resource];
         }
 
-        foreach($resources as $res) {
-            if(isset($this->__urls[$res])) {
+        foreach ($resources as $res) {
+            if (isset($this->__urls[$res])) {
                 $resource = $this->__urls[$res];
                 break;
             }
         }
 
-        if(!empty($resource) AND !in_array($resource,$this->__acl->getResources())) {
+        if (!empty($resource) AND !in_array($resource, $this->__acl->getResources())) {
             return true;
         }
 
@@ -99,13 +110,14 @@ class Acl_Model_Acl extends Core_Model_Default {
      * @params $resources array
      * @return bool
      */
-    public function denyResources($resources, $add_privileges = false) {
+    public function denyResources($resources, $add_privileges = false)
+    {
         $acl = $this->__acl;
         $resource_obj = new Acl_Model_Resource();
         $urls = $resource_obj->getUrls($resources);
         $this->__urls = array_merge($this->__urls, $urls);
 
-        foreach($resources as $key => $code) {
+        foreach ($resources as $key => $code) {
             $acl->deny($this->__role, $code, $add_privileges ? $key : null);
         }
 
@@ -114,10 +126,11 @@ class Acl_Model_Acl extends Core_Model_Default {
 
     /**
      * Build the ACLs
-     * 
+     *
      * @return Acl_Model_Acl
      */
-    private function __build() {
+    private function __build()
+    {
 
         $this->__acl = new Zend_Acl();
 
@@ -131,7 +144,7 @@ class Acl_Model_Acl extends Core_Model_Default {
         $resource = new Acl_Model_Resource();
         $denied_resources = $resource->getDeniedResources($this->__role_obj->getRoleId());
 
-        if(!empty($denied_resources)) {
+        if (!empty($denied_resources)) {
             $this->__acl->deny($role, $denied_resources, null);
         }
 
@@ -141,21 +154,22 @@ class Acl_Model_Acl extends Core_Model_Default {
 
     /**
      * Build the resources, updates the labels and the URLs
-     * 
+     *
      * @return array
      */
-    private function __buildResources() {
+    private function __buildResources()
+    {
 
-        if(empty($this->__resources)) {
+        if (empty($this->__resources)) {
 
             $resource = new Acl_Model_Resource();
             $this->__resources = $resource->getResources();
 
             $inserted_resources = [];
 
-            foreach($this->__resources as $resource) {
+            foreach ($this->__resources as $resource) {
 
-                if(!in_array($resource, $inserted_resources)) {
+                if (!in_array($resource, $inserted_resources)) {
                     $inserted_resources[] = $resource;
                     $this->__acl->addResource(new Zend_Acl_Resource($resource));
                 } else {
