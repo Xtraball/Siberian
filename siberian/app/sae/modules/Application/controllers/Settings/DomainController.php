@@ -33,31 +33,34 @@ class Application_Settings_DomainController extends Application_Controller_Defau
 
             // Compare with main domain!
             $mainDomain = __get("main_domain");
-            $hostname = $params["domain"];
-            if ($hostname === $mainDomain) {
-                throw new Exception(p__("application", "This domain is reserved."));
-            }
+            $hostname = trim($params["domain"]);
 
-            // Ok we can continue
-            // Checking CNAME
-            // @todo or not.
+            if (!empty($hostname)) {
+                if ($hostname === $mainDomain) {
+                    throw new Exception(p__("application", "This domain is reserved."));
+                }
 
-            // Searching inside apps
-            $appUseIt = (new Application_Model_Application())->findAll([
-                "domain = ?" => $hostname,
-                "app_id != ?" => $application->getId()
-            ]);
-            if ($appUseIt->count() > 0) {
-                throw new Exception(p__("application", "This domain is already used by another application."));
-            }
+                // Ok we can continue
+                // Checking CNAME
+                // @todo or not.
 
-            // Searching inside white labels (if pe)
-            if (Version::is("PE")) {
-                $whitelabelUseIt = (new Whitelabel_Model_Editor())->findAll([
-                    "host = ?" => $hostname
+                // Searching inside apps
+                $appUseIt = (new Application_Model_Application())->findAll([
+                    "domain = ?" => $hostname,
+                    "app_id != ?" => $application->getId()
                 ]);
-                if ($whitelabelUseIt->count() > 0) {
+                if ($appUseIt->count() > 0) {
                     throw new Exception(p__("application", "This domain is already used by another application."));
+                }
+
+                // Searching inside white labels (if pe)
+                if (Version::is("PE")) {
+                    $whitelabelUseIt = (new Whitelabel_Model_Editor())->findAll([
+                        "host = ?" => $hostname
+                    ]);
+                    if ($whitelabelUseIt->count() > 0) {
+                        throw new Exception(p__("application", "This domain is already used by another application."));
+                    }
                 }
             }
 
