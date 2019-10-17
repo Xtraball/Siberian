@@ -3,14 +3,14 @@
  */
 angular.module("starter").service("Url", function($location) {
 
-    this.__sanitize = function(str) {
+        this.__sanitize = function(str) {
 
-        if(str.startsWith("/")) {
-            str = str.substr(1, str.length - 1);
-        }
+            if(str.startsWith("/")) {
+                str = str.substr(1, str.length - 1);
+            }
 
-        return str;
-    };
+            return str;
+        };
 
     var _that = this;
 

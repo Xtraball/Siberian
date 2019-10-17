@@ -185,6 +185,7 @@ class Analytics_Model_Store {
 	}
 
 	public function addAppInstallationMetric($metric) {
+
 		$fields = $this->_appInstallationField;
 		$metric_values = implode(",",
 			array_map(

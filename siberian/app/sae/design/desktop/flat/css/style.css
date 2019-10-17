@@ -334,7 +334,6 @@ i.fa.fa-plus {
 .sidebar-nav li {
     line-height: 36px;
     text-indent: 0.5em;
-    border-top: 1px solid #525358;
 }
 
 .sidebar-nav li a {
@@ -1472,7 +1471,7 @@ div.loader {
     border: medium none;
     border-radius: 3px;
     background-image: url("../images/customization/pictos/arrow_bottom_def.png");
-    background-position: 95% center;
+    background-position: calc(100% - 10px) center;
     background-repeat: no-repeat;
     font-size: 16px;
     -webkit-appearance: none;
