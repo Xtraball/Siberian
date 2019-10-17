@@ -156,6 +156,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'type_id' => (string) $category->getTypeId(),
                     'picture' => (string) '/images/application' . $category->getPicture(),
                     'thumbnail' => (string) '/images/application' . $category->getThumbnail(),
+                    'icon_is_colorable' => false,
                     'url' => $url,
                     'path' => $url,
                     'is_active' => true,
@@ -181,7 +182,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 );
 
             $color = $this->getApplication()
-                ->getBlock('list_item')
+                ->getBlock('tabbar')
                 ->getImageColor();
 
             foreach ($features as $feature) {
@@ -221,6 +222,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'type_id' => 'feature',
                     'picture' => null,
                     'thumbnail' => $pictureFile,
+                    'icon_is_colorable' => (boolean) $feature->getImage()->getCanBeColorized(),
                     'url' => $uris["featureUrl"],
                     'path' => $uris["featurePath"],
                     'code' => $feature->getCode(),

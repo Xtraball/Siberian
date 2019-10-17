@@ -187,6 +187,7 @@ angular
             }
 
             element.attr("data-value-id", scope.option.value_id);
+            element.attr("data-colorize", scope.option.icon_is_colorable);
             element.on("click", function () {
                 $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
                 $timeout(function () {

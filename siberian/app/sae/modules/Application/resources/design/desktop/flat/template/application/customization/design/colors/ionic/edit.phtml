@@ -33,6 +33,9 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 <script defer
         src="/app/sae/design/desktop/flat/js/minicolor/jquery.minicolors.js"></script>
 
+<script defer
+        src="/app/sae/design/desktop/flat/js/color-solver.js"></script>
+
 
 
 <div class="page-content-wrapper">
@@ -275,65 +278,13 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
         let template = template_css;
         let scroller;
 
+        var imageRbgColor = null;
 
         let mobileOverview = $("#mobile_overview");
 
         let reloadMobileOverview = function () {
             mobileOverview = $("#mobile_overview");
-        }
-
-        let canProcessImage = true;
-        function processImages() {
-            if (canProcessImage) {
-                canProcessImage = false;
-
-                reloadMobileOverview();
-                let overviewContents = mobileOverview.contents();
-
-                overviewContents.find("[option] img:visible").each(function (index, image) {
-                    let el = $(image);
-                    if (!el.next("img").length) {
-                        let newImage = el.clone();
-                        newImage.hide().insertAfter(image);
-                    }
-                });
-
-                overviewContents.find("[option] img").not(":visible").each(function (index, image) {
-                    let localImage = $(image);
-                    let color = $("#homepage-custom-image").val();
-                    let canvas = localImage.colorize(color, true);
-                    if (canvas) {
-                        localImage.prev("img").attr("src", canvas.toDataURL());
-                    }
-                });
-
-                setTimeout(function () {
-                    canProcessImage = true;
-                }, 200);
-            }
         };
-
-        /** Event to catch page change in iframe overview */
-        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
-        var eventer = window[eventMethod];
-        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
-
-        // Listen to message from child window
-        eventer(messageEvent, function (e) {
-            switch (e.data) {
-                case "state.go":
-                    setTimeout(function () {
-                        processImages();
-                    }, 100);
-                    setTimeout(function () {
-                        processImages();
-                    }, 500);
-                    setTimeout(function () {
-                        processImages();
-                    }, 2000);
-                    break;
-            }
-        }, false);
 
         // Save color changes!
         let updateColor = function (input, value, opacity) {
@@ -372,8 +323,9 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                 let template = template_css;
 
                 // Immediately apply colors!
-                $("input[type=hidden][data-index]").each(function () {
-                    let el = $(this),
+                var dataIndex = document.querySelectorAll("input[type=hidden][data-index]");
+                for (var i = 0; i < dataIndex.length; i++) {
+                    let el = $(dataIndex[i]),
                         index = el.attr("data-index"),
                         rgba = el.val();
 
@@ -390,7 +342,20 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                     if (el.attr("id") == "homepage_bg_receiver") {
                         template = template.replace(rgbaToReplace, rgba);
                     }
-                });
+
+                    // Special case images.
+                    if ("$homepage-custom-image" == el.data("variable")) {
+                        imageRbgColor = rgba.replace(/[^0-9\.,]/gmi, "").split(",");
+                    }
+                }
+
+                // Okay weird!
+                let color = new SbColor(imageRbgColor[0], imageRbgColor[1], imageRbgColor[2]);
+                var solver = new SbColorSolver(color);
+                let result = solver.solve();
+
+                // result.filter apply to sb-tabbar images.
+                var imgfilter = "[data-colorize=\"true\"] img { " + result.filter + " }";
 
                 reloadMobileOverview();
                 let overviewContents = mobileOverview.contents();
@@ -398,8 +363,8 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                 // Remove old SCSS, adds new!
                 overviewContents.find("#scss_live").remove();
                 let link = overviewContents.find("style").last();
-                link.after("<style id=\"scss_live\" type=\"text/css\">" + template + emptyCustomScss + "</style>");
-                overviewContents.find("#scss_live").text(template + emptyCustomScss);
+                link.after("<style id=\"scss_live\" type=\"text/css\">" + template + emptyCustomScss + imgfilter + "</style>");
+                overviewContents.find("#scss_live").text(template + emptyCustomScss + imgfilter);
 
                 processing = false;
             } catch(e) {

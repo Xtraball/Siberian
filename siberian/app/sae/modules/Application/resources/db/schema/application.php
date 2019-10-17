@@ -82,6 +82,7 @@ $schemas['application'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'default' => 'USD'
     ],
     'tabbar_account_name' => [
         'type' => 'varchar(30)',
