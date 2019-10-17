@@ -29,7 +29,6 @@ angular
     $scope.paymentModal = {
         onSelect: function (paymentMethod) {
             console.log("$scope.paymentModal.onSelect", paymentMethod);
-
             $scope.options.onSelect(paymentMethod);
         }
     };
