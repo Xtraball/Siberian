@@ -22,7 +22,8 @@ $init = function($bootstrap) {
         "label" => p__("payment_cash", "Cash"),
         "url" => "paymentcash/settings",
         "icon" => "icon ion-cash",
-        "paymentMethods" => ["cash"],
+        "paymentMethod" => "cash",
+        "shortName" => "cash",
         "templateUrl" => "./features/payment_cash/assets/templates/l1/payment-cash.html",
     ]);
 };

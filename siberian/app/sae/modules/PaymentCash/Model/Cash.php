@@ -14,9 +14,14 @@ class Cash
     implements GatewayInterface
 {
     /**
-     * @var array
+     * @var string
      */
-    public static $paymentMethods = ["cash"];
+    public static $paymentMethod = "cash";
+
+    /**
+     * @var string
+     */
+    public static $shortName = "cash";
 
     /**
      * @param null $appId
@@ -55,5 +60,18 @@ class Cash
     public function paymentError()
     {
 
+    }
+
+    /**
+     * @param $paymentId
+     * @return Cash|void
+     * @throws \Zend_Exception
+     */
+    public function getPaymentById($paymentId)
+    {
+        $instance = new static();
+        $instance->setPaymentMethodId($paymentId);
+
+        return $instance;
     }
 }

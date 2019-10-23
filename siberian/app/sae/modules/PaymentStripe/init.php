@@ -22,7 +22,8 @@ $init = function($bootstrap) {
         "label" => p__("payment_stripe", "Stripe"),
         "url" => "paymentstripe/settings",
         "icon" => "icon ion-sb-stripe",
-        "paymentMethods" => ["credit-card"],
+        "paymentMethod" => "credit-card",
+        "shortName" => "stripe",
         "templateUrl" => "./features/payment_stripe/assets/templates/l1/payment-stripe.html"
     ]);
 };

@@ -32,7 +32,8 @@ class PaymentMethod extends Base
     /**
      * @param $adminId
      * @param array $values
-     * @return \Zend_Db_Table_Rowset_Abstract
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public function getForAdminId ($adminId, $values = [])
     {
@@ -42,7 +43,8 @@ class PaymentMethod extends Base
     /**
      * @param $customerId
      * @param array $values
-     * @return \Zend_Db_Table_Rowset_Abstract
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public function getForCustomerId ($customerId, $values = [])
     {

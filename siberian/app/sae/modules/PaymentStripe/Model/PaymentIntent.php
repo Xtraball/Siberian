@@ -20,7 +20,7 @@ class PaymentIntent extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'PaymentStripe\Model\Db\Table\PaymentIntent';
+        $this->_db_table = "PaymentStripe\Model\Db\Table\PaymentIntent";
         return $this;
     }
 

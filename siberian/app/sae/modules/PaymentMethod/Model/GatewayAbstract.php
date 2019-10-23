@@ -3,6 +3,7 @@
 namespace PaymentMethod\Model;
 
 use Core\Model\Base;
+use Siberian\Exception;
 
 /**
  * Class GatewayAbstract
@@ -11,9 +12,14 @@ use Core\Model\Base;
 abstract class GatewayAbstract extends Base
 {
     /**
-     * @var array
+     * @var string
      */
-    public static $paymentMethods = [];
+    public static $paymentMethod = "";
+
+    /**
+     * @var string
+     */
+    public static $shortName = "";
 
     /**
      * @param $paymentMethod
@@ -21,7 +27,7 @@ abstract class GatewayAbstract extends Base
      */
     public function supports($paymentMethod)
     {
-        return in_array($paymentMethod, static::$paymentMethods);
+        return mb_strtolower($paymentMethod) === mb_strtolower(static::$paymentMethod);
     }
 
     /**
@@ -35,6 +41,7 @@ abstract class GatewayAbstract extends Base
 
     /**
      * @param $paymentId
+     * @throws Exception
      */
     public function getPaymentById($paymentId)
     {

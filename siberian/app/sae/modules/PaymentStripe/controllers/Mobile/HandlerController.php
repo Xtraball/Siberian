@@ -99,7 +99,7 @@ class PaymentStripe_Mobile_HandlerController
                 ->setBrand($paymentMethod["card"]["brand"])
                 ->setExp($paymentMethod["card"]["exp_month"] . "/" . substr($paymentMethod["card"]["exp_year"], 2))
                 ->setLast($paymentMethod["card"]["last4"])
-                ->setPaymentMethod($paymentMethod["id"])
+                ->setToken($paymentMethod["id"])
                 ->setRawPayload(Json::encode($paymentMethod))
                 ->setIsRemoved(0)
                 ->save();

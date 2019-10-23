@@ -41,16 +41,17 @@ angular
             };
 
             $scope.lineActionTrigger = function (card) {
+                if (typeof $scope.lineAction === "function") {
+                    $scope.lineAction(card);
+                }
+
                 // Callback the main payment handler!
                 if (typeof $scope.$parent.paymentModal.onSelect === "function") {
                     $scope.$parent.paymentModal.onSelect({
                         method: "\\PaymentStripe\\Model\\Stripe",
+                        id: card.id,
                         card: card
                     });
-                }
-
-                if (typeof $scope.lineAction === "function") {
-                    $scope.lineAction(card);
                 }
             };
 
