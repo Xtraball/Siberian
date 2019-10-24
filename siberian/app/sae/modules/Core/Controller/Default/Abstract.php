@@ -87,6 +87,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $this->cache = Zend_Registry::get('cache');
         $this->cacheOutput = Zend_Registry::get('cacheOutput');
 
+        $request = $this->getRequest();
+
         $this->_initDesign();
         $this->_initSession();
         $this->_initAcl();
@@ -119,7 +121,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         // If the WAF is enabled!
-        if (Security::isEnabled()) {
+        if (!$request->isInstalling() &&
+            Security::isEnabled()) {
             // Checking inside the whitelist!
             if (!Security::isWhitelisted($routeName)) {
                 if (!empty($_FILES)) {
@@ -331,7 +334,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function getSession($type = null)
     {
         if (!$type) {
-            $type = SESSION_TYPE;
+            $type = defined("SESSION_TYPE") ? SESSION_TYPE : "admin";
         }
 
         if (isset(self::$_session[$type])) {
@@ -347,7 +350,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      * @param $session
      * @param string $type
      */
-    public static function setSession($session, $type = 'front')
+    public static function setSession($session, $type = "front")
     {
         self::$_session[$type] = $session;
     }
@@ -810,18 +813,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _initAcl()
     {
-
         if (!$this->getRequest()->isInstalling()) {
 
             $is_editor = !$this->getRequest()->isApplication() && !$this->_isInstanceOfBackoffice();
-            if ($is_editor AND $this->getSession()->isLoggedIn()) {
+            if ($is_editor && $this->getSession()->isLoggedIn()) {
 
                 $acl = new Acl_Model_Acl();
                 $acl->prepare($this->getSession()->getAdmin());
 
                 Core_View_Default::setAcl($acl);
                 Admin_Controller_Default::setAcl($acl);
-
             }
         }
 
@@ -838,7 +839,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         $language = '';
 
         if (!$this->getRequest()->isApplication()) {
-            if ($language_session->current_language) {
+            if ($language_session && $language_session->current_language) {
                 $language = $language_session->current_language;
             } else if (!$this->getRequest()->isInstalling()) {
                 $current_language = __get('system_default_language');

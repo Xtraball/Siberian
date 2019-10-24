@@ -3,5 +3,5 @@
  * @param $bootstrap
  */
 $init = function ($bootstrap) {
-    \Siberian\Security::allowExtension('zip');
+    \Siberian\Security::allowExtension("zip");
 };
