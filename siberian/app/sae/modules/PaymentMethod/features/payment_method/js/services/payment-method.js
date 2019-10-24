@@ -7,7 +7,9 @@ angular
     var service = {
         modal: null,
         PAYMENT: "payment",
-        AUTHORIZATION: "authorization"
+        AUTHORIZATION: "authorization",
+        ACTION_PAY: "pay",
+        ACTION_DELETE: "delete",
     };
 
     service.onStart = function () {

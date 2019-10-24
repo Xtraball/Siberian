@@ -9,7 +9,7 @@ angular
         stripe: null,
         settings: null,
         isReadyPromise: $q.defer(),
-        publishableKey: null
+        publishableKey: null,
     };
 
     service.onStart = function () {

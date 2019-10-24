@@ -3,24 +3,20 @@
  */
 angular
 .module("starter")
-.directive("paymentStripeCards", function () {
+.directive("paymentStripeCards", function (PaymentMethod) {
     return {
         restrict: "E",
         replace: true,
         scope: {
-            lineAction: "=?",
             actions: "=?"
         },
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-cards.html",
         compile: function(element, attrs){
             if (!attrs.actions) {
                 attrs.actions = [
-
+                    PaymentMethod.ACTION_PAY,
+                    PaymentMethod.ACTION_DELETE,
                 ];
-            }
-
-            if (!attrs.lineAction) {
-                attrs.lineAction = null;
             }
         },
         controller: function ($scope, $rootScope, $pwaRequest, Dialog, PaymentStripe) {
@@ -41,10 +37,6 @@ angular
             };
 
             $scope.lineActionTrigger = function (card) {
-                if (typeof $scope.lineAction === "function") {
-                    $scope.lineAction(card);
-                }
-
                 // Callback the main payment handler!
                 if (typeof $scope.$parent.paymentModal.onSelect === "function") {
                     $scope.$parent.paymentModal.onSelect({
