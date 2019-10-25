@@ -1,17 +1,15 @@
 # feed-io
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9cabcb4b-695e-43fa-8b83-a1f9ecefea88/big.png)](https://insight.sensiolabs.com/projects/9cabcb4b-695e-43fa-8b83-a1f9ecefea88)
-
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/9cabcb4b-695e-43fa-8b83-a1f9ecefea88/mini.png)](https://insight.sensiolabs.com/projects/9cabcb4b-695e-43fa-8b83-a1f9ecefea88)
 [![Latest Stable Version](https://poser.pugx.org/debril/feed-io/v/stable.png)](https://packagist.org/packages/debril/feed-io)
 [![Build Status](https://secure.travis-ci.org/alexdebril/feed-io.png?branch=master)](http://travis-ci.org/alexdebril/feed-io)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alexdebril/feed-io/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alexdebril/feed-io/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/alexdebril/feed-io/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alexdebril/feed-io/?branch=master)
-[![PHP Tested versions](https://php-eye.com/badge/debril/feed-io/tested.svg)](https://php-eye.com/package/debril/feed-io)
 [![Dependency Status](https://www.versioneye.com/php/debril:feed-io/2.3.1/badge?style=flat-square)](https://www.versioneye.com/php/debril:feed-io/2.3.1)
 
-[feed-io](https://github.com/alexdebril/feed-io) is a PHP library built to consume and serve RSS / Atom feeds. It features:
+[feed-io](https://github.com/alexdebril/feed-io) is a PHP library built to consume and serve news feeds. It features:
 
-- Atom / RSS read and write support
+- JSONFeed / Atom / RSS read and write support
 - a Command line interface to read feeds
 - HTTP Headers support when reading feeds in order to save network traffic
 - Detection of the format (RSS / Atom) when reading feeds
@@ -64,7 +62,7 @@ You can run the unit test suites using the following command in the library's so
 
 ```sh
 
-    make test
+    ./vendor/bin/phpunit
 
 ```
 
@@ -119,10 +117,10 @@ $feed = new FeedIo\Feed;
 $feed->setTitle('...');
 
 // convert it into Atom
-$dom = $feedIo->toAtom($feed);
+$atomString = $feedIo->toAtom($feed);
 
 // or ...
-$dom = $feedIo->format($feed, 'atom');
+$atomString = $feedIo->format($feed, 'atom');
 
 ```
 
@@ -180,3 +178,35 @@ $logger = new Psr\Log\NullLogger();
 $feedIo = new FeedIo\FeedIo($client, $logger);
 
 ```
+
+Another example with Monolog configured to write on the standard output :
+
+```php
+use FeedIo\FeedIo;
+use FeedIo\Adapter\Guzzle\Client;
+use GuzzleHttp\Client as GuzzleClient;
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
+$client = new Client(new GuzzleClient());
+$logger = new Logger('default', [new StreamHandler('php://stdout')]);
+
+$feedIo = new FeedIo($client, $logger);
+
+```
+
+## Dealing with missing timezones
+
+Sometimes you have to consume feeds in which the timezone is missing from the dates. In some use-cases, you may need to specify the feed's timezone to get an accurate value, so feed-io offers a workaround for that : 
+
+```php
+$feedIo->getDateTimeBuilder()->setFeedTimezone(new \DateTimeZone($feedTimezone));
+$result = $feedIo->read($feedUrl);
+$feedIo->getDateTimeBuilder()->resetFeedTimezone();
+``` 
+
+Don't forget to reset `feedTimezone` after fetching the result, or you'll end up with all feeds located in the same timezone.
+
+## Online documentation and API reference
+
+The whole documentation and API reference is available at https://feed-io.net/documentation.html

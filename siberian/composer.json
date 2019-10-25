@@ -1,6 +1,6 @@
 {
     "name": "xtraball/siberian",
-    "license": "OSL 3.0",
+    "license": "OSL-3.0",
     "minimum-stability": "stable",
     "require": {
         "php" : "^7",
@@ -15,11 +15,9 @@
         "ext-libxml": "*",
         "ext-dom": "*",
         "ext-mbstring": "*",
-        "ext-redis": "*",
         "ext-xml": "*",
         "ext-mysqli": "*",
         "ext-openssl": "*",
-        "firebase/crashlytics": "*",
         "symfony/browser-kit": "^3.1",
         "fabpot/goutte": "^3.1",
         "maximebf/debugbar": "^1.13",
@@ -41,7 +39,11 @@
         "stripe/stripe-php": "^6.19",
         "gettext/gettext": "^4.6",
         "braintree/braintree_php": "^3.38",
-        "debril/feed-io": "3.0"
+        "debril/feed-io": "^3.0"
+    },
+    "require-dev": {
+        "ext-redis": "*",
+        "firebase/crashlytics": "*"
     },
     "config": {
         "vendor-dir": "lib/vendor"

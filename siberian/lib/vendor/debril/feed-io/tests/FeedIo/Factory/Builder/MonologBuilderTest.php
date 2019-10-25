@@ -6,7 +6,6 @@ use Monolog\Logger;
 
 class MonologBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testGetMainClassName()
     {
         $builder = new MonologBuilder();
@@ -33,7 +32,7 @@ class MonologBuilderTest extends \PHPUnit_Framework_TestCase
     public function testNewInvalidHandler()
     {
         $builder = new MonologBuilder();
-        $handler = $builder->newHandler('stdClass', []);
+        $builder->newHandler('stdClass', []);
     }
     
     public function testGetLogger()
@@ -45,9 +44,8 @@ class MonologBuilderTest extends \PHPUnit_Framework_TestCase
         $handlers = $logger->getHandlers();
         $this->assertCount(1, $handlers);
         
-        foreach ( $handlers as $handler) {
+        foreach ($handlers as $handler) {
             $this->assertInstanceOf('Monolog\Handler\StreamHandler', $handler);
         }
     }
-
 }

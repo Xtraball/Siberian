@@ -93,10 +93,6 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
         ),
-        'C' => 
-        array (
-            'Crashlytics\\' => 12,
-        ),
         'B' => 
         array (
             'Braintree\\' => 10,
@@ -255,10 +251,6 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
-        ),
-        'Crashlytics\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/firebase/crashlytics/src',
         ),
         'Braintree\\' => 
         array (

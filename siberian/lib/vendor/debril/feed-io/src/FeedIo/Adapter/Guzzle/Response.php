@@ -18,7 +18,6 @@ use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
  */
 class Response implements ResponseInterface
 {
-
     const HTTP_LAST_MODIFIED = 'Last-Modified';
 
     /**
@@ -35,6 +34,14 @@ class Response implements ResponseInterface
     }
 
     /**
+     * @return boolean
+     */
+    public function isModified()
+    {
+        return $this->psrResponse->getStatusCode() != 304 && $this->psrResponse->getBody()->getSize() > 0;
+    }
+
+    /**
      * @return \Psr\Http\Message\StreamInterface
      */
     public function getBody()
@@ -48,7 +55,7 @@ class Response implements ResponseInterface
     public function getLastModified()
     {
         if ($this->psrResponse->hasHeader(static::HTTP_LAST_MODIFIED)) {
-            $lastModified = \DateTime::createFromFormat(\DateTime::RFC2822, $this->getHeader(static::HTTP_LAST_MODIFIED));
+            $lastModified = \DateTime::createFromFormat(\DateTime::RFC2822, $this->getHeader(static::HTTP_LAST_MODIFIED)[0]);
 
             return false === $lastModified ? null : $lastModified;
         }

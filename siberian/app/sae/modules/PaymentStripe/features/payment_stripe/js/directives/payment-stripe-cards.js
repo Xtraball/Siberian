@@ -11,15 +11,15 @@ angular
             actions: "=?"
         },
         templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-cards.html",
-        compile: function(element, attrs){
+        compile: function (element, attrs) {
             if (!attrs.actions) {
                 attrs.actions = [
                     PaymentMethod.ACTION_PAY,
-                    PaymentMethod.ACTION_DELETE,
+                    PaymentMethod.ACTION_DELETE
                 ];
             }
         },
-        controller: function ($scope, $rootScope, $pwaRequest, Dialog, PaymentStripe) {
+        controller: function ($scope, $rootScope, $pwaRequest, $q, Dialog, PaymentStripe) {
             $scope.isLoading = true;
 
             $scope.fetchVaults = function () {
@@ -36,21 +36,62 @@ angular
                 });
             };
 
-            $scope.lineActionTrigger = function (card) {
+            $scope.lineActionTrigger = function (id) {
+                if ($scope.actions.length > 0) {
+                    // first action = line action
+                    var firstAction = $scope.actions[0];
+                    $scope.doAction(firstAction);
+                }
+
                 // Callback the main payment handler!
                 if (typeof $scope.$parent.paymentModal.onSelect === "function") {
                     $scope.$parent.paymentModal.onSelect({
-                        method: "\\PaymentStripe\\Model\\Stripe",
-                        id: card.id,
-                        card: card
+                        method_class: "\\PaymentStripe\\Model\\Stripe",
+                        method_id: id
                     });
                 }
             };
 
-            $scope.actionCallback = function (action, card) {
-                if (typeof action.callback === "function") {
-                    action.callback(card);
+            $scope.doAction = function (action) {
+                var defer = $q.defer();
+                switch (action) {
+                    default:
+                        Dialog
+                            .alert("Error", "This action doesn't exists.", "OK", -1)
+                            .then(function () {
+                                defer.reject("Unkown action");
+                            });
+                        break;
+                    case PaymentMethod.ACTION_PAY:
+                        PaymentStripe
+                            .handleCardPayment()
+                            .then(function (success) {
+
+                            }, function (error) {
+
+                            });
+                        break;
+                    case PaymentMethod.ACTION_AUTHORIZE:
+                        PaymentStripe
+                            .handleCardAuthorization()
+                            .then(function (success) {
+
+                            }, function (error) {
+
+                            });
+                        break;
+                    case PaymentMethod.ACTION_DELETE:
+                        PaymentStripe
+                            .deletePaymentMethod()
+                            .then(function (success) {
+
+                            }, function (error) {
+
+                            });
+                        break;
                 }
+
+                return defer.promise;
             };
 
             $scope.brand = function (brand) {

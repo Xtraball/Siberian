@@ -9,7 +9,8 @@ angular
         PAYMENT: "payment",
         AUTHORIZATION: "authorization",
         ACTION_PAY: "pay",
-        ACTION_DELETE: "delete",
+        ACTION_AUTHORIZE: "authorize",
+        ACTION_DELETE: "delete"
     };
 
     service.onStart = function () {
@@ -22,7 +23,7 @@ angular
                 options: options
             }),
             animation: "slide-in-right-left"
-        }).then(function(modal) {
+        }).then(function (modal) {
             service.modal = modal;
             service.modal.show();
         });

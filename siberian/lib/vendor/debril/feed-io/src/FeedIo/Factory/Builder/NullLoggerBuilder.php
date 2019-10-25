@@ -20,6 +20,15 @@ class NullLoggerBuilder implements LoggerBuilderInterface
 {
 
     /**
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+        // Ignore config as NullLogger does not accept any config
+        // Done for FeedIo\Factory compatibility
+    }
+
+    /**
      * This method MUST return a valid PSR3 logger
      * @return \Psr\Log\NullLogger
      */
@@ -45,5 +54,4 @@ class NullLoggerBuilder implements LoggerBuilderInterface
     {
         return 'psr/log';
     }
-    
 }
