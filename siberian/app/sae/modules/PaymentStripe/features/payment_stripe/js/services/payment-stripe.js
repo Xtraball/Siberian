@@ -129,7 +129,50 @@ angular
     };
 
 
-    service.handleCardPayment = function () {
+    service.handlePaymentIntent = function (options) {
+        var deferred = $q.defer();
+
+        try {
+            var displayError = document.getElementById("card-errors");
+            var displayErrorParent = document.getElementById("card-errors-parent");
+
+            service
+                .stripe
+                .handleCardAction(service.card)
+                .then(function (result) {
+                    if (result.error) {
+                        // Inform the customer that there was an error.
+                        displayErrorParent.classList.remove("ng-hide");
+                        displayError.textContent = $translate.instant(result.error.message);
+
+                        service
+                            .paymentError(result.error.message)
+                            .then(function (payload) {
+                                deferred.reject(payload);
+                            });
+                    } else {
+                        // Sending the success token!
+                        displayErrorParent.classList.add("ng-hide");
+
+                        service
+                            .paymentSuccess(result)
+                            .then(function (payload) {
+                                deferred.reject(payload);
+                            });
+                    }
+                });
+        } catch (e) {
+            service
+                .paymentError(e.message)
+                .then(function (payload) {
+                    deferred.reject(payload);
+                });
+        }
+
+        return deferred.promise;
+    };
+
+    service.handleCardPayment = function (options) {
         var deferred = $q.defer();
 
         try {
@@ -271,6 +314,10 @@ angular
 
     service.fetchSetupIntent = function () {
         return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-setup-intent");
+    };
+
+    service.createPaymentIntent = function () {
+        return $pwaRequest.post("/paymentstripe/mobile_cards/create-payment-intent");
     };
 
     service.clearForm = function () {

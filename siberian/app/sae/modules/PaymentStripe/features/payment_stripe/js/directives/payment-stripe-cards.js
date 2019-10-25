@@ -64,7 +64,9 @@ angular
                         break;
                     case PaymentMethod.ACTION_PAY:
                         PaymentStripe
-                            .handleCardPayment()
+                            .handleCardPayment({
+                                amount: $scope.options.payment.amount
+                            })
                             .then(function (success) {
 
                             }, function (error) {
