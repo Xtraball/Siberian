@@ -57,15 +57,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Updating the include_paths!
         set_include_path(implode(PATH_SEPARATOR, $includePaths));
 
-        $this->bootstrap('CacheManager');
-        $dbCache = $this->getResource('CacheManager')->getCache('database');
-        Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
-
         $base_path = '';
         if (isset($_SERVER['SCRIPT_FILENAME'])) {
             $base_path = realpath(dirname($_SERVER['SCRIPT_FILENAME']));
         }
         \Core_Model_Directory::setBasePath($base_path);
+
+        $this->bootstrap("CacheManager");
+        $dbCache = $this->getResource("CacheManager")->getCache("database");
+        Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
 
         // include Stubs
         require_once \Core_Model_Directory::getBasePathTo('/lib/vendor/autoload.php');
@@ -277,13 +277,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Core_Model_Translator::init();
     }
 
-    // Loading individual bootstrappers!
+    /**
+     * Loading individual bootstrappers!
+     */
     protected function _initModuleBoostrap()
     {
         $edition_path = strtolower(Siberian_Version::TYPE);
-        require_once Core_Model_Directory::getBasePathTo('app/' . $edition_path . '/bootstrap.php');
+        require_once path("app/{$edition_path}/bootstrap.php");
 
         Module_Bootstrap::init($this);
+
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
         foreach ($module_names as $module) {
