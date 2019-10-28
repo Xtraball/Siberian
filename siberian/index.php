@@ -152,7 +152,7 @@ try {
             $e->getPrevious()->getMessage() : $e->getMessage(),
     ];
 
-    exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    exit("<pre>" . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }
 
 // Revert umask!

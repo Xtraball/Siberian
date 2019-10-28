@@ -60,8 +60,21 @@ if ($run) {
         lexec("mkdir -p '" . $androidSdkPath . "/licenses'");
     }
 
-    file_put_contents($androidSdkPath . "/licenses/android-sdk-license",
-        "\nd56f5187479451eabf01fb78af6dfcb131a6481e");
+    // Manual licenses
+    $licenses = [
+        "android-googletv-license" => "\n601085b94cd77f0b54ff86406957099ebe79c4d6",
+        "android-sdk-license" => "\nd56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee",
+        "android-sdk-preview-license" => "\n84831b9409646a918e30573bab4c9c91346d8abd",
+        "google-gdk-license" => "\n33b6a2b64607f11b759f320ef9dff4ae5c47d97a",
+        "mips-android-sysimage-license" => "\ne9acab5b5fbb560a72cfaecce8946896ff6aab9d",
+    ];
+    foreach ($licenses as $filename => $license) {
+        $_path = "{$androidSdkPath}/licenses/{$filename}";
+        if (!is_file($_path)) {
+            file_put_contents($_path, $license);
+        }
+    }
+
     file_put_contents($androidSdkPath . "/y.txt",
         implode("\n", array_fill(0, 100, 'y')));
     lexec($androidSdkPath . '/tools/bin/sdkmanager ' .
