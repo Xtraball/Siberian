@@ -19,7 +19,7 @@ angular
                 ];
             }
         },
-        controller: function ($scope, $rootScope, $pwaRequest, $q, Dialog, PaymentStripe) {
+        controller: function ($scope, $rootScope, $pwaRequest, $q, Dialog, Loader, PaymentStripe) {
             $scope.isLoading = true;
 
             $scope.fetchVaults = function () {
@@ -36,23 +36,35 @@ angular
                 });
             };
 
-            $scope.lineActionTrigger = function (id) {
+            $scope.lineActionTrigger = function (card) {
+                Loader.show();
                 if ($scope.actions.length > 0) {
                     // first action = line action
                     var firstAction = $scope.actions[0];
-                    $scope.doAction(firstAction);
-                }
+                    $scope
+                    .doAction(firstAction, card)
+                    .then(function (payload) {
+                        // Callback the main payment handler!
+                        switch (firstAction) {
+                            case PaymentMethod.ACTION_PAY:
+                            case PaymentMethod.ACTION_AUTHORIZE:
+                                if (typeof $scope.$parent.paymentModal.onSelect === "function") {
+                                    $scope.$parent.paymentModal.onSelect(payload.intentPayload.paymentId);
+                                }
+                                break;
+                            default:
+                                // Do nothing yet!
+                        }
 
-                // Callback the main payment handler!
-                if (typeof $scope.$parent.paymentModal.onSelect === "function") {
-                    $scope.$parent.paymentModal.onSelect({
-                        method_class: "\\PaymentStripe\\Model\\Stripe",
-                        method_id: id
+                    }, function (error) {
+                        // Sorry!
+                    }).then(function () {
+                        Loader.hide();
                     });
                 }
             };
 
-            $scope.doAction = function (action) {
+            $scope.doAction = function (action, card) {
                 var defer = $q.defer();
                 switch (action) {
                     default:
@@ -65,30 +77,36 @@ angular
                     case PaymentMethod.ACTION_PAY:
                         PaymentStripe
                             .handleCardPayment({
-                                amount: $scope.options.payment.amount
+                                card: card,
+                                amount: $scope.$parent.options.payment.amount
                             })
                             .then(function (success) {
-
+                                defer.resolve(success);
                             }, function (error) {
-
+                                defer.reject(error);
                             });
                         break;
                     case PaymentMethod.ACTION_AUTHORIZE:
                         PaymentStripe
-                            .handleCardAuthorization()
+                            .handleCardAuthorization({
+                                card: card,
+                                amount: $scope.$parent.options.payment.amount
+                            })
                             .then(function (success) {
-
+                                defer.resolve(success);
                             }, function (error) {
-
+                                defer.reject(error);
                             });
                         break;
                     case PaymentMethod.ACTION_DELETE:
                         PaymentStripe
-                            .deletePaymentMethod()
+                            .deletePaymentMethod({
+                                card: card
+                            })
                             .then(function (success) {
-
+                                defer.resolve(success);
                             }, function (error) {
-
+                                defer.reject(error);
                             });
                         break;
                 }
@@ -106,6 +124,18 @@ angular
                         return "./features/payment_stripe/assets/templates/images/005-cc-amex.png";
                 }
                 return "./features/payment_stripe/assets/templates/images/006-cc.svg";
+            };
+
+            $scope.actionIcon = function (action) {
+                switch (action) {
+                    default:
+                    case PaymentMethod.ACTION_PAY:
+                    case PaymentMethod.ACTION_AUTHORIZE:
+                        return "icon ion-android-arrow-forward";
+                    case PaymentMethod.ACTION_DELETE:
+                        return "icon ion-trash-a";
+                }
+
             };
 
             $rootScope.$on("paymentStripeCards.refresh", function () {

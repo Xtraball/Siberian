@@ -14,7 +14,7 @@
         </span>
         <i ng-repeat="action in actions"
            ng-click="actionCallback(action, card)"
-           class="{{ action.icon }}"></i>
+           class="{{ actionIcon(action) }}"></i>
     </div>
 
     <div ng-if="!isLoading && cards.length == 0"

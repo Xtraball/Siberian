@@ -1,6 +1,6 @@
-<ion-modal-view sb-page-background
+<ion-modal-view class="payment-method payment-method-modal"
                 ng-controller="PaymentModalController"
-                class="payment-method payment-method-modal">
+                sb-page-background>
 
     <ion-header-bar class="bar-custom">
         <div class="buttons">
@@ -20,24 +20,27 @@
                 <ion-spinner class="spinner-custom"></ion-spinner>
             </div>
 
-            <div class="payment-amount"
-                 ng-if="!isLoading">
-                <div class="item item-divider item-divider-custom text-center">
-                    {{ ::"Amount" | translate:"payment_stripe" }}
-                </div>
-                <div class="item item-custom">
-                    <div class="text-center"
-                         style="font-size: 32px;">{{ ::options.payment.displayAmount }}</span>
-                </div>
-                <div style="margin-bottom: 20px;"></div>
-            </div>
+            <div ng-show="!isLoading">
 
-            <div ng-if="!isLoading"
-                 ng-repeat="paymentGateway in paymentGateways">
-                <div ng-if="methodIsAllowed(paymentGateway.class)">
-                    <div ng-include="'' + paymentGateway.templateUrl + ''"></div>
+                <div class="payment-amount"
+                     ng-if="options.displayAmount">
+                    <div class="item item-divider item-divider-custom text-center">
+                        {{ ::"Amount" | translate:"payment_stripe" }}
+                    </div>
+                    <div class="item item-custom">
+                        <span class="text-center"
+                              style="font-size: 32px;">{{ ::options.payment.displayAmount }}</span>
+                    </div>
                     <div style="margin-bottom: 20px;"></div>
                 </div>
+
+                <div ng-repeat="paymentGateway in paymentGateways">
+                    <div ng-if="methodIsAllowed(paymentGateway.class)">
+                        <div ng-include="'' + paymentGateway.templateUrl + ''"></div>
+                        <div style="margin-bottom: 20px;"></div>
+                    </div>
+                </div>
+
             </div>
 
         </div>

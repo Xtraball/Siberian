@@ -40,17 +40,21 @@ class Payment extends Base
     }
 
     /**
-     * @param $paymentMethod
-     * @return Payment
+     * @param $paymentId
+     * @return Payment|null
      * @throws \Zend_Exception
      */
-    static public function createFromModal($paymentMethod)
+    static public function createFromModal($paymentId)
     {
-        $instance = new self();
-        $instance
-            ->setMethodId($paymentMethod["id"])
-            ->setMethodClass($paymentMethod["method"])
-            ->save();
+        if (is_array($paymentId)) {
+            $instance = new self();
+            $instance
+                ->setMethodId($paymentId["id"])
+                ->setMethodClass($paymentId["method"])
+                ->save();
+        } else {
+            $instance = (new self())->find($paymentId);
+        }
 
         return $instance;
     }

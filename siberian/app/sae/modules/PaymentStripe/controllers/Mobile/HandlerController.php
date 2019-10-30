@@ -10,6 +10,7 @@ use PaymentStripe\Model\PaymentIntent as PaymentStripePaymentIntent;
 use Siberian\Exception;
 use Siberian\Json;
 use Stripe\PaymentMethod;
+use Stripe\PaymentIntent;
 
 
 
@@ -21,7 +22,43 @@ class PaymentStripe_Mobile_HandlerController
 {
     public function authorizationSuccessAction()
     {
-        $this->__debug();
+        // Saving the new payment method (credit-card), that's all!
+        // Stripe add/remove cards is standalone!
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $data = $request->getBodyParams();
+            $customerId = $session->getCustomerId();
+            $customer = (new Customer())->find($customerId);
+
+            if (!$customer->getId()) {
+                throw new Exception(p__("payment_stripe",
+                    "Your session expired!"));
+            }
+
+            // Mobile app paymentMethod object!
+            $paymentMethodPayload = $data["payload"];
+
+            PaymentStripeApplication::init($application->getId());
+
+            // Attach the card (PaymentMethod) to the customer!
+            $paymentIntent = PaymentIntent::retrieve($paymentMethodPayload["paymentIntent"]["id"]);
+            $paymentIntent->confirm();
+
+            $payload = [
+                "success" => true,
+                "paymentIntent" => $paymentIntent
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
+                "trace" => $e->getTrace()
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     public function authorizationErrorAction()

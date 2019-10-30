@@ -172,4 +172,17 @@ class Currency
         "XOF",
         "XPF"
     ];
+
+    /**
+     * @param $amount
+     * @param $currency
+     * @return integer
+     */
+    public static function getAmountForCurrency ($amount, $currency)
+    {
+        if (in_array(strtoupper($currency), self::$zeroDecimals)) {
+            return round($amount, 0, PHP_ROUND_HALF_UP);
+        }
+        return round($amount * 100, 0, PHP_ROUND_HALF_UP);
+    }
 }

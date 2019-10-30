@@ -3,7 +3,7 @@
  */
 angular
 .module("starter")
-.service("PaymentStripe", function (Application, $injector, $translate, $pwaRequest, $q) {
+.service("PaymentStripe", function (Application, $rootScope, $injector, $translate, $pwaRequest, $q) {
     var service = {
         card: null,
         stripe: null,
@@ -129,47 +129,86 @@ angular
     };
 
 
-    service.handlePaymentIntent = function (options) {
+    service.handleCardAuthorization = function (options) {
         var deferred = $q.defer();
 
         try {
             var displayError = document.getElementById("card-errors");
             var displayErrorParent = document.getElementById("card-errors-parent");
 
+            // We will fetch the setupIntent
             service
-                .stripe
-                .handleCardAction(service.card)
-                .then(function (result) {
-                    if (result.error) {
-                        // Inform the customer that there was an error.
-                        displayErrorParent.classList.remove("ng-hide");
-                        displayError.textContent = $translate.instant(result.error.message);
+            .fetchPaymentIntent(options)
+            .then(function (intentPayload) {
+                // Card doesn't need to be auth'd! Continue without 3DS2/SCA
+                if (intentPayload.paymentIntent.status === "requires_capture") {
+                    deferred.resolve({
+                        intentPayload: intentPayload,
+                    });
+                } else {
+                    service
+                    .stripe
+                    .handleCardAction(intentPayload.paymentIntent.client_secret)
+                    .then(function (result) {
+                        if (result.error) {
+                            // Inform the customer that there was an error.
+                            displayErrorParent.classList.remove("ng-hide");
+                            displayError.textContent = $translate.instant(result.error.message);
 
-                        service
-                            .paymentError(result.error.message)
+                            service
+                            .authorizationError(result.error.message)
                             .then(function (payload) {
                                 deferred.reject(payload);
                             });
-                    } else {
-                        // Sending the success token!
-                        displayErrorParent.classList.add("ng-hide");
+                        } else {
+                            // Sending the success token!
+                            displayErrorParent.classList.add("ng-hide");
 
-                        service
-                            .paymentSuccess(result)
-                            .then(function (payload) {
-                                deferred.reject(payload);
+                            service
+                            .authorizationSuccess(result)
+                            .then(function (authorizationPayload) {
+                                deferred.resolve({
+                                    intentPayload: intentPayload,
+                                    authorizationPayload: authorizationPayload
+                                });
+
+                                $rootScope.$broadcast("paymentStripeCards.refresh");
                             });
-                    }
-                });
+                        }
+                    });
+                }
+
+            }, function (error) {
+                throw new Error(error.message);
+            });
+
         } catch (e) {
             service
-                .paymentError(e.message)
-                .then(function (payload) {
-                    deferred.reject(payload);
-                });
+            .setupError(e.message)
+            .then(function (payload) {
+                deferred.reject(payload);
+            });
         }
 
         return deferred.promise;
+    };
+
+    service.authorizationError = function (message) {
+        return $pwaRequest.post("/paymentstripe/mobile_handler/authorization-error",
+            {
+                data: {
+                    message: message
+                }
+            });
+    };
+
+    service.authorizationSuccess = function (payload) {
+        return $pwaRequest.post("/paymentstripe/mobile_handler/authorization-success",
+            {
+                data: {
+                    payload: payload
+                }
+            });
     };
 
     service.handleCardPayment = function (options) {
@@ -316,8 +355,11 @@ angular
         return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-setup-intent");
     };
 
-    service.createPaymentIntent = function () {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/create-payment-intent");
+    service.fetchPaymentIntent = function (options) {
+        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-payment-intent",
+            {
+                data: options
+            });
     };
 
     service.clearForm = function () {

@@ -6,10 +6,15 @@ use Siberian\Json;
 
 use PaymentStripe\Model\Application as PaymentStripeApplication;
 use PaymentStripe\Model\Customer as PaymentStripeCustomer;
+use PaymentStripe\Model\Currency as PaymentStripeCurrency;
 use PaymentStripe\Model\PaymentMethod as PaymentStripePaymentMethod;
+use PaymentStripe\Model\PaymentIntent as PaymentStripePaymentIntent;
+
+use PaymentMethod\Model\Payment as PaymentMethodPayment;
 
 use Stripe\Stripe;
 use Stripe\SetupIntent;
+use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
 use Stripe\Customer as StripeCustomer;
 use Stripe\Error\InvalidRequest;
@@ -123,6 +128,65 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $payload = [
                 "success" => true,
                 "setupIntent" => $setupIntent
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function fetchPaymentIntentAction ()
+    {
+        try {
+            $application = $this->getApplication();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+            $amount = $data["amount"];
+            $card = $data["card"];
+
+            $currency = $application->getCurrency();
+
+            $paymentMethod = (new PaymentStripePaymentMethod())->find($card["id"]);
+
+            PaymentStripeApplication::init($application->getId());
+            $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
+
+            $paymentIntent = PaymentIntent::create([
+                "payment_method" => $paymentMethod->getToken(),
+                "currency" => $currency,
+                "confirmation_method" => "manual",
+                "confirm" => true,
+                "capture_method" => "manual",
+                "amount" => PaymentStripeCurrency::getAmountForCurrency($amount, $currency),
+                "customer" => $stripeCustomer->getToken()
+            ]);
+
+            $stripePaymentIntent = new PaymentStripePaymentIntent();
+            $stripePaymentIntent
+                ->setStripeCustomerId($stripeCustomer->getId())
+                ->setToken($paymentIntent["id"])
+                ->setStatus($paymentIntent["status"])
+                ->save();
+
+            // Attaching to a generic payment
+            $payment = PaymentMethodPayment::createFromModal([
+                "id" => $stripePaymentIntent->getId(),
+                "method" => "\\PaymentStripe\\Model\\Stripe"
+            ]);
+
+            $payload = [
+                "success" => true,
+                "paymentIntent" => $paymentIntent,
+                "paymentId" => $payment->getId()
             ];
         } catch (\Exception $e) {
             $payload = [
