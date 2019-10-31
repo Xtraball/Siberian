@@ -174,6 +174,8 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $stripePaymentIntent
                 ->setStripeCustomerId($stripeCustomer->getId())
                 ->setToken($paymentIntent["id"])
+                ->setPmToken($paymentMethod->getToken())
+                ->setPmId($paymentMethod->getId())
                 ->setStatus($paymentIntent["status"])
                 ->save();
 

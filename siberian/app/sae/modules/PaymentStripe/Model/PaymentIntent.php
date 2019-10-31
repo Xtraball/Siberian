@@ -25,6 +25,15 @@ class PaymentIntent extends Base
     }
 
     /**
+     * @param $reason
+     * @param null $cron
+     */
+    public function cancel($reason, $cron = null)
+    {
+
+    }
+
+    /**
      * @return array|string
      */
     public function toJson()

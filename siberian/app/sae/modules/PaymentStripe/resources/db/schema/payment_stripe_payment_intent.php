@@ -27,6 +27,15 @@ $schemas['payment_stripe_payment_intent'] = [
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'pm_token' => [
+        'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'pm_id' => [
+        'type' => 'int(11) unsigned',
+        'null' => true,
+    ],
     'status' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
