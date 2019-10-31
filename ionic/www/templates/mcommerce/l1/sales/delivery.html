@@ -20,7 +20,7 @@
 
         <div class="list">
             <div class="item item-text-wrap text-center item-custom">
-                <h2>{{ "Choose a delivery method:" | translate }}</h2>
+                <h2>{{ ::"Choose a delivery method:" | translate }}</h2>
             </div>
         </div>
         <ion-list>
@@ -44,16 +44,16 @@
             <div ng-if="clients_calculate_change_form_is_visible">
                 <div class="item item-divider item-divider-custom"></div>
                 <div class="item item-custom">
-                    {{ "Total" | translate }}: {{ cart.total }}
+                    {{ ::"Total" | translate }}: {{ cart.total }}
                 </div>
                 <label class="item item-input item-custom">
-                    <span class="input-label">{{ "Amount you will pay" | translate }}:</span>
+                    <span class="input-label">{{ ::"Amount you will pay" | translate }}:</span>
                     <input type="text"
                            ng-change="calculateAmountDue()"
                            ng-model="cart.delivery_method_extra_client_amount">
                 </label>
                 <div class="item item-custom">
-                    {{ "Remaining due" | translate }}: {{ cart.delivery_method_extra_amount_due }}
+                    {{ ::"Remaining due" | translate }}: {{ cart.delivery_method_extra_amount_due }}
                 </div>
             </div>
         </ion-list>

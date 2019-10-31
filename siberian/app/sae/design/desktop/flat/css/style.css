@@ -1854,211 +1854,18 @@ a.details.add_page {
 
 /** MENU STEPS **/
 
-/* OVERVIEW */
-#overview #iphone {
-    right: 80px;
-    top: 105px;
-}
-
-#overview #iphone.phone-fixed {
-    top: 60px !important;
-}
-
-@media (min-width: 1450px) and (max-width: 1700px) {
-    #overview #iphone {
-        right: 70px !important;
-        top: 115px !important;
-    }
-
-    #overview #iphone.phone-fixed {
-        top: 60px !important;
-    }
-}
-
-@media (min-width: 1700px) {
-    #overview #iphone {
-        right: 60px !important;
-        top: 120px !important;
-    }
-
-    #overview #iphone.phone-fixed {
-        top: 60px !important;
-    }
-}
-
-.tooltip {
-    letter-spacing: 1px;
-}
-
-#iphone .btn-group-vertical {
-    position: absolute;
-    right: -55px;
-    top: 0;
-}
-
-#overview #iphone.phone-fixed {
-    z-index: 1;
-}
-
-/** OVERVIEW **/
-#overview #iphone {
-    position: fixed;
-    width: 381px;
-    height: 805px;
-    background: url("/app/sae/design/desktop/flat/images/customization/overview/iphone5.svg") no-repeat right top transparent;
-}
-
-#overview #iphone .iphone_content {
-    margin-left: 32px;
-    margin-top: 113px;
-}
-
-#overview #iphone .iphone_content .toolbar_overview {
-    text-align: right;
-    width: 320px;
-    height: 21px;
-    line-height: 22px;
-    margin: 0;
-    padding: 0 5px 0 0;
-    font-family: 'Helvetica', sans-serif;
-    font-size: 11px;
-    font-weight: bold;
-    color: black;
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-#overview #iphone .iphone_content .status_bar {
-    position: absolute;
-}
-
-#overview #iphone .iphone_content .iphone_header {
-    background-image: url(/app/sae/design/desktop/flat/images/customization/overview/iphone5-header.png);
-    background-size: 290px 20px;
-}
-
-#overview #iphone .iphone_content .iphone6_header {
-    background-image: url(/app/sae/design/desktop/flat/images/customization/overview/iphone6-header.png);
-    background-size: 385px auto;
-    width: 414px;
-}
-
-#overview #iphone .iphone_content .android_header {
-    background-color: black;
-    width: 365px;
-    height: 20px;
-    background-image: url(/app/sae/design/desktop/flat/images/customization/overview/android_header.png);
-    font-size: 15px;
-    color: white;
-}
-
-#overview #iphone .iphone_content iframe#mobile_overview {
-    border-radius: 0;
-    border: 2px solid #555555;
-}
-
-#overview .touch_icon {
-    position: absolute;
-    top: 292px;
-    left: 54px;
-    height: 76px;
-}
-
-#overview .touch_icon p#app_name {
-    position: absolute;
-    bottom: -1px;
-    width: 66px;
-    margin: 0;
-    color: white;
-    font-size: 11px;
-    line-height: 10px;
-    text-align: center;
-    left: -4px;
-}
-
-#overview .icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-#mobile_homescreen #preview_icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-#mobile_homescreen img {
-    height: 100%;
+/** OVERVIEW */
+iframe#mobile_overview {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #e9e9eb;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid #c5c5c5;
+    box-shadow: 1px 1px 1px #d4d4d4;
 }
 
-#mobile_homescreen .touch_icon p#app_name {
-    position: absolute;
-    bottom: 10px;
-    width: 62px;
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 10px;
-    font-weight: 500;
-    line-height: 10px;
-    text-align: center;
-    letter-spacing: 0.02em;
-    opacity: 0.5;
-}
-
-#overview #mobile_startup, #overview #homepage_cont {
-    margin-left: 0;
-    padding: 14px;
-}
-
-#mobile_homescreen {
-    height: 576px;
-    width: 321px;
-}
-
-button.mobile-advice:nth-child(1) {
-    background-image: url("/images/icon_btn_overview/iphone5.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 2em;
-    margin-bottom: 0.7em;
-}
-
-button.mobile-advice.active:nth-child(1) {
-    background-image: url("/images/icon_btn_overview/iphone5_hover.png");
-}
-
-button.mobile-advice:nth-child(2) {
-    background-image: url("/images/icon_btn_overview/iphone5.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 2em;
-    margin-bottom: 0.7em;
-}
-
-button.mobile-advice.active:nth-child(2) {
-    background-image: url("/images/icon_btn_overview/iphone5_hover.png");
-}
-
-button.mobile-advice:nth-child(3) {
-    background-image: url("/images/icon_btn_overview/iphone6.png");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 2em;
-    margin-bottom: 0.3em;
-}
-
-button.mobile-advice.active:nth-child(3) {
-    background-image: url("/images/icon_btn_overview/iphone6_hover.png");
-}
-
-/** /OVERVIEW **/
 
 /* BOUTONS */
 button#delete_picture {
@@ -2086,7 +1893,6 @@ button#delete_picture {
 .mobile-advice {
     background: transparent none repeat scroll 0 0;
     border: medium none;
-    color: black;
     padding: 5px 0;
     width: 100%;
     color: #555;
@@ -2937,48 +2743,30 @@ input[type=submit]:hover {
     width: 100%;
 }
 
+.iphone_content {
+    width: 100%;
+    height: 100%;
+}
+
 div#iphone {
-    -ms-transform: scale(1);
-    -moz-transform: scale(1);
-    -o-transform: scale(1);
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    -ms-transform-origin: 0 0;
-    -moz-transform-origin: 0 0;
-    -o-transform-origin: 0 0;
-    -webkit-transform-origin: 0 0;
-    transform-origin: 0 0;
+    width: 324px;
+    height: 579px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 @media (max-width: 1700px) {
     div#iphone {
-        -ms-transform: scale(0.85);
-        -moz-transform: scale(0.85);
-        -o-transform: scale(0.85);
-        -webkit-transform: scale(0.85);
-        transform: scale(0.85);
-        -ms-transform-origin: 100% 0;
-        -moz-transform-origin: 100% 0;
-        -o-transform-origin: 100% 0;
-        -webkit-transform-origin: 100% 0;
-        transform-origin: 100% 0;
-        margin-right: -20px;
+        width: 324px;
+        height: 579px;
     }
 }
 
 @media (max-width: 1420px) {
     div#iphone {
-        -ms-transform: scale(0.70);
-        -moz-transform: scale(0.70);
-        -o-transform: scale(0.70);
-        -webkit-transform: scale(0.70);
-        transform: scale(0.70);
-        -ms-transform-origin: 100% 0;
-        -moz-transform-origin: 100% 0;
-        -o-transform-origin: 100% 0;
-        -webkit-transform-origin: 100% 0;
-        transform-origin: 100% 0;
-        margin-right: -40px;
+        width: 324px;
+        height: 579px;
     }
 }
 
