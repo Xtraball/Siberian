@@ -424,15 +424,16 @@ let tasks = {
                     }
                 });
             } else {
-                promise.reject();
+                promise.reject(error);
             }
         });
 
         promise
             .then(function () {
                 tasks.log(greenColor('ionicSass success'));
-            }).catch(function () {
+            }).catch(function (error) {
                 tasks.log(redColor('ionicSass error'));
+                tasks.log(redColor(error));
             });
 
         return promise;
@@ -457,15 +458,16 @@ let tasks = {
                     }).catch(function () {
                         promise.reject();
                     });
-            }).catch(function () {
-                promise.reject();
+            }).catch(function (e) {
+                promise.reject(e);
             });
 
         promise
             .then(function () {
                 tasks.log(greenColor('bundleCss success'));
-            }).catch(function () {
+            }).catch(function (e) {
                 tasks.log(redColor('bundleCss error'));
+                tasks.log(redColor(e.message));
             });
 
         return promise;
