@@ -4,12 +4,33 @@ $previewer = null;
 if ($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstance")) {
     $previewer = Previewer_Model_Previewer::getInstance();
 }
+
+$showPreviewerButton = $has_previewer &&
+    $previewer &&
+    $previewer->getShowModalButton() == 1 &&
+    $this->_canAccess("previewer");
+
+$application = $this->getApplication();
+$headerRgba = $application->getBlock("header")->getBackgroundColorRGBA();
+
 ?>
 <div id="iphone">
-    <?php if($has_previewer && $previewer && $previewer->getShowModalButton()==1 && $this->_canAccess("previewer")): ?>
+    <div class="text-center"
+         style="margin-bottom: 10px;"
+         role="group">
+    <?php if ($showPreviewerButton): ?>
         <button id="previewer"
-                class="btn btn-grey btn-previewer"><?php echo __('Preview on your phone'); ?></button>
+                class="btn btn-xs color-blue btn-previewer">
+            <i class="fa fa-mobile-phone"></i>
+            <?php echo __("Preview on your phone"); ?>
+        </button>
     <?php endif; ?>
+        <button id="reload-overview"
+                class="btn btn-xs color-blue">
+            <i class="fa fa-refresh"></i>
+            <span><?php echo p__("application", "See changes"); ?></span>
+        </button>
+    </div>
     <div class="iphone_content">
 
         <iframe id="mobile_overview"
@@ -23,21 +44,45 @@ if ($has_previewer && method_exists(new Previewer_Model_Previewer(), "getInstanc
             </button>
             <div class="loader"></div>
         </div>
+        <div id="phone-bar">
+            <span class="pull-left"
+                  style="font-weight: 500;"><?php echo date("G:i") ?></span>
+            <span class="pull-right">
+                <i class="fa fa-signal"></i>
+                <i class="fa fa-wifi"></i>
+                <i class="fa fa-battery-full"></i>
+            </span>
+        </div>
     </div>
 </div>
 
 <script type="text/javascript">
-$(document).ready(function() {
-    $("#mobile_overview").attr("src", "<?php echo $this->getApplication()->getUrl("/", [], Core_Model_Language::getCurrentLanguage(), true); ?>?overview=1");
-    iframe.iframeIsLoaded = function() {
-        iframe.content.find("body").removeClass("platform-browser").addClass("platform-ios");
-        $("#mask-overview").hide();
+var maskOverview = $("#mask-overview");
+maskOverview.show();
 
-        $("#mobile_overview")
-        .contents()
+$(document).ready(function() {
+    var mobileOverview = $("#mobile_overview");
+
+    var phoneBar = $("#phone-bar");
+    var overviewSrc = "<?php echo $this->getApplication()->getUrl("/", [], Core_Model_Language::getCurrentLanguage(), true); ?>?overview=1";
+
+
+    mobileOverview.attr("src", overviewSrc);
+    iframe.iframeIsLoaded = function() {
+        maskOverview.hide();
+        phoneBar.show();
+
+        /**var overviewReference = $("#mobile_overview").contents();
+
+        overviewReference
+        .find("body")
+        .removeClass("platform-browser")
+        .addClass("platform-ios");
+
+        overviewReference
         .find("ion-side-menu-content")
         .css({borderRadius: "20px", border: "1px solid #d4d4d4", boxShadow: "none"});
-
+        */
         setTimeout(function() {
             if((typeof iframe != "undefined")
                 && (typeof iframe.f != "undefined")
@@ -52,5 +97,23 @@ $(document).ready(function() {
 
     };
 
+    var reloadOverview = $("#reload-overview");
+    reloadOverview.off("click");
+    reloadOverview.on("click", function () {
+        phoneBar.hide();
+        maskOverview.show();
+        mobileOverview.attr("src", overviewSrc);
+    });
+
+    $("#overview").affix({
+        offset: {
+            top: 60,
+            bottom: 20
+        }
+    });
+
+    // Status bar!
+    var headerBgColor = "<?php echo $headerRgba ?>".replace(/[^0-9\.,]/gmi, "").split(",");
+    phoneBar.css("color", textStyleFromHex(headerBgColor));
 });
 </script>

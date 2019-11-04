@@ -279,6 +279,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
         let scroller;
 
         var imageRbgColor = null;
+        var statusBarTextColor = null;
 
         let mobileOverview = $("#mobile_overview");
 
@@ -347,6 +348,11 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                     if ("$homepage-custom-image" == el.data("variable")) {
                         imageRbgColor = rgba.replace(/[^0-9\.,]/gmi, "").split(",");
                     }
+
+                    // Special case phone status bar
+                    if ("$bar-custom-bg" == el.data("variable")) {
+                        statusBarTextColor = rgba.replace(/[^0-9\.,]/gmi, "").split(",");
+                    }
                 }
 
                 // Okay weird!
@@ -356,6 +362,9 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
                 // result.filter apply to sb-tabbar images.
                 var imgfilter = "[data-colorize=\"true\"] img { " + result.filter + " }";
+
+                // Status bar!
+                $("#phone-bar").css("color", textStyleFromHex(statusBarTextColor));
 
                 reloadMobileOverview();
                 let overviewContents = mobileOverview.contents();

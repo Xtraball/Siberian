@@ -976,17 +976,6 @@ div.messages ul.message li {
     padding-top: 5px;
 }
 
-/** LOADER **/
-div.mask {
-    background-color: rgba(0, 0, 0, 0.4);
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10002;
-    filter: alpha(opacity=40);
-}
 
 /** Cols sm-15 (20%) */
 .col-xs-15,
@@ -1811,8 +1800,8 @@ a.details.add_page {
 
 /* MENU STEPS */
 .menu_steps {
-    margin-bottom: 3em;
-    margin-top: 2em;
+    margin-bottom: 15px;
+    margin-top: 0;
     text-align: center;
 }
 
@@ -1824,13 +1813,13 @@ a.details.add_page {
     display: inline-block;
     position: relative;
     transition: all 0.3s ease 0s;
-    min-width: 12%;
+    min-width: 10%;
 }
 
 .step_menu_feature .fa {
     position: absolute;
     left: 97%;
-    top: 25%;
+    top: 4px;
     z-index: 1;
     font-size: 1.4em;
     font-weight: bold;
@@ -1843,7 +1832,7 @@ a.details.add_page {
 .step_menu_feature li {
     border-bottom: 2px solid;
     display: inline-block;
-    padding: 10px 15px;
+    padding: 4px 10px;
     text-transform: uppercase;
     width: 100%;
 }
@@ -2530,7 +2519,7 @@ Side bar left menu small screen
     }
 
     .step_menu_feature .fa {
-        top: 5px;
+        top: 4px;
     }
 
     .menu_steps .step_menu_feature a li {
@@ -2748,26 +2737,83 @@ input[type=submit]:hover {
     height: 100%;
 }
 
-div#iphone {
-    width: 324px;
-    height: 579px;
+/**div#iphone {
+    width: 380px;
+    height: 720px;
     position: absolute;
     top: 0;
-    right: 0;
+    right: 10px;
+}*/
+
+div#iphone {
+    width: 46vh;
+    height: 80vh;
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+/** LOADER **/
+div.mask {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    left: 12px;
+    position: relative;
+    top: calc(-1 * 80vh + 7px);
+    width: calc(46vh - 24px);
+    height: calc(80vh - 24px);
+    z-index: 10002;
+    border-radius: 20px;
+}
+
+div#phone-bar {
+    left: 24px;
+    position: relative;
+    top: calc(-1 * 80vh + 9px);
+    width: calc(46vh - 48px);
+    height: calc(80vh - 24px);
+    z-index: 10002;
+    border-radius: 20px;
+    color: white;
+    display: none;
+    pointer-events: none;
+    user-select: none;
+    font-size: 1.5vh;
 }
 
 @media (max-width: 1700px) {
     div#iphone {
-        width: 324px;
-        height: 579px;
+        width: 46vh;
+        height: 80vh;
+    }
+
+    div.mask {
+        top: calc(-1 * 80vh + 7px);
+        width: calc(46vh - 24px);
+        height: calc(80vh - 24px);
     }
 }
 
 @media (max-width: 1420px) {
     div#iphone {
-        width: 324px;
-        height: 579px;
+        width: 44vh;
+        height: 80vh;
     }
+
+    div.mask {
+        top: calc(-1 * 80vh + 7px);
+        width: calc(44vh - 24px);
+        height: calc(80vh - 24px);
+    }
+
+    div#phone-bar {
+        width: calc(44vh - 48px);
+    }
+}
+
+div#overview.affix {
+    right: 0;
+    top: 10px;
 }
 
 .form-field-error {
