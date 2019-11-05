@@ -1789,7 +1789,8 @@ a.details.add_page {
 
 #upload_image_cont img {
     border-color: #555;
-    border: solid 1px;
+    border-style: solid;
+    border-width: 1px;
 }
 
 .icon_and_name .btn img#current_icon {
