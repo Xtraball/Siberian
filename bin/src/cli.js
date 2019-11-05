@@ -858,6 +858,9 @@ let copyPlatform = function (platform) {
             // Duplicate in 'overview'!
             sh.cp('-r', siberianPlatformPath, siberianPlatformPath.replace('browser', 'overview'));
 
+            // Apply overview patch
+            patchOverview(siberianPlatformPath.replace("browser", "overview"));
+
             break;
 
         case 'ios':
@@ -878,6 +881,21 @@ let copyPlatform = function (platform) {
     }
 
     sprint('Copy done');
+};
+
+let patchOverview = function (overviewPath) {
+    sprint("===");
+    sprint("Patching overview/index.html");
+
+    let indexFile = overviewPath + "/index.html",
+        indexContent = fs.readFileSync(indexFile, { encoding: "utf8" });
+
+    indexContent = indexContent.replace("platform-browser", "platform-overview platform-ios");
+
+    fs.writeFileSync(indexFile, indexContent, { encoding: "utf8" });
+
+    sprint("Patched!");
+    sprint("===");
 };
 
 /**
