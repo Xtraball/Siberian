@@ -826,5 +826,6 @@ button.item.item-button-right {
   ion-option-button:last-child {
     padding-right: calc(constant(safe-area-inset-right) + #{$button-padding});
     padding-right: calc(env(safe-area-inset-right) + #{$button-padding});
+    padding-right: calc(var(--safe-area-inset-right) + #{$button-padding});
   }
 }

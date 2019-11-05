@@ -762,3 +762,10 @@ $z-index-click-block:             99999 !default;
 // -------------------------------
 
 $ios-statusbar-height:           20px !default;
+
+:root {
+  --safe-area-inset-top: 0;
+  --safe-area-inset-right: 0;
+  --safe-area-inset-bottom: 0;
+  --safe-area-inset-left: 0;
+}

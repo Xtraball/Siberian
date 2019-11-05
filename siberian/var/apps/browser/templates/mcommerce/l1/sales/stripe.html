@@ -22,40 +22,32 @@
                 <label class="item item-custom item-text-wrap">
                     <p>
                         <i class="ion-ios-information-outline"></i>
-                        {{ "Please fill in your card information to process Credit card payment:" | translate }}
+                        {{ ::"Please fill in your card information to process Credit card payment:" | translate }}
                     </p>
                 </label>
                 <form>
-                    <div class="item item-divider item-divider-custom"></div>
-                    <label class="item item-input item-custom">
-                        <input type="text"
-                               ng-model="card.number"
-                               placeholder="{{ 'Card Number' | translate }} *">
-                    </label>
-
-                    <div class="row">
-                        <label class="item item-input item-custom">
-                            <input type="text"
-                                   ng-model="card.cvc"
-                                   placeholder="{{ 'CVC' | translate }} *">
-                        </label>
-                        <label class="item item-input item-custom col-25">
-                            <input type="text"
-                                   ng-model="card.exp_month"
-                                   placeholder="{{ 'MM' | translate }} *">
-                        </label>
-                        <label class="item item-input item-custom col-25">
-                            <input type="text"
-                                   ng-model="card.exp_year"
-                                   placeholder="{{ 'YYYY' | translate }} *">
-                        </label>
+                    <div class="payment-stripe-form">
+                        <div id="mcommerce-card-element"
+                             class="item item-custom">
+                        </div>
+                        <div id="mcommerce-card-errors-parent"
+                             class="item item-custom ng-hide">
+                            <span style="font-size: .9em; white-space: normal;"
+                                  id="mcommerce-card-errors"
+                                  class="assertive assertive-custom"></span>
+                        </div>
+                        <button ng-click="validateCard()"
+                                id="mcommerce-save-element"
+                                class="button button-full button-positive button-positive-custom">
+                            {{ ::"Validate" | translate }}
+                        </button>
                     </div>
                     <ion-list>
                         <ion-checkbox ng-if="!guest_mode"
                                       ng-change="debug"
                                       class="radio-custom"
                                       ng-model="payment.save_card" >
-                            {{ "Keep card information" | translate }}
+                            {{ ::"Save my card for future payments" | translate }}
                         </ion-checkbox>
                     </ion-list>
                 </form>
@@ -63,34 +55,34 @@
             <div ng-show="payment.use_stored_card">
                 <label class="item item-custom item-text-wrap">
                     <p>
-                        <i class="ion-ios-information-outline"></i> {{ "Stored card information." | translate }}
+                        <i class="ion-ios-information-outline"></i> {{ ::"Stored card" | translate }}
                     </p>
                 </label>
                 <label class="item item-input item-custom">
                     <input type="text"
                            ng-value="'XXXX XXXX XXXX '+card.last4"
-                           readonly>
+                           readonly />
                 </label>
                 <div class="row">
                     <label class="item item-input item-custom">
                         <input value="***"
                                type="text"
-                               readonly>
+                               readonly />
                     </label>
                     <label class="item item-input item-custom col-25">
                         <input type="text"
                                ng-value="card.exp_month"
-                               readonly>
+                               readonly />
                     </label>
                     <label class="item item-input item-custom col-25">
                         <input type="text"
                                ng-value="card.exp_year"
-                               readonly>
+                               readonly />
                     </label>
                 </div>
                 <button type="button"
                         class="button button-block button-custom activated"
-                        ng-click="unloadcard()">{{ "Remove card" | translate }}</button>
+                        ng-click="deleteVault()">{{ ::"Remove card" | translate }}</button>
             </div>
         </div>
     </ion-content>

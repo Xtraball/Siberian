@@ -2439,6 +2439,11 @@ i.shutdown:before {
         padding-right: max(0px, env(safe-area-inset-right));
         top: max(0px, env(safe-area-inset-top)) !important;
         height: calc(100% - max(0px, env(safe-area-inset-top)) - 24px) !important;
+
+        padding-left: max(0px, var(--safe-area-inset-left));
+        padding-right: max(0px, var(--safe-area-inset-right));
+        top: max(0px, var(--safe-area-inset-top)) !important;
+        height: calc(100% - max(0px, var(--safe-area-inset-top)) - 24px) !important;
     }
 
     .layout.l14 ul {
