@@ -1049,6 +1049,16 @@ div.loader {
     animation: spin 1s linear infinite;
 }
 
+div#mask {
+    width: 100%;
+    height: 100%;
+    z-index: 100002;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .mask .loader {
     top: 50%;
     position: absolute;
@@ -2755,7 +2765,7 @@ div#iphone {
 }
 
 /** LOADER **/
-div.mask {
+div#mask-overview.mask {
     display: none;
     background-color: rgba(0, 0, 0, 0.4);
     left: 12px;
@@ -2788,7 +2798,7 @@ div#phone-bar {
         height: 80vh;
     }
 
-    div.mask {
+    div#mask-overview.mask {
         top: calc(-1 * 80vh + 7px);
         width: calc(46vh - 24px);
         height: calc(80vh - 24px);
@@ -2801,7 +2811,7 @@ div#phone-bar {
         height: 80vh;
     }
 
-    div.mask {
+    div#mask-overview.mask {
         top: calc(-1 * 80vh + 7px);
         width: calc(44vh - 24px);
         height: calc(80vh - 24px);
