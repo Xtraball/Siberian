@@ -67,9 +67,20 @@ class Application_Settings_DomainController extends Application_Controller_Defau
             $application
                 ->setDomain($hostname)
                 ->save();
+
+            // App link callback dynamic
+            $appDomain = $application->getDomain();
+            $appKey = $application->getKey();
+            $currentDomain = parse_url($request->getBaseUrl(), PHP_URL_HOST);
+            if (!empty($appDomain)) {
+                $appLink = "http://{$appDomain}";
+            } else {
+                $appLink = "https://{$currentDomain}/{$appKey}";
+            }
         
             $payload = [
                 "success" => true,
+                "href" => $appLink,
                 "message" => __("Success"),
             ];
         } catch (\Exception $e) {
