@@ -822,11 +822,6 @@ class Assets
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
 
-                if ($platform === "/var/apps/overview/") {
-                    // Replace platform-browser
-                    $index_content = str_replace("platform-browser", "platform-ios platform-overview", $index_content);
-                }
-
                 $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);
 
                 if (is_writable($index_path)) {

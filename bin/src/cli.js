@@ -890,7 +890,7 @@ let patchOverview = function (overviewPath) {
     let indexFile = overviewPath + "/index.html",
         indexContent = fs.readFileSync(indexFile, { encoding: "utf8" });
 
-    indexContent = indexContent.replace("platform-browser", "platform-overview platform-ios");
+    indexContent = indexContent.replace("platform-browser", "platform-overview");
 
     fs.writeFileSync(indexFile, indexContent, { encoding: "utf8" });
 
