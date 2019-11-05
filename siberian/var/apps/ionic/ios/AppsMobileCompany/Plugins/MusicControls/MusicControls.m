@@ -155,6 +155,34 @@ MusicControlsInfo * musicControlsSettings;
     return;
 }
 
+- (void) nextTrackEvent:(MPRemoteCommandEvent *)event {
+    NSString * action = @"music-controls-next";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
+- (void) prevTrackEvent:(MPRemoteCommandEvent *)event {
+    NSString * action = @"music-controls-previous";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
+- (void) pauseEvent:(MPRemoteCommandEvent *)event {
+    NSString * action = @"music-controls-pause";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
+- (void) playEvent:(MPRemoteCommandEvent *)event {
+    NSString * action = @"music-controls-play";
+    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
+    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
+    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+}
+
 //Handle all other remote control events
 - (void) handleMusicControlsNotification: (NSNotification *) notification {
     UIEvent * receivedEvent = notification.object;
@@ -215,16 +243,16 @@ MusicControlsInfo * musicControlsSettings;
     //register required event handlers for standard controls
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     [commandCenter.playCommand setEnabled:true];
-    [commandCenter.playCommand addTarget:self action:@selector(remoteEvent:)];
+    [commandCenter.playCommand addTarget:self action:@selector(playEvent:)];
     [commandCenter.pauseCommand setEnabled:true];
-    [commandCenter.pauseCommand addTarget:self action:@selector(remoteEvent:)];
+    [commandCenter.pauseCommand addTarget:self action:@selector(pauseEvent:)];
     if(musicControlsSettings.hasNext){
         [commandCenter.nextTrackCommand setEnabled:true];
-        [commandCenter.nextTrackCommand addTarget:self action:@selector(remoteEvent:)];
+        [commandCenter.nextTrackCommand addTarget:self action:@selector(nextTrackEvent:)];
     }
     if(musicControlsSettings.hasPrev){
         [commandCenter.previousTrackCommand setEnabled:true];
-        [commandCenter.previousTrackCommand addTarget:self action:@selector(remoteEvent:)];
+        [commandCenter.previousTrackCommand addTarget:self action:@selector(prevTrackEvent:)];
     }
 
     //Some functions are not available in earlier versions

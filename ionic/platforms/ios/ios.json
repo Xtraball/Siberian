@@ -41,6 +41,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"BrowserTab\"><param name=\"ios-package\" value=\"CBTBrowserTab\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"Camera\"><param name=\"ios-package\" value=\"CDVCamera\" /></feature>",
               "count": 1
             },
@@ -101,6 +105,22 @@
               "count": 1
             },
             {
+              "xml": "<allow-navigation href=\"ionic://*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"deployment-target\" value=\"11.0\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"IonicWebView\"><param name=\"ios-package\" value=\"CDVWKWebViewEngine\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"CordovaWebViewEngine\" value=\"CDVWKWebViewEngine\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"MusicControls\"><param name=\"ios-package\" value=\"MusicControls\" /></feature>",
               "count": 1
             },
@@ -147,6 +167,18 @@
               "count": 1
             }
           ],
+          "NSBluetoothPeripheralUsageDescription": [
+            {
+              "xml": "<string>Smart content with iBeacon and proximity fences.</string>",
+              "count": 1
+            }
+          ],
+          "NSBluetoothAlwaysUsageDescription": [
+            {
+              "xml": "<string>Smart content with iBeacon and proximity fences.</string>",
+              "count": 1
+            }
+          ],
           "NSLocationAlwaysAndWhenInUseUsageDescription": [
             {
               "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
@@ -173,7 +205,7 @@
           ],
           "NSMotionUsageDescription": [
             {
-              "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
+              "xml": "<string>Smart navigation with CabRide and other nice features</string>",
               "count": 1
             }
           ]
@@ -229,6 +261,9 @@
     "BarcodeScanner": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "BrowserTab": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "Camera": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -263,6 +298,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Insomnia": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "cordova-plugin-ionic-webview": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
@@ -340,6 +378,14 @@
       "pluginId": "BarcodeScanner",
       "clobbers": [
         "cordova.plugins.barcodeScanner"
+      ]
+    },
+    {
+      "id": "BrowserTab.BrowserTab",
+      "file": "plugins/BrowserTab/www/browsertab.js",
+      "pluginId": "BrowserTab",
+      "clobbers": [
+        "cordova.plugins.browsertab"
       ]
     },
     {
@@ -672,6 +718,22 @@
       ]
     },
     {
+      "id": "cordova-plugin-ionic-webview.IonicWebView",
+      "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
+      "pluginId": "cordova-plugin-ionic-webview",
+      "clobbers": [
+        "Ionic.WebView"
+      ]
+    },
+    {
+      "id": "cordova-plugin-ionic-webview.ios-wkwebview-exec",
+      "file": "plugins/cordova-plugin-ionic-webview/src/www/ios/ios-wkwebview-exec.js",
+      "pluginId": "cordova-plugin-ionic-webview",
+      "clobbers": [
+        "cordova.exec"
+      ]
+    },
+    {
       "id": "MusicControls.MusicControls",
       "file": "plugins/MusicControls/www/MusicControls.js",
       "pluginId": "MusicControls",
@@ -706,6 +768,7 @@
     "AppVersion": "0.1.8",
     "AppEvent": "1.2.0",
     "BarcodeScanner": "7.1.2",
+    "BrowserTab": "0.2.1",
     "Camera": "4.0.3",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
@@ -718,7 +781,8 @@
     "LocalNotification": "0.8.4.1",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
-    "MusicControls": "2.1.4",
+    "cordova-plugin-ionic-webview": "4.0.1",
+    "MusicControls": "2.2.0",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"

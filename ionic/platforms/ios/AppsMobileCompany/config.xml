@@ -43,6 +43,9 @@
     <feature name="BarcodeScanner">
         <param name="ios-package" value="CDVBarcodeScanner" />
     </feature>
+    <feature name="BrowserTab">
+        <param name="ios-package" value="CBTBrowserTab" />
+    </feature>
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera" />
     </feature>
@@ -82,6 +85,10 @@
     </feature>
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
+    </feature>
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
     </feature>
     <feature name="MusicControls">
         <param name="ios-package" value="MusicControls" />
@@ -135,6 +142,8 @@
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="deployment-target" value="11.0" />
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="false" />

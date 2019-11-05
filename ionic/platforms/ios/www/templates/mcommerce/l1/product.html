@@ -1,7 +1,8 @@
 <ion-view sb-page-background
-          cache-view="false"
           class="mcommerce-view mcommerce-product">
+
     <ion-nav-title>{{ page_title }}</ion-nav-title>
+
     <ion-nav-buttons side="secondary">
         <button ng-click="right_button.action()"
                 class="button button-clear header-item"
@@ -15,7 +16,6 @@
     </ion-nav-buttons>
 
     <ion-content>
-
         <div class="card">
             <div class="item item-text-wrap text-center item-custom">
                 <h2>
@@ -42,7 +42,7 @@
             <div class="item item-body item-custom">
                 <i class="ion-pricetag"></i>
                 <span ng-if="product.optionsGroups.length > 0">
-                    {{ "From:" | translate }}
+                    {{ ::"From:" | translate }}
                 </span>
                 <span>
                     {{ product.formattedPriceInclTax }}
@@ -65,7 +65,7 @@
         <div class="card"
              ng-if="product.optionsGroups.length">
             <div class="item item-divider item-divider-custom">
-                <h2><i class="ion-gear-b"></i> {{ "Options" | translate }}</h2>
+                <h2><i class="ion-gear-b"></i> {{ ::"Options" | translate }}</h2>
             </div>
             <div ng-repeat="optionsGroup in product.optionsGroups">
                 <div class="list list-inset">
@@ -81,7 +81,7 @@
                     </label>
                     <label class="item item-select item-input item-custom" >
                         <div class="input-label">
-                            {{ "Qty" | translate }}
+                            {{ ::"Qty" | translate }}
                         </div>
                         <select ng-model="optionsGroup.selectedQuantity"
                                 ng-options="o as o for o in list_qty"></select>
@@ -119,12 +119,12 @@
                              value="1"
                              min="1"
                              step="1"
-                             label="{{ 'Qty' | translate }}"
+                             label="Qty"
                              change-qty="changeQuantity(qty)"></sb-input-number>
             <div class="item item-text-wrap item-icon-left item-custom"
                  ng-click="addProduct()">
                 <i class="icon ion-ios-cart-outline"></i>
-                {{ "Add to cart" | translate }}
+                {{ ::"Add to cart" | translate }}
             </div>
         </div>
         <div class="card">
