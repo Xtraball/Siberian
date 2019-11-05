@@ -360,7 +360,7 @@ i.fa.fa-plus {
 
 .sidebar-nav .icon.ion-chevron-right {
     position: absolute;
-    right: 5%;
+    right: 15px;
     top: 0;
     font-size: 11px;
 }
@@ -1359,8 +1359,8 @@ div.loader {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin-top: 0;
     margin-bottom: 0;
-    padding-bottom: 8px;
-    padding-top: 12px;
+    padding-bottom: 4px;
+    padding-top: 8px;
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: 0.05em;
