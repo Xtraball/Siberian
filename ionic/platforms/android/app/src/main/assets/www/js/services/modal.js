@@ -1,38 +1,13 @@
-/*global
-    App, IS_NATIVE_APP, angular
- */
-
 /**
  * Modal
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $timeout, $q) {
+angular.module('starter').service('Modal', function ($ionicModal, $timeout, $q) {
     var service = {
-        is_open: false,
         stack: [],
-        current_modal: null,
-        modal_hidden_subscriber: null
+        current_modal: null
     };
-
-    /** Listening from $rootScope to prevent external $ionicModal not proxied */
-    $rootScope.$on('modal.shown', function () {
-        service.is_open = true;
-
-        /** Listening for modal.hidden dynamically */
-        service.modal_hidden_subscriber = $rootScope.$on('modal.hidden', function () {
-            /** Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up */
-            service.modal_hidden_subscriber();
-
-            /** Clean-up modal */
-            service.current_modal.remove();
-            service.current_modal = null;
-
-            /** Unstack next one */
-            service.is_open = false;
-            service.unStack();
-        });
-    });
 
     /**
      * Un stack popups on event
@@ -53,10 +28,6 @@ angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $t
             }, 1);
         } else {
             service.current_modal = null;
-
-            $timeout(function () {
-                return;
-            }, 1);
         }
     };
 
@@ -79,9 +50,7 @@ angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $t
             }
         });
 
-        if ((service.stack.length === 1) && !service.is_open) {
-            service.unStack();
-        }
+        service.unStack();
 
         return deferred.promise;
     };
@@ -117,9 +86,7 @@ angular.module('starter').service('Modal', function ($rootScope, $ionicModal, $t
             }
         });
 
-        if ((service.stack.length === 1) && !service.is_open) {
-            service.unStack();
-        }
+        service.unStack();
 
         return deferred.promise;
     };

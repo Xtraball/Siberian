@@ -4,7 +4,8 @@
 angular.module("starter").factory("McommerceStripe", function($pwaRequest) {
 
     var factory = {
-        value_id: null
+        value_id: null,
+        StripeInstance: null
     };
 
     factory.find = function(cust_id) {
