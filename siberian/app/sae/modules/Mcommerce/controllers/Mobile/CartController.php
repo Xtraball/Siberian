@@ -39,7 +39,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "fidelity_rate" => $fidelity_rate,
             "id" => $cart->getId(),
             "valid" => $isValidCart,
-            "valid_message" => $this->_("Unable to proceed to checkout the minimum order amount is %s", $this->getStore()->getFormattedMinAmount()),
+            "valid_message" => __("Unable to proceed to checkout the minimum order amount is %s", $this->getStore()->getFormattedMinAmount()),
             "deliveryMethodId" => $cart->getDeliveryMethodId(),
             "paymentMethodId" => $cart->getPaymentMethodId(),
             "paymentMethodName" => $cart->getPaymentMethod() != null ? $cart->getPaymentMethod()->getName() : null,
@@ -69,7 +69,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             "deliveryTaxRate" => (float)$cart->getDeliveryTaxRate(),
             "paid_amount" => $cart->getPaidAmount(),
             "formatted_paid_amount" => $cart->getFormattedPaidAmount(),
-            "delivery_amount_due" => $cart->getPaidAmount() - $cart->getTotal(),
+            "delivery_amount_due" => (float) $cart->getPaidAmount() - $cart->getTotal(),
             "formatted_delivery_amount_due" => $cart->formatPrice($cart->getPaidAmount() - $cart->getTotal()),
             "formattedDeliveryTaxRate" => $cart->getDeliveryTaxRate() > 0 ? $cart->getFormattedDeliveryTaxRate() : null,
             "totalExclTax" => (float)$cart->getTotalExclTax(),
@@ -92,7 +92,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
             ]
         ];
 
-        if (in_array($cart->getPaymentMethod()->getCode(), ["check", "cc_upon_delivery", "paypal"])) {
+        if (in_array($cart->getPaymentMethod()->getCode(), ["check", "cc_upon_delivery", "paypal", "stripe"])) {
             $html["cart"]["hide_paid_amount"] = true;
         }
 

@@ -14,8 +14,22 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
     $scope.payment = {};
     $scope.payment.save_card = false;
     $scope.payment.use_stored_card = false;
+    $scope.payment.hasStoredCard = false;
 
     $scope.cardElement = null;
+
+    $scope.creditCardBrand = function (brand) {
+        var _brand = (brand === undefined) ? "default" : brand;
+        switch (_brand.toLowerCase()) {
+            case "visa":
+                return "./features/m_commerce/assets/templates/images/011-cc-visa.svg";
+            case "mastercard":
+                return "./features/m_commerce/assets/templates/images/012-cc-mastercard.svg";
+            case "american express":
+                return "./features/m_commerce/assets/templates/images/013-cc-amex.png";
+        }
+        return "./features/m_commerce/assets/templates/images/014-cc.svg";
+    };
 
     $scope.loadContent = function () {
         $scope.guest_mode = Customer.guest_mode;
@@ -39,7 +53,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             // Load previously saved card!
             if (data.card && data.card.exp_year) {
                 $scope.card = data.card;
-                $scope.payment.use_stored_card = true;
+                $scope.payment.hasStoredCard = true;
             }
 
             $scope.mountCard();
@@ -112,7 +126,8 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
         .confirm(
             "Confirmation",
             "Do you confirm you want to remove your card?",
-            ["Yes", "No"])
+            ["Yes", "No"],
+            "m_commerce")
         .then(function (result) {
             if (result) {
                 $scope.is_loading = true;
@@ -124,6 +139,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
                     $scope.oldcard = $scope.card;
                     $scope.card = {};
                     $scope.payment.use_stored_card = false;
+                    $scope.payment.hasStoredCard = false;
                 }).then(function () {
                     $scope.is_loading = false;
                     Loader.hide();
@@ -133,6 +149,11 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
 
     };
 
+    $scope.useCard = function () {
+        $scope.payment.use_stored_card = true;
+        $scope.process();
+    };
+
     $scope.process = function () {
         if (!$scope.is_loading) {
             $scope.is_loading = true;
@@ -140,27 +161,29 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             if ($scope.payment.use_stored_card) {
                 _process();
             } else {
-                McommerceStripe.StripeInstance.createToken(cardElement, function (response) {
-                    _stripeResponseHandler(response);
+                McommerceStripe.StripeInstance
+                .createToken($scope.cardElement)
+                .then(function (result) {
+                    _stripeResponseHandler(result);
                 });
             }
         }
     };
 
-    var _stripeResponseHandler = function (response) {
-        console.log("_stripeResponseHandler", response);
-        if (response.error) {
-            Dialog.alert("", response.error.message, "OK");
+    var _stripeResponseHandler = function (result) {
+        console.log("_stripeResponseHandler", result);
+        if (result.error) {
+            Dialog.alert("", result.error.message, "OK");
             $scope.is_loading = false;
             Loader.hide();
         } else {
             $scope.card = {
-                token: response.id,
-                last4: response.card.last4,
-                brand: response.card.brand,
-                exp_month: response.card.exp_month,
-                exp_year: response.card.exp_year,
-                exp: Math.round(+(new Date((new Date(response.card.exp_year, response.card.exp_month, 1)) - 1)) / 1000) | 0
+                token: result.token.id,
+                last4: result.token.card.last4,
+                brand: result.token.card.brand,
+                exp_month: result.token.card.exp_month,
+                exp_year: result.token.card.exp_year,
+                exp: Math.round(+(new Date((new Date(result.token.card.exp_year, result.token.card.exp_month, 1)) - 1)) / 1000) | 0
             };
 
             _process();

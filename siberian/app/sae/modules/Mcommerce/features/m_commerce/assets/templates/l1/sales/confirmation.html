@@ -84,28 +84,38 @@
                 <span class="item-note"><strong>{{ cart.formattedTotal }}</strong></span>
             </div>
 
-            <div class="item item-divider item-divider-custom"
-                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due"></div>
-            <div class="row item-custom"
-                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
-                <div class="col-75 text-right">{{ "I will pay" | translate }}</div>
-                <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
+            <div ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+
+                <ion-item class="item-divider item-divider-custom"></ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-75 text-right">{{ ::"I will pay" | translate:"m_commerce" }}</div>
+                        <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
+                    </div>
+                </ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-75 text-right">{{ ::"Change due upon delivery" | translate:"m_commerce" }}</div>
+                        <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
+                    </div>
+                </ion-item>
             </div>
-            <div class="row item-custom"
-                 ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
-                <div class="col-75 text-right">{{ "Remaining due" | translate }}</div>
-                <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
-            </div>
+
         </div>
-        <div class="card" ng-if="confirmation_message">
+
+        <div class="card"
+             ng-if="confirmation_message">
             <div class="item item-custom">
                 {{ confirmation_message }}
             </div>
         </div>
+
         <!--TG-459-->
         <div class="card">
             <div class="item item-divider item-divider-custom">
-                <p><strong><i class="icon ion-clipboard"></i> {{ "Notes" | translate }} </strong></p>
+                <p><strong><i class="icon ion-clipboard"></i> {{ ::"Notes" | translate:"m_commerce" }} </strong></p>
             </div>
             <div class="item">
                 <p>

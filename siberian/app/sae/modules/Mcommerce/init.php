@@ -14,7 +14,7 @@ $init = function ($bootstrap) {
         "mcommerce/gdpr.phtml");
 
     Assets::registerScss([
-        "/app/sae/modules/Mcommerce/features/mcommerce/scss/mcommerce.scss"
+        "/app/sae/modules/Mcommerce/features/m_commerce/scss/mcommerce.scss"
     ]);
 
     $translationFile = path("/app/sae/modules/Mcommerce/resources/translations/default/m_commerce.po");

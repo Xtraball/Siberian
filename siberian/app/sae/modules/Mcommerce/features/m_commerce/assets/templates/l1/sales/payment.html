@@ -11,20 +11,20 @@
 
     <ion-content>
 
-        <div class="list">
-            <div class="item item-text-wrap text-center item-custom">
-                <h2>{{ "Choose a payment method:" | translate }}</h2>
-            </div>
-        </div>
         <ion-list>
+            <ion-item class="item-divider item-divider-custom text-center">
+                <h2>{{ ::"Choose a payment method" | translate:"m_commerce" }}</h2>
+            </ion-item>
+
             <ion-radio class="radio-custom"
                        ng-model="cart.paymentMethodId"
                        ng-value="paymentMethod.id"
                        ng-repeat="paymentMethod in paymentMethods"
-                       ng-click="cart.paymentMethodId = paymentMethod.id"
+                       ng-click="cart.paymentMethodId = paymentMethod.id; right_button.action();"
                        ng-if="paymentMethod.code != 'free'">
                 {{ paymentMethod.name }}
             </ion-radio>
+
         </ion-list>
 
     </ion-content>

@@ -3,7 +3,7 @@
  */
 angular.module("starter").controller("MCommerceSalesDeliveryViewController", function (Loader, $scope, $stateParams, $state,
                                                                 $translate, McommerceCart, McommerceSalesDelivery,
-                                                                Dialog) {
+                                                                Dialog, $timeout) {
 
     $scope.page_title = $translate.instant("Delivery");
 
@@ -48,36 +48,50 @@ angular.module("starter").controller("MCommerceSalesDeliveryViewController", fun
         cart.deliveryMethodId = delivery_method.id;
         $scope.clients_calculate_change_form_is_visible = ((delivery_method.code == "home_delivery") && $scope.selectedStore.clients_calculate_change);
         $scope.cart.delivery_method_extra_amount_due = 0;
+
+        // Automatically proceed if no action is required!
+        if (delivery_method.code !== "home_delivery") {
+            $scope.updateDeliveryInfos();
+        }
     };
 
     $scope.calculateAmountDue = function() {
-        var price = parseFloat($scope.cart.delivery_method_extra_client_amount);
+        if (!$scope.clients_calculate_change_form_is_visible) {
+            $scope.cart.delivery_method_extra_client_amount = "";
+        } else {
+            var price = parseFloat($scope.cart.delivery_method_extra_client_amount);
 
-        if(isNaN(price) || price < $scope.cart.total) {
-            if(isNaN(price)) {
-                $scope.cart.delivery_method_extra_client_amount = "";
+            if(isNaN(price) || price < $scope.cart.total) {
+                if(isNaN(price)) {
+                    $scope.cart.delivery_method_extra_client_amount = "";
+                }
+                $scope.cart.delivery_method_extra_amount_due = "";
+                return;
             }
-            $scope.cart.delivery_method_extra_amount_due = null;
-            return;
+
+            if ($scope.cart.delivery_method_extra_client_amount < $scope.cart.total) {
+                $scope.cart.delivery_method_extra_client_amount = $scope.cart.total;
+            }
+
+            $scope.cart.delivery_method_extra_amount_due = (price - $scope.cart.total).toFixed(2);
         }
 
-        $scope.cart.delivery_method_extra_amount_due = (price - $scope.cart.total).toFixed(2);
-        $scope.cart.total = $scope.cart.total;
-
+        $timeout(function () {
+            $scope.cart.total = $scope.cart.total;
+        });
     };
 
     $scope.updateDeliveryInfos = function () {
 
-        if($scope.cart.delivery_method_extra_amount_due == null) {
-            Dialog.alert("", "Remaining due is incorrect.", "OK").then(function() {
-                return;
-            });
+        if ($scope.clients_calculate_change_form_is_visible &&
+            $scope.cart.delivery_method_extra_client_amount < $scope.cart.total) {
+            Dialog.alert("", "Remaining due is incorrect.", "OK");
+            return;
         }
 
-        if(!$scope.cart.deliveryMethodId) {
-            Dialog.alert("", "You have to choose a delivery method.", "OK").then(function() {
-                return;
-            });
+        if (!$scope.cart.deliveryMethodId) {
+            Dialog.alert("", "You have to choose a delivery method.", "OK");
+            return;
         }
 
         if(!$scope.is_loading) {
