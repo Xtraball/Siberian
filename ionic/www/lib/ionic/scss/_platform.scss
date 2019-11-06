@@ -22,6 +22,12 @@
     border-radius: 21px;
   }
 
+  ion-modal-view {
+    border-radius: 20px;
+    border: 1px solid #d4d4d4;
+    box-shadow: none !important;
+  }
+
   // iOS has a status bar which sits on top of the header.
   // Bump down everything to make room for it. However, if
   // if its in Cordova, and set to fullscreen, then disregard the bump.
