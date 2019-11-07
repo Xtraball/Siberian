@@ -105,77 +105,79 @@ if (!empty($appDomain)) {
     </div>
 
     <div class="publication-padding-bottom">&nbsp;</div>
-</div>
-<script type="text/javascript">
 
-    // Improvements
-    $(document).ready(function () {
-        bindForms('#general-information');
-        bindForms('#admob-settings');
-        bindForms('#apple-google');
+    <script type="text/javascript">
 
-        $('#android-element').addClass('col-md-6');
-        $('#ios-element').addClass('col-md-6');
-        $('#apple-element').addClass('col-md-6');
-        $('#google-element').addClass('col-md-6');
+        // Improvements
+        $(document).ready(function () {
+            bindForms('#general-information');
+            bindForms('#admob-settings');
+            bindForms('#apple-google');
 
-        // Live update AppName!
-        let appName = $('#name');
+            $('#android-element').addClass('col-md-6');
+            $('#ios-element').addClass('col-md-6');
+            $('#apple-element').addClass('col-md-6');
+            $('#google-element').addClass('col-md-6');
 
-        appName.off('keyup');
-        appName.on('keyup', function () {
-            let name = $(this).val().replace(/(<([^>]+)>)/ig, '');
-            // Set back stripped/value!
-            $(this).val(name);
-            $('#header_app_name').text(name.substr(0, 15));
-        });
+            // Live update AppName!
+            let appName = $('#name');
 
-        let updateStore = function (store) {
-            let value = $('[name="has_' + store + '_account"]:checked').val();
+            appName.off('keyup');
+            appName.on('keyup', function () {
+                let name = $(this).val().replace(/(<([^>]+)>)/ig, '');
+                // Set back stripped/value!
+                $(this).val(name);
+                $('#header_app_name').text(name.substr(0, 15));
+            });
 
-            let type = $('#warning_' + store);
-            let email = $('#' + store + '_email');
-            let password = $('#' + store + '_password');
+            let updateStore = function (store) {
+                let value = $('[name="has_' + store + '_account"]:checked').val();
 
-            switch (value) {
-                case '0':
-                    type.parents('.sb-form-line').show();
-                    email.parents('.sb-form-line').hide();
-                    password.parents('.sb-form-line').hide();
-                    break;
-                case '1':
-                    type.parents('.sb-form-line').hide();
-                    email.parents('.sb-form-line').show();
-                    password.parents('.sb-form-line').show();
-                    break;
-                case '2':
-                    type.parents('.sb-form-line').hide();
-                    email.parents('.sb-form-line').hide();
-                    password.parents('.sb-form-line').hide();
-                    break;
-            }
-        };
+                let type = $('#warning_' + store);
+                let email = $('#' + store + '_email');
+                let password = $('#' + store + '_password');
 
-        let appleAccount = $('[name="has_apple_account"]');
+                switch (value) {
+                    case '0':
+                        type.parents('.sb-form-line').show();
+                        email.parents('.sb-form-line').hide();
+                        password.parents('.sb-form-line').hide();
+                        break;
+                    case '1':
+                        type.parents('.sb-form-line').hide();
+                        email.parents('.sb-form-line').show();
+                        password.parents('.sb-form-line').show();
+                        break;
+                    case '2':
+                        type.parents('.sb-form-line').hide();
+                        email.parents('.sb-form-line').hide();
+                        password.parents('.sb-form-line').hide();
+                        break;
+                }
+            };
 
-        updateStore('apple');
-        appleAccount.off('change');
-        appleAccount.on('change', function () {
+            let appleAccount = $('[name="has_apple_account"]');
+
             updateStore('apple');
-        });
+            appleAccount.off('change');
+            appleAccount.on('change', function () {
+                updateStore('apple');
+            });
 
-        let androidAccount = $('[name="has_android_account"]');
+            let androidAccount = $('[name="has_android_account"]');
 
-        updateStore('android');
-        androidAccount.off('change');
-        androidAccount.on('change', function () {
             updateStore('android');
-        });
+            androidAccount.off('change');
+            androidAccount.on('change', function () {
+                updateStore('android');
+            });
 
-    });
-</script>
-<style type="text/css">
-    .publication-padding-bottom {
-        margin-bottom: 120px;
-    }
-</style>
+        });
+    </script>
+    <style type="text/css">
+        .publication-padding-bottom {
+            margin-bottom: 120px;
+        }
+    </style>
+
+</div>

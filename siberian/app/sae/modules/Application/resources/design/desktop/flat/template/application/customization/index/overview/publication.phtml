@@ -32,58 +32,64 @@ $headerRgba = $application->getBlock("header")->getBackgroundColorRGBA();
                class="no-margin"><?php echo $application->getShortName(); ?></p>
         </div>
     </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var phoneBar = $("#phone-bar");
+            phoneBar.show();
+
+            $("#overview").affix({
+                offset: {
+                    top: 60,
+                    bottom: 20
+                }
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        .homepage-preview {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #e9e9eb;
+            padding: 10px;
+            border-radius: 30px;
+            border: 1px solid #c5c5c5;
+            box-shadow: 1px 1px 1px #d4d4d4;
+        }
+
+        div#phone-bar {
+            top: calc(-1 * 80vh + 15px);
+            color: white !important;
+        }
+
+        #overview_icon {
+            position: absolute;
+            top: 26vh;
+            left: 4.3vh;
+        }
+
+        #overview_icon img {
+            width: 7.1vh;
+            height: 7vh;
+            border-radius: 1.5vh;
+        }
+
+        #overview_icon #app_name {
+            text-align: center;
+            font-size: 1.2vh;
+            font-weight: 400;
+            color: #cecece;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            overflow: hidden;
+            text-overflow: clip;
+            width: 7.1vh;
+            height: 1.2vh;
+            line-height: 1.2vh;
+        }
+
+    </style>
 </div>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        var phoneBar = $("#phone-bar");
-        phoneBar.show();
-
-        $("#overview").affix({
-            offset: {
-                top: 60,
-                bottom: 20
-            }
-        });
-    });
-</script>
-
-<style type="text/css">
-    .homepage-preview {
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        background-color: #e9e9eb;
-        padding: 10px;
-        border-radius: 30px;
-        border: 1px solid #c5c5c5;
-        box-shadow: 1px 1px 1px #d4d4d4;
-    }
-
-    div#phone-bar {
-        top: calc(-1 * 80vh + 15px);
-        color: white !important;
-    }
-
-    #overview_icon {
-        position: absolute;
-        top: 26vh;
-        left: 4.3vh;
-    }
-
-    #overview_icon img {
-        width: 7.1vh;
-        height: 7vh;
-        border-radius: 1.5vh;
-    }
-
-    #overview_icon #app_name {
-        text-align: center;
-        font-size: 1.2vh;
-        font-weight: 400;
-        color: #cecece;
-        margin-top: 4px;
-        letter-spacing: 1px;
-    }
-
-</style>

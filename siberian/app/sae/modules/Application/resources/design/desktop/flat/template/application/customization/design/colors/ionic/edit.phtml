@@ -37,7 +37,6 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
         src="/app/sae/design/desktop/flat/js/color-solver.js"></script>
 
 
-
 <div class="page-content-wrapper">
     <form id="colorsForm"
           action="<?php echo $this->getUrl('application/customization_design_colors/save'); ?>"
@@ -270,7 +269,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
     <script type="text/javascript">
 
         // Var overview!
-        let fakeContent = false;
+        var fakeContent = false;
 
         // First replace link with scss!
         let emptyCustomScss = "";
@@ -386,41 +385,6 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
         }
 
         $(document).ready(function () {
-
-            $('#app_colors').hover(function () {
-                mobileOverview.show();
-                $('#homepage_overview').hide();
-                iframe.content = mobileOverview.contents();
-
-            }, function () {
-                return false;
-            });
-
-            /** Switch type  */
-            $(".switch_overview").on("click", function () {
-                document.getElementById("mobile_overview").src = "";
-                setTimeout(function () {
-                    document.getElementById("mobile_overview").src = overview_url;
-                }, 100);
-
-                $(".switch").addClass("button-inactive");
-                $(this).removeClass("button-inactive");
-                $(".change-overview-content").removeClass("inactive-section");
-                fakeContent = false;
-            });
-
-            $(".switch_colors").on("click", function () {
-                document.getElementById("mobile_overview").src = "";
-                setTimeout(function () {
-                    document.getElementById("mobile_overview").src = colors_url;
-                }, 100);
-
-                $(".switch").addClass("button-inactive");
-                $(this).removeClass("button-inactive");
-                fakeContent = true;
-            });
-
-
             let saveScss = $("#save_scss");
             saveScss.off("click");
             saveScss.on("click", function (e) {
@@ -537,8 +501,9 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                     $(".color-section").show();
                 } else {
                     if (fakeContent) {
-                        let rel = $(this).attr("data-rel");
-                        let name = $(this).attr("data-name");
+                        let el = $(this);
+                        let rel = el.attr("data-rel");
+                        let name = el.text().trim();
                         iframe.f.displayElement(rel, name);
                     }
                 }

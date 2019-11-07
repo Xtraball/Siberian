@@ -56,8 +56,8 @@ $(document).ready(function() {
     var mobileOverview = $("#mobile_overview");
 
     var phoneBar = $("#phone-bar");
-    var overviewSrc = "<?php echo $this->getApplication()->getUrl("/", [], Core_Model_Language::getCurrentLanguage(), true); ?>?overview=1";
-    var colorsSrc = "<?php echo $this->getApplication()->getUrl("application/mobile_customization_colors", [], Core_Model_Language::getCurrentLanguage(), true); ?>?overview=1";
+    var overviewSrc = "<?php echo $application->getUrl("/", [], Core_Model_Language::getCurrentLanguage(), true); ?>?overview=1";
+    var colorsSrc = "<?php echo str_replace("browser/index-prod.html", "overview/index-prod.html?demo", $application->getIonicUrl("application/mobile_customization_colors", [], null, true)); ?>";
 
     mobileOverview.attr("src", overviewSrc);
     iframe.iframeIsLoaded = function() {
@@ -71,6 +71,7 @@ $(document).ready(function() {
         phoneBar.hide();
         maskOverview.show();
         mobileOverview.attr("src", overviewSrc);
+        fakeContent = false;
     });
 
     var listOverview = $("#list-overview");
@@ -79,6 +80,7 @@ $(document).ready(function() {
         phoneBar.hide();
         maskOverview.show();
         mobileOverview.attr("src", colorsSrc);
+        fakeContent = true;
     });
 
     var reloadOverview = $("#reload-overview");

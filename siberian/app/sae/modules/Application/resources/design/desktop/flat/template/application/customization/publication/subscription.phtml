@@ -239,61 +239,63 @@ $offlineSub = $application->getOfflineSubscription();
             </div>
         <?php endif; ?>
     </div>
-<?php endif; ?>
 
-<script type="text/javascript">
-    <?php if (($application->subscriptionIsActive() && $application->getSubscription()) || $application->getOfflineSubscription()):
-    $subscriptionApp = $application->subscriptionIsActive() ? $application->getSubscription() : $application->getOfflineSubscription();
-    ?>
-    var cancelUrl = '<?php echo $this->getUrl('subscription/application/cancelowner'); ?>';
-    var id = '<?php echo $subscriptionApp->getId() ?>';
+    <script type="text/javascript">
+        <?php if (($application->subscriptionIsActive() && $application->getSubscription()) || $application->getOfflineSubscription()):
+        $subscriptionApp = $application->subscriptionIsActive() ? $application->getSubscription() : $application->getOfflineSubscription();
+        ?>
+        var cancelUrl = '<?php echo $this->getUrl('subscription/application/cancelowner'); ?>';
+        var id = '<?php echo $subscriptionApp->getId() ?>';
 
-    $(document).ready(function () {
-        var cancelButton = $('.cancel-subscription');
-        cancelButton.off('click');
-        cancelButton.on('click', function () {
-            swal({
-                html: true,
-                title: '<?php echo __js("Cancel Subscription", "'") ?>',
-                type: 'prompt',
-                text: '<?php echo __js("You are about to cancel your Subscription, if this is a paid plan the subscription will be cancelled at the end of the recurring period, otherwise the subscription will be immediately cancelled and the application locked.<br /><br />Below you can leave a message for the Administrator.<br />", "'") ?>',
-                showCancelButton: true,
-                closeOnConfirm: false,
-                closeOnCancel: true,
-                confirmButtonColor: '#ff3a2e',
-                confirmButtonText: '<?php echo __js("Yes, Cancel my subscription", "'") ?>',
-                cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
-                buttons: {
-                    confirm: {
-                        value: ''
+        $(document).ready(function () {
+            var cancelButton = $('.cancel-subscription');
+            cancelButton.off('click');
+            cancelButton.on('click', function () {
+                swal({
+                    html: true,
+                    title: '<?php echo __js("Cancel Subscription", "'") ?>',
+                    type: 'prompt',
+                    text: '<?php echo __js("You are about to cancel your Subscription, if this is a paid plan the subscription will be cancelled at the end of the recurring period, otherwise the subscription will be immediately cancelled and the application locked.<br /><br />Below you can leave a message for the Administrator.<br />", "'") ?>',
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    closeOnCancel: true,
+                    confirmButtonColor: '#ff3a2e',
+                    confirmButtonText: '<?php echo __js("Yes, Cancel my subscription", "'") ?>',
+                    cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
+                    buttons: {
+                        confirm: {
+                            value: ''
+                        }
                     }
-                }
-            }, function (value) {
-                if (value === false) {
-                    return;
-                }
+                }, function (value) {
+                    if (value === false) {
+                        return;
+                    }
 
-                formget(
-                    cancelUrl,
-                    {
-                        'id': id,
-                        'message': value
-                    },
-                    function (data) {
-                        // Success!
-                        feature_form_success(data.message);
-                        setTimeout(function () {
-                            location.reload();
-                        }, 3000);
-                    },
-                    function (data) {
-                        feature_form_error(data.message);
-                    });
+                    formget(
+                        cancelUrl,
+                        {
+                            'id': id,
+                            'message': value
+                        },
+                        function (data) {
+                            // Success!
+                            feature_form_success(data.message);
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000);
+                        },
+                        function (data) {
+                            feature_form_error(data.message);
+                        });
 
-                swal.close();
-                return true;
+                    swal.close();
+                    return true;
+                });
             });
         });
-    });
-    <?php endif; ?>
-</script>
+        <?php endif; ?>
+    </script>
+
+<?php endif; ?>
+
