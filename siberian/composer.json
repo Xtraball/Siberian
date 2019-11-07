@@ -42,8 +42,7 @@
         "debril/feed-io": "^3.0"
     },
     "require-dev": {
-        "ext-redis": "*",
-        "firebase/crashlytics": "*"
+        "ext-redis": "*"
     },
     "config": {
         "vendor-dir": "lib/vendor"
