@@ -112,7 +112,7 @@
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
     <chcp>
-        <config-file url="https://anders.xtraball.com/var/apps/ionic/android/app/src/main/assets/www/chcp.json" />
+        <config-file url="PLATFORM_URL" />
         <native-interface version="12" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />

@@ -1262,6 +1262,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 /* LAYOUT 7 */
 .layout.l7 ion-content {
     height: 100%;
+    padding-top: var(--safe-area-inset-top);
 }
 
 .layout.l7 li img {
