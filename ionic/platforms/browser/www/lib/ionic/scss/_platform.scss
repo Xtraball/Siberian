@@ -6,11 +6,6 @@
 
 .platform-overview.platform-cordova {
 
-  --safe-area-inset-top: 1em;
-  --safe-area-inset-right: 0px;
-  --safe-area-inset-bottom: 0px;
-  --safe-area-inset-left: 0px;
-
   ion-side-menu-content {
     border-radius: 20px;
     border: 1px solid #d4d4d4;
@@ -109,9 +104,13 @@
     margin-bottom: 20px;
   }
 }
+/**
+ * Platform
+ * --------------------------------------------------
+ * Platform specific tweaks
+ */
 
 .platform-ios.platform-cordova {
-
   // iOS has a status bar which sits on top of the header.
   // Bump down everything to make room for it. However, if
   // if its in Cordova, and set to fullscreen, then disregard the bump.
@@ -196,23 +195,23 @@
 
 @media (orientation: landscape) {
   .item {
-    padding: $item-padding calc(constant(safe-area-inset-right) + #{$item-padding});
+    padding: $item-padding calc(var(--safe-area-inset-right) + #{$item-padding});
 
     .badge {
-      right: calc(constant(safe-area-inset-right) + 32px)
+      right: calc(var(--safe-area-inset-right) + 32px)
     }
   }
   .item-icon-left {
-    padding-left: calc(constant(safe-area-inset-left) + 54px);
+    padding-left: calc(var(--safe-area-inset-left) + 54px);
 
     .icon {
-      left: calc(constant(safe-area-inset-left) + 11px);
+      left: calc(var(--safe-area-inset-left) + 11px);
     }
   }
   .item-icon-right {
-    padding-right: calc(constant(safe-area-inset-right) + 54px);
+    padding-right: calc(var(--safe-area-inset-right) + 54px);
     .icon {
-      right: calc(constant(safe-area-inset-right) + 11px);
+      right: calc(var(--safe-area-inset-right) + 11px);
     }
   }
 
@@ -221,23 +220,21 @@
 
     .item-content {
       padding: $item-padding
-        calc(constant(safe-area-inset-right) + #{(ceil( ($item-padding * 3) + ($item-padding / 3)) - 5)})
-        $item-padding
-        calc(constant(safe-area-inset-left) + #{$item-padding});
+      calc(var(--safe-area-inset-right) + #{(ceil( ($item-padding * 3) + ($item-padding / 3)) - 5)})
+      $item-padding
+      calc(var(--safe-area-inset-left) + #{$item-padding});
     }
   }
 
   .item-left-edit.visible.active {
-    @include translate3d(calc(constant(safe-area-inset-left) + 8px), 0, 0);
+    @include translate3d(calc(var(--safe-area-inset-left) + 8px), 0, 0);
   }
   .list-left-editing .item-left-editable .item-content,
   .item-left-editing.item-left-editable .item-content {
-    @include translate3d(calc(constant(safe-area-inset-left) + 50px), 0, 0);
+    @include translate3d(calc(var(--safe-area-inset-left) + 50px), 0, 0);
   }
 
   .item-right-edit{
-    right: constant(safe-area-inset-right);
-    right: env(safe-area-inset-right);
     right: var(--safe-area-inset-right);
   }
 
