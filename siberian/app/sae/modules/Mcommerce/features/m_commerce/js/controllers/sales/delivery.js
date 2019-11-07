@@ -16,21 +16,24 @@ angular.module("starter").controller("MCommerceSalesDeliveryViewController", fun
     $scope.loadContent = function () {
         $scope.is_loading = true;
         Loader.show();
-        McommerceCart.find()
+        McommerceCart
+            .find()
             .then(function (data) {
                 $scope.cart = data.cart;
                 $scope.cart.delivery_method_extra_client_amount = $scope.cart.paid_amount ? parseFloat($scope.cart.paid_amount) : $scope.cart.total;
                 $scope.cart.delivery_method_extra_amount_due = ($scope.cart.delivery_amount_due) ? parseFloat($scope.cart.delivery_amount_due) : 0;
-                $scope.calculateAmountDue();
 
-                McommerceSalesDelivery.findStore()
+                McommerceSalesDelivery
+                    .findStore()
                     .then(function (data) {
                         $scope.clients_calculate_change_form_is_visible = data.clients_calculate_change;
                         $scope.selectedStore = data.store;
 
+                        $scope.calculateAmountDue();
+
                     }).then(function () {
                         $scope.is_loading = false;
-                    Loader.hide();
+                        Loader.hide();
                     });
 
             }, function () {
@@ -85,12 +88,12 @@ angular.module("starter").controller("MCommerceSalesDeliveryViewController", fun
 
         if ($scope.clients_calculate_change_form_is_visible &&
             $scope.cart.delivery_method_extra_client_amount < $scope.cart.total) {
-            Dialog.alert("", "Remaining due is incorrect.", "OK");
+            Dialog.alert("", "The amount must be equal or greater than the order total.", "OK");
             return;
         }
 
         if (!$scope.cart.deliveryMethodId) {
-            Dialog.alert("", "You have to choose a delivery method.", "OK");
+            Dialog.alert("", "You must choose a delivery method.", "OK");
             return;
         }
 

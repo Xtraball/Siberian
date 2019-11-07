@@ -2780,7 +2780,7 @@ div#mask-overview.mask {
 div#phone-bar {
     left: 24px;
     position: relative;
-    top: calc(-1 * 80vh + 9px);
+    top: calc(-1 * 80vh + 12px);
     width: calc(46vh - 48px);
     height: calc(80vh - 24px);
     z-index: 10002;
