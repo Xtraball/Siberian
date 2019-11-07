@@ -31,10 +31,14 @@ class Phulp
     }
 
     /**
-     * @param string $task
+     * @param string|array $task
      */
-    public function run(array $tasks)
+    public function run($tasks)
     {
+        // Fix siberian!
+        if (!is_array($tasks)) {
+            $tasks = [$tasks];
+        }
         $tasks = count($tasks) ? $tasks : ['default'];
         $this->start($tasks);
         $this->getLoop()->run();

@@ -4,7 +4,7 @@ namespace Gettext\Extractors;
 
 use Exception;
 use Gettext\Translations;
-use Gettext\Utils\JsFunctionsScanner;
+use Gettext\Utils\FunctionsScanner;
 
 /**
  * Class to get gettext strings from javascript files.
@@ -36,13 +36,15 @@ class JsCode extends Extractor implements ExtractorInterface, ExtractorMultiInte
         ],
     ];
 
+    protected static $functionsScannerClass = 'Gettext\Utils\JsFunctionsScanner';
+
     /**
      * @inheritdoc
      * @throws Exception
      */
     public static function fromString($string, Translations $translations, array $options = [])
     {
-        self::fromStringMultiple($string, [$translations], $options);
+        static::fromStringMultiple($string, [$translations], $options);
     }
 
     /**
@@ -53,7 +55,8 @@ class JsCode extends Extractor implements ExtractorInterface, ExtractorMultiInte
     {
         $options += static::$options;
 
-        $functions = new JsFunctionsScanner($string);
+        /** @var FunctionsScanner $functions */
+        $functions = new static::$functionsScannerClass($string);
         $functions->saveGettextFunctions($translations, $options);
     }
 
@@ -63,9 +66,9 @@ class JsCode extends Extractor implements ExtractorInterface, ExtractorMultiInte
      */
     public static function fromFileMultiple($file, array $translations, array $options = [])
     {
-        foreach (self::getFiles($file) as $file) {
+        foreach (static::getFiles($file) as $file) {
             $options['file'] = $file;
-            static::fromStringMultiple(self::readFile($file), $translations, $options);
+            static::fromStringMultiple(static::readFile($file), $translations, $options);
         }
     }
 }
