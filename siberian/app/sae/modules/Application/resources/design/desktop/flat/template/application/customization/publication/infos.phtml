@@ -2,9 +2,9 @@
 
 $application = $this->getApplication();
 
-$pe_use_ads = false;
+$peUseAds = false;
 if ($this->isPe()) {
-    $pe_use_ads = $application->getSubscription()->getSubscription()->getUseAds();
+    $peUseAds = $application->getSubscription()->getSubscription()->getUseAds();
 }
 
 $ios_device = $application->getDevice(1);
@@ -73,20 +73,22 @@ if (!empty($appDomain)) {
             </div>
         </div>
     </div>
-    <?php if (!$application->getOwnerUseAds() AND !System_Model_Config::getValueFor("application_owner_use_ads") AND !$pe_use_ads): ?>
 
-        <div id="monetize-content"
-             class="content sb-tour">
-            <h3 class="title-editor border-green text-center">
-                <?php echo __('Monetize your app'); ?>
-            </h3>
-            <div class="monetize subcontent content-color">
-                <div id="admob-settings"
-                     class="container-fluid form-horizontal">
-                    <?php echo $formAdmob; ?>
-                </div>
+    <?php if (!$application->getOwnerUseAds() &&
+              !__get("application_owner_use_ads") &&
+              !$peUseAds): ?>
+    <div id="monetize-content"
+         class="content sb-tour">
+        <h3 class="title-editor border-green text-center">
+            <?php echo __("Monetize your app"); ?>
+        </h3>
+        <div class="monetize subcontent content-color">
+            <div id="admob-settings"
+                 class="container-fluid form-horizontal">
+                <?php echo $formAdmob; ?>
             </div>
         </div>
+    </div>
     <?php endif; ?>
 
     <div id="apple-content"
