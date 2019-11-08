@@ -102,7 +102,17 @@
                     </div>
                 </ion-item>
             </div>
+        </div>
 
+        <div class="card"
+             ng-if="cart.textualDeliveryTime">
+            <ion-item class="item-divider item-divider-custom">
+                <p><strong><i class="icon ion-clock"></i> {{ ::"Delivery time" | translate:"m_commerce" }} </strong></p>
+
+            </ion-item>
+            <ion-item class="item-custom text-right">
+                {{ cart.textualDeliveryTime }}
+            </ion-item>
         </div>
 
         <div class="card"
