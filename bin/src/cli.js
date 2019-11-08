@@ -392,9 +392,8 @@ let cli = function (inputArgs) {
 let install = function () {
     sh.cd(ROOT);
 
-    sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
-    sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
-    sh.cp('-r', './bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/plugman.js', './node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/main.js', './node_modules/plugman/main.js');
 
     // Configuring environment!
     sh.exec('git config core.fileMode false');

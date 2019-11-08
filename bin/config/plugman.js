@@ -53,8 +53,11 @@ modulesToAlias.forEach(function (mod) {
 plugman.commands = {
     'config': function (cli_opts) {
         plugman.config(cli_opts.argv.remain, function (err) {
-            if (err) throw err;
-            else console.log('done');
+            if (err) {
+                throw err;
+            } else {
+                console.log('done');
+            }
         });
     },
     'owner': function (cli_opts) {
@@ -62,12 +65,12 @@ plugman.commands = {
     },
     'install': function (cli_opts) {
         /** Siberian CLI Overrides for Browser */
-        cli_opts.argv.cooked.forEach(function(el, index) {
+        cli_opts.argv.cooked.forEach(function (el, index) {
             /** Platform browser wasn't recognized */
-            if(el == "--platform" && (cli_opts.argv.cooked[index+1] == "browser")) {
+            if (el === "--platform" && (cli_opts.argv.cooked[index+1] === "browser")) {
                 cli_opts.platform = cli_opts.argv.cooked[index+1];
             }
-        }
+        });
 
         if (!cli_opts.platform || !cli_opts.project || !cli_opts.plugin) {
             return console.log(plugman.help());
@@ -81,7 +84,9 @@ plugman.commands = {
             cli_opts.variable.forEach(function (variable) {
                 var tokens = variable.split('=');
                 var key = tokens.shift().toUpperCase();
-                if (/^[\w-_]+$/.test(key)) cli_variables[key] = tokens.join('=');
+                if (/^[\w-_]+$/.test(key)) {
+                    cli_variables[key] = tokens.join('=');
+                }
             });
         }
         var opts = {
