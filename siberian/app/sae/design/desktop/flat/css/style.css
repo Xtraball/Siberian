@@ -2783,7 +2783,6 @@ div#phone-bar {
     top: calc(-1 * 80vh + 12px);
     width: calc(46vh - 48px);
     height: calc(80vh - 24px);
-    z-index: 10002;
     border-radius: 20px;
     color: white;
     display: none;
