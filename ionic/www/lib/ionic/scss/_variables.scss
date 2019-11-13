@@ -781,7 +781,7 @@ $ios-statusbar-height:           20px !default;
 }
 
 // iOS 11.2+
-@supports (padding-top: env(safe-area-inset-top)) {
+@supports (paddisiberian/var/apps/overview/templates/application/l1/colors/view.htmlng-top: env(safe-area-inset-top)) {
   :root {
     --safe-area-inset-top: env(safe-area-inset-top);
     --safe-area-inset-right: env(safe-area-inset-right);
