@@ -30,6 +30,9 @@ $offlineSub = $application->getOfflineSubscription();
                  class="content sb-tour">
                 <h3 class="title-editor border-green text-center">
                     <?php echo __('Subscription'); ?>
+                    <i class="icon ion-ios-information-outline display_tooltip"
+                       data-toggle="tooltip"
+                       title="<?php echo p__js("application", "Choose a pricing plan to get your app published on the stores", '"') ?>"></i>
                 </h3>
                 <div class="form-horizontal container-fluid subcontent content-color">
                     <?php if ($offlineSub && !$offlineSub->getIsActive()): ?>

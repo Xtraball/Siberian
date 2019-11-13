@@ -14,7 +14,7 @@ $init = function($bootstrap) {
     Translation::registerExtractor(
         "payment_stripe",
         "PaymentStripe",
-        path("app/local/modules/PaymentStripe/resources/translations/default/payment-stripe.po"));
+        path("app/sae/modules/PaymentStripe/resources/translations/default/payment_stripe.po"));
 
     Gateway::register("stripe", [
         "class" => "\PaymentStripe\Model\Stripe",

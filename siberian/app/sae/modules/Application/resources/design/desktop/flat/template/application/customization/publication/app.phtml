@@ -15,6 +15,9 @@ $splashVersion = (integer) $application->getSplashVersion();
          class="content sb-tour">
         <h3 class="title-editor border-purple text-center">
             <?php echo __("Unified splashscreen"); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "This tool helps you choose a startup image that will be compatible with all device screen sizes. It will be seen when the app starts while it is loading.", '"') ?>"></i>
         </h3>
         <div id="startup"
              class="subcontent content-color container-fluid">

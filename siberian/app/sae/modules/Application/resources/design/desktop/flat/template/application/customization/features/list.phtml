@@ -96,6 +96,10 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             </div>
 
             <?php echo __("Your pages"); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "Here are displayed the features, and so the pages that you have added to your app. You can add content, change the position and remove any page anytime.", '"') ?>"></i>
+
 
             <?php if (__get('import_enabled')): ?>
             <button id="feature_import_export"
@@ -237,6 +241,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 </div>
 
                 <?php echo __("Add pages"); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "Here is the list of the available features you can add to your app. Some features can be added only once while some other features can be added multiple time.", '"') ?>"></i>
             </h3>
             <div id="add-pages"
                  class="subcontent content-color">

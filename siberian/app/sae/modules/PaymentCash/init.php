@@ -14,7 +14,7 @@ $init = function($bootstrap) {
     Translation::registerExtractor(
         "payment_cash",
         "PaymentCash",
-        path("app/local/modules/PaymentCash/resources/translations/default/payment-cash.po"));
+        path("app/sae/modules/PaymentCash/resources/translations/default/payment_cash.po"));
 
     Gateway::register("cash", [
         "class" => "\PaymentCash\Model\Cash",

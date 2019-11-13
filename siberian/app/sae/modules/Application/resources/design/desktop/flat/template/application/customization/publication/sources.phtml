@@ -81,6 +81,9 @@ if (!empty($appDomain)) {
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
             <?php echo __('General information'); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "You can change your application name, as well as the bundle ID and the package name. These two last items are your app unique identifiers when being published on the App Store and Google Play, you don't need to edit them except if you know what you do.", '"') ?>"></i>
         </h3>
         <div id="general"
              class="subcontent content-color">
@@ -118,6 +121,9 @@ if (!empty($appDomain)) {
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
             <?php echo __('Monetize your app'); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "You can monetize your app by adding ad banners or interstitials that will be displayed to your app users.", '"') ?>"></i>
         </h3>
         <div class="monetize subcontent content-color">
             <div id="admob-settings"
@@ -132,6 +138,9 @@ if (!empty($appDomain)) {
              class="content sb-tour">
             <h3 class="title-editor border-green text-center">
                 <?php echo __("Mobile source codes"); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "The source codes of your app, one version for iOS and one version for Android. Useful if you want to compile your apps manually by yourself through Xcode and Android Studio.", '"') ?>"></i>
             </h3>
             <div class="content-color subcontent form-horizontal container-fluid">
                 <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
@@ -398,6 +407,9 @@ if (!empty($appDomain)) {
              class="content sb-tour">
             <h3 class="title-editor border-green text-center">
                 <?php echo __('Mobile source codes'); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "The source codes of your app, one version for iOS and one version for Android. Useful if you want to compile your apps manually by yourself through Xcode and Android Studio.", '"') ?>"></i>
             </h3>
             <div class="content-color subcontent form-horizontal container-fluid">
                 <div class="feature-block-add">

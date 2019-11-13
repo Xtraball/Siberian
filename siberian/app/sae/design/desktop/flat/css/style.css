@@ -2929,6 +2929,17 @@ tr.edit-form {
     opacity: 0.6;
 }
 
+.tooltip-inner {
+    text-transform: none;
+    font-size: 14px;
+    letter-spacing: 1px;
+    max-width: 600px;
+}
+
+.display_tooltip:hover {
+    cursor: pointer;
+}
+
 select.form-control.no-dk {
     padding: 0 34px 0 10px !important;
 }
