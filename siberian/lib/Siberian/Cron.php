@@ -2,6 +2,8 @@
 
 namespace Siberian;
 
+use Siberian\ACME\Cert;
+
 /**
  * Class Siberian_Cron
  *
@@ -472,8 +474,8 @@ class Cron
             $this->lock($task->getId());
 
             $email = __get("support_email");
-            $root = \Core_Model_Directory::getBasePathTo("/");
-            $base = \Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
+            $root = path("/");
+            $base = path("/var/apps/certificates/");
 
             // Check panel type
             $panel_type = __get("cpanel_type");
@@ -484,17 +486,13 @@ class Cron
                 exec("chmod -R 775 {$root}/.well-known");
             }
 
-            $letsEncrypt = new \Siberian_LetsEncrypt($base, $root, false);
-            $leIsInit = false;
-
-            // Use staging environment
             $letsencrypt_env = __get("letsencrypt_env");
-            if ($letsencrypt_env == "staging") {
-                $letsEncrypt->setIsStaging();
-            }
+            $acme = new Cert($letsencrypt_env !== "staging");
 
-            if (!empty($email)) {
-                $letsEncrypt->contact = ["mailto:{$email}"];
+            try {
+                $acme->getAccount();
+            } catch (\Exception $e) {
+                $acme->register(true, $email);
             }
 
             try {
@@ -527,6 +525,8 @@ class Cron
                                 $certificateHosts = str_replace(" ", "", $certificateHosts);
                                 $certificateHosts = explode(",", $certificateHosts);
                                 $dbHostname = \Siberian_Json::decode($cert->getDomains());
+
+                                $certHostname = $cert->getHostname();
 
                                 // Looping over to check for renew
                                 foreach ($dbHostname as $hostname) {
@@ -577,10 +577,6 @@ class Cron
                         }
 
                         if ($renew) {
-                            if (!$leIsInit) {
-                                $letsEncrypt->initAccount();
-                                $leIsInit = true;
-                            }
 
                             # Save back domains!
                             $cert
@@ -588,8 +584,48 @@ class Cron
                                 ->save();
 
                             // Clear log between hostNames!
-                            $letsEncrypt->clearLog();
-                            $result = $letsEncrypt->signDomains(array_merge([$cert->getHostname()], $retainDomains));
+                            try {
+                                $docRoot = path("/");
+                                $config = [
+                                    "challenge" => "http-01",
+                                    "docroot" => $docRoot,
+                                ];
+
+                                $domainConfig = [];
+                                foreach ($retainDomains as $_hostName) {
+                                    $domainConfig[$_hostName] = $config;
+                                }
+
+                                $handler = function ($opts) {
+                                    $fn = $opts["config"]["docroot"] . $opts["key"];
+                                    @mkdir(dirname($fn),0777,true);
+                                    file_put_contents($fn, $opts["value"]);
+                                    return function ($opts) {
+                                        unlink($opts["config"]["docroot"] . $opts["key"]);
+                                    };
+                                };
+
+                                $fullChainPath = path("/var/apps/certificates/{$certHostname}/acme.fullchain.pem");
+                                $certKey = $acme->generateRSAKey(2048);
+                                $certKeyPath = path("/var/apps/certificates/{$certHostname}/acme.privkey.pem");
+                                file_put_contents($certKeyPath, $certKey);
+
+                                $fullChain = $acme->getCertificateChain("file://{$certKeyPath}", $domainConfig, $handler);
+                                file_put_contents($fullChainPath, $fullChain);
+
+                                // Split fullchain
+                                $fullChainContent = file_get_contents($fullChainPath);
+                                $parts = explode("\n\n", $fullChainContent);
+                                $certPath = path("/var/apps/certificates/{$certHostname}/acme.cert.pem");
+                                $chainPath = path("/var/apps/certificates/{$certHostname}/acme.chain.pem");
+                                file_put_contents($certPath, $parts[0]);
+                                file_put_contents($chainPath, $parts[1]);
+
+                                $result = true;
+
+                            } catch (\Exception $e) {
+                                $result = false;
+                            }
 
                             if ($result) {
                                 // Change updated_at date, time()+10 to ensure renew is newer than updated_at
@@ -638,7 +674,6 @@ class Cron
                                     ->setErrorCount($cert->getErrorCount() + 1)
                                     ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
                                     ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
-                                    ->setErrorLog($letsEncrypt->getLog())
                                     ->save();
                             }
                         }
@@ -654,7 +689,6 @@ class Cron
                         $cert
                             ->setErrorCount($cert->getErrorCount() + 1)
                             ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
-                            ->setErrorLog($letsEncrypt->getLog())
                             ->save();
                     }
 
