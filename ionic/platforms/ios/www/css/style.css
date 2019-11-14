@@ -1003,7 +1003,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 }
 
 .layout.l2 .tabs {
-    height: 115px;
+    height: calc(var(--safe-area-inset-bottom) + 115px) !important;
 }
 
 .layout.l2 .tab-item {
@@ -1044,7 +1044,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     position: absolute;
     width: 100%;
     height: 50%;
-    bottom: 0;
+    bottom: var(--safe-area-inset-bottom);
     top: initial;
 }
 
@@ -1593,6 +1593,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     height: 20px;
     bottom: 0;
     background-color: lightgrey;
+    padding-bottom: var(--safe-area-inset-bottom);
 }
 
 .layout .slider p {
@@ -1601,7 +1602,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 /* LAYOUT 11 (LAYOUT 3 Horizontal) */
 .layout.l11 .slider {
-    height: 244px;
+    height: calc(244px + var(--safe-area-inset-bottom));
 }
 
 .layout.l11 a {
@@ -1972,6 +1973,21 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     display: none;
 }
 
+.layout.l14,
+.layout.l15,
+.layout.l16,
+.layout.l17,
+.layout.l18 {
+    position: absolute;
+    top: var(--safe-area-inset-top) !important;
+    left: 0;
+    padding-left: var(--safe-area-inset-left) !important;
+    right: 0;
+    padding-right: var(--safe-area-inset-right) !important;
+    bottom: var(--safe-area-inset-bottom) !important;
+    z-index: 100;
+}
+
 /* LAYOUT 1 Fixed */
 .always .layout.l1 .tabs {
     box-shadow: 0 0 10px #000000; /** fix css footer */
@@ -2256,19 +2272,6 @@ div#search_section {
     color: inherit !important;
 }
 
-.layout.l14,
-.layout.l15,
-.layout.l16,
-.layout.l17,
-.layout.l18 {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-}
-
 /** Ionic icon **/
 .big-ionic-icon {
     font-size: 4em;
@@ -2427,29 +2430,6 @@ button.shutdown {
 
 i.shutdown:before {
     line-height: 28px !important;
-}
-
-@supports (padding: max(0px)) {
-    .layout {
-        padding-left: max(0px, constant(safe-area-inset-left));
-        padding-right: max(0px, constant(safe-area-inset-right));
-        top: max(0px, constant(safe-area-inset-top)) !important;
-        height: calc(100% - max(0px, constant(safe-area-inset-top)) - 24px) !important;
-
-        padding-left: max(0px, env(safe-area-inset-left));
-        padding-right: max(0px, env(safe-area-inset-right));
-        top: max(0px, env(safe-area-inset-top)) !important;
-        height: calc(100% - max(0px, env(safe-area-inset-top)) - 24px) !important;
-
-        padding-left: max(0px, var(--safe-area-inset-left));
-        padding-right: max(0px, var(--safe-area-inset-right));
-        top: max(0px, var(--safe-area-inset-top)) !important;
-        height: calc(100% - max(0px, var(--safe-area-inset-top)) - 24px) !important;
-    }
-
-    .layout.l14 ul {
-        padding-top: 0;
-    }
 }
 
 .previewer-load {
