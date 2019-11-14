@@ -946,6 +946,16 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 }
 
 /* LAYOUTS */
+.layout_modal_generic .list {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+.layout_10_modal ion-content {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
 .layout .tabs {
     display: inline-block;
 }
