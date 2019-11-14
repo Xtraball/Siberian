@@ -794,7 +794,7 @@ $ios-statusbar-height:           20px !default;
 .platform-overview.platform-cordova {
   --safe-area-inset-top: 1em;
   --safe-area-inset-right: 0px;
-  --safe-area-inset-bottom: 0px;
+  --safe-area-inset-bottom: 0.5em;
   --safe-area-inset-left: 0px;
 }
 

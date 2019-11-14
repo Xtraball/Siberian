@@ -1102,9 +1102,9 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 /* LAYOUT 4 */
 .layout.l4 ion-content {
     position: absolute;
-    width: 100%;
-    height: 50%;
-    bottom: 0;
+    width: 100vw;
+    height: calc(50vh - var(--safe-area-inset-bottom));
+    bottom: var(--safe-area-inset-bottom);
     top: initial;
 }
 
@@ -1164,9 +1164,9 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 /* LAYOUT 5 */
 .layout.l5 ion-content {
     position: absolute;
-    width: 100%;
-    height: 50%;
-    bottom: 0;
+    width: 100vw;
+    height: calc(50vh - var(--safe-area-inset-bottom));
+    bottom: var(--safe-area-inset-bottom);
     top: initial;
 }
 
@@ -1259,10 +1259,23 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     text-transform: uppercase;
 }
 
+.layout.l6 .scroll div:last-child h2 {
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+.layout.l6 .scroll div img {
+    margin-left: var(--safe-area-inset-left);
+}
+
+.layout.l6 .scroll div h2 {
+    margin-left: calc(var(--safe-area-inset-left) * 1.2);
+}
+
 /* LAYOUT 7 */
 .layout.l7 ion-content {
     height: 100%;
     padding-top: var(--safe-area-inset-top);
+    padding-left: var(--safe-area-inset-left);
 }
 
 .layout.l7 li img {
@@ -1284,7 +1297,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     top: 0;
     left: 0;
     bottom: 0;
-    width: 90px;
+    width: calc(90px + var(--safe-area-inset-left));
     border-right-width: 1px;
     border-right-style: solid;
 }
@@ -1451,6 +1464,11 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     background-repeat: no-repeat;
 }
 
+.layout.l9 ion-content ul {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
 .layout.l9 .title-lowcase {
     text-transform: inherit;
 }
@@ -1496,7 +1514,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     display: block;
     width: 100%;
     height: 70px;
-    padding: 10px 5px;
+    padding: 10px 5px 10px var(--safe-area-inset-left);
     text-align: center;
 }
 
@@ -1590,7 +1608,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 }
 
 .layout .slider-pager {
-    height: 20px;
+    height: calc(20px + var(--safe-area-inset-bottom)) !important;
     bottom: 0;
     background-color: lightgrey;
     padding-bottom: var(--safe-area-inset-bottom);
@@ -1640,7 +1658,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 /* LAYOUT 12 (LAYOUT 4 Horizontal) */
 .layout.l12 .slider {
-    height: 244px;
+    height: calc(244px + var(--safe-area-inset-bottom));
 }
 
 .layout.l12 a {
@@ -1679,7 +1697,7 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 /* LAYOUT 13 (LAYOUT 5 Horizontal) */
 .layout.l13 .slider {
-    height: 310px;
+    height: calc(310px + var(--safe-area-inset-bottom));
 }
 
 .layout.l13 a {
@@ -1715,16 +1733,11 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     height: 100%;
 }
 
-.layout.l14 ul {
-    padding-left: 1%;
-    padding-top: 5%;
-}
-
 .layout.l14 li {
     float: left;
     margin: 3%;
     position: relative;
-    width: 27%;
+    width: calc((100% / 3) - 6%);
 }
 
 .layout.l14 li img {
@@ -1769,7 +1782,6 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 .layout.l15 ul {
     padding-left: 8px;
-    padding-top: 8%;
 }
 
 .layout.l15 li {
@@ -1806,6 +1818,14 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 }
 
 /* LAYOUT 16 */
+.layout.l16 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .layout.l16 ion-content {
     position: absolute;
     width: 100%;
@@ -1848,6 +1868,11 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 .layout.l16 .no-border {
     border: none !important
+}
+
+.layout.l16 li:nth-child(1) div,
+.layout.l16 li:nth-child(2) div {
+    padding-top: calc(var(--safe-area-inset-top) + 30%);
 }
 
 /* LAYOUT 17 */
@@ -1975,15 +2000,12 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 
 .layout.l14,
 .layout.l15,
-.layout.l16,
 .layout.l17,
 .layout.l18 {
     position: absolute;
     top: var(--safe-area-inset-top) !important;
-    left: 0;
-    padding-left: var(--safe-area-inset-left) !important;
-    right: 0;
-    padding-right: var(--safe-area-inset-right) !important;
+    left: var(--safe-area-inset-left) !important;
+    right: var(--safe-area-inset-right) !important;
     bottom: var(--safe-area-inset-bottom) !important;
     z-index: 100;
 }
