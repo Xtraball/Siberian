@@ -862,6 +862,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     $result = true;
 
                 } catch (\Exception $e) {
+                    dbg($e->getMessage());
                     $result = false;
                 }
 
@@ -877,7 +878,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ->setStatus("enabled")
                     ->setHostname($hostname)
                     ->setSource(System_Model_SslCertificates::SOURCE_LETSENCRYPT)
-                    ->setCert(sprintf("%s%s/%s", $base, $hostname, "acme.cert.pem"))
+                    ->setCertificate(sprintf("%s%s/%s", $base, $hostname, "acme.cert.pem"))
                     ->setChain(sprintf("%s%s/%s", $base, $hostname, "acme.chain.pem"))
                     ->setFullchain(sprintf("%s%s/%s", $base, $hostname, "acme.fullchain.pem"))
                     ->setPrivate(sprintf("%s%s/%s", $base, $hostname, "acme.privkey.pem"))

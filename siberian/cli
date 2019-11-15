@@ -205,7 +205,7 @@ try {
             $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
                 '$_config[\'environment\'] = \'development\';', $configContent);
             file_put_contents('./config.php', $configContent);
-            System_Model_Config::setValueFor('environment', 'development');
+            __set('environment', 'development');
             break;
         case 'prod':
         case 'production':
@@ -213,7 +213,7 @@ try {
             $configContent = preg_replace('#\$_config\[("|\')environment("|\')\] = ("|\')(development|production)("|\');#im',
                 '$_config[\'environment\'] = \'production\';', $configContent);
             file_put_contents('./config.php', $configContent);
-            System_Model_Config::setValueFor('environment', 'production');
+            __set('environment', 'production');
             break;
         case 'cache:design':
             \Siberian_Cache_Design::rebuild($argv[2]);
