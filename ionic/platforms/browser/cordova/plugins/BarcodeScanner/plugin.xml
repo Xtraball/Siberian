@@ -45,9 +45,8 @@
             <uses-permission android:name="android.permission.FLASHLIGHT"/>
             <uses-feature android:name="android.hardware.camera" android:required="true"/>
         </config-file>
-        <preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
         <framework src="src/android/barcodescanner.gradle" custom="true" type="gradleReference"/>
-        <framework src="com.android.support:support-v4:$ANDROID_SUPPORT_V4_VERSION"/>
+        <framework src="com.android.support:support-v4:28.0.0"/>
         <lib-file src="src/android/barcodescanner-release-2.1.5.aar"/>
     </platform>
     <platform name="windows">
