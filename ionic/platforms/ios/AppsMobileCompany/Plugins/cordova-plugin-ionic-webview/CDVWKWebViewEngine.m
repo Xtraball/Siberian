@@ -177,6 +177,25 @@ NSTimer *timer;
         return configuration;
     }
 
+    if(![settings cordovaBoolSettingForKey:@"WKSuspendInBackground" defaultValue:YES]){
+        NSString* _BGStatus;
+        if (@available(iOS 12.2, *)) {
+            // do stuff for iOS 12.2 and newer
+            NSLog(@"iOS 12.2+ detected");
+            NSString* str = @"YWx3YXlzUnVuc0F0Rm9yZWdyb3VuZFByaW9yaXR5";
+            NSData* data  = [[NSData alloc] initWithBase64EncodedString:str options:0];
+            _BGStatus = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        } else {
+            // do stuff for iOS 12.1 and older
+            NSLog(@"iOS Below 12.2 detected");
+            NSString* str = @"X2Fsd2F5c1J1bnNBdEZvcmVncm91bmRQcmlvcml0eQ==";
+            NSData* data  = [[NSData alloc] initWithBase64EncodedString:str options:0];
+            _BGStatus = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+        [configuration setValue:[NSNumber numberWithBool:YES]
+                         forKey:_BGStatus];
+    }
+
     configuration.allowsInlineMediaPlayback = [settings cordovaBoolSettingForKey:@"AllowInlineMediaPlayback" defaultValue:YES];
     configuration.suppressesIncrementalRendering = [settings cordovaBoolSettingForKey:@"SuppressesIncrementalRendering" defaultValue:NO];
     configuration.allowsAirPlayForMediaPlayback = [settings cordovaBoolSettingForKey:@"MediaPlaybackAllowsAirPlay" defaultValue:YES];
@@ -303,9 +322,12 @@ NSTimer *timer;
     Class class = NSClassFromString(@"WKContentView");
     NSOperatingSystemVersion iOS_11_3_0 = (NSOperatingSystemVersion){11, 3, 0};
     NSOperatingSystemVersion iOS_12_2_0 = (NSOperatingSystemVersion){12, 2, 0};
+    NSOperatingSystemVersion iOS_13_0_0 = (NSOperatingSystemVersion){13, 0, 0};
     char * methodSignature = "_startAssistingNode:userIsInteracting:blurPreviousNode:changingActivityState:userObject:";
 
-    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_12_2_0]) {
+    if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_13_0_0]) {
+         methodSignature = "_elementDidFocus:userIsInteracting:blurPreviousNode:activityStateChanges:userObject:";
+     } else if ([[NSProcessInfo processInfo] isOperatingSystemAtLeastVersion: iOS_12_2_0]) {
         methodSignature = "_elementDidFocus:userIsInteracting:blurPreviousNode:changingActivityState:userObject:";
     }
 
@@ -406,7 +428,11 @@ NSTimer *timer;
     if (request.URL.fileURL) {
         NSURL* startURL = [NSURL URLWithString:((CDVViewController *)self.viewController).startPage];
         NSString* startFilePath = [self.commandDelegate pathForResource:[startURL path]];
-        NSURL *url = [[NSURL URLWithString:self.CDV_LOCAL_SERVER] URLByAppendingPathComponent:request.URL.path];
+        NSString* strUrl = request.URL.path;
+        if ([strUrl hasPrefix:@"/_app_file_"] == NO) {
+            strUrl = [@"/_app_file_" stringByAppendingString:strUrl];
+        }
+        NSURL *url = [[NSURL URLWithString:self.CDV_LOCAL_SERVER] URLByAppendingPathComponent:strUrl];
         if ([request.URL.path isEqualToString:startFilePath]) {
             url = [NSURL URLWithString:self.CDV_LOCAL_SERVER];
         }
@@ -673,6 +699,11 @@ NSTimer *timer;
         NSLog(@"%@", [errorUrl absoluteString]);
         [theWebView loadRequest:[NSURLRequest requestWithURL:errorUrl]];
     }
+#ifdef DEBUG
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"] message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDefault handler:nil]];
+    [vc presentViewController:alertController animated:YES completion:nil];
+#endif
 }
 
 - (void)webViewWebContentProcessDidTerminate:(WKWebView *)webView
@@ -734,8 +765,7 @@ NSTimer *timer;
             [scheme isEqualToString:@"mailto"] ||
             [scheme isEqualToString:@"facetime"] ||
             [scheme isEqualToString:@"sms"] ||
-            [scheme isEqualToString:@"maps"] ||
-            [scheme isEqualToString:@"itms-services"]) {
+            [scheme isEqualToString:@"maps"]) {
             [[UIApplication sharedApplication] openURL:url];
             decisionHandler(WKNavigationActionPolicyCancel);
         } else {
