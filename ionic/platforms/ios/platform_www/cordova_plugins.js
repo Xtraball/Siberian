@@ -63,6 +63,14 @@ module.exports = [
     ]
   },
   {
+    "id": "BrowserTab.BrowserTab",
+    "file": "plugins/BrowserTab/www/browsertab.js",
+    "pluginId": "BrowserTab",
+    "clobbers": [
+      "cordova.plugins.browsertab"
+    ]
+  },
+  {
     "id": "Camera.Camera",
     "file": "plugins/Camera/www/CameraConstants.js",
     "pluginId": "Camera",
@@ -392,6 +400,22 @@ module.exports = [
     ]
   },
   {
+    "id": "cordova-plugin-ionic-webview.IonicWebView",
+    "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
+    "pluginId": "cordova-plugin-ionic-webview",
+    "clobbers": [
+      "Ionic.WebView"
+    ]
+  },
+  {
+    "id": "cordova-plugin-ionic-webview.ios-wkwebview-exec",
+    "file": "plugins/cordova-plugin-ionic-webview/src/www/ios/ios-wkwebview-exec.js",
+    "pluginId": "cordova-plugin-ionic-webview",
+    "clobbers": [
+      "cordova.exec"
+    ]
+  },
+  {
     "id": "MusicControls.MusicControls",
     "file": "plugins/MusicControls/www/MusicControls.js",
     "pluginId": "MusicControls",
@@ -428,6 +452,7 @@ module.exports.metadata =
   "AppVersion": "0.1.8",
   "AppEvent": "1.2.0",
   "BarcodeScanner": "7.1.2",
+  "BrowserTab": "0.2.1",
   "Camera": "4.0.3",
   "Clipboard": "0.1.0",
   "Device": "2.0.2",
@@ -440,7 +465,8 @@ module.exports.metadata =
   "LocalNotification": "0.8.4.1",
   "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
-  "MusicControls": "2.1.4",
+  "cordova-plugin-ionic-webview": "4.0.1",
+  "MusicControls": "2.2.0",
   "Navigator": "0.1.0",
   "Permissions": "1.0.0",
   "Siberian": "1.0.0"

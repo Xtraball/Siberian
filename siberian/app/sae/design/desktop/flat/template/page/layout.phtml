@@ -2,6 +2,8 @@
 <html>
     <head>
         <title><?php echo __($this->getTitle()) ?></title>
+        <meta name="viewport"
+              content="viewport-fit=cover, minimum-scale=0.5, initial-scale=0.5, maximum-scale=1, user-scalable=no, width=device-width">
         <?php foreach($this->getMetas() as $meta) : ?>
         <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>"
               content="<?php echo __($meta->getContent()); ?>" />

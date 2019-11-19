@@ -9,6 +9,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:exported="false" android:label="@string/app_name" android:name="com.cowbell.cordova.geofence.ReceiveTransitionsIntentService" />
+        <receiver android:name="com.cowbell.cordova.geofence.BootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.cowbell.cordova.geofence.TransitionReceiver">
+            <intent-filter>
+                <action android:name="com.cowbell.cordova.geofence.TRANSITION" />
+            </intent-filter>
+        </receiver>
         <activity android:exported="true" android:name="com.adobe.phonegap.push.PushHandlerActivity" android:permission="${applicationId}.permission.PushHandlerActivity" />
         <receiver android:name="com.adobe.phonegap.push.BackgroundActionButtonHandler" />
         <receiver android:name="com.adobe.phonegap.push.PushDismissedHandler" />
@@ -29,17 +40,6 @@
         <provider android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true" android:name="org.apache.cordova.camera.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/camera_provider_paths" />
         </provider>
-        <service android:exported="false" android:label="@string/app_name" android:name="com.cowbell.cordova.geofence.ReceiveTransitionsIntentService" />
-        <receiver android:name="com.cowbell.cordova.geofence.BootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.cowbell.cordova.geofence.TransitionReceiver">
-            <intent-filter>
-                <action android:name="com.cowbell.cordova.geofence.TRANSITION" />
-            </intent-filter>
-        </receiver>
         <receiver android:enabled="true" android:name="nl.xservices.plugins.ShareChooserPendingIntent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -62,18 +62,18 @@
         </receiver>
         <activity android:exported="false" android:launchMode="singleInstance" android:name="de.appplant.cordova.plugin.notification.ClickActivity" android:theme="@android:style/Theme.NoDisplay" />
     </application>
-    <uses-sdk android:targetSdkVersion="28" />
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

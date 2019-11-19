@@ -1,3 +1,11 @@
+## version 2.3.0 (June 06, 2019)
+
+- the default value of the "background_color" argument of the "resize" method is now -1 (for preserving transparency)
+- fixed bug where saving to gif would lose transparency
+- fixed transparency not being preserved when rotating PNG images
+- fixed warnings shown when the target file was a gif but the source file was not
+- memory is freed after images are written
+
 ## version 2.2.6 (May 22, 2017)
 
 - minor source code tweaks

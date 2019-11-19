@@ -1,0 +1,16 @@
+.payment-stripe {
+
+}
+
+/**
+ * Stripe SCA, 3DS 2
+ */
+#challengeFrame {
+  pointer-events: all !important;
+  user-select: all !important;
+}
+
+[name^="__privateStripeFrame"] {
+  user-select: all !important;
+  pointer-events: all !important;
+}

@@ -94,7 +94,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initErrorMessages()
     {
-
         if (APPLICATION_ENV === 'production') {
             error_reporting(0);
         } else {

@@ -74,6 +74,10 @@ use ArrayObject;
  * @method static $this fromTwigString(string $string, array $options = [])
  * @method $this addFromTwigFile(string $filename, array $options = [])
  * @method $this addFromTwigString(string $string, array $options = [])
+ * @method static $this fromVueJsFile(string $filename, array $options = [])
+ * @method static $this fromVueJsString(string $filename, array $options = [])
+ * @method $this addFromVueJsFile(string $filename, array $options = [])
+ * @method $this addFromVueJsString(string $filename, array $options = [])
  * @method static $this fromXliffFile(string $filename, array $options = [])
  * @method static $this fromXliffString(string $string, array $options = [])
  * @method $this addFromXliffFile(string $filename, array $options = [])
@@ -116,13 +120,19 @@ class Translations extends ArrayObject
         ],
     ];
 
-    private $headers;
+    protected $headers;
+
+    protected $translationClass;
 
     /**
      * @see ArrayObject::__construct()
      */
-    public function __construct($input = [], $flags = 0, $iterator_class = 'ArrayIterator')
-    {
+    public function __construct(
+        $input = [],
+        $flags = 0,
+        $iterator_class = 'ArrayIterator',
+        $translationClass = 'Gettext\Translation'
+    ) {
         $this->headers = static::$options['defaultHeaders'];
 
         foreach (static::$options['defaultDateHeaders'] as $header) {
@@ -130,6 +140,8 @@ class Translations extends ArrayObject
         }
 
         $this->headers[self::HEADER_LANGUAGE] = '';
+
+        $this->translationClass = $translationClass;
 
         parent::__construct($input, $flags, $iterator_class);
     }
@@ -409,6 +421,7 @@ class Translations extends ArrayObject
      *
      * @param string|Translation $context  The context of the translation or a translation instance
      * @param string             $original The original string
+     * @warning Translations with custom identifiers (e.g. XLIFF unit IDs) cannot be found using this function.
      *
      * @return Translation|false
      */
@@ -430,11 +443,13 @@ class Translations extends ArrayObject
      */
     public function countTranslated()
     {
-        $callback = function (Translation $v) {
-            return ($v->hasTranslation()) ? $v->getTranslation() : null;
-        };
-
-        return count(array_filter(get_object_vars($this), $callback));
+        $c = 0;
+        foreach ($this as $v) {
+            if ($v->hasTranslation()) {
+                $c++;
+            }
+        }
+        return $c;
     }
 
     /**
@@ -448,7 +463,7 @@ class Translations extends ArrayObject
      */
     public function insert($context, $original, $plural = '')
     {
-        return $this->offsetSet(null, new Translation($context, $original, $plural));
+        return $this->offsetSet(null, $this->createNewTranslation($context, $original, $plural));
     }
 
     /**
@@ -465,5 +480,19 @@ class Translations extends ArrayObject
         Merge::mergeTranslations($translations, $this, $options);
 
         return $this;
+    }
+
+    /**
+     * Create a new instance of a Translation object.
+     *
+     * @param string $context  The context of the translation
+     * @param string $original The original string
+     * @param string $plural   The original plural string
+     * @return Translation New Translation instance
+     */
+    public function createNewTranslation($context, $original, $plural = '')
+    {
+        $class = $this->translationClass;
+        return $class::create($context, $original, $plural);
     }
 }

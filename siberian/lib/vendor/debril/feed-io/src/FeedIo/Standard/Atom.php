@@ -15,6 +15,7 @@ use FeedIo\Reader\Document;
 use FeedIo\Rule\Atom\Author;
 use FeedIo\Rule\Atom\LinkNode;
 use FeedIo\Rule\Description;
+use FeedIo\Rule\Language;
 use FeedIo\Rule\PublicId;
 use FeedIo\Rule\Atom\Category;
 
@@ -26,6 +27,8 @@ class Atom extends XmlAbstract
     const ROOT_NODE_TAGNAME = 'feed';
 
     const ITEM_NODE = 'entry';
+
+    const DATETIME_FORMAT = \DateTime::ATOM;
 
     /**
      * Formats the document according to the standard's specification
@@ -70,6 +73,7 @@ class Atom extends XmlAbstract
         $ruleSet
             ->add(new LinkNode())
             ->add(new PublicId('id'))
+            ->add(new Language('lang'))
             ->add($this->getModifiedSinceRule('updated'))
         ;
 
@@ -91,7 +95,7 @@ class Atom extends XmlAbstract
     }
 
     /**
-     * @return RuleSet
+     * @return \FeedIo\RuleSet
      */
     protected function buildBaseRuleSet()
     {

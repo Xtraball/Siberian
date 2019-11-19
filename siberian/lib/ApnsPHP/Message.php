@@ -74,9 +74,12 @@ class ApnsPHP_Message
 	public function addRecipient($sDeviceToken)
 	{
 		if (!preg_match('~^[a-f0-9]{64}$~i', $sDeviceToken)) {
-			throw new ApnsPHP_Message_Exception(
-				"Invalid device token '{$sDeviceToken}'"
-			);
+            // Dont kill on invalid token, just continue!
+		    return;
+
+		    //throw new ApnsPHP_Message_Exception(
+			//	"Invalid device token '{$sDeviceToken}'"
+			//);
 		}
 		$this->_aDeviceTokens[] = $sDeviceToken;
 	}

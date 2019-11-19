@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <paymentstripe_settings_index>
+        <addLayout name="admin_menu" />
+        <addLayout name="customization_default" />
+        <base>
+            <title>Stripe general settings</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="paymentstripe/settings/index.phtml" />
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml" />
+        </views>
+    </paymentstripe_settings_index>
+</layout>

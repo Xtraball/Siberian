@@ -938,4 +938,17 @@ try {
     // No luck, no promise!
 }
 
+/**
+ * Find statusbar style from RGB Color!
+ * @param rgb
+ * @returns {string}
+ */
+window.textStyleFromHex = function (rgb) {
+    var statusBarStyle = "#ffffff";
+    if (rgb[0] * 0.299 + rgb[1] * 0.587 + rgb[2] * 0.114 > 186) {
+        // Black!
+        statusBarStyle = "#000000";
+    }
 
+    return statusBarStyle;
+};

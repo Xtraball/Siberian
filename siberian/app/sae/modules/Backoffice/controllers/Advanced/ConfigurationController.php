@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\ACME\Cert;
 use Siberian\File;
 
 /**
@@ -601,7 +602,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     {
 
         $logger = Zend_Registry::get("logger");
-        $panel_type = System_Model_Config::getValueFor("cpanel_type");
+        $panel_type = __get("cpanel_type");
         $hostname = $this->getRequest()->getParam("hostname", $this->getRequest()->getHttpHost());
 
         $ssl_certificate_model = new System_Model_SslCertificates();
@@ -679,9 +680,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         try {
 
-            $letsencrypt_env = System_Model_Config::getValueFor("letsencrypt_env");
+            $letsencrypt_env = __get("letsencrypt_env");
 
-            $letsencrypt_disabled = System_Model_Config::getValueFor("letsencrypt_disabled");
+            $letsencrypt_disabled = __get("letsencrypt_disabled");
             if (($letsencrypt_disabled > time()) && ($letsencrypt_env === "production")) {
                 $logger->info(__("[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, skipping.", date("d/m/Y H:i:s", $letsencrypt_disabled)));
 
@@ -690,22 +691,22 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             } else {
 
                 # Enabling back
-                System_Model_Config::setValueFor("letsencrypt_disabled", 0);
+                __set("letsencrypt_disabled", 0);
             }
 
             // Check panel type
-            $panel_type = System_Model_Config::getValueFor("cpanel_type");
+            $panel_type = __get("cpanel_type");
             if ($panel_type == "-1") {
                 throw new Siberian_Exception(__("You must select an Admin panel type before requesting a Certificate."));
             }
 
             $request = $this->getRequest();
-            $email = System_Model_Config::getValueFor("support_email");
+            $email = __get("support_email");
             $show_force = false;
 
-            $root = Core_Model_Directory::getBasePathTo("/");
-            $base = Core_Model_Directory::getBasePathTo("/var/apps/certificates/");
-            $hostname = $this->getRequest()->getParam("hostname", $this->getRequest()->getHttpHost());
+            $root = path("/");
+            $base = path("/var/apps/certificates/");
+            $hostname = $request->getParam("hostname", $request->getHttpHost());
 
             // Build hostname list
             $hostnames = [$hostname];
@@ -761,15 +762,12 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             exec("chmod -R 775 {$base}");
             exec("chmod -R 777 {$root}/.well-known");
 
-            $lets_encrypt = new Siberian_LetsEncrypt($base, $root, $logger);
+            $acme = new Cert($letsencrypt_env !== "staging");
 
-            // Use staging environment
-            if ($letsencrypt_env == "staging") {
-                $lets_encrypt->setIsStaging();
-            }
-
-            if (!empty($email)) {
-                $lets_encrypt->contact = ["mailto:{$email}"];
+            try {
+                $acme->getAccount();
+            } catch (\Exception $e) {
+                $acme->register(true, $email);
             }
 
             $ssl_certificate_model = new System_Model_SslCertificates();
@@ -822,10 +820,52 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
             // Whether to renew or not the certificate
             if ($renew) {
-                $logger->info(__("[Let's Encrypt] renewing certificate."));
+                try {
+                    $logger->info(__("[Let's Encrypt] renewing certificate."));
 
-                $lets_encrypt->initAccount();
-                $result = $lets_encrypt->signDomains($hostnames);
+                    $docRoot = path("/");
+                    $config = [
+                        "challenge" => "http-01",
+                        "docroot" => $docRoot,
+                    ];
+
+                    $domainConfig = [];
+                    foreach ($hostnames as $_hostName) {
+                        $domainConfig[$_hostName] = $config;
+                    }
+
+                    $handler = function($opts){
+                        $fn = $opts["config"]["docroot"] . $opts["key"];
+                        @mkdir(dirname($fn),0777,true);
+                        file_put_contents($fn, $opts["value"]);
+                        return function($opts){
+                            unlink($opts["config"]["docroot"] . $opts["key"]);
+                        };
+                    };
+
+                    $fullChainPath = path("/var/apps/certificates/{$hostname}/acme.fullchain.pem");
+                    $certKey = $acme->generateRSAKey(2048);
+                    $certKeyPath = path("/var/apps/certificates/{$hostname}/acme.privkey.pem");
+                    file_put_contents($certKeyPath, $certKey);
+
+                    $fullChain = $acme->getCertificateChain("file://{$certKeyPath}", $domainConfig, $handler);
+                    file_put_contents($fullChainPath, $fullChain);
+
+                    // Split fullchain
+                    $fullChainContent = file_get_contents($fullChainPath);
+                    $parts = explode("\n\n", $fullChainContent);
+                    $certPath = path("/var/apps/certificates/{$hostname}/acme.cert.pem");
+                    $chainPath = path("/var/apps/certificates/{$hostname}/acme.chain.pem");
+                    file_put_contents($certPath, $parts[0]);
+                    file_put_contents($chainPath, $parts[1]);
+
+                    $result = true;
+
+                } catch (\Exception $e) {
+                    dbg($e->getMessage());
+                    $result = false;
+                }
+
             } else {
                 // Sync cert/panel
                 $result = true;
@@ -838,12 +878,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ->setStatus("enabled")
                     ->setHostname($hostname)
                     ->setSource(System_Model_SslCertificates::SOURCE_LETSENCRYPT)
-                    ->setCertificate(sprintf("%s%s/%s", $base, $hostname, "cert.pem"))
-                    ->setChain(sprintf("%s%s/%s", $base, $hostname, "chain.pem"))
-                    ->setFullchain(sprintf("%s%s/%s", $base, $hostname, "fullchain.pem"))
-                    ->setLast(sprintf("%s%s/%s", $base, $hostname, "last.csr"))
-                    ->setPrivate(sprintf("%s%s/%s", $base, $hostname, "private.pem"))
-                    ->setPublic(sprintf("%s%s/%s", $base, $hostname, "public.pem"))
+                    ->setCertificate(sprintf("%s%s/%s", $base, $hostname, "acme.cert.pem"))
+                    ->setChain(sprintf("%s%s/%s", $base, $hostname, "acme.chain.pem"))
+                    ->setFullchain(sprintf("%s%s/%s", $base, $hostname, "acme.fullchain.pem"))
+                    ->setPrivate(sprintf("%s%s/%s", $base, $hostname, "acme.privkey.pem"))
                     ->setEnvironment($letsencrypt_env)
                     ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
                     ->setDomains(Siberian_Json::encode(array_values($hostnames), JSON_OBJECT_AS_ARRAY))

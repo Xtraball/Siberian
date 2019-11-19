@@ -2,19 +2,20 @@
 
 namespace Gettext\Extractors;
 
+use Exception;
 use Gettext\Translations;
-use Gettext\Utils\PhpFunctionsScanner;
+use Gettext\Utils\FunctionsScanner;
 
 /**
  * Class to get gettext strings from php files returning arrays.
  */
-class PhpCode extends Extractor implements ExtractorInterface
+class PhpCode extends Extractor implements ExtractorInterface, ExtractorMultiInterface
 {
     public static $options = [
-         // - false: to not extract comments
-         // - empty string: to extract all comments
-         // - non-empty string: to extract comments that start with that string
-         // - array with strings to extract comments format.
+        // - false: to not extract comments
+        // - empty string: to extract all comments
+        // - non-empty string: to extract comments that start with that string
+        // - array with strings to extract comments format.
         'extractComments' => false,
 
         'constants' => [],
@@ -41,14 +42,27 @@ class PhpCode extends Extractor implements ExtractorInterface
         ],
     ];
 
+    protected static $functionsScannerClass = 'Gettext\Utils\PhpFunctionsScanner';
+
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
     public static function fromString($string, Translations $translations, array $options = [])
     {
+        static::fromStringMultiple($string, [$translations], $options);
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public static function fromStringMultiple($string, array $translations, array $options = [])
+    {
         $options += static::$options;
 
-        $functions = new PhpFunctionsScanner($string);
+        /** @var FunctionsScanner $functions */
+        $functions = new static::$functionsScannerClass($string);
 
         if ($options['extractComments'] !== false) {
             $functions->enableCommentsExtraction($options['extractComments']);
@@ -56,6 +70,18 @@ class PhpCode extends Extractor implements ExtractorInterface
 
         $functions->saveGettextFunctions($translations, $options);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public static function fromFileMultiple($file, array $translations, array $options = [])
+    {
+        foreach (static::getFiles($file) as $file) {
+            $options['file'] = $file;
+            static::fromStringMultiple(static::readFile($file), $translations, $options);
+        }
+    }
+
 
     /**
      * Decodes a T_CONSTANT_ENCAPSED_STRING string.
@@ -99,19 +125,23 @@ class PhpCode extends Extractor implements ExtractorInterface
                     case '\\':
                         return '\\';
                     case 'x':
-                        return chr(hexdec(substr($match[0], 1)));
+                        return chr(hexdec(substr($match[1], 1)));
                     case 'u':
-                        return self::unicodeChar(hexdec(substr($match[0], 1)));
+                        return static::unicodeChar(hexdec(substr($match[1], 1)));
                     default:
-                        return chr(octdec($match[0]));
+                        return chr(octdec($match[1]));
                 }
             },
             $value
         );
     }
 
-    //http://php.net/manual/en/function.chr.php#118804
-    private static function unicodeChar($dec)
+    /**
+     * @param $dec
+     * @return string|null
+     * @see http://php.net/manual/en/function.chr.php#118804
+     */
+    protected static function unicodeChar($dec)
     {
         if ($dec < 0x80) {
             return chr($dec);
@@ -119,20 +149,22 @@ class PhpCode extends Extractor implements ExtractorInterface
 
         if ($dec < 0x0800) {
             return chr(0xC0 + ($dec >> 6))
-                .chr(0x80 + ($dec & 0x3f));
+                . chr(0x80 + ($dec & 0x3f));
         }
 
         if ($dec < 0x010000) {
             return chr(0xE0 + ($dec >> 12))
-                    .chr(0x80 + (($dec >> 6) & 0x3f))
-                    .chr(0x80 + ($dec & 0x3f));
+                . chr(0x80 + (($dec >> 6) & 0x3f))
+                . chr(0x80 + ($dec & 0x3f));
         }
 
         if ($dec < 0x200000) {
             return chr(0xF0 + ($dec >> 18))
-                    .chr(0x80 + (($dec >> 12) & 0x3f))
-                    .chr(0x80 + (($dec >> 6) & 0x3f))
-                    .chr(0x80 + ($dec & 0x3f));
+                . chr(0x80 + (($dec >> 12) & 0x3f))
+                . chr(0x80 + (($dec >> 6) & 0x3f))
+                . chr(0x80 + ($dec & 0x3f));
         }
+
+        return null;
     }
 }

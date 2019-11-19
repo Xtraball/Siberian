@@ -38,7 +38,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $count = 0;
         foreach ($item->getCategories() as $category) {
             $count++;
-            $this->assertEquals('foobar', $category->getTerm());                    
+            $this->assertEquals('foobar', $category->getTerm());
             $this->assertEquals('FooBar', $category->getLabel());
             $this->assertEquals('http', $category->getScheme());
         }
@@ -55,7 +55,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         
         $element = $this->object->createCategoryElement(new \DomDocument(), $category);
         
-        $this->assertEquals('Foo', $element->getAttribute('label'));        
+        $this->assertEquals('Foo', $element->getAttribute('label'));
         $this->assertEquals('foo', $element->getAttribute('term'));
         $this->assertEquals('bar', $element->getAttribute('scheme'));
     }
@@ -68,9 +68,8 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $item = new Item;
         $item->addCategory($category);
         
-        $element = $this->object->createElement(new \DomDocument, $item);
+        $element = iterator_to_array($this->object->createElement(new \DomDocument, $item))[0];
         
         $this->assertEquals('foo', $element->getAttribute('label'));
     }
-    
 }

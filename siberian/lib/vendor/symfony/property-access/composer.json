@@ -16,15 +16,8 @@
         }
     ],
     "require": {
-        "php": "^5.5.9|>=7.0.8",
-        "symfony/polyfill-php70": "~1.0",
-        "symfony/inflector": "~3.1"
-    },
-    "require-dev": {
-        "symfony/cache": "~3.1"
-    },
-    "suggest": {
-        "psr/cache-implementation": "To cache access methods."
+        "php": ">=5.3.9",
+        "symfony/polyfill-ctype": "~1.8"
     },
     "autoload": {
         "psr-4": { "Symfony\\Component\\PropertyAccess\\": "" },
@@ -35,7 +28,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "3.3-dev"
+            "dev-master": "2.8-dev"
         }
     }
 }

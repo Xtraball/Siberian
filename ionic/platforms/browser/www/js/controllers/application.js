@@ -3,6 +3,8 @@
  */
 angular.module("starter").controller("ApplicationColorsController", function($scope, $timeout, $window) {
 
+    $scope.displayed_element = "homepage";
+
     $scope.images = {
         mark_hamill:            IMAGE_URL + "/images/customization/card/mark-hamill.jpg",
         harrison_ford:          IMAGE_URL + "/images/customization/card/harrison-ford.jpg",
@@ -58,16 +60,14 @@ angular.module("starter").controller("ApplicationColorsController", function($sc
     };
 
     $window.displayElement = function(element, title) {
-
         $timeout(function() {
             $scope.displayed_element = element;
-            if($scope.displayed_element === "homepage") {
-                $scope.homepage_is_initialized = true;
-            }
             $scope.page_title = title;
+            document.getElementById("colors_page_title").removeAttribute("style");
         });
-
     };
+
+    $window.displayElement("homepage", "HOMEPAGE");
 
 }).controller("ApplicationTcController", function($scope, $stateParams, Tc) {
 

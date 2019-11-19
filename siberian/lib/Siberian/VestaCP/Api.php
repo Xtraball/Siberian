@@ -37,68 +37,6 @@ class Api
     }
 
     /**
-     *
-     */
-    public function login()
-    {
-        /** For no reason, sometimes one method works, sometimes the other one */
-        try {
-            $this->crawler = $this->client->_request("GET", $this->host . "/login/");
-
-            $form = $this->crawler->selectButton("Log in")->form([
-                "user" => $this->username,
-                "password" => $this->password
-            ]);
-
-            $this->client->submit($form);
-        } catch (Exception $e) {
-            $this->crawler = $this->client->_request("POST", $this->host . "/login/", [
-                "user" => $this->username,
-                "password" => $this->password
-            ]);
-        }
-
-        $this->crawler = $this->client->_request("GET", $this->host);
-    }
-
-    /**
-     * @param $ssl_certificate
-     * @return bool
-     */
-    public function updateDomain($ssl_certificate)
-    {
-
-        $webspace = $ssl_certificate->getHostname();
-        if (!empty($this->webspace)) {
-            $webspace = $this->webspace;
-        }
-
-        $this->crawler = $this->client->_request("GET", $this->host . "/edit/web/?domain=" . $webspace);
-
-        try {
-            $form = $this->crawler->selectButton("Save")->form([
-                "v_ssl" => "on",
-                "v_ssl_home" => "same",
-                "v_ssl_crt" => file_get_contents($ssl_certificate->getCertificate()),
-                "v_ssl_key" => file_get_contents($ssl_certificate->getPrivate()),
-                "v_ssl_ca" => file_get_contents($ssl_certificate->getChain())
-            ]);
-        } catch (Exception $e) {
-            $form = $this->crawler->filter('form')->form([
-                "v_ssl" => "on",
-                "v_ssl_home" => "same",
-                "v_ssl_crt" => file_get_contents($ssl_certificate->getCertificate()),
-                "v_ssl_key" => file_get_contents($ssl_certificate->getPrivate()),
-                "v_ssl_ca" => file_get_contents($ssl_certificate->getChain())
-            ]);
-        }
-
-        $this->crawler = $this->client->submit($form);
-
-        return true;
-    }
-
-    /**
      * @param $ssl_certificate
      * @return bool
      * @throws Exception
@@ -114,9 +52,9 @@ class Api
         $folder = $base . '/' . $ssl_certificate->getHostname();
 
         // Coy the files
-        copy($folder . '/cert.pem', $folder . '/' . $webspace . '.crt');
-        copy($folder . '/private.pem', $folder . '/' . $webspace . '.key');
-        copy($folder . '/fullchain.pem', $folder . '/' . $webspace . '.ca');
+        copy($folder . '/acme.cert.pem', $folder . '/' . $webspace . '.crt');
+        copy($folder . '/acme.privkey.pem', $folder . '/' . $webspace . '.key');
+        copy($folder . '/acme.chain.pem', $folder . '/' . $webspace . '.ca');
 
         // Prepare POST query
         $postvars = [

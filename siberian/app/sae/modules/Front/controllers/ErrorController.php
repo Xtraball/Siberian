@@ -22,7 +22,6 @@ class ErrorController extends Core_Controller_Default
                 $this->getResponse()->setHttpResponseCode(404);
                 $this->view->message = '404, Page not found';
                 $action = 'noroute';
-//Zend_Debug::dump($errors); die;
                 break;
             default:
                 // application error
@@ -48,7 +47,10 @@ class ErrorController extends Core_Controller_Default
 
         $this->_forward($action);
 
-        $this->getLayout()->getPartial('content')->message = $message;
+        if (!empty($message) &&
+            $this->getLayout()->getPartial("content")) {
+            $this->getLayout()->getPartial("content")->message = $message;
+        }
 
     }
 

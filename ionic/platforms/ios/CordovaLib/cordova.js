@@ -56,7 +56,9 @@ var require,
 
     require = function (id) {
         if (!modules[id]) {
-            throw "module " + id + " not found";
+            //throw "module " + id + " not found";
+            console.error("[Monkey patch] module " + id + " not found");
+            return null;
         } else if (id in inProgressModules) {
             var cycle = requireStack.slice(inProgressModules[id]).join('->') + '->' + id;
             throw "Cycle in require graph: " + cycle;
@@ -1386,7 +1388,8 @@ exports.reset = function() {
 
 function addEntry(strategy, moduleName, symbolPath, opt_deprecationMessage) {
     if (!(moduleName in moduleMap)) {
-        throw new Error('Module ' + moduleName + ' does not exist.');
+        //throw new Error('Module ' + moduleName + ' does not exist.');
+        console.error("[Monkey patch] module " + moduleName + " does not exist.");
     }
     symbolList.push(strategy, moduleName, symbolPath);
     if (opt_deprecationMessage) {

@@ -119,12 +119,10 @@ class Admin_Controller_Default extends Core_Controller_Default
                 ]);
 
             if ($applicationAcl->getId()) {
-                $resource = $applicationAcl->getResourceCode();
-
-                $r = $this->_canAccess($resource, $valueId);
-
-                return $r;
+                return false;
             }
+
+            return $this->_canAccess($resource, $valueId);
         }
 
         return $this->_canAccess($resource);

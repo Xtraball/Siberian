@@ -5,7 +5,6 @@
  */
 class Module_Bootstrap
 {
-
     /**
      * @param Bootstrap $bootstrap
      */

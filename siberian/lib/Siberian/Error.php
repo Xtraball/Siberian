@@ -62,11 +62,11 @@ class Error
             self::$logger = \Zend_Registry::get("logger");
         }
 
-        if(self::$logger != null) {
+        if (self::$logger != null) {
             $err_text = (isset(self::$errors[$errno])) ? self::$errors[$errno] : $errno;
             try {
                 self::$logger->err(sprintf("[%s]: %s in %s line %s", $err_text, $errstr, $errfile, $errline));
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 # Hum.
             }
 
@@ -76,37 +76,39 @@ class Error
     /**
      * @throws \Zend_Exception
      */
-    public static function handleFatalError() {
+    public static function handleFatalError()
+    {
         $last_error = error_get_last();
         $fatal_log = path("var/log/fatal-error.log");
-        File::putContents($fatal_log, print_r($last_error, true)."\n", FILE_APPEND);
+        File::putContents($fatal_log, print_r($last_error, true) . "\n", FILE_APPEND);
     }
 
     /**
      * @deprecated
      * Artifact from the past
      */
-    public static function backtrace($dumpError = false) {
+    public static function backtrace($dumpError = false)
+    {
         $errors = debug_backtrace();
         $dump = '';
-        foreach($errors as $error) {
-            if(!empty($error['file'])) $dump .= 'file : ' . $error['file'];
-            if(!empty($error['function'])) $dump .= ':: ' . $error['function'];
-            if(!empty($error['line'])) $dump .= ' (l:' . $error['line'] . ')';
-            $dump .= '
-';
+        foreach ($errors as $error) {
+            if (!empty($error['file'])) $dump .= 'file : ' . $error['file'];
+            if (!empty($error['function'])) $dump .= ':: ' . $error['function'];
+            if (!empty($error['line'])) $dump .= ' (l:' . $error['line'] . ')';
+            $dump .= '';
         }
 
-        if($dumpError) {
+        if ($dumpError) {
             return \Zend_Debug::dump($dump);
         }
-            return $dump;
-        }
+        return $dump;
+    }
 
     /**
      * @return int
      */
-    public static function count() {
+    public static function count()
+    {
         return count(self::$errors);
     }
 
@@ -121,7 +123,8 @@ class Error
     /**
      * Search for old info_* files and clean
      */
-    public static function clear() {
+    public static function clear()
+    {
         # Do nothing.
     }
 }

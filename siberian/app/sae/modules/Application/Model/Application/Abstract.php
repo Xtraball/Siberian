@@ -2525,4 +2525,35 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         // Releasing!
         $cron->unlock($task->getId());
     }
+
+    /**
+     * @throws Zend_Currency_Exception
+     */
+    public function checkForUpgrades()
+    {
+        // 4.17.9 Stripe & Currency upgrade
+        if (version_compare($this->getVersion(), "4.17.9", "<")) {
+            try {
+                // Hijacking locale to currency, to local user format!
+                $tmpCurrency = new Zend_Currency(null, new Zend_Locale($this->getLocale()));
+                $currencyOrLocale = $tmpCurrency->getShortName();
+
+                if ($currencyOrLocale !== null) {
+                    $newCurrency = new Zend_Currency($currencyOrLocale, new Zend_Locale($language));
+                } else {
+                    $newCurrency = Core_Model_Language::getCurrentCurrency();
+                }
+            } catch (Exception $e) {
+                // We need at least to default to something to display!
+                $newCurrency = new Zend_Currency();
+            }
+
+            $currency = $newCurrency->getShortName();
+
+            $this
+                ->setCurrency(strtoupper($currency))
+                ->setVersion("4.17.9")
+                ->save();
+        }
+    }
 }

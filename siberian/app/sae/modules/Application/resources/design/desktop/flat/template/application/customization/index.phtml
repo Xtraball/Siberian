@@ -2,7 +2,7 @@
     <div class="responsive-part col-lg-8 col-md-12">
         <?php echo $this->getPartialHtml('customization_menu'); ?>
 
-        <?php if($html = $this->getPartialHtml('content_editor')) : ?>
+        <?php if ($html = $this->getPartialHtml('content_editor')) : ?>
             <?php echo $html; ?>
         <?php endif; ?>
     </div>
@@ -99,5 +99,7 @@
         modal_previewer.show();
     });
     <?php endif; ?>
+
+    $(".display_tooltip").tooltip();
     
 </script>

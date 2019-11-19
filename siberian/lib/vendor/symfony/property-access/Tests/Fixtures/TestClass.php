@@ -26,7 +26,6 @@ class TestClass
     private $publicIsAccessor;
     private $publicHasAccessor;
     private $publicGetter;
-    private $date;
 
     public function __construct($value)
     {
@@ -173,15 +172,5 @@ class TestClass
     public function getPublicGetter()
     {
         return $this->publicGetter;
-    }
-
-    public function setDate(\DateTimeInterface $date)
-    {
-        $this->date = $date;
-    }
-
-    public function getDate()
-    {
-        return $this->date;
     }
 }

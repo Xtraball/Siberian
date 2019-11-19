@@ -1,3 +1,6 @@
+<?php
+use Siberian\Version;
+?>
 <sb-section title="'<?php echo __title("Mobile Source Codes"); ?>'">
 
     <div class="row">
@@ -145,7 +148,7 @@
                     </tbody>
                 </table>
 
-                <?php if (Siberian_Version::is('MAE') || Siberian_Version::is('PE')): ?>
+                <?php if (Version::is(["MAE", "PE"])): ?>
                     <table class="table queue"
                            ng-show="licenseType !== 'mae-hosted' && licenseType !== 'pe-hosted'">
                         <colgroup>

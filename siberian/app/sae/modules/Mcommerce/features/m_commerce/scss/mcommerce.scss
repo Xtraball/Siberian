@@ -1,0 +1,12 @@
+.module-mcommerce {
+  /** Payment methods */
+  .saved-card {
+    font-weight: bold;
+    letter-spacing: 0;
+
+    .last-star {
+      transform: translateY(3px);
+      display: inline-block;
+    }
+  }
+}

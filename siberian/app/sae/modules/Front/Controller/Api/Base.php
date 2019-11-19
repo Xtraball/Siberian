@@ -26,10 +26,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function initAction()
     {
-
         /** Caching each block independently, to optimize loading */
-
         $application = $this->getApplication();
+        $application->checkForUpgrades();
+
         $appId = $application->getId();
         $request = $this->getRequest();
         $session = $this->getSession();

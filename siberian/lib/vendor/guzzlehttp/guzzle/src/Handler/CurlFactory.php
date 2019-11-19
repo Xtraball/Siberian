@@ -4,7 +4,6 @@ namespace GuzzleHttp\Handler;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Promise\FulfilledPromise;
-use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\LazyOpenStream;
 use GuzzleHttp\TransferStats;
@@ -15,8 +14,11 @@ use Psr\Http\Message\RequestInterface;
  */
 class CurlFactory implements CurlFactoryInterface
 {
+    const CURL_VERSION_STR = 'curl_version';
+    const LOW_CURL_VERSION_NUMBER = '7.21.2';
+
     /** @var array */
-    private $handles;
+    private $handles = [];
 
     /** @var int Total number of idle handles to keep in cache */
     private $maxHandles;
@@ -118,6 +120,7 @@ class CurlFactory implements CurlFactoryInterface
     private static function invokeStats(EasyHandle $easy)
     {
         $curlStats = curl_getinfo($easy->handle);
+        $curlStats['appconnect_time'] = curl_getinfo($easy->handle, CURLINFO_APPCONNECT_TIME);
         $stats = new TransferStats(
             $easy->request,
             $easy->response,
@@ -137,7 +140,9 @@ class CurlFactory implements CurlFactoryInterface
         $ctx = [
             'errno' => $easy->errno,
             'error' => curl_error($easy->handle),
+            'appconnect_time' => curl_getinfo($easy->handle, CURLINFO_APPCONNECT_TIME),
         ] + curl_getinfo($easy->handle);
+        $ctx[self::CURL_VERSION_STR] = curl_version()['version'];
         $factory->release($easy);
 
         // Retry when nothing is present or when curl failed to rewind.
@@ -163,7 +168,7 @@ class CurlFactory implements CurlFactoryInterface
         // If an exception was encountered during the onHeaders event, then
         // return a rejected promise that wraps that exception.
         if ($easy->onHeadersException) {
-            return new RejectedPromise(
+            return \GuzzleHttp\Promise\rejection_for(
                 new RequestException(
                     'An error was encountered during the on_headers event',
                     $easy->request,
@@ -173,20 +178,29 @@ class CurlFactory implements CurlFactoryInterface
                 )
             );
         }
-
-        $message = sprintf(
-            'cURL error %s: %s (%s)',
-            $ctx['errno'],
-            $ctx['error'],
-            'see http://curl.haxx.se/libcurl/c/libcurl-errors.html'
-        );
+        if (version_compare($ctx[self::CURL_VERSION_STR], self::LOW_CURL_VERSION_NUMBER)) {
+            $message = sprintf(
+                'cURL error %s: %s (%s)',
+                $ctx['errno'],
+                $ctx['error'],
+                'see https://curl.haxx.se/libcurl/c/libcurl-errors.html'
+            );
+        } else {
+            $message = sprintf(
+                'cURL error %s: %s (%s) for %s',
+                $ctx['errno'],
+                $ctx['error'],
+                'see https://curl.haxx.se/libcurl/c/libcurl-errors.html',
+                $easy->request->getUri()
+            );
+        }
 
         // Create a connection exception if it was a specific error code.
         $error = isset($connectionErrors[$easy->errno])
             ? new ConnectException($message, $easy->request, null, $ctx)
             : new RequestException($message, $easy->request, $easy->response, null, $ctx);
 
-        return new RejectedPromise($error);
+        return \GuzzleHttp\Promise\rejection_for($error);
     }
 
     private function getDefaultConf(EasyHandle $easy)
@@ -288,7 +302,14 @@ class CurlFactory implements CurlFactoryInterface
     {
         foreach ($conf['_headers'] as $name => $values) {
             foreach ($values as $value) {
-                $conf[CURLOPT_HTTPHEADER][] = "$name: $value";
+                $value = (string) $value;
+                if ($value === '') {
+                    // cURL requires a special format for empty headers.
+                    // See https://github.com/guzzle/guzzle/issues/1882 for more details.
+                    $conf[CURLOPT_HTTPHEADER][] = "$name;";
+                } else {
+                    $conf[CURLOPT_HTTPHEADER][] = "$name: $value";
+                }
             }
         }
 
@@ -326,11 +347,19 @@ class CurlFactory implements CurlFactoryInterface
                 $conf[CURLOPT_SSL_VERIFYHOST] = 2;
                 $conf[CURLOPT_SSL_VERIFYPEER] = true;
                 if (is_string($options['verify'])) {
-                    $conf[CURLOPT_CAINFO] = $options['verify'];
+                    // Throw an error if the file/folder/link path is not valid or doesn't exist.
                     if (!file_exists($options['verify'])) {
                         throw new \InvalidArgumentException(
                             "SSL CA bundle not found: {$options['verify']}"
                         );
+                    }
+                    // If it's a directory or a link to a directory use CURLOPT_CAPATH.
+                    // If not, it's probably a file, or a link to a file, so use CURLOPT_CAINFO.
+                    if (is_dir($options['verify']) ||
+                        (is_link($options['verify']) && is_dir(readlink($options['verify'])))) {
+                        $conf[CURLOPT_CAPATH] = $options['verify'];
+                    } else {
+                        $conf[CURLOPT_CAINFO] = $options['verify'];
                     }
                 }
             }
@@ -370,13 +399,28 @@ class CurlFactory implements CurlFactoryInterface
             $conf[CURLOPT_FILE] = fopen('php://temp', 'w+');
             $easy->sink = Psr7\stream_for($conf[CURLOPT_FILE]);
         }
-
+        $timeoutRequiresNoSignal = false;
         if (isset($options['timeout'])) {
+            $timeoutRequiresNoSignal |= $options['timeout'] < 1;
             $conf[CURLOPT_TIMEOUT_MS] = $options['timeout'] * 1000;
         }
 
+        // CURL default value is CURL_IPRESOLVE_WHATEVER
+        if (isset($options['force_ip_resolve'])) {
+            if ('v4' === $options['force_ip_resolve']) {
+                $conf[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V4;
+            } elseif ('v6' === $options['force_ip_resolve']) {
+                $conf[CURLOPT_IPRESOLVE] = CURL_IPRESOLVE_V6;
+            }
+        }
+
         if (isset($options['connect_timeout'])) {
+            $timeoutRequiresNoSignal |= $options['connect_timeout'] < 1;
             $conf[CURLOPT_CONNECTTIMEOUT_MS] = $options['connect_timeout'] * 1000;
+        }
+
+        if ($timeoutRequiresNoSignal && strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN') {
+            $conf[CURLOPT_NOSIGNAL] = true;
         }
 
         if (isset($options['proxy'])) {

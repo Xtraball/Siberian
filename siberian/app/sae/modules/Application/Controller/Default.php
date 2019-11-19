@@ -45,10 +45,11 @@ class Application_Controller_Default extends Admin_Controller_Default
         // Options ACL
         $deniedOptions = (new Application_Model_Acl_Option())
             ->findAllByAppAndAdminId($application->getId(), $this->getAdmin()->getId());
+
         $this->_getAcl()->denyResources($deniedOptions, true);
 
         // Retry after application/admin acl
-        if (!$this->_canAccessCurrentPage()) {
+        if ($this->_canAccessCurrentPage() === false) {
             $this->_forward("forbidden");
             return;
         }

@@ -1,0 +1,36 @@
+<div class="payment-stripe"
+     ng-controller="PaymentStripeController">
+
+    <div ng-if="options.enableVaults">
+        <div style="margin-bottom: 20px;"></div>
+        <div class="item item-divider item-divider-custom text-center">
+            {{ ::"Saved cards" | translate:"payment_stripe" }}
+        </div>
+        <payment-stripe-cards actions="options.actions"></payment-stripe-cards>
+        <div style="margin-bottom: 20px;"></div>
+    </div>
+
+    <div ng-if="options.enableVaults"
+         ng-click="toggleForm()"
+         class="item item-custom item-icon-left item-icon-right">
+        <i class="icon">
+            <img src="./features/cabride/assets/templates/images/009-credit-card.svg"
+                 style="height: 60%; margin-right: 15px;" />
+        </i>
+        <b>{{ ::"Add a card" | translate:"payment_stripe" }}</b>
+        <i ng-if="!showForm"
+           class="icon ion-android-add"></i>
+        <i ng-if="showForm"
+           class="icon ion-android-arrow-down"></i>
+    </div>
+
+    <div ng-show="showForm || !options.enableVaults"
+         class="list list-item">
+        <div style="margin-bottom: 20px;"></div>
+        <div class="item item-divider item-divider-custom text-center">
+            {{ ::title | translate:"payment_stripe" }}
+        </div>
+        <payment-stripe-form></payment-stripe-form>
+        <div style="margin-bottom: 20px;"></div>
+    </div>
+</div>

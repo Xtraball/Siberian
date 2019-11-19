@@ -2,7 +2,7 @@
     angular
 */
 
-angular.module('starter').directive('sbInputNumber', function ($timeout) {
+angular.module('starter').directive('sbInputNumber', function ($timeout, $translate) {
     return {
         restrict: 'E',
         scope: {
@@ -11,22 +11,27 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
             min: '=?',
             max: '=?',
             value: '=?',
+            label: '=?',
             params: '=?'
         },
         template:
         '<div class="item item-input item-custom input-number-sb">' +
-        '   <div class="input-label"><i class="ion-plus"></i> {{ label }}</div>' +
+        '   <div class="input-label">{{ getLabel() }}</div>' +
         '   <div class="input-container text-right">' +
         '       <button class="button button-small button-custom button-left" ' +
-        '               ng-click="down()">-</button>' +
+        '               ng-click="oneLess()">' +
+        '           <i class="icon ion-minus"></i>' +
+        '       </button>' +
         '       <div class="item-input-wrapper">' +
         '           <input type="text" ' +
-        '                  value="{{ dirValue }}" ' +
+        '                  value="{{ getValue() }}" ' +
         '                  class="text-center input" ' +
         '                  readonly />' +
         '       </div>' +
         '       <button class="button button-small button-custom button-right" ' +
-        '               ng-click="up()">+</button>' +
+        '               ng-click="oneMore()">' +
+        '           <i class="icon ion-plus"></i>' +
+        '       </button>' +
         '   </div>' +
         '</div>',
         replace: true,
@@ -34,41 +39,46 @@ angular.module('starter').directive('sbInputNumber', function ($timeout) {
             scope.step = scope.step ? scope.step : 1;
             scope.min = scope.min ? scope.min : 0;
             scope.max = scope.max ? scope.max : 999;
-            scope.value = scope.value ? angular.copy(scope.value) : 0;
-            scope.dirValue = scope.value;
             scope.params = scope.params ? scope.params : {};
             scope.label = attrs.label ? attrs.label + ':' : '';
-
-            scope.$watch('params', function() {
-                scope.params = scope.params ? scope.params : {};
-            });
-            scope.$watch('value', function() {
-                scope.value = scope.value ? angular.copy(scope.value) : 0;
-            });
         },
         controller: function ($scope) {
-            $scope.up = function () {
-                if ($scope.dirValue < $scope.max) {
-                    $scope.dirValue = $scope.dirValue + 1;
-                    $scope.callBack($scope.dirValue);
+            $scope.oneMore = function () {
+                if ($scope.value < $scope.max) {
+                    $scope.value = $scope.value + 1;
+                    $scope.callBack($scope.value);
                 }
             };
 
-            $scope.down = function () {
-                if ($scope.dirValue > $scope.min) {
-                    $scope.dirValue = $scope.dirValue - 1;
-                    $scope.callBack($scope.dirValue);
+            $scope.oneLess = function () {
+                if ($scope.value > $scope.min) {
+                    $scope.value = $scope.value - 1;
+                    $scope.callBack($scope.value);
                 }
+            };
+
+            $scope.getLabel = function () {
+                return $translate.instant($scope.label);
+            };
+
+            $scope.getValue = function () {
+                return $scope.value;
             };
 
             $scope.callBack = function (value) {
                 if (typeof $scope.changeQty === 'function') {
-                    $timeout(function () {
+                    // Cancel if not nulled yet!
+                    if ($scope.debouncePromise) {
+                        $timeout.cancel($scope.debouncePromise);
+                    }
+                    $scope.debouncePromise = $timeout(function () {
                         $scope.changeQty({
                             qty: value,
                             params: $scope.params
                         });
-                    }, 500);
+
+                        $scope.debouncePromise = null;
+                    }, 800);
                 }
             };
         }

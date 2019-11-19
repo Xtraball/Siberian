@@ -48,7 +48,7 @@ class ParsedComment
      * @param string $value The PHP comment string.
      * @param int $line The line where the comment starts.
      *
-     * @return self The parsed comment.
+     * @return static The parsed comment.
      */
     public static function create($value, $line)
     {
@@ -59,8 +59,8 @@ class ParsedComment
                 return null;
             }
 
-            $line = ltrim($line, '#*/ ');
-            $line = rtrim($line, '#*/ ');
+            $line = ltrim($line, "#*/ \t");
+            $line = rtrim($line, "#*/ \t");
 
             return trim($line);
         }, explode("\n", $value));
@@ -69,7 +69,7 @@ class ParsedComment
         $lines = array_filter($lines);
         $value = implode(' ', $lines);
 
-        return new self($value, $line, $lastLine);
+        return new static($value, $line, $lastLine);
     }
 
     /**

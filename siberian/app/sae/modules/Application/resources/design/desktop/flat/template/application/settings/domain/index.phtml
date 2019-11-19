@@ -4,6 +4,16 @@ $application = $this->getApplication();
 $form = new Application_Form_Domain();
 $form->populate($application->getData());
 
+// App link
+$appDomain = $application->getDomain();
+$appKey = $application->getKey();
+$currentDomain = parse_url($this->getRequest()->getBaseUrl(), PHP_URL_HOST);
+if (!empty($appDomain)) {
+    $appLink = "http://{$appDomain}";
+} else {
+    $appLink = "https://{$currentDomain}/{$appKey}";
+}
+
 ?>
 <div class="row"
      id="settings_domain">
@@ -17,6 +27,20 @@ $form->populate($application->getData());
                 <div id="domain"
                      class="subcontent content-color">
                     <div class="col-md-12">
+                        <div class="row form-group">
+                            <div class="col-md-3">
+                                <?php echo p__("application", "WebApp link") ?>
+                            </div>
+                            <div class="col-md-7">
+                                <a id="app-link"
+                                   href="<?php echo $appLink ?>"
+                                   style="text-decoration: underline;"
+                                   onclick="window.open(this.href,'targetWindow','toolbar=no,location=yes,status=no,menubar=no,scrollbars=no,resizable=no,width=480,height=800');return false;">
+                                    <?php echo $appLink ?>
+                                </a>
+                            </div>
+                        </div>
+
                         <?php echo $form; ?>
                     </div>
                 </div>
@@ -26,5 +50,8 @@ $form->populate($application->getData());
 </div>
 
 <script type="text/javascript">
-    bindForms("#settings_domain");
+    bindForms("#settings_domain", "color-blue", function (payload) {
+        $("#app-link").attr("href", payload.href);
+        $("#app-link").text(payload.href);
+    });
 </script>

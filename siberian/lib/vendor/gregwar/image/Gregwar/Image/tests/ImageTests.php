@@ -6,7 +6,7 @@ use Gregwar\Image\ImageColor;
 /**
  * Unit testing for Image.
  */
-class ImageTests extends \PHPUnit_Framework_TestCase
+class ImageTests extends \PHPUnit\Framework\TestCase
 {
     /**
      * Testing the basic width & height.
@@ -121,7 +121,7 @@ class ImageTests extends \PHPUnit_Framework_TestCase
     public function testCustomCacheSystem()
     {
         $image = $this->open('monalisa.jpg');
-        $cache = $this->getMock('Gregwar\Cache\CacheInterface');
+        $cache = $this->createMock('Gregwar\Cache\CacheInterface');
         $image->setCacheSystem($cache);
         $this->assertTrue($image->getCacheSystem() instanceof Gregwar\Cache\CacheInterface);
     }

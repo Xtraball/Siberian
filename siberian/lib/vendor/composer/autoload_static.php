@@ -7,13 +7,14 @@ namespace Composer\Autoload;
 class ComposerStaticInitc45135ea47c87544c5381729474d0166
 {
     public static $files = array (
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-        '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
         '0a68d60a5e4dce3adf20d45be4cf37c2' => __DIR__ . '/..' . '/romeoz/rock-base/src/polyfills.php',
-        '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
+        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
@@ -37,12 +38,12 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
         'S' => 
         array (
-            'Symfony\\Polyfill\\Php70\\' => 23,
+            'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Ctype\\' => 23,
             'Symfony\\Component\\VarDumper\\' => 28,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\OptionsResolver\\' => 34,
-            'Symfony\\Component\\Inflector\\' => 28,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
@@ -51,7 +52,9 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
         'R' => 
         array (
+            'React\\Stream\\' => 13,
             'React\\EventLoop\\' => 16,
+            'React\\ChildProcess\\' => 19,
         ),
         'P' => 
         array (
@@ -87,6 +90,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
         ),
         'B' => 
@@ -116,13 +120,17 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/vnn/wordpress-rest-api-client/src',
         ),
-        'Symfony\\Polyfill\\Php70\\' => 
+        'Symfony\\Polyfill\\Php72\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php70',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
         'Symfony\\Component\\VarDumper\\' => 
         array (
@@ -135,10 +143,6 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Symfony\\Component\\OptionsResolver\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
-        ),
-        'Symfony\\Component\\Inflector\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/inflector',
         ),
         'Symfony\\Component\\Finder\\' => 
         array (
@@ -160,9 +164,17 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
+        'React\\Stream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/stream/src',
+        ),
         'React\\EventLoop\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/event-loop/src',
+        ),
+        'React\\ChildProcess\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/react/child-process/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -232,6 +244,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/endroid/qrcode/src',
         ),
+        'Doctrine\\Common\\Collections\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
+        ),
         'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
@@ -275,11 +291,11 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
                 0 => __DIR__ . '/..' . '/gregwar/cache',
             ),
         ),
-        'D' => 
+        'E' => 
         array (
-            'Doctrine\\Common\\Collections\\' => 
+            'Evenement' => 
             array (
-                0 => __DIR__ . '/..' . '/doctrine/collections/lib',
+                0 => __DIR__ . '/..' . '/evenement/evenement/src',
             ),
         ),
         'B' => 
@@ -300,13 +316,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $classMap = array (
-        'ArithmeticError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ArithmeticError.php',
-        'AssertionError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/AssertionError.php',
-        'DivisionByZeroError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/DivisionByZeroError.php',
-        'Error' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/Error.php',
-        'ParseError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/ParseError.php',
         'QrReader' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/QrReader.php',
-        'TypeError' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/TypeError.php',
         'Zebra_Image' => __DIR__ . '/..' . '/stefangabos/zebra_image/Zebra_Image.php',
         'Zxing\\Binarizer' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Binarizer.php',
         'Zxing\\BinaryBitmap' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/BinaryBitmap.php',

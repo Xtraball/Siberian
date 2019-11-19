@@ -43,11 +43,6 @@ class VestaCP
     public function __construct()
     {
         $this->logger = Zend_Registry::get("logger");
-        if (version_compare(phpversion(), "5.6", "<")) {
-            $this->logger->info("[Siberian_VestaCP] requires php 5.6+");
-            throw new Exception(__("[Siberian_VestaCP] requires php 5.6+"));
-        }
-
         $vestacp_api = Api_Model_Key::findKeysFor("vestacp");
 
         $this->config["host"] = $vestacp_api->getHost();
@@ -62,22 +57,13 @@ class VestaCP
     /**
      * @param $ssl_certificate
      * @return bool
-     * @throws Exception
+     * @throws \Siberian\Exception
      */
     public function updateCertificate($ssl_certificate)
     {
-        // @note From here, server may reload, and then interrupt the connection
-        // This is normal behavior, as it's reloading the SSL Certificate.
-
-        if (version_compare(phpversion(), "5.6", "<")) {
-            $this->logger->info("[Siberian_VestaCP] requires php 5.6+");
-            throw new Exception(__("[Siberian_VestaCP] requires php 5.6+"));
-        }
-
         $this->api->updateDomainVesta($ssl_certificate);
 
-        return true;
-
         // Please consider you can never have the acknowledgement
+        return true;
     }
 }
