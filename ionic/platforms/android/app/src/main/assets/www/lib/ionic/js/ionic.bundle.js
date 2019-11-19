@@ -55780,6 +55780,8 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
         modalEl.addClass('ng-enter-active');
         ionic.trigger('resize');
         self.scope.$parent && self.scope.$parent.$broadcast(self.viewType + '.shown', self);
+        // SiberianCMS broadcast to $rootScope
+        $rootScope.$broadcast(self.viewType + '.rootScope.shown', self);
         self.el.classList.add('active');
         self.scope.$broadcast('$ionicHeader.align');
         self.scope.$broadcast('$ionicFooter.align');
@@ -55833,6 +55835,8 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
       self.$el.off('click');
       self._isShown = false;
       self.scope.$parent && self.scope.$parent.$broadcast(self.viewType + '.hidden', self);
+      // SiberianCMS broadcast to $rootScope
+      $rootScope.$broadcast(self.viewType + '.rootScope.hidden', self);
       self._deregisterBackButton && self._deregisterBackButton();
 
       ionic.views.Modal.prototype.hide.call(self);
@@ -55871,6 +55875,8 @@ function($rootScope, $ionicBody, $compile, $timeout, $ionicPlatform, $ionicTempl
       var self = this,
           deferred, promise;
       self.scope.$parent && self.scope.$parent.$broadcast(self.viewType + '.removed', self);
+      // SiberianCMS broadcast to $rootScope
+      $rootScope.$broadcast(self.viewType + '.rootScope.removed', self);
 
       // Only hide modal, when it is actually shown!
       // The hide function shows a click-block-div for a split second, because on iOS,

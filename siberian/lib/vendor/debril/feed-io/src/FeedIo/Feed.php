@@ -26,6 +26,11 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      */
     protected $url;
 
+    /**
+     * @var string $language
+     */
+    protected $language;
+
     public function __construct()
     {
         $this->items = new \ArrayIterator();
@@ -53,6 +58,28 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     }
 
     /**
+     * @return string $language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @return FeedInterface
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+
+
+
+    /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
@@ -71,7 +98,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      */
     public function next()
     {
-        return $this->items->next();
+        $this->items->next();
     }
 
     /**
@@ -105,7 +132,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      */
     public function rewind()
     {
-        return $this->items->rewind();
+        $this->items->rewind();
     }
 
     /**
@@ -142,7 +169,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     {
         $items = [];
 
-        foreach( $this->items as $item ) {
+        foreach ($this->items as $item) {
             $items[] = $item->toArray();
         }
 
@@ -150,5 +177,13 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
         $properties['items'] = $items;
 
         return $properties;
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->items);
     }
 }

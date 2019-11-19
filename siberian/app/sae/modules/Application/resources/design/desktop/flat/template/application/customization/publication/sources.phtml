@@ -59,6 +59,15 @@ try {
     $firebaseOk = false;
 }
 
+// App link
+$appDomain = $application->getDomain();
+$appKey = $application->getKey();
+$currentDomain = parse_url($this->getRequest()->getBaseUrl(), PHP_URL_HOST);
+if (!empty($appDomain)) {
+    $appLink = "http://{$appDomain}";
+} else {
+    $appLink = "https://{$currentDomain}/{$appKey}";
+}
 
 ?>
 <div class="application">
@@ -72,11 +81,27 @@ try {
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
             <?php echo __('General information'); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "You can change your application name, as well as the bundle ID and the package name. These two last items are your app unique identifiers when being published on the App Store and Google Play, you don't need to edit them except if you know what you do.", '"') ?>"></i>
         </h3>
         <div id="general"
              class="subcontent content-color">
             <div id="general-information"
                  class="container-fluid form-horizontal">
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <?php echo p__("application", "WebApp link") ?>
+                    </div>
+                    <div class="col-md-7">
+                        <a href="<?php echo $appLink ?>"
+                           style="text-decoration: underline;"
+                           onclick="window.open(this.href,'targetWindow','toolbar=no,location=yes,status=no,menubar=no,scrollbars=no,resizable=no,width=480,height=800');return false;">
+                            <?php echo $appLink ?>
+                        </a>
+                    </div>
+                </div>
 
                 <div class="row form-group">
                     <div class="col-md-3">
@@ -96,6 +121,9 @@ try {
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
             <?php echo __('Monetize your app'); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js("application", "You can monetize your app by adding ad banners or interstitials that will be displayed to your app users.", '"') ?>"></i>
         </h3>
         <div class="monetize subcontent content-color">
             <div id="admob-settings"
@@ -106,27 +134,30 @@ try {
     </div>
 
     <?php if (!$mustUpgrade): ?>
-    <div id="sb-tour-mobile-source"
-         class="content sb-tour">
-        <h3 class="title-editor border-green text-center">
-            <?php echo __('Mobile source codes'); ?>
-        </h3>
-        <div class="content-color subcontent form-horizontal container-fluid">
-            <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
-            <?php $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish); ?>
-            <?php if (count($errors) > 0) : ?>
-                <p class="alert alert-danger"><?php echo __('To be able to download source codes, please provide the following information:<br />'); ?></p>
-                <p class="alert alert-danger">- <?php echo join('<br />- ', $errors); ?></p>
-            <?php elseif (!$this->getApplication()->subscriptionIsActive()) : ?>
-                <p><?php echo __("Your application is ready to be published."); ?></p>
-                <p><?php echo __("Proceed to checkout before downloading the source code."); ?></p>
-            <?php else : ?>
+        <div id="sb-tour-mobile-source"
+             class="content sb-tour">
+            <h3 class="title-editor border-green text-center">
+                <?php echo __("Mobile source codes"); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "The source codes of your app, one version for iOS and one version for Android. Useful if you want to compile your apps manually by yourself through Xcode and Android Studio.", '"') ?>"></i>
+            </h3>
+            <div class="content-color subcontent form-horizontal container-fluid">
+                <?php $admin_can_publish = $this->getSession()->getAdmin()->canPublishThemself(); ?>
+                <?php $errors = $this->getApplication()->isAvailableForPublishing($admin_can_publish); ?>
+                <?php if (count($errors) > 0) : ?>
+                    <p class="alert alert-danger"><?php echo __('To be able to download source codes, please provide the following information:<br />'); ?></p>
+                    <p class="alert alert-danger">- <?php echo join('<br />- ', $errors); ?></p>
+                <?php elseif (!$this->getApplication()->subscriptionIsActive()) : ?>
+                    <p><?php echo __("Your application is ready to be published."); ?></p>
+                    <p><?php echo __("Proceed to checkout before downloading the source code."); ?></p>
+                <?php else : ?>
                 <?php if (empty($mainDomain)): ?>
-                <div>
-                    <div class="alert alert-info">
-                        <?php echo __('Source code generation is not configured, ask your administrator for more informations.') ?>
+                    <div>
+                        <div class="alert alert-info">
+                            <?php echo __('Source code generation is not configured, ask your administrator for more informations.') ?>
+                        </div>
                     </div>
-                </div>
                 <?php else: ?>
                 <div>
                     <h4 class="title-editor no-border-radius title-feature-indent"><?php echo __("Generate the source code") ?></h4>
@@ -253,87 +284,87 @@ try {
                     </div>
 
                     <?php if ($this->getAdmin()->canGenerateApk() && $firebaseOk): ?>
-                    <h4 class="title-editor no-border-radius title-feature-indent"
-                        style="margin-top: 15px;"><?php echo __("Generate builds") ?></h4>
-                    <div class="container-fluid content-feature">
+                        <h4 class="title-editor no-border-radius title-feature-indent"
+                            style="margin-top: 15px;"><?php echo __("Generate builds") ?></h4>
+                        <div class="container-fluid content-feature">
 
-                        <div class="form-horizontal"
-                             style="margin-top: 15px;">
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <label for="name"><?php echo __("Android APK version"); ?> : </label>
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text"
-                                           id="android_version"
-                                           name="android_version"
-                                           class="autosave input-flat"
-                                           value="<?php echo $application->getDevice(2)->getVersion(); ?>"
-                                           maxlength="30"/>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="loader"
-                                         id="loader_android_version"
-                                         alt="Loading"
-                                         title="Loading"
-                                         style="display: none;"></div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    <?php echo __('Generate Android APK'); ?>
-                                </div>
-                                <div class="col-sm-4">
-                                    <?php if (!$isHosted): ?>
-                                        <?php if (!empty($apk["path"]) && $positions["apk"] == 0): ?>
-                                            <a href="<?php echo $this->getUrl("") . $apk["path"]; ?>"
-                                               class="btn default_button color-green">
-                                                <i class="fa fa-download"></i> <?php echo __('Download latest'); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php else: ?>
-                                        <?php if (!empty($apk_service["path"])): ?>
-                                            <a href="<?php echo $this->getUrl("") . $apk_service["path"]; ?>"
-                                               class="btn default_button color-green">
-                                                <i class="fa fa-download"></i> <?php echo __('Download latest APK'); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-                                </div>
-                                <div class="col-sm-4 text-right">
-                                    <?php if ($positions["apk"] == 0): ?>
-                                        <a class="generate-source btn default_button color-green"
-                                           onclick="generateSource(2, 0, 'apk');"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-gears"></i> <?php echo __('Generate APK'); ?>
-                                        </a>
-                                    <?php endif; ?>
-                                    <?php if ($positions["apk"] == 1): ?>
-                                        <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["apk"] > 1): ?>
-                                        <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["apk"], $total); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["apk"] > 1): ?>
-                                        <a class="cancel-queue"
-                                           onclick="cancelQueue(2, 0, 'apk');"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
-                                        </a>
-                                    <?php endif; ?>
-
-                                </div>
-
-                                <?php if ($isHosted && ($apk_service['status'] === 'pending')): ?>
-                                <div class="col-sm-12">
-                                    <div class="alert alert-info">
-                                        <b><?php echo __('Status')  ?>: </b> <?php echo __($apk_service['status']); ?>
+                            <div class="form-horizontal"
+                                 style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="name"><?php echo __("Android APK version"); ?> : </label>
+                                    </div>
+                                    <div class="col-sm-5">
+                                        <input type="text"
+                                               id="android_version"
+                                               name="android_version"
+                                               class="autosave input-flat"
+                                               value="<?php echo $application->getDevice(2)->getVersion(); ?>"
+                                               maxlength="30"/>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="loader"
+                                             id="loader_android_version"
+                                             alt="Loading"
+                                             title="Loading"
+                                             style="display: none;"></div>
                                     </div>
                                 </div>
-                                <?php endif; ?>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <?php echo __('Generate Android APK'); ?>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <?php if (!$isHosted): ?>
+                                            <?php if (!empty($apk["path"]) && $positions["apk"] == 0): ?>
+                                                <a href="<?php echo $this->getUrl("") . $apk["path"]; ?>"
+                                                   class="btn default_button color-green">
+                                                    <i class="fa fa-download"></i> <?php echo __('Download latest'); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <?php if (!empty($apk_service["path"])): ?>
+                                                <a href="<?php echo $this->getUrl("") . $apk_service["path"]; ?>"
+                                                   class="btn default_button color-green">
+                                                    <i class="fa fa-download"></i> <?php echo __('Download latest APK'); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="col-sm-4 text-right">
+                                        <?php if ($positions["apk"] == 0): ?>
+                                            <a class="generate-source btn default_button color-green"
+                                               onclick="generateSource(2, 0, 'apk');"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-gears"></i> <?php echo __('Generate APK'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($positions["apk"] == 1): ?>
+                                            <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["apk"] > 1): ?>
+                                            <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["apk"], $total); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["apk"] > 1): ?>
+                                            <a class="cancel-queue"
+                                               onclick="cancelQueue(2, 0, 'apk');"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
+                                            </a>
+                                        <?php endif; ?>
+
+                                    </div>
+
+                                    <?php if ($isHosted && ($apk_service['status'] === 'pending')): ?>
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-info">
+                                                <b><?php echo __('Status')  ?>: </b> <?php echo __($apk_service['status']); ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php endif; ?>
 
                     <h4 class="title-editor no-border-radius title-feature-indent"
@@ -365,32 +396,37 @@ try {
                             </div>
                         </div>
                     </div>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
-        </div>
-    </div>
-    <?php else: ?>
-    <div id="sb-tour-mobile-source"
-         class="content sb-tour">
-        <h3 class="title-editor border-green text-center">
-            <?php echo __('Mobile source codes'); ?>
-        </h3>
-        <div class="content-color subcontent form-horizontal container-fluid">
-            <div class="feature-block-add">
-                <h3 class="title-editor no-border-radius title-feature-indent"><?php echo __('Upgrade required') ?></h3>
-            </div>
-            <div class="container-fluid first-row-feature content-feature">
-                <div class="alert alert-info">
-                    <?php echo __('Before you can generate your application, you must upload new homepage & splashscreen.') ?>
+                    <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-    </div>
+
+    <?php else: ?>
+        <div id="sb-tour-mobile-source"
+             class="content sb-tour">
+            <h3 class="title-editor border-green text-center">
+                <?php echo __('Mobile source codes'); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "The source codes of your app, one version for iOS and one version for Android. Useful if you want to compile your apps manually by yourself through Xcode and Android Studio.", '"') ?>"></i>
+            </h3>
+            <div class="content-color subcontent form-horizontal container-fluid">
+                <div class="feature-block-add">
+                    <h3 class="title-editor no-border-radius title-feature-indent"><?php echo __('Upgrade required') ?></h3>
+                </div>
+                <div class="container-fluid first-row-feature content-feature">
+                    <div class="alert alert-info">
+                        <?php echo __('Before you can generate your application, you must upload new homepage & splashscreen.') ?>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php endif; ?>
 
 
-    <div class="publication-padding-bottom">&nbsp;</div>
+        <div class="publication-padding-bottom">&nbsp;</div>
+
 </div>
 <script type="text/javascript">
 

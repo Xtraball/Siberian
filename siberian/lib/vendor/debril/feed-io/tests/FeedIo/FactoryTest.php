@@ -3,9 +3,8 @@ namespace FeedIo;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testCheckDependency()
-    {   
+    {
         $factory = new Factory();
         $this->assertTrue($factory->checkDependency(
             $this->getBuilder('stdClass', 'php/php')
@@ -13,10 +12,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException FeedIo\Factory\MissingDependencyException
+     * @expectedException \FeedIo\Factory\MissingDependencyException
      */
     public function testCheckMissingDependency()
-    {   
+    {
         $factory = new Factory();
         $factory->checkDependency(
             $this->getBuilder('IDontExist', 'php/php')
@@ -30,7 +29,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         
         $factory->setLoggerBuilder($loggerBuilder);
         $this->assertAttributeInstanceOf('\FeedIo\Factory\LoggerBuilderInterface', 'loggerBuilder', $factory);
-    } 
+    }
     
     public function testSetClientBuilder()
     {
@@ -39,8 +38,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             
         $factory->setClientBuilder($clientBuilder);
         $this->assertAttributeInstanceOf('\FeedIo\Factory\ClientBuilderInterface', 'clientBuilder', $factory);
-        
-    } 
+    }
     
     public function testExtractConfig()
     {
@@ -48,7 +46,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $builderConfig = ['config' => $config];
         $factory = new Factory();
         $this->assertEquals($config, $factory->extractConfig($builderConfig));
-        
     }
     
     public function testExtractEmptyConfig()
@@ -56,7 +53,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $builderConfig = [];
         $factory = new Factory();
         $this->assertEquals([], $factory->extractConfig($builderConfig));
-        
     }
     public function testCreate()
     {
@@ -68,13 +64,15 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new Factory();
         $this->assertInstanceOf('\FeedIo\Factory\Builder\\MonologBuilder', $factory->getBuilder('monolog'));
+        $this->assertInstanceOf('\FeedIo\Factory\Builder\\GuzzleClientBuilder', $factory->getBuilder('guzzleclient'));
     }
     
     public function testGetExternalBuilder()
     {
         $factory = new Factory();
-        $this->assertInstanceOf('stdClass', $factory->getBuilder('stdClass'));       
+        $this->assertInstanceOf('\FeedIo\ExternalBuilder', $factory->getBuilder('\FeedIo\ExternalBuilder'));
     }
+
     public function testCreateWithMonolog()
     {
         $factory = Factory::create(['builder' => 'monolog']);
@@ -84,6 +82,33 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetFeedIoAfterCreate()
     {
         $factory = Factory::create();
+        $feedIo = $factory->getFeedIo();
+        $this->assertInstanceOf('\FeedIo\FeedIo', $feedIo);
+    }
+
+    public function testGetFeedIoAfterCreateWithCustomConfig()
+    {
+        $factory = Factory::create(
+            [
+                'builder' => 'Monolog',
+                'config' => [
+                    'foo' => true,
+                    'handlers' => [
+                        [
+                            'class' => 'Monolog\Handler\NullHandler',
+                            'params' => [],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'builder' => 'GuzzleClient',
+                'config' => [
+                    'foo' => false,
+                ],
+            ]
+        );
+
         $feedIo = $factory->getFeedIo();
         $this->assertInstanceOf('\FeedIo\FeedIo', $feedIo);
     }
@@ -119,5 +144,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         
         return $builder;
     }
-    
+}
+
+class ExternalBuilder
+{
+    public function __construct(array $config)
+    {
+    }
 }

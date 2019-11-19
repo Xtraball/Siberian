@@ -19,6 +19,9 @@ class RetryMiddleware
     /** @var callable */
     private $decider;
 
+    /** @var callable */
+    private $delay;
+
     /**
      * @param callable $decider     Function that accepts the number of retries,
      *                              a request, [response], and [exception] and
@@ -42,7 +45,7 @@ class RetryMiddleware
     /**
      * Default exponential backoff delay function.
      *
-     * @param $retries
+     * @param int $retries
      *
      * @return int
      */
@@ -97,7 +100,7 @@ class RetryMiddleware
                 null,
                 $reason
             )) {
-                return new RejectedPromise($reason);
+                return \GuzzleHttp\Promise\rejection_for($reason);
             }
             return $this->doRetry($req, $options);
         };

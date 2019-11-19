@@ -105,7 +105,7 @@ abstract class PropertyAccessorCollectionTest extends PropertyAccessorArrayAcces
         $axesBefore = $this->getContainer(array(1 => 'second', 3 => 'fourth', 4 => 'fifth'));
         $axesMerged = $this->getContainer(array(1 => 'first', 2 => 'second', 3 => 'third'));
         $axesAfter = $this->getContainer(array(1 => 'second', 5 => 'first', 6 => 'third'));
-        $axesMergedCopy = is_object($axesMerged) ? clone $axesMerged : $axesMerged;
+        $axesMergedCopy = \is_object($axesMerged) ? clone $axesMerged : $axesMerged;
 
         // Don't use a mock in order to test whether the collections are
         // modified while iterating them
@@ -148,7 +148,7 @@ abstract class PropertyAccessorCollectionTest extends PropertyAccessorArrayAcces
 
     /**
      * @expectedException \Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException
-     * @expectedExceptionMessageRegExp /Could not determine access type for property "axes" in class "Mock_PropertyAccessorCollectionTest_CarNoAdderAndRemover_[^"]*"./
+     * @expectedExceptionMessage Neither the property "axes" nor one of the methods "addAx()"/"removeAx()", "addAxe()"/"removeAxe()", "addAxis()"/"removeAxis()", "setAxes()", "axes()", "__set()" or "__call()" exist and have public access in class "Mock_PropertyAccessorCollectionTest_CarNoAdderAndRemover
      */
     public function testSetValueFailsIfNoAdderNorRemoverFound()
     {

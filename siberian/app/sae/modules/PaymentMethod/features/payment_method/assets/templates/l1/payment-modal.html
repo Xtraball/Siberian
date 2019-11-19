@@ -1,0 +1,50 @@
+<ion-modal-view class="payment-method payment-method-modal"
+                ng-controller="PaymentModalController"
+                sb-page-background>
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeModal()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::options.title | translate:"payment_method" }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list list-item">
+
+            <div class="loader"
+                 ng-show="isLoading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+
+            <div ng-show="!isLoading">
+
+                <div class="payment-amount"
+                     ng-if="options.displayAmount">
+                    <div class="item item-divider item-divider-custom text-center">
+                        {{ ::"Amount" | translate:"payment_stripe" }}
+                    </div>
+                    <div class="item item-custom">
+                        <span class="text-center"
+                              style="font-size: 32px;">{{ ::options.payment.displayAmount }}</span>
+                    </div>
+                    <div style="margin-bottom: 20px;"></div>
+                </div>
+
+                <div ng-repeat="paymentGateway in paymentGateways">
+                    <div ng-if="methodIsAllowed(paymentGateway.class)">
+                        <div ng-include="'' + paymentGateway.templateUrl + ''"></div>
+                        <div style="margin-bottom: 20px;"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-modal-view>
+

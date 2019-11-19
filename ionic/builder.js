@@ -110,28 +110,6 @@ let debug = true,
         'privacy_policy': [
             './www/js/controllers/privacy-policy.js'
         ],
-        'm_commerce': [
-            './www/js/controllers/mcommerce/cart.js',
-            './www/js/controllers/mcommerce/category.js',
-            './www/js/controllers/mcommerce/product.js',
-            './www/js/controllers/mcommerce/sales/confirmation.js',
-            './www/js/controllers/mcommerce/sales/customer.js',
-            './www/js/controllers/mcommerce/sales/delivery.js',
-            './www/js/controllers/mcommerce/sales/error.js',
-            './www/js/controllers/mcommerce/sales/history.js',
-            './www/js/controllers/mcommerce/sales/payment.js',
-            './www/js/controllers/mcommerce/sales/store.js',
-            './www/js/controllers/mcommerce/sales/stripe.js',
-            './www/js/controllers/mcommerce/sales/success.js',
-            './www/js/factory/mcommerce/cart.js',
-            './www/js/factory/mcommerce/category.js',
-            './www/js/factory/mcommerce/product.js',
-            './www/js/factory/mcommerce/sales/customer.js',
-            './www/js/factory/mcommerce/sales/delivery.js',
-            './www/js/factory/mcommerce/sales/payment.js',
-            './www/js/factory/mcommerce/sales/store.js',
-            './www/js/factory/mcommerce/sales/stripe.js'
-        ],
         'push': [
             './www/js/controllers/push.js'
         ],
@@ -424,15 +402,16 @@ let tasks = {
                     }
                 });
             } else {
-                promise.reject();
+                promise.reject(error);
             }
         });
 
         promise
             .then(function () {
                 tasks.log(greenColor('ionicSass success'));
-            }).catch(function () {
+            }).catch(function (error) {
                 tasks.log(redColor('ionicSass error'));
+                tasks.log(redColor(error));
             });
 
         return promise;
@@ -457,15 +436,16 @@ let tasks = {
                     }).catch(function () {
                         promise.reject();
                     });
-            }).catch(function () {
-                promise.reject();
+            }).catch(function (e) {
+                promise.reject(e);
             });
 
         promise
             .then(function () {
                 tasks.log(greenColor('bundleCss success'));
-            }).catch(function () {
+            }).catch(function (e) {
                 tasks.log(redColor('bundleCss error'));
+                tasks.log(redColor(e.message));
             });
 
         return promise;

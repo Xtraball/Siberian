@@ -42,7 +42,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="10" />
+        <native-interface version="12" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -63,13 +63,13 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="27" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
-    <preference name="FadeSplashScreenDuration" value="500" />
+    <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="android-minSdkVersion" value="19" />
+    <preference name="android-targetSdkVersion" value="28" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />
@@ -94,6 +94,9 @@
     </feature>
     <feature name="BarcodeScanner">
         <param name="ios-package" value="CDVBarcodeScanner" />
+    </feature>
+    <feature name="BrowserTab">
+        <param name="ios-package" value="CBTBrowserTab" />
     </feature>
     <feature name="Camera">
         <param name="ios-package" value="CDVCamera" />
@@ -138,6 +141,12 @@
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
+    <allow-navigation href="ionic://*" />
+    <preference name="deployment-target" value="11.0" />
+    <feature name="IonicWebView">
+        <param name="ios-package" value="CDVWKWebViewEngine" />
+    </feature>
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <feature name="MusicControls">
         <param name="ios-package" value="MusicControls" />
     </feature>

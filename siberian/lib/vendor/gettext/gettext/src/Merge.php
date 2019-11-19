@@ -5,7 +5,7 @@ namespace Gettext;
 /**
  * Static class with merge contants.
  */
-class Merge
+final class Merge
 {
     const ADD = 1;
     const REMOVE = 2;
@@ -161,8 +161,7 @@ class Merge
             if (($existing = $to->find($entry))) {
                 $existing->mergeWith($entry, $options);
             } elseif ($options & self::ADD) {
-                $entry = $entry->getClone();
-                $to[] = $entry;
+                $to[] = $entry->getClone();
             }
         }
     }

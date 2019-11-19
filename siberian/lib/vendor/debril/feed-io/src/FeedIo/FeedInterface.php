@@ -18,7 +18,7 @@ use FeedIo\Feed\ItemInterface;
  * Represents the top node of a news feed
  * @package FeedIo
  */
-interface FeedInterface extends \Iterator, NodeInterface
+interface FeedInterface extends \Iterator, \Countable, NodeInterface
 {
 
     /**
@@ -32,6 +32,17 @@ interface FeedInterface extends \Iterator, NodeInterface
      * @return FeedInterface
      */
     public function setUrl($url);
+
+    /**
+     * @return string $language
+     */
+    public function getLanguage();
+
+    /**
+     * @param string $language
+     * @return FeedInterface
+     */
+    public function setLanguage($language);
     
     /**
      * Atom : feed.entry <feed><entry>

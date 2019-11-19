@@ -570,6 +570,16 @@ class GD extends Common
 
         return $this;
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function saveWebp($file, $quality)
+    {
+        imagewebp($this->resource, $file, $quality);
+
+        return $this;
+    }
 
     /**
      * {@inheritdoc}
@@ -586,10 +596,11 @@ class GD extends Common
      */
     protected function openJpeg($file)
     {
-        if (empty($file) || !is_file($file)) {
-            throw new \Exception(__('File is empty [JPG], aborting.'));
+        if (file_exists($file) && filesize($file)) {
+            $this->resource = @imagecreatefromjpeg($file);
+        } else {
+            $this->resource = false;
         }
-        $this->resource = @imagecreatefromjpeg($file);
     }
 
     /**
@@ -597,10 +608,11 @@ class GD extends Common
      */
     protected function openGif($file)
     {
-        if (empty($file) || !is_file($file)) {
-            throw new \Exception(__('File is empty [GIF], aborting.'));
+        if (file_exists($file) && filesize($file)) {
+            $this->resource = @imagecreatefromgif($file);
+        } else {
+            $this->resource = false;
         }
-        $this->resource = @imagecreatefromgif($file);
     }
 
     /**
@@ -608,10 +620,11 @@ class GD extends Common
      */
     protected function openPng($file)
     {
-        if (empty($file) || !is_file($file)) {
-            throw new \Exception(__('File is empty [PNG], aborting.'));
+        if (file_exists($file) && filesize($file)) {
+            $this->resource = @imagecreatefrompng($file);
+        } else {
+            $this->resource = false;
         }
-        $this->resource = @imagecreatefrompng($file);
     }
 
     /**

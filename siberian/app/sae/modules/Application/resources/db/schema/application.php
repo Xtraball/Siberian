@@ -79,7 +79,6 @@ $schemas['application'] = [
     ],
     'currency' => [
         'type' => 'varchar(10)',
-        'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'USD'
@@ -558,6 +557,12 @@ $schemas['application'] = [
     ],
     'size_on_disk' => [
         'type' => 'int(11) unsigned',
+    ],
+    'version' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '0'
     ],
     'created_at' => [
         'type' => 'datetime',

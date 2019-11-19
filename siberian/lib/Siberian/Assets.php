@@ -745,7 +745,7 @@ class Assets
                 ->pipe($phulp->dest($source . '/dist/'));
         });
 
-        $phulp->run('angular-template-cache');
+        $phulp->run(["angular-template-cache"]);
 
         # Concat & Clean-up
         $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"

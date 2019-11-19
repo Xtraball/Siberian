@@ -118,7 +118,7 @@ abstract class Core_View_Default_Abstract extends Siberian\View
     }
 
     /**
-     * @return mixed
+     * @return Acl_Model_Acl
      */
     public function _getAcl()
     {

@@ -42,6 +42,12 @@ class CurlClient implements ClientInterface
 
     protected $userAgentInfo;
 
+    protected $enablePersistentConnections = null;
+
+    protected $enableHttp2 = null;
+
+    protected $curlHandle = null;
+
     /**
      * CurlClient constructor.
      *
@@ -60,6 +66,17 @@ class CurlClient implements ClientInterface
         $this->defaultOptions = $defaultOptions;
         $this->randomGenerator = $randomGenerator ?: new Util\RandomGenerator();
         $this->initUserAgentInfo();
+
+        // TODO: curl_reset requires PHP >= 5.5.0. Once we drop support for PHP 5.4, we can simply
+        // initialize this to true.
+        $this->enablePersistentConnections = function_exists('curl_reset');
+
+        $this->enableHttp2 = $this->canSafelyUseHttp2();
+    }
+
+    public function __destruct()
+    {
+        $this->closeCurlHandle();
     }
 
     public function initUserAgentInfo()
@@ -79,6 +96,38 @@ class CurlClient implements ClientInterface
     public function getUserAgentInfo()
     {
         return $this->userAgentInfo;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEnablePersistentConnections()
+    {
+        return $this->enablePersistentConnections;
+    }
+
+    /**
+     * @param boolean $enable
+     */
+    public function setEnablePersistentConnections($enable)
+    {
+        $this->enablePersistentConnections = $enable;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getEnableHttp2()
+    {
+        return $this->enableHttp2;
+    }
+
+    /**
+     * @param boolean $enable
+     */
+    public function setEnableHttp2($enable)
+    {
+        $this->enableHttp2 = $enable;
     }
 
     // USER DEFINED TIMEOUTS
@@ -156,7 +205,7 @@ class CurlClient implements ClientInterface
         // It is only safe to retry network failures on POST requests if we
         // add an Idempotency-Key header
         if (($method == 'post') && (Stripe::$maxNetworkRetries > 0)) {
-            if (!isset($headers['Idempotency-Key'])) {
+            if (!$this->hasHeader($headers, "Idempotency-Key")) {
                 array_push($headers, 'Idempotency-Key: ' . $this->randomGenerator->uuid());
             }
         }
@@ -199,8 +248,10 @@ class CurlClient implements ClientInterface
             $opts[CURLOPT_SSL_VERIFYPEER] = false;
         }
 
-        // For HTTPS requests, enable HTTP/2, if supported
-        $opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_2TLS;
+        if (!isset($opts[CURLOPT_HTTP_VERSION]) && $this->getEnableHttp2()) {
+            // For HTTPS requests, enable HTTP/2, if supported
+            $opts[CURLOPT_HTTP_VERSION] = CURL_HTTP_VERSION_2TLS;
+        }
 
         list($rbody, $rcode) = $this->executeRequestWithRetries($opts, $absUrl);
 
@@ -218,17 +269,19 @@ class CurlClient implements ClientInterface
             $rcode = 0;
             $errno = 0;
 
-            $curl = curl_init();
-            curl_setopt_array($curl, $opts);
-            $rbody = curl_exec($curl);
+            $this->resetCurlHandle();
+            curl_setopt_array($this->curlHandle, $opts);
+            $rbody = curl_exec($this->curlHandle);
 
             if ($rbody === false) {
-                $errno = curl_errno($curl);
-                $message = curl_error($curl);
+                $errno = curl_errno($this->curlHandle);
+                $message = curl_error($this->curlHandle);
             } else {
-                $rcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                $rcode = curl_getinfo($this->curlHandle, CURLINFO_HTTP_CODE);
             }
-            curl_close($curl);
+            if (!$this->getEnablePersistentConnections()) {
+                $this->closeCurlHandle();
+            }
 
             if ($this->shouldRetry($errno, $rcode, $numRetries)) {
                 $numRetries += 1;
@@ -339,5 +392,69 @@ class CurlClient implements ClientInterface
         $sleepSeconds = max(Stripe::getInitialNetworkRetryDelay(), $sleepSeconds);
 
         return $sleepSeconds;
+    }
+
+    /**
+     * Initializes the curl handle. If already initialized, the handle is closed first.
+     */
+    private function initCurlHandle()
+    {
+        $this->closeCurlHandle();
+        $this->curlHandle = curl_init();
+    }
+
+    /**
+     * Closes the curl handle if initialized. Do nothing if already closed.
+     */
+    private function closeCurlHandle()
+    {
+        if (!is_null($this->curlHandle)) {
+            curl_close($this->curlHandle);
+            $this->curlHandle = null;
+        }
+    }
+
+    /**
+     * Resets the curl handle. If the handle is not already initialized, or if persistent
+     * connections are disabled, the handle is reinitialized instead.
+     */
+    private function resetCurlHandle()
+    {
+        if (!is_null($this->curlHandle) && $this->getEnablePersistentConnections()) {
+            curl_reset($this->curlHandle);
+        } else {
+            $this->initCurlHandle();
+        }
+    }
+
+    /**
+     * Indicates whether it is safe to use HTTP/2 or not.
+     *
+     * @return boolean
+     */
+    private function canSafelyUseHttp2()
+    {
+        // Versions of curl older than 7.60.0 don't respect GOAWAY frames
+        // (cf. https://github.com/curl/curl/issues/2416), which Stripe use.
+        $curlVersion = curl_version()['version'];
+        return (version_compare($curlVersion, '7.60.0') >= 0);
+    }
+
+    /**
+     * Checks if a list of headers contains a specific header name.
+     *
+     * @param string[] $headers
+     * @param string $name
+     * @return boolean
+     */
+    private function hasHeader($headers, $name)
+    {
+        foreach ($headers as $header) {
+            if (strncasecmp($header, "{$name}: ", strlen($name) + 2) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

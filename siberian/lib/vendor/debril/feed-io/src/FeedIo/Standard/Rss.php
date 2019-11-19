@@ -14,6 +14,7 @@ use DOMDocument;
 use FeedIo\Reader\Document;
 use FeedIo\Rule\Author;
 use FeedIo\Rule\Description;
+use FeedIo\Rule\Language;
 use FeedIo\Rule\Link;
 use FeedIo\Rule\PublicId;
 use FeedIo\Rule\Media;
@@ -80,45 +81,42 @@ class Rss extends XmlAbstract
     }
 
     /**
-     * @return RuleSet
+     * @return \FeedIo\RuleSet
      */
     public function buildFeedRuleSet()
     {
-        $ruleSet = $this->buildItemRuleSet();
-        $ruleSet->add(
-                    $this->getModifiedSinceRule('lastPubDate'),
-                    array('lastBuildDate')
-                    );
+        $ruleSet = $this->buildBaseRuleSet();
+        $ruleSet->add(new Language());
 
         return $ruleSet;
     }
 
     /**
-     * @return RuleSet
+     * @return \FeedIo\RuleSet
      */
     public function buildItemRuleSet()
     {
         $ruleSet = $this->buildBaseRuleSet();
         $ruleSet
-            ->add(new Author())
-            ->add(new Link())
+            ->add(new Author(), ['dc:creator'])
             ->add(new PublicId())
-            ->add(new Description())
-            ->add(new Media())
-            ->add($this->getModifiedSinceRule(static::DATE_NODE_TAGNAME));
+            ->add(new Media(), ['media:thumbnail']);
 
         return $ruleSet;
     }
 
     /**
-     * @return RuleSet
+     * @return \FeedIo\RuleSet
      */
     protected function buildBaseRuleSet()
     {
         $ruleSet = parent::buildBaseRuleSet();
-        $ruleSet->add(new Category());
+        $ruleSet
+            ->add(new Link())
+            ->add(new Description(), ['content:encoded'])
+            ->add($this->getModifiedSinceRule(static::DATE_NODE_TAGNAME, ['lastBuildDate', 'lastPubDate']))
+            ->add(new Category());
 
         return $ruleSet;
     }
-
 }

@@ -151,7 +151,7 @@ exports.convertProperties = function (options) {
     }
 
     if (options.text) {
-        options.text  = options.text.toString();
+        options.text = options.text.toString();
     }
 
     if (options.badge) {
@@ -164,19 +164,19 @@ exports.convertProperties = function (options) {
     }
 
     if (options.at) {
-        if (typeof options.at == 'object') {
+        if (typeof options.at === 'object') {
             options.at = options.at.getTime();
         }
 
         options.at = Math.round(options.at/1000);
     }
 
-    if (typeof options.data == 'object') {
+    if (typeof options.data === 'object') {
         options.data = JSON.stringify(options.data);
     }
 
     if (options.every) {
-        if (device.platform == 'iOS' && typeof options.every != 'string') {
+        if (device.platform === 'iOS' && typeof options.every !== 'string') {
             options.every = this.getDefaults().every;
             var warning = 'Every option is not a string: ' + options.id;
             warning += '. Expects one of: second, minute, hour, day, week, ';

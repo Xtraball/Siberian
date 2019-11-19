@@ -179,8 +179,8 @@ class Folder_Model_Folder extends Core_Model_Default
                 }
 
                 $url = $this->getPath("folder/mobile_list", [
-                        "value_id" => (integer)$current_option->getId(),
-                        "category_id" => (integer)$folder->getId()]
+                    "value_id" => (integer)$current_option->getId(),
+                    "category_id" => (integer)$folder->getId()]
                 );
 
                 $search_list[] = [
@@ -235,7 +235,8 @@ class Folder_Model_Folder extends Core_Model_Default
                         "offline_mode" => (boolean)$feature->getObject()->isCacheable(),
                         "code" => $feature->getCode(),
                         "type" => "feature",
-                        "is_locked" => (boolean)$feature->isLocked()
+                        "is_visible" => (boolean) $feature->getIsVisible(),
+                        "is_locked" => (boolean) $feature->isLocked()
                     ];
                 }
             }
@@ -272,6 +273,8 @@ class Folder_Model_Folder extends Core_Model_Default
                     "path" => $url,
                     "offline_mode" => (boolean)$current_option->getObject()->isCacheable(),
                     "category_id" => (integer)$subcategory->getId(),
+                    "is_visible" => true,
+                    "is_locked" => false,
                     "is_subfolder" => true
                 ];
             }
@@ -315,6 +318,7 @@ class Folder_Model_Folder extends Core_Model_Default
                     "code" => $page->getCode(),
                     "offline_mode" => (boolean)$page->getObject()->isCacheable(),
                     "embed_payload" => $page->getEmbedPayload($request),
+                    "is_visible" => (boolean)$page->getIsVisible(),
                     "is_locked" => (boolean)$page->isLocked(),
                     "touched_at" => (integer)$page->getTouchedAt(),
                     "expires_at" => (integer)$page->getExpiresAt()
@@ -340,7 +344,6 @@ class Folder_Model_Folder extends Core_Model_Default
         }
 
         return $payload;
-
     }
 
     private function _getAllChildren($category, &$tab_children)

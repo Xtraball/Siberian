@@ -23,6 +23,41 @@ class HtmlDumper extends CliDumper
 {
     public static $defaultOutput = 'php://output';
 
+    protected static $themes = [
+        'dark' => [
+            'default' => 'background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+            'num' => 'font-weight:bold; color:#1299DA',
+            'const' => 'font-weight:bold',
+            'str' => 'font-weight:bold; color:#56DB3A',
+            'note' => 'color:#1299DA',
+            'ref' => 'color:#A0A0A0',
+            'public' => 'color:#FFFFFF',
+            'protected' => 'color:#FFFFFF',
+            'private' => 'color:#FFFFFF',
+            'meta' => 'color:#B729D9',
+            'key' => 'color:#56DB3A',
+            'index' => 'color:#1299DA',
+            'ellipsis' => 'color:#FF8400',
+            'ns' => 'user-select:none;',
+        ],
+        'light' => [
+            'default' => 'background:none; color:#CC7832; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: break-all',
+            'num' => 'font-weight:bold; color:#1299DA',
+            'const' => 'font-weight:bold',
+            'str' => 'font-weight:bold; color:#629755;',
+            'note' => 'color:#6897BB',
+            'ref' => 'color:#6E6E6E',
+            'public' => 'color:#262626',
+            'protected' => 'color:#262626',
+            'private' => 'color:#262626',
+            'meta' => 'color:#B729D9',
+            'key' => 'color:#789339',
+            'index' => 'color:#1299DA',
+            'ellipsis' => 'color:#CC7832',
+            'ns' => 'user-select:none;',
+        ],
+    ];
+
     protected $dumpHeader;
     protected $dumpPrefix = '<pre class=sf-dump id=%s data-indent-pad="%s">';
     protected $dumpSuffix = '</pre><script>Sfdump(%s)</script>';
@@ -30,37 +65,24 @@ class HtmlDumper extends CliDumper
     protected $colors = true;
     protected $headerIsDumped = false;
     protected $lastDepth = -1;
-    protected $styles = array(
-        'default' => 'background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative; z-index:99999; word-break: normal',
-        'num' => 'font-weight:bold; color:#1299DA',
-        'const' => 'font-weight:bold',
-        'str' => 'font-weight:bold; color:#56DB3A',
-        'note' => 'color:#1299DA',
-        'ref' => 'color:#A0A0A0',
-        'public' => 'color:#FFFFFF',
-        'protected' => 'color:#FFFFFF',
-        'private' => 'color:#FFFFFF',
-        'meta' => 'color:#B729D9',
-        'key' => 'color:#56DB3A',
-        'index' => 'color:#1299DA',
-        'ellipsis' => 'color:#FF8400',
-    );
+    protected $styles;
 
-    private $displayOptions = array(
+    private $displayOptions = [
         'maxDepth' => 1,
         'maxStringLength' => 160,
         'fileLinkFormat' => null,
-    );
-    private $extraDisplayOptions = array();
+    ];
+    private $extraDisplayOptions = [];
 
     /**
      * {@inheritdoc}
      */
-    public function __construct($output = null, $charset = null, $flags = 0)
+    public function __construct($output = null, string $charset = null, int $flags = 0)
     {
         AbstractDumper::__construct($output, $charset, $flags);
         $this->dumpId = 'sf-dump-'.mt_rand();
         $this->displayOptions['fileLinkFormat'] = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
+        $this->styles = static::$themes['dark'] ?? self::$themes['dark'];
     }
 
     /**
@@ -70,6 +92,15 @@ class HtmlDumper extends CliDumper
     {
         $this->headerIsDumped = false;
         $this->styles = $styles + $this->styles;
+    }
+
+    public function setTheme(string $themeName)
+    {
+        if (!isset(static::$themes[$themeName])) {
+            throw new \InvalidArgumentException(sprintf('Theme "%s" does not exist in class "%s".', $themeName, static::class));
+        }
+
+        $this->setStyles(static::$themes[$themeName]);
     }
 
     /**
@@ -108,7 +139,7 @@ class HtmlDumper extends CliDumper
     /**
      * {@inheritdoc}
      */
-    public function dump(Data $data, $output = null, array $extraDisplayOptions = array())
+    public function dump(Data $data, $output = null, array $extraDisplayOptions = [])
     {
         $this->extraDisplayOptions = $extraDisplayOptions;
         $result = parent::dump($data, $output);
@@ -155,24 +186,31 @@ if (!doc.addEventListener) {
 function toggle(a, recursive) {
     var s = a.nextSibling || {}, oldClass = s.className, arrow, newClass;
 
-    if ('sf-dump-compact' == oldClass) {
+    if (/\bsf-dump-compact\b/.test(oldClass)) {
         arrow = '▼';
         newClass = 'sf-dump-expanded';
-    } else if ('sf-dump-expanded' == oldClass) {
+    } else if (/\bsf-dump-expanded\b/.test(oldClass)) {
         arrow = '▶';
         newClass = 'sf-dump-compact';
     } else {
         return false;
     }
 
+    if (doc.createEvent && s.dispatchEvent) {
+        var event = doc.createEvent('Event');
+        event.initEvent('sf-dump-expanded' === newClass ? 'sfbeforedumpexpand' : 'sfbeforedumpcollapse', true, false);
+
+        s.dispatchEvent(event);
+    }
+
     a.lastChild.innerHTML = arrow;
-    s.className = newClass;
+    s.className = s.className.replace(/\bsf-dump-(compact|expanded)\b/, newClass);
 
     if (recursive) {
         try {
             a = s.querySelectorAll('.'+oldClass);
             for (s = 0; s < a.length; ++s) {
-                if (a[s].className !== newClass) {
+                if (-1 == a[s].className.indexOf(newClass)) {
                     a[s].className = newClass;
                     a[s].previousSibling.lastChild.innerHTML = arrow;
                 }
@@ -183,6 +221,81 @@ function toggle(a, recursive) {
 
     return true;
 };
+
+function collapse(a, recursive) {
+    var s = a.nextSibling || {}, oldClass = s.className;
+
+    if (/\bsf-dump-expanded\b/.test(oldClass)) {
+        toggle(a, recursive);
+
+        return true;
+    }
+
+    return false;
+};
+
+function expand(a, recursive) {
+    var s = a.nextSibling || {}, oldClass = s.className;
+
+    if (/\bsf-dump-compact\b/.test(oldClass)) {
+        toggle(a, recursive);
+
+        return true;
+    }
+
+    return false;
+};
+
+function collapseAll(root) {
+    var a = root.querySelector('a.sf-dump-toggle');
+    if (a) {
+        collapse(a, true);
+        expand(a);
+
+        return true;
+    }
+
+    return false;
+}
+
+function reveal(node) {
+    var previous, parents = [];
+
+    while ((node = node.parentNode || {}) && (previous = node.previousSibling) && 'A' === previous.tagName) {
+        parents.push(previous);
+    }
+
+    if (0 !== parents.length) {
+        parents.forEach(function (parent) {
+            expand(parent);
+        });
+
+        return true;
+    }
+
+    return false;
+}
+
+function highlight(root, activeNode, nodes) {
+    resetHighlightedNodes(root);
+
+    Array.from(nodes||[]).forEach(function (node) {
+        if (!/\bsf-dump-highlight\b/.test(node.className)) {
+            node.className = node.className + ' sf-dump-highlight';
+        }
+    });
+
+    if (!/\bsf-dump-highlight-active\b/.test(activeNode.className)) {
+        activeNode.className = activeNode.className + ' sf-dump-highlight-active';
+    }
+}
+
+function resetHighlightedNodes(root) {
+    Array.from(root.querySelectorAll('.sf-dump-str, .sf-dump-key, .sf-dump-public, .sf-dump-protected, .sf-dump-private')).forEach(function (strNode) {
+        strNode.className = strNode.className.replace(/\bsf-dump-highlight\b/, '');
+        strNode.className = strNode.className.replace(/\bsf-dump-highlight-active\b/, '');
+    });
+}
 
 return function (root, x) {
     root = doc.getElementById(root);
@@ -201,18 +314,39 @@ return function (root, x) {
     }
 
     function a(e, f) {
-        addEventListener(root, e, function (e) {
+        addEventListener(root, e, function (e, n) {
             if ('A' == e.target.tagName) {
                 f(e.target, e);
             } else if ('A' == e.target.parentNode.tagName) {
                 f(e.target.parentNode, e);
-            } else if (e.target.nextElementSibling && 'A' == e.target.nextElementSibling.tagName) {
-                f(e.target.nextElementSibling, e, true);
+            } else if ((n = e.target.nextElementSibling) && 'A' == n.tagName) {
+                if (!/\bsf-dump-toggle\b/.test(n.className)) {
+                    n = n.nextElementSibling;
+                }
+
+                f(n, e, true);
             }
         });
     };
     function isCtrlKey(e) {
         return e.ctrlKey || e.metaKey;
+    }
+    function xpathString(str) {
+        var parts = str.match(/[^'"]+|['"]/g).map(function (part) {
+            if ("'" == part)  {
+                return '"\'"';
+            }
+            if ('"' == part) {
+                return "'\"'";
+            }
+
+            return "'" + part + "'";
+        });
+
+        return "concat(" + parts.join(",") + ", '')";
+    }
+    function xpathHasClass(className) {
+        return "contains(concat(' ', normalize-space(@class), ' '), ' " + className +" ')";
     }
     addEventListener(root, 'mouseover', function (e) {
         if ('' != refStyle.innerHTML) {
@@ -245,7 +379,7 @@ return function (root, x) {
                 if (f && t && f[0] !== t[0]) {
                     r.innerHTML = r.innerHTML.replace(new RegExp('^'+f[0].replace(rxEsc, '\\$1'), 'mg'), t[0]);
                 }
-                if ('sf-dump-compact' == r.className) {
+                if (/\bsf-dump-compact\b/.test(r.className)) {
                     toggle(s, isCtrlKey(e));
                 }
             }
@@ -263,7 +397,7 @@ return function (root, x) {
         } else if (/\bsf-dump-str-toggle\b/.test(a.className)) {
             e.preventDefault();
             e = a.parentNode.parentNode;
-            e.className = e.className.replace(/sf-dump-str-(expand|collapse)/, a.parentNode.className);
+            e.className = e.className.replace(/\bsf-dump-str-(expand|collapse)\b/, a.parentNode.className);
         }
     });
 
@@ -277,7 +411,6 @@ return function (root, x) {
     for (i = 0; i < len; ++i) {
         elt = t[i];
         if ('SAMP' == elt.tagName) {
-            elt.className = 'sf-dump-expanded';
             a = elt.previousSibling || {};
             if ('A' != a.tagName) {
                 a = doc.createElement('A');
@@ -289,15 +422,18 @@ return function (root, x) {
             a.title = (a.title ? a.title+'\n[' : '[')+keyHint+'+click] Expand all children';
             a.innerHTML += '<span>▼</span>';
             a.className += ' sf-dump-toggle';
+
             x = 1;
             if ('sf-dump' != elt.parentNode.className) {
                 x += elt.parentNode.getAttribute('data-depth')/1;
             }
             elt.setAttribute('data-depth', x);
-            if (x > options.maxDepth) {
+            var className = elt.className;
+            elt.className = 'sf-dump-expanded';
+            if (className ? 'sf-dump-expanded' !== className : (x > options.maxDepth)) {
                 toggle(a);
             }
-        } else if ('sf-dump-ref' == elt.className && (a = elt.getAttribute('href'))) {
+        } else if (/\bsf-dump-ref\b/.test(elt.className) && (a = elt.getAttribute('href'))) {
             a = a.substr(1);
             elt.className += ' '+a;
 
@@ -322,6 +458,158 @@ return function (root, x) {
                 }
             }
         }
+    }
+
+    if (doc.evaluate && Array.from && root.children.length > 1) {
+        root.setAttribute('tabindex', 0);
+
+        SearchState = function () {
+            this.nodes = [];
+            this.idx = 0;
+        };
+        SearchState.prototype = {
+            next: function () {
+                if (this.isEmpty()) {
+                    return this.current();
+                }
+                this.idx = this.idx < (this.nodes.length - 1) ? this.idx + 1 : 0;
+
+                return this.current();
+            },
+            previous: function () {
+                if (this.isEmpty()) {
+                    return this.current();
+                }
+                this.idx = this.idx > 0 ? this.idx - 1 : (this.nodes.length - 1);
+
+                return this.current();
+            },
+            isEmpty: function () {
+                return 0 === this.count();
+            },
+            current: function () {
+                if (this.isEmpty()) {
+                    return null;
+                }
+                return this.nodes[this.idx];
+            },
+            reset: function () {
+                this.nodes = [];
+                this.idx = 0;
+            },
+            count: function () {
+                return this.nodes.length;
+            },
+        };
+
+        function showCurrent(state)
+        {
+            var currentNode = state.current(), currentRect, searchRect;
+            if (currentNode) {
+                reveal(currentNode);
+                highlight(root, currentNode, state.nodes);
+                if ('scrollIntoView' in currentNode) {
+                    currentNode.scrollIntoView(true);
+                    currentRect = currentNode.getBoundingClientRect();
+                    searchRect = search.getBoundingClientRect();
+                    if (currentRect.top < (searchRect.top + searchRect.height)) {
+                        window.scrollBy(0, -(searchRect.top + searchRect.height + 5));
+                    }
+                }
+            }
+            counter.textContent = (state.isEmpty() ? 0 : state.idx + 1) + ' of ' + state.count();
+        }
+
+        var search = doc.createElement('div');
+        search.className = 'sf-dump-search-wrapper sf-dump-search-hidden';
+        search.innerHTML = '
+            <input type="text" class="sf-dump-search-input">
+            <span class="sf-dump-search-count">0 of 0<\/span>
+            <button type="button" class="sf-dump-search-input-previous" tabindex="-1">
+                <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 1331l-166 165q-19 19-45 19t-45-19L896 965l-531 531q-19 19-45 19t-45-19l-166-165q-19-19-19-45.5t19-45.5l742-741q19-19 45-19t45 19l742 741q19 19 19 45.5t-19 45.5z"\/><\/svg>
+            <\/button>
+            <button type="button" class="sf-dump-search-input-next" tabindex="-1">
+                <svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1683 808l-742 741q-19 19-45 19t-45-19L109 808q-19-19-19-45.5t19-45.5l166-165q19-19 45-19t45 19l531 531 531-531q19-19 45-19t45 19l166 165q19 19 19 45.5t-19 45.5z"\/><\/svg>
+            <\/button>
+        ';
+        root.insertBefore(search, root.firstChild);
+
+        var state = new SearchState();
+        var searchInput = search.querySelector('.sf-dump-search-input');
+        var counter = search.querySelector('.sf-dump-search-count');
+        var searchInputTimer = 0;
+        var previousSearchQuery = '';
+
+        addEventListener(searchInput, 'keyup', function (e) {
+            var searchQuery = e.target.value;
+            /* Don't perform anything if the pressed key didn't change the query */
+            if (searchQuery === previousSearchQuery) {
+                return;
+            }
+            previousSearchQuery = searchQuery;
+            clearTimeout(searchInputTimer);
+            searchInputTimer = setTimeout(function () {
+                state.reset();
+                collapseAll(root);
+                resetHighlightedNodes(root);
+                if ('' === searchQuery) {
+                    counter.textContent = '0 of 0';
+
+                    return;
+                }
+
+                var classMatches = [
+                    "sf-dump-str",
+                    "sf-dump-key",
+                    "sf-dump-public",
+                    "sf-dump-protected",
+                    "sf-dump-private",
+                ].map(xpathHasClass).join(' or ');
+
+                var xpathResult = doc.evaluate('.//span[' + classMatches + '][contains(translate(child::text(), ' + xpathString(searchQuery.toUpperCase()) + ', ' + xpathString(searchQuery.toLowerCase()) + '), ' + xpathString(searchQuery.toLowerCase()) + ')]', root, null, XPathResult.ORDERED_NODE_ITERATOR_TYPE, null);
+
+                while (node = xpathResult.iterateNext()) state.nodes.push(node);
+
+                showCurrent(state);
+            }, 400);
+        });
+
+        Array.from(search.querySelectorAll('.sf-dump-search-input-next, .sf-dump-search-input-previous')).forEach(function (btn) {
+            addEventListener(btn, 'click', function (e) {
+                e.preventDefault();
+                -1 !== e.target.className.indexOf('next') ? state.next() : state.previous();
+                searchInput.focus();
+                collapseAll(root);
+                showCurrent(state);
+            })
+        });
+
+        addEventListener(root, 'keydown', function (e) {
+            var isSearchActive = !/\bsf-dump-search-hidden\b/.test(search.className);
+            if ((114 === e.keyCode && !isSearchActive) || (isCtrlKey(e) && 70 === e.keyCode)) {
+                /* F3 or CMD/CTRL + F */
+                e.preventDefault();
+                search.className = search.className.replace(/\bsf-dump-search-hidden\b/, '');
+                searchInput.focus();
+            } else if (isSearchActive) {
+                if (27 === e.keyCode) {
+                    /* ESC key */
+                    search.className += ' sf-dump-search-hidden';
+                    e.preventDefault();
+                    resetHighlightedNodes(root);
+                    searchInput.value = '';
+                } else if (
+                    (isCtrlKey(e) && 71 === e.keyCode) /* CMD/CTRL + G */
+                    || 13 === e.keyCode /* Enter */
+                    || 114 === e.keyCode /* F3 */
+                ) {
+                    e.preventDefault();
+                    e.shiftKey ? state.previous() : state.next();
+                    collapseAll(root);
+                    showCurrent(state);
+                }
+            }
+        });
     }
 
     if (0 >= options.maxStringLength) {
@@ -358,6 +646,14 @@ pre.sf-dump {
     display: block;
     white-space: pre;
     padding: 5px;
+    overflow: initial !important;
+}
+pre.sf-dump:after {
+   content: "";
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
 }
 pre.sf-dump span {
     display: inline;
@@ -386,6 +682,9 @@ pre.sf-dump .sf-dump-ellipsis {
     overflow: hidden;
     vertical-align: top;
 }
+pre.sf-dump .sf-dump-ellipsis+.sf-dump-ellipsis {
+    max-width: none;
+}
 pre.sf-dump code {
     display:inline;
     padding:0;
@@ -396,6 +695,83 @@ pre.sf-dump code {
 }
 .sf-dump-str-expand .sf-dump-str-expand {
     display: none;
+}
+.sf-dump-public.sf-dump-highlight,
+.sf-dump-protected.sf-dump-highlight,
+.sf-dump-private.sf-dump-highlight,
+.sf-dump-str.sf-dump-highlight,
+.sf-dump-key.sf-dump-highlight {
+    background: rgba(111, 172, 204, 0.3);
+    border: 1px solid #7DA0B1;
+    border-radius: 3px;
+}
+.sf-dump-public.sf-dump-highlight-active,
+.sf-dump-protected.sf-dump-highlight-active,
+.sf-dump-private.sf-dump-highlight-active,
+.sf-dump-str.sf-dump-highlight-active,
+.sf-dump-key.sf-dump-highlight-active {
+    background: rgba(253, 175, 0, 0.4);
+    border: 1px solid #ffa500;
+    border-radius: 3px;
+}
+pre.sf-dump .sf-dump-search-hidden {
+    display: none !important;
+}
+pre.sf-dump .sf-dump-search-wrapper {
+    font-size: 0;
+    white-space: nowrap;
+    margin-bottom: 5px;
+    display: flex;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
+}
+pre.sf-dump .sf-dump-search-wrapper > * {
+    vertical-align: top;
+    box-sizing: border-box;
+    height: 21px;
+    font-weight: normal;
+    border-radius: 0;
+    background: #FFF;
+    color: #757575;
+    border: 1px solid #BBB;
+}
+pre.sf-dump .sf-dump-search-wrapper > input.sf-dump-search-input {
+    padding: 3px;
+    height: 21px;
+    font-size: 12px;
+    border-right: none;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    color: #000;
+    min-width: 15px;
+    width: 100%;
+}
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next,
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-previous {
+    background: #F2F2F2;
+    outline: none;
+    border-left: none;
+    font-size: 0;
+    line-height: 0;
+}
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-next > svg,
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-input-previous > svg {
+    pointer-events: none;
+    width: 12px;
+    height: 12px;
+}
+pre.sf-dump .sf-dump-search-wrapper > .sf-dump-search-count {
+    display: inline-block;
+    padding: 0 5px;
+    margin: 0;
+    border-left: none;
+    line-height: 21px;
+    font-size: 12px;
 }
 EOHTML
         );
@@ -414,15 +790,25 @@ EOHTML
     {
         parent::enterHash($cursor, $type, $class, false);
 
+        if ($cursor->skipChildren) {
+            $cursor->skipChildren = false;
+            $eol = ' class=sf-dump-compact>';
+        } elseif ($this->expandNextHash) {
+            $this->expandNextHash = false;
+            $eol = ' class=sf-dump-expanded>';
+        } else {
+            $eol = '>';
+        }
+
         if ($hasChild) {
+            $this->line .= '<samp';
             if ($cursor->refIndex) {
                 $r = Cursor::HASH_OBJECT !== $type ? 1 - (Cursor::HASH_RESOURCE !== $type) : 2;
                 $r .= $r && 0 < $cursor->softRefHandle ? $cursor->softRefHandle : $cursor->refIndex;
 
-                $this->line .= sprintf('<samp id=%s-ref%s>', $this->dumpId, $r);
-            } else {
-                $this->line .= '<samp>';
+                $this->line .= sprintf(' id=%s-ref%s', $this->dumpId, $r);
             }
+            $this->line .= $eol;
             $this->dumpLine($cursor->depth);
         }
     }
@@ -442,7 +828,7 @@ EOHTML
     /**
      * {@inheritdoc}
      */
-    protected function style($style, $value, $attr = array())
+    protected function style($style, $value, $attr = [])
     {
         if ('' === $value) {
             return '';
@@ -466,7 +852,13 @@ EOHTML
         } elseif ('str' === $style && 1 < $attr['length']) {
             $style .= sprintf(' title="%d%s characters"', $attr['length'], $attr['binary'] ? ' binary or non-UTF-8' : '');
         } elseif ('note' === $style && false !== $c = strrpos($v, '\\')) {
-            return sprintf('<abbr title="%s" class=sf-dump-%s>%s</abbr>', $v, $style, substr($v, $c + 1));
+            if (isset($attr['file']) && $link = $this->getSourceLink($attr['file'], isset($attr['line']) ? $attr['line'] : 0)) {
+                $link = sprintf('<a href="%s" rel="noopener noreferrer">^</a>', esc($this->utf8Encode($link)));
+            } else {
+                $link = '';
+            }
+
+            return sprintf('<abbr title="%s" class=sf-dump-%s>%s</abbr>%s', $v, $style, substr($v, $c + 1), $link);
         } elseif ('protected' === $style) {
             $style .= ' title="Protected property"';
         } elseif ('meta' === $style && isset($attr['title'])) {
@@ -477,16 +869,39 @@ EOHTML
         $map = static::$controlCharsMap;
 
         if (isset($attr['ellipsis'])) {
+            $class = 'sf-dump-ellipsis';
+            if (isset($attr['ellipsis-type'])) {
+                $class = sprintf('"%s sf-dump-ellipsis-%s"', $class, $attr['ellipsis-type']);
+            }
             $label = esc(substr($value, -$attr['ellipsis']));
             $style = str_replace(' title="', " title=\"$v\n", $style);
-            $v = sprintf('<span class=sf-dump-ellipsis>%s</span>%s', substr($v, 0, -strlen($label)), $label);
+            $v = sprintf('<span class=%s>%s</span>', $class, substr($v, 0, -\strlen($label)));
+
+            if (!empty($attr['ellipsis-tail'])) {
+                $tail = \strlen(esc(substr($value, -$attr['ellipsis'], $attr['ellipsis-tail'])));
+                $v .= sprintf('<span class=sf-dump-ellipsis>%s</span>%s', substr($label, 0, $tail), substr($label, $tail));
+            } else {
+                $v .= $label;
+            }
         }
 
         $v = "<span class=sf-dump-{$style}>".preg_replace_callback(static::$controlCharsRx, function ($c) use ($map) {
-            $s = '<span class=sf-dump-default>';
+            $s = $b = '<span class="sf-dump-default';
             $c = $c[$i = 0];
+            if ($ns = "\r" === $c[$i] || "\n" === $c[$i]) {
+                $s .= ' sf-dump-ns';
+            }
+            $s .= '">';
             do {
-                $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', ord($c[$i]));
+                if (("\r" === $c[$i] || "\n" === $c[$i]) !== $ns) {
+                    $s .= '</span>'.$b;
+                    if ($ns = !$ns) {
+                        $s .= ' sf-dump-ns';
+                    }
+                    $s .= '">';
+                }
+
+                $s .= isset($map[$c[$i]]) ? $map[$c[$i]] : sprintf('\x%02X', \ord($c[$i]));
             } while (isset($c[++$i]));
 
             return $s.'</span>';
@@ -496,7 +911,8 @@ EOHTML
             $attr['href'] = $href;
         }
         if (isset($attr['href'])) {
-            $v = sprintf('<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>', esc($this->utf8Encode($attr['href'])), $v);
+            $target = isset($attr['file']) ? '' : ' target="_blank"';
+            $v = sprintf('<a href="%s"%s rel="noopener noreferrer">%s</a>', esc($this->utf8Encode($attr['href'])), $target, $v);
         }
         if (isset($attr['lang'])) {
             $v = sprintf('<code class="%s">%s</code>', esc($attr['lang']), $v);
@@ -518,7 +934,7 @@ EOHTML
         }
 
         if (-1 === $depth) {
-            $args = array('"'.$this->dumpId.'"');
+            $args = ['"'.$this->dumpId.'"'];
             if ($this->extraDisplayOptions) {
                 $args[] = json_encode($this->extraDisplayOptions, JSON_FORCE_OBJECT);
             }
@@ -540,7 +956,7 @@ EOHTML
         $options = $this->extraDisplayOptions + $this->displayOptions;
 
         if ($fmt = $options['fileLinkFormat']) {
-            return is_string($fmt) ? strtr($fmt, array('%f' => $file, '%l' => $line)) : $fmt->format($file, $line);
+            return \is_string($fmt) ? strtr($fmt, ['%f' => $file, '%l' => $line]) : $fmt->format($file, $line);
         }
 
         return false;

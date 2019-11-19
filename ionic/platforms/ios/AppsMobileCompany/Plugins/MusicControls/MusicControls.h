@@ -23,6 +23,10 @@
 - (void) destroy: (CDVInvokedUrlCommand *) command;
 - (void) watch: (CDVInvokedUrlCommand *) command;
 - (void) remoteEvent:(MPRemoteCommandEvent *) event;
+- (void) playEvent:(MPRemoteCommandEvent *) event;
+- (void) pauseEvent:(MPRemoteCommandEvent *) event;
+- (void) nextTrackEvent:(MPRemoteCommandEvent *) event;
+- (void) prevTrackEvent:(MPRemoteCommandEvent *) event;
 - (void) skipForwardEvent: (MPSkipIntervalCommandEvent *) event;
 - (void) skipBackwardEvent: (MPSkipIntervalCommandEvent *) event;
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri;

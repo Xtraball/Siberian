@@ -13,7 +13,7 @@
 - (void)adjustBehavior {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 110000
     if (@available(iOS 11.0, *)) {
-        [self.webView.scrollView setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentNever];
+        [self.webView.scrollView setContentInsetAdjustmentBehavior:UIScrollViewContentInsetAdjustmentAutomatic];
     }
 #endif
 }
@@ -123,6 +123,7 @@
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
                 webViewController = [[WebViewController alloc] init];
+                webViewController.modalPresentationStyle = 0;
                 webViewController.delegate = self;
                 [self.viewController presentViewController:webViewController animated:NO completion:nil];
             });
@@ -143,6 +144,7 @@
         @try {
             dispatch_async(dispatch_get_main_queue(), ^{
                 webViewController = [[WebViewController alloc] init];
+                webViewController.modalPresentationStyle = 0;
                 webViewController.delegate = self;
                 [self.viewController presentViewController:webViewController animated:NO completion:nil];
             });

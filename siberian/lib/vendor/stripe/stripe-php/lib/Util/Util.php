@@ -71,6 +71,7 @@ abstract class Util
 
             // business objects
             \Stripe\Account::OBJECT_NAME => 'Stripe\\Account',
+            \Stripe\AccountLink::OBJECT_NAME => 'Stripe\\AccountLink',
             \Stripe\AlipayAccount::OBJECT_NAME => 'Stripe\\AlipayAccount',
             \Stripe\ApplePayDomain::OBJECT_NAME => 'Stripe\\ApplePayDomain',
             \Stripe\ApplicationFee::OBJECT_NAME => 'Stripe\\ApplicationFee',
@@ -79,11 +80,15 @@ abstract class Util
             \Stripe\BankAccount::OBJECT_NAME => 'Stripe\\BankAccount',
             \Stripe\BitcoinReceiver::OBJECT_NAME => 'Stripe\\BitcoinReceiver',
             \Stripe\BitcoinTransaction::OBJECT_NAME => 'Stripe\\BitcoinTransaction',
+            \Stripe\Capability::OBJECT_NAME => 'Stripe\\Capability',
             \Stripe\Card::OBJECT_NAME => 'Stripe\\Card',
             \Stripe\Charge::OBJECT_NAME => 'Stripe\\Charge',
+            \Stripe\Checkout\Session::OBJECT_NAME => 'Stripe\\Checkout\\Session',
             \Stripe\CountrySpec::OBJECT_NAME => 'Stripe\\CountrySpec',
             \Stripe\Coupon::OBJECT_NAME => 'Stripe\\Coupon',
+            \Stripe\CreditNote::OBJECT_NAME => 'Stripe\\CreditNote',
             \Stripe\Customer::OBJECT_NAME => 'Stripe\\Customer',
+            \Stripe\CustomerBalanceTransaction::OBJECT_NAME => 'Stripe\\CustomerBalanceTransaction',
             \Stripe\Discount::OBJECT_NAME => 'Stripe\\Discount',
             \Stripe\Dispute::OBJECT_NAME => 'Stripe\\Dispute',
             \Stripe\EphemeralKey::OBJECT_NAME => 'Stripe\\EphemeralKey',
@@ -108,20 +113,30 @@ abstract class Util
             \Stripe\OrderItem::OBJECT_NAME => 'Stripe\\OrderItem',
             \Stripe\OrderReturn::OBJECT_NAME => 'Stripe\\OrderReturn',
             \Stripe\PaymentIntent::OBJECT_NAME => 'Stripe\\PaymentIntent',
+            \Stripe\PaymentMethod::OBJECT_NAME => 'Stripe\\PaymentMethod',
             \Stripe\Payout::OBJECT_NAME => 'Stripe\\Payout',
+            \Stripe\Person::OBJECT_NAME => 'Stripe\\Person',
             \Stripe\Plan::OBJECT_NAME => 'Stripe\\Plan',
             \Stripe\Product::OBJECT_NAME => 'Stripe\\Product',
+            \Stripe\Radar\EarlyFraudWarning::OBJECT_NAME => 'Stripe\\Radar\\EarlyFraudWarning',
+            \Stripe\Radar\ValueList::OBJECT_NAME => 'Stripe\\Radar\\ValueList',
+            \Stripe\Radar\ValueListItem::OBJECT_NAME => 'Stripe\\Radar\\ValueListItem',
             \Stripe\Recipient::OBJECT_NAME => 'Stripe\\Recipient',
             \Stripe\RecipientTransfer::OBJECT_NAME => 'Stripe\\RecipientTransfer',
             \Stripe\Refund::OBJECT_NAME => 'Stripe\\Refund',
             \Stripe\Reporting\ReportRun::OBJECT_NAME => 'Stripe\\Reporting\\ReportRun',
             \Stripe\Reporting\ReportType::OBJECT_NAME => 'Stripe\\Reporting\\ReportType',
+            \Stripe\Review::OBJECT_NAME => 'Stripe\\Review',
+            \Stripe\SetupIntent::OBJECT_NAME => 'Stripe\\SetupIntent',
             \Stripe\SKU::OBJECT_NAME => 'Stripe\\SKU',
             \Stripe\Sigma\ScheduledQueryRun::OBJECT_NAME => 'Stripe\\Sigma\\ScheduledQueryRun',
             \Stripe\Source::OBJECT_NAME => 'Stripe\\Source',
             \Stripe\SourceTransaction::OBJECT_NAME => 'Stripe\\SourceTransaction',
             \Stripe\Subscription::OBJECT_NAME => 'Stripe\\Subscription',
             \Stripe\SubscriptionItem::OBJECT_NAME => 'Stripe\\SubscriptionItem',
+            \Stripe\SubscriptionSchedule::OBJECT_NAME => 'Stripe\\SubscriptionSchedule',
+            \Stripe\TaxId::OBJECT_NAME => 'Stripe\\TaxId',
+            \Stripe\TaxRate::OBJECT_NAME => 'Stripe\\TaxRate',
             \Stripe\ThreeDSecure::OBJECT_NAME => 'Stripe\\ThreeDSecure',
             \Stripe\Terminal\ConnectionToken::OBJECT_NAME => 'Stripe\\Terminal\\ConnectionToken',
             \Stripe\Terminal\Location::OBJECT_NAME => 'Stripe\\Terminal\\Location',
@@ -132,6 +147,7 @@ abstract class Util
             \Stripe\TransferReversal::OBJECT_NAME => 'Stripe\\TransferReversal',
             \Stripe\UsageRecord::OBJECT_NAME => 'Stripe\\UsageRecord',
             \Stripe\UsageRecordSummary::OBJECT_NAME => 'Stripe\\UsageRecordSummary',
+            \Stripe\WebhookEndpoint::OBJECT_NAME => 'Stripe\\WebhookEndpoint',
         ];
         if (self::isList($resp)) {
             $mapped = [];
@@ -330,5 +346,15 @@ abstract class Util
             $params = [];
         }
         return [$id, $params];
+    }
+
+    /**
+     * Returns UNIX timestamp in milliseconds
+     *
+     * @return integer current time in millis
+     */
+    public static function currentTimeMillis()
+    {
+        return (int) round(microtime(true) * 1000);
     }
 }

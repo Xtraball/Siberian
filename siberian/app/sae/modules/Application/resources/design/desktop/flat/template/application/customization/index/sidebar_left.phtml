@@ -126,6 +126,16 @@ $editorTree = [
             ],
         ],
     ],
+    'payment_gateways' => [
+        'hasChilds' => true,
+        'isVisible' => false,
+        'label' => __('Payment gateways'),
+        'id' => 'sidebar-left-group-payment-gateways',
+        'is_current' => false,
+        'url' => $this->getUrl('/'),
+        'icon' => 'fa fa-credit-card',
+        'childs' => [],
+    ],
     'settings' => [
         'hasChilds' => true,
         'isVisible' => $this->_canAccessAnyOf(['editor_settings_tc', 'editor_settings_apis', 'editor_settings_domain', 'editor_settings_advanced', 'editor_settings_messages']),

@@ -212,6 +212,10 @@
       <string>comgooglemaps</string>
       <string>comgooglemaps-x-callback</string>
     </array>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>Smart content with iBeacon and proximity fences.</string>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>Smart content with iBeacon and proximity fences.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Background location is used to send you geolocated push notifications.</string>
     <key>NSLocationAlwaysUsageDescription</key>
@@ -221,6 +225,6 @@
     <key>NSContactsUsageDescription</key>
     <string>Share content with your contacts</string>
     <key>NSMotionUsageDescription</key>
-    <string>Smart navigation with TaxiRide and other nice features</string>
+    <string>Smart navigation with CabRide and other nice features</string>
   </dict>
 </plist>

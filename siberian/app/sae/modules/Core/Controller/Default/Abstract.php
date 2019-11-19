@@ -749,7 +749,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             } else if (!$this->_isInstanceOfBackoffice()) {
                 $blocks = $this->getRequest()->getWhiteLabelEditor()->getBlocks();
 
-                if ($block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
+                if (DESIGN_CODE !== "backoffice" &&
+                    $block = $this->getRequest()->getWhiteLabelEditor()->getBlock($white_label_blocks[DESIGN_CODE]["block"])) {
                     $icon_color = $block->getData($white_label_blocks[DESIGN_CODE]["color"]);
                     Application_Model_Option_Value::setEditorIconColor($icon_color);
 

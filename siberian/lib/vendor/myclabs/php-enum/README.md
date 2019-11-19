@@ -4,9 +4,11 @@
 [![Latest Stable Version](https://poser.pugx.org/myclabs/php-enum/version.png)](https://packagist.org/packages/myclabs/php-enum)
 [![Total Downloads](https://poser.pugx.org/myclabs/php-enum/downloads.png)](https://packagist.org/packages/myclabs/php-enum)
 
+Maintenance for this project is [supported via Tidelift](https://tidelift.com/subscription/pkg/packagist-myclabs-php-enum?utm_source=packagist-myclabs-php-enum&utm_medium=referral&utm_campaign=readme).
+
 ## Why?
 
-First, and mainly, `SplEnum` is not integrated to PHP, you have to install it separately.
+First, and mainly, `SplEnum` is not integrated to PHP, you have to install the extension separately.
 
 Using an enum instead of class constants provides the following advantages:
 
@@ -33,19 +35,20 @@ use MyCLabs\Enum\Enum;
  */
 class Action extends Enum
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
+    private const VIEW = 'view';
+    private const EDIT = 'edit';
 }
 ```
-
 
 ## Usage
 
 ```php
-$action = new Action(Action::VIEW);
-
-// or
 $action = Action::VIEW();
+
+// or with a dynamic key:
+$action = Action::$key();
+// or with a dynamic value:
+$action = new Action($value);
 ```
 
 As you can see, static methods are automatically implemented to provide quick access to an enum value.
@@ -80,8 +83,8 @@ Static methods:
 ```php
 class Action extends Enum
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
+    private const VIEW = 'view';
+    private const EDIT = 'edit';
 }
 
 // Static method:
@@ -96,7 +99,7 @@ If you care about IDE autocompletion, you can either implement the static method
 ```php
 class Action extends Enum
 {
-    const VIEW = 'view';
+    private const VIEW = 'view';
 
     /**
      * @return Action
@@ -116,11 +119,13 @@ or you can use phpdoc (this is supported in PhpStorm for example):
  */
 class Action extends Enum
 {
-    const VIEW = 'view';
-    const EDIT = 'edit';
+    private const VIEW = 'view';
+    private const EDIT = 'edit';
 }
 ```
 
 ## Related projects
 
 - [Doctrine enum mapping](https://github.com/acelaya/doctrine-enum-type)
+- [Symfony ParamConverter integration](https://github.com/Ex3v/MyCLabsEnumParamConverter)
+- [PHPStan integration](https://github.com/timeweb/phpstan-enum)

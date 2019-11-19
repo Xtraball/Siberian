@@ -9,6 +9,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "Geofence.TransitionType",
+      "file": "plugins/Geofence/www/TransitionType.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "TransitionType"
+      ]
+    },
+    {
+      "id": "Geofence.geofence",
+      "file": "plugins/Geofence/www/geofence.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "geofence"
+      ]
+    },
+    {
       "id": "SplashScreen.SplashScreen",
       "file": "plugins/SplashScreen/www/splashscreen.js",
       "pluginId": "SplashScreen",
@@ -292,22 +308,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "Geofence.TransitionType",
-      "file": "plugins/Geofence/www/TransitionType.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "TransitionType"
-      ]
-    },
-    {
-      "id": "Geofence.geofence",
-      "file": "plugins/Geofence/www/geofence.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "geofence"
-      ]
-    },
-    {
       "id": "Geolocation.geolocation",
       "file": "plugins/Geolocation/www/android/geolocation.js",
       "pluginId": "Geolocation",
@@ -439,6 +439,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports.metadata = {
     "Extension": "1.5.4",
     "Chcp": "1.5.2",
+    "Geofence": "0.6.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",
@@ -451,7 +452,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.1",
-    "Geofence": "0.6.0",
     "Geolocation": "4.0.1",
     "InAppBrowser": "3.0.0",
     "Keyboard": "2.2.1",

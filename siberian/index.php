@@ -7,7 +7,9 @@
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-global $_config;
+global
+
+$_config;
 
 $here = __DIR__;
 putenv("TMP={$here}/var/tmp");

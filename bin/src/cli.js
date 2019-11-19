@@ -392,9 +392,8 @@ let cli = function (inputArgs) {
 let install = function () {
     sh.cd(ROOT);
 
-    sh.cp('-r', './bin/config/platforms.js ./node_modules/cordova-lib/src/cordova/platform.js');
-    sh.cp('-r', './bin/config/platformsConfig.json ./node_modules/cordova-lib/src/platforms/platformsConfig.json');
-    sh.cp('-r', './bin/config/plugman.js ./node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/plugman.js', './node_modules/cordova-lib/src/plugman/plugman.js');
+    sh.cp('-r', './bin/config/main.js', './node_modules/plugman/main.js');
 
     // Configuring environment!
     sh.exec('git config core.fileMode false');
@@ -702,10 +701,13 @@ let patchPreviewer = function (platform) {
 
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
-                "<!-- Ensure file will never be cached. -->\n" +
-                "<script type=\"text/javascript\">\n" +
-                "    document.write('<script src=\"cdvfile://localhost/temporary/module.js?t=' + Date.now() + '\"><\\/script>');\n" +
-                "</script>");
+                `<!-- Ensure file will never be cached. -->
+            <script type="text/javascript">
+                var _ifopRoot = function () {
+                    return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\\+/g, ' ');
+                }
+                document.write('<script src="ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now() + '"><\\/script>');
+            </script>`);
 
             break;
     }
@@ -858,6 +860,9 @@ let copyPlatform = function (platform) {
             // Duplicate in 'overview'!
             sh.cp('-r', siberianPlatformPath, siberianPlatformPath.replace('browser', 'overview'));
 
+            // Apply overview patch
+            patchOverview(siberianPlatformPath.replace("browser", "overview"));
+
             break;
 
         case 'ios':
@@ -878,6 +883,21 @@ let copyPlatform = function (platform) {
     }
 
     sprint('Copy done');
+};
+
+let patchOverview = function (overviewPath) {
+    sprint("===");
+    sprint("Patching overview/index.html");
+
+    let indexFile = overviewPath + "/index.html",
+        indexContent = fs.readFileSync(indexFile, { encoding: "utf8" });
+
+    indexContent = indexContent.replace("platform-browser", "platform-overview");
+
+    fs.writeFileSync(indexFile, indexContent, { encoding: "utf8" });
+
+    sprint("Patched!");
+    sprint("===");
 };
 
 /**

@@ -1,0 +1,52 @@
+<?php
+
+use PaymentCash\Form\Settings as FormSettings;
+use PaymentCash\Model\Application as CashApplication;
+
+$application = $this->getApplication();
+
+// Form
+$formCash = new FormSettings();
+
+$settings = CashApplication::getSettings($application->getId());
+$formCash->populate($settings->getData());
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+
+            <div id="payment_cash_form"
+                 class="content solo-page sb-tour">
+
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__("payment_cash", "Cash payments"); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <div class="form-payment"
+                             rel="stripe">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("payment_cash", "Cash") ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php echo $formCash ?>
+                            </div>
+
+                            <br />
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    bindForms("#payment_cash_form");
+});
+</script>

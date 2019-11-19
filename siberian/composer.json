@@ -1,20 +1,20 @@
 {
     "name": "xtraball/siberian",
-    "license": "OSL 3.0",
+    "license": "OSL-3.0",
+    "minimum-stability": "stable",
     "require": {
         "php" : "^7",
         "ext-json": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
-        "ext-pdo_sqlite  ": "*",
+        "ext-pdo_sqlite": "*",
         "ext-curl": "*",
         "ext-iconv": "*",
         "ext-SimpleXML": "*",
         "ext-libxml": "*",
         "ext-dom": "*",
         "ext-mbstring": "*",
-        "ext-redis": "*",
         "ext-xml": "*",
         "ext-mysqli": "*",
         "ext-openssl": "*",
@@ -39,9 +39,21 @@
         "stripe/stripe-php": "^6.19",
         "gettext/gettext": "^4.6",
         "braintree/braintree_php": "^3.38",
-        "debril/feed-io": "3.0"
+        "debril/feed-io": "^3.0"
+    },
+    "require-dev": {
+        "ext-redis": "*"
     },
     "config": {
         "vendor-dir": "lib/vendor"
-    }
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../crashlytics/",
+            "options": {
+                "symlink": false
+            }
+        }
+    ]
 }

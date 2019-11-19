@@ -1,4 +1,7 @@
 <?php
+
+use Siberian\Version;
+
 $current = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
 $request = $this->getRequest();
@@ -223,6 +226,12 @@ $outputHtml = renderRecursive('', $editorTree);
 
 // Development warning!
 $isDevelopment = (APPLICATION_ENV !== 'production');
+
+$dashboardUrl = "/";
+if (Version::is(["mae", "pe"])) {
+    $dashboardUrl = "/admin/application/list";
+}
+
 ?>
 
 <div id="customization_label"
@@ -238,7 +247,7 @@ $isDevelopment = (APPLICATION_ENV !== 'production');
     <div class="navbar-header">
         <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
         <a id="sb-tour-logo-platform"
-           href="<?php echo $this->getUrl('admin/application/list'); ?>"
+           href="<?php echo $dashboardUrl; ?>"
            class="sb-tour pull-left logo-position">
             <img src="<?php echo $this->getLogo(); ?>"
                  id="logo"

@@ -24,33 +24,32 @@ use Symfony\Component\OptionsResolver\Exception\UndefinedOptionsException;
  * @author Bernhard Schussek <bschussek@gmail.com>
  * @author Tobias Schultze <http://tobion.de>
  */
-class OptionsResolver implements Options
+class OptionsResolver implements Options, OptionsResolverInterface
 {
     /**
-     * The names of all defined options.
+     * The fully qualified name of the {@link Options} interface.
      *
-     * @var array
+     * @internal
+     */
+    const OPTIONS_INTERFACE = 'Symfony\\Component\\OptionsResolver\\Options';
+
+    /**
+     * The names of all defined options.
      */
     private $defined = array();
 
     /**
      * The default option values.
-     *
-     * @var array
      */
     private $defaults = array();
 
     /**
      * The names of required options.
-     *
-     * @var array
      */
     private $required = array();
 
     /**
      * The resolved option values.
-     *
-     * @var array
      */
     private $resolved = array();
 
@@ -63,22 +62,16 @@ class OptionsResolver implements Options
 
     /**
      * A list of accepted values for each option.
-     *
-     * @var array
      */
     private $allowedValues = array();
 
     /**
      * A list of accepted types for each option.
-     *
-     * @var array
      */
     private $allowedTypes = array();
 
     /**
      * A list of closures for evaluating lazy options.
-     *
-     * @var array
      */
     private $lazy = array();
 
@@ -86,8 +79,6 @@ class OptionsResolver implements Options
      * A list of lazy options whose closure is currently being called.
      *
      * This list helps detecting circular dependencies between lazy options.
-     *
-     * @var array
      */
     private $calling = array();
 
@@ -98,8 +89,6 @@ class OptionsResolver implements Options
      * necessary in order to avoid inconsistencies during the resolving
      * process. If any option is changed after being read, all evaluated
      * lazy options that depend on this option would become invalid.
-     *
-     * @var bool
      */
     private $locked = false;
 
@@ -164,7 +153,7 @@ class OptionsResolver implements Options
             $reflClosure = new \ReflectionFunction($value);
             $params = $reflClosure->getParameters();
 
-            if (isset($params[0]) && null !== ($class = $params[0]->getClass()) && Options::class === $class->name) {
+            if (isset($params[0]) && null !== ($class = $params[0]->getClass()) && self::OPTIONS_INTERFACE === $class->name) {
                 // Initialize the option if no previous value exists
                 if (!isset($this->defaults[$option])) {
                     $this->defaults[$option] = null;
@@ -371,11 +360,9 @@ class OptionsResolver implements Options
      *
      * The normalizer should be a closure with the following signature:
      *
-     * ```php
-     * function (Options $options, $value) {
-     *     // ...
-     * }
-     * ```
+     *     function (Options $options, $value) {
+     *         // ...
+     *     }
      *
      * The closure is invoked when {@link resolve()} is called. The closure
      * has access to the resolved values of other options through the passed
@@ -401,17 +388,37 @@ class OptionsResolver implements Options
         }
 
         if (!isset($this->defined[$option])) {
-            throw new UndefinedOptionsException(sprintf(
-                'The option "%s" does not exist. Defined options are: "%s".',
-                $option,
-                implode('", "', array_keys($this->defined))
-            ));
+            throw new UndefinedOptionsException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
         }
 
         $this->normalizers[$option] = $normalizer;
 
         // Make sure the option is processed
         unset($this->resolved[$option]);
+
+        return $this;
+    }
+
+    /**
+     * Sets the normalizers for an array of options.
+     *
+     * @param array $normalizers An array of closures
+     *
+     * @return $this
+     *
+     * @throws UndefinedOptionsException If the option is undefined
+     * @throws AccessException           If called from a lazy option or normalizer
+     *
+     * @see setNormalizer()
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function setNormalizers(array $normalizers)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use setNormalizer() instead.', E_USER_DEPRECATED);
+
+        foreach ($normalizers as $option => $normalizer) {
+            $this->setNormalizer($option, $normalizer);
+        }
 
         return $this;
     }
@@ -437,21 +444,28 @@ class OptionsResolver implements Options
      * @throws UndefinedOptionsException If the option is undefined
      * @throws AccessException           If called from a lazy option or normalizer
      */
-    public function setAllowedValues($option, $allowedValues)
+    public function setAllowedValues($option, $allowedValues = null)
     {
         if ($this->locked) {
             throw new AccessException('Allowed values cannot be set from a lazy option or normalizer.');
         }
 
-        if (!isset($this->defined[$option])) {
-            throw new UndefinedOptionsException(sprintf(
-                'The option "%s" does not exist. Defined options are: "%s".',
-                $option,
-                implode('", "', array_keys($this->defined))
-            ));
+        // BC
+        if (\is_array($option) && null === $allowedValues) {
+            @trigger_error('Calling the '.__METHOD__.' method with an array of options is deprecated since Symfony 2.6 and will be removed in 3.0. Use the new signature with a single option instead.', E_USER_DEPRECATED);
+
+            foreach ($option as $optionName => $optionValues) {
+                $this->setAllowedValues($optionName, $optionValues);
+            }
+
+            return $this;
         }
 
-        $this->allowedValues[$option] = is_array($allowedValues) ? $allowedValues : array($allowedValues);
+        if (!isset($this->defined[$option])) {
+            throw new UndefinedOptionsException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
+        }
+
+        $this->allowedValues[$option] = \is_array($allowedValues) ? $allowedValues : array($allowedValues);
 
         // Make sure the option is processed
         unset($this->resolved[$option]);
@@ -482,21 +496,28 @@ class OptionsResolver implements Options
      * @throws UndefinedOptionsException If the option is undefined
      * @throws AccessException           If called from a lazy option or normalizer
      */
-    public function addAllowedValues($option, $allowedValues)
+    public function addAllowedValues($option, $allowedValues = null)
     {
         if ($this->locked) {
             throw new AccessException('Allowed values cannot be added from a lazy option or normalizer.');
         }
 
-        if (!isset($this->defined[$option])) {
-            throw new UndefinedOptionsException(sprintf(
-                'The option "%s" does not exist. Defined options are: "%s".',
-                $option,
-                implode('", "', array_keys($this->defined))
-            ));
+        // BC
+        if (\is_array($option) && null === $allowedValues) {
+            @trigger_error('Calling the '.__METHOD__.' method with an array of options is deprecated since Symfony 2.6 and will be removed in 3.0. Use the new signature with a single option instead.', E_USER_DEPRECATED);
+
+            foreach ($option as $optionName => $optionValues) {
+                $this->addAllowedValues($optionName, $optionValues);
+            }
+
+            return $this;
         }
 
-        if (!is_array($allowedValues)) {
+        if (!isset($this->defined[$option])) {
+            throw new UndefinedOptionsException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
+        }
+
+        if (!\is_array($allowedValues)) {
             $allowedValues = array($allowedValues);
         }
 
@@ -527,18 +548,25 @@ class OptionsResolver implements Options
      * @throws UndefinedOptionsException If the option is undefined
      * @throws AccessException           If called from a lazy option or normalizer
      */
-    public function setAllowedTypes($option, $allowedTypes)
+    public function setAllowedTypes($option, $allowedTypes = null)
     {
         if ($this->locked) {
             throw new AccessException('Allowed types cannot be set from a lazy option or normalizer.');
         }
 
+        // BC
+        if (\is_array($option) && null === $allowedTypes) {
+            @trigger_error('Calling the '.__METHOD__.' method with an array of options is deprecated since Symfony 2.6 and will be removed in 3.0. Use the new signature with a single option instead.', E_USER_DEPRECATED);
+
+            foreach ($option as $optionName => $optionTypes) {
+                $this->setAllowedTypes($optionName, $optionTypes);
+            }
+
+            return $this;
+        }
+
         if (!isset($this->defined[$option])) {
-            throw new UndefinedOptionsException(sprintf(
-                'The option "%s" does not exist. Defined options are: "%s".',
-                $option,
-                implode('", "', array_keys($this->defined))
-            ));
+            throw new UndefinedOptionsException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
         }
 
         $this->allowedTypes[$option] = (array) $allowedTypes;
@@ -566,18 +594,25 @@ class OptionsResolver implements Options
      * @throws UndefinedOptionsException If the option is undefined
      * @throws AccessException           If called from a lazy option or normalizer
      */
-    public function addAllowedTypes($option, $allowedTypes)
+    public function addAllowedTypes($option, $allowedTypes = null)
     {
         if ($this->locked) {
             throw new AccessException('Allowed types cannot be added from a lazy option or normalizer.');
         }
 
+        // BC
+        if (\is_array($option) && null === $allowedTypes) {
+            @trigger_error('Calling the '.__METHOD__.' method with an array of options is deprecated since Symfony 2.6 and will be removed in 3.0. Use the new signature with a single option instead.', E_USER_DEPRECATED);
+
+            foreach ($option as $optionName => $optionTypes) {
+                $this->addAllowedTypes($optionName, $optionTypes);
+            }
+
+            return $this;
+        }
+
         if (!isset($this->defined[$option])) {
-            throw new UndefinedOptionsException(sprintf(
-                'The option "%s" does not exist. Defined options are: "%s".',
-                $option,
-                implode('", "', array_keys($this->defined))
-            ));
+            throw new UndefinedOptionsException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
         }
 
         if (!isset($this->allowedTypes[$option])) {
@@ -678,15 +713,11 @@ class OptionsResolver implements Options
         // Make sure that no unknown options are passed
         $diff = array_diff_key($options, $clone->defined);
 
-        if (count($diff) > 0) {
+        if (\count($diff) > 0) {
             ksort($clone->defined);
             ksort($diff);
 
-            throw new UndefinedOptionsException(sprintf(
-                (count($diff) > 1 ? 'The options "%s" do not exist.' : 'The option "%s" does not exist.').' Defined options are: "%s".',
-                implode('", "', array_keys($diff)),
-                implode('", "', array_keys($clone->defined))
-            ));
+            throw new UndefinedOptionsException(sprintf((\count($diff) > 1 ? 'The options "%s" do not exist.' : 'The option "%s" does not exist.').' Defined options are: "%s".', implode('", "', array_keys($diff)), implode('", "', array_keys($clone->defined))));
         }
 
         // Override options set by the user
@@ -698,13 +729,10 @@ class OptionsResolver implements Options
         // Check whether any required option is missing
         $diff = array_diff_key($clone->required, $clone->defaults);
 
-        if (count($diff) > 0) {
+        if (\count($diff) > 0) {
             ksort($diff);
 
-            throw new MissingOptionsException(sprintf(
-                count($diff) > 1 ? 'The required options "%s" are missing.' : 'The required option "%s" is missing.',
-                implode('", "', array_keys($diff))
-            ));
+            throw new MissingOptionsException(sprintf(\count($diff) > 1 ? 'The required options "%s" are missing.' : 'The required option "%s" is missing.', implode('", "', array_keys($diff))));
         }
 
         // Lock the container
@@ -748,17 +776,10 @@ class OptionsResolver implements Options
         // Check whether the option is set at all
         if (!array_key_exists($option, $this->defaults)) {
             if (!isset($this->defined[$option])) {
-                throw new NoSuchOptionException(sprintf(
-                    'The option "%s" does not exist. Defined options are: "%s".',
-                    $option,
-                    implode('", "', array_keys($this->defined))
-                ));
+                throw new NoSuchOptionException(sprintf('The option "%s" does not exist. Defined options are: "%s".', $option, implode('", "', array_keys($this->defined))));
             }
 
-            throw new NoSuchOptionException(sprintf(
-                'The optional option "%s" has no value set. You should make sure it is set with "isset" before reading it.',
-                $option
-            ));
+            throw new NoSuchOptionException(sprintf('The optional option "%s" has no value set. You should make sure it is set with "isset" before reading it.', $option));
         }
 
         $value = $this->defaults[$option];
@@ -768,10 +789,7 @@ class OptionsResolver implements Options
             // If the closure is already being called, we have a cyclic
             // dependency
             if (isset($this->calling[$option])) {
-                throw new OptionDefinitionException(sprintf(
-                    'The options "%s" have a cyclic dependency.',
-                    implode('", "', array_keys($this->calling))
-                ));
+                throw new OptionDefinitionException(sprintf('The options "%s" have a cyclic dependency.', implode('", "', array_keys($this->calling))));
             }
 
             // The following section must be protected from cyclic
@@ -783,9 +801,14 @@ class OptionsResolver implements Options
                 foreach ($this->lazy[$option] as $closure) {
                     $value = $closure($this, $value);
                 }
-            } finally {
+            } catch (\Exception $e) {
                 unset($this->calling[$option]);
+                throw $e;
+            } catch (\Throwable $e) {
+                unset($this->calling[$option]);
+                throw $e;
             }
+            unset($this->calling[$option]);
             // END
         }
 
@@ -796,7 +819,7 @@ class OptionsResolver implements Options
             foreach ($this->allowedTypes[$option] as $type) {
                 $type = isset(self::$typeAliases[$type]) ? self::$typeAliases[$type] : $type;
 
-                if (function_exists($isFunction = 'is_'.$type)) {
+                if (\function_exists($isFunction = 'is_'.$type)) {
                     if ($isFunction($value)) {
                         $valid = true;
                         break;
@@ -812,14 +835,7 @@ class OptionsResolver implements Options
             }
 
             if (!$valid) {
-                throw new InvalidOptionsException(sprintf(
-                    'The option "%s" with value %s is expected to be of type '.
-                    '"%s", but is of type "%s".',
-                    $option,
-                    $this->formatValue($value),
-                    implode('" or "', $this->allowedTypes[$option]),
-                    $this->formatTypeOf($value)
-                ));
+                throw new InvalidOptionsException(sprintf('The option "%s" with value %s is expected to be of type "%s", but is of type "%s".', $option, $this->formatValue($value), implode('" or "', $this->allowedTypes[$option]), $this->formatTypeOf($value)));
             }
         }
 
@@ -852,7 +868,7 @@ class OptionsResolver implements Options
                     $this->formatValue($value)
                 );
 
-                if (count($printableAllowedValues) > 0) {
+                if (\count($printableAllowedValues) > 0) {
                     $message .= sprintf(
                         ' Accepted values are: %s.',
                         $this->formatValues($printableAllowedValues)
@@ -868,10 +884,7 @@ class OptionsResolver implements Options
             // If the closure is already being called, we have a cyclic
             // dependency
             if (isset($this->calling[$option])) {
-                throw new OptionDefinitionException(sprintf(
-                    'The options "%s" have a cyclic dependency.',
-                    implode('", "', array_keys($this->calling))
-                ));
+                throw new OptionDefinitionException(sprintf('The options "%s" have a cyclic dependency.', implode('", "', array_keys($this->calling))));
             }
 
             $normalizer = $this->normalizers[$option];
@@ -883,9 +896,14 @@ class OptionsResolver implements Options
             $this->calling[$option] = true;
             try {
                 $value = $normalizer($this, $value);
-            } finally {
+            } catch (\Exception $e) {
                 unset($this->calling[$option]);
+                throw $e;
+            } catch (\Throwable $e) {
+                unset($this->calling[$option]);
+                throw $e;
             }
+            unset($this->calling[$option]);
             // END
         }
 
@@ -952,7 +970,107 @@ class OptionsResolver implements Options
             throw new AccessException('Counting is only supported within closures of lazy options and normalizers.');
         }
 
-        return count($this->defaults);
+        return \count($this->defaults);
+    }
+
+    /**
+     * Alias of {@link setDefault()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function set($option, $value)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the setDefaults() method instead.', E_USER_DEPRECATED);
+
+        return $this->setDefault($option, $value);
+    }
+
+    /**
+     * Shortcut for {@link clear()} and {@link setDefaults()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function replace(array $defaults)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the clear() and setDefaults() methods instead.', E_USER_DEPRECATED);
+
+        $this->clear();
+
+        return $this->setDefaults($defaults);
+    }
+
+    /**
+     * Alias of {@link setDefault()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function overload($option, $value)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the setDefault() method instead.', E_USER_DEPRECATED);
+
+        return $this->setDefault($option, $value);
+    }
+
+    /**
+     * Alias of {@link offsetGet()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function get($option)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the ArrayAccess syntax instead to get an option value.', E_USER_DEPRECATED);
+
+        return $this->offsetGet($option);
+    }
+
+    /**
+     * Alias of {@link offsetExists()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function has($option)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the ArrayAccess syntax instead to get an option value.', E_USER_DEPRECATED);
+
+        return $this->offsetExists($option);
+    }
+
+    /**
+     * Shortcut for {@link clear()} and {@link setDefaults()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function replaceDefaults(array $defaultValues)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the clear() and setDefaults() methods instead.', E_USER_DEPRECATED);
+
+        $this->clear();
+
+        return $this->setDefaults($defaultValues);
+    }
+
+    /**
+     * Alias of {@link setDefined()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function setOptional(array $optionNames)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the setDefined() method instead.', E_USER_DEPRECATED);
+
+        return $this->setDefined($optionNames);
+    }
+
+    /**
+     * Alias of {@link isDefined()}.
+     *
+     * @deprecated since version 2.6, to be removed in 3.0.
+     */
+    public function isKnown($option)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.6 and will be removed in 3.0. Use the isDefined() method instead.', E_USER_DEPRECATED);
+
+        return $this->isDefined($option);
     }
 
     /**
@@ -969,7 +1087,7 @@ class OptionsResolver implements Options
      */
     private function formatTypeOf($value)
     {
-        return is_object($value) ? get_class($value) : gettype($value);
+        return \is_object($value) ? \get_class($value) : \gettype($value);
     }
 
     /**
@@ -985,19 +1103,19 @@ class OptionsResolver implements Options
      */
     private function formatValue($value)
     {
-        if (is_object($value)) {
-            return get_class($value);
+        if (\is_object($value)) {
+            return \get_class($value);
         }
 
-        if (is_array($value)) {
+        if (\is_array($value)) {
             return 'array';
         }
 
-        if (is_string($value)) {
+        if (\is_string($value)) {
             return '"'.$value.'"';
         }
 
-        if (is_resource($value)) {
+        if (\is_resource($value)) {
             return 'resource';
         }
 

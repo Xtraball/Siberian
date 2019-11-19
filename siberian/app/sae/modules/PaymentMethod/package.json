@@ -1,0 +1,11 @@
+{
+  "name": "PaymentGateway",
+  "description": "Payment gateways abstractor for SiberianCMS.",
+  "version": "4.18.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.17.8"
+    }
+  }
+}

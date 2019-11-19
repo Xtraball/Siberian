@@ -29,7 +29,7 @@ class Currency
         if (self::$jsonSource === null) {
             $contents = file_get_contents(path(self::$configFile));
             self::$jsonSource = Json::decode($contents);
-    }
+        }
 
         $commonCurrencies = self::$jsonSource;
         ksort($commonCurrencies);
@@ -47,11 +47,11 @@ class Currency
         if (self::$jsonSource === null) {
             $contents = file_get_contents(path(self::$configFile));
             self::$jsonSource = Json::decode($contents);
-    }
+        }
 
         if (array_key_exists($code, self::$jsonSource)) {
             return self::$jsonSource[$code];
-    }
+        }
 
         throw new Exception(p__("currency", "Invalid currency `%s`.", $code));
     }
@@ -61,7 +61,8 @@ class Currency
      * @param $vatRate
      * @return float|int
      */
-    public static function getVat($priceEclxVat, $vatRate) {
+    public static function getVat($priceEclxVat, $vatRate)
+    {
         return ($priceEclxVat * $vatRate / 100);
     }
 
@@ -70,7 +71,8 @@ class Currency
      * @param $vatRate
      * @return float|int
      */
-    public static function addVat($priceExclVat, $vatRate) {
+    public static function addVat($priceExclVat, $vatRate)
+    {
         return $priceExclVat * (1 + ($vatRate / 100));
     }
 }

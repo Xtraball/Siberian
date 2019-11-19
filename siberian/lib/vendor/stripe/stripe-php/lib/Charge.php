@@ -11,7 +11,9 @@ namespace Stripe;
  * @property int $amount_refunded
  * @property string $application
  * @property string $application_fee
+ * @property int $application_fee_amount
  * @property string $balance_transaction
+ * @property mixed $billing_details
  * @property bool $captured
  * @property int $created
  * @property string $currency
@@ -30,8 +32,11 @@ namespace Stripe;
  * @property mixed $outcome
  * @property bool $paid
  * @property string $payment_intent
+ * @property string $payment_method
+ * @property mixed $payment_method_details
  * @property string $receipt_email
  * @property string $receipt_number
+ * @property string $receipt_url
  * @property bool $refunded
  * @property Collection $refunds
  * @property string $review
@@ -41,13 +46,13 @@ namespace Stripe;
  * @property string $statement_descriptor
  * @property string $status
  * @property string $transfer
+ * @property mixed $transfer_data
  * @property string $transfer_group
  *
  * @package Stripe
  */
 class Charge extends ApiResource
 {
-
     const OBJECT_NAME = "charge";
 
     use ApiOperations\All;
@@ -84,6 +89,7 @@ class Charge extends ApiResource
     const DECLINED_INVALID_PIN                       = 'invalid_pin';
     const DECLINED_ISSUER_NOT_AVAILABLE              = 'issuer_not_available';
     const DECLINED_LOST_CARD                         = 'lost_card';
+    const DECLINED_MERCHANT_BLACKLIST                = 'merchant_blacklist';
     const DECLINED_NEW_ACCOUNT_INFORMATION_AVAILABLE = 'new_account_information_available';
     const DECLINED_NO_ACTION_TAKEN                   = 'no_action_taken';
     const DECLINED_NOT_PERMITTED                     = 'not_permitted';
@@ -102,6 +108,14 @@ class Charge extends ApiResource
     const DECLINED_TRANSACTION_NOT_ALLOWED           = 'transaction_not_allowed';
     const DECLINED_TRY_AGAIN_LATER                   = 'try_again_later';
     const DECLINED_WITHDRAWAL_COUNT_LIMIT_EXCEEDED   = 'withdrawal_count_limit_exceeded';
+
+    /**
+     * Possible string representations of the status of the charge.
+     * @link https://stripe.com/docs/api/charges/object#charge_object-status
+     */
+    const STATUS_FAILED    = 'failed';
+    const STATUS_PENDING   = 'pending';
+    const STATUS_SUCCEEDED = 'succeeded';
 
     /**
      * @param array|null $params

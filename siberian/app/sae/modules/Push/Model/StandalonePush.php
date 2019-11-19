@@ -90,11 +90,11 @@ class StandalonePush extends Base
         ];
 
         $instance = self::buildFromTokens($tokens);
-        $instance->scheduleMessage(
+        $instance->sendMessage(
             "Test title",
             "Test message",
-            1566226109,
-            null,
+            "",
+            "https://www.siberiancms.com",
             null,
             null
         );
@@ -312,7 +312,7 @@ class StandalonePush extends Base
             $message = self::buildMessage(
                 $pushMessage["title"],
                 $pushMessage["text"],
-                $pushMessage["cover_"],
+                $pushMessage["cover"],
                 $pushMessage["action_value"]);
 
             // try/catch are already handled inside sendPush
