@@ -42,21 +42,14 @@
         setCategory:AVAudioSessionCategoryPlayback
         error:&setCategoryError];
 
-    // Remove file /app/documents/module.js
-    NSString *tmpModuleFile = @"module.js";
-    NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-    NSArray *pathArray = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [pathArray objectAtIndex:0];
-    NSString *tmpModulePath = [[documentsDirectory stringByAppendingPathComponent:appBundleID] stringByAppendingPathComponent:tmpModuleFile];
-
-    NSLog(@"App module path: %@", tmpModulePath);
+    NSString *tmpModulePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"module.js"];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath:tmpModulePath])
     {
-        NSLog(@"App module delete");
+        NSLog(@"[WebView] Removing webView module.js temp file!");
         [[NSFileManager defaultManager] removeItemAtPath:tmpModulePath error:NULL];
     } else {
-        NSLog(@"App module pas delete");
+        NSLog(@"[WebView] Nothing to do!");
     }
 
     self.viewController = [[MainViewController alloc] init];

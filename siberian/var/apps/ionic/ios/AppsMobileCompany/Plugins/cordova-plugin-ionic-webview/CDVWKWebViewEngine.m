@@ -436,7 +436,15 @@ NSTimer *timer;
         if ([request.URL.path isEqualToString:startFilePath]) {
             url = [NSURL URLWithString:self.CDV_LOCAL_SERVER];
         }
-        if(request.URL.query) {
+        // Special case index.html
+        if([request.URL.path hasSuffix:@"index.html"]) {
+            NSString *tmpModulePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"module.js"];
+            NSString *tempUrl = [NSString stringWithFormat:@"%@?root=%@",
+                url,
+                [tmpModulePath stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLHostAllowedCharacterSet]];
+
+            url = [NSURL URLWithString:tempUrl];
+        } else if(request.URL.query) {
             url = [NSURL URLWithString:[@"?" stringByAppendingString:request.URL.query] relativeToURL:url];
         }
         if(request.URL.fragment) {
