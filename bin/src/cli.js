@@ -701,10 +701,13 @@ let patchPreviewer = function (platform) {
 
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
-                "<!-- Ensure file will never be cached. -->\n" +
-                "<script type=\"text/javascript\">\n" +
-                "    document.write('<script src=\"cdvfile://localhost/temporary/module.js?t=' + Date.now() + '\"><\\/script>');\n" +
-                "</script>");
+                `<!-- Ensure file will never be cached. -->
+            <script type="text/javascript">
+                var _ifopRoot = function () {
+                    return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\\+/g, ' ');
+                }
+                document.write('<script src="ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now() + '"><\\/script>');
+            </script>`);
 
             break;
     }
