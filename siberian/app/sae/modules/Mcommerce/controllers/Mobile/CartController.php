@@ -38,9 +38,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
         $deliveryTime = $currentStore->getDeliveryTime();
         $textualDeliveryTime = false;
         if ($deliveryTime > 0) {
-
-            $deliveryTime = 30;
-
+            
             $days = floor($deliveryTime / 1440);
             $hours = floor(($deliveryTime % 1440) / 60);
             $minutes = floor(($deliveryTime % 1440 % 60));
