@@ -836,12 +836,16 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
                     $handler = function($opts){
                         $fn = $opts["config"]["docroot"] . $opts["key"];
-                        @mkdir(dirname($fn),0777,true);
+                        mkdir(dirname($fn),0777,true);
                         file_put_contents($fn, $opts["value"]);
                         return function($opts){
                             unlink($opts["config"]["docroot"] . $opts["key"]);
                         };
                     };
+
+                    // Ensure hostname folder exists
+                    $hostnameDirectory = path("/var/apps/certificates/{$hostname}");
+                    mkdir($hostnameDirectory,0777,true);
 
                     $fullChainPath = path("/var/apps/certificates/{$hostname}/acme.fullchain.pem");
                     $certKey = $acme->generateRSAKey(2048);
@@ -862,8 +866,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     $result = true;
 
                 } catch (\Exception $e) {
-                    dbg($e->getMessage());
-                    $result = false;
+                    // Simply throws back the exception, we must know!
+                    throw $e;
                 }
 
             } else {

@@ -822,6 +822,12 @@ class Assets
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
 
+                // Replace platform-browser for the overview, this is required after a restore app sources!
+                if ($platform === "/var/apps/overview/") {
+
+                    $index_content = str_replace("platform-browser", "platform-overview", $index_content);
+                }
+
                 $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);
 
                 if (is_writable($index_path)) {
