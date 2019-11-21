@@ -213,10 +213,8 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
             $dataHomepage['x-cache'] = 'HIT';
         }
 
-        // Dynamic patches (non-cached) for specific app versions
+        // Dynamic patches (non-cached) for specific app versions!
         if (version_compare($appVersion, "4.15.6", "<")) {
-            // Apply patches.
-
             # 1. Places
             foreach ($dataHomepage["pages"] as &$page) {
                 if ($page["code"] === "places") {
@@ -227,7 +225,19 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
             }
         }
 
-        // Don't cache customer informations!
+        if (version_compare($appVersion, "4.18.1", "<")) {
+            # 2. M-Commerce
+            foreach ($dataHomepage["pages"] as &$page) {
+                if ($page["code"] === "m_commerce") {
+                    $page["path"] = sprintf("/%s/mcommerce/mobile_category/index/value_id/%s",
+                        $appKey,
+                        $page["value_id"]);
+                }
+            }
+        }
+        // Dynamic patches (non-cached) for specific app versions!
+
+        // Never cache customer data!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
         if (!empty($deviceUid)) {
