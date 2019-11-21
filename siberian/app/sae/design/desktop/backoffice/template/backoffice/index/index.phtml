@@ -30,7 +30,8 @@ if (empty($backofficeThemeView)) {
 <?php endif; ?>
 
 <div class="col-xs-12 col-md-6">
-    <sb-section title="'<?php echo __title("New messages"); ?>'" button="button">
+    <sb-section title="'<?php echo __title("New messages"); ?>'"
+                button="button">
         <div ng-if="messagesIsLoading"
              class="async-loader">
             <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
@@ -41,14 +42,18 @@ if (empty($backofficeThemeView)) {
             <col width="40%" />
             <col width="10%" />
             <tbody>
-                <tr ng-repeat="message in new_messages" ng-if="new_messages.length">
+                <tr ng-repeat="message in new_messages"
+                    ng-if="new_messages.length">
                     <td>
-                        <i ng-if="message.source == 'cron' || message.priority" class="fa fa-exclamation"></i>
+                        <i ng-if="message.source == 'cron' || message.priority"
+                           class="fa fa-exclamation"></i>
                         {{ message.title }}
                     </td>
                     <td class="text-right">{{ message.created_at }}</td>
                     <td class="text-right">
-                        <a href="<?php echo $this->getUrl("backoffice/notif_message") ?>/message_id/{{ message.id }}" class="btn btn-xs btn-primary" target="_blank" ><?php echo __("Read") ?></a>
+                        <a href="<?php echo $this->getUrl("backoffice/notif_message") ?>/message_id/{{ message.id }}"
+                           class="btn btn-xs btn-primary"
+                           target="_blank" ><?php echo __("Read") ?></a>
                     </td>
                 </tr>
                 <tr ng-if="!new_messages.length">
@@ -180,7 +185,8 @@ if (empty($backofficeThemeView)) {
                               style="margin-left: 0;">
                         <?php $phpVersion = phpversion(); ?>
                             <?php echo __("PHP version %s:", $phpVersion) ?>
-                            <?php if(version_compare($phpVersion, '5.6', '<')){ ?>
+                            <?php if (version_compare($phpVersion, '7.0', '<') ||
+                                     version_compare($phpVersion, '7.4', '>=')){ ?>
                                 <span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
                             <?php } else { ?>
                                 <span class="service-green"><i class="fa fa-check"></i></span>
