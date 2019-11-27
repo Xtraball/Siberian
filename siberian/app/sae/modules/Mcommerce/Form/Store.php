@@ -1,41 +1,51 @@
 <?php
 
+namespace Mcommerce\Form;
+
+use Siberian_Form_Abstract as FormAbstract;
+use Mcommerce_Model_Delivery_Method as DeliveryMethod;
+
 /**
  * Class Mcommerce_Form_Store
  */
-class Mcommerce_Form_Store extends Siberian_Form_Abstract
+class Store extends FormAbstract
 {
     /**
-     * @throws Zend_Form_Exception
+     * @throws \Zend_Form_Exception
      */
     public function init()
     {
         parent::init();
 
         $this
-            ->setAction(__path("/mcommerce/application_store/editpost"))
-            ->setAttrib("id", "storeEditForm")
-            ->addNav("store-nav");
+            ->setAction(__path('/mcommerce/application_store/editpost'))
+            ->setAttrib('id', 'storeEditForm')
+            ->addNav('store-nav');
 
         /** Bind as a create form */
-        self::addClass("create", $this);
+        self::addClass('create', $this);
 
-        $storeName = $this->addSimpleText("name", __("Store name"));
+        $storeName = $this->addSimpleText('name', __('Store name'));
         $storeName->setRequired(true);
 
-        $email = $this->addSimpleText("email", __("E-mail"));
+        $email = $this->addSimpleText('email', __('E-mail'));
         $email->setRequired(true);
 
-        $phone = $this->addSimpleText("phone", __("Phone"));
+        $phone = $this->addSimpleText('phone', __('Phone'));
         $phone->setRequired(true);
 
-        $address = $this->addSimpleText("address", __("Address"));
+        $address = $this->addSimpleTextarea('address', __('Address'));
         $address->setRequired(true);
 
         // Group delivery methods --- new_delivery_methods[][method_id]
+        
+        $this->groupElements(
+            'store_information',
+            ['name', 'email', 'phone', 'address'],
+            p__('m_commerce', 'Information'));
 
         $deliveryOptions = [];
-        $deliveryMethods = (new Mcommerce_Model_Delivery_Method())
+        $deliveryMethods = (new DeliveryMethod())
             ->findAll();
         foreach ($deliveryMethods as $deliveryMethod) {
             $id = $deliveryMethod->getId();
@@ -45,11 +55,58 @@ class Mcommerce_Form_Store extends Siberian_Form_Abstract
         }
 
         $deliveryMethods = $this->addSimpleMultiCheckbox(
-            "new_delivery_methods",
-            __("Delivery methods"),
+            'new_delivery_methods',
+            __('Delivery methods'),
             $deliveryOptions);
         $deliveryMethods->setRequired(true);
 
+        $this->groupElements(
+            'store_delivery',
+            ['new_delivery_methods'],
+            p__('m_commerce', 'Delivery'));
+
+        // Shipping/delivery options!
+        $this->addSimpleNumber(
+            'delivery_fees',
+            p__('m_commerce', 'Shipping/delivery fees'),
+            0, null, true, 0.0001);
+
+        $this->addSimpleNumber(
+            'delivery_free_shipping',
+            p__('m_commerce', 'Free shipping/delivery starting from'),
+            0, null, true, 0.0001);
+
+        $this->addSimpleNumber(
+            'delivery_radius',
+            p__('m_commerce', 'Shipping/delivery radius (in kilometers)'),
+            0, null, true, 0.1);
+
+        $deliveryDelay = $this->addSimpleNumber(
+            'delivery_delay',
+            p__('m_commerce', 'Shipping/delivery delay (in minutes)'),
+            0, null, true, 1);
+        $deliveryDelay->setDescription('-');
+
+        $this->addSimpleNumber(
+            'delivery_minimum_order',
+            p__('m_commerce', 'Minimum order amount'),
+            0, null, true, 0.0001);
+
+        $this->addSimpleCheckbox(
+            'delivery_client_calculate_change',
+            p__('m_commerce', 'The client will calculate the change'));
+
+        $this->groupElements(
+            'store_delivery_options',
+            [
+                'delivery_fees',
+                'delivery_free_shipping',
+                'delivery_radius',
+                'delivery_delay',
+                'delivery_minimum_order',
+                'delivery_client_calculate_change',
+            ],
+            p__('m_commerce', 'Shipping/delivery options'));
 
         /**
  * if($method->getStoreDeliveryMethodId()) checked

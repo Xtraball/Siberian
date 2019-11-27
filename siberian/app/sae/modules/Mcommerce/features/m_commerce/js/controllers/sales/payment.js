@@ -1,9 +1,10 @@
 /*global
  App, angular, BASE_PATH
  */
-angular.module('starter').controller('MCommerceSalesPaymentViewController', function (Loader, $scope, $state, $stateParams,
-                                                               $translate, McommerceCart, McommerceSalesPayment,
-                                                               Dialog) {
+angular
+    .module('starter')
+    .controller('MCommerceSalesPaymentViewController', function (Loader, $scope, $state, $stateParams, $translate,
+                                                                 McommerceCart, McommerceSalesPayment, Dialog) {
     $scope.page_title = $translate.instant('Payment');
 
     McommerceCart.value_id = $stateParams.value_id;
@@ -12,29 +13,35 @@ angular.module('starter').controller('MCommerceSalesPaymentViewController', func
 
     $scope.loadContent = function () {
         Loader.show();
-        McommerceCart.find()
-            .then(function (data) {
-                $scope.cart = data.cart;
 
-                McommerceSalesPayment.findPaymentMethods()
-                    .then(function (resultMethods) {
-                        $scope.paymentMethods = resultMethods.paymentMethods;
+        McommerceCart
+        .find()
+        .then(function (data) {
+            $scope.cart = data.cart;
 
-                        $scope.paymentMethodId = resultMethods.paymentMethods
-                            .reduce(function (paymentMethodId, paymentMethod) {
-                                return ($scope.cart.paymentMethodId === paymentMethod.id) ?
-                                    paymentMethod.id : paymentMethodId;
-                            }, null);
+            McommerceSalesPayment
+            .findPaymentMethods()
+            .then(function (resultMethods) {
+                $scope.paymentMethods = resultMethods.paymentMethods;
 
-                        if ($scope.paymentMethods.length === 1 && $scope.paymentMethods[0].code === 'free') {
-                            // Free purchase we can skip the payment method selection!
-                            $scope.cart.paymentMethodId = $scope.paymentMethods[0].id;
-                            $scope.updatePaymentInfos();
-                        }
-                    }).then(function () {
-                        $scope.is_loading = false;
-                        Loader.hide();
-                    });
+                $scope.paymentMethodId = resultMethods.paymentMethods
+                    .reduce(function (paymentMethodId, paymentMethod) {
+                        return ($scope.cart.paymentMethodId === paymentMethod.id) ?
+                            paymentMethod.id : paymentMethodId;
+                    }, null);
+
+                // Only if we have at least one product!
+                // Free purchase we can skip the payment method selection!
+                if ($scope.paymentMethods.length === 1 &&
+                    $scope.paymentMethods[0].code === 'free' &&
+                    $scope.cart.lines.length > 0) {
+                    $scope.cart.paymentMethodId = $scope.paymentMethods[0].id;
+                    $scope.updatePaymentInfos();
+                }
+            }).then(function () {
+                $scope.is_loading = false;
+                Loader.hide();
+            });
         }, function () {
             $scope.is_loading = false;
             Loader.hide();
