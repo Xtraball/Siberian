@@ -81,6 +81,10 @@
 
       top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-right));
     }
+
+    .has-footer {
+      bottom: calc(var(--safe-area-inset-bottom) + #{$bar-footer-height});
+    }
   }
   .popover {
     .bar-header:not(.bar-subheader) {

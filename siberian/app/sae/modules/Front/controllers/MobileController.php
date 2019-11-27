@@ -206,7 +206,8 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                     /**
                      * END Link special code
                      */
-                    $data_pages[] = [
+
+                    $_tmpData = [
                         "value_id" => (integer)$option_value->getId(),
                         "id" => (integer)$option_value->getId(),
                         "layout_id" => (integer)$option_value->getLayoutId(),
@@ -233,6 +234,15 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                         "touched_at" => (integer)$option_value->getTouchedAt(),
                         "expires_at" => (integer)$option_value->getExpiresAt()
                     ];
+
+                    // Hotfix pre 4.16 for m-commerce.
+                    if ($_tmpData["code"] === "m_commerce") {
+                        $_tmpData["path"] = sprintf("/%s/mcommerce/mobile_category/index/value_id/%s",
+                            $application->getKey(),
+                            $_tmpData["value_id"]);
+                    }
+
+                    $data_pages[] = $_tmpData;
                 } catch (Exception $e) {
                     # Silently fail missing modules
                     log_alert("A module is possibly missing, " . $e->getMessage());
