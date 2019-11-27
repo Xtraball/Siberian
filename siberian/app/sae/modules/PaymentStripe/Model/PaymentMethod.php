@@ -9,6 +9,14 @@ use Core\Model\Base;
  * @package PaymentStripe\Model
  *
  * @method Db\Table\PaymentMethod getTable()
+ * @method integer getId()
+ * @method string getToken()
+ * @method string getType()
+ * @method string getBrand()
+ * @method string getExp()
+ * @method string getLast()
+ * @method boolean getIsLastUsed()
+ * @method boolean getIsFavorite()
  */
 class PaymentMethod extends Base
 {
@@ -26,7 +34,6 @@ class PaymentMethod extends Base
     {
         parent::__construct($params);
         $this->_db_table = 'PaymentStripe\Model\Db\Table\PaymentMethod';
-        return $this;
     }
 
     /**
@@ -57,14 +64,14 @@ class PaymentMethod extends Base
     public function toJson()
     {
         $payload = [
-            "id" => (integer) $this->getId(),
-            "token" => (string) $this->getToken(),
-            "type" => (string) $this->getType(),
-            "brand" => (string) $this->getBrand(),
-            "exp" => (string) $this->getExp(),
-            "last" => (string) $this->getLast(),
-            "is_last_used" => (boolean) $this->getIsLastUsed(),
-            "is_favorite" => (boolean) $this->getIsFavorite(),
+            'id' => (integer) $this->getId(),
+            'token' => (string) $this->getToken(),
+            'type' => (string) $this->getType(),
+            'brand' => (string) $this->getBrand(),
+            'exp' => (string) $this->getExp(),
+            'last' => (string) $this->getLast(),
+            'is_last_used' => (boolean) $this->getIsLastUsed(),
+            'is_favorite' => (boolean) $this->getIsFavorite(),
         ];
 
         return $payload;

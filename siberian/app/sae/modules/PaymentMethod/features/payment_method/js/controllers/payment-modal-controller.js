@@ -19,18 +19,15 @@ angular
         .fetchGateways()
         .then(function (payload) {
             $scope.paymentGateways = payload.gateways;
-            $scope.isLoading = false;
         }, function (error) {
             Dialog.alert("Error", error.message, "OK", -1, "payment_method");
+        }).then(function () {
             $scope.isLoading = false;
         });
     };
 
     $scope.paymentModal = {
         onSelect: function (paymentMethod) {
-
-            console.log("resolved", paymentMethod);
-
             $scope.options.onSelect(paymentMethod);
         }
     };

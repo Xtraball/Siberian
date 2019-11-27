@@ -29,10 +29,10 @@ angular
                 .fetchVaults()
                 .then(function (payload) {
                     $scope.cards = payload.vaults;
-                    $scope.isLoading = false;
                 }, function (error) {
-                    $scope.isLoading = false;
                     Dialog.alert("Error", error.message, "OK", -1, "payment_stripe");
+                }).then(function () {
+                    $scope.isLoading = false;
                 });
             };
 
@@ -115,7 +115,8 @@ angular
             };
 
             $scope.brand = function (brand) {
-                switch (brand.toLowerCase()) {
+                var _brand = brand === undefined ? "" : brand.toLowerCase();
+                switch (_brand) {
                     case "visa":
                         return "./features/payment_stripe/assets/templates/images/003-cc-visa.svg";
                     case "mastercard":
@@ -135,7 +136,6 @@ angular
                     case PaymentMethod.ACTION_DELETE:
                         return "icon ion-trash-a";
                 }
-
             };
 
             $rootScope.$on("paymentStripeCards.refresh", function () {

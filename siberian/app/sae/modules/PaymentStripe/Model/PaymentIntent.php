@@ -9,6 +9,9 @@ use Core\Model\Base;
  * @package PaymentStripe\Model
  *
  * @method Db\Table\PaymentIntent getTable()
+ * @method integer getId()
+ * @method string getToken()
+ * @method string getStatus()
  */
 class PaymentIntent extends Base
 {
@@ -20,8 +23,7 @@ class PaymentIntent extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "PaymentStripe\Model\Db\Table\PaymentIntent";
-        return $this;
+        $this->_db_table = 'PaymentStripe\Model\Db\Table\PaymentIntent';
     }
 
     /**
@@ -39,9 +41,9 @@ class PaymentIntent extends Base
     public function toJson()
     {
         $payload = [
-            "id" => (integer) $this->getId(),
-            "token" => (string) $this->getToken(),
-            "status" => (string) $this->getStatus(),
+            'id' => (integer) $this->getId(),
+            'token' => (string) $this->getToken(),
+            'status' => (string) $this->getStatus(),
         ];
 
         return $payload;
