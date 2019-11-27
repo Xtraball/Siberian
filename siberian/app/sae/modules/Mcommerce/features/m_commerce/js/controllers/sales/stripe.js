@@ -2,9 +2,10 @@
  App, BASE_PATH, Stripe
  */
 
-angular.module("starter").controller("MCommerceSalesStripeViewController", function (Loader, $scope, $state,
-                                                                                     $stateParams, $timeout, $translate,
-                                                                                     Customer, McommerceStripe, Dialog) {
+angular
+    .module("starter")
+    .controller("MCommerceSalesStripeViewController", function (Loader, $scope, $state, $stateParams, $timeout,
+                                                                $translate, Customer, McommerceStripe, Dialog) {
 
     $scope.is_loading = true;
     Loader.show();
@@ -44,8 +45,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
         McommerceStripe
         .find(cust_id)
         .then(function (data) {
-
-            // Mcommerce stripe instance! (fallback)
+            // M-Commerce stripe instance! (fallback)
             McommerceStripe.StripeInstance = Stripe(data.publishable_key);
 
             $scope.cart_total = data.total;
@@ -55,18 +55,19 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
                 $scope.card = data.card;
                 $scope.payment.hasStoredCard = true;
             }
-
-            $scope.mountCard();
-
         }).then(function () {
             $scope.is_loading = false;
             Loader.hide();
+
+            $timeout(function () {
+                $scope.mountCard();
+            }, 200);
         });
 
     };
 
     $scope.mountCard = function () {
-        var cardElementParent = document.getElementById("mcommerce-card-element");
+        var cardElementParent = document.getElementById("mcommerce_card_element");
         try {
             cardElementParent.firstChild.remove();
         } catch (e) {
@@ -95,9 +96,9 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             style: style
         });
 
-        var saveElement = document.getElementById("mcommerce-save-element");
-        var displayError = document.getElementById("mcommerce-card-errors");
-        var displayErrorParent = document.getElementById("mcommerce-card-errors-parent");
+        var saveElement = document.getElementById("mcommerce_save_element");
+        var displayError = document.getElementById("mcommerce_card_errors");
+        var displayErrorParent = document.getElementById("mcommerce_card_errors_parent");
 
         saveElement.setAttribute("disabled", "disabled");
 
@@ -114,7 +115,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             }
         });
 
-        $scope.cardElement.mount("#mcommerce-card-element");
+        $scope.cardElement.mount("#mcommerce_card_element");
     };
 
     $scope.validateCard = function () {
