@@ -1,11 +1,11 @@
 /*global
  App, angular, BASE_PATH
  */
-angular.module('starter').controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams,
-                                                                                       $scope, $translate, $rootScope,
-                                                                                       McommerceCart,
-                                                                                       McommerceSalesCustomer, Customer,
-                                                                                       Dialog, SB) {
+angular
+    .module('starter')
+    .controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams, $scope, $translate,
+                                                                  $rootScope, McommerceCart, McommerceSalesCustomer,
+                                                                  Customer, Dialog, Application, SB) {
     Customer.onStatusChange('category', []);
 
     $scope.hasguestmode = false;
@@ -16,6 +16,10 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
             title: $translate.instant('Date of birth', 'm_commerce')
         }
     });
+
+    $scope.signupEnabled = function () {
+        return Application.myAccount.settings.enable_registration;
+    };
 
     $scope.customer_login = function () {
         Customer.display_account_form = false;
