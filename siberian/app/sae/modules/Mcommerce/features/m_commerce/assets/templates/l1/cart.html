@@ -1,5 +1,4 @@
 <ion-view sb-page-background
-          cache-view="false"
           class="mcommerce-view mcommerce-cart">
   <ion-nav-title>{{ page_title }}</ion-nav-title>
 
@@ -30,7 +29,7 @@
       <div class="item item-thumbnail-left item-icon-right item-custom">
         <img ng-if="line.product.picture.url"
              ng-src="{{ line.product.picture.url }}" />
-        <p ng-show="line.format[0].title && line.format[0].title != ''">{{ "Format:" | translate }} {{ line.format[0].title }}</p>
+        <p ng-show="line.format[0].title && line.format[0].title != ''">{{ ::'Format' | translate:'m_commerce' }}: {{ line.format[0].title }}</p>
         <p ng-repeat="option in line.options">
           {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
         </p>
@@ -39,7 +38,7 @@
           <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
         </p>
         <p class="text-right">
-          <strong>{{ "Total:" | translate }}</strong> {{ line.formattedTotalInclTax }}
+          <strong>{{ ::'Total' | translate:'m_commerce' }}:</strong> {{ line.formattedTotalInclTax }}
         </p>
         <i class="icon ion-trash-a"
            ng-click="removeLine(line)"></i>
@@ -55,12 +54,12 @@
          ng-if="object.cart.lines.length">
       <div class="item item-divider item-divider-custom">
         <p>
-          <strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong>
+          <strong><i class="icon ion-calculator"></i> {{ ::'Total' | translate:'m_commerce' }}</strong>
         </p>
       </div>
       <div class="item item-custom"
            ng-if="object.cart.deliveryCost > 0">
-        {{ "Delivery fees" | translate }}
+        {{ ::'Delivery fees' | translate:'m_commerce' }}
         <span class="item-note"
               ng-if="!is_loading">{{ object.cart.formattedDeliveryTTC }}</span>
         <span class="item-note"
@@ -69,7 +68,7 @@
         </span>
       </div>
       <div class="item item-custom">
-        <strong>{{ "Subtotal" | translate }}</strong>
+        <strong>{{ ::'Subtotal' | translate:'m_commerce' }}</strong>
         <span class="item-note"
               ng-if="!is_loading">
           <strong>{{ object.cart.formattedSubtotalExclTax }}</strong>
@@ -81,7 +80,7 @@
       </div>
       <div class="item item-custom"
            ng-if="object.cart.discount_enabled">
-        {{ "Discount code" | translate }}
+        {{ ::'Discount code' | translate:'m_commerce' }}
         <span class="item-note">
           <input type="text"
                  name="discount_code"
@@ -93,7 +92,7 @@
       </div>
       <div class="item item-custom"
            ng-if="object.cart.discount_enabled && object.cart.discount_code != '' && object.cart.discount">
-        {{ "Discount" | translate }} ({{ object.cart.discount_message }})
+        {{ ::'Discount' | translate:'m_commerce' }} ({{ object.cart.discount_message }})
         <span class="item-note"
               ng-if="!is_loading">- {{ object.cart.discount }}</span>
         <span class="item-note"
@@ -104,14 +103,14 @@
       <ion-checkbox class="checkbox-custom"
                     ng-model="points_data.use_points"
                     ng-change="useFidelityChange()"
-                    ng-if="object.cart.customer_fidelity_points && object.cart.fidelity_rate">{{ "Use my points?" | translate }}</ion-checkbox>
+                    ng-if="object.cart.customer_fidelity_points && object.cart.fidelity_rate">{{ ::'Use my points?' | translate:'m_commerce' }}</ion-checkbox>
 
       <div ng-show="points_data.use_points">
         <div class="item item-custom">
-          {{ "Points available:" | translate }} {{ object.cart.customer_fidelity_points }}, {{ "1 points =" | translate }} {{ object.cart.fidelity_rate }} {{ object.cart.currency_code }}
+          {{ ::'Points available' | translate:'m_commerce' }}: {{ object.cart.customer_fidelity_points }}, {{ ::'1 point' | translate:'m_commerce' }} = {{ object.cart.fidelity_rate }} {{ object.cart.currency_code }}
         </div>
         <div class="item item-custom">
-          {{ "Use:" | translate }}
+          {{ ::'Use' | translate:'m_commerce' }}:
           <span class="item-note">
             <input type="number"
                    name="points"
@@ -123,14 +122,14 @@
           </span>
         </div>
         <div class="item item-custom">
-          {{ "Estimated discount:" | translate }} <span class="item-note"
+          {{ ::'Estimated discount' | translate:'m_commerce' }}: <span class="item-note"
                                                         ng-bind-html="object.cart.estimated_fidelity_discount"></span>
         </div>
         <div class="item-divider item-divider-custom"></div>
       </div>
       <div class="item item-custom"
            ng-if="object.cart.discount_enabled && object.cart.discount_code != '' && object.cart.discount">
-        <strong>{{ "Subtotal" | translate }} {{ "Incl." | translate | lowercase }} {{ "Discount" | translate | lowercase }}</strong>
+        <strong>{{ ::'Subtotal' | translate:'m_commerce' }} {{ ::'Incl.' | translate:'m_commerce' | lowercase }} {{ ::'Discount' | translate:'m_commerce' | lowercase }}</strong>
         <span class="item-note"
               ng-if="!is_loading">{{ object.cart.formattedSubtotalWithDiscount }}</span>
         <span class="item-note"
@@ -140,7 +139,7 @@
       </div>
       <div class="item item-custom"
            ng-if="object.cart.deliveryCost > 0">
-        {{ "Subtotal Excl. Tax" | translate }}
+        {{ ::'Subtotal excl. tax' | translate:'m_commerce' }}
         <span class="item-note"
               ng-if="!is_loading">{{ object.cart.formattedDeductedTotalHT }}</span>
         <span class="item-note"
@@ -149,7 +148,7 @@
         </span>
       </div>
       <div class="item item-custom">
-        {{ "Tax" | translate }}
+        {{ ::'Tax' | translate:'m_commerce' }}
         <span class="item-note"
               ng-if="!is_loading">{{ object.cart.formattedTotalTax }}</span>
         <span class="item-note"
@@ -159,7 +158,7 @@
       </div>
       <div class="item item-custom"
            ng-if="object.cart.add_tip">
-        {{ "Add gratuity (Optional)" | translate }}
+        {{ ::'Add gratuity (optional)' | translate:'m_commerce' }}
         <span class="item-note">
           <input type="number"
                  name="tip"
@@ -169,7 +168,7 @@
         </span>
       </div>
       <div class="item item-custom">
-        <strong>{{ "Total" | translate }}</strong>
+        <strong>{{ ::'Total' | translate:'m_commerce' }}</strong>
         <span class="item-note"
               ng-if="!is_loading">{{ object.cart.formattedTotal }}</span>
         <span class="item-note"
@@ -181,13 +180,13 @@
     <div class="card"
          ng-if="!object.cart.lines.length">
       <div class="item item-custom">
-        <p>{{ "My cart is empty" | translate }}</p>
+        <p>{{ ::'My cart is empty' | translate:'m_commerce' }}</p>
             </div>
         </div>
         <div class="card">
             <div class="item item-icon-left item-custom"
                  ng-click="goToCategories()">
-                <i class="icon ion-ios-arrow-back"></i> {{ "Continue shopping" | translate }}
+                <i class="icon ion-ios-arrow-back"></i> {{ ::'Continue shopping' | translate:'m_commerce' }}
             </div>
         </div>
     </ion-content>

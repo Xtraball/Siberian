@@ -19,4 +19,5 @@ $init = function ($bootstrap) {
 
     $translationFile = path("/app/sae/modules/Mcommerce/resources/translations/default/m_commerce.po");
     Translation::registerExtractor("m_commerce", "Mcommerce", $translationFile);
+
 };

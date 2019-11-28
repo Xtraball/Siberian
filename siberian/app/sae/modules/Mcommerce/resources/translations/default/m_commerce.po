@@ -27,6 +27,7 @@ msgid "Shipping / delivery fees"
 msgstr "Shipping / delivery fees"
 
 # GMT 1560436231.7763
+#, mobile
 msgctxt "m_commerce"
 msgid "Tax"
 msgstr "Tax"
@@ -71,7 +72,6 @@ msgctxt "m_commerce"
 msgid "Tax rate"
 msgstr "Tax rate"
 
-
 # GMT 1573119728.1000
 msgctxt "m_commerce"
 msgid "Remove this card"
@@ -88,16 +88,19 @@ msgid "Validate"
 msgstr "Validate"
 
 # GMT 1573119728.1003
+#, mobile
 msgctxt "m_commerce"
 msgid "Validate card"
 msgstr "Validate card"
 
 # GMT 1573119728.1004
+#, mobile
 msgctxt "m_commerce"
 msgid "Save my card for future payments"
 msgstr "Save my card for future payments"
 
 # GMT 1573119728.1005
+#, mobile
 msgctxt "m_commerce"
 msgid "Stored card"
 msgstr "Stored card"
@@ -113,56 +116,67 @@ msgid "Confirmation"
 msgstr "Confirmation"
 
 # GMT 1573119728.1008
+#, mobile
 msgctxt "m_commerce"
 msgid "Delete card"
 msgstr "Delete card"
 
 # GMT 1573119728.1009
+#, mobile
 msgctxt "m_commerce"
 msgid "Delivery change"
 msgstr "Delivery change"
 
 # GMT 1573119728.1010
+#, mobile
 msgctxt "m_commerce"
 msgid "Total"
 msgstr "Total"
 
 # GMT 1573119728.1011
+#, mobile
 msgctxt "m_commerce"
 msgid "Amount you will pay"
 msgstr "Amount you will pay"
 
 # GMT 1573119728.1012
+#, mobile
 msgctxt "m_commerce"
 msgid "Change due"
 msgstr "Change due"
 
 # GMT 1573119728.1013
+#, mobile
 msgctxt "m_commerce"
 msgid "Order total"
 msgstr "Order total"
 
 # GMT 1573119728.1014
+#, mobile
 msgctxt "m_commerce"
 msgid "Choose a payment method"
 msgstr "Choose a payment method"
 
 # GMT 1573119728.1015
+#, mobile
 msgctxt "m_commerce"
 msgid "Choose a delivery method"
 msgstr "Choose a delivery method"
 
 # GMT 1573119728.1016
+#, mobile
 msgctxt "m_commerce"
 msgid "Change due upon delivery"
 msgstr "Change due upon delivery"
 
 # GMT 1573119728.1017
+#, mobile
 msgctxt "m_commerce"
 msgid "I will pay"
 msgstr "I will pay"
 
 # GMT 1573119728.1018
+#, mobile
 msgctxt "m_commerce"
 msgid "Notes"
 msgstr "Notes"
@@ -208,7 +222,367 @@ msgid "%s day"
 msgstr "%s day"
 
 # GMT 1567897876.1007
+#, mobile
 msgctxt "m_commerce"
 msgid "Delivery time"
 msgstr "Delivery time"
 
+# GMT 1574960029.447
+#, mobile
+msgctxt "m_commerce"
+msgid "We thank you for your order. A confirmation email has been sent"
+msgstr "We thank you for your order. A confirmation email has been sent"
+
+# GMT 1574960029.4473
+#, mobile
+msgctxt "m_commerce"
+msgid "Use a new credit card"
+msgstr "Use a new credit card"
+
+# GMT 1574960029.4475
+#, mobile
+msgctxt "m_commerce"
+msgid "Choose a store"
+msgstr "Choose a store"
+
+# GMT 1574960029.4478
+#, mobile
+msgctxt "m_commerce"
+msgid "Min. amount"
+msgstr "Min. amount"
+
+# GMT 1574960029.4481
+#, mobile
+msgctxt "m_commerce"
+msgid "Gratuity"
+msgstr "Gratuity"
+
+# GMT 1574960029.4483
+#, mobile
+msgctxt "m_commerce"
+msgid "Discount amount"
+msgstr "Discount amount"
+
+# GMT 1574960029.4486
+#, mobile
+msgctxt "m_commerce"
+msgid "Total tax"
+msgstr "Total tax"
+
+# GMT 1574960029.4487
+#, mobile
+msgctxt "m_commerce"
+msgid "Subtotal"
+msgstr "Subtotal"
+
+# GMT 1574960029.4489
+#, mobile
+msgctxt "m_commerce"
+msgid "Order Total"
+msgstr "Order Total"
+
+# GMT 1574960029.4492
+#, mobile
+msgctxt "m_commerce"
+msgid "Qty"
+msgstr "Qty"
+
+# GMT 1574960029.4496
+#, mobile
+msgctxt "m_commerce"
+msgid "Order Details"
+msgstr "Order Details"
+
+# GMT 1574960029.4497
+#, mobile
+msgctxt "m_commerce"
+msgid "Discount used"
+msgstr "Discount used"
+
+# GMT 1574960029.45
+#, mobile
+msgctxt "m_commerce"
+msgid "Status"
+msgstr "Status"
+
+# GMT 1574960029.4503
+#, mobile
+msgctxt "m_commerce"
+msgid "Payment Method"
+msgstr "Payment Method"
+
+# GMT 1574960029.4507
+#, mobile
+msgctxt "m_commerce"
+msgid "Delivery Method"
+msgstr "Delivery Method"
+
+# GMT 1574960029.4511
+#, mobile
+msgctxt "m_commerce"
+msgid "Order N°"
+msgstr "Order N°"
+
+# GMT 1574960029.4513
+#, mobile
+msgctxt "m_commerce"
+msgid "No items found"
+msgstr "No items found"
+
+# GMT 1574960029.4515
+#, mobile
+msgctxt "m_commerce"
+msgid "An error occurred during the payment process."
+msgstr "An error occurred during the payment process."
+
+# GMT 1574960029.4519
+#, mobile
+msgctxt "m_commerce"
+msgid "Sorry, you are outside the delivery radius"
+msgstr "Sorry, you are outside the delivery radius"
+
+# GMT 1574960029.4522
+#, mobile
+msgctxt "m_commerce"
+msgid "Login or signup"
+msgstr "Login or signup"
+
+# GMT 1574960029.4526
+#, mobile
+msgctxt "m_commerce"
+msgid "You must be logged in to continue"
+msgstr "You must be logged in to continue"
+
+# GMT 1574960029.453
+#, mobile
+msgctxt "m_commerce"
+msgid "Login"
+msgstr "Login"
+
+# GMT 1574960029.4533
+#, mobile
+msgctxt "m_commerce"
+msgid "Signup"
+msgstr "Signup"
+
+# GMT 1574960029.4537
+#, mobile
+msgctxt "m_commerce"
+msgid "Guest order"
+msgstr "Guest order"
+
+# GMT 1574960029.4538
+#, mobile
+msgctxt "m_commerce"
+msgid "Buyer's information"
+msgstr "Buyer's information"
+
+# GMT 1574960029.4542
+#, mobile
+msgctxt "m_commerce"
+msgid "First name"
+msgstr "First name"
+
+# GMT 1574960029.4546
+#, mobile
+msgctxt "m_commerce"
+msgid "Last name"
+msgstr "Last name"
+
+# GMT 1574960029.4548
+#, mobile
+msgctxt "m_commerce"
+msgid "Email"
+msgstr "Email"
+
+# GMT 1574960029.4551
+#, mobile
+msgctxt "m_commerce"
+msgid "Phone"
+msgstr "Phone"
+
+# GMT 1574960029.4553
+#, mobile
+msgctxt "m_commerce"
+msgid "Date of birth"
+msgstr "Date of birth"
+
+# GMT 1574960029.4557
+#, mobile
+msgctxt "m_commerce"
+msgid "Delivery address"
+msgstr "Delivery address"
+
+# GMT 1574960029.4558
+#, mobile
+msgctxt "m_commerce"
+msgid "Street"
+msgstr "Street"
+
+# GMT 1574960029.456
+#, mobile
+msgctxt "m_commerce"
+msgid "Postcode"
+msgstr "Postcode"
+
+# GMT 1574960029.4564
+#, mobile
+msgctxt "m_commerce"
+msgid "City"
+msgstr "City"
+
+# GMT 1574960029.4567
+#, mobile
+msgctxt "m_commerce"
+msgid "Country"
+msgstr "Country"
+
+# GMT 1574960029.4568
+#, mobile
+msgctxt "m_commerce"
+msgid "Invoicing address"
+msgstr "Invoicing address"
+
+# GMT 1574960029.4571
+#, mobile
+msgctxt "m_commerce"
+msgid "Discount"
+msgstr "Discount"
+
+# GMT 1574960029.4574
+#, mobile
+msgctxt "m_commerce"
+msgid "Incl."
+msgstr "Incl."
+
+# GMT 1574960029.4574
+#, mobile
+msgctxt "m_commerce"
+msgid "Subtotal Excl. Tax"
+msgstr "Subtotal Excl. Tax"
+
+# GMT 1574960029.4576
+#, mobile
+msgctxt "m_commerce"
+msgid "Delivery fees"
+msgstr "Delivery fees"
+
+# GMT 1574960029.4577
+#, mobile
+msgctxt "m_commerce"
+msgid "Format"
+msgstr "Format"
+
+# GMT 1574960029.4578
+#, mobile
+msgctxt "m_commerce"
+msgid "Continue shopping"
+msgstr "Continue shopping"
+
+# GMT 1574960029.4579
+#, mobile
+msgctxt "m_commerce"
+msgid "My cart is empty"
+msgstr "My cart is empty"
+
+# GMT 1574960029.458
+#, mobile
+msgctxt "m_commerce"
+msgid "Add gratuity (optional)"
+msgstr "Add gratuity (optional)"
+
+# GMT 1574960029.4581
+#, mobile
+msgctxt "m_commerce"
+msgid "Subtotal excl. tax"
+msgstr "Subtotal excl. tax"
+
+# GMT 1574960029.4584
+#, mobile
+msgctxt "m_commerce"
+msgid "Estimated discount"
+msgstr "Estimated discount"
+
+# GMT 1574960029.4586
+#, mobile
+msgctxt "m_commerce"
+msgid "Use"
+msgstr "Use"
+
+# GMT 1574960029.4589
+#, mobile
+msgctxt "m_commerce"
+msgid "Points available"
+msgstr "Points available"
+
+# GMT 1574960029.4592
+#, mobile
+msgctxt "m_commerce"
+msgid "1 point"
+msgstr "1 point"
+
+# GMT 1574960029.4595
+#, mobile
+msgctxt "m_commerce"
+msgid "Use my points?"
+msgstr "Use my points?"
+
+# GMT 1574960029.4598
+#, mobile
+msgctxt "m_commerce"
+msgid "Discount code"
+msgstr "Discount code"
+
+# GMT 1574960029.46
+#, mobile
+msgctxt "m_commerce"
+msgid "Search"
+msgstr "Search"
+
+# GMT 1574960029.4601
+#, mobile
+msgctxt "m_commerce"
+msgid "Pull to refresh..."
+msgstr "Pull to refresh..."
+
+# GMT 1574960029.4604
+#, mobile
+msgctxt "m_commerce"
+msgid "Order history"
+msgstr "Order history"
+
+# GMT 1574960029.4607
+#, mobile
+msgctxt "m_commerce"
+msgid "My cart"
+msgstr "My cart"
+
+# GMT 1574960029.4609
+#, mobile
+msgctxt "m_commerce"
+msgid "From"
+msgstr "From"
+
+# GMT 1574960029.461
+#, mobile
+msgctxt "m_commerce"
+msgid "Options"
+msgstr "Options"
+
+# GMT 1574960029.4613
+#, mobile
+msgctxt "m_commerce"
+msgid "Prices"
+msgstr "Prices"
+
+# GMT 1574960029.4614
+#, mobile
+msgctxt "m_commerce"
+msgid "Description"
+msgstr "Description"
+
+# GMT 1574960029.4615
+#, mobile
+msgctxt "m_commerce"
+msgid "Add to cart"
+msgstr "Add to cart"

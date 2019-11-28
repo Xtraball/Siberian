@@ -351,7 +351,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $useExternalApp = $object->getLink()->getUseExternalApp();
                     }
 
-                    if (sizeof($optionValues) >= 50) {
+                    if (count($optionValues) >= 50) {
                         if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
                             $embedPayload = false;
                         } else {
@@ -584,8 +584,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         // Time to generate the current block!
         $dataHomepage['x-delay'] = microtime(true) - $blockStart;
-
-        dbg($dataHomepage);
 
         return $dataHomepage;
     }
