@@ -222,7 +222,7 @@ angular
 
     $scope.right_button = {
         action: $scope.process,
-        label: $translate.instant("Pay")
+        label: $translate.instant('Pay', 'm_commerce')
     };
 
     $scope.loadContent();

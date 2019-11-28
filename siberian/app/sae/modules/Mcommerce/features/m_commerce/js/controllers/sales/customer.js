@@ -69,7 +69,7 @@ angular
     McommerceSalesCustomer.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant('My information');
+    $scope.page_title = $translate.instant('My information', 'm_commerce');
 
     $scope.loadContent = function () {
         McommerceSalesCustomer
@@ -146,7 +146,7 @@ angular
 
     $scope.right_button = {
         action: $scope.updateCustomerInfos,
-        label: $translate.instant('Next')
+        label: $translate.instant('Next', 'm_commerce')
     };
 
     $scope.loadContent();
