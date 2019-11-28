@@ -1,19 +1,111 @@
 <?php
 
-use Mcommerce\Form\Store;
-use Mcommerce\Form\Settings;
+use Mcommerce_Model_Mcommerce as Mcommerce;
+use Mcommerce\Form\Store as FormStore;
+use Mcommerce\Form\Store\Delete as FormStoreDelete;
+use Mcommerce\Form\Settings as FormSettings;
+use Mcommerce\Form\Tax as FormTax;
+use Mcommerce\Form\Tax\Delete as FormTaxDelete;
+use Mcommerce\Form\Discount as FormDiscount;
+use Mcommerce\Form\Discount\Delete as FormDiscountDelete;
+
+global $layout;
+$layout = $this->getLayout();
+
+function getMcommerceSection($name, $data = [])
+{
+    global $layout;
+    $html = $layout
+        ->addPartial("view_general", "core_view_default", "mcommerce/application/tabs/{$name}.phtml")
+        ->setData($data)
+        ->toHtml();
+
+    return $html;
+}
 
 $optionValue = $this->getOptionValue();
 $valueId = $optionValue->getId();
 $application = $this->getApplication();
-$m_commerce = $optionValue->getObject();
-$stores = $m_commerce->getStores();
+$gmapsKey = $application->getGooglemapsKey();
+/**
+ * @var $mCommerce Mcommerce
+ */
+$mCommerce = $optionValue->getObject();
+$mCommerceId = $mCommerce->getId();
+$stores = $mCommerce->getStores();
 
-$formStore = new Store();
-$formStore->setValueId($valueId);
+/**
+ * Stores
+ */
+$formStore = new FormStore();
+$formStore->setStoreId($valueId);
+$formStore->setMcommerceId($mCommerceId);
 
-$formSettings = new Settings();
-$formStore->setValueId($valueId);
+$formStoreDelete = new FormStoreDelete();
+$formStoreDelete->setValueId($valueId);
+
+/**
+ * Settings
+ */
+$formSettings = new FormSettings();
+
+$mCommerceData = $mCommerce->getData();
+$mCommerceData['add_tip'] = $mCommerce->getAddTip();
+$mCommerceData['guest_mode'] = $mCommerce->getGuestMode();
+
+$formSettings->populate($mCommerceData);
+$formSettings->setValueId($valueId);
+
+/**
+ * Taxes
+ */
+$taxes = $mCommerce->getTaxes();
+
+$formTax = new FormTax();
+$formTax->setMcommerceId($mCommerceId);
+
+$deleteTaxForm = new FormTaxDelete();
+
+/**
+ * Discounts
+ */
+$discounts = $mCommerce->getPromos();
+
+$formDiscount = new FormDiscount();
+$formDiscount->setValueId($valueId);
+
+$deleteDiscountForm = new FormDiscountDelete();
+
+$allTabs = [
+    'tab_stores' => [
+        'icon' => 'fa fa-shopping-basket',
+        'label' => p__("m_commerce","Stores"),
+    ],
+    'tab_categories' => [
+        'icon' => 'fa fa-tags',
+        'label' => p__("m_commerce","Categories"),
+    ],
+    'tab_products' => [
+        'icon' => 'fa fa-shopping-cart',
+        'label' => p__("m_commerce","Products"),
+    ],
+    'tab_orders' => [
+        'icon' => 'fa fa-truck',
+        'label' => p__("m_commerce","Orders"),
+    ],
+    'tab_discounts' => [
+        'icon' => 'fa fa-percent',
+        'label' => p__("m_commerce","Discounts"),
+    ],
+    'tab_settings' => [
+        'icon' => 'fa fa-cogs',
+        'label' => p__("m_commerce","Settings"),
+    ],
+    'tab_design' => [
+        'icon' => 'fa fa-picture-o',
+        'label' => p__("m_commerce","Design"),
+    ],
+];
 
 ?>
 
@@ -23,72 +115,43 @@ $formStore->setValueId($valueId);
     <!-- Nav tabs -->
     <ul class="nav nav-tabs"
         role="tablist">
+        <?php $active = 'active'; foreach ($allTabs as $key => $tab): ?>
         <li role="presentation"
-            class="active">
-            <a href="#tab_stores"
-               aria-controls="tab_stores"
+            class="<?php echo $active ?>">
+            <a href="#<?php echo $key ?>"
+               aria-controls="<?php echo $key ?>"
                role="tab"
                data-toggle="tab">
-                <i class="fa fa-shopping-basket"></i>
-                <?php echo p__("m_commerce","Stores") ?>
+                <i class="<?php echo $tab['icon'] ?>"></i>
+                <?php echo $tab['label'] ?>
             </a>
         </li>
-        <li role="presentation">
-            <a href="#tab_categories"
-               aria-controls="tab_categories"
-               role="tab"
-               data-toggle="tab">
-                <i class="fa fa-tags"></i>
-                <?php echo p__("m_commerce","Categories") ?>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#tab_products"
-               aria-controls="tab_products"
-               role="tab"
-               data-toggle="tab">
-                <i class="fa fa-shopping-cart"></i>
-                <?php echo p__("m_commerce","Products") ?>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#tab_orders"
-               aria-controls="tab_orders"
-               role="tab"
-               data-toggle="tab">
-                <i class="fa fa-truck"></i>
-                <?php echo p__("m_commerce","Orders") ?>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#tab_settings"
-               aria-controls="tab_settings"
-               role="tab"
-               data-toggle="tab">
-                <i class="fa fa-cogs"></i>
-                <?php echo p__("m_commerce","Settings") ?>
-            </a>
-        </li>
-        <li role="presentation">
-            <a href="#tab_design"
-               aria-controls="tab_design"
-               role="tab"
-               data-toggle="tab">
-                <i class="fa fa-picture-o"></i>
-                <?php echo p__("m_commerce","Design") ?>
-            </a>
-        </li>
+        <?php $active = ''; endforeach; ?>
     </ul>
 
     <div class="tab-content">
-        <!-- START CONTACT TAB -->
+        <!-- START STORES TAB -->
+        <?php echo getMcommerceSection("stores", [
+            "form_store" => $formStore,
+            "form_store_delete" => $formStoreDelete,
+            "stores" => $stores,
+        ]); ?>
+        <!-- /END STORES TAB -->
+
+        <!-- START CATEGORIES TAB -->
+        <?php echo getMcommerceSection("categories", [
+            "option_value" => $optionValue,
+        ]); ?>
+        <!-- END CATEGORIES TAB -->
+
+        <!-- START PRODUCTS TAB -->
         <div role="tabpanel"
-             class="tab-pane active"
-             id="tab_stores">
+             class="tab-pane"
+             id="tab_products">
 
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo p__('m_commerce','Add a store') ?>
+                    <?php echo p__('m_commerce','Add a discount') ?>
                     <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
                         <i class="fa fa-plus"></i>
                     </button>
@@ -96,20 +159,20 @@ $formStore->setValueId($valueId);
             </div>
 
             <div class="feature-block-create"
-                 <?php echo ($stores->count() > 0) ? 'style="display: none;"' : ''; ?>>
+                <?php echo ($discounts->count() > 0) ? 'style="display: none;"' : ''; ?>>
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo p__('m_commerce','New store') ?>
+                    <?php echo p__('m_commerce','New discount') ?>
                 </h3>
                 <div class="container-fluid subcontent content-feature">
-                    <?php echo $formStore; ?>
+                    <?php echo $formDiscount; ?>
                 </div>
             </div>
 
-            <?php if ($stores->count() > 0): ?>
+            <?php if ($discounts->count() > 0): ?>
                 <div class="feature-block-list">
                     <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("m_commerce", "Manage stores"); ?>
+                            <?php echo p__('m_commerce', 'Manage discounts'); ?>
                             <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
                                 <i class="fa fa-angle-down"></i>
                             </button>
@@ -117,38 +180,38 @@ $formStore->setValueId($valueId);
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
                             <table class="table content-white-bkg sb-pager">
                                 <thead>
-                                    <tr class="border-grey">
-                                        <th style="width:32px;"></th>
-                                        <th class="sortable"
-                                            style="width:20%;"><?php echo p__("m_commerce", "Title"); ?></th>
-                                        <th class="sortable"
-                                            style="width:30%;"><?php echo p__("m_commerce","Subtitle"); ?></th>
-                                        <th class="sortable"
-                                            style="width:30%;"><?php echo p__("m_commerce","Link"); ?></th>
-                                        <th style="width:10%;"><?php echo p__("m_commerce","Position") ?></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th class="sortable"
+                                        style='width:20%;'><?php echo p__('m_commerce', 'Title'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Subtitle'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Link'); ?></th>
+                                    <th style='width:10%;'><?php echo p__('m_commerce','Position') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
                                 </thead>
                                 <tbody class="feeds-sortable">
-                                <?php foreach($stores as $store) : ?>
-                                    <tr id="feed_manage_element_<?php echo $store->getId(); ?>"
-                                        rel="<?php echo $store->getId(); ?>"
+                                <?php foreach($discounts as $discount) : ?>
+                                    <tr id="feed_manage_element_<?php echo $discount->getId(); ?>"
+                                        rel="<?php echo $discount->getId(); ?>"
                                         class="feed-manage-element sb-pager feed-container">
                                         <td class="feed-handle"
                                             style="text-align: center;">
                                             <i class="fa fa-sort"></i>
                                         </td>
                                         <td>
-                                            <?php echo $store->getName() ?>
+                                            <?php echo $discount->getName() ?>
                                         </td>
                                     </tr>
                                     <tr class="edit-form"
-                                        data-id="feed_<?php echo $store->getId(); ?>"
+                                        data-id="feed_<?php echo $discount->getId(); ?>"
                                         style="display: none;">
                                         <td colspan="7">
                                             <p class="close-edit"
-                                               data-id="feed_<?php echo $store->getId(); ?>">
+                                               data-id="feed_<?php echo $discount->getId(); ?>">
                                                 <i class="fa fa-times"></i><?php echo __("Close") ?>
                                             </p>
                                         </td>
@@ -163,7 +226,175 @@ $formStore->setValueId($valueId);
             <?php endif; ?>
 
         </div>
-        <!-- END CONTACT TAB -->
+        <!-- END PRODUCTS TAB -->
+
+        <!-- START ORDERS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab_orders">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','Add a discount') ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create"
+                <?php echo ($discounts->count() > 0) ? 'style="display: none;"' : ''; ?>>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','New discount') ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formDiscount; ?>
+                </div>
+            </div>
+
+            <?php if ($discounts->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__('m_commerce', 'Manage discounts'); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th class="sortable"
+                                        style='width:20%;'><?php echo p__('m_commerce', 'Title'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Subtitle'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Link'); ?></th>
+                                    <th style='width:10%;'><?php echo p__('m_commerce','Position') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="feeds-sortable">
+                                <?php foreach($discounts as $discount) : ?>
+                                    <tr id="feed_manage_element_<?php echo $discount->getId(); ?>"
+                                        rel="<?php echo $discount->getId(); ?>"
+                                        class="feed-manage-element sb-pager feed-container">
+                                        <td class="feed-handle"
+                                            style="text-align: center;">
+                                            <i class="fa fa-sort"></i>
+                                        </td>
+                                        <td>
+                                            <?php echo $discount->getName() ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="feed_<?php echo $discount->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="7">
+                                            <p class="close-edit"
+                                               data-id="feed_<?php echo $discount->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <!-- END ORDERS TAB -->
+
+        <!-- START DISCOUNTS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab_discounts">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','Add a discount') ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create"
+                <?php echo ($discounts->count() > 0) ? 'style="display: none;"' : ''; ?>>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','New discount') ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formDiscount; ?>
+                </div>
+            </div>
+
+            <?php if ($discounts->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__('m_commerce', 'Manage discounts'); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th class="sortable"
+                                        style='width:20%;'><?php echo p__('m_commerce', 'Title'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Subtitle'); ?></th>
+                                    <th class='sortable'
+                                        style='width:30%;'><?php echo p__('m_commerce','Link'); ?></th>
+                                    <th style='width:10%;'><?php echo p__('m_commerce','Position') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="feeds-sortable">
+                                <?php foreach($discounts as $discount) : ?>
+                                    <tr id="feed_manage_element_<?php echo $discount->getId(); ?>"
+                                        rel="<?php echo $discount->getId(); ?>"
+                                        class="feed-manage-element sb-pager feed-container">
+                                        <td class="feed-handle"
+                                            style="text-align: center;">
+                                            <i class="fa fa-sort"></i>
+                                        </td>
+                                        <td>
+                                            <?php echo $discount->getName() ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="feed_<?php echo $discount->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="7">
+                                            <p class="close-edit"
+                                               data-id="feed_<?php echo $discount->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __("Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <!-- END DISCOUNTS TAB -->
 
         <!-- START SETTINGS TAB -->
         <div role="tabpanel"
@@ -178,6 +409,95 @@ $formStore->setValueId($valueId);
                     <?php echo $formSettings; ?>
                 </div>
             </div>
+
+            <!-- Taxes -->
+            <div class="feature-block-add"
+                 style="margin-top: 20px;">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','Add a tax') ?>
+                    <button type="button" class="feature-toggle-add toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+            </div>
+
+            <div class="feature-block-create"
+                 style="margin-top: 20px;"
+                <?php echo ($taxes->count() > 0) ? 'style="display: none;"' : ''; ?>>
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('m_commerce','New tax') ?>
+                </h3>
+                <div class="container-fluid subcontent content-feature">
+                    <?php echo $formTax; ?>
+                </div>
+            </div>
+
+            <?php if ($taxes->count() > 0): ?>
+                <div class="feature-block-list">
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__('m_commerce', 'Manage taxes'); ?>
+                            <button type="button" class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager">
+                                <thead>
+                                    <tr class="border-grey">
+                                        <th class='sortable'
+                                            style='width:45%;'><?php echo p__('m_commerce', 'Label'); ?></th>
+                                        <th class='sortable'
+                                            style='width:45%;'><?php echo p__('m_commerce','Rate'); ?></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($taxes as $tax) : ?>
+                                    <tr id="tax_manage_element_<?php echo $tax->getId(); ?>"
+                                        rel="<?php echo $tax->getId(); ?>"
+                                        class="tax-manage-element sb-pager tax-container">
+                                        <td>
+                                            <?php echo $tax->getName() ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $tax->getRate() ?>%
+                                        </td>
+                                        <td class="edit-action open-edit"
+                                            data-id="tax_<?php echo $tax->getId(); ?>"
+                                            data-form-url="<?php echo __path('/mcommerce/application_settings_tax/load-form', ['tax_id' => $tax->getId()]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $deleteTaxForm->setAttrib('data-rowid', 'tax_manage_element_' . $tax->getId());
+                                            $deleteTaxForm->getElement('tax_id')->setValue($tax->getId());
+
+                                            echo $deleteTaxForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="tax_<?php echo $tax->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="4">
+                                            <p class="close-edit"
+                                               data-id="tax_<?php echo $tax->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo __('Close') ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+            <!-- Taxes -->
+
         </div>
         <!-- END SETTINGS TAB -->
 
@@ -192,11 +512,47 @@ $formStore->setValueId($valueId);
 </div>
 
 <script type="text/javascript">
+    var allTaxes = [];
+    <?php foreach ($taxes as $tax): ?>
+    allTaxes.push({'label': '<?php echo addcslashes($tax->getName() . ' - ' . $tax->getRate(), "'") ?>%', 'value': '<?php echo $tax->getId() ?>'});
+    <?php endforeach; ?>
+
+    let bindAddress = function (id) {
+        let el = $(id);
+        if ((typeof google === "undefined") && (typeof el.attr("data-googlesearch") === "undefined")) {
+            if (!$("#gmaps_libraries").length) {
+                let script_tag = document.createElement("script");
+                script_tag.setAttribute("id", "gmaps_libraries");
+                script_tag.setAttribute("type", "text/javascript");
+                script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&key=<?php echo $gmapsKey; ?>");
+                (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+            }
+
+            setTimeout(function() {
+                bindAddress(id);
+            }, 2000);
+        } else {
+            let searchBox = new google.maps.places.SearchBox(el.get(0));
+        }
+    };
+
+    let buildTaxSelector = function (id) {
+        let select = $(id);
+        // Clear previous options!
+        select.find('option').remove();
+
+        // Build new options!
+        allTaxes.forEach(function (tax) {
+            select.append('<option value="' + tax.value + '">' + tax.label + '</option>');
+        });
+    };
+
     $(document).ready(function () {
         bindForms('#mcommerce');
 
-        $('#delivery_delay').off('change');
-        $('#delivery_delay').on('change', function () {
+        let deliveryDelay = $('#delivery_delay');
+        deliveryDelay.off('change');
+        deliveryDelay.on('change', function () {
             $.ajax({
                 type: 'GET',
                 dataType: 'json',
@@ -207,7 +563,7 @@ $formStore->setValueId($valueId);
             });
         });
 
-        var toggleDeliveryOptions = function (show) {
+        let toggleDeliveryOptions = function (show) {
             if (show) {
                 $('#store_delivery_options-element').show();
             } else {
@@ -215,12 +571,15 @@ $formStore->setValueId($valueId);
             }
         };
 
-        $('#new_delivery_methods-3').off('click');
-        $('#new_delivery_methods-3').on('click', function () {
+        let deliveryMethod = $('#new_delivery_methods-3');
+        deliveryMethod.off('click');
+        deliveryMethod.on('click', function () {
             toggleDeliveryOptions($(this).is(':checked'));
         });
 
         toggleDeliveryOptions(false);
+        bindAddress('#address');
+        buildTaxSelector('#delivery_tax');
     });
 </script>
 
