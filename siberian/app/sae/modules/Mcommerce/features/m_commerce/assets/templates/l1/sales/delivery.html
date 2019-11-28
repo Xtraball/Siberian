@@ -19,8 +19,9 @@
     <ion-content>
 
         <ion-list>
-            <ion-item class="item-divider item-divider-custom text-center">
-                <h2>{{ ::"Choose a delivery method" | translate:"m_commerce" }}</h2>
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Choose a delivery method' | translate:'m_commerce' }}</h2>
             </ion-item>
 
             <ion-radio class="radio-custom"
@@ -36,20 +37,20 @@
                        ng-repeat="deliveryMethod in selectedStore.deliveryKo">
                 <div>
                     <p>{{ deliveryMethod.name }}</p>
-                    <p class="assertive assertive-custom">{{ "Sorry, you are outside the delivery radius" | translate }}</p>
+                    <p class="assertive assertive-custom">{{ ::'Sorry, you are outside the delivery radius' | translate }}</p>
                 </div>
             </ion-radio>
 
             <div ng-if="clients_calculate_change_form_is_visible">
                 <ion-item class="item-divider item-divider-custom text-center"
                           style="margin-top: 20px;">
-                    {{ ::"Delivery change" | translate:"m_commerce" }}
+                    {{ ::'Delivery change' | translate:'m_commerce' }}
                 </ion-item>
 
                 <ion-item class="item-custom">
                     <div class="row">
                         <div class="col-65">
-                            <b>{{ ::"Order total" | translate:"m_commerce" }}</b>
+                            <b>{{ ::'Order total' | translate:'m_commerce' }}</b>
                         </div>
                         <div class="col-35 text-right">
                             {{ cart.total }}
@@ -60,7 +61,7 @@
                 <ion-item class="item-custom">
                     <div class="row">
                         <div class="col-65">
-                            <b>{{ ::"Amount you will pay" | translate:"m_commerce" }}</b>
+                            <b>{{ ::'Amount you will pay' | translate:'m_commerce' }}</b>
                         </div>
                         <div class="col-35 text-right">
                             <input type="number"
@@ -75,7 +76,7 @@
                 <ion-item class="item-custom">
                     <div class="row">
                         <div class="col-65">
-                            <b>{{ ::"Change due" | translate:"m_commerce" }}</b>
+                            <b>{{ ::'Change due' | translate:'m_commerce' }}</b>
                         </div>
                         <div class="col-35 text-right">
                             {{ cart.delivery_method_extra_amount_due }}

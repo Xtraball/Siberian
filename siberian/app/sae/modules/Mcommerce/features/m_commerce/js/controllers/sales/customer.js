@@ -13,7 +13,7 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
     angular.extend($scope, {
         dateTime: {
             format: "MM/DD/YYYY",
-            title: $translate.instant("Date of birth")
+            title: $translate.instant('Date of birth', 'm_commerce')
         }
     });
 

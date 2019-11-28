@@ -1,9 +1,10 @@
-/*global
- App, angular, BASE_PATH
+/**
+ * MCommerceSalesStoreChoiceController
  */
-
-angular.module("starter").controller("MCommerceSalesStoreChoiceController", function (Loader, $scope, $state, $stateParams,
-                                                               $translate, Dialog, McommerceSalesStorechoice) {
+angular
+    .module("starter")
+    .controller("MCommerceSalesStoreChoiceController", function (Loader, $scope, $state, $stateParams, $translate,
+                                                                 Dialog, McommerceSalesStorechoice) {
 
     $scope.value_id = $stateParams.value_id;
     McommerceSalesStorechoice.value_id = $stateParams.value_id;
@@ -11,24 +12,20 @@ angular.module("starter").controller("MCommerceSalesStoreChoiceController", func
 
     $scope.loadContent = function () {
         $scope.is_loading = true;
-        Loader.show();
         McommerceSalesStorechoice
-            .find()
-            .then(function (data) {
-                $scope.stores = data.stores;
-                $scope.cart_amount = data.cart_amount;
-                $scope.selected_store.id = data.store_id;
-                if($scope.selected_store.id) {
-                    $scope.chooseStore();
-                }
-            }).then(function () {
-                $scope.is_loading = false;
-                Loader.hide();
-            });
+        .find()
+        .then(function (data) {
+            $scope.stores = data.stores;
+            $scope.cart_amount = data.cart_amount;
+            $scope.selected_store.id = data.store_id;
+        }).then(function () {
+            $scope.is_loading = false;
+        });
     };
 
     $scope.chooseStore = function() {
-        if($scope.selected_store.id) {
+        if ($scope.selected_store.id) {
+            Loader.show();
             $scope.min_amount = 0;
             angular.forEach($scope.stores,function(store) {
                 if(store.id == $scope.selected_store.id) {
@@ -37,50 +34,30 @@ angular.module("starter").controller("MCommerceSalesStoreChoiceController", func
                 }
             });
 
-            if($scope.min_amount <= $scope.cart_amount) {
-                $scope.is_loading = true;
-                Loader.show();
+            if ($scope.min_amount <= $scope.cart_amount) {
                 McommerceSalesStorechoice
-                    .update($scope.selected_store.id)
-                    .then(function (data) {
-                        if (data.store_id) {
-                            $scope.showNextButton();
-                        }
-                    }).then(function () {
-                        $scope.is_loading = false;
-                        Loader.hide();
-                    });
-
+                .update($scope.selected_store.id)
+                .then(function (data) {
+                    Loader.hide();
+                    if (data.store_id) {
+                        $state.go("mcommerce-sales-customer", {
+                            value_id: $scope.value_id
+                        });
+                    }
+                }).then(function () {
+                    Loader.hide();
+                });
             } else {
                 Dialog.alert("", $scope.error_message, "OK");
-                $scope.hideNextButton();
+                Loader.hide();
             }
         }
     };
 
-    $scope.goToOverview = function () {
-
-        if(!$scope.is_loading) {
-            $state.go("mcommerce-sales-customer", {
-                value_id: $scope.value_id
-            });
-        }
-    };
-
-    $scope.showNextButton = function() {
-        $scope.right_button = {
-            action: $scope.goToOverview,
-            label: $translate.instant("Proceed")
-        };
-    };
-
-    $scope.hideNextButton = function() {
-        $scope.right_button = {
-            action: null,
-            label: ""
-        };
+    $scope.right_button = {
+        action: $scope.chooseStore,
+        label: $translate.instant("Proceed")
     };
 
     $scope.loadContent();
-
 });

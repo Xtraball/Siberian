@@ -16,6 +16,7 @@ angular
     $scope.payment.save_card = false;
     $scope.payment.use_stored_card = false;
     $scope.payment.hasStoredCard = false;
+    $scope.isProcessing = false;
 
     $scope.cardElement = null;
 
@@ -151,8 +152,11 @@ angular
     };
 
     $scope.useCard = function () {
-        $scope.payment.use_stored_card = true;
-        $scope.process();
+        if (!$scope.isProcessing) {
+            $scope.isProcessing = true;
+            $scope.payment.use_stored_card = true;
+            $scope.process();
+        }
     };
 
     $scope.process = function () {
@@ -160,7 +164,7 @@ angular
             $scope.is_loading = true;
             Loader.show();
             if ($scope.payment.use_stored_card) {
-                _process();
+                $scope._process();
             } else {
                 McommerceStripe.StripeInstance
                 .createToken($scope.cardElement)
@@ -172,10 +176,10 @@ angular
     };
 
     var _stripeResponseHandler = function (result) {
-        console.log("_stripeResponseHandler", result);
         if (result.error) {
             Dialog.alert("", result.error.message, "OK");
             $scope.is_loading = false;
+            $scope.isProcessing = false;
             Loader.hide();
         } else {
             $scope.card = {
@@ -187,12 +191,11 @@ angular
                 exp: Math.round(+(new Date((new Date(result.token.card.exp_year, result.token.card.exp_month, 1)) - 1)) / 1000) | 0
             };
 
-            _process();
+            $scope._process();
         }
     };
 
-    //function to make payment when all is ready
-    var _process = function () {
+    $scope._process = function () {
         var data = {
             "token": $scope.card.token,
             "use_stored_card": $scope.payment.use_stored_card,
@@ -201,19 +204,20 @@ angular
         };
 
         McommerceStripe
-        .process(data)
-        .then(function (res) {
-            if (res) {
-                $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
-            } else {
+            .process(data)
+            .then(function (res) {
+                if (res) {
+                    $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
+                } else {
+                    Dialog.alert("Error", "Unexpected error", "OK");
+                }
+            }, function (err) {
                 Dialog.alert("Error", "Unexpected error", "OK");
-            }
-        }, function (err) {
-            Dialog.alert("Error", "Unexpected error", "OK");
-        }).then(function () {
-            $scope.is_loading = false;
-            Loader.hide();
-        });
+            }).then(function () {
+                $scope.is_loading = false;
+                $scope.isProcessing = false;
+                Loader.hide();
+            });
     };
 
     $scope.right_button = {
