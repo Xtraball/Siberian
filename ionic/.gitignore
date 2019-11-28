@@ -2,6 +2,7 @@
 # http://git-scm.com/docs/gitignore
 
 node_modules/
+!platforms/android/cordova/node_modules/
 .DS_Store
 npm-debug.log
 .idea
