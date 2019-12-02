@@ -152,7 +152,7 @@ class Cms_Model_Application_Page_Block_Video_Youtube  extends Core_Model_Default
         $this->_link = $url;
     }
 
-    protected function getLink() {
+    public function getLink() {
         return $this->_link;
     }
 

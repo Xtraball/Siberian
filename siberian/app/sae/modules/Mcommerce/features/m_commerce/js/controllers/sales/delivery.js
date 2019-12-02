@@ -7,7 +7,7 @@ angular
                                                                   McommerceCart, McommerceSalesDelivery,
                                                                   Dialog, $timeout) {
 
-    $scope.page_title = $translate.instant("Delivery");
+    $scope.page_title = $translate.instant('Delivery', 'm_commerce');
 
     McommerceCart.value_id = $stateParams.value_id;
     McommerceSalesDelivery.value_id = $stateParams.value_id;
@@ -132,7 +132,7 @@ angular
 
     $scope.right_button = {
         action: $scope.updateDeliveryInfos,
-        label: $translate.instant("Next")
+        label: $translate.instant('Next', 'm_commerce')
     };
 
     $scope.loadContent();

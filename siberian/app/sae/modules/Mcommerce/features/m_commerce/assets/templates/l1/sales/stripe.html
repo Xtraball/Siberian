@@ -21,7 +21,7 @@
             <ion-item ng-show="payment.hasStoredCard"
                       style="margin-top: 15px;"
                       class="item-divider item-divider-custom">
-                {{ ::"Stored card" | translate:"m_commerce" }}
+                {{ ::'Stored card' | translate:'m_commerce' }}
             </ion-item>
             <ion-item ng-show="payment.hasStoredCard"
                       ng-click="useCard()"
@@ -41,7 +41,7 @@
             <button ng-show="payment.hasStoredCard"
                     ng-click="deleteVault()"
                     class="button button-full button-assertive button-assertive-custom">
-                {{ ::"Delete card" | translate:"m_commerce" }}
+                {{ ::'Delete card' | translate:'m_commerce' }}
             </button>
 
             <!-- Spacer! -->
@@ -50,7 +50,7 @@
 
             <!-- Use a new card! -->
             <ion-item class="item-divider item-divider-custom">
-                {{ ::"Use a new credit card" | translate:"m_commerce" }}
+                {{ ::'Use a new credit card' | translate:'m_commerce' }}
             </ion-item>
             <form>
                 <div class="payment-stripe-form">
@@ -62,7 +62,7 @@
                                   ng-change="debug"
                                   ng-model="payment.save_card"
                                   class="item item-custom radio-custom">
-                        {{ ::"Save my card for future payments" | translate:"m_commerce" }}
+                        {{ ::'Save my card for future payments' | translate:'m_commerce' }}
                     </ion-checkbox>
 
                     <div id="mcommerce_card_errors_parent"
@@ -75,7 +75,7 @@
                     <button ng-click="validateCard()"
                             id="mcommerce_save_element"
                             class="button button-full button-positive button-positive-custom">
-                        {{ ::"Validate card" | translate:"m_commerce" }}
+                        {{ ::'Pay' | translate:'m_commerce' }}
                     </button>
                 </div>
             </form>

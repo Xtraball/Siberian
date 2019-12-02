@@ -32,7 +32,7 @@
                        ng-click="chooseStore(); right_button.action()">
                 {{ store.name }}
                 <br />
-                <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount:' | translate }} {{ store.formatted_min_amount }}</span>
+                <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount' | translate }} {{ store.formatted_min_amount }}</span>
             </ion-radio>
         </ion-list>
 

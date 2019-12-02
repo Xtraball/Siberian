@@ -5,16 +5,16 @@
         <meta name="viewport"
               content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <meta http-equiv="Content-Security-Policy" content="
-            default-src * filesystem: cdvfile://* ws://* wss://* mailto:;
-            script-src * filesystem: cdvfile://* 'unsafe-inline' 'unsafe-eval';
+            default-src * filesystem: cdvfile://* ws://* wss://* ionic://* mailto:;
+            script-src * filesystem: cdvfile://* ionic://* 'unsafe-inline' 'unsafe-eval';
             object-src *;
-            style-src * 'unsafe-inline';
-            img-src * data: android-webview-video-poster:;
-            media-src *;
-            frame-src * gap://ready ws://* wss://* mailto:;
-            child-src * gap://ready ws://* wss://* mailto:;
+            style-src * ionic://* 'unsafe-inline';
+            img-src * data: android-webview-video-poster: ionic://*;
+            media-src * ionic://*;
+            frame-src * gap://ready ws://* wss://* ionic://* mailto:;
+            child-src * gap://ready ws://* wss://* ionic://* mailto:;
             font-src * data:;
-            connect-src * ws://* wss://* filesystem: cdvfile://*;">
+            connect-src * ws://* wss://* filesystem: cdvfile://* ionic://*;">
         <meta id="last_meta"
               name="apple-mobile-web-app-capable"
               content="yes">
@@ -42,6 +42,48 @@
         <script src="./dist/features.bundle.min.js"></script>
         <script src="./dist/onloadchunks.bundle.min.js"></script>
 
+	
+		<script src="modules/layout/home/layout_siberian_swipe/swiper/swiper.min.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_swipe/hooks.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_18/hooks.js"></script>
+	
+		<script src="modules/layout/home/layout_siberian_year/hooks.js"></script>
+	
+		<script src="modules/layout/home/layout_taxi/hooks.js"></script>
+	
+		<link href="modules/layout/home/layout_siberian_swipe/swiper/swiper.min.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_swipe/style.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_18/style.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_siberian_year/style.css" rel="stylesheet">
+	
+		<link href="modules/layout/home/layout_taxi/style.css" rel="stylesheet">
+	
+		<script src="./features/folder_v2/folder_v2.js" data-feature="folder_v2"></script>
+	
+		<script src="./features/job/job.js" data-feature="job"></script>
+	
+		<script src="./features/m_commerce/m_commerce.js" data-feature="m_commerce"></script>
+	
+		<script src="./features/places/places.js" data-feature="places"></script>
+	
+		<script src="./features/wordpress_v2/wordpress_v2.js" data-feature="wordpress_v2"></script>
+	
+		<script src="./features/cabride/cabride.js" data-feature="cabride"></script>
+	
+		<script src="./features/fanwall2/fanwall2.js" data-feature="fanwall2"></script>
+	
+		<script src="./features/payment_cash/payment_cash.js" data-feature="payment_cash"></script>
+	
+		<script src="./features/payment_method/payment_method.js" data-feature="payment_method"></script>
+	
+		<script src="./features/payment_stripe/payment_stripe.js" data-feature="payment_stripe"></script>
+	
+		<script src="./features/enterprisepayment/enterprisepayment.js" data-feature="enterprisepayment"></script>
 	</head>
     <body ng-app="starter"
           class="platform-browser platform-cordova platform-webview">

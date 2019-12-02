@@ -56,7 +56,7 @@ angular
 
     $scope.right_button = {
         action: $scope.chooseStore,
-        label: $translate.instant("Proceed")
+        label: $translate.instant('Proceed', 'm_commerce')
     };
 
     $scope.loadContent();

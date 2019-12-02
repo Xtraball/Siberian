@@ -9,7 +9,7 @@ angular.module('starter')
 
         angular.extend($scope, {
         is_loading: true,
-        page_title: $translate.instant('Review'),
+        page_title: $translate.instant('Review', 'm_commerce'),
         value_id: $stateParams.value_id
     });
 
@@ -38,7 +38,7 @@ angular.module('starter')
 
                     $scope.right_button = {
                         action: $scope.validate,
-                        label: $translate.instant('Validate')
+                        label: $translate.instant('Validate', 'm_commerce')
                     };
                 }).then(function () {
                     Loader.hide();

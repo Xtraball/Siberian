@@ -5,7 +5,7 @@ angular
     .module('starter')
     .controller('MCommerceSalesPaymentViewController', function (Loader, $scope, $state, $stateParams, $translate,
                                                                  McommerceCart, McommerceSalesPayment, Dialog) {
-    $scope.page_title = $translate.instant('Payment');
+    $scope.page_title = $translate.instant('Payment', 'm_commerce');
 
     McommerceCart.value_id = $stateParams.value_id;
     McommerceSalesPayment.value_id = $stateParams.value_id;
@@ -89,7 +89,7 @@ angular
 
     $scope.right_button = {
         action: $scope.updatePaymentInfos,
-        label: $translate.instant('Next')
+        label: $translate.instant('Next', 'm_commerce')
     };
 
     $scope.loadContent();
