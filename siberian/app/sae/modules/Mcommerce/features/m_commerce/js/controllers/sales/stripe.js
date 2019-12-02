@@ -2,9 +2,10 @@
  App, BASE_PATH, Stripe
  */
 
-angular.module("starter").controller("MCommerceSalesStripeViewController", function (Loader, $scope, $state,
-                                                                                     $stateParams, $timeout, $translate,
-                                                                                     Customer, McommerceStripe, Dialog) {
+angular
+    .module("starter")
+    .controller("MCommerceSalesStripeViewController", function (Loader, $scope, $state, $stateParams, $timeout,
+                                                                $translate, Customer, McommerceStripe, Dialog) {
 
     $scope.is_loading = true;
     Loader.show();
@@ -15,6 +16,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
     $scope.payment.save_card = false;
     $scope.payment.use_stored_card = false;
     $scope.payment.hasStoredCard = false;
+    $scope.isProcessing = false;
 
     $scope.cardElement = null;
 
@@ -44,8 +46,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
         McommerceStripe
         .find(cust_id)
         .then(function (data) {
-
-            // Mcommerce stripe instance! (fallback)
+            // M-Commerce stripe instance! (fallback)
             McommerceStripe.StripeInstance = Stripe(data.publishable_key);
 
             $scope.cart_total = data.total;
@@ -55,18 +56,19 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
                 $scope.card = data.card;
                 $scope.payment.hasStoredCard = true;
             }
-
-            $scope.mountCard();
-
         }).then(function () {
             $scope.is_loading = false;
             Loader.hide();
+
+            $timeout(function () {
+                $scope.mountCard();
+            }, 200);
         });
 
     };
 
     $scope.mountCard = function () {
-        var cardElementParent = document.getElementById("mcommerce-card-element");
+        var cardElementParent = document.getElementById("mcommerce_card_element");
         try {
             cardElementParent.firstChild.remove();
         } catch (e) {
@@ -95,9 +97,9 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             style: style
         });
 
-        var saveElement = document.getElementById("mcommerce-save-element");
-        var displayError = document.getElementById("mcommerce-card-errors");
-        var displayErrorParent = document.getElementById("mcommerce-card-errors-parent");
+        var saveElement = document.getElementById("mcommerce_save_element");
+        var displayError = document.getElementById("mcommerce_card_errors");
+        var displayErrorParent = document.getElementById("mcommerce_card_errors_parent");
 
         saveElement.setAttribute("disabled", "disabled");
 
@@ -114,7 +116,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             }
         });
 
-        $scope.cardElement.mount("#mcommerce-card-element");
+        $scope.cardElement.mount("#mcommerce_card_element");
     };
 
     $scope.validateCard = function () {
@@ -150,8 +152,11 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
     };
 
     $scope.useCard = function () {
-        $scope.payment.use_stored_card = true;
-        $scope.process();
+        if (!$scope.isProcessing) {
+            $scope.isProcessing = true;
+            $scope.payment.use_stored_card = true;
+            $scope.process();
+        }
     };
 
     $scope.process = function () {
@@ -159,7 +164,7 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
             $scope.is_loading = true;
             Loader.show();
             if ($scope.payment.use_stored_card) {
-                _process();
+                $scope._process();
             } else {
                 McommerceStripe.StripeInstance
                 .createToken($scope.cardElement)
@@ -171,10 +176,10 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
     };
 
     var _stripeResponseHandler = function (result) {
-        console.log("_stripeResponseHandler", result);
         if (result.error) {
             Dialog.alert("", result.error.message, "OK");
             $scope.is_loading = false;
+            $scope.isProcessing = false;
             Loader.hide();
         } else {
             $scope.card = {
@@ -186,12 +191,11 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
                 exp: Math.round(+(new Date((new Date(result.token.card.exp_year, result.token.card.exp_month, 1)) - 1)) / 1000) | 0
             };
 
-            _process();
+            $scope._process();
         }
     };
 
-    //function to make payment when all is ready
-    var _process = function () {
+    $scope._process = function () {
         var data = {
             "token": $scope.card.token,
             "use_stored_card": $scope.payment.use_stored_card,
@@ -200,24 +204,25 @@ angular.module("starter").controller("MCommerceSalesStripeViewController", funct
         };
 
         McommerceStripe
-        .process(data)
-        .then(function (res) {
-            if (res) {
-                $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
-            } else {
+            .process(data)
+            .then(function (res) {
+                if (res) {
+                    $state.go("mcommerce-sales-success", {value_id: $stateParams.value_id});
+                } else {
+                    Dialog.alert("Error", "Unexpected error", "OK");
+                }
+            }, function (err) {
                 Dialog.alert("Error", "Unexpected error", "OK");
-            }
-        }, function (err) {
-            Dialog.alert("Error", "Unexpected error", "OK");
-        }).then(function () {
-            $scope.is_loading = false;
-            Loader.hide();
-        });
+            }).then(function () {
+                $scope.is_loading = false;
+                $scope.isProcessing = false;
+                Loader.hide();
+            });
     };
 
     $scope.right_button = {
         action: $scope.process,
-        label: $translate.instant("Pay")
+        label: $translate.instant('Pay', 'm_commerce')
     };
 
     $scope.loadContent();

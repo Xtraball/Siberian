@@ -354,7 +354,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $useExternalApp = $object->getLink()->getUseExternalApp();
                     }
 
-                    if (sizeof($optionValues) >= 50) {
+                    if (count($optionValues) >= 50) {
                         if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
                             $embedPayload = false;
                         } else {
@@ -553,7 +553,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         if (version_compare($appVersion, "4.16.0", "<")) {
             // Apply patches.
 
-            # 1. Places
+            # 2. My account
             $fixedPages = [];
             foreach ($dataHomepage["pages"] as &$page) {
                 if ($page["code"] !== "tabbar_account") {
@@ -572,6 +572,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 dbg($page);
             }
         }
+
+        // Dynamic patches (non-cached) for specific app versions!
+        if (version_compare($appVersion, "4.18.1", "<")) {
+            # 3. M-Commerce
+            foreach ($dataHomepage["pages"] as &$page) {
+                if ($page["code"] === "m_commerce") {
+                    $page["path"] = sprintf("/%s/mcommerce/mobile_category/index/value_id/%s",
+                        $appKey,
+                        $page["value_id"]);
+                }
+            }
+        }
+        // Dynamic patches (non-cached) for specific app versions!
 
         // Don't cache customer information!
         $pushNumber = 0;

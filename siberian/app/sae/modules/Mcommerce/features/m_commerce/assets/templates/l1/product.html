@@ -42,7 +42,7 @@
             <div class="item item-body item-custom">
                 <i class="ion-pricetag"></i>
                 <span ng-if="product.optionsGroups.length > 0">
-                    {{ ::"From:" | translate }}
+                    {{ ::'From' | translate:'m_commerce' }}:
                 </span>
                 <span>
                     {{ product.formattedPriceInclTax }}
@@ -56,7 +56,7 @@
             <label class="item item-input item-select item-custom"
                    ng-if="product.formatGroups.length">
                 <div class="input-label">
-                    {{ "Prices" | translate }}
+                    {{ ::'Prices' | translate:'m_commerce' }}
                 </div>
                 <select ng-options="format.id as format.title + ' - ' + format.formattedPriceInclTax for format in product.formatGroups"
                         ng-model="selected_format.id"></select>
@@ -65,7 +65,7 @@
         <div class="card"
              ng-if="product.optionsGroups.length">
             <div class="item item-divider item-divider-custom">
-                <h2><i class="ion-gear-b"></i> {{ ::"Options" | translate }}</h2>
+                <h2><i class="ion-gear-b"></i> {{ ::'Options' | translate:'m_commerce' }}</h2>
             </div>
             <div ng-repeat="optionsGroup in product.optionsGroups">
                 <div class="list list-inset">
@@ -81,7 +81,7 @@
                     </label>
                     <label class="item item-select item-input item-custom" >
                         <div class="input-label">
-                            {{ ::"Qty" | translate }}
+                            {{ ::'Qty' | translate:'m_commerce' }}
                         </div>
                         <select ng-model="optionsGroup.selectedQuantity"
                                 ng-options="o as o for o in list_qty"></select>
@@ -124,12 +124,12 @@
             <div class="item item-text-wrap item-icon-left item-custom"
                  ng-click="addProduct()">
                 <i class="icon ion-ios-cart-outline"></i>
-                {{ ::"Add to cart" | translate }}
+                {{ ::'Add to cart' | translate:'m_commerce' }}
             </div>
         </div>
         <div class="card">
             <div class="item item-divider item-divider-custom">
-                <h2><i class="ion-information-circled"></i> {{ "Description" | translate }}</h2>
+                <h2><i class="ion-information-circled"></i> {{ ::'Description' | translate:'m_commerce' }}</h2>
             </div>
             <div class="item item-body item-custom"
                  ng-bind-html="product.description | trusted_html"

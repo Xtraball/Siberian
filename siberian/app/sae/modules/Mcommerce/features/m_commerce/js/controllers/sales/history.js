@@ -6,7 +6,7 @@ angular.module("starter").controller("MCommerceSalesHistoryViewController", func
 
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant("Order history");
+    $scope.page_title = $translate.instant('Order history', 'm_commerce');
 
     $scope.showLoader = function() {
         Loader.show();
@@ -60,7 +60,7 @@ angular.module("starter").controller("MCommerceSalesHistoryViewController", func
                                                                   $translate, McommerceSalesCustomer) {
 
     $scope.value_id = $stateParams.value_id;
-    $scope.page_title = $translate.instant("Order details");
+    $scope.page_title = $translate.instant('Order details', 'm_commerce');
     $scope.order_id = $stateParams.order_id;
 
     Loader.show();

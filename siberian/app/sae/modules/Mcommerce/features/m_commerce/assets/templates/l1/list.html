@@ -18,30 +18,43 @@
                 <span class="default-title">{{ right_button.label }}</span>
             </span>
 
-            <i class="icon" ng-class="right_button.icon"></i>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
         </button>
     </ion-nav-buttons>
 
     <!-- Search filters -->
-    <div class="bar bar-subheader bigger-subheader" ng-if="settings && settings.showSearch">
-        <ion-scroll zooming="false" direction="x" id="search-scroll" ng-if="search_part_name == 'SEARCH'">
+    <div class="bar bar-subheader bigger-subheader"
+         ng-if="settings && settings.showSearch">
+        <ion-scroll zooming="false"
+                    direction="x"
+                    id="search-scroll"
+                    ng-if="search_part_name == 'SEARCH'">
             <div class="tabs tabs-icon-left tabs-default">
-                <a class="tab-item" ng-click="setSearchPartName('SEARCH_ADDRESS')" ng-if="settings.search_address_show"
+                <a class="tab-item"
+                   ng-click="setSearchPartName('SEARCH_ADDRESS')"
+                   ng-if="settings.search_address_show"
                    ng-class="{ 'selected-tab' : search.address != ''}">
                     <i class="icon ion-location"></i>
                     {{ settings.search_address_label }}
                 </a>
-                <a class="tab-item" ng-click="setSearchPartName('SEARCH_TEXT')" ng-if="settings.search_text_show"
+                <a class="tab-item"
+                   ng-click="setSearchPartName('SEARCH_TEXT')"
+                   ng-if="settings.search_text_show"
                    ng-class="{ 'selected-tab' : search.text != ''}">
                     <i class="icon ion-search"></i>
                     {{ settings.search_text_label }}
                 </a>
-                <a class="tab-item" ng-click="setSearchPartName('SEARCH_TYPE')" ng-if="settings.search_type_show"
+                <a class="tab-item"
+                   ng-click="setSearchPartName('SEARCH_TYPE')"
+                   ng-if="settings.search_type_show"
                    ng-class="{ 'selected-tab' : search.type != '' }">
                     <i class="icon ion-pricetag"></i>
                     {{ settings.search_type_label }}
                 </a>
-                <a class="tab-item" ng-click="findByAroundyou()" ng-if="settings.search_aroundyou_show"
+                <a class="tab-item"
+                   ng-click="findByAroundyou()"
+                   ng-if="settings.search_aroundyou_show"
                    ng-class="{ 'selected-tab' : search.aroundyou }">
                     <i class="icon ion-compass"></i>
                     {{ settings.search_aroundyou_label }}
@@ -50,28 +63,42 @@
         </ion-scroll>
 
         <!-- Show when a search criterium is selected -->
-        <button type="button" class="button button-custom button-clear on-top pull-left"
+        <button type="button"
+                class="button button-custom button-clear on-top pull-left"
                 ng-if="search_part_name != 'SEARCH'"
                 ng-click="clear()">
             <i class="icon ion-chevron-left"></i>
         </button>
 
         <!--Show when search by text button is clicked-->
-        <div ng-if="search_part_name == 'SEARCH_TEXT'" ng-if="settings.search_text_show">
-            <label class="item item-input search-text-input html-custom-search" id="search-text-input">
-                <input type="text" name="search[text]" ng-model="search.text" placeholder="{{ 'Search' | translate }}"/>
+        <div ng-if="settings.search_text_show">
+            <label class="item item-input search-text-input html-custom-search"
+                   id="search-text-input">
+                <input type="text"
+                       name="search[text]"
+                       ng-model="search.text"
+                       placeholder="{{ ::'Search' | translate:'m_commerce' }}"/>
             </label>
-            <button type="submit" id="search-text-text" name="search-text-text" style="right:10px;position:absolute;"
-                    class="button button-custom button-clear on-top pull-right" ng-click="loadPlaces()">
+            <button type="submit"
+                    id="search-text-text"
+                    name="search-text-text"
+                    style="right:10px;position:absolute;"
+                    class="button button-custom button-clear on-top pull-right"
+                    ng-click="loadPlaces()">
                 <i class="icon ion-search"></i>
             </button>
         </div>
 
         <!--Show when search by tag button is clicked-->
-        <div ng-if="search_part_name == 'SEARCH_TYPE'" ng-if="settings.search_type_show">
-            <ion-scroll zooming="false" direction="x" id="tag-scroll">
+        <div ng-if="settings.search_type_show">
+            <ion-scroll zooming="false"
+                        direction="x"
+                        id="tag-scroll">
                 <div class="tabs tabs-icon-left tabs-default">
-                    <a class="tab-item" ng-repeat="tag in settings.tags" ng-click="findByTag(tag)" ng-class="{ 'selected-tag' : tag == search.type }">
+                    <a class="tab-item"
+                       ng-repeat="tag in settings.tags"
+                       ng-click="findByTag(tag)"
+                       ng-class="{ 'selected-tag' : tag == search.type }">
                         {{tag}}
                     </a>
                 </div>
@@ -79,13 +106,19 @@
         </div>
 
         <!--Show when search by address button is clicked-->
-        <div ng-if="search_part_name == 'SEARCH_ADDRESS'" ng-if="settings.search_address_show">
+        <div ng-if="settings.search_address_show">
             <label class="item item-input search-text-input html-custom-search">
-                <input type="text" name="search[address]" ng-model="search.address"
-                       placeholder="{{ 'Search' | translate }}"/>
+                <input type="text"
+                       name="search[address]"
+                       ng-model="search.address"
+                       placeholder="{{ ::'Search' | translate:'m_commerce' }}"/>
             </label>
-            <button type="submit" id="search-text-address" name="search-text-address" style="right:10px;position:absolute;"
-                    class="button button-custom button-clear on-top pull-right" ng-click="loadPlaces()">
+            <button type="submit"
+                    id="search-text-address"
+                    name="search-text-address"
+                    style="right:10px;position:absolute;"
+                    class="button button-custom button-clear on-top pull-right"
+                    ng-click="loadPlaces()">
                 <i class="icon ion-search"></i>
             </button>
         </div>
@@ -94,20 +127,24 @@
 
     <ion-content ng-class="{ 'has-subheader has-bigger-subheader' : settings.showSearch }">
 
-        <div class="loader" ng-show="getState() == 'LOADING'">
+        <div class="loader"
+             ng-show="getState() == 'LOADING'">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <ion-refresher ng-if="use_pull_refresh"
                        class="spinner-custom"
-                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       pulling-text="{{ ::'Pull to refresh...' | translate:'m_commerce' }}"
                        on-refresh="pullToRefresh()">
         </ion-refresher>
 
-        <div class="list" ng-class="{'card' : card_design}" ng-show="!is_loading && cover">
+        <div class="list"
+             ng-class="{'card' : card_design}"
+             ng-show="!is_loading && cover">
 
             <div ng-click="showItem(cover)">
-                <div class="item item-image item-custom" ng-if="cover.picture">
+                <div class="item item-image item-custom"
+                     ng-if="cover.picture">
                     <img ng-src="{{ cover.picture }}" />
                 </div>
                 <div class="item item-custom">
@@ -118,22 +155,29 @@
 
         </div>
 
-        <div class="list" ng-class="{'card' : card_design}" ng-show="getState() == 'RESULTS' || collection.length">
+        <div class="list"
+             ng-class="{'card' : card_design}"
+             ng-show="getState() == 'RESULTS' || collection.length">
 
             <!-- MCommerce only -->
-            <div class="button-bar" ng-if="use_button_header">
+            <div class="button-bar"
+                 ng-if="use_button_header">
                 <a class="button button-custom icon-left ion-clipboard"
-                   ng-click="openHistory()">{{ "Order history" | translate }}</a>
+                   ng-click="openHistory()">{{ ::'Order history' | translate:'m_commerce' }}</a>
                 <a class="button button-custom icon-left ion-ios-cart"
                    ng-click="openCart()">
-                    <span>{{ "My Cart" | translate }}</span>
+                    <span>{{ ::'My cart' | translate:'m_commerce' }}</span>
                     <span class="badge badge-positive badge-positive-custom">{{ cartItems }}</span>
                 </a>
             </div>
 
             <div ng-show="show_search && collection.length > 0">
                 <label class="item item-input">
-                    <input type="text" id="search" name="search" ng-model="filter_search" placeholder="{{ 'Search' | translate }}"/>
+                    <input type="text"
+                           id="search"
+                           name="search"
+                           ng-model="filter_search"
+                           placeholder="{{ ::'Search' | translate:'m_commerce' }}" />
                 </label>
             </div>
 
@@ -143,12 +187,17 @@
                  ng-repeat="item in collection | filter:filter_search"
                  ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
 
-                <img ng-src="{{ item.thumbnail }}" ng-if="item.thumbnail.length" />
-                <img ng-src="{{ item.picture }}" ng-if="item.picture && !item.thumbnail.length" />
+                <img ng-src="{{ item.thumbnail }}"
+                     ng-if="item.thumbnail.length" />
+                <img ng-src="{{ item.picture }}"
+                     ng-if="item.picture && !item.thumbnail.length" />
                 <h2>{{ item.title ? item.title : item.author }}</h2>
-                <p class="three-lines" ng-if="item.subtitle" ng-bind-html="item.subtitle"></p>
+                <p class="three-lines"
+                   ng-if="item.subtitle"
+                   ng-bind-html="item.subtitle"></p>
                 <p ng-if="!item.subtitle && item.message">{{ item.message }}</p>
-                <p class="text-align-right" ng-if="item.details">
+                <p class="text-align-right"
+                   ng-if="item.details">
                     <span ng-if="item.details.date">
                         <i class="ion-ios-calendar-outline"></i>
                         <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
@@ -167,9 +216,11 @@
             </div>
         </div>
 
-        <div class="list" ng-class="{'card': card_design}" ng-if="(getState() == 'NO_RESULTS')">
+        <div class="list"
+             ng-class="{'card': card_design}"
+             ng-if="(getState() == 'NO_RESULTS')">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+                {{ ::'No items found' | translate:'m_commerce' }}
             </div>
         </div>
 

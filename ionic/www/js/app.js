@@ -123,6 +123,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
 
         $logProvider.debugEnabled(DEBUG);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|ionic):|data:image/);
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.views.swipeBackEnabled(false);
         $ionicConfigProvider.backButton.text("");

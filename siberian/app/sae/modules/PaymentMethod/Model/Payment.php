@@ -19,7 +19,6 @@ class Payment extends Base
     {
         parent::__construct($params);
         $this->_db_table = 'PaymentMethod\Model\Db\Table\Payment';
-        return $this;
     }
 
     /**
@@ -31,9 +30,7 @@ class Payment extends Base
         $id = $this->getMethodId();
 
         if (class_exists($class)) {
-            $paymentInstance = (new $class())->getPaymentById($id);
-
-            return $paymentInstance;
+            return (new $class())->getPaymentById($id);
         }
 
         return null;

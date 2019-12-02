@@ -39,6 +39,11 @@ $schemas['mcommerce_store'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'address' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'street' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
@@ -116,6 +121,10 @@ $schemas['mcommerce_store'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'version' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
     ],
     'created_at' => [
         'type' => 'datetime',

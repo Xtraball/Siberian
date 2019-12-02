@@ -18,150 +18,211 @@
 
     <ion-content>
 
-        <div ng-if="(!is_loading) && (!is_logged_in)">
-            <label class="item item-custom">
-                <p>
-                    <i class="ion-ios-information-outline"></i> {{ "You must be logged in to continue" |
-                    translate }}
-                </p>
-            </label>
-            <div class="item item-custom item-icon-left"
-                 ng-click="customer_login()">
-                <i class="icon ion-person"></i>
-                {{ "Login" | translate }}
-            </div>
-            <div class="item item-custom item-icon-left"
-                 ng-click="customer_signup()">
-                <i class="icon ion-person-add"></i>
-                {{ "Signup" | translate }}
-            </div>
-            <div class="item item-custom item-icon-left"
+        <!-- Login/register section -->
+        <ion-list ng-if="!is_loading && !is_logged_in">
+
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Login or signup' | translate:'m_commerce' }}</h2>
+            </ion-item>
+
+            <!-- Display the warning only if the guest mode is disabled -->
+            <ion-item ng-if="!hasguestmode"
+                      class="item-custom">
+                <i class="icon ion-ios-person-outline"></i>
+                {{ ::'You must be logged in to continue' | translate:'m_commerce' }}
+            </ion-item>
+
+            <ion-item class="item-custom item-icon-left"
+                      ng-click="customer_login()">
+                <i class="icon ion-ios-person-outline"></i>
+                {{ ::'Login' | translate:'m_commerce' }}
+            </ion-item>
+
+            <ion-item class="item-custom item-icon-left"
+                      ng-if="signupEnabled()"
+                      ng-click="customer_signup()">
+                <i class="icon ion-ios-personadd-outline"></i>
+                {{ ::'Signup' | translate:'m_commerce' }}
+            </ion-item>
+
+            <ion-item class="item-custom item-icon-left"
                  ng-if="hasguestmode"
                  ng-click="customer_guestmode()">
-                <i class="icon ion-ios-cart"></i>
-                {{ "Guest Order" | translate }}
-            </div>
-        </div>
+                <i class="icon ion-ios-cart-outline"></i>
+                {{ ::'Guest order' | translate:'m_commerce' }}
+            </ion-item>
+        </ion-list>
 
-        <div ng-if="(!is_loading) && is_logged_in">
-            <div class="list">
-                <form>
-                    <label class="item item-custom">
-                        <p>
-                            <i class="ion-ios-information-outline"></i> {{ "All fields with a * are required." |
-                            translate }}
-                        </p>
-                    </label>
-                    <div class="item item-divider item-divider-custom"></div>
-                    <label class="item item-input item-custom">
-                        <span class="input-label">{{ "First Name" | translate }} *</span>
-                        <input type="text"
-                               ng-model="customer.firstname">
-                    </label>
-                    <label class="item item-input item-custom">
-                        <span class="input-label">{{ "Last Name" | translate }} *</span>
-                        <input type="text"
-                               ng-model="customer.lastname">
-                    </label>
-                    <label class="item item-input item-custom">
-                        <span class="input-label">{{ "Email" | translate }} *</span>
-                        <input type="email"
-                               ng-model="customer.email">
-                    </label>
-                    <label class="item item-input item-custom"
-                           ng-if="settings.phone.rule!='hidden'">
-                        <span class="input-label">{{ "Phone" | translate }} <span
-                                ng-if="settings.phone.rule=='mandatory'">*</span></span>
-                        <input type="tel"
-                               ng-model="customer.metadatas.phone"
-                               ng-required="settings.phone.rule=='mandatory'">
-                    </label>
-                    <label class="item item-input item-custom"
-                           ng-if="settings.birthday.rule!='hidden'"
-                           sb-datetime-picker
-                           title="dateTime.title"
-                           headers="true"
-                           format="dateTime.format"
-                           model="customer.metadatas.birthday">
-                        <i class="icon ion-ios-clock"></i>
-                        <div class="input-label">
-                            {{ "Date of birth" | translate }} <span ng-if="settings.birthday.rule=='mandatory'">*</span>
-                        </div>
-                        <input type="text"
-                               class="text-right"
-                               style="cursor: pointer !important;"
-                               ng-model="customer.metadatas.birthday"
-                               readonly="readonly" />
-                    </label>
-                    <div ng-if="settings.delivery_address.rule!='hidden'">
-                        <label class="item item-custom">
-                            <p>
-                                <i class="ion-ios-location"></i>
-                                <strong style="font-size:1.5em;font-variant:small-caps"> {{ "Delivery address" | translate }} </strong>
-                                <span ng-if="settings.delivery_address.rule=='mandatory'">*</span> :
-                            </p>
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Street" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.delivery_address.street"
-                                   ng-required="settings.delivery_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Postcode" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.delivery_address.postcode"
-                                   ng-required="settings.delivery_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "City" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.delivery_address.city"
-                                   ng-required="settings.delivery_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Country" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.delivery_address.country"
-                                   ng-required="settings.delivery_address.rule=='mandatory'">
-                        </label>
-                    </div>
-                    <div ng-if="settings.invoicing_address.rule!='hidden'">
-                        <label class="item item-custom">
-                            <p>
-                                <i class="ion-cash"></i>
-                                <strong style="font-size:1.5em;font-variant:small-caps"> {{ "Invoicing address" | translate }} </strong>
-                                <span ng-if="settings.invoicing_address.rule=='mandatory'">*</span> :
-                            </p>
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Street" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.invoicing_address.street"
-                                   ng-required="settings.invoicing_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Postcode" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.invoicing_address.postcode"
-                                   ng-required="settings.invoicing_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "City" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.invoicing_address.city"
-                                   ng-required="settings.invoicing_address.rule=='mandatory'">
-                        </label>
-                        <label class="item item-input item-custom">
-                            <span class="input-label">{{ "Country" | translate }}</span>
-                            <input type="text"
-                                   ng-model="customer.metadatas.invoicing_address.country"
-                                   ng-required="settings.invoicing_address.rule=='mandatory'">
-                        </label>
-                    </div>
-                </form>
+        <!-- Buyer section -->
+        <div ng-if="!is_loading && is_logged_in">
+            <ion-list>
+                <ion-item class="item-divider item-divider-custom"
+                          style="margin-top: 15px;">
+                    <h2>{{ ::"Buyer's information" | translate:'m_commerce' }}</h2>
+                </ion-item>
 
-            </div>
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'First name' | translate:'m_commerce' }} <span>*</span>
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           required="required"
+                           ng-model="customer.firstname" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Last name' | translate:'m_commerce' }} <span>*</span>
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           required="required"
+                           ng-model="customer.lastname" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Email' | translate:'m_commerce' }} <span>*</span>
+                    </div>
+                    <input class="text-right"
+                           type="email"
+                           required="required"
+                           ng-model="customer.email" />
+                </label>
+
+                <label ng-if="settings.phone.rule != 'hidden'"
+                       class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Phone' | translate:'m_commerce' }} <span ng-if="settings.phone.rule == 'mandatory'">*</span>
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           required="required"
+                           ng-model="customer.metadatas.phone" />
+                </label>
+
+                <label ng-if="settings.birthday.rule != 'hidden'"
+                       sb-datetime-picker
+                       title="dateTime.title"
+                       headers="true"
+                       format="dateTime.format"
+                       model="customer.metadatas.birthday"
+                       class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Date of birth' | translate:'m_commerce' }} <span ng-if="settings.birthday.rule == 'mandatory'">*</span>
+                    </div>
+                    <input type="text"
+                           class="text-right"
+                           style="cursor: pointer !important;"
+                           ng-model="customer.metadatas.birthday"
+                           readonly="readonly" />
+                </label>
+            </ion-list>
+
+            <!-- Delivery section -->
+            <ion-list ng-if="settings.delivery_address.rule!='hidden'">
+                <ion-item class="item-divider item-divider-custom"
+                          style="margin-top: 15px;">
+                    <h2>
+                        {{ ::'Delivery address' | translate:'m_commerce' }}
+                        <span ng-if="settings.delivery_address.rule=='mandatory'">*</span>
+                    </h2>
+                </ion-item>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Street' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.delivery_address.street"
+                           ng-required="settings.delivery_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Postcode' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.delivery_address.postcode"
+                           ng-required="settings.delivery_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'City' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.delivery_address.city"
+                           ng-required="settings.delivery_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Country' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.delivery_address.country"
+                           ng-required="settings.delivery_address.rule=='mandatory'" />
+                </label>
+            </ion-list>
+
+            <!-- Invoicing section -->
+            <ion-list ng-if="settings.invoicing_address.rule != 'hidden'">
+                <ion-item class="item-divider item-divider-custom"
+                          style="margin-top: 15px;">
+                    <h2>
+                        {{ ::'Invoicing address' | translate:'m_commerce' }}
+                        <span ng-if="settings.invoicing_address.rule=='mandatory'">*</span>
+                    </h2>
+                </ion-item>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Street' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.invoicing_address.street"
+                           ng-required="settings.invoicing_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Postcode' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.invoicing_address.postcode"
+                           ng-required="settings.invoicing_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'City' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.invoicing_address.city"
+                           ng-required="settings.invoicing_address.rule=='mandatory'" />
+                </label>
+
+                <label class="item item-input item-custom">
+                    <div class="input-label">
+                        {{ ::'Country' | translate:'m_commerce' }}
+                    </div>
+                    <input class="text-right"
+                           type="text"
+                           ng-model="customer.metadatas.invoicing_address.country"
+                           ng-required="settings.invoicing_address.rule=='mandatory'" />
+                </label>
+
+            </ion-list>
         </div>
 
     </ion-content>

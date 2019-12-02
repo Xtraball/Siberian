@@ -9,7 +9,7 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,
-        page_title: $translate.instant("Cart"),
+        page_title: $translate.instant('Cart', 'm_commerce'),
         points_data: {
             use_points: false,
             nb_points_used: null
@@ -57,7 +57,7 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                         if ($scope.object.cart.lines.length > 0) {
                             $scope.right_button = {
                                 action: $scope.proceed,
-                                label: $translate.instant('Proceed')
+                                label: $translate.instant('Proceed', 'm_commerce')
                             };
                         }
                     }).then(function () {

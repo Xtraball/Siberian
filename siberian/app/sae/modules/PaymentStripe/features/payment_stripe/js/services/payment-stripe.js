@@ -76,7 +76,7 @@ angular
         return service
         .isReady()
         .then(function () {
-            var cardElementParent = document.getElementById("card-element");
+            var cardElementParent = document.getElementById("card_element");
             try {
                 cardElementParent.firstChild.remove();
             } catch (e) {
@@ -105,9 +105,9 @@ angular
                 style: style
             });
 
-            var saveElement = document.getElementById("save-element");
-            var displayError = document.getElementById("card-errors");
-            var displayErrorParent = document.getElementById("card-errors-parent");
+            var saveElement = document.getElementById("save_element");
+            var displayError = document.getElementById("card_errors");
+            var displayErrorParent = document.getElementById("card_errors_parent");
 
             saveElement.setAttribute("disabled", "disabled");
 
@@ -124,7 +124,7 @@ angular
                 }
             });
 
-            service.card.mount("#card-element");
+            service.card.mount("#card_element");
         });
     };
 
@@ -133,8 +133,8 @@ angular
         var deferred = $q.defer();
 
         try {
-            var displayError = document.getElementById("card-errors");
-            var displayErrorParent = document.getElementById("card-errors-parent");
+            var displayError = document.getElementById("card_errors");
+            var displayErrorParent = document.getElementById("card_error_parent");
 
             // We will fetch the setupIntent
             service
@@ -215,8 +215,8 @@ angular
         var deferred = $q.defer();
 
         try {
-            var displayError = document.getElementById("card-errors");
-            var displayErrorParent = document.getElementById("card-errors-parent");
+            var displayError = document.getElementById("card_errors");
+            var displayErrorParent = document.getElementById("card_errors_parent");
 
             service
             .stripe
@@ -276,8 +276,8 @@ angular
         var deferred = $q.defer();
 
         try {
-            var displayError = document.getElementById("card-errors");
-            var displayErrorParent = document.getElementById("card-errors-parent");
+            var displayError = document.getElementById("card_errors");
+            var displayErrorParent = document.getElementById("card_errors_parent");
 
             // We will fetch the setupIntent
             service
@@ -341,6 +341,10 @@ angular
                     payload: payload
                 }
             });
+    };
+
+    service.deletePaymentMethod = function (card) {
+        console.log("service.deletePaymentMethod", card);
     };
 
     service.fetchSettings = function () {

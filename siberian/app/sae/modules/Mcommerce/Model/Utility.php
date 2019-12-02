@@ -42,4 +42,43 @@ class Mcommerce_Model_Utility {
         return $currency->toCurrency($price);
     }
 
+    /**
+     * @param $deliveryTime
+     * @return bool|string
+     */
+    public static function getHumanDeliveryTime ($deliveryTime)
+    {
+        $textualDeliveryTime = false;
+        if ($deliveryTime > 0) {
+
+            $days = floor($deliveryTime / 1440);
+            $hours = floor(($deliveryTime % 1440) / 60);
+            $minutes = floor(($deliveryTime % 1440 % 60));
+
+            $textualDeliveryTime = '';
+
+            if ($days == 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s day', 1);
+            } else if ($days > 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s days', $days);
+            }
+
+            if ($hours == 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s hour', 1);
+            } else if ($hours > 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s hours', $hours);
+            }
+
+            if ($minutes == 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s minute', 1);
+            } else if ($minutes > 1) {
+                $textualDeliveryTime .= ' ' . p__('m_commerce', '%s minutes', $minutes);
+            }
+
+            $textualDeliveryTime = trim($textualDeliveryTime);
+        }
+
+        return $textualDeliveryTime;
+    }
+
 }

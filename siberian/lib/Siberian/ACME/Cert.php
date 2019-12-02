@@ -46,10 +46,16 @@ class Cert extends v2
         // Staging options
         if ($this->mode === "live") {
             $accountKey = path("/var/apps/certificates/_account/acme.account.pem");
-            mkdir(path("/var/apps/certificates/_account/"), 0777, true);
+            $folderPath = path("/var/apps/certificates/_account/");
+            if (!is_dir($folderPath)) {
+                mkdir($folderPath, 0777, true);
+            }
         } else {
             $accountKey = path("/var/apps/certificates/_account-staging/acme.account.pem");
-            mkdir(path("/var/apps/certificates/_account-staging/"), 0777, true);
+            $folderPath = path("/var/apps/certificates/_account-staging/");
+            if (!is_dir($folderPath)) {
+                mkdir($folderPath, 0777, true);
+            }
         }
 
         // Account key file

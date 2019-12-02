@@ -1,9 +1,11 @@
 /**
  * MCommerceSalesSuccessViewController
  */
-angular.module('starter').controller('MCommerceSalesSuccessViewController', function ($scope, $state, $stateParams,
-                                                                                      $timeout, Customer) {
-    $scope.value_id = $stateParams.value_id;
+angular
+    .module('starter')
+    .controller('MCommerceSalesSuccessViewController', function ($scope, $state, $stateParams, $timeout, Customer) {
+
+        $scope.value_id = $stateParams.value_id;
 
     if (Customer.guest_mode) {
         Customer.guest_mode = false;

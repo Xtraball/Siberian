@@ -1,11 +1,11 @@
 /*global
  App, angular, BASE_PATH
  */
-angular.module('starter').controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams,
-                                                                                       $scope, $translate, $rootScope,
-                                                                                       McommerceCart,
-                                                                                       McommerceSalesCustomer, Customer,
-                                                                                       Dialog, SB) {
+angular
+    .module('starter')
+    .controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams, $scope, $translate,
+                                                                  $rootScope, McommerceCart, McommerceSalesCustomer,
+                                                                  Customer, Dialog, Application, SB) {
     Customer.onStatusChange('category', []);
 
     $scope.hasguestmode = false;
@@ -13,9 +13,13 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
     angular.extend($scope, {
         dateTime: {
             format: "MM/DD/YYYY",
-            title: $translate.instant("Date of birth")
+            title: $translate.instant('Date of birth', 'm_commerce')
         }
     });
+
+    $scope.signupEnabled = function () {
+        return Application.myAccount.settings.enable_registration;
+    };
 
     $scope.customer_login = function () {
         Customer.display_account_form = false;
@@ -65,7 +69,7 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
     McommerceSalesCustomer.value_id = $stateParams.value_id;
     $scope.value_id = $stateParams.value_id;
 
-    $scope.page_title = $translate.instant('My information');
+    $scope.page_title = $translate.instant('My information', 'm_commerce');
 
     $scope.loadContent = function () {
         McommerceSalesCustomer
@@ -142,7 +146,7 @@ angular.module('starter').controller('MCommerceSalesCustomerViewController', fun
 
     $scope.right_button = {
         action: $scope.updateCustomerInfos,
-        label: $translate.instant('Next')
+        label: $translate.instant('Next', 'm_commerce')
     };
 
     $scope.loadContent();

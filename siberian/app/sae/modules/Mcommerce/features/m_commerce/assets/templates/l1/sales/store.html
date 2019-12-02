@@ -1,5 +1,4 @@
 <ion-view sb-page-background
-          cache-view="false"
           class="mcommerce-view mcommerce-sales-store">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
@@ -15,19 +14,25 @@
     </ion-nav-buttons>
 
     <ion-content>
-
-        <div class="item item-text-wrap text-center item-custom">
-            <h2>{{ "Choose a store" | translate }}</h2>
+        <div ng-if="is_loading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
-        <ion-list>
+
+        <ion-list ng-if="!is_loading">
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Choose a store' | translate:'m_commerce' }}</h2>
+            </ion-item>
+
             <ion-radio class="radio-custom"
                        ng-model="selected_store.id"
                        ng-value="'{{ store.id }}'"
                        ng-repeat="store in stores"
-                       ng-change="chooseStore()">
+                       ng-click="chooseStore(); right_button.action()">
                 {{ store.name }}
-                <br/>
-                <span ng-if="store.min_amount && store.min_amount>0">{{ "Min. amount:" | translate }} {{ store.formatted_min_amount }}</span>
+                <br />
+                <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount' | translate }} {{ store.formatted_min_amount }}</span>
             </ion-radio>
         </ion-list>
 

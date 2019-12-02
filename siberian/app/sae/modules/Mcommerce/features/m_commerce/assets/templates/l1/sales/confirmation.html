@@ -1,5 +1,4 @@
 <ion-view sb-page-background
-          cache-view="false"
           class="mcommerce-view mcommerce-sales-confirmation">
 
     <ion-nav-title>{{ page_title }}</ion-nav-title>
@@ -29,7 +28,7 @@
             <div class="item item-thumbnail-left item-icon-right item-custom">
                 <img ng-if="line.product.picture.url"
                      ng-src="{{ line.product.picture.url }}" />
-                <p ng-show="line.format[0].title && line.format[0].title != ''">{{ "Format:" | translate }} {{ line.format[0].title }}</p>
+                <p ng-show="line.format[0].title && line.format[0].title != ''">{{ ::'Format' | translate:'m_commerce' }}: {{ line.format[0].title }}</p>
                 <p ng-repeat="option in line.options">
                     {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
                 </p>
@@ -37,50 +36,50 @@
                     {{ choice.title }}:
                     <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
                 </p>
-                <p class="text-right"><strong>{{ "Total:" | translate }}</strong> {{ line.formattedTotalInclTax }}</p>
+                <p class="text-right"><strong>{{ ::'Total' | translate:'m_commerce' }}:</strong> {{ line.formattedTotalInclTax }}</p>
             </div>
             <div class="item item-custom">
-                {{ "Qty" | translate }} : {{ line.qty }}
+                {{ ::'Qty' | translate:'m_commerce' }} : {{ line.qty }}
             </div>
         </div>
         <div class="card"
              ng-if="cart.lines.length">
             <div class="item item-divider item-divider-custom">
-              <p><strong><i class="icon ion-calculator"></i> {{ "Total" | translate }}</strong></p>
+              <p><strong><i class="icon ion-calculator"></i> {{ ::'Total' | translate:'m_commerce' }}</strong></p>
             </div>
             <div class="item item-custom"
                  ng-if="cart.deliveryCost > 0">
-              {{ "Delivery fees" | translate }}
+              {{ ::'Delivery fees' | translate:'m_commerce' }}
               <span class="item-note"> {{ cart.formattedDeliveryTTC }}</span>
             </div>
             <div class="item item-custom">
-              <strong>{{ "Subtotal" | translate }}</strong>
+              <strong>{{ ::'Subtotal' | translate:'m_commerce' }}</strong>
               <span class="item-note"><strong>{{ cart.formattedSubtotal }}</strong></span>
             </div>
             <div class="item item-custom"
                  ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
-              {{ "Discount" | translate }} ({{ cart.discount_message }})
+              {{ ::'Discount' | translate:'m_commerce' }} ({{ cart.discount_message }})
               <span class="item-note">- {{ cart.discount }}</span>
             </div>
             <div class="item item-custom">
-              <strong>{{ "Subtotal" | translate }} {{ "Incl." | translate | lowercase }} {{ "Discount" | translate | lowercase }}</strong>
+              <strong>{{ ::'Subtotal' | translate:'m_commerce' }} {{ ::'Incl.' | translate:'m_commerce' | lowercase }} {{ ::'Discount' | translate:'m_commerce' | lowercase }}</strong>
               <span class="item-note"><strong>{{ cart.formattedSubtotalWithDiscount }}</strong></span>
             </div>
             <div class="item item-custom">
-                {{ "Subtotal Excl. Tax" | translate }}
+                {{ ::'Subtotal Excl. Tax' | translate:'m_commerce' }}
                 <span class="item-note">{{ cart.formattedDeductedTotalHT }}</span>
             </div>
             <div class="item item-custom">
-                {{ "Tax" | translate }}
+                {{ ::'Tax' | translate:'m_commerce' }}
                 <span class="item-note">{{ cart.formattedDeductedTva }}</span>
             </div>
             <div class="item item-custom"
                  ng-if="cart.add_tip">
-                {{ "Gratuity" | translate }}
+                {{ ::'Gratuity' | translate:'m_commerce' }}
                 <span class="item-note">{{ cart.formattedTip }}</span>
             </div>
             <div class="item item-custom">
-                <strong>{{ "Total" | translate }}</strong>
+                <strong>{{ ::'Total' | translate:'m_commerce' }}</strong>
                 <span class="item-note"><strong>{{ cart.formattedTotal }}</strong></span>
             </div>
 
@@ -90,14 +89,14 @@
 
                 <ion-item class="item-custom">
                     <div class="row">
-                        <div class="col-75 text-right">{{ ::"I will pay" | translate:"m_commerce" }}</div>
+                        <div class="col-75 text-right">{{ ::'I will pay' | translate:'m_commerce' }}</div>
                         <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
                     </div>
                 </ion-item>
 
                 <ion-item class="item-custom">
                     <div class="row">
-                        <div class="col-75 text-right">{{ ::"Change due upon delivery" | translate:"m_commerce" }}</div>
+                        <div class="col-75 text-right">{{ ::'Change due upon delivery' | translate:'m_commerce' }}</div>
                         <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
                     </div>
                 </ion-item>
@@ -107,7 +106,7 @@
         <div class="card"
              ng-if="cart.textualDeliveryTime">
             <ion-item class="item-divider item-divider-custom">
-                <p><strong><i class="icon ion-clock"></i> {{ ::"Delivery time" | translate:"m_commerce" }} </strong></p>
+                <p><strong><i class="icon ion-clock"></i> {{ ::'Delivery time' | translate:'m_commerce' }} </strong></p>
 
             </ion-item>
             <ion-item class="item-custom text-right">
@@ -125,7 +124,7 @@
         <!--TG-459-->
         <div class="card">
             <div class="item item-divider item-divider-custom">
-                <p><strong><i class="icon ion-clipboard"></i> {{ ::"Notes" | translate:"m_commerce" }} </strong></p>
+                <p><strong><i class="icon ion-clipboard"></i> {{ ::'Notes' | translate:'m_commerce' }} </strong></p>
             </div>
             <div class="item">
                 <p>

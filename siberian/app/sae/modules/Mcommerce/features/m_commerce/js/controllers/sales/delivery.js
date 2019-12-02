@@ -1,11 +1,13 @@
 /*global
  App, angular, BASE_PATH
  */
-angular.module("starter").controller("MCommerceSalesDeliveryViewController", function (Loader, $scope, $stateParams, $state,
-                                                                $translate, McommerceCart, McommerceSalesDelivery,
-                                                                Dialog, $timeout) {
+angular
+    .module("starter")
+    .controller("MCommerceSalesDeliveryViewController", function (Loader, $scope, $stateParams, $state, $translate,
+                                                                  McommerceCart, McommerceSalesDelivery,
+                                                                  Dialog, $timeout) {
 
-    $scope.page_title = $translate.instant("Delivery");
+    $scope.page_title = $translate.instant('Delivery', 'm_commerce');
 
     McommerceCart.value_id = $stateParams.value_id;
     McommerceSalesDelivery.value_id = $stateParams.value_id;
@@ -107,17 +109,18 @@ angular.module("starter").controller("MCommerceSalesDeliveryViewController", fun
                 'store_id': $scope.selectedStore.id
             };
 
-            McommerceSalesDelivery.updateDeliveryInfos(postParameters)
-                .then(function (data) {
-                    $scope.goToPaymentPage();
-                }, function (data) {
-                    if (data && angular.isDefined(data.message)) {
-                        Dialog.alert("", data.message, "OK");
-                    }
-                }).then(function() {
-                    $scope.is_loading = false;
-                    Loader.hide();
-                });
+            McommerceSalesDelivery
+            .updateDeliveryInfos(postParameters)
+            .then(function (data) {
+                $scope.goToPaymentPage();
+            }, function (data) {
+                if (data && angular.isDefined(data.message)) {
+                    Dialog.alert("", data.message, "OK");
+                }
+            }).then(function() {
+                $scope.is_loading = false;
+                Loader.hide();
+            });
         }
     };
 
@@ -129,7 +132,7 @@ angular.module("starter").controller("MCommerceSalesDeliveryViewController", fun
 
     $scope.right_button = {
         action: $scope.updateDeliveryInfos,
-        label: $translate.instant("Next")
+        label: $translate.instant('Next', 'm_commerce')
     };
 
     $scope.loadContent();
