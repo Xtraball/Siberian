@@ -9,6 +9,14 @@
  */
 
 use Siberian\Info;
+use Siberian\Translation;
+use Siberian\Manifest;
+use Siberian\ClamAV;
+use Siberian\Cli\Colors;
+use Siberian_Cron as Cron;
+use Siberian_Cache as Cache;
+use Siberian_Google_Geocoding as Geocoding;
+use Siberian_Cache_Design as CacheDesign;
 
 global $_config;
 
@@ -18,12 +26,18 @@ if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
 
-require_once './config.php';
-require_once './lib/Siberian/Cli/Colors.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/lib/Siberian/Cli/Colors.php';
 
-function color ($string, $fg = null, $bg = null)
+/**
+ * @param $string
+ * @param null $fg
+ * @param null $bg
+ * @return string
+ */
+function color ($string, $fg = null, $bg = null): string
 {
-    return \Siberian\Cli\Colors::initColoredString($string, $fg, $bg);
+    return Colors::initColoredString($string, $fg, $bg);
 }
 
 set_time_limit(300);
@@ -36,7 +50,7 @@ defined('DS')
     || define('DS', DIRECTORY_SEPARATOR);
 
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/app'));
+    || define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 
 // Defining ENV globally!
 defined('APPLICATION_ENV')
@@ -44,7 +58,7 @@ defined('APPLICATION_ENV')
 
 // Sourcing default libs!
 set_include_path(implode(PATH_SEPARATOR, array(
-    realpath(APPLICATION_PATH . '/../lib'),
+    dirname(APPLICATION_PATH) . '/lib',
 )));
 
 /**
@@ -61,7 +75,7 @@ function dbg()
     }
 }
 
-require_once 'Zend/Application.php';
+require_once __DIR__ . '/lib/Zend/Application.php';
 
 // Initializing the application!
 $ini = is_readable(APPLICATION_PATH . '/configs/app.ini') ?
@@ -106,7 +120,7 @@ try {
         case 'info':
         case 'infos':
             // Fetching information
-            $information = Info::printLn();
+            Info::printLn();
 
             break;
         case 'export:schemas':
@@ -154,7 +168,7 @@ try {
                 echo 'Sorry this e-mail doesn\'t exists.' . PHP_EOL;
             } else {
                 $newPassword = null;
-                $testPassword = function () {
+                $testPassword = static function () {
                     $newPassword = readline('Your new password (min 8 characters): ');
                     if (strlen($newPassword) < 6) {
                         echo 'Password too short.' . PHP_EOL;
@@ -186,7 +200,7 @@ try {
             }
 
             $newPassword = null;
-            $testPassword = function () {
+            $testPassword = static function () {
                 $newPassword = readline('Input new backoffice user password: ');
                 if (strlen($newPassword) < 6) {
                     echo 'Password too short.' . PHP_EOL;
@@ -224,12 +238,12 @@ try {
             __set('environment', 'production');
             break;
         case 'cache:design':
-            \Siberian_Cache_Design::rebuild($argv[2]);
+            CacheDesign::rebuild($argv[2]);
             break;
         case 'cache:clear':
-            \Siberian_Cache::__clearCache();
-            \Siberian_Cache::__clearLog();
-            \Siberian_Cache::__clearTmp();
+            Cache::__clearCache();
+            Cache::__clearLog();
+            Cache::__clearTmp();
             break;
         case 'license:set':
             if (isset($argv[2])) {
@@ -253,10 +267,10 @@ try {
             if (isset($argv[3])) {
                 $context = (string) $argv[3];
             }
-            \Siberian\Translation::extractAll($module, $context);
+            Translation::extractAll($module, $context);
             break;
         case 'app:manifest':
-            \Siberian\Manifest::rebuild();
+            Manifest::rebuild();
             break;
         case 'app:keystore:restore':
             $deviceId = 2;
@@ -266,13 +280,13 @@ try {
                 $appId = readline('Input app id: ');
             }
 
-            $basePath = \Core_Model_Directory::getBasePathTo('/var/tmp');
+            $basePath = path('/var/tmp');
 
             $app = (new Application_Model_Application())
                 ->find($appId, 'app_id');
 
             if (!$app->getId()) {
-                echo 'Sorry app_id doesn\'t exists.' . PHP_EOL;
+                echo "Sorry app_id doesn't exists." . PHP_EOL;
             } else {
                 $device = $app->getDevice($deviceId);
                 $pks = $device->getPks();
@@ -288,7 +302,7 @@ try {
 
                     echo 'Pks restored with signature (' . $basePath . '/restored_' . $appId . '.pks' . '): ' . PHP_EOL;
                     foreach ($output as $out) {
-                        if (preg_match('/SHA1/', $out)) {
+                        if (false !== strpos($out, 'SHA1')) {
                             echo $out . PHP_EOL;
                         }
                     }
@@ -296,7 +310,7 @@ try {
             }
             break;
         case 'security:scan':
-            $clamav = new \Siberian\ClamAV();
+            $clamav = new ClamAV();
             if ($clamav->ping()) {
                 if (isset($argv[2])) {
                     $filename = (string) $argv[2];
@@ -312,13 +326,13 @@ try {
             break;
         case 'subscription:check-payments':
             if (method_exists('Subscription_Model_Subscription_Application', 'checkRecurrencies')) {
-                \Subscription_Model_Subscription_Application::checkRecurrencies(new Siberian_Cron());
+                \Subscription_Model_Subscription_Application::checkRecurrencies(new Cron());
             }
             break;
         case 'subscription:sync':
             // Update subscription statuses cache!
             if (method_exists('Subscription_Model_Subscription_Application', 'cacheStatusesAndSync')) {
-                \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Siberian_Cron());
+                \Subscription_Model_Subscription_Application::cacheStatusesAndSync(new Cron());
             }
             break;
         case 'google:test-api-key':
@@ -329,7 +343,7 @@ try {
             }
 
             try {
-                $result = Siberian_Google_Geocoding::testApiKey($apiKey);
+                $result = Geocoding::testApiKey($apiKey);
                 if ($result) {
                     echo 'API Key ok, thanks.' . PHP_EOL;
                 }
