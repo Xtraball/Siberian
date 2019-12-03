@@ -323,7 +323,7 @@ function design_code()
  */
 function isDev()
 {
-    return APPLICATION_ENV === "development";
+    return APPLICATION_ENV === 'development';
 }
 
 /**

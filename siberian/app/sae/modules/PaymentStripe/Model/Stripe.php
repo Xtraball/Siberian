@@ -18,12 +18,12 @@ class Stripe
     /**
      * @var array
      */
-    public static $paymentMethod = "credit-card";
+    public static $paymentMethod = 'credit-card';
 
     /**
      * @var string
      */
-    public static $shortName = "stripe";
+    public static $shortName = 'stripe';
 
     /**
      * @param null $appId
@@ -48,15 +48,15 @@ class Stripe
         $paymentIntent = new PaymentIntent();
         $paymentIntent
             ->setStripeCustomerId($stripeCustomer->getId())
-            ->setToken($stripePaymentIntent["id"])
-            ->setStatus($stripePaymentIntent["status"])
+            ->setToken($stripePaymentIntent['id'])
+            ->setStatus($stripePaymentIntent['status'])
             ->setIsRemoved(0)
             ->save();
 
-        if (!in_array($stripePaymentIntent["status"], ["requires_capture", "requires_action"]) ) {
-            throw new Exception(p__("cabride",
+        if (!in_array($stripePaymentIntent['status'], ['requires_capture', 'requires_action']) ) {
+            throw new Exception(p__('cabride',
                 "The payment authorization was declined, '%s'",
-                $stripePaymentIntent["status"]));
+                $stripePaymentIntent['status']));
         }
 
         return $paymentIntent;
@@ -111,8 +111,8 @@ class Stripe
     public function getPaymentById($paymentId)
     {
         $paymentIntent = (new PaymentIntent())->find($paymentId);
-        if (!$paymentIntent->getId()) {
-            throw new Exception(p__("payment_method", "This payment id doesn't exists."));
+        if ($paymentIntent && !$paymentIntent->getId()) {
+            throw new Exception(p__('payment_method', "This payment id doesn't exists."));
         }
 
         return $paymentIntent;

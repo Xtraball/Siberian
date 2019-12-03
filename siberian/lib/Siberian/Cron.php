@@ -701,7 +701,7 @@ class Cron
                         # Send a message to the Admin
                         $description = 'It seems that the renewal of the following SSL Certificate %s is failing, please check in <b>Settings > Advanced > Configuration</b> for the specified certificate.';
 
-                        $notification = new \Backoffice_Model_Notification();s
+                        $notification = new \Backoffice_Model_Notification();
                         $notification
                             ->setTitle(__('Alert: The SSL Certificate %s automatic renewal failed.', $cert->getHostname()))
                             ->setDescription(__($description, $cert->getHostname()))
