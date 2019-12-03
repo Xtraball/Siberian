@@ -94,6 +94,14 @@ try {
         echo color("[Action] {$action}", 'green') . "\n";
     }
 
+    if (array_key_exists('cron:tasks', $_config)) {
+        $userTasks = $_config['cron:tasks'];
+        if (array_key_exists($action, $userTasks)) {
+            $userTasks[$action]();
+            return;
+        }
+    }
+
     switch ($action) {
         case 'info':
         case 'infos':
