@@ -506,7 +506,7 @@ function __jsd($string)
  * @param null $locale
  * @return array|mixed|string
  */
-function __url($url = "", array $params = [], $locale = null)
+function __url($url = '', array $params = [], $locale = null)
 {
     return \Core_Model_Url::create($url, $params, $locale);
 }
@@ -517,7 +517,7 @@ function __url($url = "", array $params = [], $locale = null)
  * @param null $locale
  * @return array|mixed|string
  */
-function __path($url = "", array $params = [], $locale = null)
+function __path($url = '', array $params = [], $locale = null)
 {
     return \Core_Model_Url::createPath($url, $params, $locale);
 }
@@ -526,7 +526,7 @@ function __path($url = "", array $params = [], $locale = null)
  * @param string $relativePath
  * @return string
  */
-function path($relativePath = "/")
+function path($relativePath = '/')
 {
     return \Core_Model_Directory::getBasePathTo($relativePath);
 }
@@ -546,8 +546,8 @@ function rpath($relativePath = "/")
  */
 function tmp($base = false)
 {
-    return $base ? \Core_Model_Directory::getBasePathTo("/var/tmp") :
-        \Core_Model_Directory::getPathTo("/var/tmp");
+    return $base ? \Core_Model_Directory::getBasePathTo('/var/tmp') :
+        \Core_Model_Directory::getPathTo('/var/tmp');
 }
 
 /**
@@ -561,7 +561,7 @@ function __replace($replacements, $file, $regex = false)
 
     $contents = file_get_contents($file);
     if (!$contents) {
-        throw new Exception(__("An error occurred while editing file (%s).", $file));
+        throw new Exception(__('An error occurred while editing file (%s).', $file));
     }
 
     foreach ($replacements as $search => $replace) {
@@ -615,10 +615,7 @@ function __set($code, $value, $label = null)
 function __getConfig($code)
 {
     $_config = \Zend_Registry::get('_config');
-    if (isset($_config[$code])) {
-        return $_config[$code];
-    }
-    return false;
+    return $_config[$code] ?? false;
 }
 
 /**
@@ -689,10 +686,7 @@ function data_to_utf8($array)
  */
 function escape_json_string($value)
 {
-    $escapers = ["\n", "\r", "\t"];
-    $replacements = ["<br />", "<br />", "    "];
-    $result = str_replace($escapers, $replacements, $value);
-    return $result;
+    return str_replace(["\n", "\r", "\t"], ['<br />', '<br />', '    '], $value);
 }
 
 /**
@@ -701,7 +695,7 @@ function escape_json_string($value)
  */
 function data_to_jsonsafe($array)
 {
-    array_walk_recursive($array, function (&$item, $key) {
+    array_walk_recursive($array, static function (&$item, $key) {
         $item = escape_json_string($item);
     });
 
@@ -709,17 +703,17 @@ function data_to_jsonsafe($array)
 }
 
 /**
- * Converts a rowset to a form options friendly array
+ * Converts a row set to a form options friendly array
  *
- * @param $rowset
+ * @param $row_set
  * @param $key_value
  * @param $key_label
  * @return array
  */
-function rowset_to_options($rowset, $key_value, $key_label)
+function rowset_to_options($row_set, $key_value, $key_label)
 {
     $options = [];
-    foreach ($rowset as $row) {
+    foreach ($row_set as $row) {
         $row->getId();
 
         if (is_callable($key_value)) {
@@ -823,7 +817,7 @@ function base64imageToFile ($base64, $path)
         }
 
         // Save image to file
-        $imagePath = sprintf("%s.%s", $path, $type);
+        $imagePath = sprintf('%s.%s', $path, $type);
         File::putContents($imagePath, base64_decode($image));
 
     } catch (Exception $e) {

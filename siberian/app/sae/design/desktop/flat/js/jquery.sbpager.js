@@ -154,8 +154,8 @@
 
             function numericSort(element_a, element_b) {
                 return (currentSortOrder === 1) ?
-                    (element_a.textValues[currentSortIndex].replace(/\D/g,'') * 1 - element_b.textValues[currentSortIndex].replace(/\D/g,'') * 1) :
-                    (element_b.textValues[currentSortIndex].replace(/\D/g,'') * 1 - element_a.textValues[currentSortIndex].replace(/\D/g,'') * 1);
+                    (element_a.textValues[currentSortIndex].replace(/[^0-9\.]/g,'') * 1 - element_b.textValues[currentSortIndex].replace(/[^0-9\.]/g,'') * 1) :
+                    (element_b.textValues[currentSortIndex].replace(/[^0-9\.]/g,'') * 1 - element_a.textValues[currentSortIndex].replace(/[^0-9\.]/g,'') * 1);
             }
 
             function dateSort(element_a, element_b) {
