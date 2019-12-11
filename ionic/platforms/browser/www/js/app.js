@@ -767,6 +767,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 HomepageLayout.setLayoutId(valueId, layoutId);
                             };
 
+
                             if (parent && (typeof parent.postMessage === 'function') && (parent !== window)) {
                                 parent.postMessage('overview.loaded', DOMAIN);
                             }

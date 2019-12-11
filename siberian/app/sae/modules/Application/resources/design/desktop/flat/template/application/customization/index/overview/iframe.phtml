@@ -72,28 +72,18 @@ $(document).ready(function() {
         maskOverview.hide();
         phoneBar.show();
 
-        /**var overviewReference = $("#mobile_overview").contents();
-
-        overviewReference
-        .find("body")
-        .removeClass("platform-browser")
-        .addClass("platform-ios");
-
-        overviewReference
-        .find("ion-side-menu-content")
-        .css({borderRadius: "20px", border: "1px solid #d4d4d4", boxShadow: "none"});
-        */
         setTimeout(function() {
-            if((typeof iframe != "undefined")
-                && (typeof iframe.f != "undefined")
-                && (typeof iframe.f.setPath == "function")
-                && (typeof window.overviewEvents != "undefined")
-                && (window.overviewEvents.length > 0)) {
-
-                iframe.contentWindow.setPath(window.overviewEvents[0]);
-                window.overviewEvents = [];
+            try {
+                if((typeof iframe != "undefined")
+                    && (typeof iframe.f != "undefined")
+                    && (typeof iframe.f.setPath == "function")
+                ) {
+                    iframe.f.setPath(page.current_path);
+                }
+            } catch (e) {
+                console.error('An error occurred while reloading the last loaded page.', e.message);
             }
-        }, 1000);
+        }, 1700);
 
     };
 

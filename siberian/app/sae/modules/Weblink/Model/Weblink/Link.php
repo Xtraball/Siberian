@@ -1,36 +1,103 @@
 <?php
-class Weblink_Model_Weblink_Link extends Core_Model_Default {
 
-    public function __construct($params = array()) {
+use Siberian\Json;
+
+/**
+ * Class Weblink_Model_Weblink_Link
+ *
+ * @method Weblink_Model_Db_Table_Weblink_Link getTable()
+ */
+class Weblink_Model_Weblink_Link extends Core_Model_Default
+{
+
+    /**
+     * Weblink_Model_Weblink_Link constructor.
+     * @param array $params
+     */
+    public function __construct($params = array())
+    {
         parent::__construct($params);
-        $this->_db_table = 'Weblink_Model_Db_Table_Weblink_Link';
-        return $this;
+        $this->_db_table = Weblink_Model_Db_Table_Weblink_Link::class;
     }
 
-    public function getUrl() {
+    /**
+     * @return mixed
+     */
+    public function getUrl()
+    {
         return $this->getData('url');
     }
 
-    public function getHideNavbar() {
+    /**
+     * @return bool
+     */
+    public function getHideNavbar()
+    {
         return ($this->getData('hide_navbar') === "1" ? true : false);
     }
 
-    public function getUseExternalApp() {
+    /**
+     * @return bool
+     */
+    public function getUseExternalApp()
+    {
         return ($this->getData('use_external_app') === "1" ? true : false);
     }
 
-    public function getPictoUrl() {
-        $picto_path = Application_Model_Application::getImagePath().$this->getPicto();
-        $picto_base_path = Application_Model_Application::getBaseImagePath().$this->getPicto();
-        if($this->getPicto() AND file_exists($picto_base_path)) {
+    /**
+     * @return string|null
+     */
+    public function getPictoUrl()
+    {
+        $picto_path = Application_Model_Application::getImagePath() . $this->getPicto();
+        $picto_base_path = Application_Model_Application::getBaseImagePath() . $this->getPicto();
+        if ($this->getPicto() AND file_exists($picto_base_path)) {
             return $picto_path;
         }
         return null;
     }
 
-    public function __toString() {
+    /**
+     * @return mixed|string
+     */
+    public function __toString()
+    {
         parent::__toString();
         return $this->getUrl() ? $this->getUrl() : '';
+    }
+
+    /**
+     * @param array $options
+     * @return $this
+     */
+    public function setOptions(array $options): self
+    {
+        return $this->setData('options', Json::encode($options));
+    }
+
+    /**
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        try {
+            $options = Json::decode($this->getData('options'));
+        } catch (\Exception $e) {
+            $options = [];
+        }
+
+        return $options;
+    }
+
+    /**
+     * @param $webLinkId
+     * @return int
+     */
+    public function getMaxPosition($webLinkId): int
+    {
+        $position = $this->getTable()->getMaxPosition($webLinkId);
+
+        return is_numeric($position) ? $position : 0;
     }
 
 }

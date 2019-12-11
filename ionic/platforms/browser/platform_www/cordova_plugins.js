@@ -303,8 +303,8 @@ module.exports.metadata =
     "Camera": "4.0.3",
     "Device": "2.0.2",
     "File": "6.0.1",
-    "InAppBrowser": "3.0.0",
-    "MusicControls": "2.2.0",
+    "InAppBrowser": "3.1.0",
+    "MusicControls": "2.2.1",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0"
 }

@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
         id="InAppBrowser"
-        version="3.0.0">
+        version="3.1.0">
 
     <name>InAppBrowser</name>
     <description>Cordova InAppBrowser Plugin</description>
@@ -30,14 +30,14 @@
     <issue>https://issues.apache.org/jira/browse/CB/component/12320641</issue>
 
     <engines>
-        <engine name="cordova" version=">=3.1.0"/><!-- Needs cordova/urlutil -->
+      <engine name="cordova" version=">=3.1.0" /><!-- Needs cordova/urlutil -->
     </engines>
 
     <!-- android -->
     <platform name="android">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
-            <clobbers target="cordova.InAppBrowser.open"/>
-            <clobbers target="window.open"/>
+            <clobbers target="cordova.InAppBrowser.open" />
+            <clobbers target="window.open" />
         </js-module>
         <config-file target="config.xml" parent="/*">
             <feature name="InAppBrowser">
@@ -85,29 +85,48 @@
     <!-- ios -->
     <platform name="ios">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
-            <clobbers target="cordova.InAppBrowser.open"/>
-            <clobbers target="window.open"/>
+            <clobbers target="cordova.InAppBrowser.open" />
+            <clobbers target="window.open" />
         </js-module>
         <config-file target="config.xml" parent="/*">
             <feature name="InAppBrowser">
-                <param name="ios-package" value="CDVInAppBrowser"/>
+                <param name="ios-package" value="CDVInAppBrowser" />
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="UIInAppBrowser">
+                <param name="ios-package" value="CDVUIInAppBrowser" />
+                <param name="onload" value="true" />
+            </feature>
+            <feature name="WKInAppBrowser">
+                <param name="ios-package" value="CDVWKInAppBrowser" />
+                <param name="onload" value="true" />
             </feature>
         </config-file>
 
-        <header-file src="src/ios/CDVInAppBrowser.h"/>
-        <source-file src="src/ios/CDVInAppBrowser.m"/>
+        <header-file src="src/ios/CDVInAppBrowser.h" />
+        <source-file src="src/ios/CDVInAppBrowser.m" />
+        <header-file src="src/ios/CDVInAppBrowserOptions.h" />
+        <source-file src="src/ios/CDVInAppBrowserOptions.m" />
+        <header-file src="src/ios/CDVInAppBrowserNavigationController.h" />
+        <source-file src="src/ios/CDVInAppBrowserNavigationController.m" />
+        <header-file src="src/ios/CDVUIInAppBrowser.h" />
+        <source-file src="src/ios/CDVUIInAppBrowser.m" />
+        <header-file src="src/ios/CDVWKInAppBrowser.h" />
+        <source-file src="src/ios/CDVWKInAppBrowser.m" />
+        <header-file src="src/ios/CDVWKInAppBrowserUIDelegate.h" />
+        <source-file src="src/ios/CDVWKInAppBrowserUIDelegate.m" />
 
-        <framework src="CoreGraphics.framework"/>
+        <framework src="CoreGraphics.framework" />
     </platform>
 
     <!-- browser -->
     <platform name="browser">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
-            <clobbers target="cordova.InAppBrowser.open"/>
-            <clobbers target="window.open"/>
+            <clobbers target="cordova.InAppBrowser.open" />
+            <clobbers target="window.open" />
         </js-module>
         <js-module src="src/browser/InAppBrowserProxy.js" name="InAppBrowserProxy">
-            <runs/>
+            <runs />
         </js-module>
     </platform>
 </plugin>

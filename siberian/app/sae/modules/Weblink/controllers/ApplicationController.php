@@ -1,5 +1,11 @@
 <?php
 
+use Weblink_Model_Weblink_Link as ModelLink;
+use Weblink\Form\Link as FormLink;
+use Weblink\Form\Delete\Link as FormDeleteLink;
+
+use Siberian\Exception;
+use Siberian\Feature;
 use Siberian\Json;
 
 /**
@@ -12,12 +18,199 @@ class Weblink_ApplicationController extends Application_Controller_Default
      * @var array
      */
     public $cache_triggers = [
-        "edit-settings" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'edit-settings' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
     ];
+
+    /**
+     *
+     */
+    public function loadFormAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $linkId = $request->getParam('link_id', null);
+
+            $link = (new ModelLink())->find($linkId);
+
+            if (!$link->getId()) {
+                throw new Exception(p__('weblink', 'This link entry do not exists!'));
+            }
+
+            $form = new FormLink();
+            $data = $link->getData();
+
+
+            // Transforming options before populate
+            $_options = $link->getOptions();
+            $options = [
+                'android' => [],
+                'ios' => [],
+            ];
+            foreach ($_options['android'] as $key => $value) {
+                $options['android']["android_{$key}"] = ($value === 'yes');
+            }
+            foreach ($_options['ios'] as $key => $value) {
+                $options['ios']["ios_{$key}"] = ($value === 'yes');
+            }
+            $data['options'] = $options;
+
+            $form->populate($data);
+            $form->setValueId($optionValue->getId());
+
+            $payload = [
+                'success' => true,
+                'form' => $form->render(),
+                'message' => p__('weblink', 'Success.'),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function editPostAction()
+    {
+        try {
+            $optionValue = $this->getCurrentOptionValue();
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            if (!$optionValue->getId()) {
+                throw new Exception(p__('weblink',"This feature doesn't exists!"));
+            }
+
+            if (empty($values)) {
+                throw new Exception(p__('weblink', 'Values are required!'));
+            }
+            $webLink = $optionValue->getObject();
+
+            $lastPosition = (new ModelLink())->getMaxPosition($webLink->getId());
+
+            $form = new FormLink();
+            if ($form->isValid($values)) {
+
+                $link = new ModelLink();
+                $link->find($values['link_id']);
+                $link->setData($values);
+
+                Feature::formImageForOption($optionValue, $link, $values, 'picture', true);
+
+                $link->setPosition($lastPosition + 1);
+
+                // Options
+                $options = [
+                    'android' => [],
+                    'ios' => [],
+                ];
+                $optionsAndroid = $values['options']['android'];
+                foreach ($optionsAndroid as $key => $value) {
+                    $options['android'][str_replace('android_', '', $key)] = ($value) ? 'yes' : 'no';
+                }
+                $optionsIos = $values['options']['ios'];
+                foreach ($optionsIos as $key => $value) {
+                    $options['ios'][str_replace('ios_', '', $key)] = ($value) ? 'yes' : 'no';
+                }
+
+                $link->setOptions($options);
+                $link->setWeblinkId($webLink->getId());
+
+                $link->save();
+
+                /** Update touch date, then never expires (until next touch) */
+                $optionValue
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    'weblink',
+                    'value_id_' . $optionValue->getId(),
+                ]);
+
+                $payload = [
+                    'success' => true,
+                    'message' => p__('weblink','Link saved'),
+                ];
+            } else {
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+                'exception' => $e->getTrace(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function deleteLinkAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            $form = new FormDeleteLink();
+            if ($form->isValid($values)) {
+                $link = new ModelLink();
+                $link->find($values['link_id']);
+
+                $valueId = $link->getValueId();
+
+                $link->delete();
+
+                /** Update touch date, then never expires (until next touch) */
+                $this->getCurrentOptionValue()
+                    ->touch()
+                    ->expires(-1);
+
+                // Clear cache on save!
+                $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                    'weblink',
+                    'value_id_' . $valueId,
+                ]);
+
+                $payload = [
+                    'success' => true,
+                    'message' => p__('weblink', 'Link deleted.'),
+                ];
+            } else {
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
 
     /**
      *
@@ -35,12 +228,22 @@ class Weblink_ApplicationController extends Application_Controller_Default
 
                 $filteredValues = $form->getValues();
 
-                $filteredValues["showSearch"] = filter_var($filteredValues["showSearch"], FILTER_VALIDATE_BOOLEAN);
-                $filteredValues["cardDesign"] = filter_var($filteredValues["cardDesign"], FILTER_VALIDATE_BOOLEAN);
+                $filteredValues['showSearch'] = filter_var($filteredValues['showSearch'], FILTER_VALIDATE_BOOLEAN);
+                $filteredValues['cardDesign'] = filter_var($filteredValues['cardDesign'], FILTER_VALIDATE_BOOLEAN);
 
                 $optionValue
                     ->setSettings(Json::encode($filteredValues))
                     ->save();
+
+                $webLink = $optionValue->getObject();
+                Feature::formImageForOption(
+                    $optionValue,
+                    $webLink,
+                    $filteredValues,
+                    'cover',
+                    true
+                );
+                $webLink->save();
 
                 /** Update touch date, then never expires (until next touch) */
                 $this->getCurrentOptionValue()
@@ -58,6 +261,58 @@ class Weblink_ApplicationController extends Application_Controller_Default
                     'errors' => $form->getTextErrors(true)
                 ];
             }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public function updatePositionsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $optionValue = $this->getCurrentOptionValue();
+            $indexes = $request->getParam('indexes', null);
+
+            if (empty($indexes)) {
+                throw new Exception(p__('weblink', 'Nothing to re-order!'));
+            }
+
+            foreach ($indexes as $index => $linkId) {
+                $link = (new ModelLink())
+                    ->find($linkId);
+
+                if (!$link->getId()) {
+                    throw new Exception(p__('weblink', 'Something went wrong, the link do not exists!'));
+                }
+
+                $link
+                    ->setPosition($index + 1)
+                    ->save();
+            }
+
+            /** Update touch date, then never expires (until next touch) */
+            $optionValue
+                ->touch()
+                ->expires(-1);
+
+            // Clear cache on save!
+            $this->cache->clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, [
+                'weblink',
+                'value_id_' . $optionValue->getId(),
+            ]);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+            ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,

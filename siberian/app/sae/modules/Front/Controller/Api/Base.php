@@ -223,6 +223,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'colors' => [
                         'header' => [
                             'statusBarColor' => $colorStatusBarLighten->toCSS('hex'),
+                            'backgroundColorHex' => $application->getBlock('header')->getBackgroundColor(),
                             'backgroundColor' => $application->getBlock('header')->getBackgroundColorRGB(),
                             'color' => $application->getBlock('header')->getColorRGB()
                         ],
