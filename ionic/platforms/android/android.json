@@ -77,10 +77,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -398,6 +394,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BarcodeScanner": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BrowserTab": {
@@ -425,9 +422,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "StatusBar": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WhiteList": {
@@ -808,14 +802,6 @@
       ]
     },
     {
-      "id": "StatusBar.statusbar",
-      "file": "plugins/StatusBar/www/statusbar.js",
-      "pluginId": "StatusBar",
-      "clobbers": [
-        "window.StatusBar"
-      ]
-    },
-    {
       "id": "WhiteList.whitelist",
       "file": "plugins/WhiteList/whitelist.js",
       "pluginId": "WhiteList",
@@ -914,16 +900,15 @@
     "Device": "2.0.2",
     "File": "6.0.1",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.0.0",
+    "InAppBrowser": "3.1.0",
     "Keyboard": "2.2.1",
     "SocialSharing": "5.4.0",
-    "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.8.4.1",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "cordova-plugin-ionic-webview": "4.0.1",
-    "MusicControls": "2.2.0",
+    "MusicControls": "2.2.1",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"

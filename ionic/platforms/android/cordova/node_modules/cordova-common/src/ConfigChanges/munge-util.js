@@ -86,29 +86,6 @@ exports.deep_find = function deep_find (obj, keys /* or key1, key2 .... */) {
 // When createParents is true, add the file and parent items  they are missing
 // When createParents is false, stop and return undefined if the file and/or parent items are missing
 
-exports.filterClone = function filterClone (obj, func) {
-    var result = { files: {} };
-    for (var file in obj.files) {
-        var parents = {};
-        // result.files[file] = { parents:{} };
-        for (var target in obj.files[file].parents) {
-            var list = [];
-            obj.files[file].parents[target].forEach(function (target_elem) {
-                if (func(target_elem)) {
-                    list.push(_.clone(target_elem, true));
-                }
-            });
-            if (list.length > 0) {
-                parents[target] = list;
-            }
-        }
-        if (Object.keys(parents).length > 0) {
-            result.files[file] = { parents: parents };
-        }
-    }
-    return result;
-};
-
 exports.process_munge = function process_munge (obj, createParents, func, keys /* or key1, key2 .... */) {
     if (!Array.isArray(keys)) {
         keys = Array.prototype.slice.call(arguments, 1);
