@@ -103,6 +103,7 @@ var IAB = {
                 browserWrap.style.width = '100vw';
                 browserWrap.style.height = '100vh';
                 browserWrap.style.zIndex = '65536';
+                browserWrap.style.backgroundColor = 'lightgrey';
 
                 browserWrap.onclick = function () {
                     setTimeout(function () {
@@ -118,62 +119,80 @@ var IAB = {
             }
 
             popup = document.createElement('iframe');
-            popup.style.borderWidth = '0px';
+            popup.setAttribute('rel', 'iab-iframe');
+            popup.style.border = '0';
             popup.style.width = '100%';
+            popup.style.margin = '0';
+            popup.style.width = '100%';
+            popup.style.top = '0';
+            popup.style.left = '0';
+            popup.style.position = 'absolute';
+            popup.style.background = 'url(/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif) white';
+            popup.style.backgroundRepeat = 'no-repeat';
+            popup.style.backgroundPosition = '50% 50%';
 
             browserWrap.appendChild(popup);
 
             if (features.indexOf('location=yes') !== -1 || features.indexOf('location') === -1) {
-                popup.style.height = 'calc(100% - 60px)';
-                popup.style.marginBottom = '-4px';
+                popup.style.height = 'calc(100% - 28px)';
 
                 navigationButtonsDiv = document.createElement('div');
-                navigationButtonsDiv.style.height = '60px';
                 navigationButtonsDiv.style.backgroundColor = '#404040';
                 navigationButtonsDiv.style.zIndex = '999';
+                navigationButtonsDiv.style.height = '28px';
+                navigationButtonsDiv.style.backgroundColor = '#e0e0e0';
+                navigationButtonsDiv.style.position = 'absolute';
+                navigationButtonsDiv.style.bottom = '0';
+                navigationButtonsDiv.style.left = '0';
+                navigationButtonsDiv.style.width = '100%';
+
                 navigationButtonsDiv.onclick = function (e) {
                     e.cancelBubble = true;
                 };
 
                 navigationButtonsDivInner = document.createElement('div');
-                navigationButtonsDivInner.style.paddingTop = '10px';
-                navigationButtonsDivInner.style.height = '50px';
-                navigationButtonsDivInner.style.width = '160px';
-                navigationButtonsDivInner.style.margin = '0 auto';
-                navigationButtonsDivInner.style.backgroundColor = '#404040';
+                navigationButtonsDivInner.style.marginTop = '-3px';
+                navigationButtonsDivInner.style.height = '28px';
                 navigationButtonsDivInner.style.zIndex = '999';
                 navigationButtonsDivInner.onclick = function (e) {
                     e.cancelBubble = true;
                 };
 
                 backButton = document.createElement('button');
-                backButton.style.width = '40px';
-                backButton.style.height = '40px';
-                backButton.style.borderRadius = '40px';
+                backButton.setAttribute('rel', 'iab-button');
+                backButton.style.border = '0';
+                backButton.style.background = 'none';
+                backButton.style.fontSize = '24px';
+                backButton.style.color = '#147efb';
+                backButton.style.marginLeft = '20px';
 
-                backButton.innerHTML = '←';
+                backButton.innerHTML = '<i class="icon ion-ios-arrow-back"></i>';
                 backButton.addEventListener('click', function (e) {
                     if (popup.canGoBack) { popup.goBack(); }
                 });
 
                 forwardButton = document.createElement('button');
-                forwardButton.style.marginLeft = '20px';
-                forwardButton.style.width = '40px';
-                forwardButton.style.height = '40px';
-                forwardButton.style.borderRadius = '40px';
+                forwardButton.setAttribute('rel', 'iab-button');
+                forwardButton.style.border = '0';
+                forwardButton.style.background = 'none';
+                forwardButton.style.fontSize = '24px';
+                forwardButton.style.color = '#147efb';
 
-                forwardButton.innerHTML = '→';
+                forwardButton.innerHTML = '<i class="icon ion-ios-arrow-forward"></i>';
                 forwardButton.addEventListener('click', function (e) {
                     if (popup.canGoForward) { popup.goForward(); }
                 });
 
                 closeButton = document.createElement('button');
-                closeButton.style.marginLeft = '20px';
-                closeButton.style.width = '40px';
-                closeButton.style.height = '40px';
-                closeButton.style.borderRadius = '40px';
+                closeButton.setAttribute('rel', 'iab-button');
+                closeButton.style.border = '0';
+                closeButton.style.background = 'none';
+                closeButton.style.fontSize = '24px';
+                closeButton.style.color = '#147efb';
+                closeButton.style.float = 'right';
+                closeButton.style.marginRight = '20px';
 
-                closeButton.innerHTML = '✖';
+                closeButton.innerHTML = '<i class="icon ion-android-close"></i>';
                 closeButton.addEventListener('click', function (e) {
                     setTimeout(function () {
                         IAB.close();

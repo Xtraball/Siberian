@@ -55,8 +55,8 @@ angular
                 'transitionstyle': 'crossdissolve'
             }, options);
 
-            // HTML5
-            if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
+            // HTML5 forced on Browser devices
+            if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 // Enforce inAppBrowser fallback with location!
                 return cordova.InAppBrowser.open(url, target, 'location=yes');
             }
