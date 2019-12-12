@@ -20,22 +20,19 @@
 var Q = require('q');
 var path = require('path');
 var shell = require('shelljs');
-var spawn = require('./spawn');
+var superspawn = require('cordova-common').superspawn;
 var fs = require('fs');
 var plist = require('plist');
 var util = require('util');
 
 var check_reqs = require('./check_reqs');
+var projectFile = require('./projectFile');
 
 var events = require('cordova-common').events;
-
-var projectPath = path.join(__dirname, '..', '..');
-var projectName = null;
 
 // These are regular expressions to detect if the user is changing any of the built-in xcodebuildArgs
 /* eslint-disable no-useless-escape */
 var buildFlagMatchers = {
-    'xcconfig': /^\-xcconfig\s*(.*)$/,
     'workspace': /^\-workspace\s*(.*)/,
     'scheme': /^\-scheme\s*(.*)/,
     'configuration': /^\-configuration\s*(.*)/,
@@ -46,6 +43,40 @@ var buildFlagMatchers = {
     'shared_precomps_dir': /^(SHARED_PRECOMPS_DIR=.*)/
 };
 /* eslint-enable no-useless-escape */
+
+/**
+ * Creates a project object (see projectFile.js/parseProjectFile) from
+ * a project path and name
+ *
+ * @param {*} projectPath
+ * @param {*} projectName
+ */
+function createProjectObject (projectPath, projectName) {
+    var locations = {
+        root: projectPath,
+        pbxproj: path.join(projectPath, projectName + '.xcodeproj', 'project.pbxproj')
+    };
+
+    return projectFile.parse(locations);
+}
+
+/**
+ * Gets the resolved bundle identifier from a project.
+ * Resolves the variable set in INFO.plist, if any (simple case)
+ *
+ * @param {*} projectObject
+ */
+function getBundleIdentifier (projectObject) {
+    var packageName = projectObject.getPackageName();
+    var bundleIdentifier = packageName;
+
+    var variables = packageName.match(/\$\((\w+)\)/); // match $(VARIABLE), if any
+    if (variables && variables.length >= 2) {
+        bundleIdentifier = projectObject.xcode.getBuildProperty(variables[1]);
+    }
+
+    return bundleIdentifier;
+}
 
 /**
  * Returns a promise that resolves to the default simulator target; the logic here
@@ -74,6 +105,8 @@ function getDefaultSimulatorTarget () {
 
 module.exports.run = function (buildOpts) {
     var emulatorTarget = '';
+    var projectPath = path.join(__dirname, '..', '..');
+    var projectName = '';
 
     buildOpts = buildOpts || {};
 
@@ -87,16 +120,16 @@ module.exports.run = function (buildOpts) {
 
     if (buildOpts.buildConfig) {
         if (!fs.existsSync(buildOpts.buildConfig)) {
-            return Q.reject('Build config file does not exist:' + buildOpts.buildConfig);
+            return Q.reject('Build config file does not exist: ' + buildOpts.buildConfig);
         }
-        events.emit('log', 'Reading build config file:', path.resolve(buildOpts.buildConfig));
+        events.emit('log', 'Reading build config file: ' + path.resolve(buildOpts.buildConfig));
         var contents = fs.readFileSync(buildOpts.buildConfig, 'utf-8');
         var buildConfig = JSON.parse(contents.replace(/^\ufeff/, '')); // Remove BOM
         if (buildConfig.ios) {
             var buildType = buildOpts.release ? 'release' : 'debug';
             var config = buildConfig.ios[buildType];
             if (config) {
-                ['codeSignIdentity', 'codeSignResourceRules', 'provisioningProfile', 'developmentTeam', 'packageType', 'buildFlag'].forEach(
+                ['codeSignIdentity', 'codeSignResourceRules', 'provisioningProfile', 'developmentTeam', 'packageType', 'buildFlag', 'iCloudContainerEnvironment', 'automaticProvisioning'].forEach(
                     function (key) {
                         buildOpts[key] = buildOpts[key] || config[key];
                     });
@@ -127,12 +160,13 @@ module.exports.run = function (buildOpts) {
                     if (!theTarget) {
                         return getDefaultSimulatorTarget().then(function (defaultTarget) {
                             emulatorTarget = defaultTarget.name;
-                            events.emit('log', 'Building for ' + emulatorTarget + ' Simulator');
+                            events.emit('warn', `No simulator found for "${newTarget}. Falling back to the default target.`);
+                            events.emit('log', `Building for "${emulatorTarget}" Simulator (${defaultTarget.identifier}, ${defaultTarget.simIdentifier}).`);
                             return emulatorTarget;
                         });
                     } else {
                         emulatorTarget = theTarget.name;
-                        events.emit('log', 'Building for ' + emulatorTarget + ' Simulator');
+                        events.emit('log', `Building for "${emulatorTarget}" Simulator (${theTarget.identifier}, ${theTarget.simIdentifier}).`);
                         return emulatorTarget;
                     }
                 });
@@ -157,6 +191,26 @@ module.exports.run = function (buildOpts) {
             if (buildOpts.developmentTeam) {
                 extraConfig += 'DEVELOPMENT_TEAM = ' + buildOpts.developmentTeam + '\n';
             }
+
+            function writeCodeSignStyle (value) {
+                var project = createProjectObject(projectPath, projectName);
+
+                events.emit('verbose', `Set CODE_SIGN_STYLE Build Property to ${value}.`);
+                project.xcode.updateBuildProperty('CODE_SIGN_STYLE', value);
+                events.emit('verbose', `Set ProvisioningStyle Target Attribute to ${value}.`);
+                project.xcode.addTargetAttribute('ProvisioningStyle', value);
+
+                project.write();
+            }
+
+            if (buildOpts.provisioningProfile) {
+                events.emit('verbose', 'ProvisioningProfile build option set, changing project settings to Manual.');
+                writeCodeSignStyle('Manual');
+            } else if (buildOpts.automaticProvisioning) {
+                events.emit('verbose', 'ProvisioningProfile build option NOT set, changing project settings to Automatic.');
+                writeCodeSignStyle('Automatic');
+            }
+
             return Q.nfcall(fs.writeFile, path.join(__dirname, '..', 'build-extras.xcconfig'), extraConfig, 'utf-8');
         }).then(function () {
             var configuration = buildOpts.release ? 'Release' : 'Debug';
@@ -164,29 +218,44 @@ module.exports.run = function (buildOpts) {
             events.emit('log', 'Building project: ' + path.join(projectPath, projectName + '.xcworkspace'));
             events.emit('log', '\tConfiguration: ' + configuration);
             events.emit('log', '\tPlatform: ' + (buildOpts.device ? 'device' : 'emulator'));
+            events.emit('log', '\tTarget: ' + emulatorTarget);
 
             var buildOutputDir = path.join(projectPath, 'build', (buildOpts.device ? 'device' : 'emulator'));
 
             // remove the build/device folder before building
-            return spawn('rm', [ '-rf', buildOutputDir ], projectPath)
-                .then(function () {
-                    var xcodebuildArgs = getXcodeBuildArgs(projectName, projectPath, configuration, buildOpts.device, buildOpts.buildFlag, emulatorTarget);
-                    return spawn('xcodebuild', xcodebuildArgs, projectPath);
-                });
+            shell.rm('-rf', buildOutputDir);
+
+            var xcodebuildArgs = getXcodeBuildArgs(projectName, projectPath, configuration, buildOpts.device, buildOpts.buildFlag, emulatorTarget, buildOpts.automaticProvisioning);
+            return superspawn.spawn('xcodebuild', xcodebuildArgs, { cwd: projectPath, printCommand: true, stdio: 'inherit' });
 
         }).then(function () {
             if (!buildOpts.device || buildOpts.noSign) {
                 return;
             }
 
-            var exportOptions = {'compileBitcode': false, 'method': 'development'};
+            var project = createProjectObject(projectPath, projectName);
+            var bundleIdentifier = getBundleIdentifier(project);
+            var exportOptions = { 'compileBitcode': false, 'method': 'development' };
 
             if (buildOpts.packageType) {
                 exportOptions.method = buildOpts.packageType;
             }
 
+            if (buildOpts.iCloudContainerEnvironment) {
+                exportOptions.iCloudContainerEnvironment = buildOpts.iCloudContainerEnvironment;
+            }
+
             if (buildOpts.developmentTeam) {
                 exportOptions.teamID = buildOpts.developmentTeam;
+            }
+
+            if (buildOpts.provisioningProfile && bundleIdentifier) {
+                exportOptions.provisioningProfiles = { [ bundleIdentifier ]: String(buildOpts.provisioningProfile) };
+                exportOptions.signingStyle = 'manual';
+            }
+
+            if (buildOpts.codeSignIdentity) {
+                exportOptions.signingCertificate = buildOpts.codeSignIdentity;
             }
 
             var exportOptionsPlist = plist.build(exportOptions);
@@ -205,8 +274,8 @@ module.exports.run = function (buildOpts) {
             }
 
             function packageArchive () {
-                var xcodearchiveArgs = getXcodeArchiveArgs(projectName, projectPath, buildOutputDir, exportOptionsPath);
-                return spawn('xcodebuild', xcodearchiveArgs, projectPath);
+                var xcodearchiveArgs = getXcodeArchiveArgs(projectName, projectPath, buildOutputDir, exportOptionsPath, buildOpts.automaticProvisioning);
+                return superspawn.spawn('xcodebuild', xcodearchiveArgs, { cwd: projectPath, printCommand: true, stdio: 'inherit' });
             }
 
             return Q.nfcall(fs.writeFile, exportOptionsPath, exportOptionsPlist, 'utf-8')
@@ -248,9 +317,10 @@ module.exports.findXCodeProjectIn = findXCodeProjectIn;
  * @param  {Boolean} isDevice       Flag that specify target for package (device/emulator)
  * @param  {Array}   buildFlags
  * @param  {String}  emulatorTarget Target for emulator (rather than default)
+ * @param  {Boolean} autoProvisioning   Whether to allow Xcode to automatically update provisioning
  * @return {Array}                  Array of arguments that could be passed directly to spawn method
  */
-function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, buildFlags, emulatorTarget) {
+function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, buildFlags, emulatorTarget, autoProvisioning) {
     var xcodebuildArgs;
     var options;
     var buildActions;
@@ -270,7 +340,6 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
 
     if (isDevice) {
         options = [
-            '-xcconfig', customArgs.xcconfig || path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
             '-workspace', customArgs.workspace || projectName + '.xcworkspace',
             '-scheme', customArgs.scheme || projectName,
             '-configuration', customArgs.configuration || configuration,
@@ -287,9 +356,12 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
         if (customArgs.sdk) {
             customArgs.otherFlags = customArgs.otherFlags.concat(['-sdk', customArgs.sdk]);
         }
+
+        if (autoProvisioning) {
+            options = options.concat(['-allowProvisioningUpdates']);
+        }
     } else { // emulator
         options = [
-            '-xcconfig', customArgs.xcconfig || path.join(__dirname, '..', 'build-' + configuration.toLowerCase() + '.xcconfig'),
             '-workspace', customArgs.project || projectName + '.xcworkspace',
             '-scheme', customArgs.scheme || projectName,
             '-configuration', customArgs.configuration || configuration,
@@ -317,15 +389,16 @@ function getXcodeBuildArgs (projectName, projectPath, configuration, isDevice, b
  * @param  {String}  projectPath        Path to project file. Will be used to set CWD for xcodebuild
  * @param  {String}  outputPath         Output directory to contain the IPA
  * @param  {String}  exportOptionsPath  Path to the exportOptions.plist file
+ * @param  {Boolean} autoProvisioning   Whether to allow Xcode to automatically update provisioning
  * @return {Array}                      Array of arguments that could be passed directly to spawn method
  */
-function getXcodeArchiveArgs (projectName, projectPath, outputPath, exportOptionsPath) {
+function getXcodeArchiveArgs (projectName, projectPath, outputPath, exportOptionsPath, autoProvisioning) {
     return [
         '-exportArchive',
         '-archivePath', projectName + '.xcarchive',
         '-exportOptionsPlist', exportOptionsPath,
         '-exportPath', outputPath
-    ];
+    ].concat(autoProvisioning ? ['-allowProvisioningUpdates'] : []);
 }
 
 function parseBuildFlag (buildFlag, args) {

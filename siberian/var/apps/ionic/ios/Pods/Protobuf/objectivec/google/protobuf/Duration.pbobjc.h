@@ -8,9 +8,13 @@
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+ #import <protobuf/GPBDescriptor.h>
+ #import <protobuf/GPBMessage.h>
+ #import <protobuf/GPBRootObject.h>
 #else
- #import "GPBProtocolBuffers.h"
+ #import "GPBDescriptor.h"
+ #import "GPBMessage.h"
+ #import "GPBRootObject.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002
@@ -73,7 +77,7 @@ typedef GPB_ENUM(GPBDuration_FieldNumber) {
  *     if (duration.seconds < 0 && duration.nanos > 0) {
  *       duration.seconds += 1;
  *       duration.nanos -= 1000000000;
- *     } else if (durations.seconds > 0 && duration.nanos < 0) {
+ *     } else if (duration.seconds > 0 && duration.nanos < 0) {
  *       duration.seconds -= 1;
  *       duration.nanos += 1000000000;
  *     }

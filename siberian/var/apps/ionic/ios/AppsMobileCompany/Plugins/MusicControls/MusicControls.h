@@ -3,6 +3,7 @@
 // Music Controls Cordova Plugin
 //
 // Created by Juan Gonzalez on 12/16/16.
+// Updated by Eugene Cross on 14/12/19 for iOS 13 compatibility
 //
 
 #ifndef MusicControls_h
@@ -22,11 +23,11 @@
 - (void) updateElapsed: (CDVInvokedUrlCommand *) command;
 - (void) destroy: (CDVInvokedUrlCommand *) command;
 - (void) watch: (CDVInvokedUrlCommand *) command;
-- (void) remoteEvent:(MPRemoteCommandEvent *) event;
-- (void) playEvent:(MPRemoteCommandEvent *) event;
-- (void) pauseEvent:(MPRemoteCommandEvent *) event;
-- (void) nextTrackEvent:(MPRemoteCommandEvent *) event;
-- (void) prevTrackEvent:(MPRemoteCommandEvent *) event;
+- (MPRemoteCommandHandlerStatus) remoteEvent:(MPRemoteCommandEvent *) event;
+- (MPRemoteCommandHandlerStatus) playEvent:(MPRemoteCommandEvent *) event;
+- (MPRemoteCommandHandlerStatus) pauseEvent:(MPRemoteCommandEvent *) event;
+- (MPRemoteCommandHandlerStatus) nextTrackEvent:(MPRemoteCommandEvent *) event;
+- (MPRemoteCommandHandlerStatus) prevTrackEvent:(MPRemoteCommandEvent *) event;
 - (void) skipForwardEvent: (MPSkipIntervalCommandEvent *) event;
 - (void) skipBackwardEvent: (MPSkipIntervalCommandEvent *) event;
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri;

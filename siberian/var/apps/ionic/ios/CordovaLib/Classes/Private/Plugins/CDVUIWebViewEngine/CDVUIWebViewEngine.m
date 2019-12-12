@@ -17,6 +17,8 @@
  under the License.
  */
 
+#if !WK_WEB_VIEW_ONLY
+
 #import "CDVUIWebViewEngine.h"
 #import "CDVUIWebViewDelegate.h"
 #import "CDVUIWebViewNavigationDelegate.h"
@@ -176,7 +178,7 @@
 
     if (uiWebViewDelegate &&
         [uiWebViewDelegate conformsToProtocol:@protocol(UIWebViewDelegate)]) {
-        self.uiWebViewDelegate = [[CDVUIWebViewDelegate alloc] initWithDelegate:(id <UIWebViewDelegate>)self.viewController];
+        self.uiWebViewDelegate = [[CDVUIWebViewDelegate alloc] initWithDelegate:(id <UIWebViewDelegate>)uiWebViewDelegate];
         uiWebView.delegate = self.uiWebViewDelegate;
     }
 
@@ -200,3 +202,5 @@
 }
 
 @end
+
+#endif

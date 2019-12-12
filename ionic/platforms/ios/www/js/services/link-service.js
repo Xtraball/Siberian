@@ -1,70 +1,95 @@
-/*global
- angular, DEVICE_TYPE
- */
-
 /**
  * LinkService
  *
  * @author Xtraball SAS
+ * @version 4.18.3
  */
-angular.module("starter").service("LinkService", function ($rootScope, $translate, $window, SB) {
+angular
+.module('starter')
+.service('LinkService', function ($rootScope, $translate, $window, SB) {
     return {
-        openLink: function(url, options) {
-
-            if($rootScope.isNotAvailableInOverview() || $rootScope.isNotAvailableOffline()) {
-                return;
-            }
-
-            //set default options (inapp + navbar)
-            /**
-             * @todo maybe extend ?
-             */
-            if(options === undefined) {
-                options = {
-                    "hide_navbar"       : true,
-                    "use_external_app"  : false
-                };
-            }
-
-            //by default use inappbrowser
-            var target = "_blank";
+        openLink: function (url, options, external_browser) {
+            var supportOptions = [
+                'location',
+                'hidden',
+                'beforeload',
+                'clearcache',
+                'clearsessioncache',
+                'closebuttoncaption',
+                'closebuttoncolor',
+                'footer',
+                'footercolor',
+                'hardwareback',
+                'hidenavigationbuttons',
+                'hideurlbar',
+                'navigationbuttoncolor',
+                'toolbarcolor',
+                'lefttoright',
+                'zoom',
+                'mediaPlaybackRequiresUserAction',
+                'shouldPauseOnSuspend',
+                'useWideViewPort',
+                'cleardata',
+                'disallowoverscroll',
+                'toolbar',
+                'toolbartranslucent',
+                'lefttoright',
+                'enableViewportScale',
+                'allowInlineMediaPlayback',
+                'keyboardDisplayRequiresUserAction',
+                'suppressesIncrementalRendering',
+                'presentationstyle',
+                'transitionstyle',
+                'toolbarposition',
+                'hidespinner',
+            ];
+            var target = '_blank';
             var inAppBrowserOptions = [];
+            var _external_browser = (external_browser === undefined) ? false : external_browser;
+            var _options = angular.extend({}, {
+                'toolbarcolor': $window.colors.header.backgroundColorHex,
+                'location': 'no',
+                'toolbar': 'no',
+                'enableViewPortScale': 'yes',
+                'closebuttoncaption': $translate.instant('Done'),
+                'transitionstyle': 'crossdissolve'
+            }, options);
 
+            // HTML5 forced on Browser devices
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
-                target = "_system";
+                // Enforce inAppBrowser fallback with location!
+                return cordova.InAppBrowser.open(url, target, 'location=yes');
             }
 
-            switch(true) {
-
-                //On android, tel link are opened in current app
-                case (/^(tel:).*/.test(url) && (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID)) :
-                    target = "_self";
-                    break;
-
-                case options.use_external_app:
-
-                //if PDF, we force use of external application
-                case (/.*\.pdf($|\?)/).test(url):
-
-                //On iOS, you cannot hidenavbar and show inappbrowser
-                case (options.hide_navbar && (DEVICE_TYPE === SB.DEVICE.TYPE_IOS)):
-                    target = "_system";
-                    inAppBrowserOptions.push("EnableViewPortScale=yes");
-                    break;
-
-                default: 
-                    if(options && (options.hide_navbar)) {
-                        inAppBrowserOptions.push("location=no");
-                        inAppBrowserOptions.push("toolbar=no");
-                    } else { //else use standard inAppBrowser with navbar
-                        inAppBrowserOptions.push("location=yes");
-                        inAppBrowserOptions.push("closebuttoncaption=" + $translate.instant("Done"));
-                        inAppBrowserOptions.push("transitionstyle=crossdissolve");
-                        inAppBrowserOptions.push('toolbar=yes');
-                    }
-
+            // External browser
+            if (_external_browser) {
+                if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
+                    return cordova.plugins.browsertab.openUrl(url, {});
+                }
+                // Enforce inAppBrowser fallback with location!
+                return cordova.InAppBrowser.open(url, target, 'location=yes');
             }
-            $window.open(url, target, inAppBrowserOptions.join(","));
+
+            // Enforcing target for Android tel: links!
+            if (/^(tel:).*/.test(url) &&
+                (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID)) {
+                target = '_self';
+            }
+
+            // PDF file, open the system PDF reader (for now)
+            if (/.*\.pdf($|\?)/.test(url) &&
+                (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER)) {
+                return cordova.plugins.browsertab.openUrl(url, {});
+            }
+
+            for (let [key, value] of Object.entries(_options)) {
+                // Push only allowed options!
+                if (supportOptions.indexOf(key) > -1) {
+                    inAppBrowserOptions.push(`${key}=${value}`);
+                }
+            }
+
+            return cordova.InAppBrowser.open(url, target, inAppBrowserOptions.join(','));
         }
     };
 });

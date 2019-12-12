@@ -17,8 +17,10 @@
  under the License.
  */
 
+#if !WK_WEB_VIEW_ONLY
+
 #import <UIKit/UIKit.h>
-#import "CDVAvailability.h"
+#import <Cordova/CDVAvailability.h>
 
 /**
  * Distinguishes top-level navigations from sub-frame navigations.
@@ -39,3 +41,5 @@
 - (BOOL)request:(NSURLRequest*)newRequest isEqualToRequestAfterStrippingFragments:(NSURLRequest*)originalRequest;
 
 @end
+
+#endif

@@ -17,11 +17,13 @@
  under the License.
  */
 
-#import "CDVPlugin.h"
-#import "CDVWebViewEngineProtocol.h"
+#import <Cordova/CDVPlugin.h>
+#import <Cordova/CDVWebViewEngineProtocol.h>
 
 @interface CDVUIWebViewEngine : CDVPlugin <CDVWebViewEngineProtocol>
 
+#if !WK_WEB_VIEW_ONLY
 @property (nonatomic, strong, readonly) id <UIWebViewDelegate> uiWebViewDelegate;
+#endif
 
 @end

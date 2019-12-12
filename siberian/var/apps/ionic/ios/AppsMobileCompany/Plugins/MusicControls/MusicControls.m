@@ -4,6 +4,7 @@
 //
 //  Created by Juan Gonzalez on 12/16/16.
 //  Updated by Gaven Henry on 11/7/17 for iOS 11 compatibility & new features
+//  Updated by Eugene Cross on 14/10/19 for iOS 13 compatibility
 //
 //
 
@@ -132,55 +133,64 @@ MusicControlsInfo * musicControlsSettings;
 }
 
 //Handle the skip forward event
-- (void) skipForwardEvent:(MPSkipIntervalCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) skipForwardEvent:(MPSkipIntervalCommandEvent *)event {
     NSString * action = @"music-controls-skip-forward";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
 //Handle the skip backward event
-- (void) skipBackwardEvent:(MPSkipIntervalCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) skipBackwardEvent:(MPSkipIntervalCommandEvent *)event {
     NSString * action = @"music-controls-skip-backward";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
 //If MPRemoteCommandCenter is enabled for any function we must enable it for all and register a handler
 //So if we want to use the new scrubbing support in the lock screen we must implement dummy handlers
 //for those functions that we already deal with through notifications (play, pause, skip etc)
 //otherwise those remote control actions will be disabled
-- (void) remoteEvent:(MPRemoteCommandEvent *)event {
-    return;
+- (MPRemoteCommandHandlerStatus) remoteEvent:(MPRemoteCommandEvent *)event {
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) nextTrackEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) nextTrackEvent:(MPRemoteCommandEvent *)event {
     NSString * action = @"music-controls-next";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
 }
 
-- (void) prevTrackEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) prevTrackEvent:(MPRemoteCommandEvent *)event {
     NSString * action = @"music-controls-previous";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
+
 }
 
-- (void) pauseEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) pauseEvent:(MPRemoteCommandEvent *)event {
     NSString * action = @"music-controls-pause";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
+
 }
 
-- (void) playEvent:(MPRemoteCommandEvent *)event {
+- (MPRemoteCommandHandlerStatus) playEvent:(MPRemoteCommandEvent *)event {
     NSString * action = @"music-controls-play";
     NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
+    return MPRemoteCommandHandlerStatusSuccess;
+
 }
 
 //Handle all other remote control events
@@ -261,15 +271,28 @@ MusicControlsInfo * musicControlsSettings;
             commandCenter.skipForwardCommand.preferredIntervals = @[@(musicControlsSettings.skipForwardInterval)];
             [commandCenter.skipForwardCommand setEnabled:true];
             [commandCenter.skipForwardCommand addTarget: self action:@selector(skipForwardEvent:)];
+        } else {
+            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0) {
+                [commandCenter.skipForwardCommand removeTarget:self];
+            }
         }
         if(musicControlsSettings.hasSkipBackward){
-            commandCenter.skipBackwardCommand.preferredIntervals = @[@(musicControlsSettings.skipForwardInterval)];
+            commandCenter.skipBackwardCommand.preferredIntervals = @[@(musicControlsSettings.skipBackwardInterval)];
             [commandCenter.skipBackwardCommand setEnabled:true];
             [commandCenter.skipBackwardCommand addTarget: self action:@selector(skipBackwardEvent:)];
+        } else {
+            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0) {
+                [commandCenter.skipBackwardCommand removeTarget:self];
+            }
         }
         if(musicControlsSettings.hasScrubbing){
             [commandCenter.changePlaybackPositionCommand setEnabled:true];
             [commandCenter.changePlaybackPositionCommand addTarget:self action:@selector(changedThumbSliderOnLockScreen:)];
+        } else {
+            if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_9_0) {
+                [commandCenter.changePlaybackPositionCommand setEnabled:false];
+                [commandCenter.changePlaybackPositionCommand removeTarget:self action:NULL];
+            }
         }
     }
 }
