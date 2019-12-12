@@ -55,6 +55,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "Badge.Badge",
+      "file": "plugins/Badge/www/badge.js",
+      "pluginId": "Badge",
+      "clobbers": [
+        "cordova.plugins.notification.badge"
+      ]
+    },
+    {
       "id": "BarcodeScanner.BarcodeScanner",
       "file": "plugins/BarcodeScanner/www/barcodescanner.js",
       "pluginId": "BarcodeScanner",
@@ -421,6 +429,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
     "AppVersion": "0.1.8",
+    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
     "Camera": "4.0.3",

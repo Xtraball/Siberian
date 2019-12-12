@@ -37,6 +37,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"Badge\"><param name=\"ios-package\" value=\"APPBadge\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -235,6 +239,9 @@
     "AppVersion": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
+    "Badge": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
     "BarcodeScanner": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
@@ -344,6 +351,14 @@
       "pluginId": "AppVersion",
       "clobbers": [
         "cordova.getAppVersion"
+      ]
+    },
+    {
+      "id": "Badge.Badge",
+      "file": "plugins/Badge/www/badge.js",
+      "pluginId": "Badge",
+      "clobbers": [
+        "cordova.plugins.notification.badge"
       ]
     },
     {
@@ -713,6 +728,7 @@
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
     "AppVersion": "0.1.8",
+    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
     "Camera": "4.0.3",
