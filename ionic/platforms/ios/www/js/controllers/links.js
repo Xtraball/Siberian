@@ -67,7 +67,9 @@ angular.module("starter").controller("LinksViewController", function($scope, $st
             });
     };
 
-    $window.overview['weblink_multi'] = $scope.reloadOverview;
+    if ($window.overview) {
+        $window.overview['weblink_multi'] = $scope.reloadOverview;
+    }
 
     $scope.loadContent();
 });

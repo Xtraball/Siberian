@@ -422,8 +422,8 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
                 // iOS only, optional
                 album: service.current_track.albumName,
-                duration: service.media.duration,
-                elapsed: service.media.currentTime,
+                duration: service.media.duration * 1,
+                elapsed: service.media.currentTime * 1,
 
                 // Android only, optional
                 ticker: $translate.instant('Now playing ') + service.current_track.name
