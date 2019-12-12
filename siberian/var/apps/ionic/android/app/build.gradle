@@ -98,8 +98,10 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../Badge/base-badge.gradle"
 apply from: "../Push/base-build.gradle"
 apply from: "../BarcodeScanner/base-barcodescanner.gradle"
+apply from: "../LocalNotification/base-localnotification.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()
@@ -284,6 +286,7 @@ dependencies {
     compile "com.android.support:support-v4:27.+"
     compile "com.android.support:customtabs:28.0.0"
     compile "com.android.support:support-v4:24.1.1+"
+    compile "com.android.support:support-v4:26.+"
     compile "com.android.support:support-annotations:28.0.0"
     // SUB-PROJECT DEPENDENCIES END
 }

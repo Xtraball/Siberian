@@ -9,6 +9,14 @@ module.exports = [
     ]
   },
   {
+    "id": "Badge.Badge",
+    "file": "plugins/Badge/www/badge.js",
+    "pluginId": "Badge",
+    "clobbers": [
+      "cordova.plugins.notification.badge"
+    ]
+  },
+  {
     "id": "Geofence.TransitionType",
     "file": "plugins/Geofence/www/TransitionType.js",
     "pluginId": "Geofence",
@@ -335,7 +343,7 @@ module.exports = [
     "file": "plugins/Keyboard/www/android/keyboard.js",
     "pluginId": "Keyboard",
     "clobbers": [
-      "cordova.plugins.Keyboard"
+      "window.Keyboard"
     ]
   },
   {
@@ -357,26 +365,7 @@ module.exports = [
     "file": "plugins/LocalNotification/www/local-notification.js",
     "pluginId": "LocalNotification",
     "clobbers": [
-      "cordova.plugins.notification.local",
-      "plugin.notification.local"
-    ]
-  },
-  {
-    "id": "LocalNotification.LocalNotification.Core",
-    "file": "plugins/LocalNotification/www/local-notification-core.js",
-    "pluginId": "LocalNotification",
-    "clobbers": [
-      "cordova.plugins.notification.local.core",
-      "plugin.notification.local.core"
-    ]
-  },
-  {
-    "id": "LocalNotification.LocalNotification.Util",
-    "file": "plugins/LocalNotification/www/local-notification-util.js",
-    "pluginId": "LocalNotification",
-    "merges": [
-      "cordova.plugins.notification.local.core",
-      "plugin.notification.local.core"
+      "cordova.plugins.notification.local"
     ]
   },
   {
@@ -396,9 +385,9 @@ module.exports = [
     ]
   },
   {
-    "id": "cordova-plugin-ionic-webview.IonicWebView",
-    "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
-    "pluginId": "cordova-plugin-ionic-webview",
+    "id": "IonicWebview.IonicWebView",
+    "file": "plugins/IonicWebview/src/www/util.js",
+    "pluginId": "IonicWebview",
     "clobbers": [
       "Ionic.WebView"
     ]
@@ -433,6 +422,7 @@ module.exports.metadata =
 {
   "Extension": "1.5.4",
   "Chcp": "1.5.2",
+  "Badge": "0.8.8",
   "Geofence": "0.6.0",
   "SplashScreen": "5.0.2",
   "Push": "1.10.0",
@@ -447,14 +437,14 @@ module.exports.metadata =
   "Device": "2.0.2",
   "File": "6.0.1",
   "Geolocation": "4.0.1",
-  "InAppBrowser": "3.1.0",
-  "Keyboard": "2.2.1",
+  "InAppBrowser": "3.1.1-dev",
+  "Keyboard": "2.2.0",
   "SocialSharing": "5.4.0",
   "WhiteList": "1.2.1",
-  "LocalNotification": "0.8.4.1",
+  "LocalNotification": "0.9.0-beta.3",
   "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
-  "cordova-plugin-ionic-webview": "4.0.1",
+  "IonicWebview": "4.0.1",
   "MusicControls": "2.2.1",
   "Navigator": "0.1.0",
   "Permissions": "1.0.0",

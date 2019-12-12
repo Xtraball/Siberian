@@ -606,10 +606,9 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
                     sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
 
-                    sh.cd(ROOT + '/ionic/platforms/' + platform);
-
-                    sprint('./gradlew ' + gradleArgs);
-                    sh.exec('./gradlew ' + gradleArgs);
+                    //sh.cd(ROOT + '/ionic/platforms/' + platform);
+                    //sprint('./gradlew ' + gradleArgs);
+                    //sh.exec('./gradlew ' + gradleArgs);
 
                     patchAndroidManifest();
 
