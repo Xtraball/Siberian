@@ -7,7 +7,12 @@ use Weblink_Model_Weblink_Link as ModelLink;
 $optionValue = $this->getOptionValue();
 $application = $this->getApplication();
 $webLink = $optionValue->getObject();
-
+if (!$webLink->getId()) {
+    $webLink = new Weblink_Model_Type_Multi();
+    $webLink->setValueId($optionValue->getId());
+    $webLink->setTypeId(2);
+    $webLink->save();
+}
 
 $settingsForm = new Weblink_Form_Settings();
 $settings = [];
