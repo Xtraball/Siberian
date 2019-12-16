@@ -226,7 +226,7 @@ $links = (new ModelLink)->findAll(
                     let el = $(this);
                     data.indexes.push(el.attr('rel'));
 
-                    el.find('.feed-position').text(index++);
+                    el.find('.link-position').text(index++);
                 });
 
                 data.value_id = '<?php echo $optionValue->getId() ?>';

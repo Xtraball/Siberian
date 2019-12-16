@@ -92,9 +92,9 @@ angular
                     inAppBrowserOptions.push(`${key}=${value}`);
                 }
             }
-            var options = inAppBrowserOptions.join(',');
+            var finalOptions = inAppBrowserOptions.join(',');
 
-            return cordova.InAppBrowser.open(url, target, options);
+            return cordova.InAppBrowser.open(url, target, finalOptions);
         }
     };
 });

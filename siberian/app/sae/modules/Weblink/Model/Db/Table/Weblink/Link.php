@@ -25,6 +25,8 @@ class Weblink_Model_Db_Table_Weblink_Link extends Core_Model_Db_Table
             ->from($this->_name, ['max' => 'MAX(position)'])
             ->where('weblink_id = ?', $webLinkId);
 
-        return $this->_db->fetchOne($select);
+        $result = $this->_db->fetchOne($select);
+
+        return is_numeric($result) ? $result : 0;
     }
 }

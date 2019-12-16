@@ -41,12 +41,10 @@ class Folder2_Model_Folder extends Core_Model_Default {
      */
     public function __construct($params = []) {
         parent::__construct($params);
-        $this->_db_table = 'Folder2_Model_Db_Table_Folder';
+        $this->_db_table = Folder2_Model_Db_Table_Folder::class;
 
         // Default to version 2!
         $this->setVersion(2);
-
-        return $this;
     }
 
     /**
@@ -99,6 +97,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
         if (!$optionValue) {
             return false;
         }
+        $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
+
 
         if ($this->getId()) {
             $categories = (new Folder2_Model_Category())
@@ -187,7 +187,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     $pictureFile = Core_Controller_Default_Abstract::sGetColorizedImage($feature->getIconId(), $color);
                 }
 
-                $collection[] = [
+                $folderBlock = [
                     'title' => (string) $feature->getTabbarName(),
                     'subtitle' => (string) $feature->getTabbarSubtitle(),
                     'layout_id' => (integer) $feature->getLayoutId(),
@@ -212,6 +212,21 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_locked' => (boolean) $feature->isLocked(),
                     'value_id' => (integer) $feature->getId(),
                 ];
+
+                // 4.18.3 link special options!
+                $object = $feature->getObject();
+                if ($object->getLink() &&
+                    in_array($folderBlock['code'], $linkCodes, false)) {
+
+                    $objectLink = $object->getLink();
+
+                    // post 4.18.3 options
+                    $folderBlock['link_url'] = (string)$objectLink->getData('url');
+                    $folderBlock['external_browser'] = (boolean)$objectLink->getExternalBrowser();
+                    $folderBlock['options'] = $objectLink->getOptions();
+                }
+
+                $collection[] = $folderBlock;
             }
 
             // Build search index!

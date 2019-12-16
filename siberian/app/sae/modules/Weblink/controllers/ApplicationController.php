@@ -85,6 +85,7 @@ class Weblink_ApplicationController extends Application_Controller_Default
     {
         try {
             $optionValue = $this->getCurrentOptionValue();
+            $code = $optionValue->getCode();
             $request = $this->getRequest();
             $values = $request->getPost();
 
@@ -140,9 +141,28 @@ class Weblink_ApplicationController extends Application_Controller_Default
                     'value_id_' . $optionValue->getId(),
                 ]);
 
+                $message = p__('weblink','Link saved');
+                switch ($code) {
+                    case 'magento':
+                        $message = p__('weblink','Magento saved');
+                        break;
+                    case 'prestashop':
+                        $message = p__('weblink','Prestashop saved');
+                        break;
+                    case 'shopify':
+                        $message = p__('weblink','Shopify saved');
+                        break;
+                    case 'volusion':
+                        $message = p__('weblink','Volusion saved');
+                        break;
+                    case 'woocommerce':
+                        $message = p__('weblink','Woocommerce saved');
+                        break;
+                }
+
                 $payload = [
                     'success' => true,
-                    'message' => p__('weblink','Link saved'),
+                    'message' => $message,
                 ];
             } else {
                 $payload = [

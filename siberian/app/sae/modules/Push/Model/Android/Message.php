@@ -272,10 +272,8 @@ class Push_Model_Android_Message
             ->setActionValue($action_url);
 
         if ($message->getForceAppRoute() === true) {
-            dbg('if ($message->getForceAppRoute() === true) {');
             $messagePayload->setOpenWebview(false);
         } else {
-            dbg('ELSE if ($message->getForceAppRoute() === true) {', !is_numeric($message->getActionValue()));
             $messagePayload->setOpenWebview(!is_numeric($message->getActionValue()));
         }
 

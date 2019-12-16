@@ -95,9 +95,7 @@ class Weblink_Model_Weblink_Link extends Core_Model_Default
      */
     public function getMaxPosition($webLinkId): int
     {
-        $position = $this->getTable()->getMaxPosition($webLinkId);
-
-        return is_numeric($position) ? $position : 0;
+        return $this->getTable()->getMaxPosition($webLinkId);
     }
 
 }

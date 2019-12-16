@@ -50,28 +50,38 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
             $payload['settings'] = $settings;
 
-            foreach ($this->getLinks() as $link) {
+            if ($optionValue->getCode() === 'weblink_multi')
+            {
+                foreach ($this->getLinks() as $link) {
 
-                $picto_b64 = null;
-                if ($link->getPictoUrl()) {
-                    $picture_file = path($link->getPictoUrl());
-                    $picto_b64 = Siberian_Image::open($picture_file)->inline('png');
+                    $picto_b64 = null;
+                    if ($link->getPictoUrl()) {
+                        $picture_file = path($link->getPictoUrl());
+                        $picto_b64 = Siberian_Image::open($picture_file)->inline('png');
+                    }
+
+                    $payload['weblink']['links'][] = [
+                        'id' => (integer) $link->getId(),
+                        'title' => (string) $link->getTitle(),
+                        'picto_url' => (string) $picto_b64,
+                        'url' => (string) $link->getUrl(),
+                        // pre 4.18.3 options
+                        'hide_navbar' => (boolean) $link->getHideNavbar(),
+                        'use_external_app' => (boolean) $link->getUseExternalApp(),
+                        // post 4.18.3 options
+                        'external_browser' => (boolean) $link->getExternalBrowser(),
+                        'options' => $link->getOptions()
+                    ];
+                }
+            } else {
+                $link = $this->getLink();
+                if ($link && $link->getId()) {
+                    $payload['link_url'] = (string) $link->getUrl();
+                    $payload['external_browser'] = (boolean) $link->getExternalBrowser();
+                    $payload['options'] = $link->getOptions();
                 }
 
-                $payload['weblink']['links'][] = [
-                    'id' => (integer) $link->getId(),
-                    'title' => (string) $link->getTitle(),
-                    'picto_url' => (string) $picto_b64,
-                    'url' => (string) $link->getUrl(),
-                    // pre 4.18.3 options
-                    'hide_navbar' => (boolean) $link->getHideNavbar(),
-                    'use_external_app' => (boolean) $link->getUseExternalApp(),
-                    // post 4.18.3 options
-                    'external_browser' => (boolean) $link->getExternalBrowser(),
-                    'options' => $link->getOptions()
-                ];
             }
-
         }
 
         return $payload;

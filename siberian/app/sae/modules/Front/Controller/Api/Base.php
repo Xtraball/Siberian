@@ -310,6 +310,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function _featureBlock($application, $currentLanguage, $request)
     {
+        $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
         $appVersion = $request->getBodyParams()["version"];
         $appId = $application->getId();
         $appKey = $application->getKey();
@@ -347,10 +348,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     // In-App-Browser / Browser options!
                     $hideNavbar = null;
                     $useExternalApp = null;
-                    if ($optionValue->getCode() === 'weblink_mono') {
-                        $hideNavbar = $object->getLink()->getHideNavbar();
-                        $useExternalApp = $object->getLink()->getUseExternalApp();
-                    }
 
                     if (count($optionValues) >= 50) {
                         if (in_array($optionValue->getCode(), ['folder', 'folder_v2', 'custom_page'])) {
@@ -372,7 +369,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     $uris = $optionValue->getAppInitUris();
 
                     // End link special code!
-                    $featureBlock[] = [
+                    $blockData = [
                         'value_id' => (integer) $optionValue->getId(),
                         'id' => (integer) $optionValue->getId(),
                         'layout_id' => (integer) $optionValue->getLayoutId(),
@@ -381,10 +378,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'subtitle' => $optionValue->getTabbarSubtitle(),
                         'is_active' => (boolean) $optionValue->isActive(),
                         'is_visible' => (boolean) $optionValue->getIsVisible(),
-                        'url' => $uris["featureUrl"],
+                        'url' => $uris['featureUrl'],
                         'hide_navbar' => (boolean) $hideNavbar,
                         'use_external_app' => (boolean) $useExternalApp,
-                        'path' => $uris["featurePath"],
+                        'path' => $uris['featurePath'],
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
                         'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
                         'is_locked' => (boolean) $optionValue->isLocked(),
@@ -396,11 +393,32 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'custom_fields' => $optionValue->getCustomFields(),
                         'embed_payload' => $embedPayload,
                         'position' => (integer) $optionValue->getPosition(),
-                        'homepage' => (boolean) ($optionValue->getFolderCategoryId() === null),
+                        'homepage' => ($optionValue->getFolderCategoryId() === null),
                         'settings' => $settings,
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
+
+                    // 4.18.3 link special options!
+                    if ($object->getLink() &&
+                        in_array($blockData['code'], $linkCodes, false)) {
+
+                        $objectLink = $object->getLink();
+
+                        // pre 4.18.3
+                        $blockData['hide_navbar'] = $objectLink->getHideNavbar();
+                        $blockData['use_external_app'] = $objectLink->getUseExternalApp();
+
+                        // post 4.18.3 options
+                        $blockData['link_url'] = (string) $objectLink->getData('url');
+                        $blockData['external_browser'] = (boolean) $objectLink->getExternalBrowser();
+                        $blockData['options'] = $objectLink->getOptions();
+                    }
+
+                    $featureBlock[] = $blockData;
+                    /**
+                     *
+                     */
                 } catch (\Exception $e) {
                     // Silently fail missing modules!
                     log_alert('A module is probably missing, ' . $e->getMessage());
@@ -535,42 +553,45 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         }
 
         // Dynamic patches (non-cached) for specific app versions
-        if (version_compare($appVersion, "4.15.6", "<")) {
+        if (version_compare($appVersion, '4.15.6', '<')) {
             // Apply patches.
 
             # 1. Places
-            foreach ($dataHomepage["pages"] as &$page) {
-                if ($page["code"] === "places") {
-                    $page["path"] = sprintf("/%s/places/mobile_list/index/value_id/%s",
+            foreach ($dataHomepage['pages'] as &$page) {
+                if ($page['code'] === 'places') {
+                    $page['path'] = sprintf('/%s/places/mobile_list/index/value_id/%s',
                         $appKey,
-                        $page["value_id"]);
+                        $page['value_id']);
                 }
             }
+            unset($page);
         }
 
-        if (version_compare($appVersion, "4.16.0", "<")) {
+        if (version_compare($appVersion, '4.16.0', '<')) {
             // Apply patches.
 
             # 2. My account
             $fixedPages = [];
-            foreach ($dataHomepage["pages"] as &$page) {
-                if ($page["code"] !== "tabbar_account") {
+            foreach ($dataHomepage['pages'] as &$page) {
+                if ($page['code'] !== 'tabbar_account') {
                     $fixedPages[] = $page;
                 }
             }
-            $dataHomepage["pages"] = $fixedPages;
+            unset($page);
+            $dataHomepage['pages'] = $fixedPages;
         }
 
         // Dynamic patches (non-cached) for specific app versions!
-        if (version_compare($appVersion, "4.18.1", "<")) {
+        if (version_compare($appVersion, '4.18.1', '<')) {
             # 3. M-Commerce
-            foreach ($dataHomepage["pages"] as &$page) {
-                if ($page["code"] === "m_commerce") {
-                    $page["path"] = sprintf("/%s/mcommerce/mobile_category/index/value_id/%s",
+            foreach ($dataHomepage['pages'] as &$page) {
+                if ($page['code'] === 'm_commerce') {
+                    $page['path'] = sprintf('/%s/mcommerce/mobile_category/index/value_id/%s',
                         $appKey,
-                        $page["value_id"]);
+                        $page['value_id']);
                 }
             }
+            unset($page);
         }
         // Dynamic patches (non-cached) for specific app versions!
 
