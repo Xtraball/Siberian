@@ -593,7 +593,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 }
 
                 if (platform === 'android') {
-
                     // Edit AndroidManifest.xml
                     // android:screenOrientation="unspecified" > <activity
 
