@@ -393,7 +393,9 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
     };
 
     service.updateMusicControls = function () {
-        if (service.use_music_controls) {
+        // For now we will disable music controls for iOS!
+        if (service.use_music_controls &&
+            DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID) {
             var hasPrev = true;
             var hasNext = true;
             if (service.is_radio) {
@@ -409,7 +411,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                 hasNext = false;
             }
 
-            MusicControls.create({
+            var mcDictionnary = {
                 track: service.current_track.name,
                 artist: service.current_track.artistName,
                 cover: service.current_track.albumCover,
@@ -422,12 +424,15 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
                 // iOS only, optional
                 album: service.current_track.albumName,
-                duration: service.media.duration,
-                elapsed: service.media.currentTime,
+                duration: (service && service.media && service.media.duration) ? service.media.duration * 1 : 0,
+                elapsed: (service && service.media && service.media.currentTime) ? service.media.currentTime * 1 : 0,
 
                 // Android only, optional
                 ticker: $translate.instant('Now playing ') + service.current_track.name
-            }, function () {
+            };
+
+            MusicControls.create(mcDictionnary,
+                function () {
                 $log.debug('success');
             }, function () {
                 $log.debug('error');

@@ -535,6 +535,10 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 sprint(clc.blue('Prepping: ') + clc.green(platform + ' ...'));
                 console.log('cordova ' + silent + ' prepare ' + platform);
                 sh.exec('cordova ' + silent + ' prepare ' + platform);
+
+                if (platform === 'android') {
+                    patchAndroidManifest();
+                }
             } else {
                 sprint(clc.blue('Rebuilding: ') + clc.green(platform + ' ...'));
 
@@ -605,10 +609,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
 
                     sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
                     sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
-
-                    //sh.cd(ROOT + '/ionic/platforms/' + platform);
-                    //sprint('./gradlew ' + gradleArgs);
-                    //sh.exec('./gradlew ' + gradleArgs);
 
                     patchAndroidManifest();
 
