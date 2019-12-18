@@ -45,6 +45,12 @@ $links = (new ModelLink)->findAll(
     <div id="list"
          class="edit_page weblink">
 
+        <div class="alert alert-warning">
+            <?php echo p__(
+                    'weblink',
+                'Please note that some URIS & websites may not be able to load inside the editor app preview due to iframe restrictions, but they will load inside native Android & iOS apps.') ?>
+        </div>
+
         <!-- Nav tabs -->
         <ul class="nav nav-tabs"
             role="tablist">
