@@ -1,57 +1,41 @@
 <?php
 
-namespace Mcommerce\Form;
-
-use Siberian_Form_Abstract as FormAbstract;
-use Mcommerce_Model_Delivery_Method as DeliveryMethod;
-
 /**
  * Class Mcommerce_Form_Store
  */
-class Store extends FormAbstract
+class Mcommerce_Form_Store extends Siberian_Form_Abstract
 {
     /**
-     * @throws \Zend_Form_Exception
-     * @throws \Zend_Validate_Exception
+     * @throws Zend_Form_Exception
      */
     public function init()
     {
         parent::init();
 
         $this
-            ->setAction(__path('/mcommerce/application_store/edit-post'))
-            ->setAttrib('id', 'storeEditForm')
-            ->addNav('store-nav');
+            ->setAction(__path("/mcommerce/application_store/editpost"))
+            ->setAttrib("id", "storeEditForm")
+            ->addNav("store-nav");
 
         /** Bind as a create form */
-        self::addClass('create', $this);
+        self::addClass("create", $this);
 
-        $this->addSimpleHidden('store_id');
-        $this->addSimpleHidden('mcommerce_id');
-
-        $storeName = $this->addSimpleText('name', __('Store name'));
+        $storeName = $this->addSimpleText("name", __("Store name"));
         $storeName->setRequired(true);
 
-        $email = $this->addSimpleText('email', __('E-mail'));
+        $email = $this->addSimpleText("email", __("E-mail"));
         $email->setRequired(true);
 
-        $phone = $this->addSimpleText('phone', __('Phone'));
+        $phone = $this->addSimpleText("phone", __("Phone"));
         $phone->setRequired(true);
 
-        $address = $this->addSimpleText('address', __('Address'));
+        $address = $this->addSimpleText("address", __("Address"));
         $address->setRequired(true);
 
-        $this->addSimpleText('opening_hours', __('Opening hours'));
-
-        $this->addSimpleText('printer_email', __('Connected printer e-mail'));
-
-        $this->groupElements(
-            'store_information',
-            ['name', 'email', 'phone', 'address', 'printer_email'],
-            p__('m_commerce', 'Information'));
+        // Group delivery methods --- new_delivery_methods[][method_id]
 
         $deliveryOptions = [];
-        $deliveryMethods = (new DeliveryMethod())
+        $deliveryMethods = (new Mcommerce_Model_Delivery_Method())
             ->findAll();
         foreach ($deliveryMethods as $deliveryMethod) {
             $id = $deliveryMethod->getId();
@@ -61,87 +45,63 @@ class Store extends FormAbstract
         }
 
         $deliveryMethods = $this->addSimpleMultiCheckbox(
-            'new_delivery_methods',
-            __('Delivery methods'),
+            "new_delivery_methods",
+            __("Delivery methods"),
             $deliveryOptions);
         $deliveryMethods->setRequired(true);
 
-        $this->groupElements(
-            'store_delivery',
-            ['new_delivery_methods'],
-            p__('m_commerce', 'Delivery'));
 
-        // Shipping/delivery options!
-        $this->addSimpleNumber(
-            'delivery_fees',
-            p__('m_commerce', 'Shipping/delivery fees'),
-            0, null, true, 0.0001);
+        /**
+ * if($method->getStoreDeliveryMethodId()) checked
+ * value = $method->getId(); ?
+* $method->getName();
+ *
+ */
 
-        // Shipping/delivery options!
-        $this->addSimpleSelect(
-            'delivery_tax',
-            p__('m_commerce', 'Shipping/delivery tax'));
 
-        $this->addSimpleNumber(
-            'delivery_free_shipping',
-            p__('m_commerce', 'Free shipping/delivery starting from'),
-            0, null, true, 0.0001);
-
-        $this->addSimpleNumber(
-            'delivery_radius',
-            p__('m_commerce', 'Shipping/delivery radius (in kilometers)'),
-            0, null, true, 0.1);
-
-        $deliveryDelay = $this->addSimpleNumber(
-            'delivery_delay',
-            p__('m_commerce', 'Shipping/delivery delay (in minutes)'),
-            0, null, true, 1);
-        $deliveryDelay->setDescription('-');
-
-        $this->addSimpleNumber(
-            'delivery_minimum_order',
-            p__('m_commerce', 'Minimum order amount'),
-            0, null, true, 0.0001);
-
-        $this->addSimpleCheckbox(
-            'delivery_client_calculate_change',
-            p__('m_commerce', 'The client will calculate the change'));
-
-        $this->groupElements(
-            'store_delivery_options',
-            [
-                'delivery_fees',
-                'delivery_tax',
-                'delivery_free_shipping',
-                'delivery_radius',
-                'delivery_delay',
-                'delivery_minimum_order',
-                'delivery_client_calculate_change',
-            ],
-            p__('m_commerce', 'Shipping/delivery options'));
+        /**
+        $delivery_method = new Mcommerce_Model_Delivery_Method(); ?>
+                    $delivery_methods = $delivery_method->findAll(); ?>
+                    foreach($delivery_methods as $k => $method) :
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <?php $method->addData($store->getDeliveryMethod($method->getId())->getData()); ?>
+                                <label for="delivery_method_<?php echo $method->getId() ?>"
+                                       class="control required delivery_method <?php if(!$method->isFree()) : ?> toggle_shippging_cost<?php endif; ?>">
+                                    <input type="checkbox"
+                                           id="delivery_method_<?php echo $method->getId() ?>"
+                                           color="color-blue"
+                                           class="required sb-form-checkbox color-blue"
+                                           name="new_delivery_methods[][method_id]"
+                                           value="<?php echo $method->getId(); ?>"<?php if($method->getStoreDeliveryMethodId()) : ?>
+                                            checked="checked"<?php endif; ?> />
+                                    <span class="sb-checkbox-label">
+                                        <?php echo $method->getName(); ?>
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+*/
+        // opening_hours
 
     }
 
     /**
-     * @param $id
-     * @return $this
+     * @param array $values
+     * @return Zend_Form
      */
-    public function setMcommerceId($id): self
+    public function populate(array $values)
     {
-        $this->getElement('mcommerce_id')->setValue($id);
+        //$options = [];
+        //foreach ($deliveryMethods as $deliveryMethod) {
+        //    $deliveryMethod->addData($store->getDeliveryMethod($deliveryMethod->getId())->getData());
+        //    $options[] = [
+        //        "id" => $deliveryMethod->getId(),
+        //        "checked" => $deliveryMethod->getStoreDeliveryMethodId(),
+        //    ];
+        //}
 
-        return $this;
+        return parent::populate($values); // TODO: Change the autogenerated stub
     }
-
-    /**
-     * @param $id
-     * @return $this
-     */
-    public function setStoreId($id): self
-    {
-        $this->getElement('store_id')->setValue($id);
-
-        return $this;
-    }
-
 }
