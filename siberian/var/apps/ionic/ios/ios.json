@@ -37,6 +37,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"Badge\"><param name=\"ios-package\" value=\"APPBadge\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"ios-package\" value=\"CDVBarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -69,27 +73,19 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<feature name=\"Keyboard\"><param name=\"ios-package\" onload=\"true\" value=\"IonicKeyboard\" /></feature>",
+              "xml": "<feature name=\"WKInAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"CDVIonicKeyboard\"><param name=\"ios-package\" onload=\"true\" value=\"CDVIonicKeyboard\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" value=\"CDVStatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
               "count": 1
             },
             {
@@ -167,18 +163,6 @@
               "count": 1
             }
           ],
-          "NSBluetoothPeripheralUsageDescription": [
-            {
-              "xml": "<string>Smart content with iBeacon and proximity fences.</string>",
-              "count": 1
-            }
-          ],
-          "NSBluetoothAlwaysUsageDescription": [
-            {
-              "xml": "<string>Smart content with iBeacon and proximity fences.</string>",
-              "count": 1
-            }
-          ],
           "NSLocationAlwaysAndWhenInUseUsageDescription": [
             {
               "xml": "<string>Background location is used to send you geolocated push notifications.</string>",
@@ -205,7 +189,7 @@
           ],
           "NSMotionUsageDescription": [
             {
-              "xml": "<string>Smart navigation with CabRide and other nice features</string>",
+              "xml": "<string>Smart navigation with TaxiRide and other nice features</string>",
               "count": 1
             }
           ]
@@ -235,85 +219,82 @@
   },
   "installed_plugins": {
     "Chcp": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "SplashScreen": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Push": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "WebView": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Promises": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "AdmobPro": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "AppVersion": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "AppEvent": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    "Badge": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "BarcodeScanner": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "BrowserTab": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Camera": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Clipboard": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Device": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "File": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Geolocation": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "InAppBrowser": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Keyboard": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "SocialSharing": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "StatusBar": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "LocalNotification": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "OfflineMode": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Insomnia": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "cordova-plugin-ionic-webview": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    "IonicWebview": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "MusicControls": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Navigator": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Permissions": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "Siberian": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
   "dependent_plugins": {},
@@ -370,6 +351,14 @@
       "pluginId": "AppVersion",
       "clobbers": [
         "cordova.getAppVersion"
+      ]
+    },
+    {
+      "id": "Badge.Badge",
+      "file": "plugins/Badge/www/badge.js",
+      "pluginId": "Badge",
+      "clobbers": [
+        "cordova.plugins.notification.badge"
       ]
     },
     {
@@ -655,7 +644,7 @@
       "file": "plugins/Keyboard/www/ios/keyboard.js",
       "pluginId": "Keyboard",
       "clobbers": [
-        "cordova.plugins.Keyboard"
+        "window.Keyboard"
       ]
     },
     {
@@ -667,38 +656,11 @@
       ]
     },
     {
-      "id": "StatusBar.statusbar",
-      "file": "plugins/StatusBar/www/statusbar.js",
-      "pluginId": "StatusBar",
-      "clobbers": [
-        "window.StatusBar"
-      ]
-    },
-    {
       "id": "LocalNotification.LocalNotification",
       "file": "plugins/LocalNotification/www/local-notification.js",
       "pluginId": "LocalNotification",
       "clobbers": [
-        "cordova.plugins.notification.local",
-        "plugin.notification.local"
-      ]
-    },
-    {
-      "id": "LocalNotification.LocalNotification.Core",
-      "file": "plugins/LocalNotification/www/local-notification-core.js",
-      "pluginId": "LocalNotification",
-      "clobbers": [
-        "cordova.plugins.notification.local.core",
-        "plugin.notification.local.core"
-      ]
-    },
-    {
-      "id": "LocalNotification.LocalNotification.Util",
-      "file": "plugins/LocalNotification/www/local-notification-util.js",
-      "pluginId": "LocalNotification",
-      "merges": [
-        "cordova.plugins.notification.local.core",
-        "plugin.notification.local.core"
+        "cordova.plugins.notification.local"
       ]
     },
     {
@@ -718,17 +680,17 @@
       ]
     },
     {
-      "id": "cordova-plugin-ionic-webview.IonicWebView",
-      "file": "plugins/cordova-plugin-ionic-webview/src/www/util.js",
-      "pluginId": "cordova-plugin-ionic-webview",
+      "id": "IonicWebview.IonicWebView",
+      "file": "plugins/IonicWebview/src/www/util.js",
+      "pluginId": "IonicWebview",
       "clobbers": [
         "Ionic.WebView"
       ]
     },
     {
-      "id": "cordova-plugin-ionic-webview.ios-wkwebview-exec",
-      "file": "plugins/cordova-plugin-ionic-webview/src/www/ios/ios-wkwebview-exec.js",
-      "pluginId": "cordova-plugin-ionic-webview",
+      "id": "IonicWebview.ios-wkwebview-exec",
+      "file": "plugins/IonicWebview/src/www/ios/ios-wkwebview-exec.js",
+      "pluginId": "IonicWebview",
       "clobbers": [
         "cordova.exec"
       ]
@@ -766,7 +728,7 @@
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
     "AppVersion": "0.1.8",
-    "AppEvent": "1.2.0",
+    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
     "Camera": "4.0.3",
@@ -774,15 +736,14 @@
     "Device": "2.0.2",
     "File": "6.0.1",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.0.0",
-    "Keyboard": "2.2.1",
+    "InAppBrowser": "3.1.1-dev",
+    "Keyboard": "2.2.0",
     "SocialSharing": "5.4.0",
-    "StatusBar": "2.4.1",
-    "LocalNotification": "0.8.4.1",
+    "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
-    "cordova-plugin-ionic-webview": "4.0.1",
-    "MusicControls": "2.2.0",
+    "IonicWebview": "4.0.1",
+    "MusicControls": "2.2.1",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"

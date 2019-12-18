@@ -31,7 +31,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
@@ -49,14 +49,13 @@ allprojects {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.3'
+    gradleVersion = '4.1.0'
 }
 
 // Configuration properties. Set these via environment variables, build-extras.gradle, or gradle.properties.
 // Refer to: http://www.gradle.org/docs/current/userguide/tutorial_this_and_that.html
 ext {
     apply from: '../CordovaLib/cordova.gradle'
-
     // The value for android.compileSdkVersion.
     if (!project.hasProperty('cdvCompileSdkVersion')) {
         cdvCompileSdkVersion = null;
@@ -77,7 +76,7 @@ ext {
     if (!project.hasProperty('cdvBuildMultipleApks')) {
         cdvBuildMultipleApks = null
     }
-    // Whether to append a 0 "abi digit" to versionCode when only a single APK is build
+    // Whether to append a 0 "abi digit" to versionCode when only a single APK is build 
     if (!project.hasProperty('cdvVersionCodeForceAbiDigit')) {
         cdvVersionCodeForceAbiDigit = null
     }
@@ -99,18 +98,15 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../Badge/base-badge.gradle"
 apply from: "../Push/base-build.gradle"
 apply from: "../BarcodeScanner/base-barcodescanner.gradle"
+apply from: "../LocalNotification/base-localnotification.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
-def hasBuildExtras1 = file('build-extras.gradle').exists()
-if (hasBuildExtras1) {
+def hasBuildExtras = file('build-extras.gradle').exists()
+if (hasBuildExtras) {
     apply from: 'build-extras.gradle'
-}
-
-def hasBuildExtras2 = file('../build-extras.gradle').exists()
-if (hasBuildExtras2) {
-    apply from: '../build-extras.gradle'
 }
 
 // Set property defaults after extension .gradle files.
@@ -132,7 +128,7 @@ if (ext.cdvReleaseSigningPropertiesFile == null && file('../release-signing.prop
 // Cast to appropriate types.
 ext.cdvBuildMultipleApks = cdvBuildMultipleApks == null ? false : cdvBuildMultipleApks.toBoolean();
 ext.cdvVersionCodeForceAbiDigit = cdvVersionCodeForceAbiDigit == null ? false : cdvVersionCodeForceAbiDigit.toBoolean();
-ext.cdvMinSdkVersion = cdvMinSdkVersion == null ? defaultMinSdkVersion : Integer.parseInt('' + cdvMinSdkVersion)
+ext.cdvMinSdkVersion = cdvMinSdkVersion == null ? null : defaultMinSdkVersion
 ext.cdvVersionCode = cdvVersionCode == null ? null : Integer.parseInt('' + cdvVersionCode)
 
 def computeBuildTargetName(debugBuild) {
@@ -155,21 +151,19 @@ cdvBuildRelease.dependsOn {
     return computeBuildTargetName(false)
 }
 
-task cdvPrintProps {
-    doLast {
-        println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
-        println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
-        println('cdvVersionCode=' + cdvVersionCode)
-        println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
-        println('cdvMinSdkVersion=' + cdvMinSdkVersion)
-        println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
-        println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
-        println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
-        println('cdvBuildArch=' + cdvBuildArch)
-        println('computedVersionCode=' + android.defaultConfig.versionCode)
-        android.productFlavors.each { flavor ->
-            println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
-        }
+task cdvPrintProps << {
+    println('cdvCompileSdkVersion=' + cdvCompileSdkVersion)
+    println('cdvBuildToolsVersion=' + cdvBuildToolsVersion)
+    println('cdvVersionCode=' + cdvVersionCode)
+    println('cdvVersionCodeForceAbiDigit=' + cdvVersionCodeForceAbiDigit)
+    println('cdvMinSdkVersion=' + cdvMinSdkVersion)
+    println('cdvBuildMultipleApks=' + cdvBuildMultipleApks)
+    println('cdvReleaseSigningPropertiesFile=' + cdvReleaseSigningPropertiesFile)
+    println('cdvDebugSigningPropertiesFile=' + cdvDebugSigningPropertiesFile)
+    println('cdvBuildArch=' + cdvBuildArch)
+    println('computedVersionCode=' + android.defaultConfig.versionCode)
+    android.productFlavors.each { flavor ->
+        println('computed' + flavor.name.capitalize() + 'VersionCode=' + flavor.versionCode)
     }
 }
 
@@ -179,11 +173,6 @@ android {
         exclude 'META-INF/ASL2.0'
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
-    }
-
-    dexOptions {
-        javaMaxHeapSize "8G"
-        preDexLibraries = false
     }
 
     defaultConfig {
@@ -202,11 +191,10 @@ android {
     compileSdkVersion cdvCompileSdkVersion
     buildToolsVersion cdvBuildToolsVersion
 
-    // This code exists for Crosswalk and other Native APIs.
-    // By default, we multiply the existing version code in the
-    // Android Manifest by 10 and add a number for each architecture.
-    // If you are not using Crosswalk or SQLite, you can
-    // ignore this chunk of code, and your version codes will be respected.
+    //This code exists for Crosswalk and other Native APIs.
+    //By default, we multiply the existing version code in the Android Manifest by 10 and 
+    //add a number for each architecture.  If you are not using Crosswalk or SQLite, you can
+    //ignore this chunk of code, and your version codes will be respected.
 
     if (Boolean.valueOf(cdvBuildMultipleApks)) {
         flavorDimensions "default"
@@ -272,7 +260,6 @@ android {
         }
         addSigningProps(cdvReleaseSigningPropertiesFile, signingConfigs.release)
     }
-
     if (cdvDebugSigningPropertiesFile) {
         addSigningProps(cdvDebugSigningPropertiesFile, signingConfigs.debug)
     }
@@ -289,17 +276,18 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    implementation "com.fasterxml.jackson.core:jackson-databind:2.4.4"
-    implementation "org.greenrobot:eventbus:3.0.0"
-    implementation "com.google.android.gms:play-services-location:15.0.1"
-    implementation "com.android.support:support-v13:28.0.0"
-    implementation "me.leolin:ShortcutBadger:1.1.17@aar"
-    implementation "com.google.firebase:firebase-messaging:17.0.0"
-    implementation "com.google.firebase:firebase-ads:15.0.0"
-    implementation "com.android.support:support-v4:28.0.0"
-    implementation "com.android.support:customtabs:28.0.0"
-    implementation "com.android.support:support-v4:24.1.1+"
-    implementation "com.android.support:support-annotations:28.0.0"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.4.4"
+    compile "org.greenrobot:eventbus:3.0.0"
+    compile "com.google.android.gms:play-services-location:15.0.1"
+    compile "com.android.support:support-v13:28.0.0"
+    compile "me.leolin:ShortcutBadger:1.1.17@aar"
+    compile "com.google.firebase:firebase-messaging:17.0.0"
+    compile "com.google.firebase:firebase-ads:15.0.0"
+    compile "com.android.support:support-v4:27.+"
+    compile "com.android.support:customtabs:28.0.0"
+    compile "com.android.support:support-v4:24.1.1+"
+    compile "com.android.support:support-v4:26.+"
+    compile "com.android.support:support-annotations:28.0.0"
     // SUB-PROJECT DEPENDENCIES END
 }
 

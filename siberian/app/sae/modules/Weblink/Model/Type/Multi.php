@@ -1,15 +1,24 @@
 <?php
 
+/**
+ * Class Weblink_Model_Type_Multi
+ */
 class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 {
 
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
 
+    /**
+     * Weblink_Model_Type_Multi constructor.
+     * @param array $params
+     */
     public function __construct($params = [])
     {
         parent::__construct($params);
         $this->_type_id = 2;
-        return $this;
     }
 
     /**
@@ -20,10 +29,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 
         $in_app_states = [
             [
-                "state" => "links-view",
-                "offline" => false,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'links-view',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $value_id,
                 ],
             ],
         ];
@@ -31,6 +40,9 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $in_app_states;
     }
 
+    /**
+     * @return $this|void
+     */
     public function addLinks()
     {
         $link = new Weblink_Model_Weblink_Link();
@@ -46,30 +58,45 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCoverUrl()
     {
         $cover_path = Application_Model_Application::getImagePath() . $this->getCover();
         $cover_base_path = Application_Model_Application::getBaseImagePath() . $this->getCover();
-        if ($this->getCover() AND file_exists($cover_base_path)) {
+        if ($this->getCover() && file_exists($cover_base_path)) {
             return $cover_path;
         }
         return null;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
     public function getFeaturePaths($option_value)
     {
-        if (!$this->isCacheable()) return [];
+        if (!$this->isCacheable()) {
+            return [];
+        }
 
         $paths = [];
 
-        $paths[] = $option_value->getPath("weblink/mobile_multi/find", ['value_id' => $option_value->getId()], false);
+        $paths[] = $option_value->getPath('weblink/mobile_multi/find', ['value_id' => $option_value->getId()], false);
 
         return $paths;
     }
 
+    /**
+     * @param $option_value
+     * @return array
+     */
     public function getAssetsPaths($option_value)
     {
-        if (!$this->isCacheable()) return [];
+        if (!$this->isCacheable()) {
+            return [];
+        }
 
         $paths = [];
 
@@ -78,6 +105,11 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $paths;
     }
 
+    /**
+     * @param $option_value
+     * @param $design
+     * @param $category
+     */
     public function createDummyContents($option_value, $design, $category)
     {
 
@@ -120,6 +152,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         }
     }
 
+    /**
+     * @param $option
+     * @return $this
+     */
     public function copyTo($option)
     {
 

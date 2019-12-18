@@ -15,8 +15,7 @@ class Topic_Model_Category extends Core_Model_Default
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Topic_Model_Db_Table_Category";
-        return $this;
+        $this->_db_table = Topic_Model_Db_Table_Category::class;
     }
 
     /**
@@ -48,10 +47,12 @@ class Topic_Model_Category extends Core_Model_Default
 
     /**
      * @param $topic_id
-     * @return mixed
+     * @return int
      */
-    public function getMaxPosition($topic_id)
+    public function getMaxPosition($topic_id): int
     {
-        return $this->getTable()->getMaxPosition($topic_id);
+        $position = $this->getTable()->getMaxPosition($topic_id);
+
+        return is_numeric($position) ? $position : 0;
     }
 }

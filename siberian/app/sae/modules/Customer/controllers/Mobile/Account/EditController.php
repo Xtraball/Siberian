@@ -1,10 +1,18 @@
 <?php
 
 use Siberian\Account;
+use Siberian\Hook;
+use Siberian\Exception;
 
+/**
+ * Class Customer_Mobile_Account_EditController
+ */
 class Customer_Mobile_Account_EditController extends Application_Controller_Mobile_Default
 {
-
+    /**
+     * @throws Zend_Session_Exception
+     * @throws \rock\sanitize\SanitizeException
+     */
     public function findAction()
     {
 
@@ -53,9 +61,13 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
     }
 
+    /**
+     * @throws Zend_Json_Exception
+     * @throws Zend_Session_Exception
+     * @throws Zend_Validate_Exception
+     */
     public function postAction()
     {
-
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             $customer = $this->getSession()->getCustomer();
@@ -88,17 +100,25 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                     $dummy = new Customer_Model_Customer();
                     $dummy->find(['nickname' => $data['nickname'], "app_id" => $this->getApplication()->getId()]);
 
-                    if ($dummy->getId() AND $dummy->getId() != $customer->getId()) {
+                    if ($dummy->getId() && $dummy->getId() != $customer->getId()) {
                         throw new Exception(__('We are sorry but this nickname is already used.'));
                     }
                 }
 
-                if (empty($data['show_in_social_gaming'])) $data['show_in_social_gaming'] = 0;
+                if (empty($data['show_in_social_gaming'])) {
+                    $data['show_in_social_gaming'] = 0;
+                }
 
-                if ($data['show_in_social_gaming'] != $customer->getShowInSocialGaming()) $clearCache = true;
+                if ($data['show_in_social_gaming'] != $customer->getShowInSocialGaming()) {
+                    $clearCache = true;
+                }
 
-                if (isset($data['id'])) unset($data['id']);
-                if (isset($data['customer_id'])) unset($data['customer_id']);
+                if (isset($data['id'])) {
+                    unset($data['id']);
+                }
+                if (isset($data['customer_id'])) {
+                    unset($data['customer_id']);
+                }
 
                 if ($data['delete_avatar'] === true) {
                     $path = $customer->getFullImagePath();
@@ -139,11 +159,13 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                     }
                 }
 
-                $password = "";
+                $password = '';
                 if (($data['change_password'] == true) && !empty($data['password'])) {
 
-                    if (empty($data['old_password']) OR (!empty($data['old_password']) AND !$customer->isSamePassword($data['old_password']))) {
-                        throw new Exception(__("The old password does not match the entered password."));
+                    if (empty($data['old_password']) ||
+                        (!empty($data['old_password']) &&
+                            !$customer->isSamePassword($data['old_password']))) {
+                        throw new Exception(__('The old password does not match the entered password.'));
                     }
 
                     $password = $data['password'];
@@ -152,18 +174,27 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $customer->setData($data);
                 if (!empty($password)) {
                     $customer->setPassword($password);
+                    Hook::trigger('mobile.customer.changePassword.success', [
+                        'appId' => $this->getApplication()->getId(),
+                        'customerId' => $customer->getId(),
+                        'customer' => $customer,
+                        'newPassword' => $password,
+                        'token' => Zend_Session::getId(),
+                        'type' => 'account'
+                    ]);
+
                 }
-                if (!empty($data["metadatas"])) {
-                    $customer->setMetadatas($data["metadatas"]);
+                if (!empty($data['metadatas'])) {
+                    $customer->setMetadatas($data['metadatas']);
                 }
 
                 // New mobile account hooks/forms
-                if (array_key_exists("extendedFields", $data)) {
+                if (array_key_exists('extendedFields', $data)) {
                     Account::saveFields([
-                        "application" => $this->getApplication(),
-                        "request" => $this->getRequest(),
-                        "session" => $this->getSession(),
-                    ], $data["extendedFields"]);
+                        'application' => $this->getApplication(),
+                        'request' => $this->getRequest(),
+                        'session' => $this->getSession(),
+                    ], $data['extendedFields']);
                 }
 
                 $customer->save();
@@ -171,24 +202,24 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
                 $currentCustomer = Customer_Model_Customer::getCurrent();
 
-                $currentCustomer["extendedFields"] = Account::getFields([
-                    "application" => $this->getApplication(),
-                    "request" => $this->getRequest(),
-                    "session" => $this->getSession(),
+                $currentCustomer['extendedFields'] = Account::getFields([
+                    'application' => $this->getApplication(),
+                    'request' => $this->getRequest(),
+                    'session' => $this->getSession(),
                 ]);
 
                 $html = [
-                    "success" => 1,
-                    "message" => __("Info successfully saved"),
-                    "clearCache" => $clearCache,
-                    "customer" => $currentCustomer
+                    'success' => true,
+                    'message' => __('Info successfully saved'),
+                    'clearCache' => $clearCache,
+                    'customer' => $currentCustomer
                 ];
 
-            } catch (Exception $e) {
-                $html = ['error' => 1, 'message' => $e->getMessage()];
+            } catch (\Exception $e) {
+                $html = ['error' => true, 'message' => $e->getMessage()];
             }
 
-            $this->_sendHtml($html);
+            $this->_sendJson($html);
 
         }
 

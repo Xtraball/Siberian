@@ -1,4 +1,4 @@
-var iossim = require('./src/lib.js');
-iossim.init();
+let iossim = require('./src/lib.js')
+iossim.init()
 
-exports = module.exports = iossim;
+exports = module.exports = iossim

@@ -145,6 +145,7 @@ class Siberian_Form_Element_Text extends Zend_Form_Element_Text {
      */
 	public function setRegex($regexPhp, $regexJs, $error, $empty = false){
 		$regexValidator = new Zend_Validate_Regex(['pattern' => $regexPhp]);
+        $regexValidator->setMessage($error, Zend_Validate_Regex::NOT_MATCH);
 		
 		$this
 			->addvalidator($regexValidator)

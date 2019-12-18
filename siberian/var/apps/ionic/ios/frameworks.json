@@ -4,7 +4,7 @@
     "AudioToolbox.framework": 1,
     "AVFoundation.framework": 2,
     "CoreBluetooth.framework": 1,
-    "CoreLocation.framework": 3,
+    "CoreLocation.framework": 4,
     "CoreMedia.framework": 1,
     "CoreMotion.framework": 1,
     "CoreTelephony.framework": 1,
@@ -23,5 +23,6 @@
     "CFNetwork.framework": 1,
     "ImageIO.framework": 1,
     "Social.framework": 1,
+    "UserNotifications.framework": 1,
     "WebKit.framework": 1
 }

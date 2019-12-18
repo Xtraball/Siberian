@@ -20,7 +20,6 @@
 #import <objc/message.h>
 #import "CDV.h"
 #import "CDVPlugin+Private.h"
-#import "CDVUIWebViewDelegate.h"
 #import "CDVConfigParser.h"
 #import "CDVUserAgentUtil.h"
 #import <AVFoundation/AVFoundation.h>
@@ -343,9 +342,9 @@
             }
         }
     }];
-    
+
     // /////////////////
-    
+
     NSString* bgColorString = [self.settings cordovaSettingForKey:@"BackgroundColor"];
     UIColor* bgColor = [self colorFromColorString:bgColorString];
     [self.webView setBackgroundColor:bgColor];
@@ -405,16 +404,16 @@
     if (!colorString) {
         return nil;
     }
-    
+
     // Validate format
     NSError* error = NULL;
     NSRegularExpression* regex = [NSRegularExpression regularExpressionWithPattern:@"^(#[0-9A-F]{3}|(0x|#)([0-9A-F]{2})?[0-9A-F]{6})$" options:NSRegularExpressionCaseInsensitive error:&error];
     NSUInteger countMatches = [regex numberOfMatchesInString:colorString options:0 range:NSMakeRange(0, [colorString length])];
-    
+
     if (!countMatches) {
         return nil;
     }
-    
+
     // #FAB to #FFAABB
     if ([colorString hasPrefix:@"#"] && [colorString length] == 4) {
         NSString* r = [colorString substringWithRange:NSMakeRange(1, 1)];
@@ -422,22 +421,22 @@
         NSString* b = [colorString substringWithRange:NSMakeRange(3, 1)];
         colorString = [NSString stringWithFormat:@"#%@%@%@%@%@%@", r, r, g, g, b, b];
     }
-    
+
     // #RRGGBB to 0xRRGGBB
     colorString = [colorString stringByReplacingOccurrencesOfString:@"#" withString:@"0x"];
-    
+
     // 0xRRGGBB to 0xAARRGGBB
     if ([colorString hasPrefix:@"0x"] && [colorString length] == 8) {
         colorString = [@"0xFF" stringByAppendingString:[colorString substringFromIndex:2]];
     }
-    
+
     // 0xAARRGGBB to int
     unsigned colorValue = 0;
     NSScanner *scanner = [NSScanner scannerWithString:colorString];
     if (![scanner scanHexInt:&colorValue]) {
         return nil;
     }
-    
+
     // int to UIColor
     return [UIColor colorWithRed:((float)((colorValue & 0x00FF0000) >> 16))/255.0
                            green:((float)((colorValue & 0x0000FF00) >>  8))/255.0
@@ -480,9 +479,9 @@
 }
 
 // CB-12098
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000  
-- (NSUInteger)supportedInterfaceOrientations  
-#else  
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
+- (NSUInteger)supportedInterfaceOrientations
+#else
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 #endif
 {
@@ -601,16 +600,6 @@
     // Release any cached data, images, etc. that aren't in use.
 }
 
-- (void)viewDidUnload
-{
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
-
-    [super viewDidUnload];
-}
-
 #pragma mark CordovaCommands
 
 - (void)registerPlugin:(CDVPlugin*)plugin withClassName:(NSString*)className
@@ -662,6 +651,12 @@
     id obj = [self.pluginObjects objectForKey:className];
     if (!obj) {
         obj = [[NSClassFromString(className)alloc] initWithWebViewEngine:_webViewEngine];
+        if (!obj) {
+            NSString* fullClassName = [NSString stringWithFormat:@"%@.%@",
+                                       NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"],
+                                       className];
+            obj = [[NSClassFromString(fullClassName)alloc] initWithWebViewEngine:_webViewEngine];
+        }
 
         if (obj != nil) {
             [self registerPlugin:obj withClassName:className];
@@ -720,12 +715,33 @@
     }
 }
 
+- (bool)isUrlEmpty:(NSURL *)url
+{
+    if (!url || (url == (id) [NSNull null])) {
+        return true;
+    }
+    NSString *urlAsString = [url absoluteString];
+    return (urlAsString == (id) [NSNull null] || [urlAsString length]==0 || [urlAsString isEqualToString:@"about:blank"]);
+}
+
+- (bool)checkAndReinitViewUrl
+{
+    NSURL* appURL = [self appUrl];
+    if ([self isUrlEmpty: [self.webViewEngine URL]] && ![self isUrlEmpty: appURL]) {
+        NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+        [self.webViewEngine loadRequest:appReq];
+        return true;
+    }
+    return false;
+}
+
 /*
  This method is called to let your application know that it is about to move from the active to inactive state.
  You should use this method to pause ongoing tasks, disable timer, ...
  */
 - (void)onAppWillResignActive:(NSNotification*)notification
 {
+    [self checkAndReinitViewUrl];
     // NSLog(@"%@",@"applicationWillResignActive");
     [self.commandDelegate evalJs:@"cordova.fireDocumentEvent('resign');" scheduledOnRunLoop:NO];
 }
@@ -737,20 +753,24 @@
  */
 - (void)onAppWillEnterForeground:(NSNotification*)notification
 {
+    [self checkAndReinitViewUrl];
     // NSLog(@"%@",@"applicationWillEnterForeground");
     [self.commandDelegate evalJs:@"cordova.fireDocumentEvent('resume');"];
 
-    /** Clipboard fix **/
-    UIPasteboard* pasteboard = [UIPasteboard generalPasteboard];
-    NSString* string = pasteboard.string;
-    if (string) {
-        [pasteboard setValue:string forPasteboardType:@"public.text"];
+    if (!IsAtLeastiOSVersion(@"11.0")) {
+        /** Clipboard fix **/
+        UIPasteboard* pasteboard = [UIPasteboard generalPasteboard];
+        NSString* string = pasteboard.string;
+        if (string) {
+            [pasteboard setValue:string forPasteboardType:@"public.text"];
+        }
     }
 }
 
 // This method is called to let your application know that it moved from the inactive to active state.
 - (void)onAppDidBecomeActive:(NSNotification*)notification
 {
+    [self checkAndReinitViewUrl];
     // NSLog(@"%@",@"applicationDidBecomeActive");
     [self.commandDelegate evalJs:@"cordova.fireDocumentEvent('active');"];
 }
@@ -761,6 +781,7 @@
  */
 - (void)onAppDidEnterBackground:(NSNotification*)notification
 {
+    [self checkAndReinitViewUrl];
     // NSLog(@"%@",@"applicationDidEnterBackground");
     [self.commandDelegate evalJs:@"cordova.fireDocumentEvent('pause', null, true);" scheduledOnRunLoop:NO];
 }
@@ -774,6 +795,11 @@
     [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
     [_commandQueue dispose];
     [[self.pluginObjects allValues] makeObjectsPerformSelector:@selector(dispose)];
+
+    [self.webViewEngine loadHTMLString:@"about:blank" baseURL:nil];
+    [self.pluginObjects removeAllObjects];
+    [self.webView removeFromSuperview];
+    self.webViewEngine = nil;
 }
 
 - (NSInteger*)userAgentLockToken

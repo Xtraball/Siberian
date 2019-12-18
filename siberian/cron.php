@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.16.7
+ * @version 4.18.3
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -21,28 +21,28 @@ function dbg()
     $args = func_get_args();
     foreach ($args as $arg) {
         file_put_contents(
-            '/tmp/debug.log',
-            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            __DIR__ . '/var/tmp/debug.log',
+            date('d/m/Y H:i:s') . ': ' . print_r($arg, true) . PHP_EOL,
             FILE_APPEND);
     }
 }
 
 require_once './config.php';
 
-if (isset($argv) && isset($argv[1]) && ($argv[1] == 'test')) {
+if (isset($argv) && isset($argv[1]) && ($argv[1] === 'test')) {
     die('OK');
 }
 
 if (
     (isset($_ENV['SHELL']) && !empty($_ENV['SHELL'])) ||
     (isset($_SERVER['SHELL']) && !empty($_SERVER['SHELL'])) ||
-    php_sapi_name() == 'cli'
+    php_sapi_name() === 'cli'
 ) {
     # Continue
 } else {
     if (isset($_GET['cron_secret']) &&
         isset($_config['cron_secret']) &&
-        ($_GET['cron_secret'] == $_config['cron_secret'])) {
+        ($_GET['cron_secret'] === $_config['cron_secret'])) {
         # Continue
     } else {
         die('You must run from CLI.' . PHP_EOL);
@@ -54,7 +54,7 @@ define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 define('APPLICATION_ENV', $_config['environment']);
 
 set_include_path(implode(PATH_SEPARATOR, [
-    realpath(APPLICATION_PATH . '/../lib'),
+    dirname(APPLICATION_PATH) . '/lib',
 ]));
 
 require_once 'Zend/Application.php';
@@ -107,17 +107,31 @@ if (version_compare(PHP_VERSION, '5.6.0') < 0) {
     die('PHP >=5.6 is required.\n');
 }
 
+if (version_compare(PHP_VERSION, '7.0') < 0) {
+    $description = 'PHP version >= 7.0 is required for the cron scheduler to run correctly, your php-cli version is ' .
+        PHP_VERSION . '.';
+
+    $notification = new Backoffice_Model_Notification();
+    $notification
+        ->setTitle(__('Alert: PHP version >= 7.0 is required for the cron scheduler to run correctly'))
+        ->setDescription(__($description))
+        ->setSource('cron')
+        ->setType('alert')
+        ->setIsHighPriority(1)
+        ->setObjectType('cron_scheduler')
+        ->setObjectId('4242')
+        ->save();
+}
+
 $cron = new Siberian_Cron();
 if (isset($argv) && isset($argv[1]) && ($argv[1] === 'runcommand')) {
     if (isset($argv[2])) {
         $cron->runTaskByCommand($argv[2]);
         die('Execution done.' . PHP_EOL);
-    } else {
-        die('Missing command name.' . PHP_EOL);
     }
-} else {
-    $cron->triggerAll();
+    die('Missing command name.' . PHP_EOL);
 }
+$cron->triggerAll();
 
 /** Highly experimental, may increase server load. */
 if ($interval !== false) {

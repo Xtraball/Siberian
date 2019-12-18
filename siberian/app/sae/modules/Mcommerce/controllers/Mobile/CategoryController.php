@@ -1,10 +1,15 @@
 <?php
 
-class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_Default {
+/**
+ * Class Mcommerce_Mobile_CategoryController
+ */
+class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_Default
+{
 
-    public function findallAction() {
+    public function findallAction()
+    {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = $this->getRequest()->getParam('value_id')) {
 
             try {
 
@@ -13,17 +18,19 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
                 $offset = $this->getRequest()->getParam('offset', 0);
 
-                if($category_id) {
+                if ($category_id) {
                     $current_category->find($category_id, 'category_id');
                 }
 
                 $object = $this->getCurrentOptionValue()->getObject();
 
-                if(!$object->getId() OR ($current_category->getId() AND $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
-                    throw new Exception($this->_('An error occurred during process. Please try again later.'));
+                if (!$object->getId() ||
+                    ($current_category->getId() &&
+                        $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
+                    throw new Exception(__('An error occurred during process. Please try again later.'));
                 }
 
-                if(!$current_category->getId()) {
+                if (!$current_category->getId()) {
                     $current_category = $object->getRootCategory();
                 }
 
@@ -31,11 +38,11 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
                 $subcategories = $current_category->getChildren($offset);
 
-                foreach($subcategories as $subcategory) {
+                foreach ($subcategories as $subcategory) {
                     $data["collection"][] = [
                         "title" => $subcategory->getTitle(),
                         "subtitle" => $subcategory->getSubtitle(),
-                        "picture" => $subcategory->getPictureUrl() ? $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() : null,
+                        "picture" => $subcategory->getPictureUrl() ? $this->getRequest()->getBaseUrl() . $subcategory->getPictureUrl() : null,
                         "url" => $this->getPath("mcommerce/mobile_category", ["value_id" => $value_id, "category_id" => $subcategory->getId()])
                     ];
                 }
@@ -47,13 +54,13 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
                 $current_store = $this->getStore();
 
-                foreach($products as $product) {
+                foreach ($products as $product) {
 
                     $taxRate = $current_store->getTax($product->getTaxId())->getRate();
 
                     $picture = null;
-                    if($image = $product->getLibraryPictures(false)) {
-                        $picture = $this->getRequest()->getBaseUrl().$image["url"];
+                    if ($image = $product->getLibraryPictures(false)) {
+                        $picture = $this->getRequest()->getBaseUrl() . $image["url"];
                     }
 
                     $productPrice = $product->getPrice();
@@ -69,27 +76,30 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
                 $mcommerce = new Mcommerce_Model_Mcommerce();
                 $mcommerce->find(["value_id" => $value_id]);
-                if($mcommerce->getId()) {
-                    if($mcommerce->getShowSearch() == 1 ) {
+                if ($mcommerce->getId()) {
+                    if ($mcommerce->getShowSearch() == 1) {
                         $data["show_search"] = 1;
                     }
                 }
 
                 $data["cover"] = [
-                    "title" => $this->_($current_category->getTitle()),
+                    "title" => __($current_category->getTitle()),
                     "subtitle" => $current_category->getSubtitle(),
-                    "picture" => $current_category->getPictureUrl() ? $this->getRequest()->getBaseUrl().$current_category->getPictureUrl() : null
+                    "picture" => $current_category->getPictureUrl() ? $this->getRequest()->getBaseUrl() . $current_category->getPictureUrl() : null
                 ];
 
-                $data["page_title"] = $this->_($current_category->getTitle());
+                $data["page_title"] = __($current_category->getTitle());
                 $data["displayed_per_page"] = Folder_Model_Category::DISPLAYED_PER_PAGE;
 
-            }
-            catch(Exception $e) {
-                $data = ['error' => 1, 'message' => $e->getMessage()];
+            } catch (Exception $e) {
+                $data = [
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                    'debug' => $e->getTrace()
+                ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

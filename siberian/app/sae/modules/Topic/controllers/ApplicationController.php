@@ -13,34 +13,34 @@ class Topic_ApplicationController extends Application_Controller_Default
      * @var array
      */
     public $cache_triggers = [
-        "save" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'save' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
-        "editcategory" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'editcategory' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
-        "editpostcategory" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'editpostcategory' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
-        "editdescription" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'editdescription' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
-        "delete" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'delete' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
-        "order" => [
-            "tags" => [
-                "homepage_app_#APP_ID#"
+        'order' => [
+            'tags' => [
+                'homepage_app_#APP_ID#'
             ],
         ],
     ];
@@ -49,15 +49,18 @@ class Topic_ApplicationController extends Application_Controller_Default
         try {
             if($data = $this->getRequest()->getPost()) {
 
-                if(empty($data['name'])) throw new Exception(__('Please, fill out all fields'));
+                if (empty($data['name'])) {
+                    throw new Exception(__('Please, fill out all fields'));
+                }
 
                 $topic = $this->getCurrentOptionValue()->getObject();
                 if(!$topic->getId()) {
                     throw new Exception(__('An error occurred while saving. Please try again later.'));
                 }
 
-                $topic->setName($datas['name'])
-                    ->setDescription($datas['description'])
+                $topic
+                    ->setName($data['name'])
+                    ->setDescription($data['description'])
                     ->save()
                 ;
 
@@ -408,8 +411,8 @@ class Topic_ApplicationController extends Application_Controller_Default
     public function importCsv($optionValue, $topic, $path)
     {
         try {
-            $csvResource = fopen($path, "r");
-            $headers = fgetcsv($csvResource, 1024, ";", '"');
+            $csvResource = fopen($path, 'rb');
+            $headers = fgetcsv($csvResource, 1024, ';', '"');
 
             $hasTitle = false;
             $hasDescription = false;
@@ -418,35 +421,35 @@ class Topic_ApplicationController extends Application_Controller_Default
             $descriptionIndex = 0;
             $pictureIndex = 0;
             foreach ($headers as $index => $header) {
-                if ($header === "title") {
+                if ($header === 'title') {
                     $titleIndex = $index;
                     $hasTitle = true;
                 }
 
-                if ($header === "description") {
+                if ($header === 'description') {
                     $descriptionIndex = $index;
                     $hasDescription = true;
                 }
 
-                if ($header === "picture") {
+                if ($header === 'picture') {
                     $pictureIndex = $index;
                     $hasPicture = true;
                 }
             }
 
             if (!$hasTitle && !$hasDescription) {
-                throw new Exception(p__("`title` and `description` are missing."));
+                throw new Exception(p__('topic', '`title` and `description` are missing.'));
             }
             if (!$hasTitle) {
-                throw new Exception(p__("`title` is missing."));
+                throw new Exception(p__('topic', '`title` is missing.'));
             }
             if (!$hasDescription) {
-                throw new Exception(p__("`description` is missing."));
+                throw new Exception(p__('topic', '`description` is missing.'));
             }
 
             $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
 
-            while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
+            while ($line = fgetcsv($csvResource, 1024, ';', '"')) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory
                     ->setTopicId($topic->getId())
@@ -463,7 +466,8 @@ class Topic_ApplicationController extends Application_Controller_Default
             }
             fclose($csvResource);
         } catch (\Exception $e) {
-            throw new Exception(p__("topic", "The imported CSV file is invalid '%s'.", null, $e->getMessage()));
+            throw new Exception(p__('topic',
+                "The imported CSV file is invalid '%s'.", null, $e->getMessage()));
         }
     }
 
@@ -481,6 +485,7 @@ class Topic_ApplicationController extends Application_Controller_Default
             $categories = Json::decode($jsonResource);
 
             $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+
             foreach ($categories as $category) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory

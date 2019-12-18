@@ -18,12 +18,12 @@
       "git": "git@github.com:Xtraball/cordova-admob-pro.git",
       "branch": "siberian"
     },
-    "AppEvent": {
-      "git": "git@github.com:Xtraball/cordova-plugin-app-event.git",
-      "branch": "siberian"
-    },
     "AppVersion": {
       "git": "git@github.com:Xtraball/cordova-plugin-app-version.git",
+      "branch": "siberian"
+    },
+    "Badge": {
+      "git": "git@github.com:Xtraball/cordova-plugin-badge.git",
       "branch": "siberian"
     },
     "BarcodeScanner": {
@@ -80,10 +80,10 @@
     },
     "IonicWebview": {
       "git": "git@github.com:Xtraball/IonicWebview.git",
-      "branch": "master"
+      "branch": "siberian"
     },
     "Keyboard": {
-      "git": "git@github.com:Xtraball/ionic-plugin-keyboard.git",
+      "git": "git@github.com:Xtraball/cordova-plugin-ionic-keyboard.git",
       "branch": "siberian"
     },
     "LocalNotification": {
@@ -96,7 +96,7 @@
     },
     "Navigator": {
       "git": "git@github.com:Xtraball/cordova-navigator.git",
-      "branch": "master"
+      "branch": "siberian"
     },
     "OfflineMode": {
       "git": "git@github.com:Xtraball/siberian-plugin-offlinemode.git",

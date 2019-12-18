@@ -1,136 +1,137 @@
 <?php
 
-class Mcommerce_Application_Settings_TaxController extends Application_Controller_Default_Ajax {
+use Siberian\Exception;
 
-    public function editAction() {
+use Mcommerce_Model_Tax as Tax;
+use Mcommerce\Form\Tax as FormTax;
+use Mcommerce\Form\Tax\Delete as FormTaxDelete;
 
-        $tax = new Mcommerce_Model_Tax();
-        $mcommerce = $this->getCurrentOptionValue()->getObject();
-        if($id = $this->getRequest()->getParam('tax_id')) {
-            $tax->find($id);
-            if($tax->getId() AND $mcommerce->getId() != $tax->getMcommerceId()) {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
-            }
-        }
+class Mcommerce_Application_Settings_TaxController extends Application_Controller_Default_Ajax
+{
+    /**
+     * @var array
+     */
+    public $cache_triggers = [
+        'edit-post' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ],
+        'delete-post' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ]
+    ];
 
-        $html = $this->getLayout()->addPartial('tax_form', 'admin_view_default', 'mcommerce/application/edit/settings/tax/edit.phtml')
-            ->setOptionValue($this->getCurrentOptionValue())
-            ->setCurrentTax($tax)
-            ->toHtml();
-
-        $html = ['form_html' => $html];
-
-        $this->_sendHtml($html);
-    }
-
-    public function editpostAction() {
-
-
-        if($datas = $this->getRequest()->getPost()) {
-
-            try {
-
-                $rate = isset($datas['rate']) ? $datas['rate'] : null;
-
-                if(is_null($rate)) {
-                    throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                }
-
-                $datas['rate'] = $rate;
-                $isNew = false;
-                $mcommerce = $this->getCurrentOptionValue()->getObject();
-                $tax = new Mcommerce_Model_Tax();
-                if(!empty($datas['tax_id'])) {
-                    $tax->find($datas['tax_id']);
-                    if($tax->getId() AND $mcommerce->getId() != $tax->getMcommerceId()) {
-                        throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                    }
-                }
-
-                if(!$tax->getId()) {
-                    $datas['mcommerce_id'] = $mcommerce->getId();
-                    $isNew = true;
-                }
-
-                $tax->setData($datas)->save();
-
-                $html = [
-                    'tax_id' => $tax->getId(),
-                    'success' => '1',
-                    'success_message' => $this->_('Tax successfully saved'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                ];
-
-                if($isNew) {
-                    $html['row_html'] = $this->getLayout()->addPartial('row_tax_'.$tax->getId(), 'admin_view_default', 'mcommerce/application/edit/settings/tax/li.phtml')
-                        ->setCurrentOptionValue($this->getCurrentOptionValue())
-                        ->setCurrentTax($tax)
-                        ->toHtml()
-                    ;
-
-                }
-                else {
-                    $html['tax_name'] = $tax->getName();
-                }
-
-            }
-            catch(Exception $e) {
-                $html = [
-                    'error' => 1,
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                ];
-            }
-
-            $this->_sendHtml($html);
-
-        }
-
-    }
-
-    public function removeAction() {
-
-        $tax = new Mcommerce_Model_Tax();
-
+    /**
+     *
+     */
+    public function loadFormAction()
+    {
         try {
-            if($id = $this->getRequest()->getParam('tax_id')) {
+            $request = $this->getRequest();
+            $storeTaxId = $request->getParam('tax_id', null);
+            $optionValue = $this->getCurrentOptionValue();
 
-                $mcommerce = $this->getCurrentOptionValue()->getObject();
-                $tax->find($id);
-                if(!$tax->getId() OR $mcommerce->getId() != $tax->getMcommerceId()) {
-                    throw new Exception($this->_('An error occurred during the process. Please try again later.'));
-                }
+            $tax = (new Tax())->find($storeTaxId);
 
-                $tax->setIsDeleted(1)->save();
-
-                $html = [
-                    'tax_id' => $tax->getId(),
-                    'success' => '1',
-                    'success_message' => $this->_('Tax successfully deleted'),
-                    'message_timeout' => 2,
-                    'message_button' => 0,
-                    'message_loader' => 0
-                ];
-
+            if (!$tax->getId()) {
+                throw new Exception(p__('m_commerce', "This tax doesn't exists!"));
             }
-            else {
-                throw new Exception($this->_('An error occurred during the process. Please try again later.'));
-            }
-        }
-        catch(Exception $e) {
-            $html = [
-                'error' => 1,
+
+            $form = new FormTax();
+            $form->populate($tax->getData());
+            $form->removeNav('nav_tax_form');
+            $form->addNav('nav_tax_form_edit', 'Save', false);
+            $form->setTaxId($tax->getId());
+
+            $payload = [
+                'success' => true,
+                'form' => $form->render(),
+                'message' => __('Success.'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
                 'message' => $e->getMessage(),
-                'message_button' => 1,
-                'message_loader' => 1
             ];
         }
 
-        $this->_sendHtml($html);
-
+        $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
+    public function editPostAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $values = $request->getPost();
+
+            if (empty($values)) {
+                throw new Exception(p__('m_commerce', 'Missing params.'));
+            }
+
+            $form = new FormTax();
+            if ($form->isValid($values)) {
+                /** Do whatever you need when form is valid */
+                $tax = new Tax();
+                $tax->find($values['tax_id']);
+                $tax
+                    ->addData($values)
+                    ->save();
+
+                $payload = [
+                    'success' => true,
+                    'message' => __('Success.'),
+                ];
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Delete tax
+     */
+    public function deletePostAction()
+    {
+        $request = $this->getRequest();
+        $values = $request->getPost();
+
+        $form = new FormTaxDelete();
+        if ($form->isValid($values)) {
+            $tax = new Tax();
+            $tax->find($values['tax_id']);
+            $tax->delete();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('m_commerce', 'Tax deleted.'),
+            ];
+        } else {
+            $payload = [
+                'error' => true,
+                'message' => $form->getTextErrors(),
+                'errors' => $form->getTextErrors(true),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
 }
