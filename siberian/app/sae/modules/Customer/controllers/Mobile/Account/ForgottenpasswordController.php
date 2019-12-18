@@ -1,66 +1,103 @@
 <?php
 
+use Siberian\Hook;
+use Siberian\Exception;
+use Siberian\Mail;
+
+/**
+ * Class Customer_Mobile_Account_ForgottenpasswordController
+ */
 class Customer_Mobile_Account_ForgottenpasswordController extends Application_Controller_Mobile_Default
 {
+    /**
+     * @return $this
+     * @throws Zend_Json_Exception
+     */
+    public function postAction()
+    {
+        $request = $this->getRequest();
+        $application = $this->getApplication();
+        $appId = $application->getId();
 
-    public function postAction() {
+        try {
+            $data = $request->getBodyParams();
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            Hook::trigger('mobile.forgotpassword', [
+                'appId' => $appId,
+                'request' => $request,
+                'type' => 'account'
+            ]);
 
-            try {
-
-                if(empty($data['email'])) throw new Exception(__('Please enter your email address'));
-                if(!Zend_Validate::is($data['email'], 'EmailAddress')) throw new Exception(__('Please enter a valid email address'));
-
-                $customer = new Customer_Model_Customer();
-                $customer->find(array('email' => $data['email'], "app_id" => $this->getApplication()->getId()));
-
-                if(!$customer->getId()) {
-                    throw new Exception("Your email address does not exist");
-                }
-
-                $admin_email = null;
-                $password = Core_Model_Lib_String::generate(8);
-                $contact = new Contact_Model_Contact();
-                $contact_page = $this->getApplication()->getPage('contact');
-                if($contact_page->getId()) {
-                    $contact->find($contact_page->getId(), 'value_id');
-                    $admin_email = $contact->getEmail();
-                }
-
-                $customer->setPassword($password)->save();
-
-                //$sender = 'no-reply@'.Core_Model_Lib_String::format($this->getApplication()->getName(), true).'.com';
-                $layout = $this->getLayout()->loadEmail('customer', 'forgot_password');
-                $layout->getPartial('content_email')->setCustomer($customer)->setPassword($password)->setAdminEmail($admin_email)->setApp($this->getApplication()->getName());
-                $content = $layout->render();
-
-                # @version 4.8.7 - SMTP
-                $mail = new Siberian_Mail();
-                $mail->setBodyHtml($content);
-                //$mail->setFrom($sender, $this->getApplication()->getName());
-                $mail->addTo($customer->getEmail(), $customer->getName());
-                $mail->setSubject(__('%s - Your new password', $this->getApplication()->getName()));
-                $mail->send();
-
-                $html = array(
-                    "success" => 1,
-                    "message" => __("Your new password has been sent to the entered email address")
-                );
-
+            if (empty($data['email'])) {
+                throw new Exception(__('Please enter your email address'));
             }
-            catch(Exception $e) {
-                $html = array(
-                    'error' => 1,
-                    'message' => $e->getMessage()
-                );
+            if (!Zend_Validate::is($data['email'], 'EmailAddress')) {
+                throw new Exception(__('Please enter a valid email address'));
             }
 
-            $this->_sendHtml($html);
+            $customer = (new Customer_Model_Customer())->find([
+                'email' => $data['email'],
+                'app_id' => $appId
+            ]);
 
+            if (!$customer->getId()) {
+                throw new Exception(__('Your email address does not exist'));
+            }
+
+            $adminEmail = null;
+            $password = Core_Model_Lib_String::generate(8);
+            $contact = new Contact_Model_Contact();
+            $contactPage = $this->getApplication()->getPage('contact');
+            if ($contactPage && $contactPage->getId()) {
+                $contact->find($contactPage->getId(), 'value_id');
+                $adminEmail = $contact->getEmail();
+            }
+
+            $customer->setPassword($password)->save();
+
+            $layout = $this->getLayout()->loadEmail('customer', 'forgot_password');
+            $layout
+                ->getPartial('content_email')
+                ->setCustomer($customer)
+                ->setPassword($password)
+                ->setAdminEmail($adminEmail)
+                ->setApp($application->getName());
+            $content = $layout->render();
+
+            $mail = new Mail();
+            $mail->setBodyHtml($content);
+            $mail->addTo($customer->getEmail(), $customer->getName());
+            $mail->setSubject(__('%s - Your new password', $application->getName()));
+            $mail->send();
+
+            Hook::trigger('mobile.forgotpassword.success', [
+                'appId' => $appId,
+                'customerId' => $customer->getId(),
+                'customer' => $customer,
+                'newPassword' => $password,
+                'token' => Zend_Session::getId(),
+                'type' => 'account'
+            ]);
+
+            $payload = [
+                'success' => true,
+                'message' => __('Your new password has been sent to the entered email address')
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+
+            Hook::trigger('mobile.forgotpassword.error', [
+                'appId' => $appId,
+                'message' => $e->getMessage(),
+                'type' => 'account',
+                'request' => $request,
+            ]);
         }
 
-        return $this;
+        $this->_sendJson($payload);
     }
 
 }
