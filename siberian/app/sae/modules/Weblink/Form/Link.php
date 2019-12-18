@@ -39,6 +39,7 @@ class Link extends FormAbstract
         $title->setRequired(true);
 
         $url = $this->addSimpleText('url', p__('weblink', 'URL'));
+        $url->setRegex('/.*:\/\/.*/i', '/.*:\/\/.*/i', p__('weblink', 'The URL must contain a protocol: https://, ftp://, etc...'));
         $url->setRequired(true);
 
         $this->addSimpleCheckbox('external_browser', p__('weblink', 'Open in external browser'));
