@@ -10,7 +10,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
         TIMEOUT: 3,
-        debug: true,
+        debug: false,
         lastFetch: null,
         position: null,
         isEnabled: true,
@@ -26,9 +26,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
     service.getLocation = function (config, force) {
         var deferred = $q.defer();
         var isResolved = false;
-
         var localForce = (force !== undefined);
-
         var localConfig = angular.extend({
             enableHighAccuracy: true,
             timeout: 10000,
@@ -54,11 +52,12 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                     deferred.resolve(service.position);
                 }
             }, function (error) {
-                console.log("getCurrentPosition, error", error);
                 if (service.debug) {
                     console.log("position ko");
                 }
-                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
+                if (error.code === service.TIMEOUT ||
+                    error.code === service.PERMISSION_DENIED ||
+                    error.code === service.POSITION_UNAVAILABLE) {
                     localReject(deferred);
                 }
                 if (!isResolved) {
