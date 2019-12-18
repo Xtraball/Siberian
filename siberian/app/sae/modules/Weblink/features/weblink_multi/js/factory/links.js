@@ -44,5 +44,14 @@ angular.module("starter").factory("Links", function ($pwaRequest) {
         }, factory.extendedOptions));
     };
 
+    factory.reloadOverview = function () {
+        // enforce fresh content
+        return $pwaRequest.post('weblink/mobile_multi/find', angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            }
+        }, factory.extendedOptions));
+    };
+
     return factory;
 });

@@ -152,11 +152,8 @@ angular.module('starter').provider('HomepageLayout', function () {
                     break;
 
                 case (feature.is_link):
-                    LinkService.openLink(feature.url, {
-                        'hide_navbar': !!feature.hide_navbar,
-                        'use_external_app': !!feature.use_external_app
-                    });
                     Analytics.storePageOpening(feature);
+                    LinkService.openLink(feature.link_url, feature.options, feature.external_browser);
 
                     break;
 

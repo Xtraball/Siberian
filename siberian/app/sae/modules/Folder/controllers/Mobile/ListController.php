@@ -1,16 +1,24 @@
 <?php
 
-class Folder_Mobile_ListController extends Application_Controller_Mobile_Default {
+/**
+ * Class Folder_Mobile_ListController
+ */
+class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
+{
 
-    public function findallv2Action() {
+    /**
+     *
+     */
+    public function findallv2Action()
+    {
 
         try {
             $request = $this->getRequest();
 
-            if($value_id = $request->getParam("value_id")) {
+            if ($value_id = $request->getParam("value_id")) {
 
                 $option = $this->getCurrentOptionValue();
-                if($option) {
+                if ($option) {
                     $option->setRequest($request);
 
                     $payload = $option->getObject()->getEmbedPayload($option);
@@ -20,12 +28,12 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                 throw new Siberian_Exception(__("Missing parameter value_id."));
             }
 
-        } catch(Exception $e) {
+        } catch (Exception $e) {
 
-            $payload = array(
+            $payload = [
                 "error" => true,
                 "message" => $e->getMessage()
-            );
+            ];
 
         }
 
@@ -36,27 +44,29 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
     /**
      * @deprecated in Siberian 5.0
      */
-    public function findallAction() {
+    public function findallAction()
+    {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
+        if ($value_id = $this->getRequest()->getParam('value_id')) {
 
             try {
 
                 $category_id = $this->getRequest()->getParam('category_id');
                 $current_category = new Folder_Model_Category();
 
-                if($category_id) {
+                if ($category_id) {
                     $current_category->find($category_id, 'category_id');
                 }
 
                 $object = $this->getCurrentOptionValue()->getObject();
 
-                if(!$object->getId() OR ($current_category->getId() AND $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
+                if (!$object->getId() OR ($current_category->getId() AND $current_category->getRootCategoryId() != $object->getRootCategoryId())) {
                     throw new Exception(__('An error occurred during process. Please try again later.'));
                 }
 
                 $color_code = 'background';
-                if($this->getApplication()->useIonicDesign()) {
+                if ($this->getApplication()->useIonicDesign()) {
                     $color_code = 'list_item';
                 }
                 $color = $this->getApplication()->getBlock($color_code)->getImageColor();
@@ -71,123 +81,137 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $category->find($folder->getRootCategoryId(), 'category_id');
 
-                $result = array();
+                $result = [];
                 array_push($result, $category);
                 $this->_getAllChildren($category, $result);
 
-                $search_list = array();
+                $search_list = [];
 
-                foreach($result as $folder) {
-                    $search_list[] = array(
+                foreach ($result as $folder) {
+                    $search_list[] = [
                         "name" => $folder->getTitle(),
                         "father_name" => $folder->getFatherName(),
-                        "url" => $this->getPath("folder/mobile_list", array("value_id" => $current_option->getId(), "category_id" => $folder->getId())),
-                        "picture" => $current_option->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($current_option->getIconId(), $color) : null,
+                        "url" => $this->getPath("folder/mobile_list", ["value_id" => $current_option->getId(), "category_id" => $folder->getId()]),
+                        "picture" => $current_option->getIconId() ? $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($current_option->getIconId(), $color) : null,
                         "offline_mode" => $folder->isCacheable(),
                         "type" => "folder"
-                    );
+                    ];
                     $category_option = new Application_Model_Option_Value();
-                    $category_options = $category_option->findAll(array(
+                    $category_options = $category_option->findAll([
                         "app_id" => $this->getApplication()->getId(),
                         "folder_category_id" => $folder->getCategoryId(),
                         "is_visible" => 1,
                         "is_active" => 1
-                    ), array('folder_category_position ASC'));
+                    ], ['folder_category_position ASC']);
 
-                    foreach($category_options as $feature) {
+                    foreach ($category_options as $feature) {
                         /**
-                        START Link special code
-                        We get informations about link at homepage level
+                         * START Link special code
+                         * We get informations about link at homepage level
                          */
                         $hide_navbar = false;
                         $use_external_app = false;
-                        if($object_link = $feature->getObject()->getLink() AND is_object($object_link)) {
+                        if ($object_link = $feature->getObject()->getLink() AND is_object($object_link)) {
                             $hide_navbar = $object_link->getHideNavbar();
                             $use_external_app = $object_link->getHideNavbar();
                         }
                         /**
-                        END Link special code
+                         * END Link special code
                          */
-                        $search_list[] = array(
+                        $search_list[] = [
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
-                            "url" => $feature->getPath(null, array('value_id' => $feature->getId()), 'mobile'),
-                            "is_link" => (boolean) !$feature->getIsAjax(),
+                            "url" => $feature->getPath(null, ['value_id' => $feature->getId()], 'mobile'),
+                            "is_link" => (boolean)!$feature->getIsAjax(),
                             "hide_navbar" => $hide_navbar,
                             "use_external_app" => $use_external_app,
-                            "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($feature->getIconId(), $color) : null,
+                            "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($feature->getIconId(), $color) : null,
                             "offline_mode" => $feature->getObject()->isCacheable(),
                             "code" => $feature->getCode(),
                             "type" => "feature",
                             "is_locked" => !!$feature->isLocked()
-                        );
+                        ];
                     }
                 }
 
-                if(!$current_category->getId()) {
+                if (!$current_category->getId()) {
                     $current_category = $object->getRootCategory();
                 }
 
-                $data = array("folders" => array());
+                $data = ["folders" => []];
                 $data["show_search"] = $show_search;
 
                 $subcategories = $current_category->getChildren();
 
-                foreach($subcategories as $subcategory) {
-                    $data["folders"][] = array(
+                foreach ($subcategories as $subcategory) {
+                    $data["folders"][] = [
                         "title" => $subcategory->getTitle(),
                         "subtitle" => $subcategory->getSubtitle(),
                         "picture" => $subcategory->getPictureUrl() ?
-                            $this->getRequest()->getBaseUrl().$subcategory->getPictureUrl() :
-                            $this->getRequest()->getBaseUrl().$this->_getColorizedImage($current_option->getIconId(), $color),
-                        "url" => $this->getPath("folder/mobile_list", array("value_id" => $value_id, "category_id" => $subcategory->getId())),
+                            $this->getRequest()->getBaseUrl() . $subcategory->getPictureUrl() :
+                            $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($current_option->getIconId(), $color),
+                        "url" => $this->getPath("folder/mobile_list", ["value_id" => $value_id, "category_id" => $subcategory->getId()]),
                         "offline_mode" => $current_option->getObject()->isCacheable()
-                    );
+                    ];
                 }
 
                 $pages = $current_category->getPages();
 
-                foreach($pages as $page) {
+                foreach ($pages as $page) {
                     /**
-                    START Link special code
-                    We get informations about link at homepage level
+                     * START Link special code
+                     * We get informations about link at homepage level
                      */
                     $hide_navbar = false;
                     $use_external_app = false;
-                    if($object_link = $page->getObject()->getLink() AND is_object($object_link)) {
+                    if ($object_link = $page->getObject()->getLink() && is_object($object_link)) {
                         $hide_navbar = $object_link->getHideNavbar();
                         $use_external_app = $object_link->getUseExternalApp();
                     }
                     /**
-                    END Link special code
+                     * END Link special code
                      */
-                    $data["folders"][] = array(
+                    $folderBlock = [
                         "title" => $page->getTabbarName(),
                         "subtitle" => "",
-                        "picture" => $page->getIconId() ? $this->getRequest()->getBaseUrl().$this->_getColorizedImage($page->getIconId(), $color) : null,
+                        "picture" => $page->getIconId() ? $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($page->getIconId(), $color) : null,
                         "hide_navbar" => $hide_navbar,
                         "use_external_app" => $use_external_app,
-                        "is_link" => (boolean) !$page->getIsAjax(),
-                        "url" => $page->getPath(null, array('value_id' => $page->getId()), 'mobile'),
+                        "is_link" => (boolean)!$page->getIsAjax(),
+                        "url" => $page->getPath(null, ['value_id' => $page->getId()], 'mobile'),
                         "code" => $page->getCode(),
                         "offline_mode" => $page->getObject()->isCacheable(),
                         "is_locked" => !!$page->isLocked()
-                    );
+                    ];
+
+                    // 4.18.3 link special options!
+                    $object = $page->getObject();
+                    if ($object->getLink() &&
+                        in_array($folderBlock['code'], $linkCodes, false)) {
+
+                        $objectLink = $object->getLink();
+
+                        // post 4.18.3 options
+                        $folderBlock['link_url'] = (string)$objectLink->getData('url');
+                        $folderBlock['external_browser'] = (boolean)$objectLink->getExternalBrowser();
+                        $folderBlock['options'] = $objectLink->getOptions();
+                    }
+
+                    $data['folders'][] = $folderBlock;
                 }
 
-                $data["cover"] = array(
+                $data["cover"] = [
                     "title" => $current_category->getTitle(),
                     "subtitle" => $current_category->getSubtitle(),
-                    "picture" => $current_category->getPictureUrl() ? $this->getRequest()->getBaseUrl().$current_category->getPictureUrl() : null
-                );
+                    "picture" => $current_category->getPictureUrl() ? $this->getRequest()->getBaseUrl() . $current_category->getPictureUrl() : null
+                ];
 
                 $data["search_list"] = $search_list;
 
                 $data["page_title"] = $current_category->getTitle();
 
-            }
-            catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+            } catch (Exception $e) {
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
 
             $this->_sendHtml($data);
@@ -196,9 +220,14 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
     }
 
-    private function _getAllChildren($category, &$tab_children) {
+    /**
+     * @param $category
+     * @param $tab_children
+     */
+    private function _getAllChildren($category, &$tab_children)
+    {
         $children = $category->getChildren();
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $child->setFatherName($category->getTitle());
             array_push($tab_children, $child);
             $this->_getAllChildren($child, $tab_children);

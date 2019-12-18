@@ -84,12 +84,12 @@ angular
 
             // Clear history for side-menu feature!
             switch (Pages.data.layout.position) {
-                case "left":
-                case "right":
+                case 'left':
+                case 'right':
                     $rootScope.$broadcast("sideMenu.close");
 
                     // Skip clear history for specific features:
-                    var isPadlock = (feature.code === "padlock");
+                    var isPadlock = (feature.code === 'padlock');
                     var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
                     var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
 
@@ -105,7 +105,7 @@ angular
             }
 
             switch (true) {
-                case (feature.code === "tabbar_account"):
+                case (feature.code === 'tabbar_account'):
                     Analytics.storePageOpening({
                         id: 0
                     });
@@ -114,7 +114,7 @@ angular
 
                     break;
 
-                case (feature.code === "tabbar_more"):
+                case (feature.code === 'tabbar_more'):
                     HomepageLayout.getFeatures().then(function (features) {
                         scope.tabbar_is_visible = false;
                         scope.pages_list_is_visible = true;
@@ -155,18 +155,15 @@ angular
                     break;
 
                 case (feature.is_link):
-                    LinkService.openLink(feature.url, {
-                        "hide_navbar": !!feature.hide_navbar,
-                        "use_external_app": !!feature.use_external_app
-                    });
                     Analytics.storePageOpening(feature);
+                    LinkService.openLink(feature.link_url, feature.options, feature.external_browser);
 
                     break;
 
                 default:
                     Analytics.storePageOpening(feature);
 
-                    if (!$injector.get("Application").is_customizing_colors &&
+                    if (!$injector.get('Application').is_customizing_colors &&
                         HomepageLayout.properties.options.autoSelectFirst) {
                         if (feature.path !== $location.path()) {
                             if (doClearHistory) {

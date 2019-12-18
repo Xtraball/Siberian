@@ -446,7 +446,7 @@ class Cron
             }
 
             # Releasing
-            $this->unlock("generator");
+            $this->unlock('generator');
         } else {
             $this->log("Locked task: {$task->getName()} / generator, skipping...");
         }
@@ -461,14 +461,15 @@ class Cron
      */
     public function letsencrypt($task)
     {
-        $letsencrypt_disabled = __get("letsencrypt_disabled");
+        $letsencrypt_disabled = __get('letsencrypt_disabled');
         if ($letsencrypt_disabled > time()) {
-            $this->log(__("[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, skipping.", date("d/m/Y H:i:s", $letsencrypt_disabled)));
+            $this->log(__("[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, skipping.",
+                date('d/m/Y H:i:s', $letsencrypt_disabled)));
             return;
-        } else {
-            # Enabling again after the 7 days period
-            __set("letsencrypt_disabled", 0);
         }
+
+        # Enabling again after the 7 days period
+        __set("letsencrypt_disabled", 0);
 
         if (!$this->isLocked($task->getId())) {
             $this->lock($task->getId());
@@ -478,7 +479,7 @@ class Cron
             $base = path("/var/apps/certificates/");
 
             // Check panel type
-            $panel_type = __get("cpanel_type");
+            $panel_type = __get('cpanel_type');
 
             // Ensure folders have good rights
             exec("chmod -R 775 {$base}");
@@ -486,8 +487,8 @@ class Cron
                 exec("chmod -R 775 {$root}/.well-known");
             }
 
-            $letsencrypt_env = __get("letsencrypt_env");
-            $acme = new Cert($letsencrypt_env !== "staging");
+            $letsencrypt_env = __get('letsencrypt_env');
+            $acme = new Cert($letsencrypt_env !== 'staging');
 
             try {
                 $acme->getAccount();
@@ -498,9 +499,9 @@ class Cron
             try {
                 $certs = (new \System_Model_SslCertificates())->findAll(
                     [
-                        "source = ?" => \System_Model_SslCertificates::SOURCE_LETSENCRYPT,
-                        "status = ?" => "enabled",
-                        "renew_date < updated_at"
+                        'source = ?' => \System_Model_SslCertificates::SOURCE_LETSENCRYPT,
+                        'status = ?' => 'enabled',
+                        new \Zend_Db_Expr('TIMESTAMP(renew_date) < TIMESTAMP(updated_at)')
                     ]
                 );
 
@@ -517,13 +518,12 @@ class Cron
 
                             $certContent = openssl_x509_parse(file_get_contents($cert->getCertificate()));
 
-                            if (isset($certContent["extensions"]) &&
-                                $certContent["extensions"]["subjectAltName"]) {
+                            if (isset($certContent['extensions']) &&
+                                $certContent['extensions']['subjectAltName']) {
 
                                 // Cleanup domain names!
-                                $certificateHosts = str_replace("DNS:", "", $certContent["extensions"]["subjectAltName"]);
-                                $certificateHosts = str_replace(" ", "", $certificateHosts);
-                                $certificateHosts = explode(",", $certificateHosts);
+                                $certificateHosts = str_replace(['DNS:', ' '], '', $certContent['extensions']['subjectAltName']);
+                                $certificateHosts = explode(',', $certificateHosts);
                                 $dbHostname = \Siberian_Json::decode($cert->getDomains());
 
                                 $certHostname = $cert->getHostname();
@@ -535,7 +535,7 @@ class Cron
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
                                     $r = dns_get_record($hostname, DNS_CNAME);
-                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]["target"]) && ($r[0]["target"] === $cert->getHostname()));
+                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]['target']) && ($r[0][''] === $cert->getHostname()));
                                     $isSelf = ($hostname === $cert->getHostname());
 
                                     // If domain is valid!
@@ -559,7 +559,7 @@ class Cron
                             // Or compare expiration date (will expire in 5/30 days or less)
                             if (!$renew) {
 
-                                $diff = $certContent["validTo_time_t"] - time();
+                                $diff = $certContent['validTo_time_t'] - time();
 
                                 //$thirty_days = 2592000;
                                 $eightDays = 691200;
@@ -585,10 +585,10 @@ class Cron
 
                             // Clear log between hostNames!
                             try {
-                                $docRoot = path("/");
+                                $docRoot = path('/');
                                 $config = [
-                                    "challenge" => "http-01",
-                                    "docroot" => $docRoot,
+                                    'challenge' => 'http-01',
+                                    'docroot' => $docRoot,
                                 ];
 
                                 $domainConfig = [];
@@ -597,11 +597,11 @@ class Cron
                                 }
 
                                 $handler = function ($opts) {
-                                    $fn = $opts["config"]["docroot"] . $opts["key"];
+                                    $fn = $opts['config']['docroot'] . $opts['key'];
                                     @mkdir(dirname($fn),0777,true);
-                                    file_put_contents($fn, $opts["value"]);
+                                    file_put_contents($fn, $opts['value']);
                                     return function ($opts) {
-                                        unlink($opts["config"]["docroot"] . $opts["key"]);
+                                        unlink($opts['config']['docroot'] . $opts['key']);
                                     };
                                 };
 
@@ -613,7 +613,7 @@ class Cron
                                 $fullChain = $acme->getCertificateChain("file://{$certKeyPath}", $domainConfig, $handler);
                                 file_put_contents($fullChainPath, $fullChain);
 
-                                // Split fullchain
+                                // Split full-chain
                                 $fullChainContent = file_get_contents($fullChainPath);
                                 $parts = explode("\n\n", $fullChainContent);
                                 $certPath = path("/var/apps/certificates/{$certHostname}/acme.cert.pem");
@@ -637,26 +637,26 @@ class Cron
                                 // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
                                 try {
                                     switch ($panel_type) {
-                                        case "plesk":
+                                        case 'plesk':
                                             $siberian_plesk = new \Siberian_Plesk();
                                             $siberian_plesk->removeCertificate($cert);
                                             $siberian_plesk->updateCertificate($cert);
                                             $siberian_plesk->selectCertificate($cert);
                                             break;
-                                        case "cpanel":
+                                        case 'cpanel':
                                             $cpanel = new \Siberian_Cpanel();
                                             $cpanel->updateCertificate($cert);
                                             break;
-                                        case "vestacp":
+                                        case 'vestacp':
                                             $vestacp = new \Siberian_VestaCP();
                                             $vestacp->updateCertificate($cert);
                                             break;
-                                        case "directadmin":
+                                        case 'directadmin':
                                             $directadmin = new \Siberian_DirectAdmin();
                                             $directadmin->updateCertificate($cert);
                                             break;
-                                        case "self":
-                                            $this->log("Self-managed sync is not available for now.");
+                                        case 'self':
+                                            $this->log('Self-managed sync is not available for now.');
                                             break;
                                     }
                                 } catch (\Exception $e) {
@@ -664,26 +664,26 @@ class Cron
                                 }
 
                                 // SocketIO
-                                if (class_exists("SocketIO_Model_SocketIO_Module") &&
-                                    method_exists("SocketIO_Model_SocketIO_Module", "killServer")) {
+                                if (class_exists('SocketIO_Model_SocketIO_Module') &&
+                                    method_exists('SocketIO_Model_SocketIO_Module', 'killServer')) {
                                     \SocketIO_Model_SocketIO_Module::killServer();
                                 }
 
                             } else {
                                 $cert
                                     ->setErrorCount($cert->getErrorCount() + 1)
-                                    ->setErrorDate(time_to_date(time(), "YYYY-MM-dd HH:mm:ss"))
-                                    ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
+                                    ->setErrorDate(time_to_date(time(), 'YYYY-MM-dd HH:mm:ss'))
+                                    ->setRenewDate(time_to_date(time() + 10, 'YYYY-MM-dd HH:mm:ss'))
                                     ->save();
                             }
                         }
 
                     } catch (\Exception $e) {
-                        if ((strpos($e->getMessage(), "many currently pending authorizations") !== false) ||
-                            (strpos($e->getMessage(), "many certificates already issued") !== false)) {
+                        if ((strpos($e->getMessage(), 'many currently pending authorizations') !== false) ||
+                            (strpos($e->getMessage(), 'many certificates already issued') !== false)) {
                             # We hit the rate limit, disable for the next seven days
                             $in_a_week = time() + 604800;
-                            __set("letsencrypt_disabled", $in_a_week);
+                            __set('letsencrypt_disabled', $in_a_week);
                         }
 
                         $cert
@@ -699,14 +699,14 @@ class Cron
                             ->save();
 
                         # Send a message to the Admin
-                        $description = "It seems that the renewal of the following SSL Certificate %s is failing, please check in <b>Settings > Advanced > Configuration</b> for the specified certificate.";
+                        $description = 'It seems that the renewal of the following SSL Certificate %s is failing, please check in <b>Settings > Advanced > Configuration</b> for the specified certificate.';
 
                         $notification = new \Backoffice_Model_Notification();
                         $notification
-                            ->setTitle(__("Alert: The SSL Certificate %s automatic renewal failed.", $cert->getHostname()))
+                            ->setTitle(__('Alert: The SSL Certificate %s automatic renewal failed.', $cert->getHostname()))
                             ->setDescription(__($description, $cert->getHostname()))
-                            ->setSource("cron")
-                            ->setType("alert")
+                            ->setSource('cron')
+                            ->setType('alert')
                             ->setIsHighPriority(1)
                             ->setObjectType(get_class($cert))
                             ->setObjectId($cert->getId())

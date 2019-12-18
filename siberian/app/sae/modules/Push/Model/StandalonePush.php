@@ -66,38 +66,7 @@ class StandalonePush extends Base
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = "Push\Model\Db\Table\StandalonePush";
-        return $this;
-    }
-
-    /**
-     * @todo remove me when done
-     */
-    public function test ()
-    {
-        echo "<pre>";
-
-        $tokens = [
-            "fnHvqu-1Of0:APA91bHzawM0lpGZEuouM1U4tkhB2fRNGJOkMCPQBcnkaDkIIFGR6-p4DphornZZ_nz_x9kxTOtfuv3M7ViQ_8WaN38slpkXBYwcDYtImzHZAMNrkJVTkHcDeBcc_1I7KEXBOknQi3Ab",
-            "eDmTmifwDcQ:APA91bFvO9ds-gjm50bYe9oQBsFJNBBrRWMtRCfgDq3wVElDhvF8y-FQibML-Z0c6VNJ66LlzieNbvLG8ORcOgHyhVo9Xi7d3RHHTaA22_ADz1iKfn2w6vzgM58dpXuCLiwZQqfMS0_E",
-            "c4iMBIySOow:APA91bF3LfsX_5rv9OxYD31ElO91GKnYKbbEiGhJLpA584y0ecmkLb85pSHLm_xVN0LHDu2Kl4U_O81as1B5HsaQDBZ86vrYw5V6KtJJ3wYW5Sb7H3XqcBfaYYmAz7ZFiALmQ69ZNdUo",
-            "eu-ggp3BIOk:APA91bG6AgVsxVW46Wx2yUSg8PnwsNtXun772Ir5JvFdiIZRajwCkKnXFPqWvtXgUxW6n9giEmtbfhijavJIy30eh5sEWdnvXVzc7uEYdZDawvCn8lyM9LQM5W3mLyReQgK7VrwSEjVn",
-            "eD81RYixnWI:APA91bHuAvRVU0CZil3sETsuYloA2H9XJDxcNADIlXMdWZVzaSApB6y8srAayF3O1_iY-yJjFK5gugs82IuDWD_UpTIXIWeSi6WltqcdqZuR60TSDEOOlQYs46FpBmRtF2atxfFD-1BH",
-            "c0UdOoqe9DU:APA91bEYfF7S_cCCjKjfa3gm9mC_6XChWlmWCQs0BK8zkWmZGMs6GYIDzuwQW-coYxuqT9UrWsnapi08CJsIA0oz0nLQxpwhAK3xMXADmPZtQ0kpjds6rBEWqMZ7P5jkBK55xmQrhFEu",
-            "dzbGUwtn6Vs:APA91bHiKW99oC3RA3hpGGbw0EQIdHtmK1U1fn8U8cwpPxPLa-O-bBWXGVJFQGhQpv8AX8lNbOCJTzDSa--sP8LclbzJezLI8LMezBLwaG_ICU-FugyapKhxVNwhqFhTnhjQh4p49leT",
-            "5532d50f91054ac10f91be24686ca476c62cd5a8b863b50a3ff38a292863d7d4",
-            "9278e0eb4b0186023bb2cea4382ef5941a5c17208e52c51de5cc4ff41b89e4c7",
-        ];
-
-        $instance = self::buildFromTokens($tokens);
-        $instance->sendMessage(
-            "Test title",
-            "Test message",
-            "",
-            "https://www.siberiancms.com",
-            null,
-            null
-        );
+        $this->_db_table = 'Push\Model\Db\Table\StandalonePush';
     }
 
     /**
@@ -112,11 +81,11 @@ class StandalonePush extends Base
         $instance->tokens = $tokens;
 
         $instance->androidDevices = (new AndroidDevice())->findAll([
-            "registration_id IN (?)" => $tokens
+            'registration_id IN (?)' => $tokens
         ]);
 
         $instance->iosDevices = (new IosDevice())->findAll([
-            "device_token IN (?)" => $tokens
+            'device_token IN (?)' => $tokens
         ]);
 
         return $instance;
@@ -126,9 +95,10 @@ class StandalonePush extends Base
      * @param $title
      * @param $text
      * @param $cover
-     * @param null $actionValue
-     * @param null $valueId
-     * @param null $appId
+     * @param integer|string|null $actionValue
+     * @param integer|null $valueId
+     * @param integer|null $appId
+     * @param boolean $forceAppRoute
      * @throws \Zend_Exception
      */
     public function sendMessage($title,
@@ -136,15 +106,16 @@ class StandalonePush extends Base
                                 $cover,
                                 $actionValue = null,
                                 $valueId = null,
-                                $appId = null)
+                                $appId = null,
+                                $forceAppRoute = true)
     {
         // Save push in custom history
-
         $jsonMessage = [
-            "title" => $title,
-            "text" => $text,
-            "cover" => $cover,
-            "actionValue" => $actionValue,
+            'title' => $title,
+            'text' => $text,
+            'cover' => $cover,
+            'actionValue' => $actionValue,
+            'forceAppRoute' => $forceAppRoute,
         ];
 
         $this
@@ -155,11 +126,11 @@ class StandalonePush extends Base
             ->setMessage($text)
             ->setCover($cover)
             ->setActionValue($actionValue)
-            ->setStatus("sent")
+            ->setStatus('sent')
             ->setMessageJson(Json::encode($jsonMessage))
             ->save();
 
-        $message = self::buildMessage($title, $text, $cover, $actionValue);
+        $message = self::buildMessage($title, $text, $cover, $actionValue, $forceAppRoute);
 
         // try/catch are already handled inside sendPush
         foreach ($this->androidDevices as $androidDevice) {
@@ -180,6 +151,7 @@ class StandalonePush extends Base
      * @param mixed|null $actionValue
      * @param integer|null $valueId
      * @param integer|null $appId
+     * @param boolean $forceAppRoute
      * @throws \Zend_Exception
      * @throws Exception
      */
@@ -189,18 +161,20 @@ class StandalonePush extends Base
                                     $sendAt,
                                     $actionValue = null,
                                     $valueId = null,
-                                    $appId = null)
+                                    $appId = null,
+                                    $forceAppRoute = true)
     {
         // Checking timestamp!
         if ($sendAt < time()) {
-            throw new Exception(p__("push", "Error: %s must be a timestamp in the past.", "\$sentAt"));
+            throw new Exception(p__('push', 'Error: %s must be a timestamp in the past.', '\$sentAt'));
         }
 
         $jsonMessage = [
-            "title" => $title,
-            "text" => $text,
-            "cover" => $cover,
-            "actionValue" => $actionValue,
+            'title' => $title,
+            'text' => $text,
+            'cover' => $cover,
+            'actionValue' => $actionValue,
+            'forceAppRoute' => $forceAppRoute,
         ];
 
         // Save push in custom history
@@ -213,7 +187,7 @@ class StandalonePush extends Base
             ->setCover($cover)
             ->setActionValue($actionValue)
             ->setSendAt($sendAt)
-            ->setStatus("scheduled")
+            ->setStatus('scheduled')
             ->setMessageJson(Json::encode($jsonMessage))
             ->save();
     }
@@ -225,7 +199,7 @@ class StandalonePush extends Base
      */
     public function sendPush($device, $message)
     {
-        $logger = Registry::get("logger");
+        $logger = Registry::get('logger');
         $appId = $device->getAppId();
 
         $iosCertificate = path(Certificate::getiOSCertificat($appId));
@@ -243,18 +217,18 @@ class StandalonePush extends Base
                 }
             } catch (\Exception $e) {
                 $logger->err(
-                    sprintf("[Push Standalone: %s]: %s",
-                        date("Y-m-d H:i:s"),
+                    sprintf('[Push Standalone: %s]: %s',
+                        date('Y-m-d H:i:s'),
                         $e->getMessage()
                     ),
-                    "standalone_push");
+                    'standalone_push');
             }
         } else if ($device instanceof AndroidDevice) {
             try {
                 $message->setToken($device->getRegistrationId());
 
                 $credentials = (new Firebase())
-                    ->find("0", "admin_id");
+                    ->find('0', 'admin_id');
 
                 $fcmKey = $credentials->getServerKey();
                 $fcmInstance = null;
@@ -262,7 +236,7 @@ class StandalonePush extends Base
                     $fcmInstance = new Fcm($fcmKey);
                 } else {
                     // Only FCM is mandatory by now!
-                    throw new Exception("You must provide FCM Credentials");
+                    throw new Exception('You must provide FCM Credentials');
                 }
 
                 $instance = new AndroidMessage($fcmInstance, null);
@@ -271,11 +245,11 @@ class StandalonePush extends Base
 
             } catch (\Exception $e) {
                 $logger->err(
-                    sprintf("[Push Standalone: %s]: %s",
-                        date("Y-m-d H:i:s"),
+                    sprintf('[Push Standalone: %s]: %s',
+                        date('Y-m-d H:i:s'),
                         $e->getMessage()
                     ),
-                    "standalone_push");
+                    'standalone_push');
             }
         }
     }
@@ -286,34 +260,35 @@ class StandalonePush extends Base
      */
     public static function sendScheduled (Cron $cron)
     {
-        $cron->log(sprintf("[Standalone Push]: time %s.", time()));
+        $cron->log(sprintf('[Standalone Push]: time %s.', time()));
 
         $messagesToSend = (new self())->findAll([
-            "status = ?" => "scheduled",
-            "send_at < ?" => time()
+            'status = ?' => 'scheduled',
+            'send_at < ?' => time()
         ]);
 
         if ($messagesToSend->count() === 0) {
-            $cron->log("[Standalone Push]: no scheduled push, done.");
+            $cron->log('[Standalone Push]: no scheduled push, done.');
             return;
         }
 
-        $cron->log(sprintf("[Standalone Push]: there is %s messages to send.", $messagesToSend->count()));
+        $cron->log(sprintf('[Standalone Push]: there is %s messages to send.', $messagesToSend->count()));
 
         foreach ($messagesToSend as $messageToSend) {
             $pushMessage = Json::decode($messageToSend->getMessageJson());
             $tokens = Json::decode($messageToSend->getTokens());
 
-            $cron->log(sprintf("[Standalone Push]: message %s.", $pushMessage["title"]));
-            $cron->log(sprintf("[Standalone Push]: sending to %s.", join(", ", $tokens)));
+            $cron->log(sprintf('[Standalone Push]: message %s.', $pushMessage['title']));
+            $cron->log(sprintf('[Standalone Push]: sending to %s.', implode(', ', $tokens)));
 
             $instance = self::buildFromTokens($tokens);
 
             $message = self::buildMessage(
-                $pushMessage["title"],
-                $pushMessage["text"],
-                $pushMessage["cover"],
-                $pushMessage["action_value"]);
+                $pushMessage['title'],
+                $pushMessage['text'],
+                $pushMessage['cover'],
+                $pushMessage['action_value'],
+                $pushMessage['forceAppRoute']);
 
             // try/catch are already handled inside sendPush
             foreach ($instance->androidDevices as $androidDevice) {
@@ -326,11 +301,11 @@ class StandalonePush extends Base
             }
 
             $messageToSend
-                ->setStatus("sent")
+                ->setStatus('sent')
                 ->save();
         }
 
-        $cron->log("[Standalone Push]: done.");
+        $cron->log('[Standalone Push]: done.');
     }
 
     /**
@@ -338,10 +313,11 @@ class StandalonePush extends Base
      * @param string $text
      * @param string $cover
      * @param mixed $actionValue
+     * @param boolean $forceAppRoute
      * @return Message
      * @throws \Zend_Exception
      */
-    public static function buildMessage ($title, $text, $cover, $actionValue)
+    public static function buildMessage ($title, $text, $cover, $actionValue, $forceAppRoute = true)
     {
         $message = new Message();
         $message
@@ -351,7 +327,7 @@ class StandalonePush extends Base
             ->setCover($cover)
             ->setSendToAll(false)
             ->setActionValue($actionValue)
-            ->setForceAppRoute(true)
+            ->setForceAppRoute($forceAppRoute)
             ->setBase64(false);
 
         return $message;

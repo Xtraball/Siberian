@@ -1,63 +1,87 @@
 cordova.define("Keyboard.keyboard", function(require, exports, module) {
-
 var argscheck = require('cordova/argscheck'),
     utils = require('cordova/utils'),
     exec = require('cordova/exec'),
     channel = require('cordova/channel');
 
+var Keyboard = function () {};
 
-var Keyboard = function() {
+Keyboard.fireOnShow = function (height) {
+    Keyboard.isVisible = true;
+    cordova.fireWindowEvent('keyboardDidShow', {
+        'keyboardHeight': height
+    });
+
+    // To support the keyboardAttach directive listening events
+    // inside Ionic's main bundle
+    cordova.fireWindowEvent('native.keyboardshow', {
+        'keyboardHeight': height
+    });
 };
 
-Keyboard.hideKeyboardAccessoryBar = function(hide) {
-    exec(null, null, "Keyboard", "hideKeyboardAccessoryBar", [hide]);
+Keyboard.fireOnHide = function () {
+    Keyboard.isVisible = false;
+    cordova.fireWindowEvent('keyboardDidHide');
+
+    // To support the keyboardAttach directive listening events
+    // inside Ionic's main bundle
+    cordova.fireWindowEvent('native.keyboardhide');
 };
 
-Keyboard.close = function() {
-    exec(null, null, "Keyboard", "close", []);
+Keyboard.fireOnHiding = function () {
+    cordova.fireWindowEvent('keyboardWillHide');
 };
 
-Keyboard.show = function() {
-    exec(null, null, "Keyboard", "show", []);
+Keyboard.fireOnShowing = function (height) {
+    cordova.fireWindowEvent('keyboardWillShow', {
+        'keyboardHeight': height
+    });
 };
 
-Keyboard.disableScroll = function(disable) {
-    exec(null, null, "Keyboard", "disableScroll", [disable]);
+Keyboard.hideFormAccessoryBar = Keyboard.hideKeyboardAccessoryBar = function (hide) {
+    console.warn("Keyboard.hideKeyboardAccessoryBar() not supported in Android");
 };
 
-/*
-Keyboard.styleDark = function(dark) {
- exec(null, null, "Keyboard", "styleDark", [dark]);
+Keyboard.hide = function () {
+    exec(null, null, "CDVIonicKeyboard", "hide", []);
 };
-*/
 
-Keyboard.isVisible = false;
+Keyboard.show = function () {
+    exec(null, null, "CDVIonicKeyboard", "show", []);
+};
 
-channel.onCordovaReady.subscribe(function() {
-    exec(success, null, 'Keyboard', 'init', []);
+Keyboard.disableScroll = function (disable) {
+    console.warn("Keyboard.disableScroll() not supported in Android");
+};
+
+Keyboard.setResizeMode = function (mode) {
+    console.warn("Keyboard.setResizeMode() not supported in Android");
+}
+
+Keyboard.setKeyboardStyle = function(style) {
+    console.warn("Keyboard.setKeyboardStyle() not supported in Android");
+};
+
+channel.onCordovaReady.subscribe(function () {
+    exec(success, null, 'CDVIonicKeyboard', 'init', []);
 
     function success(msg) {
         var action = msg.charAt(0);
-        if ( action === 'S' ) {
-            var keyboardHeight = msg.substr(1);
-            cordova.plugins.Keyboard.isVisible = true;
-            cordova.fireWindowEvent('native.keyboardshow', { 'keyboardHeight': + keyboardHeight });
+        if (action === 'S') {
+            var keyboardHeight = parseInt(msg.substr(1));
+            Keyboard.fireOnShowing(keyboardHeight);
+            Keyboard.fireOnShow(keyboardHeight);
 
-            //deprecated
-            cordova.fireWindowEvent('native.showkeyboard', { 'keyboardHeight': + keyboardHeight });
-        } else if ( action === 'H' ) {
-            cordova.plugins.Keyboard.isVisible = false;
-            cordova.fireWindowEvent('native.keyboardhide');
-
-            //deprecated
-            cordova.fireWindowEvent('native.hidekeyboard');
+        } else if (action === 'H') {
+            Keyboard.fireOnHiding();
+            Keyboard.fireOnHide();
         }
     }
 });
 
+
+Keyboard.isVisible = false;
+
 module.exports = Keyboard;
-
-
-
 
 });

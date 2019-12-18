@@ -7,12 +7,5 @@ ant-gen
 # Eclipse builds
 gen
 out
-# Gradle build artifacts
-.gradle
-.gradletasknamecache
+# Gradle builds
 /build
-/CordovaLib/build
-/app/build
-gradle-app.setting
-# Android Studio
-.idea

@@ -1,14 +1,8 @@
 <?php
 
-/**
- * Class Weblink_Model_Type_Multi
- */
 class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 {
 
-    /**
-     * @var bool
-     */
     protected $_is_cacheable = true;
 
     /**
@@ -19,7 +13,6 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
     {
         parent::__construct($params);
         $this->_type_id = 2;
-        return $this;
     }
 
     /**
@@ -30,10 +23,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 
         $in_app_states = [
             [
-                "state" => "links-view",
-                "offline" => false,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'links-view',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $value_id,
                 ],
             ],
         ];
@@ -41,6 +34,9 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         return $in_app_states;
     }
 
+    /**
+     * @return $this|void
+     */
     /**
      * GET Feature url for app init
      *
@@ -88,7 +84,7 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
     {
         $cover_path = Application_Model_Application::getImagePath() . $this->getCover();
         $cover_base_path = Application_Model_Application::getBaseImagePath() . $this->getCover();
-        if ($this->getCover() AND file_exists($cover_base_path)) {
+        if ($this->getCover() && file_exists($cover_base_path)) {
             return $cover_path;
         }
         return null;
@@ -100,11 +96,13 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
      */
     public function getFeaturePaths($option_value)
     {
-        if (!$this->isCacheable()) return [];
+        if (!$this->isCacheable()) {
+            return [];
+        }
 
         $paths = [];
 
-        $paths[] = $option_value->getPath("weblink/mobile_multi/find", ['value_id' => $option_value->getId()], false);
+        $paths[] = $option_value->getPath('weblink/mobile_multi/find', ['value_id' => $option_value->getId()], false);
 
         return $paths;
     }
@@ -115,7 +113,9 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
      */
     public function getAssetsPaths($option_value)
     {
-        if (!$this->isCacheable()) return [];
+        if (!$this->isCacheable()) {
+            return [];
+        }
 
         $paths = [];
 

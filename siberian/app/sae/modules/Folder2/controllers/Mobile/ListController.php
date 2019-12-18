@@ -16,7 +16,8 @@ class Folder2_Mobile_ListController extends Application_Controller_Mobile_Defaul
                 $option = $this->getCurrentOptionValue();
                 if ($option) {
                     $option->setRequest($request);
-                    $payload = $option->getObject()->getEmbedPayload($option);
+                    $object =  $option->getObject();
+                    $payload = $object->getEmbedPayload($option);
                 } else {
                     throw new \Siberian\Exception(__('Unable to find option.'));
                 }

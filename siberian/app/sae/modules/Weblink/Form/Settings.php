@@ -13,17 +13,28 @@ class Weblink_Form_Settings extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/weblink/application/edit-settings"))
-            ->setAttrib("id", "form-edit-settings");
+            ->setAction(__path('/weblink/application/edit-settings'))
+            ->setAttrib('id', 'form-edit-settings');
 
-        self::addClass('onchange', $this);
+        self::addClass('create', $this);
 
-        $this->addSimpleHidden("value_id");
+        $this->addSimpleHidden('value_id');
 
-        $this->addSimpleCheckbox("showSearch", __("Enable search"));
-        $this->addSimpleSelect("cardDesign", __("Page design"), [
-            "0" => __("List"),
-            "1" => __("Card"),
+        $this->addSimpleCheckbox('showSearch', p__('weblink', 'Enable search'));
+        $this->addSimpleSelect('cardDesign', p__('weblink', 'Page design'), [
+            '0' => p__('weblink', 'List'),
+            '1' => p__('weblink', 'Card'),
         ]);
+
+        $this->addSimpleImage(
+            'cover',
+            p__('weblink', 'Cover image'),
+            p__('weblink', 'Cover image'), [
+            'width' => 1000,
+            'height' => 600,
+        ]);
+
+        $submit = $this->addSubmit(p__('weblink', 'Save'), 'save');
+        $submit->addClass('pull-right');
     }
 }

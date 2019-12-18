@@ -26,14 +26,14 @@ const versions = require('./versions');
 
 const SUPPORTED_OS_PLATFORMS = [ 'darwin' ];
 
-const XCODEBUILD_MIN_VERSION = '7.0.0';
+const XCODEBUILD_MIN_VERSION = '9.0.0';
 const XCODEBUILD_NOT_FOUND_MESSAGE =
     'Please install version ' + XCODEBUILD_MIN_VERSION + ' or greater from App Store';
 
 const IOS_DEPLOY_MIN_VERSION = '1.9.2';
 const IOS_DEPLOY_NOT_FOUND_MESSAGE =
     'Please download, build and install version ' + IOS_DEPLOY_MIN_VERSION + ' or greater' +
-    ' from https://github.com/phonegap/ios-deploy into your path, or do \'npm install -g ios-deploy\'';
+    ' from https://github.com/ios-control/ios-deploy into your path, or do \'npm install -g ios-deploy\'';
 
 const COCOAPODS_MIN_VERSION = '1.0.1';
 const COCOAPODS_NOT_FOUND_MESSAGE =
@@ -121,15 +121,22 @@ module.exports.check_cocoapods = function (toolChecker) {
         // check whether the cocoapods repo has been synced through `pod repo` command
         // a value of '0 repos' means it hasn't been synced
         .then(function (toolOptions) {
+            if (toolOptions.ignore) return toolOptions;
+
+            // starting with 1.8.0 cocoapods now use cdn and we dont need to sync first
+            if (versions.compareVersions(toolOptions.version, '1.8.0') >= 0) {
+                return toolOptions;
+            }
+
             let code = shell.exec('pod repo | grep -e "^0 repos"', { silent: true }).code;
             let repoIsSynced = (code !== 0);
 
-            if (toolOptions.ignore || repoIsSynced) {
+            if (repoIsSynced) {
                 // return check_cocoapods_repo_size();
                 // we could check the repo size above, but it takes too long.
-                return Q.resolve(toolOptions);
+                return toolOptions;
             } else {
-                return Q.reject(COCOAPODS_NOT_SYNCED_MESSAGE);
+                return Promise.reject(COCOAPODS_NOT_SYNCED_MESSAGE);
             }
         });
 };

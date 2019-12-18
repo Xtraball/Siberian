@@ -28,70 +28,50 @@ angular.module("starter").controller("LinksViewController", function($scope, $st
         };
     };
 
-    $scope.loadContent = function() {
+    $scope.populate = function (data) {
+        $scope.showSearch = data.settings.showSearch;
+        $scope.cardDesign = data.settings.cardDesign;
+        $scope.weblink = data.weblink;
 
+        if (!angular.isArray($scope.weblink.links)) {
+            $scope.weblink.links = [];
+        }
+        $scope.page_title = data.page_title;
+    };
+
+    $scope.loadContent = function() {
+        $scope.is_loading = true;
         Links
             .find()
             .then(function(data) {
-
-                $scope.showSearch = data.settings.showSearch;
-                $scope.cardDesign = data.settings.cardDesign;
-                $scope.weblink = data.weblink;
-
-                if (!angular.isArray($scope.weblink.links)) {
-                    $scope.weblink.links = [];
-                }
-                $scope.page_title = data.page_title;
-
+                $scope.populate(data);
             }).then(function() {
                 $scope.is_loading = false;
             });
     };
 
     /**
-     *
-     * @param url
-     * @param hide_navbar
-     * @param use_external_app
+     * @param link
      */
-    $scope.openLink = function(url, hide_navbar, use_external_app) {
-        LinkService.openLink(url, {
-            "hide_navbar"       : hide_navbar,
-            "use_external_app"  : use_external_app
-        });
+    $scope.openLink = function(link) {
+        console.log('$scope.openLink', link);
+        LinkService.openLink(link.url, link.options, link.external_browser);
     };
 
-    /**
-     * @todo check behavior ???
-     */
-    if($rootScope.isOverview) {
-
-        $window.prepareDummy = function() {
-            $timeout(function() {
-                $scope.dummy = {id: "new"};
-                $scope.weblink.links.push($scope.dummy);
+    $scope.reloadOverview = function () {
+        $scope.is_loading = true;
+        Links
+            .reloadOverview()
+            .then(function(data) {
+                $scope.populate(data);
+            }).then(function() {
+                $scope.is_loading = false;
             });
-        };
+    };
 
-        $window.setAttributeTo = function(id, attribute, value) {
-
-            $timeout(function() {
-                for (var i in $scope.weblink.links) {
-                    if ($scope.weblink.links[i].id == id) {
-                        $scope.weblink.links[i][attribute] = value;
-                    }
-                }
-            });
-        };
-
-        $window.setCoverUrl = function(url) {
-            $timeout(function() {
-                $scope.weblink.cover_url = url;
-            });
-        };
-
+    if ($window.overview) {
+        $window.overview['weblink_multi'] = $scope.reloadOverview;
     }
 
     $scope.loadContent();
-
 });

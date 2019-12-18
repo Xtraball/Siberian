@@ -8,8 +8,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
     public function __construct($params = [])
     {
         parent::__construct($params);
-        $this->_db_table = 'Weblink_Model_Db_Table_Weblink';
-        return $this;
+        $this->_db_table = Weblink_Model_Db_Table_Weblink::class;
     }
 
     public function save()
@@ -23,27 +22,24 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
     /**
      * @param $optionValue
-     * @return bool
+     * @return array|bool
      */
     public function getEmbedPayload($optionValue)
     {
-
-
-
         $payload = [
-            "weblink" => [
-                "links" => [],
-                "cover_url" => null,
+            'weblink' => [
+                'links' => [],
+                'cover_url' => null,
             ],
-            "page_title" => $optionValue->getTabbarName()
+            'page_title' => $optionValue->getTabbarName()
         ];
 
         if ($this->getId()) {
 
-            $payload["weblink"]["cover_url"] = null;
+            $payload['weblink']['cover_url'] = null;
             if ($this->getCoverUrl()) {
                 $picture_file = Core_Model_Directory::getBasePathTo($this->getCoverUrl());
-                $payload["weblink"]["cover_url"] = Siberian_Image::open($picture_file)->inline("png");
+                $payload['weblink']['cover_url'] = Siberian_Image::open($picture_file)->inline('png');
             }
 
             try {
@@ -52,30 +48,43 @@ class Weblink_Model_Weblink extends Core_Model_Default
                 $settings = [];
             }
 
-            $payload["settings"] = $settings;
+            $payload['settings'] = $settings;
 
-            foreach ($this->getLinks() as $link) {
+            if ($optionValue->getCode() === 'weblink_multi')
+            {
+                foreach ($this->getLinks() as $link) {
 
-                $picto_b64 = null;
-                if ($link->getPictoUrl()) {
-                    $picture_file = Core_Model_Directory::getBasePathTo($link->getPictoUrl());
-                    $picto_b64 = Siberian_Image::open($picture_file)->inline("png");
+                    $picto_b64 = null;
+                    if ($link->getPictoUrl()) {
+                        $picture_file = path($link->getPictoUrl());
+                        $picto_b64 = Siberian_Image::open($picture_file)->inline('png');
+                    }
+
+                    $payload['weblink']['links'][] = [
+                        'id' => (integer) $link->getId(),
+                        'title' => (string) $link->getTitle(),
+                        'picto_url' => (string) $picto_b64,
+                        'url' => (string) $link->getUrl(),
+                        // pre 4.18.3 options
+                        'hide_navbar' => (boolean) $link->getHideNavbar(),
+                        'use_external_app' => (boolean) $link->getUseExternalApp(),
+                        // post 4.18.3 options
+                        'external_browser' => (boolean) $link->getExternalBrowser(),
+                        'options' => $link->getOptions()
+                    ];
+                }
+            } else {
+                $link = $this->getLink();
+                if ($link && $link->getId()) {
+                    $payload['link_url'] = (string) $link->getUrl();
+                    $payload['external_browser'] = (boolean) $link->getExternalBrowser();
+                    $payload['options'] = $link->getOptions();
                 }
 
-                $payload["weblink"]["links"][] = [
-                    "id" => $link->getId() * 1,
-                    "title" => $link->getTitle(),
-                    "picto_url" => $picto_b64,
-                    "url" => $link->getUrl(),
-                    "hide_navbar" => !!$link->getHideNavbar(),
-                    "use_external_app" => !!$link->getUseExternalApp()
-                ];
             }
-
         }
 
         return $payload;
-
     }
 
     public function find($id, $field = null)

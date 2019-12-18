@@ -174,10 +174,10 @@ static void GPBWriteRawLittleEndian64(GPBOutputBufferState *state,
                                 data:(NSMutableData *)data {
   if ((self = [super init])) {
     buffer_ = [data retain];
-    [output open];
     state_.bytes = [data mutableBytes];
     state_.size = [data length];
     state_.output = [output retain];
+    [state_.output open];
   }
   return self;
 }
@@ -374,12 +374,12 @@ static void GPBWriteRawLittleEndian64(GPBOutputBufferState *state,
 }
 
 - (void)writeEnumNoTag:(int32_t)value {
-  GPBWriteRawVarint32(&state_, value);
+  GPBWriteInt32NoTag(&state_, value);
 }
 
 - (void)writeEnum:(int32_t)fieldNumber value:(int32_t)value {
   GPBWriteTagWithFormat(&state_, fieldNumber, GPBWireFormatVarint);
-  GPBWriteRawVarint32(&state_, value);
+  GPBWriteInt32NoTag(&state_, value);
 }
 
 - (void)writeSFixed32NoTag:(int32_t)value {
@@ -942,7 +942,10 @@ static void GPBWriteRawLittleEndian64(GPBOutputBufferState *state,
       state_.position = length;
     } else {
       // Write is very big.  Let's do it all at once.
-      [state_.output write:((uint8_t *)value) + offset maxLength:length];
+      NSInteger written = [state_.output write:((uint8_t *)value) + offset maxLength:length];
+      if (written != (NSInteger)length) {
+        [NSException raise:GPBCodedOutputStreamException_WriteFailed format:@""];
+      }
     }
   }
 }
@@ -1050,7 +1053,7 @@ size_t GPBComputeUInt32SizeNoTag(int32_t value) {
 }
 
 size_t GPBComputeEnumSizeNoTag(int32_t value) {
-  return GPBComputeRawVarint32Size(value);
+  return GPBComputeInt32SizeNoTag(value);
 }
 
 size_t GPBComputeSFixed32SizeNoTag(int32_t value) {

@@ -8,9 +8,13 @@
 #endif
 
 #if GPB_USE_PROTOBUF_FRAMEWORK_IMPORTS
- #import <Protobuf/GPBProtocolBuffers.h>
+ #import <protobuf/GPBDescriptor.h>
+ #import <protobuf/GPBMessage.h>
+ #import <protobuf/GPBRootObject.h>
 #else
- #import "GPBProtocolBuffers.h"
+ #import "GPBDescriptor.h"
+ #import "GPBMessage.h"
+ #import "GPBRootObject.h"
 #endif
 
 #if GOOGLE_PROTOBUF_OBJC_VERSION < 30002

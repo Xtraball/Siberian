@@ -3,60 +3,70 @@
  *
  * Schema definition for 'weblink_link'
  *
- * Last update: 2016-04-28
+ * Last update: 2019-12-11
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['weblink_link'] = array(
-    'link_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['weblink_link'] = [
+    'link_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'weblink_id' => array(
+    ],
+    'weblink_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'weblink',
             'column' => 'weblink_id',
             'name' => 'weblink_link_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_WEBLINK_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'picto' => array(
+        ],
+    ],
+    'picto' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'title' => array(
+    ],
+    'title' => [
         'type' => 'varchar(40)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'url' => array(
+    ],
+    'url' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'hide_navbar' => array(
+    ],
+    'options' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'external_browser' => [
+        'type' => 'tinyint(1)',
+        'default' => '0'
+    ],
+    'hide_navbar' => [
+        'type' => 'tinyint(1)',
+        'default' => '0'
+    ],
+    'use_external_app' => [
         'type' => 'boolean',
         'default' => "0"
-    ),
-    'use_external_app' => array(
-        'type' => 'boolean',
-        'default' => "0"
-    ),
-    'position' => array(
+    ],
+    'position' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
-    ),
-);
+    ],
+];

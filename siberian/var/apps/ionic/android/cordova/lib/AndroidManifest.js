@@ -51,11 +51,15 @@ AndroidManifest.prototype.setVersionCode = function (versionCode) {
 };
 
 AndroidManifest.prototype.getPackageId = function () {
+    /* jshint -W069 */
     return this.doc.getroot().attrib['package'];
+    /* jshint +W069 */
 };
 
 AndroidManifest.prototype.setPackageId = function (pkgId) {
+    /* jshint -W069 */
     this.doc.getroot().attrib['package'] = pkgId;
+    /* jshint +W069 */
     return this;
 };
 
@@ -82,7 +86,6 @@ AndroidManifest.prototype.getActivity = function () {
             } else {
                 activity.attrib['android:screenOrientation'] = orientation;
             }
-
             return this;
         },
         getLaunchMode: function () {
@@ -147,7 +150,7 @@ AndroidManifest.prototype.setDebuggable = function (value) {
  *   manifest will be written to file it has been read from.
  */
 AndroidManifest.prototype.write = function (destPath) {
-    fs.writeFileSync(destPath || this.path, this.doc.write({ indent: 4 }), 'utf-8');
+    fs.writeFileSync(destPath || this.path, this.doc.write({indent: 4}), 'utf-8');
 };
 
 module.exports = AndroidManifest;

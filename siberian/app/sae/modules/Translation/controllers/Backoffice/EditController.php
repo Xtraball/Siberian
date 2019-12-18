@@ -20,10 +20,10 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
     public function loadAction()
     {
         $payload = [
-            "title" => sprintf("%s > %s",
-                __("Settings"),
-                __("Translations")),
-            "icon" => "fa-language",
+            'title' => sprintf('%s > %s',
+                __('Settings'),
+                __('Translations')),
+            'icon' => 'fa-language',
         ];
 
         $this->_sendJson($payload);

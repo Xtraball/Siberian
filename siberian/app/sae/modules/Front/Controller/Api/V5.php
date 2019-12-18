@@ -45,11 +45,6 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                     $hideNavbar = null;
                     $useExternalApp = null;
 
-                    if ($optionValue->getCode() === "weblink_mono") {
-                        $hideNavbar = $object->getLink()->getHideNavbar();
-                        $useExternalApp = $object->getLink()->getUseExternalApp();
-                    }
-
                     if (sizeof($optionValues) >= 50) {
                         if (in_array($optionValue->getCode(), ["folder", "folder_v2", "custom_page"])) {
                             $embedPayload = false;
@@ -61,7 +56,7 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                     }
 
                     // End link special code!
-                    $featureBlock[] = [
+                    $blockData = [
                         'value_id' => (integer) $optionValue->getId(),
                         'id' => (integer) $optionValue->getId(),
                         'layout_id' => (integer) $optionValue->getLayoutId(),
@@ -92,6 +87,24 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
+
+                    if ($object->getLink() &&
+                        $optionValue->getCode() === "weblink_mono") {
+
+                        $objectLink = $object->getLink();
+
+                        // Pre 4.18.3
+                        $blockData['hide_navbar'] = $objectLink->getHideNavbar();
+                        $blockData['use_external_app'] = $objectLink->getUseExternalApp();
+
+                        // Post 4.18.3
+                        $blockData['link_url'] = (string) $objectLink->getData('url');
+                        $blockData['external_browser'] = (boolean) $objectLink->getExternalBrowser();
+                        $blockData['options'] = $objectLink->getOptions();
+                    }
+
+                    $featureBlock[] = $blockData;
+
                 } catch (\Exception $e) {
                     // Silently fail missing modules!
                     log_alert('A module is probably missing, ' . $e->getMessage());
@@ -232,6 +245,15 @@ class Front_Controller_Api_V5 extends Front_Controller_Api_V4
                     $page["path"] = sprintf("/%s/mcommerce/mobile_category/index/value_id/%s",
                         $appKey,
                         $page["value_id"]);
+                }
+            }
+        }
+
+        if (version_compare($appVersion, '4.18.3', '>=')) {
+            # 3. WebLink
+            foreach ($dataHomepage['pages'] as &$page) {
+                if ($page['code'] === 'weblink_mono') {
+                    $page['url'] = $page['link_url'];
                 }
             }
         }

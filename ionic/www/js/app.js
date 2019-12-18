@@ -161,12 +161,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
         }
 
         // Listeners for network events!
-        $window.addEventListener("online", function () {
+        $window.addEventListener('online', function () {
             $rootScope.isOnline = true;
             $rootScope.isOffline = false;
         });
 
-        $window.addEventListener("offline", function () {
+        $window.addEventListener('offline', function () {
             $rootScope.isOnline = false;
             $rootScope.isOffline = true;
         });
@@ -186,10 +186,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
             $rootScope.ui_progress_view = false;
         };
 
+        // @note should be used the less possible!
         $rootScope.isNotAvailableOffline = function () {
             if ($rootScope.isOffline) {
-                Dialog.alert("Offline mode",
-                    "This feature is not available when offline!", "Dismiss", 2350);
+                Dialog.alert('Offline mode',
+                    'This feature is not available in offline mode!', 'Dismiss', 2350);
+
                 return true;
             }
             return false;
@@ -197,15 +199,16 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
 
         $rootScope.isNotAvailableInOverview = function () {
             if (isOverview) {
-                Dialog.alert("Overview",
-                    "This feature is not available in this preview", "Dismiss", -1);
+                Dialog.alert('Overview',
+                    'This feature is disabled in this preview', 'Dismiss', -1);
+
                 return true;
             }
             return false;
         };
 
         $ionicPlatform.ready(function () {
-            $ionicNavBarDelegate.align("center");
+            $ionicNavBarDelegate.align('center');
             $timeout(function () {
                 $ionicNavBarDelegate.showBar(false);
             });
@@ -228,7 +231,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
                             isPwa: isPwa,
-                            version: "4.18.1"
+                            version: '4.18.3'
                         },
                         timeout: 20000,
                         cache: !isOverview,

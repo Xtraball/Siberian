@@ -40,6 +40,9 @@
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
+    <feature name="Badge">
+        <param name="ios-package" value="APPBadge" />
+    </feature>
     <feature name="BarcodeScanner">
         <param name="ios-package" value="CDVBarcodeScanner" />
     </feature>
@@ -64,16 +67,17 @@
     </feature>
     <feature name="InAppBrowser">
         <param name="ios-package" value="CDVInAppBrowser" />
+        <param name="onload" value="true" />
     </feature>
-    <feature name="Keyboard">
-        <param name="ios-package" onload="true" value="IonicKeyboard" />
+    <feature name="WKInAppBrowser">
+        <param name="ios-package" value="CDVWKInAppBrowser" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="CDVIonicKeyboard">
+        <param name="ios-package" onload="true" value="CDVIonicKeyboard" />
     </feature>
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
-    </feature>
-    <feature name="StatusBar">
-        <param name="ios-package" value="CDVStatusBar" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="LocalNotification">
         <param name="ios-package" onload="true" value="APPLocalNotification" />
@@ -118,8 +122,8 @@
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
     <chcp>
-        <config-file url="https://anders.xtraball.com/var/apps/ionic/ios/www/chcp.json" />
-        <native-interface version="12" />
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="13" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -140,8 +144,6 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="CameraUsesGeolocation" value="false" />
-    <preference name="StatusBarOverlaysWebView" value="true" />
-    <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="deployment-target" value="11.0" />
     <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <preference name="webviewbounce" value="false" />
