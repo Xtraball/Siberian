@@ -148,6 +148,57 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         return deferred.promise;
     };
 
+    service.requestLocation = function (success, error) {
+        Dialog
+            .confirm(
+                'Error',
+                'We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.',
+                ['TRY AGAIN', 'DISMISS'],
+                -1,
+                'location')
+            .then(function (success) {
+                if (success) {
+                    Location.isEnabled = true;
+                    Loader.show();
+                    Location
+                        .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
+                        .then(function (payload) {
+                            // GPS is OK!!
+                            Loader.hide();
+                            Dialog.alert('Success', 'We finally got you location', 'OK', 2350, 'location');
+
+                            if (success &&
+                                typeof success === 'function') {
+                                try {
+                                    $scope.success();
+                                } catch (e) {
+                                    // Silent!
+                                }
+                            }
+                        }, function () {
+                            Loader.hide();
+                            Dialog
+                                .alert(
+                                    'Error',
+                                    'We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.',
+                                    'OK',
+                                    3700,
+                                    'location'
+                                );
+
+                            if (error &&
+                                typeof error === 'function') {
+                                try {
+                                    error();
+                                } catch (e) {
+                                    // Silent!
+                                }
+                            }
+                        });
+                }
+            });
+    };
+
     /**
      * Returns the latest fetch position, if there is one, or false
      *

@@ -44,43 +44,6 @@ angular
         return !Location.isEnabled;
     };
 
-    $scope.requestLocation = function () {
-        Dialog
-        .confirm(
-            "Error",
-            "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            ["TRY AGAIN", "DISMISS"],
-            -1,
-            "location")
-        .then(function (success) {
-            if (success) {
-                Location.isEnabled = true;
-                Loader.show();
-                Location
-                .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
-                .then(function (payload) {
-                    // GPS is OK!!
-                    Loader.hide();
-                    Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
-
-                    // Re-init scope to fetch location now.
-
-                    $scope.init();
-                }, function () {
-                    Loader.hide();
-                    Dialog
-                    .alert(
-                        "Error",
-                        "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-                        "OK",
-                        3700,
-                       "location"
-                    );
-                });
-            }
-        });
-    };
-
     $scope.myAvatar = function () {
         // Empty image
         if (Customer.customer &&
@@ -211,7 +174,7 @@ angular
     $scope.buildPopoverItems = function () {
         $scope.popoverItems = [];
 
-        if (!$scope.locationIsDisabled()) {
+        if (Location.isEnabled) {
             $scope.popoverItems.push({
                 label: $translate.instant("Locate me once", "fanwall"),
                 icon: "icon ion-android-locate",
@@ -261,13 +224,15 @@ angular
             });
         } else {
             $scope.popoverItems.push({
-                label: $translate.instant("Check my location", "fanwall"),
-                icon: "icon ion-sb-location-off",
+                label: $translate.instant('Check my location', 'fanwall'),
+                icon: 'icon ion-sb-location-off',
                 click: function () {
                     $scope
                     .closeActions()
                     .then(function () {
-                        $scope.requestLocation();
+                        Location.requestLocation(function () {
+                            $scope.init();
+                        });
                     });
                 }
             });
@@ -295,7 +260,7 @@ angular
     };
 
     $scope.fetchLocation =  function () {
-        if (!$scope.locationIsDisabled()) {
+        if (Location.isEnabled) {
             $scope.fetchingLocation = true;
             Location
             .getLocation({timeout: 10000, enableHighAccuracy: false}, true)
