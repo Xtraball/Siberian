@@ -7,11 +7,16 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-12-16T11:30:46+00:00\n"
-"PO-Revision-Date: 2019-12-16T11:30:46+00:00\n"
+"POT-Creation-Date: 2019-12-18T10:49:42+00:00\n"
+"PO-Revision-Date: 2019-12-18T10:49:42+00:00\n"
 "Language: \n"
 
-# GMT 1576495846.4959
+# GMT 1576666182.5599
 msgctxt "payment_stripe"
 msgid "Stripe"
 msgstr "Stripe"
+
+# GMT 1576666978.4947
+msgctxt "payment_stripe"
+msgid "Seems you already added this card! If the error persists, please remove the existing card first, then add it again."
+msgstr "Seems you already added this card! If the error persists, please remove the existing card first, then add it again."

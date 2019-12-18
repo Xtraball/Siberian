@@ -249,27 +249,14 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
         $this->_sendJson($payload);
     }
 
-    /**
-     * @throws Zend_Exception
-     */
-    public function deleteVaultAction()
-    {
-        $optionValue = $this->getCurrentOptionValue();
-        $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
-
-        switch ($cabride->getPaymentProvider()) {
-            case "stripe":
-                $this->deleteVaultStripe();
-                break;
-        }
-    }
-
-    public function deleteVaultStripe()
+    public function deletePaymentMethodAction()
     {
         try {
             $application = $this->getApplication();
             $request = $this->getRequest();
-            $vaultId = $request->getParam("vaultId", null);
+            $data = $request->getBodyParams();
+            dbg('$card', $data['card']);
+            throw new Exception('SRY! \o/');
             $optionValue = $this->getCurrentOptionValue();
             $customerId = $this->getSession()->getCustomerId();
 
