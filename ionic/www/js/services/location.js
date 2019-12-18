@@ -5,7 +5,7 @@
  * @author Xtraball SAS
  *
  */
-angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
+angular.module('starter').service('Location', function ($cordovaGeolocation, $rootScope, $q) {
     var service = {
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
@@ -58,7 +58,9 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                 if (service.debug) {
                     console.log("position ko");
                 }
-                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
+                if (error.code === service.TIMEOUT ||
+                    error.code === service.PERMISSION_DENIED ||
+                    error.code === service.POSITION_UNAVAILABLE ) {
                     localReject(deferred);
                 }
                 if (!isResolved) {
@@ -70,6 +72,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         var localReject = function (deferred) {
             // Disable for all next requests!
             service.isEnabled = false;
+            $rootScope.$broadcast('location.isEnabled', false);
             deferred.reject();
         };
 
@@ -125,9 +128,11 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                             permissions.ACCESS_FINE_LOCATION,
                             function (success) {
                                 service.isEnabled = true;
+                                $rootScope.$broadcast('location.isEnabled', true);
                                 deferred.resolve(service.position);
                             }, function (error) {
                                 service.isEnabled = false;
+                                $rootScope.$broadcast('location.isEnabled', false);
                                 deferred.reject();
                             });
                     }
@@ -136,9 +141,11 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                         permissions.ACCESS_FINE_LOCATION,
                         function (success) {
                             service.isEnabled = true;
+                            $rootScope.$broadcast('location.isEnabled', true);
                             deferred.resolve(service.position);
                         }, function (error) {
                             service.isEnabled = false;
+                            $rootScope.$broadcast('location.isEnabled', false);
                             deferred.reject();
                         });
                 });

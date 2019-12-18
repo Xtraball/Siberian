@@ -19,7 +19,7 @@ angular
                 ];
             }
         },
-        controller: function ($scope, $rootScope, $pwaRequest, $q, Dialog, Loader, PaymentStripe) {
+        controller: function ($scope, $rootScope, $pwaRequest, $q, $timeout, Dialog, Loader, PaymentStripe) {
             $scope.isLoading = true;
 
             $scope.fetchVaults = function () {
@@ -28,7 +28,9 @@ angular
                 PaymentStripe
                 .fetchVaults()
                 .then(function (payload) {
-                    $scope.cards = payload.vaults;
+                    $timeout(function () {
+                        $scope.cards = payload.vaults;
+                    });
                 }, function (error) {
                     Dialog.alert('Error', error.message, 'OK', -1, 'payment_stripe');
                 }).then(function () {
@@ -99,12 +101,24 @@ angular
                             });
                         break;
                     case PaymentMethod.ACTION_DELETE:
-                        PaymentStripe
-                            .deletePaymentMethod(card)
-                            .then(function (success) {
-                                defer.resolve(success);
-                            }, function (error) {
-                                defer.reject(error);
+                        Loader.hide();
+                        Dialog
+                            .confirm(
+                                'Confirmation',
+                                'Are you sure you want to delete this payment method?',
+                                ['YES','NO'],
+                                '',
+                                'payment_stripe')
+                            .then(function (result) {
+                                if (result) {
+                                    PaymentStripe
+                                        .deletePaymentMethod(card)
+                                        .then(function (success) {
+                                            defer.resolve(success);
+                                        }, function (error) {
+                                            defer.reject(error);
+                                        });
+                                }
                             });
                         break;
                 }
@@ -132,11 +146,17 @@ angular
                     case PaymentMethod.ACTION_AUTHORIZE:
                         return 'icon ion-android-arrow-forward';
                     case PaymentMethod.ACTION_DELETE:
-                        return 'icon ion-trash-a';
+                        return 'icon ion-trash-a assertive';
                 }
             };
 
+            // Specific refresh for self-contained pages!
             $rootScope.$on('paymentStripeCards.refresh', function () {
+                $scope.fetchVaults();
+            });
+
+            // Generic refresh from any other page!
+            $rootScope.$on("paymentMethod.refresh", function () {
                 $scope.fetchVaults();
             });
 

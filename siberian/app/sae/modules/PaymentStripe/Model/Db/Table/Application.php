@@ -13,11 +13,11 @@ class Application extends DbTable
     /**
      * @var string
      */
-    protected $_name = "payment_stripe_application";
+    protected $_name = 'payment_stripe_application';
 
     /**
      * @var string
      */
-    protected $_primary = "stripe_application_id";
+    protected $_primary = 'stripe_application_id';
 
 }
