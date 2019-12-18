@@ -28,7 +28,7 @@ class Link extends FormAbstract
         $this->addSimpleHidden('weblink_id');
 
         $this->addSimpleImage(
-            'cover',
+            'picto',
             p__('weblink', 'Picture'),
             p__('weblink', 'Picture'), [
             'width' => 256,

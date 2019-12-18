@@ -110,10 +110,11 @@ $links = (new ModelLink)->findAll(
                                     <thead>
                                         <tr class="border-grey">
                                             <th style="width:32px;"></th>
+                                            <th style="width:32px;"></th>
                                             <th class="sortable"
                                                 style="width:35%;"><?php echo p__('weblink','Title'); ?></th>
                                             <th class="sortable"
-                                                style="width:35%;"><?php echo p__('weblink','URL'); ?></th>
+                                                style="width: 35%;"><?php echo p__('weblink','URL'); ?></th>
                                             <th style="width:10%;"><?php echo p__('weblink','Position') ?></th>
                                             <th></th>
                                             <th></th>
@@ -128,8 +129,13 @@ $links = (new ModelLink)->findAll(
                                                 style="text-align: center;">
                                                 <i class="fa fa-sort"></i>
                                             </td>
+                                            <td>
+                                                <?php if (!empty($link->getPicto())): ?>
+                                                <img src="<?php echo '/images/application' . $link->getPicto() ?>" style="width: 22px; height: 22px; border-radius: 11px;" />
+                                                <?php endif; ?>
+                                            </td>
                                             <td><?php echo $link->getTitle(); ?></td>
-                                            <td><?php echo $link->getData('url'); ?></td>
+                                            <td style="word-break: break-word;"><?php echo $link->getData('url'); ?></td>
                                             <td class="link-position"><?php echo $link->getPosition() ?></td>
                                             <td class="edit-action open-edit"
                                                 data-id="link_<?php echo $link->getId(); ?>"

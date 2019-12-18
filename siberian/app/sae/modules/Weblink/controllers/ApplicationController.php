@@ -107,9 +107,11 @@ class Weblink_ApplicationController extends Application_Controller_Default
                 $link->find($values['link_id']);
                 $link->setData($values);
 
-                Feature::formImageForOption($optionValue, $link, $values, 'picture', true);
+                Feature::formImageForOption($optionValue, $link, $values, 'picto', true);
 
-                $link->setPosition($lastPosition + 1);
+                if (!$link->getId()) {
+                    $link->setPosition($lastPosition + 1);
+                }
 
                 // Options
                 $options = [

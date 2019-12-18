@@ -10,5 +10,5 @@ $init = function($bootstrap) {
     Translation::registerExtractor(
         'weblink',
         'Weblink',
-        path('app/sae/modules/Weblink/resources/translations/default/weblink.po'));
+        path('app/sae/modules/Weblink/resources/translations/default/module_weblink.po'));
 };
