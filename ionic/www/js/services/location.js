@@ -3,11 +3,9 @@
  * we are using timeouts and promise to send answer as fast as possible.
  *
  * @author Xtraball SAS
- * @version 4.17.0
+ *
  */
-angular
-.module("starter")
-.service("Location", function ($q) {
+angular.module('starter').service('Location', function ($cordovaGeolocation, $rootScope, $q) {
     var service = {
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
@@ -44,9 +42,9 @@ angular
                 isResolved = true;
             }
 
-            navigator
-            .geolocation
-            .getCurrentPosition(function (position) {
+            $cordovaGeolocation
+            .getCurrentPosition(localConfig)
+            .then(function (position) {
                 service.lastFetch = Date.now();
                 service.position = position;
                 if (service.debug) {
@@ -60,18 +58,21 @@ angular
                 if (service.debug) {
                     console.log("position ko");
                 }
-                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
+                if (error.code === service.TIMEOUT ||
+                    error.code === service.PERMISSION_DENIED ||
+                    error.code === service.POSITION_UNAVAILABLE ) {
                     localReject(deferred);
                 }
                 if (!isResolved) {
                     deferred.reject();
                 }
-            }, localConfig);
+            });
         };
 
         var localReject = function (deferred) {
             // Disable for all next requests!
             service.isEnabled = false;
+            $rootScope.$broadcast('location.isEnabled', false);
             deferred.reject();
         };
 
@@ -127,9 +128,11 @@ angular
                             permissions.ACCESS_FINE_LOCATION,
                             function (success) {
                                 service.isEnabled = true;
+                                $rootScope.$broadcast('location.isEnabled', true);
                                 deferred.resolve(service.position);
                             }, function (error) {
                                 service.isEnabled = false;
+                                $rootScope.$broadcast('location.isEnabled', false);
                                 deferred.reject();
                             });
                     }
@@ -138,9 +141,11 @@ angular
                         permissions.ACCESS_FINE_LOCATION,
                         function (success) {
                             service.isEnabled = true;
+                            $rootScope.$broadcast('location.isEnabled', true);
                             deferred.resolve(service.position);
                         }, function (error) {
                             service.isEnabled = false;
+                            $rootScope.$broadcast('location.isEnabled', false);
                             deferred.reject();
                         });
                 });

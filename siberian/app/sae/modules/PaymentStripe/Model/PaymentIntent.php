@@ -16,15 +16,9 @@ use Core\Model\Base;
 class PaymentIntent extends Base
 {
     /**
-     * PaymentIntent constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'PaymentStripe\Model\Db\Table\PaymentIntent';
-    }
+    protected $_db_table = Db\Table\PaymentIntent::class;
 
     /**
      * @param $reason
