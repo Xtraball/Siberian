@@ -9,14 +9,6 @@ module.exports = [
     ]
   },
   {
-    "id": "Badge.Badge",
-    "file": "plugins/Badge/www/badge.js",
-    "pluginId": "Badge",
-    "clobbers": [
-      "cordova.plugins.notification.badge"
-    ]
-  },
-  {
     "id": "Geofence.TransitionType",
     "file": "plugins/Geofence/www/TransitionType.js",
     "pluginId": "Geofence",
@@ -76,6 +68,14 @@ module.exports = [
     "pluginId": "AppVersion",
     "clobbers": [
       "cordova.getAppVersion"
+    ]
+  },
+  {
+    "id": "Badge.Badge",
+    "file": "plugins/Badge/www/badge.js",
+    "pluginId": "Badge",
+    "clobbers": [
+      "cordova.plugins.notification.badge"
     ]
   },
   {
@@ -355,6 +355,14 @@ module.exports = [
     ]
   },
   {
+    "id": "StatusBar.statusbar",
+    "file": "plugins/StatusBar/www/statusbar.js",
+    "pluginId": "StatusBar",
+    "clobbers": [
+      "window.StatusBar"
+    ]
+  },
+  {
     "id": "WhiteList.whitelist",
     "file": "plugins/WhiteList/whitelist.js",
     "pluginId": "WhiteList",
@@ -422,7 +430,6 @@ module.exports.metadata =
 {
   "Extension": "1.5.4",
   "Chcp": "1.5.2",
-  "Badge": "0.8.8",
   "Geofence": "0.6.0",
   "SplashScreen": "5.0.2",
   "Push": "1.10.0",
@@ -430,6 +437,7 @@ module.exports.metadata =
   "Promises": "4.2.2",
   "AdmobPro": "2.30.1",
   "AppVersion": "0.1.8",
+  "Badge": "0.8.8",
   "BarcodeScanner": "7.1.2",
   "BrowserTab": "0.2.1",
   "Camera": "4.0.3",
@@ -440,6 +448,7 @@ module.exports.metadata =
   "InAppBrowser": "3.1.1-dev",
   "Keyboard": "2.2.0",
   "SocialSharing": "5.4.0",
+  "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
   "LocalNotification": "0.9.0-beta.3",
   "OfflineMode": "1.0.0",

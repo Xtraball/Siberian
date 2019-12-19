@@ -47,18 +47,22 @@ angular
             var inAppBrowserOptions = [];
             var _external_browser = (external_browser === undefined) ? false : external_browser;
             var _deviceOptions = {};
-            switch (DEVICE_TYPE) {
-                case SB.DEVICE.TYPE_ANDROID:
-                    _deviceOptions = options['android'];
-                    break;
-                case SB.DEVICE.TYPE_IOS:
-                    _deviceOptions = options['ios'];
-                    break;
+            try {
+                switch (DEVICE_TYPE) {
+                    case SB.DEVICE.TYPE_ANDROID:
+                        _deviceOptions = options['android'];
+                        break;
+                    case SB.DEVICE.TYPE_IOS:
+                        _deviceOptions = options['ios'];
+                        break;
+                }
+            } catch (e) {
+                _deviceOptions = {};
             }
             var _options = angular.extend({}, {
                 'toolbarcolor': $window.colors.header.backgroundColorHex,
                 'location': 'no',
-                'toolbar': 'no',
+                'toolbar': 'yes',
                 'zoom': 'no',
                 'enableViewPortScale': 'yes',
                 'closebuttoncaption': $translate.instant('Done'),

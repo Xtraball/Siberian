@@ -4,11 +4,8 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <button ng-show="locationIsDisabled()"
-                ng-click="requestLocation()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-location-off job-location-action icon-warning-custom"></i>
-        </button>
+        <location-button icon-class="'job-location-action'"></location-button>
+
         <button ng-show="admin_companies.length"
                 ng-click="adminModal()"
                 class="button button-clear header-item">
@@ -66,7 +63,7 @@
              ng-class="{'card' : cardDesign}"
              ng-if="!isLoading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate:"job" }}
+                {{ ::'No items found' | translate:'job' }}
             </div>
         </div>
 

@@ -13,9 +13,9 @@ angular
         settingsIsLoaded: false,
         value_id: $stateParams.value_id,
         collection: [],
-        pageTitle: "",
+        pageTitle: '',
         hasMore: false,
-        currentTab: "post"
+        currentTab: 'post'
     });
 
     Fanwall.setValueId($stateParams.value_id);
@@ -28,49 +28,16 @@ angular
         return Fanwall.settings;
     };
 
-    $scope.locationIsDisabled = function () {
-        return !Location.isEnabled;
-    };
-
     /**
      * Are we in a tab that requires the location
      * @returns {*|number}
      */
     $scope.locationTab = function () {
-        return ["nearby", "map"].indexOf($scope.currentTab) !== -1;
+        return ['nearby', 'map'].indexOf($scope.currentTab) !== -1;
     };
 
-    $scope.requestLocation = function () {
-        Dialog
-        .confirm(
-            "Error",
-            "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            ["TRY AGAIN", "DISMISS"],
-            -1,
-            "location")
-        .then(function (success) {
-            if (success) {
-                Location.isEnabled = true;
-                Loader.show();
-                Location
-                .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
-                .then(function (payload) {
-                    // GPS is OK!!
-                    Loader.hide();
-                    Dialog.alert("Success", "We finally got you location", "OK", 2350, "fanwall");
-                }, function () {
-                    Loader.hide();
-                    Dialog
-                    .alert(
-                        "Error",
-                        "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-                        "OK",
-                        3700,
-                        "location"
-                    );
-                });
-            }
-        });
+    $scope.locationIsDisabled = function () {
+        return !Location.isEnabled;
     };
 
     $scope.toggleDesign = function () {
@@ -164,8 +131,12 @@ angular
     };
 
     $scope.refresh = function () {
-        $rootScope.$broadcast("fanwall.refresh");
+        $rootScope.$broadcast('fanwall.refresh');
     };
+
+    $rootScope.$on('location.request.success', function () {
+        $scope.refresh();
+    });
 
     // Modal create post!
     $scope.newPost = function () {
@@ -187,7 +158,7 @@ angular
         $scope.settingsIsLoaded = true;
     });
 
-    $rootScope.$on("fanwall.pageTitle", function (event, payload) {
+    $rootScope.$on('fanwall.pageTitle', function (event, payload) {
         $timeout(function () {
             $scope.pageTitle = payload.pageTitle;
         });

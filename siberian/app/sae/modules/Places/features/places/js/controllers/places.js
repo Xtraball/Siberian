@@ -134,19 +134,6 @@ angular.module('starter')
 
     Places.setValueId($stateParams.value_id);
 
-    $scope.locationIsDisabled = function () {
-        return !Location.isEnabled;
-    };
-
-    $scope.requestLocation = function () {
-        Dialog.alert(
-            "Error",
-            "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            "OK",
-            3700,
-            "places");
-    };
-
     // Version 2
     $scope.nextFormat = function (user) {
         switch ($scope.currentFormat) {
@@ -181,10 +168,6 @@ angular.module('starter')
                 $scope.currentFormatBtn = "ion-sb-grid-33";
             break;
         }
-    };
-
-    $scope.refreshPlaces = function () {
-        $scope.pullToRefresh();
     };
 
     /** Re-run findAll with new options */
@@ -274,25 +257,26 @@ angular.module('starter')
         return "./features/places/assets/templates/l1/img/no-place.png";
     };
 
-    // Version 2
-    $scope.geolocationAvailable = true;
-
     // Search places
     $scope.searchPlaces = function (loadMore) {
         $scope.is_loading = true;
-        Location
-            .getLocation({timeout: 10000}, true)
-            .then(function (position) {
-                $scope.filters.latitude = position.coords.latitude;
-                $scope.filters.longitude = position.coords.longitude;
-                $scope.geolocationAvailable = true;
-            }, function () {
-                $scope.filters.latitude = 0;
-                $scope.filters.longitude = 0;
-                $scope.geolocationAvailable = false;
-            }).then(function () {
-                $scope.loadPlaces(loadMore, true);
-            });
+        if (Location.isEnabled) {
+            Location
+                .getLocation({timeout: 10000}, true)
+                .then(function (position) {
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                }, function () {
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                }).then(function () {
+                    $scope.loadPlaces(loadMore, true);
+                });
+        } else {
+            $scope.filters.latitude = 0;
+            $scope.filters.longitude = 0;
+            $scope.loadPlaces(loadMore, true);
+        }
     };
 
     $scope.loadPlaces = function (loadMore) {
@@ -351,6 +335,10 @@ angular.module('starter')
         });
     };
 
+    $rootScope.$on('location.request.success', function () {
+        $scope.validateFilters();
+    });
+
     // Loading places feature settings
     $pwaRequest.get("places/mobile_list/fetch-settings'", {
         urlParams: {
@@ -387,20 +375,24 @@ angular.module('starter')
             }
 
             // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
-            Location.getLocation({timeout: 10000}, true)
-                .then(function (position) {
-                    $scope.filters.latitude = position.coords.latitude;
-                    $scope.filters.longitude = position.coords.longitude;
-                    $scope.geolocationAvailable = true;
-                }, function (error) {
-                    $scope.filters.latitude = 0;
-                    $scope.filters.longitude = 0;
-                    $scope.geolocationAvailable = false;
-                }).then(function () {
-                    // Initiate the first loading!
-                    $scope.searchPlaces(false);
-                });
-        });
+            if (Location.isEnabled) {
+                Location.getLocation({timeout: 10000}, true)
+                    .then(function (position) {
+                        $scope.filters.latitude = position.coords.latitude;
+                        $scope.filters.longitude = position.coords.longitude;
+                    }, function (error) {
+                        $scope.filters.latitude = 0;
+                        $scope.filters.longitude = 0;
+                    }).then(function () {
+                        // Initiate the first loading!
+                        $scope.searchPlaces(false);
+                    });
+            } else {
+                $scope.filters.latitude = 0;
+                $scope.filters.longitude = 0;
+                $scope.searchPlaces(false);
+            }
+    });
 
 }).controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
                                                 $location, Places, SocialSharing, Url) {
@@ -478,8 +470,8 @@ angular.module('starter')
 
     $scope.loadContent();
 
-}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Location, Places,
-                                               GoogleMaps) {
+}).controller('PlacesMapController', function ($rootScope, $scope, $state, $stateParams, $translate, $timeout, Location,
+                                               Places, GoogleMaps) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -505,97 +497,109 @@ angular.module('starter')
     };
 
     $scope.loadContent = function () {
-        Location
-            .getLocation({timeout: 10000}, true)
-            .then(function (position) {
-                $scope.filters.latitude = position.coords.latitude;
-                $scope.filters.longitude = position.coords.longitude;
-            }, function () {
-                $scope.filters.latitude = 0;
-                $scope.filters.longitude = 0;
-            }).then(function () {
-                Places
-                    .findAllMaps($scope.filters, false)
-                    .then(function (data) {
-                        $scope.page_title = data.page_title;
-                        $scope.collection = data.places;
+        if (Location.isEnabled) {
+            Location
+                .getLocation({timeout: 10000}, true)
+                .then(function (position) {
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                }, function () {
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                }).then(function () {
+                    $scope.loadContentCallback();
+                });
+        } else {
+            $scope.filters.latitude = 0;
+            $scope.filters.longitude = 0;
+            $scope.loadContentCallback();
+        }
+    };
 
-                        Places.mapCollection = $scope.collection;
+    $scope.loadContentCallback = function () {
+        Places
+            .findAllMaps($scope.filters, false)
+            .then(function (data) {
+                $scope.page_title = data.page_title;
+                $scope.collection = data.places;
 
-                        var markers = [];
+                Places.mapCollection = $scope.collection;
 
-                        for (var i = 0; i < $scope.collection.length; i = i + 1) {
-                            var place = $scope.collection[i];
-                            var marker = {
-                                config: {
-                                    id: angular.copy(place.id),
-                                    place: angular.copy(place)
-                                },
-                                onClick: (function (marker) {
-                                    $timeout(function () {
-                                        $scope.showInfoWindow = true;
-                                        $scope.currentPlace = marker.config.place;
-                                    });
-                                })
-                            };
+                var markers = [];
 
-                            if (place.address.latitude && place.address.longitude) {
-                                marker.latitude = place.address.latitude;
-                                marker.longitude = place.address.longitude;
-                            } else {
-                                marker.address = place.address.address;
+                for (var i = 0; i < $scope.collection.length; i = i + 1) {
+                    var place = $scope.collection[i];
+                    var marker = {
+                        config: {
+                            id: angular.copy(place.id),
+                            place: angular.copy(place)
+                        },
+                        onClick: (function (marker) {
+                            $timeout(function () {
+                                $scope.showInfoWindow = true;
+                                $scope.currentPlace = marker.config.place;
+                            });
+                        })
+                    };
+
+                    if (place.address.latitude && place.address.longitude) {
+                        marker.latitude = place.address.latitude;
+                        marker.longitude = place.address.longitude;
+                    } else {
+                        marker.address = place.address.address;
+                    }
+
+                    switch (place.mapIcon) {
+                        case "pin":
+                            if (place.pin) {
+                                marker.icon = {
+                                    url: place.pin,
+                                    width: 42,
+                                    height: 42
+                                };
                             }
-
-                            switch (place.mapIcon) {
-                                case "pin":
-                                    if (place.pin) {
-                                        marker.icon = {
-                                            url: place.pin,
-                                            width: 42,
-                                            height: 42
-                                        };
-                                    }
-                                    break;
-                                case "image":
-                                    if (place.picture) {
-                                        marker.icon = {
-                                            url: place.picture,
-                                            width: 70,
-                                            height: 44
-                                        };
-                                    }
-                                    break;
-                                case "thumbnail":
-                                    if (place.thumbnail) {
-                                        marker.icon = {
-                                            url: place.thumbnail,
-                                            width: 42,
-                                            height: 42
-                                        };
-                                    }
-                                    break;
-                                case "default": default:
-                                    // Defaults to google map icons
-                                    break;
+                            break;
+                        case "image":
+                            if (place.picture) {
+                                marker.icon = {
+                                    url: place.picture,
+                                    width: 70,
+                                    height: 44
+                                };
                             }
+                            break;
+                        case "thumbnail":
+                            if (place.thumbnail) {
+                                marker.icon = {
+                                    url: place.thumbnail,
+                                    width: 42,
+                                    height: 42
+                                };
+                            }
+                            break;
+                        case "default": default:
+                            // Defaults to google map icons
+                            break;
+                    }
 
-                            markers.push(marker);
-                        }
+                    markers.push(marker);
+                }
 
-                        $scope.map_config = {
-                            cluster: true,
-                            markers: markers,
-                            bounds_to_marker: true
-                        };
-                    }).finally(function () {
-                        $scope.is_loading = false;
-                    });
+                $scope.map_config = {
+                    cluster: true,
+                    markers: markers,
+                    bounds_to_marker: true
+                };
+            }).finally(function () {
+                $scope.is_loading = false;
             });
-
-
     };
 
     $scope.loadContent();
+
+    $rootScope.$on('location.request.success', function () {
+        $scope.loadContent();
+    });
 
     $scope.goToPlace = function (placeId) {
         $state.go("places-view", {

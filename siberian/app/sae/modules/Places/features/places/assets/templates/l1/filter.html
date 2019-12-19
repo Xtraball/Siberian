@@ -8,7 +8,7 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Search" | translate }}</h1>
+        <h1 class="title">{{ ::'Search' | translate:'places' }}</h1>
         <div class="buttons">
             <button class="button button-clear"
                     ng-click="clearFilters();">
@@ -24,7 +24,7 @@
                 <div>
                     <input type="text"
                            style="width: 100%;"
-                           placeholder='{{ "Name, locality, etc..." | translate }}'
+                           placeholder="{{ ::'Name, locality, etc...' | translate:'places' }}"
                            ng-model="filters.fulltext" />
                     <i ng-show="filters.fulltext.length > 0"
                        ng-click="filters.fulltext = ''"
@@ -34,7 +34,7 @@
 
             <div class="item item-divider item-divider-custom"
                  ng-if="categories.length > 0">
-                {{ "Categories" | translate }}
+                {{ ::'Categories' | translate:'places' }}
             </div>
 
             <div class="categories-container item item-custom"
@@ -58,7 +58,7 @@
 
     <button class="search-button button button-assertive button-assertive-custom button-full"
             ng-click="validateFilters();">
-        {{ "Validate" | translate }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ ::'Validate' | translate:'places' }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-sb-search"></i>
     </button>
 </ion-modal-view>

@@ -126,7 +126,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
         $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|ftp|file|blob|ionic):|data:image/);
         $httpProvider.defaults.withCredentials = true;
         $ionicConfigProvider.views.swipeBackEnabled(false);
-        $ionicConfigProvider.backButton.text("");
+        $ionicConfigProvider.backButton.text('');
         $ionicConfigProvider.backButton.previousTitleText(false);
 
         // Register lazyModules states
@@ -260,13 +260,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                         }
 
                         var HomepageLayout = $injector.get("HomepageLayout");
-
-                        // App keyboard & StatusBar!
-                        if (window.cordova &&
-                            window.cordova.plugins &&
-                            window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
-                        }
 
                         if (window.StatusBar !== undefined) {
                             switch (DEVICE_TYPE) {
