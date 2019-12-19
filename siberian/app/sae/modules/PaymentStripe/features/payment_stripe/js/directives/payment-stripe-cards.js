@@ -156,7 +156,7 @@ angular
             });
 
             // Generic refresh from any other page!
-            $rootScope.$on("paymentMethod.refresh", function () {
+            $rootScope.$on('paymentMethod.refresh', function () {
                 $scope.fetchVaults();
             });
 
