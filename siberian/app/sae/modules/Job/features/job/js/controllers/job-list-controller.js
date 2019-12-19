@@ -191,9 +191,9 @@ angular.module("starter").controller("JobListController", function (Location, So
         });
     };
 
-    $scope.refreshAfterLocationSuccess = function () {
+    $rootScope.$on('location.request.success', function () {
         $scope.loadContent(true);
-    };
+    });
 
     // Loading places feature settings
     Job

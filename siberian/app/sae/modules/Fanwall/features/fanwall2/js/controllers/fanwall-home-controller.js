@@ -131,8 +131,12 @@ angular
     };
 
     $scope.refresh = function () {
-        $rootScope.$broadcast("fanwall.refresh");
+        $rootScope.$broadcast('fanwall.refresh');
     };
+
+    $rootScope.$on('location.request.success', function () {
+        $scope.refresh();
+    });
 
     // Modal create post!
     $scope.newPost = function () {
@@ -154,7 +158,7 @@ angular
         $scope.settingsIsLoaded = true;
     });
 
-    $rootScope.$on("fanwall.pageTitle", function (event, payload) {
+    $rootScope.$on('fanwall.pageTitle', function (event, payload) {
         $timeout(function () {
             $scope.pageTitle = payload.pageTitle;
         });
