@@ -158,9 +158,9 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q,
                 'location')
             .then(function (success) {
                 if (success) {
-                    Location.isEnabled = true;
+                    service.isEnabled = true;
                     Loader.show();
-                    Location
+                    service
                         .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
                         .then(function (payload) {
                             // GPS is OK!!
@@ -170,7 +170,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q,
                             if (success &&
                                 typeof success === 'function') {
                                 try {
-                                    $scope.success();
+                                    success();
                                 } catch (e) {
                                     // Silent!
                                 }

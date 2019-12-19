@@ -4,7 +4,8 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <location-button icon-class="'job-location-action'"></location-button>
+        <location-button success="refreshAfterLocationSuccess"
+                         icon-class="'job-location-action'"></location-button>
 
         <button ng-show="admin_companies.length"
                 ng-click="adminModal()"

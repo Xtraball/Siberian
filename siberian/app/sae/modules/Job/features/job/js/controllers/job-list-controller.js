@@ -191,6 +191,10 @@ angular.module("starter").controller("JobListController", function (Location, So
         });
     };
 
+    $scope.refreshAfterLocationSuccess = function () {
+        $scope.loadContent(true);
+    };
+
     // Loading places feature settings
     Job
     .fetchSettings()
