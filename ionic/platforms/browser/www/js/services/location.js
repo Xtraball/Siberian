@@ -5,7 +5,7 @@
  * @author Xtraball SAS
  *
  */
-angular.module('starter').service('Location', function ($cordovaGeolocation, $q, Dialog, Loader) {
+angular.module('starter').service('Location', function ($rootScope, $cordovaGeolocation, $q, Dialog, Loader) {
     var service = {
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
@@ -164,6 +164,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q,
                         .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
                         .then(function (payload) {
                             // GPS is OK!!
+                            $rootScope.$broadcast('location.request.success');
                             Loader.hide();
                             Dialog.alert('Success', 'We finally got you location', 'OK', 2350, 'location');
 
@@ -176,6 +177,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q,
                                 }
                             }
                         }, function () {
+                            $rootScope.$broadcast('location.request.error');
                             Loader.hide();
                             Dialog
                                 .alert(

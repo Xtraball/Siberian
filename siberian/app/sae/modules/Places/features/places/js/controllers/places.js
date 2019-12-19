@@ -170,10 +170,6 @@ angular.module('starter')
         }
     };
 
-    $scope.refreshPlaces = function () {
-        $scope.pullToRefresh();
-    };
-
     /** Re-run findAll with new options */
     $scope.validateFilters = function () {
         $scope.closeFilterModal();
@@ -339,6 +335,10 @@ angular.module('starter')
         });
     };
 
+    $rootScope.$on('location.request.success', function () {
+        $scope.validateFilters();
+    });
+
     // Loading places feature settings
     $pwaRequest.get("places/mobile_list/fetch-settings'", {
         urlParams: {
@@ -470,8 +470,8 @@ angular.module('starter')
 
     $scope.loadContent();
 
-}).controller('PlacesMapController', function ($scope, $state, $stateParams, $translate, $timeout, Location, Places,
-                                               GoogleMaps) {
+}).controller('PlacesMapController', function ($rootScope, $scope, $state, $stateParams, $translate, $timeout, Location,
+                                               Places, GoogleMaps) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -596,6 +596,10 @@ angular.module('starter')
     };
 
     $scope.loadContent();
+
+    $rootScope.$on('location.request.success', function () {
+        $scope.loadContent();
+    });
 
     $scope.goToPlace = function (placeId) {
         $state.go("places-view", {
