@@ -197,6 +197,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>UILaunchStoryboardName</key>
+	<string>CDVLaunchScreen</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
