@@ -8,7 +8,7 @@
                 <i class="icon ion-sb-close-modal"></i>
             </button>
         </div>
-        <h1 class="title">{{ "Search" | translate:"job" }}</h1>
+        <h1 class="title">{{ ::'Search' | translate:'job' }}</h1>
         <div class="buttons">
             <button class="button button-clear"
                     ng-click="clearFilters();">
@@ -25,7 +25,7 @@
                 <div>
                     <input type="text"
                            style="width: 100%;"
-                           placeholder="{{ 'Text, word, etc...' | translate:'job' }}"
+                           placeholder="{{ ::'Text, word, etc...' | translate:'job' }}"
                            ng-model="filters.fulltext" />
                     <i ng-show="filters.fulltext.length > 0"
                        ng-click="filters.fulltext = ''"
@@ -37,7 +37,7 @@
                 <div>
                     <input type="text"
                            style="width: 100%;"
-                           placeholder="{{ 'Locality' | translate:'job' }}"
+                           placeholder="{{ ::'Locality' | translate:'job' }}"
                            ng-model="filters.locality" />
                     <i ng-show="filters.locality.length > 0"
                        ng-click="filters.locality = ''"
@@ -46,7 +46,7 @@
             </div>
 
             <div class="item item-custom">
-                <h2>{{ "Distance" | translate:"job" }} <span class="job-distance"><span ng-bind="distance_range[Math.floor(filters.radius)]"></span>{{ distance_unit }}</span></h2>
+                <h2>{{ ::'Distance' | translate:'job' }} <span class="job-distance"><span ng-bind="distance_range[Math.floor(filters.radius)]"></span>{{ distance_unit }}</span></h2>
                 <div>
                     <input type="range"
                            ng-model="filters.radius"
@@ -61,7 +61,7 @@
                 <div>
                     <input type="text"
                            style="width: 100%;"
-                           placeholder="{{ 'Keywords' | translate:'job' }}"
+                           placeholder="{{ ::'Keywords' | translate:'job' }}"
                            ng-model="filters.keywords" />
                     <i ng-show="filters.keywords.length > 0"
                        ng-click="filters.keywords = ''"
@@ -75,7 +75,7 @@
 
             <div class="item item-divider item-divider-custom"
                  ng-if="categories.length > 0">
-                {{ "Categories" | translate:"job" }}
+                {{ ::'Categories' | translate:'job' }}
             </div>
 
             <div>
@@ -102,7 +102,7 @@
              ng-if="cardDesign">
             <button class="button button-assertive button-assertive-custom button-block"
                     ng-click="validateFilters();">
-                {{ "Search" | translate:"job" }}&nbsp;&nbsp;&nbsp;&nbsp;
+                {{ ::'Search' | translate:'job' }}&nbsp;&nbsp;&nbsp;&nbsp;
                 <i class="icon ion-sb-search"></i>
             </button>
         </div>
@@ -112,7 +112,7 @@
     <button class="search-button button button-assertive button-assertive-custom button-full"
             ng-if="!cardDesign"
             ng-click="validateFilters();">
-        {{ "Search" | translate:"job" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ ::'Search' | translate:'job' }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-sb-search"></i>
     </button>
 </ion-modal-view>

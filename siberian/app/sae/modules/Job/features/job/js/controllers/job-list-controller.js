@@ -132,18 +132,27 @@ angular.module("starter").controller("JobListController", function (Location, So
         }
 
         // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
-        Location
-        .getLocation({timeout: 10000}, true)
-        .then(function (position) {
-            $scope.filters.latitude = position.coords.latitude;
-            $scope.filters.longitude = position.coords.longitude;
-            $scope.geolocationAvailable = true;
-        }, function (error) {
+        if (Location.isEnabled) {
+            Location
+                .getLocation({timeout: 10000}, true)
+                .then(function (position) {
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                }, function (error) {
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                }).then(function () {
+                $scope.findAll(refresh, loadMore);
+                });
+        } else {
             $scope.filters.latitude = 0;
             $scope.filters.longitude = 0;
-            $scope.geolocationAvailable = false;
-        }).then(function () {
-            Job
+            $scope.findAll(refresh, loadMore);
+        }
+    };
+
+    $scope.findAll = function (refresh, loadMore) {
+        Job
             .findAll($scope.filters, refresh)
             .then(function (data) {
                 Job.collection = Job.collection.concat(angular.copy(data.places));
@@ -151,12 +160,11 @@ angular.module("starter").controller("JobListController", function (Location, So
 
                 $scope.load_more = (data.total > $scope.collection.length);
             }).then(function () {
-                if (loadMore) {
-                    $scope.$broadcast("scroll.infiniteScrollComplete");
-                }
+            if (loadMore) {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }
 
-                $scope.isLoading = false;
-            });
+            $scope.isLoading = false;
         });
     };
 

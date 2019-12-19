@@ -4,7 +4,7 @@
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <location-button ng-show="locationTab()"
+        <location-button ng-if="locationTab()"
                          icon-class="'fanwall-location-action'"></location-button>
 
         <button ng-click="refresh()"

@@ -13,9 +13,9 @@ angular
         settingsIsLoaded: false,
         value_id: $stateParams.value_id,
         collection: [],
-        pageTitle: "",
+        pageTitle: '',
         hasMore: false,
-        currentTab: "post"
+        currentTab: 'post'
     });
 
     Fanwall.setValueId($stateParams.value_id);
@@ -33,7 +33,7 @@ angular
      * @returns {*|number}
      */
     $scope.locationTab = function () {
-        return ["nearby", "map"].indexOf($scope.currentTab) !== -1;
+        return ['nearby', 'map'].indexOf($scope.currentTab) !== -1;
     };
 
     $scope.locationIsDisabled = function () {

@@ -36,7 +36,7 @@
                 <img ng-src="{{ place.banner }}"
                      width="100%" />
                 <div ng-show="!place.is_active"
-                     class="job-inactive">{{ "inactive" | translate:"job" }}</div>
+                     class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
             </div>
 
             <div class="item item-divider item-divider-custom"
@@ -71,7 +71,7 @@
                     <div class="col col-90">
                         <i class="icon ion-sb-message"></i>
                         <p>
-                            <span ng-if="displayContactForm(place)">{{ "Contact" | translate:"job" }}</span>
+                            <span ng-if="displayContactForm(place)">{{ ::'Contact' | translate:'job' }}</span>
                             <span ng-if="place.display_contact == 'both'">: </span>
                             <span ng-if="displayEmail(place)">{{ place.email }}</span>
                         </p>
