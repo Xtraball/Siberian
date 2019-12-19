@@ -29,7 +29,7 @@ class Stripe
      * @param null $appId
      * @return bool
      */
-    public function isSetup($appId = null)
+    public function isSetup($appId = null): bool
     {
         return Application::isEnabled($appId);
     }
@@ -41,7 +41,7 @@ class Stripe
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public function authorize(Customer $stripeCustomer, array $params)
+    public function authorize(Customer $stripeCustomer, array $params): PaymentIntent
     {
         $stripePaymentIntent = StripePaymentIntent::create($params);
 
