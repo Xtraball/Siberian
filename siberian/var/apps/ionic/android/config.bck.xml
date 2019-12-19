@@ -42,7 +42,6 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="28" />
-    <preference name="resizeOnFullScreen" value="true" />
     <preference name="applicationId" value="${applicationId}" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
