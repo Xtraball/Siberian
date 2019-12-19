@@ -77,6 +77,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -421,6 +425,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "StatusBar": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WhiteList": {
@@ -810,6 +817,14 @@
       ]
     },
     {
+      "id": "StatusBar.statusbar",
+      "file": "plugins/StatusBar/www/statusbar.js",
+      "pluginId": "StatusBar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
+    },
+    {
       "id": "WhiteList.whitelist",
       "file": "plugins/WhiteList/whitelist.js",
       "pluginId": "WhiteList",
@@ -893,6 +908,7 @@
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.4.0",
+    "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
