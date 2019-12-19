@@ -221,18 +221,21 @@ class Security
 
         $tmpFilename = $tmpDir . '/' . uniqid();
 
-        File::putContents($tmpFilename, $content);
-        chmod($tmpFilename, 0777);
+        // Ensure content has data!
+        if (!empty($content)) {
+            File::putContents($tmpFilename, $content);
+            chmod($tmpFilename, 0777);
 
-        // Second pass will use ClamAV (if available)
-        $clamav = new ClamAV();
-        if ($clamav->ping() &&
-            !$clamav->scan($tmpFilename)) {
-            $lastError = $clamav->getLastError();
+            // Second pass will use ClamAV (if available)
+            $clamav = new ClamAV();
+            if ($clamav->ping() &&
+                !$clamav->scan($tmpFilename)) {
+                $lastError = $clamav->getLastError();
+                unlink($tmpFilename);
+                return self::logAlert("#$origin-002: Suspicious file detected.", $session, $lastError);
+            }
             unlink($tmpFilename);
-            return self::logAlert("#$origin-002: Suspicious file detected.", $session, $lastError);
         }
-        unlink($tmpFilename);
     }
 
     /**
