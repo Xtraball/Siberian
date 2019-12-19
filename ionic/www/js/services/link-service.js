@@ -58,7 +58,7 @@ angular
             var _options = angular.extend({}, {
                 'toolbarcolor': $window.colors.header.backgroundColorHex,
                 'location': 'no',
-                'toolbar': 'no',
+                'toolbar': 'yes',
                 'zoom': 'no',
                 'enableViewPortScale': 'yes',
                 'closebuttoncaption': $translate.instant('Done'),
