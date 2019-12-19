@@ -79,19 +79,15 @@
         <resource-file src="resources/google-services.json"
                        target="app/google-services.json" />
 
-        <preference name="resizeOnFullScreen" value="true" />
         <preference name="applicationId" value="${applicationId}" />
     </platform>
 
     <platform name="ios">
+        <preference name="HideKeyboardFormAccessoryBar" value="false" />
         <preference name="KeyboardResize" value="true" />
         <preference name="KeyboardResizeMode" value="native" />
         <preference name="deployment-target" value="10.0" />
         <preference name="WKWebViewOnly" value="true" />
-        <!--icon height="180"
-              src="resources/ios/icon/icon-60@3x.png"
-              width="180" />
-        <splash src="resources/ios/splash/Default@2x~universal~anyany.jpg" /-->
     </platform>
 
     <engine name="ios" />
