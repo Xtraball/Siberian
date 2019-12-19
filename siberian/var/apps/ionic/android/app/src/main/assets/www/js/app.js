@@ -320,25 +320,16 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
                         }
 
-                        // App keyboard & StatusBar!
-                        if (window.cordova &&
-                            window.cordova.plugins &&
-                            window.cordova.plugins.Keyboard) {
-                            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
-                        }
-
-                        // Configuring PushService & skip if this is a preview.
                         if (!IS_PREVIEW) {
+                            // Configuring PushService & skip if this is a preview.
                             try {
                                 PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
                                 PushService.register();
                             } catch (e) {
                                 $log.error('An error occured while registering device for Push.', e.message);
                             }
-                        }
 
-                        // skip chcp inside webview loaded app!
-                        if (!IS_PREVIEW) {
+                            // skip chcp inside webview loaded app!
                             $rootScope.fetchupdatetimer = null;
 
                             $ionicPlatform.on('resume', function (resumeResult) {

@@ -17,10 +17,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"Badge\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.badge.Badge\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"GeofencePlugin\"><param name=\"android-package\" value=\"com.cowbell.cordova.geofence.GeofencePlugin\" /></feature>",
               "count": 1
             },
@@ -42,6 +38,10 @@
             },
             {
               "xml": "<feature name=\"AppVersion\"><param name=\"android-package\" value=\"uk.co.whiteoctober.cordova.AppVersion\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Badge\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.badge.Badge\" /></feature>",
               "count": 1
             },
             {
@@ -74,6 +74,10 @@
             },
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -366,9 +370,6 @@
     "Chcp": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Badge": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Geofence": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -390,6 +391,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Badge": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BarcodeScanner": {
@@ -421,6 +425,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "StatusBar": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WhiteList": {
@@ -461,14 +468,6 @@
       "pluginId": "Chcp",
       "clobbers": [
         "chcp"
-      ]
-    },
-    {
-      "id": "Badge.Badge",
-      "file": "plugins/Badge/www/badge.js",
-      "pluginId": "Badge",
-      "clobbers": [
-        "cordova.plugins.notification.badge"
       ]
     },
     {
@@ -531,6 +530,14 @@
       "pluginId": "AppVersion",
       "clobbers": [
         "cordova.getAppVersion"
+      ]
+    },
+    {
+      "id": "Badge.Badge",
+      "file": "plugins/Badge/www/badge.js",
+      "pluginId": "Badge",
+      "clobbers": [
+        "cordova.plugins.notification.badge"
       ]
     },
     {
@@ -810,6 +817,14 @@
       ]
     },
     {
+      "id": "StatusBar.statusbar",
+      "file": "plugins/StatusBar/www/statusbar.js",
+      "pluginId": "StatusBar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
+    },
+    {
       "id": "WhiteList.whitelist",
       "file": "plugins/WhiteList/whitelist.js",
       "pluginId": "WhiteList",
@@ -875,7 +890,6 @@
   "plugin_metadata": {
     "Extension": "1.5.4",
     "Chcp": "1.5.2",
-    "Badge": "0.8.8",
     "Geofence": "0.6.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
@@ -883,6 +897,7 @@
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
     "AppVersion": "0.1.8",
+    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
     "Camera": "4.0.3",
@@ -893,6 +908,7 @@
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.4.0",
+    "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",

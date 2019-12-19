@@ -1,137 +1,162 @@
 <?php
 
-use Siberian\Exception;
+class Mcommerce_Application_StoreController extends Application_Controller_Default_Ajax {
 
-use Mcommerce_Model_Store as Store;
-use Mcommerce\Form\Store as FormStore;
-use Mcommerce\Form\Store\Delete as FormStoreDelete;
+    public function newAction() {
+        $this->_forward('edit');
+    }
 
-class Mcommerce_Application_StoreController extends Application_Controller_Default_Ajax
-{
-    /**
-     * @var array
-     */
-    public $cache_triggers = [
-        'edit-post' => [
-            'tags' => [
-                'homepage_app_#APP_ID#',
-            ],
-        ],
-        'delete-post' => [
-            'tags' => [
-                'homepage_app_#APP_ID#',
-            ],
-        ]
-    ];
+    public function editAction() {
 
-    /**
-     *
-     */
-    public function loadFormAction()
-    {
+        $store = new Mcommerce_Model_Store();
+        $mcommerce = $this->getCurrentOptionValue()->getObject();
+        if ($id = $this->getRequest()->getParam('store_id')) {
+            $store->find($id);
+            if ($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
+            }
+        }
+
+        $html = $this->getLayout()->addPartial('store_form', 'admin_view_default', 'mcommerce/application/edit/store/edit.phtml')
+            ->setOptionValue($this->getCurrentOptionValue())
+            ->setCurrentStore($store)
+            ->toHtml();
+
+        $html = ['form_html' => $html];
+
+        $this->_sendHtml($html);
+
+    }
+
+    public function editpostAction() {
         try {
             $request = $this->getRequest();
-            $storeTaxId = $request->getParam('tax_id', null);
-            $optionValue = $this->getCurrentOptionValue();
+            $params = $request->getParams();
+            if (empty($params)) {
+                throw new Siberian_Exception(__('Missing params!'));
+            }
 
-            $store = (new Store())->find($storeTaxId);
+            $optionValue = $this->getCurrentOptionValue();
+            $mcommerce = $optionValue->getObject();
+
+            if (!empty($params['store_id'])) {
+                $store = (new Mcommerce_Model_Store())
+                    ->find($params['store_id']);
+                if ($store->getId() && $mcommerce->getId() !== $store->getMcommerceId()) {
+                    throw new Siberian_Exception(__('The store & mcommerce instances mismatch!'));
+                }
+            } else {
+                $store = new Mcommerce_Model_Store();
+            }
+
+            // Upsert delivery methods!
+            if (!empty($params['details_delivery_methods'])) {
+                foreach ($params['details_delivery_methods'] as $methodId => $deliveryDetails) {
+                    foreach ($params['new_delivery_methods'] as $key => $deliveryMethod) {
+                        if ($deliveryMethod['method_id'] == $methodId) {
+                            $params['new_delivery_methods'][$key] = array_merge($deliveryDetails, $deliveryMethod);
+                        }
+                    }
+                }
+                unset($params['details_delivery_methods']);
+            }
+
+            $params['clients_calculate_change'] = !empty($params['clients_calculate_change']);
+
+            $latitude = null;
+            $longitude = null;
+            if (!empty($params['street']) &&
+                !empty($params['postcode']) &&
+                !empty($params['city']) &&
+                !empty($params['country'])) {
+                $address = array_intersect_key($params, [
+                    'street' => 'street',
+                    'postcode' => 'postcode',
+                    'city' => 'city',
+                    'country' => 'country'
+                ]);
+                list($latitude, $longitude) = Siberian_Google_Geocoding::getLatLng($address, $this->getApplication()->getGooglemapsKey());
+            }
+
+            $params['latitude'] = $latitude;
+            $params['longitude'] = $longitude;
 
             if (!$store->getId()) {
-                throw new Exception(p__('m_commerce', "This store doesn't exists!"));
+                $params['mcommerce_id'] = $mcommerce->getId();
+                $isNew = true;
             }
-
-            $form = new FormStore();
-            $form->populate($store->getData());
-            $form->removeNav('nav_store_form');
-            $form->addNav('nav_store_form_edit', 'Save', false);
-            $form->setStoreId($store->getId());
+            $store
+                ->setData($params)
+                ->save();
 
             $payload = [
-                'success' => true,
-                'form' => $form->render(),
-                'message' => __('Success.'),
+                'store_id' => $store->getId(),
+                'success' => '1',
+                'success_message' => __('Store successfully saved'),
+                'message_timeout' => 2,
+                'message_button' => 0,
+                'message_loader' => 0
             ];
-        } catch (\Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage(),
-            ];
-        }
 
-        $this->_sendJson($payload);
-    }
+            if ($isNew) {
+                $payload['row_html'] = $this->getLayout()->addPartial('row_store_'.$store->getId(), 'admin_view_default', 'mcommerce/application/edit/store/li.phtml')
+                    ->setCurrentOptionValue($this->getCurrentOptionValue())
+                    ->setCurrentStore($store)
+                    ->toHtml()
+                ;
 
-    /**
-     *
-     */
-    public function editPostAction()
-    {
-        try {
-            $request = $this->getRequest();
-            $values = $request->getPost();
-
-            if (empty($values)) {
-                throw new Exception(p__('m_commerce', 'Missing params.'));
-            }
-
-            $form = new FormStore();
-            if ($form->isValid($values)) {
-                /** Do whatever you need when form is valid */
-                $store = new Store();
-                $store->find($values['store_id']);
-                $store
-                    ->addData($values)
-                    ->save();
-
-                $payload = [
-                    'success' => true,
-                    'message' => __('Success.'),
-                ];
             } else {
-                /** Do whatever you need when form is not valid */
-                $payload = [
-                    'error' => true,
-                    'message' => $form->getTextErrors(),
-                    'errors' => $form->getTextErrors(true),
-                ];
+                $payload['store_name'] = $store->getFullAddress(', ');
             }
-
-        } catch (\Exception $e) {
+        } catch(Exception $e) {
             $payload = [
                 'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function removeAction() {
+
+        $store = new Mcommerce_Model_Store();
+
+        try {
+            if($id = $this->getRequest()->getParam('store_id')) {
+
+                $mcommerce = $this->getCurrentOptionValue()->getObject();
+                $store->find($id);
+                if(!$store->getId() OR $mcommerce->getId() != $store->getMcommerceId()) {
+                    throw new Exception(__('An error occurred during the process. Please try again later.'));
+                }
+
+                $store->setIsVisible(0)->save();
+
+                $html = [
+                    'store_id' => $store->getId(),
+                    'success' => '1',
+                    'success_message' => __('Store successfully deleted'),
+                    'message_timeout' => 2,
+                    'message_button' => 0,
+                    'message_loader' => 0
+                ];
+
+            }
+            else {
+                throw new Exception(__('An error occurred during the process. Please try again later.'));
+            }
+        } catch(Exception $e) {
+            $html = [
+                'error' => 1,
                 'message' => $e->getMessage(),
+                'message_button' => 1,
+                'message_loader' => 1
             ];
         }
 
-        $this->_sendJson($payload);
+        $this->_sendHtml($html);
+
     }
 
-    /**
-     * Delete tax
-     */
-    public function deletePostAction()
-    {
-        $request = $this->getRequest();
-        $values = $request->getPost();
-
-        $form = new FormStoreDelete();
-        if ($form->isValid($values)) {
-            $store = new Store();
-            $store->find($values['tax_id']);
-            $store->delete();
-
-            $payload = [
-                'success' => true,
-                'message' => p__('m_commerce', 'Store deleted.'),
-            ];
-        } else {
-            $payload = [
-                'error' => true,
-                'message' => $form->getTextErrors(),
-                'errors' => $form->getTextErrors(true),
-            ];
-        }
-
-        $this->_sendJson($payload);
-    }
 }

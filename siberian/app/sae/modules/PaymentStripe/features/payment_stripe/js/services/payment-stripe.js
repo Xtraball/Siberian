@@ -344,7 +344,12 @@ angular
     };
 
     service.deletePaymentMethod = function (card) {
-        console.log("service.deletePaymentMethod", card);
+        return $pwaRequest.post("/paymentstripe/mobile_cards/delete-payment-method",
+            {
+                data: {
+                    card: card
+                }
+            });
     };
 
     service.fetchSettings = function () {

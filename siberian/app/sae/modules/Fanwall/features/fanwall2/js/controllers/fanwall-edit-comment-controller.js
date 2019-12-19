@@ -14,8 +14,7 @@ angular
         form: {
             text: "",
             picture: "",
-            date: null,
-
+            date: null
         }
     });
 

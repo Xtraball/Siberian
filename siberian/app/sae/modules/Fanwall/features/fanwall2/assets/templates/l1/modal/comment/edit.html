@@ -9,7 +9,7 @@
                 <i class="icon ion-android-arrow-back"></i>
             </button>
         </div>
-        <h1 class="title">{{ pageTitle | translate:"fanwall" }}</h1>
+        <h1 class="title">{{ pageTitle | translate:'fanwall' }}</h1>
     </ion-header-bar>
 
     <ion-content class="has-footer-fixed">
@@ -19,7 +19,7 @@
             <ion-item class="item-input item-custom"
                       ng-class="{'card': getCardDesign()}">
                 <label>
-                    <textarea placeholder="{{ 'Write your comment...' | translate:'fanwall' }}"
+                    <textarea placeholder="{{ ::'Write your comment...' | translate:'fanwall' }}"
                               rows="12"
                               ng-model="form.text"></textarea>
                 </label>
@@ -52,7 +52,7 @@
                 <div class="row">
                     <div class="col-90">
                         <i class="icon ion-image add-image-icon"></i>
-                        <p>{{ ::"Add a picture" | translate:"fanwall" }}</p>
+                        <p>{{ ::'Add a picture' | translate:'fanwall' }}</p>
                     </div>
                     <div class="col-10">
                         <i class="item-note ion-chevron-right arrow-center"></i>
@@ -66,7 +66,7 @@
 
     <button class="post-button button button-assertive button-assertive-custom button-full"
             ng-click="sendComment();">
-        {{ ::"Save" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ ::'Save' | translate:'fanwall' }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-ios-paperplane"></i>
     </button>
 

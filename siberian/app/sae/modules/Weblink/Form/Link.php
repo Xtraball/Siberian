@@ -83,10 +83,10 @@ class Link extends FormAbstract
             //'useWideViewPort' => [],
             //'cleardata' => [],
             //'disallowoverscroll' => [],
-            'toolbar' => [
-                'platforms' => ['ios'],
-                'hint' => p__('weblink', 'Show the toolbar'),
-            ],
+            //'toolbar' => [
+            //    'platforms' => ['ios'],
+            //    'hint' => p__('weblink', 'Show the toolbar'),
+            //],
             //'toolbartranslucent' => [],
             //'enableViewportScale' => [],
             //'allowInlineMediaPlayback' => [],

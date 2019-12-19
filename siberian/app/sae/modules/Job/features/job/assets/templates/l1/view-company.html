@@ -54,7 +54,7 @@
                 </div>
 
                 <div ng-show="!company.is_active"
-                     class="job-inactive">{{ "inactive" | translate:"job" }}</div>
+                     class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
             </div>
 
 
@@ -73,7 +73,7 @@
             <button class="button button-balanced button-balanced-custom"
                     ng-click="createModal();"
                     ng-class="{'button-block': cardDesign, 'button-full': !cardDesign}">
-                {{ "Create a new job offer" | translate:"job" }}
+                {{ ::'Create a new job offer' | translate:'job' }}
             </button>
         </div>
 
@@ -83,7 +83,7 @@
 
             <div class="item item-divider item-divider-custom item-button-right">
                 <h2>
-                    {{ "Job offers" | translate:"job" }}
+                    {{ ::'Job offers' | translate:'job' }}
                     <span ng-if="company.places.length > 0">({{ company.places.length }})</span>
                 </h2>
             </div>
@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div ng-show="!place.is_active"
-                         class="job-inactive">{{ "inactive" | translate:"job" }}</div>
+                         class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
                 </div>
             </div>
         </div>

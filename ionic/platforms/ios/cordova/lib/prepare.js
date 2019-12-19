@@ -707,7 +707,8 @@ function mapLaunchStoryboardResources (splashScreens, launchStoryboardImagesDir)
  * @return {Object}
  */
 function getLaunchStoryboardContentsJSON (splashScreens, launchStoryboardImagesDir) {
-
+    // Do nothing, the template is ok!
+    return;
     var platformLaunchStoryboardImages = mapLaunchStoryboardContents(splashScreens, launchStoryboardImagesDir);
     var contentsJSON = {
         images: [],
@@ -795,16 +796,18 @@ function splashScreensHaveLaunchStoryboardImages (contentsJSON) {
 }
 
 function platformHasLaunchStoryboardImages (platformConfig) {
-    var splashScreens = platformConfig.getSplashScreens('ios');
-    var contentsJSON = getLaunchStoryboardContentsJSON(splashScreens, ''); // note: we don't need a file path here; we're just counting
-    return splashScreensHaveLaunchStoryboardImages(contentsJSON);
+    return true;
+    //var splashScreens = platformConfig.getSplashScreens('ios');
+    //var contentsJSON = getLaunchStoryboardContentsJSON(splashScreens, ''); // note: we don't need a file path here; we're just counting
+    //return splashScreensHaveLaunchStoryboardImages(contentsJSON);
 }
 
 function platformHasLegacyLaunchImages (platformConfig) {
-    var splashScreens = platformConfig.getSplashScreens('ios');
-    return !!splashScreens.reduce(function (p, c) {
-        return (c.width !== undefined || c.height !== undefined) ? c : p;
-    }, undefined);
+    return false;
+    //var splashScreens = platformConfig.getSplashScreens('ios');
+    //return !!splashScreens.reduce(function (p, c) {
+    //    return (c.width !== undefined || c.height !== undefined) ? c : p;
+    //}, undefined);
 }
 
 /**
@@ -869,6 +872,8 @@ function getLaunchStoryboardImagesDir (projectRoot, platformProjDir) {
  * @param  {Object} locations          A dictionary containing useful location paths
  */
 function updateLaunchStoryboardImages (cordovaProject, locations) {
+    // Do nothing, the template is ok!
+    return;
     var splashScreens = cordovaProject.projectConfig.getSplashScreens('ios');
     var platformProjDir = path.relative(cordovaProject.root, locations.xcodeCordovaProj);
     var launchStoryboardImagesDir = getLaunchStoryboardImagesDir(cordovaProject.root, platformProjDir);
@@ -896,6 +901,9 @@ function updateLaunchStoryboardImages (cordovaProject, locations) {
  * @param  {Object} locations          A dictionary containing useful location paths
  */
 function cleanLaunchStoryboardImages (projectRoot, projectConfig, locations) {
+    // Do nothing, the template is ok!
+    return;
+
     var splashScreens = projectConfig.getSplashScreens('ios');
     var platformProjDir = path.relative(projectRoot, locations.xcodeCordovaProj);
     var launchStoryboardImagesDir = getLaunchStoryboardImagesDir(projectRoot, platformProjDir);
