@@ -5,7 +5,7 @@
  * @author Xtraball SAS
  *
  */
-angular.module('starter').service('Location', function ($cordovaGeolocation, $q) {
+angular.module('starter').service('Location', function ($cordovaGeolocation, $q, Dialog, Loader) {
     var service = {
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
