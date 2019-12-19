@@ -79,6 +79,10 @@
     <feature name="SocialSharing">
         <param name="ios-package" value="SocialSharing" />
     </feature>
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="LocalNotification">
         <param name="ios-package" onload="true" value="APPLocalNotification" />
         <param name="onload" value="true" />
@@ -127,8 +131,6 @@
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
-    <icon height="180" src="resources/ios/icon/icon-60@3x.png" width="180" />
-    <splash src="resources/ios/splash/Default@2x~universal~anyany.jpg" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="DisallowOverscroll" value="true" />
@@ -144,7 +146,9 @@
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="CameraUsesGeolocation" value="false" />
-    <preference name="deployment-target" value="11.0" />
+    <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="StatusBarStyle" value="lightcontent" />
+    <preference name="deployment-target" value="10.0" />
     <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
@@ -155,4 +159,8 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="android-minSdkVersion" value="19" />
     <preference name="android-targetSdkVersion" value="28" />
+    <preference name="HideKeyboardFormAccessoryBar" value="false" />
+    <preference name="KeyboardResize" value="true" />
+    <preference name="KeyboardResizeMode" value="native" />
+    <preference name="WKWebViewOnly" value="true" />
 </widget>

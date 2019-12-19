@@ -39,19 +39,6 @@ angular.module("starter").controller("JobListController", function (Location, So
 
     Job.setValueId($stateParams.value_id);
 
-    $scope.locationIsDisabled = function () {
-        return !Location.isEnabled;
-    };
-
-    $scope.requestLocation = function () {
-        Dialog.alert(
-            "Error",
-            "We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.",
-            "OK",
-            3700,
-            "job");
-    };
-
     $scope.validateFilters = function () {
         $scope.closeFilterModal();
 
@@ -145,18 +132,27 @@ angular.module("starter").controller("JobListController", function (Location, So
         }
 
         // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
-        Location
-        .getLocation({timeout: 10000}, true)
-        .then(function (position) {
-            $scope.filters.latitude = position.coords.latitude;
-            $scope.filters.longitude = position.coords.longitude;
-            $scope.geolocationAvailable = true;
-        }, function (error) {
+        if (Location.isEnabled) {
+            Location
+                .getLocation({timeout: 10000}, true)
+                .then(function (position) {
+                    $scope.filters.latitude = position.coords.latitude;
+                    $scope.filters.longitude = position.coords.longitude;
+                }, function (error) {
+                    $scope.filters.latitude = 0;
+                    $scope.filters.longitude = 0;
+                }).then(function () {
+                $scope.findAll(refresh, loadMore);
+                });
+        } else {
             $scope.filters.latitude = 0;
             $scope.filters.longitude = 0;
-            $scope.geolocationAvailable = false;
-        }).then(function () {
-            Job
+            $scope.findAll(refresh, loadMore);
+        }
+    };
+
+    $scope.findAll = function (refresh, loadMore) {
+        Job
             .findAll($scope.filters, refresh)
             .then(function (data) {
                 Job.collection = Job.collection.concat(angular.copy(data.places));
@@ -164,12 +160,11 @@ angular.module("starter").controller("JobListController", function (Location, So
 
                 $scope.load_more = (data.total > $scope.collection.length);
             }).then(function () {
-                if (loadMore) {
-                    $scope.$broadcast("scroll.infiniteScrollComplete");
-                }
+            if (loadMore) {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }
 
-                $scope.isLoading = false;
-            });
+            $scope.isLoading = false;
         });
     };
 
@@ -195,6 +190,10 @@ angular.module("starter").controller("JobListController", function (Location, So
             place_id: item.id
         });
     };
+
+    $rootScope.$on('location.request.success', function () {
+        $scope.loadContent(true);
+    });
 
     // Loading places feature settings
     Job

@@ -8,7 +8,6 @@ angular
         link: function (scope) {
             scope.$watch("post", function () {
                 // Updating local `post` instance
-                console.log("Updating local post instance");
                 scope._post = scope.post;
             });
         },

@@ -89,6 +89,18 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" value=\"CDVStatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"LocalNotification\"><param name=\"ios-package\" onload=\"true\" value=\"APPLocalNotification\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -270,6 +282,9 @@
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "SocialSharing": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "StatusBar": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "LocalNotification": {
@@ -656,6 +671,14 @@
       ]
     },
     {
+      "id": "StatusBar.statusbar",
+      "file": "plugins/StatusBar/www/statusbar.js",
+      "pluginId": "StatusBar",
+      "clobbers": [
+        "window.StatusBar"
+      ]
+    },
+    {
       "id": "LocalNotification.LocalNotification",
       "file": "plugins/LocalNotification/www/local-notification.js",
       "pluginId": "LocalNotification",
@@ -739,6 +762,7 @@
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.4.0",
+    "StatusBar": "2.4.1",
     "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",

@@ -9,12 +9,8 @@
                 <i class="icon ion-android-arrow-back"></i>
             </button>
         </div>
-        <h1 class="title">{{ pageTitle | translate:"fanwall" }}</h1>
-        <button ng-show="locationIsDisabled()"
-                ng-click="requestLocation()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-location-off fanwall-location-action icon-warning-custom"></i>
-        </button>
+        <h1 class="title">{{ pageTitle | translate:'fanwall' }}</h1>
+        <location-button icon-class="'fanwall-location-action'"></location-button>
     </ion-header-bar>
 
     <ion-content class="has-footer-fixed">
@@ -35,14 +31,14 @@
                 </p>
                 <p ng-if="!locationIsDisabled() && fetchingLocation"
                    class="post-location">
-                    <i style="font-style: italic;">{{ ::"Fetching your location..." | translate:"fanwall" }}</i>
+                    <i style="font-style: italic;">{{ ::'Fetching your location...' | translate:'fanwall' }}</i>
                 </p>
             </ion-item>
 
             <ion-item class="item-input item-custom"
                       ng-class="{'card': getCardDesign()}">
                 <label>
-                    <textarea placeholder="{{ 'Write your message...' | translate:'fanwall' }}"
+                    <textarea placeholder="{{ ::'Write your message...' | translate:'fanwall' }}"
                               rows="12"
                               ng-model="form.text"></textarea>
                 </label>
@@ -75,7 +71,7 @@
                 <div class="row">
                     <div class="col-90">
                         <i class="icon ion-image add-image-icon"></i>
-                        <p>{{ ::"Add a picture" | translate:"fanwall" }}</p>
+                        <p>{{ ::'Add a picture' | translate:'fanwall' }}</p>
                     </div>
                     <div class="col-10">
                         <i class="item-note ion-chevron-right arrow-center"></i>
@@ -89,7 +85,7 @@
 
     <button class="post-button button button-assertive button-assertive-custom button-full"
             ng-click="sendPost();">
-        {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ ::'Post' | translate:'fanwall' }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-ios-paperplane"></i>
     </button>
 

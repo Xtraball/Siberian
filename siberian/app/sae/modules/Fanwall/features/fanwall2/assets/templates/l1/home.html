@@ -4,11 +4,9 @@
     <ion-nav-title>{{ pageTitle }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <button ng-show="locationIsDisabled() && locationTab()"
-                ng-click="requestLocation()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-location-off fanwall-location-action icon-warning-custom"></i>
-        </button>
+        <location-button ng-if="locationTab()"
+                         icon-class="'fanwall-location-action'"></location-button>
+
         <button ng-click="refresh()"
                 class="button button-clear header-item">
             <i class="icon ion-sb-refresh"></i>

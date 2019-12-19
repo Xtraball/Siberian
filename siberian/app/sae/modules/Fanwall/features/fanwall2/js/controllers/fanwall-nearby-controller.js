@@ -24,16 +24,16 @@ angular
             return Fanwall.cardDesign;
         };
 
-        $scope.loadMore = function () {
-            $scope.loadContent(false, true);
-        };
-
         $scope.locationIsDisabled = function () {
             return !Location.isEnabled;
         };
 
+        $scope.loadMore = function () {
+            $scope.loadContent(false, true);
+        };
+
         $scope.loadContent = function (refresh, loadMore) {
-            if ($scope.locationIsDisabled()) {
+            if (!Location.isEnabled) {
                 return false;
             }
 

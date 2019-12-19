@@ -3,16 +3,14 @@
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
-        <button ng-show="locationIsDisabled()"
-                ng-click="requestLocation()"
-                class="button button-clear header-item places-secondary-button">
-            <i class="icon ion-sb-location-off places-location-action icon-warning-custom"></i>
-        </button>
+        <location-button icon-class="'places-location-action'"></location-button>
+
         <button ng-click="nextFormat(true)"
                 class="button button-clear header-item places-secondary-button">
             <i class="icon"
                ng-class="currentFormatBtn"></i>
         </button>
+
         <button ng-click="goToMap()"
                 class="button button-clear header-item places-secondary-button">
             <i class="icon ion-sb-map"></i>
@@ -110,7 +108,7 @@
             <div class="card"
                  ng-if="!collection.length && !is_loading">
                 <div class="item item-custom">
-                    {{ "No results!" | translate }}
+                    {{ ::'No results!' | translate:'places' }}
                 </div>
             </div>
 
