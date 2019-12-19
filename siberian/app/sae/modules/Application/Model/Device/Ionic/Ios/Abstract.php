@@ -203,6 +203,15 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
             true);
 
+        // com.appsmobilecompany.base from pbxproj
+        $this->__replace(
+            [$this->_default_bundle_name => $this->_package_name],
+            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj');
+
+        $this->__replace(
+            [$this->_default_bundle_name => $this->_package_name],
+            $this->_dest_source_amc . '/config.xml');
+
         $refsString = [
             '"\"AppsMobileCompany/Plugins/AdmobPro\"",' => '',
             '"\"$(SRCROOT)/AppsMobileCompany/Plugins/AdmobPro\"",' => '',
