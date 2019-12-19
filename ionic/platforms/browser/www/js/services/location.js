@@ -10,7 +10,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         PERMISSION_DENIED: 1,
         POSITION_UNAVAILABLE: 2,
         TIMEOUT: 3,
-        debug: true,
+        debug: false,
         lastFetch: null,
         position: null,
         isEnabled: true,
@@ -26,9 +26,7 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
     service.getLocation = function (config, force) {
         var deferred = $q.defer();
         var isResolved = false;
-
         var localForce = (force !== undefined);
-
         var localConfig = angular.extend({
             enableHighAccuracy: true,
             timeout: 10000,
@@ -54,11 +52,12 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
                     deferred.resolve(service.position);
                 }
             }, function (error) {
-                console.log("getCurrentPosition, error", error);
                 if (service.debug) {
                     console.log("position ko");
                 }
-                if (error.code === service.TIMEOUT || error.code === service.PERMISSION_DENIED) {
+                if (error.code === service.TIMEOUT ||
+                    error.code === service.PERMISSION_DENIED ||
+                    error.code === service.POSITION_UNAVAILABLE) {
                     localReject(deferred);
                 }
                 if (!isResolved) {
@@ -147,6 +146,57 @@ angular.module('starter').service('Location', function ($cordovaGeolocation, $q)
         }
 
         return deferred.promise;
+    };
+
+    service.requestLocation = function (success, error) {
+        Dialog
+            .confirm(
+                'Error',
+                'We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.',
+                ['TRY AGAIN', 'DISMISS'],
+                -1,
+                'location')
+            .then(function (success) {
+                if (success) {
+                    Location.isEnabled = true;
+                    Loader.show();
+                    Location
+                        .getLocation({timeout: 30000, enableHighAccuracy: false}, true)
+                        .then(function (payload) {
+                            // GPS is OK!!
+                            Loader.hide();
+                            Dialog.alert('Success', 'We finally got you location', 'OK', 2350, 'location');
+
+                            if (success &&
+                                typeof success === 'function') {
+                                try {
+                                    $scope.success();
+                                } catch (e) {
+                                    // Silent!
+                                }
+                            }
+                        }, function () {
+                            Loader.hide();
+                            Dialog
+                                .alert(
+                                    'Error',
+                                    'We were unable to request your location.<br />Please check that the application is allowed to use the GPS and that your device GPS is on.',
+                                    'OK',
+                                    3700,
+                                    'location'
+                                );
+
+                            if (error &&
+                                typeof error === 'function') {
+                                try {
+                                    error();
+                                } catch (e) {
+                                    // Silent!
+                                }
+                            }
+                        });
+                }
+            });
     };
 
     /**
