@@ -58,7 +58,6 @@ angular
                 $compile.$$addBindingInfo(element, attr.sbHtml);
 
                 scope.$watch(sbHtmlWatch, function sbHtmlWatchAction() {
-                    console.log("sbHtml, first watch");
                     // The watched value is the unwrapped value. To avoid re-escaping, use the direct getter.
                     var value = sbHtmlGetter(scope);
                     var html = $filter("parseUrlFilter")(value);
