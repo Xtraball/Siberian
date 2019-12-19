@@ -21,7 +21,7 @@ angular
                 iconClass: '=?'
             },
             replace: true,
-            controller: function ($scope, $rootScope, Dialog, Loader, Location) {
+            controller: function ($scope, $rootScope, Location) {
                 $scope.locationIsDisabled = function () {
                     return !Location.isEnabled;
                 };
