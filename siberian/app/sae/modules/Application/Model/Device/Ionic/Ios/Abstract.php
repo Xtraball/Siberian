@@ -113,7 +113,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-83.5@2x.png' =>
                 $application->getIcon(167, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-small@3x.png' =>
-                $application->getIcon(120, null, true),
+                $application->getIcon(87, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon.png' =>
                 $application->getIcon(57, null, true),
             $this->_dest_source_res . '/Images.xcassets/AppIcon.appiconset/icon-60@3x.png' =>
