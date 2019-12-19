@@ -38,8 +38,8 @@
                     'col-100': !userComment()
                  }"
                  ng-if="userLike()">
-                <span ng-if="post.likeCount == 1">{{ post.likeCount }} {{ ::"like" | translate:"fanwall" }}</span>
-                <span ng-if="post.likeCount > 1">{{ post.likeCount }} {{ ::"likes" | translate:"fanwall" }}</span>
+                <span ng-if="post.likeCount == 1">{{ post.likeCount }} {{ ::'like' | translate:'fanwall' }}</span>
+                <span ng-if="post.likeCount > 1">{{ post.likeCount }} {{ ::'likes' | translate:'fanwall' }}</span>
             </div>
             <div class="col-50 text-right"
                  ng-class="{
@@ -47,8 +47,8 @@
                     'col-100': !userLike()
                  }"
                  ng-if="userComment()">
-                <span ng-if="post.commentCount == 1">{{ post.commentCount }} {{ ::"comment" | translate:"fanwall" }}</span>
-                <span ng-if="post.commentCount > 1">{{ post.commentCount }} {{ ::"comments" | translate:"fanwall" }}</span>
+                <span ng-if="post.commentCount == 1">{{ post.commentCount }} {{ ::'comment' | translate:'fanwall' }}</span>
+                <span ng-if="post.commentCount > 1">{{ post.commentCount }} {{ ::'comments' | translate:'fanwall' }}</span>
             </div>
         </div>
     </div>
@@ -64,10 +64,10 @@
                  ng-click="toggleLike()">
                 <span ng-if="post.iLiked"
                       class="positive positive-custom">
-                    <i class="icon ion-sb-like-filled post-action-icon"></i> {{ ::"Like" | translate:"fanwall" }}
+                    <i class="icon ion-sb-like-filled post-action-icon"></i> {{ ::'Like' | translate:'fanwall' }}
                 </span>
                 <span ng-if="!post.iLiked">
-                    <i class="icon ion-sb-like post-action-icon"></i> {{ ::"Like" | translate:"fanwall" }}
+                    <i class="icon ion-sb-like post-action-icon"></i> {{ ::'Like' | translate:'fanwall' }}
                 </span>
             </div>
             <div class="text-center"
@@ -77,7 +77,7 @@
                  }"
                  ng-if="userComment()"
                  ng-click="commentModal()">
-                <i class="icon ion-sb-comment post-action-icon"></i> {{ ::"Comment" | translate:"fanwall" }}
+                <i class="icon ion-sb-comment post-action-icon"></i> {{ ::'Comment' | translate:'fanwall' }}
             </div>
         </div>
     </div>

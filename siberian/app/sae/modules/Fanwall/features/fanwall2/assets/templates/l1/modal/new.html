@@ -31,14 +31,14 @@
                 </p>
                 <p ng-if="!locationIsDisabled() && fetchingLocation"
                    class="post-location">
-                    <i style="font-style: italic;">{{ ::"Fetching your location..." | translate:"fanwall" }}</i>
+                    <i style="font-style: italic;">{{ ::'Fetching your location...' | translate:'fanwall' }}</i>
                 </p>
             </ion-item>
 
             <ion-item class="item-input item-custom"
                       ng-class="{'card': getCardDesign()}">
                 <label>
-                    <textarea placeholder="{{ 'Write your message...' | translate:'fanwall' }}"
+                    <textarea placeholder="{{ ::'Write your message...' | translate:'fanwall' }}"
                               rows="12"
                               ng-model="form.text"></textarea>
                 </label>
@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="col-90">
                         <i class="icon ion-image add-image-icon"></i>
-                        <p>{{ ::"Add a picture" | translate:"fanwall" }}</p>
+                        <p>{{ ::'Add a picture' | translate:'fanwall' }}</p>
                     </div>
                     <div class="col-10">
                         <i class="item-note ion-chevron-right arrow-center"></i>
@@ -85,7 +85,7 @@
 
     <button class="post-button button button-assertive button-assertive-custom button-full"
             ng-click="sendPost();">
-        {{ ::"Post" | translate:"fanwall" }}&nbsp;&nbsp;&nbsp;&nbsp;
+        {{ ::'Post' | translate:'fanwall' }}&nbsp;&nbsp;&nbsp;&nbsp;
         <i class="icon ion-ios-paperplane"></i>
     </button>
 
