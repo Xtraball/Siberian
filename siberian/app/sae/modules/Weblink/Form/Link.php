@@ -12,6 +12,7 @@ class Link extends FormAbstract
 {
     /**
      * @throws \Zend_Form_Exception
+     * @throws \Zend_Validate_Exception
      */
     public function init()
     {
@@ -77,7 +78,10 @@ class Link extends FormAbstract
             ],
             //'navigationbuttoncolor' => [],
             //'lefttoright' => [],
-            //'zoom' => [],
+            'zoom' => [
+                'platforms' => ['android'],
+                'hint' => p__('weblink', 'Enable zoom controls'),
+            ],
             //'mediaPlaybackRequiresUserAction' => [],
             //'shouldPauseOnSuspend' => [],
             //'useWideViewPort' => [],
