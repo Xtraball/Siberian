@@ -302,12 +302,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $this->_parse();
         $this->_prepareFilesToDelete();
 
+        $packageDetails = $this->getPackageDetails();
+
         if (!$this->_delete()) {
             return false;
         }
 
         // Clear module in case of update
-        if ($this->getPackageDetails()->getReplaceModule()) {
+        if ($packageDetails->getReplaceModule()) {
             $this->_clearModule();
         }
 
