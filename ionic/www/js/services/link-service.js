@@ -69,6 +69,11 @@ angular
                 'transitionstyle': 'crossdissolve'
             }, _deviceOptions);
 
+            // Prevent opening new windows in the overview!
+            if (isOverview && _external_browser) {
+                return Dialog.alert('Overview', 'External browser is not available in the overview.', 'OK', 2350);
+            }
+
             // HTML5 forced on Browser devices
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 if (_external_browser ||
