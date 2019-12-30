@@ -536,9 +536,7 @@ class Cert extends v2
      */
     private function tmp_ssl_cnf($domains = null, $extension = '')
     {
-        if (false === ($fn = tempnam(sys_get_temp_dir(), "CNF_"))) {
-            throw new \Exception('Failed to create temp file !');
-        }
+        $fn = path('/var/tmp/CNF_' . uniqid('CNF_', true));
         if (false === file_put_contents($fn,
                 'HOME = .' . "\n" .
                 'RANDFILE=$ENV::HOME/.rnd' . "\n" .
