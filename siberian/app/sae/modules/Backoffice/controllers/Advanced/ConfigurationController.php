@@ -737,15 +737,11 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 }
             }
 
-            // Clean-up empty ones
-            // Truncate domains list to 100 (SAN is limited to 100 domains
-            $hostnames = array_slice(array_unique(array_filter($hostnames, 'strlen')), 0, 100);
-
             // Ensure folders have good rights
             exec("chmod -R 775 {$base}");
             exec("chmod -R 777 {$root}/.well-known");
 
-            $acme = new Cert($letsencrypt_env !== "staging");
+            $acme = new Cert($letsencrypt_env !== 'staging');
 
             try {
                 $acme->getAccount();
@@ -754,11 +750,28 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             }
 
             $ssl_certificate_model = new System_Model_SslCertificates();
-            $cert = $ssl_certificate_model->find($request->getHttpHost(), "hostname");
+            $cert = $ssl_certificate_model->find($request->getHttpHost(), 'hostname');
 
             if (empty($hostnames)) {
                 $hostnames = [$request->getHttpHost()];
             }
+
+            // Remove temporary excluded domains from config.user.php
+            $excludeDomainSsl = __getConfig('exclude_domain_ssl');
+            if ($excludeDomainSsl && is_array($excludeDomainSsl)) {
+                $hostnames = array_diff($hostnames, $excludeDomainSsl);
+            }
+
+            // Included domains from config.user.php
+            $includeDomainSsl = __getConfig('include_domain_ssl');
+            if ($includeDomainSsl && is_array($includeDomainSsl)) {
+                foreach ($includeDomainSsl as $includeDomain) {
+                    $hostnames[] = $includeDomain;
+                }
+            }
+
+            // Truncate domains list to 100 (SAN is limited to 100 domains)
+            $hostnames = array_slice(array_unique(array_filter($hostnames, 'strlen')), 0, 100);
 
             // Before generating certificate again, compare $hostnames OR expiration date
             $renew = false;
