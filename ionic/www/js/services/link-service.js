@@ -6,7 +6,7 @@
  */
 angular
 .module('starter')
-.service('LinkService', function ($rootScope, $translate, $window, SB) {
+.service('LinkService', function ($rootScope, $translate, $window, SB, Dialog) {
     return {
         openLink: function (url, options, external_browser) {
             var supportOptions = [

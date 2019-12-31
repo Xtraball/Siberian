@@ -285,7 +285,7 @@ angular.module('starter').directive('sbCmsText', function () {
             };
 
             $scope.openWebsite = function (url) {
-                LinkService.openLink(url, $scope.block.options, $scope.block.external_browser);
+                LinkService.openLink(url, {}, true);
             };
 
             $scope.addToContact = function () {
@@ -302,19 +302,25 @@ angular.module('starter').directive('sbCmsText', function () {
             block: '='
         },
         template:
-        '<a href="{{ url }}" target="{{ target }}" class="item item-text-wrap item-icon-left item-custom">' +
-        '   <i class="icon" ng-class="icon" ng-if="show_icon"></i>' +
-        '   <i class="icon flex-button-icon" ng-if="!show_icon">' +
-        '       <img ng-src="{{ icon_src }}" style="width: 32px; height: 32px;" />' +
+        '<a href="{{ url }}" ' +
+        '   target="{{ target }}" ' +
+        '   class="item item-text-wrap item-icon-left item-custom">' +
+        '   <i class="icon" ' +
+        '      ng-class="icon" ' +
+        '      ng-if="show_icon"></i>' +
+        '   <i class="icon flex-button-icon" ' +
+        '      ng-if="!show_icon">' +
+        '       <img ng-src="{{ icon_src }}" ' +
+        '            style="width: 32px; height: 32px;" />' +
         '   </i>' +
         '   {{ label | translate }}' +
         '</a>',
         controller: function ($scope, LinkService) {
             $scope.openLink = function () {
-                LinkService.openLink($scope.block.content, {
-                    'hide_navbar': ($scope.block.hide_navbar === '1'),
-                    'use_external_app': ($scope.block.use_external_app === '1')
-                });
+                LinkService.openLink(
+                    $scope.block.content,
+                    $scope.block.options,
+                    $scope.block.external_browser);
             };
         },
         link: function (scope, element) {
