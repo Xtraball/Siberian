@@ -1,0 +1,382 @@
+<?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Field;
+use Cabride\Form\Field as FormField;
+use Cabride\Form\Field\Delete as DeleteFormField;
+
+$application = $this->getApplication();
+$request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
+$cabride = Cabride::getCurrent()->getObject();
+
+$formField = (new FormField())
+    ->setValueId($valueId);
+
+$fields = (new Field())->findAll(
+    [
+        "value_id = ?" => $valueId
+    ],
+    [
+        "position ASC"
+    ]
+);
+
+$deleteFieldForm = (new DeleteFormField())
+    ->setValueId($valueId);
+
+$formIsEnabled = (boolean) $cabride->getEnableCustomForm();
+
+?>
+
+<div class="row"
+     id="fields">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="settings_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__("cabride", "Form configuration"); ?>
+                </h3>
+                <div class="subcontent content-color">
+
+                    <?php if (!$formIsEnabled): ?>
+                    <div class="col-md-12">
+                        <div class="alert alert-warning">
+                            <?php echo p__("cabride", "The custom form is disabled in your settings, and will not be visible inside the application.") ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="col-md-12">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Add a field") ?>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <?php echo $formField; ?>
+                        </div>
+                    </div>
+
+                    <?php if ($fields->count() > 0): ?>
+                    <div class="col-md-12"
+                         style="margin-top: 20px;">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__("cabride", "Manage fields") ?>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                            <table class="table content-white-bkg sb-pager table-fields">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th style="width:30%"><?php echo p__("cabride", "Label") ?></th>
+                                    <th style="width:30%"><?php echo p__("cabride", "Type") ?></th>
+                                    <th style="width:30%"><?php echo p__("cabride", "Default") ?></th>
+                                    <th style="width:5%"><?php echo p__("cabride", "Required") ?></th>
+                                    <th style="width:5%;"><?php echo p__("cabride", "Position") ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody class="fields-sortable">
+                                <?php foreach ($fields as $field) : ?>
+                                    <tr id="field_manage_element_<?php echo $field->getId(); ?>"
+                                        rel="<?php echo $field->getId(); ?>"
+                                        class="field-manage-element sb-pager field-container">
+                                        <td class="field-handle"
+                                            style="text-align: center;">
+                                            <i class="fa fa-sort"
+                                               style="margin-top: 11px;"></i>
+                                        </td>
+                                        <td>
+                                            <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
+                                        </td>
+                                        <td>
+                                            <?php echo p__('cabride', FormField::$types[$field->getFieldType()]) ?>
+                                        </td>
+                                        <td><?php echo $field->getDefaultValue() ?></td>
+                                        <td>
+                                            <?php if ($field->getIsRequired()): ?>
+                                                <p class="label label-success"><?php echo p__('cabride', 'YES') ?></p>
+                                            <?php else: ?>
+                                                <p class="label label-danger"><?php echo p__('cabride', 'NO') ?></p>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="field-position"><?php echo $field->getPosition() ?></td>
+                                        <td class="edit-action open-edit"
+                                            data-id="field_<?php echo $field->getId(); ?>"
+                                            data-form-url="<?php echo __path("/cabride/field/load-form", [
+                                                "field_id" => $field->getId(),
+                                                "value_id" => $valueId
+                                            ]); ?>">
+                                            <i class="fa fa-pencil"></i>
+                                        </td>
+                                        <td class="delete-action">
+                                            <?php
+                                            $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
+                                            $deleteFieldForm->getElement("field_id")->setValue($field->getId());
+
+                                            echo $deleteFieldForm;
+                                            ?>
+                                        </td>
+                                    </tr>
+                                    <tr class="edit-form"
+                                        data-id="field_<?php echo $field->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="8">
+                                            <p class="close-edit"
+                                               data-id="field_<?php echo $field->getId(); ?>">
+                                                <i class="fa fa-times"></i><?php echo p__("cabride", "Close") ?>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    var optionAction = `
+<div class="select_actions form-group sb-form-line">
+    <div class="col-sm-10">
+        <button class="add_option btn btn-sm color-blue">
+            <i class="icon ion-plus"></i>
+            <?php echo p__("cabride", "Add an option") ?>
+        </button>
+    </div>
+    <div class="sb-cb"></div>
+</div>`;
+    var selectTemplate = `<?php echo FormField::getSelectTemplate() ?>`;
+
+    $(document).ready(function () {
+        bindForms("#fields");
+
+        $("table.sb-pager.table-fields").sbpager({
+            with_search: true,
+            items_per_page: 1000,
+            search_placeholder: "<?php echo __("Search ...") ?>",
+            callback_goto_page: function() {
+                $("table.sb-pager tr.edit-form[data-id]").hide()
+            }
+        });
+
+        // Sections
+        $('.fields-sortable').sortable({
+            handle: ".field-handle",
+            axis: "y",
+            items: " .field-container",
+            opacity: 0.85,
+            start: function() {
+                // Clear all forms inside elements!
+                $("#fields .close-edit").trigger("click");
+            },
+            stop: function() {
+                let sections = $('.fields-sortable tr[rel]');
+                let data = {
+                    indexes: []
+                };
+                let index = 1;
+                sections.each(function() {
+                    let el = $(this);
+                    data.indexes.push(el.attr('rel'));
+
+                    el.find('.field-position').text(index++);
+                });
+
+                formget(
+                    '/cabride/field/update-positions',
+                    data,
+                    function(result) {},
+                    function(result) {}
+                );
+            }
+        });
+
+        window.toggleGroups = function (formId, type) {
+            $("#" + formId + " dd[id^='group_']").hide();
+
+            switch (type) {
+                case "select":
+                    $("#" + formId + " #group_select-element").show();
+                    break;
+                case "number":
+                    $("#" + formId + " #group_number-element").show();
+                    break;
+                case "date":
+                    $("#" + formId + " #group_date-element").show();
+                    break;
+                case "datetime":
+                    $("#" + formId + " #group_datetime-element").show();
+                    break;
+                default:
+            }
+
+            $("#" + formId + " [name='is_required']").parents(".sb-form-line").hide();
+            $("#" + formId + " [name='default_value']").parents(".sb-form-line").show();
+
+            switch (type) {
+                case "text":
+                case "textarea":
+                case "datetime":
+                case "date":
+                case "number":
+                case "password":
+                case "select":
+                    $("#" + formId + " [name='is_required']").parents(".sb-form-line").show();
+                    break;
+                default:
+            }
+
+            switch (type) {
+                case "password":
+                case "divider":
+                case "spacer":
+                    $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
+                    break;
+                default:
+            }
+        };
+
+        window.toggleGroups("form-edit-field", "divider");
+
+        window.binderFormField = function (formId) {
+            let typeFields = $("#" + formId + " [name='field_type']");
+
+            typeFields.off("change");
+            typeFields.on("change", function () {
+                let type = $(this).val();
+
+                window.toggleGroups(formId, type);
+            });
+        };
+
+        window.binderFormField("form-edit-field");
+
+        $("#form-edit-field").data("callback", function () {
+            setTimeout(function () {
+                location.reload();
+            }, 1900);
+        });
+
+        window.reIndex = function (formId) {
+            var options = $("#" + formId + " .select_option_index");
+            options.each(function (index) {
+                var _index = index + 1;
+                var el = $(this);
+                el.attr("rel", _index);
+                var fields = el.find("[name^=select_options]");
+                $(fields.get(0)).attr("name", "select_options[" + _index + "][label]");
+                $(fields.get(1)).attr("name", "select_options[" + _index + "][value]");
+                el.find("button.remove_option").attr("rel", _index);
+                el.find("span.option_index").text(_index);
+            });
+        };
+
+        window.bindSelectSortable = function (formId) {
+            // Sections
+            $('#' + formId + ' #fieldset-group_select').sortable({
+                handle: '.select-handle',
+                axis: 'y',
+                items: '.select-container',
+                opacity: 0.85,
+                stop: function() {
+                    window.reIndex(formId);
+                }
+            });
+        };
+
+        window.bindRemove = function () {
+            var removeOptionButtons = $(".remove_option");
+
+            removeOptionButtons.off("click");
+            removeOptionButtons.on("click", function (e) {
+                var elButton = $(this);
+                var formId = elButton.parents("form").attr("id");
+                e.preventDefault();
+                var button = $(this);
+                window.removeOption(formId, button.attr("rel"));
+            });
+        };
+
+        window.removeOption = function (formId, index) {
+            var klass = "#" + formId + " .select_option_index[rel='" + index + "']";
+            var el = $(klass);
+            el.remove();
+            window.reIndex(formId);
+        };
+
+        window.addOption = function (formId, index, value, label) {
+            var _index = index === undefined ?
+                $("#" + formId + " .select_option_index").length + 1 : index;
+            var _value = value === undefined ? "" : value;
+            var _label = label === undefined ? "" : label;
+
+            var newOption = selectTemplate
+                .replace(/#INDEX#/g, _index)
+                .replace(/#VALUE#/g, _value)
+                .replace(/#LABEL#/g, _label);
+
+            $("#" + formId + " .select_actions").before(newOption);
+
+            window.reIndex(formId);
+            window.bindRemove();
+        };
+
+        window.bindAddOption = function (formId) {
+            var buttonAddOption = $("#" + formId + " .add_option");
+            buttonAddOption.off("click");
+            buttonAddOption.on("click", function (e) {
+                e.preventDefault();
+                window.addOption(formId);
+            });
+        };
+
+        window.initSelect = function (formId) {
+            $("#" + formId + " #fieldset-group_select").append(optionAction);
+            window.bindSelectSortable(formId);
+        };
+
+        window.initSelect("form-edit-field");
+
+        window.addOption("form-edit-field");
+        window.addOption("form-edit-field");
+        window.addOption("form-edit-field");
+        window.reIndex("form-edit-field");
+        window.bindAddOption("form-edit-field");
+
+        window.bindRemove();
+    });
+</script>
+
+<style type="text/css">
+    #design .change_layout_handler img {
+        max-height: 210px;
+    }
+
+    button.remove_option {
+        margin-top: 2px;
+        font-size: 20px;
+        padding: 0 9px;
+        float: right;
+    }
+
+    button.add_option {
+        margin-top: 2px;
+        padding: 5px 9px;
+        float: right;
+        font-size: 14px;
+    }
+
+    label.select_option {
+        text-indent: 6px;
+        font-style: italic;
+    }
+</style>

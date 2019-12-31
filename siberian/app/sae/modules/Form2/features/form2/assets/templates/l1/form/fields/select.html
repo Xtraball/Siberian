@@ -1,0 +1,11 @@
+<label class="item item-custom item-input item-select">
+    <div class="input-label">
+        {{ field.label }} <span ng-if="field.is_required">*</span>
+    </div>
+    <select ng-model="field.value">
+        <option ng-if="!field.is_required"
+                value="">{{ ::"Pick a value" | translate:"cabride" }}</option>
+        <option ng-repeat="option in field.options track by $index"
+                value="{{ option.value }}">{{ option.label }}</option>
+    </select>
+</label>

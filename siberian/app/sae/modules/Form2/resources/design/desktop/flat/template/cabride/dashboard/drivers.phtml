@@ -1,0 +1,182 @@
+<?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Driver;
+
+$application = $this->getApplication();
+$request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
+
+$settings = (new Cabride())
+    ->find($valueId, 'value_id');
+if (!$settings->getId()) {
+    $settings->setValueId($valueId);
+    $settings->save();
+    $settings->reload();
+}
+
+$distanceUnit = $settings->getDistanceUnit();
+
+$drivers = (new Driver())
+    ->fetchForValueId($valueId);
+
+foreach ($drivers as $driver) {
+    $driver->fetchRating();
+}
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="driver_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__('cabride', 'Drivers'); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <table class="table content-white-bkg sb-pager margin-top">
+                            <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable numeric"><?php echo p__('cabride', 'ID'); ?></th>
+                                    <th class="sortable numeric"><?php echo p__('cabride', 'Rating'); ?></th>
+                                    <th class="sortable numeric"><?php echo p__('cabride', 'Customer ID'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'Vehicle type'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'Vehicle model'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'License plate'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'Driving license'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'Photo'); ?></th>
+                                    <th class="sortable"><?php echo p__('cabride', 'Base address'); ?></th>
+                                    <th class="sortable numeric text-right"><?php echo p__('cabride', 'Pickup radius'); ?></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($drivers as $driver): ?>
+                                <tr class="sb-pager">
+                                    <td>
+                                        <b>#<?php echo $driver->getId(); ?></b>
+                                    </td>
+                                    <td>
+                                        <?php if ($driver->getAverageRating() > 0): $rating = round($driver->getAverageRating(), 2); ?>
+                                            <i class="fa fa-star"
+                                               style="color: #d3bb51;"></i>
+                                            <b><?php echo $rating ?></b>
+                                        <?php else: ?>
+                                            <?php echo p__('cabride', '-'); ?>
+                                        <?php endif;  ?>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path('/customer/application/edit/', [
+                                               'customer_id' => $driver->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $driver->getCustomerId(); ?>
+                                        </a>
+                                        <?php echo $driver->getFirstname(); ?> <?php echo $driver->getLastname(); ?>
+                                    </td>
+                                    <td>
+                                        <?php if (!empty($driver->getVehicleId())): ?>
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path('/cabride/vehicle/edit/', [
+                                                   'vehicle_id' => $driver->getVehicleId()
+                                               ]); ?>">
+                                                #<?php echo $driver->getVehicleId() ?>
+                                            </a>
+                                            <?php echo $driver->getType(); ?>
+                                        <?php else: ?>
+                                            <span class="btn btn-xs btn-warning">
+                                                <?php echo p__('cabride', 'no vehicle type'); ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td><?php echo $driver->getVehicleModel(); ?></td>
+                                    <td><?php echo $driver->getVehicleLicensePlate(); ?></td>
+                                    <td><?php echo $driver->getDriverLicense(); ?></td>
+                                    <td><?php echo $driver->getDriverPhoto(); ?></td>
+                                    <td><?php echo $driver->getBaseAddress(); ?></td>
+                                    <td class="text-right">
+                                        <?php echo $driver->getPickupRadius(); ?> <?php echo $distanceUnit ?>
+                                    </td>
+                                    <td class="text-right">
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path('/cabride/driver/edit', [
+                                               'driver_id' => $driver->getId()
+                                           ]); ?>">
+                                            <?php echo p__('cabride', 'EDIT') ?>
+                                        </a>
+                                        <a class="btn btn-xs btn-danger delete-driver"
+                                           data-id="<?php echo $driver->getId(); ?>">
+                                            <?php echo p__('cabride', 'DELETE') ?>
+                                        </a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <?php echo p__('cabride', 'No results for your search.') ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var search_placeholder = '<?php echo p__js('cabride', 'Search ...', "'") ?>';
+    $(document).ready(function () {
+        bindForms('#driver_content');
+
+        $("table.sb-pager").sbpager({
+            with_search: true,
+            search_placeholder: search_placeholder
+        });
+
+        let deleteDriver = $('.delete-driver');
+
+        deleteDriver.off('click');
+        deleteDriver.on('click', function () {
+            let button = $(this);
+            let driverId = button.attr("data-id");
+            swal({
+                html: true,
+                title: '<?php echo p__js('cabride', 'Delete driver', "'") ?>',
+                text: '<?php echo p__js('cabride', 'Are you sure?', "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#ff3a2e',
+                confirmButtonText: '<?php echo p__js('cabride','Yes, Delete', "'") ?>',
+                cancelButtonText: '<?php echo p__js('cabride','No, go back!', "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    '/cabride/driver/deletepost',
+                    {
+                        'driver_id': driverId
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    },
+                    function (data) {
+                        feature_form_error(data.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+        });
+    });
+</script>

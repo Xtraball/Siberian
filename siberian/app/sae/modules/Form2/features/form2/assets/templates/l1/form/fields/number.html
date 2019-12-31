@@ -1,0 +1,12 @@
+<label class="item item-input item-custom">
+    <div class="input-label">
+        {{ field.label | translate }} <span ng-if="field.is_required">*</span>
+    </div>
+    <input class="text-right"
+           type="number"
+           min="{{ field.min }}"
+           max="{{ field.max }}"
+           step="{{ field.step }}"
+           ng-value="field.value"
+           ng-model="field.value" />
+</label>

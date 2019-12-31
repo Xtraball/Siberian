@@ -1,0 +1,9 @@
+<label class="item item-input item-custom">
+    <div class="input-label">
+        {{ field.label | translate }} <span ng-if="field.is_required">*</span>
+    </div>
+    <input class="text-right"
+           type="text"
+           placeholder="{{ field.label | translate }}"
+           ng-model="field.value" />
+</label>

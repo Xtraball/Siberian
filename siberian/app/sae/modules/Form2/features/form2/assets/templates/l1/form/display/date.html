@@ -1,0 +1,11 @@
+<label class="item item-input item-custom">
+    <i class="icon ion-ios-clock"></i>
+    <div class="input-label">
+        {{ ::field.label | translate }}
+    </div>
+    <input type="text"
+           class="text-right"
+           style="cursor: pointer !important;"
+           ng-model="field.value"
+           readonly="readonly" />
+</label>

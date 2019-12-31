@@ -1,0 +1,16 @@
+<label class="item item-input item-custom"
+       sb-datetime-picker
+       title="field.label"
+       headers="true"
+       format="field.date_format"
+       model="field.value">
+    <i class="icon ion-ios-clock"></i>
+    <div class="input-label">
+        {{ field.label | translate }} <span ng-if="field.is_required">*</span>
+    </div>
+    <input type="text"
+           class="text-right"
+           style="cursor: pointer !important;"
+           ng-model="field.value"
+           readonly="readonly" />
+</label>

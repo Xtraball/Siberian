@@ -1,0 +1,12 @@
+{
+  "name": "Form2",
+  "description": "Module form v2",
+  "type": "module",
+  "version": "1.0.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.18.5"
+    }
+  }
+}

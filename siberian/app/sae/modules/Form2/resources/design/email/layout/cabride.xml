@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <cash_return_request>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="cabride/cash_return_request.phtml" />
+        </views>
+    </cash_return_request>
+
+    <pending_payout>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="cabride/pending_payout.phtml" />
+        </views>
+    </pending_payout>
+</layout>

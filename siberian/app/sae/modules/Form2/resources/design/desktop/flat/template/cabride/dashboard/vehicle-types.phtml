@@ -1,0 +1,165 @@
+<?php
+
+use Cabride\Model\Cabride;
+use Cabride\Model\Vehicle;
+use Core\Model\Base;
+
+/**
+ * @var $application Application_Model_Application
+ */
+$application = $this->getApplication();
+$request = $this->getRequest();
+$valueId = Cabride::getCurrentValueId();
+
+$price = function ($_price) {
+    return Base::_formatPrice($_price);
+};
+
+$vehicles = (new Vehicle())
+    ->findAll(["value_id" => $valueId]);
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="vehicle_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__("cabride", "CabRide vehicle types"); ?>
+                </h3>
+                <div class="subcontent content-color">
+
+                    <div class="col-md-12">
+
+                        <a href="<?php echo __path("/cabride/vehicle/edit"); ?>"
+                           class="btn color-blue pull-right">
+                            <?php echo p__("cabride", "Add a vehicle type"); ?>
+                        </a>
+
+                        <table class="table content-white-bkg sb-pager margin-top">
+                            <thead>
+                                <tr class="border-grey">
+                                    <th class="sortable"><?php echo p__("cabride", "ID"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Icon"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Vehicle type"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Base fare"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Distance fare"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Time fare"); ?></th>
+                                    <th class="sortable"><?php echo p__("cabride", "Base address"); ?></th>
+                                    <th class="sortable text-right"><?php echo p__("cabride", "Is visible?"); ?></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($vehicles as $vehicle): ?>
+                                    <tr class="sb-pager">
+                                        <td><?php echo $vehicle->getId(); ?></td>
+                                        <td>
+                                            <img class="vehicle-type-icon"
+                                                 src="<?php echo $vehicle->getIconUri(); ?>" />
+                                        </td>
+                                        <td><?php echo $vehicle->getType(); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getBaseFare()); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getDistanceFare()); ?></td>
+                                        <td class="text-right"><?php echo $price($vehicle->getTimeFare()); ?></td>
+                                        <td><?php echo $vehicle->getBaseAddress(); ?></td>
+                                        <td class="text-right">
+                                            <?php if ($vehicle->getIsVisible()): ?>
+                                            <span class="label label-success">
+                                                <?php echo p__("cabride", "YES"); ?>
+                                            </span>
+                                            <?php else: ?>
+                                            <span class="label label-danger">
+                                                <?php echo p__("cabride", "NO"); ?>
+                                            </span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="text-right">
+                                            <a class="btn btn-xs btn-info"
+                                               href="<?php echo __path("/cabride/vehicle/edit", [
+                                                   "vehicle_id" => $vehicle->getId()
+                                               ]); ?>">
+                                                <?php echo p__("cabride", "EDIT") ?>
+                                            </a>
+                                            <a class="btn btn-xs btn-danger delete-vehicle-type"
+                                               data-id="<?php echo $vehicle->getId(); ?>">
+                                                <?php echo p__("cabride", "DELETE") ?>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="8">
+                                        <?php echo p__("cabride", "No results for your search.") ?>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+var search_placeholder = '<?php echo __js("Search ...", "'") ?>';
+$(document).ready(function () {
+    bindForms("#vehicle_content");
+
+    $("table.sb-pager").sbpager({
+        with_search: true,
+        search_placeholder: search_placeholder
+    });
+
+    let deleteVehicleType = $(".delete-vehicle-type");
+
+    deleteVehicleType.off("click");
+    deleteVehicleType.on("click", function () {
+        let button = $(this);
+        let vehicleId = button.attr("data-id");
+        swal({
+            html: true,
+            title: '<?php echo __js("Delete vehicle type", "'") ?>',
+            text: '<?php echo __js("Deleting a vehicle type will reset drivers who are using it.<br />Are you sure?", "'") ?>',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            confirmButtonColor: '#ff3a2e',
+            confirmButtonText: '<?php echo __js("Yes, Delete", "'") ?>',
+            cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
+        }, function (value) {
+            if (value === false) {
+                return;
+            }
+
+            formget(
+                "/cabride/vehicle/deletepost",
+                {
+                    'vehicle_id': vehicleId
+                },
+                function (data) {
+                    // Success!
+                    feature_form_success(data.message);
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);
+                },
+                function (data) {
+                    feature_form_error(data.message);
+                });
+
+            swal.close();
+            return true;
+        });
+    });
+});
+</script>
+<style type="text/css">
+    .vehicle-type-icon {
+        height: 60px;
+        border: 1px solid #a0a0a0;
+        border-radius: 2px;
+    }
+</style>

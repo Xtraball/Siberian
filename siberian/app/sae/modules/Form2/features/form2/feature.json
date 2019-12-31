@@ -1,0 +1,36 @@
+{
+    "name": "Form2",
+    "code": "form2",
+    "version": "1.0.0",
+    "category": "contact",
+    "model": "Form2_Model_Form",
+    "desktop_uri": "form2/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "form2-home",
+            "controller": "Form2Home",
+            "url": "form2/mobile_home/index",
+            "template": "l1/home.html",
+            "cache": false
+        }
+    ],
+    "layouts": [
+        1
+    ],
+    "icons": [
+        "icons/form1-flat.png",
+        "icons/form2-flat.png",
+        "icons/form3-flat.png"
+    ],
+    "files": [
+        "js/services/form2.js",
+        "js/factory/form2.js",
+        "js/controllers/form2-home.js",
+        "scss/form2.scss"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": false,
+    "load_on_start": false
+}

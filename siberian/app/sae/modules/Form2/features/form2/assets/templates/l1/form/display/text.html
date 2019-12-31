@@ -1,0 +1,10 @@
+<label class="item item-input item-custom">
+    <div class="input-label">
+        {{ ::field.label | translate }}
+    </div>
+    <input class="text-right"
+           type="text"
+           placeholder="{{ field.label | translate }}"
+           ng-model="field.value"
+           readonly="readonly" />
+</label>
