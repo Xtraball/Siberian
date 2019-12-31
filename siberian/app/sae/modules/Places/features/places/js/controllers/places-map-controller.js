@@ -70,11 +70,11 @@ angular
                         onClick: (function (marker) {
                             $timeout(function () {
                                 if (Places.settings.mapAction &&
-                                    Places.settings.mapAction === 'infoWindow') {
+                                    Places.settings.mapAction === 'gotoPlace') {
+                                    $scope.goToPlace(marker.config.place.id);
+                                } else {
                                     $scope.showInfoWindow = true;
                                     $scope.currentPlace = marker.config.place;
-                                } else {
-                                    $scope.goToPlace(marker.config.place.id);
                                 }
                             });
                         })

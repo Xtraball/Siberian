@@ -78,6 +78,8 @@ RAW;
 
         $pinApply = $this->addSimpleHtml(uniqid('pin_apply_', true), $pinApplyHtml);
 
+        /**
+         * Google maps pin action
         $mapActions = [
             'infoWindow' => __('Show info popup (default)'),
             'gotoPlace' => __('Open place directly'),
@@ -87,6 +89,7 @@ RAW;
             'mapAction',
             __('Action on map pin click'),
             $mapActions);
+         */
 
         // Featured places are disabled for now.
 

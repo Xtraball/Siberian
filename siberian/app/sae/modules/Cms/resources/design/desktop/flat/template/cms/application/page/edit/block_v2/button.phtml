@@ -67,8 +67,11 @@ $pvar = "p{$uniqid}";
 
                 $(<?php echo $pvar; ?>+" .cms-button-type").addClass("button-off");
                 $(<?php echo $pvar; ?>+" .cms-button-input").each(function() {
-                    var el = $(this);
+                    let el = $(this);
                     el.parents(".sb-form-line").hide();
+                    if (el.get(0).tagName === 'FIELDSET') {
+                        el.hide();
+                    }
                 });
 
                 var button = $(this);
@@ -77,8 +80,11 @@ $pvar = "p{$uniqid}";
                 $(<?php echo $pvar; ?>+" .cms-input-button-type").val(button.data("type"));
 
                 $(<?php echo $pvar; ?>+" .cms-button-"+button.data("type")).each(function() {
-                    var el = $(this);
+                    let el = $(this);
                     el.parents(".sb-form-line").show();
+                    if (el.get(0).tagName === 'FIELDSET') {
+                        el.show();
+                    }
                 });
 
                 return false;
@@ -95,6 +101,24 @@ $pvar = "p{$uniqid}";
                 $(<?php echo $pvar; ?>+" a[data-type='<?php echo $type; ?>']").trigger("click");
             }, 200);
             <?php endif; ?>
+
+            // External browser
+            let <?php echo $pvar; ?>ToggleExternal = function () {
+                let el = $(<?php echo $pvar; ?>+" [id$='-button-external_browser']");
+                if (el.is(':checked')) {
+                    $(<?php echo $pvar; ?>+" #android_options-element").hide();
+                    $(<?php echo $pvar; ?>+" #ios_options-element").hide();
+                } else {
+                    $(<?php echo $pvar; ?>+" #android_options-element").show();
+                    $(<?php echo $pvar; ?>+" #ios_options-element").show();
+                }
+            };
+
+            $(document).off("change", <?php echo $pvar; ?>+" [id$='-button-external_browser']");
+            $(document).on("change", <?php echo $pvar; ?>+" [id$='-button-external_browser']", function () {
+                <?php echo $pvar; ?>ToggleExternal();
+            });
+            <?php echo $pvar; ?>ToggleExternal();
         });
     </script>
 

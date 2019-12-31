@@ -494,14 +494,16 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
         try {
             if (!$option_value) {
-                throw new \Siberian\Exception('#578-01' . __('An error occurred while saving your page.'));
+                throw new \Siberian\Exception('#578-01: ' . __('An error occurred while saving your page.'));
             }
 
             $value_id = $option_value->getId();
 
             # Create a new CMS Page
             $page = new Cms_Model_Application_Page();
-            if (!isset($datas['page_id']) || empty($datas['page_id']) || ($datas['page_id'] == 'new')) {
+            if (!isset($datas['page_id']) ||
+                empty($datas['page_id']) ||
+                ($datas['page_id'] === 'new')) {
                 $page
                     ->setValueId($value_id)
                     ->save_v2() # save_v2 is a simple save, without all the old saveBlocks
@@ -510,20 +512,29 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 $page->find($datas['page_id']);
 
                 if ($page->getId() && ($page->getValueId() != $value_id)) {
-                    throw new \Siberian\Exception('#578-02' . __('An error occurred while saving your page.'));
+                    throw new \Siberian\Exception('#578-02: ' . __('An error occurred while saving your page.'));
                 }
             }
 
             # Places case
-            if (isset($datas['cms_type']) && $datas['cms_type'] === 'places') {
+            $isPlaces = false;
+            if (isset($datas['cms_type']) &&
+                $datas['cms_type'] === 'places') {
 
                 $page
                     ->savePlace($option_value, $datas)
                     ->setMetadata($datas['metadata'])
                     ->saveMetadata();
+
+                $isPlaces = true;
             }
 
             # Page title
+            if ($isPlaces &&
+                empty($datas['title'])) {
+                throw new \Siberian\Exception('#578-03: ' . __('Title is required.'));
+            }
+
             $page
                 ->setTitle($datas['title'])
                 ->save_v2();
@@ -544,6 +555,8 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
             $block_position = 0;
             $blocks = $datas['block'];
+
+            $hasAddress = false;
             foreach ($positions as $uniqid) {
                 $block = $blocks[$uniqid];
                 $block_type = key($block);
@@ -563,12 +576,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
                         $model = new Cms_Model_Application_Page_Block_Address();
 
                         // Validate only if not empty!
-                        if (!empty($values["website"])) {
-                            if (!preg_match("/^https?:\/\//i", $values["website"])) {
-                                $messagePartialError[] = __("Website must start with http:// or https://, invalid value have been removed!");
-
-                                $values["website"] = "";
-                            }
+                        if (!empty($values['website']) &&
+                            !preg_match("/^https?:\/\//i", $values['website'])) {
+                            $messagePartialError[] = __('Website must start with http:// or https://, invalid value have been removed!');
+                            $values['website'] = '';
                         }
 
                         break;
@@ -597,30 +608,35 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 if ($result === false) {
                     $messagePartialError[] =
                         __('The block N°%s, %s was not saved, the block was either empty or invalid.', $block_position + 1, __(ucfirst($block_type)));
+                } else if ($isPlaces && $block_type === 'address') {
+                    $hasAddress = true;
                 }
 
                 $block_position++;
             }
 
+            $page->setData('__is_places', $isPlaces);
+            $page->setData('__has_address', $hasAddress);
             $page->setData('__invalid_blocks', $messagePartialError);
 
             // Everything was ok, Commit
             try {
                 $db->commit();
-            } catch (\Exception $e) {
+            } catch (\Exception $eCommit) {
                 // ignore
             }
-
-            return $page;
-
-        } catch (\Exception $e) {
+        } catch (\Exception $eMain) {
             // We got an unrecoverable error, rollback
             try {
                 $db->rollBack();
-            } catch (\Exception $e) {
+            } catch (\Exception $eRollback) {
                 // ignore
             }
+
+            throw $eMain;
         }
+
+        return $page;
     }
 
     /**
@@ -854,9 +870,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
     }
 
     /**
-     * Creates an instance of Cms_Model_Application_Page_Metadata and configures it with the current page
-     *
-     * @return $metadata     An instance of Cms_Model_Application_Page_Metadata
+     * @param $code
+     * @param $payload
+     * @return Cms_Model_Application_Page_Metadata
+     * @throws Zend_Exception
      */
     protected function _createMetadata($code, $payload)
     {
@@ -872,6 +889,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $datas
      * @return $this
      * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
     public function savePlace($optionValue, $datas)
     {

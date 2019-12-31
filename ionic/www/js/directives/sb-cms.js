@@ -1,6 +1,6 @@
 /**
  * CMS Directives
- * @version 4.16.11
+ * @version 4.18.5
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {
@@ -10,8 +10,14 @@ angular.module('starter').directive('sbCmsText', function () {
         },
         template:
         '<div class="item item-text-wrap item-custom sb-cms-text">' +
-        '   <img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image.length" class="{{ block.alignment }}" />' +
-        '   <div class="content" ng-bind-html="block.content | trusted_html" sb-a-click></div>' +
+        '   <img alt="cms-image" ' +
+        '        width="{{block.size}}%" ' +
+        '        ng-src="{{ block.image_url }}" ' +
+        '        ng-if="block.image.length" ' +
+        '        class="{{ block.alignment }}" />' +
+        '   <div class="content" ' +
+        '        ng-bind-html="block.content | trusted_html" ' +
+        '        sb-a-click></div>' +
         '   <div class="cb"></div>' +
         '</div>'
     };
@@ -59,7 +65,10 @@ angular.module('starter').directive('sbCmsText', function () {
         scope: {
             block: '='
         },
-        template: '<img width="100%" ng-src="{{ block.gallery[0].src }}" alt="{{block.name}}">'
+        template:
+            '<img width="100%" ' +
+            '     ng-src="{{ block.gallery[0].src }}" ' +
+            '     alt="{{block.name}}" />'
     };
 }).directive('sbCmsSlider', function () {
     return {
@@ -272,11 +281,11 @@ angular.module('starter').directive('sbCmsText', function () {
             };
 
             $scope.openItinary = function () {
-                LinkService.openLink($scope.itinerary_link, {use_external_app: true});
+                LinkService.openLink($scope.itinerary_link, {}, true);
             };
 
             $scope.openWebsite = function (url) {
-                LinkService.openLink(url, {use_external_app: true});
+                LinkService.openLink(url, $scope.block.options, $scope.block.external_browser);
             };
 
             $scope.addToContact = function () {
