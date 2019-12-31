@@ -98,7 +98,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             }
 
             // Check for Nwicode files!
-            if (__getConfig('bypass_nwicode') !== true) {
+            $package = $this->getPackageDetails();
+            $type = $package->getType();
+
+            if (!empty($type) && __getConfig('bypass_nwicode') !== true) {
                 //
                 $files = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator($this->_tmp_directory, 4096),
