@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout>
-    <cash_return_request>
+    <form2_submit_owner>
         <addLayout name="application_base_layout" />
         <views>
             <content_email class="core_view_email_default"
-                           template="cabride/cash_return_request.phtml" />
+                           template="form2/form2_submit_owner.phtml" />
         </views>
-    </cash_return_request>
+    </form2_submit_owner>
 
-    <pending_payout>
+    <form2_submit_copy>
         <addLayout name="application_base_layout" />
         <views>
             <content_email class="core_view_email_default"
-                           template="cabride/pending_payout.phtml" />
+                           template="form2/form2_submit_copy.phtml" />
         </views>
-    </pending_payout>
+    </form2_submit_copy>
 </layout>

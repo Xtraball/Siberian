@@ -24,9 +24,8 @@
         "icons/form3-flat.png"
     ],
     "files": [
-        "js/services/form2.js",
+        "js/controllers/form2-home-controller.js",
         "js/factory/form2.js",
-        "js/controllers/form2-home.js",
         "scss/form2.scss"
     ],
     "compile": true,

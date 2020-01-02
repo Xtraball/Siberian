@@ -1,3 +1,3 @@
-# CAB-RIDE
+# Form module, version 2
 
-This is the very first start of the new Cab-Ride module!
+- Author: Xtraball SAS <dev@xtraball.com>

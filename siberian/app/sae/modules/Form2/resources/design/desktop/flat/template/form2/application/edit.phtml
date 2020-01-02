@@ -1,14 +1,13 @@
 <?php
 
-use Cabride\Model\Cabride;
-use Cabride\Model\Field;
-use Cabride\Form\Field as FormField;
-use Cabride\Form\Field\Delete as DeleteFormField;
+use Form2\Model\Field;
+use Form2\Form\Field as FormField;
+use Form2\Form\Field\Delete as DeleteFormField;
 
 $application = $this->getApplication();
+$optionValue = $this->getCurrentOptionValue();
+$vaueId = $optionValue->getId();
 $request = $this->getRequest();
-$valueId = Cabride::getCurrentValueId();
-$cabride = Cabride::getCurrent()->getObject();
 
 $formField = (new FormField())
     ->setValueId($valueId);
@@ -24,9 +23,6 @@ $fields = (new Field())->findAll(
 
 $deleteFieldForm = (new DeleteFormField())
     ->setValueId($valueId);
-
-$formIsEnabled = (boolean) $cabride->getEnableCustomForm();
-
 ?>
 
 <div class="row"
@@ -36,21 +32,13 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
             <div id="settings_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo p__("cabride", "Form configuration"); ?>
+                    <?php echo p__("form2", "Form configuration"); ?>
                 </h3>
                 <div class="subcontent content-color">
 
-                    <?php if (!$formIsEnabled): ?>
-                    <div class="col-md-12">
-                        <div class="alert alert-warning">
-                            <?php echo p__("cabride", "The custom form is disabled in your settings, and will not be visible inside the application.") ?>
-                        </div>
-                    </div>
-                    <?php endif; ?>
-
                     <div class="col-md-12">
                         <h3 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "Add a field") ?>
+                            <?php echo p__("form2", "Add a field") ?>
                         </h3>
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
                             <?php echo $formField; ?>
@@ -58,82 +46,82 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                     </div>
 
                     <?php if ($fields->count() > 0): ?>
-                    <div class="col-md-12"
-                         style="margin-top: 20px;">
-                        <h3 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("cabride", "Manage fields") ?>
-                        </h3>
-                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                            <table class="table content-white-bkg sb-pager table-fields">
-                                <thead>
-                                <tr class="border-grey">
-                                    <th style="width:32px;"></th>
-                                    <th style="width:30%"><?php echo p__("cabride", "Label") ?></th>
-                                    <th style="width:30%"><?php echo p__("cabride", "Type") ?></th>
-                                    <th style="width:30%"><?php echo p__("cabride", "Default") ?></th>
-                                    <th style="width:5%"><?php echo p__("cabride", "Required") ?></th>
-                                    <th style="width:5%;"><?php echo p__("cabride", "Position") ?></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody class="fields-sortable">
-                                <?php foreach ($fields as $field) : ?>
-                                    <tr id="field_manage_element_<?php echo $field->getId(); ?>"
-                                        rel="<?php echo $field->getId(); ?>"
-                                        class="field-manage-element sb-pager field-container">
-                                        <td class="field-handle"
-                                            style="text-align: center;">
-                                            <i class="fa fa-sort"
-                                               style="margin-top: 11px;"></i>
-                                        </td>
-                                        <td>
-                                            <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
-                                        </td>
-                                        <td>
-                                            <?php echo p__('cabride', FormField::$types[$field->getFieldType()]) ?>
-                                        </td>
-                                        <td><?php echo $field->getDefaultValue() ?></td>
-                                        <td>
-                                            <?php if ($field->getIsRequired()): ?>
-                                                <p class="label label-success"><?php echo p__('cabride', 'YES') ?></p>
-                                            <?php else: ?>
-                                                <p class="label label-danger"><?php echo p__('cabride', 'NO') ?></p>
-                                            <?php endif; ?>
-                                        </td>
-                                        <td class="field-position"><?php echo $field->getPosition() ?></td>
-                                        <td class="edit-action open-edit"
-                                            data-id="field_<?php echo $field->getId(); ?>"
-                                            data-form-url="<?php echo __path("/cabride/field/load-form", [
-                                                "field_id" => $field->getId(),
-                                                "value_id" => $valueId
-                                            ]); ?>">
-                                            <i class="fa fa-pencil"></i>
-                                        </td>
-                                        <td class="delete-action">
-                                            <?php
-                                            $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
-                                            $deleteFieldForm->getElement("field_id")->setValue($field->getId());
+                        <div class="col-md-12"
+                             style="margin-top: 20px;">
+                            <h3 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__("form2", "Manage fields") ?>
+                            </h3>
+                            <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                                <table class="table content-white-bkg sb-pager table-fields">
+                                    <thead>
+                                    <tr class="border-grey">
+                                        <th style="width:32px;"></th>
+                                        <th style="width:30%"><?php echo p__("form2", "Label") ?></th>
+                                        <th style="width:30%"><?php echo p__("form2", "Type") ?></th>
+                                        <th style="width:30%"><?php echo p__("form2", "Default") ?></th>
+                                        <th style="width:5%"><?php echo p__("form2", "Required") ?></th>
+                                        <th style="width:5%;"><?php echo p__("form2", "Position") ?></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="fields-sortable">
+                                    <?php foreach ($fields as $field) : ?>
+                                        <tr id="field_manage_element_<?php echo $field->getId(); ?>"
+                                            rel="<?php echo $field->getId(); ?>"
+                                            class="field-manage-element sb-pager field-container">
+                                            <td class="field-handle"
+                                                style="text-align: center;">
+                                                <i class="fa fa-sort"
+                                                   style="margin-top: 11px;"></i>
+                                            </td>
+                                            <td>
+                                                <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
+                                            </td>
+                                            <td>
+                                                <?php echo p__('form2', FormField::$types[$field->getFieldType()]) ?>
+                                            </td>
+                                            <td><?php echo $field->getDefaultValue() ?></td>
+                                            <td>
+                                                <?php if ($field->getIsRequired()): ?>
+                                                    <p class="label label-success"><?php echo p__('form2', 'YES') ?></p>
+                                                <?php else: ?>
+                                                    <p class="label label-danger"><?php echo p__('form2', 'NO') ?></p>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class="field-position"><?php echo $field->getPosition() ?></td>
+                                            <td class="edit-action open-edit"
+                                                data-id="field_<?php echo $field->getId(); ?>"
+                                                data-form-url="<?php echo __path("/form2/field/load-form", [
+                                                    "field_id" => $field->getId(),
+                                                    "value_id" => $valueId
+                                                ]); ?>">
+                                                <i class="fa fa-pencil"></i>
+                                            </td>
+                                            <td class="delete-action">
+                                                <?php
+                                                $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
+                                                $deleteFieldForm->getElement("field_id")->setValue($field->getId());
 
-                                            echo $deleteFieldForm;
-                                            ?>
-                                        </td>
-                                    </tr>
-                                    <tr class="edit-form"
-                                        data-id="field_<?php echo $field->getId(); ?>"
-                                        style="display: none;">
-                                        <td colspan="8">
-                                            <p class="close-edit"
-                                               data-id="field_<?php echo $field->getId(); ?>">
-                                                <i class="fa fa-times"></i><?php echo p__("cabride", "Close") ?>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                                </tbody>
-                            </table>
+                                                echo $deleteFieldForm;
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <tr class="edit-form"
+                                            data-id="field_<?php echo $field->getId(); ?>"
+                                            style="display: none;">
+                                            <td colspan="8">
+                                                <p class="close-edit"
+                                                   data-id="field_<?php echo $field->getId(); ?>">
+                                                    <i class="fa fa-times"></i><?php echo p__("form2", "Close") ?>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -149,7 +137,7 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
     <div class="col-sm-10">
         <button class="add_option btn btn-sm color-blue">
             <i class="icon ion-plus"></i>
-            <?php echo p__("cabride", "Add an option") ?>
+            <?php echo p__("form2", "Add an option") ?>
         </button>
     </div>
     <div class="sb-cb"></div>
@@ -192,7 +180,7 @@ $formIsEnabled = (boolean) $cabride->getEnableCustomForm();
                 });
 
                 formget(
-                    '/cabride/field/update-positions',
+                    '/form2/field/update-positions',
                     data,
                     function(result) {},
                     function(result) {}

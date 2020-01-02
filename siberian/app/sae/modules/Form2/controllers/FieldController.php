@@ -14,18 +14,26 @@ class Form2_FieldController extends Application_Controller_Default
      * @var array
      */
     public $cache_triggers = [
-        "update-positions" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'update-positions' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
-        "edit" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'delete' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ],
+        'edit' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
     ];
 
+    /**
+     *
+     */
     public function loadFormAction()
     {
         try {
@@ -36,7 +44,7 @@ class Form2_FieldController extends Application_Controller_Default
                 ->find($fieldId);
 
             if (!$field->getId()) {
-                throw new Exception(p__("cabride", "The field you are trying to edit doesn't exists."));
+                throw new Exception(p__('form2', "The field you are trying to edit doesn't exists."));
             }
 
             $form = new FormField();
@@ -44,24 +52,24 @@ class Form2_FieldController extends Application_Controller_Default
             $selectOptions = $field->getFieldOptions();
 
             $form->populate($field->getData());
-            $form->removeNav("nav-fields");
-            $submit = $form->addSubmit(p__("cabride", "Save"));
-            $submit->addClass("pull-right");
+            $form->removeNav('nav-fields');
+            $submit = $form->addSubmit(p__('form2', 'Save'));
+            $submit->addClass('pull-right');
 
             $formId = "form-field-edit-{$fieldId}";
 
             $form->binderField($formId, $selectOptions);
-            $form->setAttrib("id", $formId);
+            $form->setAttrib('id', $formId);
 
             $payload = [
-                "success" => true,
-                "form" => $form->render(),
-                "message" => p__("cabride", "Success"),
+                'success' => true,
+                'form' => $form->render(),
+                'message' => p__('form2', 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -80,7 +88,7 @@ class Form2_FieldController extends Application_Controller_Default
 
             $form = new FormDeleteField();
             if ($form->isValid($params)) {
-                $fieldId = $params["field_id"];
+                $fieldId = $params['field_id'];
                 $field = (new Field())
                     ->find($fieldId);
 
@@ -93,13 +101,13 @@ class Form2_FieldController extends Application_Controller_Default
             }
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "Success"),
+                'success' => true,
+                'message' => p__('form2', 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -113,10 +121,10 @@ class Form2_FieldController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $indexes = $request->getParam("indexes", null);
+            $indexes = $request->getParam('indexes', null);
 
             if (empty($indexes)) {
-                throw new Exception(p__("cabride", "Nothing to do!"));
+                throw new Exception(p__('form2', 'Nothing to do!'));
             }
 
             foreach ($indexes as $index => $fieldId) {
@@ -124,7 +132,7 @@ class Form2_FieldController extends Application_Controller_Default
                     ->find($fieldId);
 
                 if (!$field->getId()) {
-                    throw new Exception(p__("cabride", "Something went wrong, the field do not exists!"));
+                    throw new Exception(p__('form2', 'Something went wrong, the field do not exists!'));
                 }
 
                 $field
@@ -133,13 +141,13 @@ class Form2_FieldController extends Application_Controller_Default
             }
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "Success"),
+                'success' => true,
+                'message' => p__('form2', 'Success'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -163,12 +171,12 @@ class Form2_FieldController extends Application_Controller_Default
                 /**
                  * @var $field Field
                  */
-                $field = (new Field())->find($params["field_id"]);
+                $field = (new Field())->find($params['field_id']);
 
                 $field
                     ->setData($params)
-                    ->setFieldOptions($params["select_options"])
-                    ->setFieldType($form->getValue("field_type"));
+                    ->setFieldOptions($params['select_options'])
+                    ->setFieldType($form->getValue('field_type'));
 
                 if (!$field->getId()) {
                     // Set the position + 1
@@ -183,20 +191,20 @@ class Form2_FieldController extends Application_Controller_Default
                     ->expires(-1);
 
                 $payload = [
-                    "success" => true,
-                    "message" => p__("cabride", "Success"),
+                    'success' => true,
+                    'message' => p__('form2', 'Success'),
                 ];
             } else {
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true)
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
                 ];
             }
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
