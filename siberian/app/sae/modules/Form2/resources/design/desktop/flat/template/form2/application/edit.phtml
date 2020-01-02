@@ -5,8 +5,8 @@ use Form2\Form\Field as FormField;
 use Form2\Form\Field\Delete as DeleteFormField;
 
 $application = $this->getApplication();
-$optionValue = $this->getCurrentOptionValue();
-$vaueId = $optionValue->getId();
+$optionValue = $this->getOptionValue();
+$valueId = $optionValue->getId();
 $request = $this->getRequest();
 
 $formField = (new FormField())
@@ -14,10 +14,10 @@ $formField = (new FormField())
 
 $fields = (new Field())->findAll(
     [
-        "value_id = ?" => $valueId
+        'value_id = ?' => $valueId
     ],
     [
-        "position ASC"
+        'position ASC'
     ]
 );
 
@@ -32,13 +32,13 @@ $deleteFieldForm = (new DeleteFormField())
             <div id="settings_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo p__("form2", "Form configuration"); ?>
+                    <?php echo p__('form2', 'Form configuration'); ?>
                 </h3>
                 <div class="subcontent content-color">
 
                     <div class="col-md-12">
                         <h3 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__("form2", "Add a field") ?>
+                            <?php echo p__('form2', 'Add a field') ?>
                         </h3>
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
                             <?php echo $formField; ?>
@@ -49,18 +49,18 @@ $deleteFieldForm = (new DeleteFormField())
                         <div class="col-md-12"
                              style="margin-top: 20px;">
                             <h3 class="title-editor no-border-radius title-feature-indent">
-                                <?php echo p__("form2", "Manage fields") ?>
+                                <?php echo p__('form2', 'Manage fields') ?>
                             </h3>
                             <div class="container-fluid first-row-feature content-feature feature-manage-items">
                                 <table class="table content-white-bkg sb-pager table-fields">
                                     <thead>
                                     <tr class="border-grey">
                                         <th style="width:32px;"></th>
-                                        <th style="width:30%"><?php echo p__("form2", "Label") ?></th>
-                                        <th style="width:30%"><?php echo p__("form2", "Type") ?></th>
-                                        <th style="width:30%"><?php echo p__("form2", "Default") ?></th>
-                                        <th style="width:5%"><?php echo p__("form2", "Required") ?></th>
-                                        <th style="width:5%;"><?php echo p__("form2", "Position") ?></th>
+                                        <th style="width:30%"><?php echo p__('form2', 'Label') ?></th>
+                                        <th style="width:30%"><?php echo p__('form2', 'Type') ?></th>
+                                        <th style="width:30%"><?php echo p__('form2', 'Default') ?></th>
+                                        <th style="width:5%"><?php echo p__('form2', 'Required') ?></th>
+                                        <th style="width:5%;"><?php echo p__('form2', 'Position') ?></th>
                                         <th></th>
                                         <th></th>
                                     </tr>

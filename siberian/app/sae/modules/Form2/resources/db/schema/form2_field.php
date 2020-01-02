@@ -7,11 +7,11 @@
  *
  */
 $schemas = (!isset($schemas)) ? [] : $schemas;
-$schemas["form2_field"] = [
-    "field_id" => [
-        "type" => "int(11) unsigned",
-        "auto_increment" => true,
-        "primary" => true,
+$schemas['form2_field'] = [
+    'field_id' => [
+        'type' => 'int(11) unsigned',
+        'auto_increment' => true,
+        'primary' => true,
     ],
     'value_id' => [
         'type' => 'int(11) unsigned',
@@ -29,51 +29,51 @@ $schemas["form2_field"] = [
             'is_unique' => false,
         ],
     ],
-    "label" => [
-        "type" => "varchar(255)",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'label' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "field_type" => [
-        "type" => "varchar(255)",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'field_type' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "number_min" => [
-        "type" => "double",
+    'number_min' => [
+        'type' => 'double',
     ],
-    "number_max" => [
-        "type" => "double",
+    'number_max' => [
+        'type' => 'double',
     ],
-    "number_step" => [
-        "type" => "double",
+    'number_step' => [
+        'type' => 'double',
     ],
-    "field_options" => [
-        "type" => "text",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'field_options' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "date_format" => [
-        "type" => "varchar(32)",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'date_format' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "datetime_format" => [
-        "type" => "varchar(32)",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'datetime_format' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "is_required" => [
-        "type" => "tinyint(1)",
-        "default" => "0",
+    'is_required' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
-    "default_value" => [
-        "type" => "text",
-        "charset" => "utf8",
-        "collation" => "utf8_unicode_ci",
+    'default_value' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ],
-    "position" => [
-        "type" => "tinyint(1)",
-        "default" => "0",
+    'position' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
 ];

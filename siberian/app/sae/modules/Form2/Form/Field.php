@@ -1,12 +1,12 @@
 <?php
 
-namespace Cabride\Form;
+namespace Form2\Form;
 
 use Siberian_Form_Abstract as FormAbstract;
 
 /**
  * Class Field
- * @package Cabride\Form
+ * @package Form2\Form
  */
 class Field extends FormAbstract
 {
@@ -53,7 +53,7 @@ class Field extends FormAbstract
         parent::init();
 
         $this
-            ->setAction(__path('/cabride/field/edit'))
+            ->setAction(__path('/form2/field/edit'))
             ->setAttrib('id', 'form-edit-field');
 
         self::addClass('create', $this);
@@ -65,43 +65,43 @@ class Field extends FormAbstract
 
         $fieldTypes = [];
         foreach (self::$types as $key => $label) {
-            $fieldTypes[$key] = p__('cabride', $label);
+            $fieldTypes[$key] = p__('form2', $label);
         }
 
-        $type = $this->addSimpleSelect('field_type', p__('cabride', 'Type'), $fieldTypes);
+        $type = $this->addSimpleSelect('field_type', p__('form2', 'Type'), $fieldTypes);
         $type->setRequired(true);
 
-        $label = $this->addSimpleText('label', p__('cabride', 'Label'));
+        $label = $this->addSimpleText('label', p__('form2', 'Label'));
         $label->setRequired(true);
 
         // Number
-        $this->addSimpleNumber('number_min', p__('cabride', 'Min. value'));
-        $this->addSimpleNumber('number_max', p__('cabride', 'Max. value'));
-        $this->addSimpleNumber('number_step', p__('cabride', 'Step'));
+        $this->addSimpleNumber('number_min', p__('form2', 'Min. value'));
+        $this->addSimpleNumber('number_max', p__('form2', 'Max. value'));
+        $this->addSimpleNumber('number_step', p__('form2', 'Step'));
 
-        $this->groupElements('group_number', ['number_min', 'number_max', 'number_step'], p__('cabride', 'Number options'));
+        $this->groupElements('group_number', ['number_min', 'number_max', 'number_step'], p__('form2', 'Number options'));
 
         // Select options
         $this->addSimpleHidden('select_options');
-        $this->groupElements('group_select', ['select_options'], p__('cabride', 'Select options'));
+        $this->groupElements('group_select', ['select_options'], p__('form2', 'Select options'));
 
         // Date
-        $this->addSimpleSelect('date_format', p__('cabride', 'Date format'), self::$dateFormats);
+        $this->addSimpleSelect('date_format', p__('form2', 'Date format'), self::$dateFormats);
 
-        $this->groupElements('group_date', ['date_format'], p__('cabride', 'Date options'));
+        $this->groupElements('group_date', ['date_format'], p__('form2', 'Date options'));
 
         // Datetime
-        $this->addSimpleSelect('datetime_format', p__('cabride', 'Date & time format'), self::$datetimeFormats);
+        $this->addSimpleSelect('datetime_format', p__('form2', 'Date & time format'), self::$datetimeFormats);
 
-        $this->groupElements('group_datetime', ['datetime_format'], p__('cabride', 'Date & time options'));
+        $this->groupElements('group_datetime', ['datetime_format'], p__('form2', 'Date & time options'));
 
         // Default
-        $this->addSimpleText('default_value', p__('cabride', 'Default value'));
+        $this->addSimpleText('default_value', p__('form2', 'Default value'));
 
         // Required
-        $this->addSimpleCheckbox('is_required', p__('cabride', 'Required?'));
+        $this->addSimpleCheckbox('is_required', p__('form2', 'Required?'));
 
-        $submit = $this->addSubmit(p__('cabride', 'Save'));
+        $submit = $this->addSubmit(p__('form2', 'Save'));
         $submit->addClass('pull-right');
     }
 
@@ -114,9 +114,9 @@ class Field extends FormAbstract
      */
     public static function getSelectTemplate($raw = true, $index = null, $label = "Label", $value = "Value")
     {
-        $option = p__("cabride", "Option");
-        $label = p__("cabride", $label);
-        $value = p__js("cabride", $value, '"');
+        $option = p__('form2', 'Option');
+        $label = p__('form2', $label);
+        $value = p__js('form2', $value, '"');
         $selectTemplate = <<<RAW
 <div class="form-group sb-form-line select_option_index select-container" 
      rel="#INDEX#">
@@ -156,14 +156,14 @@ RAW;
      */
     public function binderField($formId, $selectOptions = [])
     {
-        $type = $this->getElement("field_type")->getValue();
+        $type = $this->getElement('field_type')->getValue();
 
         $options = "";
         $index = 1;
         foreach ($selectOptions as $selectOption) {
             $index++;
-            $label = $selectOption["label"];
-            $value = $selectOption["value"];
+            $label = $selectOption['label'];
+            $value = $selectOption['value'];
             $options .= "window.addOption('{$formId}', '{$index}', '{$label}', '{$value}');\n";
         }
 
@@ -199,17 +199,17 @@ JS;
      */
     public function isValid($data)
     {
-        switch ($data["field_type"]) {
-            case "number":
-                $this->getElement("number_min")->setRequired(true);
-                $this->getElement("number_max")->setRequired(true);
-                $this->getElement("number_step")->setRequired(true);
+        switch ($data['field_type']) {
+            case 'number':
+                $this->getElement('number_min')->setRequired(true);
+                $this->getElement('number_max')->setRequired(true);
+                $this->getElement('number_step')->setRequired(true);
                 break;
-            case "date":
-                $this->getElement("date_format")->setRequired(true);
+            case 'date':
+                $this->getElement('date_format')->setRequired(true);
                 break;
-            case "datetime":
-                $this->getElement("datetime_format")->setRequired(true);
+            case 'datetime':
+                $this->getElement('datetime_format')->setRequired(true);
                 break;
         }
 

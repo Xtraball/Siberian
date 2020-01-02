@@ -253,7 +253,7 @@ class Feature
         $resource->setData($features_resources)
             ->insertOrUpdate(["code"]);
 
-        $parent_id = $child_resource["parent_id"];
+        $parent_id = $child_resource['parent_id'] ?? null;
 
         if (empty($parent_id)) {
             $child_resource["parent_id"] = $resource->getId();

@@ -1,13 +1,13 @@
 <?php
 
-namespace Cabride\Model;
+namespace Form2\Model;
 
 use Core\Model\Base;
 use Siberian\Json;
 
 /**
  * Class Field
- * @package Cabride\Model
+ * @package Form2\Model
  *
  * @method Db\Table\Field getTable()
  * @method integer getFieldId()
@@ -24,15 +24,9 @@ use Siberian\Json;
 class Field extends Base
 {
     /**
-     * Field constructor.
-     * @param array $datas
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($datas = [])
-    {
-        parent::__construct($datas);
-        $this->_db_table = Db\Table\Field::class;
-    }
+    protected $_db_table = Db\Table\Field::class;
 
     /**
      * @param $valueId
