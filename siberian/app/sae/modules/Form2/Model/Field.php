@@ -101,6 +101,8 @@ class Field extends Base
             'field_id' => (integer) $this->getFieldId(),
             'label' => (string) $this->getLabel(),
             'type' => (string) $this->getFieldType(),
+            'richtext' => (string) $this->getRichtext(),
+            'image' => (string) $this->getImage(),
             'options' => (array) array_values($this->getFieldOptions()),
             'min' => (float) $this->getNumberMin(),
             'max' => (float) $this->getNumberMax(),

@@ -11,6 +11,42 @@ use Core\Model\Base;
 class Form extends Base
 {
     /**
+     * @param $valueId
+     * @return array|bool
+     */
+    public function getInappStates($valueId)
+    {
+        $inAppStates = [
+            [
+                'state' => 'form2-home',
+                'offline' => true,
+                'params' => [
+                    'value_id' => $valueId,
+                ]
+            ],
+        ];
+
+        return $inAppStates;
+    }
+
+    /**
+     * @param $optionValue
+     * @return array
+     */
+    public function getAppInitUris ($optionValue): array
+    {
+        $valueId = $optionValue->getId();
+
+        $featureUrl = __url('/form2/mobile_home/index', ['value_id' => $valueId]);
+        $featurePath = __path('/form2/mobile_home/index', ['value_id' => $valueId]);
+
+        return [
+            'featureUrl' => $featureUrl,
+            'featurePath' => $featurePath,
+        ];
+    }
+
+    /**
      * @param null $optionValue
      * @return array|bool
      * @throws \Zend_Exception

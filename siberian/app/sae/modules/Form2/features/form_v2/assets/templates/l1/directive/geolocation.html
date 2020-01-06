@@ -1,4 +1,5 @@
 <ion-checkbox class="checkbox-custom item-custom"
+              ng-model="locationIsChecked"
               ng-change="getLocation()">
     <h2>
         <span ng-show="!locationIsLoading">{{ field.label }}</span>

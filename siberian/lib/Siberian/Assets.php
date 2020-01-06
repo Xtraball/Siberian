@@ -7,7 +7,7 @@ namespace Siberian;
  *
  * @id 1000
  *
- * @version 4.16.0
+ * @version 4.18.5
  *
  */
 class Assets
@@ -288,15 +288,15 @@ class Assets
      * @var array
      */
     public static $platforms = [
-        "browser" => [
-            "/var/apps/browser/",
-            "/var/apps/overview/",
+        'browser' => [
+            '/var/apps/browser/',
+            '/var/apps/overview/',
         ],
-        "android" => [
-            "/var/apps/ionic/android/",
+        'android' => [
+            '/var/apps/ionic/android/',
         ],
-        "ios" => [
-            "/var/apps/ionic/ios/",
+        'ios' => [
+            '/var/apps/ionic/ios/',
         ],
     ];
 
@@ -304,17 +304,17 @@ class Assets
      * @var array
      */
     public static $www = [
-        "browser" => "/",
-        "android" => "/app/src/main/assets/www/",
-        "ios" => "/www/",
+        'browser' => '/',
+        'android' => '/app/src/main/assets/www/',
+        'ios' => '/www/',
     ];
 
     /**
      * @var array
      */
     public static $config_xml = [
-        "android" => "/app/src/main/res/xml/config.xml",
-        "ios" => "/AppsMobileCompany/config.xml",
+        'android' => '/app/src/main/res/xml/config.xml',
+        'ios' => '/AppsMobileCompany/config.xml',
     ];
 
     /**
@@ -439,7 +439,7 @@ class Assets
         if (!is_array($exclude_types)) {
             $exclude_types = [];
         }
-        $base = path("");
+        $base = path('');
         foreach (self::$platforms as $type => $platforms) {
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
@@ -530,36 +530,35 @@ class Assets
             self::copyAssets($built_file, null, $feature_js_path);
 
             // Checks if the js & code key exists.
-            if (array_key_exists('js', self::$features_assets) &&
-                array_key_exists($code, self::$features_assets['js'])) {
+            if (!array_key_exists('js', self::$features_assets)) {
+                self::$features_assets['js'] = [];
+            }
 
-                // If the array doesn't exists, create it empty!
-                if (!is_array(self::$features_assets["js"][$code])) {
-                    self::$features_assets["js"][$code] = [];
-                }
+            if (!array_key_exists($code, self::$features_assets['js'])) {
+                self::$features_assets['js'][$code] = [];
+            }
 
-                // Fill the array with the value, ensure once!
-                if (!in_array($feature_js_path, self::$features_assets['js'][$code])) {
-                    self::$features_assets['js'][$code][] = $feature_js_path;
-                }
+            // Fill the array with the value, ensure once!
+            if (!in_array($feature_js_path, self::$features_assets['js'][$code])) {
+                self::$features_assets['js'][$code][] = $feature_js_path;
             }
 
             $data = [
-                "name" => $name,
-                "code" => $code,
-                "model" => $model,
-                "desktop_uri" => $desktop_uri,
-                "mobile_uri" => $mobile_uri,
-                "use_my_account" => $my_account,
-                "only_once" => $only_once,
-                "is_ajax" => $is_ajax,
-                "social_sharing_is_available" => $social_sharing,
-                "use_nickname" => $nickname,
-                "use_ranking" => $ranking,
+                'name' => $name,
+                'code' => $code,
+                'model' => $model,
+                'desktop_uri' => $desktop_uri,
+                'mobile_uri' => $mobile_uri,
+                'use_my_account' => $my_account,
+                'only_once' => $only_once,
+                'is_ajax' => $is_ajax,
+                'social_sharing_is_available' => $social_sharing,
+                'use_nickname' => $nickname,
+                'use_ranking' => $ranking,
             ];
 
             if (array_key_exists('position', $feature)) {
-                $position = intval($feature['position'], 10) || null;
+                $position = (int) $feature['position'] || null;
                 if ($position) {
                     $data['position'] = $position;
                 }

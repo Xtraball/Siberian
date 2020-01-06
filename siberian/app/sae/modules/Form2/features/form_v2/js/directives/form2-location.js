@@ -8,13 +8,15 @@ angular
 .directive('form2Location', function () {
     return {
         restrict: 'E',
-        replace: true,
+        replace: false,
         scope: {
-            locationIsLoading: false,
-            field: '=?'
+            field: '='
         },
         templateUrl: './features/form_v2/assets/templates/l1/directive/geolocation.html',
-        controller: function($scope, $filter, Dialog, Location) {
+        link: function (scope) {
+            scope.locationIsLoading = false;
+        },
+        controller: function($scope, $filter, Dialog, Location, GoogleMaps) {
 
             $scope.getLocation = function () {
                 if (Location.isEnabled) {
@@ -43,6 +45,7 @@ angular
 
                         }, function (e) {
                             $scope.field.value = null;
+                            $scope.locationIsChecked = false;
                         }).then(function () {
                             $scope.locationIsLoading = false;
                         });

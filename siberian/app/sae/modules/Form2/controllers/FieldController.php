@@ -184,11 +184,15 @@ class Form2_FieldController extends Application_Controller_Default
                 $field
                     ->setData($params)
                     ->setRichtext($params['richtext'])
-                    ->setFieldOptions($params['select_options'])
                     ->setFieldType($params['field_type']);
 
+                if (array_key_exists('select_options', $params) &&
+                    is_array($params['select_options'])) {
+                    $field->setFieldOptions($params['select_options']);
+                }
+
                 // Only if image type!
-                if ($params['field_type'] === 'image') {
+                if ($params['field_type'] === 'illustration') {
                     Feature::formImageForOption($optionValue, $field, $params, 'image', true);
                 }
 

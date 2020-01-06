@@ -3,17 +3,28 @@
  */
 angular
 .module('starter')
-.controller('Form2HomeController', function ($scope, Form2) {
+.controller('Form2HomeController', function ($scope, $stateParams, Form2, Dialog) {
     angular.extend($scope, {
         isLoading: true,
-        pageTitle: 'Form 2',
+        value_id: $stateParams.value_id,
+        page_title: 'Form 2',
         originalFields: {},
         fields: {},
         valueId: 0
     });
 
+    Form2.setValueId($stateParams.value_id);
+
     $scope.pristineFields = function () {
         $scope.fields = angular.copy($scope.originalFields);
+    };
+
+    $scope.getImageSrc = function (image) {
+        if (!image.length) {
+            return "./features/form_v2/assets/templates/l1/img/no-image.png";
+        }
+
+        return IMAGE_URL + "images/application" + image;
     };
 
     $scope.formIsValid = function () {
@@ -43,6 +54,7 @@ angular
             .find()
             .then(function (payload) {
                 $scope.originalFields = payload.formFields;
+                $scope.page_title = payload.page_title;
                 $scope.pristineFields();
             }, function (error) {
                 Dialog.alert('Error', error.message, 'OK');

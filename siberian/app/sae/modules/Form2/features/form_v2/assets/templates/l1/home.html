@@ -1,2 +1,21 @@
 <!-- Form2 home -->
-<ng-include src="'./features/form_v2/assets/templates/l1/form/form.html'"></ng-include>
+<ion-view class="module-form2 form2 form2-home form2-home-l1"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>page_title
+
+    <ion-nav-buttons side="secondary">
+        <location-button icon-class="'form2-location-action'"></location-button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-show="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-show="!isLoading">
+            <ng-include src="'./features/form_v2/assets/templates/l1/form/form.html'"></ng-include>
+        </div>
+
+    </ion-content>
+</ion-view>
