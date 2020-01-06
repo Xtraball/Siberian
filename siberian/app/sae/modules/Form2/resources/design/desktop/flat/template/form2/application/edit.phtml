@@ -1,8 +1,10 @@
 <?php
 
 use Form2\Model\Field;
+use Form2\Form\Settings as FormSettings;
 use Form2\Form\Field as FormField;
 use Form2\Form\Field\Delete as DeleteFormField;
+use Siberian\Json;
 
 $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
@@ -23,6 +25,17 @@ $fields = (new Field())->findAll(
 
 $deleteFieldForm = (new DeleteFormField())
     ->setValueId($valueId);
+
+$formSettings = (new FormSettings())
+    ->setValueId($valueId);
+
+try {
+    $settings = Json::decode($optionValue->getSettings());
+    $formSettings->populate($settings);
+} catch (\Exception $e) {
+    // Whoop!s
+}
+
 ?>
 
 <div id="form-fields">
@@ -32,7 +45,7 @@ $deleteFieldForm = (new DeleteFormField())
         role="tablist">
 
         <li role="presentation"
-            class="active">
+            class="<?php echo ($fields->count() > 0) ? 'active' : '' ?>">
             <a href="#tab-fields"
                aria-controls="tab-fields"
                role="tab"
@@ -42,7 +55,8 @@ $deleteFieldForm = (new DeleteFormField())
             </a>
         </li>
 
-        <li role="presentation">
+        <li role="presentation"
+            class="<?php echo ($fields->count() <= 0) ? 'active' : '' ?>">
             <a href="#tab-settings"
                aria-controls="tab-settings"
                role="tab"
@@ -68,7 +82,7 @@ $deleteFieldForm = (new DeleteFormField())
 
         <!-- FIELDS -->
         <div role="tabpanel"
-             class="tab-pane active"
+             class="tab-pane <?php echo ($fields->count() > 0) ? 'active' : '' ?>"
              id="tab-fields">
 
             <div class="feature-block-add">
@@ -115,7 +129,7 @@ $deleteFieldForm = (new DeleteFormField())
                                         <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
                                     </td>
                                     <td>
-                                        <?php echo p__('form2', FormField::$types[$field->getFieldType()]) ?>
+                                        <?php echo p__('form2', FormField::$_types[$field->getFieldType()]) ?>
                                     </td>
                                     <td><?php echo $field->getDefaultValue() ?></td>
                                     <td>
@@ -128,16 +142,16 @@ $deleteFieldForm = (new DeleteFormField())
                                     <td class="field-position"><?php echo $field->getPosition() ?></td>
                                     <td class="edit-action open-edit"
                                         data-id="field_<?php echo $field->getId(); ?>"
-                                        data-form-url="<?php echo __path("/form2/field/load-form", [
-                                            "field_id" => $field->getId(),
-                                            "value_id" => $valueId
+                                        data-form-url="<?php echo __path('/form2/field/load-form', [
+                                            'field_id' => $field->getId(),
+                                            'value_id' => $valueId
                                         ]); ?>">
                                         <i class="fa fa-pencil"></i>
                                     </td>
                                     <td class="delete-action">
                                         <?php
-                                        $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
-                                        $deleteFieldForm->getElement("field_id")->setValue($field->getId());
+                                        $deleteFieldForm->setAttrib('data-rowid', 'field_manage_element_' . $field->getId());
+                                        $deleteFieldForm->getElement('field_id')->setValue($field->getId());
 
                                         echo $deleteFieldForm;
                                         ?>
@@ -149,7 +163,7 @@ $deleteFieldForm = (new DeleteFormField())
                                     <td colspan="8">
                                         <p class="close-edit"
                                            data-id="field_<?php echo $field->getId(); ?>">
-                                            <i class="fa fa-times"></i><?php echo p__("form2", "Close") ?>
+                                            <i class="fa fa-times"></i><?php echo p__('form2', 'Close') ?>
                                         </p>
                                     </td>
                                 </tr>
@@ -166,13 +180,16 @@ $deleteFieldForm = (new DeleteFormField())
 
         <!-- SETTINGS -->
         <div role="tabpanel"
-             class="tab-pane"
+             class="tab-pane <?php echo ($fields->count() <= 0) ? 'active' : '' ?>"
              id="tab-settings">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo p__('form2', 'Settings'); ?>
-            </h3>
-            <div class="container-fluid subcontent content-feature">
-                <?php echo 'SETTINGS'; ?>
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('form2', 'Settings'); ?>
+                </h3>
+
+                <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <?php echo $formSettings; ?>
+                </div>
             </div>
         </div>
         <!-- SETTINGS -->
@@ -274,7 +291,7 @@ $deleteFieldForm = (new DeleteFormField())
                 case 'number':
                     $('#' + formId + ' #group_number-element').show();
                     break;
-                case 'image':
+                case 'illustration':
                     $('#' + formId + ' #group_image-element').show();
                     break;
                 case 'richtext':
@@ -310,6 +327,8 @@ $deleteFieldForm = (new DeleteFormField())
                 case 'divider':
                 case 'spacer':
                 case 'image':
+                case 'geolocation':
+                case 'illustration':
                 case 'richtext':
                     $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
                     break;
@@ -331,12 +350,6 @@ $deleteFieldForm = (new DeleteFormField())
         };
 
         window.binderFormField("form-edit-field");
-
-        $("#form-edit-field").data("callback", function () {
-            setTimeout(function () {
-                location.reload();
-            }, 1900);
-        });
 
         window.reIndex = function (formId) {
             var options = $("#" + formId + " .select_option_index");

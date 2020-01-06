@@ -17,7 +17,7 @@ class Field extends FormAbstract
         'Formatting elements' => [
             'divider' => 'Title (section, divider)',
             'spacer' => 'White space (spacer)',
-            'image' => 'Illustration (image)',
+            'illustration' => 'Illustration (image)',
             'richtext' => 'Richtext (block)',
         ],
         'Input elements' => [
@@ -28,9 +28,32 @@ class Field extends FormAbstract
             'password' => 'Password',
             'text' => 'Text input',
             'textarea' => 'Textarea',
+            'image' => 'Image',
             'date' => 'Date',
             'datetime' => 'Date & time',
+            'geolocation' => 'Geolocation (GPS, georeverse)',
         ],
+    ];
+
+    /**
+     * @var array
+     */
+    public static $_types = [
+        'divider' => 'Title (section, divider)',
+        'spacer' => 'White space (spacer)',
+        'illustration' => 'Illustration (image)',
+        'richtext' => 'Richtext (block)',
+        'number' => 'Number',
+        'select' => 'Dropdown select',
+        'radio' => 'Radio choice',
+        'checkbox' => 'Checkbox',
+        'password' => 'Password',
+        'text' => 'Text input',
+        'textarea' => 'Textarea',
+        'image' => 'Image',
+        'date' => 'Date',
+        'datetime' => 'Date & time',
+        'geolocation' => 'Geolocation (GPS, georeverse)',
     ];
 
     public static $dateFormats = [
@@ -64,7 +87,6 @@ class Field extends FormAbstract
             ->setAttrib('id', 'form-edit-field');
 
         self::addClass('create', $this);
-        self::addClass('callback', $this);
 
         $this->addSimpleHidden('field_id');
         $this->addSimpleHidden('value_id');
@@ -198,13 +220,6 @@ RAW;
 $(document).ready(function () {
     window.binderFormField("{$formId}");
     window.toggleGroups("{$formId}", "{$type}");
-    
-    $("#{$formId}").data("callback", function () { 
-        setTimeout(function () {
-            location.reload();
-        }, 1900); 
-    });
-
     window.initSelect("{$formId}");
     window.bindAddOption("{$formId}");
     

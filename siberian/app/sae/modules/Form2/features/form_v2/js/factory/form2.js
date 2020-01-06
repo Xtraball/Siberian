@@ -2,8 +2,8 @@
  * Form version 2 factory
  */
 angular
-.module('starter')
-.factory('Form2', function ($pwaRequest) {
+    .module('starter')
+    .factory('Form2', function ($pwaRequest) {
         var factory = {
             value_id: null
         };
@@ -19,7 +19,7 @@ angular
         };
 
         factory.validateRequest = function (form) {
-            return $pwaRequest.post('/form2/mobile/submit', {
+            return $pwaRequest.post('form2/mobile/submit', {
                 urlParams: {
                     value_id: factory.value_id
                 },
@@ -29,6 +29,34 @@ angular
                 cache: false
             });
         };
+
+        factory.find = function () {
+            if (!this.value_id) {
+                return $pwaRequest.reject('[Factory::Form2.find] missing value_id');
+            }
+
+            var payload = $pwaRequest.getPayloadForValueId(factory.value_id);
+            if (payload !== false) {
+                return $pwaRequest.resolve(payload);
+            }
+
+            // Otherwise fallback on PWA!
+            return $pwaRequest.get('form2/mobile/find', angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                }
+            }, factory.extendedOptions));
+        };
+
+        factory.reloadOverview = function () {
+            // enforce fresh content
+            return $pwaRequest.post('form2/mobile/find', angular.extend({
+                urlParams: {
+                    value_id: this.value_id
+                }
+            }, factory.extendedOptions));
+        };
+
 
         return factory;
     });

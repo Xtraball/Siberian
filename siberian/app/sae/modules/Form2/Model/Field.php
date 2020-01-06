@@ -84,11 +84,46 @@ class Field extends Base
     /**
      * @return string
      */
-    public function getRichtext()
+    public function getRichtext(): string
     {
         try {
             return base64_decode($this->getData('richtext'));
         } catch (\Exception $e) {}
         return '';
+    }
+
+    /**
+     * @return array
+     */
+    public function toEmbedPayload(): array
+    {
+        $field = [
+            'field_id' => (integer) $this->getFieldId(),
+            'label' => (string) $this->getLabel(),
+            'type' => (string) $this->getFieldType(),
+            'options' => (array) array_values($this->getFieldOptions()),
+            'min' => (float) $this->getNumberMin(),
+            'max' => (float) $this->getNumberMax(),
+            'step' => (float) $this->getNumberStep(),
+            'date_format' => (string) $this->getDateFormat(),
+            'datetime_format' => (string) $this->getDatetimeFormat(),
+            'is_required' => (boolean) $this->getIsRequired(),
+        ];
+        $defaultValue = (string) $this->getDefaultValue();
+        if (!empty($defaultValue)) {
+            switch ($this->getFieldType()) {
+                case 'number':
+                    $defaultValue = (float) $defaultValue;
+                    break;
+                case 'checkbox':
+                    $defaultValue = (boolean) $defaultValue;
+                    break;
+                default:
+                    $defaultValue = (string) $defaultValue;
+            }
+            $field['value'] = $defaultValue;
+        }
+
+        return $field;
     }
 }
