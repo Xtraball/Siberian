@@ -390,7 +390,7 @@ angular.module('starter').directive('sbCmsText', function () {
         '</div>',
         controller: function ($scope, LinkService) {
             $scope.openFile = function () {
-                LinkService.openLink($scope.block.file_url, { 'use_external_app': 'true' });
+                LinkService.openLink($scope.block.file_url, {}, true);
             };
         }
     };

@@ -4,6 +4,7 @@ use Siberian\Exception;
 use Form2\Form\Field as FormField;
 use Form2\Form\Field\Delete as FormDeleteField;
 use Form2\Model\Field;
+use Siberian\Feature;
 
 /**
  * Class Form2_FieldController
@@ -38,12 +39,12 @@ class Form2_FieldController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $fieldId = $request->getParam("field_id", null);
+            $fieldId = $request->getParam('field_id', null);
 
             $field = (new Field())
                 ->find($fieldId);
 
-            if (!$field->getId()) {
+            if (!$field || !$field->getId()) {
                 throw new Exception(p__('form2', "The field you are trying to edit doesn't exists."));
             }
 
@@ -51,7 +52,10 @@ class Form2_FieldController extends Application_Controller_Default
 
             $selectOptions = $field->getFieldOptions();
 
-            $form->populate($field->getData());
+            $fieldData = $field->getData();
+            $fieldData['richtext'] = $field->getRichtext();
+
+            $form->populate($fieldData);
             $form->removeNav('nav-fields');
             $submit = $form->addSubmit(p__('form2', 'Save'));
             $submit->addClass('pull-right');
@@ -92,6 +96,10 @@ class Form2_FieldController extends Application_Controller_Default
                 $field = (new Field())
                     ->find($fieldId);
 
+                if (!$field || !$field->getId()) {
+                    throw new Exception(p__('form2', 'Something went wrong, the field do not exists!'));
+                }
+
                 $field->delete();
                 
                 // Update touch date, then never expires (until next touch)!
@@ -131,7 +139,7 @@ class Form2_FieldController extends Application_Controller_Default
                 $field = (new Field())
                     ->find($fieldId);
 
-                if (!$field->getId()) {
+                if (!$field || !$field->getId()) {
                     throw new Exception(p__('form2', 'Something went wrong, the field do not exists!'));
                 }
 
@@ -175,8 +183,14 @@ class Form2_FieldController extends Application_Controller_Default
 
                 $field
                     ->setData($params)
+                    ->setRichtext($params['richtext'])
                     ->setFieldOptions($params['select_options'])
-                    ->setFieldType($form->getValue('field_type'));
+                    ->setFieldType($params['field_type']);
+
+                // Only if image type!
+                if ($params['field_type'] === 'image') {
+                    Feature::formImageForOption($optionValue, $field, $params, 'image', true);
+                }
 
                 if (!$field->getId()) {
                     // Set the position + 1

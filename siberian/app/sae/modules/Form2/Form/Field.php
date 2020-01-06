@@ -14,16 +14,23 @@ class Field extends FormAbstract
      * @var array
      */
     public static $types = [
-        'divider' => 'Title (divider)',
-        'spacer' => 'White space (spacer)',
-        'number' => 'Number',
-        'select' => 'Dropdown select',
-        'checkbox' => 'Checkbox',
-        'password' => 'Password',
-        'text' => 'Text',
-        'textarea' => 'Textarea',
-        'date' => 'Date',
-        'datetime' => 'Date & time',
+        'Formatting elements' => [
+            'divider' => 'Title (section, divider)',
+            'spacer' => 'White space (spacer)',
+            'image' => 'Illustration (image)',
+            'richtext' => 'Richtext (block)',
+        ],
+        'Input elements' => [
+            'number' => 'Number',
+            'select' => 'Dropdown select',
+            'radio' => 'Radio choice',
+            'checkbox' => 'Checkbox',
+            'password' => 'Password',
+            'text' => 'Text input',
+            'textarea' => 'Textarea',
+            'date' => 'Date',
+            'datetime' => 'Date & time',
+        ],
     ];
 
     public static $dateFormats = [
@@ -64,14 +71,18 @@ class Field extends FormAbstract
         $this->addSimpleHidden('position');
 
         $fieldTypes = [];
-        foreach (self::$types as $key => $label) {
-            $fieldTypes[$key] = p__('form2', $label);
+        foreach (self::$types as $groupLabel => $groupValues) {
+            $groupLabel = p__('form2', $groupLabel);
+            $fieldTypes[$groupLabel] = [];
+            foreach ($groupValues as $value => $label) {
+                $fieldTypes[$groupLabel][$value] = p__('form2', $label);
+            }
         }
 
         $type = $this->addSimpleSelect('field_type', p__('form2', 'Type'), $fieldTypes);
         $type->setRequired(true);
 
-        $label = $this->addSimpleText('label', p__('form2', 'Label'));
+        $label = $this->addSimpleText('label', p__('form2', 'Label, identifier'));
         $label->setRequired(true);
 
         // Number
@@ -84,6 +95,21 @@ class Field extends FormAbstract
         // Select options
         $this->addSimpleHidden('select_options');
         $this->groupElements('group_select', ['select_options'], p__('form2', 'Select options'));
+
+        // Image
+        $imageText = p__('form2', 'Illustration');
+        $this->addSimpleImage('image', $imageText, $imageText, [
+            'width' => 1000,
+            'height' => 400,
+        ]);
+        $this->groupElements('group_image', ['image', 'image_button'], p__('form2', 'Illustration options'));
+
+        // Richtext
+        $richText = $this->addSimpleTextarea('richtext', p__('form2', 'Richtext'));
+        $richText->setAttrib('ckeditor', 'form');
+        $richText->setRichtext();
+
+        $this->groupElements('group_richtext', ['richtext'], p__('form2', 'Richtext options'));
 
         // Date
         $this->addSimpleSelect('date_format', p__('form2', 'Date format'), self::$dateFormats);
@@ -112,7 +138,7 @@ class Field extends FormAbstract
      * @param string $value
      * @return mixed|string
      */
-    public static function getSelectTemplate($raw = true, $index = null, $label = "Label", $value = "Value")
+    public static function getSelectTemplate($raw = true, $index = null, $label = 'Label', $value = 'Value')
     {
         $option = p__('form2', 'Option');
         $label = p__('form2', $label);
@@ -148,7 +174,7 @@ class Field extends FormAbstract
 </div>
 RAW;
         return $raw ? $selectTemplate :
-            str_replace(["#INDEX#", "#LABEL#", "#VALUE#"], [$index, $label, $value], $selectTemplate);
+            str_replace(['#INDEX#', '#LABEL#', '#VALUE#'], [$index, $label, $value], $selectTemplate);
     }
 
     /**
@@ -158,7 +184,7 @@ RAW;
     {
         $type = $this->getElement('field_type')->getValue();
 
-        $options = "";
+        $options = '';
         $index = 1;
         foreach ($selectOptions as $selectOption) {
             $index++;

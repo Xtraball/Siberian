@@ -10,6 +10,7 @@ use Siberian\Json;
  * @package Form2\Model
  *
  * @method Db\Table\Field getTable()
+ * @method integer getId()
  * @method integer getFieldId()
  * @method string getFieldType()
  * @method string getLabel()
@@ -20,6 +21,7 @@ use Siberian\Json;
  * @method string getDatetimeFormat()
  * @method boolean getIsRequired()
  * @method mixed getDefaultValue()
+ * @method $this setFieldType(string $type)
  */
 class Field extends Base
 {
@@ -68,5 +70,25 @@ class Field extends Base
         } catch (\Exception $e) {
             return [];
         }
+    }
+
+    /**
+     * @param $richtext
+     * @return Field
+     */
+    public function setRichtext($richtext): Field
+    {
+        return $this->setData('richtext', base64_encode($richtext));
+    }
+
+    /**
+     * @return string
+     */
+    public function getRichtext()
+    {
+        try {
+            return base64_decode($this->getData('richtext'));
+        } catch (\Exception $e) {}
+        return '';
     }
 }

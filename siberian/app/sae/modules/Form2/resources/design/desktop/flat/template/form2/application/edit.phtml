@@ -25,113 +25,188 @@ $deleteFieldForm = (new DeleteFormField())
     ->setValueId($valueId);
 ?>
 
-<div class="row"
-     id="fields">
-    <div class="col-md-12">
-        <div class="page-content-wrapper">
-            <div id="settings_content"
-                 class="content solo-page sb-tour">
-                <h3 class="title-editor border-blue text-center">
-                    <?php echo p__('form2', 'Form configuration'); ?>
+<div id="form-fields">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+
+        <li role="presentation"
+            class="active">
+            <a href="#tab-fields"
+               aria-controls="tab-fields"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-map-marker"></i>
+                <?php echo p__('form2', 'Fields') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-settings"
+               aria-controls="tab-settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-search"></i>
+                <?php echo p__('form2', 'Settings') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-design"
+               aria-controls="tab-design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-image"></i>
+                <?php echo p__('form2', 'Design') ?>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- FIELDS -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="tab-fields">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('form2', 'Add a section, field or spacer'); ?>
                 </h3>
-                <div class="subcontent content-color">
 
-                    <div class="col-md-12">
-                        <h3 class="title-editor no-border-radius title-feature-indent">
-                            <?php echo p__('form2', 'Add a field') ?>
-                        </h3>
-                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                            <?php echo $formField; ?>
-                        </div>
-                    </div>
-
-                    <?php if ($fields->count() > 0): ?>
-                        <div class="col-md-12"
-                             style="margin-top: 20px;">
-                            <h3 class="title-editor no-border-radius title-feature-indent">
-                                <?php echo p__('form2', 'Manage fields') ?>
-                            </h3>
-                            <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                                <table class="table content-white-bkg sb-pager table-fields">
-                                    <thead>
-                                    <tr class="border-grey">
-                                        <th style="width:32px;"></th>
-                                        <th style="width:30%"><?php echo p__('form2', 'Label') ?></th>
-                                        <th style="width:30%"><?php echo p__('form2', 'Type') ?></th>
-                                        <th style="width:30%"><?php echo p__('form2', 'Default') ?></th>
-                                        <th style="width:5%"><?php echo p__('form2', 'Required') ?></th>
-                                        <th style="width:5%;"><?php echo p__('form2', 'Position') ?></th>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="fields-sortable">
-                                    <?php foreach ($fields as $field) : ?>
-                                        <tr id="field_manage_element_<?php echo $field->getId(); ?>"
-                                            rel="<?php echo $field->getId(); ?>"
-                                            class="field-manage-element sb-pager field-container">
-                                            <td class="field-handle"
-                                                style="text-align: center;">
-                                                <i class="fa fa-sort"
-                                                   style="margin-top: 11px;"></i>
-                                            </td>
-                                            <td>
-                                                <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
-                                            </td>
-                                            <td>
-                                                <?php echo p__('form2', FormField::$types[$field->getFieldType()]) ?>
-                                            </td>
-                                            <td><?php echo $field->getDefaultValue() ?></td>
-                                            <td>
-                                                <?php if ($field->getIsRequired()): ?>
-                                                    <p class="label label-success"><?php echo p__('form2', 'YES') ?></p>
-                                                <?php else: ?>
-                                                    <p class="label label-danger"><?php echo p__('form2', 'NO') ?></p>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td class="field-position"><?php echo $field->getPosition() ?></td>
-                                            <td class="edit-action open-edit"
-                                                data-id="field_<?php echo $field->getId(); ?>"
-                                                data-form-url="<?php echo __path("/form2/field/load-form", [
-                                                    "field_id" => $field->getId(),
-                                                    "value_id" => $valueId
-                                                ]); ?>">
-                                                <i class="fa fa-pencil"></i>
-                                            </td>
-                                            <td class="delete-action">
-                                                <?php
-                                                $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
-                                                $deleteFieldForm->getElement("field_id")->setValue($field->getId());
-
-                                                echo $deleteFieldForm;
-                                                ?>
-                                            </td>
-                                        </tr>
-                                        <tr class="edit-form"
-                                            data-id="field_<?php echo $field->getId(); ?>"
-                                            style="display: none;">
-                                            <td colspan="8">
-                                                <p class="close-edit"
-                                                   data-id="field_<?php echo $field->getId(); ?>">
-                                                    <i class="fa fa-times"></i><?php echo p__("form2", "Close") ?>
-                                                </p>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    <?php endif; ?>
+                <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <?php echo $formField; ?>
                 </div>
             </div>
+
+            <div class="subcontent content-color">
+            <?php if ($fields->count() > 0): ?>
+                <div>
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo p__('form2', 'Manage fields') ?>
+                    </h3>
+                    <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                        <table class="table content-white-bkg sb-pager table-fields">
+                            <thead>
+                            <tr class="border-grey">
+                                <th style="width:32px;"></th>
+                                <th style="width:30%"><?php echo p__('form2', 'Label') ?></th>
+                                <th style="width:30%"><?php echo p__('form2', 'Type') ?></th>
+                                <th style="width:30%"><?php echo p__('form2', 'Default') ?></th>
+                                <th style="width:5%"><?php echo p__('form2', 'Required') ?></th>
+                                <th style="width:5%;"><?php echo p__('form2', 'Position') ?></th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody class="fields-sortable">
+                            <?php foreach ($fields as $field) : ?>
+                                <tr id="field_manage_element_<?php echo $field->getId(); ?>"
+                                    rel="<?php echo $field->getId(); ?>"
+                                    class="field-manage-element sb-pager field-container">
+                                    <td class="field-handle"
+                                        style="text-align: center;">
+                                        <i class="fa fa-sort"
+                                           style="margin-top: 11px;"></i>
+                                    </td>
+                                    <td>
+                                        <h5 style="font-weight: bold;"><?php echo $field->getLabel() ?></h5>
+                                    </td>
+                                    <td>
+                                        <?php echo p__('form2', FormField::$types[$field->getFieldType()]) ?>
+                                    </td>
+                                    <td><?php echo $field->getDefaultValue() ?></td>
+                                    <td>
+                                        <?php if ($field->getIsRequired()): ?>
+                                            <p class="label label-success"><?php echo p__('form2', 'YES') ?></p>
+                                        <?php else: ?>
+                                            <p class="label label-danger"><?php echo p__('form2', 'NO') ?></p>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="field-position"><?php echo $field->getPosition() ?></td>
+                                    <td class="edit-action open-edit"
+                                        data-id="field_<?php echo $field->getId(); ?>"
+                                        data-form-url="<?php echo __path("/form2/field/load-form", [
+                                            "field_id" => $field->getId(),
+                                            "value_id" => $valueId
+                                        ]); ?>">
+                                        <i class="fa fa-pencil"></i>
+                                    </td>
+                                    <td class="delete-action">
+                                        <?php
+                                        $deleteFieldForm->setAttrib("data-rowid", "field_manage_element_" . $field->getId());
+                                        $deleteFieldForm->getElement("field_id")->setValue($field->getId());
+
+                                        echo $deleteFieldForm;
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr class="edit-form"
+                                    data-id="field_<?php echo $field->getId(); ?>"
+                                    style="display: none;">
+                                    <td colspan="8">
+                                        <p class="close-edit"
+                                           data-id="field_<?php echo $field->getId(); ?>">
+                                            <i class="fa fa-times"></i><?php echo p__("form2", "Close") ?>
+                                        </p>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php endif; ?>
+            </div>
+
         </div>
-    </div>
+        <!-- FIELDS -->
+
+        <!-- SETTINGS -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-settings">
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo p__('form2', 'Settings'); ?>
+            </h3>
+            <div class="container-fluid subcontent content-feature">
+                <?php echo 'SETTINGS'; ?>
+            </div>
+        </div>
+        <!-- SETTINGS -->
+
+        <!-- DESIGN -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-design">
+            <?php echo $this->importBackground($optionValue, false, false); ?>
+        </div>
+        <!-- DESIGN -->
 </div>
 
 
 
 <script type="text/javascript">
+    ckeditor_config.form = {
+        language: ckeditor_language,
+        toolbar: [
+            {
+                name: 'basicstyles',
+                groups: ['basicstyles', 'cleanup'],
+                items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+            },
+            {
+                name: 'paragraph',
+                groups: ['indent', 'align'],
+                items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+            },
+            { name: 'styles', items: ['TextColor', 'Format', 'FontSize'] },
+        ],
+        extraAllowedContent: 'a[*];img[*]:div[*]'
+    };
+
     var optionAction = `
 <div class="select_actions form-group sb-form-line">
     <div class="col-sm-10">
@@ -145,12 +220,12 @@ $deleteFieldForm = (new DeleteFormField())
     var selectTemplate = `<?php echo FormField::getSelectTemplate() ?>`;
 
     $(document).ready(function () {
-        bindForms("#fields");
+        bindForms('#form-fields');
 
         $("table.sb-pager.table-fields").sbpager({
             with_search: true,
             items_per_page: 1000,
-            search_placeholder: "<?php echo __("Search ...") ?>",
+            search_placeholder: "<?php echo p__('form2', 'Search ...') ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()
             }
@@ -158,13 +233,13 @@ $deleteFieldForm = (new DeleteFormField())
 
         // Sections
         $('.fields-sortable').sortable({
-            handle: ".field-handle",
-            axis: "y",
-            items: " .field-container",
+            handle: '.field-handle',
+            axis: 'y',
+            items: ' .field-container',
             opacity: 0.85,
             start: function() {
                 // Clear all forms inside elements!
-                $("#fields .close-edit").trigger("click");
+                $('#fields .close-edit').trigger('click');
             },
             stop: function() {
                 let sections = $('.fields-sortable tr[rel]');
@@ -192,17 +267,24 @@ $deleteFieldForm = (new DeleteFormField())
             $("#" + formId + " dd[id^='group_']").hide();
 
             switch (type) {
-                case "select":
-                    $("#" + formId + " #group_select-element").show();
+                case 'select':
+                case 'radio':
+                    $('#' + formId + ' #group_select-element').show();
                     break;
-                case "number":
-                    $("#" + formId + " #group_number-element").show();
+                case 'number':
+                    $('#' + formId + ' #group_number-element').show();
                     break;
-                case "date":
-                    $("#" + formId + " #group_date-element").show();
+                case 'image':
+                    $('#' + formId + ' #group_image-element').show();
                     break;
-                case "datetime":
-                    $("#" + formId + " #group_datetime-element").show();
+                case 'richtext':
+                    $('#' + formId + ' #group_richtext-element').show();
+                    break;
+                case 'date':
+                    $('#' + formId + ' #group_date-element').show();
+                    break;
+                case 'datetime':
+                    $('#' + formId + ' #group_datetime-element').show();
                     break;
                 default:
             }
@@ -211,22 +293,24 @@ $deleteFieldForm = (new DeleteFormField())
             $("#" + formId + " [name='default_value']").parents(".sb-form-line").show();
 
             switch (type) {
-                case "text":
-                case "textarea":
-                case "datetime":
-                case "date":
-                case "number":
-                case "password":
-                case "select":
+                case 'text':
+                case 'textarea':
+                case 'datetime':
+                case 'date':
+                case 'number':
+                case 'password':
+                case 'select':
                     $("#" + formId + " [name='is_required']").parents(".sb-form-line").show();
                     break;
                 default:
             }
 
             switch (type) {
-                case "password":
-                case "divider":
-                case "spacer":
+                case 'password':
+                case 'divider':
+                case 'spacer':
+                case 'image':
+                case 'richtext':
                     $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
                     break;
                 default:
@@ -282,15 +366,15 @@ $deleteFieldForm = (new DeleteFormField())
         };
 
         window.bindRemove = function () {
-            var removeOptionButtons = $(".remove_option");
+            var removeOptionButtons = $('.remove_option');
 
-            removeOptionButtons.off("click");
-            removeOptionButtons.on("click", function (e) {
+            removeOptionButtons.off('click');
+            removeOptionButtons.on('click', function (e) {
                 var elButton = $(this);
-                var formId = elButton.parents("form").attr("id");
+                var formId = elButton.parents('form').attr('id');
                 e.preventDefault();
                 var button = $(this);
-                window.removeOption(formId, button.attr("rel"));
+                window.removeOption(formId, button.attr('rel'));
             });
         };
 

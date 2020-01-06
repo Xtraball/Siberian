@@ -53,6 +53,16 @@ $schemas['form2_field'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'richtext' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'image' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'date_format' => [
         'type' => 'varchar(32)',
         'charset' => 'utf8',

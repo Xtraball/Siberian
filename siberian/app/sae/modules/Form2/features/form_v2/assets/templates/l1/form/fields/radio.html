@@ -1,0 +1,8 @@
+<label class="item item-custom item-input item-radio">
+    <div class="input-label">
+        {{ field.label }} <span ng-if="field.is_required">*</span>
+    </div>
+    <ion-radio ng-repeat="option in field.options track by $index"
+               ng-model="field.value"
+               value="{{ option.value }}">{{ option.label }}</ion-radio>
+</label>
