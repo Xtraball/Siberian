@@ -3,6 +3,7 @@
 namespace Form2\Model;
 
 use Core\Model\Base;
+use Siberian\Json;
 
 /**
  * Class Form
@@ -54,9 +55,19 @@ class Form extends Base
     public function getEmbedPayload($optionValue = null)
     {
         $valueId = $optionValue->getId();
+
+        try {
+            $settings = Json::decode($optionValue->getSettings());
+        } catch (\Exception $e) {
+            $settings = [
+                'design' => 'list'
+            ];
+        }
+
         $payload = [
             'success' => true,
-            'page_title' => $optionValue->getTabbarName()
+            'pageTitle' => $optionValue->getTabbarName(),
+            'cardDesign' => $settings['design'] === 'card',
         ];
 
         /**
@@ -80,4 +91,4 @@ class Form extends Base
 }
 
 // Class alias for DB purposes!
-class_alias('Form2\Model\Form', 'Form2_Model_Form');
+class_alias(Form::class, 'Form2_Model_Form');

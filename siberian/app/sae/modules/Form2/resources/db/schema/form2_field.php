@@ -6,7 +6,7 @@
  * Last update: 2019-12-31
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['form2_field'] = [
     'field_id' => [
         'type' => 'int(11) unsigned',
@@ -58,10 +58,23 @@ $schemas['form2_field'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'clickwrap' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'clickwrap_richtext' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'image' => [
         'type' => 'varchar(256)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'limit' => [
+        'type' => 'tinyint(1)',
     ],
     'date_format' => [
         'type' => 'varchar(32)',

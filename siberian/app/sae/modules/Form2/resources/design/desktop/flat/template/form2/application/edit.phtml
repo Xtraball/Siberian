@@ -1,6 +1,7 @@
 <?php
 
 use Form2\Model\Field;
+use Form2\Model\Result;
 use Form2\Form\Settings as FormSettings;
 use Form2\Form\Field as FormField;
 use Form2\Form\Field\Delete as DeleteFormField;
@@ -33,8 +34,15 @@ try {
     $settings = Json::decode($optionValue->getSettings());
     $formSettings->populate($settings);
 } catch (\Exception $e) {
-    // Whoop!s
+    // Whoops!
 }
+
+$results = (new Result())->findAll(
+    [
+        'value_id = ?' => $valueId
+    ],
+    'created_at DESC'
+);
 
 ?>
 
@@ -63,6 +71,16 @@ try {
                data-toggle="tab">
                 <i class="fa fa-search"></i>
                 <?php echo p__('form2', 'Settings') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-results"
+               aria-controls="tab-results"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-cogs"></i>
+                <?php echo p__('form2', 'Results') ?>
             </a>
         </li>
 
@@ -104,16 +122,16 @@ try {
                     <div class="container-fluid first-row-feature content-feature feature-manage-items">
                         <table class="table content-white-bkg sb-pager table-fields">
                             <thead>
-                            <tr class="border-grey">
-                                <th style="width:32px;"></th>
-                                <th style="width:30%"><?php echo p__('form2', 'Label') ?></th>
-                                <th style="width:30%"><?php echo p__('form2', 'Type') ?></th>
-                                <th style="width:30%"><?php echo p__('form2', 'Default') ?></th>
-                                <th style="width:5%"><?php echo p__('form2', 'Required') ?></th>
-                                <th style="width:5%;"><?php echo p__('form2', 'Position') ?></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
+                                <tr class="border-grey">
+                                    <th style="width:32px;"></th>
+                                    <th style="width:30%"><?php echo p__('form2', 'Label') ?></th>
+                                    <th style="width:30%"><?php echo p__('form2', 'Type') ?></th>
+                                    <th style="width:30%"><?php echo p__('form2', 'Default') ?></th>
+                                    <th style="width:5%"><?php echo p__('form2', 'Required') ?></th>
+                                    <th style="width:5%;"><?php echo p__('form2', 'Position') ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
                             </thead>
                             <tbody class="fields-sortable">
                             <?php foreach ($fields as $field) : ?>
@@ -194,6 +212,123 @@ try {
         </div>
         <!-- SETTINGS -->
 
+        <!-- START RESULTS TAB -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-results">
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('form2', 'Results') ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <table class="table content-white-bkg sb-pager margin-top table-results">
+                        <thead>
+                            <tr class="border-grey">
+                                <th class="sortable numeric"
+                                    style="width: 60px;"><?php echo p__('form2', 'ID'); ?></th>
+                                <th class="sortable"
+                                    style="width: 120px;"><?php echo p__('form2', 'Customer'); ?></th>
+                                <th style="width: 70%;"><?php echo p__('form2', 'Result'); ?></th>
+                                <th class="sortable date text-right"
+                                    style="width: 120px;"><?php echo p__('form2', 'Date'); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($results as $result): ?>
+                            <tr class="sb-pager">
+                                <td>
+                                    <b>#<?php echo $result->getId(); ?></b>
+                                </td>
+                                <td>
+                                    <?php if (!empty($result->getCustomerId())): ?>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path('/customer/application/edit/', [
+                                               'customer_id' => $result->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $result->getCustomerId(); ?>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="btn btn-xs btn-warning">
+                                            <?php echo p__('form2', 'anonymous'); ?>
+                                        </span>
+                                    <?php endif; ?>
+                                </td>
+                                <td>
+                                    <button class="toggler btn btn-xs btn-info"
+                                            style="float: right;"
+                                            rel="toggle-table-<?php echo $result->getId(); ?>"><?php echo p__('form2', 'MORE') ?></button>
+                                    <table class="sub-table toggle-table toggle-table-<?php echo $result->getId(); ?>">
+                                        <?php
+                                        $payload = $result->getPayload();
+                                        foreach ($payload as $index => $field) {
+                                            if (is_array($field['value'])) {
+                                                $flatArray = array_flat($field['value']);
+                                                $v = implode('<br />', $flatArray);
+                                            } else {
+                                                $v = $field['value'];
+                                            }
+                                            $v = purify($v);
+                                            echo "
+                                            <tr>
+                                                <th>{$field['label']}</th>
+                                                <td>{$v}</td>
+                                            </tr>";
+                                        }
+                                        ?>
+                                    </table>
+                                </td>
+                                <td class="text-right">
+                                    <?php echo datetime_to_format($result->getCreatedAt(), Zend_Date::DATETIME_SHORT) ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4">
+                                    <?php echo p__('form2', 'No results.') ?>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <br />
+
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('form2', 'Export') ?>
+                </h3>
+                <div class="container-fluid first-row-feature content-feature">
+                    <div>
+                        <label for="excludeAnonymous"
+                               style="margin-right: 15px;">
+                            <input id="excludeAnonymous"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__('form2', 'Exclude anonymous results') ?>
+                        </label>
+                        <br />
+                        <label for="lastUserRecord"
+                               style="margin-right: 15px;">
+                            <input id="lastUserRecord"
+                                   type="checkbox"
+                                   class="color-blue checkbox-inline" />
+                            <?php echo p__('form2', 'Keep only last entry for identified customer') ?>
+                        </label>
+                        <br />
+                        <button class="export-csv btn color-blue pull-right"><?php echo p__('form2', 'Export CSV') ?></button>
+                        <input id="exportValueId"
+                               type="hidden"
+                               value="<?php echo $valueId; ?>" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END RESULTS TAB -->
+
         <!-- DESIGN -->
         <div role="tabpanel"
              class="tab-pane"
@@ -239,6 +374,14 @@ try {
     $(document).ready(function () {
         bindForms('#form-fields');
 
+        window.reloadOverviewFormv2 = function () {
+            try {
+                iframe.f.overview['form_v2']();
+            } catch(e) {
+                //
+            }
+        };
+
         $("table.sb-pager.table-fields").sbpager({
             with_search: true,
             items_per_page: 1000,
@@ -274,7 +417,9 @@ try {
                 formget(
                     '/form2/field/update-positions',
                     data,
-                    function(result) {},
+                    function(result) {
+                        window.reloadOverviewFormv2();
+                    },
                     function(result) {}
                 );
             }
@@ -291,8 +436,14 @@ try {
                 case 'number':
                     $('#' + formId + ' #group_number-element').show();
                     break;
-                case 'illustration':
+                case 'image':
                     $('#' + formId + ' #group_image-element').show();
+                    break;
+                case 'illustration':
+                    $('#' + formId + ' #group_illustration-element').show();
+                    break;
+                case 'clickwrap':
+                    $('#' + formId + ' #group_clickwrap-element').show();
                     break;
                 case 'richtext':
                     $('#' + formId + ' #group_richtext-element').show();
@@ -314,6 +465,7 @@ try {
                 case 'textarea':
                 case 'datetime':
                 case 'date':
+                case 'clickwrap':
                 case 'number':
                 case 'password':
                 case 'select':
@@ -323,12 +475,15 @@ try {
             }
 
             switch (type) {
+                case 'clickwrap':
                 case 'password':
                 case 'divider':
                 case 'spacer':
-                case 'image':
+                case 'datetime':
+                case 'date':
                 case 'geolocation':
                 case 'illustration':
+                case 'image':
                 case 'richtext':
                     $("#" + formId + " [name='default_value']").parents(".sb-form-line").hide();
                     break;
@@ -336,16 +491,34 @@ try {
             }
         };
 
-        window.toggleGroups("form-edit-field", "divider");
+        window.toggleClickwrap = function (formId, type) {
+            if (type === 'privacy-policy') {
+                $("#" + formId + " [name='clickwrap_richtext']").parents('.sb-form-line').hide();
+            } else {
+                $("#" + formId + " [name='clickwrap_richtext']").parents('.sb-form-line').show();
+            }
+        };
+
+        window.toggleGroups('form-edit-field', 'divider');
+        window.toggleClickwrap('form-edit-field', 'privacy-policy');
 
         window.binderFormField = function (formId) {
             let typeFields = $("#" + formId + " [name='field_type']");
 
-            typeFields.off("change");
-            typeFields.on("change", function () {
+            typeFields.off('change');
+            typeFields.on('change', function () {
                 let type = $(this).val();
 
                 window.toggleGroups(formId, type);
+            });
+
+            let clickwrap = $("#" + formId + " [name='clickwrap']");
+
+            clickwrap.off('change');
+            clickwrap.on('change', function () {
+                let type = $(this).val();
+
+                window.toggleClickwrap(formId, type);
             });
         };
 
@@ -438,6 +611,74 @@ try {
         window.bindAddOption("form-edit-field");
 
         window.bindRemove();
+
+
+        let searchPlaceholder = '<?php echo p__js('form2', 'Search, filter ...', "'") ?>';
+        $('table.sb-pager.table-results').sbpager({
+            with_search: true,
+            search_placeholder: searchPlaceholder
+        });
+
+        let togglerMore = '<?php echo p__js('form2', 'MORE', "'") ?>';
+        let togglerLess = '<?php echo p__js('form2', 'LESS', "'") ?>';
+        let inputEmail = $('input#email');
+        let recipientWarning = $('.recipient-warning');
+
+        // Toggle mail warning
+        function toggleWarning () {
+            if (inputEmail.val() === '') {
+                recipientWarning.show();
+            } else {
+                recipientWarning.hide();
+            }
+        }
+
+        inputEmail.off('change');
+        inputEmail.on('change', function () {
+            toggleWarning();
+        });
+        toggleWarning();
+
+        /**
+         * Easy
+         * @param klass
+         */
+        function toggleTable (toggler, klass) {
+            let el = $("." + klass);
+            if (el.hasClass("toggle-table")) {
+                toggler.removeClass("btn-info");
+                toggler.addClass("btn-warning");
+                toggler.text(togglerLess);
+                el.removeClass("toggle-table");
+            } else {
+                toggler.removeClass("btn-warning");
+                toggler.addClass("btn-info");
+                toggler.text(togglerMore);
+                el.addClass("toggle-table");
+            }
+        }
+
+        let togglers = $('.toggler');
+        togglers.off('click');
+        togglers.on('click', function () {
+            let toggler = $(this);
+            let klass = toggler.attr('rel');
+            toggleTable(toggler, klass);
+        });
+
+        let exportCsv = $('.export-csv');
+        exportCsv.off('click');
+        exportCsv.on('click', function () {
+            let valueId = $('#exportValueId').val();
+            let excludeAnonymous = $('#excludeAnonymous').is(':checked');
+            let lastUserRecord = $('#lastUserRecord').is(':checked');
+
+            let uri = "/form2/application/export-csv?value_id=" + valueId +
+                "&excludeAnonymous=" + excludeAnonymous +
+                "&lastUserRecord=" + lastUserRecord;
+
+            window.open(uri, '_blank');
+        });
     });
 </script>
 
@@ -463,5 +704,25 @@ try {
     label.select_option {
         text-indent: 6px;
         font-style: italic;
+    }
+
+    /** Results */
+    .toggle-table {
+        display: block;
+        overflow: hidden;
+        height: 20px;
+    }
+
+    table.sub-table {
+        table-layout: fixed;
+    }
+
+    table.sub-table tr {
+        border-bottom: 1px solid #e1e1e1;
+    }
+
+    table.sub-table tr:nth-child(even) td,
+    table.sub-table tr:nth-child(even) th {
+        background-color: #f0f0f0;
     }
 </style>

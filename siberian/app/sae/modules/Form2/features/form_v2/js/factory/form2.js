@@ -57,6 +57,22 @@ angular
             }, factory.extendedOptions));
         };
 
+        factory.submit = function (form) {
+            if (!this.value_id) {
+                return $pwaRequest.reject('[Factory::Form2.post] missing value_id');
+            }
+
+            return $pwaRequest.post('form2/mobile/submit', {
+                urlParams: {
+                    value_id: this.value_id
+                },
+                data: {
+                    'form': form
+                },
+                timeout: 300000,
+                cache: false
+            });
+        };
 
         return factory;
     });

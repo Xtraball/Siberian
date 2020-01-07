@@ -19,6 +19,7 @@ class Field extends FormAbstract
             'spacer' => 'White space (spacer)',
             'illustration' => 'Illustration (image)',
             'richtext' => 'Richtext (block)',
+            'clickwrap' => 'Clickwrap (action, agreement)',
         ],
         'Input elements' => [
             'number' => 'Number',
@@ -28,7 +29,7 @@ class Field extends FormAbstract
             'password' => 'Password',
             'text' => 'Text input',
             'textarea' => 'Textarea',
-            'image' => 'Image',
+            'image' => 'Pictures (image)',
             'date' => 'Date',
             'datetime' => 'Date & time',
             'geolocation' => 'Geolocation (GPS, georeverse)',
@@ -43,6 +44,7 @@ class Field extends FormAbstract
         'spacer' => 'White space (spacer)',
         'illustration' => 'Illustration (image)',
         'richtext' => 'Richtext (block)',
+        'clickwrap' => 'Clickwrap (action, agreement)',
         'number' => 'Number',
         'select' => 'Dropdown select',
         'radio' => 'Radio choice',
@@ -50,13 +52,19 @@ class Field extends FormAbstract
         'password' => 'Password',
         'text' => 'Text input',
         'textarea' => 'Textarea',
-        'image' => 'Image',
+        'image' => 'Pictures (image)',
         'date' => 'Date',
         'datetime' => 'Date & time',
         'geolocation' => 'Geolocation (GPS, georeverse)',
     ];
 
     public static $dateFormats = [
+        'MM/DD' => 'MM/DD',
+        'DD/MM' => 'DD/MM',
+        'MM DD' => 'MM DD',
+        'DD MM' => 'DD MM',
+        'MM-DD' => 'MM-DD',
+        'DD-MM' => 'DD-MM',
         'MM/DD/YYYY' => 'MM/DD/YYYY',
         'DD/MM/YYYY' => 'DD/MM/YYYY',
         'MM DD YYYY' => 'MM DD YYYY',
@@ -118,13 +126,33 @@ class Field extends FormAbstract
         $this->addSimpleHidden('select_options');
         $this->groupElements('group_select', ['select_options'], p__('form2', 'Select options'));
 
-        // Image
+        // Illustration
         $imageText = p__('form2', 'Illustration');
         $this->addSimpleImage('image', $imageText, $imageText, [
             'width' => 1000,
             'height' => 400,
         ]);
-        $this->groupElements('group_image', ['image', 'image_button'], p__('form2', 'Illustration options'));
+
+        $this->groupElements('group_illustration', ['image', 'image_button'], p__('form2', 'Illustration options'));
+
+        // Images
+        $limit = $this->addSimpleNumber('limit', p__('form2', 'Max pictures allowed'), 1, 10, true, 1);
+        $limit->setValue(1);
+
+        $this->groupElements('group_image', ['limit'], p__('form2', 'Picture options'));
+
+        // Clickwrap
+        $clickwrap = $this->addSimpleSelect('clickwrap', p__('form2', 'Action'), [
+            'privacy-policy' => p__('form2', 'Display app privacy policy'),
+            'richtext' => p__('form2', 'Display custom richtext'),
+        ]);
+
+        // Richtext
+        $clickwrapRichText = $this->addSimpleTextarea('clickwrap_richtext', p__('form2', 'Richtext'));
+        $clickwrapRichText->setAttrib('ckeditor', 'form');
+        $clickwrapRichText->setRichtext();
+
+        $this->groupElements('group_clickwrap', ['clickwrap', 'clickwrap_richtext'], p__('form2', 'Clickwrap options'));
 
         // Richtext
         $richText = $this->addSimpleTextarea('richtext', p__('form2', 'Richtext'));
@@ -201,10 +229,12 @@ RAW;
 
     /**
      * @param $formId
+     * @param array $selectOptions
      */
     public function binderField($formId, $selectOptions = [])
     {
         $type = $this->getElement('field_type')->getValue();
+        $clickwrap = $this->getElement('clickwrap')->getValue();
 
         $options = '';
         $index = 1;
@@ -220,12 +250,14 @@ RAW;
 $(document).ready(function () {
     window.binderFormField("{$formId}");
     window.toggleGroups("{$formId}", "{$type}");
+    window.toggleClickwrap("{$formId}", "{$clickwrap}");
     window.initSelect("{$formId}");
     window.bindAddOption("{$formId}");
     
     {$options}
     
     window.reIndex("{$formId}");
+    window.reloadOverviewFormv2();
 });
 </script>
 JS;
@@ -248,6 +280,9 @@ JS;
                 break;
             case 'date':
                 $this->getElement('date_format')->setRequired(true);
+                break;
+            case 'image':
+                $this->getElement('limit')->setRequired(true);
                 break;
             case 'datetime':
                 $this->getElement('datetime_format')->setRequired(true);

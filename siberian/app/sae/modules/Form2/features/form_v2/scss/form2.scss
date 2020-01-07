@@ -2,5 +2,48 @@
   img.form2-illustration {
     width: 100%;
     height: auto;
+    display: block;
   }
+
+  .remove-image-list,
+  .remove-image-card {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+
+    i.icon {
+      font-size: 26px;
+    }
+  }
+
+  .form2-richtext {
+    * {
+      white-space: normal;
+    }
+  }
+
+  .form2-datetime,
+  .form2-date {
+    input[type="text"] {
+      width: 100%;
+    }
+  }
+
+  .list {
+    .form2-radio {
+      label {
+        border-left: 2px solid $list-item-custom-text;
+      }
+    }
+  }
+
+  .card {
+    .form2-radio {
+      label {
+        border-left: 2px solid $card-item-custom-text;
+      }
+    }
+  }
+
+
 }

@@ -54,6 +54,10 @@ class Form2_FieldController extends Application_Controller_Default
 
             $fieldData = $field->getData();
             $fieldData['richtext'] = $field->getRichtext();
+            $fieldData['clickwrap_richtext'] = $field->getClickwrapRichtext();
+            if (empty($fieldData['limit'])) {
+                $fieldData['limit'] = 1;
+            }
 
             $form->populate($fieldData);
             $form->removeNav('nav-fields');
@@ -184,6 +188,7 @@ class Form2_FieldController extends Application_Controller_Default
                 $field
                     ->setData($params)
                     ->setRichtext($params['richtext'])
+                    ->setClickwrapRichtext($params['clickwrap_richtext'])
                     ->setFieldType($params['field_type']);
 
                 if (array_key_exists('select_options', $params) &&

@@ -1,8 +1,12 @@
-/*global
- App, angular, BASE_PATH, IMAGE_URL
+/**
+ * Links
+ *
+ * @author Xtraball SAS
+ * @version 4.18.5
  */
-
-angular.module("starter").controller("LinksViewController", function($scope, $stateParams, $rootScope, $timeout, $window, Links, LinkService) {
+angular
+.module('starter')
+.controller('LinksViewController', function($scope, $stateParams, $rootScope, $timeout, $window, Links, LinkService) {
 
     angular.extend($scope, {
         is_loading: true,
@@ -52,7 +56,6 @@ angular.module("starter").controller("LinksViewController", function($scope, $st
      * @param link
      */
     $scope.openLink = function(link) {
-        console.log('$scope.openLink', link);
         LinkService.openLink(link.url, link.options, link.external_browser);
     };
 
