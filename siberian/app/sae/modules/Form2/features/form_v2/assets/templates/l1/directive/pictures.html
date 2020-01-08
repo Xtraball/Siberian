@@ -20,7 +20,7 @@
             </div>
 
             <img ng-src="{{ picture }}"
-                 style="max-height: 20vh; width: auto; max-width: 100%; margin: 6px auto;" />
+                 class="form2-pictures" />
         </div>
     </ion-item>
 
@@ -30,8 +30,8 @@
         <div class="row">
             <div class="col-90">
                 <i class="icon ion-image add-image-icon"></i>
-                <p ng-if="field.value.length <= 0">{{ ::'Add a picture' | translate:'form2' }}</p>
-                <p ng-if="field.value.length > 0">{{ ::'Add another picture' | translate:'form2' }}</p>
+                <p ng-if="field.value.length <= 0">{{ ::addPictureText | translate:'form2' }}</p>
+                <p ng-if="field.value.length > 0">{{ ::addAnotherPictureText | translate:'form2' }}</p>
             </div>
             <div class="col-10">
                 <i class="item-note ion-plus arrow-center"></i>

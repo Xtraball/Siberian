@@ -91,6 +91,18 @@
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         // Shorter months' name.
         monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        // Full weekdays.
+        weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        // Short weekdays.
+        weekDaysShort: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'],
+        // Show weekdays.
+        showWeekDays: false,
+        // Show weekdays short.
+        showWeekDaysShort: false,
+        // Skip week days
+        skipDays: [
+            0, 3, 6
+        ],
         // Define the number of rows for showing.
         rows: 5,
         // Define the text of the picker.
@@ -135,6 +147,7 @@
     var CLASS_OPEN = "".concat(NAMESPACE, "-open");
     var CLASS_OPENED = "".concat(NAMESPACE, "-opened");
     var CLASS_PICKED = "".concat(NAMESPACE, "-picked"); // Data keys
+    var CLASS_SKIP = "".concat(NAMESPACE, "-skip"); // Data keys
     // Add namespace to avoid to conflict to some other libraries.
 
     var DATA_ACTION = "".concat(NAMESPACE, "Action");
@@ -851,6 +864,41 @@
     };
 
     var helpers = {
+        formatDay: function (textContent) {
+            if (this.options.showWeekDays ||
+                this.options.showWeekDaysShort) {
+
+                var month = this.date.getMonth() + 1;
+                // In case we have a "day/month" format only, the year is the current one.
+                var year = this.format.year ?
+                    this.date.getFullYear() : (new Date()).getFullYear();
+                var dayOfWeek = (new Date(year+ '-' + month + '-' + textContent)).getDay();
+                if (this.options.showWeekDays) {
+                    textContent = this.options.weekDays[dayOfWeek] + ' ' + textContent;
+                }
+                if (this.options.showWeekDaysShort) {
+                    textContent = this.options.weekDaysShort[dayOfWeek] + ' ' + textContent;
+                }
+            }
+
+            return textContent;
+        },
+        skipDayOfWeek: function (textContent) {
+            if (this.options.skipDays.length > 0) {
+
+                var month = this.date.getMonth() + 1;
+                // In case we have a "day/month" format only, the year is the current one.
+                var year = this.format.year ?
+                    this.date.getFullYear() : (new Date()).getFullYear();
+                var dayOfWeek = (new Date(year + '-' + month + '-' + textContent)).getDay();
+
+                if (this.options.skipDays.indexOf(dayOfWeek) >= 0) {
+                    console.log('Skip day of week: ', dayOfWeek, this.options.skipDays)
+                    return true;
+                }
+            }
+            return false;
+        },
         render: function render(type) {
             var _this = this;
 
@@ -875,6 +923,7 @@
             data.list.innerHTML = '';
             data.current = current;
 
+            var isDay = (type === 'day');
             for (var i = 0; i < options.rows + 2; i += 1) {
                 var item = document.createElement('li');
                 var position = i - data.index;
@@ -888,10 +937,20 @@
                     }
                 }
 
+
                 item.textContent = options.translate(type, data.aliases ? data.aliases[newValue] : addLeadingZero(newValue + data.offset, data.digit));
+                if (isDay) {
+                    item.textContent = _this.formatDay(item.textContent);
+                }
+
                 setData(item, DATA_NAME, type);
                 setData(item, DATA_VALUE, newValue);
                 addClass(item, "".concat(NAMESPACE, "-item"));
+
+                if (isDay &&
+                    _this.skipDayOfWeek(newValue)) {
+                    addClass(item, CLASS_SKIP);
+                }
 
                 if (position === 0) {
                     addClass(item, CLASS_PICKED);
@@ -937,6 +996,10 @@
                 case 'D':
                     if (isNumber(value)) {
                         date.setDate(value);
+                    }
+
+                    if (format.day && this.data['day'].item.classList.contains(CLASS_SKIP)) {
+
                     }
 
                     return date.getDate();
@@ -1088,6 +1151,9 @@
          * @returns {Picker} this
          */
         prev: function prev(type) {
+            if (type === 'day') {
+                return this.prevDay();
+            }
             var options = this.options;
             var token = this.format[type];
             var data = this.data[type];
@@ -1097,6 +1163,10 @@
             var min = isFunction(data.min) ? data.min() : data.min;
             var prev = data.item.previousElementSibling;
             var value = Number(getData(list.firstElementChild, DATA_VALUE)) - data.increment;
+
+            if (value < min) {
+                value += max - min + 1;
+            }
 
             if (value < min) {
                 value += max - min + 1;
@@ -1123,11 +1193,62 @@
         },
 
         /**
+         * Pick to the previous item.
+         * @param {string} type - The column type.
+         * @returns {Picker} this
+         */
+        prevDay: function prevDay() {
+            var options = this.options;
+            var token = this.format['day'];
+            var data = this.data['day'];
+            var list = data.list;
+            var item = list.lastElementChild;
+            var max = isFunction(data.max) ? data.max() : data.max;
+            var min = isFunction(data.min) ? data.min() : data.min;
+            var prev = data.item.previousElementSibling;
+            var value = Number(getData(list.firstElementChild, DATA_VALUE)) - data.increment;
+
+            if (value < min) {
+                value += max - min + 1;
+            }
+
+            item.textContent = options.translate('day', data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.formatDay(item.textContent);
+            setData(item, DATA_VALUE, value);
+
+            if (prev) {
+                removeClass(data.item, CLASS_PICKED);
+                if (!this.skipDayOfWeek(getData(data.item, DATA_VALUE))) {
+                    removeClass(data.item, CLASS_SKIP);
+                }
+                addClass(prev, CLASS_PICKED);
+                if (this.skipDayOfWeek(getData(prev, DATA_VALUE))) {
+                    addClass(prev, CLASS_SKIP);
+                }
+                data.item = prev;
+            }
+
+            list.insertBefore(item, list.firstElementChild);
+            data.current = Number(getData(data.item, DATA_VALUE));
+            this.current('day', data.current);
+
+            if (this.inline && options.container) {
+                this.pick();
+            }
+
+            return this;
+        },
+
+        /**
          * Pick to the next item.
          * @param {String} type - The column type.
          * @returns {Picker} this
          */
         next: function next(type) {
+            if (type === 'day') {
+                return this.nextDay();
+            }
+
             var options = this.options;
             var token = this.format[type];
             var data = this.data[type];
@@ -1137,6 +1258,10 @@
             var min = isFunction(data.min) ? data.min() : data.min;
             var next = data.item.nextElementSibling;
             var value = Number(getData(list.lastElementChild, DATA_VALUE)) + data.increment;
+
+            if (value > max) {
+                value -= max - min + 1;
+            }
 
             if (value > max) {
                 value -= max - min + 1;
@@ -1161,6 +1286,62 @@
 
             return this;
         },
+
+        /**
+         * Pick to the next item.
+         * @param {String} type - The column type.
+         * @returns {Picker} this
+         */
+        nextDay: function nextDay() {
+            var options = this.options;
+            var token = this.format['day'];
+            var data = this.data['day'];
+            var list = data.list;
+            var item = list.firstElementChild;
+            var max = isFunction(data.max) ? data.max() : data.max;
+            var min = isFunction(data.min) ? data.min() : data.min;
+            var next = data.item.nextElementSibling;
+            var value = Number(getData(list.lastElementChild, DATA_VALUE)) + data.increment;
+
+            if (value > max) {
+                value -= max - min + 1;
+            }
+
+            item.textContent = options.translate('day', data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.formatDay(item.textContent);
+            setData(item, DATA_VALUE, value);
+            list.appendChild(item);
+
+            if (next) {
+                removeClass(data.item, CLASS_PICKED);
+                if (!this.skipDayOfWeek(getData(data.item, DATA_VALUE))) {
+                    removeClass(data.item, CLASS_SKIP);
+                }
+                addClass(next, CLASS_PICKED);
+                if (this.skipDayOfWeek(getData(next, DATA_VALUE))) {
+                    addClass(next, CLASS_SKIP);
+                }
+                data.item = next;
+            }
+
+            data.current = Number(getData(data.item, DATA_VALUE));
+            this.current('day', data.current);
+
+            if (this.inline && options.container) {
+                this.pick();
+            }
+
+            return this;
+        },
+
+        disablePick: function disablePick() {
+
+        },
+
+        enablePick: function enablePick() {
+
+        },
+
         // Pick the current date to the target element.
         pick: function pick() {
             var element = this.element;
@@ -1358,6 +1539,14 @@
                         case 'M':
                             replacement = addLeadingZero(month + 1, token.length);
                             break;
+
+                        //case 'DDDD':
+                        //    replacement = options.weekDays[day] + ' ' + addLeadingZero(day, token.length);
+                        //    break;
+//
+                        //case 'DDD':
+                        //    replacement = options.weekDaysShort[day] + ' ' + addLeadingZero(day, token.length);
+                        //    break;
 
                         case 'DD':
                         case 'D':

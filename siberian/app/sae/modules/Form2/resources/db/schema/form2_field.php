@@ -78,6 +78,16 @@ $schemas['form2_field'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'image_addpicture' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'image_addanotherpicture' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'limit' => [
         'type' => 'tinyint(1)',
     ],

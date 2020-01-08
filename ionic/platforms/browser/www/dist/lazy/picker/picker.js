@@ -91,6 +91,14 @@
         months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         // Shorter months' name.
         monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        // Full weekdays.
+        weekDays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        // Short weekdays.
+        weekDaysShort: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thu.', 'Fri.', 'Sat.'],
+        // Show weekdays.
+        showWeekDays: false,
+        // Show weekdays short.
+        showWeekDaysShort: false,
         // Define the number of rows for showing.
         rows: 5,
         // Define the text of the picker.
@@ -851,6 +859,23 @@
     };
 
     var helpers = {
+        extras: function (type, textContent) {
+            if (type === 'day' &&
+                (this.options.showWeekDays || this.options.showWeekDaysShort)) {
+
+                var month = this.date.getMonth() + 1;
+                var year = this.date.getFullYear();
+                var dayOfWeek = (new Date(year+ '-' + month + '-' + textContent)).getDay();
+                if (this.options.showWeekDays) {
+                    textContent = this.options.weekDays[dayOfWeek] + ' ' + textContent;
+                }
+                if (this.options.showWeekDaysShort) {
+                    textContent = this.options.weekDaysShort[dayOfWeek] + ' ' + textContent;
+                }
+            }
+
+            return textContent;
+        },
         render: function render(type) {
             var _this = this;
 
@@ -889,6 +914,8 @@
                 }
 
                 item.textContent = options.translate(type, data.aliases ? data.aliases[newValue] : addLeadingZero(newValue + data.offset, data.digit));
+                item.textContent = _this.extras(type, item.textContent);
+
                 setData(item, DATA_NAME, type);
                 setData(item, DATA_VALUE, newValue);
                 addClass(item, "".concat(NAMESPACE, "-item"));
@@ -1103,6 +1130,7 @@
             }
 
             item.textContent = options.translate(type, data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.extras(type, item.textContent);
             setData(item, DATA_VALUE, value);
 
             if (prev) {
@@ -1143,6 +1171,7 @@
             }
 
             item.textContent = options.translate(type, data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.extras(type, item.textContent);
             setData(item, DATA_VALUE, value);
             list.appendChild(item);
 
@@ -1358,6 +1387,14 @@
                         case 'M':
                             replacement = addLeadingZero(month + 1, token.length);
                             break;
+
+                        //case 'DDDD':
+                        //    replacement = options.weekDays[day] + ' ' + addLeadingZero(day, token.length);
+                        //    break;
+//
+                        //case 'DDD':
+                        //    replacement = options.weekDaysShort[day] + ' ' + addLeadingZero(day, token.length);
+                        //    break;
 
                         case 'DD':
                         case 'D':

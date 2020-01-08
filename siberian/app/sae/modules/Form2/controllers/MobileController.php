@@ -90,7 +90,6 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 //form2_submit_copy if send copy back to user!
                 $baseEmail = $this->baseEmail('form2_submit_owner', $title, '', false);
 
-
                 $mail = new Mail();
                 $mail->setType(Zend_Mime::MULTIPART_RELATED);
 
@@ -155,7 +154,14 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
     private static function processField ($optionValue, $field)
     {
         if ($field['type'] === 'image') {
-            $field['value'] = self::processImage($optionValue, $field['value']);
+            try {
+                $field['value'] = self::processImage($optionValue, $field['value']);
+            } catch (\Exception $e) {
+                // An exception is thrown only if ALL of the image failed, and if it's required, so it fails!
+                if ($field['is_required']) {
+                    throw new Exception(p__('form2', 'An error occurred while saving images, at least one image is required, please try again!'));
+                }
+            }
         }
 
         return $field;

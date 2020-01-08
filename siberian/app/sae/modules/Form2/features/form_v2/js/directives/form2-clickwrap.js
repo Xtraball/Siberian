@@ -5,7 +5,7 @@
  */
 angular
     .module('starter')
-    .directive('form2Clickwrap', function () {
+    .directive('form2Clickwrap', function (Application) {
         return {
             restrict: 'E',
             replace: false,
@@ -20,23 +20,27 @@ angular
                 }
                 scope.field.value = false;
                 scope.modal = null;
-            },
-            controller: function($scope, Application, Modal) {
-                $scope.getPrivacyPolicy = function () {
-                    var html = '';
-                    if ($scope.field.clickwrap === 'privacy-policy') {
-                        html = Application.privacyPolicy.text;
 
-                        if (Application.gdpr.isEnabled) {
-                            html += '<br /><br />' + Application.privacyPolicy.gdpr;
-                        }
-                    } else {
-                        html = $scope.field.clickwrap_richtext;
+                scope.privacyPolicy = '';
+                if (scope.field.clickwrap === 'privacy-policy') {
+                    scope.privacyPolicy = Application.privacyPolicy.text;
+
+                    if (Application.gdpr.isEnabled) {
+                        scope.privacyPolicy += '<br /><br />' + Application.privacyPolicy.gdpr;
                     }
+                    scope.defaultTitle = 'Privacy policy';
+                } else {
+                    scope.privacyPolicy = scope.field.clickwrap_richtext;
+                    scope.defaultTitle = scope.field.label;
+                }
 
-                    return html;
-                };
-
+                // Default modal title or custom!
+                scope.modalTitle = scope.defaultTitle;
+                if (scope.field.clickwrap_modaltitle.length > 0) {
+                    scope.modalTitle = scope.field.clickwrap_modaltitle;
+                }
+            },
+            controller: function($scope, Modal) {
                 $scope.onClick = function () {
                     if (!$scope.field.value) {
                         return;

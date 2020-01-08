@@ -19,6 +19,15 @@ angular
                 if (scope.cardDesign === undefined) {
                     scope.cardDesign = false;
                 }
+
+                scope.addPictureText = 'Add a picture';
+                if (scope.field.image_addpicture.length > 0) {
+                    scope.addPictureText = scope.field.image_addpicture;
+                }
+                scope.addAnotherPictureText = 'Add another picture';
+                if (scope.field.image_addanotherpicture.length > 0) {
+                    scope.addAnotherPictureText = scope.field.image_addanotherpicture;
+                }
             },
             controller: function($scope, Picture) {
 

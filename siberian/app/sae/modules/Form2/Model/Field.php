@@ -14,11 +14,17 @@ use Siberian\Json;
  * @method integer getFieldId()
  * @method string getFieldType()
  * @method string getLabel()
+ * @method integer getLimit()
  * @method integer getNumberMin()
  * @method integer getNumberMax()
  * @method integer getNumberStep()
  * @method string getDateFormat()
  * @method string getDatetimeFormat()
+ * @method string getClickwrap()
+ * @method string getClickwrapModaltitle()
+ * @method string getImage()
+ * @method string getImageAddpicture()
+ * @method string getImageAddanotherpicture()
  * @method boolean getIsRequired()
  * @method mixed getDefaultValue()
  * @method $this setFieldType(string $type)
@@ -124,10 +130,13 @@ class Field extends Base
             'type' => (string) $fieldType,
             'richtext' => (string) $this->getRichtext(),
             'clickwrap' => (string) $this->getClickwrap(),
+            'clickwrap_modaltitle' => (string) $this->getClickwrapModaltitle(),
             'clickwrap_richtext' => (string) $this->getClickwrapRichtext(),
             'image' => (string) $this->getImage(),
+            'image_addpicture' => (string) $this->getImageAddpicture(),
+            'image_addanotherpicture' => (string) $this->getImageAddanotherpicture(),
             'options' => (array) array_values($this->getFieldOptions()),
-            'limit' => (float) $this->getLimit(),
+            'limit' => (integer) $this->getLimit(),
             'min' => (float) $this->getNumberMin(),
             'max' => (float) $this->getNumberMax(),
             'step' => (float) $this->getNumberStep(),

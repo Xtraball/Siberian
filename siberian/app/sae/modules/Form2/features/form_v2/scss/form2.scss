@@ -22,6 +22,15 @@
     }
   }
 
+  img {
+    &.form2-pictures {
+      max-height: 15vh;
+      width: auto;
+      max-width: 90%;
+      margin: 6px auto;
+    }
+  }
+
   .form2-datetime,
   .form2-date {
     input[type="text"] {

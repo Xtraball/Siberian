@@ -7,7 +7,9 @@ angular
             format: "=?",
             headers: "=?",
             model: "=?",
-            title: "=?"
+            title: "=?",
+            showWeekDays: "=?",
+            showWeekDaysShort: "=?"
         },
         link: function (scope, element) {
             DatetimePicker
@@ -15,6 +17,8 @@ angular
             .then(function () {
                 var options = angular.extend({}, DatetimePicker.defaults, {
                     headers: scope.headers || true,
+                    showWeekDays: scope.showWeekDays || false,
+                    showWeekDaysShort: scope.showWeekDaysShort || false,
                     format: scope.format || "YYYY-MM-DD HH:mm",
                     pick: function (e) {
                         scope.model = scope.pickerInstance.getDate(true);
