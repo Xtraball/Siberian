@@ -63,6 +63,11 @@ $schemas['form2_field'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'clickwrap_modaltitle' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'clickwrap_richtext' => [
         'type' => 'text',
         'charset' => 'utf8',

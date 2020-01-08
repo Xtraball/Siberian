@@ -136,10 +136,15 @@ class Field extends FormAbstract
         $this->groupElements('group_illustration', ['image', 'image_button'], p__('form2', 'Illustration options'));
 
         // Images
-        $limit = $this->addSimpleNumber('limit', p__('form2', 'Max pictures allowed'), 1, 10, true, 1);
+        $limit = $this->addSimpleNumber('limit', p__('form2', 'Max pictures allowed') . ' (1-10)', 1, 10, true, 1);
         $limit->setValue(1);
 
-        $this->groupElements('group_image', ['limit'], p__('form2', 'Picture options'));
+        $this->addSimpleText('image_addpicture', p__('form2', 'Text for `Add a picture`'));
+        $this->addSimpleText('image_addanotherpicture', p__('form2', 'Text for `Add another picture`'));
+
+        $this->groupElements('group_image',
+            ['limit', 'image_addpicture', 'image_addanotherpicture'],
+            p__('form2', 'Picture options'));
 
         // Clickwrap
         $clickwrap = $this->addSimpleSelect('clickwrap', p__('form2', 'Action'), [
@@ -147,12 +152,14 @@ class Field extends FormAbstract
             'richtext' => p__('form2', 'Display custom richtext'),
         ]);
 
-        // Richtext
+        // Clickwrap richtext
+        $this->addSimpleText('clickwrap_modaltitle', p__('form2', 'Modal title'));
+
         $clickwrapRichText = $this->addSimpleTextarea('clickwrap_richtext', p__('form2', 'Richtext'));
         $clickwrapRichText->setAttrib('ckeditor', 'form');
         $clickwrapRichText->setRichtext();
 
-        $this->groupElements('group_clickwrap', ['clickwrap', 'clickwrap_richtext'], p__('form2', 'Clickwrap options'));
+        $this->groupElements('group_clickwrap', ['clickwrap_modaltitle', 'clickwrap', 'clickwrap_richtext'], p__('form2', 'Clickwrap options'));
 
         // Richtext
         $richText = $this->addSimpleTextarea('richtext', p__('form2', 'Richtext'));

@@ -18,7 +18,7 @@ angular
                 if (scope.cardDesign === undefined) {
                     scope.cardDesign = false;
                 }
-                scope.clickwrapIsChecked = false;
+                scope.field.value = false;
                 scope.modal = null;
             },
             controller: function($scope, Application, Modal) {
@@ -38,7 +38,7 @@ angular
                 };
 
                 $scope.onClick = function () {
-                    if (!$scope.clickwrapIsChecked) {
+                    if (!$scope.field.value) {
                         return;
                     }
                     Modal
