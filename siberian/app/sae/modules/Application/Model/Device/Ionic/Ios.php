@@ -201,16 +201,16 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
             $this->removeAds();
         }
 
+        $this->replaceBundleId();
+
         $this->_prepareUrl();
         $this->_prepareLanguages();
 
         // Shared method!
         $this->buildPList();
         $this->ionicResources($this->currentApplication);
-
-        $zip = $this->zipFolder();
-
-        return $zip;
+        
+        return $this->zipFolder();
     }
 
     /**

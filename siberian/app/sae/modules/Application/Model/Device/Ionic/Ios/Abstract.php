@@ -174,6 +174,17 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
     }
 
     /**
+     * @throws \Siberian\Exception
+     */
+    protected function replaceBundleId ()
+    {
+        // com.appsmobilecompany.base from pbxproj
+        $this->__replace(
+            [$this->_default_bundle_name => $this->_package_name],
+            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj');
+    }
+
+    /**
      * This feature removes AdMob Pro from the ios sources!
      *
      * @throws Exception
@@ -202,11 +213,6 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             $refsRegex,
             $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
             true);
-
-        // com.appsmobilecompany.base from pbxproj
-        $this->__replace(
-            [$this->_default_bundle_name => $this->_package_name],
-            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj');
 
         $this->__replace(
             [$this->_default_bundle_name => $this->_package_name],
