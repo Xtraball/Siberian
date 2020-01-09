@@ -96,8 +96,18 @@ $schemas['form2_field'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'date_days' => [
+        'type' => 'varchar(16)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'datetime_format' => [
         'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'datetime_days' => [
+        'type' => 'varchar(16)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],

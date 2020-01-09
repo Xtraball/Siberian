@@ -67,7 +67,8 @@ angular
                     value_id: this.value_id
                 },
                 data: {
-                    'form': form
+                    timestamp: Math.round(Date.now() / 1000),
+                    form: form
                 },
                 timeout: 300000,
                 cache: false

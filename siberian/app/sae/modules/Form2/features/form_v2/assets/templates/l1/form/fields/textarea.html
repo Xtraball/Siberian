@@ -2,6 +2,7 @@
     <div class="input-label">
         {{ field.label | translate }} <span ng-if="field.is_required">*</span>
     </div>
-    <textarea rows="{{ field.rows }}"
+    <textarea rows="6"
+              style="resize: none;"
               ng-model="field.value"></textarea>
 </label>

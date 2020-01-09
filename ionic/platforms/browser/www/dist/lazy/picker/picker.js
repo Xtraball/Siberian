@@ -77,6 +77,8 @@
         controls: false,
         // The initial date. If not present, use the current date.
         date: null,
+        // Disable state
+        isDisabled: false,
         // The date string format, also as the sorting order for columns.
         format: 'YYYY-MM-DD HH:mm',
         // Indicate whether show the column headers.
@@ -99,6 +101,8 @@
         showWeekDays: false,
         // Show weekdays short.
         showWeekDaysShort: false,
+        // Skip week days
+        skipDays: [],
         // Define the number of rows for showing.
         rows: 5,
         // Define the text of the picker.
@@ -143,6 +147,7 @@
     var CLASS_OPEN = "".concat(NAMESPACE, "-open");
     var CLASS_OPENED = "".concat(NAMESPACE, "-opened");
     var CLASS_PICKED = "".concat(NAMESPACE, "-picked"); // Data keys
+    var CLASS_SKIP = "".concat(NAMESPACE, "-skip"); // Data keys
     // Add namespace to avoid to conflict to some other libraries.
 
     var DATA_ACTION = "".concat(NAMESPACE, "Action");
@@ -859,12 +864,14 @@
     };
 
     var helpers = {
-        extras: function (type, textContent) {
-            if (type === 'day' &&
-                (this.options.showWeekDays || this.options.showWeekDaysShort)) {
+        formatDay: function (textContent) {
+            if (this.options.showWeekDays ||
+                this.options.showWeekDaysShort) {
 
                 var month = this.date.getMonth() + 1;
-                var year = this.date.getFullYear();
+                // In case we have a "day/month" format only, the year is the current one.
+                var year = this.format.year ?
+                    this.date.getFullYear() : (new Date()).getFullYear();
                 var dayOfWeek = (new Date(year+ '-' + month + '-' + textContent)).getDay();
                 if (this.options.showWeekDays) {
                     textContent = this.options.weekDays[dayOfWeek] + ' ' + textContent;
@@ -875,6 +882,21 @@
             }
 
             return textContent;
+        },
+        skipDayOfWeek: function (textContent) {
+            if (this.options.skipDays.length > 0) {
+
+                var month = this.date.getMonth() + 1;
+                // In case we have a "day/month" format only, the year is the current one.
+                var year = this.format.year ?
+                    this.date.getFullYear() : (new Date()).getFullYear();
+                var dayOfWeek = (new Date(year + '-' + month + '-' + textContent)).getDay();
+
+                if (this.options.skipDays.indexOf(dayOfWeek) >= 0) {
+                    return true;
+                }
+            }
+            return false;
         },
         render: function render(type) {
             var _this = this;
@@ -900,6 +922,7 @@
             data.list.innerHTML = '';
             data.current = current;
 
+            var isDay = (type === 'day');
             for (var i = 0; i < options.rows + 2; i += 1) {
                 var item = document.createElement('li');
                 var position = i - data.index;
@@ -914,11 +937,18 @@
                 }
 
                 item.textContent = options.translate(type, data.aliases ? data.aliases[newValue] : addLeadingZero(newValue + data.offset, data.digit));
-                item.textContent = _this.extras(type, item.textContent);
+                if (isDay) {
+                    item.textContent = _this.formatDay(item.textContent);
+                }
 
                 setData(item, DATA_NAME, type);
                 setData(item, DATA_VALUE, newValue);
                 addClass(item, "".concat(NAMESPACE, "-item"));
+
+                if (isDay &&
+                    _this.skipDayOfWeek(newValue)) {
+                    addClass(item, CLASS_SKIP);
+                }
 
                 if (position === 0) {
                     addClass(item, CLASS_PICKED);
@@ -926,6 +956,16 @@
                 }
 
                 data.list.appendChild(item);
+            }
+        },
+        togglePick: function togglePick(type) {
+            // Toggle pick
+            if (this.data[type] &&
+                this.data[type].item &&
+                this.data[type].item.classList.contains(CLASS_SKIP)) {
+                this.disablePick();
+            } else {
+                this.enablePick();
             }
         },
         current: function current(type, value) {
@@ -944,6 +984,7 @@
 
                         if (format.day) {
                             this.render(tokenToType(format.day));
+                            this.togglePick('day');
                         }
                     }
 
@@ -956,6 +997,7 @@
 
                         if (format.day) {
                             this.render(tokenToType(format.day));
+                            this.togglePick('day');
                         }
                     }
 
@@ -964,6 +1006,10 @@
                 case 'D':
                     if (isNumber(value)) {
                         date.setDate(value);
+                    }
+
+                    if (format.day) {
+                        this.togglePick('day');
                     }
 
                     return date.getDate();
@@ -1115,6 +1161,9 @@
          * @returns {Picker} this
          */
         prev: function prev(type) {
+            if (type === 'day') {
+                return this.prevDay();
+            }
             var options = this.options;
             var token = this.format[type];
             var data = this.data[type];
@@ -1129,8 +1178,11 @@
                 value += max - min + 1;
             }
 
+            if (value < min) {
+                value += max - min + 1;
+            }
+
             item.textContent = options.translate(type, data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
-            item.textContent = this.extras(type, item.textContent);
             setData(item, DATA_VALUE, value);
 
             if (prev) {
@@ -1151,11 +1203,60 @@
         },
 
         /**
+         * Pick to the previous item.
+         * @param {string} type - The column type.
+         * @returns {Picker} this
+         */
+        prevDay: function prevDay() {
+            var options = this.options;
+            var token = this.format['day'];
+            var data = this.data['day'];
+            var list = data.list;
+            var item = list.lastElementChild;
+            var max = isFunction(data.max) ? data.max() : data.max;
+            var min = isFunction(data.min) ? data.min() : data.min;
+            var prev = data.item.previousElementSibling;
+            var value = Number(getData(list.firstElementChild, DATA_VALUE)) - data.increment;
+
+            if (value < min) {
+                value += max - min + 1;
+            }
+
+            item.textContent = options.translate('day', data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.formatDay(item.textContent);
+            setData(item, DATA_VALUE, value);
+
+            if (prev) {
+                removeClass(data.item, CLASS_PICKED);
+                addClass(prev, CLASS_PICKED);
+                data.item = prev;
+            }
+
+            list.insertBefore(item, list.firstElementChild);
+
+            // Update ALL list skipDays
+            this.updateSkipDays();
+
+            data.current = Number(getData(data.item, DATA_VALUE));
+            this.current('day', data.current);
+
+            if (this.inline && options.container) {
+                this.pick();
+            }
+
+            return this;
+        },
+
+        /**
          * Pick to the next item.
          * @param {String} type - The column type.
          * @returns {Picker} this
          */
         next: function next(type) {
+            if (type === 'day') {
+                return this.nextDay();
+            }
+
             var options = this.options;
             var token = this.format[type];
             var data = this.data[type];
@@ -1170,8 +1271,11 @@
                 value -= max - min + 1;
             }
 
+            if (value > max) {
+                value -= max - min + 1;
+            }
+
             item.textContent = options.translate(type, data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
-            item.textContent = this.extras(type, item.textContent);
             setData(item, DATA_VALUE, value);
             list.appendChild(item);
 
@@ -1190,9 +1294,86 @@
 
             return this;
         },
+
+        /**
+         * Pick to the next item.
+         * @param {String} type - The column type.
+         * @returns {Picker} this
+         */
+        nextDay: function nextDay() {
+            var options = this.options;
+            var token = this.format['day'];
+            var data = this.data['day'];
+            var list = data.list;
+            var item = list.firstElementChild;
+            var max = isFunction(data.max) ? data.max() : data.max;
+            var min = isFunction(data.min) ? data.min() : data.min;
+            var next = data.item.nextElementSibling;
+            var value = Number(getData(list.lastElementChild, DATA_VALUE)) + data.increment;
+
+            if (value > max) {
+                value -= max - min + 1;
+            }
+
+            item.textContent = options.translate('day', data.aliases ? data.aliases[value] : addLeadingZero(value + data.offset, token.length));
+            item.textContent = this.formatDay(item.textContent);
+            setData(item, DATA_VALUE, value);
+            list.appendChild(item);
+
+            if (next) {
+                removeClass(data.item, CLASS_PICKED);
+                addClass(next, CLASS_PICKED);
+                data.item = next;
+            }
+
+            this.updateSkipDays();
+
+            data.current = Number(getData(data.item, DATA_VALUE));
+            this.current('day', data.current);
+
+            if (this.inline && options.container) {
+                this.pick();
+            }
+
+            return this;
+        },
+
+        updateSkipDays: function () {
+            var data = this.data['day'];
+            var list = data.list;
+            // Update ALL list skipDays
+            for (var i = 0; i < list.children.length; i++) {
+                var leEl = list.children[i];
+                var leValue = Number(getData(leEl, DATA_VALUE));
+                if (this.skipDayOfWeek(leValue)) {
+                    addClass(leEl, CLASS_SKIP);
+                } else {
+                    removeClass(leEl, CLASS_SKIP);
+                }
+            }
+        },
+
+        disablePick: function disablePick() {
+            this.isDisabled = true;
+            if (this.confirm) {
+                this.confirm.classList.add('picker-disabled');
+            }
+        },
+
+        enablePick: function enablePick() {
+            this.isDisabled = false;
+            if (this.confirm) {
+                this.confirm.classList.remove('picker-disabled');
+            }
+        },
+
         // Pick the current date to the target element.
         pick: function pick() {
             var element = this.element;
+
+            if (this.isDisabled) {
+                return;
+            }
 
             if (dispatchEvent(element, EVENT_PICK) === false) {
                 return this;
@@ -1500,6 +1681,7 @@
                     }));
                     var picker = template.getElementsByClassName(NAMESPACE)[0];
                     var grid = picker.getElementsByClassName("".concat(NAMESPACE, "-grid"))[0];
+                    var confirm = picker.getElementsByClassName("".concat(NAMESPACE, "-confirm"))[0];
                     var container = options.container;
 
                     if (isString(container)) {
@@ -1530,6 +1712,7 @@
                     this.inline = inline;
                     this.container = container;
                     this.picker = picker;
+                    this.confirm = confirm;
                     this.grid = grid;
                     this.cell = null;
                     this.format = parseFormat(options.format);

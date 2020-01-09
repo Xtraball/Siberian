@@ -1,0 +1,34 @@
+<ion-modal-view sb-page-background
+                class="module-form2 form2-modal form2-display-modal">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="modalClose()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::modalTitle | translate:'form2' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <!-- Custom fields (defaults) -->
+        <div ng-if="!cardDesign"
+             class="list">
+            <ng-include ng-repeat="field in modalFields track by $index"
+                        src="'./features/form_v2/assets/templates/l1/form/display/' + field.type + '.html'"></ng-include>
+        </div>
+
+        <div ng-if="cardDesign">
+            <div class="list card"
+                 ng-repeat="_fields in modalSections track by $index">
+                <div ng-repeat="field in _fields track by field.field_id"
+                     ng-include="'./features/form_v2/assets/templates/l1/form/display/' + field.type + '.html'">
+                </div>
+                <ng-include src="'./features/form_v2/assets/templates/l1/form/display/' + field.type + '.html'"></ng-include>
+            </div>
+        </div>
+    </ion-content>
+
+
+</ion-modal-view>

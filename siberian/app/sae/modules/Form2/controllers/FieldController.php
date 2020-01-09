@@ -58,6 +58,8 @@ class Form2_FieldController extends Application_Controller_Default
             if (empty($fieldData['limit'])) {
                 $fieldData['limit'] = 1;
             }
+            $fieldData['date_days'] = $field->getDateDays();
+            $fieldData['datetime_days'] = $field->getDatetimeDays();
 
             $form->populate($fieldData);
             $form->removeNav('nav-fields');
@@ -189,6 +191,8 @@ class Form2_FieldController extends Application_Controller_Default
                     ->setData($params)
                     ->setRichtext($params['richtext'])
                     ->setClickwrapRichtext($params['clickwrap_richtext'])
+                    ->setDateDays($params['date_days'])
+                    ->setDatetimeDays($params['datetime_days'])
                     ->setFieldType($params['field_type']);
 
                 if (array_key_exists('select_options', $params) &&

@@ -1,5 +1,5 @@
 <div>
-    <ion-item class="item-custom">
+    <ion-item class="item-custom upload-title">
         {{ ::field.label | translate:'form2' }}
         <span ng-if="field.limit > 1">({{ field.limit }} {{ ::'images max.' | translate:'form2' }})</span>
     </ion-item>
@@ -24,7 +24,7 @@
         </div>
     </ion-item>
 
-    <ion-item class="item-icon-left item-custom"
+    <ion-item class="item-icon-left item-custom upload-action"
               ng-if="field.value.length < field.limit"
               ng-click="takePicture()">
         <div class="row">

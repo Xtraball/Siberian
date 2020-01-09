@@ -5,6 +5,7 @@ use Form2\Model\Result;
 use Siberian\Exception;
 use Siberian\Feature;
 use Siberian\File;
+use Siberian\Hook;
 use Siberian\Json;
 use Siberian\Layout;
 use Siberian\Mail;
@@ -20,7 +21,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
     public function findAction()
     {
         try {
-            $payload = (new Form())->getEmbedPayload($this->getCurrentOptionValue());
+            $payload = (new Form())->getFeaturePayload($this->getCurrentOptionValue());
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
@@ -32,7 +33,12 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
     }
 
     /**
-     * Sauvegarde
+     * @throws Zend_Exception
+     * @throws Zend_Filter_Exception
+     * @throws Zend_Layout_Exception
+     * @throws Zend_Mail_Exception
+     * @throws Zend_Session_Exception
+     * @throws \rock\sanitize\SanitizeException
      */
     public function submitAction()
     {
@@ -52,11 +58,23 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
             try {
                 $settings = Json::decode($optionValue->getSettings());
             } catch (\Exception $e) {
-                $settings = [];
+                $settings = [
+                    'email' => [],
+                    'design' => 'list',
+                    'enableHistory' => true
+                ];
             }
+
+            Hook::trigger('form2.submit', [
+                'customer_id' => $customerId,
+                'application' => $request,
+                'request' => $application,
+                'value_id' => $valueId,
+            ]);
 
             $data = $request->getBodyParams();
             $formData = $data['form'];
+            $timestamp = $data['timestamp'];
 
             $dbPayload = [];
             $index = 0;
@@ -69,8 +87,10 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 ->setValueId($valueId)
                 ->setCustomerId($customerId)
                 ->setPayload($dbPayload)
+                ->setTimestamp($timestamp)
+                // When history is disabled, we automatically mark the result as hidden for the app user!
+                ->setIsRemoved($settings['enableHistory'] ? 0 : 1)
                 ->save();
-
 
             // Send e-mail only if filled out!
             if (array_key_exists('email', $settings) &&
@@ -129,9 +149,23 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 $mail->send();
             }
 
+            //
+            $payload = (new Form())->getEmbedPayload($this->getCurrentOptionValue());
+
+            // Hook
+            Hook::trigger('form2.submit.success', [
+                'payload' => $dbPayload,
+                'timestamp' => $timestamp,
+                'customer_id' => $customerId,
+                'application' => $request,
+                'request' => $application,
+                'value_id' => $valueId,
+            ]);
+
             $payload = [
                 'success' => true,
-                'message' => p__('form2', 'The form has been sent successfully')
+                'message' => p__('form2', 'The form has been sent successfully'),
+                'history' => $payload['history']
             ];
 
         } catch (Exception $e) {
@@ -139,6 +173,13 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 'error' => true,
                 'message' => $e->getMessage()
             ];
+
+            Hook::trigger('form2.submit.error', [
+                'customer_id' => $customerId,
+                'application' => $request,
+                'request' => $application,
+                'value_id' => $valueId,
+            ]);
         }
 
         $this->_sendJson($payload);

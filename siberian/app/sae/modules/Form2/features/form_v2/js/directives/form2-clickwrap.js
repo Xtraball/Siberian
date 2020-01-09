@@ -60,8 +60,6 @@ angular
                             return modal;
                         });
                 };
-
-
             }
         };
     });

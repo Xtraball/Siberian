@@ -37,6 +37,11 @@ class Field extends Base
     protected $_db_table = Db\Table\Field::class;
 
     /**
+     * @var array
+     */
+    const WEEK_DAYS = [0, 1, 2, 3, 4, 5, 6];
+
+    /**
      * @param $valueId
      * @return $this
      */
@@ -76,6 +81,66 @@ class Field extends Base
         } catch (\Exception $e) {
             return [];
         }
+    }
+
+    /**
+     * @param $days
+     * @return Field
+     */
+    public function setDateDays(array $days): Field
+    {
+        return $this->setData('date_days', implode(',', $days));
+    }
+
+    /**
+     * @return array
+     */
+    public function getDateDays(): array
+    {
+        try {
+            return array_values(explode(',', $this->getData('date_days')));
+        } catch (\Exception $e) {}
+
+        // Or defaults to all days!
+        return self::WEEK_DAYS;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDateSkipDays(): array
+    {
+        return array_values(array_diff(self::WEEK_DAYS, $this->getDateDays()));
+    }
+
+    /**
+     * @param $days
+     * @return Field
+     */
+    public function setDatetimeDays(array $days): Field
+    {
+        return $this->setData('datetime_days', implode(',', $days));
+    }
+
+    /**
+     * @return array
+     */
+    public function getDatetimeDays(): array
+    {
+        try {
+            return array_values(explode(',', $this->getData('datetime_days')));
+        } catch (\Exception $e) {}
+
+        // Or defaults to all days!
+        return self::WEEK_DAYS;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDatetimeSkipDays(): array
+    {
+        return array_values(array_diff(self::WEEK_DAYS, $this->getDatetimeDays()));
     }
 
     /**
@@ -141,7 +206,10 @@ class Field extends Base
             'max' => (float) $this->getNumberMax(),
             'step' => (float) $this->getNumberStep(),
             'date_format' => (string) $this->getDateFormat(),
+            'date_skipdays' => $this->getDateSkipDays(),
             'datetime_format' => (string) $this->getDatetimeFormat(),
+            'datetime_skipdays' => $this->getDatetimeSkipDays(),
+            'is_checked' => false,
             'is_required' => (boolean) $this->getIsRequired(),
         ];
         $defaultValue = (string) $this->getDefaultValue();

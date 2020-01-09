@@ -1,8 +1,9 @@
-<label class="item item-input item-custom item-stacked-label">
+<label class="item item-input item-custom item-stacked-label form2-textarea">
     <div class="input-label">
         {{ ::field.label | translate }}
     </div>
-    <textarea rows="{{ field.rows }}"
-              ng-model="field.value"
-              readonly="readonly"></textarea>
+    <textarea rows="6"
+              style="resize: none;"
+              readonly="readonly"
+              ng-model="field.value"></textarea>
 </label>

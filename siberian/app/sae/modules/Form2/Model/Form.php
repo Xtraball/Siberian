@@ -52,7 +52,7 @@ class Form extends Base
      * @return array|bool
      * @throws \Zend_Exception
      */
-    public function getEmbedPayload($optionValue = null)
+    public function getFeaturePayload($optionValue = null)
     {
         $valueId = $optionValue->getId();
 
@@ -60,14 +60,54 @@ class Form extends Base
             $settings = Json::decode($optionValue->getSettings());
         } catch (\Exception $e) {
             $settings = [
-                'design' => 'list'
+                'email' => [],
+                'design' => 'list',
+                'enable_history' => true
             ];
+        }
+
+        $settings['enable_history'] = filter_var($settings['enable_history'], FILTER_VALIDATE_BOOLEAN);
+
+        // Customer
+        $session = $this->getSession();
+        $customer = $session->getCustomer();
+        $history = [];
+        if ($settings['enable_history'] &&
+            $session->isLoggedIn()) {
+            try {
+                /**
+                 * @var $results Result[]
+                 */
+                $results = (new Result())->findAll(
+                    [
+                        'value_id = ?' => $valueId,
+                        'customer_id = ?' => $customer->getId(),
+                        'is_removed = ?' => 0
+                    ],
+                    [
+                        'result_id DESC'
+                    ]);
+
+                $history = [];
+                foreach ($results as $result) {
+                    $history[] = [
+                        'result_id' => $result->getId(),
+                        'payload' => $result->getPayload(),
+                        'created_at' => $result->getCreatedAt(),
+                        'timestamp' => $result->getTimestamp()
+                    ];
+                }
+            } catch (\Exception $e) {
+                $history = [];
+            }
         }
 
         $payload = [
             'success' => true,
             'pageTitle' => $optionValue->getTabbarName(),
             'cardDesign' => $settings['design'] === 'card',
+            'enableHistory' => $settings['enable_history'],
+            'history' => $history,
         ];
 
         /**
@@ -87,6 +127,15 @@ class Form extends Base
         $payload['formFields'] = $formFields;
 
         return $payload;
+    }
+
+    /**
+     * @param null $optionValue
+     * @return bool
+     */
+    public function getEmbedPayload($optionValue = null)
+    {
+        return false;
     }
 }
 

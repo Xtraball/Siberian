@@ -35,6 +35,10 @@ HTML;
 
         $this->addSimpleHtml('raw_hint', $rawHint, ['class' => 'col-md-offset-3 col-md-7']);
 
+        $inAppHistory = $this->addSimpleCheckbox('enable_history',
+            p__('form2', 'Enable in-app history'));
+        $inAppHistory->setDescription(p__('form2', 'Logged-in users will be able to see & review their submissions.'));
+
         $this->addSimpleSelect('design', p__('form2', 'Design'), [
             'list' => p__('form2', 'List'),
             'card' => p__('form2', 'Card'),

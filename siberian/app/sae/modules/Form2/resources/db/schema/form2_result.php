@@ -23,6 +23,18 @@ $schemas['form2_result'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'label' => [
+        'type' => 'varchar(256)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'timestamp' => [
+        'type' => 'int(11)',
+    ],
+    'is_removed' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

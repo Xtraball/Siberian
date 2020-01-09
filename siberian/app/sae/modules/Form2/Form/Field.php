@@ -168,15 +168,32 @@ class Field extends FormAbstract
 
         $this->groupElements('group_richtext', ['richtext'], p__('form2', 'Richtext options'));
 
+        // Week days
+        $weekDays = [
+            1 => p__('calendar', 'Monday'),
+            2 => p__('calendar', 'Tuesday'),
+            3 => p__('calendar', 'Wednesday'),
+            4 => p__('calendar', 'Thursday'),
+            5 => p__('calendar', 'Friday'),
+            6 => p__('calendar', 'Saturday'),
+            0 => p__('calendar', 'Sunday'),
+        ];
+
+        // Available date days
+        $dateDays = $this->addSimpleMultiCheckbox('date_days', p__('form2', 'Available weekdays'), $weekDays);
+        $dateDays->setValue([0, 1, 2, 3, 4, 5, 6]);
+
         // Date
         $this->addSimpleSelect('date_format', p__('form2', 'Date format'), self::$dateFormats);
+        $this->groupElements('group_date', ['date_format', 'date_days'], p__('form2', 'Date options'));
 
-        $this->groupElements('group_date', ['date_format'], p__('form2', 'Date options'));
+        // Available datetime days
+        $datetimeDays = $this->addSimpleMultiCheckbox('datetime_days', p__('form2', 'Available weekdays'), $weekDays);
+        $datetimeDays->setValue([0, 1, 2, 3, 4, 5, 6]);
 
         // Datetime
         $this->addSimpleSelect('datetime_format', p__('form2', 'Date & time format'), self::$datetimeFormats);
-
-        $this->groupElements('group_datetime', ['datetime_format'], p__('form2', 'Date & time options'));
+        $this->groupElements('group_datetime', ['datetime_format', 'datetime_days'], p__('form2', 'Date & time options'));
 
         // Default
         $this->addSimpleText('default_value', p__('form2', 'Default value'));
@@ -287,12 +304,14 @@ JS;
                 break;
             case 'date':
                 $this->getElement('date_format')->setRequired(true);
-                break;
-            case 'image':
-                $this->getElement('limit')->setRequired(true);
+                $this->getElement('date_days')->setRequired(true);
                 break;
             case 'datetime':
                 $this->getElement('datetime_format')->setRequired(true);
+                $this->getElement('datetime_days')->setRequired(true);
+                break;
+            case 'image':
+                $this->getElement('limit')->setRequired(true);
                 break;
         }
 

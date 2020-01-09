@@ -15,12 +15,11 @@ angular
         templateUrl: './features/form_v2/assets/templates/l1/directive/geolocation.html',
         link: function (scope) {
             scope.locationIsLoading = false;
-            scope.locationIsChecked = false;
         },
         controller: function($scope, $filter, Dialog, Location, GoogleMaps) {
 
             $scope.getLocation = function () {
-                if (!$scope.locationIsChecked) {
+                if (!$scope.field.is_checked) {
                     // Don't fetch if location is disabled, then clear!
                     $scope.field.value = null;
                     return;
@@ -52,7 +51,7 @@ angular
 
                         }, function (e) {
                             $scope.field.value = null;
-                            $scope.locationIsChecked = false;
+                            $scope.field.is_checked = false;
                         }).then(function () {
                             $scope.locationIsLoading = false;
                         });
@@ -62,7 +61,7 @@ angular
             };
 
             $scope.formatLocation = function () {
-                if (!$scope.locationIsChecked) {
+                if (!$scope.field.is_checked) {
                     return '';
                 }
 

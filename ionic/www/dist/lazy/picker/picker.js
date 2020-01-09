@@ -77,6 +77,8 @@
         controls: false,
         // The initial date. If not present, use the current date.
         date: null,
+        // Disable state
+        isDisabled: false,
         // The date string format, also as the sorting order for columns.
         format: 'YYYY-MM-DD HH:mm',
         // Indicate whether show the column headers.
@@ -100,9 +102,7 @@
         // Show weekdays short.
         showWeekDaysShort: false,
         // Skip week days
-        skipDays: [
-            0, 3, 6
-        ],
+        skipDays: [],
         // Define the number of rows for showing.
         rows: 5,
         // Define the text of the picker.
@@ -893,7 +893,6 @@
                 var dayOfWeek = (new Date(year + '-' + month + '-' + textContent)).getDay();
 
                 if (this.options.skipDays.indexOf(dayOfWeek) >= 0) {
-                    console.log('Skip day of week: ', dayOfWeek, this.options.skipDays)
                     return true;
                 }
             }
@@ -937,7 +936,6 @@
                     }
                 }
 
-
                 item.textContent = options.translate(type, data.aliases ? data.aliases[newValue] : addLeadingZero(newValue + data.offset, data.digit));
                 if (isDay) {
                     item.textContent = _this.formatDay(item.textContent);
@@ -960,6 +958,16 @@
                 data.list.appendChild(item);
             }
         },
+        togglePick: function togglePick(type) {
+            // Toggle pick
+            if (this.data[type] &&
+                this.data[type].item &&
+                this.data[type].item.classList.contains(CLASS_SKIP)) {
+                this.disablePick();
+            } else {
+                this.enablePick();
+            }
+        },
         current: function current(type, value) {
             var date = this.date;
             var format = this.format;
@@ -976,6 +984,7 @@
 
                         if (format.day) {
                             this.render(tokenToType(format.day));
+                            this.togglePick('day');
                         }
                     }
 
@@ -988,6 +997,7 @@
 
                         if (format.day) {
                             this.render(tokenToType(format.day));
+                            this.togglePick('day');
                         }
                     }
 
@@ -998,8 +1008,8 @@
                         date.setDate(value);
                     }
 
-                    if (format.day && this.data['day'].item.classList.contains(CLASS_SKIP)) {
-
+                    if (format.day) {
+                        this.togglePick('day');
                     }
 
                     return date.getDate();
@@ -1218,17 +1228,15 @@
 
             if (prev) {
                 removeClass(data.item, CLASS_PICKED);
-                if (!this.skipDayOfWeek(getData(data.item, DATA_VALUE))) {
-                    removeClass(data.item, CLASS_SKIP);
-                }
                 addClass(prev, CLASS_PICKED);
-                if (this.skipDayOfWeek(getData(prev, DATA_VALUE))) {
-                    addClass(prev, CLASS_SKIP);
-                }
                 data.item = prev;
             }
 
             list.insertBefore(item, list.firstElementChild);
+
+            // Update ALL list skipDays
+            this.updateSkipDays();
+
             data.current = Number(getData(data.item, DATA_VALUE));
             this.current('day', data.current);
 
@@ -1314,15 +1322,11 @@
 
             if (next) {
                 removeClass(data.item, CLASS_PICKED);
-                if (!this.skipDayOfWeek(getData(data.item, DATA_VALUE))) {
-                    removeClass(data.item, CLASS_SKIP);
-                }
                 addClass(next, CLASS_PICKED);
-                if (this.skipDayOfWeek(getData(next, DATA_VALUE))) {
-                    addClass(next, CLASS_SKIP);
-                }
                 data.item = next;
             }
+
+            this.updateSkipDays();
 
             data.current = Number(getData(data.item, DATA_VALUE));
             this.current('day', data.current);
@@ -1334,17 +1338,42 @@
             return this;
         },
 
-        disablePick: function disablePick() {
+        updateSkipDays: function () {
+            var data = this.data['day'];
+            var list = data.list;
+            // Update ALL list skipDays
+            for (var i = 0; i < list.children.length; i++) {
+                var leEl = list.children[i];
+                var leValue = Number(getData(leEl, DATA_VALUE));
+                if (this.skipDayOfWeek(leValue)) {
+                    addClass(leEl, CLASS_SKIP);
+                } else {
+                    removeClass(leEl, CLASS_SKIP);
+                }
+            }
+        },
 
+        disablePick: function disablePick() {
+            this.isDisabled = true;
+            if (this.confirm) {
+                this.confirm.classList.add('picker-disabled');
+            }
         },
 
         enablePick: function enablePick() {
-
+            this.isDisabled = false;
+            if (this.confirm) {
+                this.confirm.classList.remove('picker-disabled');
+            }
         },
 
         // Pick the current date to the target element.
         pick: function pick() {
             var element = this.element;
+
+            if (this.isDisabled) {
+                return;
+            }
 
             if (dispatchEvent(element, EVENT_PICK) === false) {
                 return this;
@@ -1652,6 +1681,7 @@
                     }));
                     var picker = template.getElementsByClassName(NAMESPACE)[0];
                     var grid = picker.getElementsByClassName("".concat(NAMESPACE, "-grid"))[0];
+                    var confirm = picker.getElementsByClassName("".concat(NAMESPACE, "-confirm"))[0];
                     var container = options.container;
 
                     if (isString(container)) {
@@ -1682,6 +1712,7 @@
                     this.inline = inline;
                     this.container = container;
                     this.picker = picker;
+                    this.confirm = confirm;
                     this.grid = grid;
                     this.cell = null;
                     this.format = parseFormat(options.format);

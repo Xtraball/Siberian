@@ -8,6 +8,7 @@ angular
             headers: "=?",
             model: "=?",
             title: "=?",
+            skipDays: "=?",
             showWeekDays: "=?",
             showWeekDaysShort: "=?"
         },
@@ -17,6 +18,7 @@ angular
             .then(function () {
                 var options = angular.extend({}, DatetimePicker.defaults, {
                     headers: scope.headers || true,
+                    skipDays: scope.skipDays || [],
                     showWeekDays: scope.showWeekDays || false,
                     showWeekDaysShort: scope.showWeekDaysShort || false,
                     format: scope.format || "YYYY-MM-DD HH:mm",

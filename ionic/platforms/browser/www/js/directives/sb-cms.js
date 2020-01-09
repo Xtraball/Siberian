@@ -317,10 +317,12 @@ angular.module('starter').directive('sbCmsText', function () {
         '</a>',
         controller: function ($scope, LinkService) {
             $scope.openLink = function () {
+                var externalBrowser = $scope.block.external_browser === undefined ?
+                    true : $scope.block.external_browser;
                 LinkService.openLink(
                     $scope.block.content,
-                    $scope.block.options,
-                    $scope.block.external_browser);
+                    $scope.block.options || {},
+                    externalBrowser);
             };
         },
         link: function (scope, element) {

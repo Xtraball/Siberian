@@ -1,10 +1,11 @@
-<label class="item item-input item-custom">
-    <div class="input-label">
-        {{ ::field.label | translate }}
-    </div>
-    <input class="text-right"
-           type="text"
-           placeholder="{{ field.label | translate }}"
-           ng-model="field.value"
-           readonly="readonly" />
-</label>
+<ion-checkbox class="checkbox-custom item-custom form2-checkbox"
+              readonly="readonly"
+              ng-disabled="'true'"
+              ng-model="field.is_checked">
+    <h2>
+        <span>{{ field.label }}</span>
+    </h2>
+    <p ng-if="field.value"
+       ng-bind-html="modalFormatLocation(field)"
+       style="white-space: normal !important;"></p>
+</ion-checkbox>
