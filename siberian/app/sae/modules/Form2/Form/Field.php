@@ -170,13 +170,13 @@ class Field extends FormAbstract
 
         // Week days
         $weekDays = [
-            1 => p__('calendar', 'Monday'),
-            2 => p__('calendar', 'Tuesday'),
-            3 => p__('calendar', 'Wednesday'),
-            4 => p__('calendar', 'Thursday'),
-            5 => p__('calendar', 'Friday'),
-            6 => p__('calendar', 'Saturday'),
-            0 => p__('calendar', 'Sunday'),
+            1 => p__('datepicker', 'Monday'),
+            2 => p__('datepicker', 'Tuesday'),
+            3 => p__('datepicker', 'Wednesday'),
+            4 => p__('datepicker', 'Thursday'),
+            5 => p__('datepicker', 'Friday'),
+            6 => p__('datepicker', 'Saturday'),
+            0 => p__('datepicker', 'Sunday'),
         ];
 
         // Available date days
