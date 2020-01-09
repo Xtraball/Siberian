@@ -209,7 +209,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         // Shared method!
         $this->buildPList();
         $this->ionicResources($this->currentApplication);
-        
+
         return $this->zipFolder();
     }
 
