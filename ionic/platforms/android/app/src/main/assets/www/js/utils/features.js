@@ -1,7 +1,3 @@
-/* global
- angular, console, BASE_PATH
- @version 4.15.7
- */
 window.Features = (new (function Features() {
     var _app = angular.module('starter'); // WARNING: Must be the same as in app.js
     var $this = {};
@@ -43,7 +39,7 @@ window.Features = (new (function Features() {
             lazyLoadBundle = lazyLoadBundle.concat(json.lazyLoad.module);
         }
 
-        var feature_base = 'features/'+json.code+'/';
+        var feature_base = 'features/' + json.code + '/';
         _app.config(
             [
                 '$stateProvider', 'HomepageLayoutProvider',

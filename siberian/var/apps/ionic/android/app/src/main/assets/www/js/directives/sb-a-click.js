@@ -1,8 +1,12 @@
-/*global
-    App, ionic, angular
+/**
+ * sb-a-click
+ *
+ * @author Xtraball SAS
+ * @version 4.18.5
  */
-
-angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer) {
+angular
+.module('starter')
+.directive('sbAClick', function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer) {
     return {
         restrict: 'A',
         scope: {},
@@ -44,11 +48,7 @@ angular.module("starter").directive("sbAClick", function($rootScope, $timeout, $
                     } else {
                         angular.element(elem).bind("click", function (e) {
                             e.preventDefault();
-                            var options = {
-                                "hide_navbar" : false,
-                                "use_external_app" : false
-                            };
-                            LinkService.openLink(elem.href,options);
+                            LinkService.openLink(elem.href, {}, false);
                         });
                     }
                 });
