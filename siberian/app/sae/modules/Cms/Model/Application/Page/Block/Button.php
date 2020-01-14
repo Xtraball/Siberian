@@ -54,7 +54,6 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
      */
     public function populate($data = [])
     {
-
         $this->setTypeId($data['type']);
         $this->setLabel($data['label']);
         $this->setExternalBrowser($data['external_browser']);

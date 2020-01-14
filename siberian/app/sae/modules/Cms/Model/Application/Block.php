@@ -90,6 +90,7 @@ class Cms_Model_Application_Block extends Core_Model_Default
                     $block_data['icon'] = '';
                 }
                 $block_data['options'] = $this->getObject()->getOptions();
+                $block_data['external_browser'] = filter_var($block_data['external_browser'], FILTER_VALIDATE_BOOLEAN);
 
                 break;
             case 'text':
