@@ -12,8 +12,8 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
      * @var array
      */
     public $cache_triggers = [
-        "add" => [
-            "tags" => [
+        'add' => [
+            'tags' => [
                //"feature_paths_valueid_#VALUE_ID#",
                //"assets_paths_valueid_#VALUE_ID#",
             ],
@@ -28,25 +28,25 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
-            $limit = $request->getParam("limit", 20);
-            $offset = $request->getParam("offset", 0);
+            $limit = $request->getParam('limit', 20);
+            $offset = $request->getParam('offset', 0);
 
             $query = [
-                "fanwall_post.value_id = ?" => $optionValue->getId(),
-                "fanwall_post.is_visible = ?" => 1,
+                'fanwall_post.value_id = ?' => $optionValue->getId(),
+                'fanwall_post.is_visible = ?' => 1,
             ];
 
             // Exclude blockedUsers
             $query = Blocked::excludePosts($query, $customerId);
 
             $order = [
-                "fanwall_post.sticky DESC",
-                "fanwall_post.date DESC"
+                'fanwall_post.sticky DESC',
+                'fanwall_post.date DESC'
             ];
 
             $limit = [
-                "limit" => $limit,
-                "offset" => $offset,
+                'limit' => $limit,
+                'offset' => $offset,
             ];
 
             $posts = (new Post())->findAllImages($query, $order, $limit);
@@ -54,23 +54,26 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
 
             $collection = [];
             foreach ($posts as $post) {
-
-                $collection[] = [
-                    "id" => (integer) $post->getId(),
-                    "image" => (string) $post->getImage(),
-                ];
+                $_images = array_filter(explode(',', $post->getImage()));
+                $i = 0;
+                foreach ($_images as $_image) {
+                    $collection[] = [
+                        'id' => (integer) $post->getId() . '.' . $i++,
+                        'image' => (string) $_image
+                    ];
+                }
             }
 
             $payload = [
-                "success" => true,
-                "pageTitle" => $optionValue->getTabbarName(),
-                "total" => $imagesTotal->count(),
-                "collection" => $collection
+                'success' => true,
+                'pageTitle' => $optionValue->getTabbarName(),
+                'total' => $imagesTotal->count(),
+                'collection' => $collection
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 

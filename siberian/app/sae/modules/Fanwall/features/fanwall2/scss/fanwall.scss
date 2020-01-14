@@ -11,7 +11,7 @@
       border-radius: 2px !important;
 
       .item-custom {
-        padding: 10px !important;
+        padding: 10px 10px 5px 10px!important
       }
 
       .popover-icon-left {
@@ -98,10 +98,22 @@
       white-space: initial;
     }
 
-    img {
-      max-width: 100%;
-      margin: 0 auto;
+    .history-image {
       display: block;
+      float: left;
+      width: calc((100vw / 5) - 6px);
+      height: calc(100vw / 7);
+      padding: 4px;
+
+      a {
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+        border: 1px solid lightgrey;
+        border-radius: 2px;
+        background-position: center center;
+        background-size: cover;
+      }
     }
   }
 
@@ -271,8 +283,60 @@
         }
       }
 
+      .post-images {
+        .row.fanwall-row {
+          margin: 0;
+          padding: 0;
+          height: 25vh;
+        }
+
+        .fanwall-image-bg-1 {
+
+        }
+        .fanwall-image-bg-2 {
+          border-left: 2px solid $list-item-custom-bg;
+          &.fanwall-bg-card {
+            border-left: 2px solid $card-item-custom-bg;
+          }
+        }
+        .fanwall-image-bg-3 {
+          border-top: 2px solid $list-item-custom-bg;
+          &.fanwall-bg-card {
+            border-top: 2px solid $card-item-custom-bg;
+          }
+        }
+      }
+
       .post-image {
         margin: 0 -16px 0 -16px;
+
+        &.fanwall-bg-2 {
+          margin: 0 -16px 0 0;
+        }
+
+        &.fanwall-bg-3 {
+          height: 20vh;
+        }
+
+        a {
+          &.fanwall-image-bg {
+            display: inline-block;
+            width: 100%;
+            background-position: center center;
+            background-size: cover;
+            height: 30vh;
+
+            &.fanwall-image-bg-1 {
+              height: 25vh;
+            }
+            &.fanwall-image-bg-2 {
+              height: 25vh;
+            }
+            &.fanwall-image-bg-3 {
+              height: 20vh;
+            }
+          }
+        }
 
         img {
           display: block;
@@ -486,6 +550,15 @@
             margin-top: 12px !important;
           }
         }
+      }
+    }
+
+    img {
+      &.fanwall-pictures {
+        max-height: 15vh;
+        width: auto;
+        max-width: 90%;
+        margin: 6px auto;
       }
     }
 

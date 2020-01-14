@@ -2,24 +2,25 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.5
  */
 angular
-.module("starter")
-.controller("FanwallNewController", function ($scope, $rootScope, $session, $state, $stateParams, $translate, $q,
+.module('starter')
+.controller('FanwallNewController', function ($scope, $rootScope, $session, $state, $stateParams, $translate, $q,
                                               Customer, Fanwall, FanwallPost, Dialog, Picture, Loader, Location,
                                               GoogleMaps, Popover, $timeout) {
 
     angular.extend($scope, {
-        pageTitle: $translate.instant("Create a post", "fanwall"),
+        pageTitle: $translate.instant('Create a post', 'fanwall'),
         form: {
-            text: "",
-            picture: "",
+            text: '',
+            pictures: [],
             date: null,
+            limit: Fanwall.settings.max_images,
             location: {
                 latitude: 0,
                 longitude: 0,
-                locationShort: ""
+                locationShort: ''
             }
         },
         fetchingLocation: false,
@@ -237,16 +238,12 @@ angular
                 }
             });
         }
-
     };
 
-
     if ($scope.post !== undefined) {
-        $scope.pageTitle = "Edit post";
+        $scope.pageTitle = 'Edit post';
         $scope.form.text = $scope.post.text.replace(/(<br( ?)(\/?)>)/gm, "\n");
-        if ($scope.post.image.length > 0) {
-            $scope.form.picture = $scope.post.image;
-        }
+        $scope.form.pictures = $scope.post.images;
     }
 
     $scope.noLocation = function () {
@@ -339,7 +336,7 @@ angular
     .getItem($scope.preferenceKey)
     .then(function (preference) {
         if (preference === null) {
-            $scope.preference = "always";
+            $scope.preference = 'always';
         } else {
             $scope.preference = preference;
         }
@@ -347,7 +344,7 @@ angular
     })
     .catch( function (err) {
         // Something went wrong!
-        $scope.preference = "always";
+        $scope.preference = 'always';
         $scope.init();
     });
 

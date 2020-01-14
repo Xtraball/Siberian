@@ -39,7 +39,10 @@ angular
                     return ($scope.userLike() || $scope.userComment());
                 };
 
-                $scope.imagePath = function () {
+                $scope.imagePath = function (path) {
+                    if (path !== undefined) {
+                        return IMAGE_URL + "images/application" + path;
+                    }
                     if ($scope.post.image.length <= 0) {
                         return "./features/fanwall2/assets/templates/images/placeholder.png";
                     }
