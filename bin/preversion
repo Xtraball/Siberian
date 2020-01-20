@@ -8,6 +8,7 @@ rm -f package.json.bck
 # Pack resources
 ./ci/pack-resources.sh
 ./sb cleanlang
+./sb archivesources
 cd ./siberian
 php -f cli cache:design pe
 cd -
