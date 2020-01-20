@@ -1585,7 +1585,7 @@ let pack = function (module) {
 let archiveSources = function () {
     sprint(clc.blue('Building archives for Apps sources restore'));
 
-    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
+    let excludes = '--options gzip:9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'features/\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
     sh.cd(ROOT + '/siberian/var/apps/ionic');
     sh.rm('-rf', './android/features/*');
     sh.rm('-rf', './android/modules/*');
