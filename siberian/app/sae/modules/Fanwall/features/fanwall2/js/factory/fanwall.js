@@ -2,9 +2,9 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.5
  */
-angular.module("starter").factory("Fanwall", function ($pwaRequest) {
+angular.module('starter').factory('Fanwall', function ($pwaRequest) {
     var factory = {
         value_id: null,
         settings: [],
@@ -26,7 +26,7 @@ angular.module("starter").factory("Fanwall", function ($pwaRequest) {
         }
 
         // Otherwise fallback on PWA!
-        return $pwaRequest.get("fanwall/mobile_home/load-settings", {
+        return $pwaRequest.get('fanwall/mobile_home/load-settings', {
             urlParams: {
                 value_id: factory.value_id
             }

@@ -39,23 +39,23 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $customer = (new Customer())->find($customerId);
 
             if (!$customer->getId()) {
-                throw new Exception(p__("payment_stripe",
-                    "You session expired!"));
+                throw new Exception(p__('payment_stripe',
+                    'You session expired!'));
             }
 
             // Mobile app paymentMethod object!
-            $paymentMethodPayload = $data["paymentMethod"];
+            $paymentMethodPayload = $data['paymentMethod'];
 
             PaymentStripeApplication::init($application->getId());
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
             // Attach the card (PaymentMethod) to the customer!
-            $paymentMethod = PaymentMethod::retrieve($paymentMethodPayload["setupIntent"]["payment_method"]);
+            $paymentMethod = PaymentMethod::retrieve($paymentMethodPayload['setupIntent']['payment_method']);
             $paymentMethod->attach(["customer" => $stripeCustomer->getToken()]);
 
             // Search for a similar card!
             $similarCards = (new PaymentStripePaymentMethod())->findAll([
-                "exp = ?" => $paymentMethod["card"]["exp_month"] . "/" . substr($paymentMethod["card"]["exp_year"], 2),
+                'exp = ?' => $paymentMethod['card']['exp_month'] . "/" . substr($paymentMethod['card']['exp_year'], 2),
                 "last = ?" => $paymentMethod["card"]["last4"],
                 "brand LIKE ?" => $paymentMethod["card"]["brand"],
                 "stripe_customer_id = ?" => $stripeCustomer->getId(),
@@ -207,19 +207,22 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $settings = PaymentStripeApplication::getSettings($application->getId());
 
             $payload = [
-                "success" => true,
-                "settings" => $settings->toJson(),
+                'success' => true,
+                'settings' => $settings->toJson(),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function fetchVaultsAction ()
     {
         try {
@@ -227,7 +230,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $customerId = $session->getCustomerId();
 
             $vaults = (new PaymentStripePaymentMethod())->getForCustomerId($customerId, [
-                "payment_stripe_payment_method.is_removed = ?" => 0,
+                'payment_stripe_payment_method.is_removed = ?' => 0,
             ]);
 
             $dataVaults = [];
@@ -236,73 +239,62 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             }
 
             $payload = [
-                "success" => true,
-                "vaults" => $dataVaults,
+                'success' => true,
+                'vaults' => $dataVaults,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
         $this->_sendJson($payload);
     }
 
+    /**
+     *
+     */
     public function deletePaymentMethodAction()
     {
         try {
             $application = $this->getApplication();
             $request = $this->getRequest();
             $data = $request->getBodyParams();
-            dbg('$card', $data['card']);
-            throw new Exception('SRY! \o/');
-            $optionValue = $this->getCurrentOptionValue();
-            $customerId = $this->getSession()->getCustomerId();
+            $card = $data['card'];
 
-            $client = (new Client())->find($customerId, "customer_id");
-            $cabride = (new Cabride())->find($optionValue->getId(), "value_id");
-            $vault = (new ClientVault())->find([
-                "client_vault_id" => $vaultId,
-                "payment_provider" => "stripe",
-            ]);
-
-            if (!$vault->getId()) {
-                throw new Exception(p__("cabride",
-                    "This vault doesn't exists!"));
+            $paymentMethod = (new PaymentStripePaymentMethod())->find($card['id']);
+            if (!$paymentMethod || !$paymentMethod->getId()) {
+                throw new Exception(p__('payment_stripe', "This payment method doesn't exists."));
             }
 
-            // Check if the vault can be safely removed!
-            $requests = (new Request())->findAll([
-                "client_vault_id = ?" => $vaultId,
-                "status IN (?)" => ["pending", "accepted", "onway", "inprogress"]
+            $paymentIntent = (new PaymentStripePaymentIntent())->findAll([
+                'pm_token = ?' => $paymentMethod->getToken(),
+                'status = ?' => 'requires_capture'
             ]);
 
-            if ($requests->count() > 0) {
-                throw new Exception(p__("cabride",
-                    "This vault can't be removed yet, it is currently used for a ride!"));
+            if ($paymentIntent->count() > 0) {
+                throw new Exception(p__('payment_stripe',
+                    "This payment method can't be removed, it's linked to a pending payment."));
             }
 
-            Stripe::setApiKey($cabride->getStripeSecretKey());
+            PaymentStripeApplication::init($application->getId());
 
-            // Delete the card from the Stripe customer!
-            $paymentMethod = PaymentMethod::retrieve($vault->getPaymentMethod());
-            $paymentMethod->detach();
+            //$stripePaymentMethod = PaymentMethod::retrieve($paymentMethod->getToken());
+            //$stripePaymentMethod->detach();
 
-            // "remove" the vault, we keep tack of it for recap pages & stripe search history!
-            // We previously used the key `is_deleted`, but there is flow with ->save() which delete the record...
-            $vault
+            $paymentMethod
                 ->setIsRemoved(1)
                 ->save();
 
             $payload = [
-                "success" => true,
-                "message" => p__("cabride", "This card is now deleted!"),
+                'success' => true,
+                'message' => p__('cabride', 'This payment method is now deleted!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 

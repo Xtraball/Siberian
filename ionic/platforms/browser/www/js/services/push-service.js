@@ -356,7 +356,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
                                             (extendedPayload.open_webview !== 'true')) {
                                             $location.path(extendedPayload.action_value);
                                         } else {
-                                            LinkService.openLink(extendedPayload.action_value);
+                                            LinkService.openLink(extendedPayload.action_value, {}, false);
                                         }
                                     }
                                 }

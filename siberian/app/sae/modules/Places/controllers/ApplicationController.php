@@ -12,24 +12,24 @@ class Places_ApplicationController extends Application_Controller_Default
      * @var array
      */
     public $cache_triggers = [
-        "searchsettings" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'searchsettings' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
-        "rank" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'rank' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
-        "edit-category" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'edit-category' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
-        "edit-settings" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
+        'edit-settings' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
             ],
         ],
     ];
@@ -160,13 +160,13 @@ class Places_ApplicationController extends Application_Controller_Default
             }
 
             $payload = [
-                "success" => true,
-                "message" => __("Upgrade done!"),
+                'success' => true,
+                'message' => __('Upgrade done!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "success" => false,
-                "message" => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -237,13 +237,13 @@ class Places_ApplicationController extends Application_Controller_Default
             }
 
             $payload = [
-                "success" => true,
-                "message" => __("Upgrade done!"),
+                'success' => true,
+                'message' => __('Upgrade done!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "success" => false,
-                "message" => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -262,10 +262,10 @@ class Places_ApplicationController extends Application_Controller_Default
                 ->findAllOrderedByRank($optionValue->getId());
 
             $request = $this->getRequest();
-            $pinValue = $request->getParam("pinValue", false);
+            $pinValue = $request->getParam('pinValue', false);
 
             if (!$pinValue) {
-                throw new \Siberian\Exception(__("The pin value is required"));
+                throw new \Siberian\Exception(__('The pin value is required'));
             }
 
             // Associate tags with pages
@@ -278,13 +278,13 @@ class Places_ApplicationController extends Application_Controller_Default
             }
 
             $payload = [
-                "success" => true,
-                "message" => __("Upgrade done!"),
+                'success' => true,
+                'message' => __('Upgrade done!'),
             ];
         } catch (\Exception $e) {
             $payload = [
-                "success" => false,
-                "message" => $e->getMessage(),
+                'success' => false,
+                'message' => $e->getMessage(),
             ];
         }
 

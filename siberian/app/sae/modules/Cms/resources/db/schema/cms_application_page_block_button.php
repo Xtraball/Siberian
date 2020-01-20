@@ -53,5 +53,15 @@ $schemas['cms_application_page_block_button'] = [
     'use_external_app' => [
         'type' => 'boolean',
         'default' => "0"
+    ],
+    'external_browser' => [
+        'type' => 'tinyint(1)',
+        'default' => '0'
+    ],
+    'options' => [
+        'type' => 'text',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
     ]
 ];

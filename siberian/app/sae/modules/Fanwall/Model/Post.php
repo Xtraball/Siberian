@@ -154,7 +154,11 @@ class Post extends Base
 
         $parsedHistory = [];
         foreach ($history as $item) {
-            $item["text"] = (string) Xss::sanitize(base64_decode($item["text"]));
+            $item['text'] = (string) Xss::sanitize(base64_decode($item['text']));
+
+            $_images = explode(',', $item['image']);
+            $item['image'] = (string) $_images[0];
+            $item['images'] = $_images;
 
             $parsedHistory[] = $item;
         }

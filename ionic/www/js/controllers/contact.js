@@ -44,7 +44,7 @@ angular.module("starter").controller("ContactViewController", function ($rootSco
             return;
         }
 
-        LinkService.openLink(link);
+        LinkService.openLink(link, {}, true);
     };
 
     $scope.getGeoData = function () {

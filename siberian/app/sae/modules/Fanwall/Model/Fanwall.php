@@ -20,16 +20,9 @@ use Zend_Exception;
 class Fanwall extends Base
 {
     /**
-     * Radius constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct ($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = "Fanwall\Model\Db\Table\Fanwall";
-        return $this;
-    }
+    protected $_db_table = Db\Table\Fanwall::class;
 
     /**
      * @return array
@@ -37,33 +30,34 @@ class Fanwall extends Base
     public function buildSettings ()
     {
         $settings = [
-            "icons" => [],
+            'icons' => [],
         ];
         $icons = [
-            "post" => $this->getIconPost(),
-            "nearby" => $this->getIconNearby(),
-            "map" => $this->getIconMap(),
-            "gallery" => $this->getIconGallery(),
-            "new" => $this->getIconNew(),
-            "profile" => $this->getIconProfile(),
+            'post' => $this->getIconPost(),
+            'nearby' => $this->getIconNearby(),
+            'map' => $this->getIconMap(),
+            'gallery' => $this->getIconGallery(),
+            'new' => $this->getIconNew(),
+            'profile' => $this->getIconProfile(),
         ];
         foreach ($icons as $key => $path) {
             $iconPath = path("/images/application{$path}");
             if (is_file($iconPath)) {
-                $settings["icons"][$key] = (new Image($iconPath))->resize(32, 32)->inline("png", 100);
+                $settings['icons'][$key] = (new Image($iconPath))->resize(32, 32)->inline('png', 100);
             } else {
-                $settings["icons"][$key] = null;
+                $settings['icons'][$key] = null;
             }
         }
 
-        $settings["cardDesign"] = (boolean) ($this->getDesign() === "card");
-        $settings["features"] = [
-            "enableNearby" => (boolean) $this->getEnableNearby(),
-            "enableMap" => (boolean) $this->getEnableMap(),
-            "enableGallery" => (boolean) $this->getEnableGallery(),
-            "enableUserLike" => (boolean) $this->getEnableUserLike(),
-            "enableUserPost" => (boolean) $this->getEnableUserPost(),
-            "enableUserComment" => (boolean) $this->getEnableUserComment(),
+        $settings['max_images'] = (integer) $this->getMaxImages();
+        $settings['cardDesign'] = ($this->getDesign() === 'card');
+        $settings['features'] = [
+            'enableNearby' => (boolean) $this->getEnableNearby(),
+            'enableMap' => (boolean) $this->getEnableMap(),
+            'enableGallery' => (boolean) $this->getEnableGallery(),
+            'enableUserLike' => (boolean) $this->getEnableUserLike(),
+            'enableUserPost' => (boolean) $this->getEnableUserPost(),
+            'enableUserComment' => (boolean) $this->getEnableUserComment(),
         ];
 
         return $settings;

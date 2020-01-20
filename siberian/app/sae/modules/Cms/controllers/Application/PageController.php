@@ -41,6 +41,10 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $page_model = new Cms_Model_Application_Page();
                 $page = $page_model->edit_v2($option_value, $values);
 
+                if (!$page || !$page->getId()) {
+                    throw new \Siberian\Exception('#578-00: ' . __('An error occurred while saving your page.'));
+                }
+
                 /** Update touch date, then never expires (until next touch) */
                 $option_value
                     ->touch()
@@ -50,6 +54,14 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 if (!empty($page->getData('__invalid_blocks'))) {
                     $message = __('Partially saved.') . '<br />' .
                         implode('<br />', $page->getData('__invalid_blocks'));
+                }
+
+                //
+                $isPlaces = $page->getData('__is_places');
+                $hasAddress = $page->getData('__has_address');
+
+                if ($isPlaces && !$hasAddress) {
+                    throw new \Siberian\Exception('#578-10: ' . __('Places requires at least a valid `address` block.'));
                 }
 
                 $payload = [

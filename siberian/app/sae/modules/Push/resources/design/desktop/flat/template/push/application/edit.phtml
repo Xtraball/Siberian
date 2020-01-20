@@ -10,7 +10,7 @@ $messageobj = new Push_Model_Message();
 $messageobj->setMessageTypeByOptionValue($option->getOptionId());
 $messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
 
-$myAccount = (new Application_Model_Option())->find("tabbar_account", "code");
+$myAccount = (new Application_Model_Option())->find('tabbar_account', 'code');
 
 // Special shared case with push/inApp
 $canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $application->isPublished();
@@ -18,7 +18,7 @@ $canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $applicati
 $pntopic = new Topic_Model_Topic();
 $pntopic->find(
     [
-        "app_id" => $option->getAppId()
+        'app_id' => $option->getAppId()
     ]
 );
 $customers = [];
@@ -28,7 +28,7 @@ if (Push_Model_Message::hasIndividualPush()) {
     $customers = $customer->findAllWithDeviceUid($option->getAppId());
 }
 
-$api = Api_Model_Key::findKeysFor("googlemaps");
+$api = Api_Model_Key::findKeysFor('googlemaps');
 $googlemaps_key = $api->getSecretKey();
 
 $credentials = (new Push_Model_Firebase())
@@ -43,7 +43,7 @@ foreach ($features as $feature) {
     $feats[] = $feature;
 }
 
-if (!function_exists("alphasortPushFeatures")) {
+if (!function_exists('alphasortPushFeatures')) {
     function alphasortPushFeatures($a, $b)
     {
         return strcasecmp($a->getTabbarName(), $b->getTabbarName());
@@ -51,7 +51,7 @@ if (!function_exists("alphasortPushFeatures")) {
 }
 
 
-usort($feats, "alphasortPushFeatures");
+usort($feats, 'alphasortPushFeatures');
 
 $features = $feats;
 
@@ -113,18 +113,18 @@ $features = $feats;
                             </tr>
                             <tr id="details_<?php echo $message->getId(); ?>" style="display: none;">
                                 <td colspan="6">
-                                    <b><?php echo __("Title"); ?>:</b> <?php echo $message->getTitle(); ?>
+                                    <b><?php echo __('Title'); ?>:</b> <?php echo $message->getTitle(); ?>
                                     <br/>
-                                    <b><?php echo __("Message"); ?>:</b> <?php echo $message->getText(); ?>
+                                    <b><?php echo __('Message'); ?>:</b> <?php echo $message->getText(); ?>
                                     <br/>
                                     <b><?php echo __('Creation date'); ?>
                                         :</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
                                     <br/>
-                                    <?php if ((!empty($message->getSendAt())) && ($message->getStatus() !== "delivered")): ?>
+                                    <?php if ((!empty($message->getSendAt())) && ($message->getStatus() !== 'delivered')): ?>
                                         <b><?php echo __('Sending date'); ?>
                                             :</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
                                     <?php else: ?>
-                                        <b><?php echo __("Sending date"); ?>
+                                        <b><?php echo __('Sending date'); ?>
                                             :</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
                                     <?php endif; ?>
                                 </td>
@@ -140,28 +140,41 @@ $features = $feats;
         <?php echo $this->importBackground($option); ?>
     </div>
 
-    <div id="cover_crop" style="display:none;">
-        <button type="button" id="cancel_cover_crop" class="btn color-blue pull-left"><i class="fa fa-times"></i>
+    <div id="cover_crop"
+         style="display: none;">
+        <button type="button"
+                id="cancel_cover_crop"
+                class="btn color-blue pull-left"><i class="fa fa-times"></i>
         </button>
-        <button type="button" id="validate_cover_crop" class="btn color-blue pull-right">OK</button>
+        <button type="button"
+                id="validate_cover_crop"
+                class="btn color-blue pull-right">
+            <?php echo __('OK') ?>
+        </button>
         <p><?php echo __('Resize your picture:') ?></p>
     </div>
     <div id="cover_crop_content"></div>
 
-    <div id="edit" style="display: none;">
-        <div id="push_step_one" class="push_step" pos="1">
+    <div id="edit"
+         style="display: none;">
+        <div id="push_step_one"
+             class="push_step"
+             pos="1">
             <h3 class="title-editor no-border-radius title-feature-indent">
                 <?php echo __('Editing'); ?>
             </h3>
             <?php if ($canSendMessages): ?>
                 <div class="block container-fluid content-feature">
-                    <form id="pushFirstStepForm" method="post" class="form-horizontal">
+                    <form id="pushFirstStepForm"
+                          method="post"
+                          class="form-horizontal">
                         <div class="form-group first-row-feature">
                             <div class="col-md-12">
-                                <button type="button" onclick="feature.list()" class="btn color-blue pull-left"><i
-                                            class="fa fa-angle-left"></i></button>
-                                <button type="submit" class="btn color-blue pull-right"><i
-                                            class="fa fa-angle-right"></i></button>
+                                <button type="button"
+                                        onclick="feature.list()"
+                                        class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                                <button type="submit"
+                                        class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
                             </div>
                         </div>
                         <div class="form-group">
@@ -170,24 +183,34 @@ $features = $feats;
                                             class="input-required">*</span></label>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" id="push_title" name="title" class="required input-flat" value=""/>
+                                <input type="text"
+                                       id="push_title"
+                                       name="title"
+                                       class="required input-flat"
+                                       value="" />
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-4">
-                                <label for="text"><?php echo __('Message:'); ?> <span
-                                            class="input-required">*</span></label>
+                                <label for="text"><?php echo __('Message:'); ?>
+                                    <span class="input-required">*</span>
+                                </label>
                             </div>
                             <div class="col-sm-4">
-                                <input type="text" id="push_text" name="text" class="required input-flat" value=""
-                                       maxlength="255"/>
+                                <input type="text"
+                                       id="push_text"
+                                       name="text"
+                                       class="required input-flat"
+                                       value=""
+                                       maxlength="255" />
                             </div>
                         </div>
                         <?php if ($messageobj->getInAppCode() != $option->getOptionId()): ?>
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <label>
-                                        <input type="checkbox" id="open_features"
+                                        <input type="checkbox"
+                                               id="open_features"
                                                class="checkbox-inline color-blue"/> <?php echo __("Open a feature or a custom URL"); ?>
                                     </label>
                                 </div>
@@ -199,12 +222,16 @@ $features = $feats;
                                         <?php $i = 0;
                                         foreach ($features as $feature):
                                             $i++;
-                                            if ($i > sizeof($features) / 2):
+                                            if ($i > count($features) / 2):
                                                 $i = 0; ?>
 
                                             <?php endif; ?>
 
                                             <?php if ($myAccount->getOptionId() == $feature->getOptionId()) {
+                                                continue;
+                                            } ?>
+
+                                            <?php if ('weblink_mono' === $feature->getCode()) {
                                                 continue;
                                             } ?>
 
@@ -219,11 +246,11 @@ $features = $feats;
                                                     -
                                                     <?php echo $feature->getId() ?>
                                                     <?php if (!$feature->getIsVisible()): ?>
-                                                        <i class="feature-hidden"><?php echo p__("padlock", "(hidden from menu)") ?></i>
+                                                        <i class="feature-hidden"><?php echo p__('padlock', '(hidden from menu)') ?></i>
                                                     <?php endif; ?>
 
                                                     <?php if (!$feature->getIsActive()): ?>
-                                                        <i class="feature-disabled"><?php echo p__("padlock", "(not published)") ?></i>
+                                                        <i class="feature-disabled"><?php echo p__('padlock', '(not published)') ?></i>
                                                     <?php endif; ?>
                                                 </label>
                                             </div>
@@ -234,7 +261,7 @@ $features = $feats;
                                                 <input type="radio"
                                                        class="chk_action_value custom color-blue radio-inline"
                                                        name="action_value"
-                                                       id="<?php echo $feature->getId(); ?>"/> <?php echo __("Custom URL"); ?>
+                                                       id="<?php echo $feature->getId(); ?>"/> <?php echo __('Custom URL'); ?>
                                                 <span class="hide"
                                                       id="custom_action_value_field">
                                                 <input type="text"
@@ -255,13 +282,13 @@ $features = $feats;
                                         type="button"
                                         class="upload_contact_picture btn color-blue image_left">
                                     <i class="icon-camera-retro"></i>
-                                    <?php echo p__("push", "Insert a cover image"); ?>
+                                    <?php echo p__('push', 'Insert a cover image'); ?>
                                 </button>
                                 <!--<![endif]-->
                             </div>
                             <div class="col-sm-8 text-left">
                                 <p id="uploader_logo_ie_description"
-                                   style="display:none;"><?php echo p__("push", "Insert a cover image"); ?></span></p>
+                                   style="display:none;"><?php echo p__('push', 'Insert a cover image'); ?></span></p>
                                 <input id="push_file"
                                        class="uploader"
                                        style="display:none"
@@ -287,10 +314,10 @@ $features = $feats;
                 <div class="block container-fluid content-feature">
                     <br/>
                     <div class="alert alert-info">
-                        <?php echo __("Before you can send push notification, you must have at least one of iOS or Android application in a published state.") ?>
+                        <?php echo __('Before you can send push notification, you must have at least one of iOS or Android application in a published state.') ?>
                         <button type="button"
                                 onclick="feature.list()"
-                                class="btn color-blue"><?php echo __("Go back") ?></button>
+                                class="btn color-blue"><?php echo __('Go back') ?></button>
                     </div>
                 </div>
             <?php endif; ?>

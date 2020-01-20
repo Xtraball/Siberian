@@ -46,7 +46,10 @@
         "icons/places1-flat.png"
     ],
     "files": [
-        "js/controllers/places.js",
+        "js/controllers/places-categories-controller.js",
+        "js/controllers/places-list-controller.js",
+        "js/controllers/places-map-controller.js",
+        "js/controllers/places-view-controller.js",
         "js/factory/places.js",
         "scss/places.scss"
     ],

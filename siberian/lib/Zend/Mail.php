@@ -357,7 +357,7 @@ class Zend_Mail extends Zend_Mime_Message
      * @param  string $charset
      * @param  string $encoding
      * @return Zend_Mail Provides fluent interface
-    */
+     */
     public function setBodyText($txt, $charset = null, $encoding = Zend_Mime::ENCODING_QUOTEDPRINTABLE)
     {
         if ($charset === null) {

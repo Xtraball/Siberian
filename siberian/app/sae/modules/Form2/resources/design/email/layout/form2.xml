@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <form2_submit_owner>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="form2/submit_owner.phtml" />
+        </views>
+    </form2_submit_owner>
+
+    <form2_submit_copy>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="form2/submit_copy.phtml" />
+        </views>
+    </form2_submit_copy>
+</layout>

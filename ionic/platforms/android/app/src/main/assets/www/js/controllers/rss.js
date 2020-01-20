@@ -161,7 +161,7 @@ angular.module("starter")
             return;
         }
 
-        LinkService.openLink($scope.item.link);
+        LinkService.openLink($scope.item.link, {}, true);
     };
 
     $scope.loadContent();

@@ -20,24 +20,17 @@ class Customer extends Base
     /**
      * @var int
      */
-    const TYPE_ADMIN = "admin";
+    const TYPE_ADMIN = 'admin';
 
     /**
      * @var int
      */
-    const TYPE_CUSTOMER = "customer";
+    const TYPE_CUSTOMER = 'customer';
 
     /**
-     * Customer constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'PaymentStripe\Model\Db\Table\Customer';
-        return $this;
-    }
+    protected $_db_table = Db\Table\Customer::class;
 
     /**
      * @param $adminId
@@ -78,8 +71,8 @@ class Customer extends Base
         switch ($type) {
             case self::TYPE_ADMIN:
                 $paymentStripeCustomer->find([
-                    "admin_id" => $adminOrCustomerId,
-                    "is_removed" => 0
+                    'admin_id' => $adminOrCustomerId,
+                    'is_removed' => 0
                 ]);
                 if (!$paymentStripeCustomer->getId()) {
                     $paymentStripeCustomer
@@ -89,8 +82,8 @@ class Customer extends Base
                 break;
             case self::TYPE_CUSTOMER:
                 $paymentStripeCustomer->find([
-                    "customer_id" => $adminOrCustomerId,
-                    "is_removed" => 0
+                    'customer_id' => $adminOrCustomerId,
+                    'is_removed' => 0
                 ]);
                 if (!$paymentStripeCustomer->getId()) {
                     $paymentStripeCustomer
@@ -109,29 +102,29 @@ class Customer extends Base
                     $siberianAdmin = (new SiberianAdmin())->find($paymentStripeCustomer->getAdminId());
                     $userEmail = $siberianAdmin->getEmail();
                     $metadata = [
-                        "admin_id" => $siberianAdmin->getId(),
-                        "app_id" => SiberianApplication::getApplication()->getId(),
+                        'admin_id' => $siberianAdmin->getId(),
+                        'app_id' => SiberianApplication::getApplication()->getId(),
                     ];
                     break;
                 case self::TYPE_CUSTOMER:
                     $siberianCustomer = (new SiberianCustomer())->find($paymentStripeCustomer->getCustomerId());
                     $userEmail = $siberianCustomer->getEmail();
                     $metadata = [
-                        "customer_id" => $siberianCustomer->getId(),
-                        "app_id" => SiberianApplication::getApplication()->getId(),
+                        'customer_id' => $siberianCustomer->getId(),
+                        'app_id' => SiberianApplication::getApplication()->getId(),
                     ];
                     break;
                 default:
-                    throw new Exception(p__("payment_stripe", "Invalid user type."));
+                    throw new Exception(p__('payment_stripe', 'Invalid user type.'));
             }
 
             $stripeCustomer = StripeCustomer::create([
-                "email" => $userEmail,
-                "metadata" => $metadata,
+                'email' => $userEmail,
+                'metadata' => $metadata,
             ]);
 
             $paymentStripeCustomer
-                ->setToken($stripeCustomer["id"])
+                ->setToken($stripeCustomer['id'])
                 ->save();
         } else {
             // We just try to fetch the stripe_customer, if it's ko, we'll get an exception!

@@ -32,13 +32,28 @@ class File
     public static function putContents ($filename, $data, $flags = 0, $context = null)
     {
         // Debug files
-        if (__getConfig("debugFiles") === true) {
-            $allFiles = true;
-            $watchedFiles = [];
-            if (in_array($filename, $watchedFiles) || $allFiles) {
+        if (__getConfig('debugFiles') === true) {
+            $allFiles = false;
+            $watchedFiles = [
+                //'#var/tmp/.*\.lock$#',
+                '#siberian/toto.txt$#',
+            ];
+            $willWatch = false;
+            if (!$allFiles) {
+                foreach ($watchedFiles as $watchedFile) {
+                    if (preg_match($watchedFile, $filename)) {
+                        echo $watchedFile . ' > ' . $filename . PHP_EOL;
+                        $willWatch = true;
+                    }
+                }
+            }
+            if ($allFiles || (!$allFiles && $willWatch)) {
+                //$key = array_search(__FUNCTION__, array_column(debug_backtrace(), 'function'));
+                //$backtrace = debug_backtrace()[$key];
                 dbg(
-                    "File::putContents",
-                    $filename
+                    'File::putContents {$filename}'
+                    //$backtrace,
+                    //debug_backtrace()
                 );
             }
         }

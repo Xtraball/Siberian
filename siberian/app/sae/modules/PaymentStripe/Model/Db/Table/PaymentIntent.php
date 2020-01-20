@@ -13,10 +13,10 @@ class PaymentIntent extends DbTable
     /**
      * @var string
      */
-    protected $_name = "payment_stripe_payment_intent";
+    protected $_name = 'payment_stripe_payment_intent';
 
     /**
      * @var string
      */
-    protected $_primary = "stripe_payment_intent_id";
+    protected $_primary = 'stripe_payment_intent_id';
 }

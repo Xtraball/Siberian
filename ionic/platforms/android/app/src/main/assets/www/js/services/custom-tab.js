@@ -13,7 +13,7 @@ angular
 
             // For the browser, we just fallback on the LinkService inAppBrowser
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
-                LinkService.openLink(url, options)
+                LinkService.openLink(url, options, true);
             }
 
             if (cordova &&

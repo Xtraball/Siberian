@@ -13,11 +13,11 @@ class Customer extends DbTable
     /**
      * @var string
      */
-    protected $_name = "payment_stripe_customer";
+    protected $_name = 'payment_stripe_customer';
 
     /**
      * @var string
      */
-    protected $_primary = "stripe_customer_id";
+    protected $_primary = 'stripe_customer_id';
 
 }

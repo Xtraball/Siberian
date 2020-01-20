@@ -84,9 +84,9 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
         });
 
         Modal
-        .fromTemplateUrl("features/fanwall2/assets/templates/l1/modal/post/history.html", {
+        .fromTemplateUrl('features/fanwall2/assets/templates/l1/modal/post/history.html', {
             scope: _localScope,
-            animation: "slide-in-right-left"
+            animation: 'slide-in-right-left'
         }).then(function (modal) {
             factory._showPostHistoryModal = modal;
             factory._showPostHistoryModal.show();
@@ -96,7 +96,7 @@ angular.module("starter").factory("FanwallUtils", function ($rootScope, $timeout
                 _localScope.post = post;
                 _localScope.modalReady = true;
 
-                $rootScope.$broadcast("fanwall.modal.ready");
+                $rootScope.$broadcast('fanwall.modal.ready');
             }, 500);
 
             return modal;

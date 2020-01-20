@@ -23,18 +23,12 @@ class PaymentMethod extends Base
     /**
      * @var string
      */
-    const TYPE_CREDIT_CARD = "credit-card";
+    const TYPE_CREDIT_CARD = 'credit-card';
 
     /**
-     * PaymentMethod constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'PaymentStripe\Model\Db\Table\PaymentMethod';
-    }
+    protected $_db_table = Db\Table\PaymentMethod::class;
 
     /**
      * @param $adminId

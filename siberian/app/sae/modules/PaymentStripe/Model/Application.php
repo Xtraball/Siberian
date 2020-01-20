@@ -16,16 +16,9 @@ use Stripe\Stripe;
 class Application extends Base
 {
     /**
-     * Application constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'PaymentStripe\Model\Db\Table\Application';
-        return $this;
-    }
+    protected $_db_table = Db\Table\Application::class;
 
     /**
      * @param null $appId
@@ -52,16 +45,16 @@ class Application extends Base
             $application = self::getApplication();
             if (!$application &&
                 !$application->getId()) {
-                throw new Exception(p__("payment_stripe", "An app id is required."));
+                throw new Exception(p__('payment_stripe', 'An app id is required.'));
             }
 
             $appId = $application->getId();
         }
 
         // Fetching current Stripe settings!
-        $settings = (new self())->find($appId, "app_id");
-        if (!$settings->getId()) {
-            throw new Exception(p__("payment_stripe", "Stripe is not configured."));
+        $settings = (new self())->find($appId, 'app_id');
+        if (!$settings && !$settings->getId()) {
+            throw new Exception(p__('payment_stripe', 'Stripe is not configured.'));
         }
 
         return $settings;
@@ -71,7 +64,7 @@ class Application extends Base
      * @param null $appId
      * @return bool
      */
-    public static function isAvailable($appId = null)
+    public static function isAvailable($appId = null): bool
     {
         try {
             self::getSettings($appId);
@@ -86,7 +79,7 @@ class Application extends Base
      * @param null $appId
      * @return bool
      */
-    public static function isEnabled($appId = null)
+    public static function isEnabled($appId = null): bool
     {
         try {
             $settings = self::getSettings($appId);
@@ -105,7 +98,7 @@ class Application extends Base
         $payload = $this->getData();
 
         if (!$withSecretKey) {
-            unset($payload["secret_key"]);
+            unset($payload['secret_key']);
         }
 
         return $payload;

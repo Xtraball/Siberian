@@ -35,7 +35,7 @@ angular.module('starter').controller('MediaPlayerController', function ($cordova
         }
 
         if (MediaPlayer.current_track.purchaseUrl) {
-            LinkService.openLink(MediaPlayer.current_track.purchaseUrl);
+            LinkService.openLink(MediaPlayer.current_track.purchaseUrl, {}, true);
         }
     };
 
