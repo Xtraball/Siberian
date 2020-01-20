@@ -51,7 +51,7 @@ class Weblink_Model_Weblink_Link extends Core_Model_Default
     {
         $picto_path = Application_Model_Application::getImagePath() . $this->getPicto();
         $picto_base_path = Application_Model_Application::getBaseImagePath() . $this->getPicto();
-        if ($this->getPicto() AND file_exists($picto_base_path)) {
+        if ($this->getPicto() && file_exists($picto_base_path)) {
             return $picto_path;
         }
         return null;

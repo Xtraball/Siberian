@@ -13,60 +13,60 @@ class Places_Form_Settings extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/places/application/edit-settings"))
-            ->setAttrib("id", "form-edit-settings");
+            ->setAction(__path('/places/application/edit-settings'))
+            ->setAttrib('id', 'form-edit-settings');
 
         self::addClass('create', $this);
 
-        $this->addSimpleHidden("value_id");
+        $this->addSimpleHidden('value_id');
 
         $pages = [
-            'places' => __("All places"),
-            'categories' => __("Categories"),
-            'map' => __("Map"),
+            'places' => __('All places'),
+            'categories' => __('Categories'),
+            'map' => __('Map'),
         ];
 
-        $defaultPage = $this->addSimpleSelect("default_page", __("Default page"), $pages);
+        $defaultPage = $this->addSimpleSelect('default_page', __('Default page'), $pages);
 
         $layout = [
-            'place-100' => __("List"),
-            'place-50' => __("Two columns"),
-            'place-33' => __("Three columns"),
+            'place-100' => __('List'),
+            'place-50' => __('Two columns'),
+            'place-33' => __('Three columns'),
         ];
 
-        $defaultLayout = $this->addSimpleSelect("default_layout", __("Default layout"), $layout);
+        $defaultLayout = $this->addSimpleSelect('default_layout', __('Default layout'), $layout);
 
         $distance = [
-            'km' => __("Kilometers"),
-            'mi' => __("Miles"),
+            'km' => __('Kilometers'),
+            'mi' => __('Miles'),
         ];
 
-        $distanceUnit = $this->addSimpleSelect("distance_unit", __("Distance unit"), $distance);
+        $distanceUnit = $this->addSimpleSelect('distance_unit', __('Distance unit'), $distance);
 
         $imagePriority = [
-            'thumbnail' => __("Thumbnail > Illustration"),
-            'image' => __("Illustration > Thumbnail"),
+            'thumbnail' => __('Thumbnail > Illustration'),
+            'image' => __('Illustration > Thumbnail'),
         ];
 
         $listImagePriority = $this->addSimpleSelect(
-            "listImagePriority",
-            __("Places image priority in list"),
+            'listImagePriority',
+            __('Places image priority in list'),
             $imagePriority);
 
         $defaultPins = [
-            'pin' => __("Pin"),
-            'thumbnail' => __("Thumbnail"),
-            'image' => __("Illustration"),
-            'default' => __("Google default pin"),
+            'pin' => __('Pin'),
+            'thumbnail' => __('Thumbnail'),
+            'image' => __('Illustration'),
+            'default' => __('Google default pin'),
         ];
 
         $defaultPin = $this->addSimpleSelect(
-            "defaultPin",
-            __("Default pin for new places"),
+            'defaultPin',
+            __('Default pin for new places'),
             $defaultPins);
 
-        $applyText1 = __("Apply default pin to all existing places.");
-        $applyButton1 = __("Apply");
+        $applyText1 = __('Apply default pin to all existing places.');
+        $applyButton1 = __('Apply');
         $pinApplyHtml = <<<RAW
 <div class="col-md-7 col-md-offset-3">
     <div class="alert alert-warning">
@@ -76,7 +76,20 @@ class Places_Form_Settings extends Siberian_Form_Abstract
 </div>
 RAW;
 
-        $pinApply = $this->addSimpleHtml("pin_apply_" . uniqid(), $pinApplyHtml);
+        $pinApply = $this->addSimpleHtml(uniqid('pin_apply_', true), $pinApplyHtml);
+
+        /**
+         * Google maps pin action
+        $mapActions = [
+            'infoWindow' => __('Show info popup (default)'),
+            'gotoPlace' => __('Open place directly'),
+        ];
+
+        $mapAction = $this->addSimpleSelect(
+            'mapAction',
+            __('Action on map pin click'),
+            $mapActions);
+         */
 
         // Featured places are disabled for now.
 
@@ -86,7 +99,7 @@ RAW;
         //$showNonFeatured = $this->addSimpleCheckbox("show_non_featured", __("Show non-featured labels"));
         //$nonFeaturedLabel = $this->addSimpleText("non_featured_label", __("Non-featured label"));
 
-        $submit = $this->addSubmit(__("Save"), __("Save"));
-        $submit->addClass("pull-right");
+        $submit = $this->addSubmit(__('Save'), __('Save'));
+        $submit->addClass('pull-right');
     }
 }

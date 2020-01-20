@@ -42,11 +42,7 @@ angular
                     } else {
                         angular.element(elem).bind("click", function (e) {
                             e.preventDefault();
-                            var options = {
-                                "hide_navbar": false,
-                                "use_external_app": false
-                            };
-                            LinkService.openLink(elem.href, options);
+                            LinkService.openLink(elem.href, {}, false);
                         });
                     }
                 });

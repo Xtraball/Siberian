@@ -1,19 +1,18 @@
-/*global
-    App, angular, DEVICE_TYPE
- */
-
 /**
  * Push
  *
  * @author Xtraball SAS
+ * @version 4.18.5
  */
-angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
+angular
+.module('starter')
+.factory('Push', function ($pwaRequest, $session, SB) {
     var factory = {
-        value_id                : null,
-        device_type             : DEVICE_TYPE,
-        device_token            : null,
-        unread_count            : 0,
-        extendedOptions         : {}
+        value_id: null,
+        device_type: DEVICE_TYPE,
+        device_token: null,
+        unread_count: 0,
+        extendedOptions: {}
     };
 
     /**
@@ -58,10 +57,10 @@ angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
 
     factory.registerIosDevice = function (params) {
         $pwaRequest.post('/push/iphone/registerdevice', {
-            data : angular.extend(params, {
+            data: angular.extend(params, {
                 device_uid: $session.getDeviceUid()
             }),
-            cache : false
+            cache: false
         });
     };
 
@@ -72,9 +71,9 @@ angular.module('starter').factory('Push', function ($pwaRequest, $session, SB) {
 
         return $pwaRequest.get('push/mobile_list/findall', angular.extend({
             urlParams: {
-                value_id    : this.value_id,
-                device_uid  : $session.getDeviceUid(),
-                offset      : offset
+                value_id: this.value_id,
+                device_uid: $session.getDeviceUid(),
+                offset: offset
             },
             refresh: true
         }, factory.extendedOptions));

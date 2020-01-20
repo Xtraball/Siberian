@@ -2,9 +2,9 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.5
  */
-angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
+angular.module('starter').factory('FanwallPost', function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {},
@@ -139,7 +139,7 @@ angular.module("starter").factory("FanwallPost", function ($pwaRequest) {
      * @param form
      */
     factory.sendPost = function (postId, form) {
-        return $pwaRequest.post("fanwall/mobile_post/send-post", {
+        return $pwaRequest.post('fanwall/mobile_post/send-post', {
             urlParams: {
                 value_id: factory.value_id
             },

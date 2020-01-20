@@ -1,0 +1,21 @@
+<ion-modal-view sb-page-background
+                class="module-form2 form2-modal form2-clickwrap">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::modalTitle | translate:'form2' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-list ng-class="{'card' : cardDesign}">
+            <div class="padding item-text-custom"
+                 ng-bind-html="privacyPolicy | trusted_html"></div>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

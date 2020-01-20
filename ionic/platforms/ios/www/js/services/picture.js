@@ -47,20 +47,18 @@ angular.module('starter').service('Picture', function ($cordovaCamera, $ionicAct
 
         if (DEVICE_TYPE !== SB.DEVICE.TYPE_BROWSER) {
             _buttons.unshift({
-                text: $translate.instant("Take a picture")
+                text: $translate.instant('Take a picture')
             });
         }
 
         service.sheetResolver = $ionicActionSheet.show({
             buttons: _buttons,
-            cancelText: $translate.instant("Cancel"),
+            cancelText: $translate.instant('Cancel'),
             cancel: function () {
                 service.sheetResolver();
-
                 deferred.reject({
-                    message: $translate.instant("Cancelled")
+                    message: $translate.instant('Cancelled')
                 });
-
                 service.isOpen = false;
             },
             buttonClicked: function (index) {
@@ -94,27 +92,35 @@ angular.module('starter').service('Picture', function ($cordovaCamera, $ionicAct
 
                             if (onloadEvent.target.result.length > 0) {
                                 service.sheetResolver();
-
                                 deferred.resolve({
                                     image: onloadEvent.target.result
                                 });
-
                                 service.isOpen = false;
                             } else {
                                 service.sheetResolver();
                                 service.isOpen = false;
                             }
                         };
-                        reader.onerror = function () {
-                            service.sheetResolver();
 
+                        reader.onerror = function (onerrorEvent) {
+                            service.sheetResolver();
                             Dialog.alert('Error', 'An error occurred while loading the picture.', 'OK', -1)
                                 .then(function () {
                                     service.isOpen = false;
                                 });
                         };
+
                         reader.readAsDataURL(file);
                     };
+
+                    document.body._onfocus = document.body.onfocus;
+                    document.body.onfocus = function (filePickerClosed) {
+                        service.isOpen = false;
+
+                        // Revert back
+                        document.body.onfocus = document.body._onfocus;
+                    };
+
                     input.on('change', selectedFile);
                     input[0].click();
                 } else {

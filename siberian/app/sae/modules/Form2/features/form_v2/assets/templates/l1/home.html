@@ -1,0 +1,58 @@
+<!-- Form2 home -->
+<ion-view class="module-form2 form2 form2-home form2-home-l1"
+          sb-page-background>
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <location-button icon-class="'form2-location-action'"></location-button>
+        <button ng-show="currentTab == 'form'"
+                ng-click="pristineFields()"
+                class="button button-clear">
+            <i class="icon ion-sb-clear-brush"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content ng-class="{'has-footer': historyIsEnabled()}">
+        <div ng-show="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <!-- Form tab -->
+        <div ng-if="currentTab == 'form'">
+            <div ng-show="!isLoading">
+                <ng-include src="'./features/form_v2/assets/templates/l1/form/form.html'"></ng-include>
+            </div>
+
+            <div ng-class="{'padding' : cardDesign}">
+                <button type="submit"
+                        class="button button-positive button-positive-custom"
+                        ng-click="submit()"
+                        ng-class="{'button-full': !cardDesign, 'button-block': cardDesign}"
+                        ng-show="!isLoading">
+                    {{ ::'Submit' | translate:'form2' }}
+                </button>
+            </div>
+        </div>
+
+        <!-- History tab -->
+        <div ng-if="currentTab == 'history' && historyIsEnabled()">
+            <ng-include src="'./features/form_v2/assets/templates/l1/form/history.html'"></ng-include>
+        </div>
+
+    </ion-content>
+
+    <div ng-if="historyIsEnabled()"
+         class="tabs tabs-icon-top">
+        <a ng-click="setTab('form')"
+           class="tab-item">
+            <i class="icon ion-android-list"></i>
+            {{ ::'Form' | translate:'form2' }}
+        </a>
+        <a ng-click="setTab('history')"
+           class="tab-item">
+            <i class="icon ion-archive"></i>
+            {{ ::'History' | translate:'form2' }}
+        </a>
+    </div>
+</ion-view>

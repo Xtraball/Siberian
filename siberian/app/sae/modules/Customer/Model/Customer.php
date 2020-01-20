@@ -46,9 +46,9 @@ class Customer_Model_Customer extends Core_Model_Default
     {
         $inAppStates = [
             [
-                "state" => "my-account",
-                "offline" => true,
-                "params" => [],
+                'state' => 'my-account',
+                'offline' => true,
+                'params' => [],
             ],
         ];
 
@@ -189,9 +189,9 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @return bool
      */
-    public function canAccessLockedFeatures()
+    public function canAccessLockedFeatures(): bool
     {
-        return $this->getData("can_access_locked_features") ||
+        return $this->getData('can_access_locked_features') ||
             $this->getApplication()->getAllowAllCustomersToAccessLockedFeatures();
     }
 

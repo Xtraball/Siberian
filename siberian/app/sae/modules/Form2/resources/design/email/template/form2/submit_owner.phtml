@@ -1,0 +1,59 @@
+<?php
+$fields = $this->getFields();
+
+$yes = p__('form2', 'Yes');
+$no = p__('form2', 'No');
+?>
+<table>
+    <tr>
+        <td>
+            <p style="font-weight: bold; font-size:20px;"><?php echo p__('form2', 'Hello,'); ?></p>
+            <p><?php echo p__('form2', 'Your form has been filled out, here are the answers:'); ?></p>
+            <?php foreach ($fields as $index => $field) : ?>
+            <p>
+
+                <?php
+                $label = ucfirst($field['label']);
+                $value = $field['value'];
+                switch ($field['type']) {
+                    case 'divider':
+                            echo "<h3 style=\"text-align: center;background-color: #eaeaea;padding: 6px 0;text-transform: uppercase;\">{$label}</h3>";
+                        break;
+                    case 'text':
+                    case 'textarea':
+                    case 'select':
+                    case 'radio':
+                            if (empty($value)) {
+                                $value = '<i>' . p__('form2', '- not filled -') . '</i>';
+                            }
+                            echo "<b>{$label}</b> :";
+                            echo "<span style=\"margin-left: 15px;\">{$value}</span>";
+                        break;
+                    case 'date':
+                    case 'datetime':
+                            if (empty($value)) {
+                                $value = '<i style="color: #944141;">' . p__('form2', '- not filled -') . '</i>';
+                            }
+                            $format = p__('form2', 'format');
+                            echo "<b>{$label}</b> <i>({$format} {$field[$field['type'] . '_format']})</i>:";
+                            echo "<span style=\"margin-left: 15px;\">{$value} </span>";
+                        break;
+                    case 'image':
+                            echo "<b>{$label}</b> :";
+                            foreach ($field['attachments'] as $attachment) {
+                                echo "<div style=\"border: 1px solid #ececec; border-radius: 3px;\">{$attachment}</div>";
+                            }
+                        break;
+                    case 'clickwrap':
+                    case 'checkbox':
+                            $result = $value ? $yes : $no;
+                            echo "<b>{$label}</b> :";
+                            echo "<span style=\"margin-left: 15px;\">{$result}</span>";
+                        break;
+                }
+                ?>
+            </p>
+            <?php endforeach; ?>
+        </td>
+    </tr>
+</table>

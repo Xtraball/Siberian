@@ -775,17 +775,24 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     /**
      * @param $name
      * @param $elements
-     * @param $label
+     * @param string $label
+     * @param null $options
      * @return Zend_Form
      * @throws Zend_Form_Exception
      */
-    public function groupElements($name, $elements, $label = "")
+    public function groupElements($name, $elements, $label = '', $options = null)
     {
-        $display_group = $this->addDisplayGroup($elements, $name);
-        $fieldset = $this->getDisplayGroup($name)->getDecorator("Fieldset")
-            ->setLegend($label);
+        $displayGroup = $this->addDisplayGroup($elements, $name, $options);
+        /**
+         * @var Zend_Form_Decorator_Fieldset $fieldset
+         */
+        $this
+            ->getDisplayGroup($name)
+            ->getDecorator('Fieldset')
+            ->setLegend($label)
+            ->setOption('class', $options['class']);
 
-        return $display_group;
+        return $displayGroup;
     }
 
     /**

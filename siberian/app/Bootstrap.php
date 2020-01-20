@@ -159,12 +159,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             mkdir(path('var/log'), 0777, true);
         }
 
-        // Clean-up old template installer!
-        $tmp = path('var/tmp/template.install.php');
-        if (is_file($tmp)) {
-            unlink($tmp);
-        }
-
         $writer = new \Zend_Log_Writer_Stream(path('var/log/output.log'));
         $logger = new \Siberian\Log($writer);
         \Zend_Registry::set('logger', $logger);

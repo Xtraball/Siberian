@@ -42,7 +42,7 @@ angular
             return;
         }
 
-        LinkService.openLink(link);
+        LinkService.openLink(link, {}, true);
     };
 
     $scope.getGeoData = function () {

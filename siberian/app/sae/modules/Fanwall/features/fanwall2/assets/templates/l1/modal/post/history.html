@@ -20,8 +20,8 @@
         <ion-list ng-if="modalReady"
                   class="show-post">
             <fanwall-post-history-item repeat-done="listDidRender()"
-                                  id="{{ item.date }}"
-                                  ng-repeat="item in post.history track by item.date"></fanwall-post-history-item>
+                                       id="{{ item.date }}"
+                                       ng-repeat="item in post.history track by item.date"></fanwall-post-history-item>
         </ion-list>
     </ion-content>
 

@@ -1763,8 +1763,8 @@ msgid "Confirmation required"
 msgstr "Confirmation required"
 
 # GMT 1559644698.8544
-msgid "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
-msgstr "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">yes-delete-app-#APP_ID#</code> to proceed or close this modal to cancel."
+msgid "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">%s</code> to proceed or close this modal to cancel."
+msgstr "<b class=\"delete-warning\">You are going to remove #APP_ID# / #APP_NAME#<br />Removed application CANNOT be restored! Are you ABSOLUTELY sure?</b><br />This action can lead to data loss. To prevent accidental actions we ask you to confirm your intention.<br />Please type <code style=\"user-select: none;\">%s</code> to proceed or close this modal to cancel."
 
 # GMT 1559644698.8587
 msgctxt "backoffice_application"

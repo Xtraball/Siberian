@@ -10,7 +10,7 @@ use MatthiasMullie\Minify\CSS as MinifyCSS;
  *
  * @id 1000
  *
- * @version 4.16.0
+ * @version 4.18.5
  *
  */
 class Assets
@@ -291,15 +291,15 @@ class Assets
      * @var array
      */
     public static $platforms = [
-        "browser" => [
-            "/var/apps/browser/",
-            "/var/apps/overview/",
+        'browser' => [
+            '/var/apps/browser/',
+            '/var/apps/overview/',
         ],
-        "android" => [
-            "/var/apps/ionic/android/",
+        'android' => [
+            '/var/apps/ionic/android/',
         ],
-        "ios" => [
-            "/var/apps/ionic/ios/",
+        'ios' => [
+            '/var/apps/ionic/ios/',
         ],
     ];
 
@@ -307,17 +307,17 @@ class Assets
      * @var array
      */
     public static $www = [
-        "browser" => "/",
-        "android" => "/app/src/main/assets/www/",
-        "ios" => "/www/",
+        'browser' => '/',
+        'android' => '/app/src/main/assets/www/',
+        'ios' => '/www/',
     ];
 
     /**
      * @var array
      */
     public static $config_xml = [
-        "android" => "/app/src/main/res/xml/config.xml",
-        "ios" => "/AppsMobileCompany/config.xml",
+        'android' => '/app/src/main/res/xml/config.xml',
+        'ios' => '/AppsMobileCompany/config.xml',
     ];
 
     /**
@@ -442,7 +442,7 @@ class Assets
         if (!is_array($exclude_types)) {
             $exclude_types = [];
         }
-        $base = path("");
+        $base = path('');
         foreach (self::$platforms as $type => $platforms) {
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
@@ -486,8 +486,8 @@ class Assets
             $desktop_uri = $feature["desktop_uri"];
             $my_account = !!$feature["use_account"];
             $only_once = !!$feature["only_once"];
-            $mobile_uri = $feature["mobile_uri"];
-            $layouts = isset($feature["layouts"]) ? $feature["layouts"] : [];
+            $mobile_uri = $feature['mobile_uri'] ?? ''; // Bypassing old _service modules with missing fake mobile_uri!
+            $layouts = $feature["layouts"] ?? [];
 
             $icons = $feature["icons"];
             if (is_array($icons)) {
@@ -533,44 +533,53 @@ class Assets
 
             self::copyAssets($built_file, null, $feature_js_path);
 
-            // Clean-up
-            unlink($built_file);
-
-            if (!is_array(self::$features_assets["js"][$code])) {
-                self::$features_assets["js"][$code] = [];
+            // Checks if the js & code key exists.
+            if (!array_key_exists('js', self::$features_assets)) {
+                self::$features_assets['js'] = [];
             }
 
-            if (!in_array($feature_js_path, self::$features_assets["js"][$code])) {
-                self::$features_assets["js"][$code][] = $feature_js_path;
+            if (!array_key_exists($code, self::$features_assets['js'])) {
+                self::$features_assets['js'][$code] = [];
+            }
+
+            // Fill the array with the value, ensure once!
+            if (!in_array($feature_js_path, self::$features_assets['js'][$code])) {
+                self::$features_assets['js'][$code][] = $feature_js_path;
             }
 
             $data = [
-                "name" => $name,
-                "code" => $code,
-                "model" => $model,
-                "desktop_uri" => $desktop_uri,
-                "mobile_uri" => $mobile_uri,
-                "use_my_account" => $my_account,
-                "only_once" => $only_once,
-                "is_ajax" => $is_ajax,
-                "social_sharing_is_available" => $social_sharing,
-                "use_nickname" => $nickname,
-                "use_ranking" => $ranking,
+                'name' => $name,
+                'code' => $code,
+                'model' => $model,
+                'desktop_uri' => $desktop_uri,
+                'mobile_uri' => $mobile_uri,
+                'use_my_account' => $my_account,
+                'only_once' => $only_once,
+                'is_ajax' => $is_ajax,
+                'social_sharing_is_available' => $social_sharing,
+                'use_nickname' => $nickname,
+                'use_ranking' => $ranking,
             ];
 
-            $position = intval($feature["position"], 10) || null;
-            if ($position) {
-                $data["position"] = $position;
+            if (array_key_exists('position', $feature)) {
+                $position = (int) $feature['position'] || null;
+                if ($position) {
+                    $data['position'] = $position;
+                }
+            } else {
+                $data['position'] = null;
             }
 
-            $custom_fields = is_array($feature["custom_fields"]) ? $feature["custom_fields"] : null;
-            if ($custom_fields) {
-                $data["custom_fields"] = json_encode($custom_fields);
+            if (array_key_exists('custom_fields', $feature)) {
+                $customFields = is_array($feature['custom_fields']) ? $feature['custom_fields'] : null;
+                if ($customFields) {
+                    $data['custom_fields'] = json_encode($customFields);
+                }
             }
 
             // Install option & layouts only if it's a feature,
             // "_service" is a custom new category for "service modules"
-            if ($category !== "_service") {
+            if ($category !== '_service') {
                 $option = Feature::installFeature(
                     $category,
                     $data,
@@ -596,6 +605,7 @@ class Assets
      */
     public static function compileFeature($feature, $bundlePath = null)
     {
+
         $code = $feature["code"];
         $minifyJs = new MinifyJS();
         $minifyCss = new MinifyCSS();
@@ -738,23 +748,35 @@ class Assets
             if (!file_exists($source . '/features/')) {
                 mkdir($source . '/features/', 0775, true);
             }
+
+            $phulp
+                ->src([$source . '/features/'], '/html$/')
+                ->pipe(new \Phulp\AngularTemplateCache\AngularTemplateCache(
+                    'templates-features.js', [
+                        'module' => 'templates',
+                        'root' => 'features/',
+                    ]
+                ))
+                ->pipe($phulp->dest($source . '/dist/'));
         });
 
         $phulp->run(["angular-template-cache"]);
 
         # Concat & Clean-up
         $content = file_get_contents($source . "/dist/templates-templates.js") . "\n"
-            . file_get_contents($source . "/dist/templates-modules.js");
+            . file_get_contents($source . "/dist/templates-modules.js") . "\n"
+            . file_get_contents($source . "/dist/templates-features.js");;
 
         File::putContents($source . "/dist/templates.js", $content);
 
         unlink($source . "/dist/templates-templates.js");
         unlink($source . "/dist/templates-modules.js");
+        unlink($source . "/dist/templates-features.js");
+
     }
 
     /**
-     * @throws \ErrorException
-     * @throws \Zend_Exception
+     * Re-build index.html with assets
      */
     public static function buildIndex()
     {
@@ -804,9 +826,11 @@ class Assets
 
                 // Add features to index.html
                 foreach (['js', 'css'] as $type) {
-                    foreach (self::$features_assets[$type] as $code => $assets) {
-                        foreach ($assets as $asset) {
-                            $index_content = self::__appendAsset($index_content, $asset, $type, $code);
+                    if (array_key_exists($type, self::$features_assets)) {
+                        foreach (self::$features_assets[$type] as $code => $assets) {
+                            foreach ($assets as $asset) {
+                                $index_content = self::__appendAsset($index_content, $asset, $type, $code);
+                            }
                         }
                     }
                 }
@@ -1003,15 +1027,14 @@ class Assets
     {
         $asset_path = __ss($asset_path);
         $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
+        $replace = '';
         switch ($type) {
-            case "js":
+            case 'js':
                 $replace = "\n\t\t<script src=\"{$asset_path}\"{$feature_data}></script>\n\t";
                 break;
-            case "css":
+            case 'css':
                 $replace = "\n\t\t<link href=\"{$asset_path}\" rel=\"stylesheet\"{$feature_data}>\n\t";
                 break;
-            default:
-                $replace = "";
         }
 
         return $replace;

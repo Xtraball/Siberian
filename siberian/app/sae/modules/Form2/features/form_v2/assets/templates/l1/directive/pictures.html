@@ -1,0 +1,41 @@
+<div>
+    <ion-item class="item-custom upload-title">
+        {{ ::field.label | translate:'form2' }}
+        <span ng-if="field.limit > 1">({{ field.limit }} {{ ::'images max.' | translate:'form2' }})</span>
+    </ion-item>
+
+    <ion-item class="item-image item-custom"
+              ng-repeat="picture in field.value track by $index"
+              ng-if="field.value.length > 0">
+        <div>
+            <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                 ng-if="cardDesign"
+                 ng-click="removePicture($index)">
+                <i class="icon ion-trash-a"></i>
+            </div>
+            <div class="remove-image-list ng-binding assertive assertive-custom"
+                 ng-if="!cardDesign"
+                 ng-click="removePicture($index)">
+                <i class="icon ion-trash-a"></i>
+            </div>
+
+            <img ng-src="{{ picture }}"
+                 class="form2-pictures" />
+        </div>
+    </ion-item>
+
+    <ion-item class="item-icon-left item-custom upload-action"
+              ng-if="field.value.length < field.limit"
+              ng-click="takePicture()">
+        <div class="row">
+            <div class="col-90">
+                <i class="icon ion-image add-image-icon"></i>
+                <p ng-if="field.value.length <= 0">{{ ::addPictureText | translate:'form2' }}</p>
+                <p ng-if="field.value.length > 0">{{ ::addAnotherPictureText | translate:'form2' }}</p>
+            </div>
+            <div class="col-10">
+                <i class="item-note ion-plus arrow-center"></i>
+            </div>
+        </div>
+    </ion-item>
+</div>

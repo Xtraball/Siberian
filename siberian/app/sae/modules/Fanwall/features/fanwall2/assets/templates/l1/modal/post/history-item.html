@@ -6,10 +6,10 @@
        class="history-text"
        sb-html="item.text"></p>
     <p class="history-image"
-       ng-if="item.image.length > 0">
+       ng-repeat="image in item.images track by $index">
         <a data-fslightbox="history-gallery"
-           href="{{ imagePath(item.image) }}">
-            <img ng-src="{{ imagePath(item.image) }}" />
+           href="{{ imagePath(image) }}"
+           style="background-image: url('{{ imagePath(image) }}');">
         </a>
     </p>
 </ion-item>

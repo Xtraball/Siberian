@@ -241,9 +241,6 @@ ion-content.tc-view .scroll {
     border: none;
 }
 
-.l1 .list .item.item-image p {
-}
-
 /* LIST L5 */
 .l5 .list.row {
     margin-bottom: 5px;
@@ -2388,11 +2385,7 @@ form .item i.icon {
 }
 
 .item-input-wrapper {
-    background: transparent !important;
-}
-
-.item.item-checkbox {
-    background: transparent;
+    background-color: transparent !important;
 }
 
 .item-custom .item-checkbox {

@@ -12,6 +12,7 @@ class Link extends FormAbstract
 {
     /**
      * @throws \Zend_Form_Exception
+     * @throws \Zend_Validate_Exception
      */
     public function init()
     {
@@ -42,7 +43,28 @@ class Link extends FormAbstract
         $url->setRegex('/.*:\/\/.*/i', '/.*:\/\/.*/i', p__('weblink', 'The URL must contain a protocol: https://, ftp://, etc...'));
         $url->setRequired(true);
 
-        $this->addSimpleCheckbox('external_browser', p__('weblink', 'Open in external browser'));
+        // Generic method, to be used in Places too, same options!
+        self::addLinkOptions($this);
+
+        $submit = $this->addSubmit(p__('weblink', 'Save'), 'save');
+        $submit->addClass('pull-right');
+    }
+
+    /**
+     * @param FormAbstract $form
+     * @param null $belongsTo
+     * @param null $classes
+     * @throws \Zend_Form_Exception
+     */
+    public static function addLinkOptions(FormAbstract $form, $belongsTo = null, $classes = null)
+    {
+        $externalBrowser = $form->addSimpleCheckbox('external_browser', p__('weblink', 'Open in external browser'));
+        if ($classes !== null) {
+            $externalBrowser->addClass($classes);
+        }
+        if ($belongsTo !== null) {
+            $externalBrowser->setBelongsTo($belongsTo);
+        }
 
         // Commented options are not yet supported/implemented!
         $options = [
@@ -77,7 +99,10 @@ class Link extends FormAbstract
             ],
             //'navigationbuttoncolor' => [],
             //'lefttoright' => [],
-            //'zoom' => [],
+            'zoom' => [
+                'platforms' => ['android'],
+                'hint' => p__('weblink', 'Enable zoom controls'),
+            ],
             //'mediaPlaybackRequiresUserAction' => [],
             //'shouldPauseOnSuspend' => [],
             //'useWideViewPort' => [],
@@ -103,30 +128,43 @@ class Link extends FormAbstract
         foreach ($options as $key => $option) {
             if (in_array('android', $option['platforms'], true)) {
                 $optKey = "android_{$key}";
-                $_opt = $this->addSimpleCheckbox($optKey, $option['hint']);
-                $_opt->setBelongsTo('options[android]');
+                $_opt = $form->addSimpleCheckbox($optKey, $option['hint']);
+                $_opt->setBelongsTo($belongsTo . '[options][android]');
+                if ($classes !== null) {
+                    $_opt->addClass($classes);
+                }
                 //$_opt->setDescription($option['hint']);
                 $androidKeys[] = $optKey;
             }
         }
 
-        $this->groupElements('android_options', array_values($androidKeys), p__('weblink', 'Android options'));
+        $form->groupElements(
+            'android_options',
+            array_values($androidKeys),
+            p__('weblink', 'Android options'),
+            ['class' => $classes]
+        );
 
         // iOS
         $iosKeys = [];
         foreach ($options as $key => $option) {
             if (in_array('ios', $option['platforms'], true)) {
                 $optKey = "ios_{$key}";
-                $_opt = $this->addSimpleCheckbox($optKey, $option['hint']);
-                $_opt->setBelongsTo('options[ios]');
+                $_opt = $form->addSimpleCheckbox($optKey, $option['hint']);
+                $_opt->setBelongsTo($belongsTo . '[options][ios]');
+                if ($classes !== null) {
+                    $_opt->addClass($classes);
+                }
                 //$_opt->setDescription($option['hint']);
                 $iosKeys[] = $optKey;
             }
         }
 
-        $this->groupElements('ios_options', array_values($iosKeys), p__('weblink', 'iOS options'));
-
-        $submit = $this->addSubmit(p__('weblink', 'Save'), 'save');
-        $submit->addClass('pull-right');
+        $iosDisplayGroup = $form->groupElements(
+            'ios_options',
+            array_values($iosKeys),
+            p__('weblink', 'iOS options'),
+            ['class' => $classes]
+        );
     }
 }

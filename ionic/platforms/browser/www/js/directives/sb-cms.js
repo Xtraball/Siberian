@@ -1,8 +1,6 @@
 /**
  * CMS Directives
- *
- * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.5
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {
@@ -12,8 +10,14 @@ angular.module('starter').directive('sbCmsText', function () {
         },
         template:
         '<div class="item item-text-wrap item-custom sb-cms-text">' +
-        '   <img width="{{block.size}}%" ng-src="{{ block.image_url }}" ng-if="block.image.length" class="{{ block.alignment }}" />' +
-        '   <div class="content" ng-bind-html="block.content | trusted_html" sb-a-click></div>' +
+        '   <img alt="cms-image" ' +
+        '        width="{{block.size}}%" ' +
+        '        ng-src="{{ block.image_url }}" ' +
+        '        ng-if="block.image.length" ' +
+        '        class="{{ block.alignment }}" />' +
+        '   <div class="content" ' +
+        '        ng-bind-html="block.content | trusted_html" ' +
+        '        sb-a-click></div>' +
         '   <div class="cb"></div>' +
         '</div>'
     };
@@ -61,19 +65,20 @@ angular.module('starter').directive('sbCmsText', function () {
         scope: {
             block: '='
         },
-        template: '<img width="100%" ng-src="{{ block.gallery[0].src }}" alt="{{block.name}}">'
+        template:
+            '<img width="100%" ' +
+            '     ng-src="{{ block.gallery[0].src }}" ' +
+            '     alt="{{block.name}}" />'
     };
-}).directive('sbCmsSlider', function ($ocLazyLoad) {
+}).directive('sbCmsSlider', function () {
     return {
         restrict: 'A',
         scope: {
             block: '=',
-            gallery: '=',
-            isReady: false
+            gallery: '='
         },
         template:
-        '<div ng-if="isReady"' +
-        '     class="item item-image-gallery item-custom sb-cms-image">' +
+        '<div class="item item-image-gallery item-custom sb-cms-image">' +
         '   <ul rn-carousel ' +
         '       rn-carousel-index="carouselIndex" ' +
         '       class="image">' +
@@ -124,14 +129,6 @@ angular.module('starter').directive('sbCmsText', function () {
         '       </ion-content>' +
         '   </div>'+
         '</script>',
-        link: function (scope) {
-            $ocLazyLoad.load([
-                "./dist/lazy/ng-carousel/angular-carousel.min.js",
-                "./dist/lazy/ng-carousel/angular-carousel.min.css"
-            ]).then(function () {
-                scope.isReady = true;
-            });
-        },
         controller: function ($ionicGesture, Modal, $ionicScrollDelegate, $scope) {
             $scope.carouselIndex = 0;
 
@@ -157,10 +154,10 @@ angular.module('starter').directive('sbCmsText', function () {
 
             $scope.showFullscreen = function (index) {
                 Modal
-                .fromTemplateUrl('zoom-modal.html', {
-                    scope: $scope,
-                    animation: 'block'
-                }).then(function (modal) {
+                    .fromTemplateUrl('zoom-modal.html', {
+                        scope: $scope,
+                        animation: 'block'
+                    }).then(function (modal) {
                     $scope.modal = modal;
                     $scope.carouselIndexModal = index;
                     $scope.modal.show();
@@ -284,11 +281,11 @@ angular.module('starter').directive('sbCmsText', function () {
             };
 
             $scope.openItinary = function () {
-                LinkService.openLink($scope.itinerary_link, {use_external_app: true});
+                LinkService.openLink($scope.itinerary_link, {}, true);
             };
 
             $scope.openWebsite = function (url) {
-                LinkService.openLink(url, {use_external_app: true});
+                LinkService.openLink(url, {}, true);
             };
 
             $scope.addToContact = function () {
@@ -305,19 +302,27 @@ angular.module('starter').directive('sbCmsText', function () {
             block: '='
         },
         template:
-        '<a href="{{ url }}" target="{{ target }}" class="item item-text-wrap item-icon-left item-custom">' +
-        '   <i class="icon" ng-class="icon" ng-if="show_icon"></i>' +
-        '   <i class="icon flex-button-icon" ng-if="!show_icon">' +
-        '       <img ng-src="{{ icon_src }}" style="width: 32px; height: 32px;" />' +
+        '<a href="{{ url }}" ' +
+        '   target="{{ target }}" ' +
+        '   class="item item-text-wrap item-icon-left item-custom">' +
+        '   <i class="icon" ' +
+        '      ng-class="icon" ' +
+        '      ng-if="show_icon"></i>' +
+        '   <i class="icon flex-button-icon" ' +
+        '      ng-if="!show_icon">' +
+        '       <img ng-src="{{ icon_src }}" ' +
+        '            style="width: 32px; height: 32px;" />' +
         '   </i>' +
         '   {{ label | translate }}' +
         '</a>',
         controller: function ($scope, LinkService) {
             $scope.openLink = function () {
-                LinkService.openLink($scope.block.content, {
-                    'hide_navbar': ($scope.block.hide_navbar === '1'),
-                    'use_external_app': ($scope.block.use_external_app === '1')
-                });
+                var externalBrowser = $scope.block.external_browser === undefined ?
+                    true : $scope.block.external_browser;
+                LinkService.openLink(
+                    $scope.block.content,
+                    $scope.block.options || {},
+                    externalBrowser);
             };
         },
         link: function (scope, element) {
@@ -387,7 +392,7 @@ angular.module('starter').directive('sbCmsText', function () {
         '</div>',
         controller: function ($scope, LinkService) {
             $scope.openFile = function () {
-                LinkService.openLink($scope.block.file_url, { 'use_external_app': 'true' });
+                LinkService.openLink($scope.block.file_url, {}, true);
             };
         }
     };

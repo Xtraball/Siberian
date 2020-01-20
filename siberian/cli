@@ -69,8 +69,8 @@ function dbg()
     $args = func_get_args();
     foreach ($args as $arg) {
         file_put_contents(
-            "/tmp/debug.log",
-            date("d/m/Y H:i:s") . ": " . print_r($arg, true) . PHP_EOL,
+            __DIR__ . '/var/tmp/debug.log',
+            date('d/m/Y H:i:s') . ': ' . print_r($arg, true) . PHP_EOL,
             FILE_APPEND);
     }
 }

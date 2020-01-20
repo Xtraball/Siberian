@@ -14,6 +14,27 @@ class Hook
     public static $hooks = [];
 
     /**
+     * @var array
+     */
+    public static $registry = [];
+
+    /**
+     * Adds a hook into the registry, for future usage
+     *
+     * @param $actionName
+     * @param $payloadKeys
+     * @throws Exception
+     */
+    public static function register ($actionName, $payloadKeys)
+    {
+        if (!array_key_exists($actionName, self::$registry)) {
+            self::$registry[$actionName] = $payloadKeys;
+        } else {
+            throw new Exception(p__('hook', 'This action is already registered, please use another name.'));
+        }
+    }
+
+    /**
      * @param $actionName
      * @param $name
      * @param $callback callback function must return the payload, altered or not!

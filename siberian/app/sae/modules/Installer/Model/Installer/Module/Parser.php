@@ -92,14 +92,31 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             # Extract to TMP Directory
             exec("unzip '{$this->_tmp_file}' -d '{$this->_tmp_directory}' 2>&1", $output);
 
+
             if (count(glob($this->_tmp_directory . "/*")) <= 0) {
                 throw new Exception(__("#19-002 Unable to extract the archive. Please make sure that the 'zip' and 'unzip' commands are installed."));
             }
 
-            $base_path = $this->_tmp_directory . "/template.install.php";
-            if (is_readable($base_path)) {
-                $template_install_path = Core_Model_Directory::getBasePathTo('/var/tmp/template.install.php');
-                rename($base_path, $template_install_path);
+            // Check for Nwicode files!
+            $package = $this->getPackageDetails();
+            $type = $package->getType();
+
+            if (!empty($type) && __getConfig('bypass_nwicode') !== true) {
+                //
+                $files = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator($this->_tmp_directory, 4096),
+                    \RecursiveIteratorIterator::SELF_FIRST);
+                foreach ($files as $file) {
+                    if ($file->isDir()) {
+                        continue;
+                    }
+
+                    $content = file_get_contents($file->getPathname());
+                    if (false !== stripos($content, 'nwicode')) {
+                        throw new \Siberian\Exception('#88-888: ' .
+                            __('The archive contains Nwicode code and may break your Siberian installation, please check that you are installing the correct module.'));
+                    }
+                }
             }
 
             return $this->_tmp_directory;
@@ -302,12 +319,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $this->_parse();
         $this->_prepareFilesToDelete();
 
+        $packageDetails = $this->getPackageDetails();
+
         if (!$this->_delete()) {
             return false;
         }
 
         // Clear module in case of update
-        if ($this->getPackageDetails()->getReplaceModule()) {
+        if ($packageDetails->getReplaceModule()) {
             $this->_clearModule();
         }
 

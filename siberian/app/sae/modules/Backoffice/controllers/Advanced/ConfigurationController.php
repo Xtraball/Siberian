@@ -711,25 +711,8 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             // Build hostname list
             $hostnames = [$hostname];
 
-            // Adding a fake subdomain www. to the main hostname (mainly for cPanel, VestaCP)
-            if (in_array($panel_type, ["cpanel", "plesk", "vestacp", "directadmin"])) {
-                File::putContents("{$root}/.well-known/check", "1");
-                $proxy01 = "http://proxy01.siberiancms.com/acme-challenge.php";
-                $query = [
-                    "secret" => Core_Model_Secret::SECRET,
-                    "type" => Siberian_Version::TYPE,
-                    "url" => "http://www." . $hostname . "/.well-known/check",
-                ];
-                $uri = sprintf("%s?%s", $proxy01, http_build_query($query));
-
-                $logger->info(__("Testing: %s", $uri));
-                if (file_get_contents($uri) == "1") {
-                    $hostnames[] = "www." . $hostname;
-                }
-            }
-
             // Add whitelabels if PE
-            $is_pe = Siberian_Version::is("PE");
+            $is_pe = Siberian_Version::is('PE');
             if ($is_pe) {
                 $whitelabel_model = new Whitelabel_Model_Editor();
                 $whitelabels = $whitelabel_model->findAll(["is_active = ?", "1"]);
@@ -749,20 +732,16 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     }
 
                     if ($endWithDot) {
-                        $logger->info(__("Removing domain %s, domain in dot notation is not supported.", $whitelabel));
+                        $logger->info(__('Removing domain %s, domain in dot notation is not supported.', $whitelabel));
                     }
                 }
             }
-
-            // Clean-up empty ones
-            // Truncate domains list to 100 (SAN is limited to 100 domains
-            $hostnames = array_slice(array_unique(array_filter($hostnames, 'strlen')), 0, 100);
 
             // Ensure folders have good rights
             exec("chmod -R 775 {$base}");
             exec("chmod -R 777 {$root}/.well-known");
 
-            $acme = new Cert($letsencrypt_env !== "staging");
+            $acme = new Cert($letsencrypt_env !== 'staging');
 
             try {
                 $acme->getAccount();
@@ -771,11 +750,28 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             }
 
             $ssl_certificate_model = new System_Model_SslCertificates();
-            $cert = $ssl_certificate_model->find($request->getHttpHost(), "hostname");
+            $cert = $ssl_certificate_model->find($request->getHttpHost(), 'hostname');
 
             if (empty($hostnames)) {
                 $hostnames = [$request->getHttpHost()];
             }
+
+            // Remove temporary excluded domains from config.user.php
+            $excludeDomainSsl = __getConfig('exclude_domain_ssl');
+            if ($excludeDomainSsl && is_array($excludeDomainSsl)) {
+                $hostnames = array_diff($hostnames, $excludeDomainSsl);
+            }
+
+            // Included domains from config.user.php
+            $includeDomainSsl = __getConfig('include_domain_ssl');
+            if ($includeDomainSsl && is_array($includeDomainSsl)) {
+                foreach ($includeDomainSsl as $includeDomain) {
+                    $hostnames[] = $includeDomain;
+                }
+            }
+
+            // Truncate domains list to 100 (SAN is limited to 100 domains)
+            $hostnames = array_slice(array_unique(array_filter($hostnames, 'strlen')), 0, 100);
 
             // Before generating certificate again, compare $hostnames OR expiration date
             $renew = false;

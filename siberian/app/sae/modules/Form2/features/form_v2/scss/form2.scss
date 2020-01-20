@@ -1,0 +1,95 @@
+.module-form2 {
+  img.form2-illustration {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .remove-image-list,
+  .remove-image-card {
+    position: absolute;
+    right: 6px;
+    top: 6px;
+
+    i.icon {
+      font-size: 26px;
+    }
+  }
+
+  .form2-richtext {
+    * {
+      white-space: normal;
+    }
+  }
+
+  img {
+    &.form2-pictures {
+      max-height: 15vh;
+      width: auto;
+      max-width: 90%;
+      margin: 6px auto;
+    }
+  }
+
+  .form2-radio {
+    .radio-title {
+      padding: 5px 15px;
+      font-weight: bold;
+    }
+
+    .radio-item {
+      .radio-content {
+        .item-content {
+          padding: 10px 15px;
+          font-size: 13px;
+        }
+
+        .radio-icon {
+          padding: 2px 15px;
+        }
+      }
+    }
+  }
+
+  .form2-image {
+    .upload-title {
+      padding: 5px 15px;
+      font-weight: bold;
+    }
+
+    .upload-action {
+      padding: 10px 15px 10px 54px;
+    }
+  }
+
+  .form2-datetime,
+  .form2-date {
+    padding: 2px 0 2px 54px;
+
+    input[type="text"] {
+      width: 100%;
+    }
+  }
+
+  .list {
+    .form2-radio {
+      label {
+        .radio-content {
+          border-left: 2px solid $list-item-custom-text;
+        }
+      }
+    }
+  }
+
+  .card {
+    .form2-radio {
+      label {
+        .radio-content {
+          border-left: 2px solid $card-item-custom-text;
+        }
+      }
+    }
+  }
+
+
+}

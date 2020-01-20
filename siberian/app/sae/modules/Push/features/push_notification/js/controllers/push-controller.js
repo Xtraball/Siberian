@@ -1,11 +1,14 @@
 /**
- * Push Controller
+ * PushController
  *
- * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @author Xtraball SAS
+ * @version 4.18.5
  */
-angular.module('starter').controller('PushController', function ($location, $rootScope, $scope, $stateParams,
-                                                                 LinkService, SB, Push) {
+
+angular
+.module('starter')
+.controller('PushController', function ($location, $rootScope, $scope, $stateParams,
+                                                             LinkService, SB, Push) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -68,11 +71,9 @@ angular.module('starter').controller('PushController', function ($location, $roo
                 return;
             }
 
-            LinkService.openLink(item.url);
+            LinkService.openLink(item.url, {}, false);
         } else if (item.action_value) {
             $location.path(item.action_value);
-        } else {
-            $scope.toggle_text = !$scope.toggle_text;
         }
     };
 

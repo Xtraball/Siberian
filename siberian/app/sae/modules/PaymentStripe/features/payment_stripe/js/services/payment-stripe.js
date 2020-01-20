@@ -57,10 +57,21 @@ angular
         }
 
         // Creating a new instance of the Stripe service!
-        if (service.publishableKey !== publishableKey) {
+        if (service.publishableKey !== publishableKey ||
+            !service.stripe) {
             service.publishableKey = publishableKey;
             service.stripe = Stripe(service.publishableKey);
             try {
+                service.card.destroy();
+            } catch (e) {
+                // Silent!
+            }
+        }
+
+        // Ensute stripe instance exists!
+        if (!service.stripe) {
+            try {
+                service.stripe = Stripe(service.publishableKey);
                 service.card.destroy();
             } catch (e) {
                 // Silent!

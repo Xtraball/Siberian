@@ -2,14 +2,17 @@
  * Places
  *
  * @author Xtraball SAS
- * @version 4.15.7
+ * @version 4.18.5
  */
-angular.module('starter').factory('Places', function ($pwaRequest) {
+angular
+.module('starter')
+.factory('Places', function ($pwaRequest) {
     var factory = {
         value_id: null,
         collection: [],
         mapCollection: [],
-        extendedOptions: {}
+        extendedOptions: {},
+        settings: []
     };
 
     /**
@@ -30,7 +33,7 @@ angular.module('starter').factory('Places', function ($pwaRequest) {
 
     /**
      *
-     * @param items
+     * @param collection
      */
     factory.setMapCollection = function (collection) {
         factory.mapCollection = collection;
