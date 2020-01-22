@@ -61,9 +61,11 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 $settings = [
                     'email' => [],
                     'design' => 'list',
-                    'enableHistory' => true
+                    'enable_history' => true
                 ];
             }
+
+            $settings['enable_history'] = filter_var($settings['enable_history'], FILTER_VALIDATE_BOOLEAN);
 
             Hook::trigger('form2.submit', [
                 'customer_id' => $customerId,
@@ -89,7 +91,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 ->setPayload($dbPayload)
                 ->setTimestamp($timestamp)
                 // When history is disabled, we automatically mark the result as hidden for the app user!
-                ->setIsRemoved($settings['enableHistory'] ? 0 : 1)
+                ->setIsRemoved($settings['enable_history'] ? 0 : 1)
                 ->save();
 
             // Send e-mail only if filled out!
