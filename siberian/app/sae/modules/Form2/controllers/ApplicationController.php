@@ -33,7 +33,7 @@ class Form2_ApplicationController extends Application_Controller_Default
             $values = $request->getPost();
 
             if (!$optionValue->getId()) {
-                throw new Exception(p__('form2',"This feature doesn't exists!"));
+                throw new Exception(p__('form2', "This feature doesn't exists!"));
             }
 
             if (empty($values)) {

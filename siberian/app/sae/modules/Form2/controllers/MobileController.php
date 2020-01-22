@@ -55,17 +55,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
                 $customerId = $session->getCustomerId();
             }
 
-            try {
-                $settings = Json::decode($optionValue->getSettings());
-            } catch (\Exception $e) {
-                $settings = [
-                    'email' => [],
-                    'design' => 'list',
-                    'enable_history' => true
-                ];
-            }
-
-            $settings['enable_history'] = filter_var($settings['enable_history'], FILTER_VALIDATE_BOOLEAN);
+            $settings = Form::getSettings($optionValue);
 
             Hook::trigger('form2.submit', [
                 'customer_id' => $customerId,

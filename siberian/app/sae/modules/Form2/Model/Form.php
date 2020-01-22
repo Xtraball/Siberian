@@ -48,16 +48,14 @@ class Form extends Base
     }
 
     /**
-     * @param null $optionValue
-     * @return array|bool
-     * @throws \Zend_Exception
+     * @param $optionValue
+     * @return array
      */
-    public function getFeaturePayload($optionValue = null)
+    public static function getSettings($optionValue): array
     {
-        $valueId = $optionValue->getId();
-
         try {
             $settings = Json::decode($optionValue->getSettings());
+            $settings['enable_history'] = filter_var($settings['enable_history'], FILTER_VALIDATE_BOOLEAN);
         } catch (\Exception $e) {
             $settings = [
                 'email' => [],
@@ -66,7 +64,20 @@ class Form extends Base
             ];
         }
 
-        $settings['enable_history'] = filter_var($settings['enable_history'], FILTER_VALIDATE_BOOLEAN);
+        return $settings;
+    }
+
+
+    /**
+     * @param null $optionValue
+     * @return array|bool
+     * @throws \Zend_Exception
+     */
+    public function getFeaturePayload($optionValue = null)
+    {
+        $valueId = $optionValue->getId();
+
+        $settings = self::getSettings($optionValue);
 
         // Customer
         $session = $this->getSession();
