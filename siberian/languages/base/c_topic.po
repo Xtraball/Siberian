@@ -80,3 +80,13 @@ msgstr "Import CSV, JSON, YAML"
 msgctxt "topic"
 msgid "The imported CSV file is invalid '%s'."
 msgstr "The imported CSV file is invalid '%s'."
+
+# GMT 1576070941.4664
+msgctxt "topic"
+msgid "'Parent topic `%s` doesn\\'t exists.'"
+msgstr "'Parent topic `%s` doesn\\'t exists.'"
+
+# GMT 1576070941.4665
+msgctxt "topic"
+msgid "Parent topic `%s` has a parent, you can nest topics only at one level."
+msgstr "Parent topic `%s` has a parent, you can nest topics only at one level."

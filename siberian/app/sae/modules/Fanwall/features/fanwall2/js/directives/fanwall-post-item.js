@@ -246,7 +246,10 @@ angular
                 };
 
                 $scope.commentModal = function () {
-                    FanwallUtils.commentModal($scope.post);
+                    // Opens comment modal only if it's enabled!
+                    if ($scope.userComment()) {
+                        FanwallUtils.commentModal($scope.post);
+                    }
                 };
 
                 $scope.toggleLike = function () {

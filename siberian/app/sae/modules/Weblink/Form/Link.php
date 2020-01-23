@@ -123,13 +123,19 @@ class Link extends FormAbstract
             //'hidespinner' => [],
         ];
 
+        if ($belongsTo === null) {
+            $belongsTo = 'options';
+        } else {
+            $belongsTo = $belongsTo . '[options]';
+        }
+
         // Android
         $androidKeys = [];
         foreach ($options as $key => $option) {
             if (in_array('android', $option['platforms'], true)) {
                 $optKey = "android_{$key}";
                 $_opt = $form->addSimpleCheckbox($optKey, $option['hint']);
-                $_opt->setBelongsTo($belongsTo . '[options][android]');
+                $_opt->setBelongsTo($belongsTo . '[android]');
                 if ($classes !== null) {
                     $_opt->addClass($classes);
                 }
@@ -151,7 +157,7 @@ class Link extends FormAbstract
             if (in_array('ios', $option['platforms'], true)) {
                 $optKey = "ios_{$key}";
                 $_opt = $form->addSimpleCheckbox($optKey, $option['hint']);
-                $_opt->setBelongsTo($belongsTo . '[options][ios]');
+                $_opt->setBelongsTo($belongsTo . '[ios]');
                 if ($classes !== null) {
                     $_opt->addClass($classes);
                 }
