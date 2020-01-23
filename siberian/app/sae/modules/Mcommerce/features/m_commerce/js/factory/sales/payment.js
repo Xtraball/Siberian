@@ -52,15 +52,22 @@ angular.module('starter').factory('McommerceSalesPayment', function ($pwaRequest
             return $pwaRequest.reject('[McommerceSalesPayment::validatePayment] missing value_id.');
         }
 
+        var formData = {
+            validate_payment: 1,
+            customer_uuid: $session.getDeviceUid(),
+            notes: factory.notes || ''
+        };
+
+        // fix(mcommerce): very old system, check to remove it from the validatepaymentAction controller in the future!
+        if (IS_NATIVE_APP) {
+            formData.is_ajax = true;
+        }
+
         return $pwaRequest.post('mcommerce/mobile_sales_payment/validatepayment', {
             urlParams: {
                 value_id: this.value_id
             },
-            data: {
-                validate_payment: 1,
-                customer_uuid: $session.getDeviceUid(),
-                notes: factory.notes || ''
-            }
+            data: formData
         });
     }
 
