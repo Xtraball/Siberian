@@ -159,13 +159,13 @@ $topicImportform->setValueId($option->getId());
                             <?php echo p__("topic", "Download file examples") ?>:
                             <a class="btn btn-xs color-blue default_button"
                                target="_blank"
-                               href="/app/sae/modules/Topic/resources/examples/import-topic.csv">CSV</a>,
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.csv?t=<?php echo time() ?>">CSV</a>,
                             <a class="btn btn-xs color-blue default_button"
                                target="_blank"
-                               href="/app/sae/modules/Topic/resources/examples/import-topic.json">JSON</a>,
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.json?t=<?php echo time() ?>">JSON</a>,
                             <a class="btn btn-xs color-blue default_button"
                                target="_blank"
-                               href="/app/sae/modules/Topic/resources/examples/import-topic.yml">YAML</a>
+                               href="/app/sae/modules/Topic/resources/examples/import-topic.yml?t=<?php echo time() ?>">YAML</a>
                         </div>
 
                         <div class="col-md-12"

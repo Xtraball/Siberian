@@ -414,12 +414,15 @@ class Topic_ApplicationController extends Application_Controller_Default
             $csvResource = fopen($path, 'rb');
             $headers = fgetcsv($csvResource, 1024, ';', '"');
 
+            $allIds = [];
             $hasTitle = false;
             $hasDescription = false;
             $hasPicture = false;
+            $hasParent = false;
             $titleIndex = 0;
             $descriptionIndex = 0;
             $pictureIndex = 0;
+            $parentIndex = 0;
             foreach ($headers as $index => $header) {
                 if ($header === 'title') {
                     $titleIndex = $index;
@@ -435,6 +438,11 @@ class Topic_ApplicationController extends Application_Controller_Default
                     $pictureIndex = $index;
                     $hasPicture = true;
                 }
+
+                if ($header === 'parent') {
+                    $parentIndex = $index;
+                    $hasParent = true;
+                }
             }
 
             if (!$hasTitle && !$hasDescription) {
@@ -447,27 +455,75 @@ class Topic_ApplicationController extends Application_Controller_Default
                 throw new Exception(p__('topic', '`description` is missing.'));
             }
 
-            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
-
+            $allLines = [];
             while ($line = fgetcsv($csvResource, 1024, ';', '"')) {
+                $titleKey = $line[$titleIndex];
+                $allLines[$titleKey] = [
+                    'name' => $line[$titleIndex],
+                    'parent' => $line[$parentIndex],
+                    'description' => $line[$descriptionIndex],
+                    'picture' => $line[$pictureIndex],
+                ];
+            }
+            fclose($csvResource);
+            unset($line);
+
+            // Build topics
+            $position = (new Topic_Model_Category())->getMaxPosition($topic->getId());
+            foreach ($allLines as $line) {
                 $topicCategory = new Topic_Model_Category();
                 $topicCategory
                     ->setTopicId($topic->getId())
-                    ->setName($line[$titleIndex])
-                    ->setDescription($line[$descriptionIndex])
+                    ->setName($line['name'])
+                    ->setDescription($line['description'])
                     ->setPosition($position++);
 
                 if ($hasPicture) {
-                    $this->fetchImage($optionValue, $topicCategory, $line[$pictureIndex]);
+                    $this->fetchImage($optionValue, $topicCategory, $line['picture']);
+                }
+
+                if ($hasParent) {
+                    $parent = $line['parent'];
+                    if (array_key_exists($parent, $allLines)) {
+                        $parentTopic = (new Topic_Model_Category())->find(
+                            [
+                                'name' => $parent,
+                                'topic_id' => $topic->getId()
+                            ]);
+
+                        // Ensure topic exists (declared before), and it has no parent!
+                        if (!$parentTopic ||
+                            !$parentTopic->getId()) {
+                            throw new Exception(p__('topic', 'Parent topic `%s` doesn\'t exists.', $parent));
+                        }
+
+                        if ($parentTopic->getParentId()) {
+                            throw new Exception(p__('topic', 'Parent topic `%s` has a parent, you can nest topics only at one level.', $parent));
+                        }
+                        $topicCategory->setParentId($parentTopic->getId());
+                    }
                 }
 
                 $topicCategory
                     ->save();
+
+                $allIds[] = $topicCategory->getId();
             }
-            fclose($csvResource);
+
         } catch (\Exception $e) {
+
+            // Enclose in a try/catch the full clean-up!
+            try {
+                $allTopics = (new Topic_Model_Category())->findAll(['category_id IN (?)' => $allIds]);
+                foreach ($allTopics as $allTopic) {
+                    $allTopic->delete();
+                }
+            } catch (\Exception $ee) {
+                // Silent fail on removing all unwanted topics
+            }
+
             throw new Exception(p__('topic',
-                "The imported CSV file is invalid '%s'.", null, $e->getMessage()));
+                "The imported CSV file is invalid '%s'.", $e->getMessage()));
         }
     }
 
