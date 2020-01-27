@@ -96,6 +96,8 @@ App.config(function($routeProvider) {
             $scope.translation_files_data = data.translations;
             $scope.is_edit = data.is_edit;
 
+            console.log($scope.search_context);
+
             if ($scope.translation.country_code) {
                 $scope.can_translate = ($scope.available_target.indexOf($scope.translation.country_code.split("_")[0]) != -1);
             } else {
@@ -329,7 +331,7 @@ App.config(function($routeProvider) {
 
 App.filter('multiWordsFilter', function($filter) {
     return function(inputArray, searchTerms, isStrict, isCaseSensitive) {
-        var result;
+        let result;
         if (!isStrict) {
             searchTerms = (searchTerms || '').split(/\s+/);
         } else {
@@ -348,9 +350,8 @@ App.filter('multiWordsFilter', function($filter) {
         });
 
         if (result.length > 0) {
-            result = $filter('repeatUnique')(result, 'search')
+            result = $filter('repeatUnique')(result, 'search');
         }
-
         return result;
     };
 }).filter('repeatUnique', function() {
