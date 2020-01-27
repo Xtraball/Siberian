@@ -286,7 +286,7 @@ class Packager
             'code' => '',
             'description' => '<a href="' . $releaseNote .
                 '" target="_blank">Click here to read the release notes</a>',
-            'restore_apps' => true,
+            'restore_apps' => false,
             'release_note' => [
                 'url' => $releaseNote,
                 'show' => true,
