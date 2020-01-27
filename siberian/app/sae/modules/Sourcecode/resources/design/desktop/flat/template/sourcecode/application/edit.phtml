@@ -3,13 +3,6 @@ $option_value = $this->getOptionValue();
 $source_code = $option_value->getObject();
 ?>
 
-<link rel="stylesheet" href="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.css">
-<script src="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.js"></script>
-<script src="/app/sae/design/desktop/flat/js/codemirror/mode/javascript/javascript.js"></script>
-<script src="/app/sae/design/desktop/flat/js/codemirror/mode/css/css.js"></script>
-<script src="/app/sae/design/desktop/flat/js/codemirror/mode/xml/xml.js"></script>
-<script src="/app/sae/design/desktop/flat/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
-
 <div class="source_code">
     <div id="edit">
         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -28,7 +21,7 @@ $source_code = $option_value->getObject();
                             <i class="fa fa-angle-left"></i>
                         </button>
                         <button type="submit"
-                                class="btn color-blue pull-right">OK</button>
+                                class="btn color-blue pull-right"><?php echo __('Save'); ?></button>
                     </div>
                 </div>
                 <br/>
@@ -75,16 +68,16 @@ $source_code = $option_value->getObject();
 
     <div class="dialog-inapplinks">
         <div class="title-editor border-blue text-center">
-            <span><?php echo __("In-App links") ?></span>
+            <span><?php echo __('In-App links') ?></span>
             <i class="fa fa-times dialog-close"></i>
         </div>
         <div class="content-color content">
             <div class="dialog-subcontent"></div>
             <button class="btn color-blue pull-right insert-current button-close">
-                <?php echo __("Insert & close") ?>
+                <?php echo __('Insert & close') ?>
             </button>
             <button class="btn color-blue pull-right insert-current">
-                <?php echo __("Insert") ?>
+                <?php echo __('Insert') ?>
             </button>
         </div>
     </div>

@@ -1,7 +1,14 @@
+<link rel="stylesheet" href="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.css">
+<script src="/app/sae/design/desktop/flat/js/codemirror/lib/codemirror.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/javascript/javascript.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/css/css.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/xml/xml.js"></script>
+<script src="/app/sae/design/desktop/flat/js/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
 <?php
 $application = $this->getApplication();
 $option_value = $this->getOptionValue();
-$isPlaces = ($this->getCurrentFeature() == "places");
+$isPlaces = ($this->getCurrentFeature() === 'places');
 $is_new = ($this->getIsNew());
 
 if (!($page = $this->getCurrentPage())) {
@@ -17,7 +24,7 @@ if($isPlaces) {
     $cmsForm = new Places_Form_Place();
     if($is_new) {
         $addressBlock = (new Cms_Model_Application_Block())
-            ->find("address", "type");
+            ->find('address', 'type');
         $blocks = [
             $addressBlock
         ];
@@ -43,20 +50,27 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
 
 ?>
 
+<script type="text/javascript">
+    // Before loading the page, we destroy all ckeditor instances to be sure!
+    Object.keys(CKEDITOR.instances).map(function(objectKey) {
+        CKEDITOR.instances[objectKey].destroy(true);
+    });
+</script>
+
 <div id="feature-custom-page">
 
 
     <?php
     echo $this->getLayout()
-        ->addPartial("cms_javascript", "Core_View_Default", "cms/application/page/edit/block_v2/javascript.phtml")
+        ->addPartial('cms_javascript', 'Core_View_Default', 'cms/application/page/edit/block_v2/javascript.phtml')
         ->setOptionValue($option_value)
         ->toHtml();
     ?>
 
-    <?php if(!$isPlaces): ?>
+    <?php if (!$isPlaces): ?>
     <div class="feature-block-add">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo __("Custom page"); ?>
+            <?php echo __('Custom page'); ?>
         </h3>
     </div>
     <?php endif; ?>
@@ -65,14 +79,14 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
 
         <?php $welp = "<form id=\"fake-form\" name=\"fake-form\" action=\"\"></form>"; foreach($formBlocks as $form_block): ?>
         <?php
-            $welp .= $this->getLayout()->addPartial("block_template", "Core_View_Default", $form_block["template"])
-                ->setForm($form_block["form"])
-                ->setTitle(ucfirst($form_block["block"]->getType()))
-                ->setCmsBlock($form_block["block"])
+            $welp .= $this->getLayout()->addPartial('block_template', 'Core_View_Default', $form_block['template'])
+                ->setForm($form_block['form'])
+                ->setTitle(ucfirst($form_block['block']->getType()))
+                ->setCmsBlock($form_block['block'])
                 ->toHtml();
         ?>
         <?php endforeach; ?>
-        <?php $cmsForm->getElement("sections_html_container")->setValue($welp); echo $cmsForm; ?>
+        <?php $cmsForm->getElement('sections_html_container')->setValue($welp); echo $cmsForm; ?>
         <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
     </div>
 

@@ -11,18 +11,18 @@ class Cms_Application_PageController extends Application_Controller_Default {
      * @var array
      */
     public $cache_triggers = [
-        "editpost" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#"
+        'editpost' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+                'feature_paths_valueid_#VALUE_ID#',
+                'assets_paths_valueid_#VALUE_ID#'
             ],
         ],
-        "editpostv2" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#"
+        'editpostv2' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+                'feature_paths_valueid_#VALUE_ID#',
+                'assets_paths_valueid_#VALUE_ID#'
             ],
         ],
     ];

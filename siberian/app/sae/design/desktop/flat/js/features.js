@@ -55,6 +55,17 @@ ckeditor_config.cms = {
     extraAllowedContent: 'a[*];img[*];iframe[*]'
 };
 
+ckeditor_config.source = {
+    language: ckeditor_language,
+    startupMode: 'source',
+    toolbar: [
+        { name: 'source', items: ['Source'] },
+        { name: 'other', items: ['featurelink'] }
+    ],
+    extraPlugins: 'featurelink,codemirror',
+    allowedContent: true
+};
+
 ckeditor_config.complete = {
     language: ckeditor_language
 };
@@ -288,16 +299,21 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
 };
 
 var refreshCkeditor = function (element, key) {
-    var el = $(element);
-    var ck_key = (typeof key === 'undefined') ? el.attr('ckeditor') : key;
-    var ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : 'default';
+    let el = $(element);
+    let ck_key = (typeof key === 'undefined') ? el.attr('ckeditor') : key;
+    let ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : 'default';
 
     setTimeout(function () {
-        el.ckeditor(
-            function () {},
-            ckeditor_config[ck_fkey]
-        );
-    }, 100);
+        try {
+            el.ckeditor(
+                function () {},
+                ckeditor_config[ck_fkey]
+            );
+            CKEDITOR.replace(element, ckeditor_config[ck_fkey]);
+        } catch (e) {
+            console.error('Something went wrong while refreshing ckeditor on element', element, e.message);
+        }
+    }, 200);
 };
 
 /** Button picture uploader */
@@ -402,15 +418,20 @@ var toggle_add_success = function (default_parent) {
 var handleRichtext = function (default_parent) {
     /** Bind ckeditors (only visible ones) */
     $(default_parent+' .richtext').each(function () {
-        var el = $(this);
-        var ck_key = el.attr('ckeditor');
-        var ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config.default;
+        let el = $(this);
+        let ck_key = el.attr('ckeditor');
+        let ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config.default;
 
         setTimeout(function () {
-            el.ckeditor(
-                function () {},
-                ck_config
-            );
+            try {
+                el.ckeditor(
+                    function () {},
+                    ck_config
+                );
+                CKEDITOR.replace(this, ck_config);
+            } catch (e) {
+                console.error('Something went wrong while initializing ckeditor on element', this, e.message);
+            }
         }, 500);
     });
 };

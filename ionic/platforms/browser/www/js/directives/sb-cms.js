@@ -386,7 +386,8 @@ angular.module('starter').directive('sbCmsText', function () {
             block: '='
         },
         template:
-        '<div class="item item-text-wrap item-icon-left item-custom" ng-click="openFile()">' +
+        '<div class="item item-text-wrap item-icon-left item-custom" ' +
+            ' ng-click="openFile()">' +
         '   <i class="icon ion-paperclip"></i>' +
         '   {{ block.display_name }}' +
         '</div>',
@@ -394,6 +395,30 @@ angular.module('starter').directive('sbCmsText', function () {
             $scope.openFile = function () {
                 LinkService.openLink($scope.block.file_url, {}, true);
             };
+        }
+    };
+}).directive('sbCmsSource', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            block: '='
+        },
+        template:
+            '<div class="item item-custom">' +
+            '   <iframe class="sb-cms-source" ' +
+            '           style="height: {{ frameHeight }};"></iframe>' +
+            '</div>',
+        link: function (scope, element) {
+            var iframe = angular.element(element).find('iframe')[0];
+            iframe = iframe.contentWindow || iframe.contentDocument.document || iframe.contentDocument;
+            iframe.document.open();
+            iframe.document.write(scope.block.source);
+            iframe.document.close();
+
+            scope.frameHeight = scope.block.height;
+        },
+        controller: function ($scope) {
+
         }
     };
 });

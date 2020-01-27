@@ -104,6 +104,13 @@ class Cms_Model_Application_Block extends Core_Model_Default
                 }
 
                 break;
+            case 'source':
+                $unit = $this->getObject()->getUnit();
+                $block_data['source'] = $this->getObject()->getSource();
+                $block_data['height'] = $this->getObject()->getHeight() . $unit;
+                $block_data['unit'] = $unit;
+
+                break;
             case 'image':
             case 'slider':
             case 'cover':

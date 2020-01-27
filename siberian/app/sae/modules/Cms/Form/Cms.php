@@ -66,7 +66,7 @@ class Cms_Form_Cms extends Cms_Form_Base
                     break;
                 case 'address':
                     $form = new Cms_Form_Block_Address();
-                    if ($this->feature_code == 'places') {
+                    if ($this->feature_code === 'places') {
                         $form->setRequired(true);
                     }
                     break;
@@ -81,6 +81,9 @@ class Cms_Form_Cms extends Cms_Form_Base
                     break;
                 case 'cover':
                     $form = new Cms_Form_Block_Cover();
+                    break;
+                case 'source':
+                    $form = new Cms_Form_Block_Source();
                     break;
                 default:
                     throw new \Siberian\Exception(__('This block type doesn\'t exist'));
