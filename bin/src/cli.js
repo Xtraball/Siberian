@@ -1591,12 +1591,15 @@ let archiveSources = function () {
     sh.rm('-rf', './android/app/src/main/assets/www/modules/*');
     sh.rm('-rf', './ios/www/features/*');
     sh.rm('-rf', './ios/www/modules/*');
+    sh.chmod('-R', '777', './android');
     sh.exec('tar ' + excludes + ' -czf ./android.tgz ./android');
+    sh.chmod('-R', '777', './ios');
     sh.exec('tar ' + excludes + ' -czf ./ios.tgz ./ios');
 
     sh.cd(ROOT + '/siberian/var/apps');
     sh.rm('-rf', './browser/features/*');
     sh.rm('-rf', './browser/modules/*');
+    sh.chmod('-R', '777', './browser');
     sh.exec('tar ' + excludes + ' -czf ./browser.tgz ./browser');
 
     sprint(clc.green('Archives done!'));
