@@ -5,6 +5,43 @@ $displayTheme = false;
 if (empty($backofficeThemeView)) {
     $displayTheme = true;
 }
+
+//$systemError = false;
+
+// Enforce debug
+$systemError = true;
+
+$allow_url_fopen = ini_get('allow_url_fopen');
+if ($allow_url_fopen != 1) {
+    $systemError = true;
+}
+$max_execution_time = ini_get('max_execution_time');
+if ($max_execution_time < 300) {
+    $systemError = true;
+}
+$memory_limit = ini_get('memory_limit');
+$mlNumeric = (int) preg_replace("/[^0-9]/", '', $memory_limit);
+if ($mlNumeric < 512) {
+    $systemError = true;
+}
+
+$post_max_size = ini_get('post_max_size');
+$pmsNumeric = (int) preg_replace("/[^0-9]/", '', $post_max_size);
+if ($pmsNumeric < 100) {
+    $systemError = true;
+}
+
+$upload_max_filesize = ini_get('upload_max_filesize');
+$umfNnumeric = (int) preg_replace("/[^0-9]/", '', $upload_max_filesize);
+if ($umfNnumeric < 100) {
+    $systemError = true;
+}
+
+$exec = function_exists('exec');
+if (!$exec) {
+    $systemError = true;
+}
+
 ?>
 <div class="col-md-8 col-md-offset-2 col-sm-12">
     <span ng-if="!sslLoading">
@@ -26,6 +63,105 @@ if (empty($backofficeThemeView)) {
     <div class="alert alert-info">
         <?php echo __('New backoffice themes are available, check them out <a href="/system/backoffice_config_design">here</a>.') ?>
     </div>
+</div>
+<?php endif; ?>
+
+<?php if (isDev() || $systemError): ?>
+<div class="col-xs-12 col-md-12">
+    <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
+                klass="'critical'"
+                button="button">
+        <table class="table table dashboard no-wrap">
+            <col width="32px" />
+            <col width="180px" />
+            <tbody>
+                <tr>
+                    <td rowspan="6">
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                    </td>
+                    <td rowspan="6">
+                        <?php echo __("PHP Settings") ?>
+                    </td>
+                    <td>allow_url_fopen</td>
+                    <td>
+                        <?php if ($allow_url_fopen == 1): ?>
+                            <span class="service-green"> <?php echo $allow_url_fopen ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo $allow_url_fopen ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be %s / %s', 'On', '1') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>max_execution_time</td>
+                    <td>
+                        <?php if ($max_execution_time >= 300): ?>
+                            <span class="service-green"> <?php echo $max_execution_time ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo $max_execution_time ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be at least %s', 300) ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>memory_limit</td>
+                    <td>
+                        <?php if ($mlNumeric >= 512): ?>
+                            <span class="service-green"> <?php echo $memory_limit ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo $memory_limit ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be at least %s', '512M') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>post_max_size</td>
+                    <td>
+                        <?php if ($pmsNumeric >= 100): ?>
+                            <span class="service-green"> <?php echo $post_max_size ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo $post_max_size ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be at least %s', '100M') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>upload_max_filesize</td>
+                    <td>
+                        <?php if ($umfNnumeric >= 100): ?>
+                            <span class="service-green"> <?php echo $upload_max_filesize ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo $upload_max_filesize ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be at least %s', '100M') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td>exec()</td>
+                    <td>
+                        <?php if ($exec): ?>
+                            <span class="service-green"> <?php echo p__('backoffice', 'Enabled') ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo p__('backoffice', 'Disabled') ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php echo p__('backoffice', 'Must be enabled') ?>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </sb-section>
 </div>
 <?php endif; ?>
 
@@ -423,17 +559,17 @@ if (empty($backofficeThemeView)) {
             ?>
 
             <span>
-				<?php echo __("Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"); ?><br /><br />
-				<pre>* * * * * <?php echo $guessed_php ?> -d memory_limit=512M -f <?php echo $base_path; ?>cron.php >> <?php echo $base_path; ?>var/log/cron.log 2>&1</pre>
-				<br />
+                <?php echo __("Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"); ?><br /><br />
+                <pre>* * * * * <?php echo $guessed_php ?> -d memory_limit=512M -f <?php echo $base_path; ?>cron.php >> <?php echo $base_path; ?>var/log/cron.log 2>&1</pre>
+                <br />
                 <?php echo __("Otherwise install it manually, from your panel, or directly from your ssh access."); ?>
                 <br />
                 <?php echo __("The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it.", $guessed_php); ?>
                 <br /><br />
-				<b>
-					<?php echo __("Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."); ?>
-				</b>
-			</span>
+                <b>
+                    <?php echo __("Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."); ?>
+                </b>
+            </span>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" ng-click="show_cron_modal = !show_cron_modal;"><?php echo __("Close"); ?></button>
