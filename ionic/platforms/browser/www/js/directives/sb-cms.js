@@ -416,9 +416,6 @@ angular.module('starter').directive('sbCmsText', function () {
             iframe.document.close();
 
             scope.frameHeight = scope.block.height;
-        },
-        controller: function ($scope) {
-
         }
     };
 });
