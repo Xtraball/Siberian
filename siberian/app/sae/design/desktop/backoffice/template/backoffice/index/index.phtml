@@ -6,10 +6,7 @@ if (empty($backofficeThemeView)) {
     $displayTheme = true;
 }
 
-//$systemError = false;
-
-// Enforce debug
-$systemError = true;
+$systemError = false;
 
 $allow_url_fopen = ini_get('allow_url_fopen');
 if ($allow_url_fopen != 1) {
@@ -42,6 +39,26 @@ if (!$exec) {
     $systemError = true;
 }
 
+$pathError = false;
+
+$pathVarTmp = path('/var/tmp');
+$varTmp = is_writable($pathVarTmp);
+if (!$varTmp) {
+    $pathError = true;
+}
+
+$pathVarLog = path('/var/log');
+$varLog = is_writable($pathVarLog);
+if (!$varLog) {
+    $pathError = true;
+}
+
+$pathVarCache = path('/var/cache');
+$varCache = is_writable($pathVarCache);
+if (!$varCache) {
+    $pathError = true;
+}
+
 ?>
 <div class="col-md-8 col-md-offset-2 col-sm-12">
     <span ng-if="!sslLoading">
@@ -66,18 +83,30 @@ if (!$exec) {
 </div>
 <?php endif; ?>
 
-<?php if (isDev() || $systemError): ?>
+<?php if (isDev() || $systemError || $pathError): ?>
 <div class="col-xs-12 col-md-12">
     <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
                 klass="'critical'"
                 button="button">
+
+        <?php if ($systemError || $pathError): ?>
+        <div class="alert alert-danger">
+            <?php echo p__('backoffice', 'We have detected incorrect settings on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications.') ?>
+        </div>
+        <?php endif; ?>
+
         <table class="table table dashboard no-wrap">
             <col width="32px" />
-            <col width="180px" />
+            <col width="150px" />
+            <col width="35%" />
             <tbody>
                 <tr>
                     <td rowspan="6">
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                        <?php if ($systemError): ?>
+                        <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                        <?php else: ?>
+                        <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+                        <?php endif; ?>
                     </td>
                     <td rowspan="6">
                         <?php echo __("PHP Settings") ?>
@@ -90,7 +119,7 @@ if (!$exec) {
                             <span class="service-red"> <?php echo $allow_url_fopen ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be %s / %s', 'On', '1') ?>
                     </td>
                 </tr>
@@ -103,7 +132,7 @@ if (!$exec) {
                             <span class="service-red"> <?php echo $max_execution_time ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be at least %s', 300) ?>
                     </td>
                 </tr>
@@ -116,7 +145,7 @@ if (!$exec) {
                             <span class="service-red"> <?php echo $memory_limit ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be at least %s', '512M') ?>
                     </td>
                 </tr>
@@ -129,7 +158,7 @@ if (!$exec) {
                             <span class="service-red"> <?php echo $post_max_size ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be at least %s', '100M') ?>
                     </td>
                 </tr>
@@ -142,7 +171,7 @@ if (!$exec) {
                             <span class="service-red"> <?php echo $upload_max_filesize ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be at least %s', '100M') ?>
                     </td>
                 </tr>
@@ -155,8 +184,57 @@ if (!$exec) {
                             <span class="service-red"> <?php echo p__('backoffice', 'Disabled') ?></span>
                         <?php endif; ?>
                     </td>
-                    <td>
+                    <td class="text-right">
                         <?php echo p__('backoffice', 'Must be enabled') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="6">
+                        <?php if ($pathError): ?>
+                            <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                        <?php else: ?>
+                            <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+                        <?php endif; ?>
+                    </td>
+                    <td rowspan="6">
+                        <?php echo __('System') ?>
+                    </td>
+                    <td><?php echo $pathVarTmp ?></td>
+                    <td>
+                        <?php if ($varTmp): ?>
+                            <span class="service-green"> <?php echo p__('backoffice', 'Writeable') ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo p__('backoffice', 'Unable to write') ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="text-right">
+                        <?php echo p__('backoffice', 'Must be writeable') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?php echo $pathVarLog ?></td>
+                    <td>
+                        <?php if ($varLog): ?>
+                            <span class="service-green"> <?php echo p__('backoffice', 'Writeable') ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo p__('backoffice', 'Unable to write') ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="text-right">
+                        <?php echo p__('backoffice', 'Must be writeable') ?>
+                    </td>
+                </tr>
+                <tr>
+                    <td><?php echo $pathVarCache ?></td>
+                    <td>
+                        <?php if ($varCache): ?>
+                            <span class="service-green"> <?php echo p__('backoffice', 'Writeable') ?></span>
+                        <?php else: ?>
+                            <span class="service-red"> <?php echo p__('backoffice', 'Unable to write') ?></span>
+                        <?php endif; ?>
+                    </td>
+                    <td class="text-right">
+                        <?php echo p__('backoffice', 'Must be writeable') ?>
                     </td>
                 </tr>
             </tbody>
