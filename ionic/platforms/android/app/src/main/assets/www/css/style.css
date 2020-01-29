@@ -900,6 +900,12 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     width: 100%;
 }
 
+iframe.sb-cms-source {
+    border: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
 /* DIRECTIVE SB-INPUT */
 .input-number-sb .button-right {
     margin-left: -4px !important;

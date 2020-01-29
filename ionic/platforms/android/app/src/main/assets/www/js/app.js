@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.17.6
+ * @version 4.18.8
  */
 
 window.momentjs_loaded = false;
@@ -73,7 +73,7 @@ angular.module('lodash', []).factory('_', ['$window', function ($window) {
 var semver = {compare: function (a, b, specificity) {var pa = a.split('.');var pb = b.split('.');var sentinels = {'major': 1, 'minor': 2, 'patch': 3};for (var i = 0; i < (sentinels[specificity] || 3); i++) {na = Number(pa[i]);nb = Number(pb[i]);if (na > nb || !isNaN(na) && isNaN(nb)) {return 1;}if (na < nb || isNaN(na) && !isNaN(nb)) {return -1;}}return 0;}, isGreater: function (a, b, specificity) {return this.compare(a, b, specificity) === 1;}, isLess: function (a, b, specificity) {return this.compare(a, b, specificity) === -1;}, isEqual: function (a, b, specificity) {return this.compare(a, b, specificity) === 0;}};
 
 var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 'ngSanitize', 'ngQueue',
-    'ion-gallery', 'ngImgCrop', 'ionic-zoom-view', 'tmh.dynamicLocale', 'templates', 'oc.lazyLoad'])
+    'ion-gallery', 'ngImgCrop', 'ionic-zoom-view', 'templates', 'oc.lazyLoad'])
     .constant('$ionicLoadingConfig', { template: '<ion-spinner></ion-spinner>' })
     .constant('SB', {
         EVENTS: {
@@ -256,7 +256,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.18.3'
+                            version: '4.18.8'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -288,12 +288,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             Customer.loginWithFacebook(fbtoken);
                         }
 
-                        var HomepageLayout = $injector.get("HomepageLayout");
+                        var HomepageLayout = $injector.get('HomepageLayout');
 
                         // Append custom CSS/SCSS to the page!
                         if (data.cssBlock && data.cssBlock.css) {
-                            var css = document.createElement("style");
-                            css.type = "text/css";
+                            var css = document.createElement('style');
+                            css.setAttribute('type', 'text/css');
                             css.innerHTML = data.cssBlock.css;
                             document.body.appendChild(css);
                         }
@@ -429,12 +429,10 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         if (load.application.is_bo_locked) {
                             $rootScope.app_is_bo_locked = true;
-
                             $ionicHistory.nextViewOptions({
                                 disableBack: true
                             });
-
-                            $state.go("locked");
+                            $state.go('locked');
                         }
 
                         if (window.StatusBar !== undefined) {
@@ -456,8 +454,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
 
                         if ($rootScope.isNativeApp) {
-                            if (!$window.localStorage.getItem("first_running")) {
-                                $window.localStorage.setItem("first_running", "true");
+                            if (!$window.localStorage.getItem('first_running')) {
+                                $window.localStorage.setItem('first_running', 'true');
                                 Analytics.storeInstallation();
                             }
 
@@ -565,17 +563,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 (params.offline === 'true') : false;
 
                             // Special in-app link for my account!
-                            if (params.state === "my-account") {
+                            if (params.state === 'my-account') {
                                 Customer.loginModal();
                                 return;
                             }
 
                             switch (action) {
-                                case "state-go":
-                                    if (params.hasOwnProperty("value_id")) {
+                                case 'state-go':
+                                    if (params.hasOwnProperty('value_id')) {
                                         var feature = Pages.getValueId(params.value_id);
                                         if (feature && !feature.is_active) {
-                                            Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                            Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
                                             return;
                                         }
                                     }
@@ -660,7 +658,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                     Dialog.alert('CHCP', installUpdateError.description, 'Dismiss');
                                                 } else {
                                                     Dialog.alert('CHCP', 'Update successfully installed, restarting new files.', 'Dismiss', -1);
-                                                    return;
                                                 }
                                             });
                                         });
@@ -736,7 +733,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                             var feat = visibleOptions[fi];
 
                                             // Don't load unwanted features on first page.!
-                                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) >= 0) {
+                                            if (['code_scan', 'radio', 'padlock', 'tabbar_account'].indexOf(feat.code) >= 0) {
                                                 featIndex = fi;
                                                 break;
                                             }
@@ -757,7 +754,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             $window.setLayoutId = function (valueId, layoutId) {
                                 HomepageLayout.setLayoutId(valueId, layoutId);
                             };
-
 
                             if (parent && (typeof parent.postMessage === 'function') && (parent !== window)) {
                                 parent.postMessage('overview.loaded', DOMAIN);
@@ -793,22 +789,19 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         // Loads momentjs/progressbar async.
                         $ocLazyLoad
-                        .load("./dist/lazy/moment.min.js")
+                        .load('./dist/lazy/moment.min.js')
                         .then(function () {
                             window.momentjs_loaded = true;
                             try {
-                                var tmpLang = language.replace("_", "-").toLowerCase();
-                                moment.locale([tmpLang, "en"]);
+                                var tmpLang = language.replace('_', '-').toLowerCase();
+                                moment.locale([tmpLang, 'en']);
                             } catch (e) {
-                                moment.locale("en");
+                                moment.locale('en');
                             }
-
-                            console.log("moment locale", moment.locale());
                         });
 
                         $ocLazyLoad.load('./dist/lazy/angular-carousel.min.js');
                         window.Features.featuresToLoadOnStart.forEach(function (bundle) {
-                            $log.info('Loading on Start: ', bundle);
                             $ocLazyLoad.load([
                                 bundle.path
                             ], {
@@ -846,7 +839,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                     $ocLazyLoad
                                     .load('./features/previewer/previewer.bundle.min.js')
                                     .then(function () {
-                                        $injector.get("Previewer").deleteFile();
+                                        $injector.get('Previewer').deleteFile();
                                     });
                                 } catch (e) {
                                     //
