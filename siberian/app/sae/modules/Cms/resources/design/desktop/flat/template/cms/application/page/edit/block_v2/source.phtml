@@ -1,11 +1,14 @@
 <?php
 
 $title = $this->getTitle();
+$type = $this->getType();
 $form = $this->getForm();
 $block = $this->getCmsBlock();
 
+$ajaxLoad = true;
 if(isset($block) && $block->getId()) {
     $form->loadBlock($block);
+    $ajaxLoad = false;
 }
 
 $formid = $form->getAttrib('id');
@@ -36,9 +39,11 @@ $pvar = "p{$uniqid}";
     <script type="text/javascript">
         let <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
+        <?php if ($ajaxLoad || $type === 'cms'): ?>
         $(document).ready(function() {
             bindForms(<?php echo $pvar; ?>);
         });
+        <?php endif; ?>
     </script>
 
 </div>

@@ -2,6 +2,8 @@
  ckeditor_available_lang: true, ckeditor_language: true, datepicker_regional, ckeditor_config: true, Uploader
  */
 
+CKEDITOR.disableAutoInline = true;
+
 // Handle every elements for Forms on the Fly!
 ckeditor_available_lang = ['af', 'ar', 'az', 'bg', 'bn', 'bs', 'ca', 'cs', 'cy', 'da', 'de-ch', 'de', 'el', 'en-au', 'en-ca', 'en-gb', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fo', 'fr-ca', 'fr', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'id', 'is', 'it', 'ja', 'ka', 'km', 'ko', 'ku', 'lt', 'lv', 'mk', 'mn', 'ms', 'nb', 'nl', 'no', 'oc', 'pl', 'pt-br', 'pt', 'ro', 'ru', 'si', 'sk', 'sl', 'sq', 'sr-latn', 'sr', 'sv', 'th', 'tr', 'tt', 'ug', 'uk', 'vi', 'zh-cn', 'zh'];
 
@@ -29,6 +31,12 @@ ckeditor_config.default = {
         },
         { name: 'styles', items: ['TextColor', 'Format', 'FontSize'] }
     ],
+    on: {
+        change: function (event) {
+            // Auto-update attached textarea;
+            $('textarea#' + this.name).html(this.getData());
+        }
+    },
     extraPlugins: 'codemirror',
     extraAllowedContent: 'a[*];img[*];'
 };
@@ -51,6 +59,12 @@ ckeditor_config.cms = {
         { name: 'links', items: ['Link', 'Unlink'] },
         { name: 'other', items: ['cmsimage', 'featurelink'] }
     ],
+    on: {
+        change: function (event) {
+            // Auto-update attached textarea;
+            $('textarea#' + this.name).html(this.getData());
+        }
+    },
     extraPlugins: 'cmsimage,featurelink,codemirror',
     extraAllowedContent: 'a[*];img[*];iframe[*]'
 };
@@ -62,12 +76,25 @@ ckeditor_config.source = {
         { name: 'source', items: ['Source'] },
         { name: 'other', items: ['featurelink'] }
     ],
+    on: {
+        change: function (event) {
+            // Auto-update attached textarea;
+            $('textarea#' + this.name).html(this.getData());
+        }
+    },
     extraPlugins: 'featurelink,codemirror',
     allowedContent: true
 };
 
 ckeditor_config.complete = {
-    language: ckeditor_language
+    language: ckeditor_language,
+    on: {
+        change: function (event) {
+            // Auto-update attached textarea;
+            console.log('$(\'textarea#\' + this.name).html(this.getData());', this.getData());
+            $('textarea#' + this.name).html(this.getData());
+        }
+    }
 };
 
 let feature_picture_uploader = new Uploader();
@@ -298,22 +325,8 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
     });
 };
 
-var refreshCkeditor = function (element, key) {
-    let el = $(element);
-    let ck_key = (typeof key === 'undefined') ? el.attr('ckeditor') : key;
-    let ck_fkey = (ckeditor_config.hasOwnProperty(ck_key)) ? ck_key : 'default';
-
-    setTimeout(function () {
-        try {
-            el.ckeditor(
-                function () {},
-                ckeditor_config[ck_fkey]
-            );
-            CKEDITOR.replace(element, ckeditor_config[ck_fkey]);
-        } catch (e) {
-            console.error('Something went wrong while refreshing ckeditor on element', element, e.message);
-        }
-    }, 200);
+var refreshCkeditor = function (element) {
+    rebuildRichtext(element);
 };
 
 /** Button picture uploader */
@@ -361,7 +374,7 @@ var _bindRow = function (default_parent) {
 
                         setTimeout(function () {
                             bindForms('tr.edit-form[data-id='+object_id+']');
-                            handleRichtext();
+                            handleRichtext('tr.edit-form[data-id='+object_id+']');
                             if (typeof callback !== 'undefined') {
                                 try {
                                     eval(callback);
@@ -379,7 +392,7 @@ var _bindRow = function (default_parent) {
         } else {
             setTimeout(function () {
                 bindForms('tr.edit-form[data-id='+object_id+']');
-                handleRichtext();
+                handleRichtext('tr.edit-form[data-id='+object_id+']');
                 if (typeof callback !== 'undefined') {
                     try {
                         eval(callback);
@@ -415,24 +428,34 @@ var toggle_add_success = function (default_parent) {
     $(default_parent+' form.feature-form').find('.feature-upload-placeholder').remove();
 };
 
+var rebuildRichtext = function (element) {
+    let el = $(element);
+    let elId = el.attr('id');
+    let ckKey = el.attr('ckeditor');
+    let ckConfig = (ckKey in ckeditor_config) ? ckeditor_config[ckKey] : ckeditor_config.default;
+
+    setTimeout(function () {
+        try {
+            // Rebuild only when it's relevant!
+            $('#'+elId).siblings('div.cke').remove();
+
+            if (CKEDITOR.instances.hasOwnProperty(elId)) {
+                if (CKEDITOR.instances[elId].hasOwnProperty('destroy')) {
+                    CKEDITOR.instances[elId].destroy(true);
+                }
+                delete CKEDITOR.instances[elId];
+            }
+            CKEDITOR.replace(elId, ckConfig);
+        } catch (e) {
+            console.log('Unable to initialize CKEditor on element', el, e.message, e);
+        }
+    }, 100);
+};
+
 var handleRichtext = function (default_parent) {
     /** Bind ckeditors (only visible ones) */
     $(default_parent+' .richtext').each(function () {
-        let el = $(this);
-        let ck_key = el.attr('ckeditor');
-        let ck_config = (ck_key in ckeditor_config) ? ckeditor_config[ck_key] : ckeditor_config.default;
-
-        setTimeout(function () {
-            try {
-                el.ckeditor(
-                    function () {},
-                    ck_config
-                );
-                CKEDITOR.replace(this, ck_config);
-            } catch (e) {
-                console.error('Something went wrong while initializing ckeditor on element', this, e.message);
-            }
-        }, 500);
+        rebuildRichtext(this);
     });
 };
 

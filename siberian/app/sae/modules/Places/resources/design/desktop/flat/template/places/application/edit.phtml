@@ -34,8 +34,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 ?>
 
 
-<div id="places_list"
-     class="places-new">
+<div class="places-new">
 
     <?php if (empty($appKey)): ?>
         <div class="alert alert-danger">
@@ -150,13 +149,14 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                     </span>
                 </h3>
 
-                <span class="cms-form-placeholder">
+                <span id="new_place"
+                      class="cms-form-placeholder">
                     <!-- Here goes the Loaded form (Create/Edit) -->
                 </span>
             </div>
 
 
-            <?php if(sizeof($pages) > 0): ?>
+            <?php if (count($pages) > 0): ?>
                 <div class="feature-block-list">
                     <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -243,12 +243,13 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('Create a new category'); ?>
                 </h3>
-                <div class="container-fluid subcontent content-feature">
+                <div id="new_category"
+                     class="container-fluid subcontent content-feature">
                     <?php echo $formCategory; ?>
                 </div>
             </div>
 
-            <?php if (sizeof($categories) > 0): ?>
+            <?php if (count($categories) > 0): ?>
                 <div class="feature-block-list">
                     <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -358,6 +359,11 @@ $deleteCategoryForm->setValueId($optionValue->getId());
         $(".feature-toggle-add[rel='places'], .edit-action[rel='places']").on("click", function(event) {
             event.preventDefault();
 
+            bindForms('#search');
+            bindForms('#design');
+            bindForms('#new_place');
+            bindForms('#new_category');
+
             let formurl = "<?php echo $this->getUrl("/places/application/loadform") ?>";
             let datas = {value_id: <?php echo $optionValue->getId() ?>};
             let el = $(this);
@@ -416,8 +422,6 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
             return false;
         });
-
-        bindForms("#places_list");
 
         $("table.sb-pager.table-places").sbpager({
             with_search: true,
