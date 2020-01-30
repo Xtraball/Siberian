@@ -374,7 +374,6 @@ var _bindRow = function (default_parent) {
 
                         setTimeout(function () {
                             bindForms('tr.edit-form[data-id='+object_id+']');
-                            handleRichtext('tr.edit-form[data-id='+object_id+']');
                             if (typeof callback !== 'undefined') {
                                 try {
                                     eval(callback);
@@ -392,7 +391,6 @@ var _bindRow = function (default_parent) {
         } else {
             setTimeout(function () {
                 bindForms('tr.edit-form[data-id='+object_id+']');
-                handleRichtext('tr.edit-form[data-id='+object_id+']');
                 if (typeof callback !== 'undefined') {
                     try {
                         eval(callback);
@@ -565,7 +563,6 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
     }
 
     $(default_parent).data('binded', 'yes');
-
 
     handleRichtext(default_parent);
     handleDatetimePicker(default_parent);
