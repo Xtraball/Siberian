@@ -22,6 +22,8 @@ class Job_CompanyController extends Application_Controller_Default {
 
             $form->getElement("administrators")->setValue(explode(",", $company->getData("administrators")));
 
+            $form->getElement('description')->setAttrib('id', 'company-edit-description-' . $company->getId());
+
             $html = [
                 "success" => 1,
                 "form" => $form->render(),

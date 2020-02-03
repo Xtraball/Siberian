@@ -23,6 +23,8 @@ class Job_CategoryController extends Application_Controller_Default
             $form->addNav("job-category-edit-nav", "Save", false);
             $form->setCategoryId($category->getId());
 
+            $form->getElement('description')->setAttrib('id', 'category-edit-description-' . $category->getId());
+
             $html = [
                 "success" => 1,
                 "form" => $form->render(),
