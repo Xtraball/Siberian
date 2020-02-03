@@ -430,7 +430,8 @@ var rebuildRichtext = function (element) {
     let el = $(element);
     let elId = el.attr('id');
     let ckKey = el.attr('ckeditor');
-    let ckConfig = (ckKey in ckeditor_config) ? ckeditor_config[ckKey] : ckeditor_config.default;
+    let ckConfig = (ckKey in ckeditor_config) ?
+        ckeditor_config[ckKey] : ckeditor_config.default;
 
     setTimeout(function () {
         try {

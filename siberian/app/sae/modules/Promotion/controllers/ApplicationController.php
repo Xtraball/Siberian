@@ -34,6 +34,7 @@ class Promotion_ApplicationController extends Application_Controller_Default
             $form->removeNav('promotion-nav');
             $form->addQrCode($formData['unlock_code']);
             $form->addNav('promotion-edit-nav', 'Save', false);
+            $form->getElement('description')->setAttrib('id', 'edit-description-' . $promotion->getId());
             $form->setPromotionId($promotion->getId());
 
             $payload = [
