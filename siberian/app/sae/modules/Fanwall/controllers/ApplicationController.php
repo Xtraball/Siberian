@@ -51,37 +51,37 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 if ($post->getId()) {
                     $saveToHistory = true;
                     $archivedPost = [
-                        "id" => (integer) $post->getId(),
-                        "customerId" => (integer) $post->getCustomerId(),
-                        "title" => (string) $post->getTitle(),
-                        "subtitle" => (string) $post->getSubtitle(),
-                        "text" => (string) $post->getText(),
-                        "image" => (string) $post->getImage(),
-                        "date" => (integer) $post->getDate(),
-                        "latitude" => (float) $post->getLatitude(),
-                        "longitude" => (float) $post->getLongitude(),
-                        "locationShort" => (string) $post->getLocationShort(),
+                        'id' => (integer) $post->getId(),
+                        'customerId' => (integer) $post->getCustomerId(),
+                        'title' => (string) $post->getTitle(),
+                        'subtitle' => (string) $post->getSubtitle(),
+                        'text' => (string) $post->getText(),
+                        'image' => (string) $post->getImage(),
+                        'date' => (integer) $post->getDate(),
+                        'latitude' => (float) $post->getLatitude(),
+                        'longitude' => (float) $post->getLongitude(),
+                        'locationShort' => (string) $post->getLocationShort(),
                     ];
                 }
 
                 // Replacing the visual date, with the timestamp, date name/id is suffixed with a uniqid()!
                 foreach ($values as $key => $value) {
                     if (preg_match("#^date_#", $key)) {
-                        $values["date"] = $value / 1000;
+                        $values['date'] = $value / 1000;
                         break;
                     }
                 }
 
-                $values["text"] = base64_encode($values["text"]);
+                $values['text'] = base64_encode($values['text']);
 
                 $post
                     ->addData($values)
                     ->addData([
-                        "is_active" => true,
+                        'is_active' => true,
                     ])
                 ;
 
-                Feature::formImageForOption($optionValue, $post, $values, "image", true);
+                Feature::formImageForOption($optionValue, $post, $values, 'image', true);
 
                 $post->save();
 
@@ -105,21 +105,21 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->expires(-1);
 
                 $payload = [
-                    "success" => true,
-                    "message" => __("Success."),
+                    'success' => true,
+                    'message' => __('Success.'),
                 ];
             } else {
                 /** Do whatever you need when form is not valid */
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true),
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
                 ];
             }
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
         
@@ -139,17 +139,17 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $form = new FormSettings();
             if ($form->isValid($values)) {
 
-                $fanWall = (new Fanwall())->find($optionValue->getId(), "value_id");
+                $fanWall = (new Fanwall())->find($optionValue->getId(), 'value_id');
                 $fanWall
                     ->addData($values);
 
                 $icons = [
-                    "icon_post" => "Posts",
-                    "icon_nearby" => "Nearby",
-                    "icon_map" => "Map",
-                    "icon_gallery" => "Gallery",
-                    "icon_new" => "New post",
-                    "icon_profile" => "Profile",
+                    'icon_post' => 'Posts',
+                    'icon_nearby' => 'Nearby',
+                    'icon_map' => 'Map',
+                    'icon_gallery' => 'Gallery',
+                    'icon_new' => 'New post',
+                    'icon_profile' => 'Profile',
                 ];
 
                 foreach ($icons as $column => $label) {
@@ -164,21 +164,21 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->expires(-1);
 
                 $payload = [
-                    "success" => true,
-                    "message" => __("Success."),
+                    'success' => true,
+                    'message' => __('Success.'),
                 ];
             } else {
                 /** Do whatever you need when form is not valid */
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true),
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
                 ];
             }
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -193,35 +193,36 @@ class Fanwall_ApplicationController extends Application_Controller_Default
         try {
             $optionValue = $this->getCurrentOptionValue();
             $request = $this->getRequest();
-            $postId = $request->getParam("post_id", null);
+            $postId = $request->getParam('post_id', null);
             $post = (new Post())->find($postId);
 
-            if (!$post->getId()) {
-                throw new Exception(p__("fanwall","This post entry do not exists!"));
+            if (!$post || !$post->getId()) {
+                throw new Exception(p__('fanwall', 'This post entry do not exists!'));
             }
 
             $tmpData = $post->getData();
 
-            $tmpData["text"] = base64_decode($tmpData["text"]);
+            $tmpData['text'] = base64_decode($tmpData['text']);
 
             $form = new FormPost();
-            $form->removeNav("nav-fanwall-post");
+            $form->removeNav('nav-fanwall-post');
             $form->populate($tmpData);
             $form->setValueId($optionValue->getId());
             $form->setPostId($post->getId());
-            $form->setDate($tmpData["date"]);
+            $form->setDate($tmpData['date']);
+            $form->getElement('text')->setAttrib('id', 'fanwall2-edit-post-' . $postId);
             $form->loadFormSubmit();
 
             $payload = [
-                "success" => true,
-                "form" => $form->render(),
-                "message" => __("Success."),
+                'success' => true,
+                'form' => $form->render(),
+                'message' => __('Success.'),
             ];
 
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
