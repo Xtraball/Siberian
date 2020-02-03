@@ -14,6 +14,12 @@ ckeditor_config.social_wall = {
         { name: 'styles', items: ['TextColor'] },
         { name: 'other', items: ['featurelink'] }
     ],
+    on: {
+        change: function (event) {
+            // Auto-update attached textarea;
+            $('textarea#' + this.name).html(this.getData());
+        }
+    },
     extraPlugins: 'featurelink',
     extraAllowedContent: 'a[*];img[*];iframe[*]'
 };

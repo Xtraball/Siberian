@@ -91,7 +91,6 @@ ckeditor_config.complete = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            console.log('$(\'textarea#\' + this.name).html(this.getData());', this.getData());
             $('textarea#' + this.name).html(this.getData());
         }
     }
