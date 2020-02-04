@@ -119,6 +119,47 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
 
     }
 
+    public function getSampleAction ()
+    {
+        $application = $this->getApplication();
+        $icon = $application->getIcon(128);
+        $mainDomain = __get('main_domain');
+        $icon = "https://{$mainDomain}{$icon}";
+        $image = "https://{$mainDomain}/app/sae/modules/Job/features/job/assets/templates/l1/img/job-header.png";
+
+        $collection = [];
+        for ($i = 0; $i < 10; $i++) {
+            $year = date('Y') - $i;
+            $month = date('m') - $i;
+            if ($month < 1) {
+                $month = 12 - $i;
+            }
+            $date = date( $year . '-' . $month . '-d H:i:s');
+            $collection[] = [
+                'id' => (integer) $i,
+                'author' => ($i % 2 === 0) ? p__('push', 'John DOE') : p__('push', 'Jane DOE'),
+                'message' => p__('push', 'This a sample push message, this sample is only available from the application overview. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
+                'topic' => '',
+                'details' => [
+                    'date' => [
+                        'picto' => '',
+                        'text' => datetime_to_format($date),
+                        'mt_text' => $date
+                    ]
+                ],
+                'picture' => $image,
+                'icon' => $icon,
+                'action_value' => '',
+                'url' => 'https://w3.org'
+            ];
+        }
+
+        $this->_sendJson([
+            'success' => true,
+            'collection' => $collection
+        ]);
+    }
+
     /**
      * @throws Zend_Exception
      */
