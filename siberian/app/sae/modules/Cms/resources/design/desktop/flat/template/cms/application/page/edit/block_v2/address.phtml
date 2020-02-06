@@ -1,12 +1,16 @@
 <?php
 
+$type = $this->getType();
 $title = $this->getTitle();
 $form = $this->getForm();
 
 $block = $this->getCmsBlock();
 
+$ajaxLoad = true;
 if(isset($block) && $block->getId()) {
     $form->loadBlock($block);
+
+    $ajaxLoad = false;
 }
 
 $formid = $form->getAttrib("id");
@@ -38,7 +42,9 @@ $required = $form->getRequired();
 
     <script type="text/javascript">
         $(document).ready(function() {
+            <?php if ($ajaxLoad || $type === 'cms'): ?>
             bindForms("#<?php echo $formid; ?>");
+            <?php endif; ?>
 
             bindcmsblockAddress("#<?php echo $formid; ?>");
         });

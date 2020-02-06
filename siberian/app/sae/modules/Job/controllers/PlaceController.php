@@ -46,6 +46,8 @@ class Job_PlaceController extends Application_Controller_Default {
                 $form->getElement("category_id")->addMultiOptions($category_options);
             }
 
+            $form->getElement('description')->setAttrib('id', 'job-edit-description-' . $place->getId());
+
             $html = [
                 "success" => 1,
                 "form" => $form->render(),

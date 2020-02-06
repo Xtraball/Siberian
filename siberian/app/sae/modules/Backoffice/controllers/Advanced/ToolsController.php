@@ -1,11 +1,18 @@
 <?php
 
+use Siberian\Version;
+use Siberian\Request;
+use Siberian\Exception;
+
 /**
  * Class Backoffice_Advanced_ToolsController
  */
 class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_Default
 {
 
+    /**
+     *
+     */
     public function loadAction()
     {
         $html = [
@@ -18,6 +25,9 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson($html);
     }
 
+    /**
+     *
+     */
     public function runtestAction()
     {
         $data = Siberian_Tools_Integrity::checkIntegrity();
@@ -27,17 +37,20 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson($data);
     }
 
+    /**
+     *
+     */
     public function restoreappsAction()
     {
         try {
-            $var_apps = Core_Model_Directory::getBasePathTo('var/apps');
+            $varApps = path('var/apps');
 
-            $version = Siberian_Version::VERSION;
+            $version = Version::VERSION;
 
             // Check if release exists
             $releaseUrl = 'https://github.com/Xtraball/Siberian/tree/v' . $version;
-            Siberian_Request::get($releaseUrl);
-            if (Siberian_Request::$statusCode == '404') {
+            Request::get($releaseUrl);
+            if (Request::$statusCode == '404') {
                 throw new Exception(__('There is not corresponding release to restore from, process aborted!'));
             }
 
@@ -46,15 +59,15 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $ios = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios.tgz';
 
             // Clean-up before run!
-            chdir($var_apps . '/ionic');
+            chdir($varApps . '/ionic');
             exec('rm -f ./android.tgz');
             exec('rm -f ./ios.tgz');
             exec('rm -f ../browser.tgz');
 
             // Download archives from GitHub
-            chdir($var_apps);
+            chdir($varApps);
             exec('wget ' . $browser);
-            chdir($var_apps . '/ionic');
+            chdir($varApps . '/ionic');
             exec('wget ' . $android);
             exec('wget ' . $ios);
 
@@ -65,27 +78,52 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             }
 
             // Clean-up & Extract!
-            chdir($var_apps);
+            chdir($varApps);
             exec('rm -Rf ./browser ./overview');
-            exec('tar xzf browser.tgz');
+            exec('tar pxzf browser.tgz');
             exec('cp -rp ./browser ./overview');
-            chdir($var_apps . '/ionic');
+            chdir($varApps . '/ionic');
             exec('rm -Rf ./android');
-            exec('tar xzf android.tgz');
+            exec('tar pxzf android.tgz');
             exec('rm -Rf ./ios');
-            exec('tar xzf ios.tgz');
+            exec('tar pxzf ios.tgz');
 
             // Clean-up after work!
-            chdir($var_apps . '/ionic');
+            chdir($varApps . '/ionic');
             exec('rm -f ./android.tgz');
             exec('rm -f ./ios.tgz');
             exec('rm -f ../browser.tgz');
+
+            // Ensure all folders are writable
+            chdir($varApps);
+            $writable = [
+                '/browser',
+                '/overview',
+                '/ionic/android',
+                '/ionic/ios',
+            ];
+
+            // CHMOD recursive
+            foreach ($writable as $folder) {
+                $tmpPath = path($varApps . $folder);
+                exec('chmod -R 777 "' . $tmpPath . '"');
+            }
+
+            foreach ($writable as $folder) {
+                $tmpPath = path($varApps . $folder);
+                if (!is_writable($tmpPath)) {
+                    throw new Exception(
+                        p__('backoffice',
+                            'The folder %s is not writable, please check that your web user can write to it.',
+                            $tmpPath));
+                }
+            }
 
             $payload = [
                 'success' => true,
                 'message' => __('Sources are successfully restored.')
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -108,10 +146,10 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $config = Zend_Registry::get('config');
             $dbConfig = $config->resources->db->params;
 
-            $keyPrefix = System_Model_Config::getValueFor('redis_prefix');
-            $endPoint = System_Model_Config::getValueFor('redis_endpoint');
+            $keyPrefix = __get('redis_prefix');
+            $endPoint = __get('redis_endpoint');
             $parts = parse_url($endPoint);
-            $auth = System_Model_Config::getValueFor('redis_auth');
+            $auth = __get('redis_auth');
             if (!empty($auth)) {
                 $endPoint = $endPoint . '?auth=' . $auth;
             }
@@ -146,6 +184,10 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         $this->_sendJson($payload);
     }
 
+    /**
+     * @throws Zend_Exception
+     * @throws Zend_Json_Exception
+     */
     public function saveAction()
     {
 
@@ -218,8 +260,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             ->setContentFor('content_email', 'app_name', __('Test App'))
             ->setContentFor('content_email', 'platform_name', $platformName)
             ->setContentFor('content_email', 'message', $message)
-            ->setContentFor('footer', 'show_legals', true)
-        ;
+            ->setContentFor('footer', 'show_legals', true);
 
         $content = $layout->render();
 

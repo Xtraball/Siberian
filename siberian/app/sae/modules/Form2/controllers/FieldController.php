@@ -66,6 +66,9 @@ class Form2_FieldController extends Application_Controller_Default
             $submit = $form->addSubmit(p__('form2', 'Save'));
             $submit->addClass('pull-right');
 
+            // richtext uuid
+            $form->getElement('richtext')->setAttrib('id', 'richtext-edit-' . $field->getId());
+
             $formId = "form-field-edit-{$fieldId}";
 
             $form->binderField($formId, $selectOptions);

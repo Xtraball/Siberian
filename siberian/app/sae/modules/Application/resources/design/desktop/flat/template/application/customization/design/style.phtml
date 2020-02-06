@@ -22,7 +22,7 @@ $layout_form_options = new Siberian_Form_Options($layout);
 $layout_form_options->populate($application->getData());
 
 // Count elements (excluding hidden fields)
-$countOptions = array_filter($layout_form_options->getElements(), function ($element) {
+$countOptions = array_filter($layout_form_options->getElements(), static function ($element) {
     return get_class($element) !== 'Siberian_Form_Element_Hidden';
 });
 
@@ -32,7 +32,7 @@ $overview_new = $template_design->getOverviewNew();
 # App design
 $design_id = $application->getDesignId();
 //For Facebook import
-$app_id     = Core_Model_Lib_Facebook::getAppId();
+$app_id = Core_Model_Lib_Facebook::getAppId();
 $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 $app_linked_fb_page = $application->getFacebookLinkedPage();
 

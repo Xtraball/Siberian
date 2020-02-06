@@ -110,19 +110,6 @@
             }
         });
 
-        //ckeditor
-        $('textarea[rel="<?php echo $this->getPosition(); ?>"]').ckeditor(
-            function() {
-                this.on('change', function (c) {
-                    $('textarea[rel="<?php echo $this->getPosition(); ?>"]').html(this.getData());
-                    updateFormText(<?php echo $this->getPosition(); ?>);
-                    updateContentIframe(this.getData(), <?php echo $this->getPosition(); ?>);
-                }.bind(this));
-                hackCkeditor(<?php echo $this->getPosition(); ?>);
-            },
-            ckeditor_config["cms"]
-        );
-
         $('.cms_block[rel="<?php echo $this->getPosition(); ?>"] .remove').click(function(){
             removeElem(<?php echo $this->getPosition(); ?>);
         });

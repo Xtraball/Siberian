@@ -21,7 +21,7 @@
 
         <ion-refresher ng-if="use_pull_to_refresh"
                        class="spinner-custom"
-                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
                        on-refresh="pullToRefresh()">
         </ion-refresher>
 
@@ -72,6 +72,10 @@
                      class="card no-shadow">
                     <div sb-cms-cover
                          block="block"></div>
+                </div>
+                <div ng-switch-when="source"
+                     class="card no-shadow">
+                    <div sb-cms-source block="block"></div>
                 </div>
             </div>
 

@@ -10,7 +10,7 @@
 
         <ion-refresher ng-if="canPullToRefresh()"
                        class="spinner-custom"
-                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
                        on-refresh="pullToRefresh()">
         </ion-refresher>
 
@@ -54,7 +54,7 @@
                  ng-class="{'card': cardDesign}"
                  ng-if="!is_loading && !collection.length && !cover && !search.searchValue">
                 <div class="item text-center item-custom">
-                    {{ "No items found" | translate }}
+                    {{ ::'No items found' | translate }}
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
                  ng-class="{'card': cardDesign}"
                  ng-if="!is_loading && !queries.length">
                 <div class="item text-center item-custom">
-                    {{ "No items found" | translate }}
+                    {{ ::'No items found' | translate }}
                 </div>
             </div>
         </div>

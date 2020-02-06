@@ -28,15 +28,15 @@ angular
                             e.preventDefault();
 
                             // Special in-app link for my account!
-                            if (state === "my-account") {
+                            if (state === 'my-account') {
                                 Customer.loginModal();
                             } else if (!offline && $rootScope.isOffline) {
                                 $rootScope.onlineOnly();
                             } else {
-                                if (params.hasOwnProperty("value_id")) {
+                                if (params.hasOwnProperty('value_id')) {
                                     var feature = Pages.getValueId(params.value_id);
                                     if (feature && !feature.is_active) {
-                                        Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                        Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
                                         return;
                                     }
                                 }
@@ -46,7 +46,7 @@ angular
                         });
 
                     } else {
-                        angular.element(elem).bind("click", function (e) {
+                        angular.element(elem).bind('click', function (e) {
                             e.preventDefault();
                             LinkService.openLink(elem.href, {}, false);
                         });

@@ -1,6 +1,10 @@
 <?php
 
-class Cms_Form_Base extends Siberian_Form_Abstract {
+/**
+ * Class Cms_Form_Base
+ */
+class Cms_Form_Base extends Siberian_Form_Abstract
+{
 
     /**
      * @var string|null
@@ -22,10 +26,13 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
     public static $input_loader = '<i class="input-loader fa fa-spinner fa-pulse fa-3x fa-fw" style="float: right;font-size: 20px;margin-top: -27px;margin-right: 2px;"></i>';
 
     /**
-     * @param $title
-     * @return Siberian_Form_Element_Html
+     * @param string $title
+     * @param string $name
+     * @return $this
+     * @throws Zend_Form_Exception
      */
-    public function addSections($title = "Add sections", $name = "sections_html") {
+    public function addSections($title = 'Add sections', $name = 'sections_html')
+    {
 
         $title = __($title);
 
@@ -34,25 +41,25 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
         $blocks = $cms_application_block_model->findAll();
 
         $html = '
-    <p><b>'.__($title).'</b></p>';
+    <p><b>' . __($title) . '</b></p>';
 
         $current = [];
-        foreach($blocks as $block) {
-            if($this->feature_code == "places") {
+        foreach ($blocks as $block) {
+            if ($this->feature_code === 'places') {
 
                 # Skip address block for Places.
-                if($block->getType() == "address") {
+                if ($block->getType() === 'address') {
                     continue;
                 }
             }
 
-            if(!in_array($block->getType(), $current)) {
+            if (!in_array($block->getType(), $current)) {
                 $tpl = self::$button_template;
                 $tpl = str_replace([
-                    "%ID%",
-                    "%BLOCK_ID%",
-                    "%BLOCK_ICON%",
-                    "%TITLE%",
+                    '%ID%',
+                    '%BLOCK_ID%',
+                    '%BLOCK_ICON%',
+                    '%TITLE%',
                 ], [
                     $block->getType(),
                     $block->getId(),
@@ -66,10 +73,10 @@ class Cms_Form_Base extends Siberian_Form_Abstract {
             }
         }
 
-        $this->addSimpleHtml($name, $html, ["class" => "section-padding"]);
+        $this->addSimpleHtml($name, $html, ['class' => 'section-padding']);
 
         # Container for the blocks
-        $this->addSimpleHtml($name."_container", "", ["class" => "blocks-container section-padding"]);
+        $this->addSimpleHtml($name . '_container', '', ['class' => 'blocks-container section-padding']);
 
         return $this;
     }

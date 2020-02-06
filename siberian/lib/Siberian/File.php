@@ -3,7 +3,8 @@
 namespace Siberian;
 
 /**
- * Class \Siberian\File
+ * Class File
+ * @package Siberian
  */
 class File
 {

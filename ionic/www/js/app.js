@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.17.6
+ * @version 4.18.8
  */
 
 window.momentjs_loaded = false;
@@ -9,6 +9,7 @@ window.extractI18n = false;
 var DEBUG = false;
 
 // Overview & LazyLoader
+var isNativeApp = IS_NATIVE_APP;
 var isOverview = (window.location.href.indexOf('/apps/overview/') !== -1);
 var lazyLoadResolver = function (code) {
     return {
@@ -231,7 +232,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
                             isPwa: isPwa,
-                            version: '4.18.3'
+                            version: '4.18.8'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -259,7 +260,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                             Customer.loginWithFacebook(fbtoken);
                         }
 
-                        var HomepageLayout = $injector.get("HomepageLayout");
+                        var HomepageLayout = $injector.get('HomepageLayout');
 
                         if (window.StatusBar !== undefined) {
                             switch (DEVICE_TYPE) {
@@ -277,6 +278,26 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                                     // Do nothing!
                             }
                         }
+
+
+                        if ($rootScope.isNativeApp) {
+                            if (!$window.localStorage.getItem('first_running')) {
+                                $window.localStorage.setItem('first_running', 'true');
+                                Analytics.storeInstallation();
+                            }
+
+                            if (Application.offline_content) {
+                                Application.showCacheDownloadModalOrUpdate();
+                            }
+                        }
+
+                        // not the best place.
+                        Analytics.storeOpening()
+                            .then(function (result) {
+                                if (result && result.id) {
+                                    Analytics.data.storeClosingId = result.id;
+                                }
+                            });
 
                         $rootScope.app_is_locked = Application.is_locked &&
                             !(Customer.can_access_locked_features || Padlock.unlocked_by_qrcode);
@@ -363,17 +384,17 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                                 (params.offline === 'true') : false;
 
                             // Special in-app link for my account!
-                            if (params.state === "my-account") {
+                            if (params.state === 'my-account') {
                                 Customer.loginModal();
                                 return;
                             }
 
                             switch (action) {
-                                case "state-go":
-                                    if (params.hasOwnProperty("value_id")) {
+                                case 'state-go':
+                                    if (params.hasOwnProperty('value_id')) {
                                         var feature = Pages.getValueId(params.value_id);
                                         if (feature && !feature.is_active) {
-                                            Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
+                                            Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
                                             return;
                                         }
                                     }
@@ -499,6 +520,31 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngSanitize',
                         // Calling all deferred elements!
                         Application.deferDeps();
 
+                        // Check for padlock!
+                        var currentState = $ionicHistory.currentStateName();
+                        if ($rootScope.app_is_locked && (currentState !== 'padlock-view')) {
+                            $state.go('padlock-view');
+                        }
+
+                        // When App is loaded dismiss the previewerNotice!
+                        if (IS_PREVIEW) {
+                            $timeout(function () {
+                                $rootScope.previewerNotice = false;
+                            }, 3000);
+
+                            $window.registerTap(3, function () {
+                                try {
+                                    $ocLazyLoad
+                                    .load('./features/previewer/previewer.bundle.min.js')
+                                    .then(function () {
+                                        $injector.get('Previewer').deleteFile();
+                                    });
+                                } catch (e) {
+                                    //
+                                }
+                                $window.webview.close();
+                            });
+                        }
                     }).catch(function (error) {
                         // In case we are unable to refresh loadApp, use cached version and refresh only once
                         if (refresh === true) {

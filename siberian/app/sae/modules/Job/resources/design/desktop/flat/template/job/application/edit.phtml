@@ -7,7 +7,7 @@ function getSection($name, $data = [])
 {
     global $layout;
     $html = $layout
-        ->addPartial("view_general", "core_view_default", "job/application/tab/{$name}.phtml")
+        ->addPartial('view_general', 'core_view_default', "job/application/tab/{$name}.phtml")
         ->setData($data)
         ->toHtml();
 
@@ -20,13 +20,13 @@ $optionValue = $this->getOptionValue();
 
 # Job option
 $job = new Job_Model_Job();
-$job->find($optionValue->getId(), "value_id");
+$job->find($optionValue->getId(), 'value_id');
 
 
 # Companies
 $company = new Job_Model_Company();
 $companies = $company->findAll([
-    "job_id" => $job->getId(),
+    'job_id' => $job->getId(),
 ]);
 
 $formCompany = new Job_Form_Company([], $application->getId());
@@ -57,6 +57,7 @@ if(!empty($companyOptions)) {
 }
 $formPlace->setValueId($optionValue->getId());
 $formPlace->addNav("job-place-save-nav", "OK", false);
+$formPlace->getElement('description')->setAttrib('id', 'job-description');
 
 if(!$job->getDisplayIncome()) {
     $formPlace->removeIncome();
@@ -101,6 +102,8 @@ $formCategory
     ->setValueId($optionValue->getId())
     ->getElement("job_id")->setValue($job->getId())
 ;
+
+$formCategory->getElement('description')->setAttrib('id', 'category-description');
 
 $formCategory->addNav("job-category-save-nav", "OK", false);
 

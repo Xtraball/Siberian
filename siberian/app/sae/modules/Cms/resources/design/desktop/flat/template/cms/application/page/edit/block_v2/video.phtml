@@ -1,15 +1,18 @@
 <?php
 
+$type = $this->getType();
 $title = $this->getTitle();
 $form = $this->getForm();
 
 $block = $this->getCmsBlock();
 
 $load = false;
+$ajaxLoad = true;
 if(isset($block) && $block->getId()) {
     $form->loadBlock($block);
 
     $load = true;
+    $ajaxLoad = false;
     $type = $block->getTypeId();
 }
 
@@ -79,7 +82,9 @@ $pvar = "p{$uniqid}";
         var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
         $(document).ready(function() {
+            <?php if ($ajaxLoad || $type === 'cms'): ?>
             bindForms(<?php echo $pvar; ?>);
+            <?php endif; ?>
 
             $(<?php echo $pvar; ?>+" input[name='cover']").on("change", function() {
                 var el = $(this);

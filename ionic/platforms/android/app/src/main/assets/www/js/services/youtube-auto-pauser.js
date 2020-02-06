@@ -1,7 +1,12 @@
 /**
  * YouTubeAutoPauser
+ *
+ * @author Xtraball SAS
+ * @version 4.18.8
  */
-angular.module('starter').service('YouTubeAutoPauser', function ($ionicPlatform, $window) {
+angular
+.module('starter')
+.service('YouTubeAutoPauser', function ($ionicPlatform, $window) {
     var iframes = [];
     var players = [];
     var initialized = false;
@@ -48,7 +53,6 @@ angular.module('starter').service('YouTubeAutoPauser', function ($ionicPlatform,
      */
     service.register = function (iframe) {
         var localIframe = angular.element(iframe)[0];
-
         if (loaded) {
             players.push(new YT.Player(localIframe, {}));
         } else {

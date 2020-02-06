@@ -37,7 +37,6 @@ $privacyPolicyGdpr = __get('privacy_policy_gdpr');
             bindForms("#edit_privacy_policy");
 
             var default_pp = `<?php echo __js($privacyPolicy, "`"); ?>`;
-            $("#privacy_policy").ckeditor(function() {}, ckeditor_config["complete"]);
             $("#reset_default").on("click", function(event) {
                 /** Stop default submit */
                 event.preventDefault();
@@ -46,7 +45,6 @@ $privacyPolicyGdpr = __get('privacy_policy_gdpr');
             });
 
             var default_pp_gdpr = `<?php echo __js($privacyPolicyGdpr, "`"); ?>`;
-            $("#privacy_policy_gdpr").ckeditor(function() {}, ckeditor_config["complete"]);
             $("#reset_default_gdpr").on("click", function(event) {
                 /** Stop default submit */
                 event.preventDefault();
@@ -54,10 +52,5 @@ $privacyPolicyGdpr = __get('privacy_policy_gdpr');
                 CKEDITOR.instances["privacy_policy_gdpr"].setData(default_pp_gdpr);
             });
         });
-
-
     </script>
-
-    <style type="text/css">
-    </style>
 </div>

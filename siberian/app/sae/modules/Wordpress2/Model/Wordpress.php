@@ -3,16 +3,29 @@
 /**
  * Class Wordpress2_Model_Wordpress
  */
-class Wordpress2_Model_Wordpress extends Core_Model_Default {
+class Wordpress2_Model_Wordpress extends Core_Model_Default
+{
+    /**
+     * @var string
+     */
+    protected $_db_table = Wordpress2_Model_Db_Table_Wordpress::class;
 
     /**
-     * Wordpress2_Model_Wordpress constructor.
-     * @param array $params
+     * @return array
      */
-    public function __construct($params = []) {
-        parent::__construct($params);
-        $this->_db_table = 'Wordpress2_Model_Db_Table_Wordpress';
-        return $this;
+    public function getInappStates($valueId): array
+    {
+        $inAppStates = [
+            [
+                'state' => 'wordpress2-list',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
+                ],
+            ],
+        ];
+
+        return $inAppStates;
     }
 
     /**

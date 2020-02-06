@@ -7,12 +7,13 @@ App.directive('sbSection', function () {
         replace: true,
         scope: {
             title: '=',
-            button: '='
+            button: '=',
+            klass: '=?'
         },
         transclude: true,
         template:
             '<div class="area">' +
-                '<div class="title">' +
+                '<div class="title {{ klass }}">' +
                     '<h2 ng-bind-html="title"></h2>' +
                     '<button ng-if="button" class="btn btn-primary right" ng-bind-html="button.text" ng-click="button.action()"></button>' +
                     '<div class="clear"></div>' +

@@ -3,7 +3,7 @@
         <div class="col-md-6" 
              ng-show="!is_edit">
             <div class="form-group">
-                <label for="country_code"><?php echo __("Select a language"); ?></label>
+                <label for="country_code"><?php echo __('Select a language'); ?></label>
                 <select id="country_code" 
                         class="form-control"
                         ng-model="translation.country_code"
@@ -19,11 +19,12 @@
 
             <div class="row">
                 <div class="form-group col-md-8">
-                    <label for="files_list"><?php echo __("Search/filter translations"); ?></label>
+                    <label for="files_list"><?php echo __('Search/filter translations'); ?></label>
                     <input type="text"
                            class="form-control"
-                           placeholder="<?php echo __("Sentence, words, etc... (3 characters required, multi-terms supported)") ?>"
-                           ng-model="filter.search" />
+                           placeholder="<?php echo __('Sentence, words, etc... (3 characters required, multi-terms supported)') ?>"
+                           ng-model="filter.search"
+                           ng-model-options="{debounce: 1000}" />
                 </div>
 
                 <div class="form-group col-md-4">
@@ -33,7 +34,7 @@
                                id="strict_case_sensitive"
                                class="form-control"
                                ng-model="filter.isCaseSensitive" />
-                        &nbsp;&nbsp;<?php echo __("Case sensitive"); ?>
+                        &nbsp;&nbsp;<?php echo __('Case sensitive'); ?>
                     </label>
 
                     <br />
@@ -45,7 +46,7 @@
                                id="strict_search"
                                class="form-control"
                                ng-model="filter.isStrict" />
-                        &nbsp;&nbsp;<?php echo __("Strict match"); ?>
+                        &nbsp;&nbsp;<?php echo __('Strict match'); ?>
                     </label>
                 </div>
             </div>
@@ -57,8 +58,8 @@
                        style="margin-bottom: 0;">
                     <thead>
                         <tr>
-                            <th style="width: 15%;"><b><?php echo __("File"); ?></b></th>
-                            <th style="width: 75%;"><b><?php echo __("Text"); ?></b></th>
+                            <th style="width: 15%;"><b><?php echo __('File'); ?></b></th>
+                            <th style="width: 75%;"><b><?php echo __('Text'); ?></b></th>
                             <th style="width: 10%;"></th>
                         </tr>
                     </thead>
@@ -78,16 +79,16 @@
                                 <td style="width: 75%; white-space: normal;">
                                     <table>
                                         <tr>
-                                            <td class="search-title"><?php echo __("Key / Original") ?></td>
+                                            <td class="search-title"><?php echo __('Key / Original') ?></td>
                                             <td>{{ item.value.original }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="search-title"><?php echo __("Default translation") ?></td>
-                                            <td>{{ item.value.default.length > 0 ? item.value.default : "-" }}</td>
+                                            <td class="search-title"><?php echo __('Default translation') ?></td>
+                                            <td>{{ item.value.default.length > 0 ? item.value.default : '-' }}</td>
                                         </tr>
                                         <tr>
                                             <td class="search-title">
-                                                <?php echo __("Your translation") ?>
+                                                <?php echo __('Your translation') ?>
                                             </td>
                                             <td>{{ item.value.user }}</td>
                                         </tr>
@@ -96,7 +97,7 @@
                                 <td class="text-right"
                                     style="width: 10%; white-space: normal;">
                                     <a class="btn btn-sm btn-primary"
-                                       ng-click="openFile(item.file)"><?php echo __("OPEN") ?></a>
+                                       ng-click="openFile(item.file)"><?php echo __('OPEN') ?></a>
                                 </td>
                             </tr>
                         </tbody>
@@ -106,11 +107,11 @@
 
             <div class="alert alert-danger"
                  ng-show="filter.search.length > 2 && results.length == 0">
-                <?php echo __("No match") ?>
+                <?php echo __('No match') ?>
             </div>
 
             <div class="form-group">
-                <label for="files_list"><?php echo __("Select a file"); ?></label>
+                <label for="files_list"><?php echo __('Select a file'); ?></label>
                 <select id="files_list"
                         class="form-control"
                         ng-model="translation.file"
@@ -124,12 +125,14 @@
         <div ng-show="translation.file">
             <div class="form-group">
 
+                <!-- Temporary disable the suggest action!
                 <div class="col-md-12">
                     <div class="alert alert-warning">
-                        <?php echo __("The %s action let you share individual translations with the community to improve the overall quality.",
-                            '<a class="btn btn-sm btn-primary">' . __("SUGGEST") . '</a>') ?>
+                        <?php echo __('The %s action let you share individual translations with the community to improve the overall quality.',
+                            '<a class="btn btn-sm btn-primary">' . __('SUGGEST') . '</a>') ?>
                     </div>
                 </div>
+                -->
 
                 <div class="col-md-6">
                     <table class="table">
@@ -191,23 +194,26 @@
                 <div class="col-md-12">
                     <table class="table"
                            id="file_datas">
-                        <col width="27.5%" />
+                        <col width="25%" />
                         <col width="5%" />
-                        <col width="27.5%" />
+                        <col width="5%" />
+                        <col width="25%" />
                         <col width="30%" />
                         <col width="10%" />
                         <thead>
                             <tr>
                                 <th class="text-left"
-                                    style="font-weight: bold;"><?php echo __("Key / Original"); ?></th>
+                                    style="font-weight: bold;"><?php echo __('Key / Original'); ?></th>
                                 <th class="text-left"
-                                    style="font-weight: bold;"><?php echo __("Flag"); ?></th>
+                                    style="font-weight: bold;"><?php echo __('Flag'); ?></th>
                                 <th class="text-left"
-                                    style="font-weight: bold;"><?php echo __("Default translation"); ?></th>
+                                    style="font-weight: bold;"><?php echo __('Context'); ?></th>
+                                <th class="text-left"
+                                    style="font-weight: bold;"><?php echo __('Default translation'); ?></th>
                                 <th class="text-left"
                                     style="font-weight: bold;">
-                                    <?php echo __("Your translation"); ?>
-                                    <i>(<?php echo __("leave blank to use default translation") ?>)</i>
+                                    <?php echo __('Your translation'); ?>
+                                    <i>(<?php echo __('leave blank to use default translation') ?>)</i>
                                 </th>
                                 <th></th>
                             </tr>
@@ -220,6 +226,10 @@
                                     <span ng-if="translation.collection[key].flags.length"
                                           class="badge">{{  translation.collection[key].flags.join(", ") }}</span>
                                 </td>
+                                <td class="valign-middle wrap">
+                                    <span ng-if="translation.collection[key].context.length"
+                                          class="badge">{{  translation.collection[key].context }}</span>
+                                </td>
                                 <td class="valign-middle wrap">{{ translation.collection[key].default.length > 0 ? translation.collection[key].default : "-" }}</td>
                                 <td class="valign-middle text-left">
                                     <input type="text"
@@ -230,9 +240,11 @@
                                 </td>
                                 <td class="valign-middle text-right"
                                     style="width: 10%; white-space: normal;">
+                                    <!-- Temporary disable the suggest action!
                                     <a class="btn btn-sm btn-primary"
                                        ng-if="translation.collection[key].user.length > 0"
-                                       ng-click="suggest(translation.collection[key])"><?php echo __("SUGGEST") ?></a>
+                                       ng-click="suggest(translation.collection[key])"><?php echo __('SUGGEST') ?></a>
+                                    -->
                                 </td>
                             </tr>
                         </tbody>
@@ -313,5 +325,9 @@
 
     .tos-optin span {
         font-weight: bold;
+    }
+
+    .translation .badge {
+        padding: 3px;
     }
 </style>

@@ -22,6 +22,17 @@ angular
     Push.setValueId($stateParams.value_id);
 
     $scope.loadContent = function (loadMore) {
+        // Overview sample data
+        if (isOverview) {
+            Push
+                .getSample()
+                .then(function (payload) {
+                    $scope.collection = payload.collection;
+                    $scope.is_loading = false;
+                });
+            return;
+        }
+
         var offset = $scope.collection.length;
 
         Push.findAll(offset)
@@ -44,6 +55,18 @@ angular
     };
 
     $scope.pullToRefresh = function () {
+        // Overview sample data
+        if (isOverview) {
+            Push
+                .getSample()
+                .then(function (payload) {
+                    $scope.collection = payload.collection;
+                    $scope.is_loading = false;
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
+            return;
+        }
+
         $scope.pull_to_refresh = true;
         $scope.load_more = false;
 
@@ -76,6 +99,10 @@ angular
             $location.path(item.action_value);
         }
     };
+
+    $scope.hasItem = function (item) {
+        return (item.url || item.action_value);
+    }
 
     $scope.loadMore = function () {
         $scope.loadContent(true);

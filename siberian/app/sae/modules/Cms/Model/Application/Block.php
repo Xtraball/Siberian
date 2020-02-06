@@ -104,6 +104,13 @@ class Cms_Model_Application_Block extends Core_Model_Default
                 }
 
                 break;
+            case 'source':
+                $unit = $this->getObject()->getUnit();
+                $block_data['source'] = $this->getObject()->getSource();
+                $block_data['height'] = $this->getObject()->getHeight() . $unit;
+                $block_data['unit'] = $unit;
+
+                break;
             case 'image':
             case 'slider':
             case 'cover':
@@ -115,7 +122,8 @@ class Cms_Model_Application_Block extends Core_Model_Default
                     # Should be remove at some point (+6months from Feb/2016)
                     # Special case to handle badly saved COVER CMS Blocks
                     $path_image = $image->getImageFullSize();
-                    if ($this->getType() == 'cover' && !is_readable(path($path_image))) {
+                    if ($this->getType() === 'cover' &&
+                        !is_readable(path($path_image))) {
                         $path_image = $image->getImage();
 
                         # Try to fix the incorrect COVER
@@ -137,17 +145,17 @@ class Cms_Model_Application_Block extends Core_Model_Default
                 $block_data['cover_url'] = $video->getImageUrl();
                 $url_embed = $url = $video->getLink();
                 $video_id = $video->getId();
-                if ($video->getTypeId() == 'youtube') {
-                    $url_embed = 'https://www.youtube.com/embed/{$video_instance->getYoutube()}?autoplay=1';
-                    $url = 'https://www.youtube.com/watch?v={$video_instance->getYoutube()}&autoplay=1';
+                if ($video->getTypeId() === 'youtube') {
+                    $url_embed = "https://www.youtube.com/embed/{$video_instance->getYoutube()}?autoplay=1";
+                    $url = "https://www.youtube.com/watch?v={$video_instance->getYoutube()}&autoplay=1";
                     $video_id = $video_instance->getYoutube();
                 }
-                if ($video->getTypeId() == 'link') {
+                if ($video->getTypeId() === 'link') {
                     $url_embed = $video_instance->getLink();
                     $url = $video_instance->getLink();
                     $block_data['cover_url'] = $video->getImageUrl() ? $base_url . $video->getImageUrl() : null;
                 }
-                if ($video->getTypeId() == 'podcast') {
+                if ($video->getTypeId() === 'podcast') {
                     $podcast = $video_instance->getList($video_instance->getSearch(), $video_instance->getLink());
                     $url_embed = $podcast->getLink();
                     $url = $podcast->getLink();
