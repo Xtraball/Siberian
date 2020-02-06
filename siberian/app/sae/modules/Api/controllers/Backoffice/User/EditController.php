@@ -24,11 +24,11 @@ class Api_Backoffice_User_EditController extends Backoffice_Controller_Default
     {
 
         $user = new Api_Model_User();
-        $user->find($this->getRequest()->getParam("user_id"));
+        $user->find($this->getRequest()->getParam('user_id'));
 
         $data = array();
         if ($user->getId()) {
-            $data["user"] = $user->getData();
+            $data['user'] = $user->getData();
             $acl = Siberian_Json::decode($user->getAcl());
             foreach (Siberian_Api::$acl_keys as $key => $subkeys) {
                 if (!isset($acl[$key])) {

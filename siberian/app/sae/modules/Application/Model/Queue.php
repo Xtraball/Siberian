@@ -6,18 +6,17 @@
 class Application_Model_Queue extends Core_Model_Default {
 
     public static $TYPES = [
-        "ios",
-        "iosnoads",
-        "android",
-        "apk",
+        'ios',
+        'iosnoads',
+        'android',
+        'apk',
     ];
 
     /**
-     * Cancelling queue
-     *
      * @param $application_id
      * @param $type
      * @param $device
+     * @throws Zend_Exception
      */
     public static function cancel($application_id, $type, $device) {
         switch($type) {
@@ -46,10 +45,9 @@ class Application_Model_Queue extends Core_Model_Default {
     }
 
     /**
-     * Global queue (may add IPA & Other Android/iOS Versions)
-     *
      * @param $application_id
      * @return array
+     * @throws Zend_Db_Select_Exception
      */
     public static function getPosition($application_id) {
         $db = Zend_Db_Table::getDefaultAdapter();
@@ -140,36 +138,36 @@ class Application_Model_Queue extends Core_Model_Default {
         $source = $db->fetchAll($select_source);
         $apk = $db->fetchAll($select_apk);
 
-        $total = sizeof($source) + sizeof($apk);
+        $total = count($source) + count($apk);
         $build_time = 0;
         $build_source = 0;
         $build_apk = 0;
 
         $build_times = [
-            "source" => 0,
-            "apk" => 0,
-            "global" => 0,
+            'source' => 0,
+            'apk' => 0,
+            'global' => 0,
         ];
 
         foreach($source as $result) {
-            $build_source += $result["build_time"];
-            $build_time += $result["build_time"];
+            $build_source += $result['build_time'];
+            $build_time += $result['build_time'];
         }
         foreach($apk as $result) {
-            $build_apk += $result["build_time"];
-            $build_time += $result["build_time"];
+            $build_apk += $result['build_time'];
+            $build_time += $result['build_time'];
         }
 
-        if((sizeof($source) > 0) && ($build_source > 0)) {
-            $build_times["source"] = round($build_source / sizeof($source));
+        if((count($source) > 0) && ($build_source > 0)) {
+            $build_times['source'] = round($build_source / sizeof($source));
         }
 
-        if((sizeof($build_apk) > 0) && ($build_apk > 0)) {
-            $build_times["apk"] = round($build_apk / sizeof($apk));
+        if((count($apk) > 0) && ($build_apk > 0)) {
+            $build_times['apk'] = round($build_apk / sizeof($apk));
         }
 
         if(($total > 0) && ($build_time > 0)) {
-            $build_times["global"] = round($build_time / $total);
+            $build_times['global'] = round($build_time / $total);
         }
 
         return $build_times;
