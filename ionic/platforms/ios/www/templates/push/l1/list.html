@@ -28,7 +28,8 @@
                     <h2>{{ item.title ? item.title : item.author }}</h2>
                     <p ng-if="item.subtitle">{{ item.subtitle }}</p>
                     <p ng-if="item.message"
-                       ng-bind-html="item.message"></p>
+                       ng-bind-html="item.message"
+                       class="text-no-wrap"></p>
 
                     <div>
                         <img ng-src="{{ item.picture }}"
