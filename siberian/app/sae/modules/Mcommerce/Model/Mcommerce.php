@@ -105,9 +105,10 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
     }
 
     /**
+     * @param $option_value
      * @return $this
      */
-    public function deleteFeature()
+    public function deleteFeature($option_value)
     {
 
         $products = $this->getProducts();

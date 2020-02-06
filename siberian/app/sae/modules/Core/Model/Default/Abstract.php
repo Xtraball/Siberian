@@ -90,7 +90,6 @@ abstract class Core_Model_Default_Abstract
                 $this->setData($key, $value);
             }
         }
-        return $this;
     }
 
     /**
@@ -562,19 +561,19 @@ abstract class Core_Model_Default_Abstract
     }
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @return $this
      */
-    public function prepareFeature($option_value)
+    public function prepareFeature($optionValue = null): self
     {
         return $this;
     }
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @return $this
      */
-    public function deleteFeature($option_value)
+    public function deleteFeature($optionValue = null): self
     {
         return $this;
     }

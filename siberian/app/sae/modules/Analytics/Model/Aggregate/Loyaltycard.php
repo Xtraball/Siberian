@@ -6,7 +6,7 @@ class Analytics_Model_Aggregate_Loyaltycard {
 
     private $_appIdByLoyaltyCardId = null;
     private $_loyaltycardLogs = null;
-    private $_loyaltyCardNameById = array();
+    private $_loyaltyCardNameById = [];
 
     // START Singleton stuff
     static private $_instance = null;
@@ -64,26 +64,27 @@ class Analytics_Model_Aggregate_Loyaltycard {
 
         //get day information for wanted metrics
         $modelLoyaltycardCustomerLog = new LoyaltyCard_Model_Customer_Log();
-        return $modelLoyaltycardCustomerLog->findAll(array(
+        return $modelLoyaltycardCustomerLog->findAll([
             'created_at > ?' => date('Y-m-d 00:00:00',$from),
             'created_at < ?' => date('Y-m-d 00:00:00',$to)
-        ))->toArray();
+        ])->toArray();
     }
 
     private function _aggregateLoyaltycardPointPerCard($aggregationDate) {
         $timestampGMT = $aggregationDate['dayTimestamp'];
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
+        $aggregatedData = [];
 
         //calcul metrics
         foreach ($this->_loyaltycardLogs as $cardlog) {
             $cardId = $cardlog['card_id'];
             $appId = $this->_appIdByLoyaltyCardId[$cardId]['app_id'];
-            if(!array_key_exists($appId, $aggregatedData)) {
-                $aggregatedData[$appId] = array();
+            if (!array_key_exists($appId, $aggregatedData)) {
+                $aggregatedData[$appId] = [];
             }
 
-            if(!array_key_exists($cardId, $aggregatedData[$appId])) {
+            if (!array_key_exists($cardId, $aggregatedData[$appId])) {
                 $aggregatedData[$appId][$cardId] = 0;
             }
             $aggregatedData[$appId][$cardId] += $cardlog['number_of_points'];
@@ -126,22 +127,22 @@ class Analytics_Model_Aggregate_Loyaltycard {
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
 
-        $aggregatedData = array();
+        $aggregatedData = [];
         //calcul metrics
         foreach ($this->_loyaltycardLogs as $cardlog) {
             $cardId = $cardlog['card_id'];
             $customerId = $cardlog['customer_id'];
             $appId = $this->_appIdByLoyaltyCardId[$cardId]['app_id'];
             if(!array_key_exists($appId, $aggregatedData)) {
-                $aggregatedData[$appId] = array();
+                $aggregatedData[$appId] = [];
             }
 
             if(!array_key_exists($cardId, $aggregatedData[$appId])) {
-                $aggregatedData[$appId][$cardId] = array();
+                $aggregatedData[$appId][$cardId] = [];
             }
 
             if(!array_key_exists('log', $aggregatedData[$appId][$cardId])) {
-                $aggregatedData[$appId][$cardId]['log'] = array();
+                $aggregatedData[$appId][$cardId]['log'] = [];
             }
 
             if(!array_key_exists($customerId, $aggregatedData[$appId][$cardId]['log'])) {
@@ -199,28 +200,28 @@ class Analytics_Model_Aggregate_Loyaltycard {
 
         $customerModel = new Customer_Model_Customer();
         $appIdPerCustomerId = $customerModel->getAppIdByCustomerId();
-        $aggregatedData = array();
+        $aggregatedData = [];
 
         $timestampGMT = $aggregationDate['dayTimestamp'];
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
 
-        $aggregatedData = array();
+        $aggregatedData = [];
         //calcul metrics
         foreach ($this->_loyaltycardLogs as $cardlog) {
             $cardId = $cardlog['card_id'];
             $customerId = $cardlog['customer_id'];
             $appId = $this->_appIdByLoyaltyCardId[$cardId]['app_id'];
             if(!array_key_exists($appId, $aggregatedData)) {
-                $aggregatedData[$appId] = array();
+                $aggregatedData[$appId] = [];
             }
 
             if(!array_key_exists($cardId, $aggregatedData[$appId])) {
-                $aggregatedData[$appId][$cardId] = array();
+                $aggregatedData[$appId][$cardId] = [];
             }
 
             if(!array_key_exists('log', $aggregatedData[$appId][$cardId])) {
-                $aggregatedData[$appId][$cardId]['log'] = array();
+                $aggregatedData[$appId][$cardId]['log'] = [];
             }
 
             if(!array_key_exists($customerId, $aggregatedData[$appId][$cardId]['log'])) {
@@ -292,19 +293,19 @@ class Analytics_Model_Aggregate_Loyaltycard {
         $to = $aggregationDate['to'];
 
         $modelLoyaltyCustomer = new LoyaltyCard_Model_Customer();
-        $modelLoyaltyRewardUsed = $modelLoyaltyCustomer->findAll(array(
+        $modelLoyaltyRewardUsed = $modelLoyaltyCustomer->findAll([
             'is_used = ?' => '1',
             'used_at > ?' => date('Y-m-d 00:00:00',$from),
             'used_at < ?' => date('Y-m-d 00:00:00',$to)
-        ))->toArray();
+        ])->toArray();
 
         //calcul metrics
-        $aggregatedData = array();
+        $aggregatedData = [];
         foreach ($modelLoyaltyRewardUsed as $reward) {
             $cardId = $reward['card_id'];
             $appId = $this->_appIdByLoyaltyCardId[$cardId]['app_id'];
             if(!array_key_exists($appId, $aggregatedData)) {
-                $aggregatedData[$appId] = array();
+                $aggregatedData[$appId] = [];
             }
 
             if(!array_key_exists($cardId, $aggregatedData[$appId])) {
@@ -357,11 +358,11 @@ class Analytics_Model_Aggregate_Loyaltycard {
             $customerId = $cardlog['customer_id'];
             $appId = $this->_appIdByLoyaltyCardId[$cardId]['app_id'];
             if(!array_key_exists($appId, $aggregatedData)) {
-                $aggregatedData[$appId] = array();
+                $aggregatedData[$appId] = [];
             }
 
             if(!array_key_exists($cardId, $aggregatedData[$appId])) {
-                $aggregatedData[$appId][$cardId] = array();
+                $aggregatedData[$appId][$cardId] = [];
             }
 
             if(!array_key_exists($customerId, $aggregatedData[$appId][$cardId])) {

@@ -43,8 +43,8 @@ class Analytics_Mobile_PoolController extends Application_Controller_Mobile_Defa
      */
     public function _installation ($data)
     {
-        $data["appId"] = $this->getApplication()->getId();
-        $data["timestampGMT"] = isset($data["date"]) ? $data["date"] : gmmktime();
+        $data['appId'] = $this->getApplication()->getId();
+        $data['timestampGMT'] = $data['date'] ?? gmmktime();
 
         $sqlite_request = Analytics_Model_Store::getInstance();
         return $sqlite_request->addAppInstallationMetric($data);
@@ -57,8 +57,8 @@ class Analytics_Mobile_PoolController extends Application_Controller_Mobile_Defa
     public function _opening ($data)
     {
         $data['appId'] = $this->getApplication()->getId();
-        $data['startTimestampGMT'] = isset($data["date"]) ? $data["date"] : gmmktime();
-        $data['endTimestampGMT'] = isset($data["date"]) ? $data["date"] : gmmktime();
+        $data['startTimestampGMT'] = $data['date'] ?? gmmktime();
+        $data['endTimestampGMT'] = $data['date'] ?? gmmktime();
 
         $sqliteRequest = Analytics_Model_Store::getInstance();
         return $sqliteRequest->addAppLoadedMetric($data);
@@ -70,7 +70,7 @@ class Analytics_Mobile_PoolController extends Application_Controller_Mobile_Defa
      */
     public function _closing ($data)
     {
-        $time = isset($data["date"]) ? $data["date"] : gmmktime();
+        $time = isset($data['date']) ? $data['date'] : gmmktime();
         $metric_data = ["endTimestampGMT = '" . $time . "'"];
         $sqlite_request = Analytics_Model_Store::getInstance();
         return $sqlite_request->addAppLoadedMetric($metric_data, $data['id']);
@@ -82,7 +82,7 @@ class Analytics_Mobile_PoolController extends Application_Controller_Mobile_Defa
      */
     public function _pageopening ($data)
     {
-        $data["timestampGMT"] = isset($data["date"]) ? $data["date"] : gmmktime();
+        $data['timestampGMT'] = $data['date'] ?? gmmktime();
         $sqlite_request = Analytics_Model_Store::getInstance();
         return $sqlite_request->addAppPageNavigationMetric($data);
     }
@@ -95,7 +95,7 @@ class Analytics_Mobile_PoolController extends Application_Controller_Mobile_Defa
     {
         $metric_value = $data;
         unset($metric_value['products']);
-        $metric_value["timestampGMT"] = isset($data["date"]) ? $data["date"] : gmmktime();
+        $metric_value['timestampGMT'] = $data['date'] ?? gmmktime();
 
         foreach ($data['products'] as $product) {
             $metric_value['productId'] = $product['id'];
