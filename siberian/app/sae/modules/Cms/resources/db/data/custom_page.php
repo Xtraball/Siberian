@@ -21,19 +21,19 @@ $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
 $data = [
-    'library_id'                    => $result["library_id"],
-    'icon_id'                       => $result["icon_id"],
-    'code'                          => 'custom_page',
-    'name'                          => $name,
-    'model'                         => 'Cms_Model_Application_Page',
-    'desktop_uri'                   => 'cms/application_page/',
-    'mobile_uri'                    => 'cms/mobile_page_view/',
-    "mobile_view_uri"               => "cms/mobile_page_view/",
-    "mobile_view_uri_parameter"     => null,
-    'only_once'                     => 0,
-    'is_ajax'                       => 1,
-    'position'                      => 70,
-    'social_sharing_is_available'   => 1
+    'library_id' => $result["library_id"],
+    'icon_id' => $result["icon_id"],
+    'code' => 'custom_page',
+    'name' => $name,
+    'model' => 'Cms_Model_Application_Page',
+    'desktop_uri' => 'cms/application_page/',
+    'mobile_uri' => 'cms/mobile_page_view/',
+    "mobile_view_uri" => "cms/mobile_page_view/",
+    "mobile_view_uri_parameter" => null,
+    'only_once' => 0,
+    'is_ajax' => 1,
+    'position' => 70,
+    'social_sharing_is_available' => 1
 ];
 
 $option = Siberian_Feature::install($category, $data, ['code']);
@@ -42,7 +42,7 @@ $datas = [
     [
         'type' => 'text',
         'position' => 1,
-        'icon' => 'icon-file-alt fa-file-text-o',
+        'icon' => 'fa-file-text-o',
         'title' => 'Text',
         'template' => 'cms/application/page/edit/block/text.phtml',
         'mobile_template' => 'cms/page/%s/view/block/text.phtml',
@@ -50,7 +50,7 @@ $datas = [
     [
         'type' => 'image',
         'position' => 2,
-        'icon' => 'icon-picture fa-file-image-o',
+        'icon' => 'fa-file-image-o',
         'title' => 'Image',
         'template' => 'cms/application/page/edit/block/image.phtml',
         'mobile_template' => 'cms/page/%s/view/block/image.phtml',
@@ -58,7 +58,7 @@ $datas = [
     [
         'type' => 'video',
         'position' => 3,
-        'icon' => 'icon-facetime-video fa-file-video-o',
+        'icon' => 'fa-file-video-o',
         'title' => 'Video',
         'template' => 'cms/application/page/edit/block/video.phtml',
         'mobile_template' => 'cms/page/%s/view/block/video.phtml',
@@ -66,7 +66,7 @@ $datas = [
     [
         'type' => 'address',
         'position' => 4,
-        'icon' => 'icon-location-arrow fa-location-arrow',
+        'icon' => 'fa-location-arrow',
         'title' => 'Address',
         'template' => 'cms/application/page/edit/block/address.phtml',
         'mobile_template' => 'cms/page/%s/view/block/address.phtml',
@@ -74,7 +74,7 @@ $datas = [
     [
         'type' => 'button',
         'position' => 5,
-        'icon' => 'icon-barcode fa-barcode',
+        'icon' => 'fa-barcode',
         'title' => 'Button',
         'template' => 'cms/application/page/edit/block/button.phtml',
         'mobile_template' => 'cms/page/%s/view/block/button.phtml',
@@ -82,7 +82,7 @@ $datas = [
     [
         'type' => 'file',
         'position' => 6,
-        'icon' => 'icon-paper-clip fa-paperclip',
+        'icon' => 'fa-paperclip',
         'title' => 'Attachment',
         'template' => 'cms/application/page/edit/block/file.phtml',
         'mobile_template' => 'cms/page/%s/view/block/file.phtml',
@@ -90,7 +90,7 @@ $datas = [
     [
         'type' => 'slider',
         'position' => 7,
-        'icon' => 'icon-play-circle fa-play-circle-o',
+        'icon' => 'fa-play-circle-o',
         'title' => 'Slider',
         'template' => 'cms/application/page/edit/block/slider.phtml',
         'mobile_template' => 'cms/page/%s/view/block/slider.phtml',
@@ -98,19 +98,27 @@ $datas = [
     [
         'type' => 'cover',
         'position' => 8,
-        'icon' => 'icon-picture fa-picture-o',
+        'icon' => 'fa-picture-o',
         'title' => 'Cover',
         'template' => 'cms/application/page/edit/block/cover.phtml',
         'mobile_template' => 'cms/page/%s/view/block/cover.phtml',
     ],
+    [
+        'type' => 'source',
+        'position' => 9,
+        'icon' => 'fa-code',
+        'title' => 'Source code',
+        'template' => 'cms/application/page/edit/block/source.phtml',
+        'mobile_template' => 'cms/page/%s/view/block/source.phtml',
+    ],
 ];
 
 
-foreach($datas as $data) {
+foreach ($datas as $data) {
     $block = new Cms_Model_Application_Block();
     $block
         ->setData($data)
-        ->insertOrUpdate(["type"]);
+        ->insertOrUpdate(['type']);
 }
 
 

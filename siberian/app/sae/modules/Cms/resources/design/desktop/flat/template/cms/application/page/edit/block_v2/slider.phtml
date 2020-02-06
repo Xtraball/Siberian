@@ -1,12 +1,15 @@
 <?php
 
+$type = $this->getType();
 $title = $this->getTitle();
 $form = $this->getForm();
 
 $block = $this->getCmsBlock();
 
+$ajaxLoad = true;
 if(isset($block) && $block->getId()) {
     $form->loadBlock($block);
+    $ajaxLoad = false;
 }
 
 $formid = $form->getAttrib("id");
@@ -38,7 +41,9 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Slider::$image
         let <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
         $(document).ready(function() {
+            <?php if ($ajaxLoad || $type === 'cms'): ?>
             bindForms(<?php echo $pvar; ?>);
+            <?php endif; ?>
 
             $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
                 dataType: 'json',

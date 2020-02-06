@@ -1,45 +1,56 @@
 <?php
 
-class Cms_Application_BlockController extends Application_Controller_Default {
+/**
+ * Class Cms_Application_BlockController
+ */
+class Cms_Application_BlockController extends Application_Controller_Default
+{
 
-    public function getblockAction() {
+    /**
+     *
+     */
+    public function getblockAction()
+    {
         $value_id = $this->getCurrentOptionValue()->getId();
-        $block_id = $this->getRequest()->getParam("block_id");
+        $block_id = $this->getRequest()->getParam('block_id');
 
         try {
 
             $block_model = new Cms_Model_Application_Block();
             $block_model->find($block_id);
-            if(!$block_model->getId()) {
+            if (!$block_model->getId()) {
                 throw new Siberian_Exception(__("This block type doesn't exist"));
             }
 
-            $block_template = str_replace("/block/", "/block_v2/", $block_model->getTemplate());
+            $block_template = str_replace('/block/', '/block_v2/', $block_model->getTemplate());
 
-            switch($block_model->getType()) {
-                case "text":
+            switch ($block_model->getType()) {
+                case 'text':
                     $form = new Cms_Form_Block_Text();
                     break;
-                case "image":
+                case 'image':
                     $form = new Cms_Form_Block_Image();
                     break;
-                case "video":
+                case 'video':
                     $form = new Cms_Form_Block_Video();
                     break;
-                case "address":
+                case 'address':
                     $form = new Cms_Form_Block_Address();
                     break;
-                case "button":
+                case 'button':
                     $form = new Cms_Form_Block_Button();
                     break;
-                case "file":
+                case 'file':
                     $form = new Cms_Form_Block_File();
                     break;
-                case "slider":
+                case 'slider':
                     $form = new Cms_Form_Block_Slider();
                     break;
-                case "cover":
+                case 'cover':
                     $form = new Cms_Form_Block_Cover();
+                    break;
+                case 'source':
+                    $form = new Cms_Form_Block_Source();
                     break;
                 default:
                     throw new Siberian_Exception(__("This block type doesn't exist"));
@@ -49,24 +60,25 @@ class Cms_Application_BlockController extends Application_Controller_Default {
 
             # This form is special and needs more javascript, so we made a partial
             $html = $this->getLayout()
-                ->addPartial("block_template", "Core_View_Default", $block_template)
+                ->addPartial('block_template', 'Core_View_Default', $block_template)
                 ->setForm($form)
                 ->setTitle($block_model->getTitle())
                 ->toHtml();
 
             $data = [
-                "success"   => 1,
-                "html"      => $html,
+                'success' => true,
+                'html' => $html,
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             /** Do whatever you need when form is not valid */
             $data = [
-                "error"     => 1,
-                "message"   => __("An error occured while adding the block."),
+                'error' => true,
+                'message' => __('An error occured while adding the block.'),
+                'exception' => $e->getMessage()
             ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
 }

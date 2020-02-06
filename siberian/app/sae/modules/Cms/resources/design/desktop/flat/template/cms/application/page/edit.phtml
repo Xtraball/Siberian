@@ -1,7 +1,7 @@
 <?php
 $application = $this->getApplication();
 $option_value = $this->getOptionValue();
-$isPlaces = ($this->getCurrentFeature() == "places");
+$isPlaces = ($this->getCurrentFeature() === 'places');
 $is_new = ($this->getIsNew());
 
 if (!($page = $this->getCurrentPage())) {
@@ -17,7 +17,7 @@ if($isPlaces) {
     $cmsForm = new Places_Form_Place();
     if($is_new) {
         $addressBlock = (new Cms_Model_Application_Block())
-            ->find("address", "type");
+            ->find('address', 'type');
         $blocks = [
             $addressBlock
         ];
@@ -34,7 +34,9 @@ if($isPlaces) {
     $cmsForm = new Cms_Form_Cms();
 }
 
-if(!$isPlaces) {
+$type = 'places';
+if (!$isPlaces) {
+    $type = 'cms';
     $cmsForm->setPageId($option_value->getObject()->getPageId());
 }
 
@@ -42,21 +44,20 @@ $cmsForm->setValueId($option_value->getId());
 $formBlocks = $cmsForm->loadBlocks($blocks);
 
 ?>
-
 <div id="feature-custom-page">
 
 
     <?php
     echo $this->getLayout()
-        ->addPartial("cms_javascript", "Core_View_Default", "cms/application/page/edit/block_v2/javascript.phtml")
+        ->addPartial('cms_javascript', 'Core_View_Default', 'cms/application/page/edit/block_v2/javascript.phtml')
         ->setOptionValue($option_value)
         ->toHtml();
     ?>
 
-    <?php if(!$isPlaces): ?>
+    <?php if (!$isPlaces): ?>
     <div class="feature-block-add">
         <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo __("Custom page"); ?>
+            <?php echo __('Custom page'); ?>
         </h3>
     </div>
     <?php endif; ?>
@@ -65,14 +66,15 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
 
         <?php $welp = "<form id=\"fake-form\" name=\"fake-form\" action=\"\"></form>"; foreach($formBlocks as $form_block): ?>
         <?php
-            $welp .= $this->getLayout()->addPartial("block_template", "Core_View_Default", $form_block["template"])
-                ->setForm($form_block["form"])
-                ->setTitle(ucfirst($form_block["block"]->getType()))
-                ->setCmsBlock($form_block["block"])
+            $welp .= $this->getLayout()->addPartial('block_template', 'Core_View_Default', $form_block['template'])
+                ->setForm($form_block['form'])
+                ->setType($type)
+                ->setTitle(ucfirst($form_block['block']->getType()))
+                ->setCmsBlock($form_block['block'])
                 ->toHtml();
         ?>
         <?php endforeach; ?>
-        <?php $cmsForm->getElement("sections_html_container")->setValue($welp); echo $cmsForm; ?>
+        <?php $cmsForm->getElement('sections_html_container')->setValue($welp); echo $cmsForm; ?>
         <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
     </div>
 
@@ -83,13 +85,6 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
     <?php endif; ?>
 
     <script type="text/javascript">
-        page.setCallback('willdisappear', function() {
-            Object.keys(CKEDITOR.instances).map(function(objectKey) {
-                var value = CKEDITOR.instances[objectKey];
-                value.destroy();
-            });
-        });
-
         var formCms = $('#form-cms');
 
         $("#fieldset-navcmsmessagerepeat button").on('click', function () {
@@ -117,7 +112,7 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
                 dataType: 'json',
                 data: datas.serializeArray(),
                 success: function(data) {
-                    if(data.success) {
+                    if(data.success || data.warning) {
                         feature_form_success(data.message || data.success_message);
                         feature_reload();
                     } else if(data.error) {
@@ -232,8 +227,6 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
             bindForms('.background-images-upload');
 
         });
-
-
     </script>
 
     <style type="text/css">

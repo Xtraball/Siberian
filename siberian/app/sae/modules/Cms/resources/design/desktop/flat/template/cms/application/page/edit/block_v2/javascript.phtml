@@ -7,7 +7,7 @@ $gmapsKey = $application->getGooglemapsKey();
 
 // Used to enable/disable automatic scrolling to new blocks (for default ones)
 window.cms_blocks_scrollto = true;
-var block_url = '<?php echo __path("cms/application_block/getblock") ?>';
+var block_url = '<?php echo __path('cms/application_block/getblock') ?>';
 var value_id = '<?php echo $this->getOptionValue()->getId() ?>';
 
 var bindcmsblockAddress = function(block) {
@@ -78,20 +78,14 @@ $(document).ready(function() {
             });
 
         $('.blocks-container').sortable({
-            handle: ".cms-block-handle",
-            axis: "y",
-            items: " .cms-block-container",
+            handle: '.cms-block-handle',
+            axis: 'y',
+            items: ' .cms-block-container',
             opacity: 0.7,
-            start: function() {
-                Object.keys(CKEDITOR.instances).map(function(objectKey) {
-                    var value = CKEDITOR.instances[objectKey];
-                    value.destroy();
-                });
-            },
             stop: function() {
                 $(".cms-block-container").find(".cms-block-hide-drag").show();
                 $(".cms-block-container textarea.richtext").each(function() {
-                    refreshCkeditor(this, "cms");
+                    rebuildRichtext(this);
                 });
                 resetIndex();
             }
@@ -139,15 +133,15 @@ $(document).ready(function() {
 
     bindCmsBlocks();
 
-    $(document).on("click", ".cms-block-delete", function() {
-        var el = $(this);
-        el.parents(".cms-block-container").remove();
+    $(document).on('click', '.cms-block-delete', function() {
+        let el = $(this);
+        el.parents('.cms-block-container').remove();
         resetIndex();
     });
 
-    $(document).on("click", ".cms-image-delete", function() {
-        var el = $(this);
-        el.parents(".cms-image").remove();
+    $(document).on('click', '.cms-image-delete', function() {
+        let el = $(this);
+        el.parents('.cms-image').remove();
     });
 });
 </script>

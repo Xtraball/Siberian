@@ -356,6 +356,12 @@ $results = (new Result())->findAll(
             },
             { name: 'styles', items: ['TextColor', 'Format', 'FontSize'] },
         ],
+        on: {
+            change: function (event) {
+                // Auto-update attached textarea;
+                $('textarea#' + this.name).html(this.getData());
+            }
+        },
         extraAllowedContent: 'a[*];img[*];div[*];span[*];b[*];i[*];s[*];p[*]'
     };
 
@@ -364,7 +370,7 @@ $results = (new Result())->findAll(
     <div class="col-sm-10">
         <button class="add_option btn btn-sm color-blue">
             <i class="icon ion-plus"></i>
-            <?php echo p__("form2", "Add an option") ?>
+            <?php echo p__('form2', 'Add an option') ?>
         </button>
     </div>
     <div class="sb-cb"></div>

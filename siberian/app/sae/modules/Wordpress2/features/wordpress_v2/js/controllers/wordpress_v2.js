@@ -1,10 +1,11 @@
 /**
- * Folder v2 feature
+ * Wordpress v2 feature
  *
  * @version 0.0.1
  */
-angular.module('starter').controller('Wordpress2ListController', function ($scope, $stateParams, $state, $timeout,
-                                                                           Wordpress2) {
+angular
+.module('starter')
+.controller('Wordpress2ListController', function ($scope, $stateParams, $state, $timeout, Wordpress2) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,

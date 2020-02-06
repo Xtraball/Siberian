@@ -11,18 +11,18 @@ class Cms_Application_PageController extends Application_Controller_Default {
      * @var array
      */
     public $cache_triggers = [
-        "editpost" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#"
+        'editpost' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+                'feature_paths_valueid_#VALUE_ID#',
+                'assets_paths_valueid_#VALUE_ID#'
             ],
         ],
-        "editpostv2" => [
-            "tags" => [
-                "homepage_app_#APP_ID#",
-                "feature_paths_valueid_#VALUE_ID#",
-                "assets_paths_valueid_#VALUE_ID#"
+        'editpostv2' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+                'feature_paths_valueid_#VALUE_ID#',
+                'assets_paths_valueid_#VALUE_ID#'
             ],
         ],
     ];
@@ -50,8 +50,11 @@ class Cms_Application_PageController extends Application_Controller_Default {
                     ->touch()
                     ->expires(-1);
 
+                $partial = false;
+
                 $message = __('Success.');
                 if (!empty($page->getData('__invalid_blocks'))) {
+                    $partial = true;
                     $message = __('Partially saved.') . '<br />' .
                         implode('<br />', $page->getData('__invalid_blocks'));
                 }
@@ -67,8 +70,14 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 $payload = [
                     'success' => true,
                     'message' => $message,
-                    'message_timeout' => 7,
                 ];
+
+                if ($partial) {
+                    $payload = [
+                        'warning' => true,
+                        'message' => $message,
+                    ];
+                }
             } else {
                 /** Do whatever you need when form is not valid */
                 $payload = [

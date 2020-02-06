@@ -66,7 +66,6 @@ class Application_Customization_Design_StyleController extends Application_Contr
 
     public function editAction()
     {
-
         $this->loadPartials();
         if ($this->getRequest()->isXmlHttpRequest()) {
             $html = ['html' => $this->getLayout()->getPartial('content_editor')->toHtml()];

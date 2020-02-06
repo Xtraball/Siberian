@@ -81,7 +81,8 @@ $(document).ready(function() {
                     iframe.f.setPath(page.current_path);
                 }
             } catch (e) {
-                console.error('An error occurred while reloading the last loaded page.', e.message);
+                // Do nothing!
+                // console.error('An error occurred while reloading the last loaded page.', e.message);
             }
         }, 1700);
 

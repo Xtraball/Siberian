@@ -123,8 +123,9 @@ class Places_Form_Place extends Cms_Form_Cms
     }
 
     /**
-     * @param Places_Model_Place $page
+     * @param $page
      * @return Zend_Form
+     * @throws Zend_Exception
      */
     public function fill($page)
     {

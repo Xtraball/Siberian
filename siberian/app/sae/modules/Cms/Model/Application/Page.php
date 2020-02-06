@@ -1,7 +1,5 @@
 <?php
 
-use Siberian\Json;
-
 /**
  * Class Cms_Model_Application_Page
  *
@@ -24,19 +22,12 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * @var string
      */
-    protected $_action_view = "findall";
+    protected $_action_view = 'findall';
 
     /**
-     * Cms_Model_Application_Page constructor.
-     * @param array $params
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Cms_Model_Db_Table_Application_Page';
-        return $this;
-    }
+    protected $_db_table = Cms_Model_Db_Table_Application_Page::class;
 
     /**
      * Returns Pages sorted by rank
@@ -80,29 +71,29 @@ class Cms_Model_Application_Page extends Core_Model_Default
     {
 
         switch ($option_value->getCode()) {
-            case "places":
+            case 'places':
                 $payload = [
-                    "page_title" => $option_value->getTabbarName(),
-                    "settings" => []
+                    'page_title' => $option_value->getTabbarName(),
+                    'settings' => []
                 ];
 
                 if ($this->getId()) {
 
-                    $payload["settings"] = [
-                        "tags" => []
+                    $payload['settings'] = [
+                        'tags' => []
                     ];
 
                     $metadata = $option_value->getMetadatas();
                     foreach ($metadata as $meta) {
-                        $payload["settings"][$meta->getCode()] = $meta->getPayload();
+                        $payload['settings'][$meta->getCode()] = $meta->getPayload();
                     }
 
                     $tags = $option_value->getOwnTags(new Cms_Model_Application_Page());
                     foreach ($tags as $tag) {
-                        $payload["settings"]["tags"][] = strtolower(trim($tag->getName()));
+                        $payload['settings']['tags'][] = strtolower(trim($tag->getName()));
                     }
 
-                    $payload["settings"]["tags"] = array_unique($payload["settings"]["tags"]);
+                    $payload['settings']['tags'] = array_unique($payload['settings']['tags']);
 
                 }
                 break;
@@ -129,17 +120,17 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $option = $option_model->find($option_value->getOptionId());
 
         # Special case 1. for Places
-        if ($option->getCode() == "places") {
+        if ($option->getCode() === 'places') {
             $place_model = new Places_Model_Place();
             return $place_model->getInappStates($value_id);
         }
 
         $in_app_states = [
             [
-                "state" => "cms-view",
-                "offline" => true,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'cms-view',
+                'offline' => true,
+                'params' => [
+                    'value_id' => $value_id,
                 ],
             ],
         ];
@@ -153,18 +144,18 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $optionValue
      * @return array
      */
-    public function getAppInitUris ($optionValue)
+    public function getAppInitUris($optionValue)
     {
-        $featureUrl = __url("/cms/mobile_page_view/index", [
-            "value_id" => $this->getValueId(),
+        $featureUrl = __url('/cms/mobile_page_view/index', [
+            'value_id' => $this->getValueId(),
         ]);
-        $featurePath = __path("/cms/mobile_page_view/index", [
-            "value_id" => $this->getValueId(),
+        $featurePath = __path('/cms/mobile_page_view/index', [
+            'value_id' => $this->getValueId(),
         ]);
 
         return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
+            'featureUrl' => $featureUrl,
+            'featurePath' => $featurePath,
         ];
     }
 
@@ -183,11 +174,11 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $cache_id = "feature_paths_valueid_{$value_id}";
         if (!$result = $this->cache->load($cache_id)) {
 
-            if ($option_value->getCode() == "custom_page") {
+            if ($option_value->getCode() === 'custom_page') {
                 $paths = [];
 
                 $paths[] = $option_value->getPath(
-                    "find",
+                    'find',
                     [
                         'page_id' => $this->getId(),
                         'value_id' => $option_value->getId()
@@ -196,7 +187,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 );
 
                 $paths[] = $option_value->getPath(
-                    "findall",
+                    'findall',
                     [
                         'page_id' => $this->getId(),
                         'value_id' => $option_value->getId()
@@ -205,7 +196,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                 );
 
                 $paths[] = $option_value->getPath(
-                    "findall",
+                    'findall',
                     [
                         'value_id' => $option_value->getId()
                     ],
@@ -214,7 +205,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
 
                 foreach ($this->getBlocks() as $block) {
                     $paths[] = $option_value->getPath(
-                        "findblock",
+                        'findblock',
                         [
                             'block_id' => $block->getId(),
                             'page_id' => $this->getId(),
@@ -223,7 +214,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
                         false
                     );
                     $paths[] = $option_value->getPath(
-                        "findblock",
+                        'findblock',
                         [
                             'block_id' => $block->getId(),
                             'value_id' => $option_value->getId()
@@ -238,7 +229,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
             }
 
             $this->cache->save($paths, $cache_id, [
-                "feature_paths",
+                'feature_paths',
                 "feature_paths_valueid_{$value_id}"
             ]);
         } else {
@@ -595,6 +586,9 @@ class Cms_Model_Application_Page extends Core_Model_Default
                     case 'cover':
                         $model = new Cms_Model_Application_Page_Block_Cover();
                         break;
+                    case 'source':
+                        $model = new Cms_Model_Application_Page_Block_Source();
+                        break;
                     default:
                         throw new \Siberian\Exception(__("This block type doesn't exists."));
                 }
@@ -640,11 +634,11 @@ class Cms_Model_Application_Page extends Core_Model_Default
     }
 
     /**
-     * @deprecated
-     *
      * @param $option_value
      * @param $design
      * @param $category
+     * @deprecated
+     *
      */
     public function createDummyContents($option_value, $design, $category)
     {

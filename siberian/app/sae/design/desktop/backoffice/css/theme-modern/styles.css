@@ -136,6 +136,11 @@ input, select, textarea {
     margin-bottom: 0;
 }
 
+.wrapper .content div.area .title.critical {
+    background-color: #e42f2f;
+    border-bottom: 2px solid #a51b1b;
+}
+
 .sweet-alert h2 {
     background-color: #8dcee6;
     border-bottom: 2px solid #71b2ca;

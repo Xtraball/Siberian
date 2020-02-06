@@ -413,11 +413,11 @@ class Core_Model_Translator
 
         $cachedFiles = Siberian_Cache_Translation::getCache();
 
-        $base = $cachedFiles["base"];
-        $default = $cachedFiles["default"];
+        $base = $cachedFiles['base'];
+        $default = $cachedFiles['default'];
 
         foreach ($default as $filename => $path) {
-            $poVariant = str_replace(".csv", ".po", $filename);
+            $poVariant = str_replace('.csv', '.po', $filename);
 
             // Re-inject old "default" files if they are still using old .csv format!
             if (!array_key_exists($poVariant, $base)) {
@@ -435,13 +435,13 @@ class Core_Model_Translator
             }
 
             $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
-            if (!in_array($type, ["csv", "po"])) {
+            $type = $pathinfo['extension'];
+            if (!in_array($type, ['csv', 'po'])) {
                 continue;
             }
 
             // Easy
-            $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $path, $type, "original");
+            $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $path, $type, 'original');
 
             if (!empty($tmpTranslationData)) {
                 $translations = array_merge($translations, $tmpTranslationData);
@@ -455,20 +455,20 @@ class Core_Model_Translator
             }
 
             $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
+            $type = $pathinfo['extension'];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "po"])) {
+            if (!in_array($type, ['csv', 'po'])) {
                 continue;
             }
 
             // Default translation (if exists) mixed csv/mo, mo being more recent!
             $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
             if (is_file($defaultTranslationCSV)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, "csv", "default");
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, 'csv', 'default');
             }
             $defaultTranslationPO = $cachedFiles[$langId]["{$fileBase}.po"];
             if (is_file($defaultTranslationPO)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationPO, "po", "default");
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationPO, 'po', 'default');
             }
 
             if (!empty($tmpTranslationData)) {
@@ -483,20 +483,20 @@ class Core_Model_Translator
             }
 
             $pathinfo = pathinfo($path);
-            $type = $pathinfo["extension"];
+            $type = $pathinfo['extension'];
             $fileBase = basename($filename, ".{$type}");
-            if (!in_array($type, ["csv", "po"])) {
+            if (!in_array($type, ['csv', 'po'])) {
                 continue;
             }
 
             // User translations (if exists)!
-            $userTranslationCSV = $userTranslationsDirectory . $fileBase . ".csv";
-            $userTranslationPO = $userTranslationsDirectory . $fileBase . ".po";
+            $userTranslationCSV = $userTranslationsDirectory . $fileBase . '.csv';
+            $userTranslationPO = $userTranslationsDirectory . $fileBase . '.po';
 
             if (is_file($userTranslationPO)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationPO, "po", "user");
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationPO, 'po', 'user');
             } else if (is_file($userTranslationCSV)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationCSV, "csv", "user");
+                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $userTranslationCSV, 'csv', 'user');
             }
 
             if (!empty($tmpTranslationData)) {
@@ -523,18 +523,18 @@ class Core_Model_Translator
         }
 
         switch ($type) {
-            case "csv":
+            case 'csv':
                 $csvResource = fopen($path, "r");
                 while ($line = fgetcsv($csvResource, 1024, ";", '"')) {
                     $key = str_replace('\"', '"', $line[0]);
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
-                            "flags" => null,
-                            "comments" => null,
-                            "context" => null,
-                            "original" => $key,
-                            "default" => null,
-                            "user" => null,
+                            'flags' => null,
+                            'comments' => null,
+                            'context' => null,
+                            'original' => $key,
+                            'default' => null,
+                            'user' => null,
                         ];
                     }
                     if (isset($line[1]) && !empty($line[1])) {
@@ -545,7 +545,7 @@ class Core_Model_Translator
                 fclose($csvResource);
 
                 break;
-            case "po":
+            case 'po':
                 $userTranslations = new Translations();
                 $userTranslations->addFromPoFile($path);
                 foreach ($userTranslations as $userTranslation) {
@@ -555,16 +555,16 @@ class Core_Model_Translator
                     $key = str_replace('\"', '"', $userTranslation->getOriginal());
                     if (!isset($tmpTranslationData[$filename][$key])) {
                         $tmpTranslationData[$filename][$key] = [
-                            "flags" => $userTranslation->getFlags(),
-                            "comments" => $userTranslation->getComments(),
-                            "context" => $userTranslation->getContext(),
-                            "original" => $key,
-                            "default" => null,
-                            "user" => null,
+                            'flags' => $userTranslation->getFlags(),
+                            'comments' => $userTranslation->getComments(),
+                            'context' => $userTranslation->getContext(),
+                            'original' => $key,
+                            'default' => null,
+                            'user' => null,
                         ];
                     } else {
-                        $tmpTranslationData[$filename][$key]["comments"] = array_merge($tmpTranslationData[$filename][$key]["comments"], $userTranslation->getComments());
-                        $tmpTranslationData[$filename][$key]["flags"] = array_merge($tmpTranslationData[$filename][$key]["flags"], $userTranslation->getFlags());
+                        $tmpTranslationData[$filename][$key]['comments'] = array_merge($tmpTranslationData[$filename][$key]['comments'], $userTranslation->getComments());
+                        $tmpTranslationData[$filename][$key]['flags'] = array_merge($tmpTranslationData[$filename][$key]['flags'], $userTranslation->getFlags());
                     }
 
                     $value = str_replace('\"', '"', $userTranslation->getTranslation());

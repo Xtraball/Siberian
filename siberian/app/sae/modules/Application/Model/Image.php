@@ -19,8 +19,8 @@ class Application_Model_Image
             $font = path("/app/sae/design/desktop/flat/css/fonts/play-regular.ttf");
 
             $image = new Image($baseImage);
-            $image->write($font, p__("application", "New push message"), 130, 55, 24, 0, "#202020", "left");
-            $image->write($font, p__("application", "You have a new push message"), 130, 94, 20, 0, "#787878", "left");
+            $image->write($font, p__('application', 'New push message'), 130, 55, 24, 0, "#202020", "left");
+            $image->write($font, p__('application', 'You have a new push message'), 130, 94, 20, 0, "#787878", "left");
             $image->write($font, date("g:i a"), 670, 55, 20, 0, "#787878", "right");
 
             $image->save($cachedPath, "png", 100);

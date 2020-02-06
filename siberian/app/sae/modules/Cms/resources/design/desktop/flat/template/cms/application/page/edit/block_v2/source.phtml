@@ -1,0 +1,51 @@
+<?php
+
+$title = $this->getTitle();
+$type = $this->getType();
+$form = $this->getForm();
+$block = $this->getCmsBlock();
+
+$ajaxLoad = true;
+if(isset($block) && $block->getId()) {
+    $form->loadBlock($block);
+    $ajaxLoad = false;
+}
+
+$formid = $form->getAttrib('id');
+$uniqid = $form->getUniqid();
+$pvar = "p{$uniqid}";
+
+?>
+<div class="cms-block-container">
+    <h3 class="title-editor title-feature-indent">
+        <div class="cms-block-handle">
+            <i class="fa fa-sort"></i>
+        </div>
+        <span>
+            <span class="cms-block-index"></span>
+            <?php echo __($title); ?>
+        </span>
+        <div class="cms-block-delete">
+            <i class="fa fa-close"></i>
+        </div>
+
+    </h3>
+    <div id="<?php echo $formid; ?>"
+         class="cms-block-hide-drag content-white-bkg section-padding content-feature"
+         style="padding-bottom: 20px;">
+        <?php echo $form; ?>
+    </div>
+
+    <script type="text/javascript">
+        let <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
+
+        <?php if ($ajaxLoad || $type === 'cms'): ?>
+        $(document).ready(function() {
+            bindForms(<?php echo $pvar; ?>);
+        });
+        <?php endif; ?>
+    </script>
+
+</div>
+
+

@@ -772,6 +772,11 @@ a.link, button.as-link {
     border-bottom: 1px solid white;
 }
 
+.wrapper .content div.area .title.critical {
+    color: #e42f2f;
+    border-bottom: 2px solid #a51b1b;
+}
+
 /*.wrapper .title div { position: absolute; }*/
 .wrapper .title div.loader {
     height: 55px;

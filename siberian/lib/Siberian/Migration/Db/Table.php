@@ -13,37 +13,91 @@ use Siberian\File;
  */
 class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 {
+    /**
+     * @var bool
+     */
     static public $debug = false;
 
+    /**
+     * @var array|null
+     */
     public $config = null;
+    /**
+     * @var mixed|null
+     */
     public $logger = null;
-    public $log_info = "migration_%s_info";
-    public $log_error = "migration_%s_error";
+    /**
+     * @var string
+     */
+    public $log_info = 'migration_%s_info';
+    /**
+     * @var string
+     */
+    public $log_error = 'migration_%s_error';
 
+    /**
+     * @var array
+     */
     public $protected_defaults = [
         'CURRENT_TIMESTAMP',
     ];
 
+    /**
+     * @var mixed|null
+     */
     protected $dbName = null;
+    /**
+     * @var null
+     */
     protected $tableName = null;
+    /**
+     * @var null
+     */
     protected $schemaPath = null;
-    protected $tableEngine = "InnoDB";
-    protected $tableCharset = "utf8";
-    protected $tableCollate = "utf8_unicode_ci";
+    /**
+     * @var string
+     */
+    protected $tableEngine = 'InnoDB';
+    /**
+     * @var string
+     */
+    protected $tableCharset = 'utf8';
+    /**
+     * @var string
+     */
+    protected $tableCollate = 'utf8_unicode_ci';
+    /**
+     * @var array
+     */
     protected $queries = [];
 
+    /**
+     * @var array
+     */
     public $localFields = [];
+    /**
+     * @var array
+     */
     public $schemaFields = [];
+    /**
+     * @var array
+     */
     public $primaryKeys = [];
+    /**
+     * @var array
+     */
     public $uniqueKeys = [];
+    /**
+     * @var array
+     */
     public $indexes = [];
 
 
     /**
      * Siberian_Migration_Db_Table constructor.
-     *
-     * @param string $table_name
+     * @param $table_name
      * @param array $config
+     * @throws Zend_Exception
      */
     public function __construct($table_name, $config = [])
     {
@@ -404,18 +458,22 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
         if ($fix_utc_dates) {
             $cols = [];
-            if (isset($this->localFields["created_at"])) $cols[] = "created_at";
-            if (isset($this->localFields["updated_at"])) $cols[] = "updated_at";
+            if (isset($this->localFields['created_at'])) {
+                $cols[] = 'created_at';
+            }
+            if (isset($this->localFields['updated_at'])) {
+                $cols[] = 'updated_at';
+            }
             if (count($cols) > 0) {
-                $requestDates = "SELECT " . join($cols, ", ") . " FROM `{$this->tableName}` WHERE "
-                    . join(array_map(function ($col) {
-                        return $col . "_utc=0";
-                    }, $cols), " OR ");
+                $requestDates = 'SELECT ' . implode($cols, ', ') . " FROM `{$this->tableName}` WHERE "
+                    . implode(array_map(function ($col) {
+                        return $col . '_utc=0';
+                    }, $cols), ' OR ');
                 $resultDates = $this->query($requestDates)->fetchAll();
                 foreach ($resultDates as $row) {
                     foreach ($cols as $col) {
-                        $col_utc = $col . "_utc";
-                        if (isset($row[$col]) && @intval($row[$col_utc]) < 1) {
+                        $col_utc = $col . '_utc';
+                        if (isset($row[$col]) && ((int) $row[$col_utc]) < 1) {
                             $date = new Zend_Date($row[$col]);
                             $timestamp = $date->getTimestamp();
                             $this->query("UPDATE `{$this->tableName}` SET `{$col_utc}`=$timestamp WHERE `$col`='{$row[$col]}';");
@@ -654,6 +712,8 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         $create .= implode(",\n", array_filter($lines));
 
         $create .= "\n) ENGINE={$this->tableEngine} DEFAULT CHARSET={$this->tableCharset} COLLATE={$this->tableCollate};";
+
+        dbg($create);
 
         try {
             $this->execSafe($create);
