@@ -1,0 +1,15 @@
+<ion-popover-view class="module-push push-popover popover-custom"
+                  style="height: {{(40 * popoverItems.length) + 'px'}};">
+    <ion-content class="module-push push-popover popover-content-custom">
+        <ion-list class="list">
+            <ion-item class="item-custom"
+                      ng-repeat="popoverItem in popoverItems"
+                      ng-click="popoverItem.click()">
+                <span class="popover-icon-left">
+                    <i class="{{ ::popoverItem.icon }}"></i>
+                </span>
+                <span class="popover-action-title">{{ ::popoverItem.label }}</span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-popover-view>

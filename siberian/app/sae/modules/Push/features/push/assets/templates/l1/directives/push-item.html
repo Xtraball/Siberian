@@ -1,0 +1,37 @@
+<ion-item class="item-custom"
+          ng-click="showItem(item)"
+          ng-class="{ 'item-avatar': item.icon, 'card': cardDesign }">
+    <img ng-src="{{ item.icon }}"
+         alt="{{ item.icon }}"
+         ng-if="item.icon" />
+    <h2>
+        {{ item.title ? item.title : item.author }}
+        <i class="icon ion-more pull-right"
+           ng-click="openActions($event)"></i>
+    </h2>
+
+    <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+    <p ng-if="item.message"
+       ng-bind-html="item.message"
+       class="text-no-wrap"></p>
+
+    <div>
+        <img ng-src="{{ item.picture }}"
+             alt="{{ item.picture }}"
+             style="width: 100%; height: auto;"
+             ng-if="item.picture" />
+        <p class="padding text-right"
+           ng-if="item.details">
+                    <span ng-if="item.details.date">
+                        <i class="ion-ios-calendar-outline"></i>
+                        <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                        <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
+                    </span>
+            <span ng-if="hasItem(item)">
+                        <i class="ion-link"></i>
+                        <span>{{ ::'More' | translate:'push' }}</span>
+                    </span>
+        </p>
+        <div class="clear"></div>
+    </div>
+</ion-item>

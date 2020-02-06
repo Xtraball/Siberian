@@ -1,0 +1,34 @@
+<ion-content>
+    <div class="loader"
+         ng-show="is_loading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <ion-refresher ng-if="use_pull_refresh"
+                   class="spinner-custom"
+                   pulling-text="{{ ::'Pull to refresh...' | translate }}"
+                   on-refresh="pullToRefresh()">
+    </ion-refresher>
+
+    <ion-list ng-if="!is_loading && collection.length">
+        <push-item-card ng-if="card_design"
+                        ng-repeat="push in collection"></push-item-card>
+        <push-item-list ng-if="!card_design"
+                        ng-repeat="push in collection"></push-item-list>
+    </ion-list>
+
+    <ion-list ng-class="{'card' : card_design}"
+              ng-if="!is_loading && !collection.length">
+        <ion-item class="item-custom text-center">
+            {{ ::'No items found' | translate }}
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="load_more"
+                         on-infinite="loadMore()"
+                         immediate-check="false"
+                         distance="10%"
+                         class="spinner-custom">
+    </ion-infinite-scroll>
+
+</ion-content>

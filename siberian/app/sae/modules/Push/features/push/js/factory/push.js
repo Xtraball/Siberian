@@ -84,6 +84,19 @@ angular
     };
 
     /**
+     *
+     * @param pushId
+     * @returns {*}
+     */
+    factory.delete = function (pushId) {
+        return $pwaRequest.post('push/mobile_list/delete', {
+            data: {
+                pushId: pushId
+            }
+        });
+    };
+
+    /**
      * updateUnreadCount
      */
     factory.updateUnreadCount = function () {

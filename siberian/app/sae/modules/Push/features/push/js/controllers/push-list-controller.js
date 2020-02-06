@@ -2,21 +2,21 @@
  * PushController
  *
  * @author Xtraball SAS
- * @version 4.18.5
+ * @version 4.18.9
  */
 
 angular
 .module('starter')
-.controller('PushController', function ($location, $rootScope, $scope, $stateParams,
-                                                             LinkService, SB, Push) {
+.controller('PushListController', function ($location, $rootScope, $scope, $stateParams,
+                                        LinkService, SB, Push, Popover) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
         collection: [],
-        toggle_text: false,
-        card_design: false,
+        cardDesign: false,
         load_more: false,
-        use_pull_refresh: true
+        actionsPopover: null,
+        popoverItems: []
     });
 
     Push.setValueId($stateParams.value_id);
@@ -102,10 +102,54 @@ angular
 
     $scope.hasItem = function (item) {
         return (item.url || item.action_value);
-    }
+    };
 
     $scope.loadMore = function () {
         $scope.loadContent(true);
+    };
+
+    // Popover actions!
+    $scope.openActions = function ($event) {
+        $scope
+            .closeActions()
+            .then(function () {
+                Popover
+                    .fromTemplateUrl('templates/push/l1/directives/actions-popover.html', {
+                        scope: $scope
+                    }).then (function (popover) {
+                        $scope.actionsPopover = popover;
+                        $scope.actionsPopover.show($event);
+                    });
+            });
+    };
+
+    $scope.closeActions = function () {
+        try {
+            if ($scope.actionsPopover) {
+                return $scope.actionsPopover.hide();
+            }
+        } catch (e) {
+            // We skip!
+        }
+
+        return $q.resolve();
+    };
+
+    /**
+     *
+     * */
+    $scope.buildPopoverItems = function () {
+        var deletePush = {
+            label: $translate.instant('Delete', 'push'),
+            icon: 'icon ion-close',
+            click: function () {
+                Push
+                    .delete()
+                    .then(function () {
+                        $scope.pullToRefresh();
+                    });
+            }
+        };
     };
 
     $scope.loadContent();

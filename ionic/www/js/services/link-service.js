@@ -95,7 +95,7 @@ angular
                 target = '_self';
             }
 
-            for (let [key, value] of Object.entries(_options)) {
+            for (var [key, value] of Object.entries(_options)) {
                 // Push only allowed options!
                 if (supportOptions.indexOf(key) > -1) {
                     inAppBrowserOptions.push(`${key}=${value}`);
