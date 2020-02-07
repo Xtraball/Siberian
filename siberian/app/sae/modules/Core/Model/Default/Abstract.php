@@ -105,6 +105,12 @@ abstract class Core_Model_Default_Abstract
         $accessor = substr($method, 0, 3);
         $magicKeys = ['set', 'get', 'uns', 'has'];
 
+        // deleteFeature
+        // prepareFeature
+        if (preg_match('/^(deleteFeature|prepareFeature)$/', $method, $matches)) {
+            return $this;
+        }
+
         if (preg_match('/(CreatedAt|UpdatedAt)$/', $method, $matches)) {
             $key = Core_Model_Lib_String::camelize($matches[1]);
             $formatted = (substr($method, 0, 12) == 'getFormatted');
@@ -564,19 +570,19 @@ abstract class Core_Model_Default_Abstract
      * @param $optionValue
      * @return $this
      */
-    public function prepareFeature($optionValue = null): self
-    {
-        return $this;
-    }
+    //public function prepareFeature($optionValue = null): self
+    //{
+    //    return $this;
+    //}
 
     /**
      * @param $optionValue
      * @return $this
      */
-    public function deleteFeature($optionValue = null): self
-    {
-        return $this;
-    }
+    //public function deleteFeature($optionValue = null): self
+    //{
+    //    return $this;
+    //}
 
     /**
      * @param $page
