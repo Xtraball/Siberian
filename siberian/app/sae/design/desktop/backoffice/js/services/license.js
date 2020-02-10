@@ -4,7 +4,7 @@ App.service('LicenseService', function($http, $q) {
             return $q(function(resolv, reject){
                 $http({
                     method: 'GET',
-                    url: "https://extensions.siberiancms.com/?edd_action=check_license&item_name=ios-auto-publish-build-send-your-ios-app-to-itunes-automatically&license="+licenseKey,
+                    url: "https://extensions.siberiancms.com/?edd_action=check_license&item_id=65863&license=" + licenseKey,
                     cache: false,
                     responseType:'json'
                 })
