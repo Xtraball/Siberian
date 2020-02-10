@@ -99,7 +99,7 @@ angular
                 // Push only allowed options!
                 if (supportOptions.indexOf(key) > -1) {
                     var value = _options[key];
-                    inAppBrowserOptions.push(`${key}=${value}`);
+                    inAppBrowserOptions.push(key + '=' + value);
                 }
             }
             var finalOptions = inAppBrowserOptions.join(',');
