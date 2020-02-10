@@ -88,16 +88,16 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-map-marker"></i>
-                <?php echo __("Places") ?>
+                <?php echo __('Places') ?>
             </a>
         </li>
         <li role="presentation">
-            <a href="#categories"
-               aria-controls="categories"
+            <a href="#new_category"
+               aria-controls="new_category"
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-tags"></i>
-                <?php echo __("Categories") ?>
+                <?php echo __('Categories') ?>
             </a>
         </li>
         <li role="presentation">
@@ -106,7 +106,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-search"></i>
-                <?php echo __("Settings & Options") ?>
+                <?php echo __('Settings & Options') ?>
             </a>
         </li>
         <li role="presentation">
@@ -115,7 +115,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-image"></i>
-                <?php echo __("Design") ?>
+                <?php echo __('Design') ?>
             </a>
         </li>
     </ul>
@@ -228,7 +228,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
         <div role="tabpanel"
              class="tab-pane"
-             id="categories">
+             id="new_category">
 
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
@@ -243,8 +243,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('Create a new category'); ?>
                 </h3>
-                <div id="new_category"
-                     class="container-fluid subcontent content-feature">
+                <div class="container-fluid subcontent content-feature">
                     <?php echo $formCategory; ?>
                 </div>
             </div>
@@ -305,6 +304,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                                         <td class="delete-action">
                                             <?php
                                             $deleteCategoryForm->setAttrib('data-rowid', 'category_manage_element_' . $category->getId());
+                                            $deleteCategoryForm->setAttrib('id', 'form-category-id-' . $category->getId());
                                             $deleteCategoryForm->getElement('category_id')->setValue($category->getId());
 
                                             echo $deleteCategoryForm;
@@ -358,11 +358,6 @@ $deleteCategoryForm->setValueId($optionValue->getId());
     $(document).ready(function() {
         $(".feature-toggle-add[rel='places'], .edit-action[rel='places']").on("click", function(event) {
             event.preventDefault();
-
-            bindForms('#search');
-            bindForms('#design');
-            bindForms('#new_place');
-            bindForms('#new_category');
 
             let formurl = "<?php echo $this->getUrl("/places/application/loadform") ?>";
             let datas = {value_id: <?php echo $optionValue->getId() ?>};
@@ -577,5 +572,10 @@ $deleteCategoryForm->setValueId($optionValue->getId());
             });
             updatePin(false);
         });
+
+        bindForms('#search');
+        bindForms('#design');
+        bindForms('#new_place');
+        bindForms('#new_category');
     });
 </script>
