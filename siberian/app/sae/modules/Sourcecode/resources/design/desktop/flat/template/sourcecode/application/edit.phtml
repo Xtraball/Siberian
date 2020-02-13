@@ -12,21 +12,19 @@ $form->setHtmlCode($sourceCode->getHtmlCode());
 ?>
 
 <div class="source_code">
-    <div id="edit-source-code">
+    <div>
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __('Source Code'); ?>
         </h3>
-        <div class="container-fluid first-row-feature content-feature">
-            <?php
-                echo $form;
-            ?>
+        <div id="source-code-form"
+             class="container-fluid first-row-feature content-feature">
+            <?php echo $form; ?>
         </div>
     </div>
 
-
     <script type="text/javascript">
         $(document).ready(function () {
-            bindForms('#edit-source-code');
+            bindForms('#source-code-form');
         });
     </script>
 </div>

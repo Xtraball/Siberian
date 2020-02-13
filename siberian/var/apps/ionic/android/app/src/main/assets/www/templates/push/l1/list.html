@@ -28,13 +28,13 @@
                     <h2>{{ item.title ? item.title : item.author }}</h2>
                     <p ng-if="item.subtitle">{{ item.subtitle }}</p>
                     <p ng-if="item.message"
-                       ng-bind-html="item.message"></p>
-                </ion-item>
+                       ng-bind-html="item.message"
+                       class="text-no-wrap"></p>
 
-                <ion-item class="item-custom item-image">
-                    <div class="col col-75 col-offset-25">
+                    <div>
                         <img ng-src="{{ item.picture }}"
                              alt="{{ item.picture }}"
+                             style="width: 100%; height: auto;"
                              ng-if="item.picture" />
                         <p class="padding text-right"
                            ng-if="item.details">
@@ -43,13 +43,9 @@
                                 <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
                                 <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
                             </span>
-                            <span ng-if="item.details.comments">
-                                <i class="ion-ios-chatboxes-outline"></i>
-                                {{ item.details.comments.text }}
-                            </span>
-                            <span ng-if="item.details.likes">
-                                <i class="ion-ios-heart-outline"></i>
-                                {{ item.details.likes.text }}
+                            <span ng-if="hasItem(item)">
+                                <i class="ion-link"></i>
+                                <span>{{ ::'More' | translate:'push' }}</span>
                             </span>
                         </p>
                         <div class="clear"></div>
@@ -57,7 +53,6 @@
                 </ion-item>
             </div>
         </ion-list>
-
 
         <ion-list ng-if="!card_design && collection.length">
             <div ng-click="showItem(item)"
@@ -70,14 +65,13 @@
                     <h2>{{ item.title ? item.title : item.author }}</h2>
                     <p ng-if="item.subtitle">{{ item.subtitle }}</p>
                     <p ng-if="item.message"
-                       ng-class="{ 'text-no-wrap':toggle_text }"
-                       ng-bind-html="item.message"></p>
-                </ion-item>
+                       ng-bind-html="item.message"
+                       class="text-no-wrap"></p>
 
-                <ion-item class="item-image item-custom">
-                    <div class="col col-75 col-offset-25">
+                    <div>
                         <img ng-src="{{ item.picture }}"
                              alt="{{ item.picture }}"
+                             style="width: 100%; height: auto;"
                              ng-if="item.picture" />
                         <p class="padding text-right"
                            ng-if="item.details">
@@ -86,18 +80,15 @@
                                 <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
                                 <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
                             </span>
-                            <span ng-if="item.details.comments">
-                                <i class="ion-ios-chatboxes-outline"></i>
-                                {{ item.details.comments.text }}
-                            </span>
-                            <span ng-if="item.details.likes">
-                                <i class="ion-ios-heart-outline"></i>
-                                {{ item.details.likes.text }}
+                            <span ng-if="hasItem(item)">
+                                <i class="ion-link"></i>
+                                <span>{{ ::'More' | translate:'push' }}</span>
                             </span>
                         </p>
                         <div class="clear"></div>
                     </div>
                 </ion-item>
+
             </div>
         </ion-list>
 

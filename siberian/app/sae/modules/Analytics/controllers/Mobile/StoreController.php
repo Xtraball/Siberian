@@ -1,36 +1,46 @@
 <?php
 
-class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Default {
+class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Default
+{
+    /**
+     * array
+     */
+    const SUCCESS = [
+        'success' => true,
+        'message' => 'Metrics successfully added.'
+    ];
 
-    public function installationAction() {
-        $payload = array(
-            "error" => true,
-            "message" => "Bad parameters."
-        );
+    /**
+     * array
+     */
+    const ERROR = [
+        'error' => true,
+        'message' => 'Bad parameters.'
+    ];
 
+    public function installationAction()
+    {
+        $payload = self::ERROR;
         try {
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data["appId"] = $this->getApplication()->getId();
-                $data["timestampGMT"] = gmmktime();
+            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+                $data['appId'] = $this->getApplication()->getId();
+                $data['timestampGMT'] = gmmktime();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppInstallationMetric($data)) {
-                    $payload = array('success' => '1', 'message' => 'Metrics successfully added.');
+                if ($result = $sqlite_request->addAppInstallationMetric($data)) {
+                    $payload = self::SUCCESS;
                 }
             }
-        } catch (Exception $e) {
-            $payload["message"] = $e->getMessage();
+        } catch (\Exception $e) {
+            $payload['message'] = $e->getMessage();
         }
 
         $this->_sendJson($payload);
     }
 
-    public function openingAction() {
-        $payload = [
-            'error' => true,
-            'message' => 'Bad parameters.'
-        ];
-
+    public function openingAction()
+    {
+        $payload = self::ERROR;
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
                 $data['appId'] = $this->getApplication()->getId();
@@ -39,16 +49,10 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
 
                 $sqliteRequest = Analytics_Model_Store::getInstance();
                 if ($result = $sqliteRequest->addAppLoadedMetric($data)) {
-                    $payload = [
-                        'success' => true,
-                        'message' => 'Metrics successfully added.',
-                        'id' => $result[0]
-                    ];
+                    $payload = self::SUCCESS;
+                    $payload['id'] = $result[0];
                 } else {
-                    $payload = [
-                        'error' => true,
-                        'message' => 'Metrics not added.'
-                    ];
+                    $payload = self::ERROR;
                 }
             }
         } catch (Exception $e) {
@@ -58,96 +62,90 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         $this->_sendJson($payload);
     }
 
-    public function closingAction() {
-        $payload = array(
-            "error" => true,
-            "message" => "Bad parameters."
-        );
-
+    public function closingAction()
+    {
+        $payload = self::ERROR;
         try {
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $metric_data = array("endTimestampGMT = '".gmmktime()."'");
+            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+                $metric_data = ["endTimestampGMT = '" . gmmktime() . "'"];
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppLoadedMetric($metric_data, $data['id'])) {
-                    $payload = array('success' => '1', 'message' => 'Metrics successfully added.');
+                if ($result = $sqlite_request->addAppLoadedMetric($metric_data, $data['id'])) {
+                    $payload = self::SUCCESS;
                 }
             }
-        } catch (Exception $e) {
-            $payload["message"] = $e->getMessage();
+        } catch (\Exception $e) {
+            $payload['message'] = $e->getMessage();
         }
 
         $this->_sendJson($payload);
     }
 
-    public function pageopeningAction() {
-        $payload = array(
-            "error" => true,
-            "message" => "Bad parameters."
-        );
-
+    public function pageopeningAction()
+    {
+        $payload = self::ERROR;
         try {
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data["timestampGMT"] = gmmktime();
+            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+                $data['timestampGMT'] = gmmktime();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppPageNavigationMetric($data)) {
-                    $payload = array('success' => '1', 'message' => 'Metrics successfully added.');
+                if ($result = $sqlite_request->addAppPageNavigationMetric($data)) {
+                    $payload = self::SUCCESS;
                 }
             }
         } catch (Exception $e) {
-            $payload["message"] = $e->getMessage();
+            $payload['message'] = $e->getMessage();
         }
 
         $this->_sendJson($payload);
     }
 
-    public function productopeningAction() {
-        $payload = array(
-            "error" => true,
-            "message" => "Bad parameters."
-        );
-
+    /**
+     *
+     */
+    public function productopeningAction()
+    {
+        $payload = self::ERROR;
         try {
-            if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data["timestampGMT"] = gmmktime();
+            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+                $data['timestampGMT'] = gmmktime();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppMcommerceProductNavigationMetric($data)) {
-                    $payload = array('success' => '1', 'message' => 'Metrics successfully added.');
+                if ($result = $sqlite_request->addAppMcommerceProductNavigationMetric($data)) {
+                    $payload = self::SUCCESS;
                 }
             }
 
         } catch (Exception $e) {
-            $payload["message"] = $e->getMessage();
+            $payload['message'] = $e->getMessage();
         }
 
         $this->_sendJson($payload);
     }
 
-    public function productsoldAction() {
-        $html = array('error' => '1', 'message' => 'Bad parameters.');
+    public function productsoldAction()
+    {
+        $payload = self::ERROR;
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             $metric_value = $data;
             unset($metric_value['products']);
-            $metric_value["timestampGMT"] = gmmktime();
+            $metric_value['timestampGMT'] = gmmktime();
 
-            foreach($data['products'] as $product) {
+            foreach ($data['products'] as $product) {
                 $metric_value['productId'] = $product['id'];
                 $metric_value['categoryId'] = $product['category_id'];
                 $metric_value['quantity'] = $product['quantity'];
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
-                if($result = $sqlite_request->addAppMcommerceProductSoldMetric($metric_value)) {
-                    $html = array('success' => '1', 'message' => 'Metrics successfully added.');
+                if ($result = $sqlite_request->addAppMcommerceProductSoldMetric($metric_value)) {
+                    $payload = self::SUCCESS;
                 }
             }
         }
 
-        $this->_sendJson($html);
+        $this->_sendJson($payload);
     }
-
 
 
 }

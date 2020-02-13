@@ -17,7 +17,7 @@ ckeditor_config.social_wall = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            $('textarea#' + this.name).html(this.getData());
+            $('textarea#' + this.name).text(this.getData());
         }
     },
     extraPlugins: 'featurelink',

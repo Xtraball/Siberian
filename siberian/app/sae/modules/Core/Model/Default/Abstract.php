@@ -90,7 +90,6 @@ abstract class Core_Model_Default_Abstract
                 $this->setData($key, $value);
             }
         }
-        return $this;
     }
 
     /**
@@ -105,6 +104,12 @@ abstract class Core_Model_Default_Abstract
     {
         $accessor = substr($method, 0, 3);
         $magicKeys = ['set', 'get', 'uns', 'has'];
+
+        // deleteFeature
+        // prepareFeature
+        if (preg_match('/^(deleteFeature|prepareFeature)$/', $method, $matches)) {
+            return $this;
+        }
 
         if (preg_match('/(CreatedAt|UpdatedAt)$/', $method, $matches)) {
             $key = Core_Model_Lib_String::camelize($matches[1]);
@@ -562,22 +567,22 @@ abstract class Core_Model_Default_Abstract
     }
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @return $this
      */
-    public function prepareFeature($option_value)
-    {
-        return $this;
-    }
+    //public function prepareFeature($optionValue = null): self
+    //{
+    //    return $this;
+    //}
 
     /**
-     * @param $option_value
+     * @param $optionValue
      * @return $this
      */
-    public function deleteFeature($option_value)
-    {
-        return $this;
-    }
+    //public function deleteFeature($optionValue = null): self
+    //{
+    //    return $this;
+    //}
 
     /**
      * @param $page

@@ -1,12 +1,12 @@
 /**
  * Analytics request handler!
  *
- * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @author Xtraball SAS
+ * @version 4.18.9
  */
 angular
-.module("starter")
-.service("Analytics", function ($pwaRequest, $session, $timeout, $q, $rootScope, $log) {
+.module('starter')
+.service('Analytics', function ($pwaRequest, $session, $q, $rootScope, $log) {
     var service = {};
 
     service.data = {};
@@ -147,9 +147,7 @@ angular
                         }
 
                         service.pool.push(request);
-                        $timeout(function () {
-                            service.commitPool();
-                        }, 10000);
+                        service.commitPool();
                     });
             }
         }
@@ -177,9 +175,7 @@ angular
             if (pool) {
                 service.pool = pool;
             }
-            $timeout(function () {
-                service.commitPool();
-            }, 20000);
+            service.commitPool();
         });
 
     return service;

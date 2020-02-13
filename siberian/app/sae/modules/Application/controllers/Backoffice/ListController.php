@@ -62,6 +62,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         }
 
         $to_publish = filter_var($this->getRequest()->getParam("toPublish", false), FILTER_VALIDATE_BOOLEAN);
+        $app_ids = [];
         if ($to_publish) {
             $app_ids = $application->findAllToPublish();
 
@@ -110,7 +111,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
         foreach ($applications as $application) {
             $data['collection'][] = [
                 'id' => $application->getId(),
-                'can_be_published' => in_array($application->getId(), $app_ids),
+                'can_be_published' => in_array($application->getId(), $app_ids, false),
                 'name' => mb_convert_encoding($application->getName(), 'UTF-8', 'UTF-8'),
                 'bundle_id' => $application->getBundleId(),
                 'package_name' => $application->getPackageName(),

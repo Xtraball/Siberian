@@ -50,7 +50,7 @@ angular
     service.setPublishableKey = function (publishableKey) {
         var deferred = $q.defer();
 
-        if (publishableKey &&
+        if (publishableKey !== undefined &&
             publishableKey.length <= 0) {
             deferred.reject("publishableKey is required.");
             throw new Error("publishableKey is required.");
@@ -60,7 +60,14 @@ angular
         if (service.publishableKey !== publishableKey ||
             !service.stripe) {
             service.publishableKey = publishableKey;
-            service.stripe = Stripe(service.publishableKey);
+
+            try {
+                service.stripe = Stripe(service.publishableKey);
+            } catch (e) {
+                // Silent!
+                console.warn('[Stripe]: ' + e.message);
+            }
+
             try {
                 service.card.destroy();
             } catch (e) {

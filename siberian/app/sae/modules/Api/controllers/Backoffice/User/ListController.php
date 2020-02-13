@@ -27,14 +27,18 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
      */
     public function findallAction()
     {
-
-        $user = new Api_Model_User();
-        $users = $user->findAll();
-        $payload = ["users" => []];
+        $where = [];
+        if (!isDev()) {
+            $where = [
+                'is_visible = ?' => 1
+            ];
+        }
+        $users = (new Api_Model_User())->findAll($where);
+        $payload = ['users' => []];
 
         foreach ($users as $user) {
             $user->setCreatedAt($user->getFormattedCreatedAt());
-            $payload["users"][] = $user->getData();
+            $payload['users'][] = $user->getData();
         }
 
         $this->_sendJson($payload);
