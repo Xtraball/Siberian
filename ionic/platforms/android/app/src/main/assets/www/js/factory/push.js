@@ -79,6 +79,10 @@ angular
         }, factory.extendedOptions));
     };
 
+    factory.getSample = function () {
+        return $pwaRequest.get('push/mobile_list/get-sample');
+    };
+
     /**
      * updateUnreadCount
      */

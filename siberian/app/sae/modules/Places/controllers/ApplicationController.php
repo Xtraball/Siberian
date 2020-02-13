@@ -456,6 +456,10 @@ class Places_ApplicationController extends Application_Controller_Default
             $form = new Places_Form_Category();
             $form->populate($category->getData());
             $form->removeNav("nav-categories");
+            $form->setAttrib('id', 'form-category-id-' . $categoryId);
+
+            $form->getElement('subtitle')->setAttrib('id', 'subtitle_category_' . $categoryId);
+
             $submit = $form->addSubmit(__("Save"));
             $submit->addClass("pull-right");
 
@@ -555,7 +559,7 @@ class Places_ApplicationController extends Application_Controller_Default
             if (!$page->getId()) {
                 $page
                     ->setId("new")
-                    ->setMapIcon($settings["defaultPin"]);
+                    ->setMapIcon($settings['defaultPin']);
                 $isNew = true;
             }
 
@@ -563,19 +567,19 @@ class Places_ApplicationController extends Application_Controller_Default
                 ->addPartial('cms_edit', 'Core_View_Default', 'cms/application/page/edit.phtml')
                 ->setOptionValue($optionValue)
                 ->setCurrentPage($page)
-                ->setCurrentFeature("places")
+                ->setCurrentFeature('places')
                 ->setIsNew($isNew)
                 ->toHtml();
 
             $data = [
-                "success" => true,
-                "form" => $html,
+                'success' => true,
+                'form' => $html,
             ];
 
         } catch (\Exception $e) {
             $data = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 

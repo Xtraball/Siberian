@@ -64,38 +64,48 @@ class Push_Model_Certificate extends Core_Model_Default
      */
     public static function getInfos($app_id = null)
     {
-        $pem_info = null;
+        $pemInfo = null;
 
-        if (self::getiOSCertificat($app_id)) {
-            $certificate = self::getiOSCertificat($app_id);
-            $pem_content = file_get_contents(Core_Model_Directory::getBasePathTo($certificate));
-
-            $pem_info = openssl_x509_parse($pem_content);
-            if (!empty($pem_info)) {
-                $pem_info = [
-                    "production" => preg_match("/Development/i", $pem_info["name"]),
-                    "package_name" => $pem_info["subject"]["UID"],
-                    "valid_from" => time_to_date($pem_info["validFrom_time_t"]),
-                    "valid_until" => time_to_date($pem_info["validTo_time_t"]),
-                    //On some certificates, oeiginal infos contains unvalid char.
-                    //It results that controller->_sendHtml() return null instead of json config
-                    //"original" => $pem_info,
-                    "is_valid" => ($pem_info["validTo_time_t"] > time()),
-                ];
-
-                $pem_info["apns_feedback"] = self::testApnsPort(2196);
-                $pem_info["test_pem"] = self::testPem($certificate);
-
-            } else {
-                $pem_info = [
-                    "is_valid" => false,
-                ];
+        try {
+            if (!self::getiOSCertificat($app_id)) {
+                throw new \Siberian\Exception('PEM is not set.');
             }
 
-            $pem_info["port_open"] = self::testApnsPort(2195);
+            $certificate = self::getiOSCertificat($app_id);
+            $pemPath = path($certificate);
+            if (!is_file($pemPath)) {
+                throw new \Siberian\Exception('File is missing.');
+            }
+
+            $pemContent = file_get_contents($pemPath);
+            $pemInfo = openssl_x509_parse($pemContent);
+
+            if (empty($pemInfo)) {
+                throw new \Siberian\Exception('PEM is unreadable.');
+            }
+
+            $pemInfo = [
+                'production' => false !== stripos($pemInfo['name'], 'Development'),
+                'package_name' => $pemInfo['subject']['UID'],
+                'valid_from' => time_to_date($pemInfo['validFrom_time_t']),
+                'valid_until' => time_to_date($pemInfo['validTo_time_t']),
+                //On some certificates, oeiginal infos contains unvalid char.
+                //It results that controller->_sendHtml() return null instead of json config
+                //"original" => $pem_info,
+                'is_valid' => ($pemInfo['validTo_time_t'] > time()),
+            ];
+
+            $pemInfo['apns_feedback'] = self::testApnsPort(2196);
+            $pemInfo['test_pem'] = self::testPem($certificate);
+            $pemInfo['port_open'] = self::testApnsPort(2195);
+
+        } catch (\Exception $e) {
+            $pemInfo = [
+                'is_valid' => false,
+            ];
         }
 
-        return $pem_info;
+        return $pemInfo;
     }
 
     /**

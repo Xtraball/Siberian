@@ -208,18 +208,18 @@ class Security
         }
 
         foreach (self::TRIGGERS as $trigger) {
-            if (preg_match("~$trigger~im", $key) === 1) {
+            if (preg_match('~' . $trigger . '~im', $key) === 1) {
                 return self::logAlert("#$origin-001-1: Suspicious data detected.", $session, $trigger, $key);
             }
         }
 
         foreach (self::TRIGGERS as $trigger) {
-            if (preg_match("~$trigger~im", $value) === 1) {
+            if (preg_match('~' . $trigger . '~im', $value) === 1) {
                 return self::logAlert("#$origin-001-2: Suspicious data detected.", $session, $trigger, $value);
             }
         }
 
-        $tmpFilename = $tmpDir . '/' . uniqid();
+        $tmpFilename = $tmpDir . '/' . uniqid('security-', true);
 
         // Ensure content has data!
         if (!empty($content)) {

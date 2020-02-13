@@ -1,7 +1,12 @@
 /**
  * Analytics request handler!
+ *
+ * @author Xtraball SAS
+ * @version 4.18.9
  */
-angular.module('starter').service('Analytics', function ($pwaRequest, $session, $q, $rootScope, $log) {
+angular
+.module('starter')
+.service('Analytics', function ($pwaRequest, $session, $q, $rootScope, $log) {
     var service = {};
 
     service.data = {};

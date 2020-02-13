@@ -1,5 +1,8 @@
 <?php
-$init = function($bootstrap) {
-    # Exporter
-    Siberian_Exporter::register("loyalty", "LoyaltyCard_Model_LoyaltyCard");
+
+/**
+ * @param $bootstrap
+ */
+$init = static function($bootstrap) {
+
 };

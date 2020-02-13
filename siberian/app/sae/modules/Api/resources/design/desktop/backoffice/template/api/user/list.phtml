@@ -40,11 +40,18 @@
                 <td>{{ user.lastname }}</td>
                 <td>{{ user.created_at }}</td>
                 <td class="text-right">
-                    <a href="<?php echo $this->getUrl("api/backoffice_user_edit"); ?>/user_id/{{ user.id }}"
-                       class="btn btn-sm btn-primary">EDIT</a>
+                    <a ng-if="user.is_visible == 1"
+                       href="<?php echo $this->getUrl('api/backoffice_user_edit'); ?>/user_id/{{ user.id }}"
+                       class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
                     <a href="javascript:void(0);"
+                       ng-if="user.is_visible == 1"
                        ng-click="delete(user)"
-                       class="btn btn-sm btn-danger">DELETE</a>
+                       class="btn btn-sm btn-danger"><?php echo __('DELETE') ?></a>
+                    <a ng-if="user.is_visible == 0"
+                       href="javascript:void(0);"
+                       class="btn btn-sm btn-success">
+                        <?php echo __('PROTECTED') ?>
+                    </a>
                 </td>
             </tr>
             <tr ng-show="!users.length">

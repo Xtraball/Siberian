@@ -26,7 +26,8 @@ class Places_Form_Category extends Siberian_Form_Abstract
         $title = $this->addSimpleText('title', __("Name"));
         $title->setRequired(true);
 
-        $description = $this->addSimpleTextarea('subtitle', __("Description"));
+        $description = $this->addSimpleTextarea('subtitle', __('Description'));
+        $description->setAttrib('id', 'subtitle_category_new');
         $description->setRichtext();
 
         $tagsHintHtml = '

@@ -2,11 +2,19 @@
 
 /**
  * Class LoyaltyCard_Model_Customer
+ *
+ * @method LoyaltyCard_Model_Db_Table_Customer getTable()
  */
 class LoyaltyCard_Model_Customer extends Core_Model_Default
 {
 
+    /**
+     *
+     */
     const TYPE_VALIDATE_POINT = 1;
+    /**
+     *
+     */
     const TYPE_CLOSE_CARD = 2;
 
     /**
@@ -53,7 +61,9 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
 
                     $last_error = $date->addDay(1)->toString('y-MM-dd HH:mm:ss');
                     $is_locked = ($last_error > $now && $card->getNumberOfError() >= 3);
-                    if (!$last_error > $now) $card->setNumberOfError(0);
+                    if (!($last_error > $now)) {
+                        $card->setNumberOfError(0);
+                    }
                 }
 
                 $card->setIsLocked($is_locked)->setId($card->getCustomerCardId());
@@ -71,6 +81,12 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
         return $cards;
     }
 
+    /**
+     * @param $value_id
+     * @param $customer_id
+     * @return $this
+     * @throws Zend_Date_Exception
+     */
     public function findLast($value_id, $customer_id)
     {
         $row = $this->getTable()->findLast($value_id, $customer_id);
@@ -85,7 +101,9 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
                 $date = new Zend_Date($this->getLastError());
                 $last_error = $date->addDay(1)->toString('y-MM-dd HH:mm:ss');
                 $is_locked = ($last_error > $now && $this->getNumberOfError() >= 3);
-                if (!$last_error > $now) $this->setNumberOfError(0);
+                if (!($last_error > $now)) {
+                    $this->setNumberOfError(0);
+                }
             }
 
             $this->setIsLocked($is_locked);
@@ -96,6 +114,11 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
 
     }
 
+    /**
+     * @param $value_id
+     * @param $customer_id
+     * @return $this
+     */
     public function createCard($value_id, $customer_id)
     {
 
@@ -113,11 +136,23 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
 
     }
 
-    public function findAll($value_id, $customer_id)
+    /**
+     * @param $value_id
+     * @param $customer_id
+     * @param array $params
+     * @return Zend_Db_Table_Rowset_Abstract
+     */
+    public function findAll($value_id, $customer_id = null, $params = [])
     {
-        return $this->getTable()->findAll($value_id, $customer_id);
+        return $this->getTable()->findAll($value_id, $customer_id, $params);
     }
 
+    /**
+     * @param $password_id
+     * @param $nbr
+     * @param null $created_at
+     * @return $this
+     */
     public function createLog($password_id, $nbr, $created_at = null)
     {
         $log = new LoyaltyCard_Model_Customer_Log();
@@ -133,6 +168,10 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
         return $this;
     }
 
+    /**
+     * @return $this
+     * @throws Zend_Date_Exception
+     */
     public function addError()
     {
 
@@ -147,6 +186,9 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
         return $this;
     }
 
+    /**
+     *
+     */
     public function save()
     {
 

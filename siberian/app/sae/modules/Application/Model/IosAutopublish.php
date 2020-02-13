@@ -108,12 +108,14 @@ class Application_Model_IosAutopublish extends Core_Model_Default
         $dataTeams = [];
         if (!empty($teams)) {
             $teams = Siberian_Json::decode($teams);
-            foreach ($teams['teams'] as $team) {
-                $dataTeams[] = [
-                    'teamId' => $team['teamId'],
-                    'type' => $team['type'],
-                    'name' => $team['name'],
-                ];
+            if (isset($teams['teams'])) {
+                foreach ($teams['teams'] as $team) {
+                    $dataTeams[] = [
+                        'teamId' => $team['teamId'],
+                        'type' => $team['type'],
+                        'name' => $team['name'],
+                    ];
+                }
             }
         }
         return $dataTeams;
@@ -128,11 +130,13 @@ class Application_Model_IosAutopublish extends Core_Model_Default
         $dataProviders = [];
         if (!empty($teams)) {
             $teams = Siberian_Json::decode($teams);
-            foreach ($teams['itcTeams'] as $provider) {
-                $dataProviders[] = [
-                    'providerId' => $provider['contentProvider']['contentProviderId'],
-                    'name' => $provider['contentProvider']['name'],
-                ];
+            if (isset($teams['itcTeams'])) {
+                foreach ($teams['itcTeams'] as $provider) {
+                    $dataProviders[] = [
+                        'providerId' => $provider['contentProvider']['contentProviderId'],
+                        'name' => $provider['contentProvider']['name'],
+                    ];
+                }
             }
         }
         return $dataProviders;

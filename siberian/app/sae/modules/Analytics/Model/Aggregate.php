@@ -1,17 +1,32 @@
 <?php
 
+/**
+ * Class Analytics_Model_Aggregate
+ */
 class Analytics_Model_Aggregate {
 
+    /**
+     * @var \Siberian\Wrapper\Sqlite|null
+     */
     private $_sqliteAdapter = null;
 
     // START Singleton stuff
+    /**
+     * @var null
+     */
     static private $_instance = null;
 
+    /**
+     * Analytics_Model_Aggregate constructor.
+     */
     private function __construct() {
         $this->_sqliteAdapter = Siberian_Wrapper_Sqlite::getInstance();
         $this->_sqliteAdapter->setDbPath(Core_Model_Directory::getBasePathTo("metrics/siberiancms.db"));
     }
 
+    /**
+     * @return Analytics_Model_Aggregate|null
+     */
     public static function getInstance() {
         if(!isset(self::$_instance)) {
             self::$_instance = new Analytics_Model_Aggregate();
@@ -20,10 +35,17 @@ class Analytics_Model_Aggregate {
     }
     // END Singleton stuff
 
+    /**
+     * @return \Siberian\Wrapper\Sqlite|null
+     */
     public function getAdapter() {
         return $this->_sqliteAdapter;
     }
 
+    /**
+     * @param $aggregationDate
+     * @return bool
+     */
     public function run($aggregationDate) {
         $dateFrom = date("Y-m-d",$aggregationDate);
         $timestampFrom = strtotime($dateFrom);
@@ -33,11 +55,11 @@ class Analytics_Model_Aggregate {
 
         $timestampStore = strtotime($dateFrom.' 12:00:00');
 
-        $timestampRange = array(
+        $timestampRange = [
             'from' => $timestampFrom,
             'to' => $timestampTo,
             'dayTimestamp' => $timestampStore
-        );
+        ];
 
         try {
             $mcommerceAnalytics = Analytics_Model_Aggregate_Mcommerce::getInstance();
@@ -52,19 +74,25 @@ class Analytics_Model_Aggregate {
                 $discountAnalytics->run($timestampRange) &&
                 $loyalityCardAnalytics->run($timestampRange);
         } catch (Exception $e) {
-            if(APPLICATION_ENV === "development") {
+            if (isDev()) {
                 Zend_Debug::dump($e);
             }
             return false;
         }
 
-        if($result) {
-            echo "OK";
+        if ($result) {
+            echo 'OK';
         } else {
-            echo "NOK";
+            echo 'NOK';
         }
     }
 
+    /**
+     * @param $aggregationDate
+     * @return bool
+     * @throws \Siberian\Exception
+     * @throws \Siberian\Wrapper\SqliteException
+     */
     private function _aggregateInstallation($aggregationDate) {
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
@@ -76,16 +104,16 @@ class Analytics_Model_Aggregate {
             WHERE timestampGMT > $from
             AND timestampGMT < $to
         ");
-        $aggregatedData = array();
+        $aggregatedData = [];
         if(is_array($res_query)) {
             //calcul metrics
             foreach ($res_query as $row) {
                 if(count($row) !== 2) continue;
                 if(!array_key_exists((string)$row[0], $aggregatedData)) {
-                    $aggregatedData[(string)$row[0]] = array(
+                    $aggregatedData[(string)$row[0]] = [
                         "ios_install" => 0,
                         "android_install" => 0
-                    );
+                    ];
                 }
                 if($row[1] === 'iOS') {
                     $aggregatedData[(string)$row[0]]['ios_install'] += 1;
@@ -128,6 +156,12 @@ class Analytics_Model_Aggregate {
         return true;
     }
 
+    /**
+     * @param $aggregationDate
+     * @return bool
+     * @throws \Siberian\Exception
+     * @throws \Siberian\Wrapper\SqliteException
+     */
     private function _aggregateLoaded($aggregationDate) {
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
@@ -139,7 +173,7 @@ class Analytics_Model_Aggregate {
             WHERE startTimestampGMT > $from
             AND startTimestampGMT < $to
         ");
-        $aggregatedData = array();
+        $aggregatedData = [];
         if(is_array($res_query)) {
             //calcul metrics
             foreach ($res_query as $row) {
@@ -166,7 +200,7 @@ class Analytics_Model_Aggregate {
                         $rangeCategory = Analytics_Model_Analytics::TIME_RANGE_5MIN_PLUS;
                 }
                 if(!array_key_exists($row[0], $aggregatedData)) {
-                    $aggregatedData[$row[0]] = array();
+                    $aggregatedData[$row[0]] = [];
                     $aggregatedData[$row[0]][Analytics_Model_Analytics::TIME_RANGE_0_20] = 0;
                     $aggregatedData[$row[0]][Analytics_Model_Analytics::TIME_RANGE_20_40] = 0;
                     $aggregatedData[$row[0]][Analytics_Model_Analytics::TIME_RANGE_40_60] = 0;
@@ -208,6 +242,12 @@ class Analytics_Model_Aggregate {
         return true;
     }
 
+    /**
+     * @param $aggregationDate
+     * @return bool
+     * @throws \Siberian\Exception
+     * @throws \Siberian\Wrapper\SqliteException
+     */
     private function _aggregateNavigation($aggregationDate) {
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
@@ -215,13 +255,13 @@ class Analytics_Model_Aggregate {
 
         //get feature info
         $modelOption = new Application_Model_Option_Value();
-        $allFeatures = array();
+        $allFeatures = [];
         foreach ($modelOption->findAll() as $feature) {
             // print_r($feature);
-            $allFeatures[$feature->getId()] = array(
+            $allFeatures[$feature->getId()] = [
                 "appId" => $feature->getAppId(),
                 "featureName" => $feature->getTabbarName(),
-            );
+            ];
         }
 
         //get day information for wanted metrics
@@ -230,7 +270,7 @@ class Analytics_Model_Aggregate {
             WHERE timestampGMT > $from
             AND timestampGMT < $to
         ");
-        $aggregatedData = array();
+        $aggregatedData = [];
         if(is_array($res_query)) {
             //calcul metrics
             foreach ($res_query as $row) {
@@ -239,7 +279,7 @@ class Analytics_Model_Aggregate {
                 $appId = $allFeatures[$featureId]['appId'];
                 //default val for app
                 if(!array_key_exists($appId, $aggregatedData)) {
-                    $aggregatedData[$appId] = array();
+                    $aggregatedData[$appId] = [];
                 }
                 if(!array_key_exists($featureId, $aggregatedData[$appId])) {
                     $aggregatedData[$appId][$featureId] = 0;
@@ -282,6 +322,12 @@ class Analytics_Model_Aggregate {
         return true;
     }
 
+    /**
+     * @param $aggregationDate
+     * @return bool
+     * @throws \Siberian\Exception
+     * @throws \Siberian\Wrapper\SqliteException
+     */
     private function _aggregateLocalization($aggregationDate) {
         $from = $aggregationDate['from'];
         $to = $aggregationDate['to'];
@@ -294,21 +340,25 @@ class Analytics_Model_Aggregate {
             AND timestampGMT < $to
         ");
 
-        $aggregatedData = array();
-        if(is_array($res_query)) {
+        $aggregatedData = [];
+        if (is_array($res_query)) {
             //calcul metrics
             foreach ($res_query as $row) {
-                if(count($row) !== 3) continue;
+                if (count($row) !== 3) {
+                    continue;
+                }
                 $appId = $row[0];
                 $lat = $row[1];
                 $lon = $row[2];
                 if(!array_key_exists($appId, $aggregatedData)) {
-                    $aggregatedData[$appId] = array();
+                    $aggregatedData[$appId] = [];
                 }
-                $aggregatedData[$appId][] = array(
-                    "latitude" => $lat,
-                    "longitude" => $lon
-                );
+                if (!empty($lat) && !empty($lon)) {
+                    $aggregatedData[$appId][] = [
+                        'latitude' => $lat,
+                        'longitude' => $lon
+                    ];
+                }
             }
         }
 
@@ -323,15 +373,15 @@ class Analytics_Model_Aggregate {
                     //adding new metrics
                     $res_query = $this->_sqliteAdapter->query("INSERT into app_localization_daily
                         ('appId', 'latitude', 'longitude', 'timestampGMT') VALUES
-                        ($appId,'$latitude','$longitude',$timestampGMT)");
+                        ({$appId},'{$latitude}','{$longitude}',{$timestampGMT})");
 
                     if(!$res_query) {
-                        throw new Exception("Cannot insert into sqlite");
+                        throw new Exception('Cannot insert into sqlite');
                     }
                 }
             }
         } else {
-            throw new Exception("Cannot delete rows in sqlite analytics db.");
+            throw new Exception('Cannot delete rows in sqlite analytics db.');
         }
 
         return true;

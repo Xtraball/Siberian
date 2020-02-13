@@ -34,10 +34,10 @@ ckeditor_config.default = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            $('textarea#' + this.name).html(this.getData());
+            $('textarea#' + this.name).text(this.getData());
         }
     },
-    extraPlugins: 'codemirror',
+    extraPlugins: 'wysiwygarea,codemirror',
     extraAllowedContent: 'a[*];img[*];'
 };
 
@@ -62,10 +62,10 @@ ckeditor_config.cms = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            $('textarea#' + this.name).html(this.getData());
+            $('textarea#' + this.name).text(this.getData());
         }
     },
-    extraPlugins: 'cmsimage,featurelink,codemirror',
+    extraPlugins: 'wysiwygarea,cmsimage,featurelink,codemirror',
     extraAllowedContent: 'a[*];img[*];iframe[*]'
 };
 
@@ -79,10 +79,10 @@ ckeditor_config.source = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            $('textarea#' + this.name).html(this.getData());
+            $('textarea#' + this.name).text(this.getData());
         }
     },
-    extraPlugins: 'featurelink,codemirror',
+    extraPlugins: 'wysiwygarea,featurelink,codemirror',
     allowedContent: true
 };
 
@@ -91,7 +91,7 @@ ckeditor_config.complete = {
     on: {
         change: function (event) {
             // Auto-update attached textarea;
-            $('textarea#' + this.name).html(this.getData());
+            $('textarea#' + this.name).text(this.getData());
         }
     }
 };

@@ -359,7 +359,7 @@ $results = (new Result())->findAll(
         on: {
             change: function (event) {
                 // Auto-update attached textarea;
-                $('textarea#' + this.name).html(this.getData());
+                $('textarea#' + this.name).text(this.getData());
             }
         },
         extraAllowedContent: 'a[*];img[*];div[*];span[*];b[*];i[*];s[*];p[*]'
