@@ -14,13 +14,13 @@ class InstallCertificate extends BaseRequest
      */
     public $xml_packet = <<<EOT
 <?xml version="1.0"?>
-<packet version="">
+<packet>
     <certificate>
         <install>
             <name>{NAME}</name>
             {DESTINATION}
             <content>
-                <csr>{CSR}</csr>
+                {CSR}
                 <pvt>{PVT}</pvt>
                 <cert>{CERT}</cert>
                 <ca>{CA}</ca>
@@ -55,6 +55,10 @@ EOT;
 
         if (isset($params['webspace'])) {
             $params['destination'] = new Node('webspace', $params['webspace']);
+        }
+
+        if (isset($params['csr'])) {
+            $params['csr'] = new Node('csr', $params['csr']);
         }
 
         if (!isset($params['destination'])) {

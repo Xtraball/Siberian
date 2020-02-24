@@ -187,85 +187,89 @@ App.config(function($routeProvider) {
 
     $scope.generateSsl = function(hostname, force) {
 
-        if((/^https/i).test($window.location.protocol)) {
-            return $window.alert("You must run request from HTTP.");
-        }
+        $http({
+            method: 'GET',
+            url: 'backoffice/advanced_configuration/checkhttp',
+            cache: false,
+            responseType:'json'
+        }).then(function (response) {
+            if (!$window.confirm("Are you sure ?")) {
+                return;
+            }
 
-        if(!$window.confirm("Are you sure ?")) {
-            return;
-        }
+            $scope.content_loader_is_visible = true;
+            AdvancedConfiguration.save($scope.configs).success(function(data) {
 
-        $scope.content_loader_is_visible = true;
-
-        AdvancedConfiguration.save($scope.configs).success(function(data) {
-
-            $scope.message.onSuccess(data);
-
-            /** When setting are ok, go for SSL */
-            AdvancedConfiguration.generateSsl($scope.configs.current_domain, force).success(function(data) {
-
-                /** Now if it's ok, it's time for Panel  */
                 $scope.message.onSuccess(data);
 
-                $scope.all_messages = data.all_messages;
+                /** When setting are ok, go for SSL */
+                AdvancedConfiguration.generateSsl($scope.configs.current_domain, force).success(function(data) {
 
-                $log.info("SSL Ok, time to push to panel.");
+                    /** Now if it's ok, it's time for Panel  */
+                    $scope.message.onSuccess(data);
 
-                if($scope.configs.cpanel_type.value == "plesk") {
-                    /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/clearplesk/hostname/'+$scope.configs.current_domain,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.message.onUnknown(response.data);
-                        $scope.pollerRemovePlesk();
-                    }, function (response) {
-                        $scope.message.onUnknown(response.data);
-                        $scope.pollerRemovePlesk();
-                    });
-                } else if($scope.configs.cpanel_type.value == "self") {
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.poller('backoffice/advanced_configuration/checkhttp');
-                    }, function (response) {
-                        $scope.poller('backoffice/advanced_configuration/checkhttp');
-                    });
-                } else {
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.poller('backoffice/advanced_configuration/checkssl');
-                    }, function (response) {
-                        $scope.poller('backoffice/advanced_configuration/checkssl');
-                    });
-                }
+                    $scope.all_messages = data.all_messages;
+
+                    $log.info("SSL Ok, time to push to panel.");
+
+                    if($scope.configs.cpanel_type.value == "plesk") {
+                        /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/clearplesk/hostname/'+$scope.configs.current_domain,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.message.onUnknown(response.data);
+                            $scope.pollerRemovePlesk();
+                        }, function (response) {
+                            $scope.message.onUnknown(response.data);
+                            $scope.pollerRemovePlesk();
+                        });
+                    } else if($scope.configs.cpanel_type.value == "self") {
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.poller('backoffice/advanced_configuration/checkhttp');
+                        }, function (response) {
+                            $scope.poller('backoffice/advanced_configuration/checkhttp');
+                        });
+                    } else {
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.poller('backoffice/advanced_configuration/checkssl');
+                        }, function (response) {
+                            $scope.poller('backoffice/advanced_configuration/checkssl');
+                        });
+                    }
+
+                }).error(function(data) {
+
+                    $scope.message.onError(data);
+                    $scope.content_loader_is_visible = false;
+
+                }).finally(function() {
+                    // Nope!
+                });
 
             }).error(function(data) {
-
                 $scope.message.onError(data);
-                $scope.content_loader_is_visible = false;
+            }).finally(function() {
+                // Nope!
+            });
 
-            }).finally(function() {});
-
-
-        }).error(function(data) {
-
-            $scope.message.onError(data);
-
-        }).finally(function() {
-
+        }, function (response) {
+            return $window.alert('HTTP is not available to renew the SSL/HTTPS certificate.');
         });
 
         return false;
@@ -273,71 +277,77 @@ App.config(function($routeProvider) {
 
     $scope.uploadToPanel = function(hostname) {
 
-        if((/^https/i).test($window.location.protocol)) {
-            return $window.alert("You must run upload from HTTP.");
-        }
+        $http({
+            method: 'GET',
+            url: 'backoffice/advanced_configuration/checkhttp',
+            cache: false,
+            responseType:'json'
+        }).then(function (response) {
+            if (!$window.confirm("Are you sure ?")) {
+                return;
+            }
 
-        if(!$window.confirm("Are you sure ?")) {
-            return;
-        }
+            $scope.content_loader_is_visible = true;
 
-        $scope.content_loader_is_visible = true;
+            AdvancedConfiguration.save($scope.configs)
+                .success(function(data) {
 
-        AdvancedConfiguration.save($scope.configs)
-            .success(function(data) {
+                    $scope.message.onSuccess(data);
 
-                $scope.message.onSuccess(data);
+                    $log.info("SSL Ok, time to push to panel.");
 
-                $log.info("SSL Ok, time to push to panel.");
+                    if($scope.configs.cpanel_type.value == "plesk") {
+                        /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/clearplesk/hostname/'+hostname,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.message.onUnknown(response.data);
+                            $scope.pollerRemovePlesk();
+                        }, function (response) {
+                            $scope.message.onUnknown(response.data);
+                            $scope.pollerRemovePlesk();
+                        });
+                    } else if($scope.configs.cpanel_type.value == "self") {
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.poller('backoffice/advanced_configuration/checkhttp');
+                        }, function (response) {
+                            $scope.poller('backoffice/advanced_configuration/checkhttp');
+                        });
+                    } else {
+                        $http({
+                            method: 'GET',
+                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
+                            cache: false,
+                            responseType:'json'
+                        }).then(function (response) {
+                            // This may never occurs but well .. :)
+                            $scope.poller('backoffice/advanced_configuration/checkssl');
+                        }, function (response) {
+                            $scope.poller('backoffice/advanced_configuration/checkssl');
+                        });
+                    }
 
-                if($scope.configs.cpanel_type.value == "plesk") {
-                    /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/clearplesk/hostname/'+hostname,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.message.onUnknown(response.data);
-                        $scope.pollerRemovePlesk();
-                    }, function (response) {
-                        $scope.message.onUnknown(response.data);
-                        $scope.pollerRemovePlesk();
-                    });
-                } else if($scope.configs.cpanel_type.value == "self") {
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.poller('backoffice/advanced_configuration/checkhttp');
-                    }, function (response) {
-                        $scope.poller('backoffice/advanced_configuration/checkhttp');
-                    });
-                } else {
-                    $http({
-                        method: 'GET',
-                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
-                        cache: false,
-                        responseType:'json'
-                    }).then(function (response) {
-                        // This may never occurs but well .. :)
-                        $scope.poller('backoffice/advanced_configuration/checkssl');
-                    }, function (response) {
-                        $scope.poller('backoffice/advanced_configuration/checkssl');
-                    });
-                }
-
-            }).error(function(data) {
+                }).error(function(data) {
 
                 $scope.message.onError(data);
             }).finally(function() {
 
                 $scope.content_loader_is_visible = true;
             });
+
+        }, function (response) {
+            return $window.alert('HTTP is not available to renew the SSL/HTTPS certificate.');
+        });
 
         return false;
     };

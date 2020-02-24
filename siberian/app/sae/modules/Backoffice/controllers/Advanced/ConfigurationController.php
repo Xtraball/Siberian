@@ -679,7 +679,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 'message' => $message,
             ];
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $logger->info('#824-50: ' . __('An error occured while saving certificate to %s.', $e->getMessage()));
             $data = [
                 'error' => true,

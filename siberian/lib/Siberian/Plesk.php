@@ -44,10 +44,11 @@ class Siberian_Plesk
     {
         try {
             /** First search in domains */
-            $request = new Plesk\ListSites($this->config, [
-                "name" => $hostname
-            ]);
+            $request = new Plesk\ListSites($this->config);
             $results = $request->process();
+
+            dbg($request);
+            dbg($results);
 
             if ($results === false) {
                 $message = "An unknown error occured while retrieving";
@@ -101,34 +102,34 @@ class Siberian_Plesk
     {
 
         $webspace = $ssl_certificate->getHostname();
-        if (!empty($this->config["webspace"])) {
-            $webspace = $this->config["webspace"];
+        if (!empty($this->config['webspace'])) {
+            $webspace = $this->config['webspace'];
         }
 
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
+        $cert_name = sprintf('%s-%s', 'siberian_letsencrypt', $webspace);
 
         $params_delete = [
-            "webspace" => $webspace,
-            "cert-name" => $cert_name,
+            'webspace' => $webspace,
+            'cert-name' => $cert_name,
         ];
 
         /** First try to remove an existing one */
-        $this->logger->info(sprintf("[Siberian_Plesk] First try to remove an existing one ..."));
+        $this->logger->info(sprintf('[Siberian_Plesk] First try to remove an existing one ...'));
         try {
             $request = new Plesk\SSL\DeleteCertificate($this->config, $params_delete);
             $info = $request->process();
 
             if (!$info) {
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+                $this->logger->info(sprintf('[Siberian_Plesk] %s', $request->error->getMessage()));
 
-                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
+                throw new Exception(__('[%s] %s', $request->error->getCode(), $request->error->getMessage()));
             }
 
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate cleaned-up"));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', $request->xml_response));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', print_r($info, true)));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', 'Certificate cleaned-up'));
         } catch (Exception $e) {
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $e->getMessage()));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', $e->getMessage()));
             throw new Exception($e->getMessage());
         }
 
@@ -142,39 +143,54 @@ class Siberian_Plesk
     {
 
         $webspace = $ssl_certificate->getHostname();
-        if (!empty($this->config["webspace"])) {
-            $webspace = $this->config["webspace"];
+        if (!empty($this->config['webspace'])) {
+            $webspace = $this->config['webspace'];
         }
 
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
+        $cert_name = sprintf('%s-%s', 'siberian_letsencrypt', $webspace);
 
-        $params_install = [
-            "name" => $cert_name,
-            "webspace" => $webspace,
-            "csr" => file_get_contents($ssl_certificate->getLast()),
-            "cert" => file_get_contents($ssl_certificate->getCertificate()),
-            "pvt" => file_get_contents($ssl_certificate->getPrivate()),
-            "ca" => file_get_contents($ssl_certificate->getChain()),
-            "ip-address" => gethostbyname($ssl_certificate->getHostname()),
+        $dn = [
+            'countryName' => 'GB',
+            'stateOrProvinceName' => 'Nowhere',
+            'localityName' => 'Island',
+            'organizationName' => 'MobileAppsCompany',
+            'organizationalUnitName' => 'MobileAppsCompany Team',
+            'commonName' => 'MobileAppsCompany',
+            'emailAddress' => 'mobileappscompany@sample.com'
         ];
 
-        $this->logger->info(sprintf("[Siberian_Plesk] Installing the certificate ..."));
+        $privkey = openssl_pkey_get_private(file_get_contents($ssl_certificate->getPrivate()));
+        $csr = openssl_csr_new($dn, $privkey, ['digest_alg' => 'sha256']);
+        openssl_csr_export($csr, $csrout);
+
+        $params_install = [
+            'name' => $cert_name,
+            'webspace' => $webspace,
+            'csr' => $csrout,
+            'cert' => file_get_contents($ssl_certificate->getCertificate()),
+            'pvt' => file_get_contents($ssl_certificate->getPrivate()),
+            'ca' => file_get_contents($ssl_certificate->getChain()),
+            //'ip-address' => gethostbyname($ssl_certificate->getHostname()),
+            'ip-address' => '167.114.129.26',
+        ];
+
+        $this->logger->info(sprintf('[Siberian_Plesk] Installing the certificate ...'));
         try {
             $request = new Plesk\SSL\InstallCertificate($this->config, $params_install);
             $info = $request->process();
 
             if (!$info) {
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
+                $this->logger->info(sprintf('[Siberian_Plesk] %s', $request->error->getMessage()));
 
-                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
+                throw new Exception(__('[%s] %s', $request->error->getCode(), $request->error->getMessage()));
             }
 
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate installed"));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', $request->xml_response));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', print_r($info, true)));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', 'Certificate installed'));
         } catch (Exception $e) {
-            $this->logger->info(sprintf("[Siberian_Plesk] Unable to install the certificate: %s", $e->getMessage()));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($request->error, true)));
+            $this->logger->info(sprintf('[Siberian_Plesk] Unable to install the certificate: %s', $e->getMessage()));
+            $this->logger->info(sprintf('[Siberian_Plesk] %s', print_r($request->error, true)));
             throw new Exception($e->getMessage());
         }
 

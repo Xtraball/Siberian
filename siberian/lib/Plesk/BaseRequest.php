@@ -183,6 +183,7 @@ EOT;
     {
         try {
             $response = $this->sendRequest($this->getPacket());
+            dbg($response);
 
             if ($response !== false) {
                 $this->xml_response = $response;
@@ -192,6 +193,7 @@ EOT;
                 return $this->processResponse($responseXml);
             }
         } catch (ApiRequestException $e) {
+            dbg($e->getMessage());
             $this->error = $e;
         }
 
