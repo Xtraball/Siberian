@@ -69,9 +69,19 @@ angular
                 'transitionstyle': 'crossdissolve'
             }, _deviceOptions);
 
-            // Prevent opening new windows in the overview!
-            if (isOverview && _external_browser) {
-                return Dialog.alert('Overview', 'External browser is not available in the overview.', 'OK', 2350);
+            var _custom_tab = _options.customTab == 'yes';
+
+            for (var key in _options) {
+                // Push only allowed options!
+                if (supportOptions.indexOf(key) > -1) {
+                    var value = _options[key];
+                    inAppBrowserOptions.push(key + '=' + value);
+                }
+            }
+            var finalOptions = inAppBrowserOptions.join(',');
+
+            if (isOverview && (_external_browser || _custom_tab)) {
+                return $window.open(url, 'link-service-popup', finalOptions);
             }
 
             // HTML5 forced on Browser devices
@@ -86,6 +96,10 @@ angular
 
             // External browser
             if (_external_browser || /.*\.pdf($|\?)/.test(url)) {
+                return cordova.InAppBrowser.open(url, '_system', {});
+            }
+
+            if (_custom_tab) {
                 return cordova.plugins.browsertab.openUrl(url, {});
             }
 
@@ -94,15 +108,6 @@ angular
                 (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID)) {
                 target = '_self';
             }
-
-            for (var key in _options) {
-                // Push only allowed options!
-                if (supportOptions.indexOf(key) > -1) {
-                    var value = _options[key];
-                    inAppBrowserOptions.push(key + '=' + value);
-                }
-            }
-            var finalOptions = inAppBrowserOptions.join(',');
 
             return cordova.InAppBrowser.open(url, target, finalOptions);
         }

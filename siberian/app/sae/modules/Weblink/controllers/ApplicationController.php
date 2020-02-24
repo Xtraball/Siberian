@@ -48,23 +48,40 @@ class Weblink_ApplicationController extends Application_Controller_Default
             // Transforming options before populate
             $_options = $link->getOptions();
             $options = [
+                'global' => [],
                 'android' => [],
                 'ios' => [],
             ];
+            foreach ($_options['global'] as $key => $value) {
+                $options['global'][$key] = $value;
+            }
             foreach ($_options['android'] as $key => $value) {
                 $options['android']["android_{$key}"] = ($value === 'yes');
             }
             foreach ($_options['ios'] as $key => $value) {
                 $options['ios']["ios_{$key}"] = ($value === 'yes');
             }
+
+            // Restore v1 value!
+            if ($data['version'] === '1') {
+                if ($data['external_browser'] === '1') {
+                    $options['global']['browser'] = 'external_browser';
+                } else {
+                    $options['global']['browser'] = 'in_app_browser';
+                }
+            }
+
             $data['options'] = $options;
 
             $form->populate($data);
+            $form->setAttrib('id', 'weblink-edit-form-id-' . $link->getId());
             $form->setValueId($optionValue->getId());
+
+            $js = '<script type="text/javascript">' .  $form->jsBindings(false)  . '</script>';
 
             $payload = [
                 'success' => true,
-                'form' => $form->render(),
+                'form' => $form->render() . $js,
                 'message' => p__('weblink', 'Success.'),
             ];
 
@@ -115,9 +132,14 @@ class Weblink_ApplicationController extends Application_Controller_Default
 
                 // Options
                 $options = [
+                    'global' => [],
                     'android' => [],
                     'ios' => [],
                 ];
+                $optionsGlobal = $values['options']['global'];
+                foreach ($optionsGlobal as $key => $value) {
+                    $options['global'][$key] = $value;
+                }
                 $optionsAndroid = $values['options']['android'];
                 foreach ($optionsAndroid as $key => $value) {
                     $options['android'][str_replace('android_', '', $key)] = ($value) ? 'yes' : 'no';
@@ -129,6 +151,28 @@ class Weblink_ApplicationController extends Application_Controller_Default
 
                 $link->setOptions($options);
                 $link->setWeblinkId($webLink->getId());
+
+                // Fallback for pre-4.18.10 updates
+                switch ($values['browser']) {
+                    case 'in_app_browser':
+                        $link->setInAppBrowser(1);
+                        $link->setCustomTab(0);
+                        $link->setExternalBrowser(0);
+                        break;
+                    case 'custom_tab':
+                        $link->setInAppBrowser(0);
+                        $link->setCustomTab(1);
+                        $link->setExternalBrowser(0);
+                        break;
+                    case 'external_browser':
+                        $link->setInAppBrowser(0);
+                        $link->setCustomTab(0);
+                        $link->setExternalBrowser(1);
+                        break;
+                }
+
+                // Set version 2 for options!
+                $link->setVersion(2);
 
                 $link->save();
 
