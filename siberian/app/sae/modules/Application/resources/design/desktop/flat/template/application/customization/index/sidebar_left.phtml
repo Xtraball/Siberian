@@ -322,7 +322,7 @@ $isDevelopment = (APPLICATION_ENV !== 'production');
             <img id="header_app_icon"
                  src="<?php echo $this->getApplication()->getIcon(); ?>"
                  class="icon" />
-            <span id="header_app_name"><?php echo $this->getApplication()->getShortName(); ?></span>
+            <span id="header_app_name"><?php echo $this->getApplication()->getName(); ?></span>
         </li>
         <?php echo $outputHtml; ?>
     </ul>
