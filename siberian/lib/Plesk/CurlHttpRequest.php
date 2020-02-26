@@ -87,6 +87,8 @@ class CurlHttpRequest implements HttpRequestContract
             throw new ApiRequestException($errmsg, $errcode);
         }
 
+        dbg(curl_getinfo($this->curl));
+
         $this->last_request_header = curl_getinfo($this->curl, CURLINFO_HEADER_OUT);
         curl_close($this->curl);
 

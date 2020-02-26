@@ -3,7 +3,7 @@
  */
 angular
 .module('starter')
-.controller('Form2HomeController', function ($window, $scope, $stateParams, $timeout, $filter,
+.controller('Form2HomeController', function ($ionicScrollDelegate, $window, $scope, $stateParams, $timeout, $filter,
                                              Form2, Loader, Dialog, Modal, Customer) {
     angular.extend($scope, {
         isLoading: true,
@@ -27,6 +27,9 @@ angular
     $scope.setTab = function (tab) {
         $timeout(function () {
             $scope.currentTab = tab;
+            if (tab === 'history') {
+                $ionicScrollDelegate.scrollTop(false);
+            }
         });
     };
 

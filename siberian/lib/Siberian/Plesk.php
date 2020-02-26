@@ -6,7 +6,6 @@
 
 class Siberian_Plesk
 {
-
     /**
      * @var mixed|null
      */
@@ -16,10 +15,10 @@ class Siberian_Plesk
      * @var array
      */
     public $config = [
-        "host" => "127.0.0.1",
-        "username" => "admin",
-        "password" => "changeme",
-        "webspace" => null,
+        'host' => '127.0.0.1',
+        'username' => 'admin',
+        'password' => 'changeme',
+        'webspace' => null,
     ];
 
     /**
@@ -27,13 +26,14 @@ class Siberian_Plesk
      */
     public function __construct()
     {
-        $this->logger = Zend_Registry::get("logger");
-        $plesk_api = Api_Model_Key::findKeysFor("plesk");
+        $this->logger = Zend_Registry::get('logger');
+        $plesk_api = Api_Model_Key::findKeysFor('plesk');
 
-        $this->config["host"] = $plesk_api->getHost();
-        $this->config["username"] = $plesk_api->getUser();
-        $this->config["password"] = $plesk_api->getPassword();
-        $this->config["webspace"] = $plesk_api->getWebspace();
+        $this->config['host'] = $plesk_api->getHost();
+        $this->config['username'] = $plesk_api->getUser();
+        $this->config['password'] = $plesk_api->getPassword();
+        $this->config['webspace'] = $plesk_api->getWebspace();
+        $this->config['name'] = $plesk_api->getWebspace();
     }
 
     /**
@@ -47,25 +47,24 @@ class Siberian_Plesk
             $request = new Plesk\ListSites($this->config);
             $results = $request->process();
 
-            dbg($request);
             dbg($results);
 
             if ($results === false) {
-                $message = "An unknown error occured while retrieving";
+                $message = 'An unknown error occured while retrieving';
                 if (isset($request->error)) {
                     $message = $request->error->getMessage();
                 }
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $message));
+                $this->logger->info(sprintf('[Siberian_Plesk] %s', $message));
 
-                throw new Siberian_Exception(__("[%s] %s", $request->error->getCode(), $message));
+                throw new Siberian_Exception(__('[%s] %s', $request->error->getCode(), $message));
             }
 
             // Finding domain/subdomain ID
             $subdomain_id = null;
             if (!empty($results) && is_array($results)) {
                 foreach ($results as $result) {
-                    if ($result["name"] == $hostname) {
-                        $subdomain_id = $result["id"];
+                    if ($result['name'] === $hostname) {
+                        $subdomain_id = $result['id'];
                     }
                 }
             } else {
@@ -74,19 +73,16 @@ class Siberian_Plesk
 
                 if (!empty($results) && is_array($results)) {
                     foreach ($results as $result) {
-                        if ($result["name"] == $hostname) {
-                            $subdomain_id = $result["id"];
+                        if ($result['name'] === $hostname) {
+                            $subdomain_id = $result['id'];
                         }
                     }
                 }
             }
 
             if (empty($subdomain_id)) {
-                throw new Exception(__("Unable to find the given hostname %s", $hostname));
+                throw new Exception(__('Unable to find the given hostname %s', $hostname));
             }
-
-            $plesk_browser = new Siberian_Plesk_Crawler($this->config["host"], $this->config["username"], $this->config["password"]);
-            $plesk_browser->updateDomain($hostname, $subdomain_id);
 
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
@@ -98,9 +94,8 @@ class Siberian_Plesk
      * @return bool
      * @throws Exception
      */
-    public function removeCertificate($ssl_certificate)
+    public function removeCertificate($ssl_certificate): bool
     {
-
         $webspace = $ssl_certificate->getHostname();
         if (!empty($this->config['webspace'])) {
             $webspace = $this->config['webspace'];
@@ -113,7 +108,7 @@ class Siberian_Plesk
             'cert-name' => $cert_name,
         ];
 
-        /** First try to remove an existing one */
+        // First try to remove an existing one!
         $this->logger->info(sprintf('[Siberian_Plesk] First try to remove an existing one ...'));
         try {
             $request = new Plesk\SSL\DeleteCertificate($this->config, $params_delete);
@@ -138,8 +133,10 @@ class Siberian_Plesk
 
     /**
      * @param $ssl_certificate
+     * @return bool
+     * @throws Exception
      */
-    public function updateCertificate($ssl_certificate)
+    public function updateCertificate($ssl_certificate): bool
     {
 
         $webspace = $ssl_certificate->getHostname();

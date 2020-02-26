@@ -30,7 +30,7 @@ EOT;
      * @var array
      */
     protected $default_params = array(
-        'webspace' => "",
+        'webspace' => '',
         'cert-name' => null,
     );
 
