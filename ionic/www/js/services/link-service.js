@@ -9,7 +9,7 @@ angular
 .service('LinkService', function ($rootScope, $translate, $window, SB, Dialog) {
     return {
         openLink: function (url, options, external_browser) {
-            var supportOptions = [
+            var supportedOptions = [
                 'location',
                 'hidden',
                 'beforeload',
@@ -45,7 +45,7 @@ angular
             ];
             var target = '_blank';
             var inAppBrowserOptions = [];
-            var _external_browser = (external_browser === undefined) ? false : external_browser;
+
             var _deviceOptions = {};
             try {
                 switch (DEVICE_TYPE) {
@@ -69,11 +69,31 @@ angular
                 'transitionstyle': 'crossdissolve'
             }, _deviceOptions);
 
-            var _custom_tab = _options.customTab == 'yes';
+            // Determining the browser type!
+            var _external_browser = (external_browser === undefined) ? false : external_browser;
+            var _in_app_browser, _custom_tab = false;
+            if (_options && _options.global && _options.global.browser) {
+                switch (_options.global.browser) {
+                    case 'in_app_browser':
+                        _in_app_browser = true;
+                        break;
+                    case 'custom_tab':
+                        _custom_tab = true;
+                        break;
+                    case 'external_browser':
+                        _external_browser = true;
+                        break;
+                }
+            } else {
+                if (!_external_browser) {
+                    _in_app_browser = true;
+                }
+            }
+
 
             for (var key in _options) {
                 // Push only allowed options!
-                if (supportOptions.indexOf(key) > -1) {
+                if (supportedOptions.indexOf(key) > -1) {
                     var value = _options[key];
                     inAppBrowserOptions.push(key + '=' + value);
                 }

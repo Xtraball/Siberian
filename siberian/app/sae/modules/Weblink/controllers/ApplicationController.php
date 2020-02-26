@@ -173,7 +173,6 @@ class Weblink_ApplicationController extends Application_Controller_Default
 
                 // Set version 2 for options!
                 $link->setVersion(2);
-
                 $link->save();
 
                 /** Update touch date, then never expires (until next touch) */
