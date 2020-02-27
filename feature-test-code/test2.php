@@ -1,3 +1,3 @@
 <?php
 
-echo 'feature-test-2';
+echo 'feature-test-2dedzszsz';

@@ -1,3 +1,3 @@
 <?php
 
-echo 'feature-test';
+echo 'feature-testszqsqzsqz';
