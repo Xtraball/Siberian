@@ -234,6 +234,11 @@ class Push_Model_Android_Message
             $option_value = new Application_Model_Option_Value();
             $option_value->find($message->getActionValue());
 
+            // In case we use only value_id
+            if (!$application || !$application->getId()) {
+                $application = (new Application_Model_Application())->find($option_value->getAppId());
+            }
+
             $mobileUri = $option_value->getMobileUri();
             if (preg_match('/^goto\/feature/', $mobileUri)) {
                 $action_url = sprintf("/%s/%s/value_id/%s",
@@ -261,7 +266,7 @@ class Push_Model_Android_Message
         }
 
         $messagePayload
-            ->setMessageId($message->getMessageId())
+            ->setMessageId($message->getMessageId() . uniqid('push_fcm_', true))
             ->setTitle($message->getTitle())
             ->setMessage($message->getText())
             ->setGeolocation($message->getLatitude(), $message->getLongitude(), $message->getRadius())

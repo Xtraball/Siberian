@@ -77,7 +77,7 @@ class Siberian_Service_Push_Apns extends ApnsPHP_Push {
 
         # Whether the action should open a webview
         $message->setOpenWebView((!is_numeric($push_message->getActionValue())));
-        $message->setMessageId($push_message->getId());
+        $message->setMessageId($push_message->getId() . uniqid('push_apns_', true));
 
         # Geolocation @TODO finish geolocation push when merged
         if($push_message->getLongitude() && $push_message->getLatitude()) {
