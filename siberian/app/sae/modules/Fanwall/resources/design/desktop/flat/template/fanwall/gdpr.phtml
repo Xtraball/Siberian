@@ -4,7 +4,7 @@ $isDownload = $this->getDownload();
 $baseUrl = $this->getBaseUrl();
 $customerId = $customer->getId();
 
-$posts = (new Comment_Model_Comment())
+$posts = (new Fanwall\Model\Post())
     ->findAll([
         'customer_id' => $customerId
     ]);
@@ -36,10 +36,10 @@ foreach ($posts as $post) {
     }
 
     $postData[] = [
-        'text' => $post->getText(),
+        'text' => base64_decode($post->getText()),
         'coordinates' => $post->getLatitude() . ',' . $post->getLongitude(),
         'image' => $image,
-        'created_at' => datetime_to_format($post->getCreatedAt(), Zend_Date::RFC_2822),
+        'created_at' => $post->getCreatedAt(),
         'answers' => $answerData
     ];
 }
@@ -60,6 +60,7 @@ foreach ($posts as $post) {
 <p>
     <?php echo $post['text']; ?>
     <br />
+    <?php echo $post['created_at']; ?>
     <br />
     <?php if ($post['image']): ?>
         <img src="<?php echo $post['image']; ?>"
