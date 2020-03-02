@@ -6,7 +6,7 @@
  */
 angular
 .module('starter')
-.service('LinkService', function ($rootScope, $translate, $window, SB, Dialog) {
+.service('LinkService', function ($rootScope, $translate, $window, SB) {
     return {
         openLink: function (url, options, external_browser) {
             var supportedOptions = [
@@ -100,27 +100,39 @@ angular
             }
             var finalOptions = inAppBrowserOptions.join(',');
 
+            // It's overview, so we must go with new window/tab
             if (isOverview && (_external_browser || _custom_tab)) {
                 return $window.open(url, 'link-service-popup', finalOptions);
             }
 
-            // HTML5 forced on Browser devices
+            // HTML5 App
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 if (_external_browser ||
-                    /.*\.pdf($|\?)/.test(url)) {
+                    /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
                     target = '_system';
                 }
                 // Enforce inAppBrowser fallback with location!
                 return cordova.InAppBrowser.open(url, target, 'location=yes');
             }
 
-            // External browser
-            if (_external_browser || /.*\.pdf($|\?)/.test(url)) {
-                return cordova.InAppBrowser.open(url, '_system', {});
+            // External browser or media URI
+            if (_external_browser || /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
+                return cordova.InAppBrowser.open(url, '_system', '');
             }
 
+            // CustomTab
+            var customTabOptions = {
+                'tabColor': $window.colors.header.backgroundColorHex,
+                'secondaryToolbarColor': $window.colors.header.backgroundColorHex,
+                'showTitle': true,
+                'instantAppsEnabled': false,
+                'enableUrlBarHiding': false,
+                'selectBrowser': false,
+            };
+
+            // CustomTab option
             if (_custom_tab) {
-                return cordova.plugins.browsertab.openUrl(url, {});
+                return cordova.plugins.browsertab.openUrl(url, customTabOptions);
             }
 
             // Enforcing target '_self' for Android tel: links!

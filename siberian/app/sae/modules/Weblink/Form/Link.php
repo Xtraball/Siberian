@@ -67,7 +67,7 @@ class Link extends FormAbstract
         $browserOptions = [
             'in_app_browser' => p__('weblink', 'In app browser'),
             'custom_tab' => p__('weblink', 'Custom tab'),
-            'external_browser' => p__('weblink', 'External/system browser'),
+            'external_browser' => p__('weblink', 'External app'),
         ];
 
         $externalBrowser = $form->addSimpleRadio('browser', p__('weblink', 'Browser choice'), $browserOptions);
