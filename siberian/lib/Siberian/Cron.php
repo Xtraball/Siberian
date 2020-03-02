@@ -638,10 +638,7 @@ class Cron
                                 try {
                                     switch ($panel_type) {
                                         case 'plesk':
-                                            $siberian_plesk = new \Siberian_Plesk();
-                                            $siberian_plesk->removeCertificate($cert);
-                                            $siberian_plesk->updateCertificate($cert);
-                                            $siberian_plesk->selectCertificate($cert);
+                                            (new \Siberian_Plesk())->uploadCertificate($cert);
                                             break;
                                         case 'cpanel':
                                             $cpanel = new \Siberian_Cpanel();

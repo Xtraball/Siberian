@@ -562,80 +562,20 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     }
 
     /**
-     * Yes ....
-     */
-    public function clearpleskAction()
-    {
-        try {
-            $logger = Zend_Registry::get('logger');
-            $hostname = $this->getRequest()->getParam('hostname', $this->getRequest()->getHttpHost());
-            $ssl_certificate_model = new System_Model_SslCertificates();
-            $cert = $ssl_certificate_model->find($hostname, 'hostname');
-
-            $siberian_plesk = new Siberian_Plesk();
-            $siberian_plesk->removeCertificate($cert);
-
-            $data = [
-                'success' => true,
-                'message' => '#824-56: ' . __('Successfully cleaned-up old certificate.'),
-            ];
-        } catch (Exception $e) {
-            $logger->info('[clearpleskAction]: An error occured %s', $e->getMessage());
-
-            $data = [
-                'error' => true,
-                'message' => '#824-55: ' . __('[Plesk] %s', $e->getMessage()),
-            ];
-        }
-
-        $this->_sendJson($data);
-    }
-
-    /**
-     * Yes ....
-     */
-    public function installpleskAction()
-    {
-        try {
-            $logger = Zend_Registry::get('logger');
-            $hostname = $this->getRequest()->getParam('hostname', $this->getRequest()->getHttpHost());
-            $ssl_certificate_model = new System_Model_SslCertificates();
-            $cert = $ssl_certificate_model->find($hostname, 'hostname');
-
-            $siberian_plesk = new Siberian_Plesk();
-            $siberian_plesk->updateCertificate($cert);
-
-            $data = [
-                'success' => true,
-                'message' => '#824-56' . __('Successfully installed new certificate.'),
-            ];
-        } catch (Exception $e) {
-            $logger->info('[clearpleskAction]: An error occured %s', $e->getMessage());
-
-            $data = [
-                'error' => true,
-                'message' => '#824-59: ' . __('[Plesk] %s', $e->getMessage()),
-            ];
-        }
-
-        $this->_sendJson($data);
-    }
-
-    /**
      * This action may end unexpectedly because of the panel reloading the webserver
      * This is normal behavior
      */
     public function sendtopanelAction()
     {
-
+        $request = $this->getRequest();
         $logger = Zend_Registry::get('logger');
-        $panel_type = __get('cpanel_type');
-        $hostname = $this->getRequest()->getParam('hostname', $this->getRequest()->getHttpHost());
+        $panelType = __get('cpanel_type');
+        $hostname = $request->getParam('hostname', $request->getHttpHost());
 
-        $ssl_certificate_model = new System_Model_SslCertificates();
-        $cert = $ssl_certificate_model->find($hostname, 'hostname');
+        $certificate = (new System_Model_SslCertificates())
+            ->find($hostname, 'hostname');
 
-        $ui_panels = [
+        $uiPanels = [
             'plesk' => __('Plesk'),
             'cpanel' => __('WHM cPanel'),
             'vestacp' => __('VestaCP'),
@@ -645,26 +585,22 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
         try {
-            $message = __('Successfully saved Certificate to %s', $ui_panels["$panel_type"]);
-            switch ($panel_type) {
+            $message = __('Successfully saved Certificate to %s', $uiPanels[(string) $panelType]);
+            switch ($panelType) {
                 case 'plesk':
-                    $siberian_plesk = new Siberian_Plesk();
-                    $siberian_plesk->selectCertificate($cert);
+                    (new Siberian_Plesk())->uploadCertificate($certificate);
 
                     break;
                 case 'cpanel':
-                    $cpanel = new Siberian_Cpanel();
-                    $cpanel->updateCertificate($cert);
+                    (new Siberian_Cpanel())->updateCertificate($certificate);
 
                     break;
                 case 'vestacp':
-                    $vestacp = new Siberian_VestaCP();
-                    $vestacp->updateCertificate($cert);
+                    (new Siberian_VestaCP())->updateCertificate($certificate);
 
                     break;
                 case 'directadmin':
-                    $directadmin = new Siberian_DirectAdmin();
-                    $directadmin->updateCertificate($cert);
+                    (new Siberian_DirectAdmin())->updateCertificate($certificate);
 
                     break;
                 case 'self':
@@ -674,20 +610,20 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     break;
             }
 
-            $data = [
+            $payload = [
                 'success' => true,
                 'message' => $message,
             ];
 
         } catch (\Exception $e) {
             $logger->info('#824-50: ' . __('An error occured while saving certificate to %s.', $e->getMessage()));
-            $data = [
+            $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
             ];
         }
 
-        $this->_sendJson($data);
+        $this->_sendJson($payload);
     }
 
     /**
@@ -967,7 +903,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 (strpos($e->getMessage(), 'many certificates already issued') !== false)) {
                 # We hit the rate limit, disable for the next seven days
                 $in_a_week = time() + 604800;
-                System_Model_Config::setValueFor('letsencrypt_disabled', $in_a_week);
+                __set('letsencrypt_disabled', $in_a_week);
             }
 
             $data = [

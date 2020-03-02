@@ -207,51 +207,21 @@ App.config(function($routeProvider) {
 
                     /** Now if it's ok, it's time for Panel  */
                     $scope.message.onSuccess(data);
-
                     $scope.all_messages = data.all_messages;
-
                     $log.info("SSL Ok, time to push to panel.");
 
-                    if($scope.configs.cpanel_type.value == "plesk") {
-                        /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/clearplesk/hostname/'+$scope.configs.current_domain,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.message.onUnknown(response.data);
-                            $scope.pollerRemovePlesk();
-                        }, function (response) {
-                            $scope.message.onUnknown(response.data);
-                            $scope.pollerRemovePlesk();
-                        });
-                    } else if($scope.configs.cpanel_type.value == "self") {
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.poller('backoffice/advanced_configuration/checkhttp');
-                        }, function (response) {
-                            $scope.poller('backoffice/advanced_configuration/checkhttp');
-                        });
-                    } else {
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.poller('backoffice/advanced_configuration/checkssl');
-                        }, function (response) {
-                            $scope.poller('backoffice/advanced_configuration/checkssl');
-                        });
-                    }
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+$scope.configs.current_domain,
+                        cache: false,
+                        responseType:'json'
+                    }).then(function (response) {
+                        // This may never occurs but well .. :)
+                        $scope.message.onSuccess(response);
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    }, function (response) {
+                        $scope.message.onError(response.data);
+                    });
 
                 }).error(function(data) {
 
@@ -269,7 +239,7 @@ App.config(function($routeProvider) {
             });
 
         }, function (response) {
-            return $window.alert('HTTP is not available to renew the SSL/HTTPS certificate.');
+            return $window.alert('HTTP must be reachable to renew the SSL/HTTPS certificate.');
         });
 
         return false;
@@ -296,46 +266,18 @@ App.config(function($routeProvider) {
 
                     $log.info("SSL Ok, time to push to panel.");
 
-                    if($scope.configs.cpanel_type.value == "plesk") {
-                        /** Plesk is tricky, if you remove the old certificate, it' reloading ... */
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/clearplesk/hostname/'+hostname,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.message.onUnknown(response.data);
-                            $scope.pollerRemovePlesk();
-                        }, function (response) {
-                            $scope.message.onUnknown(response.data);
-                            $scope.pollerRemovePlesk();
-                        });
-                    } else if($scope.configs.cpanel_type.value == "self") {
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.poller('backoffice/advanced_configuration/checkhttp');
-                        }, function (response) {
-                            $scope.poller('backoffice/advanced_configuration/checkhttp');
-                        });
-                    } else {
-                        $http({
-                            method: 'GET',
-                            url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
-                            cache: false,
-                            responseType:'json'
-                        }).then(function (response) {
-                            // This may never occurs but well .. :)
-                            $scope.poller('backoffice/advanced_configuration/checkssl');
-                        }, function (response) {
-                            $scope.poller('backoffice/advanced_configuration/checkssl');
-                        });
-                    }
+                    $http({
+                        method: 'GET',
+                        url: 'backoffice/advanced_configuration/sendtopanel/hostname/'+hostname,
+                        cache: false,
+                        responseType:'json'
+                    }).then(function (response) {
+                        // This may never occurs but well .. :)
+                        $scope.message.onSuccess(response);
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
+                    }, function (response) {
+                        $scope.message.onError(response.data);
+                    });
 
                 }).error(function(data) {
 
@@ -397,115 +339,6 @@ App.config(function($routeProvider) {
         }, 3000);
     };
 
-    $scope.pollerRemovePlesk = function() {
-        var times = 0;
-        var poller = $interval(function() {
-
-            /** We hit the timeout, show an error */
-            if(times++ > 10) {
-                times = 0;
-                $interval.cancel(poller);
-                poller = undefined;
-
-                $log.info("#01-Error: timeout reloading panel.");
-                $scope.message.information($scope.all_messages.https_unreachable);
-                $scope.content_loader_is_visible = false;
-            }
-
-            $log.info("#02-Retrying: n"+times+" poll.");
-
-            $http({
-                method: 'GET',
-                url: 'backoffice/advanced_configuration/checkhttp',
-                cache: false,
-                responseType:'json'
-            }).then(function (response) {
-                /** Clear poller on success */
-                $interval.cancel(poller);
-                poller = undefined;
-
-                /** Now it's ok, do the same as without plesk */
-                $http({
-                    method: 'GET',
-                    url: 'backoffice/advanced_configuration/installplesk',
-                    cache: false,
-                    responseType:'json'
-                }).then(function (response) {
-                    // This may never occurs but well .. :)
-                    if(angular.isObject(response.data) && angular.isDefined(response.data.error)) {
-                        // Abort
-                        $scope.message.onUnknown(response.data);
-                    } else {
-                        $scope.pollerInstallPlesk();
-                    }
-                }, function errorCallback(response) {
-                    if(angular.isObject(response.data) && angular.isDefined(response.data.error)) {
-                        // Abort
-                        $scope.message.onUnknown(response.data);
-                    } else {
-                        $scope.pollerInstallPlesk();
-                    }
-                    $scope.pollerInstallPlesk();
-                });
-
-            }, function (response) {
-                $log.info("#03-Retry: not reachable yet.");
-            });
-
-            /**.Showing wait message */
-            $scope.message.information($scope.all_messages.polling_reload);
-        }, 3000);
-    };
-
-    $scope.pollerInstallPlesk = function() {
-        var times = 0;
-        var poller = $interval(function() {
-
-            /** We hit the timeout, show an error */
-            if(times++ > 10) {
-                times = 0;
-                $interval.cancel(poller);
-                poller = undefined;
-
-                $log.info("#01-Error: timeout reloading panel.");
-                $scope.message.information($scope.all_messages.https_unreachable);
-                $scope.content_loader_is_visible = false;
-            }
-
-            $log.info("#02-Retrying: n"+times+" poll.");
-
-            $http({
-                method: 'GET',
-                url: 'backoffice/advanced_configuration/checkhttp',
-                cache: false,
-                responseType:'json'
-            }).then(function successCallback(response) {
-                /** Clear poller on success */
-                $interval.cancel(poller);
-                poller = undefined;
-
-                /** Now it's ok, do the same as without plesk */
-                $http({
-                    method: 'GET',
-                    url: 'backoffice/advanced_configuration/sendtopanel',
-                    cache: false,
-                    responseType:'json'
-                }).then(function (response) {
-                    // This may never occurs but well .. :)
-                    $scope.poller('backoffice/advanced_configuration/checkssl');
-                }, function (response) {
-                    $scope.poller('backoffice/advanced_configuration/checkssl');
-                });
-
-            }, function (response) {
-                $log.info("#03-Retry: not reachable yet.");
-            });
-
-            /**.Showing wait message */
-            $scope.message.information($scope.all_messages.polling_reload);
-        }, 3000);
-    };
-
     $scope.form = {
         hostname: "",
         cert_path: "",
@@ -536,7 +369,7 @@ App.config(function($routeProvider) {
         });
 
         $scope[code].onWhenAddingFileFailed = function(item, filter, options) {
-            if(filter.name == "limit") {
+            if(filter.name === "limit") {
                 $scope.message.setText(Label.uploader.error.only_one_at_a_time).isError(true).show();
             }
         };

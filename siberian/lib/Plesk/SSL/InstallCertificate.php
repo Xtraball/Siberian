@@ -25,7 +25,7 @@ class InstallCertificate extends BaseRequest
                 <cert>{CERT}</cert>
                 <ca>{CA}</ca>
             </content>
-            <ip_address>{IP-ADDRESS}</ip_address>
+            {IP_ADDRESS}
         </install>
      </certificate>
 </packet>
@@ -38,7 +38,6 @@ EOT;
         'name' => null,
         'csr' => null,
         'pvt' => null,
-        'ip-address' => null,
     );
 
     /**
@@ -59,6 +58,12 @@ EOT;
 
         if (isset($params['csr'])) {
             $params['csr'] = new Node('csr', $params['csr']);
+        }
+
+        if (isset($params['ip-address'])) {
+            $params['ip_address'] = new Node('ip_address', $params['ip-address']);
+        } else {
+            $params['ip_address'] = new Node('ip_address');
         }
 
         if (!isset($params['destination'])) {
