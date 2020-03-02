@@ -6,10 +6,10 @@
  */
 angular
 .module('starter')
-.service('LinkService', function ($rootScope, $translate, $window, SB, Dialog) {
+.service('LinkService', function ($rootScope, $translate, $window, SB) {
     return {
         openLink: function (url, options, external_browser) {
-            var supportOptions = [
+            var supportedOptions = [
                 'location',
                 'hidden',
                 'beforeload',
@@ -45,7 +45,7 @@ angular
             ];
             var target = '_blank';
             var inAppBrowserOptions = [];
-            var _external_browser = (external_browser === undefined) ? false : external_browser;
+
             var _deviceOptions = {};
             try {
                 switch (DEVICE_TYPE) {
@@ -69,24 +69,70 @@ angular
                 'transitionstyle': 'crossdissolve'
             }, _deviceOptions);
 
-            // Prevent opening new windows in the overview!
-            if (isOverview && _external_browser) {
-                return Dialog.alert('Overview', 'External browser is not available in the overview.', 'OK', 2350);
+            // Determining the browser type!
+            var _external_browser = (external_browser === undefined) ? false : external_browser;
+            var _in_app_browser, _custom_tab = false;
+            if (_options && _options.global && _options.global.browser) {
+                switch (_options.global.browser) {
+                    case 'in_app_browser':
+                        _in_app_browser = true;
+                        break;
+                    case 'custom_tab':
+                        _custom_tab = true;
+                        break;
+                    case 'external_browser':
+                        _external_browser = true;
+                        break;
+                }
+            } else {
+                if (!_external_browser) {
+                    _in_app_browser = true;
+                }
             }
 
-            // HTML5 forced on Browser devices
+
+            for (var key in _options) {
+                // Push only allowed options!
+                if (supportedOptions.indexOf(key) > -1) {
+                    var value = _options[key];
+                    inAppBrowserOptions.push(key + '=' + value);
+                }
+            }
+            var finalOptions = inAppBrowserOptions.join(',');
+
+            // It's overview, so we must go with new window/tab
+            if (isOverview && (_external_browser || _custom_tab)) {
+                return $window.open(url, 'link-service-popup', finalOptions);
+            }
+
+            // HTML5 App
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
                 if (_external_browser ||
-                    /.*\.pdf($|\?)/.test(url)) {
+                    /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
                     target = '_system';
                 }
                 // Enforce inAppBrowser fallback with location!
                 return cordova.InAppBrowser.open(url, target, 'location=yes');
             }
 
-            // External browser
-            if (_external_browser || /.*\.pdf($|\?)/.test(url)) {
-                return cordova.plugins.browsertab.openUrl(url, {});
+            // External browser or media URI
+            if (_external_browser || /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
+                return cordova.InAppBrowser.open(url, '_system', '');
+            }
+
+            // CustomTab
+            var customTabOptions = {
+                'tabColor': $window.colors.header.backgroundColorHex,
+                'secondaryToolbarColor': $window.colors.header.backgroundColorHex,
+                'showTitle': true,
+                'instantAppsEnabled': false,
+                'enableUrlBarHiding': false,
+                'selectBrowser': false,
+            };
+
+            // CustomTab option
+            if (_custom_tab) {
+                return cordova.plugins.browsertab.openUrl(url, customTabOptions);
             }
 
             // Enforcing target '_self' for Android tel: links!
@@ -94,15 +140,6 @@ angular
                 (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID)) {
                 target = '_self';
             }
-
-            for (var key in _options) {
-                // Push only allowed options!
-                if (supportOptions.indexOf(key) > -1) {
-                    var value = _options[key];
-                    inAppBrowserOptions.push(key + '=' + value);
-                }
-            }
-            var finalOptions = inAppBrowserOptions.join(',');
 
             return cordova.InAppBrowser.open(url, target, finalOptions);
         }
