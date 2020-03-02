@@ -16,7 +16,7 @@ class Weblink_Application_MultiController extends Application_Controller_Default
             $weblink = new Weblink_Model_Weblink();
             $result = $weblink->exportAction($this->getCurrentOptionValue());
 
-            $this->_download($result, "links-" . date("Y-m-d_h-i-s") . ".yml", "text/x-yaml");
+            $this->_download($result, 'links-' . date('Y-m-d_h-i-s') . '.yml', 'text/x-yaml');
         }
     }
 
