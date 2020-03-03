@@ -3,8 +3,8 @@
  */
 angular
 .module('starter')
-.controller('Form2HomeController', function ($ionicScrollDelegate, $window, $scope, $stateParams, $timeout, $filter,
-                                             Form2, Loader, Dialog, Modal, Customer) {
+.controller('Form2HomeController', function ($ionicScrollDelegate, $window, $scope, $stateParams, $timeout, $translate,
+                                             $filter, Form2, Loader, Dialog, Modal, Customer) {
     angular.extend($scope, {
         isLoading: true,
         value_id: $stateParams.value_id,
@@ -131,6 +131,21 @@ angular
                     field.value !== true) {
                     invalidFields.push('&nbsp;-&nbsp;' + field.label);
                     isValid = false;
+                } else if (field.type === 'number') {
+                    var current = parseFloat(field.value);
+                    var min = Number.parseInt(field.min);
+                    var max = Number.parseInt(field.max);
+                    var step = parseFloat(field.step);
+                    if (current < min || current > max) {
+                        var text = $translate.instant('is not inside range', 'form2') + ' ' + min + '-' + max;
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
+                    if (!Number.isInteger(current / step)) {
+                        var text = $translate.instant('must match increment', 'form2') + ' ' + step;
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
                 } else if (field.value === undefined ||
                     (field.value + '').trim().length === 0) {
                     invalidFields.push('&nbsp;-&nbsp;' + field.label);
