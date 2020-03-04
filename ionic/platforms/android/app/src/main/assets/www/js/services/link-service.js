@@ -115,10 +115,6 @@ angular
                 'selectBrowser': false,
             };
 
-            console.log('_external_browser', _external_browser);
-            console.log('_custom_tab', _custom_tab);
-            console.log('_in_app_browser', _in_app_browser);
-
             // Overview special case
             if (isOverview) {
                 // External app & custom tab are treated the same
@@ -163,9 +159,7 @@ angular
                 }
 
                 return cordova.InAppBrowser.open(url, target, finalOptions);
-
             } else if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
-
                 // Second-First we check file type
                 if (testMedia(url) ||
                     testTelSms(url)) {
@@ -184,7 +178,6 @@ angular
             }
 
             // Latest fallback in all cases!
-            console.log('Latest fallback in all cases!', url, options);
             return cordova.InAppBrowser.open(url, target, finalOptions);
         }
     };
