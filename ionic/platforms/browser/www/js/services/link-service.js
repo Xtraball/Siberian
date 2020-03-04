@@ -46,6 +46,16 @@ angular
             var target = '_blank';
             var inAppBrowserOptions = [];
 
+            var testMedia = function (url) {
+                return /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url);
+            };
+
+            var testTelSms = function (url) {
+                return /^(tel|sms):.*/.test(url);
+            };
+
+            var _globalOptions = options['global'];
+
             var _deviceOptions = {};
             try {
                 switch (DEVICE_TYPE) {
@@ -72,8 +82,8 @@ angular
             // Determining the browser type!
             var _external_browser = (external_browser === undefined) ? false : external_browser;
             var _in_app_browser, _custom_tab = false;
-            if (_options && _options.global && _options.global.browser) {
-                switch (_options.global.browser) {
+            if (_globalOptions && _globalOptions.browser) {
+                switch (_globalOptions.browser) {
                     case 'in_app_browser':
                         _in_app_browser = true;
                         break;
@@ -84,12 +94,7 @@ angular
                         _external_browser = true;
                         break;
                 }
-            } else {
-                if (!_external_browser) {
-                    _in_app_browser = true;
-                }
             }
-
 
             for (var key in _options) {
                 // Push only allowed options!
@@ -99,26 +104,6 @@ angular
                 }
             }
             var finalOptions = inAppBrowserOptions.join(',');
-
-            // It's overview, so we must go with new window/tab
-            if (isOverview && (_external_browser || _custom_tab)) {
-                return $window.open(url, 'link-service-popup', finalOptions);
-            }
-
-            // HTML5 App
-            if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
-                if (_external_browser ||
-                    /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
-                    target = '_system';
-                }
-                // Enforce inAppBrowser fallback with location!
-                return cordova.InAppBrowser.open(url, target, 'location=yes');
-            }
-
-            // External browser or media URI
-            if (_external_browser || /.*\.(pdf|mp3|wav|mp4|avi)($|\?)/.test(url)) {
-                return cordova.InAppBrowser.open(url, '_system', '');
-            }
 
             // CustomTab
             var customTabOptions = {
@@ -130,17 +115,76 @@ angular
                 'selectBrowser': false,
             };
 
-            // CustomTab option
-            if (_custom_tab) {
-                return cordova.plugins.browsertab.openUrl(url, customTabOptions);
+            console.log('_external_browser', _external_browser);
+            console.log('_custom_tab', _custom_tab);
+            console.log('_in_app_browser', _in_app_browser);
+
+            // Overview special case
+            if (isOverview) {
+                // External app & custom tab are treated the same
+                if (testTelSms(url)) {
+                    return window.open(url);
+                }
+
+                if (testMedia(url) ||
+                    _external_browser ||
+                    _custom_tab) {
+                    return parent.window.open(url, 'link-service-popup', 'width=480,height=800');
+                }
+
+                // InAppBrowser simulated
+                return cordova.InAppBrowser.open(url, target, 'location=yes');
+            } else if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {
+                // External app & custom tab are treated the same
+                if (testTelSms(url)) {
+                    return window.open(url);
+                }
+
+                if (testMedia(url) ||
+                    _external_browser ||
+                    _custom_tab) {
+                    return window.open(url, '_system', 'width=480,height=800');
+                }
+
+                return cordova.InAppBrowser.open(url, target, 'location=yes');
+            } else if (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID) {
+                // Second-First we check file type
+                if (testMedia(url) ||
+                    testTelSms(url)) {
+                    return cordova.InAppBrowser.open(url, '_system', '');
+                }
+
+                if (_external_browser) {
+                    return cordova.InAppBrowser.open(url, '_system', 'location=yes');
+                }
+
+                if (_custom_tab) {
+                    return cordova.plugins.browsertab.openUrl(url, customTabOptions);
+                }
+
+                return cordova.InAppBrowser.open(url, target, finalOptions);
+
+            } else if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
+
+                // Second-First we check file type
+                if (testMedia(url) ||
+                    testTelSms(url)) {
+                    return cordova.InAppBrowser.open(url, '_system', '');
+                }
+
+                if (_external_browser) {
+                    return cordova.InAppBrowser.open(url, '_system', 'location=yes');
+                }
+
+                if (_custom_tab) {
+                    return cordova.plugins.browsertab.openUrl(url, customTabOptions);
+                }
+
+                return cordova.InAppBrowser.open(url, target, finalOptions);
             }
 
-            // Enforcing target '_self' for Android tel: links!
-            if (/^(tel:).*/.test(url) &&
-                (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID)) {
-                target = '_self';
-            }
-
+            // Latest fallback in all cases!
+            console.log('Latest fallback in all cases!', url, options);
             return cordova.InAppBrowser.open(url, target, finalOptions);
         }
     };
