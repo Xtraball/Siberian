@@ -1,12 +1,22 @@
 <?php
 
+use Plesk\ListSites;
+use Plesk\UpdateSite;
+use Plesk\UpdateIPAddress;
+use Plesk\SSL\DeleteCertificate;
+use Plesk\SSL\InstallCertificate;
+
+use System_Model_SslCertificates as SslCertificates;
+
+use Siberian\Version;
+use Siberian\Exception;
+
 /**
  * Class Siberian_Plesk
  */
 
 class Siberian_Plesk
 {
-
     /**
      * @var mixed|null
      */
@@ -16,10 +26,10 @@ class Siberian_Plesk
      * @var array
      */
     public $config = [
-        "host" => "127.0.0.1",
-        "username" => "admin",
-        "password" => "changeme",
-        "webspace" => null,
+        'host' => '127.0.0.1',
+        'username' => 'admin',
+        'password' => 'changeme',
+        'webspace' => null,
     ];
 
     /**
@@ -27,190 +37,139 @@ class Siberian_Plesk
      */
     public function __construct()
     {
-        $this->logger = Zend_Registry::get("logger");
-        $plesk_api = Api_Model_Key::findKeysFor("plesk");
+        $this->logger = Zend_Registry::get('logger');
+        $plesk_api = Api_Model_Key::findKeysFor('plesk');
 
-        $this->config["host"] = $plesk_api->getHost();
-        $this->config["username"] = $plesk_api->getUser();
-        $this->config["password"] = $plesk_api->getPassword();
-        $this->config["webspace"] = $plesk_api->getWebspace();
+        $this->config['host'] = $plesk_api->getHost();
+        $this->config['username'] = $plesk_api->getUser();
+        $this->config['password'] = $plesk_api->getPassword();
+        $this->config['webspace'] = $plesk_api->getWebspace() . 'x';
+        $this->config['name'] = $plesk_api->getWebspace();
     }
 
     /**
-     * @param $hostname
+     * @param $certificate
+     * @return bool
      * @throws Exception
      */
-    public function setCertificate($hostname)
+    public function uploadCertificate($certificate): bool
     {
         try {
-            /** First search in domains */
-            $request = new Plesk\ListSites($this->config, [
-                "name" => $hostname
+            $certname = 'siberiancms_letsencrypt-' . $this->config['webspace'];
+            $ipAddress = gethostbyname($this->config['webspace']);
+
+            $listSites = new ListSites($this->config, [
+                'name' => $this->config['webspace']
             ]);
-            $results = $request->process();
+            $resultSites = $listSites->process();
 
-            if ($results === false) {
-                $message = "An unknown error occured while retrieving";
-                if (isset($request->error)) {
-                    $message = $request->error->getMessage();
+            // We keep only the first site matching!
+            $actualSite = $resultSites[0];
+            $actualSiteId = $actualSite['id'];
+
+            if (empty($actualSiteId)) {
+                throw new Exception(p__('backoffice',
+                    "The webspace '%s' doesn't exists.", $this->config['webspace']));
+            }
+
+            // Now we remove the attached certificate!
+            $updateSite = new UpdateSite($this->config,
+                [
+                    'id' => $actualSiteId,
+                    'properties' => [
+                        'certificate_name' => ''
+                    ]
+                ]);
+            $resultUpdate = $updateSite->process();
+            if ($resultUpdate !== true) {
+                throw new Exception(p__('backoffice',
+                    "The webspace '%s' update failed.", $this->config['webspace']));
+            }
+
+            // We set the IP cert to default
+            // For PE only
+            if (Version::is('PE')) {
+                // Now we remove the attached certificate!
+                $updateSite = new UpdateIPAddress($this->config,
+                    [
+                        'ip_address' => $ipAddress,
+                        'certificate_name' => 'default certificate'
+                    ]);
+                $resultUpdate = $updateSite->process();
+            }
+
+            // Now we delete the certificate
+            $deleteCertificate = new DeleteCertificate($this->config,
+                [
+                    'webspace' => $this->config['webspace'],
+                    'cert-name' => $certname
+                ]);
+
+            // Just in case there is multiple dead certificates with the same name!
+            $loopBreaker = 0;
+            $resultDeleteCertificate = true;
+            while ($resultDeleteCertificate === true) {
+                $resultDeleteCertificate = $deleteCertificate->process();
+                $loopBreaker++;
+                if ($loopBreaker > 10) {
+                    throw new Exception(p__('backoffice',
+                        'We are unable to delete any previous certificate, please check in your Plesk panel and remove all the siberiancms certificates manually!'));
                 }
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $message));
-
-                throw new Siberian_Exception(__("[%s] %s", $request->error->getCode(), $message));
             }
 
-            // Finding domain/subdomain ID
-            $subdomain_id = null;
-            if (!empty($results) && is_array($results)) {
-                foreach ($results as $result) {
-                    if ($result["name"] == $hostname) {
-                        $subdomain_id = $result["id"];
-                    }
-                }
-            } else {
-                $request = new Plesk\ListSubdomains($this->config);
-                $results = $request->process();
+            // Plesk requires a default CSR.
+            $dn = [
+                'countryName' => 'GB',
+                'stateOrProvinceName' => 'Nowhere',
+                'localityName' => 'Island',
+                'organizationName' => 'MobileAppsCompany',
+                'organizationalUnitName' => 'MobileAppsCompany Team',
+                'commonName' => 'MobileAppsCompany',
+                'emailAddress' => 'mobileappscompany@sample.com'
+            ];
 
-                if (!empty($results) && is_array($results)) {
-                    foreach ($results as $result) {
-                        if ($result["name"] == $hostname) {
-                            $subdomain_id = $result["id"];
-                        }
-                    }
-                }
+            $privkey = openssl_pkey_get_private(file_get_contents($certificate->getPrivate()));
+            $csr = openssl_csr_new($dn, $privkey, ['digest_alg' => 'sha256']);
+            openssl_csr_export($csr, $csrout);
+
+            $paramsInstall = [
+                'name' => $certname,
+                'webspace' => $this->config['webspace'],
+                'csr' => $csrout,
+                'cert' => file_get_contents($certificate->getCertificate()),
+                'pvt' => file_get_contents($certificate->getPrivate()),
+                'ca' => file_get_contents($certificate->getChain()),
+            ];
+
+            // For PE only
+            if (Version::is('PE')) {
+                $paramsInstall['ip-address'] = $ipAddress;
             }
 
-            if (empty($subdomain_id)) {
-                throw new Exception(__("Unable to find the given hostname %s", $hostname));
+            $installRequest = new InstallCertificate($this->config, $paramsInstall);
+            $installRequest->process();
+
+            // Now we re-attache the uploaded certificate!
+            $updateSiteLast = new UpdateSite($this->config,
+                [
+                    'id' => $actualSiteId,
+                    'properties' => [
+                        'certificate_name' => $certname
+                    ]
+                ]);
+            $resultUpdateLast = $updateSiteLast->process();
+            if ($resultUpdateLast !== true) {
+                throw new Exception(p__('backoffice',
+                    'We are unable to install the certificate on your webspace!'));
             }
 
-            $plesk_browser = new Siberian_Plesk_Crawler($this->config["host"], $this->config["username"], $this->config["password"]);
-            $plesk_browser->updateDomain($hostname, $subdomain_id);
-
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * @param $ssl_certificate
-     * @return bool
-     * @throws Exception
-     */
-    public function removeCertificate($ssl_certificate)
-    {
-
-        $webspace = $ssl_certificate->getHostname();
-        if (!empty($this->config["webspace"])) {
-            $webspace = $this->config["webspace"];
-        }
-
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
-
-        $params_delete = [
-            "webspace" => $webspace,
-            "cert-name" => $cert_name,
-        ];
-
-        /** First try to remove an existing one */
-        $this->logger->info(sprintf("[Siberian_Plesk] First try to remove an existing one ..."));
-        try {
-            $request = new Plesk\SSL\DeleteCertificate($this->config, $params_delete);
-            $info = $request->process();
-
-            if (!$info) {
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
-
-                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
-            }
-
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate cleaned-up"));
-        } catch (Exception $e) {
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $e->getMessage()));
-            throw new Exception($e->getMessage());
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $ssl_certificate
-     */
-    public function updateCertificate($ssl_certificate)
-    {
-
-        $webspace = $ssl_certificate->getHostname();
-        if (!empty($this->config["webspace"])) {
-            $webspace = $this->config["webspace"];
-        }
-
-        $cert_name = sprintf("%s-%s", "siberian_letsencrypt", $webspace);
-
-        $params_install = [
-            "name" => $cert_name,
-            "webspace" => $webspace,
-            "csr" => file_get_contents($ssl_certificate->getLast()),
-            "cert" => file_get_contents($ssl_certificate->getCertificate()),
-            "pvt" => file_get_contents($ssl_certificate->getPrivate()),
-            "ca" => file_get_contents($ssl_certificate->getChain()),
-            "ip-address" => gethostbyname($ssl_certificate->getHostname()),
-        ];
-
-        $this->logger->info(sprintf("[Siberian_Plesk] Installing the certificate ..."));
-        try {
-            $request = new Plesk\SSL\InstallCertificate($this->config, $params_install);
-            $info = $request->process();
-
-            if (!$info) {
-                $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->error->getMessage()));
-
-                throw new Exception(__("[%s] %s", $request->error->getCode(), $request->error->getMessage()));
-            }
-
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", $request->xml_response));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($info, true)));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Certificate installed"));
-        } catch (Exception $e) {
-            $this->logger->info(sprintf("[Siberian_Plesk] Unable to install the certificate: %s", $e->getMessage()));
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", print_r($request->error, true)));
+        } catch (\Plesk\ApiRequestException $e) {
+            throw new Exception(p__('backoffice', $e->getMessage()));
+        } catch (\Exception $e) {
             throw new Exception($e->getMessage());
         }
 
         return true;
     }
 
-    /**
-     * @param $ssl_certificate
-     * @return bool
-     * @throws Exception
-     */
-    public function selectCertificate($ssl_certificate)
-    {
-        // @note From here, server may reload, and then interrupt the connection
-        // This is normal behavior, as it's reloading the SSL Certificate.
-
-        // Select certificate in Plesk
-        $this->logger->info(sprintf("[Siberian_Plesk] Trying to select the certificate and reloading ..."));
-        if (version_compare(phpversion(), "5.3", ">")) {
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Trying to select Certificate."));
-
-            $webspace = $ssl_certificate->getHostname();
-            if (!empty($this->config["webspace"])) {
-                $webspace = $this->config["webspace"];
-            }
-
-            $this->setCertificate($webspace);
-        } else {
-            $this->logger->info(sprintf("[Siberian_Plesk] %s", "Unable to set the current Certificate in Plesk, please check for PHP 5.6+."));
-            throw new Exception(__("Unable to select the Certificate in Plesk, please select manually the certificate name %s and save.", $ssl_certificate->getHostname()));
-        }
-
-        $this->logger->info(sprintf("[Siberian_Plesk] %s", "Done with success."));
-
-        return true;
-
-        // Please consider you can never have the acknowledgement
-    }
 }

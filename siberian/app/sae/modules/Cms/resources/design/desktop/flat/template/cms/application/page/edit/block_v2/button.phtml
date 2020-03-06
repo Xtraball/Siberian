@@ -110,18 +110,18 @@ $pvar = "p{$uniqid}";
 
             // External browser
             let <?php echo $pvar; ?>ToggleExternal = function () {
-                let el = $(<?php echo $pvar; ?>+" [id$='-button-external_browser']");
-                if (el.is(':checked')) {
-                    $(<?php echo $pvar; ?>+" #android_options-element").hide();
-                    $(<?php echo $pvar; ?>+" #ios_options-element").hide();
-                } else {
+                let el = $(<?php echo $pvar; ?>+" [name*=global]:checked");
+                if (el.val() === 'in_app_browser') {
                     $(<?php echo $pvar; ?>+" #android_options-element").show();
                     $(<?php echo $pvar; ?>+" #ios_options-element").show();
+                } else {
+                    $(<?php echo $pvar; ?>+" #android_options-element").hide();
+                    $(<?php echo $pvar; ?>+" #ios_options-element").hide();
                 }
             };
 
-            $(document).off("change", <?php echo $pvar; ?>+" [id$='-button-external_browser']");
-            $(document).on("change", <?php echo $pvar; ?>+" [id$='-button-external_browser']", function () {
+            $(document).off("change", <?php echo $pvar; ?>+" [name*=global]");
+            $(document).on("change", <?php echo $pvar; ?>+" [name*=global]", function () {
                 <?php echo $pvar; ?>ToggleExternal();
             });
             <?php echo $pvar; ?>ToggleExternal();

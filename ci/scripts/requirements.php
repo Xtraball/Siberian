@@ -1,7 +1,7 @@
 <?php
 
-if (version_compare(phpversion(), '5.6', '<')) {
-    exit('PHP 5.6+ is required \n');
+if (version_compare(phpversion(), '7.0', '<')) {
+    exit('PHP 7.0+ is required \n');
 }
 
 /**
@@ -36,9 +36,9 @@ class Requirements {
         self::testExtensions();
         self::testExec();
 
-        if (!empty($_errors)) {
+        if (!empty(self::$_errors)) {
             echo 'Following requirements are missing: ' . PHP_EOL;
-            echo implode(PHP_EOL, $_errors);
+            echo implode(PHP_EOL, self::$_errors);
             echo '...' . PHP_EOL;
         } else {
             echo 'Everything seems ok. ' . PHP_EOL;
@@ -51,7 +51,7 @@ class Requirements {
     public static function testFunctions() {
         foreach (self::$_functions as $function) {
             if (!function_exists($function)) {
-                $_errors[] = 'Please enable/add function: ' . $function . '()';
+                self::$_errors[] = 'Please enable/add function: ' . $function . '()';
             }
         }
     }
@@ -62,7 +62,7 @@ class Requirements {
     public static function testExtensions() {
         foreach (self::$_extensions as $extension) {
             if (!extension_loaded($extension)) {
-                $_errors[] = 'Please enable/add extension: ' . $extension;
+                self::$_errors[] = 'Please enable/add extension: ' . $extension;
             }
         }
     }
@@ -74,20 +74,20 @@ class Requirements {
         if (function_exists('exec')) {
             $which1 = exec('which zip');
             if (empty($which1)) {
-                $_errors[] = 'Please enable/add binary: zip';
+                self::$_errors[] = 'Please enable/add binary: zip';
             }
 
             $which2 = exec('which unzip');
             if (empty($which2)) {
-                $_errors[] = 'Please enable/add binary: unzip';
+                self::$_errors[] = 'Please enable/add binary: unzip';
             }
 
         } else {
-            $_errors[] = 'Please enable/add function: exec()';
+            self::$_errors[] = 'Please enable/add function: exec()';
         }
 
         if (OPENSSL_VERSION_NUMBER < 268439647) {
-            $_errors[] = 'Please update OpenSSL to 1.0.1+';
+            self::$_errors[] = 'Please update OpenSSL to 1.0.1+';
         }
     }
 

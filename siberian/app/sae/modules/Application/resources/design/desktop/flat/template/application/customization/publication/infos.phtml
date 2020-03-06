@@ -133,7 +133,7 @@ if (!empty($appDomain)) {
                 let name = $(this).val().replace(/(<([^>]+)>)/ig, '');
                 // Set back stripped/value!
                 $(this).val(name);
-                $('#header_app_name').text(name.substr(0, 15));
+                $('#header_app_name').text(name);
             });
 
             let updateStore = function (store) {

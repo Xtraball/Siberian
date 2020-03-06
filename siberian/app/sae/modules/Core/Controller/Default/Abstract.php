@@ -116,7 +116,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         // Upload APK clamav trigger
         $routeName = $this->getFullActionName();
-        if ("application/backoffice_iosautopublish/uploadapk" === $routeName) {
+        if ('application/backoffice_iosautopublish/uploadapk' === $routeName) {
             ClamAv::disableTemporary();
         }
 

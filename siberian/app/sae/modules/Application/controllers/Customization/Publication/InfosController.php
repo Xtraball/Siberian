@@ -98,9 +98,19 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application = $this->getApplication();
 
                 $application
-                    ->setName($params['name'])
-                    ->setBundleId($params['bundle_id'])
-                    ->setPackageName($params['package_name'])
+                    ->setName($params['name']);
+
+                // Saving only if present!
+                if (isset($params['bundle_id'])) {
+                    $application
+                        ->setBundleId($params['bundle_id']);
+                }
+                if (isset($params['package_name'])) {
+                    $application
+                        ->setPackageName($params['package_name']);
+                }
+
+                $application
                     ->save();
 
                 $payload = [
