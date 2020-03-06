@@ -141,6 +141,15 @@ i.fa.fa-plus {
     top: 3px;
 }
 
+span#header_app_name {
+    text-overflow: ellipsis;
+    width: calc(100% - 90px);
+    display: inline-block;
+    overflow: hidden;
+    line-height: 18px;
+    white-space: nowrap;
+}
+
 #left-menu-toggle {
     position: absolute;
     right: -40px;

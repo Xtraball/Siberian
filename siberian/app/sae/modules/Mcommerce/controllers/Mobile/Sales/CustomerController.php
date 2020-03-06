@@ -17,8 +17,8 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                 $option = $this->getCurrentOptionValue();
                 $mcommerce = $option->getObject();
                 $cart = $this->getCart();
-                /* Either `legacy` or `current` */
-                $version = $this->_getVersion($data);
+                $session = $this->getSession();
+                $customer = (new Mcommerce_Model_Customer())->find($session->getCustomerId());
 
                 $errors = $mcommerce->validateCustomer($this, $data['form']['customer']);
 
@@ -30,24 +30,19 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
                     throw new \Siberian\Exception(__($message));
                 }
 
-                $info = [];
-                if ($version == "legacy") {
-                    $cart->setLocation([
-                        'street' => $data['form']['customer']['street'],
-                        'postcode' => $data['form']['customer']['postcode'],
-                        'city' => $data['form']['customer']['city']
-                    ]);
-                    $info = $this->_getCartData($data['form']['customer']);
-                } else {
-                    $cart->setLocation($data['form']['customer']['metadatas']['delivery_address'], $this->getApplication()->getGooglemapsKey());
-                    $info = ["customer_id" => $data['form']['customer']['id']];
-                }
+                $cart->setLocation($data['form']['customer']['metadatas']['delivery_address'], $this->getApplication()->getGooglemapsKey());
+                $info = [
+                    'customer_id' => $data['form']['customer']['id']
+                ];
 
                 $cart->addData($info)->save();
 
+                $customer
+                    ->populate($mcommerce, $data['form']['customer'])
+                    ->save();
+
                 $html = [
-                    'customer' => $version == "legacy" ?
-                        $data['form']['customer'] : Mcommerce_Model_Customer::getCleanInfos($mcommerce, $data['form']['customer']),
+                    'customer' => Mcommerce_Model_Customer::getCleanInfos($mcommerce, $data['form']['customer']),
                     'cartId' => $cart->getId()
                 ];
             } catch (Exception $e) {

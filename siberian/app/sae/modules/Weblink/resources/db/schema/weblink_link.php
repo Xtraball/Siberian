@@ -57,6 +57,14 @@ $schemas['weblink_link'] = [
         'type' => 'tinyint(1)',
         'default' => '0'
     ],
+    'custom_tab' => [
+        'type' => 'tinyint(1)',
+        'default' => '0'
+    ],
+    'in_app_browser' => [
+        'type' => 'tinyint(1)',
+        'default' => '0'
+    ],
     'hide_navbar' => [
         'type' => 'tinyint(1)',
         'default' => '0'
@@ -68,5 +76,9 @@ $schemas['weblink_link'] = [
     'position' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
+    ],
+    'version' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
     ],
 ];

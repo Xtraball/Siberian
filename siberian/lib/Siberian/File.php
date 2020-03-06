@@ -35,10 +35,7 @@ class File
         // Debug files
         if (__getConfig('debugFiles') === true) {
             $allFiles = false;
-            $watchedFiles = [
-                //'#var/tmp/.*\.lock$#',
-                '#siberian/toto.txt$#',
-            ];
+            $watchedFiles = __getConfig('debugFilesList') ?? [];
             $willWatch = false;
             if (!$allFiles) {
                 foreach ($watchedFiles as $watchedFile) {

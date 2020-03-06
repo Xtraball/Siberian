@@ -177,7 +177,7 @@ $backButtons = Application_Model_Application::$backButtons;
 
         $("#android_push_color").val('<?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>');
 
-        $(".sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
+        $("#android_conteneur .sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
 
         var allAppIcons = $('i.appIcon');
         allAppIcons.off('click');

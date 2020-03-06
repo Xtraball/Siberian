@@ -14,7 +14,7 @@ class DeleteCertificate extends BaseRequest
      */
     public $xml_packet = <<<EOT
 <?xml version="1.0"?>
-<packet version="">
+<packet>
     <certificate>
         <remove>
             <filter>
@@ -30,7 +30,7 @@ EOT;
      * @var array
      */
     protected $default_params = array(
-        'webspace' => "",
+        'webspace' => '',
         'cert-name' => null,
     );
 

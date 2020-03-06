@@ -8,7 +8,7 @@ class UpdateSite extends BaseRequest
      */
     public $xml_packet = <<<EOT
 <?xml version="1.0"?>
-<packet version="1.6.3.5">
+<packet>
 <site>
     <set>
         <filter>
@@ -49,10 +49,11 @@ EOT;
      * UpdateSite constructor.
      * @param array $config
      * @param array $params
+     * @throws ApiRequestException
      */
     public function __construct(array $config, $params = array())
     {
-        $properties = array();
+        $properties = $params['properties'] ?? array();
 
         foreach (array('php', 'php_handler_type', 'webstat', 'www_root', 'php', 'php_handler_id', 'php_version') as $key) {
             if (isset($params[$key])) {

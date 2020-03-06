@@ -20,14 +20,14 @@ class Siberian_DirectAdmin {
      * @var array
      */
     protected $config = array(
-        "host" => "",
-        "username" => "",
-        "password" => "",
-        "webspace" => null,
+        'host' => '',
+        'username' => '',
+        'password' => '',
+        'webspace' => null,
     );
 
     /**
-     * Siberian_Plesk constructor.
+     * DirectAdmin constructor.
      */
     public function __construct() {
         $this->logger = Zend_Registry::get("logger");

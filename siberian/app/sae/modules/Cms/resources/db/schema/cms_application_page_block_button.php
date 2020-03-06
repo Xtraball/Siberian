@@ -48,14 +48,17 @@ $schemas['cms_application_page_block_button'] = [
     ],
     'hide_navbar' => [
         'type' => 'boolean',
+        'is_null' => true,
         'default' => "0"
     ],
     'use_external_app' => [
         'type' => 'boolean',
+        'is_null' => true,
         'default' => "0"
     ],
     'external_browser' => [
         'type' => 'tinyint(1)',
+        'is_null' => true,
         'default' => '0'
     ],
     'options' => [

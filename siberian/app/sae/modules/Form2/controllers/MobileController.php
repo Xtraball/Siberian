@@ -142,7 +142,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
             }
 
             //
-            $payload = (new Form())->getEmbedPayload($this->getCurrentOptionValue());
+            $featurePayload = (new Form())->getFeaturePayload($this->getCurrentOptionValue());
 
             // Hook
             Hook::trigger('form2.submit.success', [
@@ -157,7 +157,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
             $payload = [
                 'success' => true,
                 'message' => p__('form2', 'The form has been sent successfully'),
-                'history' => $payload['history']
+                'history' => $featurePayload['history']
             ];
 
         } catch (Exception $e) {
