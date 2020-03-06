@@ -1,12 +1,12 @@
-/* global
- App, angular, BASE_PATH, isNativeApp, Discount only
+/**
+ * Discount, QR Discount controllers
  */
-
-angular.module('starter').controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location,
-                                                                         $rootScope, $scope, $state, $stateParams,
-                                                                         $timeout, $translate, $window, Application,
-                                                                         Customer, Dialog, Discount, Url, SB, Loader,
-                                                                         $ionicSlideBoxDelegate, SocialSharing, Tc) {
+angular
+    .module('starter')
+    .controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location, $rootScope,
+                                                    $scope, $state, $stateParams, $timeout, $translate, $window,
+                                                    Application, Customer, Dialog, Discount, Url, SB, Loader,
+                                                    $ionicSlideBoxDelegate, SocialSharing, Tc) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,
@@ -146,7 +146,9 @@ angular.module('starter').controller('DiscountListController', function ($cordov
     };
 
     $scope.showScanCamera = function () {
-        $cordovaBarcodeScanner.scan().then(function (barcodeData) {
+        $cordovaBarcodeScanner
+            .scan()
+            .then(function (barcodeData) {
             if (!barcodeData.cancelled && (barcodeData.text !== '')) {
                 $timeout(function () {
                     $scope.is_loading = true;
