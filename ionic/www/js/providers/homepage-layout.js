@@ -47,7 +47,7 @@ angular.module('starter').provider('HomepageLayout', function () {
 
     self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
-                          Padlock, Modal) {
+                          Padlock, Modal, Codescan) {
         var HomepageLayout = {};
 
         // Hooks!
@@ -83,7 +83,7 @@ angular.module('starter').provider('HomepageLayout', function () {
             switch (Pages.data.layout.position) {
                 case 'left':
                 case 'right':
-                    $rootScope.$broadcast("sideMenu.close");
+                    $rootScope.$broadcast('sideMenu.close');
 
                     // Skip clear history for specific features:
                     var isPadlock = (feature.code === 'padlock');
@@ -108,6 +108,11 @@ angular.module('starter').provider('HomepageLayout', function () {
                     });
 
                     Customer.loginModal(scope);
+
+                    break;
+
+                case (feature.code === 'code_scan'):
+                    Codescan.scanGeneric();
 
                     break;
 

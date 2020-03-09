@@ -50,9 +50,6 @@ let debug = true,
         'cms': [
             './www/js/controllers/cms.js'
         ],
-        'codescan': [
-            './www/js/controllers/codescan.js',
-        ],
         'contact': [
             './www/js/controllers/contact.js',
             './www/js/factory/contact.js'

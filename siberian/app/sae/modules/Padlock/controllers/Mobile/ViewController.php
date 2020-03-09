@@ -86,7 +86,7 @@ class Padlock_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $application = $this->getApplication();
             $unlockCode = $application->getUnlockCode();
             $appId = $application->getId();
-            $qrCode = $request->getParam('qrCode', null);
+            $qrCode = $request->getBodyParams()['qrCode'] ?? null;
 
             if ($unlockCode !== $qrCode) {
                 throw new Siberian_Exception(__('No padlock with such qcode belongs to this app.'));

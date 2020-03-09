@@ -6,7 +6,7 @@ angular
     .controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location, $rootScope,
                                                     $scope, $state, $stateParams, $timeout, $translate, $window,
                                                     Application, Customer, Dialog, Discount, Url, SB, Loader,
-                                                    $ionicSlideBoxDelegate, SocialSharing, Tc) {
+                                                    $ionicSlideBoxDelegate, SocialSharing, Tc, Codescan) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,

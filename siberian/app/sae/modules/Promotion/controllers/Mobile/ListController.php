@@ -181,10 +181,12 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
             $session = $this->getSession();
             $application = $this->getApplication();
             $appId = $application->getId();
-            $qrCode = $request->getParam('qrCode', null);
+            $qrCode = $request->getBodyParams()['qrCode'];
 
+            $isLoginError = false;
             $customerId = $session->getCustomerId();
             if (!$customerId) {
+                $isLoginError = true;
                 throw new Siberian_Exception(__('You must be logged in to use a discount'));
             }
 
@@ -225,6 +227,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
+                'isLoginError' => $isLoginError,
                 'message' => $e->getMessage(),
             ];
         }
