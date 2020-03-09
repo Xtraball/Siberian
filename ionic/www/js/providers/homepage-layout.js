@@ -574,9 +574,6 @@ angular.module('starter').provider('HomepageLayout', function () {
             isInitialized: function () {
                 return HomepageLayout.is_initialized;
             },
-            unlockByQRCode: function (qrcode) {
-                return HomepageLayout.unlockByQRCode(qrcode);
-            },
             setNeedToBuildTheOptions: function (need_to_build_the_options) {
                 HomepageLayout.options = null;
                 HomepageLayout.need_to_build_the_options = need_to_build_the_options;

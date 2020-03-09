@@ -51,7 +51,7 @@ let debug = true,
             './www/js/controllers/cms.js'
         ],
         'codescan': [
-            './www/js/controllers/codescan.js'
+            './www/js/controllers/codescan.js',
         ],
         'contact': [
             './www/js/controllers/contact.js',
@@ -202,6 +202,7 @@ let debug = true,
         onloadchunks: {
             files: [
                 './www/js/factory/facebook.js',
+                './www/js/factory/codescan.js',
                 './www/js/factory/padlock.js',
                 './www/js/factory/pages.js',
                 './www/js/factory/tc.js',
