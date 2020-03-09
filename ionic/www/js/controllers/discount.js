@@ -161,7 +161,6 @@ angular
                             for (var i = 0; i < $scope.collection.length; i++) {
                                 if ($scope.collection[i].id == data.promotion.id) {
                                     $scope.collection[i] = data.promotion;
-                                    console.log($scope.collection[i]);
                                     break;
                                 }
                             }

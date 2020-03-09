@@ -79,6 +79,34 @@ class Padlock_Mobile_ViewController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
+    public function isQrCodeAction () {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $application = $this->getApplication();
+            $unlockCode = $application->getUnlockCode();
+            $appId = $application->getId();
+            $qrCode = $request->getParam('qrCode', null);
+
+            if ($unlockCode !== $qrCode) {
+                throw new Siberian_Exception(__('No padlock with such qcode belongs to this app.'));
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+                'qr_code' => $qrCode,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function unlockbyqrcodeAction() {
 
         try {

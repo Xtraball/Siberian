@@ -189,6 +189,8 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
             }
 
             $promotions = (new Promotion_Model_Promotion())->findAll([
+                'is_active = ?' => 1,
+                'unlock_by = ?' => 'qrcode',
                 'unlock_code = ?' => $qrCode
             ]);
 
@@ -214,13 +216,16 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
             $promotion_id = $promotion->getId();
 
             $payload = [
-                "success" => true,
-                "message" => __("Success"),
+                'success' => true,
+                'message' => __('Success'),
+                'value_id' => $optionValue->getId(),
+                'promotion_id' => $promotion_id,
+                'qr_code' => $qrCode,
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
