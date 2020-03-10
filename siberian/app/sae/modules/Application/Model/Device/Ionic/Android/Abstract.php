@@ -117,6 +117,9 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
+        /**
+         * @var Application_Model_Application $application
+         */
         $application = $this->getApplication();
 
         $orientations = Siberian_Json::decode($device->getOrientations());
@@ -158,6 +161,22 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
             ]);
         }
+
+        $features = $application->getOptions();
+        $hasRadio = false;
+        foreach ($features as $feature) {
+            if ($feature->getCode() === 'radio') {
+                $hasRadio = true;
+                break;
+            }
+        }
+
+        if ($hasRadio) {
+            $replacements = array_merge($replacements, [
+                "<application " => "<application android:usesCleartextTraffic=\"true\" ",
+            ]);
+        }
+
 
         $this->__replace($replacements, "{$this->_dest_source}/app/src/main/AndroidManifest.xml");
 
