@@ -162,21 +162,27 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             ]);
         }
 
+        $radio = (new Application_Model_Option())->find('radio', 'code');
+
         $features = $application->getOptions();
         $hasRadio = false;
         foreach ($features as $feature) {
-            if ($feature->getCode() === 'radio') {
+            if ($feature->getOptionId() === $radio->getId()) {
                 $hasRadio = true;
                 break;
             }
         }
 
-        if ($hasRadio) {
+        // Ensure the clearText is not already applied by someone else before!
+        $androidManifestContent = file_get_contents("{$this->_dest_source}/app/src/main/AndroidManifest.xml");
+
+        if (stripos($androidManifestContent, 'android:usesCleartextTraffic') === false &&
+            $hasRadio) {
+            // Ok we can add it safely!
             $replacements = array_merge($replacements, [
                 "<application " => "<application android:usesCleartextTraffic=\"true\" ",
             ]);
         }
-
 
         $this->__replace($replacements, "{$this->_dest_source}/app/src/main/AndroidManifest.xml");
 
