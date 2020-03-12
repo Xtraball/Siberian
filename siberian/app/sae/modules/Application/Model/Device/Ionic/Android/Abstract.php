@@ -117,6 +117,9 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $tmp_application_id = $this->_package_name . $tmp_application_id;
         }
 
+        /**
+         * @var Application_Model_Application $application
+         */
         $application = $this->getApplication();
 
         $orientations = Siberian_Json::decode($device->getOrientations());
@@ -156,6 +159,28 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         if (!$disableBatteryOptimization) {
             $replacements = array_merge($replacements, [
                 "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
+            ]);
+        }
+
+        $radio = (new Application_Model_Option())->find('radio', 'code');
+
+        $features = $application->getOptions();
+        $hasRadio = false;
+        foreach ($features as $feature) {
+            if ($feature->getOptionId() === $radio->getId()) {
+                $hasRadio = true;
+                break;
+            }
+        }
+
+        // Ensure the clearText is not already applied by someone else before!
+        $androidManifestContent = file_get_contents("{$this->_dest_source}/app/src/main/AndroidManifest.xml");
+
+        if (stripos($androidManifestContent, 'android:usesCleartextTraffic') === false &&
+            $hasRadio) {
+            // Ok we can add it safely!
+            $replacements = array_merge($replacements, [
+                "<application " => "<application android:usesCleartextTraffic=\"true\" ",
             ]);
         }
 
