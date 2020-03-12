@@ -74,7 +74,7 @@ if (typeof String.prototype.trim !== 'function') {
 }
 
 $.fn.blink = function (time) {
-    time = time ?? 100;
+    time = time === undefined ? 100 : time;
     $(this).hide(50).delay(time).show(50);
 };
 
