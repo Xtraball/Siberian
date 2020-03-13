@@ -35,7 +35,7 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
             $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
         }
 
-        factory.saveCredentials(customer.token);
+        factory.saveCredentials(customer.uuid);
     };
 
     /**
@@ -424,8 +424,8 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
         return promise;
     };
 
-    factory.saveCredentials = function (token) {
-        $session.setId(token);
+    factory.saveCredentials = function (uuid) {
+        $session.setId(uuid);
     };
 
     factory.clearCredentials = function () {

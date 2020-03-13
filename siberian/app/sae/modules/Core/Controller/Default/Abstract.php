@@ -774,11 +774,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     protected function _initSession()
     {
         $request = $this->getRequest();
-        if (!Zend_Session::isStarted() && !$request->isInstalling()) {
+
+        if (!$this->skipSession($request) &&
+            !Zend_Session::isStarted() &&
+            !$request->isInstalling()) {
+
             Siberian_Session::init();
 
-            $sbToken = $request->getParam('sb-token', false);
-            if ($sbToken) {
+            $sbToken = $request->getParam('sb-token', $request->getHeader('XSB_AUTH'));
+
+            if (!empty($xsbAuth)) {
                 Zend_Session::setId($sbToken);
             }
 
@@ -801,11 +806,34 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             $session = new Core_Model_Session($sessionType);
 
+            // Search if the customer was already logged-in, but the session table was cleared!
+            if ($request->isApplication()) {
+                $customer = (new Customer_Model_Customer())->find($sbToken, 'session_uuid');
+                if ($customer && $customer->getId()) {
+                    $session->setCustomer($customer);
+                }
+            }
+
             Core_Model_Language::setSession($session);
             Core_View_Default::setSession($session, $sessionType);
             Core_Model_Default::setSession($session, $sessionType);
             self::setSession($session, $sessionType);
         }
+    }
+
+    /**
+     * @param $request
+     */
+    public function skipSession ($request)
+    {
+        dbg('session for ' . $_SERVER['REQUEST_URI']);
+        if (isset($_SERVER['HTTP_AUTHORIZATION']) &&
+            !empty($_SERVER['HTTP_AUTHORIZATION'])) {
+            dbg(' > skipping session for ' . $_SERVER['REQUEST_URI']);
+            return true;
+        }
+
+        return false;
     }
 
     /**

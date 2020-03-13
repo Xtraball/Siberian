@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\UUID;
+
 /**
  * Class Customer_Model_Customer
  *
@@ -433,6 +435,20 @@ class Customer_Model_Customer extends Core_Model_Default
             }
             $this->getTable()->insertMetadatas($this->getId(), $datas);
         }
+    }
+
+    /**
+     * Generating a fresh session UUID
+     *
+     * @return string
+     */
+    public function refreshSessionUuid (): string
+    {
+        $newUuid = UUID::v4();
+
+        $this->setSessionUuid($newUuid)->save();
+
+        return $newUuid;
     }
 
     /**
