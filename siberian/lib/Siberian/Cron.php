@@ -535,7 +535,12 @@ class Cron
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
                                     $r = dns_get_record($hostname, DNS_CNAME);
-                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]['target']) && ($r[0][''] === $cert->getHostname()));
+                                    $isCname = (
+                                        !empty($r) &&
+                                        isset($r[0]) &&
+                                        isset($r[0]['target']) &&
+                                        ($r[0]['target'] === $cert->getHostname())
+                                    );
                                     $isSelf = ($hostname === $cert->getHostname());
 
                                     // If domain is valid!
