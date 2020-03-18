@@ -3,9 +3,12 @@
  *
  * This controller handles the login modal.
  *
+ * @version 4.18.12
  * @author Xtraball SAS
  */
-angular.module("starter").controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
+angular
+    .module("starter")
+    .controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, FacebookConnect,
                                               HomepageLayout) {
@@ -307,6 +310,24 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
             });
     };
 
+    $scope.ppModal = null;
+    $scope.showPrivacyPolicy = function () {
+        Modal
+            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+                scope: angular.extend($scope.$new(true), {
+                    close: function () {
+                        $scope.ppModal.hide();
+                    }
+                }),
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    $scope.ppModal = modal;
+                    $scope.ppModal.show();
+
+                    return modal;
+                });
+    };
+
     $scope.displayLoginForm = function () {
         $scope.scrollTop();
         $scope.display_forgot_password_form = false;
@@ -338,15 +359,6 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         $scope.display_forgot_password_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_account_form = true;
-    };
-
-    $scope.displayPrivacyPolicy = function (from) {
-        $scope.scrollTop();
-        $scope.displayed_from = from || '';
-        $scope.display_login_form = false;
-        $scope.display_forgot_password_form = false;
-        $scope.display_account_form = false;
-        $scope.display_privacy_policy = true;
     };
 
     $scope.scrollTop = function () {

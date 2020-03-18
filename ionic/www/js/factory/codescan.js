@@ -18,8 +18,7 @@ angular
             'smsto:',
             'mailto:',
             'ctc:'
-        ],
-        is_protocol_found: false
+        ]
     };
 
     factory.checkCascade = function (qrCode, next) {
@@ -104,7 +103,6 @@ angular
                 PadlockFactory
                     .unlockByQRCode(payload.qr_code)
                     .then(function (unlockPayload) {
-                        factory.codeMatch = true;
 
                         PadlockFactory.unlocked_by_qrcode = true;
                         $window.localStorage.setItem('sb-uc', payload.qr_code);
@@ -203,8 +201,6 @@ angular
                     } else {
                         var text = scannedData.text;
                         var qrCode = text.replace('sendback:', '');
-
-                        factory.codeMatch = false;
 
                         // Check discount, then padlock, then clipboard
                         factory.checkCascade(qrCode, [factory.checkDiscount, factory.checkPadlock, factory.copyToClipboard]);

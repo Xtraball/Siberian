@@ -511,8 +511,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $state.go('padlock-view');
                             } else if (Customer.can_access_locked_features && (toState.name === 'padlock-view')) {
                                 event.preventDefault();
-                            } else if ((toState.name === 'codescan') && $rootScope.isNotAvailableInOverview()) {
-                                event.preventDefault();
                             }
                         });
 

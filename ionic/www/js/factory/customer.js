@@ -130,7 +130,7 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
             });
         });
 
-        var layout = 'templates/customer/account/l1/login.html';
+        var layout = 'templates/customer/account/l1/my-account.html';
 
         // @todo for 4.16+
         //var layout = 'templates/customer/account/l2/customer.html';

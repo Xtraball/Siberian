@@ -1,7 +1,10 @@
 /**
- * @version 4.15.7
+ * @version 4.18.12
+ * @author Xtraball SAS <dev@xtraball.com>
  */
-angular.module('starter').provider('HomepageLayout', function () {
+angular
+    .module('starter')
+    .provider('HomepageLayout', function () {
     var self = this;
 
     self.layout_ids = {};
@@ -19,7 +22,8 @@ angular.module('starter').provider('HomepageLayout', function () {
                     return page.layout_id * 1;
                 }
 
-                if (currentPage.code === "folder_v2" && currentPage.embed_payload) {
+                if (currentPage.code === 'folder_v2' &&
+                    currentPage.embed_payload) {
                     currentPage.embed_payload.collection.forEach(function (subPage) {
                         if (subPage.value_id == valueId) {
                             layoutId = subPage.layout_id;

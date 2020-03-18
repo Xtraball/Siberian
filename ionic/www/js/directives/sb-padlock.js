@@ -8,8 +8,8 @@ angular
     .module('starter')
     .directive('sbPadlock', function () {
         return {
-            restrict: "A",
-            controller: function ($cordovaBarcodeScanner, $ionicHistory, Modal, $rootScope, $scope, $state, $stateParams,
+            restrict: 'A',
+            controller: function ($ionicHistory, Modal, $rootScope, $scope, $state, $stateParams,
                                   $timeout, $translate, $window, Application, Customer, Dialog, Padlock, SB, Codescan) {
 
 
@@ -44,7 +44,7 @@ angular
 
                         if (Application.is_locked) {
                             $ionicHistory.clearHistory();
-                            $state.go("home");
+                            $state.go('home');
                         } else {
                             $ionicHistory.goBack();
                         }
