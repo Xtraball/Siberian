@@ -21,42 +21,42 @@
 
         <div class="item item-input item-custom">
             <div class="input-label">
-                {{ "Firstname" | translate }}
+                {{ ::'Firstname' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="text"
-                   placeholder="{{ 'Firstname' | translate }}"
+                   placeholder="{{ ::'Firstname' | translate:'customer' }}"
                    ng-model="customer.firstname" />
         </div>
 
         <label class="item item-input item-custom">
             <div class="input-label">
-                {{ "Lastname" | translate }}
+                {{ ::'Lastname' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="text"
-                   placeholder="{{ 'Lastname' | translate }}"
+                   placeholder="{{ ::'Lastname' | translate:'customer' }}"
                    ng-model="customer.lastname" />
         </label>
 
         <label class="item item-input item-custom"
                ng-if="optional_fields.nickname">
             <div class="input-label">
-                {{ "Nickname" | translate }}
+                {{ ::'Nickname' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="text"
-                   placeholder="{{ 'Nickname' | translate }}"
+                   placeholder="{{ ::'Nickname' | translate:'customer' }}"
                    ng-model="customer.nickname" />
         </label>
 
         <label class="item item-input item-custom">
             <div class="input-label">
-                {{ "Email" | translate }}
+                {{ ::'Email' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="email"
-                   placeholder="{{ 'Email' | translate }}"
+                   placeholder="{{ ::'Email' | translate:'customer' }}"
                    ng-model="customer.email" />
         </label>
 
@@ -64,28 +64,29 @@
                style="font-size: 14px;"
                ng-click="customer.change_password = !customer.change_password"
                ng-if="is_logged_in">
-            {{ 'Change Password' | translate }}
+            {{ ::'Change password' | translate:'customer' }}
         </label>
 
         <label class="item item-input item-custom"
                ng-if="customer.change_password && is_logged_in">
             <div class="input-label">
-                {{ "Old Password" | translate }}
+                {{ ::'Actual password' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="password"
-                   placeholder="{{ 'Old Password' | translate }}"
+                   placeholder="{{ 'Actual password' | translate:'customer' }}"
                    ng-disabled="!customer.change_password"
                    ng-model="customer.old_password" />
         </label>
         <label class="item item-input item-custom"
                ng-if="customer.change_password || !is_logged_in">
             <div class="input-label">
-                {{ "Password" | translate }}
+                <span ng-show="!customer.change_password">{{ ::'Password' | translate:'customer' }}</span>
+                <span ng-show="customer.change_password">{{ ::'New password' | translate:'customer' }}</span>
             </div>
             <input class="text-right"
                    type="password"
-                   placeholder="{{ 'Password' | translate }}"
+                   placeholder="{{ ::'Password' | translate }}"
                    ng-model="customer.password"
                    ng-disabled="!customer.change_password && is_logged_in" />
         </label>
@@ -93,20 +94,20 @@
         <ion-checkbox class="checkbox-custom"
                       ng-model="customer.show_in_social_gaming"
                       ng-if="optional_fields.ranking">
-            {{ "Show me in ranking" | translate }}
+            {{ ::'Show me in ranking' | translate:'customer' }}
         </ion-checkbox>
 
         <div class="item item-custom item-icon-left"
-             ng-click="displayPrivacyPolicy('account')"
+             ng-click="showPrivacyPolicy()"
              ng-if="!is_logged_in">
             <i class="icon ion-navicon"></i>
-            {{ "Privacy Policy" | translate }}
+            {{ ::'Privacy policy' | translate:'customer' }}
         </div>
 
         <ion-checkbox class="checkbox-custom item-custom"
                       ng-model="customer.privacy_policy"
                       ng-if="!is_logged_in">
-            {{ "I accept the privacy policy" | translate }}
+            {{ ::'I have read & accept the privacy policy' | translate:'customer' }}
         </ion-checkbox>
 
         <section ng-repeat="cfo in custom_fields track by cf.code">
@@ -139,27 +140,28 @@
          ng-if="is_logged_in"
          ng-class="{'padding': card_design}">
         <div class="item item-divider item-divider-custom">
-            <p>{{ "Privacy" | translate }}</p>
+            <p>{{ ::'Privacy' | translate:'customer' }}</p>
         </div>
         <div class="item item-custom item-icon-left"
              ng-click="showPrivacyPolicy()"
              ng-if="is_logged_in">
             <i class="icon ion-navicon"></i>
-            {{ ::'Privacy policy' | translate }}
+            {{ ::'Privacy policy' | translate:'customer' }}
         </div>
         <label class="button button-calm button-calm-custom"
                style="margin: 0;"
                ng-click="requestToken();"
                ng-class="{'button-block': card_design, 'button-full': !card_design}"
                ng-if="is_logged_in && gdpr.isEnabled">
-            <i class="ion-android-download"></i> {{ ::'Access my personal data' | translate }}</label>
+            <i class="ion-android-download"></i> {{ ::'Request access to my personal data' | translate:'customer' }}</label>
     </div>
 
     <div ng-class="{'padding': card_design}">
         <button type="submit"
                 class="button button-light button-light-custom item-icon-left"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
-                ng-show="!is_loading">{{ ::'Send' | translate }}</button>
+                ng-show="!is_loading">{{ ::'Save' | translate:'customer' }}</button>
+
     </div>
 
     <div class="list"
@@ -168,7 +170,7 @@
              ng-click="displayLoginForm()"
              ng-if="!is_logged_in">
             <i class="icon ion-ios-person"></i>
-            {{ ::'Click here to log-in' | translate }}
+            {{ ::'Log in' | translate:'customer' }}
         </div>
     </div>
 
@@ -176,7 +178,7 @@
              ng-if="customer.metadatas.fidelity_points"
              ng-show="customer.metadatas.fidelity_points.points > 0">
         <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Your points' | translate }}</strong>
+            <i class="ion-ios-information-outline"></i><strong> {{ ::'Your loyalty points' | translate:'customer' }}</strong>
         </label>
 
         <div class="item item-custom">
@@ -189,7 +191,7 @@
              ng-if="show_avatar"
              ng-show="customer.stripe">
         <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Stored card information.' | translate }}</strong>
+            <i class="ion-ios-information-outline"></i><strong> {{ ::'Stored card information' | translate:'customer' }}</strong>
         </label>
 
         <!-- SHOW CARD -->
@@ -202,12 +204,12 @@
         <button ng-show="customer.stripe.brand"
                 type="button"
                 class="button button-block button-custom activated"
-                ng-click="unloadcard()">{{ ::'Remove card' | translate }}</button>
+                ng-click="unloadcard()">{{ ::'Remove card' | translate:'customer' }}</button>
 
         <!-- ADD CARD -->
         <label ng-show="!customer.stripe.brand"
                class="item item-text-wrap item-custom">
-            {{ ::'You have no card stored. To add a card make an order.' | translate }}
+            {{ ::'You have no card stored. To add a card make an order.' | translate:'customer' }}
         </label>
     </section>
 

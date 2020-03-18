@@ -35,7 +35,7 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
             $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
         }
 
-        factory.saveCredentials(customer.token);
+        factory.saveCredentials(customer.uuid);
     };
 
     /**
@@ -130,7 +130,7 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
             });
         });
 
-        var layout = 'templates/customer/account/l1/login.html';
+        var layout = 'templates/customer/account/l1/my-account.html';
 
         // @todo for 4.16+
         //var layout = 'templates/customer/account/l2/customer.html';
@@ -424,8 +424,8 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
         return promise;
     };
 
-    factory.saveCredentials = function (token) {
-        $session.setId(token);
+    factory.saveCredentials = function (uuid) {
+        $session.setId(uuid);
     };
 
     factory.clearCredentials = function () {

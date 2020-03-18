@@ -13,26 +13,26 @@
              ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
             <i class="icon ion-social-facebook-outline"></i>
-            {{ ::'Log-in with Facebook' | translate }}
+            {{ ::'Log in with Facebook' | translate:'customer' }}
         </div>
 
         <div class="item item-divider item-divider-custom text-center"
              ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
-            <p>{{ ::'Or with your account' | translate }}</p>
+            <p>{{ ::'Or with your account' | translate:'customer' }}</p>
         </div>
 
         <label class="item item-input item-custom">
             <i class="icon ion-ios-person"></i>
             <input type="email"
-                   placeholder="{{ ::'Email' | translate }}"
+                   placeholder="{{ ::'Email' | translate:'customer' }}"
                    ng-model="customer.email" />
         </label>
 
         <label class="item item-input item-custom">
             <i class="icon ion-locked"></i>
             <input type="password"
-                   placeholder="{{ ::'Password' | translate }}"
+                   placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password" />
         </label>
     </div>
@@ -41,7 +41,7 @@
         <button type="submit"
                 class="button button-positive button-positive-custom"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
-                ng-show="!is_loading">{{ ::'Log-in' | translate }}</button>
+                ng-show="!is_loading">{{ ::'Log in' | translate:'customer' }}</button>
 
     </div>
 
@@ -51,19 +51,19 @@
         <div class="item item-custom item-icon-left"
              ng-click="displayForgotPasswordForm()">
             <i class="icon ion-ios-help-empty"></i>
-            {{ ::'Forgot your password?' | translate }}
+            {{ ::'Forgot your password?' | translate:'customer' }}
         </div>
         <div class="item item-custom item-icon-left"
              ng-if="myAccount.settings.enable_registration"
              ng-click="displayAccountForm()">
             <i class="icon ion-ios-plus-empty"></i>
-            {{ ::'Create an account' | translate }}
+            {{ ::'Create an account' | translate:'customer' }}
         </div>
 
         <div class="item item-custom item-icon-left"
              ng-click="showPrivacyPolicy()">
             <i class="icon ion-navicon"></i>
-            {{ ::'Privacy policy' | translate }}
+            {{ ::'Privacy policy' | translate:'customer' }}
         </div>
     </div>
 

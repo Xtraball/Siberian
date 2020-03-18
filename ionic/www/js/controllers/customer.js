@@ -11,7 +11,7 @@ angular
     .controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
                                               $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                               $translate, Application, Customer, Dialog, FacebookConnect,
-                                              HomepageLayout) {
+                                              HomepageLayout, Modal) {
     angular.extend($scope, {
         customer: Customer.customer,
         card: {},
@@ -314,7 +314,7 @@ angular
     $scope.showPrivacyPolicy = function () {
         Modal
             .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
-                scope: angular.extend($scope.$new(true), {
+                scope: angular.extend($scope, {
                     close: function () {
                         $scope.ppModal.hide();
                     }

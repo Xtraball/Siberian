@@ -100,6 +100,10 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
                 $currentCustomer = $this->_getCustomer();
 
+                $customer
+                    ->setSessionUuid(Zend_Session::getId())
+                    ->save();
+
                 $payload = [
                     "success" => true,
                     "customer_id" => $customer->getId(),
@@ -269,6 +273,10 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 // Log-in the customer
                 $this->getSession()->setCustomer($customer);
 
+                $customer
+                    ->setSessionUuid(Zend_Session::getId())
+                    ->save();
+
                 $currentCustomer = $this->_getCustomer();
 
                 $html = [
@@ -313,7 +321,10 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
     public function logoutAction()
     {
         $application = $this->getApplication();
+        $appId = $application->getId();
         $request = $this->getRequest();
+        $session = $this->getSession();
+        $customerId = $session->getCustomerId();
 
         \Siberian\Hook::trigger('mobile.logout', [
             'appId' => $application->getId(),
@@ -322,31 +333,39 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
         /** Unlink from individual push */
         if (Push_Model_Message::hasIndividualPush()) {
-            $customer_id = $this->getSession()->getCustomerId();
 
-            $model_ios = new Push_Model_Iphone_Device();
-            $device_ios = $model_ios->findAll([
-                "customer_id = ?" => $customer_id,
-                "app_id = ?" => $this->getApplication()->getId(),
+            $deviceIos = (new Push_Model_Iphone_Device())->findAll([
+                "customer_id = ?" => $customerId,
+                "app_id = ?" => $appId,
             ]);
 
-            foreach ($device_ios as $ios) {
-                $ios->setCustomerId(null)->save();
+            foreach ($deviceIos as $ios) {
+                $ios
+                    ->setCustomerId(null)
+                    ->save();
             }
 
-            $model_android = new Push_Model_Android_Device();
-            $device_android = $model_android->findAll([
-                "customer_id = ?" => $customer_id,
-                "app_id = ?" => $this->getApplication()->getId(),
+            $deviceAndroid = (new Push_Model_Android_Device())>findAll([
+                "customer_id = ?" => $customerId,
+                "app_id = ?" => $appId,
             ]);
 
-            foreach ($device_android as $android) {
-                $android->setCustomerId(null)->save();
+            foreach ($deviceAndroid as $android) {
+                $android
+                    ->setCustomerId(null)
+                    ->save();
             }
-
         }
 
-        $this->getSession()->resetInstance();
+        // Remove sessiion_uuid from customer
+        $customer = (new Customer_Model_Customer())->find($customerId);
+        $customer
+            ->setSessionUuid(null)
+            ->save();
+
+        $session->resetInstance();
+
+        Zend_Session::destroy();
 
         $html = ['success' => 1];
 

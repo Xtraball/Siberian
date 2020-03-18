@@ -268,7 +268,7 @@ class Zend_Session_SaveHandler_DbTable
             if (array_key_exists('object_id', $rawData)) {
                 $customerId = $rawData['object_id'];
 
-                //// Also update customer table!
+                // Also update customer table!
                 $updateQuery = "
                 UPDATE customer
                 SET session_uuid = ':id'

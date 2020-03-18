@@ -60,8 +60,10 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     throw new Exception(__('Please enter a password'));
                 }
 
-                $customer->setData($data)
+                $customer
+                    ->setData($data)
                     ->setAppId($this->getApplication()->getId())
+                    ->setSessionUuid(Zend_Session::getId())
                     ->setPassword($data['password'])
                     ->save();
 
