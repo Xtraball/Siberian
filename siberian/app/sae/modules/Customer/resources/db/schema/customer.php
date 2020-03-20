@@ -75,6 +75,14 @@ $schemas['customer'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'privacy_policy' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
+    ],
+    'communication_agreement' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'session_uuid' => [
         'type' => 'varchar(255)',
         'is_null' => true,

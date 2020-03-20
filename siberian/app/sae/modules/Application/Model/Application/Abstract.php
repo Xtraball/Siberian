@@ -1158,8 +1158,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                     ->setIsvisible(1)
                     ->setIconId($option->getDefaultIconId())
                     ->setSettings(Json::encode([
-                        "enable_facebook_login" => true,
-                        "enable_registration" => true,
+                        'enable_facebook_login' => true,
+                        'enable_registration' => true,
+                        'enable_commercial_agreement' => true,
+                        'enable_commercial_agreement_label' => ''
                     ]))
                     ->save();
 

@@ -60,6 +60,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     throw new Exception(__('Please enter a password'));
                 }
 
+                $data['communication_agreement'] = filter_var($data['communication_agreement'], FILTER_VALIDATE_BOOLEAN);
+
                 $customer
                     ->setData($data)
                     ->setAppId($this->getApplication()->getId())

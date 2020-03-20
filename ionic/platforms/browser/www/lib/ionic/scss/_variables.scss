@@ -23,9 +23,9 @@ $font-family-serif:               serif !default;
 $font-family-monospace:           monospace !default;
 
 $font-family-base:                $font-family-sans-serif !default;
-$font-size-base:                  14px !default;
-$font-size-large:                 18px !default;
-$font-size-small:                 11px !default;
+$font-size-base:                  13px !default;
+$font-size-large:                 16px !default;
+$font-size-small:                 10px !default;
 
 $line-height-base:                1.428571429 !default; // 20/14
 $line-height-computed:            floor($font-size-base * $line-height-base) !default; // ~20px
@@ -44,14 +44,14 @@ $link-hover-color:                darken($link-color, 15%) !default;
 
 $content-padding:                 10px !default;
 
-$padding-base-vertical:           6px !default;
-$padding-base-horizontal:         12px !default;
+$padding-base-vertical:           5px !default;
+$padding-base-horizontal:         10px !default;
 
-$padding-large-vertical:          10px !default;
-$padding-large-horizontal:        16px !default;
+$padding-large-vertical:          8px !default;
+$padding-large-horizontal:        14px !default;
 
-$padding-small-vertical:          5px !default;
-$padding-small-horizontal:        10px !default;
+$padding-small-vertical:          4px !default;
+$padding-small-horizontal:        8px !default;
 
 $border-radius-base:              4px !default;
 $border-radius-large:             6px !default;
@@ -73,22 +73,22 @@ $button-clear-padding:            6px !default;
 $button-border-radius:            4px !default;
 $button-border-width:             1px !default;
 
-$button-font-size:                16px !default;
+$button-font-size:                14px !default;
 $button-height:                   42px !default;
 $button-padding:                  12px !default;
 $button-icon-size:                24px !default;
 
-$button-large-font-size:          20px !default;
+$button-large-font-size:          18px !default;
 $button-large-height:             54px !default;
 $button-large-padding:            16px !default;
 $button-large-icon-size:          32px !default;
 
-$button-small-font-size:          12px !default;
+$button-small-font-size:          11px !default;
 $button-small-height:             28px !default;
 $button-small-padding:            4px !default;
 $button-small-icon-size:          16px !default;
 
-$button-bar-button-font-size:     13px !default;
+$button-bar-button-font-size:     12px !default;
 $button-bar-button-height:        32px !default;
 $button-bar-button-padding:       8px !default;
 $button-bar-button-icon-size:     20px !default;
@@ -292,17 +292,17 @@ $tabs-striped-border-width:       2px !default;
 // Items
 // -------------------------------
 
-$item-font-size:                  16px !default;
+$item-font-size:                  14px !default;
 $item-border-width:               1px !default;
-$item-padding:                    16px !default;
+$item-padding:                    14px !default;
 
-$item-button-font-size:           18px !default;
-$item-button-line-height:         32px !default;
-$item-icon-font-size:             32px !default;
-$item-icon-fill-font-size:        28px !default;
+$item-button-font-size:           16px !default;
+$item-button-line-height:         28px !default;
+$item-icon-font-size:             28px !default;
+$item-icon-fill-font-size:        24px !default;
 
 $item-icon-accessory-color:       #ccc !default;
-$item-icon-accessory-font-size:   16px !default;
+$item-icon-accessory-font-size:   14px !default;
 
 $item-avatar-width:               40px !default;
 $item-avatar-height:              40px !default;
@@ -392,10 +392,10 @@ $item-left-edit-left:             8px !default;  // item's left side edit's "lef
 $item-right-edit-open-width:      50px !default;
 $item-left-edit-open-width:       50px !default;
 
-$item-delete-icon-size:           24px !default;
+$item-delete-icon-size:           20px !default;
 $item-delete-icon-color:          $assertive !default;
 
-$item-reorder-icon-size:          32px !default;
+$item-reorder-icon-size:          28px !default;
 $item-reorder-icon-color:         $dark !default;
 
 
@@ -495,8 +495,8 @@ $toggle-hit-area-expansion:   5px;
 // Checkbox
 // -------------------------------
 
-$checkbox-width:                  28px !default;
-$checkbox-height:                 28px !default;
+$checkbox-width:                  24px !default;
+$checkbox-height:                 24px !default;
 $checkbox-border-radius:          $checkbox-width !default;
 $checkbox-border-width:           1px !default;
 
@@ -531,10 +531,10 @@ $checkbox-check-color:            #fff !default;
 // -------------------------------
 
 $range-track-height:              2px !default;
-$range-slider-width:              28px !default;
-$range-slider-height:             28px !default;
+$range-slider-width:              24px !default;
+$range-slider-height:             24px !default;
 $range-slider-border-radius:      50% !default;
-$range-icon-size:                 24px !default;
+$range-icon-size:                 20px !default;
 $range-slider-box-shadow:         0 0 2px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,0.2) !default;
 
 $range-light-track-bg:            $button-light-border !default;
@@ -648,8 +648,8 @@ $loading-backdrop-bg-color:       rgba(0,0,0,0.4) !default;
 // Badges
 // -------------------------------
 
-$badge-font-size:                 14px !default;
-$badge-line-height:               16px !default;
+$badge-font-size:                 12px !default;
+$badge-line-height:               14px !default;
 $badge-font-weight:               bold !default;
 $badge-border-radius:             10px !default;
 

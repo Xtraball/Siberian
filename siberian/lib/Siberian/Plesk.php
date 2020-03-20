@@ -43,7 +43,7 @@ class Siberian_Plesk
         $this->config['host'] = $plesk_api->getHost();
         $this->config['username'] = $plesk_api->getUser();
         $this->config['password'] = $plesk_api->getPassword();
-        $this->config['webspace'] = $plesk_api->getWebspace() . 'x';
+        $this->config['webspace'] = $plesk_api->getWebspace();
         $this->config['name'] = $plesk_api->getWebspace();
     }
 

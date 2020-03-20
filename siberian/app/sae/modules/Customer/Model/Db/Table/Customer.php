@@ -91,6 +91,8 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
                     'firstname',
                     'lastname',
                     'nickname',
+                    'privacy_policy',
+                    'communication_agreement',
                     'is_active',
                     'created_at',
                 ]

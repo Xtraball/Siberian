@@ -1,11 +1,13 @@
 /**
  * Customer
  *
- * @author Xtraball SAS
- * @version 4.16.10
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.12
  */
-angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope, $session, $timeout,
-                                                        $injector, Application, Loader, Modal, Dialog, Url, SB) {
+angular
+    .module('starter')
+    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, Application, Loader,
+                                   Modal, Dialog, Url, SB) {
     var factory = {
         events: [],
         customer: null,

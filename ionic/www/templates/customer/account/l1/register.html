@@ -86,7 +86,7 @@
             </div>
             <input class="text-right"
                    type="password"
-                   placeholder="{{ ::'Password' | translate }}"
+                   placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password"
                    ng-disabled="!customer.change_password && is_logged_in" />
         </label>
@@ -97,17 +97,15 @@
             {{ ::'Show me in ranking' | translate:'customer' }}
         </ion-checkbox>
 
-        <div class="item item-custom item-icon-left"
-             ng-click="showPrivacyPolicy()"
-             ng-if="!is_logged_in">
-            <i class="icon ion-navicon"></i>
-            {{ ::'Privacy policy' | translate:'customer' }}
-        </div>
+        <sb-clickwrap field="privacyPolicyField"
+                      ng-if="!is_logged_in"
+                      model="customer.privacy_policy"
+                      card-design="card_design"></sb-clickwrap>
 
-        <ion-checkbox class="checkbox-custom item-custom"
-                      ng-model="customer.privacy_policy"
-                      ng-if="!is_logged_in">
-            {{ ::'I have read & accept the privacy policy' | translate:'customer' }}
+        <ion-checkbox class="checkbox-custom"
+                      ng-model="customer.communication_agreement"
+                      ng-if="myAccount.settings.enable_commercial_agreement">
+            {{ ::myAccount.settings.enable_commercial_agreement_label | translate:'customer' }}
         </ion-checkbox>
 
         <section ng-repeat="cfo in custom_fields track by cf.code">

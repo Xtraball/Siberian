@@ -698,6 +698,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (boolean) $customer->getIsCustomImage(),
                 'metadatas' => $metadata,
+                'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
                 'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean) ($customerId && $customer->canAccessLockedFeatures()),
