@@ -35,6 +35,11 @@
                    placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password" />
         </label>
+
+        <div class="padding text-right"
+             ng-click="displayForgotPasswordForm()">
+            <span class="bold positive positive-custom">{{ ::'Forgot your password?' | translate:'customer' }}</span>
+        </div>
     </div>
 
     <div ng-class="{'padding': card_design}">
@@ -48,22 +53,10 @@
     <div class="list"
          ng-class="{'card': card_design}">
 
-        <div class="item item-custom item-icon-left"
-             ng-click="displayForgotPasswordForm()">
-            <i class="icon ion-ios-help-empty"></i>
-            {{ ::'Forgot your password?' | translate:'customer' }}
-        </div>
-        <div class="item item-custom item-icon-left"
+        <div class="padding text-center"
              ng-if="myAccount.settings.enable_registration"
              ng-click="displayAccountForm()">
-            <i class="icon ion-ios-plus-empty"></i>
-            {{ ::'Create an account' | translate:'customer' }}
-        </div>
-
-        <div class="item item-custom item-icon-left"
-             ng-click="showPrivacyPolicy()">
-            <i class="icon ion-navicon"></i>
-            {{ ::'Privacy policy' | translate:'customer' }}
+            {{ ::"Don't have an account yet?" | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'Create an account' | translate:'customer' }}!</span>
         </div>
     </div>
 

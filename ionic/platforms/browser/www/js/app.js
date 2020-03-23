@@ -104,7 +104,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     var sessionId = $session.getId();
                     if ((sessionId !== false) && (config.url.indexOf('.html') === -1)) {
                         if ((config.url.indexOf(DOMAIN) > -1) && (config.noSbToken !== true)) {
-                            config.headers['XSB_AUTH'] = sessionId;
+                            config.headers['XSB-AUTH'] = sessionId;
                         }
                     }
                     return config;
@@ -242,7 +242,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $translate.translations = data.translationBlock;
 
                         if (!$session.getId()) {
-                            $session.setId(data.loadBlock.customer.uuid);
+                            $session.setId(data.loadBlock.customer.token);
                         }
 
                         // Populate main objects!

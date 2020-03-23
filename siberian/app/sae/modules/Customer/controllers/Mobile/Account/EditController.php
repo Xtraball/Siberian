@@ -165,7 +165,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                     if (empty($data['old_password']) ||
                         (!empty($data['old_password']) &&
                             !$customer->isSamePassword($data['old_password']))) {
-                        throw new Exception(__('The old password does not match the entered password.'));
+                        throw new Exception(p__('customer', 'The actual password is incorrect.'));
                     }
 
                     $password = $data['password'];

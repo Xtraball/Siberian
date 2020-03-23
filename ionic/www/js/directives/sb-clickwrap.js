@@ -22,12 +22,11 @@ angular
                 scope.modal = null;
 
                 scope.htmlContent = scope.field.htmlContent;
-                scope.defaultTitle = scope.field.label;
 
                 // Default modal title or custom!
-                scope.modalTitle = scope.defaultTitle;
                 if (scope.field.modaltitle.length > 0) {
-                    scope.modalTitle = scope.field.modaltitle;
+                    scope.modalTitle = (scope.field.modaltitle.length > 0) ?
+                        scope.field.modaltitle : scope.field.label;
                 }
             },
             controller: function($scope, Modal) {

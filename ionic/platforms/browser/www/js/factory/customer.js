@@ -37,7 +37,7 @@ angular
             $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
         }
 
-        factory.saveCredentials(customer.uuid);
+        factory.saveCredentials(customer.token);
     };
 
     /**

@@ -56,7 +56,9 @@ angular
                 scope: angular.extend($scope, {
                     close: function () {
                         $scope.ppModal.hide();
-                    }
+                    },
+                    is_loading: false,
+                    page_title: $scope.privacyPolicyField.modaltitle
                 }),
                 animation: 'slide-in-up'
             }).then(function (modal) {
@@ -65,6 +67,14 @@ angular
 
                 return modal;
             });
+    };
+
+    $scope.closeAction = function () {
+        if ($scope.display_forgot_password_form === true) {
+            $scope.displayLoginForm();
+        } else {
+            $scope._pcustomer_close();
+        }
     };
 
     // Alias for the global login modal!

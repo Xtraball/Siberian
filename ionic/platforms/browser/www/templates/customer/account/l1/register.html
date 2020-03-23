@@ -91,21 +91,21 @@
                    ng-disabled="!customer.change_password && is_logged_in" />
         </label>
 
-        <ion-checkbox class="checkbox-custom"
-                      ng-model="customer.show_in_social_gaming"
-                      ng-if="optional_fields.ranking">
-            {{ ::'Show me in ranking' | translate:'customer' }}
-        </ion-checkbox>
-
         <sb-clickwrap field="privacyPolicyField"
                       ng-if="!is_logged_in"
                       model="customer.privacy_policy"
                       card-design="card_design"></sb-clickwrap>
 
-        <ion-checkbox class="checkbox-custom"
+        <ion-checkbox class="checkbox-custom item-custom"
                       ng-model="customer.communication_agreement"
                       ng-if="myAccount.settings.enable_commercial_agreement">
             {{ ::myAccount.settings.enable_commercial_agreement_label | translate:'customer' }}
+        </ion-checkbox>
+
+        <ion-checkbox class="checkbox-custom item-custom"
+                      ng-model="customer.show_in_social_gaming"
+                      ng-if="optional_fields.ranking">
+            {{ ::'Show me in ranking' | translate:'customer' }}
         </ion-checkbox>
 
         <section ng-repeat="cfo in custom_fields track by cf.code">
@@ -132,43 +132,38 @@
                  ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
         </section>
 
+        <div class="padding text-right"
+             ng-click="showPrivacyPolicy()"
+             ng-if="is_logged_in">
+            {{ ::'Read the' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'privacy policy' | translate:'customer' }}!</span>
+        </div>
+
+    </div>
+
+    <div ng-class="{'padding': card_design}">
+        <button type="submit"
+                class="button button-positive button-positive-custom"
+                ng-class="{'button-block': card_design, 'button-full': !card_design}"
+                ng-show="!is_loading">{{ ::'Save' | translate:'customer' }}</button>
     </div>
 
     <div class="list"
          ng-if="is_logged_in"
          ng-class="{'padding': card_design}">
-        <div class="item item-divider item-divider-custom">
-            <p>{{ ::'Privacy' | translate:'customer' }}</p>
-        </div>
-        <div class="item item-custom item-icon-left"
-             ng-click="showPrivacyPolicy()"
-             ng-if="is_logged_in">
-            <i class="icon ion-navicon"></i>
-            {{ ::'Privacy policy' | translate:'customer' }}
-        </div>
-        <label class="button button-calm button-calm-custom"
-               style="margin: 0;"
-               ng-click="requestToken();"
-               ng-class="{'button-block': card_design, 'button-full': !card_design}"
-               ng-if="is_logged_in && gdpr.isEnabled">
-            <i class="ion-android-download"></i> {{ ::'Request access to my personal data' | translate:'customer' }}</label>
-    </div>
 
-    <div ng-class="{'padding': card_design}">
-        <button type="submit"
-                class="button button-light button-light-custom item-icon-left"
-                ng-class="{'button-block': card_design, 'button-full': !card_design}"
-                ng-show="!is_loading">{{ ::'Save' | translate:'customer' }}</button>
-
+        <div class="padding text-center"
+             ng-click="requestToken();"
+             ng-if="is_logged_in && gdpr.isEnabled">
+            {{ ::'Request access to my' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'personal data' | translate:'customer' }}!</span>
+        </div>
     </div>
 
     <div class="list"
          ng-class="{'card': card_design}">
-        <div class="item item-custom item-icon-left"
+        <div class="padding text-center"
              ng-click="displayLoginForm()"
              ng-if="!is_logged_in">
-            <i class="icon ion-ios-person"></i>
-            {{ ::'Log in' | translate:'customer' }}
+            {{ ::'Already have an account?' | translate:'customer' }} <span class="bold positive positive-custom">{{ ::'Log in' | translate:'customer' }}!</span>
         </div>
     </div>
 

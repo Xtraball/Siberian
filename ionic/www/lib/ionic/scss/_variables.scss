@@ -23,9 +23,9 @@ $font-family-serif:               serif !default;
 $font-family-monospace:           monospace !default;
 
 $font-family-base:                $font-family-sans-serif !default;
-$font-size-base:                  13px !default;
-$font-size-large:                 16px !default;
-$font-size-small:                 10px !default;
+$font-size-base:                  12px !default;
+$font-size-large:                 14px !default;
+$font-size-small:                 9px !default;
 
 $line-height-base:                1.428571429 !default; // 20/14
 $line-height-computed:            floor($font-size-base * $line-height-base) !default; // ~20px
@@ -73,17 +73,17 @@ $button-clear-padding:            6px !default;
 $button-border-radius:            4px !default;
 $button-border-width:             1px !default;
 
-$button-font-size:                14px !default;
+$button-font-size:                12px !default;
 $button-height:                   42px !default;
 $button-padding:                  12px !default;
 $button-icon-size:                24px !default;
 
-$button-large-font-size:          18px !default;
+$button-large-font-size:          15px !default;
 $button-large-height:             54px !default;
 $button-large-padding:            16px !default;
 $button-large-icon-size:          32px !default;
 
-$button-small-font-size:          11px !default;
+$button-small-font-size:          9px !default;
 $button-small-height:             28px !default;
 $button-small-padding:            4px !default;
 $button-small-icon-size:          16px !default;
@@ -161,7 +161,7 @@ $button-default-active-border:    $button-stable-active-border !default;
 // -------------------------------
 
 $bar-height:                      44px !default;
-$bar-title-font-size:             17px !default;
+$bar-title-font-size:             15px !default;
 $bar-padding-portrait:            5px !default;
 $bar-padding-landscape:           5px !default;
 $bar-transparency:                1 !default;
@@ -235,7 +235,7 @@ $bar-default-active-border:       $bar-light-active-border !default;
 // -------------------------------
 
 $tabs-height:                     49px !default;
-$tabs-text-font-size:             14px !default;
+$tabs-text-font-size:             12px !default;
 $tabs-text-font-size-side-icon:   10px !default;
 $tabs-icon-size:                  32px !default;
 $tabs-badge-padding:              1px 6px !default;
@@ -292,17 +292,17 @@ $tabs-striped-border-width:       2px !default;
 // Items
 // -------------------------------
 
-$item-font-size:                  14px !default;
+$item-font-size:                  12px !default;
 $item-border-width:               1px !default;
-$item-padding:                    14px !default;
+$item-padding:                    12px !default;
 
-$item-button-font-size:           16px !default;
-$item-button-line-height:         28px !default;
-$item-icon-font-size:             28px !default;
+$item-button-font-size:           12px !default;
+$item-button-line-height:         24px !default;
+$item-icon-font-size:             24px !default;
 $item-icon-fill-font-size:        24px !default;
 
 $item-icon-accessory-color:       #ccc !default;
-$item-icon-accessory-font-size:   14px !default;
+$item-icon-accessory-font-size:   12px !default;
 
 $item-avatar-width:               40px !default;
 $item-avatar-height:              40px !default;
