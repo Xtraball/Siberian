@@ -75,10 +75,13 @@ $formBlocks = $cmsForm->loadBlocks($blocks);
         ?>
         <?php endforeach; ?>
         <?php $cmsForm->getElement('sections_html_container')->setValue($welp); echo $cmsForm; ?>
-        <input type="hidden" name="orderUniqid" id="orderUniqid" value="" />
+        <input type="hidden"
+               name="orderUniqid"
+               id="orderUniqid"
+               value="" />
     </div>
 
-    <?php if(!$isPlaces): ?>
+    <?php if (!$isPlaces): ?>
     <div class="background-images-upload">
         <?php echo $this->importBackground($option_value); ?>
     </div>

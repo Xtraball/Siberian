@@ -826,10 +826,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function skipSession ($request)
     {
-        dbg('session for ' . $_SERVER['REQUEST_URI']);
         if (isset($_SERVER['HTTP_AUTHORIZATION']) &&
             !empty($_SERVER['HTTP_AUTHORIZATION'])) {
-            dbg(' > skipping session for ' . $_SERVER['REQUEST_URI']);
             return true;
         }
 

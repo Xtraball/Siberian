@@ -80,9 +80,13 @@ class Cms_Form_Block_Button extends Cms_Form_Block_Abstract
         // Transforming options before populate
         $_options = $block->getObject()->getOptions();
         $options = [
+            'global' => [],
             'android' => [],
             'ios' => [],
         ];
+        foreach ($_options['global'] as $key => $value) {
+            $options['global'][$key] = $value;
+        }
         foreach ($_options['android'] as $key => $value) {
             $options['android']["android_{$key}"] = ($value === 'yes');
         }

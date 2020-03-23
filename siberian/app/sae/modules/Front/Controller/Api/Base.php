@@ -669,7 +669,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $loadBlock['customer'] = [
             'id' => (integer) $customerId,
             'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
-            'can_access_locked_features' => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
+            'can_access_locked_features' => (boolean) ($customerId && $customer->canAccessLockedFeatures()),
             'token' => Zend_Session::getId()
         ];
 
@@ -722,7 +722,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     method_exists($exporterClass, 'getInformation')) {
                     $transitionalObject = new $exporterClass();
                     $info = $transitionalObject->getInformation($customer->getId());
-                    $data['stripe'] = $info ? $info : [];
+                    $data['stripe'] = $info ?: [];
                 }
             }
         }
@@ -740,8 +740,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $request
      * @param bool $refresh
      * @return array
+     * @throws Zend_Exception
      */
-    public function _manifestBlock($application, $request, $refresh = false)
+    public function _manifestBlock($application, $request, $refresh = false): array
     {
         $appId = $application->getId();
         $appIcon = $application->getIcon();
