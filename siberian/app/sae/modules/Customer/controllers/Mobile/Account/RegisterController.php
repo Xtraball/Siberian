@@ -65,9 +65,10 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 $customer
                     ->setData($data)
                     ->setAppId($this->getApplication()->getId())
-                    ->setSessionUuid(Zend_Session::getId())
                     ->setPassword($data['password'])
                     ->save();
+
+                $customer->updateSessionUuid(Zend_Session::getId());
 
                 // PUSH INDIVIDUAL TO USER ONLY
                 Customer_Model_Customer_Push::registerForIndividualPush(

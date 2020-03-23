@@ -781,9 +781,12 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             Siberian_Session::init();
 
-            $sbToken = $request->getParam('sb-token', $request->getHeader('XSB_AUTH'));
+            $sbToken = $request->getParam('sb-token', null);
+            $xsbAuth = $request->getHeader('XSB_AUTH');
 
             if (!empty($xsbAuth)) {
+                Zend_Session::setId($xsbAuth);
+            } else if (!empty($sbToken)) {
                 Zend_Session::setId($sbToken);
             }
 
@@ -808,7 +811,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             // Search if the customer was already logged-in, but the session table was cleared!
             if ($request->isApplication()) {
-                $customer = (new Customer_Model_Customer())->find($sbToken, 'session_uuid');
+                $customer = (new Customer_Model_Customer())->find(Zend_Session::getId(), 'session_uuid');
                 if ($customer && $customer->getId()) {
                     $session->setCustomer($customer);
                 }

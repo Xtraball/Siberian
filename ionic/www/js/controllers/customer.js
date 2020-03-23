@@ -39,7 +39,6 @@ angular
         }
     });
 
-    $scope.customer.privacy_policy = false;
     $scope.privacyPolicyField = {
         label: $translate.instant('I have read & agree the privacy policy.', 'customer'),
         value: $scope.customer.privacy_policy,

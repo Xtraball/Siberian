@@ -67,6 +67,26 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * @param $sessionUuid
+     * @return mixed
+     */
+    public function updateSessionUuid($sessionUuid)
+    {
+        // Clear all users with this token, then update the current one!
+        $this->getTable()->clearBySessionUuid($sessionUuid);
+
+        return $this->setData('session_uuid', $sessionUuid)->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function clearSessionUuid()
+    {
+        return $this->setData('session_uuid', null)->save();
+    }
+
+    /**
      * @param $email
      * @return $this|null
      */
