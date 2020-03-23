@@ -688,6 +688,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $isLoggedIn = true;
 
+            // Ensure user is linked with the session uuid.
+            if (empty($customer->getSessionUuid())) {
+                $customer
+                    ->setSessionUuid(Zend_Session::getId())
+                    ->save();
+            }
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
@@ -702,10 +709,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean) ($customerId && $customer->canAccessLockedFeatures()),
-                "extendedFields" => Account::getFields([
-                    "application" => $application,
-                    "request" => $this->getRequest(),
-                    "session" => $session,
+                'extendedFields' => Account::getFields([
+                    'application' => $application,
+                    'request' => $this->getRequest(),
+                    'session' => $session,
                 ]),
             ]);
 
