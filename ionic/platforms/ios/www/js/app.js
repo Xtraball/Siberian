@@ -1,35 +1,13 @@
 /**
  * Application Bootstrap
  *
- * @version 4.18.8
+ * @version 4.18.12
  */
 
 window.momentjs_loaded = false;
 window.extractI18n = true;
 var DEBUG = false;
 
-// Fallback for non re-published apps
-if (IS_NATIVE_APP === undefined) {
-    var IS_NATIVE_APP = false;
-    if ((cordova !== undefined) && ((cordova.platformId === 'android') || (cordova.platformId === 'ios'))) {
-        IS_NATIVE_APP = true;
-    }
-}
-if (DEVICE_TYPE === undefined) {
-    var DEVICE_TYPE = 3;
-    if (cordova !== undefined) {
-        switch (cordova.platformId) {
-            case 'android':
-                DEVICE_TYPE = 1;
-                break;
-            case 'ios':
-                DEVICE_TYPE = 2;
-                break;
-            default:
-                DEVICE_TYPE = 3;
-        }
-    }
-}
 if (LOGIN_FB === undefined) {
     var LOGIN_FB = false;
 }
@@ -126,12 +104,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                     var sessionId = $session.getId();
                     if ((sessionId !== false) && (config.url.indexOf('.html') === -1)) {
                         if ((config.url.indexOf(DOMAIN) > -1) && (config.noSbToken !== true)) {
-                            var sessionParam = 'sb-token=' + sessionId;
-                            if (config.url.indexOf('?') > 1) {
-                                config.url = config.url + '&' + sessionParam;
-                            } else {
-                                config.url = config.url + '?' + sessionParam;
-                            }
+                            config.headers['XSB-AUTH'] = sessionId;
                         }
                     }
                     return config;
@@ -150,7 +123,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 }
             };
         });
-
 
         $logProvider.debugEnabled(DEBUG);
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|map|geo|skype|tel|file|smsto):/);
@@ -538,8 +510,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                                 $state.go('padlock-view');
                             } else if (Customer.can_access_locked_features && (toState.name === 'padlock-view')) {
-                                event.preventDefault();
-                            } else if ((toState.name === 'codescan') && $rootScope.isNotAvailableInOverview()) {
                                 event.preventDefault();
                             }
                         });
