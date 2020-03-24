@@ -239,15 +239,13 @@ class Zend_Session_SaveHandler_DbTable
     public function write($id, $data)
     {
         $time = time();
-        $source = '';
 
         $this->_db->query("
-        INSERT INTO session (session_id, data, modified, source) 
-        VALUES ('{$id}', '{$data}', '{$time}', '{$source}') 
+        INSERT INTO session (session_id, data, modified) 
+        VALUES ('{$id}', '{$data}', '{$time}') 
         ON DUPLICATE KEY UPDATE 
         data = '{$data}', 
-        modified = '{$time}',
-        source = '{$source}';");
+        modified = '{$time}';");
 
         $this->rebuildMobile($id, $data);
 
