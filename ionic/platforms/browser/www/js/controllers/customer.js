@@ -13,8 +13,22 @@ angular
                                               $translate, Application, Dialog, FacebookConnect,
                                               HomepageLayout, Modal) {
 
+    $scope.resetCustomer = function () {
+        $scope.customer = {
+            firstname: '',
+            lastname: '',
+            nickname: '',
+            email: '',
+            change_password: false,
+            password: '',
+            privacy_policy: false
+        };
+
+        return $scope.customer;
+    };
+
     angular.extend($scope, {
-        customer: Customer.customer,
+        customer: Customer.customer || $scope.resetCustomer(),
         card: {},
         is_logged_in: Customer.isLoggedIn(),
         app_name: Application.app_name,
@@ -345,11 +359,12 @@ angular
     };
 
     $scope.logout = function () {
-        Customer.logout()
+        Customer
+            .logout()
             .then(function (data) {
-
                 FacebookConnect.logout();
                 if (data.success) {
+                    $scope.resetCustomer();
                     Customer.hideModal();
                 }
             });
