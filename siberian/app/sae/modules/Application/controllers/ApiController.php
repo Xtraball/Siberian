@@ -5,14 +5,14 @@ class Application_ApiController extends Api_Controller_Default {
     /**
      * @var string
      */
-    public $namespace = "application";
+    public $namespace = 'application';
 
     /**
      * @var array
      */
     public $secured_actions = array(
-        "create",
-        "update",
+        'create',
+        'update',
     );
 
     public function createAction() {
