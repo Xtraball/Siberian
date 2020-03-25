@@ -1,13 +1,12 @@
-/* global
- App, angular
- */
-
 /**
  * LoyaltyCard
  *
- * @author Xtraball SAS
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.11
  */
-angular.module('starter').factory('LoyaltyCard', function ($pwaRequest) {
+angular
+    .module('starter')
+    .factory('LoyaltyCard', function ($pwaRequest) {
     var factory = {
         value_id: null,
         extendedOptions: {}

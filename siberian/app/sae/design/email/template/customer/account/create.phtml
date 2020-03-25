@@ -1,20 +1,32 @@
+<?php
+$email = $this->getAdminEmail();
+?>
 <table>
-    <tr style="margin:auto; padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
+    <tr>
         <td>
-            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('Congratulations,'); ?><br/><br/>
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __("You have created your account. With this account, you will be able to enjoy great offers available in our application."); ?></span>
+            <p>
+                <?php echo __('Congratulations,'); ?>
             </p>
-            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('Here are your credentials:'); ?>
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('Login:'); ?> <strong><?php echo $this->getCustomer()->getEmail() ?></strong></span><br/>
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo __('Password:'); ?> <strong><i></i><?php echo __('you know it!') ?></strong></span><br/>
+            <p>
+                <?php echo __('You have created your account. With this account, you will be able to enjoy great offers available in our application.'); ?>
             </p>
-            <?php if ($email = $this->getAdminEmail()) : ?>
-            <p align="justify" style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <?php echo __("If you encounter any problems, do not hesitate to contact us:"); ?> <a href="mailto:<?php echo $email; ?>"><strong><?php echo $email; ?></strong></a>
+            <p>
+                <span><?php echo __('Here are your credentials:'); ?></span><br />
+                <span><?php echo __('Login:'); ?> <strong><?php echo $this->getCustomer()->getEmail() ?></strong></span><br />
+                <span><?php echo __('Password:'); ?> <strong><i></i><?php echo __('you know it!') ?></strong></span><br />
+            </p>
+            <?php if (!empty($email)) : ?>
+            <p>
+                <?php echo __('If you encounter any problems, do not hesitate to contact us:'); ?> <a href="mailto:<?php echo $email; ?>"><strong><?php echo $email; ?></strong></a>
             </p>
             <?php endif; ?>
-            <p style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><br/><?php echo __('See you soon,'); ?><br/><?php echo $this->getAppName() ?></span><br/>
+            <br />
+            <p>
+                <span>
+                    <?php echo __('See you soon,'); ?>
+                    <br />
+                    <?php echo $this->getApp() ?>
+                </span>
             </p>
         </td>
     </tr>

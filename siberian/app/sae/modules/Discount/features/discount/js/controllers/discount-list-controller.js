@@ -1,24 +1,19 @@
 /**
- * Discount
- *
- * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
- *
+ * Discount, QR Discount controllers
  */
 angular
-    .module("starter")
-    .controller("DiscountListController", function ($filter, Modal, $location,
-                                                                         $rootScope, $scope, $state, $stateParams,
-                                                                         $timeout, $translate, $window, Application,
-                                                                         Customer, Dialog, Discount, Url, SB, Loader,
-                                                                         $ionicSlideBoxDelegate, SocialSharing, Tc) {
+    .module('starter')
+    .controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location, $rootScope,
+                                                    $scope, $state, $stateParams, $timeout, $translate, $window,
+                                                    Application, Customer, Dialog, Discount, Url, SB, Loader,
+                                                    $ionicSlideBoxDelegate, SocialSharing, Tc, Codescan) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,
         is_logged_in: Customer.isLoggedIn(),
-        sharingIsActive: false,
+        social_sharing_active: false,
         load_more: false,
-        cardDesign: false,
+        card_design: false,
         use_pull_refresh: true,
         collection: [],
         pull_to_refresh: false,
@@ -57,7 +52,7 @@ angular
                 // Chunks for L5!
                 $scope.collection_chunks = $filter('chunk')($scope.collection, 2);
                 $scope.tc_id = data.tc_id;
-                $scope.sharingIsActive = (data.social_sharing_is_active && isNativeApp);
+                $scope.social_sharing_active = (data.social_sharing_is_active && isNativeApp);
                 $scope.page_title = data.page_title;
 
                 return data;
@@ -105,13 +100,10 @@ angular
     };
 
     $scope.confirmBeforeUse = function (discount_id) {
-        if ($rootScope.isNotAvailableInOverview()) {
-            return;
-        }
-
         var buttons = ['Yes', 'No'];
 
-        Dialog.confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
+        Dialog
+            .confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
             .then(function (result) {
                 if (result) {
                     $scope.use(discount_id);
@@ -122,7 +114,8 @@ angular
     $scope.use = function (discount_id) {
         Loader.show();
 
-        Discount.use(discount_id)
+        Discount
+            .use(discount_id)
             .then(function (data) {
                 Dialog.alert('Thank you', data.message, 'OK', -1);
             }, function (data) {
@@ -133,70 +126,13 @@ angular
             });
     };
 
-    /**
-     * @todo this should be a service !
-     */
-    $scope.openScanCamera = function () {
-        if (!Application.is_webview) {
-            $scope.scan_protocols = ['sendback:'];
-
-            if (!$scope.is_logged_in) {
-                $scope.login();
-            } else {
-                $scope.showScanCamera();
-            }
-        } else {
-            Dialog.alert('Info', 'This will open the code scan camera on your device.', 'OK');
-        }
-    };
-
-    $scope.showScanCamera = function () {
-        cordova.plugins.barcodeScanner
-        .scan()
-        .then(function (barcodeData) {
-            if (!barcodeData.cancelled && (barcodeData.text !== '')) {
-                $timeout(function () {
-                    $scope.is_loading = true;
-
-                    var qrcode = barcodeData.text.replace('sendback:', '');
-
-                    // Load data!
-                    Discount.unlockByQRCode(qrcode)
-                        .then(function (data) {
-                            for (var i = 0; i < $scope.collection.length; i++) {
-                                if ($scope.collection[i].id == data.promotion.id) {
-                                    $scope.collection[i] = data.promotion;
-                                    console.log($scope.collection[i]);
-                                    break;
-                                }
-                            }
-
-                            $state.go('discount-view', {
-                                value_id: $scope.value_id,
-                                promotion_id: data.promotion.id
-                            });
-
-                            $scope.is_loading = false;
-                        }, function (data) {
-                            var message_text = 'An error occurred while reading the code.';
-                            if (angular.isObject(data)) {
-                                message_text = data.message;
-                            }
-
-                            Dialog.alert('Error', message_text, 'OK', -1);
-                        }).then(function () {
-                            $scope.is_loading = false;
-                        });
-                });
-            }
-        }, function (error) {
-            Dialog.alert('Error', 'An error occurred while reading the code.', 'OK', -1);
-        });
+    $scope.scanCoupon = function () {
+        Codescan.scanDiscount();
     };
 
     $scope.showItem = function (item) {
         if (item.is_locked) {
-            $scope.openScanCamera();
+            $scope.scanCoupon();
         } else {
             $state.go('discount-view', {
                 value_id: $scope.value_id,
@@ -212,4 +148,104 @@ angular
     };
 
     $scope.loadContent(false);
+}).controller('DiscountViewController', function ($ionicHistory, Modal,
+                                                 $rootScope, $scope, $state, $stateParams, $timeout, $translate,
+                                                 $window, Application, Customer, Dialog, Discount, Url, SB, SocialSharing,
+                                                 Loader) {
+    angular.extend($scope, {
+        is_loading: false,
+        value_id: $stateParams.value_id,
+        is_logged_in: Customer.isLoggedIn(),
+        card_design: false,
+        use_pull_to_refresh: false,
+        social_sharing_active: false
+    });
+
+    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+        $scope.is_logged_in = true;
+        $scope.loadContent();
+    });
+
+    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+        $scope.is_logged_in = false;
+        $scope.loadContent();
+    });
+
+    Discount.setValueId($stateParams.value_id);
+
+    $scope.loadContent = function () {
+        Discount
+            .find($stateParams.promotion_id)
+            .then(function (data) {
+                $scope.promotion = data.promotion;
+                $scope.modal_title = data.confirm_message;
+                $scope.tc_id = data.tc_id;
+                $scope.social_sharing_active = (data.social_sharing_is_active && isNativeApp);
+                $scope.page_title = data.page_title;
+            }).then(function () {
+                $scope.is_loading = false;
+            });
+    };
+
+    $scope.share = function () {
+        SocialSharing.share();
+    };
+
+    $scope.login = function () {
+        Customer.loginModal($scope);
+    };
+
+    $scope.confirmBeforeUse = function () {
+        var buttons = ['Yes', 'No'];
+
+        Dialog
+            .confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
+            .then(function (result) {
+                if (result) {
+                    $scope.use();
+                }
+            });
+    };
+
+    $scope.use = function () {
+        Loader.show();
+
+        Discount
+            .use($stateParams.promotion_id)
+            .then(function (data) {
+                Dialog
+                    .alert('Thank you', data.message, 'OK', -1)
+                    .then(function () {
+                        if (data.remove) {
+                            Discount
+                                .findAll(true)
+                                .then(function () {
+                                    $ionicHistory.goBack();
+                                });
+                        }
+                    });
+            }, function (data) {
+                Dialog
+                    .alert('Error', data.message, 'OK', -1)
+                    .then(function () {
+                        if (data.remove) {
+                            Discount
+                                .findAll(true)
+                                .then(function () {
+                                    $ionicHistory.goBack();
+                                });
+                        }
+                    });
+            }).then(function () {
+                Loader.hide();
+            });
+    };
+
+    $scope.showTc = function () {
+        $state.go('tc-view', {
+            tc_id: $scope.tc_id
+        });
+    };
+
+    $scope.loadContent();
 });

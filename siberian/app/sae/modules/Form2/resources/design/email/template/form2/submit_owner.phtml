@@ -22,6 +22,8 @@ $no = p__('form2', 'No');
                     case 'text':
                     case 'textarea':
                     case 'select':
+                    case 'number':
+                    case 'password':
                     case 'radio':
                             if (empty($value)) {
                                 $value = '<i>' . p__('form2', '- not filled -') . '</i>';
@@ -40,8 +42,13 @@ $no = p__('form2', 'No');
                         break;
                     case 'image':
                             echo "<b>{$label}</b> :";
-                            foreach ($field['attachments'] as $attachment) {
-                                echo "<div style=\"border: 1px solid #ececec; border-radius: 3px;\">{$attachment}</div>";
+                            if (!empty($field['attachments'])) {
+                                foreach ($field['attachments'] as $attachment) {
+                                    echo "<div style=\"border: 1px solid #ececec; border-radius: 3px;\">{$attachment}</div>";
+                                }
+                            } else {
+                                $value = '<i>' . p__('form2', '- not filled -') . '</i>';
+                                echo "<span style=\"margin-left: 15px;\">{$value}</span>";
                             }
                         break;
                     case 'clickwrap':
@@ -49,6 +56,16 @@ $no = p__('form2', 'No');
                             $result = $value ? $yes : $no;
                             echo "<b>{$label}</b> :";
                             echo "<span style=\"margin-left: 15px;\">{$result}</span>";
+                        break;
+                    case 'geolocation':
+                            $lat = p__('form2', 'Lat');
+                            $lng = p__('form2', 'Long');
+                            if (empty($value)) {
+                                $value = '<i>' . p__('form2', '- not filled -') . '</i>';
+                            }
+                            echo "<b>{$label}</b> :";
+                            echo "<p style=\"margin-left: 15px;\">{$value['address']}</p>";
+                            echo "<p style=\"margin-left: 15px;\">{$lat}: {$value['coords']['lat']} - {$lng}: {$value['coords']['lng']}</p>";
                         break;
                 }
                 ?>

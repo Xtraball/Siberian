@@ -50,7 +50,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
         service.setItem(service.localstorage_key, sessionId);
 
         /** Fallback */
-        $window.localStorage.setItem('sb-auth-token', sessionId);
+        $window.localStorage.setItem(service.localstorage_key, sessionId);
 
         service.setDeviceUid();
     };
@@ -161,7 +161,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
     service.setDeviceScreen($window.innerWidth, $window.innerHeight);
     service.getItem(service.localstorage_key)
         .then(function (value) {
-            var fallback = $window.localStorage.getItem('sb-auth-token');
+            var fallback = $window.localStorage.getItem(service.localstorage_key);
 
             if ((value !== null) && (value !== undefined)) {
                 $log.debug('Set once $session from pwaRegistry on start: ', value);

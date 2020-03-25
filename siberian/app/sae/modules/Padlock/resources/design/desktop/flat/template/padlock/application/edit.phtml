@@ -4,12 +4,19 @@ $option_value = $this->getOptionValue();
 $application = $this->getApplication();
 $features = $application->getOptions(false);
 $padlock = (new Padlock_Model_Padlock())
-    ->find($option_value->getId(), "value_id");
+    ->find($option_value->getId(), 'value_id');
 
 
 function _canLock ($feature) {
-    if (in_array($feature->getCode(), ["padlock", "tabbar_account"])) {
+    if (in_array($feature->getCode(), ['padlock', 'tabbar_account'])) {
         return false;
+    }
+
+    if ($feature->getCode() === 'catalog') {
+        $mcommerce = (new Mcommerce_Model_Mcommerce())->find($feature->getValueId(), 'catalog_value_id');
+        if ($mcommerce && $mcommerce->getId()) {
+            return false;
+        }
     }
 
     return true;
@@ -24,7 +31,7 @@ function _canLock ($feature) {
                   method="post"
                   action="<?php echo $this->getUrl('padlock/application/editpost') ?>">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __("Restrict Access") ?>
+                    <?php echo __('Restrict Access') ?>
                 </h3>
                 <input type="hidden"
                        name="value_id"
@@ -46,7 +53,7 @@ function _canLock ($feature) {
                                                             value="qrcode"
                                                             name="type_ids[]"
                                                             id="select_unlock_type_qrcode">
-                                                    <?php echo __("QRCode") ?>
+                                                    <?php echo __('QRCode') ?>
                                                 </label>
                                                 <div id="qrcode_info"><?php if (preg_match('/qrcode/', $this->getApplication()->getUnlockBy())) { ?>
                                                         <input type="hidden" name="qrcode_unlock_code"
@@ -63,7 +70,7 @@ function _canLock ($feature) {
                                                             type="checkbox" class="select_unlock_type color-blue"
                                                             value="account" name="type_ids[]"
                                                             id="select_unlock_type_account">
-                                                    <?php echo __("Account") ?>
+                                                    <?php echo __('Account') ?>
                                                 </label>
                                             </li>
                                         </ul>
@@ -72,7 +79,7 @@ function _canLock ($feature) {
 
                                 <div class="form-group" id="custom_description">
                                     <div class="col-sm-5">
-                                        <label for="allow_all_customers_to_access_locked_features"><?php echo __("Let your users know what is locked.") ?></label>
+                                        <label for="allow_all_customers_to_access_locked_features"><?php echo __('Let your users know what is locked.') ?></label>
                                     </div>
                                     <div class="col-sm-5">
                                         <textarea name="description" class="input-flat"
@@ -82,7 +89,7 @@ function _canLock ($feature) {
 
                                 <div class="form-group" id="allow_all_the_users">
                                     <div class="col-sm-5">
-                                        <label for="allow_all_customers_to_access_locked_features"><?php echo __("Allow all the users by default:") ?></label>
+                                        <label for="allow_all_customers_to_access_locked_features"><?php echo __('Allow all the users by default:') ?></label>
                                     </div>
                                     <div class="col-sm-5">
                                         <select id="allow_all_customers_to_access_locked_features"
@@ -96,7 +103,7 @@ function _canLock ($feature) {
 
                                 <div class="form-group">
                                     <div class="col-sm-5">
-                                        <label for="lock_the_entire_app"><?php echo __("Lock the entire application?") ?></label>
+                                        <label for="lock_the_entire_app"><?php echo __('Lock the entire application?') ?></label>
                                     </div>
                                     <div class="col-sm-5">
                                         <select id="lock_the_entire_app" name="app_is_locked"
@@ -109,7 +116,7 @@ function _canLock ($feature) {
 
                                 <div id="select_features_to_lock"
                                      <?php if ($application->requireToBeLoggedIn()) : ?>style="display:none"<?php endif; ?>>
-                                    <div><p><?php echo __("Choose the features to lock:"); ?></p></div>
+                                    <div><p><?php echo __('Choose the features to lock:'); ?></p></div>
                                     <div class="row"
                                          style="margin: 5px;">
                                         <?php foreach ($features as $feature): ?>
@@ -127,11 +134,11 @@ function _canLock ($feature) {
                                                     -
                                                     <?php echo $feature->getId() ?>
                                                     <?php if (!$feature->getIsVisible()): ?>
-                                                        <i class="feature-hidden"><?php echo p__("padlock", "(hidden from menu)") ?></i>
+                                                        <i class="feature-hidden"><?php echo p__('padlock', '(hidden from menu)') ?></i>
                                                     <?php endif; ?>
 
                                                     <?php if (!$feature->getIsActive()): ?>
-                                                        <i class="feature-disabled"><?php echo p__("padlock", "(not published)") ?></i>
+                                                        <i class="feature-disabled"><?php echo p__('padlock', '(not published)') ?></i>
                                                     <?php endif; ?>
                                                 </label>
                                             </div>

@@ -58,13 +58,26 @@ class Link extends FormAbstract
      */
     public static function addLinkOptions(FormAbstract $form, $belongsTo = null, $classes = null)
     {
-        $externalBrowser = $form->addSimpleCheckbox('external_browser', p__('weblink', 'Open in external browser'));
+        if ($belongsTo === null) {
+            $belongsTo = 'options';
+        } else {
+            $belongsTo .= '[options]';
+        }
+
+        $browserOptions = [
+            'in_app_browser' => p__('weblink', 'In app browser'),
+            'custom_tab' => p__('weblink', 'Custom tab'),
+            'external_browser' => p__('weblink', 'External app'),
+        ];
+
+        $externalBrowser = $form->addSimpleRadio('browser', p__('weblink', 'Browser choice'), $browserOptions);
         if ($classes !== null) {
             $externalBrowser->addClass($classes);
         }
         if ($belongsTo !== null) {
-            $externalBrowser->setBelongsTo($belongsTo);
+            $externalBrowser->setBelongsTo($belongsTo . '[global]');
         }
+        $externalBrowser->setValue('in_app_browser');
 
         // Commented options are not yet supported/implemented!
         $options = [
@@ -123,12 +136,6 @@ class Link extends FormAbstract
             //'hidespinner' => [],
         ];
 
-        if ($belongsTo === null) {
-            $belongsTo = 'options';
-        } else {
-            $belongsTo = $belongsTo . '[options]';
-        }
-
         // Android
         $androidKeys = [];
         foreach ($options as $key => $option) {
@@ -172,5 +179,37 @@ class Link extends FormAbstract
             p__('weblink', 'iOS options'),
             ['class' => $classes]
         );
+    }
+
+    /**
+     * @param bool $withFunction
+     * @return string
+     */
+    public function jsBindings($withFunction = true): string
+    {
+        $formId = $this->getAttrib('id');
+
+        $functionJs = <<<RAW
+        window.toggleExternal = function (formId) {
+            let el = $("#"+formId+" [name*=global]:checked");
+            if (el.val() === 'in_app_browser') {
+                $("#"+formId+" #android_options-element").show();
+                $("#"+formId+" #ios_options-element").show();
+            } else {
+                $("#"+formId+" #android_options-element").hide();
+                $("#"+formId+" #ios_options-element").hide();
+            }
+        };
+RAW;
+
+        $jsCode = <<<RAW
+        $(document).off("change", "#{$formId} [name*=global]");
+        $(document).on("change", "#{$formId} [name*=global]", function () {
+            window.toggleExternal("{$formId}");
+        });
+        window.toggleExternal("{$formId}");
+RAW;
+
+        return $withFunction ? $functionJs . $jsCode : $jsCode;
     }
 }

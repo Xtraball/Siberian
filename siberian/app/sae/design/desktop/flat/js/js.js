@@ -70,20 +70,13 @@ $.fn.wait = function (time, type) {
 if (typeof String.prototype.trim !== 'function') {
     String.prototype.trim = function () {
         return this.replace(/^\s+|\s+$/g, '');
-    }
-}
-
-Function.prototype.bind = function (context) {
-    var method = this;
-    return function () {
-        return method.apply(context, arguments);
-    }
+    };
 }
 
 $.fn.blink = function (time) {
-    var time = typeof time == 'undefined' ? 100 : time;
+    time = time === undefined ? 100 : time;
     $(this).hide(50).delay(time).show(50);
-}
+};
 
 var loader = {
     cpt: 0,

@@ -1,0 +1,38 @@
+<ion-modal-view sb-page-background
+                code="tabbar_account"
+                ng-controller="CustomerController"
+                class="customer-view customer-layout1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAction()">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title"
+            ng-click="_pcustomer_check_update();">{{ myAccount.title }}</h1>
+        <div class="buttons"
+             ng-show="is_logged_in">
+            <button class="button button-clear ion-power"
+                    ng-click="_pcustomer_logout()">
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <!-- Login partial -->
+        <div ng-show="display_login_form"
+             ng-include="'templates/customer/account/l1/login-form.html'"></div>
+
+        <!-- Forgot password partial -->
+        <div ng-show="display_forgot_password_form"
+             ng-include="'templates/customer/account/l1/forgot-password.html'"></div>
+
+        <!-- Register partial -->
+        <div ng-show="display_account_form && (myAccount.settings.enable_registration || is_logged_in)"
+             ng-include="'templates/customer/account/l1/register.html'"></div>
+
+    </ion-content>
+</ion-modal-view>

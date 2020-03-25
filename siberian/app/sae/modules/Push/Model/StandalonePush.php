@@ -115,6 +115,7 @@ class StandalonePush extends Base
             'text' => $text,
             'cover' => $cover,
             'actionValue' => $actionValue,
+            'appId' => $appId,
             'forceAppRoute' => $forceAppRoute,
         ];
 
@@ -130,7 +131,7 @@ class StandalonePush extends Base
             ->setMessageJson(Json::encode($jsonMessage))
             ->save();
 
-        $message = self::buildMessage($title, $text, $cover, $actionValue, $forceAppRoute);
+        $message = self::buildMessage($title, $text, $cover, $actionValue, $appId, $forceAppRoute);
 
         // try/catch are already handled inside sendPush
         foreach ($this->androidDevices as $androidDevice) {
@@ -287,7 +288,7 @@ class StandalonePush extends Base
                 $pushMessage['title'],
                 $pushMessage['text'],
                 $pushMessage['cover'],
-                $pushMessage['action_value'],
+                $pushMessage['actionValue'],
                 $pushMessage['forceAppRoute']);
 
             // try/catch are already handled inside sendPush
@@ -317,7 +318,7 @@ class StandalonePush extends Base
      * @return Message
      * @throws \Zend_Exception
      */
-    public static function buildMessage ($title, $text, $cover, $actionValue, $forceAppRoute = true)
+    public static function buildMessage ($title, $text, $cover, $actionValue, $appId = null, $forceAppRoute = true)
     {
         $message = new Message();
         $message
@@ -325,6 +326,7 @@ class StandalonePush extends Base
             ->setTitle($title)
             ->setText($text)
             ->setCover($cover)
+            ->setAppId($appId)
             ->setSendToAll(false)
             ->setActionValue($actionValue)
             ->setForceAppRoute($forceAppRoute)

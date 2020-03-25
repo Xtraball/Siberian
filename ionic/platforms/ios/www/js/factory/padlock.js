@@ -61,9 +61,23 @@ angular.module('starter').factory('Padlock', function ($pwaRequest) {
         });
     };
 
+    /**
+     * Searching for a valid/active qr padlock inside the app!
+     * @param text
+     * @returns {*}
+     */
+    factory.isQrCode = function (text) {
+        return $pwaRequest.post('padlock/mobile_view/is-qr-code', {
+            data: {
+                qrCode: text
+            },
+            cache: false
+        });
+    };
+
     factory.unlockByQRCode = function (qrcode) {
         if (!qrcode) {
-            return $pwaRequest.reject('[Factory::Padlock.unlockByQRCode] missing value_id');
+            return $pwaRequest.reject('[Factory::Padlock.unlockByQRCode] missing qrcode');
         }
 
         return $pwaRequest.post('padlock/mobile_view/unlockByQRCode', {

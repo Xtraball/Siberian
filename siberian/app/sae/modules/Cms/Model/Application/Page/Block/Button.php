@@ -56,13 +56,17 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
     {
         $this->setTypeId($data['type']);
         $this->setLabel($data['label']);
-        $this->setExternalBrowser($data['external_browser']);
 
         // Options
         $options = [
+            'global' => [],
             'android' => [],
             'ios' => [],
         ];
+        $optionsGlobal = $data['options']['global'];
+        foreach ($optionsGlobal as $key => $value) {
+            $options['global'][$key] = $value;
+        }
         $optionsAndroid = $data['options']['android'];
         foreach ($optionsAndroid as $key => $value) {
             $options['android'][str_replace('android_', '', $key)] = ($value) ? 'yes' : 'no';
@@ -74,7 +78,6 @@ class Cms_Model_Application_Page_Block_Button extends Cms_Model_Application_Page
         $this->setOptions($options);
 
         $icon = Siberian_Feature::saveImageForOptionDelete($this->option_value, $data['icon']);
-
         $this->setIcon($icon);
 
         switch ($data['type']) {

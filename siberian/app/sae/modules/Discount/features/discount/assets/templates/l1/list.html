@@ -1,14 +1,5 @@
-<ion-view sb-page-background
-          class="module-discount discount-list discount-l1 discount-l1-list">
-
+<ion-view sb-page-background>
     <ion-nav-title>{{ page_title }}</ion-nav-title>
-
-    <ion-nav-buttons side="secondary">
-        <button ng-click="refresh()"
-                class="button button-clear header-item">
-            <i class="icon ion-sb-refresh"></i>
-        </button>
-    </ion-nav-buttons>
 
     <ion-content>
 
@@ -17,8 +8,14 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
         <div class="list"
-             ng-class="{'card' : cardDesign}"
+             ng-class="{'card' : card_design}"
              ng-show="collection.length">
 
             <div class="item item-custom discount-list"
@@ -42,11 +39,10 @@
             </div>
         </div>
 
-        <div class="list"
-             ng-class="{'card': cardDesign}"
+        <div class="list" ng-class="{'card': card_design}"
              ng-show="!is_loading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+                {{ ::'No items found' | translate }}
             </div>
         </div>
 

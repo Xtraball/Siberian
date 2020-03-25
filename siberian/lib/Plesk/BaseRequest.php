@@ -182,6 +182,9 @@ EOT;
     public function process()
     {
         try {
+            echo "\n>>> PACKET \n\n";
+            print_r($this->getPacket());
+            echo "\n>>> PACKET \n\n";
             $response = $this->sendRequest($this->getPacket());
 
             if ($response !== false) {

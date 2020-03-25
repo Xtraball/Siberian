@@ -176,7 +176,7 @@ class Zend_Session_SaveHandler_Redis implements Zend_Session_SaveHandler_Interfa
     {
         try {
             $this->_redis->delete($this->_options['keyPrefix'] . $id);
-        } catch(RedisException $e) {
+        } catch (RedisException $e) {
             //
         }
 

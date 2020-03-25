@@ -262,7 +262,7 @@ class Packager
             if (!is_dir($targetDirectory)) {
                 mkdir($targetDirectory, 0777, true);
             }
-            copy($source, $destination);
+            exec("cp '{$source}' '{$destination}'");
         }
 
         return $this;
@@ -419,8 +419,8 @@ class Version
 }
 
 // Run only if specified!
+$willRun = false;
 foreach ($argv as $arg) {
-    $willRun = false;
     if ($arg === '--run') {
         $willRun = true;
     }
@@ -429,7 +429,8 @@ foreach ($argv as $arg) {
 if ($willRun) {
     // Run!
     try {
-        new \Cli\Packager($argv);
+        $jenkins = new \Cli\Packager($argv);
+        $jenkins->debug();
     } catch (\Exception $e) {
         echo 'Something went wrong, ' . $e->getMessage() . PHP_EOL;
     }

@@ -295,7 +295,8 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         $log.debug('PUSH messagePayload', messagePayload);
 
         // Prevent an ID being shown twice.
-        $session.getItem('pushMessageIds')
+        $session
+            .getItem('pushMessageIds')
             .then(function (pushMessageIds) {
                 var localPushMessageIds = pushMessageIds;
                 if (pushMessageIds === null || !Array.isArray(pushMessageIds)) {

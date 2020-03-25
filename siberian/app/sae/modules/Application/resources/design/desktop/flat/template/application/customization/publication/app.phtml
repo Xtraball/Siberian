@@ -3,8 +3,62 @@ $application = $this->getApplication();
 
 $splashVersion = (integer) $application->getSplashVersion();
 
+$formGeneralInformation = new Application_Form_GeneralInformationSources(['color' => 'color-purple']);
+$formGeneralInformation->removeBundles();
+$formGeneralInformation->populate($application->getData());
+
+// App link
+$appDomain = $application->getDomain();
+$appKey = $application->getKey();
+$currentDomain = parse_url($this->getRequest()->getBaseUrl(), PHP_URL_HOST);
+if (!empty($appDomain)) {
+    $appLink = "http://{$appDomain}";
+} else {
+    $appLink = "https://{$currentDomain}/{$appKey}";
+}
+
 ?>
 <div class="page-content-wrapper">
+
+    <div id="general-content"
+         class="content sb-tour">
+        <h3 class="title-editor border-purple text-center">
+            <?php echo __('General information'); ?>
+            <i class="icon ion-ios-information-outline display_tooltip"
+               data-toggle="tooltip"
+               title="<?php echo p__js('application', 'You can change your application name.', '"') ?>"></i>
+        </h3>
+        <div id="general"
+             class="subcontent content-color">
+            <div id="general-information"
+                 class="container-fluid form-horizontal">
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <?php echo p__('application', 'WebApp link') ?>
+                    </div>
+                    <div class="col-md-7">
+                        <a href="<?php echo $appLink ?>"
+                           style="text-decoration: underline;"
+                           onclick="window.open(this.href,'targetWindow','toolbar=no,location=yes,status=no,menubar=no,scrollbars=no,resizable=no,width=480,height=800');return false;">
+                            <?php echo $appLink ?>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-md-3">
+                        <?php echo p__('application', 'Application ID') ?>
+                    </div>
+                    <div class="col-md-7">
+                        <b>#<?php echo $application->getId() ?></b>
+                    </div>
+                </div>
+
+                <?php echo $formGeneralInformation; ?>
+            </div>
+        </div>
+    </div>
 
     <?php echo $this->createPartialHtml(
             'icon_create',
@@ -41,7 +95,8 @@ $splashVersion = (integer) $application->getSplashVersion();
         $pages_id[] = $page->getId();
     }
 ?>
-<ul id="pages_id" style="display:none">
+<ul id="pages_id"
+    style="display:none">
     <?php
         foreach($pages_id as $id) {
             echo '<li id="'.$id.'"></li>';
@@ -50,30 +105,17 @@ $splashVersion = (integer) $application->getSplashVersion();
 </ul>
 
 <script type="text/javascript">
-
     $(document).ready(function() {
+        bindForms('#general-information');
 
-        $('#name').keyup(function() {
-            setAppName($('#name').val());
+        // Live update AppName!
+        let appName = $('#name');
+        appName.off('keyup');
+        appName.on('keyup', function () {
+            let name = $(this).val().replace(/(<([^>]+)>)/ig, '');
+            // Set back stripped/value!
+            $(this).val(name);
+            $('#header_app_name').text(name);
         });
-
-        $('#publicationForm').submit(function() {
-            var loading = new AlertMessage();
-            loading.show();
-            reload(this, this.action, true, function(datas) {
-                if(datas.success) {
-                    clearTimeout(timer);
-                }
-            });
-            return false;
-        });
-
-        var eq = 0;
-        $('#generate_captures').click( function() {
-            supprime_capture('all', '');
-            $('#captures ul').html('');
-            loadCaptures(eq);
-        });
-
     });
 </script>

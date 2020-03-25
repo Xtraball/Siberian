@@ -1,67 +1,49 @@
 <?php
 
-/**
- * Class Customer_Model_Db_Table_Customer
- */
 class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
 {
     /**
      * @var string
      */
-    protected $_name = "customer";
+    protected $_name = 'customer';
+
     /**
      * @var string
      */
-    protected $_primary = "customer_id";
+    protected $_primary = 'customer_id';
+
+    /**
+     * @param $sessionUuid
+     */
+    public function clearBySessionUuid($sessionUuid)
+    {
+        $this->_db->query("UPDATE customer SET session_uuid = NULL WHERE session_uuid = ':sessionUuid';",
+            [':sessionUuid' => $sessionUuid]);
+    }
 
     /**
      * @param $app_id
      * @param int $limit
      * @return array
-     * @throws Zend_Exception
      */
     public function findByAppId($app_id, $limit = 5000)
     {
-        if (Push_Model_Message::hasIndividualPush()) {
-            $select = $this->_db->select()
-                ->from($this->_name, [
-                    "customer_id",
-                    "firstname",
-                    "lastname",
-                    "email",
-                    "registration_date" => "customer.created_at",
-                    "registration_timestamp" => new Zend_Db_Expr("UNIX_TIMESTAMP(customer.created_at)"),
-                    "has_push" => new Zend_Db_Expr("IF(push_gcm_devices.device_id IS NOT NULL, 1, IF(push_apns_devices.device_id IS NOT NULL, 1, 0))")
-                ])
-                ->joinLeft("push_gcm_devices", "push_gcm_devices.customer_id = customer.customer_id", [])
-                ->joinLeft("push_apns_devices", "push_apns_devices.customer_id = customer.customer_id", [])
-                ->where("customer.is_active = ?", true)
-                ->where("customer.app_id = ?", $app_id)
-                ->limit($limit);
-        } else {
-            $select = $this->_db->select()
-                ->from($this->_name, [
-                    "customer_id",
-                    "firstname",
-                    "lastname",
-                    "email",
-                    "registration_date" => "created_at",
-                    "registration_timestamp" => new Zend_Db_Expr("UNIX_TIMESTAMP(created_at)"),
-                    "has_push" => new Zend_Db_Expr("0"),
-                ])
-                ->where("is_active = ?", true)
-                ->where("app_id = ?", $app_id)
-                ->limit($limit);
-        }
+        $select = $this->_db->select()
+            ->from($this->_name, array(
+                "customer_id",
+                "firstname",
+                "lastname",
+                "email",
+                "registration_date" => "created_at",
+                "registration_timestamp" => new Zend_Db_Expr("UNIX_TIMESTAMP(created_at)"),
+            ))
+            ->where("is_active = ?", true)
+            ->where("app_id = ?", $app_id)
+            ->limit($limit);
 
         return $this->_db->fetchAssoc($select);
     }
 
-    /**
-     * @param $values
-     * @param $params
-     * @return mixed
-     */
     public function findAllCustomersByApp($values, $params)
     {
 
@@ -126,6 +108,8 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
                     'firstname',
                     'lastname',
                     'nickname',
+                    'privacy_policy',
+                    'communication_agreement',
                     'is_active',
                     'created_at',
                 ]
@@ -176,33 +160,23 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchCol($select);
     }
 
-    /**
-     * @param $customer_id
-     * @return array
-     */
     public function findSocialDatas($customer_id)
     {
 
-        $social_datas = [];
+        $social_datas = array();
 
         $select = $this->_db->select()
-            ->from("customer_social", ["type", "social_id", "datas"])
+            ->from("customer_social", array("type", "social_id", "datas"))
             ->where("customer_id = ?", $customer_id);
 
         $datas = $this->_db->fetchAll($select);
         foreach ($datas as $data) {
-            $social_datas[$data["type"]] = ["social_id" => $data["social_id"], "datas" => $data["datas"]];
+            $social_datas[$data["type"]] = array("social_id" => $data["social_id"], "datas" => $data["datas"]);
         }
 
         return $social_datas;
     }
 
-    /**
-     * @param $customer_id
-     * @param $datas
-     * @param $app_id
-     * @return $this
-     */
     public function insertSocialDatas($customer_id, $datas, $app_id)
     {
 
@@ -214,7 +188,7 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
                 $data['customer_id'] = $customer_id;
 
                 if ($this->findBySocialId($data['social_id'], $data['type'], $app_id)) {
-                    $this->_db->update($table, ['datas' => $data['datas']], ['social_id = ?' => $data['social_id'], 'type = ? ' => $data['type']]);
+                    $this->_db->update($table, array('datas' => $data['datas']), array('social_id = ?' => $data['social_id'], 'type = ? ' => $data['type']));
                 } else {
                     $r = $this->_db->insert($table, $data);
                 }
@@ -228,18 +202,12 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
 
     }
 
-    /**
-     * @param $id
-     * @param $type
-     * @param $app_id
-     * @return mixed
-     */
     public function findBySocialId($id, $type, $app_id)
     {
 
         $select = $this->_db->select()
             ->from($this->_name)
-            ->join('customer_social', "customer_social.customer_id = {$this->_name}.customer_id", [])
+            ->join('customer_social', "customer_social.customer_id = {$this->_name}.customer_id", array())
             ->where('customer_social.social_id = ?', $id)
             ->where('customer_social.type = ?', $type)
             ->where('customer.app_id = ?', $app_id);
@@ -247,35 +215,27 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchRow($select);
     }
 
-    /**
-     * @param $customer_id
-     * @param $customer_message
-     * @param $message_type
-     * @param $points
-     * @return $this
-     * @throws Zend_Db_Adapter_Exception
-     */
     public function addSocialPost($customer_id, $customer_message, $message_type, $points)
     {
 
         $table = 'customer_social_post';
 
-        $datas = [
+        $datas = array(
             'customer_id' => $customer_id,
             'customer_message' => $customer_message,
             'message_type' => $message_type
-        ];
+        );
 
         if (!empty($points)) {
 
             $datas['points'] = $points;
 
             $where = $this->_db->quoteInto('customer_id = ?', $customer_id);
-            $current_points = $this->_db->fetchOne($this->_db->select()->from($table, ['points'])->where($where));
+            $current_points = $this->_db->fetchOne($this->_db->select()->from($table, array('points'))->where($where));
 
             if ($current_points AND empty($customer_message)) {
                 $datas['points'] += $current_points;
-                $this->_db->update($table, ['points' => $datas['points']], ['customer_id = ?' => $customer_id]);
+                $this->_db->update($table, array('points' => $datas['points']), array('customer_id = ?' => $customer_id));
             } else {
                 $this->_db->insert($table, $datas);
             }
@@ -288,35 +248,23 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this;
     }
 
-    /**
-     * @param $customer_id
-     * @param $post_id
-     * @return $this
-     */
     public function deleteSocialPost($customer_id, $post_id)
     {
-        $this->_db->delete('customer_social_post', ['customer_id = ?' => $customer_id, 'id = ?' => $post_id]);
+        $this->_db->delete('customer_social_post', array('customer_id = ?' => $customer_id, 'id = ?' => $post_id));
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function findAllPosts()
     {
         return $this->_db->fetchAll($this->_db->select()->from('customer_social_post'));
     }
 
-    /**
-     * @param $app_id
-     * @return array
-     */
     public function findAllWithDeviceUid($app_id)
     {
         $select = $this->_db->select()
-            ->from(['c' => $this->_name])
-            ->joinLeft(['pad' => 'push_apns_devices'], "c.customer_id = pad.customer_id", ["device_uid"])
-            ->joinLeft(['pgd' => 'push_gcm_devices'], "c.customer_id = pgd.customer_id", ["registration_id"]);
+            ->from(array('c' => $this->_name))
+            ->joinLeft(array('pad' => 'push_apns_devices'), "c.customer_id = pad.customer_id", array("device_uid"))
+            ->joinLeft(array('pgd' => 'push_gcm_devices'), "c.customer_id = pgd.customer_id", array("registration_id"));
 
         if ($app_id) {
             $select->where('c.app_id = ?', $app_id);
@@ -326,28 +274,20 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
     }
 
 
-    /**
-     * @return array
-     */
     public function getAppIdByCustomerId()
     {
         $select = $this->select()
-            ->from($this->_name, ['customer_id', 'app_id']);
+            ->from($this->_name, array('customer_id', 'app_id'));
         return $this->_db->fetchAssoc($select);
     }
 
 
-    /**
-     * @param $customer_id
-     * @param null $module_code
-     * @return array|mixed
-     */
     public function findMetadatas($customer_id, $module_code = null)
     {
-        $metadatas = [];
+        $metadatas = array();
 
         $select = $this->_db->select()
-            ->from("customer_metadata", ["code", "datas"])
+            ->from("customer_metadata", array("code", "datas"))
             ->where("customer_id = ?", $customer_id);
 
         if (!is_null($module_code)) {
@@ -363,22 +303,18 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $metadatas;
     }
 
-    /**
-     * @param $customer_id
-     * @param $datas
-     * @return $this
-     */
     public function insertMetadatas($customer_id, $datas)
     {
 
         $this->_db->beginTransaction();
         $table = 'customer_metadata';
         try {
+//            $this->_db->delete($table, array('customer_id = ?' => $customer_id));
             foreach ($datas as $data) {
                 $data['customer_id'] = $customer_id;
 
                 if ($this->findMetadatas($customer_id, $data['code'])) {
-                    $this->_db->update($table, ['datas' => $data['datas']], ['code = ?' => $data['code'], 'customer_id = ? ' => $data['customer_id']]);
+                    $this->_db->update($table, array('datas' => $data['datas']), array('code = ?' => $data['code'], 'customer_id = ? ' => $data['customer_id']));
                 } else {
                     $r = $this->_db->insert($table, $data);
                 }

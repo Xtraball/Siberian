@@ -81,6 +81,20 @@ angular.module('starter').factory('Discount', function ($pwaRequest) {
         });
     };
 
+    /**
+     * Searching for a valid/active qr coupon inside the app!
+     * @param text
+     * @returns {*}
+     */
+    factory.isQrCode = function (text) {
+        return $pwaRequest.post('promotion/mobile_list/is-qr-code', {
+            data: {
+                qrCode: text
+            },
+            cache: false
+        });
+    };
+
     factory.unlockByQRCode = function (qrcode) {
         if (!this.value_id) {
             return $pwaRequest.reject('[Factory::Discount.unlockByQRCode] missing value_id');

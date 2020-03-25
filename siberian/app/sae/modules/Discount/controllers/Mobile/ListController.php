@@ -1,8 +1,10 @@
 <?php
 
-class Promotion_Mobile_ListController extends Application_Controller_Mobile_Default {
+class Promotion_Mobile_ListController extends Application_Controller_Mobile_Default
+{
 
-    public function findallAction() {
+    public function findallAction()
+    {
 
         if ($value_id = $this->getRequest()->getParam('value_id')) {
 
@@ -64,18 +66,18 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 $tc_id = null;
                 if ($payload['tc_id']) {
-                    $tc_id = (integer) $data['tc_id'];
+                    $tc_id = (integer)$data['tc_id'];
                 }
 
                 $embed_payload = [
-                    'id' => (integer) $promotion_customer->getPromotionId(),
+                    'id' => (integer)$promotion_customer->getPromotionId(),
                     'picture' => $pictureUrl,
                     'thumbnail' => $thumbnailUrl,
                     'title' => $promotion_customer->getTitle(),
                     'description' => html_entity_decode(strip_tags($promotion_customer->getDescription())),
                     'description_html' => $promotion_customer->getDescription(),
                     'conditions' => $promotion_customer->getConditions(),
-                    'is_unique' => (boolean) $promotion_customer->getIsUnique(),
+                    'is_unique' => (boolean)$promotion_customer->getIsUnique(),
                     'end_at' => datetime_to_format($promotion_customer->getEndAt(), Zend_Date::DATE_SHORT),
                     'confirm_message' => __('Do you want to use this coupon?'),
                     'page_title' => $promotion_customer->getTitle(),
@@ -83,14 +85,14 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 ];
 
                 $payload['promotions'][] = [
-                    'id' => (integer) $promotion_customer->getPromotionId(),
+                    'id' => (integer)$promotion_customer->getPromotionId(),
                     'picture' => $pictureUrl,
                     'thumbnail' => $thumbnailUrl,
                     'title' => $title,
                     'subtitle' => html_entity_decode(strip_tags($subtitle)),
                     'subtitle_html' => $subtitle,
                     'url' => $url,
-                    'is_locked' => (boolean) $is_locked,
+                    'is_locked' => (boolean)$is_locked,
                     'embed_payload' => $embed_payload
                 ];
 
@@ -111,7 +113,8 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
     }
 
 
-    public function useAction() {
+    public function useAction()
+    {
 
         try {
             $customer_id = $this->getSession()->getCustomerId();
@@ -136,8 +139,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 if (!$promotion_customer->getId()) {
                     $promotion_customer->setPromotionId($promotion_id)
-                        ->setCustomerId($customer_id)
-                    ;
+                        ->setCustomerId($customer_id);
                 }
 
                 if ($promotion->getIsUnique() &&
@@ -173,7 +175,68 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
         $this->_sendJson($payload);
     }
 
-    public function unlockbyqrcodeAction() {
+    public function isQrCodeAction () {
+        try {
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $application = $this->getApplication();
+            $appId = $application->getId();
+            $qrCode = $request->getBodyParams()['qrCode'];
+
+            $isLoginError = false;
+            $customerId = $session->getCustomerId();
+            if (!$customerId) {
+                $isLoginError = true;
+                throw new Siberian_Exception(__('You must be logged in to use a discount'));
+            }
+
+            $promotions = (new Promotion_Model_Promotion())->findAll([
+                'is_active = ?' => 1,
+                'unlock_by = ?' => 'qrcode',
+                'unlock_code = ?' => $qrCode
+            ]);
+
+            $gotPromotion = null;
+            foreach ($promotions as $promotion) {
+                $valueId = $promotion->getValueId();
+
+                $optionValue = (new Application_Model_Option_Value())->find([
+                    'value_id' => $valueId,
+                    'app_id' => $appId
+                ]);
+
+                if ($optionValue && $optionValue->getId()) {
+                    $gotPromotion = $promotion;
+                    break;
+                }
+            }
+
+            if ($gotPromotion === null) {
+                throw new Siberian_Exception(__('No discount belongs to this app.'));
+            }
+
+            $promotion_id = $promotion->getId();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success'),
+                'value_id' => $optionValue->getId(),
+                'promotion_id' => $promotion_id,
+                'qr_code' => $qrCode,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'isLoginError' => $isLoginError,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function unlockbyqrcodeAction()
+    {
 
         try {
 
@@ -205,8 +268,7 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 if (!$promotion_customer->getId()) {
                     $promotion_customer->setPromotionId($promotion_id)
-                        ->setCustomerId($customer_id)
-                    ;
+                        ->setCustomerId($customer_id);
                 }
 
                 $promotion_customer->setIsUsed(0)->save();

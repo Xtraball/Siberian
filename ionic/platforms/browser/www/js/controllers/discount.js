@@ -1,12 +1,12 @@
-/* global
- App, angular, BASE_PATH, isNativeApp, Discount only
+/**
+ * Discount, QR Discount controllers
  */
-
-angular.module('starter').controller('DiscountListController', function ($filter, Modal, $location,
-                                                                         $rootScope, $scope, $state, $stateParams,
-                                                                         $timeout, $translate, $window, Application,
-                                                                         Customer, Dialog, Discount, Url, SB, Loader,
-                                                                         $ionicSlideBoxDelegate, SocialSharing, Tc) {
+angular
+    .module('starter')
+    .controller('DiscountListController', function ($cordovaBarcodeScanner, $filter, Modal, $location, $rootScope,
+                                                    $scope, $state, $stateParams, $timeout, $translate, $window,
+                                                    Application, Customer, Dialog, Discount, Url, SB, Loader,
+                                                    $ionicSlideBoxDelegate, SocialSharing, Tc, Codescan) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,
@@ -100,13 +100,10 @@ angular.module('starter').controller('DiscountListController', function ($filter
     };
 
     $scope.confirmBeforeUse = function (discount_id) {
-        if ($rootScope.isNotAvailableInOverview()) {
-            return;
-        }
-
         var buttons = ['Yes', 'No'];
 
-        Dialog.confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
+        Dialog
+            .confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
             .then(function (result) {
                 if (result) {
                     $scope.use(discount_id);
@@ -117,7 +114,8 @@ angular.module('starter').controller('DiscountListController', function ($filter
     $scope.use = function (discount_id) {
         Loader.show();
 
-        Discount.use(discount_id)
+        Discount
+            .use(discount_id)
             .then(function (data) {
                 Dialog.alert('Thank you', data.message, 'OK', -1);
             }, function (data) {
@@ -128,70 +126,13 @@ angular.module('starter').controller('DiscountListController', function ($filter
             });
     };
 
-    /**
-     * @todo this should be a service !
-     */
-    $scope.openScanCamera = function () {
-        if (!Application.is_webview) {
-            $scope.scan_protocols = ['sendback:'];
-
-            if (!$scope.is_logged_in) {
-                $scope.login();
-            } else {
-                $scope.showScanCamera();
-            }
-        } else {
-            Dialog.alert('Info', 'This will open the code scan camera on your device.', 'OK');
-        }
-    };
-
-    $scope.showScanCamera = function () {
-        cordova.plugins.barcodeScanner
-        .scan()
-        .then(function (barcodeData) {
-            if (!barcodeData.cancelled && (barcodeData.text !== '')) {
-                $timeout(function () {
-                    $scope.is_loading = true;
-
-                    var qrcode = barcodeData.text.replace('sendback:', '');
-
-                    // Load data!
-                    Discount.unlockByQRCode(qrcode)
-                        .then(function (data) {
-                            for (var i = 0; i < $scope.collection.length; i++) {
-                                if ($scope.collection[i].id == data.promotion.id) {
-                                    $scope.collection[i] = data.promotion;
-                                    console.log($scope.collection[i]);
-                                    break;
-                                }
-                            }
-
-                            $state.go('discount-view', {
-                                value_id: $scope.value_id,
-                                promotion_id: data.promotion.id
-                            });
-
-                            $scope.is_loading = false;
-                        }, function (data) {
-                            var message_text = 'An error occurred while reading the code.';
-                            if (angular.isObject(data)) {
-                                message_text = data.message;
-                            }
-
-                            Dialog.alert('Error', message_text, 'OK', -1);
-                        }).then(function () {
-                            $scope.is_loading = false;
-                        });
-                });
-            }
-        }, function (error) {
-            Dialog.alert('Error', 'An error occurred while reading the code.', 'OK', -1);
-        });
+    $scope.scanCoupon = function () {
+        Codescan.scanDiscount();
     };
 
     $scope.showItem = function (item) {
         if (item.is_locked) {
-            $scope.openScanCamera();
+            $scope.scanCoupon();
         } else {
             $state.go('discount-view', {
                 value_id: $scope.value_id,
@@ -233,7 +174,8 @@ angular.module('starter').controller('DiscountListController', function ($filter
     Discount.setValueId($stateParams.value_id);
 
     $scope.loadContent = function () {
-        Discount.find($stateParams.promotion_id)
+        Discount
+            .find($stateParams.promotion_id)
             .then(function (data) {
                 $scope.promotion = data.promotion;
                 $scope.modal_title = data.confirm_message;
@@ -254,13 +196,10 @@ angular.module('starter').controller('DiscountListController', function ($filter
     };
 
     $scope.confirmBeforeUse = function () {
-        if ($rootScope.isNotAvailableInOverview()) {
-            return;
-        }
-
         var buttons = ['Yes', 'No'];
 
-        Dialog.confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
+        Dialog
+            .confirm('Confirmation', $scope.modal_title, buttons, 'text-center')
             .then(function (result) {
                 if (result) {
                     $scope.use();
@@ -271,22 +210,27 @@ angular.module('starter').controller('DiscountListController', function ($filter
     $scope.use = function () {
         Loader.show();
 
-        Discount.use($stateParams.promotion_id)
+        Discount
+            .use($stateParams.promotion_id)
             .then(function (data) {
-                Dialog.alert('Thank you', data.message, 'OK', -1)
+                Dialog
+                    .alert('Thank you', data.message, 'OK', -1)
                     .then(function () {
                         if (data.remove) {
-                            Discount.findAll(true)
+                            Discount
+                                .findAll(true)
                                 .then(function () {
                                     $ionicHistory.goBack();
                                 });
                         }
                     });
             }, function (data) {
-                Dialog.alert('Error', data.message, 'OK', -1)
+                Dialog
+                    .alert('Error', data.message, 'OK', -1)
                     .then(function () {
                         if (data.remove) {
-                            Discount.findAll(true)
+                            Discount
+                                .findAll(true)
                                 .then(function () {
                                     $ionicHistory.goBack();
                                 });

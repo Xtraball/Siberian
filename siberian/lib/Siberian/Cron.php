@@ -535,7 +535,12 @@ class Cron
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
                                     $r = dns_get_record($hostname, DNS_CNAME);
-                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]['target']) && ($r[0][''] === $cert->getHostname()));
+                                    $isCname = (
+                                        !empty($r) &&
+                                        isset($r[0]) &&
+                                        isset($r[0]['target']) &&
+                                        ($r[0]['target'] === $cert->getHostname())
+                                    );
                                     $isSelf = ($hostname === $cert->getHostname());
 
                                     // If domain is valid!
@@ -638,10 +643,7 @@ class Cron
                                 try {
                                     switch ($panel_type) {
                                         case 'plesk':
-                                            $siberian_plesk = new \Siberian_Plesk();
-                                            $siberian_plesk->removeCertificate($cert);
-                                            $siberian_plesk->updateCertificate($cert);
-                                            $siberian_plesk->selectCertificate($cert);
+                                            (new \Siberian_Plesk())->uploadCertificate($cert);
                                             break;
                                         case 'cpanel':
                                             $cpanel = new \Siberian_Cpanel();

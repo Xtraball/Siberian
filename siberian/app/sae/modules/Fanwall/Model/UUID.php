@@ -2,11 +2,13 @@
 
 namespace Fanwall\Model;
 
+use Siberian\UUID as Siberian_UUID;
+
 /**
  * Class UUID
  * @package Fanwall\Model
  */
-class UUID
+class UUID extends Siberian_UUID
 {
     /**
      * @param $namespace

@@ -8,7 +8,7 @@ class ListSites extends BaseRequest
      */
     public $xml_packet = <<<EOT
 <?xml version="1.0"?>
-<packet version="">
+<packet>
 <site>
 	<get>
 		{FILTER}
@@ -55,9 +55,12 @@ EOT;
      */
     protected function processResponse($xml)
     {
-        $result = array();
+        $result = [];
         $itemCount = count($xml->site->get->result);
-
+        if (isset($xml->site->get->result->status) &&
+            (string) $xml->site->get->result->status === 'error') {
+            throw new ApiRequestException($xml->site->get->result);
+        }
 
         for ($i = 0; $i < $itemCount; $i++) {
             $site = $xml->site->get->result[$i];

@@ -194,21 +194,25 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             // My Account feature (if it exists)
             $myAccountOption = (new Application_Model_Option())->find("tabbar_account", "code");
             $myAccountFeature = (new Application_Model_Option_Value())->find([
-                "option_id" => $myAccountOption->getOptionId(),
-                "app_id" => $appId,
+                'option_id' => $myAccountOption->getOptionId(),
+                'app_id' => $appId,
             ]);
 
             $defaultSettings = [
-                "title" => $myAccountFeature->getTabbarName(),
-                "settings" => [
-                    "enable_facebook_login" => true,
-                    "enable_registration" => true,
+                'title' => $myAccountFeature->getTabbarName(),
+                'settings' => [
+                    'enable_facebook_login' => true,
+                    'enable_registration' => true,
+                    'enable_commercial_agreement' => false,
+                    'enable_commercial_agreement_label' => '',
                 ],
             ];
             $myAccount = $defaultSettings;
-            if ($myAccountFeature->getId()) {
+            if ($myAccountFeature && $myAccountFeature->getId()) {
                 try {
-                    $myAccount["settings"] = Json::decode($myAccountFeature->getSettings());
+                    $myAccount['settings'] = array_merge(
+                        $defaultSettings['settings'],
+                        Json::decode($myAccountFeature->getSettings()));
                 } catch (\Exception $e) {
                     $myAccount = $defaultSettings;
                 }
@@ -680,7 +684,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $loadBlock['customer'] = [
             'id' => (integer) $customerId,
             'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
-            'can_access_locked_features' => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
+            'can_access_locked_features' => (boolean) ($customerId && $customer->canAccessLockedFeatures()),
             'token' => Zend_Session::getId()
         ];
 
@@ -699,6 +703,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $isLoggedIn = true;
 
+            // Ensure user is linked with the session uuid.
+            if (empty($customer->getSessionUuid())) {
+                $customer
+                    ->setSessionUuid(Zend_Session::getId())
+                    ->save();
+            }
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
@@ -709,13 +720,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (boolean) $customer->getIsCustomImage(),
                 'metadatas' => $metadata,
+                'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
                 'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean) ($customerId && $customer->canAccessLockedFeatures()),
-                "extendedFields" => Account::getFields([
-                    "application" => $application,
-                    "request" => $this->getRequest(),
-                    "session" => $session,
+                'extendedFields' => Account::getFields([
+                    'application' => $application,
+                    'request' => $this->getRequest(),
+                    'session' => $session,
                 ]),
             ]);
 
@@ -725,7 +737,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     method_exists($exporterClass, 'getInformation')) {
                     $transitionalObject = new $exporterClass();
                     $info = $transitionalObject->getInformation($customer->getId());
-                    $data['stripe'] = $info ? $info : [];
+                    $data['stripe'] = $info ?: [];
                 }
             }
         }
@@ -743,8 +755,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $request
      * @param bool $refresh
      * @return array
+     * @throws Zend_Exception
      */
-    public function _manifestBlock($application, $request, $refresh = false)
+    public function _manifestBlock($application, $request, $refresh = false): array
     {
         $appId = $application->getId();
         $appIcon = $application->getIcon();

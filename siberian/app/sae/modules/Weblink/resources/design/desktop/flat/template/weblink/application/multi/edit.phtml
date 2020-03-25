@@ -260,22 +260,7 @@ $links = (new ModelLink)->findAll(
         });
 
         // External browser
-        let toggleExternal = function () {
-            let el = $("#external_browser");
-            if (el.is(':checked')) {
-                $("#android_options-element").hide();
-                $("#ios_options-element").hide();
-            } else {
-                $("#android_options-element").show();
-                $("#ios_options-element").show();
-            }
-        };
-
-        $(document).off("change", "#external_browser");
-        $(document).on("change", "#external_browser", function () {
-            toggleExternal();
-        });
-        toggleExternal();
+        <?php echo $formLink->jsBindings(); ?>
 
         setTimeout(function () {
             reloadOverviewLinks();

@@ -11,6 +11,17 @@ class Application_Form_GeneralInformationSources extends Siberian_Form_Abstract
     public $color = 'color-green';
 
     /**
+     * Application_Form_GeneralInformationSources constructor.
+     * @param null $options
+     */
+    public function __construct($options = null)
+    {
+        $this->color = $options['color'] ?? 'color-green';
+
+        parent::__construct($options);
+    }
+
+    /**
      * @throws Zend_Form_Exception
      */
     public function init()
@@ -31,5 +42,16 @@ class Application_Form_GeneralInformationSources extends Siberian_Form_Abstract
 
         $submit = $this->addSubmit(__('Save'));
         $submit->addClass('pull-right');
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeBundles (): self
+    {
+        $this->removeElement('bundle_id');
+        $this->removeElement('package_name');
+
+        return $this;
     }
 }

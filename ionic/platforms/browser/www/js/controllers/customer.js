@@ -3,14 +3,32 @@
  *
  * This controller handles the login modal.
  *
+ * @version 4.18.12
  * @author Xtraball SAS
  */
-angular.module("starter").controller("CustomerController", function(Picture, $ionicActionSheet, Loader,
-                                              $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                              $translate, Application, Customer, Dialog, FacebookConnect,
-                                              HomepageLayout) {
+angular
+    .module("starter")
+    .controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
+                                              $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
+                                              $translate, Application, Dialog, FacebookConnect,
+                                              HomepageLayout, Modal) {
+
+    $scope.resetCustomer = function () {
+        $scope.customer = {
+            firstname: '',
+            lastname: '',
+            nickname: '',
+            email: '',
+            change_password: false,
+            password: '',
+            privacy_policy: false
+        };
+
+        return $scope.customer;
+    };
+
     angular.extend($scope, {
-        customer: Customer.customer,
+        customer: Customer.customer || $scope.resetCustomer(),
         card: {},
         is_logged_in: Customer.isLoggedIn(),
         app_name: Application.app_name,
@@ -25,13 +43,53 @@ angular.module("starter").controller("CustomerController", function(Picture, $io
             isEnabled: Application.gdpr.isEnabled
         },
         myAccount: {
-            title: $translate.instant("My account"),
+            title: $translate.instant('My account', 'customer'),
             settings: {
                 enable_facebook_login: true,
-                enable_registration: true
+                enable_registration: true,
+                enable_commercial_agreement: true,
+                enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer')
             }
         }
     });
+
+    $scope.privacyPolicyField = {
+        label: $translate.instant('I have read & agree the privacy policy.', 'customer'),
+        value: $scope.customer.privacy_policy,
+        is_required: true,
+        modaltitle: $translate.instant('Privacy policy.', 'customer'),
+        htmlContent: Application.gdpr.isEnabled ?
+            Application.privacyPolicy.text + '<br /><br />' + Application.privacyPolicy.gdpr:
+            Application.privacyPolicy.text
+    };
+
+    $scope.ppModal = null;
+    $scope.showPrivacyPolicy = function () {
+        Modal
+            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+                scope: angular.extend($scope, {
+                    close: function () {
+                        $scope.ppModal.hide();
+                    },
+                    is_loading: false,
+                    page_title: $scope.privacyPolicyField.modaltitle
+                }),
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.ppModal = modal;
+                $scope.ppModal.show();
+
+                return modal;
+            });
+    };
+
+    $scope.closeAction = function () {
+        if ($scope.display_forgot_password_form === true) {
+            $scope.displayLoginForm();
+        } else {
+            $scope._pcustomer_close();
+        }
+    };
 
     // Alias for the global login modal!
     $scope.login = function () {
@@ -107,13 +165,23 @@ angular.module("starter").controller("CustomerController", function(Picture, $io
         });
     };
 
-    $scope.takePicture = function () {
-        var cropImage = function (dataSrc) {
-            $scope.cropModal = {
-                original: dataSrc,
-                result: null
-            };
 
+    /**
+     *
+     * @todo move me to Picture service, add the cool crop modal option
+     *
+     * @param field
+     */
+    $scope.takePicture = function (field) {
+        var gotImage = function (image_url) {
+            // TODO: move all picture taking and cropping modal
+            // into a dedicated service for consistence against modules
+            $scope.cropModal = {original: image_url, result: null};
+
+            // DO NOT REMOVE popupShowing !!!
+            // img-crop directive doesn't work if it has been loaded off screen
+            // We show the popup, then switch popupShowing to true, to add
+            // img-crop in the view.
             $scope.popupShowing = false;
             $ionicPopup.show({
                 template: '<div style="position: absolute" class="cropper">' +
@@ -145,16 +213,76 @@ angular.module("starter").controller("CustomerController", function(Picture, $io
             $scope.popupShowing = true;
         };
 
-        Picture
-        .takePicture(256, 256, 90)
-        .then(function (response) {
-            cropImage(response.image);
-        });
+        var gotError = function (err) {
+            // An error occured. Show a message to the user
+        };
+
+        if (Application.is_webview) {
+            var input = angular.element("<input type='file' accept='image/*'>");
+            var selectedFile = function (evt) {
+                var file=evt.currentTarget.files[0];
+                var reader = new FileReader();
+                reader.onload = function (onloadEvt) {
+                    gotImage(onloadEvt.target.result);
+                    input.off('change', selectedFile);
+                };
+                reader.onerror = gotError;
+                reader.readAsDataURL(file);
+            };
+            input.on('change', selectedFile);
+            input[0].click();
+        } else {
+            var source_type = Camera.PictureSourceType.CAMERA;
+
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [
+                    { text: $translate.instant('Take a picture') },
+                    { text: $translate.instant('Import from Library') }
+                ],
+                cancelText: $translate.instant('Cancel'),
+                cancel: function () {
+                    hideSheet();
+                },
+                buttonClicked: function (index) {
+                    if (index == 0) {
+                        source_type = Camera.PictureSourceType.CAMERA;
+                    }
+                    if (index == 1) {
+                        source_type = Camera.PictureSourceType.PHOTOLIBRARY;
+                    }
+
+                    var options = {
+                        quality: 90,
+                        destinationType: Camera.DestinationType.DATA_URL,
+                        sourceType: source_type,
+                        encodingType: Camera.EncodingType.JPEG,
+                        targetWidth: 256,
+                        targetHeight: 256,
+                        correctOrientation: true,
+                        popoverOptions: CameraPopoverOptions,
+                        saveToPhotoAlbum: false
+                    };
+
+                    $cordovaCamera
+                        .getPicture(options)
+                        .then(function (imageData) {
+                            gotImage('data:image/jpeg;base64,' + imageData);
+                        }, gotError);
+
+                    return true;
+                }
+            });
+        }
     };
 
     $scope.loadContent = function () {
         // Loading my account settings!
         $scope.myAccount = Application.myAccount;
+
+        if ($scope.myAccount.settings.enable_commercial_agreement_label.length <= 0) {
+            $scope.myAccount.settings.enable_commercial_agreement_label = $translate.instant("I'd like to hear about offers & services", 'customer');
+        }
 
         if (!$scope.is_logged_in) {
             return;
@@ -231,11 +359,12 @@ angular.module("starter").controller("CustomerController", function(Picture, $io
     };
 
     $scope.logout = function () {
-        Customer.logout()
+        Customer
+            .logout()
             .then(function (data) {
-
                 FacebookConnect.logout();
                 if (data.success) {
+                    $scope.resetCustomer();
                     Customer.hideModal();
                 }
             });
@@ -272,15 +401,6 @@ angular.module("starter").controller("CustomerController", function(Picture, $io
         $scope.display_forgot_password_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_account_form = true;
-    };
-
-    $scope.displayPrivacyPolicy = function (from) {
-        $scope.scrollTop();
-        $scope.displayed_from = from || '';
-        $scope.display_login_form = false;
-        $scope.display_forgot_password_form = false;
-        $scope.display_account_form = false;
-        $scope.display_privacy_policy = true;
     };
 
     $scope.scrollTop = function () {

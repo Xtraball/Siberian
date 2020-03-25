@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\UUID;
+
 /**
  * Class Customer_Model_Customer
  *
@@ -62,6 +64,26 @@ class Customer_Model_Customer extends Core_Model_Default
     public function findByAppId($app_id)
     {
         return $this->getTable()->findByAppId($app_id);
+    }
+
+    /**
+     * @param $sessionUuid
+     * @return mixed
+     */
+    public function updateSessionUuid($sessionUuid)
+    {
+        // Clear all users with this token, then update the current one!
+        $this->getTable()->clearBySessionUuid($sessionUuid);
+
+        return $this->setData('session_uuid', $sessionUuid)->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function clearSessionUuid()
+    {
+        return $this->setData('session_uuid', null)->save();
     }
 
     /**
@@ -436,6 +458,20 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * Generating a fresh session UUID
+     *
+     * @return string
+     */
+    public function refreshSessionUuid (): string
+    {
+        $newUuid = UUID::v4();
+
+        $this->setSessionUuid($newUuid)->save();
+
+        return $newUuid;
+    }
+
+    /**
      * @param $password
      * @param $hash
      * @return bool
@@ -568,6 +604,7 @@ class Customer_Model_Customer extends Core_Model_Default
                 'show_in_social_gaming' => (bool)$customer->getShowInSocialGaming(),
                 'is_custom_image' => (bool)$customer->getIsCustomImage(),
                 'can_access_locked_features' => (bool)$customer->canAccessLockedFeatures(),
+                'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
                 'token' => (string)Zend_Session::getId(),
                 'metadatas' => $metadatas
             ];

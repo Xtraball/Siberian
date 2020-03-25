@@ -23,15 +23,20 @@ $data = $link->getData();
 // Transforming options before populate
 $_options = $link->getOptions();
 $options = [
+    'global' => [],
     'android' => [],
     'ios' => [],
 ];
+foreach ($_options['global'] as $key => $value) {
+    $options['global'][$key] = $value;
+}
 foreach ($_options['android'] as $key => $value) {
     $options['android']["android_{$key}"] = ($value === 'yes');
 }
 foreach ($_options['ios'] as $key => $value) {
     $options['ios']["ios_{$key}"] = ($value === 'yes');
 }
+
 $data['options'] = $options;
 $data['title'] = '-';
 
@@ -94,21 +99,6 @@ $form->setValueId($optionValue->getId());
         bindForms('#link');
 
         // External browser
-        let toggleExternal = function () {
-            let el = $("#external_browser");
-            if (el.is(':checked')) {
-                $("#android_options-element").hide();
-                $("#ios_options-element").hide();
-            } else {
-                $("#android_options-element").show();
-                $("#ios_options-element").show();
-            }
-        };
-
-        $(document).off("change", "#external_browser");
-        $(document).on("change", "#external_browser", function () {
-            toggleExternal();
-        });
-        toggleExternal();
+        <?php echo $form->jsBindings(); ?>
     });
 </script>

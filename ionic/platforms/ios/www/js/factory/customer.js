@@ -1,11 +1,13 @@
 /**
  * Customer
  *
- * @author Xtraball SAS
- * @version 4.16.10
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.12
  */
-angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope, $session, $timeout,
-                                                        $injector, Application, Loader, Modal, Dialog, Url, SB) {
+angular
+    .module('starter')
+    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, Application, Loader,
+                                   Modal, Dialog, Url, SB) {
     var factory = {
         events: [],
         customer: null,
@@ -130,7 +132,7 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
             });
         });
 
-        var layout = 'templates/customer/account/l1/login.html';
+        var layout = 'templates/customer/account/l1/my-account.html';
 
         // @todo for 4.16+
         //var layout = 'templates/customer/account/l2/customer.html';
@@ -424,8 +426,8 @@ angular.module("starter").factory("Customer", function ($pwaRequest, $rootScope,
         return promise;
     };
 
-    factory.saveCredentials = function (token) {
-        $session.setId(token);
+    factory.saveCredentials = function (uuid) {
+        $session.setId(uuid);
     };
 
     factory.clearCredentials = function () {
