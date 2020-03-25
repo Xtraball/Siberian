@@ -131,13 +131,13 @@
                  ng-repeat="field in fields track by field.key"
                  ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
         </section>
+    </div>
 
-        <div class="padding text-right"
-             ng-click="showPrivacyPolicy()"
-             ng-if="is_logged_in">
+    <div class="padding text-right"
+         ng-if="is_logged_in">
+        <span ng-click="showPrivacyPolicy()">
             {{ ::'Read the' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'privacy policy' | translate:'customer' }}!</span>
-        </div>
-
+        </span>
     </div>
 
     <div ng-class="{'padding': card_design}">
@@ -147,24 +147,16 @@
                 ng-show="!is_loading">{{ ::'Save' | translate:'customer' }}</button>
     </div>
 
-    <div class="list"
-         ng-if="is_logged_in"
-         ng-class="{'padding': card_design}">
-
-        <div class="padding text-center"
-             ng-click="requestToken();"
-             ng-if="is_logged_in && gdpr.isEnabled">
-            {{ ::'Request access to my' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'personal data' | translate:'customer' }}!</span>
-        </div>
+    <div class="padding text-center"
+         ng-click="requestToken();"
+         ng-if="is_logged_in && gdpr.isEnabled">
+        {{ ::'Request access to my' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'personal data' | translate:'customer' }}!</span>
     </div>
 
-    <div class="list"
-         ng-class="{'card': card_design}">
-        <div class="padding text-center"
-             ng-click="displayLoginForm()"
-             ng-if="!is_logged_in">
-            {{ ::'Already have an account?' | translate:'customer' }} <span class="bold positive positive-custom">{{ ::'Log in' | translate:'customer' }}!</span>
-        </div>
+    <div class="padding text-center"
+         ng-click="displayLoginForm()"
+         ng-if="!is_logged_in">
+        {{ ::'Already have an account?' | translate:'customer' }} <span class="bold positive positive-custom">{{ ::'Log in' | translate:'customer' }}!</span>
     </div>
 
     <section class="avatar text-center"
