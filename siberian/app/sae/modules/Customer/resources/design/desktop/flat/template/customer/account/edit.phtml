@@ -12,8 +12,9 @@ try {
     // Defaults!
     $formSettings->populate(
         [
-            "enable_facebook_login" => true,
-            "enable_registration" => true,
+            'enable_facebook_login' => true,
+            'enable_registration' => true,
+            'enable_commercial_agreement' => true,
         ]
     );
 }
@@ -32,7 +33,7 @@ try {
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-folder-open-o"></i>
-                <?php echo __("Settings") ?>
+                <?php echo __('Settings') ?>
             </a>
         </li>
         <li role="presentation">
@@ -41,7 +42,7 @@ try {
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-pencil"></i>
-                <?php echo __("Design") ?>
+                <?php echo __('Design') ?>
             </a>
         </li>
     </ul>
@@ -53,7 +54,7 @@ try {
              id="settings">
             <div class="feature-block-add">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __("Settings"); ?>
+                    <?php echo __('Settings'); ?>
                 </h3>
                 <div class="container-fluid subcontent content-feature">
                     <?php echo $formSettings; ?>
@@ -79,6 +80,22 @@ try {
     $(document).ready(function () {
         bindForms("#design");
         bindForms("#settings");
+
+        let commercialTick = $('#enable_commercial_agreement');
+        let commercialLabel = $('#enable_commercial_agreement_label');
+
+        let toggleCommercialLabel = function () {
+            if (commercialTick.is(':checked')) {
+                commercialLabel.parents('.sb-form-line').show();
+            } else {
+                commercialLabel.parents('.sb-form-line').hide();
+            }
+        };
+
+        commercialTick.off('change');
+        commercialTick.on('change', toggleCommercialLabel);
+
+        toggleCommercialLabel();
     });
 </script>
 

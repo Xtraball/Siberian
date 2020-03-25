@@ -60,8 +60,10 @@ class Customer_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
 
                 $settings = [
-                    "enable_facebook_login" => filter_var($values["enable_facebook_login"], FILTER_VALIDATE_BOOLEAN),
-                    "enable_registration" => filter_var($values["enable_registration"], FILTER_VALIDATE_BOOLEAN),
+                    'enable_facebook_login' => filter_var($values['enable_facebook_login'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_registration' => filter_var($values['enable_registration'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_commercial_agreement' => filter_var($values['enable_commercial_agreement'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_commercial_agreement_label' => $values['enable_commercial_agreement_label'],
                 ];
 
                 $optionValue
@@ -69,14 +71,14 @@ class Customer_ApplicationController extends Application_Controller_Default
                     ->save();
 
                 $payload = [
-                    "success" => true,
-                    "message" => __("Settings saved!"),
+                    'success' => true,
+                    'message' => __('Settings saved!'),
                 ];
             } else {
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true)
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
                 ];
             }
         } catch (\Exception $e) {
@@ -139,6 +141,8 @@ class Customer_ApplicationController extends Application_Controller_Default
 
                 if ($isNew) {
                     $data['app_id'] = $this->getApplication()->getId();
+                    $data['privacy_policy'] = false;
+                    $data['communication_agreement'] = false;
                 }
 
                 if (isset($data['password']) AND empty($data['password'])) {
@@ -305,6 +309,8 @@ class Customer_ApplicationController extends Application_Controller_Default
             foreach ($customers as $customer) {
                 $data = $customer->getData();
                 $data["name"] = $customer->getName();
+                $data["privacy_policy"] = (bool) $data["privacy_policy"];
+                $data["communication_agreement"] = (bool) $data["communication_agreement"];
                 $data["created_at"] = datetime_to_format($data["created_at"]);
                 $customersJson[] = $data;
             }

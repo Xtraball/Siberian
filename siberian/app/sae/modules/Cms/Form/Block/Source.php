@@ -32,6 +32,7 @@ class Cms_Form_Block_Source extends Cms_Form_Block_Abstract
         $height = $this->addSimpleNumber('height', __('Frame height'), 1, 9999, true, 1);
         $height->setDescription(__('From 1 to 9999.'));
         $height->setBelongsTo('block[' . $this->uniqid . '][source]');
+        $height->setValue(20);
         $height->setRequired(true);
 
         $unit = $this->addSimpleSelect('unit', __('Height unit'), [
@@ -39,6 +40,7 @@ class Cms_Form_Block_Source extends Cms_Form_Block_Abstract
             'px' => __('Fixed number of pixels'),
         ]);
         $unit->setBelongsTo('block[' . $this->uniqid . '][source]');
+        $height->setValue('vh');
         $unit->setRequired(true);
 
         $value_id = $this->addSimpleHidden('value_id');

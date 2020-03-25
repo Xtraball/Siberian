@@ -3,14 +3,32 @@
  *
  * This controller handles the login modal.
  *
+ * @version 4.18.12
  * @author Xtraball SAS
  */
-angular.module("starter").controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
-                                              $ionicPopup, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                              $translate, Application, Customer, Dialog, FacebookConnect,
-                                              HomepageLayout) {
+angular
+    .module("starter")
+    .controller("CustomerController", function($cordovaCamera, $ionicActionSheet, Loader,
+                                              $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
+                                              $translate, Application, Dialog, FacebookConnect,
+                                              HomepageLayout, Modal) {
+
+    $scope.resetCustomer = function () {
+        $scope.customer = {
+            firstname: '',
+            lastname: '',
+            nickname: '',
+            email: '',
+            change_password: false,
+            password: '',
+            privacy_policy: false
+        };
+
+        return $scope.customer;
+    };
+
     angular.extend($scope, {
-        customer: Customer.customer,
+        customer: Customer.customer || $scope.resetCustomer(),
         card: {},
         is_logged_in: Customer.isLoggedIn(),
         app_name: Application.app_name,
@@ -25,13 +43,53 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
             isEnabled: Application.gdpr.isEnabled
         },
         myAccount: {
-            title: $translate.instant("My account"),
+            title: $translate.instant('My account', 'customer'),
             settings: {
                 enable_facebook_login: true,
-                enable_registration: true
+                enable_registration: true,
+                enable_commercial_agreement: true,
+                enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer')
             }
         }
     });
+
+    $scope.privacyPolicyField = {
+        label: $translate.instant('I have read & agree the privacy policy.', 'customer'),
+        value: $scope.customer.privacy_policy,
+        is_required: true,
+        modaltitle: $translate.instant('Privacy policy.', 'customer'),
+        htmlContent: Application.gdpr.isEnabled ?
+            Application.privacyPolicy.text + '<br /><br />' + Application.privacyPolicy.gdpr:
+            Application.privacyPolicy.text
+    };
+
+    $scope.ppModal = null;
+    $scope.showPrivacyPolicy = function () {
+        Modal
+            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+                scope: angular.extend($scope, {
+                    close: function () {
+                        $scope.ppModal.hide();
+                    },
+                    is_loading: false,
+                    page_title: $scope.privacyPolicyField.modaltitle
+                }),
+                animation: 'slide-in-up'
+            }).then(function (modal) {
+                $scope.ppModal = modal;
+                $scope.ppModal.show();
+
+                return modal;
+            });
+    };
+
+    $scope.closeAction = function () {
+        if ($scope.display_forgot_password_form === true) {
+            $scope.displayLoginForm();
+        } else {
+            $scope._pcustomer_close();
+        }
+    };
 
     // Alias for the global login modal!
     $scope.login = function () {
@@ -222,6 +280,10 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         // Loading my account settings!
         $scope.myAccount = Application.myAccount;
 
+        if ($scope.myAccount.settings.enable_commercial_agreement_label.length <= 0) {
+            $scope.myAccount.settings.enable_commercial_agreement_label = $translate.instant("I'd like to hear about offers & services", 'customer');
+        }
+
         if (!$scope.is_logged_in) {
             return;
         }
@@ -297,11 +359,12 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
     };
 
     $scope.logout = function () {
-        Customer.logout()
+        Customer
+            .logout()
             .then(function (data) {
-
                 FacebookConnect.logout();
                 if (data.success) {
+                    $scope.resetCustomer();
                     Customer.hideModal();
                 }
             });
@@ -338,15 +401,6 @@ angular.module("starter").controller("CustomerController", function($cordovaCame
         $scope.display_forgot_password_form = false;
         $scope.display_privacy_policy = false;
         $scope.display_account_form = true;
-    };
-
-    $scope.displayPrivacyPolicy = function (from) {
-        $scope.scrollTop();
-        $scope.displayed_from = from || '';
-        $scope.display_login_form = false;
-        $scope.display_forgot_password_form = false;
-        $scope.display_account_form = false;
-        $scope.display_privacy_policy = true;
     };
 
     $scope.scrollTop = function () {

@@ -295,6 +295,13 @@ $appKey = $application->getGooglemapsKey();
                     <?php $payment_method = new Mcommerce_Model_Payment_Method(); ?>
                     <?php $payment_methods = $payment_method->findAll(); ?>
                     <?php foreach ($payment_methods as $method): ?>
+                        <?php
+                            $module = new Installer_Model_Installer_Module();
+                            if ($method->getCode() === 'stripe' &&
+                                !$module->prepare('Stripe')->isInstalled()) {
+                                continue;
+                            }
+                        ?>
                         <?php if ($method->getCode() !== 'free'): ?>
                             <?php if ($method->currencySupportApp()): ?>
                             <div class="form-group">

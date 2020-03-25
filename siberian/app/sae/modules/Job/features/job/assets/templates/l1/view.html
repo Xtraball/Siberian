@@ -56,11 +56,11 @@
             </div>
 
             <div class="item item-text-wrap item-icon-left item-custom"
-                 ng-if="settings.display_income && (place.income_from > 0 || place.income_to > 0)">
+                 ng-if="settings.display_income && (place.income_from.length || place.income_to.length)">
                 <i class="icon ion-sb-bank-check"></i>
                 <p>
-                    <span ng-show="place.income_from">{{ place.income_from }}</span>
-                    <span ng-show="place.income_to"> {{ "to" | translate:"job" }} {{ place.income_to }}</span>
+                    <span ng-show="place.income_from.length">{{ place.income_from }}</span>
+                    <span ng-show="place.income_to.length"> {{ "to" | translate:"job" }} {{ place.income_to }}</span>
                 </p>
             </div>
 
