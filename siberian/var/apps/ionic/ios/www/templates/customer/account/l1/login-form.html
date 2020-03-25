@@ -3,10 +3,10 @@
       ng-submit="_pcustomer_login(customer)"
       class="slide-down">
 
+    <div style="margin-bottom: 20px;"></div>
+
     <div class="list"
          ng-class="{'card': card_design}">
-
-        <div style="margin-bottom: 20px;"></div>
 
         <div class="item item-text-wrap item-icon-left item-custom"
              ng-click="_pcustomer_login_fb()"
@@ -35,11 +35,11 @@
                    placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password" />
         </label>
+    </div>
 
-        <div class="padding text-right"
-             ng-click="displayForgotPasswordForm()">
-            <span class="bold positive positive-custom">{{ ::'Forgot your password?' | translate:'customer' }}</span>
-        </div>
+    <div class="padding text-right">
+            <span ng-click="displayForgotPasswordForm()"
+                  class="bold positive positive-custom">{{ ::'Forgot your password?' | translate:'customer' }}</span>
     </div>
 
     <div ng-class="{'padding': card_design}">
@@ -47,17 +47,12 @@
                 class="button button-positive button-positive-custom"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
                 ng-show="!is_loading">{{ ::'Log in' | translate:'customer' }}</button>
-
     </div>
 
-    <div class="list"
-         ng-class="{'card': card_design}">
-
-        <div class="padding text-center"
-             ng-if="myAccount.settings.enable_registration"
-             ng-click="displayAccountForm()">
-            {{ ::"Don't have an account yet?" | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'Create an account' | translate:'customer' }}!</span>
-        </div>
+    <div class="padding text-center"
+         ng-if="myAccount.settings.enable_registration"
+         ng-click="displayAccountForm()">
+        {{ ::"Don't have an account yet?" | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'Create an account' | translate:'customer' }}!</span>
     </div>
 
 </form>
