@@ -66,7 +66,7 @@ angular
     $scope.ppModal = null;
     $scope.showPrivacyPolicy = function () {
         Modal
-            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+            .fromTemplateUrl('templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
                 scope: angular.extend($scope, {
                     close: function () {
                         $scope.ppModal.hide();
