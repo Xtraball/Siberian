@@ -7,14 +7,17 @@ $formSettings = new Customer_Form_Settings();
 $formSettings->setValueId($optionValue->getId());
 
 try {
-    $formSettings->populate(Json::decode($optionValue->getSettings()));
+    $settings = Json::decode($optionValue->getSettings());
+    $formSettings->populate($settings);
 } catch (\Exception $e) {
     // Defaults!
     $formSettings->populate(
         [
+            'design' => 'list',
             'enable_facebook_login' => true,
             'enable_registration' => true,
             'enable_commercial_agreement' => true,
+            'enable_commercial_agreement_label' => '',
         ]
     );
 }
