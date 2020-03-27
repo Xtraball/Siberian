@@ -322,7 +322,7 @@ label.error {
 }
 
 .backoffice_menu ul.l1 {
-    height: 60px;
+    height: 32px;
     margin: 0;
 }
 
@@ -335,9 +335,9 @@ label.error {
 .backoffice_menu ul.l1 li a {
     position: relative;
     display: block;
-    padding: 17px 26px 16px 21px;
+    padding: 6px 8px 6px 8px;
     color: white;
-    font-size: 19px;
+    font-size: 14px;
     z-index: 2;
 }
 
@@ -361,7 +361,7 @@ label.error {
 }
 
 .backoffice_menu ul.l1 li.has_submenu:hover ul.l2 {
-    top: 60px;
+    top: 32px;
     opacity: 1;
     visibility: visible;
 }
@@ -637,7 +637,7 @@ a.link, button.as-link {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 60px;
+    height: 32px;
     background-color: #404040;
     z-index: 30;
 }
@@ -646,14 +646,10 @@ a.link, button.as-link {
     position: relative;
     width: 99%;
     min-width: 1250px;
-    height: 60px;
+    height: 32px;
     margin: 0 auto auto;
     background-color: #404040;
     z-index: 2;
-}
-
-.top .content .logo {
-    margin-top: 5px;
 }
 
 .top div.message {
@@ -768,7 +764,6 @@ a.link, button.as-link {
 
 .wrapper .title {
     position: relative;
-    min-height: 65px;
     border-bottom: 1px solid white;
 }
 
@@ -793,9 +788,14 @@ a.link, button.as-link {
     font-weight: bold;
 }
 
+.title_content h1 {
+    font-size: 22px;
+    margin: 0;
+}
+
 .wrapper .title h1 i {
     margin-right: 10px;
-    font-size: 35px;
+    font-size: 20px;
 }
 
 .wrapper .title button {
@@ -835,7 +835,7 @@ a.link, button.as-link {
     padding-right: 10px;
     z-index: 1;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .wrapper .content div.area .title hr {
@@ -1230,13 +1230,14 @@ th.pointer-down {
 
 .message-badge {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
+    font-family: monospace;
     background-color: #cc2529;
     position: relative;
-    right: 10px;
-    top: -10px;
-    padding: 2px 8px 2px 6px;
-    border-radius: 11px;
+    right: 0px;
+    top: -5px;
+    padding: 1px 6px 3px 6px;
+    border-radius: 3px !important;
 }
 
 .loader-subscription-10px {
@@ -1490,4 +1491,8 @@ a.ui-datepicker-prev:after {
 
 .ui-timepicker-div dl {
     margin-left: 2px;
+}
+
+.alert {
+    padding: 6px 10px !important;
 }

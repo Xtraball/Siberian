@@ -154,6 +154,11 @@ try {
             $e->getPrevious()->getMessage() : $e->getMessage(),
     ];
 
+    if (isset($_config['with_trace']) && $_config['with_trace'] === true) {
+        $payload['trace'] = ($e->getPrevious()) ?
+            $e->getPrevious()->getTrace() : $e->getTrace();
+    }
+
     exit('<pre>' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }
 

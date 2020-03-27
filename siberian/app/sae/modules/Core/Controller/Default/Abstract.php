@@ -843,19 +843,31 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _initAcl()
     {
-        if (!$this->getRequest()->isInstalling()) {
+        $request = $this->getRequest();
+        $session = $this->getSession();
+        if (!$request->isInstalling() &&
+            !$request->isApplication() &&
+            !$this->_isInstanceOfBackoffice() &&
+            $session->isLoggedIn()) {
 
-            $is_editor = !$this->getRequest()->isApplication() && !$this->_isInstanceOfBackoffice();
-            if ($is_editor && $this->getSession()->isLoggedIn()) {
+            $admin = $session->getAdmin();
+            $roleId = $admin->getRoleId();
+            $role = (new Acl_Model_Role())->getRoleById($roleId);
 
-                $acl = new Acl_Model_Acl();
-                $acl->prepare($this->getSession()->getAdmin());
+            // If empty roleId, go to login page!
+            if (!$role || !$role->getId()) {
+                $this->getSession()->resetInstance();
+                $this->getSession()->addError(p__('admin', 'Your account has no role assigned to it, please contact your administrator!'));
 
-                Core_View_Default::setAcl($acl);
-                Admin_Controller_Default::setAcl($acl);
+                $this->_redirect('');
             }
-        }
 
+            $acl = new Acl_Model_Acl();
+            $acl->prepare($admin);
+
+            Core_View_Default::setAcl($acl);
+            Admin_Controller_Default::setAcl($acl);
+        }
     }
 
     /**
