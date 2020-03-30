@@ -376,12 +376,6 @@ label.error {
 
 .backoffice_menu ul.l1 li ul.l2 li a {
     text-align: left;
-    border-top: 1px solid #343434;
-    border-bottom: 1px solid #858585;
-}
-
-.backoffice_menu ul.l1 li ul.l2 li:first-child a {
-    border-top: none;
 }
 
 .backoffice_menu ul.l1 li ul.l2 li:last-child a {
@@ -417,13 +411,13 @@ label.error {
 }
 
 .backoffice_menu ul.l2 li a {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
-
+""
 .backoffice_menu ul.l3 li a {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 /** /MENU **/
@@ -435,7 +429,7 @@ ul.list-image.image-left {
 }
 
 ul.list-image.image-left li {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 ul.list-image.image-left li.left {
@@ -757,7 +751,7 @@ a.link, button.as-link {
 /** DEFAULT TEMPLATE **/
 .wrapper {
     width: 1140px;
-    margin: 60px auto auto;
+    margin: 32px auto auto;
     padding-bottom: 30px;
     border-radius: 0 0 10px 10px;
 }
@@ -811,14 +805,11 @@ a.link, button.as-link {
     font-weight: bold;
 }
 
-.wrapper .content {
-}
-
 .wrapper .content div.area {
     min-height: 150px;
-    margin: 30px 0px 0;
+    margin: 0 0 30px 0;
     padding: 0 2%;
-    border-radius: 10px; /*overflow: hidden;*/
+    border-radius: 10px
 }
 
 .wrapper .content div.area .title {
