@@ -1,6 +1,6 @@
 <form method="post"
       name="accountForm"
-      ng-submit="_pcustomer_register_or_save(customer)"
+      ng-submit="registerOrSave(customer)"
       class="slide-top">
     <section class="avatar text-center padding"
              ng-if="show_avatar">
@@ -197,5 +197,11 @@
             {{ ::'You have no card stored. To add a card make an order.' | translate:'customer' }}
         </label>
     </section>
+
+    <div class="padding text-center"
+         ng-click="logout()"
+         ng-if="is_logged_in">
+        <span class="bold positive positive-custom">{{ ::'Log out' | translate:'customer' }}!</span>
+    </div>
 
 </form>

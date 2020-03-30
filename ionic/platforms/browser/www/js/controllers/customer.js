@@ -101,7 +101,7 @@ angular
         Customer.requestToken();
     };
 
-    $scope.loginWithFacebook = function () {
+    $scope.loginFacebook = function () {
         if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
@@ -120,7 +120,7 @@ angular
     $scope.editAvatar = function () {
         var buttons = [
             {
-                text: $translate.instant("Edit")
+                text: $translate.instant('Edit', 'customer')
             }
         ];
 
@@ -277,10 +277,6 @@ angular
         }
     };
 
-    $scope.toggleCardDesign = function () {
-        $scope.card_design = !$scope.card_design;
-    };
-
     $scope.loadContent = function () {
         // Loading my account settings!
         $scope.myAccount = Application.myAccount;
@@ -342,7 +338,8 @@ angular
 
         Loader.show();
 
-        Customer.save($scope.customer)
+        Customer
+            .save($scope.customer)
             .then(function (data) {
                 if (angular.isDefined(data.message)) {
                     Dialog.alert('', data.message, 'OK', -1)
@@ -366,14 +363,18 @@ angular
     };
 
     $scope.logout = function () {
-        Customer
-            .logout()
-            .then(function (data) {
-                FacebookConnect.logout();
-                if (data.success) {
-                    $scope.resetCustomer();
-                    Customer.hideModal();
-                }
+        Dialog
+            .confirm('Confirmation', 'Are you sure you want to log out?', ['YES', 'NO'], '', 'customer')
+            .then(function (result) {
+                Customer
+                    .logout()
+                    .then(function (data) {
+                        FacebookConnect.logout();
+                        if (data.success) {
+                            $scope.resetCustomer();
+                            Customer.hideModal();
+                        }
+                    });
             });
     };
 

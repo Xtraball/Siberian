@@ -1,6 +1,6 @@
 <form method="post"
       name="loginForm"
-      ng-submit="_pcustomer_login(customer)"
+      ng-submit="login(customer)"
       class="slide-down">
 
     <div style="margin-bottom: 20px;"></div>
@@ -9,7 +9,7 @@
          ng-class="{'card': card_design}">
 
         <div class="item item-text-wrap item-icon-left item-custom"
-             ng-click="_pcustomer_login_fb()"
+             ng-click="loginFacebook()"
              ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
             <i class="icon ion-social-facebook-outline"></i>

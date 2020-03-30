@@ -355,18 +355,18 @@ angular
         Loader.show();
 
         var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
-                cache: false
-            });
+            cache: false
+        });
 
         promise.then(function (result) {
-                factory.clearCredentials();
+            factory.clearCredentials();
 
-                return result;
-            }).then(function (result) {
-                Loader.hide();
+            return result;
+        }).then(function (result) {
+            Loader.hide();
 
-                return result;
-            });
+            return result;
+        });
 
         return promise;
     };

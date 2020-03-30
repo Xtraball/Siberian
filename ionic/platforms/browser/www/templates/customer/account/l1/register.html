@@ -198,4 +198,10 @@
         </label>
     </section>
 
+    <div class="padding text-center"
+         ng-click="logout()"
+         ng-if="is_logged_in">
+        <span class="bold positive positive-custom">{{ ::'Log out' | translate:'customer' }}!</span>
+    </div>
+
 </form>

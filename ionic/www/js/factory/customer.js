@@ -2,14 +2,13 @@
  * Customer
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.18.12
+ * @version 4.18.14
  */
 angular
     .module('starter')
     .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, Application, Loader,
                                    Modal, Dialog, Url, SB) {
     var factory = {
-        events: [],
         customer: null,
         modal: null,
         login_modal: null,
@@ -50,15 +49,6 @@ angular
     };
 
     /**
-     * @deprecated
-     * @param id
-     * @param urls
-     */
-    factory.onStatusChange = function (id, urls) {
-        factory.events[id] = urls;
-    };
-
-    /**
      *
      */
     factory.hideModal = function () {
@@ -80,48 +70,32 @@ angular
             return false;
         }
 
-        var localScope = scope;
-        if (scope === undefined) {
-            localScope = $rootScope;
-        }
+        var modalScope = $rootScope.$new(true);
 
-        factory.loginScope = localScope;
-
-        localScope.card_design = false;
-
-        localScope.$on('modal.shown', function () {
-            var loginSuccessSubscriber = localScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+        modalScope.$on('modal.shown', function () {
+            var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
                 if (typeof loginCallback === 'function') {
                     loginCallback();
                 }
-
-                $timeout(function () {
-                    factory.login_modal.hide();
-                }, 20);
+                factory.login_modal.hide();
             });
 
-            var logoutSuccessSubscriber = localScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+            var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
                 if (typeof logoutCallback === 'function') {
                     logoutCallback();
                 }
-
-                $timeout(function () {
-                    factory.login_modal.hide();
-                }, 20);
+                factory.login_modal.hide();
             });
 
-            var registerSubscriber = localScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+            var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
                 if (typeof registerCallback === 'function') {
                     registerCallback();
                 }
-
-                $timeout(function () {
-                    factory.login_modal.hide();
-                }, 20);
+                factory.login_modal.hide();
             });
 
             // Listening for modal.hidden dynamically!
-            factory.login_modal_hidden_subscriber = localScope.$on('modal.hidden', function () {
+            factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
                 // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
                 factory.login_modal_hidden_subscriber();
 
@@ -132,43 +106,12 @@ angular
             });
         });
 
+        // Layout options!
         var layout = 'templates/customer/account/l1/my-account.html';
 
-        // @todo for 4.16+
-        //var layout = 'templates/customer/account/l2/customer.html';
-
-        var loginPromise = Modal
+        return Modal
             .fromTemplateUrl(layout, {
-                scope: angular.extend(localScope, {
-                    _pcustomer_close: function () {
-                        factory.login_modal.hide();
-                    },
-                    _pcustomer_login: function (data) {
-                        factory.login(data);
-                    },
-                    _pcustomer_logout: function () {
-                        factory.logout();
-                    },
-                    _pcustomer_login_fb: function () {
-                        factory.facebookConnect();
-                    },
-                    _pcustomer_check_update: function () {
-                        $rootScope.checkForUpdate();
-                    },
-                    _pcustomer_register_or_save: function (data) {
-                        factory.save(data);
-                    },
-                    _pcustomer_get_avatar: function () {
-                        factory.getAvatarUrl();
-                    },
-                    _pcustomer_forgotten_password: function (email) {
-                        factory.forgotPassword(email);
-                    },
-                    _pcustomer_remove_card: function () {
-                        factory.removeCard();
-                    },
-                    _facebook_enabled: factory.facebook_login_enabled
-                }),
+                scope: modalScope,
                 animation: 'slide-in-up'
             }).then(function (modal) {
                 factory.login_modal = modal;
@@ -176,8 +119,10 @@ angular
 
                 return modal;
             });
+    };
 
-        return loginPromise;
+    factory.closeModal = function () {
+        factory.login_modal.hide();
     };
 
     factory.login = function (data) {
@@ -206,14 +151,6 @@ angular
             });
 
         return promise;
-    };
-
-    factory.facebookConnect = function () {
-        if ($rootScope.isNotAvailableInOverview()) {
-            return;
-        }
-        var FacebookConnect = $injector.get('FacebookConnect');
-        FacebookConnect.login();
     };
 
     factory.loginWithFacebook = function (token) {
@@ -355,18 +292,18 @@ angular
         Loader.show();
 
         var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
-                cache: false
-            });
+            cache: false
+        });
 
         promise.then(function (result) {
-                factory.clearCredentials();
+            factory.clearCredentials();
 
-                return result;
-            }).then(function (result) {
-                Loader.hide();
+            return result;
+        }).then(function (result) {
+            Loader.hide();
 
-                return result;
-            });
+            return result;
+        });
 
         return promise;
     };
