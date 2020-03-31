@@ -11,14 +11,19 @@ angular
     .controller('CustomerController', function ($cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                                 $translate, Application, Dialog, FacebookConnect,
-                                                HomepageLayout, Modal) {
+                                                HomepageLayout, Modal, Picture, CropImage) {
 
-        $scope.resetCustomer = function () {
+        /**
+         * Clears out the customer object!
+         * @returns {*|$scope.customer|Customer.customer|null}
+         */
+        $scope.pristineCustomer = function () {
             $scope.customer = {
                 firstname: '',
                 lastname: '',
                 nickname: '',
                 email: '',
+                image: '',
                 change_password: false,
                 password: '',
                 privacy_policy: false
@@ -28,7 +33,7 @@ angular
         };
 
         angular.extend($scope, {
-            customer: Customer.customer || $scope.resetCustomer(),
+            customer: Customer.customer || $scope.pristineCustomer(),
             card: {},
             card_design: false,
             is_logged_in: Customer.isLoggedIn(),
@@ -36,8 +41,6 @@ angular
             display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
             display_account_form: ($scope.is_logged_in || Customer.display_account_form),
             can_connect_with_facebook: !!Customer.can_connect_with_facebook,
-            show_avatar: true,
-            avatar_loaded: false,
             privacy_policy: Application.privacyPolicy.text,
             privacy_policy_gdpr: Application.privacyPolicy.gdpr,
             gdpr: {
@@ -92,196 +95,54 @@ angular
             }
         };
 
+        /**
+         * Check for CHCP live updates!
+         */
         $scope.checkUpdate = function () {
             $rootScope.checkForUpdate();
         };
 
-        $scope.login = function (data) {
-            Customer.login(data);
+        $scope.loginEmail = function () {
+            Customer.login($scope.customer);
         };
 
-        $scope.forgottenPassword = function (email) {
-            Customer.forgotPassword(email);
+        $scope.retrieveForgotPassword = function () {
+            Customer.forgotPassword($scope.customer.email);
         };
 
-        $scope.requestToken = function () {
+        $scope.requestGdprToken = function () {
             Customer.requestToken();
         };
 
         $scope.loginFacebook = function () {
-            if ($rootScope.isNotAvailableInOverview()) {
-                return;
-            }
             FacebookConnect.login();
         };
 
-        $scope.hideAvatar = function () {
-            $scope.show_avatar = false;
-        };
-
-        $scope.avatarLoaded = function () {
-            $scope.avatar_loaded = true;
-            $scope.show_avatar = true;
-        };
-
-        $scope.editAvatar = function () {
-            var buttons = [
-                {
-                    text: $translate.instant("Edit")
-                }
-            ];
-
-            if ($scope.customer.avatar !== null) {
-                var text = 'Cancel ' + ($scope.customer.delete_avatar ? 'delete' : 'edit');
-                buttons.push({text: $translate.instant(text)});
-            } else {
-                if ($scope.customer.is_custom_image) {
-                    buttons.push({text: $translate.instant('Delete')});
-                }
+        $scope.avatarUrl = function () {
+            // Means the customer image was edited!
+            if ($scope.customer.image &&
+                $scope.customer.image.indexOf('data:') === 0) {
+                return $scope.customer.image;
             }
-
-            var hideSheet = $ionicActionSheet.show({
-                buttons: buttons,
-                cancelText: $translate.instant('Cancel'),
-                cancel: function () {
-                    hideSheet();
-                },
-                buttonClicked: function (index) {
-                    if (index == 0) {
-                        // We have to use timeout, if we do not,
-                        // next action sheet will loose focus after 400ms
-                        // because of the closing one. For more details,
-                        // see this : https://github.com/driftyco/ionic/blob/1.x/js/angular/service/actionSheet.js#L138
-                        $timeout($scope.takePicture, 600);
-                    }
-                    if (index == 1) {
-                        if ($scope.customer.avatar != null) {
-                            // Cancel edit/delete :
-                            $scope.customer.avatar = null;
-                            $scope.customer.delete_avatar = false;
-                            $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
-                        } else {
-                            $scope.customer.avatar = false;
-                            $scope.customer.delete_avatar = true;
-                            $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id, {ignore_stored: true});
-                        }
-
-                        $rootScope.$broadcast(SB.EVENTS.AUTH.editSuccess);
-                    }
-                    return true;
-                }
-            });
+            // Else we fetch it normally, first customer defined, then default image!
+            return Customer.getAvatarUrl();
         };
 
-
-        /**
-         *
-         * @todo move me to Picture service, add the cool crop modal option
-         *
-         * @param field
-         */
-        $scope.takePicture = function (field) {
-            var gotImage = function (image_url) {
-                // TODO: move all picture taking and cropping modal
-                // into a dedicated service for consistence against modules
-                $scope.cropModal = {original: image_url, result: null};
-
-                // DO NOT REMOVE popupShowing !!!
-                // img-crop directive doesn't work if it has been loaded off screen
-                // We show the popup, then switch popupShowing to true, to add
-                // img-crop in the view.
-                $scope.popupShowing = false;
-                $ionicPopup.show({
-                    template: '<div style="position: absolute" class="cropper">' +
-                        '<img-crop ng-if="popupShowing" image="cropModal.original" result-image="cropModal.result" area-type="square" result-image-size="256" result-image-format="image/jpeg" result-image-quality="0.9"></img-crop>' +
-                        '</div>',
-                    cssClass: 'avatar-crop',
-                    scope: $scope,
-                    buttons: [{
-                        text: $translate.instant('Cancel'),
-                        type: 'button-default',
-                        onTap: function (e) {
-                            return false;
-                        }
-                    }, {
-                        text: $translate.instant('OK'),
-                        type: 'button-positive',
-                        onTap: function (e) {
-                            return true;
-                        }
-                    }]
-                }).then(function (result) {
-                    if (result) {
-                        $scope.cropModalCtrl = null;
-                        $scope.avatar_url = $scope.cropModal.result;
-                        $scope.customer.avatar = $scope.cropModal.result;
-                        $scope.customer.delete_avatar = false;
-                    }
+        $scope.editProfilePicture = function () {
+            Picture
+                .takePicture()
+                .then(function (result) {
+                    CropImage
+                        .openPopup(result.image)
+                        .then(function (success) {
+                            // Set new avatar!
+                            $scope.customer.image = success;
+                        }, function (error) {
+                            // Do nothing!
+                        });
+                }, function (takeError) {
+                    // Do nothing!
                 });
-                $scope.popupShowing = true;
-            };
-
-            var gotError = function (err) {
-                // An error occured. Show a message to the user
-            };
-
-            if (Application.is_webview) {
-                var input = angular.element("<input type='file' accept='image/*'>");
-                var selectedFile = function (evt) {
-                    var file = evt.currentTarget.files[0];
-                    var reader = new FileReader();
-                    reader.onload = function (onloadEvt) {
-                        gotImage(onloadEvt.target.result);
-                        input.off('change', selectedFile);
-                    };
-                    reader.onerror = gotError;
-                    reader.readAsDataURL(file);
-                };
-                input.on('change', selectedFile);
-                input[0].click();
-            } else {
-                var source_type = Camera.PictureSourceType.CAMERA;
-
-                // Show the action sheet
-                var hideSheet = $ionicActionSheet.show({
-                    buttons: [
-                        {text: $translate.instant('Take a picture')},
-                        {text: $translate.instant('Import from Library')}
-                    ],
-                    cancelText: $translate.instant('Cancel'),
-                    cancel: function () {
-                        hideSheet();
-                    },
-                    buttonClicked: function (index) {
-                        if (index == 0) {
-                            source_type = Camera.PictureSourceType.CAMERA;
-                        }
-                        if (index == 1) {
-                            source_type = Camera.PictureSourceType.PHOTOLIBRARY;
-                        }
-
-                        var options = {
-                            quality: 90,
-                            destinationType: Camera.DestinationType.DATA_URL,
-                            sourceType: source_type,
-                            encodingType: Camera.EncodingType.JPEG,
-                            targetWidth: 256,
-                            targetHeight: 256,
-                            correctOrientation: true,
-                            popoverOptions: CameraPopoverOptions,
-                            saveToPhotoAlbum: false
-                        };
-
-                        $cordovaCamera
-                            .getPicture(options)
-                            .then(function (imageData) {
-                                gotImage('data:image/jpeg;base64,' + imageData);
-                            }, gotError);
-
-                        return true;
-                    }
-                });
-            }
         };
 
         $scope.loadContent = function () {
@@ -289,7 +150,8 @@ angular
             $scope.myAccount = Application.myAccount;
 
             if ($scope.myAccount.settings.enable_commercial_agreement_label.length <= 0) {
-                $scope.myAccount.settings.enable_commercial_agreement_label = $translate.instant("I'd like to hear about offers & services", 'customer');
+                $scope.myAccount.settings.enable_commercial_agreement_label =
+                    $translate.instant("I'd like to hear about offers & services", 'customer');
             }
 
             $scope.card_design = $scope.myAccount.settings.design === 'card';
@@ -298,14 +160,15 @@ angular
                 return;
             }
 
+            Loader.show();
+
             // Force display account when logged in!
             $scope.displayAccountForm();
-            Loader.show();
 
             $scope.customer = Customer.customer;
             $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
-            $scope.avatar_url = Customer.getAvatarUrl($scope.customer.id);
 
+            // @todo check relevance here, and/or optimize usage!
             HomepageLayout
                 .getActiveOptions()
                 .then(function (options) {
@@ -340,18 +203,16 @@ angular
                 });
         };
 
-        $scope.save = function () {
-            $scope.is_loading = true;
-
+        $scope.registerOrSave = function () {
             Loader.show();
-
             Customer
                 .save($scope.customer)
                 .then(function (data) {
                     if (angular.isDefined(data.message)) {
-                        Dialog.alert('', data.message, 'OK', -1)
+                        Dialog
+                            .alert('Account', data.message, 'OK', -1, 'customer')
                             .then(function () {
-                                Customer.login_modal.hide();
+                                Customer.closeModal();
                             });
                     }
 
@@ -363,10 +224,8 @@ angular
 
                     return data;
                 }).then(function () {
-                $scope.is_loading = false;
-
-                Loader.hide();
-            });
+                    Loader.hide();
+                });
         };
 
         $scope.logout = function () {
@@ -377,9 +236,9 @@ angular
                         Customer
                             .logout()
                             .then(function (data) {
-                                FacebookConnect.logout();
                                 if (data.success) {
-                                    $scope.resetCustomer();
+                                    FacebookConnect.logout();
+                                    $scope.pristineCustomer();
                                     Customer.hideModal();
                                 }
                             });
@@ -391,10 +250,10 @@ angular
             $scope.scrollTop();
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = false;
-            $scope.display_privacy_policy = false;
             $scope.display_login_form = true;
         };
 
+        // Keep it for forgot password event!
         $rootScope.$on('displayLogin', function () {
             $scope.displayLoginForm();
         });
@@ -403,7 +262,6 @@ angular
             $scope.scrollTop();
             $scope.display_login_form = false;
             $scope.display_account_form = false;
-            $scope.display_privacy_policy = false;
             $scope.display_forgot_password_form = true;
         };
 
@@ -416,7 +274,6 @@ angular
             }
             $scope.display_login_form = false;
             $scope.display_forgot_password_form = false;
-            $scope.display_privacy_policy = false;
             $scope.display_account_form = true;
         };
 
@@ -424,7 +281,7 @@ angular
             $ionicScrollDelegate.scrollTop(false);
         };
 
-        $scope.unloadcard = function () {
+        $scope.removeCreditCard = function () {
             Dialog
                 .confirm('Confirmation', 'Do you confirm you want to remove your card?')
                 .then(function (result) {

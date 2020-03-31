@@ -3,8 +3,9 @@
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('Picture', function ($cordovaCamera, $ionicActionSheet, $q, $rootScope,
-                                                      $translate, Dialog, SB) {
+angular
+    .module('starter')
+    .service('Picture', function ($cordovaCamera, $ionicActionSheet, $q, $rootScope, $translate, Dialog, SB) {
     var service = {
         isOpen: false,
         sheetResolver: null,

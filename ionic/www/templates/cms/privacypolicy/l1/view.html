@@ -1,8 +1,8 @@
 <div class="list" ng-class="{'card' : card_design}">
-    <div class="padding item-text-custom"
+    <div class="padding"
          ng-bind-html="privacy_policy | trusted_html"></div>
 
-    <div class="padding item-text-custom"
+    <div class="padding"
          ng-if="gdpr.isEnabled"
          ng-bind-html="privacy_policy_gdpr | trusted_html"></div>
 </div>

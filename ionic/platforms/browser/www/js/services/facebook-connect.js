@@ -45,14 +45,16 @@ angular.module('starter').service('FacebookConnect', function ($cordovaOauth, $r
             }).then(function () {
                 $cordovaOauth.facebook(_this.app_id, _this.permissions, options)
                     .then(function (result) {
-                        Customer.loginWithFacebook(result.access_token)
+                        Customer
+                            .loginWithFacebook(result.access_token)
                             .then(function () {
                                 Customer.login_modal.hide();
                             }).finally(function () {
                                 Loader.hide();
                             });
                     }, function (error) {
-                        Dialog.alert('Login error', error, 'OK', -1)
+                        Dialog
+                            .alert('Login error', error, 'OK', -1)
                             .then(function () {
                                 Customer.login_modal.hide();
                                 Loader.hide();

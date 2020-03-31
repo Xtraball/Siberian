@@ -21,6 +21,11 @@ img-crop canvas {
     -webkit-tap-highlight-color: transparent
 }
 
+.customer-layout1 .customer-image {
+    padding: 4px;
+    border-radius: 50%;
+}
+
 .avatar-crop .popup .popup-head {
     display: none;
 }

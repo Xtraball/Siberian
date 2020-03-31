@@ -8,374 +8,375 @@ angular
     .module('starter')
     .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, Application, Loader,
                                    Modal, Dialog, Url, SB) {
-    var factory = {
-        customer: null,
-        modal: null,
-        login_modal: null,
-        can_access_locked_features: false,
-        display_account_form: false,
-        login_modal_hidden_subscriber: null,
-        is_logged_in: false,
-        facebook_login_enabled: false,
-        loginScope: null
-    };
 
-    /**
-     * Populate Application service on load
-     *
-     * @param customer
-     */
-    factory.populate = function (customer) {
-        factory.customer = customer;
-        factory.is_logged_in = customer.isLoggedIn;
-        factory.id = customer.id;
-        factory.can_access_locked_features = customer.can_access_locked_features;
-        factory.can_connect_with_facebook = customer.can_connect_with_facebook;
-
-        if (factory.is_logged_in) {
-            $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
-        }
-
-        factory.saveCredentials(customer.token);
-    };
-
-    /**
-     * Disable facebook login if no API is set.
-     *
-     * @param facebook
-     */
-    factory.setFacebookLogin = function (facebook) {
-        factory.facebook_login_enabled = !(facebook.id === null || facebook.id === '');
-    };
-
-    /**
-     *
-     */
-    factory.hideModal = function () {
-        factory.login_modal.hide();
-    };
-
-    /**
-     * This is the general method to open a login modal, this should be the only one.
-     *
-     * @param scope
-     * @param loginCallback
-     * @param logoutCallback
-     * @param registerCallback
-     *
-     * @return Promise|boolean
-     */
-    factory.loginModal = function (scope, loginCallback, logoutCallback, registerCallback) {
-        if ($rootScope.isNotAvailableOffline()) {
-            return false;
-        }
-
-        var modalScope = $rootScope.$new(true);
-
-        modalScope.$on('modal.shown', function () {
-            var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-                if (typeof loginCallback === 'function') {
-                    loginCallback();
-                }
-                factory.login_modal.hide();
-            });
-
-            var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
-                if (typeof logoutCallback === 'function') {
-                    logoutCallback();
-                }
-                factory.login_modal.hide();
-            });
-
-            var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
-                if (typeof registerCallback === 'function') {
-                    registerCallback();
-                }
-                factory.login_modal.hide();
-            });
-
-            // Listening for modal.hidden dynamically!
-            factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
-                // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
-                factory.login_modal_hidden_subscriber();
-
-                // CLean-up callback listeners!
-                loginSuccessSubscriber();
-                logoutSuccessSubscriber();
-                registerSubscriber();
-            });
-        });
-
-        // Layout options!
-        var layout = 'templates/customer/account/l1/my-account.html';
-
-        return Modal
-            .fromTemplateUrl(layout, {
-                scope: modalScope,
-                animation: 'slide-in-up'
-            }).then(function (modal) {
-                factory.login_modal = modal;
-                factory.login_modal.show();
-
-                return modal;
-            });
-    };
-
-    factory.closeModal = function () {
-        factory.login_modal.hide();
-    };
-
-    factory.login = function (data) {
-        var localData = angular.extend({}, data, {
-            device_uid: $session.getDeviceUid()
-        });
-
-        Loader.show();
-
-        var promise = $pwaRequest.post('customer/mobile_account_login/post', {
-            data: localData,
-            cache: false
-        });
-
-        promise
-            .then(function (result) {
-                factory.populate(result.customer);
-
-                return result;
-            }, function (error) {
-                Dialog.alert('Error', error.message, 'OK', -1);
-            }).then(function (result) {
-                Loader.hide();
-
-                return result;
-            });
-
-        return promise;
-    };
-
-    factory.loginWithFacebook = function (token) {
-        var data = {
-            device_uid: device.uuid,
-            token: token
+        var factory = {
+            customer: null,
+            modal: null,
+            login_modal: null,
+            can_access_locked_features: false,
+            display_account_form: false,
+            login_modal_hidden_subscriber: null,
+            is_logged_in: false,
+            facebook_login_enabled: false,
+            loginScope: null
         };
 
-        var promise = $pwaRequest.post('customer/mobile_account_login/loginwithfacebook', {
-            data: data,
-            cache: false
-        });
+        /**
+         *
+         * @param customer
+         */
+        factory.populate = function (customer) {
+            factory.customer = customer;
+            factory.is_logged_in = customer.isLoggedIn;
+            factory.id = customer.id;
+            factory.can_access_locked_features = customer.can_access_locked_features;
+            factory.can_connect_with_facebook = customer.can_connect_with_facebook;
 
-        promise
-            .then(function (result) {
-                factory.populate(result.customer);
+            if (factory.is_logged_in) {
+                $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
+            }
 
-                return result;
-            }, function (error) {
-                Dialog.alert('Error', error.message, 'OK', -1);
+            factory.saveCredentials(customer.token);
+        };
 
-                return error;
+        /**
+         * Disable facebook login if no API is set.
+         *
+         * @param facebook
+         */
+        factory.setFacebookLogin = function (facebook) {
+            factory.facebook_login_enabled = !(facebook.id === null || facebook.id === '');
+        };
+
+        /**
+         *
+         */
+        factory.hideModal = function () {
+            factory.login_modal.hide();
+        };
+
+        factory.getAvatarUrl = function () {
+            // Fallback for previous modules!
+            if (factory.customer.image &&
+                factory.customer.image.length > 0) {
+                return IMAGE_URL + 'images/customer' + factory.customer.image;
+            }
+            return 'data:image/jpeg;base64,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';
+        };
+
+        /**
+         * This is the general method to open a login modal, this should be the only one.
+         *
+         * @param scope
+         * @param loginCallback
+         * @param logoutCallback
+         * @param registerCallback
+         *
+         * @return Promise|boolean
+         */
+        factory.loginModal = function (scope, loginCallback, logoutCallback, registerCallback) {
+            if ($rootScope.isNotAvailableOffline()) {
+                return false;
+            }
+
+            // Event handlers to spread accross the application!
+            var modalScope = $rootScope.$new(true);
+
+            modalScope.$on('modal.shown', function () {
+                var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+                    if (typeof loginCallback === 'function') {
+                        loginCallback();
+                    }
+                    factory.login_modal.hide();
+                });
+
+                var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+                    if (typeof logoutCallback === 'function') {
+                        logoutCallback();
+                    }
+                    factory.login_modal.hide();
+                });
+
+                var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+                    if (typeof registerCallback === 'function') {
+                        registerCallback();
+                    }
+                    factory.login_modal.hide();
+                });
+
+                // Listening for modal.hidden dynamically!
+                factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
+                    // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
+                    factory.login_modal_hidden_subscriber();
+
+                    // CLean-up callback listeners!
+                    loginSuccessSubscriber();
+                    logoutSuccessSubscriber();
+                    registerSubscriber();
+                });
             });
 
-        return promise;
-    };
+            // Layout options!
+            var layout = 'templates/customer/account/l1/my-account.html';
 
-    factory.register = function (data) {
-        var localData = angular.extend({}, data, {
-            device_uid: $session.getDeviceUid()
-        });
+            return Modal
+                .fromTemplateUrl(layout, {
+                    scope: modalScope,
+                    animation: 'slide-in-up'
+                }).then(function (modal) {
+                    factory.login_modal = modal;
+                    factory.login_modal.show();
 
-        Loader.show();
+                    return modal;
+                });
+        };
 
-        var promise = $pwaRequest.post('customer/mobile_account_register/post', {
-            data: localData,
-            cache: false
-        });
+        // Binder to close the login modal!
+        factory.closeModal = function () {
+            factory.login_modal.hide();
+        };
 
-        promise
-            .then(function (result) {
-                factory.populate(result.customer);
+        factory.login = function (data) {
+            var localData = angular.extend({}, data, {
+                device_uid: $session.getDeviceUid()
+            });
 
-                return result;
-            }, function (error) {
-                Dialog.alert('Error', error.message, 'OK', -1);
+            Loader.show();
 
-                return error;
-            }).then(function (result) {
+            var promise = $pwaRequest.post('customer/mobile_account_login/post', {
+                data: localData,
+                cache: false
+            });
+
+            promise
+                .then(function (result) {
+                    factory.populate(result.customer);
+
+                    return result;
+                }, function (error) {
+                    Dialog.alert('Error', error.message, 'OK', -1);
+                }).then(function (result) {
                 Loader.hide();
 
                 return result;
             });
 
-        return promise;
-    };
+            return promise;
+        };
 
-    factory.forgotPassword = function (email) {
-        try {
+        factory.loginWithFacebook = function (token) {
+            var data = {
+                device_uid: device.uuid,
+                token: token
+            };
+
+            var promise = $pwaRequest.post('customer/mobile_account_login/loginwithfacebook', {
+                data: data,
+                cache: false
+            });
+
+            promise
+                .then(function (result) {
+                    factory.populate(result.customer);
+
+                    return result;
+                }, function (error) {
+                    Dialog.alert('Error', error.message, 'OK', -1);
+
+                    return error;
+                });
+
+            return promise;
+        };
+
+        factory.register = function (data) {
+            var localData = angular.extend({}, data, {
+                device_uid: $session.getDeviceUid()
+            });
+
             Loader.show();
-            factory.forgottenpassword(email)
-                .then(function (data) {
-                    if (data && angular.isDefined(data.message)) {
-                        Dialog.alert('', data.message, 'OK', -1);
 
-                        if (data.success) {
-                            $rootScope.$broadcast('displayLogin');
+            var promise = $pwaRequest.post('customer/mobile_account_register/post', {
+                data: localData,
+                cache: false
+            });
+
+            promise
+                .then(function (result) {
+                    factory.populate(result.customer);
+
+                    return result;
+                }, function (error) {
+                    Dialog.alert('Error', error.message, 'OK', -1);
+
+                    return error;
+                }).then(function (result) {
+                Loader.hide();
+
+                return result;
+            });
+
+            return promise;
+        };
+
+        factory.forgotPassword = function (email) {
+            try {
+                Loader.show();
+                factory.forgottenpassword(email)
+                    .then(function (data) {
+                        if (data && angular.isDefined(data.message)) {
+                            Dialog.alert('', data.message, 'OK', -1);
+
+                            if (data.success) {
+                                $rootScope.$broadcast('displayLogin');
+                            }
                         }
-                    }
-                }, function (data) {
-                    if (data && angular.isDefined(data.message)) {
-                        Dialog.alert('Error', data.message, 'OK', -1);
-                    }
-                }).then(function () {
+                    }, function (data) {
+                        if (data && angular.isDefined(data.message)) {
+                            Dialog.alert('Error', data.message, 'OK', -1);
+                        }
+                    }).then(function () {
                     Loader.hide();
                 });
-        } catch (e) {
-            Loader.hide();
-        }
-    };
-
-    factory.getAvatarUrl = function (customerId, options) {
-        var myOptions = angular.isObject(options) ? options : {};
-        return Url.get(
-            '/customer/mobile_account/avatar', angular.extend({}, myOptions, { customer: customerId })) +
-            ($rootScope.isOffline ? '' : '?' +(+new Date()));
-    };
-
-    factory.save = function (data) {
-        if (!factory.isLoggedIn()) {
-            return factory.register(data);
-        }
-
-        Loader.show();
-
-        var promise = $pwaRequest.post('customer/mobile_account_edit/post', {
-            data: data,
-            cache: false
-        });
-
-        promise
-            .then(function (result) {
-                factory.populate(result.customer);
-
-                return result;
-            }, function (error) {
-                Dialog.alert('Error', error.message, 'OK', -1);
-
-                return error;
-            }).then(function (result) {
+            } catch (e) {
                 Loader.hide();
+            }
+        };
 
-                return result;
+        factory.save = function (data) {
+            if (!factory.isLoggedIn()) {
+                return factory.register(data);
+            }
+
+            var promise = $pwaRequest.post('customer/mobile_account_edit/post', {
+                data: data,
+                cache: false
             });
 
-        return promise;
-    };
+            promise
+                .then(function (result) {
+                    factory.populate(result.customer);
 
-    factory.forgottenpassword = function (email) {
-        Loader.show();
+                    return result;
+                }, function (error) {
+                    Dialog.alert('Error', error.message, 'OK', -1);
 
-        var promise = $pwaRequest.post('customer/mobile_account_forgottenpassword/post', {
+                    return error;
+                }).then(function (result) {
+
+                    return result;
+                });
+
+            return promise;
+        };
+
+        factory.forgottenpassword = function (email) {
+            Loader.show();
+
+            var promise = $pwaRequest.post('customer/mobile_account_forgottenpassword/post', {
                 data: {
                     email: email
                 },
                 cache: false
             });
 
-        promise.then(function (data) {
+            promise.then(function (data) {
                 Loader.hide();
 
                 return data;
             });
 
-        return promise;
-    };
+            return promise;
+        };
 
-    factory.logout = function () {
-        Loader.show();
+        factory.logout = function () {
+            Loader.show();
 
-        var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
-            cache: false
-        });
+            var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
+                cache: false
+            });
 
-        promise.then(function (result) {
-            factory.clearCredentials();
+            promise.then(function (result) {
+                factory.clearCredentials();
 
-            return result;
-        }).then(function (result) {
-            Loader.hide();
+                return result;
+            }).then(function (result) {
+                Loader.hide();
 
-            return result;
-        });
+                return result;
+            });
 
-        return promise;
-    };
+            return promise;
+        };
 
-    factory.removeCard = function () {
-        Loader.show();
+        factory.removeCard = function () {
+            Loader.show();
 
-        var promise = $pwaRequest.post('mcommerce/mobile_sales_stripe/removecard', {
+            var promise = $pwaRequest.post('mcommerce/mobile_sales_stripe/removecard', {
                 data: {
                     customer_id: factory.id
                 },
                 cache: false
             });
 
-        promise.then(function () {
+            promise.then(function () {
                 Loader.hide();
             });
 
-        return promise;
-    };
+            return promise;
+        };
 
-    factory.find = function () {
-        return $pwaRequest.get('customer/mobile_account_edit/find');
-    };
+        factory.find = function () {
+            return $pwaRequest.get('customer/mobile_account_edit/find');
+        };
 
-    factory.isLoggedIn = function () {
-        return factory.is_logged_in;
-    };
+        factory.isLoggedIn = function () {
+            return factory.is_logged_in;
+        };
 
-    /**
-     * Request a new token for GDPR Data
-     */
-    factory.requestToken = function () {
-        Loader.show();
+        /**
+         * Request a new token for GDPR Data
+         */
+        factory.requestToken = function () {
+            Loader.show();
 
-        var promise = $pwaRequest.post('customer/mobile_account/request-token', {
-            cache: false
-        });
+            var promise = $pwaRequest.post('customer/mobile_account/request-token', {
+                cache: false
+            });
 
-        promise
-            .then(function (data) {
-                if (angular.isDefined(data.message)) {
-                    Dialog.alert('', data.message, 'OK', -1);
-                }
+            promise
+                .then(function (data) {
+                    if (angular.isDefined(data.message)) {
+                        Dialog.alert('', data.message, 'OK', -1);
+                    }
 
-                return data;
-            }, function (data) {
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert('Error', data.message, 'OK', -1);
-                }
+                    return data;
+                }, function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert('Error', data.message, 'OK', -1);
+                    }
 
-                return data;
-            }).then(function () {
+                    return data;
+                }).then(function () {
                 Loader.hide();
             });
 
-        return promise;
-    };
+            return promise;
+        };
 
-    factory.saveCredentials = function (uuid) {
-        $session.setId(uuid);
-    };
+        factory.saveCredentials = function (uuid) {
+            $session.setId(uuid);
+        };
 
-    factory.clearCredentials = function () {
-        factory.customer = null;
-        factory.can_access_locked_features = false;
-        factory.is_logged_in = false;
+        factory.clearCredentials = function () {
+            factory.customer = null;
+            factory.can_access_locked_features = false;
+            factory.is_logged_in = false;
 
-        $rootScope.$broadcast(SB.EVENTS.AUTH.logoutSuccess);
+            $rootScope.$broadcast(SB.EVENTS.AUTH.logoutSuccess);
 
-        $session.clear();
-    };
+            $session.clear();
+        };
 
-    return factory;
-});
+        return factory;
+    });
