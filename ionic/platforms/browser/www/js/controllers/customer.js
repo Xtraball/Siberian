@@ -75,6 +75,7 @@ angular
                         close: function () {
                             $scope.ppModal.hide();
                         },
+                        cardDesign: $scope.card_design,
                         is_loading: false,
                         page_title: $scope.privacyPolicyField.modaltitle
                     }),
@@ -207,22 +208,15 @@ angular
             Loader.show();
             Customer
                 .save($scope.customer)
-                .then(function (data) {
-                    if (angular.isDefined(data.message)) {
-                        Dialog
-                            .alert('Account', data.message, 'OK', -1, 'customer')
-                            .then(function () {
-                                Customer.closeModal();
-                            });
-                    }
-
-                    return data;
-                }, function (data) {
-                    if (data && angular.isDefined(data.message)) {
-                        Dialog.alert('Error', data.message, 'OK', -1);
-                    }
-
-                    return data;
+                .then(function (success) {
+                    Dialog
+                        .alert('Account', success.message, 'OK', -1, 'customer')
+                        .then(function () {
+                            Customer.closeModal();
+                        });
+                    return success;
+                }, function (error) {
+                    Dialog.alert('Error', error.message, 'OK', -1);
                 }).then(function () {
                     Loader.hide();
                 });

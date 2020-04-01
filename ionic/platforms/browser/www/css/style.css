@@ -2332,10 +2332,6 @@ div#search_section {
     width: 44%;
 }
 
-.item.item-custom .input-label {
-    font-size: 12px;
-}
-
 .list .item.item-custom.item-select select {
     max-width: 55%;
     width: 100%;
@@ -2402,6 +2398,10 @@ form .item i.icon {
 .item-custom .item-checkbox {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.item-checkbox .item-content {
+    white-space: normal;
 }
 
 .item-checkbox .item-content span {

@@ -57,7 +57,8 @@ angular
 
         factory.getAvatarUrl = function () {
             // Fallback for previous modules!
-            if (factory.customer.image &&
+            if (factory.customer &&
+                factory.customer.image &&
                 factory.customer.image.length > 0) {
                 return IMAGE_URL + 'images/customer' + factory.customer.image;
             }
@@ -189,32 +190,22 @@ angular
             return promise;
         };
 
-        factory.register = function (data) {
-            var localData = angular.extend({}, data, {
+        factory.register = function (customer) {
+            var localCustomer = angular.extend({}, customer, {
                 device_uid: $session.getDeviceUid()
             });
 
-            Loader.show();
-
             var promise = $pwaRequest.post('customer/mobile_account_register/post', {
-                data: localData,
+                data: localCustomer,
                 cache: false
             });
 
             promise
-                .then(function (result) {
-                    factory.populate(result.customer);
+                .then(function (success) {
+                    factory.populate(success.customer);
 
-                    return result;
-                }, function (error) {
-                    Dialog.alert('Error', error.message, 'OK', -1);
-
-                    return error;
-                }).then(function (result) {
-                Loader.hide();
-
-                return result;
-            });
+                    return success;
+                });
 
             return promise;
         };
@@ -243,28 +234,22 @@ angular
             }
         };
 
-        factory.save = function (data) {
+        factory.save = function (customer) {
             if (!factory.isLoggedIn()) {
-                return factory.register(data);
+                return factory.register(customer);
             }
 
             var promise = $pwaRequest.post('customer/mobile_account_edit/post', {
-                data: data,
+                data: customer,
                 cache: false
             });
 
+            // Handling success, to update the customer object!
             promise
-                .then(function (result) {
-                    factory.populate(result.customer);
+                .then(function (success) {
+                    factory.populate(success.customer);
 
-                    return result;
-                }, function (error) {
-                    Dialog.alert('Error', error.message, 'OK', -1);
-
-                    return error;
-                }).then(function (result) {
-
-                    return result;
+                    return success;
                 });
 
             return promise;

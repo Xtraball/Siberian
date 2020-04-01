@@ -122,45 +122,8 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 unset($data['customer_id']);
             }
 
-            // If the image starts with data: this means it's a new one, and we must save it!
-            if (!empty($data['image']) &&
-                strpos($data['image'], 'data:') === 0) {
-
-                $formattedName = md5($customer->getId());
-                $imagePath = $customer->getBaseImagePath() . '/' . $formattedName;
-
-                // Create customer's folder
-                if (!is_dir($imagePath)) {
-                    mkdir($imagePath, 0777, true);
-                }
-
-                // Store the picture on the server
-                $imageName = uniqid('prfl', true) . '.jpg';
-                $destPath = $imagePath . '/' . $imageName;
-                $newavatar = base64_decode(str_replace(' ', '+', preg_replace('#^data:image/\w+;base64,#i', '', $data['image'])));
-                $file = fopen($destPath, 'wb');
-                fwrite($file, $newavatar);
-                fclose($file);
-
-                // Resize the image
-                Thumbnailer_CreateThumb::createThumbnail($destPath, $destPath, 256, 256, 'jpg', true);
-
-                $oldImage = $customer->getFullImagePath();
-
-                // Set the image to the customer
-                $newImagePath = '/' . $formattedName . '/' . $imageName;
-                $customer
-                    ->setImage($newImagePath)
-                    ->setIsCustomImage(1)
-                    ->save();
-                $data['image'] = $newImagePath;
-                $data['is_custom_image'] = 1;
-
-                // Clean-up old file!
-                if ($oldImage) {
-                    unlink($oldImage);
-                }
-            }
+            $customer->saveImage($data['image']);
+            unset($data['image']);
 
             $password = '';
             if ($data['change_password'] === true && !empty($data['password'])) {
