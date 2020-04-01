@@ -63,11 +63,11 @@
         <label class="item item-input item-custom"
                ng-if="customer.change_password && is_logged_in">
             <div class="input-label">
-                {{ ::'Actual password' | translate:'customer' }}
+                {{ ::'Current password' | translate:'customer' }}
             </div>
             <input class="text-right"
                    type="password"
-                   placeholder="{{ 'Actual password' | translate:'customer' }}"
+                   placeholder="{{ 'Current password' | translate:'customer' }}"
                    ng-disabled="!customer.change_password"
                    ng-model="customer.old_password" />
         </label>
@@ -89,7 +89,7 @@
                       model="customer.privacy_policy"
                       card-design="card_design"></sb-clickwrap>
 
-        <ion-checkbox class="checkbox-custom item-custom"
+        <ion-checkbox class="checkbox-custom item-custom item-text-wrap"
                       ng-model="customer.communication_agreement"
                       ng-if="myAccount.settings.enable_commercial_agreement">
             {{ ::myAccount.settings.enable_commercial_agreement_label | translate:'customer' }}

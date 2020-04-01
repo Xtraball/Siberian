@@ -170,15 +170,16 @@ angular
             $scope.customer.metadatas = _.isObject($scope.customer.metadatas) ? $scope.customer.metadatas : {};
 
             // @todo check relevance here, and/or optimize usage!
+            // these must be moved to the front/app/init & cached, using resources for nothing!
             HomepageLayout
                 .getActiveOptions()
                 .then(function (options) {
                     $scope.optional_fields = {
                         ranking: !!_.find(options, {
-                            use_ranking: '1'
+                            use_ranking: true
                         }),
                         nickname: !!_.find(options, {
-                            use_nickname: '1'
+                            use_nickname: true
                         })
                     };
 

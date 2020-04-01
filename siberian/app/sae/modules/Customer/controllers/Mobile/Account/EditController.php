@@ -126,12 +126,14 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             unset($data['image']);
 
             $password = '';
-            if ($data['change_password'] === true && !empty($data['password'])) {
+            $data['change_password'] = filter_var($data['change_password'], FILTER_VALIDATE_BOOLEAN);
+            if ($data['change_password'] === true &&
+                !empty($data['password'])) {
 
                 if (empty($data['old_password']) ||
                     (!empty($data['old_password']) &&
                         !$customer->isSamePassword($data['old_password']))) {
-                    throw new Exception(p__('customer', 'The actual password is incorrect.'));
+                    throw new Exception(p__('customer', 'The current password is incorrect.'));
                 }
 
                 $password = $data['password'];
