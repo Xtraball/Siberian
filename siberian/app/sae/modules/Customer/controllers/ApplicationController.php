@@ -277,23 +277,23 @@ class Customer_ApplicationController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $limit = $request->getParam("perPage", 25);
-            $offset = $request->getParam("offset", 0);
-            $sorts = $request->getParam("sorts", []);
-            $queries = $request->getParam("queries", []);
+            $limit = $request->getParam('perPage', 25);
+            $offset = $request->getParam('offset', 0);
+            $sorts = $request->getParam('sorts', []);
+            $queries = $request->getParam('queries', []);
 
             $filter = null;
-            if (array_key_exists("search", $queries)) {
-                $filter = $queries["search"];
+            if (array_key_exists('search', $queries)) {
+                $filter = $queries['search'];
             }
 
             //foreach ()
 
             $params = [
-                "limit" => $limit,
-                "offset" => $offset,
-                "sorts" => $sorts,
-                "filter" => $filter,
+                'limit' => $limit,
+                'offset' => $offset,
+                'sorts' => $sorts,
+                'filter' => $filter,
             ];
 
             $application = $this->getApplication();
@@ -309,17 +309,18 @@ class Customer_ApplicationController extends Application_Controller_Default
             $customersJson = [];
             foreach ($customers as $customer) {
                 $data = $customer->getData();
-                $data["name"] = $customer->getName();
-                $data["privacy_policy"] = (bool) $data["privacy_policy"];
-                $data["communication_agreement"] = (bool) $data["communication_agreement"];
-                $data["created_at"] = datetime_to_format($data["created_at"]);
+                $data['name'] = $customer->getName();
+                $data['privacy_policy'] = (bool) $data['privacy_policy'];
+                $data['communication_agreement'] = (bool) $data['communication_agreement'];
+                $data['show_in_social_gaming'] = (bool) $data['show_in_social_gaming'];
+                $data['created_at'] = datetime_to_format($data['created_at']);
                 $customersJson[] = $data;
             }
 
             $payload = [
-                "records" => $customersJson,
-                "queryRecordCount" => $countFiltered[0],
-                "totalRecordCount" => $countAll[0]
+                'records' => $customersJson,
+                'queryRecordCount' => $countFiltered[0],
+                'totalRecordCount' => $countAll[0]
             ];
         } catch (\Exception $e) {
             $payload = [
