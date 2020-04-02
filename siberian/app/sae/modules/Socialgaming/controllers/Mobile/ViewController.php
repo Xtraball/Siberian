@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Exception;
+
 /**
  * Class Socialgaming_Mobile_ViewController
  */
@@ -8,66 +10,87 @@ class Socialgaming_Mobile_ViewController extends Application_Controller_Mobile_D
 
     public function findallAction()
     {
-
-        if ($this->getRequest()->getParam('value_id')) {
-            // Social Gaming
+        try {
+            $request = $this->getRequest();
             $application = $this->getApplication();
+            $appId = $application->getId();
             $option = $this->getCurrentOptionValue();
+            $offset = $request->getParam('offset', 0);
 
-            $offset = $this->getRequest()->getParam('offset', 0);
-
-            $current_game = new Socialgaming_Model_Game();
-            $current_game->findCurrent($option->getId());
-
-            if (!$current_game->getId()) {
-                $current_game->findDefault();
+            if (!$option->getId()) {
+                throw new Exception(p__('social_gaming', 'This feture does not exists!'));
             }
 
-            list($start, $end) = $current_game->getFromDateToDate();
+            $currentGame = (new Socialgaming_Model_Game())->findCurrent($option->getId());
 
-            $log = new LoyaltyCard_Model_Customer_Log();
-            $customers = $log->getBestCustomers($application->getId(), $start->toString('y-MM-dd HH:mm:ss'), $end->toString('y-MM-dd HH:mm:ss'), false, $offset);
-            $team_leader = $customers->current();
+            if (!$currentGame &&
+                !$currentGame->getId()) {
+                $currentGame->findDefault();
+            }
+
+            list($start, $end) = $currentGame->getFromDateToDate();
+
+            $customers = (new LoyaltyCard_Model_Customer_Log())->getBestCustomers(
+                $appId,
+                $start->toString('y-MM-dd HH:mm:ss'),
+                $end->toString('y-MM-dd HH:mm:ss'),
+                false,
+                $offset);
+            $teamLeader = $customers->current();
             $customers->removeCurrent();
 
             $data = [
-                "icon_url" => $this->_getColorizedImage($option->getIconId(), $application->getBlock('background')->getColor()),
-                "game" => [
-                    "name" => $current_game->getName(),
-                    "period" => strtoupper($current_game->getGamePeriodLabel()),
+                'icon_url' => $this->_getColorizedImage(
+                    $option->getIconId(),
+                    $application->getBlock('background')->getColor()),
+                'game' => [
+                    'name' => $currentGame->getName(),
+                    'period' => strtoupper($currentGame->getGamePeriodLabel()),
                 ],
-                "team_leader" => [],
-                "collection" => [],
+                'team_leader' => [],
+                'collection' => [],
             ];
 
-            if ($team_leader) {
-                $image_url = $team_leader->getImageLink();
-                $data["team_leader"] = [
-                    "id" => $team_leader->getId(),
-                    "image_url" => $image_url ? $this->getRequest()->getBaseUrl() . $image_url : null,
-                    "name" => $team_leader->getFirstname() . ' ' . mb_substr($team_leader->getLastname(), 0, 1, "UTF-8") . '.',
-                    "number_of_points" => $this->_('%s point%s', $team_leader->getNumberOfPoints(), $team_leader->getNumberOfPoints() > 1 ? 's' : ''),
+            if ($teamLeader) {
+                $imageUrl = $teamLeader->getImageLink();
+                $data['team_leader'] = [
+                    'id' => $teamLeader->getId(),
+                    'image_url' => $imageUrl ? $request->getBaseUrl() . $imageUrl : null,
+                    'name' => $teamLeader->getFirstname() . ' ' . mb_substr($teamLeader->getLastname(), 0, 1, 'UTF-8') . '.',
+                    'number_of_points' => $this->_('%s point%s', $teamLeader->getNumberOfPoints(), $teamLeader->getNumberOfPoints() > 1 ? 's' : ''),
                 ];
             }
 
-
             if ($customers->count()) {
                 foreach ($customers as $customer) {
-                    $image_url = $customer->getImageLink();
-                    $data["collection"][] = [
-                        "id" => $customer->getId(),
-                        "image_url" => $image_url ? $this->getRequest()->getBaseUrl() . $image_url : null,
-                        "name" => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1, "UTF-8") . '.',
-                        "number_of_points" => $this->_('%s point%s', $customer->getNumberOfPoints(), $customer->getNumberOfPoints() > 1 ? 's' : ''),
+                    $imageUrl = $customer->getImageLink();
+                    $data['collection'][] = [
+                        'id' => $customer->getId(),
+                        'image_url' => $imageUrl ? $request->getBaseUrl() . $imageUrl : null,
+                        'name' => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1, 'UTF-8') . '.',
+                        'number_of_points' => $this->_('%s point%s', $customer->getNumberOfPoints(), $customer->getNumberOfPoints() > 1 ? 's' : ''),
                     ];
                 }
             }
 
             $data['page_title'] = $option->getTabbarName();
 
-            $this->_sendJson($data);
-
+            $payload = [
+                'success' => true,
+                'page_title' => $option->getTabbarName(),
+                'team_leader' => $data['team_leader'],
+                'icon_url' => $data['icon_url'],
+                'game' => $data['game'],
+                'collection' => $data['collection'],
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
 }

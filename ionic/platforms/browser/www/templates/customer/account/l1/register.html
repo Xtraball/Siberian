@@ -34,7 +34,7 @@
         </label>
 
         <label class="item item-input item-custom"
-               ng-if="optional_fields.nickname">
+               ng-if="myAccount.settings.use_nickname">
             <div class="input-label">
                 {{ ::'Nickname' | translate:'customer' }}
             </div>
@@ -97,7 +97,7 @@
 
         <ion-checkbox class="checkbox-custom item-custom"
                       ng-model="customer.show_in_social_gaming"
-                      ng-if="optional_fields.ranking">
+                      ng-if="myAccount.settings.use_ranking">
             {{ ::'Show me in ranking' | translate:'customer' }}
         </ion-checkbox>
 

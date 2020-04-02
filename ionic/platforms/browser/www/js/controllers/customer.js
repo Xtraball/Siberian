@@ -174,15 +174,6 @@ angular
             HomepageLayout
                 .getActiveOptions()
                 .then(function (options) {
-                    $scope.optional_fields = {
-                        ranking: !!_.find(options, {
-                            use_ranking: true
-                        }),
-                        nickname: !!_.find(options, {
-                            use_nickname: true
-                        })
-                    };
-
                     $scope.custom_fields = [];
 
                     _.forEach(options, function (opt) {
