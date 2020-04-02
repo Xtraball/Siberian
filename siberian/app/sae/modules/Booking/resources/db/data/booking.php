@@ -1,6 +1,6 @@
 <?php
-$name = "Booking";
-$category = "contact";
+$name = 'Booking';
+$category = 'contact';
 
 # Install icons
 $icons = [
@@ -21,18 +21,18 @@ $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
 $data = [
-    'library_id'                    => $result["library_id"],
-    'icon_id'                       => $result["icon_id"],
-    'code'                          => 'booking',
-    'name'                          => $name,
-    'model'                         => 'Booking_Model_Booking',
-    'desktop_uri'                   => 'booking/application/',
-    'mobile_uri'                    => 'booking/mobile_view/',
-    "mobile_view_uri"               => "booking/mobile_view/",
-    "mobile_view_uri_parameter"     => null,
-    'only_once'                     => 0,
-    'is_ajax'                       => 1,
-    'position'                      => 140
+    'library_id' => $result['library_id'],
+    'icon_id' => $result['icon_id'],
+    'code' => 'booking',
+    'name' => $name,
+    'model' => 'Booking_Model_Booking',
+    'desktop_uri' => 'booking/application/',
+    'mobile_uri' => 'booking/mobile_view/',
+    'mobile_view_uri' => 'booking/mobile_view/',
+    'mobile_view_uri_parameter' => null,
+    'only_once' => 0,
+    'is_ajax' => 1,
+    'position' => 140
 ];
 
 $option = Siberian_Feature::install($category, $data, ['code']);

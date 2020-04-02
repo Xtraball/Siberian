@@ -100,30 +100,34 @@
                       ng-if="myAccount.settings.use_ranking">
             {{ ::'Show me in ranking' | translate:'customer' }}
         </ion-checkbox>
+    </div>
 
-        <section ng-repeat="cfo in custom_fields track by cf.code">
-            <div class="item item-divider item-divider-custom">
-                <p>{{ cfo.name }}:</p>
+    <div class="list"
+          ng-class="{'card': card_design}"
+          ng-repeat="cfo in custom_fields track by cf.code">
+        <ion-item class="item-divider item-divider-custom">
+            <p>{{ cfo.name }}:</p>
+        </ion-item>
+
+        <label ng-repeat="cf in cfo.custom_fields"
+               class="item item-input item-custom">
+            <div class="input-label">
+                {{ cf.label | translate }}
             </div>
+            <input class="text-right"
+                   type="{{cf.type}}"
+                   placeholder="{{ cf.label | translate }}"
+                   ng-model="customer.metadatas[cfo.code][cf.key]" />
+        </label>
+    </div>
 
-            <label ng-repeat="cf in cfo.custom_fields"
-                   class="item item-input item-custom">
-                <div class="input-label">
-                    {{ cf.label | translate }}
-                </div>
-                <input class="text-right"
-                       type="{{cf.type}}"
-                       placeholder="{{ cf.label | translate }}"
-                       ng-model="customer.metadatas[cfo.code][cf.key]" />
-            </label>
-        </section>
-
-        <!-- Version #2 of the custom login fields -->
-        <section ng-repeat="fields in customer.extendedFields track by $index">
-            <div ng-class="{'card': card_design}"
-                 ng-repeat="field in fields track by field.key"
-                 ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
-        </section>
+    <!-- Version #2 of the custom login fields -->
+    <div class="list"
+         ng-class="{'card': card_design}"
+         ng-repeat="fields in customer.extendedFields track by $index">
+        <div ng-repeat="field in fields track by field.key"
+             ng-if="(field.type !== 'spacer' && card_design) || !card_design"
+             ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
     </div>
 
     <div class="padding text-right"

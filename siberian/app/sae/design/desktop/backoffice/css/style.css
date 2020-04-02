@@ -414,7 +414,7 @@ label.error {
     padding-top: 4px;
     padding-bottom: 4px;
 }
-""
+
 .backoffice_menu ul.l3 li a {
     padding-top: 4px;
     padding-bottom: 4px;
@@ -1170,17 +1170,17 @@ input.highlight {
 }
 
 th.pointer {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_both_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_both_v1.png');
     background-repeat: no-repeat;
     background-position: 100% center;
 }
 
 th.pointer-up {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_asc_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_asc_v1.png');
 }
 
 th.pointer-down {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_desc_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_desc_v1.png');
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {

@@ -60,6 +60,24 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 throw new Exception($message);
             }
 
+            if (!empty($data['nickname'])) {
+                $validFormat = preg_match('/^[\w]{6,30}$/', $data['nickname']);
+                if (!$validFormat) {
+                    throw new Exception(p__('customer', 'The nickname must contains only letters, numbers & underscore and be 6 to 30 characters long.'));
+                }
+
+                $dummy = (new Customer_Model_Customer())->find([
+                    'nickname' => $data['nickname'],
+                    'app_id' => $appId
+                ]);
+
+                if ($dummy &&
+                    $dummy->getId() &&
+                    $dummy->getId() !== $customer->getId()) {
+                    throw new Exception(p__('customer', 'This nickname is already used, please choose another one!'));
+                }
+            }
+
             $dummy = new Customer_Model_Customer();
             $dummy->find([
                 'email' => $data['email'],

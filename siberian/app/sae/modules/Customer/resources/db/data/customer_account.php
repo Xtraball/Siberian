@@ -1,6 +1,6 @@
 <?php
-$name = "My Account";
-$category = "contact";
+$name = 'My account';
+$category = 'contact';
 
 # Install icons
 $icons = [
@@ -16,15 +16,15 @@ $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
 $data = [
-    'library_id' => $result["library_id"],
-    'icon_id' => $result["icon_id"],
+    'library_id' => $result['library_id'],
+    'icon_id' => $result['icon_id'],
     'code' => 'tabbar_account',
     'name' => $name,
     'model' => 'Customer_Model_Customer',
     'desktop_uri' => 'customer/account/',
     'mobile_uri' => 'customer/mobile_view/',
-    "mobile_view_uri" => "customer/mobile_view/",
-    "mobile_view_uri_parameter" => null,
+    'mobile_view_uri' => 'customer/mobile_view/',
+    'mobile_view_uri_parameter' => null,
     'only_once' => 1,
     'is_ajax' => 1,
     'position' => 140

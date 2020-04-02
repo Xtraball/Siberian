@@ -94,18 +94,18 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
 
             if (!empty($data['nickname'])) {
-                $validFormat = preg_match('/^[A-Za-z0-9_]{6,30}$/', $data['nickname']);
+                $validFormat = preg_match('/^[\w]{6,30}$/', $data['nickname']);
                 if (!$validFormat) {
-                    throw new Exception(p__('customer', 'The nickname you used in not matching allowed characters, letters, numbers & underscore from 6 to 30.'));
+                    throw new Exception(p__('customer', 'The nickname must contains only letters, numbers & underscore and be 6 to 30 characters long.'));
                 }
 
-                $dummy = new Customer_Model_Customer();
-                $dummy->find([
+                $dummy = (new Customer_Model_Customer())->find([
                     'nickname' => $data['nickname'],
                     'app_id' => $appId
                 ]);
 
-                if ($dummy->getId() &&
+                if ($dummy &&
+                    $dummy->getId() &&
                     $dummy->getId() !== $customer->getId()) {
                     throw new Exception(p__('customer', 'This nickname is already used, please choose another one!'));
                 }
