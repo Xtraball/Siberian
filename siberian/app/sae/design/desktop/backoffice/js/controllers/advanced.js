@@ -656,38 +656,27 @@ App.config(function($routeProvider) {
     };
 
     $scope.save = function() {
-
         $scope.form_loader_is_visible = true;
 
-        AdvancedConfiguration.save($scope.configs).success(function(data) {
+        AdvancedConfiguration
+            .save($scope.configs)
+            .success(function(data) {
+                $scope.message
+                    .isError(false)
+                    .setText(data.message)
+                    .show();
 
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-                $scope.message.isError(false);
-            } else {
-                $scope.message.isError(true);
-            }
-            $scope.message.setText(message)
-                .show()
-            ;
-        }).error(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
+                $timeout(function() {
+                    location.reload();
+                }, 1000);
+            }).error(function(data) {
+                $scope.form_loader_is_visible = false;
 
-            $scope.message.setText(message)
-                .isError(true)
-                .show()
-            ;
-        }).finally(function() {
-            $scope.form_loader_is_visible = false;
-
-            $timeout(function() {
-                location.reload();
-            }, 500);
-        });
+                $scope.message
+                    .isError(true)
+                    .setText(data.message)
+                    .show();
+            });
     };
 
 });

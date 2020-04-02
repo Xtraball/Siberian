@@ -30,6 +30,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'java_home',
         'java_options',
         'gradle_options',
+        'session_lifetime',
     ];
 
     /**
@@ -183,6 +184,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             try {
                 if (__getConfig('is_demo')) {
                     throw new Exception(__('This is a demo version, you cannot save these settings.'));
+                }
+
+                if ($data['session_lifetime']['value'] < 300) {
+                    throw new Exception(__("Session lifetime can't be below 300 seconds / 5 minutes."));
                 }
 
                 $this->_save($data);
