@@ -1,7 +1,4 @@
-<form method="post"
-      name="loginForm"
-      ng-submit="_pcustomer_login(customer)"
-      class="slide-down">
+<div>
 
     <div style="margin-bottom: 20px;"></div>
 
@@ -9,7 +6,7 @@
          ng-class="{'card': card_design}">
 
         <div class="item item-text-wrap item-icon-left item-custom"
-             ng-click="_pcustomer_login_fb()"
+             ng-click="loginFacebook()"
              ng-if="!is_logged_in && myAccount.settings.enable_facebook_login"
              ng-show="_facebook_enabled">
             <i class="icon ion-social-facebook-outline"></i>
@@ -43,8 +40,8 @@
     </div>
 
     <div ng-class="{'padding': card_design}">
-        <button type="submit"
-                class="button button-positive button-positive-custom"
+        <button class="button button-positive button-positive-custom"
+                ng-click="loginEmail()"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
                 ng-show="!is_loading">{{ ::'Log in' | translate:'customer' }}</button>
     </div>
@@ -55,4 +52,4 @@
         {{ ::"Don't have an account yet?" | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'Create an account' | translate:'customer' }}!</span>
     </div>
 
-</form>
+</div>

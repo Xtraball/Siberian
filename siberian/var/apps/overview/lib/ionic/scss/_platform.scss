@@ -201,6 +201,10 @@
   .item {
     padding: $item-padding calc(var(--safe-area-inset-right) + #{$item-padding});
 
+    &.item-checkbox {
+      padding-left: ($item-padding * 2) + $checkbox-width;
+    }
+
     .badge {
       right: calc(var(--safe-area-inset-right) + 32px)
     }
