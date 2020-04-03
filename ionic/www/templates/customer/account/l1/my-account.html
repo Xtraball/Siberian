@@ -11,13 +11,7 @@
             </button>
         </div>
         <h1 class="title"
-            ng-click="_pcustomer_check_update();">{{ myAccount.title }}</h1>
-        <div class="buttons"
-             ng-show="is_logged_in">
-            <button class="button button-clear ion-power"
-                    ng-click="_pcustomer_logout()">
-            </button>
-        </div>
+            ng-click="checkUpdate()">{{ myAccount.title }}</h1>
     </ion-header-bar>
 
     <ion-content>

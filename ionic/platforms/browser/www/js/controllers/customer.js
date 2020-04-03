@@ -30,6 +30,7 @@ angular
     angular.extend($scope, {
         customer: Customer.customer || $scope.resetCustomer(),
         card: {},
+        card_design: false,
         is_logged_in: Customer.isLoggedIn(),
         app_name: Application.app_name,
         display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
@@ -66,7 +67,7 @@ angular
     $scope.ppModal = null;
     $scope.showPrivacyPolicy = function () {
         Modal
-            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+            .fromTemplateUrl('templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
                 scope: angular.extend($scope, {
                     close: function () {
                         $scope.ppModal.hide();
@@ -100,7 +101,7 @@ angular
         Customer.requestToken();
     };
 
-    $scope.loginWithFacebook = function () {
+    $scope.loginFacebook = function () {
         if ($rootScope.isNotAvailableInOverview()) {
             return;
         }
@@ -119,7 +120,7 @@ angular
     $scope.editAvatar = function () {
         var buttons = [
             {
-                text: $translate.instant("Edit")
+                text: $translate.instant('Edit', 'customer')
             }
         ];
 
@@ -284,6 +285,8 @@ angular
             $scope.myAccount.settings.enable_commercial_agreement_label = $translate.instant("I'd like to hear about offers & services", 'customer');
         }
 
+        $scope.card_design = $scope.myAccount.settings.design === 'card';
+
         if (!$scope.is_logged_in) {
             return;
         }
@@ -335,7 +338,8 @@ angular
 
         Loader.show();
 
-        Customer.save($scope.customer)
+        Customer
+            .save($scope.customer)
             .then(function (data) {
                 if (angular.isDefined(data.message)) {
                     Dialog.alert('', data.message, 'OK', -1)
@@ -359,14 +363,18 @@ angular
     };
 
     $scope.logout = function () {
-        Customer
-            .logout()
-            .then(function (data) {
-                FacebookConnect.logout();
-                if (data.success) {
-                    $scope.resetCustomer();
-                    Customer.hideModal();
-                }
+        Dialog
+            .confirm('Confirmation', 'Are you sure you want to log out?', ['YES', 'NO'], '', 'customer')
+            .then(function (result) {
+                Customer
+                    .logout()
+                    .then(function (data) {
+                        FacebookConnect.logout();
+                        if (data.success) {
+                            $scope.resetCustomer();
+                            Customer.hideModal();
+                        }
+                    });
             });
     };
 

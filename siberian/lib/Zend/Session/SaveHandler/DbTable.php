@@ -216,7 +216,9 @@ class Zend_Session_SaveHandler_DbTable
     {
         $return = '';
 
-        $row = $this->_db->fetchRow('SELECT * FROM session WHERE session_id = :id', ['id' => $id]);
+        $row = $this->_db->fetchRow('SELECT * FROM session WHERE session_id = :id', [
+            ':id' => $id
+        ]);
 
         if ($row) {
             $return = $row['data'];
@@ -236,16 +238,20 @@ class Zend_Session_SaveHandler_DbTable
      * @param string $data
      * @return boolean
      */
-    public function write($id, $data)
+    public function write($id, $data): bool
     {
         $time = time();
-
-        $this->_db->query("
-        INSERT INTO session (session_id, data, modified) 
-        VALUES ('{$id}', '{$data}', '{$time}') 
+        $sqlQuery = 'INSERT INTO session (session_id, data, modified) 
+        VALUES (:id, :data, :time) 
         ON DUPLICATE KEY UPDATE 
-        data = '{$data}', 
-        modified = '{$time}';");
+        data = :data, 
+        modified = :time;';
+
+        $this->_db->query($sqlQuery, [
+            ':id' => $id,
+            ':data' => $data,
+            ':time' => $time,
+        ]);
 
         $this->rebuildMobile($id, $data);
 
@@ -260,18 +266,20 @@ class Zend_Session_SaveHandler_DbTable
     public function rebuildMobile($id, $data): self
     {
         // Mobile session
-        if (preg_match('/^mobile/i', $data) === 1) {
+        if (0 === stripos($data, 'mobile')) {
             $sess = explode('|', $data)[1];
             $rawData = unserialize($sess);
             if (array_key_exists('object_id', $rawData)) {
                 $customerId = $rawData['object_id'];
 
                 // Also update customer table!
-                $updateQuery = "
-                UPDATE customer
-                SET session_uuid = ':id'
-                WHERE customer_id = ':customer_id';";
-                $this->_db->query($updateQuery, [':id' => $id, ':customer_id' => $customerId]);
+                $updateQuery = 'UPDATE customer
+                SET session_uuid = :id
+                WHERE customer_id = :customer_id;';
+                $this->_db->query($updateQuery, [
+                    ':id' => $id,
+                    ':customer_id' => $customerId
+                ]);
             }
         }
 
@@ -286,8 +294,7 @@ class Zend_Session_SaveHandler_DbTable
      */
     public function destroy($id)
     {
-        $this->_db->query("
-        DELETE FROM session WHERE session_id = '{$id}';");
+        $this->_db->query('DELETE FROM session WHERE session_id = :id;', [':id' => $id]);
 
         return true;
     }

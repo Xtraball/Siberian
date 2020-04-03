@@ -322,7 +322,7 @@ label.error {
 }
 
 .backoffice_menu ul.l1 {
-    height: 60px;
+    height: 32px;
     margin: 0;
 }
 
@@ -335,9 +335,9 @@ label.error {
 .backoffice_menu ul.l1 li a {
     position: relative;
     display: block;
-    padding: 17px 26px 16px 21px;
+    padding: 6px 8px 6px 8px;
     color: white;
-    font-size: 19px;
+    font-size: 14px;
     z-index: 2;
 }
 
@@ -361,7 +361,7 @@ label.error {
 }
 
 .backoffice_menu ul.l1 li.has_submenu:hover ul.l2 {
-    top: 60px;
+    top: 32px;
     opacity: 1;
     visibility: visible;
 }
@@ -376,12 +376,6 @@ label.error {
 
 .backoffice_menu ul.l1 li ul.l2 li a {
     text-align: left;
-    border-top: 1px solid #343434;
-    border-bottom: 1px solid #858585;
-}
-
-.backoffice_menu ul.l1 li ul.l2 li:first-child a {
-    border-top: none;
 }
 
 .backoffice_menu ul.l1 li ul.l2 li:last-child a {
@@ -417,13 +411,13 @@ label.error {
 }
 
 .backoffice_menu ul.l2 li a {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
-
+""
 .backoffice_menu ul.l3 li a {
-    padding-top: 9px;
-    padding-bottom: 9px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 
 /** /MENU **/
@@ -435,7 +429,7 @@ ul.list-image.image-left {
 }
 
 ul.list-image.image-left li {
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 ul.list-image.image-left li.left {
@@ -637,7 +631,7 @@ a.link, button.as-link {
     position: fixed;
     top: 0;
     width: 100%;
-    height: 60px;
+    height: 32px;
     background-color: #404040;
     z-index: 30;
 }
@@ -646,14 +640,10 @@ a.link, button.as-link {
     position: relative;
     width: 99%;
     min-width: 1250px;
-    height: 60px;
+    height: 32px;
     margin: 0 auto auto;
     background-color: #404040;
     z-index: 2;
-}
-
-.top .content .logo {
-    margin-top: 5px;
 }
 
 .top div.message {
@@ -761,14 +751,13 @@ a.link, button.as-link {
 /** DEFAULT TEMPLATE **/
 .wrapper {
     width: 1140px;
-    margin: 60px auto auto;
+    margin: 32px auto auto;
     padding-bottom: 30px;
     border-radius: 0 0 10px 10px;
 }
 
 .wrapper .title {
     position: relative;
-    min-height: 65px;
     border-bottom: 1px solid white;
 }
 
@@ -793,9 +782,14 @@ a.link, button.as-link {
     font-weight: bold;
 }
 
+.title_content h1 {
+    font-size: 22px;
+    margin: 0;
+}
+
 .wrapper .title h1 i {
     margin-right: 10px;
-    font-size: 35px;
+    font-size: 20px;
 }
 
 .wrapper .title button {
@@ -811,14 +805,11 @@ a.link, button.as-link {
     font-weight: bold;
 }
 
-.wrapper .content {
-}
-
 .wrapper .content div.area {
     min-height: 150px;
-    margin: 30px 0px 0;
+    margin: 0 0 30px 0;
     padding: 0 2%;
-    border-radius: 10px; /*overflow: hidden;*/
+    border-radius: 10px
 }
 
 .wrapper .content div.area .title {
@@ -835,7 +826,7 @@ a.link, button.as-link {
     padding-right: 10px;
     z-index: 1;
     font-weight: bold;
-    font-size: 22px;
+    font-size: 18px;
 }
 
 .wrapper .content div.area .title hr {
@@ -1230,13 +1221,14 @@ th.pointer-down {
 
 .message-badge {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 13px;
+    font-family: monospace;
     background-color: #cc2529;
     position: relative;
-    right: 10px;
-    top: -10px;
-    padding: 2px 8px 2px 6px;
-    border-radius: 11px;
+    right: 0px;
+    top: -5px;
+    padding: 1px 6px 3px 6px;
+    border-radius: 3px !important;
 }
 
 .loader-subscription-10px {
@@ -1490,4 +1482,8 @@ a.ui-datepicker-prev:after {
 
 .ui-timepicker-div dl {
     margin-left: 2px;
+}
+
+.alert {
+    padding: 6px 10px !important;
 }

@@ -7,14 +7,17 @@ $formSettings = new Customer_Form_Settings();
 $formSettings->setValueId($optionValue->getId());
 
 try {
-    $formSettings->populate(Json::decode($optionValue->getSettings()));
+    $settings = Json::decode($optionValue->getSettings());
+    $formSettings->populate($settings);
 } catch (\Exception $e) {
     // Defaults!
     $formSettings->populate(
         [
+            'design' => 'list',
             'enable_facebook_login' => true,
             'enable_registration' => true,
             'enable_commercial_agreement' => true,
+            'enable_commercial_agreement_label' => '',
         ]
     );
 }
@@ -37,8 +40,8 @@ try {
             </a>
         </li>
         <li role="presentation">
-            <a href="#design"
-               aria-controls="design"
+            <a href="#tab_design"
+               aria-controls="tab_design"
                role="tab"
                data-toggle="tab">
                 <i class="fa fa-pencil"></i>
@@ -66,7 +69,7 @@ try {
         <!-- START DESIGN TAB -->
         <div role="tabpanel"
              class="tab-pane"
-             id="design">
+             id="tab_design">
             <?php echo $this->importLayout($optionValue, false); ?>
 
             <?php echo $this->importBackground($optionValue, false); ?>
@@ -78,7 +81,7 @@ try {
 
 <script type="text/javascript">
     $(document).ready(function () {
-        bindForms("#design");
+        bindForms("#tab_design");
         bindForms("#settings");
 
         let commercialTick = $('#enable_commercial_agreement');
@@ -100,7 +103,7 @@ try {
 </script>
 
 <style type="text/css">
-    #design .change_layout_handler img {
+    #customer_account #tab_design .change_layout_handler img {
         max-height: 210px;
     }
 </style>

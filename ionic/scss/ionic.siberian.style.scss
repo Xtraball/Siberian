@@ -1,4 +1,9 @@
 /* GENERAL */
+body,
+.ionic-body {
+  color: $general-custom-text;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {
   font-family: $font-family;
 }

@@ -12,9 +12,9 @@
         </div>
         <h1 class="title"
             ng-click="_pcustomer_check_update();">{{ myAccount.title }}</h1>
-        <div class="buttons"
-             ng-show="is_logged_in">
+        <div class="buttons">
             <button class="button button-clear ion-power"
+                    ng-show="is_logged_in"
                     ng-click="_pcustomer_logout()">
             </button>
         </div>

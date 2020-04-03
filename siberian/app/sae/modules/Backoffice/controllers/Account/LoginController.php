@@ -104,8 +104,11 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
     }
 
     public function logoutAction() {
-        $this->getSession()->resetInstance();
-        $this->_sendHtml(array("success" => 1));
+        $session = $this->getSession();
+        $session->resetInstance();
+        Zend_Session::destroy();
+
+        $this->_sendJson(['success' => true]);
     }
 
 }

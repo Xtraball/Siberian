@@ -14,7 +14,7 @@ angular
                 model: '=',
                 cardDesign: '=?'
             },
-            templateUrl: './templates/directives/clickwrap/clickwrap.html',
+            templateUrl: 'templates/directives/clickwrap/clickwrap.html',
             link: function (scope) {
                 if (scope.cardDesign === undefined) {
                     scope.cardDesign = false;
@@ -32,7 +32,7 @@ angular
             controller: function($scope, Modal) {
                 $scope.openModal = function () {
                     Modal
-                        .fromTemplateUrl('./templates/directives/clickwrap/clickwrap-modal.html', {
+                        .fromTemplateUrl('templates/directives/clickwrap/clickwrap-modal.html', {
                             scope: angular.extend($scope, {
                                 close: function () {
                                     $scope.modal.remove();

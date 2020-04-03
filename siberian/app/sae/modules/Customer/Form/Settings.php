@@ -20,6 +20,11 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
         // Bind as a create form!
         self::addClass('create', $this);
 
+        $design = $this->addSimpleSelect('design', p__('customer', 'Design'), [
+            'list' => p__('customer', 'List'),
+            'card' => p__('customer', 'Card'),
+        ]);
+
         $enableFacebookLogin = $this->addSimpleCheckbox('enable_facebook_login', p__('customer', 'Facebook login'));
         $enableRegistration = $this->addSimpleCheckbox('enable_registration', p__('customer', 'Self registration'));
 

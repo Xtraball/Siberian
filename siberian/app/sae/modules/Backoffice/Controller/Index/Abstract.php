@@ -26,13 +26,13 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
         $system_diagnostic = Siberian_Service::getSystemDiagnostic();
 
         $html = [
-            "title" => __("Dashboard"),
-            "icon" => "fa-dashboard",
-            "services" => $services,
-            "system_diagnostic" => $system_diagnostic,
-            "libraries" => $libraries,
-            "extensions" => $extensions,
-            "server_usage" => $server_usage,
+            'title' => __('Dashboard'),
+            'icon' => 'fa-dashboard',
+            'services' => $services,
+            'system_diagnostic' => $system_diagnostic,
+            'libraries' => $libraries,
+            'extensions' => $extensions,
+            'server_usage' => $server_usage,
         ];
 
         $this->_sendJson($html);

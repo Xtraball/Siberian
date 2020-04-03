@@ -30,6 +30,7 @@ angular
     angular.extend($scope, {
         customer: Customer.customer || $scope.resetCustomer(),
         card: {},
+        card_design: false,
         is_logged_in: Customer.isLoggedIn(),
         app_name: Application.app_name,
         display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
@@ -66,7 +67,7 @@ angular
     $scope.ppModal = null;
     $scope.showPrivacyPolicy = function () {
         Modal
-            .fromTemplateUrl('./templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
+            .fromTemplateUrl('templates/cms/privacypolicy/l1/privacy-policy-modal.html', {
                 scope: angular.extend($scope, {
                     close: function () {
                         $scope.ppModal.hide();
@@ -276,6 +277,10 @@ angular
         }
     };
 
+    $scope.toggleCardDesign = function () {
+        $scope.card_design = !$scope.card_design;
+    };
+
     $scope.loadContent = function () {
         // Loading my account settings!
         $scope.myAccount = Application.myAccount;
@@ -283,6 +288,8 @@ angular
         if ($scope.myAccount.settings.enable_commercial_agreement_label.length <= 0) {
             $scope.myAccount.settings.enable_commercial_agreement_label = $translate.instant("I'd like to hear about offers & services", 'customer');
         }
+
+        $scope.card_design = $scope.myAccount.settings.design === 'card';
 
         if (!$scope.is_logged_in) {
             return;

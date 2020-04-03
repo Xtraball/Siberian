@@ -346,7 +346,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     ->save();
             }
 
-            $deviceAndroid = (new Push_Model_Android_Device())>findAll([
+            $deviceAndroid = (new Push_Model_Android_Device())->findAll([
                 'customer_id = ?' => $customerId,
                 'app_id = ?' => $appId,
             ]);

@@ -201,6 +201,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $defaultSettings = [
                 'title' => $myAccountFeature->getTabbarName(),
                 'settings' => [
+                    'design' => 'list',
                     'enable_facebook_login' => true,
                     'enable_registration' => true,
                     'enable_commercial_agreement' => false,

@@ -41,20 +41,17 @@ class Acl_Model_Acl extends Core_Model_Default
     private $__urls = [];
 
     /**
-     * Prepare the ACL for a given admin
-     *
-     * @params $admin Admin_Model_Admin
-     * @return Acl_Model_Acl
+     * @param $admin
+     * @return $this
+     * @throws Zend_Exception
      */
-    public function prepare($admin)
+    public function prepare($admin): self
     {
+        $roleId = $admin->getRoleId();
+        $this->__role_obj = (new Acl_Model_Role())->getRoleById($roleId);
 
-        if (!is_null($admin->getRoleId())) {
-            $role = new Acl_Model_Role();
-            $this->__role_obj = $role->getRoleById($admin->getRoleId());
-            $this->__role = $this->__role_obj->getCode();
-            $this->__build();
-        }
+        $this->__role = $this->__role_obj->getCode();
+        $this->__build();
 
         return $this;
     }

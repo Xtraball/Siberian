@@ -60,6 +60,7 @@ class Customer_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
 
                 $settings = [
+                    'design' => $values['design'],
                     'enable_facebook_login' => filter_var($values['enable_facebook_login'], FILTER_VALIDATE_BOOLEAN),
                     'enable_registration' => filter_var($values['enable_registration'], FILTER_VALIDATE_BOOLEAN),
                     'enable_commercial_agreement' => filter_var($values['enable_commercial_agreement'], FILTER_VALIDATE_BOOLEAN),
