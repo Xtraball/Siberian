@@ -13,7 +13,17 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @var string
      */
-    public $version = "v_base";
+    public $version = 'v_base';
+
+    /**
+     * @var bool
+     */
+    public static $useRanking = false;
+
+    /**
+     * @var bool
+     */
+    public static $useNickname = false;
 
     /**
      * Here we generate the Application initial payload
@@ -62,6 +72,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         try {
             // Alter the loadBlock with the customer
             $loadBlock = $this->_customerBlock($application, $loadBlock);
+            $loadBlock = $this->_settingsBlock($application, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -316,8 +327,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public function _featureBlock($application, $currentLanguage, $request)
     {
         $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
-        $appVersion = $request->getBodyParams()["version"];
-        $isPwa = $bodyParams["isPwa"];
+        $appVersion = $request->getBodyParams()['version'];
         $appId = $application->getId();
         $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
@@ -336,7 +346,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             foreach ($optionValues as $optionValue) {
                 // We will ignore next tabbar_accounts iterations (ie: duplicates)
-                if ($optionValue->getCode() === "tabbar_account") {
+                if ($optionValue->getCode() === 'tabbar_account') {
                     if ($myAccountIgnore === true) {
                         continue;
                     }
@@ -404,6 +414,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
+
+                    if ($blockData['use_ranking'] === true) {
+                        self::$useRanking = true;
+                    }
+                    if ($blockData['use_nickname'] === true) {
+                        self::$useNickname = true;
+                    }
 
                     // 4.18.3 link special options!
                     if ($object->getLink() &&
@@ -587,16 +604,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataHomepage['pages'] = $fixedPages;
         }
 
-        if (version_compare($appVersion, "4.17.0", ">=")) {
-            // Apply patches.
-
-            foreach ($dataHomepage["pages"] as &$page) {
-                $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
-                $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
-                dbg($page);
-            }
-        }
-
         // Dynamic patches (non-cached) for specific app versions!
         if (version_compare($appVersion, '4.18.1', '<')) {
             # 3. M-Commerce
@@ -747,6 +754,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             'isLoggedIn' => $isLoggedIn,
             'is_logged_in' => $isLoggedIn
         ]);
+
+        return $loadBlock;
+    }
+
+    /**
+     * @param $application
+     * @param $loadBlock
+     * @return mixed
+     */
+    public function _settingsBlock ($application, $loadBlock)
+    {
+        $loadBlock['application']['myAccount']['settings']['use_nickname'] = self::$useNickname;
+        $loadBlock['application']['myAccount']['settings']['use_ranking'] = self::$useRanking;
 
         return $loadBlock;
     }

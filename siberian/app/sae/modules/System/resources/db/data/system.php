@@ -300,6 +300,11 @@ $configs = [
         'label' => 'Web Application Firewall',
         'value' => '1',
     ],
+    [
+        'code' => 'session_lifetime',
+        'label' => 'Session lifetime in seconds',
+        'value' => '604800',
+    ]
 ];
 
 $privacyPolicy = '<h1>Privacy Policy of the #APP_NAME application</h1>

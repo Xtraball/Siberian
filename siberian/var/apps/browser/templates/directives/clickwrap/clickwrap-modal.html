@@ -12,10 +12,11 @@
     </ion-header-bar>
 
     <ion-content>
-        <ion-list ng-class="{'card' : cardDesign}">
-            <div class="padding item-text-custom"
-                 ng-bind-html="htmlContent | trusted_html"></div>
-        </ion-list>
+        <div class="list"
+             ng-class="{'card' : cardDesign}">
+            <ion-item class="item-custom item-text-wrap"
+                      ng-bind-html="htmlContent | trusted_html"></ion-item>
+        </div>
     </ion-content>
 
 </ion-modal-view>

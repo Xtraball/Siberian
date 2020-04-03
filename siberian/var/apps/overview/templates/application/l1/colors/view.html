@@ -36,7 +36,18 @@
         </div>
 
         <div ng-show="displayed_element == 'background'">
-            {{ ::"General background color & text." | translate }}
+            <div class="padding">
+                {{ ::'General background color & text.' | translate }}
+            </div>
+            <div class="padding">
+                <h1>{{ ::'Header 1' | translate }}</h1>
+                <h2>{{ ::'Header 2' | translate }}</h2>
+                <h3>{{ ::'Header 3' | translate }}</h3>
+                <h4>{{ ::'Header 4' | translate }}</h4>
+                <h5>{{ ::'Header 5' | translate }}</h5>
+                <h6>{{ ::'Header 6' | translate }}</h6>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </div>
         </div>
 
         <div ng-show="displayed_element == 'header'">

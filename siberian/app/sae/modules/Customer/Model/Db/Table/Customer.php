@@ -110,6 +110,7 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
                     'nickname',
                     'privacy_policy',
                     'communication_agreement',
+                    'show_in_social_gaming',
                     'is_active',
                     'created_at',
                 ]

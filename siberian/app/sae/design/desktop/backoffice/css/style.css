@@ -414,7 +414,7 @@ label.error {
     padding-top: 4px;
     padding-bottom: 4px;
 }
-""
+
 .backoffice_menu ul.l3 li a {
     padding-top: 4px;
     padding-bottom: 4px;
@@ -793,12 +793,12 @@ a.link, button.as-link {
 }
 
 .wrapper .title button {
-    width: 35px;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     margin-top: 15px;
     margin-bottom: 10px;
     padding: 0;
-    font-size: 25px;
+    font-size: 18px;
 }
 
 .wrapper .title button span {
@@ -1170,17 +1170,17 @@ input.highlight {
 }
 
 th.pointer {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_both_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_both_v1.png');
     background-repeat: no-repeat;
     background-position: 100% center;
 }
 
 th.pointer-up {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_asc_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_asc_v1.png');
 }
 
 th.pointer-down {
-    background-image: url("/app/sae/design/desktop/flat/images/table/sort_desc_v1.png");
+    background-image: url('/app/sae/design/desktop/flat/images/table/sort_desc_v1.png');
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {

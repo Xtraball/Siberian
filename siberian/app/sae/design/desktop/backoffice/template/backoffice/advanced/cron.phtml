@@ -6,7 +6,7 @@
         <div class="form-group">
 
             <div class="col-md-12">
-                <?php echo __("If you are unable to install or run the cronjob on your hosting/server you can disable it.") ?>
+                <?php echo __('If you are unable to install or run the cronjob on your hosting/server you can disable it.') ?>
                 <br />
                 <?php echo __("<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled.") ?>
                 <br />
@@ -19,8 +19,8 @@
                 <select id="configs.disable_cron.code"
                         class="form-control"
                         ng-model="configs.disable_cron.value">
-                    <option value="1"><?php echo __("Yes"); ?></option>
-                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __('Yes'); ?></option>
+                    <option value="0"><?php echo __('No'); ?></option>
                 </select>
             </div>
 
@@ -29,11 +29,11 @@
                 <select id="configs.cron_interval.code"
                         class="form-control"
                         ng-model="configs.cron_interval.value">
-                    <option value="10"><?php echo __("10 seconds"); ?></option>
-                    <option value="15"><?php echo __("15 seconds"); ?></option>
-                    <option value="20"><?php echo __("20 seconds"); ?></option>
-                    <option value="30"><?php echo __("30 seconds"); ?></option>
-                    <option value="60"><?php echo __("1 minute"); ?></option>
+                    <option value="10"><?php echo __('10 seconds'); ?></option>
+                    <option value="15"><?php echo __('15 seconds'); ?></option>
+                    <option value="20"><?php echo __('20 seconds'); ?></option>
+                    <option value="30"><?php echo __('30 seconds'); ?></option>
+                    <option value="60"><?php echo __('1 minute'); ?></option>
                 </select>
             </div>
         </div>
@@ -44,10 +44,31 @@
                 <select id="configs.send_statistics.code"
                         class="form-control"
                         ng-model="configs.send_statistics.value">
-                    <option value="1"><?php echo __("Yes"); ?></option>
-                    <option value="0"><?php echo __("No"); ?></option>
+                    <option value="1"><?php echo __('Yes'); ?></option>
+                    <option value="0"><?php echo __('No'); ?></option>
                 </select>
-                <?php echo __("Statistics are used to improve the platform and help understanding usage of the apps builder.") ?>
+                <br />
+                <div class="alert alert-info">
+                    <?php echo __('Statistics are used to improve the platform and help understanding usage of the apps builder.') ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <label for="{{ configs.session_lifetime.code }}">{{ configs.session_lifetime.label }}</label>
+                <input type="text"
+                       id="configs.session_lifetime.code"
+                       class="form-control"
+                       ng-model="configs.session_lifetime.value" />
+                <br />
+                <div class="alert alert-info">
+                    <?php echo __('Sessions without activity for that time will be automatically cleaned-up.') ?>
+                    <br />
+                    <?php echo __('Default is 604800 which is 7 days.') ?>
+                </div>
+
+                <div class="alert alert-success">
+                    <?php echo __('Mobile sessions are however unlimited, they are removed only when the user manually logs out of the application.') ?>
+                </div>
             </div>
         </div>
 
@@ -57,8 +78,8 @@
                 <select id="configs.apk_build_type.code"
                         class="form-control"
                         ng-model="configs.apk_build_type.value">
-                    <option value="release"><?php echo __("Release"); ?></option>
-                    <option value="debug"><?php echo __("Debug"); ?></option>
+                    <option value="release"><?php echo __('Release'); ?></option>
+                    <option value="debug"><?php echo __('Debug'); ?></option>
                 </select>
             </div>
         </div>
@@ -66,11 +87,11 @@
         <div class="form-group">
             <div class="col-md-12">
                 <div class="alert alert-danger">
-                    <b><?php echo __("APK Generator advanced settings") ?></b> / <b><?php echo __("Do not edit the following settings if your APK Generator is working!") ?></b>
+                    <b><?php echo __('APK Generator advanced settings') ?></b> / <b><?php echo __('Do not edit the following settings if your APK Generator is working!') ?></b>
                     <br />
-                    <?php echo __("You can extend JAVA & GRADLE options to better fit your server hardware.") ?>
+                    <?php echo __('You can extend JAVA & GRADLE options to better fit your server hardware.') ?>
                     <br />
-                    <?php echo __("Bad settings can break your APK Generator, leave empty to use defaults.") ?>
+                    <?php echo __('Bad settings can break your APK Generator, leave empty to use defaults.') ?>
                 </div>
             </div>
 
@@ -103,8 +124,13 @@
 
         <div class="form-group">
             <div class="col-md-12 text-right">
-                <button type="submit" class="btn btn-primary"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __('Save'); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>
