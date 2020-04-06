@@ -713,10 +713,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             // Ensure user is linked with the session uuid.
             if (empty($customer->getSessionUuid())) {
-                $customer
-                    ->setSessionUuid(Zend_Session::getId())
-                    ->save();
+                $customer->updateSessionUuid(Zend_Session::getId());
             }
+
 
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),

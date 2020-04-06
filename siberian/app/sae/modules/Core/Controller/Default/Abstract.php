@@ -789,8 +789,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             } else if (!empty($sbToken)) {
                 Zend_Session::setId($sbToken);
             }
-
-            Zend_Session::start();
+            // Otherwise, session is already started with the cookie.
 
             $sessionType = 'front';
 
