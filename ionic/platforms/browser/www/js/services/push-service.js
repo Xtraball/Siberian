@@ -71,7 +71,8 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         service.isReadyPromise = service.isReady.promise;
         service.init();
 
-        if (service.push && $rootScope.isNativeApp) {
+        if (service.push &&
+            $rootScope.isNativeApp) {
             service.push.on('registration', function (data) {
                 $log.debug('device_token: ' + data.registrationId);
 
@@ -84,7 +85,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
             service.onNotificationReceived();
             service.push.on('error', function (error) {
-                $log.debug(error.message);
+                Dialog
+                    .alert('Push registration failed', error.message, 'OK', -1);
+                $log.info(error);
 
                 // Reject
                 service.isReady.reject();

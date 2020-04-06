@@ -1,7 +1,11 @@
 <?php
 
 use Siberian\Hook;
+use Siberian\Exception;
 
+/**
+ * Class Push_IphoneController
+ */
 class Push_IphoneController extends Core_Controller_Default
 {
 
@@ -9,18 +13,17 @@ class Push_IphoneController extends Core_Controller_Default
      * Register Device
      *
      */
-    public function registerdeviceAction() {
-
+    public function registerdeviceAction()
+    {
         $request = $this->getRequest();
-        if($request->isPost()) {
-            $params = Zend_Json::decode($request->getRawBody());
-        } else {
-            $params = $request->getParams();
-        }
+        $params = $request->getRawBody();
 
-        if($params) {
+        try {
+            if (empty($params['registration_id'])) {
+                throw new Exception(p__('push', 'Registration ID is missing.'));
+            }
 
-            $fields = array(
+            $fields = [
                 'app_id',
                 'app_name',
                 'app_version',
@@ -32,10 +35,10 @@ class Push_IphoneController extends Core_Controller_Default
                 'push_badge',
                 'push_alert',
                 'push_sound',
-            );
+            ];
 
-            foreach($params as $key => $value) {
-                if(!in_array($key, $fields)) {
+            foreach ($params as $key => $value) {
+                if (!in_array($key, $fields)) {
                     unset($params[$key]);
                 }
             }
@@ -43,36 +46,44 @@ class Push_IphoneController extends Core_Controller_Default
             $params['status'] = 'active';
 
             $device = new Push_Model_Iphone_Device();
-
-            # One couple per app 4.2 (not searching the token, in case we need to update it)
-            $device->find(array(
+            $device->find([
                 'app_id' => $params['app_id'],
                 'device_uid' => $params['device_uid'],
-                //'device_token' => $params['device_token'],
-            ));
-
-            $device->addData($params)->save();
-
-            Hook::trigger("push.ios.update_token", [
-                "request" => $request,
-                "device" => $device
             ]);
 
-            $message = new Push_Model_Message();
+            $device
+                ->addData($params)
+                ->save();
 
-            $this->getLayout()->setHtml($message->countByDeviceId($device->getDeviceUid()));
+            Hook::trigger('push.update_token.update_token', [
+                'request' => $request,
+                'device' => $device
+            ]);
+
+            $payload = [
+                'success' => true,
+                'message' => p__('push', 'Successfully registered %s to push with token %s',
+                    'iOS', $params['device_token'])
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     /**
      * Set this message as displayed
      */
-    public function markdisplayedAction() {
+    public function markdisplayedAction()
+    {
 
-        if($params = $this->getRequest()->getParams()) {
+        if ($params = $this->getRequest()->getParams()) {
 
-            if(empty($params['device_uid']) OR empty($params['message_id'])) return;
+            if (empty($params['device_uid']) OR empty($params['message_id'])) return;
 
             $device = new Push_Model_Iphone_Device();
             $device->find($params['device_uid'], 'device_uid');
@@ -85,24 +96,24 @@ class Push_IphoneController extends Core_Controller_Default
 
     }
 
-    public function updatepositionAction() {
+    public function updatepositionAction()
+    {
 
-        if($params = $this->getRequest()->getPost()) {
+        if ($params = $this->getRequest()->getPost()) {
 
-            if(empty($params['device_uid'])) return;
+            if (empty($params['device_uid'])) return;
 
             $device = new Push_Model_Iphone_Device();
             $device->find($params['device_uid'], 'device_uid');
-            if(!$device->getId()) {
+            if (!$device->getId()) {
                 $device->setDeviceUid($params['device_uid'])
-                    ->setAppId($params['app_id'])
-                ;
+                    ->setAppId($params['app_id']);
             }
 
             $messages = $device->findNotReceivedMessages(true);
 
-            if($messages->count() > 0) {
-                foreach($messages as $message) {
+            if ($messages->count() > 0) {
+                foreach ($messages as $message) {
                     $instance = $message->getInstance('iphone');
                     $instance->setMessage($message);
                     $instance->createConnection();

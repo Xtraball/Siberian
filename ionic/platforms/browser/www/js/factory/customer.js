@@ -363,14 +363,5 @@ angular
             $session.clear();
         };
 
-        // Proxy before returning.
-        return new Proxy(factory, {
-            get(target, property, receiver) {
-                console.log('get', target, property, receiver);
-                if (factory.hasOwnProperty(property)) {
-                    return factory[property];
-                }
-                console.log('trapped invalid get.');
-            }
-        });
+        return factory
     });
