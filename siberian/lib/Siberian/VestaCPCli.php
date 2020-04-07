@@ -59,19 +59,19 @@ class VestaCPCli
         copy($folder . '/acme.cert.pem', $folder . '/' . $this->config['webspace'] . '.crt');
         copy($folder . '/acme.privkey.pem', $folder . '/' . $this->config['webspace'] . '.key');
         copy($folder . '/acme.chain.pem', $folder . '/' . $this->config['webspace'] . '.ca');
-        exec( "v-add-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart");
-        exec('$?', $answer);
-        if ((int) $answer === 0) {
+        exec( "v-add-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart",
+            $result, $return);
+        if ((int) $return === 0) {
             return true;
         }
 
-        if ((int) $answer === 4) {
-            exec( "v-update-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart");
-            exec ('$?', $answer);
-            if ((int) $answer === 0) {
+        if ((int) $return === 4) {
+            exec( "v-update-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart",
+                $result, $return);
+            if ((int) $return === 0) {
                 return true;
             }
         }
-        throw new Exception('Error SSL : Vesta API Query returned error code: ' . $answer);
+        throw new Exception('Error SSL : Vesta API Query returned error code: ' . $return);
     }
 }
