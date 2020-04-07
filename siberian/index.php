@@ -3,9 +3,20 @@
 /**
  * Siberian
  *
- * @version 4.18.3
+ * @version 4.18.15
  * @author Xtraball SAS <dev@xtraball.com>
  */
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+    header('Access-Control-Allow-Credentials: true', true);
+    header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS', true);
+    header('Access-Control-Allow-Headers: Origin, Xsb-Auth, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Pragma, Set-Cookie', true);
+    header('Access-Control-Max-Age: 86400', true);
+    http_response_code(200);
+    echo '{"success": true}';
+    die;
+}
 
 global $_config;
 
@@ -23,12 +34,6 @@ if (!file_exists('./lib/Siberian/Version.php')) {
 }
 
 require_once './config.php';
-
-// PHP Info!
-if (($_config['environment'] === 'development') && isset($_GET['phpi'])) {
-    phpinfo();
-    die;
-}
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
@@ -114,7 +119,7 @@ try {
     require_once __DIR__ . '/lib/Zend/Application.php';
 
     if (!empty($_SERVER['HTTP_ORIGIN'])) {
-        header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
+        header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
         header('Access-Control-Allow-Credentials: true', true);
         header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS', true);
         header('Access-Control-Allow-Headers: Origin, Xsb-Auth, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Pragma, Set-Cookie', true);

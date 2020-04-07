@@ -1,12 +1,28 @@
+<?php
+$logFile = $_GET['log'];
+$showLog = false;
+if (preg_match('/^error__([a-z0-9]+)\.log$/i', $logFile) === 1) {
+    $showLog = true;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>500 Internal Server Error</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type"
+          content="text/html; charset=utf-8">
 
-    <link href="500/style.css" media="screen" rel="stylesheet" type="text/css">
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="shortcut icon" id="favicon" type="image/x-icon" href="/favicon.ico">
+    <link href="500/style.css"
+          media="screen"
+          rel="stylesheet"
+          type="text/css">
+    <link rel="icon"
+          type="image/png"
+          href="/favicon.png">
+    <link rel="shortcut icon"
+          id="favicon"
+          type="image/x-icon"
+          href="/favicon.ico">
 </head>
 <body class="general">
 
@@ -14,7 +30,10 @@
     <div class="top">
         <div class="header_content">
             <div class="left">
-                <img src="500/logo.png" alt="Mobile Company" title="Mobile Company" width="151">
+                <img src="500/logo.png"
+                     alt="Mobile Company"
+                     title="Mobile Company"
+                     width="151" />
             </div>
             <div class="clear"></div>
         </div>
@@ -27,8 +46,8 @@
 
                     <h1>A Fatal Error Occurred</h1>
                     <p>For security reasons, errors messages are disabled.</p>
-                    <?php if(!empty($_GET["log"]) && (strpos($_GET["log"],"<script>") === false)) : ?>
-                    <p>Error log: <?php echo $_GET["log"] ?></p>
+                    <?php if ($showLog): ?>
+                    <p>Error log: <?php echo $logFile ?></p>
                     <?php endif; ?>
                 </div>
             </div>
