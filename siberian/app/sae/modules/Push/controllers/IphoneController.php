@@ -55,7 +55,7 @@ class Push_IphoneController extends Core_Controller_Default
                 ->addData($params)
                 ->save();
 
-            Hook::trigger('push.update_token.update_token', [
+            Hook::trigger('push.ios.update_token', [
                 'request' => $request,
                 'device' => $device
             ]);
