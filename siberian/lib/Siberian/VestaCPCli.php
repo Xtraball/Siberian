@@ -72,6 +72,6 @@ class VestaCPCli
                 return true;
             }
         }
-        throw new Exception('Error SSL : Vesta API Query returned error code: ' . $return);
+        throw new Exception(__('Error SSL : Vesta API Query returned error code %s, and message %s', $return, $result));
     }
 }
