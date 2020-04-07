@@ -53,16 +53,12 @@ class VestaCPCli
      */
     public function installCertificate($sslCertificate): bool
     {
-        $webspace = $sslCertificate->getHostname();
-        if (!empty($this->webspace)) {
-            $webspace = $this->webspace;
-        }
         $base = path('/var/apps/certificates/');
         $folder = $base . '/' . $sslCertificate->getHostname();
         // Coy the files
-        copy($folder . '/acme.cert.pem', $folder . '/' . $webspace . '.crt');
-        copy($folder . '/acme.privkey.pem', $folder . '/' . $webspace . '.key');
-        copy($folder . '/acme.chain.pem', $folder . '/' . $webspace . '.ca');
+        copy($folder . '/acme.cert.pem', $folder . '/' . $this->config['webspace'] . '.crt');
+        copy($folder . '/acme.privkey.pem', $folder . '/' . $this->config['webspace'] . '.key');
+        copy($folder . '/acme.chain.pem', $folder . '/' . $this->config['webspace'] . '.ca');
         exec( "v-add-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart");
         exec('$?', $answer);
         if ((int) $answer === 0) {
