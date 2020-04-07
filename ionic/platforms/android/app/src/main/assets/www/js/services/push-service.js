@@ -89,7 +89,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         if (service.push &&
             $rootScope.isNativeApp) {
             service.push.on('registration', function (data) {
-                $log.info('device_token: ' + data.registrationId);
+                console.log('[Push] device_token: ', data.registrationId);
 
                 Push.device_token = data.registrationId;
                 service.registerDevice();
@@ -102,7 +102,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
             service.push.on('error', function (error) {
                 // Before displaying a registration error, we want to check if the device is known in DB
-                $log.info(error);
+                console.error('[Push]', error);
                 service
                     .isRegistered()
                     .then(function (success) {

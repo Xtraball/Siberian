@@ -38,7 +38,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         // senderID error proof for Android!
         if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
             (senderID === '01234567890' || senderID ==='')) {
-            console.error('[Push] Invalid senderId: ' + senderID);
+            $log.debug('Invalid senderId: ' + senderID);
             service.settings.android.senderID = null;
         } else {
             service.settings.android.senderID = senderID;
@@ -46,7 +46,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
-            console.error('[Push] Invalid iconColor: ' + iconColor);
+            $log.debug('Invalid iconColor: ' + iconColor);
         } else {
             service.settings.android.iconColor = iconColor;
         }
@@ -63,18 +63,33 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         service.push = $window.PushNotification.init(service.settings);
     };
 
+    service.isRegistered = function () {
+        var type;
+        if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
+            type = 'android';
+        }
+        if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
+            type = 'ios';
+        }
+
+        return Push.isRegistered({
+            type: type
+        })
+    };
+
     /**
      * Handle registration, and various push events
      */
     service.register = function () {
         service.isReady = $q.defer();
         service.isReadyPromise = service.isReady.promise;
+
         service.init();
 
         if (service.push &&
             $rootScope.isNativeApp) {
             service.push.on('registration', function (data) {
-                $log.debug('device_token: ' + data.registrationId);
+                console.log('[Push] device_token: ', data.registrationId);
 
                 Push.device_token = data.registrationId;
                 service.registerDevice();
@@ -84,13 +99,20 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             });
 
             service.onNotificationReceived();
-            service.push.on('error', function (error) {
-                Dialog
-                    .alert('Push registration failed', error.message, 'OK', -1);
-                console.error('[Push]', error);
 
-                // Reject
-                service.isReady.reject();
+            service.push.on('error', function (error) {
+                // Before displaying a registration error, we want to check if the device is known in DB
+                console.error('[Push]', error);
+                service
+                    .isRegistered()
+                    .then(function (success) {
+                        service.isReady.resolve();
+                    }, function (error) {
+                        // Reject
+                        service.isReady.reject();
+                        Dialog
+                            .alert('Push registration failed', error.message, 'OK', -1);
+                    });
             });
 
             service.updateUnreadCount();
@@ -131,15 +153,13 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
      * Registration!
      */
     service.registerDevice = function () {
-        switch (Push.device_type) {
-            case SB.DEVICE.TYPE_ANDROID:
-                service.registerAndroid();
-                break;
-
-            case SB.DEVICE.TYPE_IOS:
-                service.registerIos();
-                break;
+        if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+            return service.registerAndroid();
         }
+        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+            return service.registerIos();
+        }
+        return $q.reject('Unsupported device type for Push');
     };
 
     /**
@@ -151,48 +171,44 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             app_name: Application.app_name,
             registration_id: btoa(Push.device_token)
         };
-        Push.registerAndroidDevice(params);
+        return Push.registerAndroidDevice(params);
     };
 
     service.registerIos = function () {
-        cordova.getAppVersion.getVersionNumber()
-            .then(function (appVersion) {
-                var deviceName = null;
-                try {
-                    deviceName = device.platform;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceName = null;
+        try {
+            deviceName = device.platform;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var deviceModel = null;
-                try {
-                    deviceModel = device.model;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceModel = null;
+        try {
+            deviceModel = device.model;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var deviceVersion = null;
-                try {
-                    deviceVersion = device.version;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceVersion = null;
+        try {
+            deviceVersion = device.version;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var params = {
-                    app_id: Application.app_id,
-                    app_name: Application.app_name,
-                    app_version: appVersion,
-                    device_token: Push.device_token,
-                    device_name: deviceName,
-                    device_model: deviceModel,
-                    device_version: deviceVersion,
-                    push_badge: 'enabled',
-                    push_alert: 'enabled',
-                    push_sound: 'enabled'
-                };
+        var params = {
+            app_id: Application.app_id,
+            app_name: Application.app_name,
+            device_token: Push.device_token,
+            device_name: deviceName,
+            device_model: deviceModel,
+            device_version: deviceVersion,
+            push_badge: 'enabled',
+            push_alert: 'enabled',
+            push_sound: 'enabled'
+        };
 
-                Push.registerIosDevice(params);
-            });
+        return Push.registerIosDevice(params);
     };
 
     service.onNotificationReceived = function () {
