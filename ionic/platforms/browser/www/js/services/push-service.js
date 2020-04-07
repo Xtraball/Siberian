@@ -38,7 +38,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
         // senderID error proof for Android!
         if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
             (senderID === '01234567890' || senderID ==='')) {
-            $log.debug('Invalid senderId: ' + senderID);
+            console.error('[Push] Invalid senderId: ' + senderID);
             service.settings.android.senderID = null;
         } else {
             service.settings.android.senderID = senderID;
@@ -46,7 +46,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
 
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
-            $log.debug('Invalid iconColor: ' + iconColor);
+            console.error('[Push] Invalid iconColor: ' + iconColor);
         } else {
             service.settings.android.iconColor = iconColor;
         }
@@ -87,7 +87,7 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             service.push.on('error', function (error) {
                 Dialog
                     .alert('Push registration failed', error.message, 'OK', -1);
-                $log.info(error);
+                console.error('[Push]', error);
 
                 // Reject
                 service.isReady.reject();

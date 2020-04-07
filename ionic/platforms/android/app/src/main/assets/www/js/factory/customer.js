@@ -363,5 +363,5 @@ angular
             $session.clear();
         };
 
-        return factory;
+        return factory
     });

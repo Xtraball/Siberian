@@ -15,7 +15,7 @@ class Push_AndroidController extends Core_Controller_Default
     public function registerdeviceAction()
     {
         $request = $this->getRequest();
-        $params = $request->getRawBody();
+        $params = $request->getBodyParams();
 
         try {
             if (empty($params['registration_id'])) {

@@ -16,7 +16,7 @@ class Push_DeviceController extends Core_Controller_Default
     {
         $request = $this->getRequest();
         try {
-            $params = $request->getRawBody();
+            $params = $request->getBodyParams();
             $deviceUid = $params['device_uid'];
             $deviceType = $params['type'];
 
