@@ -42,7 +42,7 @@ class VestaCPCli
         $this->logger = Zend_Registry::get('logger');
         $vestacpApi = Api_Model_Key::findKeysFor('vestacpcli');
 
-        $this->config['username'] = $vestacpApi->getUsername();
+        $this->config['username'] = $vestacpApi->getUser();
         $this->config['webspace'] = $vestacpApi->getWebspace();
     }
 
@@ -59,19 +59,21 @@ class VestaCPCli
         copy($folder . '/acme.cert.pem', $folder . '/' . $this->config['webspace'] . '.crt');
         copy($folder . '/acme.privkey.pem', $folder . '/' . $this->config['webspace'] . '.key');
         copy($folder . '/acme.chain.pem', $folder . '/' . $this->config['webspace'] . '.ca');
-        exec( "v-add-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart",
-            $result, $return);
+
+        $installCmd = "export VESTA=/usr/local/vesta/; sudo /usr/local/vesta/bin/v-add-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart 2>&1";
+        exec($installCmd, $result, $return);
         if ((int) $return === 0) {
             return true;
         }
 
         if ((int) $return === 4) {
-            exec( "v-update-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart",
-                $result, $return);
+            $updateCmd = "export VESTA=/usr/local/vesta/; sudo /usr/local/vesta/bin/v-update-web-domain-ssl {$this->config['username']} {$this->config['webspace']} $folder restart 2>&1";
+            exec($updateCmd, $result, $return);
             if ((int) $return === 0) {
                 return true;
             }
         }
-        throw new Exception(__('Error SSL : Vesta API Query returned error code %s, and message %s', $return, $result));
+        throw new Exception(__('Error SSL : Vesta API Query returned error code %s, and message %s',
+            $return, join(', ', $result)));
     }
 }
