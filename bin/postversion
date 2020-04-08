@@ -10,7 +10,7 @@ HASH_FROM=$(git rev-parse "v"$LAST_VERSION^0)
 HASH_TO=$(git rev-parse HEAD^0)
 
 # Updating each module version
-git diff --name-status --relative=siberian/ $HASH_FROM $HASH_TO |grep "^\(M\|A\|R\|T\)" |cut -f 2 |grep "^app/.*/modules/.*/resources/db/" |cut -d '/' -f 1-4 |uniq > ./modules.txt
+git diff --name-status --relative=siberian/ $HASH_FROM $HASH_TO |grep "^\(M\|A\|R\|T\)" |cut -f 2 |grep "^app/.*/modules/.*/resources/(db|data)/" |cut -d '/' -f 1-4 |uniq > ./modules.txt
 
 while read FILE; do
     cd "siberian/"$FILE
