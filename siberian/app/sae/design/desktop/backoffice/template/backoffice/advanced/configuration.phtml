@@ -9,8 +9,8 @@
                 <select id="configs.environment.code"
                         class="form-control"
                         ng-model="configs.environment.value">
-                    <option value="production"><?php echo __("Production"); ?></option>
-                    <option value="development"><?php echo __("Development"); ?></option>
+                    <option value="production"><?php echo __('Production'); ?></option>
+                    <option value="development"><?php echo __('Development'); ?></option>
                 </select>
             </div>
 
@@ -19,8 +19,8 @@
                 <select id="configs.update_channel.code"
                         class="form-control"
                         ng-model="configs.update_channel.value">
-                    <option value="stable"><?php echo __("Stable"); ?></option>
-                    <option value="beta"><?php echo __("Testing / Beta"); ?></option>
+                    <option value="stable"><?php echo __('Stable'); ?></option>
+                    <option value="beta"><?php echo __('Testing / Beta'); ?></option>
                 </select>
             </div>
 
@@ -43,7 +43,7 @@
         <div class="form-group">
             <div class="col-md-12">
                 <button type="submit"
-                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                        class="btn btn-primary right"><?php echo __('Save'); ?></button>
                 <sb-loader is_visible="form_loader_is_visible"
                            type="'inner_content'"
                            size="'small'"
@@ -152,14 +152,14 @@
                     <i class="fa fa-exclamation-triangle"></i>
                     <?php echo __("This action is used to migrate all current active session into a Redis server instance, use this only with care if you want to migrate from MySQL session to Redis session storage.") ?>
                     <br />
-                    <b><?php echo __("Note: the migration will only work if redis is configured & running!") ?></b>
+                    <b><?php echo __('Note: the migration will only work if redis is configured & running!') ?></b>
                 </div>
             </div>
             <div class="col-md-12">
                 <button type="submit"
                         ng-click="migrate_sessions($event)"
                         class="btn btn-primary right">
-                    <i class="fa fa-medkit"></i> <?php echo __("Migrate sessions"); ?>
+                    <i class="fa fa-medkit"></i> <?php echo __('Migrate sessions'); ?>
                 </button>
                 <sb-loader is_visible="form_loader_is_visible"
                            type="'inner_content'"
@@ -187,24 +187,24 @@
                 <select id="configs.letsencrypt_env.code"
                         class="form-control"
                         ng-model="configs.letsencrypt_env.value">
-                    <option value="staging"><?php echo __("Staging"); ?></option>
-                    <option value="production"><?php echo __("Production"); ?></option>
+                    <option value="staging"><?php echo __('Staging'); ?></option>
+                    <option value="production"><?php echo __('Production'); ?></option>
                 </select>
 
                 <br />
                 <label ng-if="configs.certificates.length"
-                       for="config_hostname"><?php echo __("Selected main hostname"); ?></label>
+                       for="config_hostname"><?php echo __('Selected main hostname'); ?></label>
                 <select ng-if="configs.certificates.length"
                         id="config_hostname"
                         class="form-control"
                         ng-model="configs.current_domain">
-                    <option value=""><?php echo __("Select a hostname") ?></option>
+                    <option value=""><?php echo __('Select a hostname') ?></option>
                     <option ng-repeat="certificate in configs.certificates"
                             ng-value="certificate.hostname">{{ certificate.hostname }}</option>
                 </select>
 
                 <label ng-if="!configs.certificates.length"
-                       for="config_hostname"><?php echo __("Main hostname"); ?></label>
+                       for="config_hostname"><?php echo __('Main hostname'); ?></label>
                 <input type="text"
                        ng-if="!configs.certificates.length"
                        id="config_hostname"
@@ -212,13 +212,13 @@
                        ng-model="configs.current_domain">
 
                 <br />
-                <label ng-show="configs.cpanel_type.value != -1"><?php echo __("Request or renew the certificate via Let's Encrypt.") ?></label>
+                <label ng-show="configs.cpanel_type.value != -1"><?php echo __('Request or renew the certificate via Let\'s Encrypt.') ?></label>
                 <div ng-show="configs.cpanel_type.value != -1">
                     <a class="btn btn-primary left"
-                       ng-click="generateSsl(false);"><?php echo __("Request & Upload to panel") ?></a>
+                       ng-click="generateSsl(false);"><?php echo __('Request & Upload to panel') ?></a>
                     <a ng-if="show_force"
                        class="btn btn-primary left"
-                       ng-click="generateSsl(true);"><?php echo __("Force request & Upload to panel") ?></a>
+                       ng-click="generateSsl(true);"><?php echo __('Force request & Upload to panel') ?></a>
                 </div>
 
             </div>
@@ -229,12 +229,13 @@
                 <select id="configs.cpanel_type.code"
                         class="form-control"
                         ng-model="configs.cpanel_type.value">
-                    <option value="-1"><?php echo __("Select a panel type or self-managed") ?></option>
-                    <option value="self"><?php echo __("Unknown - Self-managed"); ?></option>
-                    <option value="plesk"><?php echo __("Plesk 12+"); ?></option>
-                    <option value="cpanel"><?php echo __("WHM cPanel"); ?></option>
-                    <option value="directadmin"><?php echo __("DirectAdmin"); ?></option>
-                    <option value="vestacp"><?php echo __("VestaCP"); ?></option>
+                    <option value="-1"><?php echo __('Select a panel type or self-managed') ?></option>
+                    <option value="self"><?php echo __('Unknown - Self-managed'); ?></option>
+                    <option value="plesk"><?php echo __('Plesk 12+'); ?></option>
+                    <option value="cpanel"><?php echo __('WHM cPanel'); ?></option>
+                    <option value="directadmin"><?php echo __('DirectAdmin'); ?></option>
+                    <option value="vestacp"><?php echo __('VestaCP web API'); ?></option>
+                    <option value="vestacpcli"><?php echo __('VestaCP exec API'); ?></option>
                 </select>
 
             </div>
@@ -243,26 +244,26 @@
                  ng-if="configs.cpanel_type.value == 'cpanel'">
                 <br /><br />
 
-                <label><?php echo __("Host") ?> *</label>
+                <label><?php echo __('Host') ?> *</label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.cpanel.host" />
 
-                <label><?php echo __("Username") ?> *</label>
+                <label><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.cpanel.user" />
 
-                <label><?php echo __("Password") ?> *</label>
+                <label><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
                        ng-model="configs.cpanel.password" />
 
-                <label><?php echo __("Web space") ?></label>
+                <label><?php echo __('Web space') ?></label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.cpanel.webspace"
-                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>" />
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'plesk'">
@@ -273,21 +274,20 @@
                        type="text"
                        ng-model="configs.plesk.host" />
 
-                <label class="config-spacer"><?php echo __("Username") ?> *</label>
+                <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.plesk.user" />
 
-                <label class="config-spacer"><?php echo __("Password") ?> *</label>
+                <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
                        ng-model="configs.plesk.password" />
 
-                <label class="config-spacer"><?php echo __("Web space") ?></label>
+                <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.plesk.webspace"
-                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                       ng-model="configs.plesk.webspace"/>
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'vestacp'">
@@ -298,21 +298,34 @@
                        type="text"
                        ng-model="configs.vestacp.host" />
 
-                <label class="config-spacer"><?php echo __("Username") ?> *</label>
+                <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.vestacp.user" />
 
-                <label class="config-spacer"><?php echo __("Password") ?> *</label>
+                <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
                        ng-model="configs.vestacp.password" />
 
-                <label class="config-spacer"><?php echo __("Web space") ?></label>
+                <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.vestacp.webspace"
-                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                       ng-model="configs.vestacp.webspace"/>
+            </div>
+
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'vestacpcli'">
+                <br /><br />
+
+                <label><?php echo __('Username') ?> *</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.vestacpcli.user" />
+
+                <label class="config-spacer"><?php echo __('Web space') ?> *</label>
+                <input class="form-control"
+                       type="text"
+                       ng-model="configs.vestacpcli.webspace"/>
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'directadmin'">
@@ -323,21 +336,21 @@
                        type="text"
                        ng-model="configs.directadmin.host" />
 
-                <label class="config-spacer"><?php echo __("Username") ?> *</label>
+                <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.directadmin.user" />
 
-                <label class="config-spacer"><?php echo __("Password") ?> *</label>
+                <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
                        ng-model="configs.directadmin.password" />
 
-                <label class="config-spacer"><?php echo __("Web space") ?></label>
+                <label class="config-spacer"><?php echo __('Web space') ?></label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.directadmin.webspace"
-                       placeholder="<?php echo __("Leave blank if your web space is the current domain.") ?>" />
+                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>" />
 
             </div>
 

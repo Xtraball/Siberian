@@ -220,7 +220,7 @@ App.config(function($routeProvider) {
                         $scope.message.onSuccess(response);
                         $scope.poller('backoffice/advanced_configuration/checkssl');
                     }, function (response) {
-                        $scope.message.onError(response.data);
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
                     });
 
                 }).error(function(data) {
@@ -276,7 +276,7 @@ App.config(function($routeProvider) {
                         $scope.message.onSuccess(response);
                         $scope.poller('backoffice/advanced_configuration/checkssl');
                     }, function (response) {
-                        $scope.message.onError(response.data);
+                        $scope.poller('backoffice/advanced_configuration/checkssl');
                     });
 
                 }).error(function(data) {

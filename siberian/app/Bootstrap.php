@@ -451,6 +451,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         // Awesome session alteration!
         if ($this->_request->isApplication()) {
             $_config['name'] = 'front';
+            $_config['use_cookies'] = false;
         }
 
         Zend_Session::setOptions($_config);
