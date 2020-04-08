@@ -16,16 +16,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public $version = 'v_base';
 
     /**
-     * @var bool
-     */
-    public static $useRanking = false;
-
-    /**
-     * @var bool
-     */
-    public static $useNickname = false;
-
-    /**
      * Here we generate the Application initial payload
      * its composed of the following blocks
      * - Application
@@ -72,7 +62,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         try {
             // Alter the loadBlock with the customer
             $loadBlock = $this->_customerBlock($application, $loadBlock);
-            $loadBlock = $this->_settingsBlock($application, $loadBlock);
+            $loadBlock = $this->_settingsBlock($featureBlock, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -415,13 +405,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
 
-                    if ($blockData['use_ranking'] === true) {
-                        self::$useRanking = true;
-                    }
-                    if ($blockData['use_nickname'] === true) {
-                        self::$useNickname = true;
-                    }
-
                     // 4.18.3 link special options!
                     if ($object->getLink() &&
                         in_array($blockData['code'], $linkCodes, false)) {
@@ -758,14 +741,32 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param $application
+     * @param $featureBlock
      * @param $loadBlock
      * @return mixed
      */
-    public function _settingsBlock ($application, $loadBlock)
+    public function _settingsBlock ($featureBlock, $loadBlock)
     {
-        $loadBlock['application']['myAccount']['settings']['use_nickname'] = self::$useNickname;
-        $loadBlock['application']['myAccount']['settings']['use_ranking'] = self::$useRanking;
+        $useNickname = false;
+        $useRanking = false;
+
+        $features = $featureBlock['pages'];
+        foreach ($features as $feature) {
+            if ($feature['use_nickname']) {
+                $useNickname = true;
+            }
+            if ($feature['use_ranking']) {
+                $useRanking = true;
+            }
+
+            // Both are true, we can abort here!
+            if ($useNickname && $useRanking) {
+                break;
+            }
+        }
+
+        $loadBlock['application']['myAccount']['settings']['use_nickname'] = $useNickname;
+        $loadBlock['application']['myAccount']['settings']['use_ranking'] = $useRanking;
 
         return $loadBlock;
     }
