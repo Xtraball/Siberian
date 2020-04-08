@@ -50,9 +50,6 @@ let debug = true,
         'cms': [
             './www/js/controllers/cms.js'
         ],
-        'codescan': [
-            './www/js/controllers/codescan.js'
-        ],
         'contact': [
             './www/js/controllers/contact.js',
             './www/js/factory/contact.js'
@@ -202,6 +199,7 @@ let debug = true,
         onloadchunks: {
             files: [
                 './www/js/factory/facebook.js',
+                './www/js/factory/codescan.js',
                 './www/js/factory/padlock.js',
                 './www/js/factory/pages.js',
                 './www/js/factory/tc.js',
@@ -460,14 +458,19 @@ let tasks = {
             let output = UglifyJS.minify(result, {
                 mangle: false
             });
-            fs.writeFile(filename, output.code, function (wfError) {
-                if (wfError) {
-                    tasks.log(redColor('wfError'), wfError);
-                    instancePromise.reject();
-                } else {
-                    instancePromise.resolve();
-                }
-            });
+            if (output.error) {
+                tasks.log(redColor('UglifyJS'), filename, output.error);
+                instancePromise.reject();
+            } else {
+                fs.writeFile(filename, output.code, function (wfError) {
+                    if (wfError) {
+                        tasks.log(redColor('wfError'), wfError);
+                        instancePromise.reject();
+                    } else {
+                        instancePromise.resolve();
+                    }
+                });
+            }
         };
 
         let internalBuilder = function (files, dest) {
@@ -523,14 +526,19 @@ let tasks = {
             let output = UglifyJS.minify(result, {
                 mangle: false
             });
-            fs.writeFile(filename, output.code, function (wfError) {
-                if (wfError) {
-                    tasks.log(redColor('wfError'), wfError);
-                    instancePromise.reject();
-                } else {
-                    instancePromise.resolve();
-                }
-            });
+            if (output.error) {
+                tasks.log(redColor('UglifyJS'), filename, output.error);
+                instancePromise.reject();
+            } else {
+                fs.writeFile(filename, output.code, function (wfError) {
+                    if (wfError) {
+                        tasks.log(redColor('wfError'), wfError);
+                        instancePromise.reject();
+                    } else {
+                        instancePromise.resolve();
+                    }
+                });
+            }
         };
 
         let internalBuilder = function (files, dest) {

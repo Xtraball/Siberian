@@ -2,11 +2,10 @@
  * Picture
  *
  * @author Xtraball SAS
- * @version 4.17.0
  */
 angular
-.module("starter")
-.service("Picture", function ($ionicActionSheet, $q, $rootScope, $translate, Dialog, SB) {
+    .module('starter')
+    .service('Picture', function ($cordovaCamera, $ionicActionSheet, $q, $rootScope, $translate, Dialog, SB) {
     var service = {
         isOpen: false,
         sheetResolver: null,
@@ -23,8 +22,7 @@ angular
             return $q.reject();
         }
 
-        if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER &&
-            navigator.camera === undefined) {
+        if (Camera === undefined) {
             Dialog.alert("Error", "Camera is not available.", "OK", -1)
                 .then(function () {
                     return $q.reject();
@@ -127,7 +125,7 @@ angular
                     input.on('change', selectedFile);
                     input[0].click();
                 } else {
-                    navigator.camera.getPicture(options)
+                    $cordovaCamera.getPicture(options)
                         .then(function (imageData) {
                             service.sheetResolver();
 

@@ -54,6 +54,14 @@ angular
                 return /^(tel|sms|whatsapp):.*/.test(url);
             };
 
+            // In case we do not have options!
+            if (options === undefined) {
+                options = {
+                    'global': {},
+                    'android': {},
+                    'ios': {},
+                };
+            }
             var _globalOptions = options['global'];
 
             var _deviceOptions = {};

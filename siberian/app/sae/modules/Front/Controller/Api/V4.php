@@ -8,5 +8,5 @@ class Front_Controller_Api_V4 extends Front_Controller_Api_Base
     /**
      * @var string
      */
-    public $version = "v4";
+    public $version = 'v4';
 }

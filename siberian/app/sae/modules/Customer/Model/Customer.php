@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\UUID;
+
 /**
  * Class Customer_Model_Customer
  *
@@ -62,6 +64,31 @@ class Customer_Model_Customer extends Core_Model_Default
     public function findByAppId($app_id)
     {
         return $this->getTable()->findByAppId($app_id);
+    }
+
+    /**
+     * @param $sessionUuid
+     * @return mixed
+     */
+    public function updateSessionUuid($sessionUuid)
+    {
+        // Skip overview/webapp session_uuid
+        if (array_key_exists('HTTP_REFERER', $_SERVER) &&
+            stripos($_SERVER['HTTP_REFERER'], '/overview/') !== false) {
+            return $this;
+        }
+        // Clear all users with this token, then update the current one!
+        $this->getTable()->clearBySessionUuid($sessionUuid);
+
+        return $this->setData('session_uuid', $sessionUuid)->save();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function clearSessionUuid()
+    {
+        return $this->setData('session_uuid', null)->save();
     }
 
     /**
@@ -436,6 +463,20 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * Generating a fresh session UUID
+     *
+     * @return string
+     */
+    public function refreshSessionUuid (): string
+    {
+        $newUuid = UUID::v4();
+
+        $this->setSessionUuid($newUuid)->save();
+
+        return $newUuid;
+    }
+
+    /**
      * @param $password
      * @param $hash
      * @return bool
@@ -532,12 +573,64 @@ class Customer_Model_Customer extends Core_Model_Default
     }
 
     /**
+     * @param null $image
+     * @return $this
+     */
+    public function saveImage ($image = null): self
+    {
+        // If the image starts with data: this means it's a new one, and we must save it!
+        if (!empty($image) &&
+            strpos($image, 'data:') === 0) {
+
+            $formattedName = md5($this->getId());
+            $imagePath = $this->getBaseImagePath() . '/' . $formattedName;
+
+            // Create customer's folder
+            if (!is_dir($imagePath)) {
+                mkdir($imagePath, 0777, true);
+            }
+
+            // Store the picture on the server
+            $imageName = uniqid('prfl', true) . '.jpg';
+            $destPath = $imagePath . '/' . $imageName;
+            $newavatar = base64_decode(str_replace(' ', '+', preg_replace('#^data:image/\w+;base64,#i', '', $image)));
+            $file = fopen($destPath, 'wb');
+            fwrite($file, $newavatar);
+            fclose($file);
+
+            // Resize the image
+            Thumbnailer_CreateThumb::createThumbnail($destPath, $destPath, 256, 256, 'jpg', true);
+
+            $oldImage = $this->getFullImagePath();
+
+            // Set the image to the customer
+            $newImagePath = '/' . $formattedName . '/' . $imageName;
+            $this
+                ->setImage($newImagePath)
+                ->setIsCustomImage(1)
+                ->save();
+            $data['image'] = $newImagePath;
+            $data['is_custom_image'] = 1;
+
+            // Clean-up old file!
+            if ($oldImage) {
+                unlink($oldImage);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * The only entrypoint for the customer
      *
      * @return array
      */
     public static function getCurrent()
     {
+        /**
+         * @var $customer Customer_Model_Customer
+         */
         $customer = self::_getSession()->getCustomer();
 
         $payload = [];
@@ -547,7 +640,7 @@ class Customer_Model_Customer extends Core_Model_Default
         if ($customer->getId()) {
             $metadatas = $customer->getMetadatas();
             if (empty($metadatas)) {
-                $metadatas = json_decode("{}"); // we really need a javascript object here
+                $metadatas = json_decode('{}'); // we really need a javascript object here
             }
 
             //hide stripe customer id for secure purpose
@@ -568,6 +661,7 @@ class Customer_Model_Customer extends Core_Model_Default
                 'show_in_social_gaming' => (bool)$customer->getShowInSocialGaming(),
                 'is_custom_image' => (bool)$customer->getIsCustomImage(),
                 'can_access_locked_features' => (bool)$customer->canAccessLockedFeatures(),
+                'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
                 'token' => (string)Zend_Session::getId(),
                 'metadatas' => $metadatas
             ];

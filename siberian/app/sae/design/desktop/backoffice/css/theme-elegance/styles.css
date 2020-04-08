@@ -60,11 +60,11 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .sweet-alert h2 {
-    background-color: #ffffff;
-    border-bottom: 2px solid #3dcc6d;
-    color: #404040;
-    text-align: center;
-}
+     background-color: #ffffff;
+     border-bottom: 2px solid #3dcc6d;
+     color: #404040;
+     text-align: center;
+ }
 
 .login-form .wrapper .content {
     background-color: #ffffff;
@@ -96,20 +96,20 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .top {
-    height: 46px;
+    height: 32px;
 }
 
 .top .content {
-    height: 46px;
+    height: 32px;
 }
 
 .backoffice_menu ul.l1 {
-    height: 46px;
+    height: 32px;
 }
 
 .backoffice_menu ul.l1 li a {
-    padding: 11px 13px 11px 13px;
-    font-size: 16px;
+    padding: 6px 8px 6px 8px;
+    font-size: 14px;
     color: #404040;
     border-bottom: 2px solid #ffffff !important;
 }
@@ -121,7 +121,7 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 .message-badge {
     right: 0;
     top: 0;
-    padding: 1px 8px 2px 8px;
+    padding: 1px 6px 3px 6px;
     background-color: #3dcc6d;
     color: #ffffff;
 }
@@ -210,7 +210,7 @@ input, select, textarea {
 }
 
 .backoffice_menu ul.l1 li.has_submenu:hover ul.l2 {
-    top: 46px;
+    top: 32px;
 }
 
 .title_content h1 i {

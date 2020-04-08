@@ -1,6 +1,28 @@
 /* GENERAL */
+body,
+.ionic-body {
+  color: $general-custom-text;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, div, p, span, a, * {
   font-family: $font-family;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  color: $general-custom-text;
+}
+
+.text-base {
+  font-size: $font-size-base;
+}
+
+.text-small {
+  font-size: $font-size-small;
+}
+
+.text-large {
+  font-size: $font-size-large;
 }
 
 button, input, select, textarea {

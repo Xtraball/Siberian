@@ -13,7 +13,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @var string
      */
-    public $version = "v_base";
+    public $version = 'v_base';
 
     /**
      * Here we generate the Application initial payload
@@ -62,6 +62,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         try {
             // Alter the loadBlock with the customer
             $loadBlock = $this->_customerBlock($application, $loadBlock);
+            $loadBlock = $this->_settingsBlock($featureBlock, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -194,21 +195,26 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             // My Account feature (if it exists)
             $myAccountOption = (new Application_Model_Option())->find("tabbar_account", "code");
             $myAccountFeature = (new Application_Model_Option_Value())->find([
-                "option_id" => $myAccountOption->getOptionId(),
-                "app_id" => $appId,
+                'option_id' => $myAccountOption->getOptionId(),
+                'app_id' => $appId,
             ]);
 
             $defaultSettings = [
-                "title" => $myAccountFeature->getTabbarName(),
-                "settings" => [
-                    "enable_facebook_login" => true,
-                    "enable_registration" => true,
+                'title' => $myAccountFeature->getTabbarName(),
+                'settings' => [
+                    'design' => 'list',
+                    'enable_facebook_login' => true,
+                    'enable_registration' => true,
+                    'enable_commercial_agreement' => false,
+                    'enable_commercial_agreement_label' => '',
                 ],
             ];
             $myAccount = $defaultSettings;
-            if ($myAccountFeature->getId()) {
+            if ($myAccountFeature && $myAccountFeature->getId()) {
                 try {
-                    $myAccount["settings"] = Json::decode($myAccountFeature->getSettings());
+                    $myAccount['settings'] = array_merge(
+                        $defaultSettings['settings'],
+                        Json::decode($myAccountFeature->getSettings()));
                 } catch (\Exception $e) {
                     $myAccount = $defaultSettings;
                 }
@@ -311,8 +317,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public function _featureBlock($application, $currentLanguage, $request)
     {
         $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
-        $appVersion = $request->getBodyParams()["version"];
-        $isPwa = $bodyParams["isPwa"];
+        $appVersion = $request->getBodyParams()['version'];
         $appId = $application->getId();
         $appKey = $application->getKey();
         $cacheId = 'v4_front_mobile_home_findall_app_' . $appId . '_locale_' . $currentLanguage;
@@ -331,7 +336,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             foreach ($optionValues as $optionValue) {
                 // We will ignore next tabbar_accounts iterations (ie: duplicates)
-                if ($optionValue->getCode() === "tabbar_account") {
+                if ($optionValue->getCode() === 'tabbar_account') {
                     if ($myAccountIgnore === true) {
                         continue;
                     }
@@ -582,16 +587,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataHomepage['pages'] = $fixedPages;
         }
 
-        if (version_compare($appVersion, "4.17.0", ">=")) {
-            // Apply patches.
-
-            foreach ($dataHomepage["pages"] as &$page) {
-                $page["url"] = str_replace("/{$appKey}", "", $page["url"]);
-                $page["path"] = str_replace("/{$appKey}", "", $page["path"]);
-                dbg($page);
-            }
-        }
-
         // Dynamic patches (non-cached) for specific app versions!
         if (version_compare($appVersion, '4.18.1', '<')) {
             # 3. M-Commerce
@@ -680,7 +675,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $loadBlock['customer'] = [
             'id' => (integer) $customerId,
             'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
-            'can_access_locked_features' => (boolean) ($customerId && $session->getCustomer()->canAccessLockedFeatures()),
+            'can_access_locked_features' => (boolean) ($customerId && $customer->canAccessLockedFeatures()),
             'token' => Zend_Session::getId()
         ];
 
@@ -699,6 +694,12 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $isLoggedIn = true;
 
+            // Ensure user is linked with the session uuid.
+            if (empty($customer->getSessionUuid())) {
+                $customer->updateSessionUuid(Zend_Session::getId());
+            }
+
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
@@ -709,13 +710,14 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
                 'is_custom_image' => (boolean) $customer->getIsCustomImage(),
                 'metadatas' => $metadata,
+                'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
                 'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean) ($customerId && $customer->canAccessLockedFeatures()),
-                "extendedFields" => Account::getFields([
-                    "application" => $application,
-                    "request" => $this->getRequest(),
-                    "session" => $session,
+                'extendedFields' => Account::getFields([
+                    'application' => $application,
+                    'request' => $this->getRequest(),
+                    'session' => $session,
                 ]),
             ]);
 
@@ -725,7 +727,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     method_exists($exporterClass, 'getInformation')) {
                     $transitionalObject = new $exporterClass();
                     $info = $transitionalObject->getInformation($customer->getId());
-                    $data['stripe'] = $info ? $info : [];
+                    $data['stripe'] = $info ?: [];
                 }
             }
         }
@@ -739,12 +741,44 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
+     * @param $featureBlock
+     * @param $loadBlock
+     * @return mixed
+     */
+    public function _settingsBlock ($featureBlock, $loadBlock)
+    {
+        $useNickname = false;
+        $useRanking = false;
+
+        $features = $featureBlock['pages'];
+        foreach ($features as $feature) {
+            if ($feature['use_nickname']) {
+                $useNickname = true;
+            }
+            if ($feature['use_ranking']) {
+                $useRanking = true;
+            }
+
+            // Both are true, we can abort here!
+            if ($useNickname && $useRanking) {
+                break;
+            }
+        }
+
+        $loadBlock['application']['myAccount']['settings']['use_nickname'] = $useNickname;
+        $loadBlock['application']['myAccount']['settings']['use_ranking'] = $useRanking;
+
+        return $loadBlock;
+    }
+
+    /**
      * @param $application
      * @param $request
      * @param bool $refresh
      * @return array
+     * @throws Zend_Exception
      */
-    public function _manifestBlock($application, $request, $refresh = false)
+    public function _manifestBlock($application, $request, $refresh = false): array
     {
         $appId = $application->getId();
         $appIcon = $application->getIcon();

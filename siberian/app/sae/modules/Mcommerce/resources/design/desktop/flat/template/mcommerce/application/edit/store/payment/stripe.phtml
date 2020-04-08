@@ -17,13 +17,13 @@ $methodInstance = $method->getInstance();
                class="input-flat required"
                name="details_payment_methods[<?php echo $this->getMethodId(); ?>][secret_key]"
                value="<?php echo $methodInstance->getSecretKey(); ?>"
-               placeholder="<?php echo __("Secret Key"); ?>" />
+               placeholder="<?php echo __('Secret Key'); ?>" />
     </div>
 </div>
 <div class="form-group stripe_data">
     <div class="col-sm-3">
         <label for="stripe_publishable_key">
-            <?php echo __("Publishable Key:"); ?> <span>*</span>
+            <?php echo __('Publishable Key:'); ?> <span>*</span>
         </label>
     </div>
     <div class="col-sm-5">
@@ -32,7 +32,7 @@ $methodInstance = $method->getInstance();
                class="input-flat required"
                name="details_payment_methods[<?php echo $this->getMethodId(); ?>][publishable_key]"
                value="<?php echo $methodInstance->getPublishableKey(); ?>"
-               placeholder="<?php echo __("Publishable Key"); ?>" />
+               placeholder="<?php echo __('Publishable Key'); ?>" />
     </div>
 </div>
 <div class="form-group stripe_data">

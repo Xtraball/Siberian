@@ -535,7 +535,12 @@ class Cron
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
                                     $r = dns_get_record($hostname, DNS_CNAME);
-                                    $isCname = (!empty($r) && isset($r[0]) && isset($r[0]['target']) && ($r[0][''] === $cert->getHostname()));
+                                    $isCname = (
+                                        !empty($r) &&
+                                        isset($r[0]) &&
+                                        isset($r[0]['target']) &&
+                                        ($r[0]['target'] === $cert->getHostname())
+                                    );
                                     $isSelf = ($hostname === $cert->getHostname());
 
                                     // If domain is valid!
@@ -631,7 +636,7 @@ class Cron
                                 // Change updated_at date, time()+10 to ensure renew is newer than updated_at
                                 $cert
                                     ->setErrorCount(0)
-                                    ->setRenewDate(time_to_date(time() + 10, "YYYY-MM-dd HH:mm:ss"))
+                                    ->setRenewDate(time_to_date(time() + 10, 'YYYY-MM-dd HH:mm:ss'))
                                     ->save();
 
                                 // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
@@ -647,6 +652,10 @@ class Cron
                                         case 'vestacp':
                                             $vestacp = new \Siberian_VestaCP();
                                             $vestacp->updateCertificate($cert);
+                                            break;
+                                        case 'vestacpcli':
+                                            (new VestaCPCli())->installCertificate($cert);
+
                                             break;
                                         case 'directadmin':
                                             $directadmin = new \Siberian_DirectAdmin();

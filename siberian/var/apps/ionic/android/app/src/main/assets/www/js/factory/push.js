@@ -40,13 +40,22 @@ angular
         factory.findAll();
     };
 
+    factory.isRegistered = function (params) {
+        return $pwaRequest.post('/push/device/is-registered', {
+            data: angular.extend(params, {
+                device_uid: $session.getDeviceUid()
+            }),
+            cache: false
+        });
+    };
+
     /**
      * Register device token on the platform!
      *
      * @param params
      */
     factory.registerAndroidDevice = function (params) {
-        $pwaRequest.post('/push/android/registerdevice', {
+        return $pwaRequest.post('/push/android/registerdevice', {
             data: angular.extend(params, {
                 device_uid: $session.getDeviceUid(),
                 provider: 'fcm'
@@ -56,7 +65,7 @@ angular
     };
 
     factory.registerIosDevice = function (params) {
-        $pwaRequest.post('/push/iphone/registerdevice', {
+        return $pwaRequest.post('/push/iphone/registerdevice', {
             data: angular.extend(params, {
                 device_uid: $session.getDeviceUid()
             }),

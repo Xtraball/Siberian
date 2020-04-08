@@ -1,11 +1,12 @@
 /**
- * Push Service
+ * PushService
  *
- * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @author Xtraball SAS
+ *
+ * @version 4.15.7
  */
-angular.module('starter').service('PushService', function ($location, $log, $q, $rootScope,
-                                                           $translate, $window, $session, Dialog,
+angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
+                                                           $translate, $window, $session, Application, Dialog,
                                                            LinkService, Pages, Push, SB) {
     var service = {
         push: null,
@@ -24,9 +25,7 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
                 sound: true
             },
             windows: {}
-        },
-        appId: null,
-        appName: null
+        }
     };
 
     /**
@@ -35,7 +34,7 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
      * @param senderID
      * @param iconColor
      */
-    service.configure = function (senderID, iconColor, appId, appName) {
+    service.configure = function (senderID, iconColor) {
         // senderID error proof for Android!
         if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
             (senderID === '01234567890' || senderID ==='')) {
@@ -51,9 +50,6 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         } else {
             service.settings.android.iconColor = iconColor;
         }
-
-        service.appId = appId;
-        service.appName = appName;
     };
 
     /**
@@ -67,17 +63,33 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         service.push = $window.PushNotification.init(service.settings);
     };
 
+    service.isRegistered = function () {
+        var type;
+        if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
+            type = 'android';
+        }
+        if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
+            type = 'ios';
+        }
+
+        return Push.isRegistered({
+            type: type
+        })
+    };
+
     /**
      * Handle registration, and various push events
      */
     service.register = function () {
         service.isReady = $q.defer();
         service.isReadyPromise = service.isReady.promise;
+
         service.init();
 
-        if (service.push && $rootScope.isNativeApp) {
+        if (service.push &&
+            $rootScope.isNativeApp) {
             service.push.on('registration', function (data) {
-                $log.debug('device_token: ' + data.registrationId);
+                console.log('[Push] device_token: ', data.registrationId);
 
                 Push.device_token = data.registrationId;
                 service.registerDevice();
@@ -87,28 +99,41 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
             });
 
             service.onNotificationReceived();
-            service.push.on('error', function (error) {
-                $log.debug(error.message);
 
-                // Reject
-                service.isReady.reject();
+            service.push.on('error', function (error) {
+                // Before displaying a registration error, we want to check if the device is known in DB
+                console.error('[Push]', error);
+                service
+                    .isRegistered()
+                    .then(function (success) {
+                        service.isReady.resolve();
+                    }, function (error) {
+                        // Reject
+                        service.isReady.reject();
+                        Dialog
+                            .alert('Push registration failed', error.message, 'OK', -1);
+                    });
             });
 
             service.updateUnreadCount();
-            service.fetchMessagesOnStart();
 
-            // Register for push events!
-            $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                // Refresh to prevent the need for pullToRefresh!
-                var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                    return (page.code === 'push_notification');
+            Application.loaded.then(function () {
+                // When Application is loaded, and push registered, look for missed push!
+                service.fetchMessagesOnStart();
+
+                // Register for push events!
+                $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+                    // Refresh to prevent the need for pullToRefresh!
+                    var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                        return (page.code === 'push_notification');
+                    });
+                    if (pushFeature.length >= 1) {
+                        Push.setValueId(pushFeature[0].value_id);
+                        Push.findAll(0, true);
+                    }
+
+                    service.displayNotification(data);
                 });
-                if (pushFeature.length >= 1) {
-                    Push.setValueId(pushFeature[0].value_id);
-                    Push.findAll(0, true);
-                }
-
-                service.displayNotification(data);
             });
         } else {
             $log.debug('Unable to initialize push service.');
@@ -116,7 +141,10 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         }
 
         if (!$rootScope.isNativeApp) {
-            service.fetchMessagesOnStart();
+            Application.loaded.then(function () {
+                // When Application is loaded, register at least for InApp
+                service.fetchMessagesOnStart();
+            });
             service.isReady.reject();
         }
     };
@@ -125,15 +153,13 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
      * Registration!
      */
     service.registerDevice = function () {
-        switch (Push.device_type) {
-            case SB.DEVICE.TYPE_ANDROID:
-                service.registerAndroid();
-                break;
-
-            case SB.DEVICE.TYPE_IOS:
-                service.registerIos();
-                break;
+        if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+            return service.registerAndroid();
         }
+        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+            return service.registerIos();
+        }
+        return $q.reject('Unsupported device type for Push');
     };
 
     /**
@@ -141,52 +167,48 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
      */
     service.registerAndroid = function () {
         var params = {
-            app_id: service.appId,
-            app_name: service.appName,
+            app_id: Application.app_id,
+            app_name: Application.app_name,
             registration_id: btoa(Push.device_token)
         };
-        Push.registerAndroidDevice(params);
+        return Push.registerAndroidDevice(params);
     };
 
     service.registerIos = function () {
-        cordova.getAppVersion.getVersionNumber()
-            .then(function (appVersion) {
-                var deviceName = null;
-                try {
-                    deviceName = device.platform;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceName = null;
+        try {
+            deviceName = device.platform;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var deviceModel = null;
-                try {
-                    deviceModel = device.model;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceModel = null;
+        try {
+            deviceModel = device.model;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var deviceVersion = null;
-                try {
-                    deviceVersion = device.version;
-                } catch (e) {
-                    $log.debug(e.message);
-                }
+        var deviceVersion = null;
+        try {
+            deviceVersion = device.version;
+        } catch (e) {
+            $log.debug(e.message);
+        }
 
-                var params = {
-                    app_id: service.appId,
-                    app_name: service.appName,
-                    app_version: appVersion,
-                    device_token: Push.device_token,
-                    device_name: deviceName,
-                    device_model: deviceModel,
-                    device_version: deviceVersion,
-                    push_badge: 'enabled',
-                    push_alert: 'enabled',
-                    push_sound: 'enabled'
-                };
+        var params = {
+            app_id: Application.app_id,
+            app_name: Application.app_name,
+            device_token: Push.device_token,
+            device_name: deviceName,
+            device_model: deviceModel,
+            device_version: deviceVersion,
+            push_badge: 'enabled',
+            push_alert: 'enabled',
+            push_sound: 'enabled'
+        };
 
-                Push.registerIosDevice(params);
-            });
+        return Push.registerIosDevice(params);
     };
 
     service.onNotificationReceived = function () {
@@ -239,7 +261,7 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
             params.icon = 'res://icon.png';
         }
 
-        plugin.notification.local.schedule(params);
+        $cordovaLocalNotification.schedule(params);
 
         Push.markAsDisplayed(messageId);
     };
@@ -295,7 +317,8 @@ angular.module('starter').service('PushService', function ($location, $log, $q, 
         $log.debug('PUSH messagePayload', messagePayload);
 
         // Prevent an ID being shown twice.
-        $session.getItem('pushMessageIds')
+        $session
+            .getItem('pushMessageIds')
             .then(function (pushMessageIds) {
                 var localPushMessageIds = pushMessageIds;
                 if (pushMessageIds === null || !Array.isArray(pushMessageIds)) {

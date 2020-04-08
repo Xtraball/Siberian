@@ -60,8 +60,11 @@ class Customer_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
 
                 $settings = [
-                    "enable_facebook_login" => filter_var($values["enable_facebook_login"], FILTER_VALIDATE_BOOLEAN),
-                    "enable_registration" => filter_var($values["enable_registration"], FILTER_VALIDATE_BOOLEAN),
+                    'design' => $values['design'],
+                    'enable_facebook_login' => filter_var($values['enable_facebook_login'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_registration' => filter_var($values['enable_registration'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_commercial_agreement' => filter_var($values['enable_commercial_agreement'], FILTER_VALIDATE_BOOLEAN),
+                    'enable_commercial_agreement_label' => $values['enable_commercial_agreement_label'],
                 ];
 
                 $optionValue
@@ -69,14 +72,14 @@ class Customer_ApplicationController extends Application_Controller_Default
                     ->save();
 
                 $payload = [
-                    "success" => true,
-                    "message" => __("Settings saved!"),
+                    'success' => true,
+                    'message' => __('Settings saved!'),
                 ];
             } else {
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true)
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true)
                 ];
             }
         } catch (\Exception $e) {
@@ -139,6 +142,8 @@ class Customer_ApplicationController extends Application_Controller_Default
 
                 if ($isNew) {
                     $data['app_id'] = $this->getApplication()->getId();
+                    $data['privacy_policy'] = false;
+                    $data['communication_agreement'] = false;
                 }
 
                 if (isset($data['password']) AND empty($data['password'])) {
@@ -272,23 +277,23 @@ class Customer_ApplicationController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $limit = $request->getParam("perPage", 25);
-            $offset = $request->getParam("offset", 0);
-            $sorts = $request->getParam("sorts", []);
-            $queries = $request->getParam("queries", []);
+            $limit = $request->getParam('perPage', 25);
+            $offset = $request->getParam('offset', 0);
+            $sorts = $request->getParam('sorts', []);
+            $queries = $request->getParam('queries', []);
 
             $filter = null;
-            if (array_key_exists("search", $queries)) {
-                $filter = $queries["search"];
+            if (array_key_exists('search', $queries)) {
+                $filter = $queries['search'];
             }
 
             //foreach ()
 
             $params = [
-                "limit" => $limit,
-                "offset" => $offset,
-                "sorts" => $sorts,
-                "filter" => $filter,
+                'limit' => $limit,
+                'offset' => $offset,
+                'sorts' => $sorts,
+                'filter' => $filter,
             ];
 
             $application = $this->getApplication();
@@ -304,15 +309,18 @@ class Customer_ApplicationController extends Application_Controller_Default
             $customersJson = [];
             foreach ($customers as $customer) {
                 $data = $customer->getData();
-                $data["name"] = $customer->getName();
-                $data["created_at"] = datetime_to_format($data["created_at"]);
+                $data['name'] = $customer->getName();
+                $data['privacy_policy'] = (bool) $data['privacy_policy'];
+                $data['communication_agreement'] = (bool) $data['communication_agreement'];
+                $data['show_in_social_gaming'] = (bool) $data['show_in_social_gaming'];
+                $data['created_at'] = datetime_to_format($data['created_at']);
                 $customersJson[] = $data;
             }
 
             $payload = [
-                "records" => $customersJson,
-                "queryRecordCount" => $countFiltered[0],
-                "totalRecordCount" => $countAll[0]
+                'records' => $customersJson,
+                'queryRecordCount' => $countFiltered[0],
+                'totalRecordCount' => $countAll[0]
             ];
         } catch (\Exception $e) {
             $payload = [

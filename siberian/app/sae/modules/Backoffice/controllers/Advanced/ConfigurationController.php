@@ -30,6 +30,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'java_home',
         'java_options',
         'gradle_options',
+        'session_lifetime',
     ];
 
     /**
@@ -63,11 +64,13 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         $cpanel = Api_Model_Key::findKeysFor('cpanel');
         $plesk = Api_Model_Key::findKeysFor('plesk');
         $vestacp = Api_Model_Key::findKeysFor('vestacp');
+        $vestacpcli = Api_Model_Key::findKeysFor('vestacpcli');
         $directadmin = Api_Model_Key::findKeysFor('directadmin');
 
         $data['cpanel'] = $cpanel->getData();
         $data['plesk'] = $plesk->getData();
         $data['vestacp'] = $vestacp->getData();
+        $data['vestacpcli'] = $vestacpcli->getData();
         $data['directadmin'] = $directadmin->getData();
 
         $data['cpanel']['password'] = $this->_fake_password_key;
@@ -183,6 +186,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             try {
                 if (__getConfig('is_demo')) {
                     throw new Exception(__('This is a demo version, you cannot save these settings.'));
+                }
+
+                if ($data['session_lifetime']['value'] < 300) {
+                    throw new Exception(__("Session lifetime can't be below 300 seconds / 5 minutes."));
                 }
 
                 $this->_save($data);
@@ -579,6 +586,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             'plesk' => __('Plesk'),
             'cpanel' => __('WHM cPanel'),
             'vestacp' => __('VestaCP'),
+            'vestacpcli' => __('VestaCPCli'),
             'directadmin' => __('DirectAdmin'),
             'self' => __('Self-managed'),
         ];
@@ -597,6 +605,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     break;
                 case 'vestacp':
                     (new Siberian_VestaCP())->updateCertificate($certificate);
+
+                    break;
+                case 'vestacpcli':
+                    (new Siberian\VestaCPCli())->installCertificate($certificate);
 
                     break;
                 case 'directadmin':
@@ -637,6 +649,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             'plesk' => __('Plesk'),
             'cpanel' => __('WHM cPanel'),
             'vestacp' => __('VestaCP'),
+            'vestacpcli' => __('VestaCP Cli'),
             'directadmin' => __('DirectAdmin'),
             'self' => __('Self-managed'),
         ];

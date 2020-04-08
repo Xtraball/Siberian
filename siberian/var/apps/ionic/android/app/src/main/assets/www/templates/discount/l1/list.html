@@ -3,17 +3,20 @@
 
     <ion-content>
 
-        <div class="loader" ng-show="is_loading">
+        <div class="loader"
+             ng-show="is_loading">
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
         <ion-refresher ng-if="use_pull_refresh"
                        class="spinner-custom"
-                       pulling-text="{{ 'Pull to refresh...' | translate }}"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
                        on-refresh="pullToRefresh()">
         </ion-refresher>
 
-        <div class="list" ng-class="{'card' : card_design}" ng-show="collection.length">
+        <div class="list"
+             ng-class="{'card' : card_design}"
+             ng-show="collection.length">
 
             <div class="item item-custom discount-list"
                  ng-click="showItem(item)"
@@ -21,20 +24,25 @@
                  ng-class="{'item-thumbnail-left': (item.thumbnail.length || item.picture), 'item-center': (!item.subtitle && !item.message)}">
 
                 <!-- Thumbnail OR Picture -->
-                <img ng-src="{{ item.thumbnail }}" ng-if="item.thumbnail.length" />
-                <img ng-src="{{ item.picture }}" ng-if="item.picture && !item.thumbnail.length" />
+                <img ng-src="{{ item.thumbnail }}"
+                     ng-if="item.thumbnail.length" />
+                <img ng-src="{{ item.picture }}"
+                     ng-if="item.picture && !item.thumbnail.length" />
 
                 <!-- Title -->
                 <h2>{{ item.title ? item.title : item.author }}</h2>
 
                 <!-- Description -->
-                <p class="three-lines" ng-if="item.subtitle_html" ng-bind-html="item.subtitle_html | trusted_html"></p>
+                <p class="three-lines"
+                   ng-if="item.subtitle_html"
+                   ng-bind-html="item.subtitle_html | trusted_html"></p>
             </div>
         </div>
 
-        <div class="list" ng-class="{'card': card_design}" ng-show="!is_loading && !collection.length">
+        <div class="list" ng-class="{'card': card_design}"
+             ng-show="!is_loading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No items found" | translate }}
+                {{ ::'No items found' | translate }}
             </div>
         </div>
 

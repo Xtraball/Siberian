@@ -70,20 +70,20 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .top {
-    height: 46px;
+    height: 32px;
 }
 
 .top .content {
-    height: 46px;
+    height: 32px;
 }
 
 .backoffice_menu ul.l1 {
-    height: 46px;
+    height: 32px;
 }
 
 .backoffice_menu ul.l1 li a {
-    padding: 12px 14px 12px 14px;
-    font-size: 16px;
+    padding: 6px 8px 6px 8px;
+    font-size: 14px;
 }
 
 ::-webkit-search-decoration {
@@ -93,7 +93,7 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 .message-badge {
     right: 0;
     top: 0;
-    padding: 1px 8px 2px 8px;
+    padding: 1px 6px 3px 6px;
 }
 
 .subtitle h4 {
@@ -181,7 +181,7 @@ table.table tbody tr {
 }
 
 .backoffice_menu ul.l1 li.has_submenu:hover ul.l2 {
-    top: 46px;
+    top: 32px;
 }
 
 .title_content h1 i {

@@ -1,11 +1,14 @@
-/* global
- angular, BASE_PATH
+/**
+ * LoyaltyViewController
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.11
  */
-
-angular.module('starter').controller('LoyaltyViewController', function ($cordovaBarcodeScanner, Modal, $rootScope,
-                                                                       $scope, $state, $stateParams, $timeout,
-                                                                       $translate, $window, Application, Customer,
-                                                                       Dialog, LoyaltyCard, Url, SB, Tc, Pages, Loader) {
+angular
+    .module('starter')
+    .controller('LoyaltyViewController', function (Codescan, Modal, $rootScope, $scope, $state, $stateParams, $timeout,
+                                                   $translate, $window, Application, Customer, Dialog, LoyaltyCard,
+                                                   Url, SB, Tc, Pages, Loader) {
     angular.extend($scope, {
         is_loading: false,
         value_id: $stateParams.value_id,
@@ -68,7 +71,8 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
             localRefresh = true;
         }
 
-        LoyaltyCard.findAll(localRefresh)
+        LoyaltyCard
+            .findAll(localRefresh)
             .then(function (data) {
                 $scope.promotions = data.promotions;
                 $scope.card = data.card;
@@ -88,10 +92,6 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
     };
 
     $scope.openPad = function (card) {
-        if ($rootScope.isNotAvailableInOverview()) {
-            return;
-        }
-
         if (!Customer.isLoggedIn()) {
             Customer.loginModal($scope);
             return;
@@ -147,11 +147,15 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
     });
 
     $scope.validate = function () {
-        LoyaltyCard.validate($scope.pad)
+        $scope.is_loading = true;
+
+        LoyaltyCard
+            .validate($scope.pad)
             .then(function (data) {
                 if (data) {
                     if (data.message) {
-                        Dialog.alert('Success', data.message, 'OK', -1)
+                        Dialog
+                            .alert('Success', data.message, 'OK', -1)
                             .then(function () {
                                 if (data.close_pad) {
                                     $scope.closePad();
@@ -208,51 +212,19 @@ angular.module('starter').controller('LoyaltyViewController', function ($cordova
     };
 
     $scope.openScanCamera = function () {
-        if (!Application.is_webview) {
-            $scope.scan_protocols = ['sendback:'];
-
-            if (!Customer.isLoggedIn()) {
-                Customer.loginModal($scope, function () {
-                    $scope.showScanCamera();
-                });
-            } else {
-                $scope.showScanCamera();
-            }
-        } else {
-            Dialog.alert('Info', 'This will open the code scan camera on your device.', 'OK', -1);
-        }
-    };
-
-    $scope.showScanCamera = function () {
-        $cordovaBarcodeScanner.scan().then(function (barcodeData) {
-            if (!barcodeData.cancelled && (barcodeData.text !== '')) {
-                $timeout(function () {
-                    $scope.good_qr_code = false;
-                    for (var i = 0; i < $scope.scan_protocols.length; i++) {
-                        if (barcodeData.text.toLowerCase().indexOf($scope.scan_protocols[i]) == 0) {
-                            $scope.good_qr_code = true;
-                            $scope.is_loading = true;
-
-                            var qrcode = barcodeData.text.replace($scope.scan_protocols[i], '');
-                            $scope.pad.password = qrcode;
-                            $scope.pad.mode_qrcode = true;
-                            $scope.validate();
-                            break;
-                        }
-                    }
-
-                    if (!$scope.good_qr_code) {
-                        Dialog.alert('Info', 'Unreadable QRCode, sorry.', 'OK', -1);
-                    }
-                });
-            }
-        }, function (error) {
-            Dialog.alert('Error', 'An error occurred while reading the code.', 'OK', -1);
-        });
+        Codescan
+            .scanPassword()
+            .then(function (rawText) {
+                $scope.pad.password = rawText;
+                $scope.pad.mode_qrcode = true;
+                $scope.validate();
+            }, function (error) {
+                Dialog.alert('Error', 'Something went wrong while reading the QRCode.', 'OK', -1, 'loyalty_card');
+            });
     };
 
     /**
-     * @todo overview ...
+     * Overview specific methods
      */
     if ($scope.isOverview) {
         $window.prepareDummy = function () {

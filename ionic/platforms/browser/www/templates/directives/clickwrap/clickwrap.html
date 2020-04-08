@@ -1,0 +1,9 @@
+<ion-checkbox class="checkbox-custom item-custom item-text-wrap"
+              ng-model="model"
+              ng-change="onClick()">
+    <h2>
+        <span>{{ field.label }}</span> <span ng-if="field.is_required">*</span>
+    </h2>
+    <p ng-if="field.showHint"
+       ng-click="openModal()">{{ ::field.hint }}</p>
+</ion-checkbox>

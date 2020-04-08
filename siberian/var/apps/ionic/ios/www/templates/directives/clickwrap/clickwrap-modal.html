@@ -1,0 +1,22 @@
+<ion-modal-view sb-page-background
+                class="sb-clickwrap sb-clickwrap-modal">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ modalTitle }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list"
+             ng-class="{'card' : cardDesign}">
+            <ion-item class="item-custom item-text-wrap"
+                      ng-bind-html="htmlContent | trusted_html"></ion-item>
+        </div>
+    </ion-content>
+
+</ion-modal-view>

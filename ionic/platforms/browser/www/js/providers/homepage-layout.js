@@ -1,10 +1,10 @@
 /**
+ * @version 4.18.12
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
  */
 angular
-    .module("starter")
-    .provider("HomepageLayout", function () {
+    .module('starter')
+    .provider('HomepageLayout', function () {
     var self = this;
 
     self.layout_ids = {};
@@ -22,7 +22,8 @@ angular
                     return page.layout_id * 1;
                 }
 
-                if (currentPage.code === "folder_v2" && currentPage.embed_payload) {
+                if (currentPage.code === 'folder_v2' &&
+                    currentPage.embed_payload) {
                     currentPage.embed_payload.collection.forEach(function (subPage) {
                         if (subPage.value_id == valueId) {
                             layoutId = subPage.layout_id;
@@ -50,7 +51,7 @@ angular
 
     self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
-                          Padlock, Modal) {
+                          Padlock, Modal, Codescan) {
         var HomepageLayout = {};
 
         // Hooks!
@@ -86,7 +87,7 @@ angular
             switch (Pages.data.layout.position) {
                 case 'left':
                 case 'right':
-                    $rootScope.$broadcast("sideMenu.close");
+                    $rootScope.$broadcast('sideMenu.close');
 
                     // Skip clear history for specific features:
                     var isPadlock = (feature.code === 'padlock');
@@ -111,6 +112,11 @@ angular
                     });
 
                     Customer.loginModal(scope);
+
+                    break;
+
+                case (feature.code === 'code_scan'):
+                    Codescan.scanGeneric();
 
                     break;
 
@@ -172,7 +178,6 @@ angular
                                     disableAnimate: false
                                 });
                             }
-
                             $location.path(feature.path).replace();
                         }
                     } else {
@@ -577,9 +582,6 @@ angular
             },
             isInitialized: function () {
                 return HomepageLayout.is_initialized;
-            },
-            unlockByQRCode: function (qrcode) {
-                return HomepageLayout.unlockByQRCode(qrcode);
             },
             setNeedToBuildTheOptions: function (need_to_build_the_options) {
                 HomepageLayout.options = null;

@@ -774,15 +774,22 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     protected function _initSession()
     {
         $request = $this->getRequest();
-        if (!Zend_Session::isStarted() && !$request->isInstalling()) {
+
+        if (!$this->skipSession($request) &&
+            !Zend_Session::isStarted() &&
+            !$request->isInstalling()) {
+
             Siberian_Session::init();
 
-            $sbToken = $request->getParam('sb-token', false);
-            if ($sbToken) {
+            $sbToken = $request->getParam('sb-token', null);
+            $xsbAuth = $request->getHeader('XSB_AUTH');
+
+            if (!empty($xsbAuth)) {
+                Zend_Session::setId($xsbAuth);
+            } else if (!empty($sbToken)) {
                 Zend_Session::setId($sbToken);
             }
-
-            Zend_Session::start();
+            // Otherwise, session is already started with the cookie.
 
             $sessionType = 'front';
 
@@ -801,6 +808,14 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             $session = new Core_Model_Session($sessionType);
 
+            // Search if the customer was already logged-in, but the session table was cleared!
+            if ($request->isApplication()) {
+                $customer = (new Customer_Model_Customer())->find(Zend_Session::getId(), 'session_uuid');
+                if ($customer && $customer->getId()) {
+                    $session->setCustomer($customer);
+                }
+            }
+
             Core_Model_Language::setSession($session);
             Core_View_Default::setSession($session, $sessionType);
             Core_Model_Default::setSession($session, $sessionType);
@@ -809,24 +824,49 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     }
 
     /**
+     * @param $request
+     */
+    public function skipSession ($request)
+    {
+        if (isset($_SERVER['HTTP_AUTHORIZATION']) &&
+            !empty($_SERVER['HTTP_AUTHORIZATION'])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @throws Zend_Exception
      * @throws Zend_Session_Exception
      */
     protected function _initAcl()
     {
-        if (!$this->getRequest()->isInstalling()) {
+        $request = $this->getRequest();
+        $session = $this->getSession();
+        if (!$request->isInstalling() &&
+            !$request->isApplication() &&
+            !$this->_isInstanceOfBackoffice() &&
+            $session->isLoggedIn()) {
 
-            $is_editor = !$this->getRequest()->isApplication() && !$this->_isInstanceOfBackoffice();
-            if ($is_editor && $this->getSession()->isLoggedIn()) {
+            $admin = $session->getAdmin();
+            $roleId = $admin->getRoleId();
+            $role = (new Acl_Model_Role())->getRoleById($roleId);
 
-                $acl = new Acl_Model_Acl();
-                $acl->prepare($this->getSession()->getAdmin());
+            // If empty roleId, go to login page!
+            if (!$role || !$role->getId()) {
+                $this->getSession()->resetInstance();
+                $this->getSession()->addError(p__('admin', 'Your account has no role assigned to it, please contact your administrator!'));
 
-                Core_View_Default::setAcl($acl);
-                Admin_Controller_Default::setAcl($acl);
+                $this->_redirect('');
             }
-        }
 
+            $acl = new Acl_Model_Acl();
+            $acl->prepare($admin);
+
+            Core_View_Default::setAcl($acl);
+            Admin_Controller_Default::setAcl($acl);
+        }
     }
 
     /**
