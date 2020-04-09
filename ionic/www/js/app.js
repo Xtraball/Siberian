@@ -135,7 +135,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
-                   Analytics, Application, Customer, Dialog, Facebook, FacebookConnect, Padlock,
+                   Analytics, Application, Customer, Codescan, Dialog, Facebook, FacebookConnect, Padlock,
                    Pages, Push, PushService, SB) {
 
         // $rootScope object!
@@ -527,6 +527,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             // Special in-app link for my account!
                             if (params.state === 'my-account') {
                                 Customer.loginModal();
+                                return;
+                            }
+
+                            // Special in-app link for my account!
+                            if (params.state === 'codescan') {
+                                Codescan.scanGeneric();
                                 return;
                             }
 
