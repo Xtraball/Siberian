@@ -19,7 +19,7 @@ class Push_IphoneController extends Core_Controller_Default
         $params = $request->getBodyParams();
 
         try {
-            if (empty($params['registration_id'])) {
+            if (empty($params['device_token'])) {
                 throw new Exception(p__('push', 'Registration ID is missing.'));
             }
 
