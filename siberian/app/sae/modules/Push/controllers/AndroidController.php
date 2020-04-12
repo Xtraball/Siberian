@@ -16,6 +16,7 @@ class Push_AndroidController extends Core_Controller_Default
     {
         $request = $this->getRequest();
         $params = $request->getBodyParams();
+        $session = $this->getSession();
 
         try {
             if (empty($params['registration_id'])) {
@@ -47,6 +48,14 @@ class Push_AndroidController extends Core_Controller_Default
                 'device_uid' => $params['device_uid'],
             ]);
 
+            /**
+             * Ensure individual push is always registered
+             */
+            if ($session->isLoggedIn() &&
+                $session->getCustomerId()) {
+                $params['customer_id'] = $session->getCustomerId();
+            }
+
             $device
                 ->addData($params)
                 ->save();
@@ -76,29 +85,21 @@ class Push_AndroidController extends Core_Controller_Default
      */
     public function markdisplayedAction()
     {
-
         if ($params = $this->getRequest()->getParams()) {
 
-            $device = new Push_Model_Android_Device();
-
-            $app = Application_Model_Application::getInstance();
-            if ($app->useIonicDesign()) {
-                if (empty($params['device_uid']) OR empty($params['message_id'])) return;
-
-                $device->findByDeviceUid($params['device_uid']);
-            } else {
-                if (empty($params['registration_id']) or empty($params['message_id'])) return;
-
-                $device->findByRegistrationId($params['registration_id']);
+            if (empty($params['device_uid']) || empty($params['message_id'])) {
+                return;
             }
 
-            $message = new Push_Model_Message();
-            $message->markAsDisplayed($device->getId(), $params['message_id']);
+            $device = (new Push_Model_Android_Device())->findByDeviceUid($params['device_uid']);
+            if (!$device && !$device->getId()) {
+                return;
+            }
 
+            (new Push_Model_Message())->markAsDisplayed($device->getId(), $params['message_id']);
         }
 
         die;
-
     }
 
     /**

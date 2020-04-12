@@ -5,6 +5,7 @@
  *
  * @method integer getAppId()
  * @method string getRegistrationId()
+ * @method Push_Model_Db_Table_Android_Device getTable()
  */
 class Push_Model_Android_Device extends Core_Model_Default
 {
@@ -14,14 +15,9 @@ class Push_Model_Android_Device extends Core_Model_Default
     const DEVICE_TYPE = 2;
 
     /**
-     * Push_Model_Android_Device constructor.
-     * @param array $params
+     * @var string
      */
-    function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Push_Model_Db_Table_Android_Device';
-    }
+    protected $_db_table = Push_Model_Db_Table_Android_Device::class;
 
     /**
      * @param $reg_id
@@ -77,18 +73,19 @@ class Push_Model_Android_Device extends Core_Model_Default
      */
     public function findNotReceivedMessages($geolocated = null)
     {
-        $message_ids = $this->getTable()->findNotReceivedMessages($this->getRegistrationId(), $geolocated);
+        $messageIds = $this->getTable()->findNotReceivedMessages($this->getRegistrationId(), $geolocated);
         $message = new Push_Model_Message();
-        return !empty($message_ids) ? $message->findAll(['message_id IN (?)' => $message_ids]) : new Siberian_Db_Table_Rowset([]);
+        return !empty($messageIds) ?
+            $message->findAll(['message_id IN (?)' => $messageIds]) : new Siberian_Db_Table_Rowset([]);
     }
 
     /**
-     * @param $message_id
+     * @param $messageId
      * @return mixed
      */
-    public function hasReceivedThisMessage($message_id)
+    public function hasReceivedThisMessage($messageId)
     {
-        return $this->getTable()->hasReceivedThisMessage($this->getId(), $message_id);
+        return $this->getTable()->hasReceivedThisMessage($this->getId(), $messageId);
     }
 
     /**

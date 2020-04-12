@@ -1,6 +1,5 @@
 <?php
 
-use Siberian\Hook;
 use Siberian\Exception;
 
 /**
@@ -11,6 +10,7 @@ class Push_DeviceController extends Core_Controller_Default
     /**
      * Register Device
      *
+     * @route /push/device/is-registered
      */
     public function isRegisteredAction()
     {
@@ -27,7 +27,7 @@ class Push_DeviceController extends Core_Controller_Default
                 }
                 $deviceToken = $device->getRegistrationId();
             } else if ($deviceType === 'ios') {
-                $device = (new Push_Model_Ios_Device())->find($deviceUid, 'device_uid');
+                $device = (new Push_Model_Iphone_Device())->find($deviceUid, 'device_uid');
                 if (!$device && !$device->getId()) {
                     throw new Exception(p__('push', 'iOS device is not registered.'));
                 }

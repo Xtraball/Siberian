@@ -17,6 +17,7 @@ class Push_IphoneController extends Core_Controller_Default
     {
         $request = $this->getRequest();
         $params = $request->getBodyParams();
+        $session = $this->getSession();
 
         try {
             if (empty($params['device_token'])) {
@@ -50,6 +51,14 @@ class Push_IphoneController extends Core_Controller_Default
                 'app_id' => $params['app_id'],
                 'device_uid' => $params['device_uid'],
             ]);
+
+            /**
+             * Ensure individual push is always registered
+             */
+            if ($session->isLoggedIn() &&
+                $session->getCustomerId()) {
+                $params['customer_id'] = $session->getCustomerId();
+            }
 
             $device
                 ->addData($params)
