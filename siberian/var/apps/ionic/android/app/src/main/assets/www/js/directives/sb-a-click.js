@@ -1,12 +1,12 @@
 /**
  * sb-a-click
  *
- * @author Xtraball SAS
- * @version 4.18.5
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.16
  */
 angular
 .module('starter')
-.directive('sbAClick', function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer) {
+.directive('sbAClick', function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer, Codescan) {
     return {
         restrict: 'A',
         scope: {},
@@ -30,6 +30,8 @@ angular
                             // Special in-app link for my account!
                             if (state === 'my-account') {
                                 Customer.loginModal();
+                            } else if (state === 'codescan') {
+                                Codescan.scanGeneric();
                             } else if (!offline && $rootScope.isOffline) {
                                 $rootScope.onlineOnly();
                             } else {

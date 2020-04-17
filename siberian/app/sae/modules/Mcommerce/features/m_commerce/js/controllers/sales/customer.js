@@ -6,7 +6,6 @@ angular
     .controller('MCommerceSalesCustomerViewController', function (Loader, $state, $stateParams, $scope, $translate,
                                                                   $rootScope, McommerceCart, McommerceSalesCustomer,
                                                                   Customer, Dialog, Application, SB) {
-    Customer.onStatusChange('category', []);
 
     $scope.hasguestmode = false;
 

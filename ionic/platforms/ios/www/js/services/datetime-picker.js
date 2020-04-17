@@ -23,17 +23,17 @@ angular.module('starter').service('DatetimePicker', function ($ocLazyLoad, $tran
                 $translate.instant("December", "datepicker")
             ],
             monthsShort: [
-                $translate.instant("Jan", "datepicker"),
-                $translate.instant("Feb", "datepicker"),
-                $translate.instant("Mar", "datepicker"),
-                $translate.instant("Apr", "datepicker"),
-                $translate.instant("May", "datepicker"),
-                $translate.instant("Jun", "datepicker"),
-                $translate.instant("Jul", "datepicker"),
-                $translate.instant("Sep", "datepicker"),
-                $translate.instant("Oct", "datepicker"),
-                $translate.instant("Nov", "datepicker"),
-                $translate.instant("Dec", "datepicker")
+                $translate.instant("Jan.", "datepicker"),
+                $translate.instant("Feb.", "datepicker"),
+                $translate.instant("Mar.", "datepicker"),
+                $translate.instant("Apr.", "datepicker"),
+                $translate.instant("May.", "datepicker"),
+                $translate.instant("Jun.", "datepicker"),
+                $translate.instant("Jul.", "datepicker"),
+                $translate.instant("Sep.", "datepicker"),
+                $translate.instant("Oct.", "datepicker"),
+                $translate.instant("Nov.", "datepicker"),
+                $translate.instant("Dec.", "datepicker")
             ],
             weekDays: [
                 $translate.instant("Sunday", "datepicker"),

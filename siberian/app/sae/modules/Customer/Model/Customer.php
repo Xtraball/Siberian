@@ -72,6 +72,11 @@ class Customer_Model_Customer extends Core_Model_Default
      */
     public function updateSessionUuid($sessionUuid)
     {
+        // Skip overview/webapp session_uuid
+        if (array_key_exists('HTTP_REFERER', $_SERVER) &&
+            stripos($_SERVER['HTTP_REFERER'], '/overview/') !== false) {
+            return $this;
+        }
         // Clear all users with this token, then update the current one!
         $this->getTable()->clearBySessionUuid($sessionUuid);
 

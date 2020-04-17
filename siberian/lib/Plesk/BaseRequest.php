@@ -187,6 +187,7 @@ EOT;
             echo "\n>>> PACKET \n\n";
             $response = $this->sendRequest($this->getPacket());
 
+
             if ($response !== false) {
                 $this->xml_response = $response;
                 $responseXml = Xml::convertStringToXml($response);
