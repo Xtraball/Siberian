@@ -18,7 +18,7 @@
 class Acl_Model_Role extends Core_Model_Default
 {
     const DEFAULT_ROLE_ID = 1;
-    const DEFAULT_ADMIN_ROLE_CODE = "admin_default_role_id";
+    const DEFAULT_ADMIN_ROLE_CODE = 'admin_default_role_id';
 
     /**
      * prevent recursive loops!

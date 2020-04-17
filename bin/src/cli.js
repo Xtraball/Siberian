@@ -1606,8 +1606,14 @@ let archiveSources = function () {
     sh.cd(ROOT + '/siberian/var/apps/ionic');
     sh.rm('-rf', './android/app/src/main/assets/www/features/*');
     sh.rm('-rf', './android/app/src/main/assets/www/modules/*');
+    sh.rm('-rf', './android/app/src/main/assets/www/chcp.json');
+    sh.rm('-rf', './android/app/src/main/assets/www/chcp.manifest');
+    sh.rm('-rf', './android/app/src/main/assets/www/index-prod.html');
     sh.rm('-rf', './ios/www/features/*');
     sh.rm('-rf', './ios/www/modules/*');
+    sh.rm('-rf', './ios/www/chcp.json');
+    sh.rm('-rf', './ios/www/chcp.manifest');
+    sh.rm('-rf', './ios/www/index-prod.html');
     sh.chmod('-R', '777', './android');
     sh.exec('tar ' + excludes + ' -p -czf ./android.tgz ./android');
     sh.chmod('-R', '777', './ios');
@@ -1616,6 +1622,9 @@ let archiveSources = function () {
     sh.cd(ROOT + '/siberian/var/apps');
     sh.rm('-rf', './browser/features/*');
     sh.rm('-rf', './browser/modules/*');
+    sh.rm('-rf', './browser/chcp.json');
+    sh.rm('-rf', './browser/chcp.manifest');
+    sh.rm('-rf', './browser/index-prod.html');
     sh.chmod('-R', '777', './browser');
     sh.exec('tar ' + excludes + ' -p -czf ./browser.tgz ./browser');
 
