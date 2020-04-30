@@ -33,9 +33,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
-        $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
-
 
         $includePaths = [get_include_path()];
         $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
@@ -281,6 +279,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Module_Bootstrap::init($this);
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
+
+        // Fetch licenses!
 
         foreach ($module_names as $module) {
             $path = $this->_front_controller->getModuleDirectory($module) . '/bootstrap.php';
