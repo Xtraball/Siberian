@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 4.18.15
+ * @version 4.18.17
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -34,6 +34,16 @@ if (!file_exists('./lib/Siberian/Version.php')) {
 }
 
 require_once './config.php';
+
+/** HTTP to HTTPS redirection, while ensuring .well-known for let's encrypt is still working */
+if (isset($_config['redirect_https']) &&
+    $_SERVER['REQUEST_SCHEME'] === 'http' &&
+    $_config['redirect_https'] === true
+) {
+    header('Status: 301 Moved Permanently', false, 301);
+    header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+    exit;
+}
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);
