@@ -6,6 +6,9 @@ $current = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
 $request = $this->getRequest();
 $session = $this->getSession();
+$application = $this->getApplication();
+$isApplication = ($application && $application->getId());
+$appClass = $isApplication ? 'editing-application' : '';
 
 $supportLink = __get('support_link');
 if (Siberian::$whitelabel) {
@@ -242,10 +245,11 @@ if (Version::is(["mae", "pe"])) {
         <p style="text-transform:uppercase"><?php echo __('Customization mode activated'); ?></p>
     </span>
 </div>
-<nav class="navbar navbar-default content-white-bkg">
+<nav class="navbar navbar-default content-white-bkg <?php echo $appClass; ?>">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
+        <?php if(!$isApplication): ?>
         <a id="sb-tour-logo-platform"
            href="<?php echo $dashboardUrl; ?>"
            class="sb-tour pull-left logo-position">
@@ -255,6 +259,7 @@ if (Version::is(["mae", "pe"])) {
                  title="<?php echo $platform_name; ?>"
                  width="100%" />
         </a>
+        <?php endif; ?>
         <div class="logo-block content-white-bkg"></div>
     </div>
     <button type="button"
@@ -358,7 +363,7 @@ if (Version::is(["mae", "pe"])) {
     }
 
     .development-responsive.small-dev {
-        width: 250px;
+        width: 205px;
         border-right: 2px solid #8a6d3b !important;
     }
 

@@ -44,7 +44,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-style: none;
 }
 
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
     background-color: #1397c8;
 }
 
@@ -148,6 +149,8 @@ span#header_app_name {
     overflow: hidden;
     line-height: 18px;
     white-space: nowrap;
+    font-size: 14px;
+    transform: translateY(3px);
 }
 
 #left-menu-toggle {
@@ -252,13 +255,14 @@ span#header_app_name {
 }
 
 #left-sidebar-wrapper {
-    height: 100%;
     left: 250px;
     margin-left: -250px;
-    position: absolute;
     transition: all 0.5s ease 0s;
     width: 0;
     z-index: 10;
+    position: fixed;
+    top: 0;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -276,7 +280,8 @@ span#header_app_name {
     line-height: 28px;
 }
 
-#left-sidebar-wrapper.fixed, #right-sidebar-wrapper.fixed {
+/**#left-sidebar-wrapper.fixed, */
+#right-sidebar-wrapper.fixed {
     position: fixed;
     top: 0;
     height: 100%;
@@ -297,7 +302,7 @@ span#header_app_name {
 }
 
 #wrapper.left-toggled #left-sidebar-wrapper {
-    width: 250px;
+    width: 205px;
 }
 
 #left-sidebar-wrapper .sidebar-nav a {
@@ -335,13 +340,13 @@ span#header_app_name {
     list-style: outside none none;
     margin: 0;
     padding: 0;
-    width: 265px;
+    width: 225px;
     overflow-y: scroll;
     height: 100%;
 }
 
 .sidebar-nav li {
-    line-height: 36px;
+    line-height: 32px;
     text-indent: 0.5em;
 }
 
@@ -350,7 +355,7 @@ span#header_app_name {
     display: block;
     text-decoration: none;
     position: relative;
-    font-size: 15px !important;
+    font-size: 13px !important;
     letter-spacing: 1.2px;
 }
 
@@ -385,8 +390,8 @@ span#header_app_name {
     width: 34px;
     text-align: center;
     display: inline-block;
-    font-size: 15px;
-    margin-right: 4px;
+    font-size: 12px;
+    margin-right: 0;
 }
 
 .sub-bar i.icofont {
@@ -420,7 +425,7 @@ li .sub-bar {
 
 li .sub-bar a {
     padding-left: 14px;
-    font-size: 13px !important;
+    font-size: 12px !important;
 }
 
 .sub-bar > .sub-bar {
@@ -2427,7 +2432,7 @@ div#progress-label {
 }*/
 
 .sidebars.has-sidebar ~ .subcontent {
-    padding-left: 250px;
+    padding-left: 205px;
 }
 
 @media (max-width: 960px) {
