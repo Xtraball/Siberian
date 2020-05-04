@@ -356,13 +356,48 @@ $splashVersion = (integer) $application->getSplashVersion();
         <h3 class="title-editor border-red text-center">
             <?php echo __("Choose your font family"); ?>
         </h3>
+
+        <?php
+        $fontFamilies = Core_Model_Lib_Fonts::getFonts();
+        $fontGroupFamilies = Core_Model_Lib_Fonts::getFonts(true);
+        $current = $application->getFontFamily();
+        ?>
+
+        <div class="subcontent content-color">
+
+            <div class="col-md-12"
+                 style="margin-top: 15px;">
+                <div class="alert alert-info">
+                    <?php echo __('You can also use another Google Font not listed up there') ?>,
+                    <b class="text-danger"><?php echo __('please respect the font name case!') ?></b>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="custom-box <?php if (!in_array($current, $fontFamilies) && !empty($current)): ?>checked<?php endif; ?>">
+                    <div class="col-md-3">
+                        <label for="custom_<?php echo slugify($current) ?>"
+                               class="custom-box-label form-group">
+                            <?php echo __("Custom font") ?>
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input id="custom_<?php echo slugify($current) ?>"
+                               type="text"
+                               name="font_family_custom"
+                               value="<?php echo !in_array($current, $fontFamilies) ? $current : "" ?>"
+                               class="col-md-7 input-flat" />
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <button class="btn color-red save-custom-font"><?php echo __("Save") ?></button>
+                    </div>
+
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
         <div id="fonts"
              class="subcontent content-color">
-            <?php
-                $fontFamilies = Core_Model_Lib_Fonts::getFonts();
-                $fontGroupFamilies = Core_Model_Lib_Fonts::getFonts(true);
-                $current = $application->getFontFamily();
-            ?>
             <?php foreach($fontGroupFamilies as $groupName => $families) : ?>
                 <div class="col-md-12 clear">
                     <h5 class="font-group"><?php echo __($groupName) ?></h5>
@@ -389,42 +424,6 @@ $splashVersion = (integer) $application->getSplashVersion();
                 </div>
                 <?php endforeach; ?>
             <?php endforeach; ?>
-
-
-        </div>
-
-        <div class="subcontent content-color">
-
-            <div class="col-md-12"
-                 style="margin-top: 15px;">
-                <div class="alert alert-info">
-                    <?php echo __("You can also use another Google Font not listed up there") ?>,
-                    <b class="text-danger"><?php echo __("please respect the font name case!") ?></b>
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div class="custom-box <?php if (!in_array($current, $fontFamilies) && !empty($current)): ?>checked<?php endif; ?>">
-                    <div class="col-md-3">
-                        <label for="custom_<?php echo slugify($current) ?>"
-                               class="custom-box-label form-group">
-                            <?php echo __("Custom font") ?>
-                        </label>
-                    </div>
-                    <div class="col-md-7">
-                        <input id="custom_<?php echo slugify($current) ?>"
-                               type="text"
-                               name="font_family_custom"
-                               value="<?php echo !in_array($current, $fontFamilies) ? $current : "" ?>"
-                               class="col-md-7 input-flat" />
-                    </div>
-                    <div class="col-md-2 text-right">
-                        <button class="btn color-red save-custom-font"><?php echo __("Save") ?></button>
-                    </div>
-
-                    <div style="clear: both;"></div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

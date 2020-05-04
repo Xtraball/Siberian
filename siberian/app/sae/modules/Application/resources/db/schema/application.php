@@ -504,6 +504,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
     ],
+    'disable_updates' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'privacy_policy' => [
         'type' => 'text',
         'is_null' => true,

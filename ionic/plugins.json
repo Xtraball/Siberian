@@ -40,10 +40,6 @@
       "version": "latest",
       "variables": {}
     },
-    "FileTransfer": {
-      "version": "latest",
-      "variables": {}
-    },
     "Geolocation": {
       "version": "latest",
       "variables": {}
@@ -115,6 +111,10 @@
         "SENDER_ID": "01234567890"
       }
     },
+    "FileTransfer": {
+      "version": "latest",
+      "variables": {}
+    },
     "WebView": {
       "version": "latest",
       "variables": {}
@@ -141,6 +141,10 @@
       "variables": {
         "SENDER_ID": "01234567890"
       }
+    },
+    "FileTransfer": {
+      "version": "latest",
+      "variables": {}
     },
     "WebView": {
       "version": "latest",

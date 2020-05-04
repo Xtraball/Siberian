@@ -314,9 +314,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 Analytics.storeClosing();
 
                                 var runChcp = function () {
-                                    // When app goes in pause, try to install if required.
-                                    if (typeof chcp !== 'undefined') {
-                                        $rootScope.fetchupdatetimer = $timeout(function () {
+                                    var watcherChcp = function () {
+                                        // When app goes in pause, try to install if required.
+                                        if (typeof chcp !== 'undefined') {
                                             if (localStorage.getItem('install-update' === true)) {
                                                 chcp.isUpdateAvailableForInstallation(function (error, data) {
                                                     if (error) {
@@ -367,8 +367,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                     }
                                                 });
                                             }
-                                        }, 5000);
-                                    }
+                                        }
+                                        // Then check for updates every hour!
+                                        $rootScope.fetchupdatetimer = $timeout(watcherChcp, 3600 * 1000);
+                                    };
+                                    // Runs once instantly!
+                                    watcherChcp();
                                 };
 
                                 // Ensure we won't update an app while the previewer is in progress!

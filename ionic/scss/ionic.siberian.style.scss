@@ -1066,3 +1066,12 @@ div.ui-background-loader {
   min-height: 20px !important;
   margin-bottom: 15px !important;
 }
+
+/** InAppBrowser */
+.iab-footer-nav {
+  background-color: $bar-custom-bg !important;
+
+  .iab-footer-button {
+    color: $bar-custom-text !important;
+  }
+}
