@@ -394,8 +394,7 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
     service.updateMusicControls = function () {
         // For now we will disable music controls for iOS!
-        if (service.use_music_controls &&
-            DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID) {
+        if (service.use_music_controls) {
             var hasPrev = true;
             var hasNext = true;
             if (service.is_radio) {
@@ -440,7 +439,6 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
 
             MusicControls.subscribe(music_controls_events);
             MusicControls.listen();
-
             MusicControls.updateIsPlaying(service.is_playing);
         }
     };

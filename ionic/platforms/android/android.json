@@ -167,14 +167,6 @@
             {
               "xml": "<service android:name=\"com.adobe.phonegap.push.PushInstanceIDListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
               "count": 1
-            },
-            {
-              "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
-              "count": 1
-            },
-            {
-              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.xtraball.musiccontrols.MusicControlsWakeLock\" />",
-              "count": 1
             }
           ],
           "/*": [
@@ -196,6 +188,10 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
               "count": 1
             },
             {
@@ -263,6 +259,14 @@
             {
               "xml": "<receiver android:directBootAware=\"true\" android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.RestoreReceiver\"><intent-filter><action android:name=\"android.intent.action.LOCKED_BOOT_COMPLETED\" /><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
               "count": 1
+            },
+            {
+              "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
+              "count": 1
+            },
+            {
+              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.xtraball.musiccontrols.MusicControlsWakeLock\" />",
+              "count": 1
             }
           ],
           "/manifest": [
@@ -305,16 +309,16 @@
           ],
           "/*": [
             {
+              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+              "count": 3
+            },
+            {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
               "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
               "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 2
             }
           ],
           "application": [
@@ -334,6 +338,10 @@
       "res/xml/config.xml": {
         "parents": {
           "/*": [
+            {
+              "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+              "count": 1
+            },
             {
               "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
               "count": 1
@@ -381,6 +389,9 @@
       "FCM_VERSION": "17.0.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "FileTransfer": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "WebView": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -425,6 +436,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "StatusBar": {
@@ -500,6 +512,22 @@
       "pluginId": "Push",
       "clobbers": [
         "PushNotification"
+      ]
+    },
+    {
+      "id": "FileTransfer.FileTransferError",
+      "file": "plugins/FileTransfer/www/FileTransferError.js",
+      "pluginId": "FileTransfer",
+      "clobbers": [
+        "window.FileTransferError"
+      ]
+    },
+    {
+      "id": "FileTransfer.FileTransfer",
+      "file": "plugins/FileTransfer/www/FileTransfer.js",
+      "pluginId": "FileTransfer",
+      "clobbers": [
+        "window.FileTransfer"
       ]
     },
     {
@@ -893,6 +921,7 @@
     "Geofence": "0.6.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
+    "FileTransfer": "1.7.2-dev",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
@@ -907,14 +936,14 @@
     "Geolocation": "4.0.1",
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
-    "SocialSharing": "5.4.0",
+    "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
-    "MusicControls": "2.2.1",
+    "MusicControls": "3.0.4",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"

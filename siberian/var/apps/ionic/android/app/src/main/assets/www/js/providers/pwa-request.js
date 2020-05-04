@@ -12,20 +12,20 @@
 angular.module("starter").factory("FallbackPromise", function ($q) {
     return {
         resolved: false,
-        decorate: function(promise) {
-            promise.success = function(callback) {
+        decorate: function (promise) {
+            promise.success = function (callback) {
                 promise.then(callback);
 
                 return promise;
             };
 
-            promise.error = function(callback) {
+            promise.error = function (callback) {
                 promise.then(null, callback);
 
                 return promise;
             };
         },
-        defer: function() {
+        defer: function () {
             var deferred = $q.defer();
 
             this.decorate(deferred.promise);
@@ -38,12 +38,12 @@ angular.module("starter").factory("FallbackPromise", function ($q) {
 angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvider() {
 
     var provider = {
-        debug           : true,
-        queue           : null,
-        defaultCache    : null,
-        valueidCache    : null,
-        registryCache   : null,
-        cacheIsEnabled  : false
+        debug: true,
+        queue: null,
+        defaultCache: null,
+        valueidCache: null,
+        registryCache: null,
+        cacheIsEnabled: false
     };
 
     provider.$get = [
@@ -51,23 +51,23 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
         function httpCacheLayerFactory($pwaCache, $injector, $rootScope, $session, $translate, $http, $log, $q, $queue, FallbackPromise, Url) {
 
             /** Shortcut cache */
-            provider.cacheIsEnabled     = $pwaCache.isEnabled;
-            provider.defaultCache       = $pwaCache.getDefaultCache();
-            provider.valueidCache       = $pwaCache.getValueidCache();
-            provider.registryCache      = $pwaCache.getRegistryCache();
+            provider.cacheIsEnabled = $pwaCache.isEnabled;
+            provider.defaultCache = $pwaCache.getDefaultCache();
+            provider.valueidCache = $pwaCache.getValueidCache();
+            provider.registryCache = $pwaCache.getRegistryCache();
 
             var httpCacheLayerConfig = {
-                debug           : provider.debug
+                debug: provider.debug
             };
 
-            provider.handleRequest = function(options) {
+            provider.handleRequest = function (options) {
 
                 /** Disable $http cache */
                 options = angular.extend({}, options, {
                     cache: false
                 });
 
-                $http(options).then(function(response) {
+                $http(options).then(function (response) {
                     var cachedResponse = {
                         expires_at: options.expires_at,
                         touched_at: options.touched_at,
@@ -79,11 +79,11 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     /** When done & cached, send the data */
                     options.network_promise.resolve(angular.copy(response.data));
 
-                    if(options.return_response || options.pullToRefresh) {
+                    if (options.return_response || options.pullToRefresh) {
                         options.deferred_promise.resolve(angular.copy(response.data));
                     }
 
-                }, function(response) {
+                }, function (response) {
 
                     //$log.debug("response error", response);
 
@@ -92,34 +92,34 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                         message: $translate.instant("The request returned a 400 HTTP Code, with no message.")
                     };
 
-                    if(_.isObject(response) && _.isObject(response.data)) {
+                    if (_.isObject(response) && _.isObject(response.data)) {
                         data = response.data;
                     }
 
-                    if(_.isObject(response) && (response.status === 410)) {
+                    if (_.isObject(response) && (response.status === 410)) {
                         provider.defaultCache.removeItem(options.cacheKey);
                     }
 
                     /** On error do not cache, but send the data immediately */
                     options.network_promise.reject(data);
 
-                    if(options.return_response) {
+                    if (options.return_response) {
                         options.deferred_promise.reject(data);
                     }
 
-                    if(options.pullToRefresh) {
+                    if (options.pullToRefresh) {
                         data.message = $translate.instant("Unable to refresh content, please try again later.");
 
                         options.deferred_promise.reject(data);
                     }
 
-                }).catch(function(errrrrr) {
+                }).catch(function (errrrrr) {
                     $log.error("Caught error: " + errrrrr);
                 });
 
             };
 
-            if(provider.queue === null) {
+            if (provider.queue === null) {
                 provider.queue = $queue.queue(provider.handleRequest, {
                     delay: 100,
                     paused: false,
@@ -131,9 +131,9 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
             function httpCacheLayer(httpCacheLayerConfig) {
 
-                var httpWrapper = function(requestOptions) {
+                var httpWrapper = function (requestOptions) {
 
-                    var current = Math.trunc((new Date()).getTime()/1000);
+                    var current = Math.trunc((new Date()).getTime() / 1000);
 
                     /** Normalizing options */
                     var options = _.extend(requestOptions, {
@@ -156,15 +156,15 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     if (!provider.cacheIsEnabled || !options.cache) {
                         if ($rootScope.isOnline) {
                             $http(requestOptions)
-                                .then(function(response) {
+                                .then(function (response) {
 
                                     options.deferred_promise.resolve(response.data);
 
-                                }, function(response) {
+                                }, function (response) {
 
-                                    if(response && response.data) {
+                                    if (response && response.data) {
 
-                                        if(response.data.message === undefined) {
+                                        if (response.data.message === undefined) {
                                             response.data.message = $translate.instant("An unknown error occurred.");
                                         }
 
@@ -172,27 +172,27 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                                     } else {
                                         var error = {
-                                            error       : true,
-                                            message     : $translate.instant("The resource is not reachable, check your network connection.")
+                                            error: true,
+                                            message: $translate.instant("The resource is not reachable, check your network connection.")
                                         };
 
                                         options.deferred_promise.reject(error);
                                     }
 
-                                }).catch(function(err) {
+                                }).catch(function (err) {
 
-                                    var error = {
-                                        error       : true,
-                                        message     : $translate.instant("[Network] The resource is not reachable, check your network connection.")
-                                    };
+                                var error = {
+                                    error: true,
+                                    message: $translate.instant("[Network] The resource is not reachable, check your network connection.")
+                                };
 
-                                    options.deferred_promise.reject(error);
-                                });
+                                options.deferred_promise.reject(error);
+                            });
 
                         } else {
                             var error = {
-                                error       : true,
-                                message     : $translate.instant("[Network] Device is offline, aborting request.")
+                                error: true,
+                                message: $translate.instant("[Network] Device is offline, aborting request.")
                             };
 
                             options.deferred_promise.reject(error);
@@ -205,10 +205,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     var cacheKey = options.url;
 
                     /** Case when it's an proxied image, the key is not the proxy url, but the original resource uri. */
-                    if(options.imageProxy) {
+                    if (options.imageProxy) {
                         cacheKey = options.requestData.resource;
 
-                        if(cacheKey === undefined) {
+                        if (cacheKey === undefined) {
                             return $q.reject({
                                 error: true,
                                 message: $translate.instant("Resource is `undefined`.")
@@ -219,13 +219,13 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     /** Index of value_ids, this way we can trigger targeted cached refresh based on server changes. */
                     var value_id = _.get(options.urlParams, "value_id", false);
                     var valueidCachekey = "valueid_" + value_id;
-                    if(value_id !== false) {
+                    if (value_id !== false) {
                         provider.valueidCache.getItem(valueidCachekey)
-                            .then(function(cached_array) {
+                            .then(function (cached_array) {
 
                                 var copy = angular.copy(cached_array);
 
-                                if(copy === null) {
+                                if (copy === null) {
 
                                     provider.valueidCache.setItem(valueidCachekey, [cacheKey]);
 
@@ -234,18 +234,18 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                     /**
                                      * Clear prior to save if refresh
                                      */
-                                    if(options.pullToRefresh) {
+                                    if (options.pullToRefresh) {
 
                                         options.timeout = 60000;
 
-                                        angular.forEach(copy, function(uri) {
+                                        angular.forEach(copy, function (uri) {
                                             provider.defaultCache.removeItem(uri);
                                         });
 
                                         provider.valueidCache.setItem(valueidCachekey, [cacheKey]);
 
                                     } else {
-                                        if(copy.indexOf(cacheKey) === -1) {
+                                        if (copy.indexOf(cacheKey) === -1) {
                                             copy.push(cacheKey);
                                             provider.valueidCache.setItem(valueidCachekey, copy);
                                         }
@@ -264,7 +264,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     var touched = Pages.getForValueId(value_id);
                     var data_break = null;
 
-                    if(touched.touched_at !== -1) {
+                    if (touched.touched_at !== -1) {
                         options = angular.extend({}, options, {
                             touched_at: touched.touched_at,
                             expires_at: touched.expires_at
@@ -272,15 +272,15 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }
 
                     options = angular.extend({}, options, {
-                        cacheKey            : cacheKey
+                        cacheKey: cacheKey
                     });
 
                     provider.defaultCache
                         .getItem(cacheKey)
-                        .then(function(cached_object) {
+                        .then(function (cached_object) {
 
                             /** We need to cache the object */
-                            if(cached_object === null) {
+                            if (cached_object === null) {
                                 options.return_response = true;
                                 options.first_cache = true;
 
@@ -295,8 +295,8 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                                 if (options.imageProxy) {
                                     angular.extend(cached_object, {
-                                        expires_at  : options.expires_at,
-                                        touched_at  : options.touched_at
+                                        expires_at: options.expires_at,
+                                        touched_at: options.touched_at
                                     });
 
                                     provider.defaultCache.setItem(cacheKey, cached_object);
@@ -322,7 +322,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                         options.return_response = true;
                                         provider.handleRequest(options);
                                         options.deferred_promise.promise
-                                            .then(function() {
+                                            .then(function () {
                                                 // restart queue when done
                                                 provider.queue.globalStart();
                                             });
@@ -333,23 +333,23 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
                                 }
 
-                                if(!options.pullToRefresh) {
+                                if (!options.pullToRefresh) {
 
                                     options.deferred_promise.resolve(data_break.data);
                                 }
 
                             }
 
-                        }).catch(function(error) {
+                        }).catch(function (error) {
 
-                            /** Reject with a standardized object response. */
-                            options.deferred_promise.reject({
-                                error       : true,
-                                message     : $translate.instant("The given resource is not reachable") + " " + cacheKey,
-                                exception   : error
-                            });
-
+                        /** Reject with a standardized object response. */
+                        options.deferred_promise.reject({
+                            error: true,
+                            message: $translate.instant("The given resource is not reachable") + " " + cacheKey,
+                            exception: error
                         });
+
+                    });
 
                     return options.deferred_promise.promise;
                 };
@@ -360,16 +360,16 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param url
                  * @param config
                  */
-                httpWrapper.get = function(url, config) {
+                httpWrapper.get = function (url, config) {
 
                     /** Build url automatically, doesn't need to require it from every factory */
-                    if(url.indexOf("http") !== 0) {
+                    if (url.indexOf("http") !== 0) {
                         url = Url.get(url, _.get(config, "urlParams", {}));
                     }
 
                     // Disable refresh if App is offline.
-                    if($rootScope.isOffline) {
-                        if(config === undefined) {
+                    if ($rootScope.isOffline) {
+                        if (config === undefined) {
                             config = {
                                 refresh: false
                             };
@@ -392,16 +392,16 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param url
                  * @param config
                  */
-                httpWrapper.post = function(url, config) {
+                httpWrapper.post = function (url, config) {
 
                     /** Build url automatically, doesn't need to require it from every factory */
-                    if(url.indexOf("http") !== 0) {
+                    if (url.indexOf("http") !== 0) {
                         url = Url.get(url, _.get(config, "urlParams", {}));
                     }
 
                     // Disable refresh if App is offline.
-                    if($rootScope.isOffline) {
-                        if(config === undefined) {
+                    if ($rootScope.isOffline) {
+                        if (config === undefined) {
                             config = {
                                 refresh: false
                             };
@@ -421,20 +421,20 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                     }, config || {}));
                 };
 
-                httpWrapper.head    = $http.head;
-                httpWrapper.put     = $http.put;
-                httpWrapper.delete  = $http.delete;
-                httpWrapper.jsonp   = $http.jsonp;
-                httpWrapper.patch   = $http.patch;
+                httpWrapper.head = $http.head;
+                httpWrapper.put = $http.put;
+                httpWrapper.delete = $http.delete;
+                httpWrapper.jsonp = $http.jsonp;
+                httpWrapper.patch = $http.patch;
 
                 // This needs to be dynamic because postForm is an angular decorator
                 Object.defineProperty(httpWrapper, "postForm", {
-                    get: function() {
+                    get: function () {
                         return $http.postForm;
                     }
                 });
 
-                httpWrapper.cache = function(uri, config) {
+                httpWrapper.cache = function (uri, config) {
                     return httpWrapper.get(uri, {
                         cache: !$rootScope.isOverview
                     });
@@ -446,13 +446,15 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  *
                  * @param uri
                  */
-                httpWrapper.cacheImage = function(uri) {
+                httpWrapper.cacheImage = function (uri) {
                     if (isNativeApp && window.OfflineMode) {
-                        return $q(function(resolve, reject) { window.OfflineMode.cacheURL(uri, function() {
-                            resolve();
-                        }, function() {
-                            reject();
-                        }); });
+                        return $q(function (resolve, reject) {
+                            window.OfflineMode.cacheURL(uri, function () {
+                                resolve();
+                            }, function () {
+                                reject();
+                            });
+                        });
                     }
 
                     return $q.reject();
@@ -490,9 +492,9 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                 deferred.resolve(cachedData);
                             }
                         }).catch(function (error) {
-                            // Reject with a standardized object response!
-                            deferred.reject(null);
-                        });
+                        // Reject with a standardized object response!
+                        deferred.reject(null);
+                    });
 
                     return deferred.promise;
                 };
@@ -503,14 +505,14 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param message
                  * @returns {Promise}
                  */
-                httpWrapper.reject = function(message) {
+                httpWrapper.reject = function (message) {
                     message = (typeof message !== "undefined") ?
                         message : $translate.instant("The request is probably missing some parameters.");
 
                     /** Reject with a standardized object response. */
                     return $q.reject({
-                        error       : true,
-                        message     : message
+                        error: true,
+                        message: message
                     });
                 };
 
@@ -519,7 +521,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  *
                  * @returns {Promise}
                  */
-                httpWrapper.resolve = function(data) {
+                httpWrapper.resolve = function (data) {
                     return $q.resolve(data);
                 };
 
@@ -528,7 +530,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  *
                  * @returns {Promise}
                  */
-                httpWrapper.defer = function() {
+                httpWrapper.defer = function () {
                     return $q.defer();
                 };
 
@@ -538,7 +540,7 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  * @param value_id
                  * @returns {*}
                  */
-                httpWrapper.getPayloadForValueId = function(value_id) {
+                httpWrapper.getPayloadForValueId = function (value_id) {
                     var Pages = $injector.get("Pages");
 
                     return Pages.getPayloadForValueId(value_id);
@@ -549,17 +551,17 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                  *
                  * @param value_id
                  */
-                httpWrapper.clearValueId = function(value_id) {
+                httpWrapper.clearValueId = function (value_id) {
 
                     var deferred = $q.defer();
 
                     provider.valueidCache.getItem("valueid_" + value_id)
-                        .then(function(cached_uris) {
+                        .then(function (cached_uris) {
 
                             var copy = angular.copy(cached_uris);
 
-                            if(copy !== null) {
-                                angular.forEach(copy, function(uri) {
+                            if (copy !== null) {
+                                angular.forEach(copy, function (uri) {
                                     provider.defaultCache.removeItem(uri);
                                 });
                             }
@@ -569,14 +571,14 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                     deferred.resolve();
                                 });
 
-                        }).catch(function() {
-                            deferred.resolve();
-                        });
+                        }).catch(function () {
+                        deferred.resolve();
+                    });
 
                     return deferred.promise;
                 };
 
-                httpWrapper.removeCached = function(uri) {
+                httpWrapper.removeCached = function (uri) {
                     return $pwaCache.getDefaultCache().removeItem(uri);
                 };
 
@@ -591,6 +593,100 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 });
 
 /** $sbhttp Backward compatibility with pre 5.0 versions (mainly modules) */
-angular.module("starter").provider("$sbhttp",function(){var b={alwaysCache:!1,neverCache:!1,debug:!1};return b.$get=["$rootScope","$http","$log","$q","$window","_",function(c,d,e,f,g,h){function k(a){var b=function(b){var g=h.upperCase(h.trim(h.get(b,"method"))),i=h.trim(h.get(b,"url"));if(e.debug(new Error("Stacktrace following").stack),"GET"===g&&i.length>0){e.debug("GET "+i);var k=c.isOnline,l=!a.neverCache||a.alwaysCache,m=h.get(b,"cache",l),n=[angular.noop],o=[angular.noop],p=!1,q=!1,r=f(function(a,c){var f=function(f){try{for(;h.isString(f)&&h.trim(f).length>0;)f=JSON.parse(f)}catch(a){e.info("Error parsing data :",a,data),f=null}var g=m&&f,l=h.extend({},b,{}),r=function(b){if(e.debug("Processing http response ("+i+") with status code "+h.get(b,"status")),h.isObject(b)&&0===b.status&&h.isObject(g))return k=!1,e.debug("request failed for "+i+": using cache"),r(g);g=b,p=!0,q=!(g.status>=200&&g.status<=299);var d=q?o:n,f=q?c:a,s=function(){h.isFunction(g.headers)&&"true"===g.headers("X-From-Native-Cache")&&(g=h.extend({},g,{fromCache:!0})),h.forEach(d,function(a){a(g.data,g.status,g.headers,l)}),f(g)};if(h.isObject(g)&&(k||!0!==g.fromCache)&&m&&!q){e.debug("caching response for URL "+i+" and status "+h.get(b,"status"));var t=JSON.stringify(h.extend({},g,{fromCache:!0}));try{t=JSON.stringify(t)}catch(a){e.info("Error stringifying data :",a,t)}return j.setItem(i,t).then(s,function(a){e.debug("LOCAL FORAGE ERROR : ",a),s()})}return s()};h.isObject(g)&&!k?(e.debug("we're offline: using cache"),r(g)):(e.debug("sending http call with config: ",l),d(l).then(r,r))};j.getItem(i).then(f,function(a){return e.debug("Error retrieving data from cache data :",a),f(null)})});return r.success=function(a){return h.isFunction(a)&&n.push(a),p&&!q&&a(response.data,response.status,response.headers,config),r},r.error=function(a){return h.isFunction(a)&&o.push(a),p&&q&&a(response.data,response.status,response.headers,config),r},r}return d(b)};return b.get=function(a,c){return b(h.extend({},c||{},{method:"GET",url:a}))},b.head=d.head,b.post=d.post,b.put=d.put,b.delete=d.delete,b.jsonp=d.jsonp,b.patch=d.patch,Object.defineProperty(b,"postForm",{get:function(){return d.postForm}}),b.cache=function(a){return!c.is_webview&&window.OfflineMode?f(function(b,c){window.OfflineMode.cacheURL(a,function(){e.info("cached URL succesfully : ",a),b()},function(){e.info("Failed to cache URL : ",a),c()})}):f.reject()},b.removeCached=function(a){return j.removeItem(a)},b}var j,i={alwaysCache:b.alwaysCache,neverCache:!b.alwaysCache&&b.neverCache,debug:!0===b.debug};return j={},j.getItem=j.setItem=j.removeItem=function(){return f.reject("no offline mode cache in webview")},(ionic.Platform.isIOS()||ionic.Platform.isAndroid())&&window.localforage&&(window.localforage.config({name:"sb-offline-mode",storeName:"keyvaluepairs",size:262144e3}),j=window.localforage),new k(i)}],b});
+angular.module("starter").provider("$sbhttp", function () {
+    var b = {alwaysCache: !1, neverCache: !1, debug: !1};
+    return b.$get = ["$rootScope", "$http", "$log", "$q", "$window", "_", function (c, d, e, f, g, h) {
+        function k(a) {
+            var b = function (b) {
+                var g = h.upperCase(h.trim(h.get(b, "method"))), i = h.trim(h.get(b, "url"));
+                if (e.debug(new Error("Stacktrace following").stack), "GET" === g && i.length > 0) {
+                    e.debug("GET " + i);
+                    var k = c.isOnline, l = !a.neverCache || a.alwaysCache, m = h.get(b, "cache", l),
+                        n = [angular.noop], o = [angular.noop], p = !1, q = !1, r = f(function (a, c) {
+                            var f = function (f) {
+                                try {
+                                    for (; h.isString(f) && h.trim(f).length > 0;) f = JSON.parse(f)
+                                } catch (a) {
+                                    e.info("Error parsing data :", a, data), f = null
+                                }
+                                var g = m && f, l = h.extend({}, b, {}), r = function (b) {
+                                    if (e.debug("Processing http response (" + i + ") with status code " + h.get(b, "status")), h.isObject(b) && 0 === b.status && h.isObject(g)) return k = !1, e.debug("request failed for " + i + ": using cache"), r(g);
+                                    g = b, p = !0, q = !(g.status >= 200 && g.status <= 299);
+                                    var d = q ? o : n, f = q ? c : a, s = function () {
+                                        h.isFunction(g.headers) && "true" === g.headers("X-From-Native-Cache") && (g = h.extend({}, g, {fromCache: !0})), h.forEach(d, function (a) {
+                                            a(g.data, g.status, g.headers, l)
+                                        }), f(g)
+                                    };
+                                    if (h.isObject(g) && (k || !0 !== g.fromCache) && m && !q) {
+                                        e.debug("caching response for URL " + i + " and status " + h.get(b, "status"));
+                                        var t = JSON.stringify(h.extend({}, g, {fromCache: !0}));
+                                        try {
+                                            t = JSON.stringify(t)
+                                        } catch (a) {
+                                            e.info("Error stringifying data :", a, t)
+                                        }
+                                        return j.setItem(i, t).then(s, function (a) {
+                                            e.debug("LOCAL FORAGE ERROR : ", a), s()
+                                        })
+                                    }
+                                    return s()
+                                };
+                                h.isObject(g) && !k ? (e.debug("we're offline: using cache"), r(g)) : (e.debug("sending http call with config: ", l), d(l).then(r, r))
+                            };
+                            j.getItem(i).then(f, function (a) {
+                                return e.debug("Error retrieving data from cache data :", a), f(null)
+                            })
+                        });
+                    return r.success = function (a) {
+                        return h.isFunction(a) && n.push(a), p && !q && a(response.data, response.status, response.headers, config), r
+                    }, r.error = function (a) {
+                        return h.isFunction(a) && o.push(a), p && q && a(response.data, response.status, response.headers, config), r
+                    }, r
+                }
+                return d(b)
+            };
+            return b.get = function (a, c) {
+                return b(h.extend({}, c || {}, {method: "GET", url: a}))
+            }, b.head = d.head, b.post = d.post, b.put = d.put, b.delete = d.delete, b.jsonp = d.jsonp, b.patch = d.patch, Object.defineProperty(b, "postForm", {
+                get: function () {
+                    return d.postForm
+                }
+            }), b.cache = function (a) {
+                return !c.is_webview && window.OfflineMode ? f(function (b, c) {
+                    window.OfflineMode.cacheURL(a, function () {
+                        e.info("cached URL succesfully : ", a), b()
+                    }, function () {
+                        e.info("Failed to cache URL : ", a), c()
+                    })
+                }) : f.reject()
+            }, b.removeCached = function (a) {
+                return j.removeItem(a)
+            }, b
+        }
+
+        var j, i = {alwaysCache: b.alwaysCache, neverCache: !b.alwaysCache && b.neverCache, debug: !0 === b.debug};
+        return j = {}, j.getItem = j.setItem = j.removeItem = function () {
+            return f.reject("no offline mode cache in webview")
+        }, (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) && window.localforage && (window.localforage.config({
+            name: "sb-offline-mode",
+            storeName: "keyvaluepairs",
+            size: 262144e3
+        }), j = window.localforage), new k(i)
+    }], b
+});
 /** httpCache Backward compatibility with pre 5.0 versions (mainly modules) */
-angular.module("starter").service("httpCache", function($sbhttp, $cacheFactory) {return {remove: function(url) {var sid = localStorage.getItem("sb-auth-token");if(sid && url.indexOf(".html") == -1) {url = url + "?sb-token=" + sid;}if(angular.isDefined($cacheFactory.get('$http').get(url))) {$cacheFactory.get('$http').remove(url);}$sbhttp.removeCached(url);return this;}};});
+angular.module("starter").service("httpCache", function ($sbhttp, $cacheFactory) {
+    return {
+        remove: function (url) {
+            var sid = localStorage.getItem("sb-auth-token");
+            if (sid && url.indexOf(".html") == -1) {
+                url = url + "?sb-token=" + sid;
+            }
+            if (angular.isDefined($cacheFactory.get('$http').get(url))) {
+                $cacheFactory.get('$http').remove(url);
+            }
+            $sbhttp.removeCached(url);
+            return this;
+        }
+    };
+});

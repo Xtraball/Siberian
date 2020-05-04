@@ -41,6 +41,22 @@ module.exports = [
     ]
   },
   {
+    "id": "FileTransfer.FileTransferError",
+    "file": "plugins/FileTransfer/www/FileTransferError.js",
+    "pluginId": "FileTransfer",
+    "clobbers": [
+      "window.FileTransferError"
+    ]
+  },
+  {
+    "id": "FileTransfer.FileTransfer",
+    "file": "plugins/FileTransfer/www/FileTransfer.js",
+    "pluginId": "FileTransfer",
+    "clobbers": [
+      "window.FileTransfer"
+    ]
+  },
+  {
     "id": "WebView.webview",
     "file": "plugins/WebView/www/webViewPlugin.js",
     "pluginId": "WebView",
@@ -433,6 +449,7 @@ module.exports.metadata =
   "Geofence": "0.6.0",
   "SplashScreen": "5.0.2",
   "Push": "1.10.0",
+  "FileTransfer": "1.7.2-dev",
   "WebView": "1.0.0",
   "Promises": "4.2.2",
   "AdmobPro": "2.30.1",
@@ -447,14 +464,14 @@ module.exports.metadata =
   "Geolocation": "4.0.1",
   "InAppBrowser": "3.1.1-dev",
   "Keyboard": "2.2.0",
-  "SocialSharing": "5.4.0",
+  "SocialSharing": "5.6.4",
   "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
   "LocalNotification": "0.9.0-beta.3",
   "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
   "IonicWebview": "4.0.1",
-  "MusicControls": "2.2.1",
+  "MusicControls": "3.0.4",
   "Navigator": "0.1.0",
   "Permissions": "1.0.0",
   "Siberian": "1.0.0"
