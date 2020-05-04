@@ -41,6 +41,24 @@ $schemas['application'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'ion-ios-arrow-back',
     ],
+    'back_button_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'left_toggle_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'right_toggle_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'bundle_id' => [
         'type' => 'varchar(100)',
         'is_null' => true,

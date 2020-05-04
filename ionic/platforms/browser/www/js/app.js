@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.18.12
+ * @version 4.18.17
  */
 
 window.momentjs_loaded = false;
@@ -228,7 +228,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            language: language,
+                            user_language: language,
                             version: '4.18.17'
                         },
                         timeout: 20000,
@@ -250,7 +250,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         Application.populate(data.loadBlock);
 
                         // Overrides backbutton icon
-                        $ionicConfig.backButton.icon(Application.getBackIcon());
+                        $ionicConfig.backButton.icon('none');
 
                         Customer.populate(data.loadBlock.customer);
                         Customer.setFacebookLogin(data.loadBlock.application.facebook);

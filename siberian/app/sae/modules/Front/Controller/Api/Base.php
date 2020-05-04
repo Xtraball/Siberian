@@ -269,6 +269,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     ],
                     'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string) $application->getBackButton(),
+                    'backButtonClass' => $application->getBackButtonClass(),
+                    'leftToggleClass' => $application->getLeftToggleClass(),
+                    'rightToggleClass' => $application->getRightToggleClass(),
                     'myAccount' => $myAccount,
                 ],
                 'homepageImage' => $homepageImageB64

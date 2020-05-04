@@ -12,24 +12,24 @@ angular
         scope: {},
         templateUrl: "templates/page/side-menu.html",
         controller: function ($q, $scope, $rootElement, $rootScope, $injector, $timeout, $ionicHistory,
-                              $ionicSideMenuDelegate, ContextualMenu, HomepageLayout) {
+                              $ionicSideMenuDelegate, ContextualMenu, HomepageLayout, Application) {
 
             ContextualMenu.settings.isReady = $q.defer();
 
             $scope = angular.extend($scope, {
                 contextualMenu: {
                     isEnabled: false,
-                    side: "right"
+                    side: 'right'
                 },
                 leftMenu: {
                     width: 0,
                     show: false,
-                    src: "blank-menu.html"
+                    src: 'blank-menu.html'
                 },
                 rightMenu: {
                     width: 0,
                     show: false,
-                    src: "blank-menu.html"
+                    src: 'blank-menu.html'
                 }
             });
 
@@ -46,16 +46,16 @@ angular
             $scope.showBottom = function () {
                 return (
                     $scope.layout_id &&
-                    ($scope.layout.menu.position === "bottom") &&
-                    ($scope.layout.menu.visibility === "homepage")
+                    ($scope.layout.menu.position === 'bottom') &&
+                    ($scope.layout.menu.visibility === 'homepage')
                 );
             };
 
             $scope.showAlways = function () {
                 return (
                     $scope.layout_id &&
-                    ($scope.layout.menu.position === "bottom") &&
-                    ($scope.layout.menu.visibility === "always")
+                    ($scope.layout.menu.position === 'bottom') &&
+                    ($scope.layout.menu.visibility === 'always')
                 );
             };
 
@@ -126,6 +126,18 @@ angular
 
             $scope.contextualMenuIsReady = function () {
                 return ContextualMenu.settings.isReady.promise;
+            };
+
+            $scope.backButtonIcon = function () {
+                return Application.getBackIcon();
+            };
+
+            $scope.leftToggleIcon = function () {
+                return Application.getLeftToggleIcon();
+            };
+
+            $scope.rightToggleIcon = function () {
+                return Application.getRightToggleIcon();
             };
 
             $scope.init = function () {
