@@ -41,22 +41,6 @@ module.exports = [
     ]
   },
   {
-    "id": "FileTransfer.FileTransferError",
-    "file": "plugins/FileTransfer/www/FileTransferError.js",
-    "pluginId": "FileTransfer",
-    "clobbers": [
-      "window.FileTransferError"
-    ]
-  },
-  {
-    "id": "FileTransfer.FileTransfer",
-    "file": "plugins/FileTransfer/www/FileTransfer.js",
-    "pluginId": "FileTransfer",
-    "clobbers": [
-      "window.FileTransfer"
-    ]
-  },
-  {
     "id": "WebView.webview",
     "file": "plugins/WebView/www/webViewPlugin.js",
     "pluginId": "WebView",
@@ -449,7 +433,6 @@ module.exports.metadata =
   "Geofence": "0.6.0",
   "SplashScreen": "5.0.2",
   "Push": "1.10.0",
-  "FileTransfer": "1.7.2-dev",
   "WebView": "1.0.0",
   "Promises": "4.2.2",
   "AdmobPro": "2.30.1",

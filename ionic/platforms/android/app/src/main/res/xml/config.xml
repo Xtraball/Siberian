@@ -74,9 +74,6 @@
     <feature name="MusicControls">
         <param name="android-package" value="com.xtraball.musiccontrols.MusicControls" />
     </feature>
-    <feature name="FileTransfer">
-        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
-    </feature>
     <feature name="BrowserTab">
         <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
     </feature>

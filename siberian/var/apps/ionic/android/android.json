@@ -309,16 +309,16 @@
           ],
           "/*": [
             {
-              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 3
-            },
-            {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
               "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+              "count": 2
             }
           ],
           "application": [
@@ -338,10 +338,6 @@
       "res/xml/config.xml": {
         "parents": {
           "/*": [
-            {
-              "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
-              "count": 1
-            },
             {
               "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
               "count": 1
@@ -387,9 +383,6 @@
     "Push": {
       "ANDROID_SUPPORT_V13_VERSION": "28.0.0",
       "FCM_VERSION": "17.0.0",
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "FileTransfer": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
@@ -512,22 +505,6 @@
       "pluginId": "Push",
       "clobbers": [
         "PushNotification"
-      ]
-    },
-    {
-      "id": "FileTransfer.FileTransferError",
-      "file": "plugins/FileTransfer/www/FileTransferError.js",
-      "pluginId": "FileTransfer",
-      "clobbers": [
-        "window.FileTransferError"
-      ]
-    },
-    {
-      "id": "FileTransfer.FileTransfer",
-      "file": "plugins/FileTransfer/www/FileTransfer.js",
-      "pluginId": "FileTransfer",
-      "clobbers": [
-        "window.FileTransfer"
       ]
     },
     {
@@ -921,7 +898,6 @@
     "Geofence": "0.6.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
-    "FileTransfer": "1.7.2-dev",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
     "AdmobPro": "2.30.1",
