@@ -16,6 +16,20 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
 
 $appCurrentBackbutton = $application->getBackButton();
 
+// Disable current backButton
+echo '<pre>';
+var_dump($application->getBackButton());
+var_dump($application->getData('back_button'));
+var_dump($applicationData['back_button']);
+var_dump($applicationData['back_button_class']);
+echo '</pre>';
+if ($applicationData['back_button_class'] !== null) {
+    $appCurrentBackbutton = null;
+    echo '<pre>';
+    var_dump('rst');
+    echo '</pre>';
+}
+
 $backButtons = Application_Model_Application::$backButtons;
 
 $buttonsForm = new Application_Form_Buttons();
@@ -208,6 +222,8 @@ $buttonsForm->populate($applicationData);
             formget('/application/customization_publication_app/backbutton', {
                 backButton: $(this).attr('rel')
             })
+
+            $('#back_button_class').val('').trigger('change');
         });
     });
 </script>
@@ -364,7 +380,7 @@ $buttonsForm->populate($applicationData);
     i.active {
         border-width: 2px !important;
         border-style: solid !important;
-        padding: 4px;
+        padding: 2px;
     }
 </style>
 <link rel="stylesheet" href="/app/sae/design/desktop/flat/css/ionicons/css/ionicons.min.css" />

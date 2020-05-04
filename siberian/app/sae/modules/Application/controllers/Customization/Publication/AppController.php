@@ -108,6 +108,7 @@ class Application_Customization_Publication_AppController extends Application_Co
     public function backbuttonAction ()
     {
         $request = $this->getRequest();
+        $application = $this->getApplication();
         try {
             $backButton = $request->getParam('backButton', false);
             if ($backButton === false) {
@@ -120,8 +121,9 @@ class Application_Customization_Publication_AppController extends Application_Co
                     __('This icon is not allowed!'));
             }
 
-            $this->getApplication()
-                ->setBackButton($backButton)
+            /** @var $application Application_Model_Application */
+            $application
+                ->setData('back_button', $backButton)
                 ->save();
 
             $payload = [
