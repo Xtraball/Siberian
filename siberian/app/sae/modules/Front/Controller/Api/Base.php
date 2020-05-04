@@ -226,6 +226,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'name' => $application->getName(),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
+                    'disableUpdates' => (boolean)$application->getDisableUpdates(),
                     'colors' => [
                         'header' => [
                             'statusBarColor' => $colorStatusBarLighten->toCSS('hex'),

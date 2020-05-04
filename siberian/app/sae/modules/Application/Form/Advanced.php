@@ -21,12 +21,15 @@ class Application_Form_Advanced extends Siberian_Form_Abstract
         // Bind as a onchange form!
         self::addClass('onchange', $this);
 
-        $this->addSimpleCheckbox('offline_content',
+        $offlinecontent = $this->addSimpleCheckbox('offline_content',
             p__('application', 'Enable Offline content ?'));
+        $offlinecontent->setDescription(p__('application',
+        'Note: offline content is deprecated and not supported anymore.'));
 
         $disableUpdates = $this->addSimpleCheckbox('disable_updates',
             p__('application', 'Lock application updates'));
-        $disableUpdates->setDescription(p__('application', 'When used, the application code will be locked & can only be updated through store updates'));
+        $disableUpdates->setDescription(p__('application',
+            'When used, the application code/source will be locked & can only be updated through store updates, features content will not be affected'));
 
         $this->addSimpleNumber('fidelity_rate',
             p__('application', 'Fidelity points rate'), 0, 10000, true, 0.01);

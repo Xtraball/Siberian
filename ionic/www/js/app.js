@@ -313,6 +313,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $rootScope.onPause = true;
                                 Analytics.storeClosing();
 
+                                // Disable auto updates
+                                if (data.loadBlock.application.disableUpdates) {
+                                    return;
+                                }
+
                                 var runChcp = function () {
                                     var watcherChcp = function () {
                                         // When app goes in pause, try to install if required.
@@ -588,6 +593,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // Debug/Support method to check for updates!
                         $rootScope.unlockUpdate = 0;
                         $rootScope.checkForUpdate = function () {
+                            // Disable auto updates
+                            if (data.loadBlock.application.disableUpdates) {
+                                $log.info('Stop update, feature is disabled.');
+                                return;
+                            }
+
                             if (!$rootScope.isNativeApp) {
                                 $log.info('Stop update, Android or iOS is required.');
                                 return;
