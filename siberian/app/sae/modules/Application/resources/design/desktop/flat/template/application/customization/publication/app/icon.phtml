@@ -209,6 +209,8 @@ $buttonsForm->populate($applicationData);
 
         $("#android_conteneur .sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
 
+        var backButtonClass = $('#back_button_class');
+
         var allAppIcons = $('i.appIcon');
         allAppIcons.off('click');
         allAppIcons.on('click', function () {
@@ -221,9 +223,19 @@ $buttonsForm->populate($applicationData);
 
             formget('/application/customization_publication_app/backbutton', {
                 backButton: $(this).attr('rel')
-            })
+            }, function () {
+                backButtonClass.val('');
+            }, null, true)
+        });
 
-            $('#back_button_class').val('').trigger('change');
+        backButtonClass.off('change');
+        backButtonClass.on('change', function () {
+            var el = $(this);
+            if (el.val().length > 0) {
+                $('.appIcon')
+                    .removeClass('active')
+                    .removeClass('border-purple');
+            }
         });
     });
 </script>

@@ -123,12 +123,13 @@ class Application_Customization_Publication_AppController extends Application_Co
 
             /** @var $application Application_Model_Application */
             $application
-                ->setData('back_button', $backButton)
+                ->setBackButton($backButton)
+                ->setBackButtonClass(null)
                 ->save();
 
             $payload = [
                 'success' => true,
-                'message' => __('Back button choice saved!'),
+                'message' => p__('application', 'Back button saved!'),
             ];
         } catch (Exception $e) {
             $payload = [
@@ -168,7 +169,7 @@ class Application_Customization_Publication_AppController extends Application_Co
 
             $payload = [
                 'success' => true,
-                'message' => __('Back button choice saved!'),
+                'message' => p__('application', 'Buttons class saved!'),
             ];
         } catch (Exception $e) {
             $payload = [
