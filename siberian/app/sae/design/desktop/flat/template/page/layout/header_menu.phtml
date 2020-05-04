@@ -167,7 +167,7 @@ function renderRecursive($markup, $menus, $isChild = false) {
             } else {
                 $label = $menu['label'];
             }
-            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $isCurrent = $menu['is_current'] ? 'is_current border-blue' : '-';
             $markup .= '
                 <li class="dropdown ' . $isCurrent . '">
                     <a id="' . $menu['id'] . '"
@@ -208,7 +208,7 @@ function renderRecursive($markup, $menus, $isChild = false) {
                 $icon = $menu['icon'];
             }
 
-            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $isCurrent = $menu['is_current'] ? 'is_current border-blue' : '-';
             $markup .= '
                 <li class="' . $isCurrent . '">
                     <a id="' . $id . '"
@@ -250,17 +250,17 @@ if (Version::is(["mae", "pe"])) {
     <div class="navbar-header">
         <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
         <?php if(!$isApplication): ?>
-        <a id="sb-tour-logo-platform"
-           href="<?php echo $dashboardUrl; ?>"
-           class="sb-tour pull-left logo-position">
-            <img src="<?php echo $this->getLogo(); ?>"
-                 id="logo"
-                 alt="<?php echo $platform_name; ?>"
-                 title="<?php echo $platform_name; ?>"
-                 width="100%" />
-        </a>
+            <a id="sb-tour-logo-platform"
+               href="<?php echo $dashboardUrl; ?>"
+               class="sb-tour pull-left logo-position">
+                <img src="<?php echo $this->getLogo(); ?>"
+                     id="logo"
+                     alt="<?php echo $platform_name; ?>"
+                     title="<?php echo $platform_name; ?>"
+                     width="100%" />
+            </a>
+            <div class="logo-block content-white-bkg"></div>
         <?php endif; ?>
-        <div class="logo-block content-white-bkg"></div>
     </div>
     <button type="button"
             class="navbar-toggle collapsed"
@@ -287,11 +287,11 @@ if (Version::is(["mae", "pe"])) {
         <?php if ($this->isPe() && !$request->isWhiteLabelEditor()) : ?>
             <button id="toggle_customization_sidebar"
                     onclick="wl_editor.toggle();"
-                    class="sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
+                    class="whitelabel-editor sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
                     title="<?php echo __('Customize My Editor'); ?>">
                 <i class="fa fa-desktop"></i>
                 <div class="section-responsive">
-                    <?php echo __('Customize My Editor'); ?>
+                    <?php echo __('Customize my editor'); ?>
                 </div>
             </button>
         <?php endif; ?>
@@ -329,7 +329,7 @@ if (Version::is(["mae", "pe"])) {
 
 <style>
     #toggle_customization_sidebar {
-        height: 50px;
+        height: 24px;
         margin-top: 4px;
         display: none
     }
