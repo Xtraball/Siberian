@@ -320,20 +320,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                             if (localStorage.getItem('install-update' === true)) {
                                                 chcp.isUpdateAvailableForInstallation(function (error, data) {
                                                     if (error) {
-                                                        $log.info('CHCP: Nothing to install');
-                                                        $log.info('CHCP: ' + error.description);
+                                                        $log.info('AutoUpdate: Nothing to install');
+                                                        $log.info('AutoUpdate: ' + error.description);
                                                         return;
                                                     }
 
                                                     // update is in cache and can be installed - install it
-                                                    $log.info('CHCP: Current version: ' + data.currentVersion);
-                                                    $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
+                                                    $log.info('AutoUpdate: Current version: ' + data.currentVersion);
+                                                    $log.info('AutoUpdate: About to install: ' + data.readyToInstallVersion);
                                                     chcp.installUpdate(function (error) {
                                                         if (error) {
-                                                            $log.info('CHCP: Something went wrong with the update, will retry later.');
-                                                            $log.info('CHCP: ' + error.description);
-                                                        } else {
-                                                            return;
+                                                            $log.info('AutoUpdate: Something went wrong with the update, will retry later.');
+                                                            $log.info('AutoUpdate: ' + error.description);
                                                         }
                                                     });
                                                 });
@@ -341,27 +339,26 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                 chcp.fetchUpdate(function (error, data) {
                                                     if (error) {
                                                         if (error.code === 2) {
-                                                            $log.info('CHCP: There is no available update.');
+                                                            $log.info('AutoUpdate: There is no available update.');
                                                         } else {
-                                                            $log.info('CHCP: Failed to load the update with error code: ' + error.code);
+                                                            $log.info('AutoUpdate: Failed to load the update with error code: ' + error.code);
                                                         }
 
-                                                        $log.info('CHCP: ' + error.description);
+                                                        $log.info('AutoUpdate: ' + error.description);
                                                         localStorage.setItem('install-update', false);
                                                     } else {
-                                                        $log.info('CHCP: Update success, trying to install.');
+                                                        $log.info('AutoUpdate: Update success, trying to install.');
 
                                                         // update is in cache and can be installed - install it
-                                                        $log.info('CHCP: Current version: ' + data.currentVersion);
-                                                        $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
+                                                        $log.info('AutoUpdate: Current version: ' + data.currentVersion);
+                                                        $log.info('AutoUpdate: About to install: ' + data.readyToInstallVersion);
                                                         chcp.installUpdate(function (error) {
                                                             if (error) {
-                                                                $log.info('CHCP: Something went wrong with the update, will retry later.');
-                                                                $log.info('CHCP: ' + error.description);
+                                                                $log.info('AutoUpdate: Something went wrong with the update, will retry later.');
+                                                                $log.info('AutoUpdate: ' + error.description);
                                                             } else {
-                                                                $log.info('CHCP: Update successfully install, restarting new files.');
+                                                                $log.info('AutoUpdate: Update successfully install, restarting new files.');
                                                                 localStorage.setItem('install-update', false);
-                                                                return;
                                                             }
                                                         });
                                                     }
@@ -601,35 +598,35 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 return;
                             }
 
-                            if ($rootScope.unlockUpdate < 5) {
+                            if ($rootScope.unlockUpdate < 4) {
                                 $rootScope.unlockUpdate = $rootScope.unlockUpdate + 1;
                                 return;
                             }
 
                             $rootScope.unlockUpdate = 0;
 
-                            Dialog.alert('CHCP', 'Checking for update ...', 'OK', -1);
+                            Dialog.alert('AutoUpdate', 'Checking for update ...', 'OK', -1);
 
                             chcp.fetchUpdate(function (fetchUpdateError, fetchUpdateData) {
                                 if (fetchUpdateError) {
-                                    $log.info('CHCP: Failed to load the update with error code: ' + fetchUpdateError.code);
+                                    $log.info('AutoUpdate: Failed to load the update with error code: ' + fetchUpdateError.code);
                                     if (fetchUpdateError.code === 2) {
-                                        Dialog.alert('CHCP', 'There is no available update.', 'Dismiss', -1);
+                                        Dialog.alert('AutoUpdate', 'There is no available update.', 'Dismiss', -1);
                                     } else {
-                                        Dialog.alert('CHCP', fetchUpdateError.description, 'Dismiss', -1);
+                                        Dialog.alert('AutoUpdate', fetchUpdateError.description, 'Dismiss', -1);
                                     }
                                 } else {
-                                    Dialog.alert('CHCP', 'Successfully downloaded update, installing...', 'Dismiss', -1)
+                                    Dialog.alert('AutoUpdate', 'Successfully downloaded update, installing...', 'Dismiss', -1)
                                         .then(function () {
                                             // update is in cache and can be installed - install it
-                                            $log.info('CHCP: Current version: ' + fetchUpdateData.currentVersion);
-                                            $log.info('CHCP: About to install: ' + fetchUpdateData.readyToInstallVersion);
+                                            $log.info('AutoUpdate: Current version: ' + fetchUpdateData.currentVersion);
+                                            $log.info('AutoUpdate: About to install: ' + fetchUpdateData.readyToInstallVersion);
                                             chcp.installUpdate(function (installUpdateError) {
                                                 if (installUpdateError) {
-                                                    $log.info('CHCP: Something went wrong with the update, will retry later.', -1);
-                                                    Dialog.alert('CHCP', installUpdateError.description, 'Dismiss');
+                                                    $log.info('AutoUpdate: Something went wrong with the update, will retry later.', -1);
+                                                    Dialog.alert('AutoUpdate', installUpdateError.description, 'Dismiss');
                                                 } else {
-                                                    Dialog.alert('CHCP', 'Update successfully installed, restarting new files.', 'Dismiss', -1);
+                                                    Dialog.alert('AutoUpdate', 'Update successfully installed, restarting new files.', 'Dismiss', -1);
                                                 }
                                             });
                                         });
