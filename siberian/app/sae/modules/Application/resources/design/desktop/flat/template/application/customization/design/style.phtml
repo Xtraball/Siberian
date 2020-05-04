@@ -365,7 +365,7 @@ $splashVersion = (integer) $application->getSplashVersion();
             ?>
             <?php foreach($fontGroupFamilies as $groupName => $families) : ?>
                 <div class="col-md-12 clear">
-                    <h4 class="font-group"><?php echo __($groupName) ?></h4>
+                    <h5 class="font-group"><?php echo __($groupName) ?></h5>
                 </div>
                 <?php foreach ($families as $fontFamily => $options): ?>
                 <div class="col-md-6">
@@ -433,20 +433,21 @@ $splashVersion = (integer) $application->getSplashVersion();
     @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>&subset=latin,greek,cyrillic');
 
     .font-group {
-        border: 1px solid rgba(0,0,0,0.1);
-        text-align: center;
-        background-color: #f0f0f0;
+        border-bottom: 2px solid rgba(0,0,0,0.3);
+        text-align: left;
         font-style: italic;
-        padding: 10px;
+        padding: 4px;
         letter-spacing: 2px;
+        font-weight: bold;
     }
 
     .font-label {
         background-color: #f0f0f0;
-        padding: 6px 12px 0 8px;
+        padding: 2px 6px 0 10px;
         border: 1px solid rgba(0,0,0,0.1);
         border-radius: 2px;
         width: 100%;
+        font-size: 12px;
     }
 
     .custom-box-label {
@@ -478,7 +479,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
 
     .font-label input {
-        transform: translateY(13px);
+        transform: translateY(10px);
     }
 
     .font-name {
@@ -500,7 +501,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        margin-bottom: 6px;
+        margin-bottom: 0;
         margin-left: 29px;
     }
 </style>

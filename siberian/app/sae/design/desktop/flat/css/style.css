@@ -39,6 +39,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 /* NAV BAR */
+.navbar-nav > li > .dropdown-menu {
+    margin-top: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 0;
+    margin-right: -10px;
+}
+
 .navbar .nav > li > a {
     padding: 0;
     margin: 0;
@@ -628,33 +636,25 @@ li .sub-bar a {
 }
 
 .bt-header-right {
-    width: 40px;
-    top: 8px;
-    height: 30px;
+    width: 26px;
+    top: 4px;
+    height: 26px;
     padding: 0;
     right: 8px;
-    border-radius: 3px;
+    border-radius: 2px;
     border: none;
-    transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
     font-size: initial;
     position: absolute !important;
 }
 
 .bt-header-left {
-    width: 40px;
-    margin-top: -5px;
-    height: 30px;
+    width: 26px;
+    margin-top: -2px;
+    height: 26px;
     padding: 0;
     margin-left: 5px;
     border-radius: 3px;
     border: none;
-    transition: all 0.3s ease 0s;
-    -moz-transition: all 0.3s ease 0s;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
     font-size: initial;
 }
 
@@ -2876,7 +2876,7 @@ div#phone-bar {
 
 div#overview.affix {
     right: 0;
-    top: 10px;
+    top: 14px;
 }
 
 .form-field-error {
@@ -3206,12 +3206,16 @@ input[type=range].sb-slider:focus::-ms-fill-upper {
 
 /* End input range style */
 
+.import-feature,
 .export-button {
     text-transform: uppercase;
     width: initial !important;
     padding: 0 10px;
     position: absolute;
     font-weight: 200;
+    height: 28px;
+    margin-right: -5px;
+    top: 3px;
 }
 
 .export-button-fix {
@@ -3662,8 +3666,8 @@ textarea.cke_source {
     font-size: 14px;
     font-weight: 200;
     position: absolute;
-    top: 9px;
-    left: 8px;
+    top: 3px;
+    left: 3px;
 }
 
 .list-search input {
@@ -3710,7 +3714,7 @@ textarea.cke_source {
 }
 
 #go_up_root.hide ~ .list-search {
-    left: 8px !important;
+    left: 3px !important;
 }
 
 h4.subtitle {
