@@ -215,7 +215,7 @@ angular
         Codescan
             .scanPassword()
             .then(function (rawText) {
-                $scope.pad.password = rawText;
+                $scope.pad.password = rawText.replace('sendback:', '');
                 $scope.pad.mode_qrcode = true;
                 $scope.validate();
             }, function (error) {

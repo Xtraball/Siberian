@@ -137,7 +137,6 @@ angular
         $cordovaBarcodeScanner
             .scan()
             .then(function (scannedData) {
-                console.log('factory.scanPassword', scannedData);
                 if (scannedData.cancelled || scannedData.text === '') {
                     defer.reject(scannedData);
                 } else {

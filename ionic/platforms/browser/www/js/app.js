@@ -228,7 +228,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            version: '4.18.8'
+                            language: language,
+                            version: '4.18.17'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -312,6 +313,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             $ionicPlatform.on('pause', function (pauseResult) {
                                 $rootScope.onPause = true;
                                 Analytics.storeClosing();
+
+                                // Disable auto updates
+                                if (data.loadBlock.application.disableUpdates) {
+                                    return;
+                                }
 
                                 var runChcp = function () {
                                     var watcherChcp = function () {
@@ -588,6 +594,12 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // Debug/Support method to check for updates!
                         $rootScope.unlockUpdate = 0;
                         $rootScope.checkForUpdate = function () {
+                            // Disable auto updates
+                            if (data.loadBlock.application.disableUpdates) {
+                                $log.info('Stop update, feature is disabled.');
+                                return;
+                            }
+
                             if (!$rootScope.isNativeApp) {
                                 $log.info('Stop update, Android or iOS is required.');
                                 return;

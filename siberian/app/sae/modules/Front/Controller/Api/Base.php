@@ -33,7 +33,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $appId = $application->getId();
         $request = $this->getRequest();
         $session = $this->getSession();
-        $currentLanguage = Core_Model_Language::getCurrentLanguage();
+        $currentLanguage = $request->getParam('user_language', false) ??
+            Core_Model_Language::getCurrentLanguage();
 
         try {
             $cssBlock = $this->_cssBlock($application);
@@ -61,7 +62,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         try {
             // Alter the loadBlock with the customer
-            $loadBlock = $this->_customerBlock($application, $loadBlock);
+            $loadBlock = $this->_customerBlock($application, $loadBlock, $currentLanguage);
             $loadBlock = $this->_settingsBlock($featureBlock, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
@@ -659,11 +660,12 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @param $application
      * @param $loadBlock
+     * @param $currentLanguage
      * @return mixed
      * @throws Zend_Session_Exception
      * @throws \rock\sanitize\SanitizeException
      */
-    public function _customerBlock ($application, $loadBlock)
+    public function _customerBlock ($application, $loadBlock, $currentLanguage)
     {
         $session = $this->getSession();
         $customer = $session->getCustomer();
@@ -700,6 +702,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 $customer->updateSessionUuid(Zend_Session::getId());
             }
 
+            // Update language in DB (for future e-mail, cron, etc...)
+            $customer
+                ->setLanguage($currentLanguage)
+                ->save();
 
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
