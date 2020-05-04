@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="OfflineMode"
+        version="1.0.0">
+
+    <name>OfflineMode</name>
+    <description>Download page content for offline browsing.</description>
+    <license>Siberian CMS</license>
+    <keywords>cordova,offline content</keywords>
+
+    <js-module src="www/OfflineMode.js" name="OfflineMode">
+        <clobbers target="window.OfflineMode" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="OfflineMode" >
+                <param name="android-package" value="com.appsmobilecompany.base.OfflineMode"/>
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/OfflineMode.java" target-dir="app/src/main/java/com/appsmobilecompany/base" />
+    </platform>
+
+    <!-- ios -->
+     <platform name="ios">
+         <config-file target="config.xml" parent="/*">
+             <feature name="OfflineMode">
+                 <param name="ios-package" value="CDVOfflineMode" />
+                 <param name="onload" value="true" />
+             </feature>
+         </config-file>
+
+         <header-file src="src/ios/CDVOfflineMode.h" />
+         <source-file src="src/ios/CDVOfflineMode.m" />
+         <header-file src="src/ios/NSURLRequest+MutableCopyWorkaround.h" />
+         <source-file src="src/ios/NSURLRequest+MutableCopyWorkaround.m" />
+         <header-file src="src/ios/RNCachedData.h" />
+         <source-file src="src/ios/RNCachedData.m" />
+         <header-file src="src/ios/RNCachingURLProtocol.h" />
+         <source-file src="src/ios/RNCachingURLProtocol.m" />
+         <header-file src="src/ios/SBOfflineModeManager.h" />
+         <source-file src="src/ios/SBOfflineModeManager.m" />
+         <header-file src="src/ios/SBOfflineModeDownloader.h" />
+         <source-file src="src/ios/SBOfflineModeDownloader.m" />
+         <header-file src="src/ios/TMReachability.h" />
+         <source-file src="src/ios/TMReachability.m" />
+     </platform>
+</plugin>

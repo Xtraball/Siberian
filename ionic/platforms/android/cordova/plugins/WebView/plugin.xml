@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="WebView"
+        version="1.0.0">
+    <name>Cordova Webview</name>
+    <description>Plugin webview</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,webview</keywords>
+
+    <engines>
+        <engine name="cordova"
+                version=">=3.4.0"/>
+    </engines>
+
+    <!-- Web View -->
+    <js-module src="www/webViewPlugin.js"
+               name="webview">
+        <clobbers target="window.webview"/>
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="config.xml" parent="/*">
+            <feature name="WebViewPlugin">
+                <param name="android-package" value="com.webview.WebViewPlugin"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale"
+                      android:label="@string/activity_name"
+                      android:launchMode="standard"
+                      android:name="com.webview.WebViewActivity"
+                      android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
+                      android:windowSoftInputMode="adjustResize"
+                      android:exported="true">
+            </activity>
+        </config-file>
+
+        <source-file src="src/android/com/previewer/webview/WebViewPlugin.java"
+                     target-dir="app/src/main/java/com/webview"/>
+        <source-file src="src/android/com/previewer/webview/WebViewActivity.java"
+                     target-dir="app/src/main/java/com/webview"/>
+    </platform>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="WebViewPlugin">
+                <param name="ios-package" value="WebViewPlugin"/>
+            </feature>
+        </config-file>
+
+        <!-- WebView -->
+        <header-file src="src/ios/webview/WebViewPlugin.h"/>
+        <source-file src="src/ios/webview/WebViewPlugin.m"/>
+    </platform>
+</plugin>

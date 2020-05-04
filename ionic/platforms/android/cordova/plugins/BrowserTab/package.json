@@ -1,0 +1,20 @@
+{
+    "name": "cordova-plugin-browsertab",
+    "version": "0.2.1",
+    "description": "In-app browser tabs for Android and iOS",
+    "cordova": {
+        "id": "cordova-plugin-browsertab",
+        "platforms": [
+            "android",
+            "ios"
+        ]
+    },
+    "keywords": [
+        "sfsafariviewcontroller",
+        "custom-tabs",
+        "browser-tabs",
+        "browser"
+    ],
+    "author": "Google, Inc.",
+    "license": "Apache-2.0"
+}

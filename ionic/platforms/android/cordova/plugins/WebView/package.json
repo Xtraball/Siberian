@@ -1,0 +1,29 @@
+{
+  "name": "WebView",
+  "version": "2.11.2",
+  "description": "Cordova WebView",
+  "cordova": {
+    "id": "WebView",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walidowais/cordova-plugin-second-webview.git"
+  },
+  "keywords": [
+    "cordova",
+    "webview",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "Walid Owais",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/walidowais/cordova-plugin-second-webview/issues"
+  },
+  "homepage": "https://github.com/walidowais/cordova-plugin-second-webview#readme"
+}

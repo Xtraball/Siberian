@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="Navigator"
+        version="0.1.0">
+    <engines>
+        <engine name="cordova"
+                version=">=3.5.2" />
+    </engines>
+
+    <name>Navigator</name>
+    <description>Plugin to navigate using Waze, Apple Maps, Google Maps.</description>
+    <author>Xtraball, Adalto Junior</author>
+    <repo>https://github.com/Xtraball/cordova-navigator.git</repo>
+    <issue>https://github.com/Xtraball/cordova-navigator.git/issues</issue>
+    <license>MIT</license>
+
+    <keywords>maps, navigation, navigator, waze, ios, android</keywords>
+
+    <!-- browser -->
+    <platform name="browser">
+        <config-file target="config.xml" parent="/*">
+            <feature name="Navigator">
+                <param name="browser-package" value="Navigator" />
+            </feature>
+        </config-file>
+
+        <js-module src="www/navigator.js"
+                   name="Navigator">
+            <clobbers target="Navigator" />
+        </js-module>
+
+        <js-module src="src/browser/NavigatorProxy.js"
+                   name="NavigatorProxy">
+            <runs />
+        </js-module>
+    </platform>
+
+    <platform name="android">
+        <js-module src="www/navigator.js"
+                   name="Navigator">
+            <clobbers target="Navigator" />
+        </js-module>
+
+        <config-file target="res/xml/config.xml"
+                     parent="/*">
+            <feature name="Navigator">
+                <param name="android-package"
+                       value="com.xtraball.cordova.plugin.Navigator"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/Navigator.java"
+                     target-dir="src/com/xtraball/cordova/plugin/" />
+    </platform>
+
+    <platform name="ios">
+        <config-file target="config.xml"
+                     parent="/*">
+            <feature name="Navigator">
+                <param name="ios-package"
+                       value="CDVNavigator"/>
+            </feature>
+        </config-file>
+        <config-file target="*-Info.plist"
+                     parent="LSApplicationQueriesSchemes">
+            <array>
+                <string>waze</string>
+                <string>comgooglemaps</string>
+                <string>comgooglemaps-x-callback</string>
+            </array>
+        </config-file>
+        <js-module src="www/navigator.js"
+                   name="Navigator">
+            <clobbers target="Navigator" />
+        </js-module>
+        <header-file src="src/ios/CDVNavigator.h" />
+        <source-file src="src/ios/CDVNavigator.m" />
+    </platform>
+
+</plugin>

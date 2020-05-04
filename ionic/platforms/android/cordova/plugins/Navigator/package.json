@@ -1,0 +1,43 @@
+{
+  "name": "com.xtraball.cordova.plugin.navigator",
+  "version": "0.1.0",
+  "description": "Plugin to navigate using Waze, Apple Maps, Google Maps.",
+  "cordova": {
+    "id": "com.xtraball.cordova.plugin.navigator",
+    "platforms": [
+      "android",
+      "ios",
+      "browser"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xtraball/cordova-navigator.git"
+  },
+  "keywords": [
+    "maps",
+    "navigation",
+    "navigator",
+    "waze",
+    "ios",
+    "android",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.5.2"
+    }
+  ],
+  "authors": [
+    "Xtraball",
+    "Adalto Junior"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xtraball/cordova-navigator/issues"
+  },
+  "homepage": "https://github.com/xtraball/cordova-navigator#readme"
+}

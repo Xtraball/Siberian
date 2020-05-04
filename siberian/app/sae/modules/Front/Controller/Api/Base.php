@@ -33,8 +33,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $appId = $application->getId();
         $request = $this->getRequest();
         $session = $this->getSession();
-        $currentLanguage = $request->getParam('user_language', false) ??
-            Core_Model_Language::getCurrentLanguage();
+        $params = $request->getBodyParams();
+        $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
 
         try {
             $cssBlock = $this->_cssBlock($application);
