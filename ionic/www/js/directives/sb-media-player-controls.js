@@ -1,4 +1,12 @@
-angular.module('starter').directive('sbMediaPlayerControls', function () {
+/**
+ * sbMediaPlayerControls
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ */
+angular
+    .module('starter')
+    .directive('sbMediaPlayerControls', function () {
     return {
         restrict: 'A',
         controller: function ($scope, $state, $timeout, $filter, MediaPlayer) {

@@ -1,53 +1,54 @@
-/* global
- App, angular, BASE_PATH
+/**
+ * MediaPlayerController
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
+angular
+    .module('starter')
+    .controller('MediaPlayerController', function ($rootScope, $scope, MediaPlayer, SB, SocialSharing, LinkService) {
 
-angular.module('starter').controller('MediaPlayerController', function ($cordovaSocialSharing, $ionicHistory, Modal,
-                                                                       $location, $rootScope, $scope, $state,
-                                                                       $stateParams, $timeout, $translate, $window,
-                                                                       Application, HomepageLayout, MediaPlayer,
-                                                                       SB, SocialSharing, LinkService) {
-    $scope.is_webview = !$rootScope.isNativeApp;
+        $scope.isWebview = !$rootScope.isNativeApp;
 
-    $scope.loadContent = function () {
-        if (!MediaPlayer.media) {
-            MediaPlayer.loading();
-        }
-    };
+        $scope.loadContent = function () {
+            if (!MediaPlayer.media) {
+                MediaPlayer.loading();
+            }
+        };
 
-    $scope.backButton = function () {
-        MediaPlayer.goBack(MediaPlayer.is_radio, true);
-    };
+        $scope.backButton = function () {
+            MediaPlayer.goBack(MediaPlayer.isRadio, true);
+        };
 
-    // When leaving the media (back button, or another state
-    $scope.$on('$destroy', function () {
-        if (MediaPlayer.is_initialized) {
-            MediaPlayer.is_minimized = true;
-            $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {
-                isRadio: MediaPlayer.is_radio
-            });
-        }
+        // When leaving the media (back button, or another state
+        $scope.$on('$destroy', function () {
+            if (MediaPlayer.isInitialized) {
+                MediaPlayer.isMinimized = true;
+                $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {
+                    isRadio: MediaPlayer.isRadio
+                });
+            }
+        });
+
+        $scope.purchase = function () {
+            if ($rootScope.isNotAvailableOffline()) {
+                return;
+            }
+
+            if (MediaPlayer.currentTrack.purchaseUrl) {
+                LinkService.openLink(MediaPlayer.currentTrack.purchaseUrl, {}, true);
+            }
+        };
+
+        $scope.share = function () {
+            var content = MediaPlayer.currentTrack.name;
+            if (!MediaPlayer.isRadio) {
+                content = MediaPlayer.currentTrack.name + ' from ' + MediaPlayer.currentTrack.artistName;
+            }
+            var file = MediaPlayer.currentTrack.albumCover ? MediaPlayer.currentTrack.albumCover : undefined;
+
+            SocialSharing.share(content, undefined, undefined, undefined, file);
+        };
+
+        $scope.loadContent();
     });
-
-    $scope.purchase = function () {
-        if ($rootScope.isNotAvailableOffline()) {
-            return;
-        }
-
-        if (MediaPlayer.current_track.purchaseUrl) {
-            LinkService.openLink(MediaPlayer.current_track.purchaseUrl, {}, true);
-        }
-    };
-
-    $scope.share = function () {
-        var content = MediaPlayer.current_track.name;
-        if (!MediaPlayer.is_radio) {
-            content = MediaPlayer.current_track.name + ' from ' + MediaPlayer.current_track.artistName;
-        }
-        var file = MediaPlayer.current_track.albumCover ? MediaPlayer.current_track.albumCover : undefined;
-
-        SocialSharing.share(content, undefined, undefined, undefined, file);
-    };
-
-    $scope.loadContent();
-});
