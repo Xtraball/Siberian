@@ -17,17 +17,8 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
 $appCurrentBackbutton = $application->getBackButton();
 
 // Disable current backButton
-echo '<pre>';
-var_dump($application->getBackButton());
-var_dump($application->getData('back_button'));
-var_dump($applicationData['back_button']);
-var_dump($applicationData['back_button_class']);
-echo '</pre>';
 if ($applicationData['back_button_class'] !== null) {
     $appCurrentBackbutton = null;
-    echo '<pre>';
-    var_dump('rst');
-    echo '</pre>';
 }
 
 $backButtons = Application_Model_Application::$backButtons;
