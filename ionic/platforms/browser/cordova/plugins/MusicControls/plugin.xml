@@ -13,8 +13,8 @@
         <engine name="cordova" version=">=4.0.0"/>
     </engines>
 
-    <asset src="www/MusicControls.js"
-           target="js/MusicControls.js"/>
+    <!--asset src="www/MusicControls.js"
+           target="www/MusicControls.js"/-->
 
     <js-module src="www/MusicControls.js"
                name="MusicControls">
@@ -40,33 +40,34 @@
                      parent="/*">
             <feature name="MusicControls">
                 <param name="android-package"
-                       value="com.homerours.musiccontrols.MusicControls"/>
+                       value="com.xtraball.musiccontrols.MusicControls"/>
             </feature>
         </config-file>
 
         <config-file target="app/src/main/AndroidManifest.xml"
                      parent="/*">
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-            <uses-permission android:name="android.permission.BLUETOOTH"/>
             <uses-permission android:name="android.permission.WAKE_LOCK"/>
             <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
             <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
         </config-file>
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-            <service android:name="com.homerours.musiccontrols.MusicControlsNotificationKiller"></service>
+            <service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
+            <service android:enabled="true"
+                     android:exported="false"
+                     android:name="com.xtraball.musiccontrols.MusicControlsWakeLock" />
         </config-file>
 
-        <source-file src="src/android/MusicControls.java" target-dir="app/src/main/java/com/homerours/musiccontrols"/>
-        <source-file src="src/android/MediaSessionCallback.java" target-dir="app/src/main/java/com/homerours/musiccontrols"/>
+        <source-file src="src/android/MusicControls.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
+        <source-file src="src/android/MediaSessionCallback.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
         <source-file src="src/android/MusicControlsBroadcastReceiver.java"
-                     target-dir="app/src/main/java/com/homerours/musiccontrols"/>
-        <source-file src="src/android/MusicControlsNotification.java" target-dir="app/src/main/java/com/homerours/musiccontrols"/>
+                     target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
+        <source-file src="src/android/MusicControlsNotification.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
         <source-file src="src/android/MusicControlsNotificationKiller.java"
-                     target-dir="app/src/main/java/com/homerours/musiccontrols"/>
-        <source-file src="src/android/MusicControlsInfos.java" target-dir="app/src/main/java/com/homerours/musiccontrols"/>
-        <source-file src="src/android/KillBinder.java" target-dir="app/src/main/java/com/homerours/musiccontrols"/>
+                     target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
+        <source-file src="src/android/MusicControlsInfos.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
+        <source-file src="src/android/KillBinder.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>
     </platform>
 
     <!-- ios -->

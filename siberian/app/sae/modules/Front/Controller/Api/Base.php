@@ -26,6 +26,22 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function initAction()
     {
+        //$cachedPure = file_get_contents(__DIR__ . '/init.json');
+        //$response = $this->getResponse();
+        //$response->setHeader('Content-type', 'application/json');
+        //Zend_Controller_Front::getInstance()->returnResponse(true);
+        //$response->sendResponse();
+        //echo $cachedPure;
+        //die;
+
+        //// Abort current request and send immediate response!
+        //if ($send === true) {
+        //    Zend_Controller_Front::getInstance()->returnResponse(true);
+        //    $response->sendResponse();
+        //    echo $json;
+        //    die;
+        //}
+
         /** Caching each block independently, to optimize loading */
         $application = $this->getApplication();
         $application->checkForUpgrades();
@@ -406,6 +422,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'position' => (integer) $optionValue->getPosition(),
                         'homepage' => ($optionValue->getFolderCategoryId() === null),
                         'settings' => $settings,
+                        'lazy_load' => $optionValue->getLazyLoad(),
+                        'open_callback_class' => $optionValue->getOpenCallbackClass(),
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];

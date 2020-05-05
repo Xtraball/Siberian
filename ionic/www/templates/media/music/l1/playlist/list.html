@@ -32,9 +32,9 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <div class="row row-no-padding"
+        <div class="list row"
              ng-repeat="playlists in playlists.paged_playlists">
-            <div class="list col-34 col-offset-10"
+            <div class="card col-50"
                  ng-repeat="playlist in playlists"
                  ng-click="showPlaylistAlbums(playlist)">
                 <div class="item item-image item-custom">

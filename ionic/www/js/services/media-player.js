@@ -12,7 +12,7 @@ angular
     var service = {
         media: null,
         isInitialized: false,
-        isMinimized: false,
+        isMinimized: true,
         isPlaying: false,
         isRadio: false,
         isShuffling: false,
@@ -22,45 +22,13 @@ angular
         tracks: [],
         currentIndex: 0,
         currentTrack: null,
+        currentTab: 'cover',
         duration: 0,
         elapsedTime: 0,
-        playlistModal: null,
+        playerModal: null,
+        playerModalIsOpen: false,
         value_id: null,
         useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
-    };
-
-    /**
-     *
-     * @param scope
-     */
-    service.createModal = function (scope) {
-        if (!service.playlistModal) {
-            Modal
-                .fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
-                    scope: scope
-                })
-                .then(function (modal) {
-                    service.playlistModal = modal;
-                });
-        }
-    };
-
-    /**
-     *
-     */
-    service.openPlaylist = function () {
-        if (service.playlistModal) {
-            service.playlistModal.show();
-        }
-    };
-
-    /**
-     *
-     */
-    service.closePlaylist = function () {
-        if (service.playlistModal) {
-            service.playlistModal.hide();
-        }
     };
 
     service.loading = function () {
@@ -112,27 +80,26 @@ angular
         }
     };
 
-    service.init = function (tracks_loader, isRadio, track_index) {
+    service.init = function (tracksLoader, isRadio, trackIndex) {
         // Destroy service when changing media feature!
         if (service.value_id !== $stateParams.value_id) {
             service.destroy();
         }
 
-        if (service.media && (service.currentTrack.streamUrl !== tracks_loader.tracks[track_index].streamUrl)) {
+        if (service.media && (service.currentTrack.streamUrl !== tracksLoader.tracks[trackIndex].streamUrl)) {
             service.destroy();
         }
 
         if (!service.media) {
             service.value_id = $stateParams.value_id;
             service.isRadio = isRadio;
-            service.currentIndex = track_index;
+            service.currentIndex = trackIndex;
 
-            if (tracks_loader) {
-                service.tracks = tracks_loader.tracks;
+            if (tracksLoader) {
+                service.tracks = tracksLoader.tracks;
             }
         }
 
-        service.isInitialized = true;
         service.openPlayer();
     };
 
@@ -152,7 +119,6 @@ angular
             $log.error("Something went wrong when trying to disable battery optimizations!");
             $log.error(e);
         }
-
 
         if (service.media) {
             service.media.pause();
@@ -179,10 +145,13 @@ angular
 
         // Setting the albumCover image
         if (service.currentTrack.albumCover) {
-            service.currentTrack.albumCover = service.currentTrack.albumCover.replace('100x100bb', $window.innerWidth + 'x' + $window.innerWidth + 'bb');
+            service.currentTrack.albumCover = service.currentTrack.albumCover
+                .replace('100x100bb', $window.innerWidth + 'x' + $window.innerWidth + 'bb');
         }
 
         service.isStream = service.isRadio;
+
+        // Some debug
         $log.debug(service.currentTrack);
 
         service.media = new MediaNative(
@@ -190,16 +159,16 @@ angular
             function (success) {
                 // success is media end
                 service.next();
-                console.log('MediaNative success', success);
             },
             function (error) {
                 // an error occured inform the user
                 Dialog.alert('Error', 'something went wrong while loading the media.', 'OK', -1);
-                console.log('MediaNative error', error);
             },
             function (change) {
                 // something changed, update controls & infos
-                console.log('MediaNative change', change);
+                service.media.getDuration(function () {
+                    service.duration = service.media._duration;
+                }, function () {});
             });
 
         service.play();
@@ -211,14 +180,21 @@ angular
     };
 
     service.reset = function () {
-        service.media.release();
+        if (service.media != null) {
+            service.media.release();
+        }
         service.media = null;
         service.seekbarTimer = null;
         service.isShuffling = false;
         service.isInitialized = false;
-
-        service.isMinimized = false;
         $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
+
+        // Clear player modal!
+        if (service.playerModal !== null) {
+            service.playerModal.remove();
+            service.playerModal = null;
+            service.playerModalIsOpen = false;
+        }
 
         service.repeatType = null;
         service.currentIndex = 0;
@@ -246,19 +222,48 @@ angular
     };
 
     service.openPlayer = function () {
-        $state.go("media-player", {
-            value_id: service.value_id
-        });
+        if (service.isInitialized) {
+            service.openPlayerModal('cover');
+        }
+        Modal
+            .fromTemplateUrl('templates/media/music/l1/player/modal/player.html', {
+                scope: angular.extend($rootScope.$new(true),  {
+                    close: service.closePlayerModal
+                })
+            })
+            .then(function (modal) {
+                service.isInitialized = true;
+                service.playerModal = modal;
 
-        service.isMinimized = false;
+                if (!service.media) {
+                    $timeout(function () {
+                        service.preStart();
+                        service.start();
+                    }, 1000);
+                }
 
-        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
+                service.openPlayerModal('cover');
+            });
+    };
 
-        if (!service.media) {
-            $timeout(function () {
-                service.preStart();
-                service.start();
-            }, 1000);
+    service.openPlayerModal = function (tab) {
+        service.currentTab = tab === undefined ? 'cover' : tab;
+        if (service.playerModalIsOpen) {
+            return;
+        }
+        if (service.playerModal !== null) {
+            service.playerModal.show();
+            service.playerModalIsOpen = true;
+        }
+    };
+
+    service.closePlayerModal = function () {
+        if (!service.playerModalIsOpen) {
+            return;
+        }
+        if (service.playerModal !== null) {
+            service.playerModal.hide();
+            service.playerModalIsOpen = false;
         }
     };
 
@@ -370,7 +375,7 @@ angular
             service.media.pause();
             service.isPlaying = false;
         }
-        service.media.seekTo(position);
+        service.media.seekTo(position * 1000);
         if (!service.isPlaying) {
             service.playPause();
         }
@@ -415,6 +420,8 @@ angular
                 hasNext = false;
             }
 
+            service.media.getCurrentPosition(function () {}, function () {});
+
             var mcDictionnary = {
                 track: service.currentTrack.name,
                 artist: service.currentTrack.artistName,
@@ -428,10 +435,10 @@ angular
 
                 // iOS only, optional
                 album: service.currentTrack.albumName,
-                duration: (service && service.media && service.media.getDuration()) ?
-                    service.media.getDuration() * 1 : 0,
-                elapsed: (service && service.media && service.media.getCurrentPosition()) ?
-                    service.media.getCurrentPosition() * 1 : 0,
+                duration: (service && service.media && service.media._duration) ?
+                    service.media._duration * 1 : 0,
+                elapsed: (service && service.media && service.media._position) ?
+                    service.media._position * 1 : 0,
 
                 // Android only, optional
                 ticker: $translate.instant('Now playing ') + service.currentTrack.name
@@ -454,7 +461,10 @@ angular
         service.seekbarTimer = $interval(function () {
             try {
                 if (service.isPlaying) {
-                    service.elapsedTime = service.media.getCurrentPosition();
+                    service.media.getCurrentPosition(
+                        function () {
+                            service.elapsedTime = service.media._position;
+                        }, function () {});
                 }
 
                 if (!service.isRadio &&
@@ -470,49 +480,6 @@ angular
                 $interval.cancel(service.seekbarTimer);
             }
         }, 1000);
-    };
-
-    service.goBack = function (radio, destroy) {
-        if (radio && destroy !== undefined) {
-            // l1_fixed && l9 needs another behavior!
-            HomepageLayout.getFeatures()
-                .then(function (features) {
-                    var localFeatures = features;
-                    if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst &&
-                        (localFeatures && localFeatures.first_option !== false)) {
-                        var featIndex = 0;
-                        for (var fi = 0; fi < localFeatures.options.length; fi = fi + 1) {
-                            var feat = localFeatures.options[fi];
-                            // Don't load unwanted features on first page!
-                            if (['code_scan', 'radio', 'padlock', 'tabbar_account'].indexOf(feat.code) === -1) {
-                                featIndex = fi;
-                                break;
-                            }
-                        }
-
-                        if (localFeatures.options[featIndex].path !== $location.path()) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
-
-                            $location.path(localFeatures.options[featIndex].path).replace();
-                        } else {
-                            // do nothing, we will stay on the same page
-                        }
-                    } else {
-                        $timeout(function () {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
-                            $state.go('home');
-                        });
-                    }
-                });
-        } else {
-            $ionicHistory.goBack(-1);
-        }
     };
 
     return service;

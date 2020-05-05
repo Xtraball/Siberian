@@ -18,16 +18,18 @@ $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
 $data = array(
-    'library_id'    => $result["library_id"],
-    'icon_id'       => $result["icon_id"],
-    'code'          => "radio",
-    'name'          => $name,
-    'model'         => "Radio_Model_Radio",
-    'desktop_uri'   => "radio/application/",
-    'mobile_uri'    => "radio/mobile_radio/",
-    'only_once'     => 0,
-    'is_ajax'       => 1,
-    'position'      => 105
+    'library_id' => $result['library_id'],
+    'icon_id' => $result['icon_id'],
+    'code' => 'radio',
+    'name' => $name,
+    'model' => 'Radio_Model_Radio',
+    'desktop_uri' => 'radio/application/',
+    'mobile_uri' => 'radio/mobile_radio/',
+    'only_once' => 0,
+    'lazy_load' => 'media,radio',
+    'open_callback_class' => 'Radio',
+    'is_ajax' => 1,
+    'position' => 105
 );
 
 $option = Siberian_Feature::install($category, $data, array('code'));

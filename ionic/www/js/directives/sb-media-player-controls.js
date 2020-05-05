@@ -14,15 +14,19 @@ angular
                 player: MediaPlayer
             });
 
-            MediaPlayer.createModal($scope);
+            $scope.openPlayerModal = function (tab) {
+                MediaPlayer.openPlayerModal(tab);
+            };
 
-            $scope.openPlayer = function () {
-                MediaPlayer.openPlayer();
+            $scope.closePlayerModal = function () {
+                MediaPlayer.closePlayerModal();
             };
 
             $scope.duration = function () {
-                if ($scope.player && $scope.player.media && $scope.player.media.duration) {
-                    return $filter('seconds_to_minutes')($scope.player.media.duration);
+                if ($scope.player &&
+                    $scope.player.media &&
+                    $scope.player.media._duration) {
+                    return $filter('seconds_to_minutes')(Math.floor($scope.player.media._duration));
                 }
                 return '0:00';
             };
@@ -32,16 +36,10 @@ angular
             };
 
             $scope.prev = function () {
-                if (!MediaPlayer.is_minimized) {
-                    MediaPlayer.loading();
-                }
                 MediaPlayer.prev();
             };
 
             $scope.next = function () {
-                if (!MediaPlayer.is_minimized) {
-                    MediaPlayer.loading();
-                }
                 MediaPlayer.next();
             };
 
@@ -69,31 +67,18 @@ angular
                 MediaPlayer.shuffle();
             };
 
-            // Playlist modal
-            $scope.openPlaylist = function () {
-                MediaPlayer.openPlaylist();
-            };
-
-            $scope.goBackMedia = function () {
-                MediaPlayer.goBack(MediaPlayer.is_radio, true);
-            };
-
-            $scope.closePlaylist = function () {
-                MediaPlayer.closePlaylist();
-            };
-
             $scope.destroy = function (origin) {
                 MediaPlayer.destroy(origin);
             };
 
             $scope.selectTrack = function (index) {
-                MediaPlayer.closePlaylist();
+                MediaPlayer.currentTab = 'cover';
 
                 $timeout(function () {
                     MediaPlayer.loading();
-                    MediaPlayer.current_index = index;
+                    MediaPlayer.currentIndex = index;
 
-                    MediaPlayer.pre_start();
+                    MediaPlayer.preStart();
                     MediaPlayer.start();
                 }, 500);
             };

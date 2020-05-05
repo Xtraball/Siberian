@@ -1,4 +1,4 @@
-package com.homerours.musiccontrols;
+package com.xtraball.musiccontrols;
 
 import org.json.JSONArray;
 import org.json.JSONException;

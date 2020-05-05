@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .factory('Radio', function ($pwaRequest) {
+    .factory('Radio', function ($pwaRequest, MusicTracksLoader, MediaPlayer) {
         var factory = {
             value_id: null,
             extendedOptions: {}
@@ -46,6 +46,23 @@ angular
                     value_id: this.value_id
                 }
             }, factory.extendedOptions));
+        };
+
+        factory.openCallback = function (feature) {
+            factory.setValueId(feature.value_id);
+            factory
+                .find()
+                .then(function (data) {
+                    var tracksLoader = MusicTracksLoader.loadSingleTrack({
+                        name: data.radio.title,
+                        artistName: '',
+                        streamUrl: data.radio.url,
+                        albumCover: data.radio.background,
+                        albumName: ''
+                    });
+
+                    MediaPlayer.init(tracksLoader, true, 0);
+                });
         };
 
         return factory;

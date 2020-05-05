@@ -2,8 +2,11 @@
      sb-media-player-controls>
     
     <div class="remote-control" 
-         ng-class="{ 'mini-player-radio': player.isRadio, 'mini-player-audio': !player.isRadio }"
-         ng-if="player.isMinimized">
+         ng-class="{
+            'mini-player-radio': player.isRadio,
+            'mini-player-audio': !player.isRadio
+            }"
+         ng-if="player.isMinimized && player.isInitialized">
         <div class="mini-seekbar">
             <!-- seekbar -->
             <div class="seekbar-flex"
@@ -14,7 +17,7 @@
                        type="range"
                        value="{{ player.elapsedTime }}"
                        min="0"
-                       max="{{ player.media.getDuration() }}"
+                       max="{{ player.media._duration }}"
                        ng-model="player.elapsedTime"
                        on-touch="player.willSeek()"
                        on-release="player.seekTo(player.elapsedTime)" />
@@ -29,7 +32,7 @@
 
             <!-- trackname -->
             <div class="mini-trackname">
-                <span ng-click="openPlayer()">
+                <span ng-click="openPlayerModal('cover')">
                     {{ player.currentTrack.name }}<span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
                 </span>
                 <button class="mini-button button button-clear button-light pull-right"
@@ -83,13 +86,16 @@
                 <i class="icon ion-ios-skipforward"></i>
             </button>
             <button class="button button-clear button-light"
-                    ng-click="openPlaylist()"
+                    ng-click="openPlayerModal('playlist')"
                     ng-disabled="player.isRadio">
                 <i class="icon ion-android-menu"></i>
             </button>
             <button class="button button-clear button-light"
-                    ng-click="openPlayer()">
-                <i class="icon ion-arrow-expand"></i>
+                    ng-click="player.playerModalIsOpen ? closePlayerModal() : openPlayerModal('cover')">
+                <i ng-class="{
+                    'icon ion-arrow-expand': !player.playerModalIsOpen,
+                    'icon ion-arrow-shrink': player.playerModalIsOpen
+                    }"></i>
             </button>
         </div>
     </div>

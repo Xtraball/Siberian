@@ -8,20 +8,22 @@ angular
     .module('starter')
     .controller('MusicPlaylistsController', function ($ionicHistory, $location, $q, $rootScope, $scope, $state, $stateParams,
                                                       $window, Application, MusicAlbum, MusicPlaylist,
-                                                      MusicTracksLoader, MediaPlayer) {
+                                                      MusicTracksLoader, MediaPlayer, MusicTrack) {
 
         angular.extend($scope, {
             is_loading: true,
             value_id: $stateParams.value_id,
-            activeTab: "playlists"
+            activeTab: 'playlists'
         });
 
         MusicPlaylist.value_id = $stateParams.value_id;
         MusicAlbum.value_id = $stateParams.value_id;
+        MusicTrack.value_id = $stateParams.value_id;
 
         $scope.tracksLoader = null;
 
-        MusicPlaylist.findPageTitle()
+        MusicPlaylist
+            .findPageTitle()
             .then(function (data) {
                 $scope.page_title = data.page_title;
             });
@@ -142,7 +144,7 @@ angular
 
     }).controller("MusicPlaylistAlbumsController", function ($ionicScrollDelegate, $location, $rootScope, $stateParams,
                                                              $scope, $state, $window, Application, MusicAlbum,
-                                                             MusicPlaylist, MusicTracksLoader, MediaPlayer) {
+                                                             MusicPlaylist, MusicTracksLoader, MusicTrack, MediaPlayer) {
 
 
     $scope.is_loading = true;
@@ -150,6 +152,7 @@ angular
     $scope.value_id = $stateParams.value_id;
     MusicPlaylist.value_id = $stateParams.value_id;
     MusicAlbum.value_id = $stateParams.value_id;
+    MusicTrack.value_id = $stateParams.value_id;
     window.$ionicScrollDelegate = $ionicScrollDelegate;
 
     $scope.tracksLoader = null;

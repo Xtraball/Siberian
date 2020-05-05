@@ -3,32 +3,7 @@
           hide-back-button="true"
           class="audio-player">
 
-    <ion-nav-buttons side="left">
-        <button class="button back-button buttons button-clear header-item"
-                ng-click="goBackMedia()"></button>
-    </ion-nav-buttons>
 
-    <ion-nav-buttons side="secondary">
-        <button class="button button-clear"
-                ng-click="purchase()"
-                ng-hide="player.isRadio || !player.currentTrack.purchaseUrl">
-            <i class="icon ion-ios-cart"></i>
-        </button>
-        <button class="button button-clear"
-                ng-click="openPlaylist()"
-                ng-hide="player.isRadio">
-            <i class="icon ion-navicon"></i>
-        </button>
-        <button class="button button-clear"
-                ng-if="!isWebview"
-                ng-click="share()">
-            <i class="icon ion-ios-upload-outline"></i>
-        </button>
-        <button class="button button-clear"
-                ng-click="destroy('player')">
-            <i class="icon ion-power-off-thin"></i>
-        </button>
-    </ion-nav-buttons>
 
     <ion-nav-title>
         {{ player.currentTrack.name }}
@@ -37,95 +12,9 @@
     <!-- Album cover -->
     <ion-content
             class="cover"
-            style="background: url('{{ player.current_track.albumCover }}') no-repeat center fixed #000000; -webkit-background-size: cover; background-size: cover;">
+            style="background: url('{{ player.current_track.albumCover }}') no-repeat center fixed #000000; background-size: cover;">
     </ion-content>
 
-    <div class="remote-control" ng-class="{ 'mini-player-radio': player.is_radio, 'mini-player-audio': !player.is_radio }">
-        <div class="mini-seekbar">
-            <!-- seekbar -->
-            <div class="seekbar-flex" ng-if="!player.isRadio">
-                <mini-elapsed elapsed-time="player.elapsedTime"></mini-elapsed>
-                <input name="seekbar"
-                       class="mini-player"
-                       type="range"
-                       value="{{ player.elapsedTime }}"
-                       min="0"
-                       max="{{ player.media.getDuration() }}"
-                       ng-model="player.elapsedTime"
-                       on-touch="player.willSeek()"
-                       on-release="player.seekTo(player.elapsedTime)" />
-                <span class="mini-duration">
-                    {{ duration() }}
-                </span>
-                <button class="mini-button button button-clear button-light"
-                        ng-click="destroy('player')">
-                    <i class="icon ion-power-off"></i>
-                </button>
-            </div>
-
-            <!-- trackname -->
-            <div class="mini-trackname">
-                <span ng-click="openPlayer()">
-                    {{ player.currentTrack.name }}<span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
-                </span>
-                <button class="mini-button button button-clear button-light pull-right"
-                        ng-show="player.isRadio"
-                        ng-click="destroy('player');">
-                    <i class="icon ion-power-off"></i>
-                </button>
-            </div>
-        </div>
-        <div class="mini-controls">
-            <!-- controls -->
-            <button class="button button-clear button-light relative"
-                    ng-click="repeat()"
-                    ng-class="{ 'button-active button-positive': player.repeatType }"
-                    ng-disabled="player.isRadio">
-                <i class="icon ion-refresh"></i>
-                <span ng-show="player.repeatType == 'one'"
-                      ng-class="{ 'repeat-one': player.repeatType == 'one' }">1</span>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="shuffle()"
-                    ng-class="{ 'button-active button-positive': player.isShuffling }"
-                    ng-disabled="player.isRadio">
-                <i class="icon ion-shuffle"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="prev()"
-                    ng-disabled="(player.currentIndex == 0 || player.isRadio) && !player.repeatType">
-                <i class="icon ion-ios-skipbackward"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="backward()"
-                    ng-disabled="player.isRadio">
-                <i class="icon ion-ios-rewind"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="playPause()">
-                <i class="icon"
-                   ng-class="{ 'ion-play': !player.is_playing, 'ion-ios-pause': player.is_playing }"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="forward()"
-                    ng-disabled="player.isRadio">
-                <i class="icon ion-ios-fastforward"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="next()"
-                    ng-disabled="(player.currentIndex == (player.tracks.length - 1) || player.isRadio) && !player.repeatType">
-                <i class="icon ion-ios-skipforward"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="openPlaylist()"
-                    ng-disabled="player.isRadio">
-                <i class="icon ion-android-menu"></i>
-            </button>
-            <button class="button button-clear button-light"
-                    ng-click="goBackMedia()">
-                <i class="icon ion-arrow-shrink"></i>
-            </button>
-        </div>
-    </div>
+    <sb-media-mini-player></sb-media-mini-player>
 
 </ion-view>

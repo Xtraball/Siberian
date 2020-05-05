@@ -193,34 +193,6 @@ MusicControlsInfo * musicControlsSettings;
 
 }
 
-- (void) nextTrackEvent:(MPRemoteCommandEvent *)event {
-    NSString * action = @"music-controls-next";
-    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
-}
-
-- (void) prevTrackEvent:(MPRemoteCommandEvent *)event {
-    NSString * action = @"music-controls-previous";
-    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
-}
-
-- (void) pauseEvent:(MPRemoteCommandEvent *)event {
-    NSString * action = @"music-controls-pause";
-    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
-}
-
-- (void) playEvent:(MPRemoteCommandEvent *)event {
-    NSString * action = @"music-controls-play";
-    NSString * jsonAction = [NSString stringWithFormat:@"{\"message\":\"%@\"}", action];
-    CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonAction];
-    [self.commandDelegate sendPluginResult:pluginResult callbackId:[self latestEventCallbackId]];
-}
-
 //Handle all other remote control events
 - (void) handleMusicControlsNotification: (NSNotification *) notification {
     UIEvent * receivedEvent = notification.object;

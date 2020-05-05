@@ -49,7 +49,7 @@ angular
         }
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
+    self.$get = function ($injector, $ocLazyLoad, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
                           Padlock, Modal, Codescan) {
         var HomepageLayout = {};
@@ -106,6 +106,25 @@ angular
             }
 
             switch (true) {
+                // Features can have a custom callback method instead of states!
+                case (feature.open_callback_class !== null):
+                    try {
+                        var files = feature.lazy_load
+                            .split(',')
+                            .map(function (value) {
+                                return './dist/packed/' + value + '.bundle.min.js';
+                            });
+                        $ocLazyLoad
+                            .load(files)
+                            .then(function () {
+                                $injector.get(feature.open_callback_class).openCallback(feature);
+                            });
+                    } catch (e) {
+                        $log.error('custom feature callback error', e, feature);
+                    }
+
+                    break;
+
                 case (feature.code === 'tabbar_account'):
                     Analytics.storePageOpening({
                         id: 0

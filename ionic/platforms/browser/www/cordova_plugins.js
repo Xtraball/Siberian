@@ -295,6 +295,22 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/MediaNative/www/MediaError.js",
+        "id": "MediaNative.MediaError",
+        "pluginId": "MediaNative",
+        "clobbers": [
+            "MediaError"
+        ]
+    },
+    {
+        "file": "plugins/MediaNative/www/browser/Media.js",
+        "id": "MediaNative.MediaNative",
+        "pluginId": "MediaNative",
+        "clobbers": [
+            "MediaNative"
+        ]
+    },
+    {
         "file": "plugins/Navigator/www/navigator.js",
         "id": "Navigator.Navigator",
         "pluginId": "Navigator",
@@ -329,6 +345,7 @@ module.exports.metadata =
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
     "MusicControls": "3.0.4",
+    "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0"
 }

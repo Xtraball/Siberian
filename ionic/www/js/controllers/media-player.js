@@ -20,15 +20,15 @@ angular
             MediaPlayer.goBack(MediaPlayer.isRadio, true);
         };
 
-        // When leaving the media (back button, or another state
-        $scope.$on('$destroy', function () {
-            if (MediaPlayer.isInitialized) {
-                MediaPlayer.isMinimized = true;
-                $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {
-                    isRadio: MediaPlayer.isRadio
-                });
-            }
-        });
+        // When leaving the media (back button, or another state)
+        //$scope.$on('$destroy', function () {
+        //    if (MediaPlayer.isInitialized) {
+        //        MediaPlayer.isMinimized = true;
+        //        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {
+        //            isRadio: MediaPlayer.isRadio
+        //        });
+        //    }
+        //});
 
         $scope.purchase = function () {
             if ($rootScope.isNotAvailableOffline()) {
