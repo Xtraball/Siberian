@@ -9,10 +9,6 @@
         "parents": {
           "/*": [
             {
-              "xml": "<feature name=\"Badge\"><param name=\"browser-package\" value=\"Badge\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"browser-package\" value=\"BarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -41,9 +37,6 @@
     "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Badge": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "BarcodeScanner": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -57,9 +50,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "InAppBrowser": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Keyboard": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
@@ -81,28 +71,6 @@
       "file": "plugins/Promises/www/promise.js",
       "id": "Promises.Promise",
       "pluginId": "Promises",
-      "runs": true
-    },
-    {
-      "file": "plugins/Badge/www/badge.js",
-      "id": "Badge.Badge",
-      "pluginId": "Badge",
-      "clobbers": [
-        "cordova.plugins.notification.badge"
-      ]
-    },
-    {
-      "file": "plugins/Badge/src/browser/favico.min.js",
-      "id": "Badge.Badge.Favico",
-      "pluginId": "Badge",
-      "clobbers": [
-        "cordova.plugins.notification.badge.Favico"
-      ]
-    },
-    {
-      "file": "plugins/Badge/src/browser/BadgeProxy.js",
-      "id": "Badge.Badge.Proxy",
-      "pluginId": "Badge",
       "runs": true
     },
     {
@@ -412,13 +380,11 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
-    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "Camera": "4.0.3",
     "Device": "2.0.2",
     "File": "6.0.1",
-    "InAppBrowser": "3.1.1-dev",
-    "Keyboard": "2.2.0",
+    "InAppBrowser": "3.0.0",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",

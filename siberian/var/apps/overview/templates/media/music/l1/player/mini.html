@@ -1,18 +1,26 @@
-<div class="audio-player mini" sb-media-player-controls>
-    <div class="remote-control" ng-class="{ 'mini-player-radio': player.is_radio, 'mini-player-audio': !player.is_radio }" ng-if="player.is_minimized">
+<div class="audio-player mini" 
+     sb-media-player-controls>
+    
+    <div class="remote-control" 
+         ng-class="{
+            'mini-player-radio': player.isRadio,
+            'mini-player-audio': !player.isRadio
+            }"
+         ng-if="player.isMinimized && player.isInitialized">
         <div class="mini-seekbar">
             <!-- seekbar -->
-            <div class="seekbar-flex" ng-if="!player.is_radio">
-                <mini-elapsed elapsed-time="player.elapsed_time"></mini-elapsed>
+            <div class="seekbar-flex"
+                 ng-if="!player.isRadio">
+                <mini-elapsed elapsed-time="player.elapsedTime"></mini-elapsed>
                 <input name="seekbar"
                        class="mini-player"
                        type="range"
-                       value="{{ player.elapsed_time }}"
+                       value="{{ player.elapsedTime }}"
                        min="0"
-                       max="{{ player.media.duration }}"
-                       ng-model="player.elapsed_time"
+                       max="{{ player.media._duration }}"
+                       ng-model="player.elapsedTime"
                        on-touch="player.willSeek()"
-                       on-release="player.seekTo(player.elapsed_time)" />
+                       on-release="player.seekTo(player.elapsedTime)" />
                 <span class="mini-duration">
                     {{ duration() }}
                 </span>
@@ -24,11 +32,11 @@
 
             <!-- trackname -->
             <div class="mini-trackname">
-                <span ng-click="openPlayer()">
-                    {{ player.current_track.name }}<span ng-show="!player.is_radio"> - {{ player.current_track.artistName }}</span>
+                <span ng-click="openPlayerModal('cover')">
+                    {{ player.currentTrack.name }}<span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
                 </span>
                 <button class="mini-button button button-clear button-light pull-right"
-                        ng-show="player.is_radio"
+                        ng-show="player.isRadio"
                         ng-click="destroy('mini');">
                     <i class="icon ion-power-off"></i>
                 </button>
@@ -38,51 +46,56 @@
             <!-- controls -->
             <button class="button button-clear button-light relative"
                     ng-click="repeat()"
-                    ng-class="{ 'button-active button-positive': player.repeat_type }"
-                    ng-disabled="player.is_radio">
+                    ng-class="{ 'button-active button-positive': player.repeatType }"
+                    ng-disabled="player.isRadio">
                 <i class="icon ion-refresh"></i>
-                <span ng-show="player.repeat_type == 'one'"
-                      ng-class="{ 'repeat-one': player.repeat_type == 'one' }">1</span>
+                <span ng-show="player.repeatType == 'one'"
+                      ng-class="{ 'repeat-one': player.repeatType == 'one' }">1</span>
             </button>
             <button class="button button-clear button-light"
                     ng-click="shuffle()"
-                    ng-class="{ 'button-active button-positive': player.is_shuffling }"
-                    ng-disabled="player.is_radio">
+                    ng-class="{ 'button-active button-positive': player.isShuffling }"
+                    ng-disabled="player.isRadio">
                 <i class="icon ion-shuffle"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="prev()"
-                    ng-disabled="(player.current_index == 0 || player.is_radio) && !player.repeat_type">
+                    ng-disabled="(player.currentIndex == 0 || player.isRadio) && !player.repeatType">
                 <i class="icon ion-ios-skipbackward"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="backward()"
-                    ng-disabled="player.is_radio">
+                    ng-disabled="player.isRadio">
                 <i class="icon ion-ios-rewind"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="playPause()">
                 <i class="icon"
-                   ng-class="{ 'ion-play': !player.is_playing, 'ion-ios-pause': player.is_playing }"></i>
+                   ng-class="{
+                        'ion-play': !player.isPlaying,
+                        'ion-ios-pause': player.isPlaying }"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="forward()"
-                    ng-disabled="player.is_radio">
+                    ng-disabled="player.isRadio">
                 <i class="icon ion-ios-fastforward"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="next()"
-                    ng-disabled="(player.current_index == (player.tracks.length - 1) || player.is_radio) && !player.repeat_type">
+                    ng-disabled="(player.currentIndex == (player.tracks.length - 1) || player.isRadio) && !player.repeatType">
                 <i class="icon ion-ios-skipforward"></i>
             </button>
             <button class="button button-clear button-light"
-                    ng-click="openPlaylist()"
-                    ng-disabled="player.is_radio">
+                    ng-click="openPlayerModal('playlist')"
+                    ng-disabled="player.isRadio">
                 <i class="icon ion-android-menu"></i>
             </button>
             <button class="button button-clear button-light"
-                    ng-click="openPlayer()">
-                <i class="icon ion-arrow-expand"></i>
+                    ng-click="player.playerModalIsOpen ? closePlayerModal() : openPlayerModal('cover')">
+                <i ng-class="{
+                    'icon ion-arrow-expand': !player.playerModalIsOpen,
+                    'icon ion-arrow-shrink': player.playerModalIsOpen
+                    }"></i>
             </button>
         </div>
     </div>

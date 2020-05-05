@@ -96,14 +96,13 @@ var IAB = {
                 browserWrap = document.createElement('div');
                 browserWrap.style.position = 'absolute';
                 browserWrap.style.top = '0';
-                browserWrap.setAttribute('class', 'inappbrowser-modal');
                 browserWrap.style.left = '0';
                 browserWrap.style.boxSizing = 'border-box';
-                browserWrap.style.borderWidth = '0';
+                browserWrap.style.borderWidth = '40px';
                 browserWrap.style.width = '100vw';
                 browserWrap.style.height = '100vh';
-                browserWrap.style.zIndex = '65536';
-                browserWrap.style.backgroundColor = 'lightgrey';
+                browserWrap.style.borderStyle = 'solid';
+                browserWrap.style.borderColor = 'rgba(0,0,0,0.25)';
 
                 browserWrap.onclick = function () {
                     setTimeout(function () {
@@ -119,83 +118,62 @@ var IAB = {
             }
 
             popup = document.createElement('iframe');
-            popup.setAttribute('rel', 'iab-iframe');
-            popup.style.border = '0';
+            popup.style.borderWidth = '0px';
             popup.style.width = '100%';
-            popup.style.margin = '0';
-            popup.style.width = '100%';
-            popup.style.top = '0';
-            popup.style.left = '0';
-            popup.style.position = 'absolute';
-            popup.style.background = 'url(/app/sae/design/desktop/flat/images/customization/ajax/ajax-loader-black.gif) white';
-            popup.style.backgroundRepeat = 'no-repeat';
-            popup.style.backgroundPosition = '50% 50%';
 
             browserWrap.appendChild(popup);
 
             if (features.indexOf('location=yes') !== -1 || features.indexOf('location') === -1) {
-                popup.style.height = 'calc(100% - 28px)';
+                popup.style.height = 'calc(100% - 60px)';
+                popup.style.marginBottom = '-4px';
 
                 navigationButtonsDiv = document.createElement('div');
-                navigationButtonsDiv.setAttribute('class', 'iab-footer-nav');
+                navigationButtonsDiv.style.height = '60px';
+                navigationButtonsDiv.style.backgroundColor = '#404040';
                 navigationButtonsDiv.style.zIndex = '999';
-                navigationButtonsDiv.style.height = '28px';
-                navigationButtonsDiv.style.backgroundColor = '#e0e0e0';
-                navigationButtonsDiv.style.position = 'absolute';
-                navigationButtonsDiv.style.bottom = '0';
-                navigationButtonsDiv.style.left = '0';
-                navigationButtonsDiv.style.width = '100%';
-
                 navigationButtonsDiv.onclick = function (e) {
                     e.cancelBubble = true;
                 };
 
                 navigationButtonsDivInner = document.createElement('div');
-                navigationButtonsDivInner.style.marginTop = '-3px';
-                navigationButtonsDivInner.style.height = '28px';
+                navigationButtonsDivInner.style.paddingTop = '10px';
+                navigationButtonsDivInner.style.height = '50px';
+                navigationButtonsDivInner.style.width = '160px';
+                navigationButtonsDivInner.style.margin = '0 auto';
+                navigationButtonsDivInner.style.backgroundColor = '#404040';
                 navigationButtonsDivInner.style.zIndex = '999';
                 navigationButtonsDivInner.onclick = function (e) {
                     e.cancelBubble = true;
                 };
 
                 backButton = document.createElement('button');
-                backButton.setAttribute('rel', 'iab-button');
-                backButton.setAttribute('class', 'inappbrowser-footer-back iab-footer-button');
-                backButton.style.border = '0';
-                backButton.style.background = 'none';
-                backButton.style.fontSize = '24px';
-                backButton.style.color = '#147efb';
-                backButton.style.marginLeft = '20px';
+                backButton.style.width = '40px';
+                backButton.style.height = '40px';
+                backButton.style.borderRadius = '40px';
 
-                backButton.innerHTML = '<i class="icon ion-ios-arrow-back"></i>';
+                backButton.innerHTML = '←';
                 backButton.addEventListener('click', function (e) {
                     if (popup.canGoBack) { popup.goBack(); }
                 });
 
                 forwardButton = document.createElement('button');
-                forwardButton.setAttribute('rel', 'iab-button');
-                forwardButton.setAttribute('class', 'inappbrowser-footer-forward iab-footer-button');
-                forwardButton.style.border = '0';
-                forwardButton.style.background = 'none';
-                forwardButton.style.fontSize = '24px';
-                forwardButton.style.color = '#147efb';
+                forwardButton.style.marginLeft = '20px';
+                forwardButton.style.width = '40px';
+                forwardButton.style.height = '40px';
+                forwardButton.style.borderRadius = '40px';
 
-                forwardButton.innerHTML = '<i class="icon ion-ios-arrow-forward"></i>';
+                forwardButton.innerHTML = '→';
                 forwardButton.addEventListener('click', function (e) {
                     if (popup.canGoForward) { popup.goForward(); }
                 });
 
                 closeButton = document.createElement('button');
-                closeButton.setAttribute('rel', 'iab-button');
-                closeButton.setAttribute('class', 'inappbrowser-footer-close iab-footer-button');
-                closeButton.style.border = '0';
-                closeButton.style.background = 'none';
-                closeButton.style.fontSize = '24px';
-                closeButton.style.color = '#147efb';
-                closeButton.style.float = 'right';
-                closeButton.style.marginRight = '20px';
+                closeButton.style.marginLeft = '20px';
+                closeButton.style.width = '40px';
+                closeButton.style.height = '40px';
+                closeButton.style.borderRadius = '40px';
 
-                closeButton.innerHTML = '<i class="icon ion-android-close"></i>';
+                closeButton.innerHTML = '✖';
                 closeButton.addEventListener('click', function (e) {
                     setTimeout(function () {
                         IAB.close();

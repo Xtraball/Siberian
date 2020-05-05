@@ -31,6 +31,7 @@
     height: 100%;
     z-index: 9999999;
     box-sizing: border-box;
+    border: 40px solid #bfbfbf;
     border: 40px solid rgba(0, 0, 0, 0.25);
 }
 
@@ -68,6 +69,7 @@
 
 .app-bar-action[disabled] {
     color: gray;
+    /*disable click*/
     pointer-events: none;
 }
 

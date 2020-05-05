@@ -19,7 +19,7 @@
     ],
     "is_ajax": true,
     "compile": true,
-    "lazy_load": "media,radio",
+    "lazy_load": "./dist/packed/media.bundle.min.js,./features/radio/radio.bundle.min.js",
     "open_callback_class": "Radio",
     "use_account": false,
     "only_once": false

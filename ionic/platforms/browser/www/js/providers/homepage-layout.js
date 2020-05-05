@@ -109,13 +109,8 @@ angular
                 // Features can have a custom callback method instead of states!
                 case (feature.open_callback_class !== null):
                     try {
-                        var files = feature.lazy_load
-                            .split(',')
-                            .map(function (value) {
-                                return './dist/packed/' + value + '.bundle.min.js';
-                            });
                         $ocLazyLoad
-                            .load(files)
+                            .load(feature.lazy_load.split(','))
                             .then(function () {
                                 $injector.get(feature.open_callback_class).openCallback(feature);
                             });

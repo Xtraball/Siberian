@@ -7,11 +7,7 @@ var Navigator = {
     navigate: function (onSuccess, onError, to) {
         try {
             if (to[0] && to[1]) {
-                if (DEVICE_TYPE && DEVICE_TYPE === 2) {
-                    window.open("https://maps.apple.com/?q="+to[0]+","+to[1], '_system');
-                } else {
-                    window.open("https://www.google.com/maps/dir/?api=1&destination="+to[0]+","+to[1], '_system');
-                }
+                window.open("https://www.google.com/maps/dir/?api=1&destination="+to[0]+","+to[1], "_system");
             } else {
                 console.error("Latitude and longitude are required.");
             }

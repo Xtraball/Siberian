@@ -1,7 +1,7 @@
 {
   "name": "InAppBrowser",
-  "version": "3.1.1-dev",
-  "description": "Cordova InAppBrowser Plugin",
+  "version": "3.0.0",
+  "description": "Cordova InAppBrowser",
   "types": "./types/index.d.ts",
   "cordova": {
     "id": "InAppBrowser",
@@ -18,7 +18,7 @@
     "url": "https://github.com/apache/cordova-plugin-inappbrowser"
   },
   "bugs": {
-    "url": "https://github.com/apache/cordova-plugin-inappbrowser/issues"
+    "url": "https://issues.apache.org/jira/browse/CB"
   },
   "keywords": [
     "cordova",

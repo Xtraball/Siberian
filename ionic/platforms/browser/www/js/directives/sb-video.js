@@ -65,7 +65,6 @@ angular
                 if((device.platform === 'Android') && parseInt(device.version.substr(0,1)) < 5) {
                     $window.open(scope.video.url, '_system');
                 } else { // iOS or Android >= 5
-                    // Check if it is a youtube/vimeo url
                     if(/^https?:\/\/(www.|player.)?(youtube|vimeo)\./.test(scope.video.url)) {
                         scope.use_iframe = true;
                         $timeout(function() {
