@@ -110,10 +110,6 @@ let debug = true,
         'push': [
             './www/js/controllers/push.js'
         ],
-        'radio': [
-            './www/js/controllers/radio.js',
-            './www/js/factory/radio.js'
-        ],
         'rss': [
             './www/js/controllers/rss.js',
             './www/js/factory/rss.js'
