@@ -441,16 +441,15 @@ angular
                 ticker: $translate.instant('Now playing ') + service.currentTrack.name
             };
 
+            // Update/Listen only if it's created.
             MusicControls.create(mcDictionnary,
                 function () {
-                    $log.debug('success');
+                    MusicControls.subscribe(musicControlsEventsHandler);
+                    MusicControls.listen();
+                    MusicControls.updateIsPlaying(service.isPlaying);
                 }, function () {
                     $log.debug('error');
                 });
-
-            MusicControls.subscribe(musicControlsEventsHandler);
-            MusicControls.listen();
-            MusicControls.updateIsPlaying(service.isPlaying);
         }
     };
 
