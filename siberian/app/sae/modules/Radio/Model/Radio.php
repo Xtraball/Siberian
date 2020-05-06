@@ -17,22 +17,23 @@ class Radio_Model_Radio extends Core_Model_Default
     protected $_db_table = Radio_Model_Db_Table_Radio::class;
 
     /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($value_id)
+    public function getInappStates($valueId): array
     {
 
-        $in_app_states = [
+        $inAppStates = [
             [
-                "state" => "radio",
-                "offline" => false,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'radio',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
                 ],
             ],
         ];
 
-        return $in_app_states;
+        return $inAppStates;
     }
 
     /**
