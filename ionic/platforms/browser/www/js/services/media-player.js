@@ -218,7 +218,8 @@ angular
     };
 
     service.openPlayer = function () {
-        if (service.isInitialized) {
+        if (service.isInitialized ||
+            service.playerModal !== null) {
             service.openPlayerModal('cover');
         }
         Modal
