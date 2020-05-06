@@ -31,15 +31,6 @@ angular
         useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
     };
 
-    service.loading = function () {
-        var message = $translate.instant('Loading', 'media');
-        if (service.isRadio) {
-            message = $translate.instant('Buffering', 'media');
-        }
-
-        Loader.show(message);
-    };
-
     var musicControlsEventsHandler = function (event) {
         var response = JSON.parse(event);
 
@@ -221,6 +212,7 @@ angular
         if (service.isInitialized ||
             service.playerModal !== null) {
             service.openPlayerModal('cover');
+            return;
         }
         Modal
             .fromTemplateUrl('templates/media/music/l1/player/modal/player.html', {
@@ -251,7 +243,8 @@ angular
             service.currentTab = 'cover';
         }
 
-        if (service.playerModalIsOpen) {
+        if (service.playerModal &&
+            service.playerModal.isShown()) {
             return;
         }
         if (service.playerModal !== null) {
@@ -261,7 +254,8 @@ angular
     };
 
     service.closePlayerModal = function () {
-        if (!service.playerModalIsOpen) {
+        if (service.playerModal &&
+            !service.playerModal.isShown()) {
             return;
         }
         if (service.playerModal !== null) {

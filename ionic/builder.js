@@ -93,7 +93,6 @@ let debug = true,
             './www/js/factory/maps.js'
         ],
         'media': [
-            './www/js/controllers/media-player.js',
             './www/js/controllers/music.js',
             './www/js/factory/music.js'
         ],

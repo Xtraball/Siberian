@@ -9,12 +9,28 @@ angular
     .directive('sbMediaPlayerControls', function () {
     return {
         restrict: 'A',
-        controller: function ($scope, $state, $timeout, $filter, MediaPlayer) {
+        controller: function ($scope, $state, $timeout, $filter, MediaPlayer, LinkService, SocialSharing) {
             angular.extend($scope, {
                 player: MediaPlayer
             });
 
             $scope.isNativeApp = isNativeApp;
+
+            $scope.purchase = function () {
+                if (MediaPlayer.currentTrack.purchaseUrl) {
+                    LinkService.openLink(MediaPlayer.currentTrack.purchaseUrl, {}, true);
+                }
+            };
+
+            $scope.share = function () {
+                var content = MediaPlayer.currentTrack.name;
+                if (!MediaPlayer.isRadio) {
+                    content = MediaPlayer.currentTrack.name + ' from ' + MediaPlayer.currentTrack.artistName;
+                }
+                var file = MediaPlayer.currentTrack.albumCover ? MediaPlayer.currentTrack.albumCover : undefined;
+
+                SocialSharing.share(content, undefined, undefined, undefined, file);
+            };
 
             $scope.openPlayerModal = function (tab) {
                 // If the tab is not provided, button works as a toggler!
