@@ -97,7 +97,6 @@ angular
                 MediaPlayer.currentTab = 'cover';
 
                 $timeout(function () {
-                    MediaPlayer.loading();
                     MediaPlayer.currentIndex = index;
 
                     MediaPlayer.preStart();
