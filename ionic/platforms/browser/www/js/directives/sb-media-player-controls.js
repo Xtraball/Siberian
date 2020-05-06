@@ -14,7 +14,13 @@ angular
                 player: MediaPlayer
             });
 
+            $scope.isNativeApp = isNativeApp;
+
             $scope.openPlayerModal = function (tab) {
+                // If the tab is not provided, button works as a toggler!
+                if (tab === undefined) {
+                    tab = $scope.player.currentTab === 'cover' ? 'playlist' : 'cover';
+                }
                 MediaPlayer.openPlayerModal(tab);
             };
 
@@ -67,8 +73,8 @@ angular
                 MediaPlayer.shuffle();
             };
 
-            $scope.destroy = function (origin) {
-                MediaPlayer.destroy(origin);
+            $scope.destroy = function () {
+                MediaPlayer.destroy();
             };
 
             $scope.selectTrack = function (index) {

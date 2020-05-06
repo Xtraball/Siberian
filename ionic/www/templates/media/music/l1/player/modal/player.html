@@ -6,7 +6,7 @@
         <div class="buttons">
             <button class="button button-clear"
                     ng-click="close()">
-                <i class="icon ion-sb-close-modal"></i>
+                <i class="icon ion-arrow-shrink"></i>
             </button>
         </div>
         <h1 class="title title-center header-item">
@@ -17,17 +17,12 @@
             <button class="button button-clear"
                     ng-click="purchase()"
                     ng-hide="player.isRadio || !player.currentTrack.purchaseUrl">
-                <i class="icon ion-ios-cart"></i>
+                <i class="icon ion-ios-cart-outline"></i>
             </button>
             <button class="button button-clear"
-                    ng-click="currentTab == 'playlist'"
-                    ng-hide="player.isRadio">
-                <i class="icon ion-navicon"></i>
-            </button>
-            <button class="button button-clear"
-                    ng-if="!isWebview"
+                    ng-if="isNativeApp"
                     ng-click="share()">
-                <i class="icon ion-ios-upload-outline"></i>
+                <i class="icon ion-android-share-alt"></i>
             </button>
             <button class="button button-clear"
                     ng-click="destroy('player')">

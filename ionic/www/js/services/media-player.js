@@ -63,7 +63,7 @@ angular
                 service.playPause();
                 break;
             case 'music-controls-destroy':
-                service.destroy("player");
+                service.destroy();
                 break;
 
             // Headset events (Android only)
@@ -206,7 +206,7 @@ angular
         }
     };
 
-    service.destroy = function (origin) {
+    service.destroy = function () {
         $interval.cancel(service.seekbarTimer);
         if (service.media) {
             if (service.isPlaying) {
@@ -215,14 +215,11 @@ angular
         }
 
         service.reset();
-
-        if (origin === 'player') {
-            service.goBack(true, true);
-        }
     };
 
     service.openPlayer = function () {
-        if (service.isInitialized) {
+        if (service.isInitialized ||
+            service.playerModal !== null) {
             service.openPlayerModal('cover');
         }
         Modal
@@ -247,7 +244,13 @@ angular
     };
 
     service.openPlayerModal = function (tab) {
-        service.currentTab = tab === undefined ? 'cover' : tab;
+        service.currentTab = (tab === undefined) ? 'cover' : tab;
+
+        // Radio only has cover for now!
+        if (service.isRadio) {
+            service.currentTab = 'cover';
+        }
+
         if (service.playerModalIsOpen) {
             return;
         }
