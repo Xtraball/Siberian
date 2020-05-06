@@ -26,22 +26,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      */
     public function initAction()
     {
-        //$cachedPure = file_get_contents(__DIR__ . '/init.json');
-        //$response = $this->getResponse();
-        //$response->setHeader('Content-type', 'application/json');
-        //Zend_Controller_Front::getInstance()->returnResponse(true);
-        //$response->sendResponse();
-        //echo $cachedPure;
-        //die;
-
-        //// Abort current request and send immediate response!
-        //if ($send === true) {
-        //    Zend_Controller_Front::getInstance()->returnResponse(true);
-        //    $response->sendResponse();
-        //    echo $json;
-        //    die;
-        //}
-
         /** Caching each block independently, to optimize loading */
         $application = $this->getApplication();
         $application->checkForUpgrades();
@@ -100,13 +84,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         ];
 
         // Init is ready, trigger the hook
-        $data = Hook::trigger("app.init.ready", $data);
+        $data = Hook::trigger('app.init.ready', $data);
 
         /** Force no cache */
         $response = $this->getResponse();
-        $response->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-        $response->setHeader("Cache-Control", "post-check=0, pre-check=0", false);
-        $response->setHeader("Pragma", "no-cache");
+        $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->setHeader('Cache-Control', 'post-check=0, pre-check=0', false);
+        $response->setHeader('Pragma', 'no-cache');
 
         $this->_sendJson($data);
     }
