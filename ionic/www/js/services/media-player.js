@@ -8,7 +8,7 @@ angular
     .module('starter')
     .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
                                       $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, Loader, SB) {
+                                      HomepageLayout, Dialog, Modal, SB) {
     var service = {
         media: null,
         isInitialized: false,
@@ -125,11 +125,8 @@ angular
     service.start = function () {
         service.currentTrack = service.tracks[service.currentIndex];
 
-        $log.info(service.currentTrack, service.tracks);
-
         if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
             (service.currentTrack.streamUrl.indexOf('https://') === -1)) {
-            Loader.hide();
             Dialog.alert('Error', 'No current stream to load.', 'OK', -1);
             return;
         }
@@ -164,9 +161,6 @@ angular
 
         service.play();
         service.updateSeekBar();
-
-        Loader.hide();
-
         service.updateMusicControls();
     };
 
@@ -402,20 +396,10 @@ angular
     service.updateMusicControls = function () {
         // For now we will disable music controls for iOS!
         if (service.useMusicControls) {
-            var hasPrev = true;
-            var hasNext = true;
-            if (service.isRadio) {
-                hasPrev = false;
-                hasNext = false;
-            }
+            var hasPrev, hasNext = !service.isRadio;
 
-            if (service.currentIndex === 0) {
-                hasPrev = false;
-            }
-
-            if (service.currentIndex === (service.tracks.length - 1)) {
-                hasNext = false;
-            }
+            hasPrev = service.currentIndex !== 0;
+            hasNext = service.currentIndex !== (service.tracks.length - 1);
 
             service.media.getCurrentPosition(function () {}, function () {});
 
@@ -447,9 +431,7 @@ angular
                     MusicControls.subscribe(musicControlsEventsHandler);
                     MusicControls.listen();
                     MusicControls.updateIsPlaying(service.isPlaying);
-                }, function () {
-                    $log.debug('error');
-                });
+                }, function () {});
         }
     };
 
@@ -475,7 +457,7 @@ angular
                 // Automatically cancel if any error found!
                 $interval.cancel(service.seekbarTimer);
             }
-        }, 1000);
+        }, 500);
     };
 
     return service;
