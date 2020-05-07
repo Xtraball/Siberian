@@ -353,24 +353,12 @@ $schemas['application'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'index' => [
-            'key_name' => 'UNIQUE_KEY_SUBDOMAIN_DOMAIN',
-            'index_type' => 'BTREE',
-            'is_null' => true,
-            'is_unique' => true,
-        ],
     ],
     'subdomain' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'index' => [
-            'key_name' => 'UNIQUE_KEY_SUBDOMAIN_DOMAIN',
-            'index_type' => 'BTREE',
-            'is_null' => true,
-            'is_unique' => true,
-        ],
     ],
     'subdomain_is_validated' => [
         'type' => 'tinyint(1)',
