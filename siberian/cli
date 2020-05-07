@@ -104,6 +104,8 @@ echo color('Siberian CLI', 'blue') . "\n\n";
 try {
     $action = isset($argv[1]) ? $argv[1] : '';
 
+    $GLOBALS['argv'] = $argv;
+
     if (!empty($action)) {
         echo color("[Action] {$action}", 'green') . "\n";
     }
