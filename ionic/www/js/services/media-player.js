@@ -8,7 +8,7 @@ angular
     .module('starter')
     .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
                                       $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, SB) {
+                                      HomepageLayout, Dialog, Modal, SB, Loader) {
     var service = {
         media: null,
         isInitialized: false,
@@ -23,6 +23,7 @@ angular
         currentIndex: 0,
         currentTrack: null,
         currentTab: 'cover',
+        isBuffering: false,
         duration: 0,
         elapsedTime: 0,
         playerModal: null,
@@ -154,9 +155,11 @@ angular
             },
             function (change) {
                 // something changed, update controls & infos
-                service.media.getDuration(function () {
-                    service.duration = service.media._duration;
-                }, function () {});
+                if (service.media !== null) {
+                    service.media.getDuration(function () {
+                        service.duration = service.media._duration;
+                    }, function () {});
+                }
             });
 
         service.play();
@@ -436,12 +439,22 @@ angular
     };
 
     service.updateSeekBar = function () {
+        service.lastTime = -0.001;
         service.seekbarTimer = $interval(function () {
             try {
                 if (service.isPlaying) {
                     service.media.getCurrentPosition(
                         function () {
                             service.elapsedTime = service.media._position;
+
+                            // Buffer handling
+                            if (service.media._position === -0.001 ||
+                                (service.lastTime === service.media._position)) {
+                                service.isBuffering = true;
+                            } else {
+                                service.lastTime = service.media._position;
+                                service.isBuffering = false;
+                            }
                         }, function () {});
                 }
 
