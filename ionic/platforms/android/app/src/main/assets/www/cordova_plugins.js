@@ -409,6 +409,22 @@ module.exports = [
     ]
   },
   {
+    "id": "MediaNative.MediaError",
+    "file": "plugins/MediaNative/www/MediaError.js",
+    "pluginId": "MediaNative",
+    "clobbers": [
+      "MediaError"
+    ]
+  },
+  {
+    "id": "MediaNative.MediaNative",
+    "file": "plugins/MediaNative/www/Media.js",
+    "pluginId": "MediaNative",
+    "clobbers": [
+      "MediaNative"
+    ]
+  },
+  {
     "id": "Navigator.Navigator",
     "file": "plugins/Navigator/www/navigator.js",
     "pluginId": "Navigator",
@@ -455,6 +471,7 @@ module.exports.metadata =
   "Insomnia": "4.3.0",
   "IonicWebview": "4.0.1",
   "MusicControls": "3.0.4",
+  "MediaNative": "5.0.3",
   "Navigator": "0.1.0",
   "Permissions": "1.0.0",
   "Siberian": "1.0.0"

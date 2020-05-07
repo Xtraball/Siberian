@@ -86,6 +86,9 @@
     <feature name="LocalNotification">
         <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
     </feature>
+    <feature name="MediaNative">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
     <feature name="Navigator">
         <param name="android-package" value="com.xtraball.cordova.plugin.Navigator" />
     </feature>
@@ -114,8 +117,8 @@
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
     <chcp>
-        <config-file url="https://anders.xtraball.com/var/apps/ionic/android/app/src/main/assets/www/chcp.json" />
-        <native-interface version="13" />
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="14" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

@@ -1,12 +1,14 @@
-<ion-modal-view class="modal-audio-playlist">
+<ion-modal-view sb-page-background
+                class="modal-audio-playlist">
+
     <ion-header-bar class="bar-custom">
         <div class="buttons">
             <button class="button button-clear"
                     ng-click="closePlaylist()">
-                {{ "Close" | translate }}
+                {{ ::'Close' | translate:'media' }}
             </button>
         </div>
-        <h1 class="title">{{ "Playlist" | translate }}</h1>
+        <h1 class="title">{{ ::'Playlist' | translate:'media' }}</h1>
     </ion-header-bar>
 
     <ion-content>
@@ -14,9 +16,10 @@
             <ion-item class="audio-playlist-item item-custom"
                       ng-repeat="track in player.tracks"
                       ng-click="selectTrack($index)"
-                      ng-class="{ 'playing': $index == player.current_index }">
+                      ng-class="{ 'playing': $index == player.currentIndex }">
                 <div class="audio-playlist-flex">
-                    <img class="audio-playlist-cover" ng-src="{{ track.albumCover }}" />
+                    <img class="audio-playlist-cover"
+                         ng-src="{{ track.albumCover }}" />
                     <div class="audio-playlist-track">
                         <p>
                             <b>{{ track.name }} - {{ track.artistName }}</b>

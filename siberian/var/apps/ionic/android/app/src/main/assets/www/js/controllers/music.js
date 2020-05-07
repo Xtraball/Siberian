@@ -1,102 +1,109 @@
-/*global
- App, BASE_PATH, angular
+/**
+ * MusicPlaylistsController
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
+angular
+    .module('starter')
+    .controller('MusicPlaylistsController', function ($ionicHistory, $location, $q, $rootScope, $scope, $state, $stateParams,
+                                                      $window, Application, MusicAlbum, MusicPlaylist,
+                                                      MusicTracksLoader, MediaPlayer, MusicTrack) {
 
-angular.module("starter").controller("MusicPlaylistsController", function ($ionicHistory, $location, $q, $rootScope, $scope, $state, $stateParams,
-                                                    $window, Application, MusicAlbum, MusicPlaylist,
-                                                    MusicTracksLoader, MediaPlayer) {
-
-    angular.extend($scope, {
-        is_loading      : true,
-        value_id        : $stateParams.value_id,
-        active_tab      : "playlists"
-    });
-
-    MusicPlaylist.value_id = $stateParams.value_id;
-    MusicAlbum.value_id = $stateParams.value_id;
-
-    $scope.tracks_loader = null;
-
-    MusicPlaylist.findPageTitle()
-        .then(function(data) {
-            $scope.page_title = data.page_title;
+        angular.extend($scope, {
+            is_loading: true,
+            value_id: $stateParams.value_id,
+            activeTab: 'playlists'
         });
 
-    $scope.loadContent = function () {
+        MusicPlaylist.value_id = $stateParams.value_id;
+        MusicAlbum.value_id = $stateParams.value_id;
+        MusicTrack.value_id = $stateParams.value_id;
 
-        // retrieve playlists
-        MusicPlaylist.findAll()
+        $scope.tracksLoader = null;
+
+        MusicPlaylist
+            .findPageTitle()
             .then(function (data) {
-                // retrieve albums for each playlist
-                var promises = data.playlists.reduce(function (promises, playlist) {
-                    promises.push(MusicAlbum.findByPlaylist(playlist.id));
-                    return promises;
-                }, []);
+                $scope.page_title = data.page_title;
+            });
 
-                // synchronize all queries
-                $q.all(promises).then(function (playlistsAlbums) {
+        $scope.loadContent = function () {
 
-                    $scope.playlists = data.playlists.reduce(function (playlists, playlist) {
-                        // add images from the 4 first albums
-                        var index = playlists.length;
-                        playlist.albums = playlistsAlbums[index].albums;
-                        playlist.images = [];
-
-                        if(!playlist.artworkUrl) {
-                            playlist.images = playlist.albums.reduce(function (albums, album) {
-                                if (albums.length < 4) {
-                                    albums.push(album);
-                                }
-                                return albums;
-                            }, []);
-
-                            // complete with default album image if less than 4 albums in the playlist
-                            for (var i = playlist.images.length; i < 4; i++) {
-                                playlist.images.push({
-                                    artworkUrl: data.artwork_placeholder
-                                });
-                            }
-                        }
-
-                        // Paging playlist images on 2 rows
-                        var paged_playlist_images = [];
-                        var images = [];
-                        for(var j = 0; j < playlist.images.length; j++) {
-                            images.push(playlist.images[j]);
-
-                            if(images.length === 2) {
-                                paged_playlist_images.push(images);
-                                images = [];
-                            }
-                        }
-
-                        if(images.length === 1) {
-                            paged_playlist_images.push(images);
-                        }
-
-                        playlist.paged_playlist_images = paged_playlist_images;
-
-                        playlists.push(playlist);
-
-                        return playlists;
+            // retrieve playlists
+            MusicPlaylist
+                .findAll()
+                .then(function (data) {
+                    // retrieve albums for each playlist
+                    var promises = data.playlists.reduce(function (promises, playlist) {
+                        promises.push(MusicAlbum.findByPlaylist(playlist.id));
+                        return promises;
                     }, []);
 
-                    MusicTracksLoader.loadTracksFromPlaylists($scope.playlists)
-                        .then(function (results) {
-                            $scope.tracks_loader = results.tracksLoader;
-                        }).then(function() {
+                    // synchronize all queries
+                    $q.all(promises).then(function (playlistsAlbums) {
+
+                        $scope.playlists = data.playlists.reduce(function (playlists, playlist) {
+                            // add images from the 4 first albums
+                            var index = playlists.length;
+                            playlist.albums = playlistsAlbums[index].albums;
+                            playlist.images = [];
+
+                            if (!playlist.artworkUrl) {
+                                playlist.images = playlist.albums.reduce(function (albums, album) {
+                                    if (albums.length < 4) {
+                                        albums.push(album);
+                                    }
+                                    return albums;
+                                }, []);
+
+                                // complete with default album image if less than 4 albums in the playlist
+                                for (var i = playlist.images.length; i < 4; i++) {
+                                    playlist.images.push({
+                                        artworkUrl: data.artwork_placeholder
+                                    });
+                                }
+                            }
+
+                            // Paging playlist images on 2 rows
+                            var paged_playlist_images = [];
+                            var images = [];
+                            for (var j = 0; j < playlist.images.length; j++) {
+                                images.push(playlist.images[j]);
+
+                                if (images.length === 2) {
+                                    paged_playlist_images.push(images);
+                                    images = [];
+                                }
+                            }
+
+                            if (images.length === 1) {
+                                paged_playlist_images.push(images);
+                            }
+
+                            playlist.paged_playlist_images = paged_playlist_images;
+
+                            playlists.push(playlist);
+
+                            return playlists;
+                        }, []);
+
+                        MusicTracksLoader.loadTracksFromPlaylists($scope.playlists)
+                            .then(function (results) {
+                                $scope.tracksLoader = results.tracksLoader;
+                            }).then(function () {
                             // Paging playlists on 2 rows
                             var paged_playlists = [];
                             var playlists = [];
-                            for(var i = 0; i < $scope.playlists.length; i++) {
+                            for (var i = 0; i < $scope.playlists.length; i++) {
                                 playlists.push($scope.playlists[i]);
 
-                                if(playlists.length === 2) {
+                                if (playlists.length === 2) {
                                     paged_playlists.push(playlists);
                                     playlists = [];
                                 }
                             }
-                            if(playlists.length === 1) {
+                            if (playlists.length === 1) {
                                 paged_playlists.push(playlists);
                             }
 
@@ -105,39 +112,39 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
                             $scope.is_loading = false;
                         });
 
-                });
+                    });
 
-            },function () {
-                $scope.is_loading = false;
+                }, function () {
+                    $scope.is_loading = false;
+                });
+        };
+
+        $scope.showPlaylistAlbums = function (playlist) {
+            $state.go("music-playlist-albums", {
+                value_id: $stateParams.value_id,
+                playlist_id: playlist.id
             });
         };
 
-    $scope.showPlaylistAlbums = function (playlist) {
-        $state.go("music-playlist-albums", {
-            value_id: $stateParams.value_id,
-            playlist_id: playlist.id
-        });
-    };
+        $scope.showAlbums = function (playlist) {
+            $state.go("music-album-list", {
+                value_id: $stateParams.value_id
+            });
+        };
 
-    $scope.showAlbums = function (playlist) {
-        $state.go("music-album-list", {
-            value_id: $stateParams.value_id
-        });
-    };
+        $scope.playAll = function () {
+            if ($scope.is_loading) {
+                return;
+            }
 
-    $scope.playAll = function () {
-        if ($scope.is_loading) {
-            return;
-        }
+            MediaPlayer.init($scope.tracksLoader, false, 0);
+        };
 
-        MediaPlayer.init($scope.tracks_loader, false, 0);
-    };
+        $scope.loadContent();
 
-    $scope.loadContent();
-
-}).controller("MusicPlaylistAlbumsController", function ($ionicScrollDelegate, $location, $rootScope, $stateParams,
-                                                         $scope, $state, $window, Application, MusicAlbum,
-                                                         MusicPlaylist, MusicTracksLoader, MediaPlayer) {
+    }).controller("MusicPlaylistAlbumsController", function ($ionicScrollDelegate, $location, $rootScope, $stateParams,
+                                                             $scope, $state, $window, Application, MusicAlbum,
+                                                             MusicPlaylist, MusicTracksLoader, MusicTrack, MediaPlayer) {
 
 
     $scope.is_loading = true;
@@ -145,9 +152,10 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
     $scope.value_id = $stateParams.value_id;
     MusicPlaylist.value_id = $stateParams.value_id;
     MusicAlbum.value_id = $stateParams.value_id;
+    MusicTrack.value_id = $stateParams.value_id;
     window.$ionicScrollDelegate = $ionicScrollDelegate;
 
-    $scope.tracks_loader = null;
+    $scope.tracksLoader = null;
 
     $scope.loadContent = function () {
         MusicPlaylist.find($stateParams.playlist_id)
@@ -159,16 +167,16 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
                     .then(function (data) {
                         var paged_albums = [];
                         var albums = [];
-                        for(var i = 0; i < data.albums.length; i++) {
+                        for (var i = 0; i < data.albums.length; i++) {
                             albums.push(data.albums[i]);
 
-                            if(albums.length === 2) {
+                            if (albums.length === 2) {
                                 paged_albums.push(albums);
                                 albums = [];
                             }
                         }
 
-                        if(albums.length === 1) {
+                        if (albums.length === 1) {
                             paged_albums.push(albums);
                         }
 
@@ -179,18 +187,18 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
                         MusicTracksLoader.loadTracksFromAlbums($scope.playlist.albums)
                             .then(function (results) {
-                                $scope.tracks_loader = results.tracksLoader;
+                                $scope.tracksLoader = results.tracksLoader;
                             });
 
                     }).then(function () {
-                        $scope.is_loading = false;
-                    });
+                    $scope.is_loading = false;
+                });
 
             }, function () {
                 // error
-            }).then(function() {
-                $scope.is_loading = false;
-            });
+            }).then(function () {
+            $scope.is_loading = false;
+        });
     };
 
     $scope.showAlbum = function (album) {
@@ -209,7 +217,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
             return;
         }
 
-        MediaPlayer.init($scope.tracks_loader, false, 0);
+        MediaPlayer.init($scope.tracksLoader, false, 0);
     };
 
     $scope.loadContent();
@@ -220,17 +228,17 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
 
     angular.extend($scope, {
-        is_loading      : true,
-        value_id        : $stateParams.value_id,
-        active_tab      : "albums",
-        tracks_loader   : null
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        activeTab: "albums",
+        tracksLoader: null
     });
 
     MusicAlbum.value_id = $stateParams.value_id;
     MusicPlaylist.value_id = $stateParams.value_id;
 
     MusicPlaylist.findPageTitle()
-        .then(function(data) {
+        .then(function (data) {
             $scope.page_title = data.page_title;
         });
 
@@ -241,15 +249,15 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
             .then(function (data) {
                 var paged_albums = [];
                 var albums = [];
-                for(var i = 0; i < data.albums.length; i++) {
+                for (var i = 0; i < data.albums.length; i++) {
                     albums.push(data.albums[i]);
 
-                    if(albums.length === 2) {
+                    if (albums.length === 2) {
                         paged_albums.push(albums);
                         albums = [];
                     }
                 }
-                if(albums.length === 1) {
+                if (albums.length === 1) {
                     paged_albums.push(albums);
                 }
 
@@ -258,12 +266,12 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
                 MusicTracksLoader.loadTracksFromAlbums($scope.albums)
                     .then(function (results) {
-                        $scope.tracks_loader = results.tracksLoader;
+                        $scope.tracksLoader = results.tracksLoader;
                     });
 
             }).then(function () {
-                $scope.is_loading = false;
-            });
+            $scope.is_loading = false;
+        });
     };
 
     $scope.showPlaylists = function (playlist) {
@@ -281,7 +289,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
             return;
         }
 
-        MediaPlayer.init($scope.tracks_loader, false, 0);
+        MediaPlayer.init($scope.tracksLoader, false, 0);
     };
 
     $scope.loadContent();
@@ -298,7 +306,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
     $scope.loadContent = function () {
 
         var param = {};
-        if($stateParams.album_id) {
+        if ($stateParams.album_id) {
             param.album_id = $stateParams.album_id;
         } else {
             param.track_id = $stateParams.track_id;
@@ -318,8 +326,8 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
                     });
 
             }).then(function () {
-                $scope.is_loading = false;
-            });
+            $scope.is_loading = false;
+        });
     };
 
     $scope.play = function (track_index) {
@@ -327,9 +335,9 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
             return;
         }
 
-        var tracks_loader = MusicTracksLoader._buildTracksLoaderForSingleAlbum($scope.album, $scope.album.tracks);
+        var tracksLoader = MusicTracksLoader._buildTracksLoaderForSingleAlbum($scope.album, $scope.album.tracks);
 
-        MediaPlayer.init(tracks_loader, false, track_index);
+        MediaPlayer.init(tracksLoader, false, track_index);
     };
 
     $scope.loadContent();
@@ -340,7 +348,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
 
 
     $scope.is_loading = true;
-    $scope.is_loading_more_tracks = false;
+    $scope.isLoadingMoreTracks = false;
 
     $scope.value_id = $stateParams.value_id;
     MusicPlaylist.value_id = $stateParams.value_id;
@@ -357,7 +365,7 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
             MusicAlbum.findByPlaylist($stateParams.playlist_id).then(function (data) {
 
                 MusicTracksLoader.loadTracksFromAlbums(data.albums).then(function (results) {
-                    $scope.tracks_loader = results.tracksLoader;
+                    $scope.tracksLoader = results.tracksLoader;
                     $scope.tracks = results.tracksLoaded;
                 }).finally(function () {
                     $scope.is_loading = false;
@@ -378,18 +386,18 @@ angular.module("starter").controller("MusicPlaylistsController", function ($ioni
     };
 
     $scope.play = function ($trackIndex) {
-        MediaPlayer.init($scope.tracks_loader, false, $trackIndex);
+        MediaPlayer.init($scope.tracksLoader, false, $trackIndex);
     };
 
     $scope.enable_load_onscroll = true;
 
     $scope.loadMore = function () {
-        if ($scope.tracks_loader) {
-            $scope.is_loading_more_tracks = true;
-            return $scope.tracks_loader.loadMore(50).then(function (results) {
+        if ($scope.tracksLoader) {
+            $scope.isLoadingMoreTracks = true;
+            return $scope.tracksLoader.loadMore(50).then(function (results) {
                 // add more tracks
                 $scope.tracks = $scope.tracks.concat(results.tracksLoaded);
-                $scope.is_loading_more_tracks = false;
+                $scope.isLoadingMoreTracks = false;
             });
         }
     };

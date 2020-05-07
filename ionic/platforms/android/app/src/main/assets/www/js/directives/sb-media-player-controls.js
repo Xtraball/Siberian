@@ -1,20 +1,54 @@
-angular.module('starter').directive('sbMediaPlayerControls', function () {
+/**
+ * sbMediaPlayerControls
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ */
+angular
+    .module('starter')
+    .directive('sbMediaPlayerControls', function () {
     return {
         restrict: 'A',
-        controller: function ($scope, $state, $timeout, $filter, MediaPlayer) {
+        controller: function ($scope, $state, $timeout, $filter, MediaPlayer, LinkService, SocialSharing) {
             angular.extend($scope, {
                 player: MediaPlayer
             });
 
-            MediaPlayer.createModal($scope);
+            $scope.isNativeApp = isNativeApp;
 
-            $scope.openPlayer = function () {
-                MediaPlayer.openPlayer();
+            $scope.purchase = function () {
+                if (MediaPlayer.currentTrack.purchaseUrl) {
+                    LinkService.openLink(MediaPlayer.currentTrack.purchaseUrl, {}, true);
+                }
+            };
+
+            $scope.share = function () {
+                var content = MediaPlayer.currentTrack.name;
+                if (!MediaPlayer.isRadio) {
+                    content = MediaPlayer.currentTrack.name + ' from ' + MediaPlayer.currentTrack.artistName;
+                }
+                var file = MediaPlayer.currentTrack.albumCover ? MediaPlayer.currentTrack.albumCover : undefined;
+
+                SocialSharing.share(content, undefined, undefined, undefined, file);
+            };
+
+            $scope.openPlayerModal = function (tab) {
+                // If the tab is not provided, button works as a toggler!
+                if (tab === undefined) {
+                    tab = $scope.player.currentTab === 'cover' ? 'playlist' : 'cover';
+                }
+                MediaPlayer.openPlayerModal(tab);
+            };
+
+            $scope.closePlayerModal = function () {
+                MediaPlayer.closePlayerModal();
             };
 
             $scope.duration = function () {
-                if ($scope.player && $scope.player.media && $scope.player.media.duration) {
-                    return $filter('seconds_to_minutes')($scope.player.media.duration);
+                if ($scope.player &&
+                    $scope.player.media &&
+                    $scope.player.media._duration) {
+                    return $filter('seconds_to_minutes')(Math.floor($scope.player.media._duration));
                 }
                 return '0:00';
             };
@@ -24,16 +58,10 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
             };
 
             $scope.prev = function () {
-                if (!MediaPlayer.is_minimized) {
-                    MediaPlayer.loading();
-                }
                 MediaPlayer.prev();
             };
 
             $scope.next = function () {
-                if (!MediaPlayer.is_minimized) {
-                    MediaPlayer.loading();
-                }
                 MediaPlayer.next();
             };
 
@@ -61,31 +89,17 @@ angular.module('starter').directive('sbMediaPlayerControls', function () {
                 MediaPlayer.shuffle();
             };
 
-            // Playlist modal
-            $scope.openPlaylist = function () {
-                MediaPlayer.openPlaylist();
-            };
-
-            $scope.goBackMedia = function () {
-                MediaPlayer.goBack(MediaPlayer.is_radio, true);
-            };
-
-            $scope.closePlaylist = function () {
-                MediaPlayer.closePlaylist();
-            };
-
-            $scope.destroy = function (origin) {
-                MediaPlayer.destroy(origin);
+            $scope.destroy = function () {
+                MediaPlayer.destroy();
             };
 
             $scope.selectTrack = function (index) {
-                MediaPlayer.closePlaylist();
+                MediaPlayer.currentTab = 'cover';
 
                 $timeout(function () {
-                    MediaPlayer.loading();
-                    MediaPlayer.current_index = index;
+                    MediaPlayer.currentIndex = index;
 
-                    MediaPlayer.pre_start();
+                    MediaPlayer.preStart();
                     MediaPlayer.start();
                 }, 500);
             };

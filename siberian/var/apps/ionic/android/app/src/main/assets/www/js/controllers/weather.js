@@ -14,7 +14,7 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
             unit: "F",
             units: "imperial",
             country: "",
-            city: "",
+            city: ""
         },
         iconBase: "https://openweathermap.org/img/w/%ICON%.png",
         weatherData: null,
