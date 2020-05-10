@@ -52,5 +52,25 @@ App.factory('Advanced', function ($http, Url) {
         });
     };
 
+    /**
+     * Toggle a module enable state
+     *
+     * @param moduleId
+     * @param isEnabled
+     * @returns {*}
+     */
+    factory.toggleModule = function (moduleId, isEnabled) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/togglemodule'),
+            data: {
+                moduleId: moduleId,
+                isEnabled: isEnabled
+            },
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     return factory;
 });

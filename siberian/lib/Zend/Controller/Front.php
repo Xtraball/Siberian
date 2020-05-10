@@ -298,6 +298,16 @@ class Zend_Controller_Front
 
             $module = $file->getFilename();
 
+            $dbModule = (new Installer_Model_Installer_Module())->find($module, 'name');
+            if ($dbModule &&
+                $dbModule->getId() &&
+                !$dbModule->getIsEnabled())
+            {
+                // Do not enable module!
+                dbg('skipped module: ' . $module);
+                continue;
+            }
+
             // Don't use SCCS directories as modules
             if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
                 continue;
