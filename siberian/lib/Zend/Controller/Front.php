@@ -281,9 +281,10 @@ class Zend_Controller_Front
      * will be used as the controller directory path.
      *
      * @param  string $path
+     * @param  boolean $excludeDisabled
      * @return Zend_Controller_Front
      */
-    public function addModuleDirectory($path)
+    public function addModuleDirectory($path, $excludeDisabled = false)
     {
         try {
             $dir = new DirectoryIterator($path);
@@ -297,19 +298,17 @@ class Zend_Controller_Front
             }
 
             $module = $file->getFilename();
-
-            $dbModule = (new Installer_Model_Installer_Module())->find($module, 'name');
-            if ($dbModule &&
-                $dbModule->getId() &&
-                !$dbModule->getIsEnabled())
+            if ($excludeDisabled &&
+                method_exists('Installer_Model_Installer_Module', 'sGetIsEnabled') &&
+                !Installer_Model_Installer_Module::sGetIsEnabled($module))
             {
-                // Do not enable module!
-                dbg('skipped module: ' . $module);
+                // Do not enable module! but ensure the lock file is in sync with the DB!
                 continue;
             }
 
-            // Don't use SCCS directories as modules
-            if (preg_match('/^[^a-z]/i', $module) || ('CVS' == $module)) {
+            // Don't use SCSS directories as modules
+            if (preg_match('/^[^a-z]/i', $module) ||
+                ('CVS' === $module)) {
                 continue;
             }
 

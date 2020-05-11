@@ -10,7 +10,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="module in modules" ng-show="modules.length">
+            <tr ng-repeat="module in modules"
+                ng-show="modules.length"
+                ng-class="{'text-danger': !module.is_enabled}">
                 <td>{{ module.name }}</td>
                 <td>{{ module.version }}</td>
                 <td style="text-align:right;">
@@ -137,7 +139,8 @@
         </thead>
         <tbody>
             <tr ng-repeat="feat in features track by feat.id"
-                ng-show="features.length">
+                ng-show="features.length"
+                ng-class="{'text-danger': !feat.is_enabled}">
                 <td>{{ feat.name }}</td>
                 <td>{{ feat.code }}</td>
                 <td style="white-space: normal;">{{ feat.description }}</td>
