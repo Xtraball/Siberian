@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.18.12
+ * @version 4.18.17
  */
 
 window.momentjs_loaded = false;
@@ -136,7 +136,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
                    Analytics, Application, Customer, Codescan, Dialog, Facebook, FacebookConnect, Padlock,
-                   Pages, Push, PushService, SB) {
+                   Pages, Push, PushService, SB, InAppLinks) {
 
         // $rootScope object!
         angular.extend($rootScope, {
@@ -250,7 +250,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         Application.populate(data.loadBlock);
 
                         // Overrides backbutton icon
-                        $ionicConfig.backButton.icon(Application.getBackIcon());
+                        $ionicConfig.backButton.icon('none');
 
                         Customer.populate(data.loadBlock.customer);
                         Customer.setFacebookLogin(data.loadBlock.application.facebook);
@@ -513,58 +513,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }
                         });
 
-                        // Event to catch state-go from source code!
-                        var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
-                        var eventer = window[eventMethod];
-                        var messageEvent = (eventMethod === 'attachEvent') ? 'onmessage' : 'message';
-
-                        // Listen to message from child window
-                        eventer(messageEvent, function (e) {
-                            var parts = e.data.split('=');
-                            var action = parts[0];
-                            var params = {};
-                            if (parts.length >= 2) {
-                                action = parts[0];
-                                params = parts[1].replace(/(^\?)/,'').split(',').map(function (n){return n = n.split(':'),this[n[0].trim()] = n[1],this}.bind({}))[0];
-                            }
-
-                            var offline = (typeof params.offline !== 'undefined') ?
-                                (params.offline === 'true') : false;
-
-                            // Special in-app link for my account!
-                            if (params.state === 'my-account') {
-                                Customer.loginModal();
-                                return;
-                            }
-
-                            // Special in-app link for my account!
-                            if (params.state === 'codescan') {
-                                Codescan.scanGeneric();
-                                return;
-                            }
-
-                            switch (action) {
-                                case 'state-go':
-                                    if (params.hasOwnProperty('value_id')) {
-                                        var feature = Pages.getValueId(params.value_id);
-                                        if (feature && !feature.is_active) {
-                                            Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
-                                            return;
-                                        }
-                                    }
-
-                                    var state = params.state;
-                                    delete params.state;
-                                    delete params.offline;
-                                    if (!offline && $rootScope.isNotAvailableOffline()) {
-                                        return;
-                                    }
-                                    $state.go(state, params);
-                                    break;
-                                default:
-                                    // Nope!
-                            }
-                        }, false);
+                        // Listen for any inAppLink events
+                        InAppLinks.listen();
 
                         // Global listeners for logout/lock app!
                         $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {

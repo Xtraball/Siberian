@@ -143,6 +143,9 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
         service.offline_content = data.application.offlineContent;
         service.homepage_background = data.application.useHomepageBackground;
         service.backButton = data.application.backButton;
+        service.backButtonClass = data.application.backButtonClass;
+        service.leftToggleClass = data.application.leftToggleClass;
+        service.rightToggleClass = data.application.rightToggleClass;
         service.myAccount = data.application.myAccount;
 
         // Small base64 default image, while loading the real deal!
@@ -157,7 +160,9 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
      * @returns {string}
      */
     service.getBackIcon = function () {
-        if (service.backButton !== undefined) {
+        if (service.backButtonClass !== null) {
+            return service.backButtonClass;
+        } else if (service.backButton !== undefined) {
             switch (service.backButton) {
                 case 'ion-android-arrow-back':
                 case 'ion-arrow-left-a':
@@ -180,6 +185,16 @@ angular.module('starter').service('Application', function ($pwaRequest, $q, $roo
             }
         }
         return 'icon ion-ios-arrow-back';
+    };
+
+    service.getLeftToggleIcon = function () {
+        return (service.leftToggleClass !== null) ?
+            service.leftToggleClas : 'icon ion-navicon-round';
+    };
+
+    service.getRightToggleIcon = function () {
+        return (service.rightToggleClass !== null) ?
+            service.rightToggleClass : 'icon ion-navicon-round';
     };
 
     service.showCacheDownloadModalOrUpdate = function () {

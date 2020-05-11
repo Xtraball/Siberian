@@ -18,7 +18,6 @@ var slidingTabsDirective = angular.module("ionic").directive('ionSlideTabs', ['$
                 "slideTabsScrollable": true
             };
 
-
             var init = function () {
 
                 if (angular.isDefined(attrs.slideTabsScrollable) && attrs.slideTabsScrollable === "false") {
