@@ -1,0 +1,45 @@
+{
+  "name": "Keyboard",
+  "version": "2.2.0",
+  "description": "Ionic Keyboard Plugin",
+  "scripts": {
+    "release": "standard-version -a",
+    "pre-release": "standard-version -a -p --skip.changelog=true --skip.tag=true"
+  },
+  "cordova": {
+    "id": "Keyboard",
+    "platforms": [
+      "android",
+      "browser",
+      "ios",
+      "osx",
+      "windows"
+    ]
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "sync-cordova-xml2 package.json plugin.xml --output=plugin.xml && git add plugin.xml"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/cordova-plugin-ionic-keyboard.git"
+  },
+  "keywords": [
+    "cordova",
+    "keyboard",
+    "ecosystem:cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "author": "Apache Software Foundation",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/ionic-team/cordova-plugin-ionic-keyboard/issues"
+  },
+  "homepage": "https://github.com/ionic-team/cordova-plugin-ionic-keyboard#readme",
+  "devDependencies": {
+    "standard-version": "^7.0.0",
+    "sync-cordova-xml2": "0.0.3"
+  }
+}

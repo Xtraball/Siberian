@@ -38,7 +38,7 @@ var mediaObjects = {};
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
 var Media = function(src, successCallback, errorCallback, statusCallback) {
-    argscheck.checkArgs('sFFF', 'Media', arguments);
+    argscheck.checkArgs('sFFF', 'MediaNative', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = src;
@@ -47,7 +47,7 @@ var Media = function(src, successCallback, errorCallback, statusCallback) {
     this.statusCallback = statusCallback;
     this._duration = -1;
     this._position = -1;
-    exec(null, this.errorCallback, "Media", "create", [this.id, this.src]);
+    exec(null, this.errorCallback, "MediaNative", "create", [this.id, this.src]);
 };
 
 // Media messages
@@ -73,7 +73,7 @@ Media.get = function(id) {
  * Start or resume playing audio file.
  */
 Media.prototype.play = function(options) {
-    exec(null, null, "Media", "startPlayingAudio", [this.id, this.src, options]);
+    exec(null, null, "MediaNative", "startPlayingAudio", [this.id, this.src, options]);
 };
 
 /**
@@ -83,7 +83,7 @@ Media.prototype.stop = function() {
     var me = this;
     exec(function() {
         me._position = 0;
-    }, this.errorCallback, "Media", "stopPlayingAudio", [this.id]);
+    }, this.errorCallback, "MediaNative", "stopPlayingAudio", [this.id]);
 };
 
 /**
@@ -93,14 +93,14 @@ Media.prototype.seekTo = function(milliseconds) {
     var me = this;
     exec(function(p) {
         me._position = p;
-    }, this.errorCallback, "Media", "seekToAudio", [this.id, milliseconds]);
+    }, this.errorCallback, "MediaNative", "seekToAudio", [this.id, milliseconds]);
 };
 
 /**
  * Pause playing audio file.
  */
 Media.prototype.pause = function() {
-    exec(null, this.errorCallback, "Media", "pausePlayingAudio", [this.id]);
+    exec(null, this.errorCallback, "MediaNative", "pausePlayingAudio", [this.id]);
 };
 
 /**
@@ -121,49 +121,49 @@ Media.prototype.getCurrentPosition = function(success, fail) {
     exec(function(p) {
         me._position = p;
         success(p);
-    }, fail, "Media", "getCurrentPositionAudio", [this.id]);
+    }, fail, "MediaNative", "getCurrentPositionAudio", [this.id]);
 };
 
 /**
  * Start recording audio file.
  */
 Media.prototype.startRecord = function() {
-    exec(null, this.errorCallback, "Media", "startRecordingAudio", [this.id, this.src]);
+    exec(null, this.errorCallback, "MediaNative", "startRecordingAudio", [this.id, this.src]);
 };
 
 /**
  * Stop recording audio file.
  */
 Media.prototype.stopRecord = function() {
-    exec(null, this.errorCallback, "Media", "stopRecordingAudio", [this.id]);
+    exec(null, this.errorCallback, "MediaNative", "stopRecordingAudio", [this.id]);
 };
 
 /**
  * Pause recording audio file.
  */
 Media.prototype.pauseRecord = function() {
-    exec(null, this.errorCallback, "Media", "pauseRecordingAudio", [this.id]);
+    exec(null, this.errorCallback, "MediaNative", "pauseRecordingAudio", [this.id]);
 };
 
 /**
 * Resume recording audio file.
 */
 Media.prototype.resumeRecord = function() {
-    exec(null, this.errorCallback, "Media", "resumeRecordingAudio", [this.id]);
+    exec(null, this.errorCallback, "MediaNative", "resumeRecordingAudio", [this.id]);
 };
 
 /**
  * Release the resources.
  */
 Media.prototype.release = function() {
-    exec(null, this.errorCallback, "Media", "release", [this.id]);
+    exec(null, this.errorCallback, "MediaNative", "release", [this.id]);
 };
 
 /**
  * Adjust the volume.
  */
 Media.prototype.setVolume = function(volume) {
-    exec(null, null, "Media", "setVolume", [this.id, volume]);
+    exec(null, null, "MediaNative", "setVolume", [this.id, volume]);
 };
 
 /**
@@ -171,7 +171,7 @@ Media.prototype.setVolume = function(volume) {
  */
 Media.prototype.setRate = function(rate) {
     if (cordova.platformId === 'ios'){
-        exec(null, null, "Media", "setRate", [this.id, rate]);
+        exec(null, null, "MediaNative", "setRate", [this.id, rate]);
     } else {
         console.warn('media.setRate method is currently not supported for', cordova.platformId, 'platform.');
     }
@@ -183,7 +183,7 @@ Media.prototype.setRate = function(rate) {
 Media.prototype.getCurrentAmplitude = function(success, fail) {
     exec(function(p) {
         success(p);
-    }, fail, "Media", "getCurrentAmplitudeAudio", [this.id]);
+    }, fail, "MediaNative", "getCurrentAmplitudeAudio", [this.id]);
 };
 
 /**
@@ -236,7 +236,7 @@ Media.onStatus = function(id, msgType, value) {
 module.exports = Media;
 
 function onMessageFromNative(msg) {
-    if (msg.action == 'status') {
+    if (msg.action === 'status') {
         Media.onStatus(msg.status.id, msg.status.msgType, msg.status.value);
     } else {
         throw new Error('Unknown media action' + msg.action);
@@ -251,7 +251,7 @@ if (cordova.platformId === 'android' || cordova.platformId === 'amazon-fireos' |
     channel.waitForInitialization('onMediaPluginReady');
 
     channel.onCordovaReady.subscribe(function() {
-        exec(onMessageFromNative, undefined, 'Media', 'messageChannel', []);
+        exec(onMessageFromNative, undefined, 'MediaNative', 'messageChannel', []);
         channel.initializationComplete('onMediaPluginReady');
     });
 }

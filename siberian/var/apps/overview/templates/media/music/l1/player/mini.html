@@ -26,19 +26,23 @@
                 </span>
                 <button class="mini-button button button-clear button-light"
                         ng-click="destroy('mini')">
-                    <i class="icon ion-power-off"></i>
+                    <i class="icon ion-power-off-thin"></i>
                 </button>
             </div>
 
             <!-- trackname -->
             <div class="mini-trackname">
                 <span ng-click="openPlayerModal('cover')">
-                    {{ player.currentTrack.name }}<span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
+                    <span ng-if="player.isBuffering">
+                        <i>{{ ::'buffering...' | translate:'media' }}</i>&nbsp;&nbsp;
+                    </span>
+                    <span>{{ player.currentTrack.name }}</span>
+                    <span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
                 </span>
                 <button class="mini-button button button-clear button-light pull-right"
                         ng-show="player.isRadio"
                         ng-click="destroy('mini');">
-                    <i class="icon ion-power-off"></i>
+                    <i class="icon ion-power-off-thin"></i>
                 </button>
             </div>
         </div>
@@ -86,9 +90,12 @@
                 <i class="icon ion-ios-skipforward"></i>
             </button>
             <button class="button button-clear button-light"
-                    ng-click="openPlayerModal('playlist')"
+                    ng-click="openPlayerModal()"
                     ng-disabled="player.isRadio">
-                <i class="icon ion-android-menu"></i>
+                <i ng-class="{
+                    'icon ion-android-menu': player.currentTab == 'cover',
+                    'icon ion-ios-musical-notes': player.currentTab == 'playlist'
+                    }"></i>
             </button>
             <button class="button button-clear button-light"
                     ng-click="player.playerModalIsOpen ? closePlayerModal() : openPlayerModal('cover')">

@@ -1,6 +1,8 @@
 /**
- * @version 4.18.12
+ * HomepageLayout
+ *
  * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
 angular
     .module('starter')

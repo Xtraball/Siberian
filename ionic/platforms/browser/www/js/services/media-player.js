@@ -8,7 +8,7 @@ angular
     .module('starter')
     .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
                                       $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, Loader, SB) {
+                                      HomepageLayout, Dialog, Modal, SB) {
     var service = {
         media: null,
         isInitialized: false,
@@ -23,21 +23,13 @@ angular
         currentIndex: 0,
         currentTrack: null,
         currentTab: 'cover',
+        isBuffering: false,
         duration: 0,
         elapsedTime: 0,
         playerModal: null,
         playerModalIsOpen: false,
         value_id: null,
         useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
-    };
-
-    service.loading = function () {
-        var message = $translate.instant('Loading', 'media');
-        if (service.isRadio) {
-            message = $translate.instant('Buffering', 'media');
-        }
-
-        Loader.show(message);
     };
 
     var musicControlsEventsHandler = function (event) {
@@ -134,11 +126,8 @@ angular
     service.start = function () {
         service.currentTrack = service.tracks[service.currentIndex];
 
-        $log.info(service.currentTrack, service.tracks);
-
         if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
             (service.currentTrack.streamUrl.indexOf('https://') === -1)) {
-            Loader.hide();
             Dialog.alert('Error', 'No current stream to load.', 'OK', -1);
             return;
         }
@@ -166,16 +155,15 @@ angular
             },
             function (change) {
                 // something changed, update controls & infos
-                service.media.getDuration(function () {
-                    service.duration = service.media._duration;
-                }, function () {});
+                if (service.media !== null) {
+                    service.media.getDuration(function () {
+                        service.duration = service.media._duration;
+                    }, function () {});
+                }
             });
 
         service.play();
         service.updateSeekBar();
-
-        Loader.hide();
-
         service.updateMusicControls();
     };
 
@@ -221,6 +209,7 @@ angular
         if (service.isInitialized ||
             service.playerModal !== null) {
             service.openPlayerModal('cover');
+            return;
         }
         Modal
             .fromTemplateUrl('templates/media/music/l1/player/modal/player.html', {
@@ -251,7 +240,8 @@ angular
             service.currentTab = 'cover';
         }
 
-        if (service.playerModalIsOpen) {
+        if (service.playerModal &&
+            service.playerModal.isShown()) {
             return;
         }
         if (service.playerModal !== null) {
@@ -261,7 +251,8 @@ angular
     };
 
     service.closePlayerModal = function () {
-        if (!service.playerModalIsOpen) {
+        if (service.playerModal &&
+            !service.playerModal.isShown()) {
             return;
         }
         if (service.playerModal !== null) {
@@ -408,20 +399,10 @@ angular
     service.updateMusicControls = function () {
         // For now we will disable music controls for iOS!
         if (service.useMusicControls) {
-            var hasPrev = true;
-            var hasNext = true;
-            if (service.isRadio) {
-                hasPrev = false;
-                hasNext = false;
-            }
+            var hasPrev, hasNext = !service.isRadio;
 
-            if (service.currentIndex === 0) {
-                hasPrev = false;
-            }
-
-            if (service.currentIndex === (service.tracks.length - 1)) {
-                hasNext = false;
-            }
+            hasPrev = service.currentIndex !== 0;
+            hasNext = service.currentIndex !== (service.tracks.length - 1);
 
             service.media.getCurrentPosition(function () {}, function () {});
 
@@ -447,26 +428,33 @@ angular
                 ticker: $translate.instant('Now playing ') + service.currentTrack.name
             };
 
+            // Update/Listen only if it's created.
             MusicControls.create(mcDictionnary,
                 function () {
-                    $log.debug('success');
-                }, function () {
-                    $log.debug('error');
-                });
-
-            MusicControls.subscribe(musicControlsEventsHandler);
-            MusicControls.listen();
-            MusicControls.updateIsPlaying(service.isPlaying);
+                    MusicControls.subscribe(musicControlsEventsHandler);
+                    MusicControls.listen();
+                    MusicControls.updateIsPlaying(service.isPlaying);
+                }, function () {});
         }
     };
 
     service.updateSeekBar = function () {
+        service.lastTime = -0.001;
         service.seekbarTimer = $interval(function () {
             try {
                 if (service.isPlaying) {
                     service.media.getCurrentPosition(
                         function () {
                             service.elapsedTime = service.media._position;
+
+                            // Buffer handling
+                            if (service.media._position === -0.001 ||
+                                (service.lastTime === service.media._position)) {
+                                service.isBuffering = true;
+                            } else {
+                                service.lastTime = service.media._position;
+                                service.isBuffering = false;
+                            }
                         }, function () {});
                 }
 
@@ -482,7 +470,7 @@ angular
                 // Automatically cancel if any error found!
                 $interval.cancel(service.seekbarTimer);
             }
-        }, 1000);
+        }, 500);
     };
 
     return service;

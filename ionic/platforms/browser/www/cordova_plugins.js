@@ -7,6 +7,28 @@ module.exports = [
         "runs": true
     },
     {
+        "file": "plugins/Badge/www/badge.js",
+        "id": "Badge.Badge",
+        "pluginId": "Badge",
+        "clobbers": [
+            "cordova.plugins.notification.badge"
+        ]
+    },
+    {
+        "file": "plugins/Badge/src/browser/favico.min.js",
+        "id": "Badge.Badge.Favico",
+        "pluginId": "Badge",
+        "clobbers": [
+            "cordova.plugins.notification.badge.Favico"
+        ]
+    },
+    {
+        "file": "plugins/Badge/src/browser/BadgeProxy.js",
+        "id": "Badge.Badge.Proxy",
+        "pluginId": "Badge",
+        "runs": true
+    },
+    {
         "file": "plugins/BarcodeScanner/www/barcodescanner.js",
         "id": "BarcodeScanner.BarcodeScanner",
         "pluginId": "BarcodeScanner",
@@ -315,11 +337,13 @@ module.exports.metadata =
 // TOP OF METADATA
 {
     "Promises": "4.2.2",
+    "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "Camera": "4.0.3",
     "Device": "2.0.2",
     "File": "6.0.1",
-    "InAppBrowser": "3.0.0",
+    "InAppBrowser": "3.1.1-dev",
+    "Keyboard": "2.2.0",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",

@@ -13,9 +13,6 @@
         <engine name="cordova" version=">=4.0.0"/>
     </engines>
 
-    <!--asset src="www/MusicControls.js"
-           target="www/MusicControls.js"/-->
-
     <js-module src="www/MusicControls.js"
                name="MusicControls">
         <clobbers target="MusicControls"/>

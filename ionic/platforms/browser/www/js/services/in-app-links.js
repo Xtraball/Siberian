@@ -1,5 +1,5 @@
 /**
- * Analytics request handler!
+ * InAppLinks handler!
  *
  * @author Xtraball SAS <dev@xtraball.com>
  * @version 4.18.17
@@ -14,8 +14,6 @@ angular
      * @param event
      */
     service.parseEvent = function (event) {
-        console.log('InAppLinks.parseEvent', event);
-
         // Not an inAppLink
         if (event.data.indexOf('state-go') !== 0) {
             return false;
@@ -34,8 +32,6 @@ angular
 
         params.offline = (params.offline !== undefined) ? (params.offline === 'true') : false;
 
-        console.log('InAppLinks.parseEvent params', params);
-
         return params;
     };
 
@@ -44,8 +40,6 @@ angular
      * @param element
      */
     service.parseElement = function (element) {
-        console.log('InAppLinks.parseElement', element);
-
         var params = element.attributes['data-params'].value;
         params = params
             .replace(/(^\?)/,'')
@@ -55,13 +49,10 @@ angular
         params.offline = (typeof element.attributes["data-offline"] !== "undefined") ?
             (element.attributes["data-offline"].value === "true") : false;
 
-        console.log('InAppLinks.parseElement params', params);
-
         return params;
     };
 
     service.action = function (params) {
-        console.log('InAppLinks.action', params);
         // Special in-app link for my account!
         if (params.state === 'my-account') {
             Customer.loginModal();
@@ -96,12 +87,10 @@ angular
     };
 
     service.handlerGlobal = function (event) {
-        console.log('InAppLinks.handlerGlobal', event);
         var params = service.parseEvent(event);
 
         if (params === false) {
             // Stop here
-            console.log('handlerGlobal skip');
             return;
         }
 
@@ -109,7 +98,6 @@ angular
     };
 
     service.handlerLink = function (element) {
-        console.log('InAppLinks.handlerLink', element);
         var params = service.parseElement(element);
 
         angular.element(element).bind('click', function (e) {
@@ -120,7 +108,6 @@ angular
     };
 
     service.listen = function () {
-        console.log('InAppLinks.listen');
         // Event to catch state-go from source code!
         var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
         var eventer = window[eventMethod];

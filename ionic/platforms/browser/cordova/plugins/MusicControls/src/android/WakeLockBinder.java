@@ -1,6 +1,5 @@
 package com.xtraball.musiccontrols;
 
-import android.app.Notification;
 import android.app.Service;
 import android.os.Binder;
 
