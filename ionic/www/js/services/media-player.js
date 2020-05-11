@@ -428,13 +428,14 @@ angular
                 ticker: $translate.instant('Now playing ') + service.currentTrack.name
             };
 
-            // Update/Listen only if it's created.
-            MusicControls.create(mcDictionnary,
-                function () {
-                    MusicControls.subscribe(musicControlsEventsHandler);
-                    MusicControls.listen();
-                    MusicControls.updateIsPlaying(service.isPlaying);
-                }, function () {});
+            MusicControls.subscribe(musicControlsEventsHandler);
+            MusicControls.listen();
+            $timeout(function () {
+                MusicControls.create(mcDictionnary,
+                    function () {
+                        MusicControls.updateIsPlaying(service.isPlaying);
+                    }, function () {});
+            }, 20);
         }
     };
 
@@ -468,6 +469,7 @@ angular
                 }
             } catch (e) {
                 // Automatically cancel if any error found!
+                console.log(e);
                 $interval.cancel(service.seekbarTimer);
             }
         }, 500);
