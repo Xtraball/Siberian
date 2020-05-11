@@ -8,7 +8,7 @@ angular
     .module('starter')
     .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
                                       $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, SB, Loader) {
+                                      HomepageLayout, Dialog, Modal, SB) {
     var service = {
         media: null,
         isInitialized: false,

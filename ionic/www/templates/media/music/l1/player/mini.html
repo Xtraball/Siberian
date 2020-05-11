@@ -33,7 +33,9 @@
             <!-- trackname -->
             <div class="mini-trackname">
                 <span ng-click="openPlayerModal('cover')">
-                    <span ng-if="player.isBuffering">{{ ::'buffering...' | translate:'media' }}</span>
+                    <span ng-if="player.isBuffering">
+                        <i>{{ ::'buffering...' | translate:'media' }}</i>&nbsp;&nbsp;
+                    </span>
                     <span>{{ player.currentTrack.name }}</span>
                     <span ng-show="!player.isRadio"> - {{ player.currentTrack.artistName }}</span>
                 </span>
