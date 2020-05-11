@@ -123,20 +123,20 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $application = $this->getApplication();
 
         $orientations = Siberian_Json::decode($device->getOrientations());
-        $android = $orientations["android"];
+        $android = $orientations['android'];
 
         $androidValids = [
-            "landscape",
-            "portrait",
-            "reverseLandscape",
-            "reversePortrait",
-            "sensorPortrait",
-            "sensorLandscape",
-            "fullSensor",
+            'landscape',
+            'portrait',
+            'reverseLandscape',
+            'reversePortrait',
+            'sensorPortrait',
+            'sensorLandscape',
+            'fullSensor',
         ];
 
-        if (!in_array($android, $androidValids)) {
-            $android = "fullSensor";
+        if (!in_array($android, $androidValids, false)) {
+            $android = 'fullSensor';
         }
 
         $replacements = [
@@ -145,13 +145,19 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$android}\"",
         ];
 
-        $version_name = $device->getVersion();
-        $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
+        $versionName = $device->getVersion();
+        $versionCode = str_pad(str_replace('.', '', $versionName), 6, "0");
 
-        if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
+        // Adding build number to Android builds
+        $buildNumber = $device->getBuildNumber();
+        $device->setBuildNumber(++$buildNumber);
+        $device->save();
+        $versionCode += $buildNumber;
+
+        if (($versionCode != 1 && $versionCode != 10000) || $versionName != "1.0") {
             $replacements = array_merge($replacements, [
-                "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
-                "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
+                "versionCode=\"10000\"" => "versionCode=\"{$versionCode}\"",
+                "versionName=\"1.0\"" => "versionName=\"{$versionName}\"",
             ]);
         }
 

@@ -367,57 +367,57 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
     public function savedeviceAction()
     {
+        try {
+            $request = $this->getRequest();
+            $values = $request->getBodyParams();
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            try {
-
-                if (empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
-                    throw new Exception('#783-01: ' . __("An error occurred while saving. Please try again later."));
-                }
-
-                $application = new Application_Model_Application();
-                $application->find($data["app_id"]);
-
-                if (!$application->getId()) {
-                    throw new Exception('#783-02: ' . __("An error occurred while saving. Please try again later."));
-                }
-
-                foreach ($data["devices"] as $device_data) {
-                    if (!empty($device_data["store_url"])) {
-                        if (stripos($device_data["store_url"], "http") === false) {
-                            $device_data["store_url"] = "http://" . $device_data["store_url"];
-                        }
-                        if (!Zend_Uri::check($device_data["store_url"])) {
-                            throw new Exception(__("Please enter a correct URL for the %s store", $device_data["name"]));
-                        }
-                    } else {
-                        $device_data["store_url"] = null;
-                    }
-
-                    if (!preg_match("/^([0-9]+)(\.([0-9]{0,5})){0,4}$/", $device_data["version"])) {
-                        throw new Exception(__("Please enter a correct version for the %s app", $device_data["name"]));
-                    }
-
-                    $device = $application->getDevice($device_data["type_id"]);
-                    $device->addData($device_data)->save();
-                }
-
-                $data = [
-                    "success" => 1,
-                    "message" => __("Info successfully saved")
-                ];
-
-            } catch (Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "message" => $e->getMessage()
-                ];
+            if (empty($values['app_id']) || !is_array($values['devices']) || empty($values['devices'])) {
+                throw new \Siberian\Exception('#783-01: ' . __('An error occurred while saving. Please try again later.'));
             }
 
-            $this->_sendHtml($data);
+            $application = (new Application_Model_Application())->find($values['app_id']);
+            if (!$application && 
+                !$application->getId()) {
+                throw new \Siberian\Exception('#783-02: ' . __('An error occurred while saving. Please try again later.'));
+            }
+
+            foreach ($values['devices'] as $deviceData) {
+                if (!empty($deviceData['store_url'])) {
+                    if (stripos($deviceData['store_url'], 'https://') === false) {
+                        $deviceData['store_url'] = 'https://' . $deviceData['store_url'];
+                    }
+                    if (!Zend_Uri::check($deviceData['store_url'])) {
+                        throw new \Siberian\Exception(__('Please enter a correct URL for the %s store', $deviceData['name']));
+                    }
+                } else {
+                    $deviceData['store_url'] = null;
+                }
+
+                if (!preg_match("/^(\d+)(\.(\d{0,5})){0,4}$/", $deviceData['version'])) {
+                    throw new \Siberian\Exception(__('Please enter a correct version for the %s app', $deviceData['name']));
+                }
+
+                // Reset build number on version change!
+                $deviceData['build_number'] = 0;
+                $device = $application->getDevice($deviceData['type_id']);
+                $device
+                    ->addData($deviceData)
+                    ->save();
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => __('Info successfully saved')
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     public function saveadvertisingAction()
@@ -444,13 +444,13 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $application->addData($data_app_to_save)->save();
 
-                foreach ($data["devices"] as $device_data) {
-                    $device = $application->getDevice($device_data["type_id"]);
+                foreach ($data["devices"] as $deviceData) {
+                    $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
-                        "owner_admob_id" => $device_data["owner_admob_id"],
-                        "owner_admob_interstitial_id" => $device_data["owner_admob_interstitial_id"],
-                        "owner_admob_type" => $device_data["owner_admob_type"],
-                        "owner_admob_weight" => $device_data["owner_admob_weight"]
+                        "owner_admob_id" => $deviceData["owner_admob_id"],
+                        "owner_admob_interstitial_id" => $deviceData["owner_admob_interstitial_id"],
+                        "owner_admob_type" => $deviceData["owner_admob_type"],
+                        "owner_admob_weight" => $deviceData["owner_admob_weight"]
                     ];
                     $device->addData($data_device_to_save)->save();
                 }
@@ -497,11 +497,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
 
                 $application->addData($data_app_to_save)->save();
 
-                foreach ($data["devices"] as $device_data) {
-                    $device = $application->getDevice($device_data["type_id"]);
+                foreach ($data["devices"] as $deviceData) {
+                    $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
-                        "banner_store_label" => $device_data["banner_store_label"],
-                        "banner_store_price" => $device_data["banner_store_price"]
+                        "banner_store_label" => $deviceData["banner_store_label"],
+                        "banner_store_price" => $deviceData["banner_store_price"]
                     ];
                     $device->addData($data_device_to_save)->save();
                 }
@@ -531,6 +531,11 @@ class Application_Backoffice_ViewController extends Backoffice_Controller_Defaul
     {
         $request = $this->getRequest();
         try {
+            if (__getConfig('is_demo')) {
+                throw new \Siberian\Exception(
+                    __("This is a demo version, you can't download any source codes / APKs"));
+            }
+
             $params = $request->getParams();
             if (empty($params)) {
                 throw new \Siberian\Exception(__('Missing parameters for generation.'));

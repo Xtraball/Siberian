@@ -26,8 +26,9 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param string $version
-     * @return $this
+     * @param $version
+     * @return mixed
+     * @throws Zend_Exception
      * @throws \Siberian\Exception
      */
     public function setVersion ($version)
