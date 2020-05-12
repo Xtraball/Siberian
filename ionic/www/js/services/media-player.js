@@ -144,7 +144,10 @@ angular
         $log.debug(service.currentTrack);
 
         service.media = new MediaNative(
-            service.currentTrack.streamUrl,
+            {
+                src: service.currentTrack.streamUrl,
+                isStream: service.isStream ? 1 : 0
+            },
             function (success) {
                 // success is media end
                 service.next();
