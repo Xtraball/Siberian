@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\File;
+use Siberian\Exception;
 
 /**
  * Class Application_Model_Device_Abstract
@@ -26,18 +27,62 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
     }
 
     /**
-     * @param $version
-     * @return mixed
-     * @throws Zend_Exception
-     * @throws \Siberian\Exception
+     * @param $device
+     * @param null $version
+     * @param null $buildNumber
+     * @return int
+     * @throws Exception
      */
-    public function setVersion ($version)
+    public static function validatedVersion ($device, $version = null, $buildNumber = null): int
     {
-        if (preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $version) !== 1) {
-            throw new \Siberian\Exception(__('The version number format is invalid, please use x.y.z where x, y & z are only digits.'));
+        $versionName = $version ?? $device->getVersion();
+        $buildNumber = (int) ($buildNumber ?? $device->getBuildNumber());
+        $parts = explode('.', $versionName);
+
+        if (count($parts) !== 2) {
+            throw new Exception('[Android version] The version number must contain two parts, like 1.0, 2.5, 12.0, etc...');
         }
 
-        return $this->setData('version', $version);
+        if ($buildNumber === 0) {
+            $buildNumber = 1;
+        }
+
+        $major = (int) $parts[0];
+        $minor = (int) $parts[1];
+
+        if ($major > 1000 || $major === 0) {
+            throw new Exception('[Android version] The first part must be between 1 and 1000');
+        }
+        if ($minor > 999 || $minor === 0) {
+            throw new Exception('[Android version] The second part must be between 1 and 999');
+        }
+        if ($buildNumber > 999 || $buildNumber === 0) {
+            throw new Exception('[Android version] The build number part must be between 1 and 999');
+        }
+
+        $completeVersion = (int) ($major .
+            str_pad($minor, 3, '0', STR_PAD_LEFT) .
+            str_pad($buildNumber, 3, '0', STR_PAD_LEFT));
+
+        // 2100 000 000
+        if ($completeVersion > 2100000000) {
+            throw new Exception('[Android version] The versionCode must not exceed 2100000000');
+        }
+
+        return $completeVersion;
+    }
+
+    /**
+     * @param $version
+     * @return $this
+     * @throws Exception
+     */
+    public function setVersion ($version): self
+    {
+        $this->setData('version', $version);
+        self::validatedVersion($this);
+
+        return $this;
     }
 
     /**

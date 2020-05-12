@@ -357,34 +357,52 @@ App.config(function($routeProvider) {
 
     };
 
-    $scope.saveDeviceInfo = function() {
+    $scope.saveDeviceInfo = function(confirm) {
 
         $scope.device_form_loader_is_visible = true;
 
-        Application.saveDeviceInfo($scope.application_banner).success(function(data) {
+        var localConfirm = confirm === undefined ? false : confirm;
 
-            if(angular.isObject(data)) {
+        delete $scope.application_banner.confirm;
+        if (localConfirm === true) {
+            $scope.application_banner.confirm = localConfirm;
+        }
+
+        Application
+            .saveDeviceInfo($scope.application_banner)
+            .success(function(data) {
+
+                if(angular.isObject(data)) {
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                    $scope.application_banner.devices[1].versionCode = data.versionCode;
+                } else {
+                    $scope.message.setText(Label.save.error)
+                        .isError(true)
+                        .show()
+                    ;
+                }
+
+            }).error(function(data) {
+
                 $scope.message.setText(data.message)
-                    .isError(false)
-                    .show()
-                ;
-            } else {
-                $scope.message.setText(Label.save.error)
                     .isError(true)
                     .show()
                 ;
-            }
 
-        }).error(function(data) {
+                setTimeout(function () {
+                    if (data.hasOwnProperty('confirm')) {
+                        if (window.confirm(data.confirmText)) {
+                            $scope.saveDeviceInfo(true);
+                        }
+                    }
+                }, 1200);
 
-            $scope.message.setText(data.message)
-                .isError(true)
-                .show()
-            ;
-
-        }).finally(function() {
-            $scope.device_form_loader_is_visible = false;
-        });
+            }).finally(function() {
+                $scope.device_form_loader_is_visible = false;
+            });
     };
 
     $scope.saveBannerInfo = function() {

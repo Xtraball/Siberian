@@ -151,6 +151,16 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application = $this->getApplication();
 
                 $androidDevice = $application->getAndroidDevice();
+
+                $currentVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice);
+                $newVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice, $params['version'], 1);
+
+                // Ask user to confirm intent!
+                if ($newVersion < $currentVersion) {
+                    throw new \Siberian\Exception(p__('application',
+                        'The new version must be greater than the current one, please ask your administrator to change it if there was an error.'), 100);
+                }
+
                 $androidDevice
                     ->setVersion($params['version'])
                     ->save();

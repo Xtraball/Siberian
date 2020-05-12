@@ -59,24 +59,6 @@ class Application_Model_Device extends Core_Model_Default {
     }
 
     /**
-     * @param string $version
-     * @return $this
-     * @throws \Siberian\Exception
-     */
-    public function setVersion ($version = null)
-    {
-        if ($version === null) {
-            $version = $this->getType()->getCurrentVersion();
-        }
-
-        if (preg_match('/^(\d+\.)?(\d+\.)?(\*|\d+)$/', $version) !== 1) {
-            throw new \Siberian\Exception(__('The version number format is invalid, please use x.y.z where x, y & z are only digits.'));
-        }
-
-        return $this->setData('version', $version);
-    }
-
-    /**
      * @param string $description
      * @return $this
      * @throws Zend_Exception
@@ -202,12 +184,12 @@ class Application_Model_Device extends Core_Model_Default {
     }
 
     /**
-     * @return mixed
+     * @return Application_Model_Device_Abstract
      */
     public function getType() {
         if (is_null($this->_type)) {
 
-            $class = sprintf("%s_%s_%s",
+            $class = sprintf('%s_%s_%s',
                 get_class(),
                 ucfirst($this->getDesignCode()),
                 ucfirst(strtolower(self::$_device_ids[$this->getTypeId()]))
