@@ -30,7 +30,7 @@ var mediaObjects = {};
  * This class provides access to the device media, interfaces to both sound and video
  *
  * @constructor
- * @param src                   The file name or url to play
+ * @param options                   The file name or url to play
  * @param successCallback       The callback to be called when the file is done playing or recording.
  *                                  successCallback()
  * @param errorCallback         The callback to be called if there is an error.
@@ -38,17 +38,18 @@ var mediaObjects = {};
  * @param statusCallback        The callback to be called when media status has changed.
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
-var Media = function(src, successCallback, errorCallback, statusCallback) {
-    argscheck.checkArgs('sFFF', 'MediaNative', arguments);
+var Media = function(options, successCallback, errorCallback, statusCallback) {
+    argscheck.checkArgs('OFFF', 'MediaNative', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
-    this.src = src;
+    this.src = options.src;
+    this.isStream = options.isStream;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
     this.statusCallback = statusCallback;
     this._duration = -1;
     this._position = -1;
-    exec(null, this.errorCallback, "MediaNative", "create", [this.id, this.src]);
+    exec(null, this.errorCallback, "MediaNative", "create", [this.id, this.src, this.isStream]);
 };
 
 // Media messages
