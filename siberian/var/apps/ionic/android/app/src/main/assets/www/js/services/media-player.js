@@ -144,7 +144,10 @@ angular
         $log.debug(service.currentTrack);
 
         service.media = new MediaNative(
-            service.currentTrack.streamUrl,
+            {
+                src: service.currentTrack.streamUrl,
+                isStream: service.isStream ? 1 : 0
+            },
             function (success) {
                 // success is media end
                 service.next();
@@ -428,13 +431,14 @@ angular
                 ticker: $translate.instant('Now playing ') + service.currentTrack.name
             };
 
-            // Update/Listen only if it's created.
-            MusicControls.create(mcDictionnary,
-                function () {
-                    MusicControls.subscribe(musicControlsEventsHandler);
-                    MusicControls.listen();
-                    MusicControls.updateIsPlaying(service.isPlaying);
-                }, function () {});
+            MusicControls.subscribe(musicControlsEventsHandler);
+            MusicControls.listen();
+            $timeout(function () {
+                MusicControls.create(mcDictionnary,
+                    function () {
+                        MusicControls.updateIsPlaying(service.isPlaying);
+                    }, function () {});
+            }, 20);
         }
     };
 
@@ -468,6 +472,7 @@ angular
                 }
             } catch (e) {
                 // Automatically cancel if any error found!
+                console.log(e);
                 $interval.cancel(service.seekbarTimer);
             }
         }, 500);
