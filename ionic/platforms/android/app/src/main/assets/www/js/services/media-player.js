@@ -32,6 +32,10 @@ angular
         useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
     };
 
+    var blankListener = function (event) {
+        // Do nothing!
+    };
+
     var musicControlsEventsHandler = function (event) {
         var response = JSON.parse(event);
 
@@ -171,6 +175,11 @@ angular
     };
 
     service.reset = function () {
+        if (service.useMusicControls) {
+            MusicControls.subscribe(blankListener);
+            MusicControls.destroy();
+        }
+
         if (service.media != null) {
             service.media.release();
         }
@@ -191,18 +200,19 @@ angular
         service.currentIndex = 0;
         service.currentTrack = null;
         service.shuffleTracks = [];
-
-        if (service.useMusicControls) {
-            MusicControls.destroy();
-        }
     };
 
     service.destroy = function () {
+        if (service.useMusicControls) {
+            MusicControls.updateDismissable(true);
+            MusicControls.subscribe(blankListener);
+            MusicControls.destroy();
+        }
+
         $interval.cancel(service.seekbarTimer);
-        if (service.media) {
-            if (service.isPlaying) {
-                service.media.pause();
-            }
+        if (service.media &&
+            service.isPlaying) {
+            service.media.pause();
         }
 
         service.reset();
@@ -472,7 +482,6 @@ angular
                 }
             } catch (e) {
                 // Automatically cancel if any error found!
-                console.log(e);
                 $interval.cancel(service.seekbarTimer);
             }
         }, 500);
