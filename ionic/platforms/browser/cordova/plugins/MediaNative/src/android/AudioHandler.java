@@ -117,7 +117,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.stopRecordingAudio(args.getString(0), true);
+                        stopRecordingAudio(args.getString(0), true);
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -127,7 +127,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.stopRecordingAudio(args.getString(0), false);
+                        stopRecordingAudio(args.getString(0), false);
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -137,7 +137,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.resumeRecordingAudio(args.getString(0));
+                        resumeRecordingAudio(args.getString(0));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -155,7 +155,7 @@ public class AudioHandler extends CordovaPlugin {
                         } catch (IllegalArgumentException e) {
                             fileUriStr = target;
                         }
-                        this.startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr));
+                        startPlayingAudio(args.getString(0), FileHelper.stripFileProtocol(fileUriStr));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -165,7 +165,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.seekToAudio(args.getString(0), args.getInt(1));
+                        seekToAudio(args.getString(0), args.getInt(1));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -175,7 +175,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.pausePlayingAudio(args.getString(0));
+                        pausePlayingAudio(args.getString(0));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -185,7 +185,7 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        this.stopPlayingAudio(args.getString(0));
+                        stopPlayingAudio(args.getString(0));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -196,7 +196,7 @@ public class AudioHandler extends CordovaPlugin {
                 public void run() {
                     try {
                         try {
-                            this.setVolume(args.getString(0), Float.parseFloat(args.getString(1)));
+                            setVolume(args.getString(0), Float.parseFloat(args.getString(1)));
                         } catch (NumberFormatException nfe) {
                             //no-op
                         }
@@ -209,9 +209,8 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        float f = this.getCurrentPositionAudio(args.getString(0));
+                        float f = getCurrentPositionAudio(args.getString(0));
                         callbackContext.sendPluginResult(new PluginResult(status, f));
-                        return true;
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -221,9 +220,8 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        float f = this.getDurationAudio(args.getString(0), args.getString(1));
+                        float f = getDurationAudio(args.getString(0), args.getString(1));
                         callbackContext.sendPluginResult(new PluginResult(status, f));
-                        return true;
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
@@ -245,36 +243,31 @@ public class AudioHandler extends CordovaPlugin {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        boolean b = this.release(args.getString(0));
+                        boolean b = release(args.getString(0));
                         callbackContext.sendPluginResult(new PluginResult(status, b));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
                 }
             });
-
-            return true;
         } else if (action.equals("messageChannel")) {
             messageChannel = callbackContext;
-            return true;
         } else if (action.equals("getCurrentAmplitudeAudio")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
                     try {
-                        float f = this.getCurrentAmplitudeAudio(args.getString(0));
+                        float f = getCurrentAmplitudeAudio(args.getString(0));
                         callbackContext.sendPluginResult(new PluginResult(status, f));
                     } catch (Exception e) {
                         callbackContext.error(e.getMessage());
                     }
                 }
             });
-
-            return true;
         } else { // Unrecognized action.
             return false;
         }
 
-        callbackContext.sendPluginResult(new PluginResult(status, result));
+        //callbackContext.sendPluginResult(new PluginResult(status, result));
 
         return true;
     }

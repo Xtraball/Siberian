@@ -6,7 +6,7 @@
  */
 angular
 .module('starter')
-.service('InAppLinks', function ($rootScope, $state, $injector, Customer, Codescan, Dialog, Pages) {
+.service('InAppLinks', function ($rootScope, $state, $injector, $ocLazyLoad, Customer, Codescan, Dialog, Pages) {
     var service = {};
 
     /**
@@ -74,7 +74,11 @@ angular
                 // Handles openCallback first
                 if (feature.open_callback_class !== null) {
                     try {
-                        $injector.get(feature.open_callback_class).openCallback(feature);
+                        $ocLazyLoad
+                            .load(feature.lazy_load.split(','))
+                            .then(function () {
+                                $injector.get(feature.open_callback_class).openCallback(feature);
+                            });
                     } catch (e) {
                         Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
                     }

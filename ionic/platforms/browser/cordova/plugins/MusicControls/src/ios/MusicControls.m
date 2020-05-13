@@ -300,7 +300,10 @@ MusicControlsInfo * musicControlsSettings;
 - (void) deregisterMusicControlsEventListener {
     [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"receivedEvent" object:nil];
-    
+
+    MPNowPlayingInfoCenter * nowPlayingInfoCenter =  [MPNowPlayingInfoCenter defaultCenter];
+    nowPlayingInfoCenter.nowPlayingInfo = nil;
+
     MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
     [commandCenter.nextTrackCommand removeTarget:self];
     [commandCenter.previousTrackCommand removeTarget:self];
