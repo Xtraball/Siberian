@@ -250,11 +250,8 @@ public class AudioHandler extends CordovaPlugin {
                     }
                 }
             });
-
-            return true;
         } else if (action.equals("messageChannel")) {
             messageChannel = callbackContext;
-            return true;
         } else if (action.equals("getCurrentAmplitudeAudio")) {
             cordova.getActivity().runOnUiThread(new Runnable() {
                 public void run() {
@@ -266,13 +263,11 @@ public class AudioHandler extends CordovaPlugin {
                     }
                 }
             });
-
-            return true;
         } else { // Unrecognized action.
             return false;
         }
 
-        callbackContext.sendPluginResult(new PluginResult(status, result));
+        //callbackContext.sendPluginResult(new PluginResult(status, result));
 
         return true;
     }
