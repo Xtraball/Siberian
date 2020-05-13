@@ -25,7 +25,7 @@
                 <i class="icon ion-android-share-alt"></i>
             </button>
             <button class="button button-clear"
-                    ng-click="destroy('player')">
+                    ng-click="player.reset()">
                 <i class="icon ion-power-off-thin"></i>
             </button>
         </div>
@@ -40,7 +40,7 @@
         <div ng-if="player.currentTab == 'playlist'">
             <ion-item class="audio-playlist-item item-custom"
                       ng-repeat="track in player.tracks"
-                      ng-click="selectTrack($index)"
+                      ng-click="player.selectTrack($index)"
                       ng-class="{ 'playing': $index == player.currentIndex }">
                 <div class="audio-playlist-flex">
                     <img class="audio-playlist-cover"
