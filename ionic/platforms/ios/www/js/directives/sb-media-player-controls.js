@@ -14,8 +14,6 @@ angular
                 player: MediaPlayer
             });
 
-            $scope.isNativeApp = isNativeApp;
-
             $scope.purchase = function () {
                 if (MediaPlayer.currentTrack.purchaseUrl) {
                     LinkService.openLink(MediaPlayer.currentTrack.purchaseUrl, {}, true);
@@ -32,76 +30,14 @@ angular
                 SocialSharing.share(content, undefined, undefined, undefined, file);
             };
 
-            $scope.openPlayerModal = function (tab) {
-                // If the tab is not provided, button works as a toggler!
-                if (tab === undefined) {
-                    tab = $scope.player.currentTab === 'cover' ? 'playlist' : 'cover';
-                }
-                MediaPlayer.openPlayerModal(tab);
-            };
-
-            $scope.closePlayerModal = function () {
-                MediaPlayer.closePlayerModal();
-            };
-
             $scope.duration = function () {
                 if ($scope.player &&
                     $scope.player.media &&
-                    $scope.player.media._duration) {
+                    $scope.player.media._duration &&
+                    $scope.player.media._duration > 0) {
                     return $filter('seconds_to_minutes')(Math.floor($scope.player.media._duration));
                 }
                 return '0:00';
-            };
-
-            $scope.playPause = function () {
-                MediaPlayer.playPause();
-            };
-
-            $scope.prev = function () {
-                MediaPlayer.prev();
-            };
-
-            $scope.next = function () {
-                MediaPlayer.next();
-            };
-
-            $scope.willSeek = function () {
-                MediaPlayer.willSeek();
-            };
-
-            $scope.seekTo = function (position) {
-                MediaPlayer.seekTo(position);
-            };
-
-            $scope.backward = function () {
-                MediaPlayer.backward();
-            };
-
-            $scope.forward = function () {
-                MediaPlayer.forward();
-            };
-
-            $scope.repeat = function () {
-                MediaPlayer.repeat();
-            };
-
-            $scope.shuffle = function () {
-                MediaPlayer.shuffle();
-            };
-
-            $scope.destroy = function () {
-                MediaPlayer.destroy();
-            };
-
-            $scope.selectTrack = function (index) {
-                MediaPlayer.currentTab = 'cover';
-
-                $timeout(function () {
-                    MediaPlayer.currentIndex = index;
-
-                    MediaPlayer.preStart();
-                    MediaPlayer.start();
-                }, 500);
             };
         }
     };
