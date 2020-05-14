@@ -6,9 +6,8 @@
  */
 angular
     .module('starter')
-    .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
-                                      $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, SB, $q) {
+    .service('MediaPlayer', function ($interval, $rootScope, $stateParams, $timeout, $translate,
+                                      $window, Dialog, Modal, SB) {
         var service = {
             media: null,
             isInitialized: false,
@@ -22,6 +21,7 @@ angular
             currentTrack: null,
             currentTab: 'cover',
             isBuffering: false,
+            listenEvents: false,
             calledReset: false,
             isPrev: false,
             isNext: false,
@@ -30,8 +30,7 @@ angular
             elapsedTime: 0,
             playerModal: null,
             playerModalIsOpen: false,
-            value_id: null,
-            useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
+            value_id: null
         };
 
         service.decodeCallback = function (result) {
@@ -89,6 +88,73 @@ angular
                     // Do something
                     break;
             }
+        };
+
+        service.mediaNativeChangeCallback = function (change) {
+            if (!service.listenEvents) {
+                return;
+            }
+
+            var response = service.decodeCallback(change);
+            // something changed, update controls & infos
+            if (service.media !== null) {
+                service.media.getDuration(function () {
+                    service.duration = service.media._duration;
+                }, function () {});
+            }
+
+            // Play next if possible!
+            if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
+                if (!service.calledReset &&
+                    !service.isPrev &&
+                    !service.isNext &&
+                    !service.isSelecting) {
+                    // Reset was not called, it's a "track end stop", so we call next
+
+                    service.next();
+                }
+                // Reset locks after a timeout to prevent dupes!
+                service.calledReset = false;
+                service.isPrev = false;
+                service.isNext = false;
+                service.isSelecting = false;
+            }
+        };
+
+        service.mediaNativeErrorCallback = function (error) {
+            if (!service.listenEvents) {
+                return;
+            }
+            var response = service.decodeCallback(error);
+
+            try {
+                switch (parseInt(response, 10)) {
+                    case MediaError.MEDIA_ERR_NONE_ACTIVE:
+                        // Ignore
+                        break;
+                    case MediaError.MEDIA_ERR_ABORTED:
+                        Dialog.alert('Error', 'Media playing was aborted.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NETWORK:
+                        Dialog.alert('Error', 'A network error occurred while loading the media.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_DECODE:
+                        Dialog.alert('Error', 'Unable to decode this media type.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NONE_SUPPORTED:
+                        Dialog.alert('Error', 'This media type is not supported.', 'OK', -1, 'media');
+                        break;
+                }
+            } catch (e) {
+                // Nope!
+            }
+        };
+
+        service.mediaNativeSuccessCallback = function (success) {
+            // Do nothing for now!
+            $timeout(function () {
+                service.listenEvents = true;
+            }, 500);
         };
 
         // Init media player
@@ -158,6 +224,7 @@ angular
         };
 
         service.start = function () {
+            service.listenEvents = false;
             service.currentTrack = service.tracks[service.currentIndex];
 
             if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
@@ -182,60 +249,16 @@ angular
                     src: service.currentTrack.streamUrl,
                     isStream: service.isRadio ? 1 : 0
                 },
-                function (success) {},
-                function (error) {
-                    var response = service.decodeCallback(error);
+                service.mediaNativeSuccessCallback,
+                service.mediaNativeErrorCallback,
+                service.mediaNativeChangeCallback);
 
-                    try {
-                        switch (parseInt(response, 10)) {
-                            case MediaError.MEDIA_ERR_NONE_ACTIVE:
-                                    // Ignore
-                                break;
-                            case MediaError.MEDIA_ERR_ABORTED:
-                                Dialog.alert('Error', 'Media playing was aborted.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_NETWORK:
-                                Dialog.alert('Error', 'A network error occurred while loading the media.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_DECODE:
-                                Dialog.alert('Error', 'Unable to decode this media type.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_NONE_SUPPORTED:
-                                Dialog.alert('Error', 'This media type is not supported.', 'OK', -1);
-                                break;
-                        }
-                    } catch (e) {
-                        // Nope!
-                    }
-                },
-                function (change) {
-                    var response = service.decodeCallback(change);
-                    // something changed, update controls & infos
-                    if (service.media !== null) {
-                        service.media.getDuration(function () {
-                            service.duration = service.media._duration;
-                        }, function () {});
-                    }
-
-
-                    // Play next if possible!
-                    if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
-                        if (!service.calledReset &&
-                            !service.isPrev &&
-                            !service.isNext &&
-                            !service.isSelecting) {
-                            // Reset was not called, it's a "track end stop", so we call next
-                            service.next();
-                        }
-                        // Reset locks
-                        service.calledReset = false;
-                        service.isPrev = false;
-                        service.isNext = false;
-                        service.isSelecting = false;
-                    }
-                });
-
-            service.play();
+            // If it's a browser chrome/safari, user must touch to play, in native we can auto-play!
+            if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) {
+                // Do nothing for now!
+            } else {
+                service.play();
+            }
         };
 
         // Reset is promised based, as we have to wait on few events!
@@ -366,7 +389,7 @@ angular
             }
 
             // Prevent change end to call next!
-            service.isNext = true;
+            service.isPrev = true;
 
             // Restart to 0, that's all!
             if (service.repeatType === 'one') {
@@ -376,22 +399,16 @@ angular
 
             if (service.isShuffling) {
                 service._randomSong();
-            }
-
-            // Playlist stop at the last track!
-            if (service.repeatType === 'playlist') {
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
                 service.currentIndex--;
                 if (service.currentIndex < 0) {
                     // We reached end of the playlist!
                     service.currentIndex = 0;
-                    service.stop();
+                    service.pause();
 
                     return;
                 }
-            }
-
-            // All returns to the first track
-            if (service.repeatType === 'loop') {
+            } else if (service.repeatType === 'loop') { // All returns to the first track
                 service.currentIndex--;
                 if (service.currentIndex < 0) {
                     // We reached end of the playlist!
@@ -429,24 +446,15 @@ angular
 
             if (service.isShuffling) {
                 service._randomSong();
-            }
-
-            // Playlist stop at the last track!
-            if (service.repeatType === 'playlist') {
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
                 service.currentIndex++;
-                if (service.currentIndex > service.tracks.length) {
+                if (service.currentIndex >= service.tracks.length) {
                     // We reached end of the playlist!
                     service.currentIndex = 0;
-                    service.stop();
-
-                    return;
                 }
-            }
-
-            // All returns to the first track
-            if (service.repeatType === 'loop') {
+            } else if (service.repeatType === 'loop') { // All returns to the first track
                 service.currentIndex++;
-                if (service.currentIndex > service.tracks.length) {
+                if (service.currentIndex >= service.tracks.length) {
                     // We reached end of the playlist!
                     service.currentIndex = 0;
                 }
@@ -457,7 +465,7 @@ angular
         };
 
         service._randomSong = function () {
-            var randomIndex;
+            var randomIndex = -1;
             do {
                 randomIndex = Math.floor(Math.random() * service.tracks.length);
             } while (randomIndex === service.currentIndex);
@@ -571,7 +579,7 @@ angular
             service.seekbarTimer = $interval(function () {
                 try {
                     service.media.getCurrentPosition(
-                        function () {
+                        function (success) {
                             if (service.media) {
                                 service.elapsedTime = service.media._position;
 
@@ -584,7 +592,11 @@ angular
                                     service.isBuffering = false;
                                 }
                             }
-                        }, function () {});
+                        }, function (error) {
+                            // On error, we try the next track!
+                            service.cancelSeekBar();
+                            service.next();
+                        });
                 } catch (e) {
                     service.cancelSeekBar();
                 }
