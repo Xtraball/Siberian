@@ -13,12 +13,13 @@
                  ng-if="!player.isRadio">
                 <mini-elapsed elapsed-time="player.elapsedTime"></mini-elapsed>
                 <input name="seekbar"
-                       class="mini-player"
+                       class="mini-player scroll"
                        type="range"
                        value="{{ player.elapsedTime }}"
                        min="0"
                        max="{{ player.media._duration }}"
                        ng-model="player.elapsedTime"
+                       on-touch="player.pause()"
                        on-release="player.seekTo(player.elapsedTime)" />
                 <span class="mini-duration">
                     {{ duration() }}
@@ -49,7 +50,7 @@
             <!-- controls -->
             <button class="button button-clear button-light relative"
                     ng-click="player.repeat()"
-                    ng-class="{ 'button-active button-positive': player.repeatType }"
+                    ng-class="{ 'button-active button-positive': player.repeatType != 'playlist' }"
                     ng-disabled="player.isRadio">
                 <i class="icon ion-refresh"></i>
                 <span ng-show="player.repeatType == 'one'"
@@ -63,7 +64,7 @@
             </button>
             <button class="button button-clear button-light"
                     ng-click="player.prev()"
-                    ng-disabled="(player.currentIndex == 0 || player.isRadio) && !player.repeatType">
+                    ng-disabled="!player.hasPrev()">
                 <i class="icon ion-ios-skipbackward"></i>
             </button>
             <button class="button button-clear button-light"
@@ -85,7 +86,7 @@
             </button>
             <button class="button button-clear button-light"
                     ng-click="player.next()"
-                    ng-disabled="(player.currentIndex == (player.tracks.length - 1) || player.isRadio) && !player.repeatType">
+                    ng-disabled="!player.hasNext()">
                 <i class="icon ion-ios-skipforward"></i>
             </button>
             <button class="button button-clear button-light"

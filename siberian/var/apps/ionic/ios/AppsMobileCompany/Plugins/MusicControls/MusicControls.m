@@ -86,34 +86,38 @@ MusicControlsInfo * musicControlsSettings;
 
 - (MPMediaItemArtwork *) createCoverArtwork: (NSString *) coverUri {
     UIImage * coverImage = nil;
-    
-    if (coverUri == nil) {
-        return nil;
-    }
-    
-    if ([coverUri hasPrefix:@"http://"] || [coverUri hasPrefix:@"https://"]) {
-        NSURL * coverImageUrl = [NSURL URLWithString:coverUri];
-        NSData * coverImageData = [NSData dataWithContentsOfURL: coverImageUrl];
-        
-        coverImage = [UIImage imageWithData: coverImageData];
-    }
-    else if ([coverUri hasPrefix:@"file://"]) {
-        NSString * fullCoverImagePath = [coverUri stringByReplacingOccurrencesOfString:@"file://" withString:@""];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath: fullCoverImagePath]) {
-            coverImage = [[UIImage alloc] initWithContentsOfFile: fullCoverImagePath];
+    @try {
+        if (coverUri == nil) {
+            return nil;
+        }
+
+        if ([coverUri hasPrefix:@"http://"] || [coverUri hasPrefix:@"https://"]) {
+            NSURL * coverImageUrl = [NSURL URLWithString:coverUri];
+            NSData * coverImageData = [NSData dataWithContentsOfURL: coverImageUrl];
+
+            coverImage = [UIImage imageWithData: coverImageData];
+        }
+        else if ([coverUri hasPrefix:@"file://"]) {
+            NSString * fullCoverImagePath = [coverUri stringByReplacingOccurrencesOfString:@"file://" withString:@""];
+
+            if ([[NSFileManager defaultManager] fileExistsAtPath: fullCoverImagePath]) {
+                coverImage = [[UIImage alloc] initWithContentsOfFile: fullCoverImagePath];
+            }
+        }
+        else if (![coverUri isEqual:@""]) {
+            NSString * baseCoverImagePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            NSString * fullCoverImagePath = [NSString stringWithFormat:@"%@%@", baseCoverImagePath, coverUri];
+
+            if ([[NSFileManager defaultManager] fileExistsAtPath:fullCoverImagePath]) {
+                coverImage = [UIImage imageNamed:fullCoverImagePath];
+            }
+        }
+        else {
+            coverImage = [UIImage imageNamed:@"none"];
         }
     }
-    else if (![coverUri isEqual:@""]) {
-        NSString * baseCoverImagePath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        NSString * fullCoverImagePath = [NSString stringWithFormat:@"%@%@", baseCoverImagePath, coverUri];
-    
-        if ([[NSFileManager defaultManager] fileExistsAtPath:fullCoverImagePath]) {
-            coverImage = [UIImage imageNamed:fullCoverImagePath];
-        }
-    }
-    else {
-        coverImage = [UIImage imageNamed:@"none"];
+    @catch (NSException *exception) {
+        coverImage = nil;
     }
     
     return [self isCoverImageValid:coverImage] ? [[MPMediaItemArtwork alloc] initWithImage:coverImage] : nil;
