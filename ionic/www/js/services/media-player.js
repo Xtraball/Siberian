@@ -16,8 +16,7 @@ angular
             isPlaying: false,
             isRadio: false,
             isShuffling: false,
-            repeatType: null,
-            shuffleTracks: [],
+            repeatType: 'playlist',
             tracks: [],
             currentIndex: 0,
             currentTrack: null,
@@ -37,8 +36,7 @@ angular
 
         service.decodeCallback = function (result) {
             try {
-                var localResult = JSON.parse(result);
-                return localResult;
+                return JSON.parse(result);
             } catch (e) {
                 if (e.message.indexOf('Unexpected token') !== -1) {
                     return result;
@@ -273,10 +271,9 @@ angular
                 service.playerModalIsOpen = false;
             }
 
-            service.repeatType = null;
+            service.repeatType = 'playlist';
             service.currentIndex = 0;
             service.currentTrack = null;
-            service.shuffleTracks = [];
         };
 
         service.openPlayer = function () {
@@ -353,30 +350,67 @@ angular
             service.start();
         };
 
+        service.hasPrev = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if (service.currentIndex === 0) {
+                return false;
+            }
+            return true;
+        };
+
         service.prev = function () {
             if (service.isRadio) {
                 return;
             }
 
             // Prevent change end to call next!
-            service.isPrev = true;
+            service.isNext = true;
 
+            // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
-            } else if (service.isShuffling) {
-                if (service.shuffleTracks.length >= service.tracks.length && service.repeatType === 'all') {
-                    service.shuffleTracks = [];
-                }
+                return;
+            }
 
+            if (service.isShuffling) {
                 service._randomSong();
-            } else if ((service.repeatType === 'all') && (service.currentIndex === 0)) {
-                service.currentIndex = service.tracks.length - 1;
-            } else if (service.currentIndex > 0) {
-                service.currentIndex = service.currentIndex - 1;
+            }
+
+            // Playlist stop at the last track!
+            if (service.repeatType === 'playlist') {
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                    service.stop();
+
+                    return;
+                }
+            }
+
+            // All returns to the first track
+            if (service.repeatType === 'loop') {
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = service.tracks.length - 1;
+                }
             }
 
             service.preStart();
             service.start();
+        };
+
+        service.hasNext = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if ((service.currentIndex === (service.tracks.length - 1))) {
+                return false;
+            }
+            return true;
         };
 
         service.next = function () {
@@ -387,46 +421,48 @@ angular
             // Prevent change end to call next!
             service.isNext = true;
 
+            // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
-            } else {
-                if (service.isShuffling) {
-                    if ((service.shuffleTracks.length >= service.tracks.length) && (service.repeatType === 'all')) {
-                        service.shuffleTracks = [];
-                    }
-
-                    service._randomSong();
-                } else if ((service.repeatType === 'all') && (service.currentIndex >= (service.tracks.length - 1))) {
-                    service.currentIndex = 0;
-                } else if (service.currentIndex < (service.tracks.length - 1)) {
-                    service.currentIndex = service.currentIndex + 1;
-                }
-
-                service.preStart();
-                service.start();
+                return;
             }
+
+            if (service.isShuffling) {
+                service._randomSong();
+            }
+
+            // Playlist stop at the last track!
+            if (service.repeatType === 'playlist') {
+                service.currentIndex++;
+                if (service.currentIndex > service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                    service.stop();
+
+                    return;
+                }
+            }
+
+            // All returns to the first track
+            if (service.repeatType === 'loop') {
+                service.currentIndex++;
+                if (service.currentIndex > service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                }
+            }
+
+            service.preStart();
+            service.start();
         };
 
         service._randomSong = function () {
-            var random_index = Math.floor(Math.random() * service.tracks.length);
+            var randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * service.tracks.length);
+            } while (randomIndex === service.currentIndex);
 
-            while ((service.shuffleTracks.indexOf(random_index) !== -1) ||
-            (random_index === service.currentIndex)) {
-                if (service.shuffleTracks.indexOf(random_index) !== -1) {
-                    random_index = Math.floor(Math.random() * service.tracks.length);
-                } else {
-                    random_index = random_index + 1;
-                }
-            }
-
-            if (service.shuffleTracks.length >= service.tracks.length) {
-                random_index = 0;
-            }
-
-            service.shuffleTracks.push(random_index);
-            service.currentIndex = random_index;
-
-            service.updateMusicControls();
+            service.currentIndex = randomIndex;
         };
 
         service.backward = function () {
@@ -451,8 +487,7 @@ angular
 
         service.seekTo = function (position) {
             if (position === 0) {
-                service.media.pause();
-                service.isPlaying = false;
+                service.pause();
             }
             service.media.seekTo(position * 1000);
             if (!service.isPlaying) {
@@ -462,30 +497,33 @@ angular
 
         service.repeat = function () {
             switch (service.repeatType) {
-                case null:
-                    service.repeatType = 'all';
+                case 'playlist':
+                    service.repeatType = 'loop';
                     break;
 
-                case 'all':
+                case 'loop':
                     service.repeatType = 'one';
+                    // Shuffle is disabled when we loop a single music
+                    service.isShuffling = false;
                     break;
 
                 case 'one':
-                    service.repeatType = null;
+                    service.repeatType = 'playlist';
                     break;
             }
         };
 
         service.shuffle = function () {
-            service.shuffleTracks = [];
             service.isShuffling = !service.isShuffling;
+            if (service.isShuffling) {
+                // Repeat type is automatically ALL when shuffling
+                service.repeatType = 'loop';
+            }
         };
 
         service.updateMusicControls = function () {
-            var hasPrev, hasNext = !service.isRadio;
-
-            hasPrev = service.currentIndex !== 0;
-            hasNext = service.currentIndex !== (service.tracks.length - 1);
+            var hasPrev = service.currentIndex !== 0;
+            var hasNext = service.currentIndex !== (service.tracks.length - 1);
 
             service.media.getCurrentPosition(function () {}, function () {});
 
