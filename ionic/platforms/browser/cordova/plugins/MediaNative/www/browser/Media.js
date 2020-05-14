@@ -39,7 +39,7 @@ var mediaObjects = {};
  *                                  statusCallback(int statusCode) - OPTIONAL
  */
 var Media = function(options, successCallback, errorCallback, statusCallback) {
-    argscheck.checkArgs('SFFF', 'MediaNative', arguments);
+    argscheck.checkArgs('OFFF', 'MediaNative', arguments);
     this.id = utils.createUUID();
     mediaObjects[this.id] = this;
     this.src = options.src;

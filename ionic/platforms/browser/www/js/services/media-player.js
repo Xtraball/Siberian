@@ -6,9 +6,8 @@
  */
 angular
     .module('starter')
-    .service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
-                                      $stateParams, $timeout, $translate, $window, Application,
-                                      HomepageLayout, Dialog, Modal, SB, $q) {
+    .service('MediaPlayer', function ($interval, $rootScope, $stateParams, $timeout, $translate,
+                                      $window, Dialog, Modal, SB) {
         var service = {
             media: null,
             isInitialized: false,
@@ -16,13 +15,13 @@ angular
             isPlaying: false,
             isRadio: false,
             isShuffling: false,
-            repeatType: null,
-            shuffleTracks: [],
+            repeatType: 'playlist',
             tracks: [],
             currentIndex: 0,
             currentTrack: null,
             currentTab: 'cover',
             isBuffering: false,
+            listenEvents: false,
             calledReset: false,
             isPrev: false,
             isNext: false,
@@ -31,14 +30,12 @@ angular
             elapsedTime: 0,
             playerModal: null,
             playerModalIsOpen: false,
-            value_id: null,
-            useMusicControls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
+            value_id: null
         };
 
         service.decodeCallback = function (result) {
             try {
-                var localResult = JSON.parse(result);
-                return localResult;
+                return JSON.parse(result);
             } catch (e) {
                 if (e.message.indexOf('Unexpected token') !== -1) {
                     return result;
@@ -93,19 +90,81 @@ angular
             }
         };
 
+        service.mediaNativeChangeCallback = function (change) {
+            if (!service.listenEvents) {
+                return;
+            }
+
+            var response = service.decodeCallback(change);
+            // something changed, update controls & infos
+            if (service.media !== null) {
+                service.media.getDuration(function () {
+                    service.duration = service.media._duration;
+                }, function () {});
+            }
+
+            // Play next if possible!
+            if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
+                if (!service.calledReset &&
+                    !service.isPrev &&
+                    !service.isNext &&
+                    !service.isSelecting) {
+                    // Reset was not called, it's a "track end stop", so we call next
+
+                    service.next();
+                }
+                // Reset locks after a timeout to prevent dupes!
+                service.calledReset = false;
+                service.isPrev = false;
+                service.isNext = false;
+                service.isSelecting = false;
+            }
+        };
+
+        service.mediaNativeErrorCallback = function (error) {
+            if (!service.listenEvents) {
+                return;
+            }
+            var response = service.decodeCallback(error);
+
+            try {
+                switch (parseInt(response, 10)) {
+                    case MediaError.MEDIA_ERR_NONE_ACTIVE:
+                        // Ignore
+                        break;
+                    case MediaError.MEDIA_ERR_ABORTED:
+                        Dialog.alert('Error', 'Media playing was aborted.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NETWORK:
+                        Dialog.alert('Error', 'A network error occurred while loading the media.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_DECODE:
+                        Dialog.alert('Error', 'Unable to decode this media type.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NONE_SUPPORTED:
+                        Dialog.alert('Error', 'This media type is not supported.', 'OK', -1, 'media');
+                        break;
+                }
+            } catch (e) {
+                // Nope!
+            }
+        };
+
+        service.mediaNativeSuccessCallback = function (success) {
+            // Do nothing for now!
+            $timeout(function () {
+                service.listenEvents = true;
+            }, 500);
+        };
+
         // Init media player
         service.init = function (tracksLoader, isRadio, trackIndex) {
             // Reset service when changing media feature!
             if ((service.value_id !== $stateParams.value_id) ||
                 (service.media && (service.currentTrack.streamUrl !== tracksLoader.tracks[trackIndex].streamUrl))) {
-                service
-                    .reset()
-                    .then(function () {
-                        service._initCallback(tracksLoader, isRadio, trackIndex);
-                    });
-            } else {
-                service._initCallback(tracksLoader, isRadio, trackIndex);
+                service.reset();
             }
+            service._initCallback(tracksLoader, isRadio, trackIndex);
         };
 
         service._initCallback = function (tracksLoader, isRadio, trackIndex) {
@@ -165,6 +224,7 @@ angular
         };
 
         service.start = function () {
+            service.listenEvents = false;
             service.currentTrack = service.tracks[service.currentIndex];
 
             if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
@@ -189,66 +249,21 @@ angular
                     src: service.currentTrack.streamUrl,
                     isStream: service.isRadio ? 1 : 0
                 },
-                function (success) {},
-                function (error) {
-                    var response = service.decodeCallback(error);
+                service.mediaNativeSuccessCallback,
+                service.mediaNativeErrorCallback,
+                service.mediaNativeChangeCallback);
 
-                    try {
-                        switch (parseInt(response, 10)) {
-                            case MediaError.MEDIA_ERR_NONE_ACTIVE:
-                                    // Ignore
-                                break;
-                            case MediaError.MEDIA_ERR_ABORTED:
-                                Dialog.alert('Error', 'Media playing was aborted.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_NETWORK:
-                                Dialog.alert('Error', 'A network error occurred while loading the media.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_DECODE:
-                                Dialog.alert('Error', 'Unable to decode this media type.', 'OK', -1);
-                                break;
-                            case MediaError.MEDIA_ERR_NONE_SUPPORTED:
-                                Dialog.alert('Error', 'This media type is not supported.', 'OK', -1);
-                                break;
-                        }
-                    } catch (e) {
-                        // Nope!
-                    }
-                },
-                function (change) {
-                    var response = service.decodeCallback(change);
-                    // something changed, update controls & infos
-                    if (service.media !== null) {
-                        service.media.getDuration(function () {
-                            service.duration = service.media._duration;
-                        }, function () {});
-                    }
-
-
-                    // Play next if possible!
-                    if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
-                        if (!service.calledReset &&
-                            !service.isPrev &&
-                            !service.isNext &&
-                            !service.isSelecting) {
-                            // Reset was not called, it's a "track end stop", so we call next
-                            service.next();
-                        }
-                        // Reset locks
-                        service.calledReset = false;
-                        service.isPrev = false;
-                        service.isNext = false;
-                        service.isSelecting = false;
-                    }
-                });
-
-            service.play();
+            // If it's a browser chrome/safari, user must touch to play, in native we can auto-play!
+            if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) {
+                // Do nothing for now!
+            } else {
+                service.play();
+            }
         };
 
         // Reset is promised based, as we have to wait on few events!
         service.reset = function () {
             service.calledReset = true;
-            var deferred = $q.defer();
             // First, we clear the seekbar/buffering updates!
             $interval.cancel(service.seekbarTimer);
 
@@ -257,15 +272,7 @@ angular
 
             // Release before destroy music controls
             service._releaseMediaPlayer();
-
-            MusicControls.destroy(function (success) {
-                // Ok the music controls are destroyed
-                deferred.resolve();
-            }, function (error) {
-                deferred.resolve();
-            });
-
-            return deferred.promise;
+            MusicControls.destroy();
         };
 
         service._releaseMediaPlayer = function () {
@@ -287,10 +294,9 @@ angular
                 service.playerModalIsOpen = false;
             }
 
-            service.repeatType = null;
+            service.repeatType = 'playlist';
             service.currentIndex = 0;
             service.currentTrack = null;
-            service.shuffleTracks = [];
         };
 
         service.openPlayer = function () {
@@ -367,6 +373,16 @@ angular
             service.start();
         };
 
+        service.hasPrev = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if (service.currentIndex === 0) {
+                return false;
+            }
+            return true;
+        };
+
         service.prev = function () {
             if (service.isRadio) {
                 return;
@@ -375,22 +391,43 @@ angular
             // Prevent change end to call next!
             service.isPrev = true;
 
+            // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
-            } else if (service.isShuffling) {
-                if (service.shuffleTracks.length >= service.tracks.length && service.repeatType === 'all') {
-                    service.shuffleTracks = [];
-                }
+                return;
+            }
 
+            if (service.isShuffling) {
                 service._randomSong();
-            } else if ((service.repeatType === 'all') && (service.currentIndex === 0)) {
-                service.currentIndex = service.tracks.length - 1;
-            } else if (service.currentIndex > 0) {
-                service.currentIndex = service.currentIndex - 1;
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                    service.pause();
+
+                    return;
+                }
+            } else if (service.repeatType === 'loop') { // All returns to the first track
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = service.tracks.length - 1;
+                }
             }
 
             service.preStart();
             service.start();
+        };
+
+        service.hasNext = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if ((service.currentIndex === (service.tracks.length - 1))) {
+                return false;
+            }
+            return true;
         };
 
         service.next = function () {
@@ -401,46 +438,39 @@ angular
             // Prevent change end to call next!
             service.isNext = true;
 
+            // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
-            } else {
-                if (service.isShuffling) {
-                    if ((service.shuffleTracks.length >= service.tracks.length) && (service.repeatType === 'all')) {
-                        service.shuffleTracks = [];
-                    }
-
-                    service._randomSong();
-                } else if ((service.repeatType === 'all') && (service.currentIndex >= (service.tracks.length - 1))) {
-                    service.currentIndex = 0;
-                } else if (service.currentIndex < (service.tracks.length - 1)) {
-                    service.currentIndex = service.currentIndex + 1;
-                }
-
-                service.preStart();
-                service.start();
+                return;
             }
+
+            if (service.isShuffling) {
+                service._randomSong();
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
+                service.currentIndex++;
+                if (service.currentIndex >= service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                }
+            } else if (service.repeatType === 'loop') { // All returns to the first track
+                service.currentIndex++;
+                if (service.currentIndex >= service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                }
+            }
+
+            service.preStart();
+            service.start();
         };
 
         service._randomSong = function () {
-            var random_index = Math.floor(Math.random() * service.tracks.length);
+            var randomIndex = -1;
+            do {
+                randomIndex = Math.floor(Math.random() * service.tracks.length);
+            } while (randomIndex === service.currentIndex);
 
-            while ((service.shuffleTracks.indexOf(random_index) !== -1) ||
-            (random_index === service.currentIndex)) {
-                if (service.shuffleTracks.indexOf(random_index) !== -1) {
-                    random_index = Math.floor(Math.random() * service.tracks.length);
-                } else {
-                    random_index = random_index + 1;
-                }
-            }
-
-            if (service.shuffleTracks.length >= service.tracks.length) {
-                random_index = 0;
-            }
-
-            service.shuffleTracks.push(random_index);
-            service.currentIndex = random_index;
-
-            service.updateMusicControls();
+            service.currentIndex = randomIndex;
         };
 
         service.backward = function () {
@@ -465,8 +495,7 @@ angular
 
         service.seekTo = function (position) {
             if (position === 0) {
-                service.media.pause();
-                service.isPlaying = false;
+                service.pause();
             }
             service.media.seekTo(position * 1000);
             if (!service.isPlaying) {
@@ -476,30 +505,33 @@ angular
 
         service.repeat = function () {
             switch (service.repeatType) {
-                case null:
-                    service.repeatType = 'all';
+                case 'playlist':
+                    service.repeatType = 'loop';
                     break;
 
-                case 'all':
+                case 'loop':
                     service.repeatType = 'one';
+                    // Shuffle is disabled when we loop a single music
+                    service.isShuffling = false;
                     break;
 
                 case 'one':
-                    service.repeatType = null;
+                    service.repeatType = 'playlist';
                     break;
             }
         };
 
         service.shuffle = function () {
-            service.shuffleTracks = [];
             service.isShuffling = !service.isShuffling;
+            if (service.isShuffling) {
+                // Repeat type is automatically ALL when shuffling
+                service.repeatType = 'loop';
+            }
         };
 
         service.updateMusicControls = function () {
-            var hasPrev, hasNext = !service.isRadio;
-
-            hasPrev = service.currentIndex !== 0;
-            hasNext = service.currentIndex !== (service.tracks.length - 1);
+            var hasPrev = service.currentIndex !== 0;
+            var hasNext = service.currentIndex !== (service.tracks.length - 1);
 
             service.media.getCurrentPosition(function () {}, function () {});
 
@@ -547,7 +579,7 @@ angular
             service.seekbarTimer = $interval(function () {
                 try {
                     service.media.getCurrentPosition(
-                        function () {
+                        function (success) {
                             if (service.media) {
                                 service.elapsedTime = service.media._position;
 
@@ -560,7 +592,11 @@ angular
                                     service.isBuffering = false;
                                 }
                             }
-                        }, function () {});
+                        }, function (error) {
+                            // On error, we try the next track!
+                            service.cancelSeekBar();
+                            service.next();
+                        });
                 } catch (e) {
                     service.cancelSeekBar();
                 }

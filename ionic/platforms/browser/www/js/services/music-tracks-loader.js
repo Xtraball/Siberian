@@ -70,9 +70,6 @@ angular.module("starter").service('MusicTracksLoader', function ($q, $stateParam
     };
 
     service._buildTracksLoader = function (albums) {
-
-        console.log("_buildTracksLoader", albums);
-
         return {
             albums: albums,
             tracks: [],

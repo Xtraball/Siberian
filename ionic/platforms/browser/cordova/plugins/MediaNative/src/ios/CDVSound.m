@@ -430,18 +430,6 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
             }
         }
         if (bError) {
-            /*  I don't see a problem playing previously recorded audio so removing this section - BG
-            NSError* error;
-            // try loading it one more time, in case the file was recorded previously
-            audioFile.player = [[ AVAudioPlayer alloc ] initWithContentsOfURL:audioFile.resourceURL error:&error];
-            if (error != nil) {
-                NSLog(@"Failed to initialize AVAudioPlayer: %@\n", error);
-                audioFile.player = nil;
-            } else {
-                NSLog(@"Playing audio sample '%@'", audioFile.resourcePath);
-                audioFile.player.numberOfLoops = numberOfLoops;
-                [audioFile.player play];
-            } */
             // error creating the session or player
             [self onStatus:MEDIA_ERROR mediaId:mediaId
               param:[self createMediaErrorWithCode:MEDIA_ERR_NONE_SUPPORTED message:nil]];
@@ -638,21 +626,30 @@ BOOL keepAvAudioSessionAlwaysActive = NO;
     NSString* mediaId = [command argumentAtIndex:0];
 
 #pragma unused(mediaId)
-    CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
-    double position = -1;
+    @try {
+        CDVAudioFile* audioFile = [[self soundCache] objectForKey:mediaId];
+        double position = -1;
 
-    if ((audioFile != nil) && (audioFile.player != nil) && [audioFile.player isPlaying]) {
-        position = round(audioFile.player.currentTime * 1000) / 1000;
+        if ((audioFile != nil) && (audioFile.player != nil) && [audioFile.player isPlaying]) {
+            position = round(audioFile.player.currentTime * 1000) / 1000;
+        }
+        if (avPlayer) {
+           CMTime time = [avPlayer currentTime];
+           position = CMTimeGetSeconds(time);
+        }
+
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:position];
+
+        [self onStatus:MEDIA_POSITION mediaId:mediaId param:@(position)];
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     }
-    if (avPlayer) {
-       CMTime time = [avPlayer currentTime];
-       position = CMTimeGetSeconds(time);
+    @catch (NSException *exception) {
+        NSMutableDictionary* dict=[NSMutableDictionary dictionary];
+        dict[@"status"] = @"Unable to retrieve current position";
+        CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dict];
+
+        [self.commandDelegate sendPluginResult:result callbackId:callbackId];
     }
-
-    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDouble:position];
-
-    [self onStatus:MEDIA_POSITION mediaId:mediaId param:@(position)];
-    [self.commandDelegate sendPluginResult:result callbackId:callbackId];
 }
 
 - (void)startRecordingAudio:(CDVInvokedUrlCommand*)command
