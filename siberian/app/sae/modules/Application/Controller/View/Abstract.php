@@ -93,7 +93,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $data['owner_admob_weight'] = (integer)$data['owner_admob_weight'];
 
             if ((int) $device->getTypeId() === 2) {
-                $data['versionCode'] = Application_Model_Device_Abstract::validatedVersion($device);
+                try {
+                    $data['versionCode'] = Application_Model_Device_Abstract::validatedVersion($device);
+                } catch (\Exception $e) {
+                    // Here we fix the version
+                    $device->setVersion('1.0')->save();
+                    $data['versionCode'] = Application_Model_Device_Abstract::validatedVersion($device);
+                }
+                $data['versionCode'] = Application_Model_Device_Abstract::formatVersionCode($data['versionCode']);
             }
 
             $devices[] = $data;
