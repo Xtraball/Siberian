@@ -98,14 +98,9 @@ angular
             // Reset service when changing media feature!
             if ((service.value_id !== $stateParams.value_id) ||
                 (service.media && (service.currentTrack.streamUrl !== tracksLoader.tracks[trackIndex].streamUrl))) {
-                service
-                    .reset()
-                    .then(function () {
-                        service._initCallback(tracksLoader, isRadio, trackIndex);
-                    });
-            } else {
-                service._initCallback(tracksLoader, isRadio, trackIndex);
+                service.reset();
             }
+            service._initCallback(tracksLoader, isRadio, trackIndex);
         };
 
         service._initCallback = function (tracksLoader, isRadio, trackIndex) {
@@ -248,7 +243,6 @@ angular
         // Reset is promised based, as we have to wait on few events!
         service.reset = function () {
             service.calledReset = true;
-            var deferred = $q.defer();
             // First, we clear the seekbar/buffering updates!
             $interval.cancel(service.seekbarTimer);
 
@@ -257,15 +251,7 @@ angular
 
             // Release before destroy music controls
             service._releaseMediaPlayer();
-
-            MusicControls.destroy(function (success) {
-                // Ok the music controls are destroyed
-                deferred.resolve();
-            }, function (error) {
-                deferred.resolve();
-            });
-
-            return deferred.promise;
+            MusicControls.destroy();
         };
 
         service._releaseMediaPlayer = function () {
