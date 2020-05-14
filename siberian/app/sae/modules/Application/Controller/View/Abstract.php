@@ -129,10 +129,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $data['free_until'] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
         }
         $data['android_sdk'] = Application_Model_Tools::isAndroidSDKInstalled();
-        $data['apk'] = Application_Model_ApkQueue::getPackages($application->getId());
-        $data['apk_service'] = Application_Model_SourceQueue::getApkServiceStatus($application->getId());
-        $data['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
-        $data['queued'] = Application_Model_Queue::getPosition($application->getId());
+        $data['apk'] = Application_Model_ApkQueue::getPackages($appId);
+        $data['apk_service'] = Application_Model_SourceQueue::getApkServiceStatus($appId);
+        $data['zip'] = Application_Model_SourceQueue::getPackages($appId);
+        $data['queued'] = Application_Model_Queue::getPosition($appId);
         $data['confirm_message_domain'] = __('If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?');
 
         $application->addData($data);
