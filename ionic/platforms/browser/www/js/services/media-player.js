@@ -554,7 +554,7 @@ angular
                     service.media._position * 1 : 0,
 
                 // Android only, optional
-                ticker: $translate.instant('Now playing ') + service.currentTrack.name
+                ticker: $translate.instant('Now playing', 'media') + ' ' + service.currentTrack.name
             };
 
             MusicControls.subscribe(service.musicControlsEventsHandler);
