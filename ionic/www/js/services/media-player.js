@@ -152,9 +152,7 @@ angular
 
         service.mediaNativeSuccessCallback = function (success) {
             // Do nothing for now!
-            $timeout(function () {
-                service.listenEvents = true;
-            }, 500);
+            service.listenEvents = true;
         };
 
         // Init media player
