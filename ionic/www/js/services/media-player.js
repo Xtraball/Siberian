@@ -392,14 +392,14 @@ angular
                 return;
             }
 
-            // Prevent change end to call next!
-            service.isPrev = true;
-
             // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
                 return;
             }
+
+            // Prevent change end to call next!
+            service.isPrev = true;
 
             if (service.isShuffling) {
                 service._randomSong();
@@ -409,6 +409,9 @@ angular
                     // We reached end of the playlist!
                     service.currentIndex = 0;
                     service.pause();
+
+                    // Prevent change end to call next!
+                    service.isPrev = false;
 
                     return;
                 }
@@ -439,14 +442,14 @@ angular
                 return;
             }
 
-            // Prevent change end to call next!
-            service.isNext = true;
-
             // Restart to 0, that's all!
             if (service.repeatType === 'one') {
                 service.seekTo(0);
                 return;
             }
+
+            // Prevent change end to call next!
+            service.isNext = true;
 
             if (service.isShuffling) {
                 service._randomSong();
