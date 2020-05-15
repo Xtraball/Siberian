@@ -440,7 +440,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $payload = [
                 'success' => true,
                 'message' => __('Info successfully saved'),
-                'versionCode' => $rVersionCode,
+                'versionCode' => Application_Model_Device_Abstract::formatVersionCode($rVersionCode),
             ];
 
         } catch (\Exception $e) {
