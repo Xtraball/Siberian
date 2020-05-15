@@ -255,6 +255,10 @@ angular
 
             // If it's a browser chrome/safari, user must touch to play, in native we can auto-play!
             if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) {
+                // Play if it's prev/next (hoping it will work)
+                if (service.isNext || service.isPrev) {
+                    service.play();
+                }
                 // Do nothing for now!
             } else {
                 service.play();
