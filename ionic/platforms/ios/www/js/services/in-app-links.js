@@ -78,6 +78,8 @@ angular
                             .load(feature.lazy_load.split(','))
                             .then(function () {
                                 $injector.get(feature.open_callback_class).openCallback(feature);
+                            }, function () {
+                                Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
                             });
                     } catch (e) {
                         Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
