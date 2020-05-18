@@ -99,9 +99,16 @@
     "Siberian": {
       "version": "latest",
       "variables": {}
+    },
+    "Toast": {
+      "version": "latest",
+      "variables": {}
     }
   },
   "ios": {
+    "AppleSignIn": {
+      "version": "latest"
+    },
     "Chcp": {
       "version": "latest"
     },
