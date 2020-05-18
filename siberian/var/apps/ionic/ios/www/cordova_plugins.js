@@ -1,6 +1,14 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
+      "id": "AppleSignIn.SignInWithApple",
+      "file": "plugins/AppleSignIn/www/sign-in-with-apple.js",
+      "pluginId": "AppleSignIn",
+      "clobbers": [
+        "cordova.plugins.SignInWithApple"
+      ]
+    },
+    {
       "id": "Chcp.chcp",
       "file": "plugins/Chcp/www/chcp.js",
       "pluginId": "Chcp",
@@ -365,14 +373,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "LocalNotification.LocalNotification",
-      "file": "plugins/LocalNotification/www/local-notification.js",
-      "pluginId": "LocalNotification",
-      "clobbers": [
-        "cordova.plugins.notification.local"
-      ]
-    },
-    {
       "id": "OfflineMode.OfflineMode",
       "file": "plugins/OfflineMode/www/OfflineMode.js",
       "pluginId": "OfflineMode",
@@ -443,9 +443,18 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "cordova.plugins.permissions"
       ]
+    },
+    {
+      "id": "Toast.Toast",
+      "file": "plugins/Toast/www/Toast.js",
+      "pluginId": "Toast",
+      "clobbers": [
+        "window.plugins.toast"
+      ]
     }
   ];
   module.exports.metadata = {
+    "AppleSignIn": "0.0.1",
     "Chcp": "1.5.2",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
@@ -456,16 +465,15 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "4.2.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
-    "File": "6.0.1",
+    "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.1.1-dev",
+    "InAppBrowser": "3.2.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
-    "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
@@ -473,6 +481,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0"
+    "Siberian": "1.0.0",
+    "Toast": "2.7.2"
   };
 });

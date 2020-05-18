@@ -9,6 +9,10 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"SignInWithApple\"><param name=\"ios-package\" value=\"SignInWithApple\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<preference name=\"loadUrlTimeoutValue\" value=\"60000\" />",
               "count": 1
             },
@@ -101,10 +105,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"LocalNotification\"><param name=\"ios-package\" onload=\"true\" value=\"APPLocalNotification\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"OfflineMode\"><param name=\"ios-package\" value=\"CDVOfflineMode\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -142,6 +142,30 @@
             },
             {
               "xml": "<feature name=\"Navigator\"><param name=\"ios-package\" value=\"CDVNavigator\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Toast\"><param name=\"ios-package\" value=\"Toast\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Debug.plist": {
+        "parents": {
+          "com.apple.developer.applesignin": [
+            {
+              "xml": "<array><string>Default</string></array>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "*/Entitlements-Release.plist": {
+        "parents": {
+          "com.apple.developer.applesignin": [
+            {
+              "xml": "<array><string>Default</string></array>",
               "count": 1
             }
           ]
@@ -238,6 +262,9 @@
     }
   },
   "installed_plugins": {
+    "AppleSignIn": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
     "Chcp": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
@@ -295,9 +322,6 @@
     "StatusBar": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "LocalNotification": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
     "OfflineMode": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
@@ -322,10 +346,21 @@
     },
     "Siberian": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "Toast": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
   "dependent_plugins": {},
   "modules": [
+    {
+      "id": "AppleSignIn.SignInWithApple",
+      "file": "plugins/AppleSignIn/www/sign-in-with-apple.js",
+      "pluginId": "AppleSignIn",
+      "clobbers": [
+        "cordova.plugins.SignInWithApple"
+      ]
+    },
     {
       "id": "Chcp.chcp",
       "file": "plugins/Chcp/www/chcp.js",
@@ -691,14 +726,6 @@
       ]
     },
     {
-      "id": "LocalNotification.LocalNotification",
-      "file": "plugins/LocalNotification/www/local-notification.js",
-      "pluginId": "LocalNotification",
-      "clobbers": [
-        "cordova.plugins.notification.local"
-      ]
-    },
-    {
       "id": "OfflineMode.OfflineMode",
       "file": "plugins/OfflineMode/www/OfflineMode.js",
       "pluginId": "OfflineMode",
@@ -769,9 +796,18 @@
       "clobbers": [
         "cordova.plugins.permissions"
       ]
+    },
+    {
+      "id": "Toast.Toast",
+      "file": "plugins/Toast/www/Toast.js",
+      "pluginId": "Toast",
+      "clobbers": [
+        "window.plugins.toast"
+      ]
     }
   ],
   "plugin_metadata": {
+    "AppleSignIn": "0.0.1",
     "Chcp": "1.5.2",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
@@ -782,16 +818,15 @@
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "4.2.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
-    "File": "6.0.1",
+    "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.1.1-dev",
+    "InAppBrowser": "3.2.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
-    "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
@@ -799,6 +834,7 @@
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0"
+    "Siberian": "1.0.0",
+    "Toast": "2.7.2"
   }
 }
