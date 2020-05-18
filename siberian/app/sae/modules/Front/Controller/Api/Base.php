@@ -461,6 +461,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'name' => $option->getTabbarName(),
                 'subtitle' => $application->getMoreSubtitle(),
                 'is_active' => (boolean) $option->isActive(),
+                'lazy_load' => null,
+                'open_callback_class' => null,
                 'url' => '',
                 'icon_url' => $request->getBaseUrl() .
                     $this->_getColorizedImage($option->getIconUrl(), $moreColor),
