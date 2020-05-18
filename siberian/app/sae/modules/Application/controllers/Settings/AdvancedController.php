@@ -209,10 +209,8 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
 
                 $application = $this->getApplication();
 
-                $offline_content = ($data['offline_content'] == 0) ? 0 : 1;
                 $disable_updates = ($data['disable_updates'] == 0) ? 0 : 1;
                 $application
-                    ->setOfflineContent($offline_content)
                     ->setDisableUpdates($disable_updates)
                     ->setFidelityRate($data['fidelity_rate']);
 
