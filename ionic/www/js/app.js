@@ -429,10 +429,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $window.localStorage.setItem('first_running', 'true');
                                 Analytics.storeInstallation();
                             }
-
-                            if (Application.offline_content) {
-                                Application.showCacheDownloadModalOrUpdate();
-                            }
                         }
 
                         // not the best place.
